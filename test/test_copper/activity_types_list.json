@@ -1,0 +1,48 @@
+{
+    "user":[
+        {
+            "id":0,
+            "category":"user",
+            "name":"Note",
+            "is_disabled":false,
+            "count_as_interaction":false
+        },
+        {
+            "id":504464,
+            "category":"user",
+            "name":"Mail",
+            "is_disabled":false,
+            "count_as_interaction":true
+        },
+        {
+            "id":248465,
+            "category":"user",
+            "name":"Stories from the Field",
+            "is_disabled":false,
+            "count_as_interaction":true
+        },
+        {
+            "id":236962,
+            "category":"user",
+            "name":"Press Coverage",
+            "is_disabled":false,
+            "count_as_interaction":true
+        }
+    ],
+    "system":[
+        {
+            "id":1,
+            "category":"system",
+            "name":"Property Changed",
+            "is_disabled":false,
+            "count_as_interaction":false
+        },
+        {
+            "id":3,
+            "category":"system",
+            "name":"Pipeline Stage Changed",
+            "is_disabled":false,
+            "count_as_interaction":false
+        }
+    ]
+}

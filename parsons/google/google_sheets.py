@@ -1,0 +1,226 @@
+import os
+import json
+import gspread
+from oauth2client.service_account import ServiceAccountCredentials
+from parsons.etl.table import Table
+import logging
+
+logger = logging.getLogger(__name__)
+
+
+class GoogleSheets(object):
+    """
+    A connector for Google Sheets, handling data import and export.
+
+    `Args:`
+        google_keyfile_dict: dict
+            A dictionary of Google Drive API credentials, parsed from JSON provided
+            by the Google Developer Console. Required if env variable
+            ``GOOGLE_DRIVE_CREDENTIALS`` is not populated.
+    """
+
+    def __init__(self, google_keyfile_dict=None):
+
+        scope = [
+            'https://spreadsheets.google.com/feeds',
+            'https://www.googleapis.com/auth/drive',
+            ]
+
+        self.google_keyfile_dict = google_keyfile_dict
+
+        if google_keyfile_dict is None:
+            try:
+                keyfile_json = os.environ['GOOGLE_DRIVE_CREDENTIALS']
+            except KeyError as error:
+                logger.error("Google credentials missing. Must be specified as an env var or kwarg")
+                raise error
+
+            self.google_keyfile_dict = json.loads(keyfile_json)
+        else:
+            self.google_keyfile_dict = google_keyfile_dict
+
+        credentials = ServiceAccountCredentials.from_json_keyfile_dict(
+            self.google_keyfile_dict, scope
+            )
+        self.gspread_client = gspread.authorize(credentials)
+
+    def _get_sheet(self, spreadsheet_id, sheet_index=0):
+        return self.gspread_client.open_by_key(spreadsheet_id).get_worksheet(sheet_index)
+
+    def get_sheet_index_with_title(self, spreadsheet_id, title):
+        """
+        Get the first sheet in a Google spreadsheet with the given title.
+
+        `Args:`
+            spreadsheet_id: str
+                The ID of the spreadsheet (Tip: Get this from the spreadsheet URL)
+            title: str
+                The sheet title
+
+        `Returns:`
+            str
+                The sheet index
+        """
+
+        sheets = self.gspread_client.open_by_key(spreadsheet_id).worksheets()
+        for index, sheet in enumerate(sheets):
+            if sheet.title == title:
+                return index
+        raise ValueError(f"Couldn't find sheet with title {title}")
+
+    def read_sheet(self, spreadsheet_id, sheet_index=0):
+        """
+        Create a ```parsons table``` from a sheet in a Google spreadsheet, given the sheet index.
+
+        `Args:`
+            spreadsheet_id: str
+                The ID of the spreadsheet (Tip: Get this from the spreadsheet URL)
+            sheet_index: int (optional)
+                The index of the desired worksheet
+
+        `Returns:`
+            Parsons Table
+                See :ref:`parsons-table` for output options.
+        """
+
+        sheet = self._get_sheet(spreadsheet_id, sheet_index)
+        records = sheet.get_all_records()
+
+        return Table(records)
+
+    def read_sheet_with_title(self, spreadsheet_id, title):
+        """
+        Create a ```parsons table``` from a sheet in Google spreadsheet, given the sheet title.
+
+        `Args:`
+            spreadsheet_id: str
+                The ID of the spreadsheet (Tip: Get this from the spreadsheet URL)
+            title: str
+                The sheet title
+
+        `Returns:`
+            Parsons Table
+                See :ref:`parsons-table` for output options.
+        """
+
+        index = self.get_sheet_index_with_title(spreadsheet_id, title)
+        return self.read_sheet(spreadsheet_id, index)
+
+    def create_spreadsheet(self, title, editor_email=None):
+        """
+        Create a Google spreadsheet from a Parsons table. Optionally shares the new doc with
+        the given email address.
+
+        `Args:`
+            title: str
+                The human-readable title of the new spreadsheet
+            editor_email: str (optional)
+                Email address which should be given permissions on this spreadsheet
+
+        `Returns:`
+            str
+                The spreadsheet ID
+        """
+
+        spreadsheet = self.gspread_client.create(title)
+
+        if editor_email:
+            self.gspread_client.insert_permission(
+                spreadsheet.id,
+                editor_email,
+                perm_type='user',
+                role='writer',
+            )
+
+        return spreadsheet.id
+
+    def delete_spreadsheet(self, spreadsheet_id):
+        """
+        Deletes a Google spreadsheet.
+
+        `Args:`
+            spreadsheet_id: str
+                The ID of the spreadsheet (Tip: Get this from the spreadsheet URL)
+        """
+        self.gspread_client.del_spreadsheet(spreadsheet_id)
+
+    def add_sheet(self, spreadsheet_id, title=None, rows=100, cols=25):
+        """
+        Adds a sheet to a Google spreadsheet.
+
+        `Args:`
+            spreadsheet_id: str
+                The ID of the spreadsheet (Tip: Get this from the spreadsheet URL)
+            rows: int
+                Number of rows
+            cols
+                Number of cols
+
+        `Returns:`
+            str
+                The sheet index
+        """
+        spreadsheet = self.gspread_client.open_by_key(spreadsheet_id)
+        spreadsheet.add_worksheet(title, rows, cols)
+        sheet_count = len(spreadsheet.worksheets())
+        return (sheet_count-1)
+
+    def append_to_sheet(self, spreadsheet_id, table, sheet_index=0):
+        """
+        Append data from a Parsons table to a Google sheet. Note that the table's columns are
+        ignored, as we'll be keeping whatever header row already exists in the Google sheet.
+
+        `Args:`
+            spreadsheet_id: str
+                The ID of the spreadsheet (Tip: Get this from the spreadsheet URL)
+            table: obj
+                Parsons table
+            sheet_index: int (optional)
+                The index of the desired worksheet
+        """
+
+        sheet = self._get_sheet(spreadsheet_id, sheet_index)
+
+        # Grab the existing data, so we can figure out where to start adding new data as a batch.
+        # TODO Figure out a way to do a batch append without having to read the whole sheet first.
+        # Maybe use gspread's low-level batch_update().
+        existing_table = self.read_sheet(spreadsheet_id, sheet_index)
+
+        cells = []
+        for row_num, row in enumerate(table.data):
+            for col_num, cell in enumerate(row):
+                # Add 2 to allow for the header row, and for google sheets indexing starting at 1
+                sheet_row_num = existing_table.num_rows + row_num + 2
+                cells.append(gspread.Cell(sheet_row_num, col_num + 1, row[col_num]))
+
+        # Update the data in one batch
+        sheet.update_cells(cells)
+
+    def overwrite_sheet(self, spreadsheet_id, table, sheet_index=0):
+        """
+        Replace the data in a Google sheet with a Parsons table, using the table's columns as the
+        first row.
+
+        `Args:`
+            spreadsheet_id: str
+                The ID of the spreadsheet (Tip: Get this from the spreadsheet URL)
+            table: obj
+                Parsons table
+            sheet_index: int (optional)
+                The index of the desired worksheet
+        """
+
+        sheet = self._get_sheet(spreadsheet_id, sheet_index)
+        sheet.clear()
+
+        # Add header row
+        sheet.append_row(table.columns)
+
+        cells = []
+        for row_num, row in enumerate(table.data):
+            for col_num, cell in enumerate(row):
+                # We start at row #2 to keep room for the header row we added above
+                cells.append(gspread.Cell(row_num + 2, col_num + 1, row[col_num]))
+
+        # Update the data in one batch
+        sheet.update_cells(cells)

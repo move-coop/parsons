@@ -1,0 +1,50 @@
+[
+    {
+        "id":501947,
+        "name":"Potential Customer"
+    },
+    {
+        "id":501948,
+        "name":"Current Customer"
+    },
+    {
+        "id":501949,
+        "name":"Uncategorized"
+    },
+    {
+        "id":501950,
+        "name":"Group Leader"
+    },
+    {
+        "id":540331,
+        "name":"Partner"
+    },
+    {
+        "id":540333,
+        "name":"Funder"
+    },
+    {
+        "id":540334,
+        "name":"Potential Funder"
+    },
+    {
+        "id":540335,
+        "name":"Other"
+    },
+    {
+        "id":547508,
+        "name":"Local Group"
+    },
+    {
+        "id":575833,
+        "name":"Group Member"
+    },
+    {
+        "id":744795,
+        "name":"Hill Contact"
+    },
+    {
+        "id":967249,
+        "name":"State Leg Contact"
+    }
+]

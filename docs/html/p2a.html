@@ -1,0 +1,299 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Phone2Action &mdash; Parsons 0.1 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Redshift" href="redshift.html" />
+    <link rel="prev" title="VAN" href="ngpvan.html" /> 
+
+  
+  <script src="_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="index.html" class="icon icon-home"> Parsons
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Integrations</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="action_kit.html">ActionKit</a></li>
+<li class="toctree-l1"><a class="reference internal" href="civis.html">Civis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="facebook_ads.html">FacebookAds</a></li>
+<li class="toctree-l1"><a class="reference internal" href="google_sheets.html">GoogleSheets</a></li>
+<li class="toctree-l1"><a class="reference internal" href="mobile_commons.html">Mobile Commons</a></li>
+<li class="toctree-l1"><a class="reference internal" href="mobilize_america.html">Mobilize America</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ngpvan.html">VAN</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Phone2Action</a></li>
+<li class="toctree-l1"><a class="reference internal" href="redshift.html">Redshift</a></li>
+<li class="toctree-l1"><a class="reference internal" href="s3.html">S3</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sftp.html">SFTP</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ts.html">TargetSmart</a></li>
+<li class="toctree-l1"><a class="reference internal" href="turbovote.html">TurboVote</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Framework</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="table.html">Parsons Table</a></li>
+<li class="toctree-l1"><a class="reference internal" href="notifications.html">Notifications</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">Parsons</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html">Docs</a> &raquo;</li>
+        
+      <li>Phone2Action</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="_sources/p2a.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="phone2action">
+<h1>Phone2Action<a class="headerlink" href="#phone2action" title="Permalink to this headline">¶</a></h1>
+<p><a class="reference external" href="https://phone2action.com/">Phone2Action</a> is a digital advocacy tool used by progressive organizations. This class
+allows you to interact with the tool by leveraging their <a class="reference external" href="http://docs.phone2action.com/#overview">API</a>.</p>
+<dl class="class">
+<dt id="parsons.Phone2Action">
+<em class="property">class </em><code class="descclassname">parsons.</code><code class="descname">Phone2Action</code><span class="sig-paren">(</span><em>app_id=None</em>, <em>app_key=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/phone2action/p2a.html#Phone2Action"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.Phone2Action" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="method">
+<dt id="parsons.Phone2Action.get_advocates">
+<code class="descname">get_advocates</code><span class="sig-paren">(</span><em>state=None</em>, <em>campaign_id=None</em>, <em>updated_since=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/phone2action/p2a.html#Phone2Action.get_advocates"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.Phone2Action.get_advocates" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return advocates (person records).</p>
+<dl class="docutils">
+<dt><cite>Args:</cite></dt>
+<dd><dl class="first last docutils">
+<dt>state: str</dt>
+<dd>Filter by US postal abbreviation for a state
+or territory e.g., “CA” “NY” or “DC”</dd>
+<dt>campaign_id: int</dt>
+<dd>Filter to specific campaign</dd>
+<dt>updated_since: str</dt>
+<dd>Fetch all advocates updated since UTC date time provided
+using (ex. ‘2014-01-05 23:59:43’)</dd>
+</dl>
+</dd>
+<dt><cite>Returns:</cite></dt>
+<dd><dl class="first last docutils">
+<dt>A dict of parsons tables:</dt>
+<dd><ul class="first last simple">
+<li>emails</li>
+<li>phones</li>
+<li>memberships</li>
+<li>tags</li>
+<li>ids</li>
+<li>fields</li>
+<li>advocates</li>
+</ul>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="parsons.Phone2Action.get_campaigns">
+<code class="descname">get_campaigns</code><span class="sig-paren">(</span><em>state=None</em>, <em>zip=None</em>, <em>include_generic=False</em>, <em>include_private=False</em>, <em>include_content=True</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/phone2action/p2a.html#Phone2Action.get_campaigns"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.Phone2Action.get_campaigns" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns a list of campaigns</p>
+<dl class="docutils">
+<dt><cite>Args:</cite></dt>
+<dd><dl class="first last docutils">
+<dt>state: str</dt>
+<dd>Filter by US postal abbreviation for a state or territory e.g., “CA” “NY” or “DC”</dd>
+<dt>zip: int</dt>
+<dd>Filter by 5 digit zip code</dd>
+<dt>include_generic: boolean</dt>
+<dd>When filtering by state or ZIP code, include unrestricted campaigns</dd>
+<dt>include_private: boolean</dt>
+<dd>If true, will include private campaigns in results</dd>
+<dt>include_content: boolean</dt>
+<dd>If true, include campaign content fields, which may vary. This may cause
+sync errors.</dd>
+</dl>
+</dd>
+<dt><cite>Returns:</cite></dt>
+<dd><dl class="first last docutils">
+<dt>Parsons Table</dt>
+<dd>See <a class="reference internal" href="table.html#parsons-table"><span class="std std-ref">Parsons Table</span></a> for output options.</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="redshift.html" class="btn btn-neutral float-right" title="Redshift" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="ngpvan.html" class="btn btn-neutral" title="VAN" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2019, The Movement Cooperative
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script type="text/javascript" src="_static/jquery.js"></script>
+        <script type="text/javascript" src="_static/underscore.js"></script>
+        <script type="text/javascript" src="_static/doctools.js"></script>
+        <script type="text/javascript" src="_static/language_data.js"></script>
+    
+
+  
+
+  <script type="text/javascript" src="_static/js/theme.js"></script>
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

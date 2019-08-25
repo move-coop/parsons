@@ -1,0 +1,34 @@
+ActionKit
+========
+
+********
+Overview
+********
+
+The ActionKit class allows you to interact with an `ActionKit <https://actionkit.com/>`_.
+
+In order to instantiate the class you must pass valid kwargs or store the following
+environmental variables:
+
+* ``'ACTION_KIT_DOMAIN'``
+* ``'ACTION_KIT_USERNAME'``
+* ``'ACTION_KIT_PASSWORD'``
+
+**********
+Quickstart
+**********
+
+**Retrieve a User**
+
+.. code-block:: python
+
+  from parsons import ActionKit
+  ak = ActionKit()
+  user_data = ak.get_user(123)
+
+**************
+ActionKit Class
+**************
+
+.. autoclass :: parsons.ActionKit
+   :inherited-members:

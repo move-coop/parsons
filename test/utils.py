@@ -1,0 +1,35 @@
+import os
+import pytest
+
+"""
+Use this as a marker before any tests that hit live services. That way they'll only run
+if you set the "LIVE_TEST" env var.
+Example usage:
+
+@mark_live_test
+def test_something():
+    service = SomeService()
+    ...
+"""
+mark_live_test = pytest.mark.skipif(not os.environ.get('LIVE_TEST'),
+    reason='Skipping because not running live test')
+
+# Tests whether a table has the expected structure
+def validate_list(expected_keys, table):
+
+    if set(expected_keys) != set(table.columns):
+        raise KeyError('Not all expected keys found.')
+
+    return True
+
+def assert_matching_tables(table1, table2, ignore_headers=False):
+    if ignore_headers:
+        data1 = table1.data
+        data2 = table2.data
+    else:
+        data1 = table1
+        data2 = table2
+
+    for r1, r2 in zip(data1, data2):
+        # Cast both rows to lists, in case they are different types of collections
+        assert list(r1) == list(r2)

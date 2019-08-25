@@ -1,0 +1,1 @@
+<job><inputfile>match_job_input.csv</inputfile><outputfile>match_job_output.csv</outputfile><jobtype text="job_type">job_type</jobtype><args><arg name="__status_key">match_job</arg><arg name="__emails">test@gmail.com,test2@gmail.com</arg></args></job>

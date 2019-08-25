@@ -1,0 +1,116 @@
+import os
+from parsons.aws.s3 import S3
+import time
+import logging
+
+logger = logging.getLogger(__name__)
+
+S3_TEMP_KEY_PREFIX = "Parsons_RedshiftCopyTable"
+
+
+class RedshiftCopyTable(object):
+
+    def __init__(self):
+
+        pass
+
+    def copy_statement(self, table_name, bucket, key, manifest=False,
+                       data_type='csv', csv_delimiter=',', max_errors=0,
+                       statupdate=True, compupdate=True, ignoreheader=1, acceptanydate=True,
+                       dateformat='auto', timeformat='auto', emptyasnull=True,
+                       blanksasnull=True, nullas=None, acceptinvchars=True, truncatecolumns=False,
+                       aws_access_key_id=None, aws_secret_access_key=None,
+                       compression=None):
+
+        # Source / Destination
+        source = f's3://{bucket}/{key}'
+        sql = f"copy {table_name} \nfrom '{source}' \n"
+
+        # Generate credentials
+        sql += self.get_creds(aws_access_key_id, aws_secret_access_key)
+
+        # Other options
+        if manifest:
+            sql += "manifest \n"
+        sql += f"maxerror {max_errors} \n"
+        if statupdate:
+            sql += "statupdate on\n"
+        if compupdate:
+            sql += "compupdate on \n"
+        else:
+            sql += "compupdate off \n"
+        if ignoreheader:
+            sql += f"ignoreheader {ignoreheader} \n"
+        if acceptanydate:
+            sql += "acceptanydate \n"
+        sql += f"dateformat '{dateformat}' \n"
+        sql += f"timeformat '{timeformat}' \n"
+        if emptyasnull:
+            sql += "emptyasnull \n"
+        if blanksasnull:
+            sql += "blanksasnull \n"
+        if nullas:
+            sql += f"nullas {nullas}"
+        if acceptinvchars:
+            sql += "acceptinvchars \n"
+        if truncatecolumns:
+            sql += "truncatecolumns \n"
+
+        # Data Type
+        if data_type == 'csv':
+            sql += f"csv delimiter '{csv_delimiter}' \n"
+        else:
+            raise TypeError('Invalid data type specified.')
+
+        if compression == 'gzip':
+            sql += 'gzip \n'
+
+        sql += ';'
+
+        return sql
+
+    def get_creds(self, aws_access_key_id, aws_secret_access_key):
+
+        if aws_access_key_id and aws_secret_access_key:
+
+            pass
+
+        elif 'AWS_ACCESS_KEY_ID' in os.environ and 'AWS_SECRET_ACCESS_KEY' in os.environ:
+
+            aws_access_key_id = os.environ['AWS_ACCESS_KEY_ID']
+            aws_secret_access_key = os.environ['AWS_SECRET_ACCESS_KEY']
+
+        else:
+
+            s3 = S3()
+            creds = s3.aws.session.get_credentials()
+            aws_access_key_id = creds.access_key
+            aws_secret_access_key = creds.secret_key
+
+        return "credentials 'aws_access_key_id={};aws_secret_access_key={}'\n".format(
+            aws_access_key_id,
+            aws_secret_access_key)
+
+    def temp_s3_copy(self, tbl, aws_access_key_id=None, aws_secret_access_key=None):
+
+        if not self.s3_temp_bucket:
+            raise KeyError(("Missing S3_TEMP_BUCKET, needed for transferring data to Redshift. "
+                            "Must be specified as env vars or kwargs"
+                            ))
+
+        self.s3 = S3(aws_access_key_id=aws_access_key_id,
+                     aws_secret_access_key=aws_secret_access_key)
+
+        hashed_name = hash(time.time())
+        key = f"{S3_TEMP_KEY_PREFIX}/{hashed_name}.csv.gz"
+
+        # Convert table to compressed CSV file, to optimize the transfers to S3 and to
+        # Redshift.
+        local_path = tbl.to_csv(temp_file_compression='gzip')
+        # Copy table to bucket
+        self.s3.put_file(self.s3_temp_bucket, key, local_path)
+
+        return key
+
+    def temp_s3_delete(self, key):
+        self.s3.remove_file(self.s3_temp_bucket, key)

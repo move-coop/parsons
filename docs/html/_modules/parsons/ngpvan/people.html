@@ -1,0 +1,521 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>parsons.ngpvan.people &mdash; Parsons 0.1 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+
+  
+  <script src="../../../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../../../index.html" class="icon icon-home"> Parsons
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Integrations</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../action_kit.html">ActionKit</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../civis.html">Civis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../facebook_ads.html">FacebookAds</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../google_sheets.html">GoogleSheets</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../mobile_commons.html">Mobile Commons</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../mobilize_america.html">Mobilize America</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../ngpvan.html">VAN</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../p2a.html">Phone2Action</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../redshift.html">Redshift</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../s3.html">S3</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../sftp.html">SFTP</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../ts.html">TargetSmart</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../turbovote.html">TurboVote</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Framework</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../table.html">Parsons Table</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../notifications.html">Notifications</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">Parsons</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../../index.html">Module code</a> &raquo;</li>
+        
+      <li>parsons.ngpvan.people</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for parsons.ngpvan.people</h1><div class="highlight"><pre>
+<div class="viewcode-block" id="People"><a class="viewcode-back" href="../../../ngpvan.html#parsons.ngpvan.van.People">[docs]</a><span></span><span class="k">class</span> <span class="nc">People</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">van_connection</span><span class="p">):</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">connection</span> <span class="o">=</span> <span class="n">van_connection</span>
+
+<div class="viewcode-block" id="People.search_people"><a class="viewcode-back" href="../../../ngpvan.html#parsons.ngpvan.van.People.search_people">[docs]</a>    <span class="k">def</span> <span class="nf">search_people</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">first_name</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">last_name</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">dob</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                      <span class="n">email</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">phone</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">street_number</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                      <span class="n">street_name</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="nb">zip</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Search for a person record</span>
+
+<span class="sd">        .. note::</span>
+<span class="sd">            Person find must include the following minimum combinations to conduct</span>
+<span class="sd">            a search.</span>
+
+<span class="sd">            - first_name, last_name, email</span>
+<span class="sd">            - first_name, last_name, phone</span>
+<span class="sd">            - first_name, last_name, zip5, dob</span>
+<span class="sd">            - first_name, last_name, street_number, street_name, zip5</span>
+<span class="sd">            - email_address</span>
+
+<span class="sd">        `Args:`</span>
+<span class="sd">            first_name: str</span>
+<span class="sd">                Required; The person&#39;s first name</span>
+<span class="sd">            last_name: str</span>
+<span class="sd">                Required; The person&#39;s last name</span>
+<span class="sd">            dob: str</span>
+<span class="sd">                ISO 8601 formatted date of birth</span>
+<span class="sd">            email: str</span>
+<span class="sd">                The person&#39;s email address</span>
+<span class="sd">            phone: str</span>
+<span class="sd">                Phone number of any type (Work, Cell, Home)</span>
+<span class="sd">            street_number: str</span>
+<span class="sd">                Street Number</span>
+<span class="sd">            street_name: str</span>
+<span class="sd">                Street Name</span>
+<span class="sd">            zip: str</span>
+<span class="sd">                5 digit zip code</span>
+<span class="sd">        `Returns:`</span>
+<span class="sd">            Parsons Table</span>
+<span class="sd">                See :ref:`parsons-table` for output options.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">url</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">connection</span><span class="o">.</span><span class="n">uri</span> <span class="o">+</span> <span class="s1">&#39;people/find&#39;</span>
+
+        <span class="k">if</span> <span class="p">(</span><span class="kc">None</span> <span class="ow">in</span> <span class="p">[</span><span class="n">first_name</span><span class="p">,</span> <span class="n">last_name</span><span class="p">,</span> <span class="n">email</span><span class="p">]</span> <span class="ow">and</span>
+            <span class="kc">None</span> <span class="ow">in</span> <span class="p">[</span><span class="n">first_name</span><span class="p">,</span> <span class="n">last_name</span><span class="p">,</span> <span class="n">phone</span><span class="p">]</span> <span class="ow">and</span>
+            <span class="kc">None</span> <span class="ow">in</span> <span class="p">[</span><span class="n">first_name</span><span class="p">,</span> <span class="n">last_name</span><span class="p">,</span> <span class="nb">zip</span><span class="p">,</span> <span class="n">dob</span><span class="p">]</span> <span class="ow">and</span>
+            <span class="kc">None</span> <span class="ow">in</span> <span class="p">[</span><span class="n">first_name</span><span class="p">,</span> <span class="n">last_name</span><span class="p">,</span> <span class="n">street_number</span><span class="p">,</span> <span class="n">street_name</span><span class="p">,</span> <span class="nb">zip</span><span class="p">]</span> <span class="ow">and</span>
+                <span class="kc">None</span> <span class="ow">in</span> <span class="p">[</span><span class="n">email</span><span class="p">]):</span>
+
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">                             Person find must include the following minimum</span>
+<span class="s2">                             combinations to conduct a search.</span>
+<span class="s2">                                - first_name, last_name, email</span>
+<span class="s2">                                - first_name, last_name, phone</span>
+<span class="s2">                                - first_name, last_name, zip, dob</span>
+<span class="s2">                                - first_name, last_name, street_number, street_name, zip</span>
+<span class="s2">                                - email</span>
+<span class="s2">                            &quot;&quot;&quot;</span><span class="p">)</span>
+
+        <span class="n">json</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;firstName&quot;</span><span class="p">:</span> <span class="n">first_name</span><span class="p">,</span> <span class="s2">&quot;lastName&quot;</span><span class="p">:</span> <span class="n">last_name</span><span class="p">}</span>
+
+        <span class="k">if</span> <span class="n">email</span><span class="p">:</span>
+            <span class="n">json</span><span class="p">[</span><span class="s1">&#39;emails&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[{</span><span class="s1">&#39;email&#39;</span><span class="p">:</span> <span class="n">email</span><span class="p">}]</span>
+        <span class="k">if</span> <span class="n">phone</span><span class="p">:</span>
+            <span class="n">json</span><span class="p">[</span><span class="s1">&#39;phones&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[{</span><span class="s1">&#39;phoneNumber&#39;</span><span class="p">:</span> <span class="n">phone</span><span class="p">}]</span>
+        <span class="k">if</span> <span class="n">dob</span><span class="p">:</span>
+            <span class="n">json</span><span class="p">[</span><span class="s1">&#39;dateOfBirth&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">dob</span>
+        <span class="k">if</span> <span class="nb">zip</span><span class="p">:</span>
+            <span class="n">json</span><span class="p">[</span><span class="s1">&#39;addresses&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[{</span><span class="s1">&#39;zipOrPostalCode&#39;</span><span class="p">:</span> <span class="nb">zip</span><span class="p">}]</span>
+
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">connection</span><span class="o">.</span><span class="n">request</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">req_type</span><span class="o">=</span><span class="s2">&quot;POST&quot;</span><span class="p">,</span> <span class="n">post_data</span><span class="o">=</span><span class="n">json</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="People.get_people"><a class="viewcode-back" href="../../../ngpvan.html#parsons.ngpvan.van.People.get_people">[docs]</a>    <span class="k">def</span> <span class="nf">get_people</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">primary_key</span><span class="p">,</span> <span class="n">primary_key_type</span><span class="o">=</span><span class="s1">&#39;vanid&#39;</span><span class="p">,</span> <span class="n">addresses</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+                   <span class="n">emails</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">phones</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">custom_fields</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+                   <span class="n">external_ids</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">recorded_addresses</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+                   <span class="n">preferences</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">suppressions</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+                   <span class="n">reported_demographics</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">disclosure_field_values</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Returns a single person record</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            primary_key: int</span>
+<span class="sd">                The primary key of the person.</span>
+<span class="sd">            primary_key_type:</span>
+<span class="sd">                The type of primary key. Options may vary by VAN instance, but</span>
+<span class="sd">                vanid will always be a valid option.</span>
+<span class="sd">            addresses: boolean</span>
+<span class="sd">                Return all addresses</span>
+<span class="sd">            emails: boolean</span>
+<span class="sd">                Return all email addresses</span>
+<span class="sd">            phones: boolean</span>
+<span class="sd">                Return all email addresses</span>
+<span class="sd">            custom_fields: boolean</span>
+<span class="sd">                Return all custom fields</span>
+<span class="sd">            external_ids: boolean</span>
+<span class="sd">                Return all external ids</span>
+<span class="sd">            recorded_addresses: boolean</span>
+<span class="sd">                Return all recorded addresses</span>
+<span class="sd">            preferences: boolean</span>
+<span class="sd">                Return all preferences</span>
+<span class="sd">            suppressions: boolean</span>
+<span class="sd">                Return all suppressions</span>
+<span class="sd">            reported_demographics: boolean</span>
+<span class="sd">                Return all reported demographics</span>
+<span class="sd">            disclosure_field_values: boolean</span>
+<span class="sd">                Return all disclosure field values</span>
+<span class="sd">        Returns:</span>
+<span class="sd">            Parsons Table</span>
+<span class="sd">                See :ref:`parsons-table` for output options.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">if</span> <span class="n">primary_key_type</span> <span class="o">==</span> <span class="s1">&#39;vanid&#39;</span><span class="p">:</span>
+
+            <span class="n">end_point</span> <span class="o">=</span> <span class="s1">&#39;people/</span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">primary_key</span><span class="p">)</span>
+
+        <span class="k">else</span><span class="p">:</span>
+
+            <span class="n">end_point</span> <span class="o">=</span> <span class="s1">&#39;people/</span><span class="si">{}</span><span class="s1">:</span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">primary_key_type</span><span class="p">,</span> <span class="n">primary_key</span><span class="p">)</span>
+
+        <span class="n">url</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">connection</span><span class="o">.</span><span class="n">uri</span> <span class="o">+</span> <span class="n">end_point</span>
+
+        <span class="n">expand</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span>
+
+        <span class="k">if</span> <span class="n">addresses</span><span class="p">:</span>
+            <span class="n">expand</span> <span class="o">+=</span> <span class="s1">&#39;addresses,&#39;</span>
+        <span class="k">if</span> <span class="n">emails</span><span class="p">:</span>
+            <span class="n">expand</span> <span class="o">+=</span> <span class="s1">&#39;emails,&#39;</span>
+        <span class="k">if</span> <span class="n">phones</span><span class="p">:</span>
+            <span class="n">expand</span> <span class="o">+=</span> <span class="s1">&#39;phones,&#39;</span>
+        <span class="k">if</span> <span class="n">custom_fields</span><span class="p">:</span>
+            <span class="n">expand</span> <span class="o">+=</span> <span class="s1">&#39;customFields,&#39;</span>
+        <span class="k">if</span> <span class="n">external_ids</span><span class="p">:</span>
+            <span class="n">expand</span> <span class="o">+=</span> <span class="s1">&#39;externalIds,&#39;</span>
+        <span class="k">if</span> <span class="n">recorded_addresses</span><span class="p">:</span>
+            <span class="n">expand</span> <span class="o">+=</span> <span class="s1">&#39;recordedAddresses,&#39;</span>
+        <span class="k">if</span> <span class="n">preferences</span><span class="p">:</span>
+            <span class="n">expand</span> <span class="o">+=</span> <span class="s1">&#39;preferences,&#39;</span>
+        <span class="k">if</span> <span class="n">suppressions</span><span class="p">:</span>
+            <span class="n">expand</span> <span class="o">+=</span> <span class="s1">&#39;suppressions,&#39;</span>
+        <span class="k">if</span> <span class="n">reported_demographics</span><span class="p">:</span>
+            <span class="n">expand</span> <span class="o">+=</span> <span class="s1">&#39;reportedDemographics,&#39;</span>
+        <span class="k">if</span> <span class="n">disclosure_field_values</span><span class="p">:</span>
+            <span class="n">expand</span> <span class="o">+=</span> <span class="s1">&#39;disclosureFieldValues,&#39;</span>
+
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">connection</span><span class="o">.</span><span class="n">request</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">args</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;$expand&#39;</span><span class="p">:</span> <span class="n">expand</span><span class="p">})</span></div>
+
+<div class="viewcode-block" id="People.people_sq_response"><a class="viewcode-back" href="../../../ngpvan.html#parsons.ngpvan.van.People.people_sq_response">[docs]</a>    <span class="k">def</span> <span class="nf">people_sq_response</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">survey_question_id</span><span class="p">,</span> <span class="n">survey_response_id</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Creates a survey question response to apply to a person</span>
+<span class="sd">        record. A helper function to generate responses to include in</span>
+<span class="sd">        :meth:`people_canvass_response` method.</span>
+
+<span class="sd">        `Args:`</span>
+<span class="sd">            survey_question_id: int</span>
+<span class="sd">                A valid survey question id</span>
+<span class="sd">            survey_response_id: int</span>
+<span class="sd">                A valid survey response id for the survey question</span>
+<span class="sd">        `Returns:`</span>
+<span class="sd">            dict</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">return</span> <span class="p">{</span><span class="s2">&quot;surveyQuestionId&quot;</span><span class="p">:</span> <span class="n">survey_question_id</span><span class="p">,</span>
+                <span class="s2">&quot;surveyResponseId&quot;</span><span class="p">:</span> <span class="n">survey_response_id</span><span class="p">,</span>
+                <span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;surveyResponse&quot;</span><span class="p">}</span></div>
+
+<div class="viewcode-block" id="People.people_ac_response"><a class="viewcode-back" href="../../../ngpvan.html#parsons.ngpvan.van.People.people_ac_response">[docs]</a>    <span class="k">def</span> <span class="nf">people_ac_response</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">activist_code_id</span><span class="p">,</span> <span class="n">action</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Create an Activist Code response to apply or remove</span>
+<span class="sd">        activist codes from a person record. A helper function</span>
+<span class="sd">        to generate responses to include in :meth:`people_canvass_response`</span>
+<span class="sd">        method.</span>
+
+<span class="sd">        `Args:`</span>
+<span class="sd">            activist_code_id: int</span>
+<span class="sd">                A valid activist code id</span>
+<span class="sd">            action: str</span>
+<span class="sd">                Either &#39;apply&#39; or &#39;remove&#39;</span>
+<span class="sd">        `Returns:`</span>
+<span class="sd">            dict</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">action</span> <span class="o">=</span> <span class="n">action</span><span class="o">.</span><span class="n">capitalize</span><span class="p">()</span>
+
+        <span class="k">if</span> <span class="n">action</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">(</span><span class="s1">&#39;Apply&#39;</span><span class="p">,</span> <span class="s1">&#39;Remove&#39;</span><span class="p">):</span>
+
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Action must be either &#39;Apply&#39; or &#39;Remove&#39;&quot;</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="p">{</span><span class="s2">&quot;activistCodeId&quot;</span><span class="p">:</span> <span class="n">activist_code_id</span><span class="p">,</span>
+                <span class="s2">&quot;action&quot;</span><span class="p">:</span> <span class="n">action</span><span class="p">,</span>
+                <span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;activistCode&quot;</span><span class="p">}</span></div>
+
+<div class="viewcode-block" id="People.people_va_response"><a class="viewcode-back" href="../../../ngpvan.html#parsons.ngpvan.van.People.people_va_response">[docs]</a>    <span class="k">def</span> <span class="nf">people_va_response</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">volunteer_activity_id</span><span class="p">,</span> <span class="n">action</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Create a volunteer activity response to apply or remove</span>
+<span class="sd">        volunteer activities from a person record. A helper function to</span>
+<span class="sd">        generate responses to include in :meth:`people_canvass_response`</span>
+<span class="sd">        method.</span>
+
+<span class="sd">        `Args:`</span>
+<span class="sd">            volunteer_activity_id: int</span>
+<span class="sd">                A valid volunteer activity id</span>
+<span class="sd">            action: str</span>
+<span class="sd">                Either &#39;apply&#39; or &#39;remove&#39;</span>
+<span class="sd">        `Returns:`</span>
+<span class="sd">            dict</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">action</span> <span class="o">=</span> <span class="n">action</span><span class="o">.</span><span class="n">capitalize</span><span class="p">()</span>
+
+        <span class="k">if</span> <span class="n">action</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">(</span><span class="s1">&#39;Apply&#39;</span><span class="p">,</span> <span class="s1">&#39;Remove&#39;</span><span class="p">):</span>
+
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Action must be either &#39;Apply&#39; or &#39;Remove&#39;&quot;</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="p">{</span><span class="s2">&quot;volunteerActivityId&quot;</span><span class="p">:</span> <span class="n">volunteer_activity_id</span><span class="p">,</span>
+                <span class="s2">&quot;action&quot;</span><span class="p">:</span> <span class="n">action</span><span class="p">,</span>
+                <span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;VolunteerActivity&quot;</span><span class="p">}</span></div>
+
+<div class="viewcode-block" id="People.create_canvass_response"><a class="viewcode-back" href="../../../ngpvan.html#parsons.ngpvan.van.People.create_canvass_response">[docs]</a>    <span class="k">def</span> <span class="nf">create_canvass_response</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">primary_key</span><span class="p">,</span> <span class="n">key_type</span><span class="o">=</span><span class="s1">&#39;vanid&#39;</span><span class="p">,</span>
+                                <span class="n">contact_type_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">input_type_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                                <span class="n">date_canvassed</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">result_code_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                                <span class="n">responses</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Create a canvass response to a person record.</span>
+
+<span class="sd">        `Args:`</span>
+<span class="sd">            primary_key : str</span>
+<span class="sd">                A valid primary key for the person record</span>
+<span class="sd">            key_type : str</span>
+<span class="sd">                The type of primary key. Defaults to &#39;vanid&#39;, but depending</span>
+<span class="sd">                on your VAN instance, could be &#39;dwid&#39;, &#39;statefileid&#39;, etc.</span>
+<span class="sd">            result_code_id : int</span>
+<span class="sd">                `Optional`; Specifies the result code of the response. If</span>
+<span class="sd">                not included,responses must be specified. Conversely, if</span>
+<span class="sd">                responses are specified, result_code_id must be null.</span>
+<span class="sd">            contact_type_id : int</span>
+<span class="sd">                `Optional`; A valid contact type id</span>
+<span class="sd">            input_type_id : int</span>
+<span class="sd">                `Optional`; Defaults to 11 (API Input)</span>
+<span class="sd">            date_canvassed : str</span>
+<span class="sd">                `Optional`; ISO 8601 formatted date. Defaults to todays date</span>
+<span class="sd">            responses : list or dict</span>
+<span class="sd">                A set of response objects of volunteer activity</span>
+<span class="sd">                (:meth:`people_va_response`), activist_codes</span>
+<span class="sd">                (:meth:`people_ac_response`) or survey_questions</span>
+<span class="sd">                (:meth:`people_sq_response`). You can mix and match as many as you</span>
+<span class="sd">                would like in the same call. **If included, result_code_id must</span>
+<span class="sd">                be null.**</span>
+<span class="sd">        `Returns:`</span>
+<span class="sd">            dict</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">if</span> <span class="n">key_type</span> <span class="o">==</span> <span class="s1">&#39;vanid&#39;</span><span class="p">:</span>
+
+            <span class="n">url</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">connection</span><span class="o">.</span><span class="n">uri</span> <span class="o">+</span> \
+                <span class="s2">&quot;people/</span><span class="si">{}</span><span class="s2">/canvassResponses&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">primary_key</span><span class="p">)</span>
+
+        <span class="k">else</span><span class="p">:</span>
+
+            <span class="n">url</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">connection</span><span class="o">.</span><span class="n">uri</span> <span class="o">+</span> \
+                <span class="s2">&quot;people/</span><span class="si">{}</span><span class="s2">:</span><span class="si">{}</span><span class="s2">/canvassResponses&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">key_type</span><span class="p">,</span> <span class="n">primary_key</span><span class="p">)</span>
+
+        <span class="n">json</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;canvassContext&quot;</span><span class="p">:</span> <span class="p">{</span>
+            <span class="s2">&quot;contactTypeId&quot;</span><span class="p">:</span> <span class="n">contact_type_id</span><span class="p">,</span>
+            <span class="s2">&quot;inputTypeId&quot;</span><span class="p">:</span> <span class="n">input_type_id</span><span class="p">,</span>
+            <span class="s2">&quot;dateCanvassed&quot;</span><span class="p">:</span> <span class="n">date_canvassed</span>
+        <span class="p">},</span>
+            <span class="s2">&quot;resultCodeId&quot;</span><span class="p">:</span> <span class="n">result_code_id</span>
+        <span class="p">}</span>
+
+        <span class="k">if</span> <span class="n">responses</span><span class="p">:</span>
+
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">responses</span><span class="p">,</span> <span class="nb">dict</span><span class="p">):</span>
+                <span class="n">json</span><span class="p">[</span><span class="s2">&quot;responses&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="n">responses</span><span class="p">]</span>
+
+            <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">responses</span><span class="p">,</span> <span class="nb">dict</span><span class="p">):</span>
+                <span class="n">json</span><span class="p">[</span><span class="s2">&quot;responses&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">responses</span>
+
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Must be a list of dicts or a single dict.&quot;</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">result_code_id</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">responses</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="s2">&quot;Both result_code_id and responses cannot be specified.&quot;</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">connection</span><span class="o">.</span><span class="n">request</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">req_type</span><span class="o">=</span><span class="s2">&quot;POST&quot;</span><span class="p">,</span> <span class="n">post_data</span><span class="o">=</span><span class="n">json</span><span class="p">,</span> <span class="n">raw</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="People.create_relationship"><a class="viewcode-back" href="../../../ngpvan.html#parsons.ngpvan.van.People.create_relationship">[docs]</a>    <span class="k">def</span> <span class="nf">create_relationship</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">vanid_1</span><span class="p">,</span> <span class="n">vanid_2</span><span class="p">,</span> <span class="n">relationship_id</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Create a relationship between two individuals</span>
+
+<span class="sd">        `Args:`</span>
+<span class="sd">            vanid_1 : int</span>
+<span class="sd">                The vanid of the primary individual; aka the node</span>
+<span class="sd">            vanid_2 : int</span>
+<span class="sd">                The vanid of the secondary individual; the spoke</span>
+<span class="sd">            relationship_id : int</span>
+<span class="sd">                The relationship id indicating the type of relationship</span>
+<span class="sd">        `Returns:`</span>
+<span class="sd">            Tuple of ``(204, No Content)`` if successful, ``(404, Not Found)``.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">url</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">connection</span><span class="o">.</span><span class="n">uri</span> <span class="o">+</span> <span class="s2">&quot;people/</span><span class="si">{}</span><span class="s2">/relationships&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">vanid_1</span><span class="p">)</span>
+
+        <span class="n">json</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;relationshipId&#39;</span><span class="p">:</span> <span class="n">relationship_id</span><span class="p">,</span>
+                <span class="s1">&#39;vanId&#39;</span><span class="p">:</span> <span class="n">vanid_2</span><span class="p">}</span>
+
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">connection</span><span class="o">.</span><span class="n">request</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">req_type</span><span class="o">=</span><span class="s2">&quot;POST&quot;</span><span class="p">,</span> <span class="n">post_data</span><span class="o">=</span><span class="n">json</span><span class="p">,</span> <span class="n">raw</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span></div></div>
+</pre></div>
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2019, The Movement Cooperative
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../../../_static/jquery.js"></script>
+        <script type="text/javascript" src="../../../_static/underscore.js"></script>
+        <script type="text/javascript" src="../../../_static/doctools.js"></script>
+        <script type="text/javascript" src="../../../_static/language_data.js"></script>
+    
+
+  
+
+  <script type="text/javascript" src="../../../_static/js/theme.js"></script>
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

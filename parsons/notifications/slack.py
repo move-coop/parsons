@@ -1,0 +1,165 @@
+from parsons import Table
+from slackclient import SlackClient
+import os
+
+
+class Slack(object):
+
+    def __init__(self, api_key=None):
+
+        if api_key is None:
+
+            try:
+                self.api_key = os.environ["SLACK_API_TOKEN"]
+
+            except KeyError:
+                raise KeyError('Missing api_key. It must be passed as an '
+                               'argument or stored as environmental variable')
+
+        else:
+
+            self.api_key = api_key
+
+        self.client = SlackClient(self.api_key)
+
+    def channels(self, fields=['id', 'name'], exclude_archived=False,
+                 types=['public_channel']):
+        """
+        Return a list of all channels in a Slack team.
+
+        `Args:`
+            fields: list
+                A list of the fields to return. By default, only the channel
+                `id` and `name` are returned. See
+                https://api.slack.com/methods/conversations.list for a full
+                list of available fields. `Notes:` nested fields are unpacked.
+            exclude_archived: bool
+                Set to `True` to exclude archived channels from the list.
+                Default is false.
+            types: list
+                Mix and match channel types by providing a list of any
+                combination of `public_channel`, `private_channel`,
+                `mpim` (aka group messages), or `im` (aka 1-1 messages).
+        `Returns:`
+            Parsons Table
+                See :ref:`parsons-table` for output options.
+        """
+        tbl = self._paginate_request(
+            "conversations.list", "channels", types=types,
+            exclude_archived=exclude_archived)
+
+        tbl.unpack_dict("topic", include_original=False, prepend=True,
+                        prepend_value="topic")
+        tbl.unpack_dict("purpose", include_original=False,
+                        prepend=True, prepend_value="purpose")
+
+        rm_cols = [x for x in tbl.columns if x not in fields]
+        tbl.remove_column(*rm_cols)
+
+        return tbl
+
+    def users(self, fields=['id', 'name', 'deleted', 'profile_real_name_normalized',
+                            'profile_email']):
+        """
+        Return a list of all users in a Slack team.
+
+        `Args:`
+            fields: list
+                A list of the fields to return. By default, only the user
+                `id` and `name` and `deleted` status are returned. See
+                https://api.slack.com/methods/users.list for a full list of
+                available fields. `Notes:` nested fields are unpacked.
+        `Returns:`
+            Parsons Table
+                See :ref:`parsons-table` for output options.
+        """
+
+        tbl = self._paginate_request("users.list", "members", include_locale=True)
+
+        tbl.unpack_dict("profile", include_original=False, prepend=True,
+                        prepend_value="profile")
+
+        rm_cols = [x for x in tbl.columns if x not in fields]
+        tbl.remove_column(*rm_cols)
+
+        return tbl
+
+    def message_channel(self, channel, text, as_user=False):
+        """
+        Send a message to a Slack channel
+
+        `Args:`
+            channel: str
+                The name or id of a `public_channel`, a `private_channel`, or
+                an `im` (aka 1-1 message).
+            text: str
+                Text of the message to send.
+            as_user: str
+                Pass true to post the message as the authenticated user,
+                instead of as a bot. Defaults to false. See
+                https://api.slack.com/methods/chat.postMessage#authorship for
+                more information about Slack authorship.
+        `Returns:`
+            `dict`:
+                A response json
+        """
+        resp = self.client.api_call(
+            "chat.postMessage", channel=channel, text=text, as_user=as_user)
+
+        return resp
+
+    def upload_file(self, channels, filename, filetype=None,
+                    initial_comment=None, title=None):
+        """
+        Upload a file to Slack channel(s).
+
+        `Args:`
+            channels: list
+                List of channel names or IDs where the file will be shared.
+            filename: str
+                Name of the file to be uploaded.
+            filetype: str
+                A file type identifier. If None, type will be inferred base on
+                file extension. This is used to determine what fields are
+                available for that object. See https://api.slack.com/types/file
+                for a list of valid types and for more information about the
+                file object.
+            initial_comment: str
+                The text of the message to send along with the file.
+            title: str
+                Title of the file to be uploaded.
+        `Returns:`
+            `dict`:
+                A response json
+        """
+        if filetype is None and '.' in filename:
+            filetype = filename.split('.')[-1]
+
+        with open(filename) as file_content:
+            resp = self.client.api_call(
+                "files.upload", channels=channels, file=file_content,
+                filetype=filetype, initial_comment=initial_comment,
+                title=title)
+
+        return resp
+
+    def _paginate_request(self, endpoint, collection, **kwargs):
+        # The max object we're requesting at a time.
+        # This is an nternal limit to not overload slack api
+        LIMIT = 200
+
+        items = []
+        next_page = True
+        cursor = None
+        while next_page:
+            users = self.client.api_call(
+                endpoint, cursor=cursor, limit=LIMIT, **kwargs)
+
+            items.extend(users[collection])
+
+            if users["response_metadata"]["next_cursor"]:
+                cursor = users["response_metadata"]["next_cursor"]
+            else:
+                next_page = False
+
+        return Table(items)

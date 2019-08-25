@@ -1,0 +1,88 @@
+.. Parsons documentation master file, created by
+   sphinx-quickstart on Sat Sep  8 14:41:56 2018.
+   You can adapt this file completely to your liking, but it should at least
+   contain the root `toctree` directive.
+
+About
+=====
+
+Parsons, named after `Lucy Parsons <https://en.wikipedia.org/wiki/Lucy_Parsons>`_, is a Python package that contains a growing list of connectors and integrations to move data between various tools. Parsons is focused on integrations and connectors for tools utilized by the progressive community.
+
+.. warning::
+   Parsons is under **very active development** and, while it includes extensive unit testing, please **use at your own risk**.
+
+Parsons was built out of a belief that progressive organizations spend far too much time building the same integrations, over and over and over again, while they should be engaged in more important and impactful work. It
+was built and is mantained by The Movement Cooperative.
+
+The Movement Cooperative
+========================
+The Movement Cooperative is a member led organization focused on providing data, tools and strategic support for the progressive community. Our mission is to break down technological barriers for organizations that fight for social justice.
+
+Design Goals
+============
+The goal of Parsons is to make the movement of data between systems as easy and straightforward as possible. Simply put, we seek to reduce the lines of code that are written by the progressive community. Not only is this a waste of time, but we rarely have the capacity and resources to fully unittest our scripts.
+
+.. image:: /_static/parsons_diagram.png
+
+Parsons seeks to be flexible from a data ingestion and output perspective, while providing ETL tools that recognize that our data is **always** messy. Central to this concept is the :ref:`parsons-table` the table-like object that most methods return.
+
+Sources
+=======
+* Documentation: `<https://move-coop.github.io/parsons/html/index.html>`_
+* Source Code: `<https://github.com/move-coop/parsons>`_
+
+Installation
+============
+Download this repository and then run ``python setup.py develop``.
+
+Logging
+=======
+Parsons uses the `native python logging system <https://docs.python.org/3/howto/logging.html>`_. By default, log output will go to the console and look like:
+
+.. code-block:: none
+
+    parsons.modulename LOGLEVEL the specific log message
+
+In your scripts that use Parsons, if you want to override the default Parsons logging behavior, just grab the "parsons" logger and tweak it:
+
+.. code-block:: python
+
+   import logging
+   parsons_logger = logging.getLogger('parsons')
+   # parsons_logger.setLevel('DEBUG')
+   # parsons_logger.addHandler(...)
+   # parsons_logger.setFormatter(...)
+
+Indices and tables
+==================
+
+* :ref:`genindex`
+* :ref:`modindex`
+* :ref:`search`
+
+.. toctree::
+   :maxdepth: 1
+   :caption: Integrations
+   :name: integrations
+
+   action_kit
+   civis
+   facebook_ads
+   google_sheets
+   mobile_commons
+   mobilize_america
+   ngpvan
+   p2a
+   redshift
+   s3
+   sftp
+   ts
+   turbovote
+
+.. toctree::
+   :maxdepth: 1
+   :caption: Framework
+   :name: framework
+
+   table
+   notifications

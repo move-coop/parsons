@@ -1,0 +1,104 @@
+# Python CircleCI 2.0 configuration file
+#
+# Check https://circleci.com/docs/2.0/language-python/ for more details
+#
+version: 2
+jobs:
+  test:
+    docker:
+      - image: circleci/python:3.7
+
+    working_directory: ~/repo
+
+    steps:
+      - checkout
+
+      # Download and cache dependencies
+      - restore_cache:
+          keys:
+          - v1-dependencies-python3.7-{{ checksum "requirements.txt" }}
+          # fallback to using the latest cache if no exact match is found
+          - v1-dependencies-python3.7-
+
+      - run:
+          name: install dependencies
+          command: |
+            python3 -m venv venv
+            . venv/bin/activate
+            pip install -r requirements.txt
+
+      - save_cache:
+          paths:
+            - ./venv
+          key: v1-dependencies-python3.7-{{ checksum "requirements.txt" }}
+
+      - run:
+          name: run tests
+          command: |
+            . venv/bin/activate
+            TESTING=1 pytest -rf test/
+
+      - run:
+          name: check linting
+          command: |
+            . venv/bin/activate
+            flake8 --max-line-length=100 parsons
+
+      - store_artifacts:
+          path: test-reports
+          destination: test-reports
+
+  docs-build-deploy:
+    docker:
+      - image: circleci/python:3.7-node
+    steps:
+      - checkout
+      # Download and cache dependencies
+      - restore_cache:
+          keys:
+          - v1-dependencies-python3.7-{{ checksum "requirements.txt" }}
+          # fallback to using the latest cache if no exact match is found
+          - v1-dependencies-python3.7-
+      - run:
+          name: Install dependencies
+          # Note that we the circleci node image installs stuff with a user "circleci", rather
+          # than root. So we need to tell npm where to install stuff.
+          command: |
+            npm set prefix=/home/circleci/npm
+            npm install -g --silent gh-pages@2.0.1
+            python3 -m venv venv
+            . venv/bin/activate
+            pip install -r requirements.txt
+      - save_cache:
+          paths:
+            - ./venv
+          key: v1-dependencies-python3.7-{{ checksum "requirements.txt" }}
+      - add_ssh_keys:
+          # This SSH key is the "CircleCI write key v2" in https://github.com/move-coop/parsons/settings/keys
+          # We need write access to the Parsons repo, so we can push the "gh-pages" branch.
+          fingerprints:
+            - "45:3d:91:e1:ae:bd:2c:b6:d4:7c:4f:b1:20:6c:1f:6c"
+      - run:
+          name: Build and deploy docs
+          # When running gh-pages, we specify to include dotfiles, so we pick up the .nojerkyll file.
+          # (This file tell Github Pages that we want to include all files in docs/, including those
+          # that start with an underscore like _static/).
+          command: |
+            . venv/bin/activate
+            cd docs/ && make html && cd ..
+            git config user.email "ci-build@movementcooperative.org"
+            git config user.name "ci-build"
+            export PATH=/home/circleci/npm/bin:$PATH
+            gh-pages --dotfiles --dist docs
+
+workflows:
+  version: 2
+  build:
+    jobs:
+      - test
+      - docs-build-deploy:
+          filters:
+            branches:
+              only: master
+
+

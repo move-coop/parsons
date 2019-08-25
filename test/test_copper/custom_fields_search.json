@@ -1,0 +1,64 @@
+[
+    {
+        "id":101674,
+        "name":"Event Date",
+        "data_type":"Date",
+        "available_on":[
+            "opportunity"
+        ]
+    },
+    {
+        "id":102127,
+        "name":"Date Added",
+        "data_type":"Date",
+        "available_on":[
+            "company",
+            "person"
+        ]
+    },
+    {
+        "id":109116,
+        "name":"Local Group Subtype",
+        "data_type":"Dropdown",
+        "available_on":[
+            "company"
+        ],
+        "options":[
+            {
+                "id":140251,
+                "name":"Public (displayed in map)",
+                "rank":0
+            },
+            {
+                "id":140250,
+                "name":"New (Needs Processing)",
+                "rank":4
+            },
+            {
+                "id":140252,
+                "name":"Private (not on map)",
+                "rank":1
+            },
+            {
+                "id":140254,
+                "name":"National",
+                "rank":5
+            },
+            {
+                "id":140766,
+                "name":"Not following principles",
+                "rank":3
+            },
+            {
+                "id":140764,
+                "name":"International",
+                "rank":6
+            },
+            {
+                "id":141434,
+                "name":"Inactive",
+                "rank":2
+            }
+        ]
+    }
+]

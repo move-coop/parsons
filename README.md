@@ -27,6 +27,6 @@ You can install the most recent version by running: `pip install parsons`
 
 
 ### Community
-We hope to foster a strong and robust community of individuals who use and contribute to further development. Individuals are encouraged to submit issues with bugs, suggestions and feature requests.
+We hope to foster a strong and robust community of individuals who use and contribute to further development. Individuals are encouraged to submit issues with bugs, suggestions and feature requests. [Here](https://github.com/move-coop/parsons_public/blob/documentation/LICENSE.md) are the guidelines and best practices for contributing to Parsons.
 
 You can also stay up to date by joining the parsons google group.

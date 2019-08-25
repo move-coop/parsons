@@ -8,7 +8,7 @@ Parsons offers simplified interactions with these services and tools, including 
 This project maintained by [The Movement Cooperative](https://movementcooperative.org/) and is named after [Lucy Parsons](https://en.wikipedia.org/wiki/Lucy_Parsons). The Movement Cooperative is a member led organization focused on providing data, tools, and strategic support for the progressive community.
 
 ### License and Usage
-Usage of Parsons is governed by the TMC license, which allows for unlimited non-commercial usage, provided that individuals and organizations adhere to our broad values statement. 
+Usage of Parsons is governed by the [TMC Parsons License](https://github.com/move-coop/parsons_public/blob/documentation/LICENSE.md), which allows for unlimited non-commercial usage, provided that individuals and organizations adhere to our broad values statement. 
 
 ### Quickstart - Coming Soon
 ```

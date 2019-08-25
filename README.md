@@ -7,8 +7,10 @@ Parsons offers simplified interactions with these services and tools, including 
 
 This project maintained by [The Movement Cooperative](https://movementcooperative.org/) and is named after [Lucy Parsons](https://en.wikipedia.org/wiki/Lucy_Parsons). The Movement Cooperative is a member led organization focused on providing data, tools, and strategic support for the progressive community.
 
+### License and Usage
+Usage of Parsons is governed by the TMC license, which allows for unlimited non-commercial usage, provided that individuals and organizations adhere to our broad values statement. 
 
-### Quickstart 
+### Quickstart - Coming Soon
 ```
 Examples with common tools
 ```
@@ -17,21 +19,17 @@ Examples with common tools
 ### Installation
 
 
-#### PYPI
+#### PYPI - Coming Soon
 You can install the most recent version by running: `pip install parsons`
 
 
-#### Install from GitHub
-[INSTRUCTIONS HERE]
+#### Install from GitHub - Coming Soon
 
 
 ### Community
 We hope to foster a strong and robust community of individuals who use and contribute to further development. Individuals are encouraged to submit issues with bugs, suggestions and feature requests.
 
-You can also stay up to date by joining the parsons google group [DROP IN LINK]
-
-
-_**CONSIDER MOVING CONTRIBUTION NOTES BELOW TO ANOTHER MD**_
+You can also stay up to date by joining the parsons google group.
 
 ## Contributing To Parsons
 We welcome and encourage anyone to contribute to Parsons. Any new features should include full documentation and tests to ensure the stability of the code.

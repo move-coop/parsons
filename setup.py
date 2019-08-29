@@ -11,9 +11,19 @@ def main():
 
     setup(
         name="parsons",
-        version='0.4.0',
+        version='0.5.0',
+        author="The Movement Cooperative",
+        author_email="info@movementcooperative.org",
+        url='https://github.com/movementcoop/parsons',
+        keywords=['PROGRESSIVE', 'API', 'ETL'],
         packages=find_packages(),
-        install_requires=requirements
+        install_requires=requirements,
+        classifiers=[
+            'Development Status :: 3 - Alpha',
+            'Intended Audience :: Developers',
+            'Programming Language :: Python :: 3.6',
+            'Programming Language :: Python :: 3.7'
+        ]
     )
 
 

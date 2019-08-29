@@ -22,8 +22,8 @@ Examples with common tools
 ### Installation
 
 
-#### PYPI - Coming Soon
-You can install the most recent version by running: `pip install parsons`
+#### PYPI
+You can install the most recent release by running: `pip install parsons`
 
 
 #### Install from GitHub - Coming Soon

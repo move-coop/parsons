@@ -33,7 +33,7 @@ Sources
 
 Installation
 ============
-Download this repository and then run ``python setup.py develop``.
+You can install the most recent release by running: ``pip install parsons``
 
 Logging
 =======

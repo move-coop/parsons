@@ -52,6 +52,7 @@ s3 = S3()
 s3.put_file('my_bucket','my_table.csv')
 
 # TargetSmart - Append data to a record
+
 ts = TargetSmart(api_key='MY_KEY')
 record = ts.data_enhance(231231231, state='DC')
 ```

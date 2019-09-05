@@ -30,17 +30,20 @@ To access the most recent code base that may contain features not yet included i
 ```
 # VAN - Download activist codes to a CSV
 
+from parsons import VAN
 van = VAN(db='MyVoters')
 ac = van.get_activist_codes()
 ac.to_csv('my_activist_codes.csv')
 
 # Redshift - Create a table from a CSV
 
+from parsons import Table
 tbl = Table.from_csv('my_table.csv')
 tbl.to_redshift('my_schema.my_table')
 
 # Redshift - Export from a query to CSV
 
+from parsons import Redshift
 sql = 'select * from my_schema.my_table'
 rs = Redshift()
 tbl = rs.query(sql)
@@ -48,11 +51,13 @@ tbl.to_csv('my_table.csv')
 
 # Upload a file to S3
 
+from parsons import S3
 s3 = S3()
 s3.put_file('my_bucket','my_table.csv')
 
 # TargetSmart - Append data to a record
 
+from parsons import TargetSmart
 ts = TargetSmart(api_key='MY_KEY')
 record = ts.data_enhance(231231231, state='DC')
 ```

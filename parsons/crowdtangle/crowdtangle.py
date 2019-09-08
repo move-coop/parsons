@@ -8,7 +8,7 @@ logger = logging.getLogger(__name__)
 
 CT_URI = "https://api.crowdtangle.com/"
 PAGE_SIZE = 100
-REQUEST_SLEEP = 10 # CT has a rather agressive 6 requests per minute rate limit.
+REQUEST_SLEEP = 10  # CT has a rather agressive 6 requests per minute rate limit.
 
 
 class CrowdTangle(object):

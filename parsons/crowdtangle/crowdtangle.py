@@ -93,7 +93,6 @@ class CrowdTangle(object):
 
     def get_posts(self, start_date=None, end_date=None, language=None, list_ids=None,
                   min_interations=None, search_term=None, types=None):
-
         """
         Return advocates (person records).
 
@@ -208,7 +207,7 @@ class CrowdTangle(object):
                 'includeSummary': include_summary,
                 'platforms': platforms}
 
-        logger.info("Retrieving posts based on link")
+        logger.info("Retrieving posts based on link.")
         pt = Table(self.base_request('links', args=args))
         logger.info(f'Retrieved {pt.num_rows} links.')
         self.unpack(pt)

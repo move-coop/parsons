@@ -307,7 +307,6 @@ class ToFrom(object):
 
     def to_redshift(self, table_name, username=None, password=None, host=None,
                     db=None, port=None, **copy_args):
-
         """
         Write a table to a Redshift database. Note, this requires you to pass
         AWS S3 credentials or store them as environmental variables.
@@ -324,8 +323,7 @@ class ToFrom(object):
             port: int
                 Required if env variable ``REDSHIFT_PORT`` not populated. Port 5439 is typical.
             **copy_args: kwargs
-                See :func:`~parsons.databases.Redshift.copy`` for options.
-
+                See :func:`~parsons.Redshift.copy`` for options.
         Returns:
             ``None``
         """
@@ -406,6 +404,15 @@ class ToFrom(object):
     def from_csv_string(cls, str, **csvargs):
         """
         Create a ``parsons table`` object from a string representing a CSV.
+
+        `Args:`
+            str: str
+                The string object to convert to a table
+            **csvargs: kwargs
+                ``csv_reader`` optional arguments
+        `Returns:`
+            Parsons Table
+                See :ref:`parsons-table` for output options.
         """
 
         bytesio = io.BytesIO(str.encode('utf-8'))

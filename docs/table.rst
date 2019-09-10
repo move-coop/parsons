@@ -27,6 +27,8 @@ From Parsons Table
     * - ``.to_csv()``
       - CSV File
       - Write a table to a local CSV file
+    * - ``to_sftp_csv()``
+      - A csv written to an SFTP server
     * - ``.to_s3_csv()``
       - AWS s3 Bucket
       - A csv written to an s3 bucket
@@ -104,7 +106,6 @@ Parsons Table Attributes
       - A list of column names in the table
     * - ``.data``
       - The actual data (rows) of the table, as a list of tuples (without field names)
-
 
 A note on indexing and iterating over a table's data:
 If you need to iterate over the data, make sure to use the python iterator syntax, so any data transformations can be applied efficiently. An example:

@@ -10,7 +10,7 @@ This project maintained by [The Movement Cooperative](https://movementcooperativ
 Parsons is only compatible with Python 3.x
 
 ### License and Usage
-Usage of Parsons is governed by the [TMC Parsons License](https://github.com/move-coop/parsons_public/blob/documentation/LICENSE.md), which allows for unlimited non-commercial usage, provided that individuals and organizations adhere to our broad values statement. 
+Usage of Parsons is governed by the [TMC Parsons License](https://github.com/move-coop/parsons_public/blob/master/LICENSE.md), which allows for unlimited non-commercial usage, provided that individuals and organizations adhere to our broad values statement. 
 
 ### Documentation
 The gain a full understanding of all of the features of Parsons, please review the Parson's [documentation](https://move-coop.github.io/parsons_public/html/index.html).

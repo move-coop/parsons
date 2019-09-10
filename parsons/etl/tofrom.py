@@ -2,7 +2,7 @@ import petl
 import json
 import io
 import gzip
-from parsons.utilities import files
+from parsons.utilities import files, zip_archive
 
 
 class ToFrom(object):
@@ -161,6 +161,47 @@ class ToFrom(object):
                        errors=errors,
                        **csvargs)
         return local_path
+
+    def to_zip_csv(self, archive_path=None, csv_name=None, encoding=None,
+                   errors='strict', write_header=True, if_exists='replace', **csvargs):
+        """
+        Outputs table to a CSV in a zip archive. Additional additional key word arguments
+        are passed to ``csv.writer()``. So, e.g., to override the delimiter
+        from the default CSV dialect, provide the delimiter keyword argument.
+
+        .. warning::
+                If a file already exists in the archive, it will be overwritten.
+        `Args:`
+            archive_path: str
+                The path to zip achive.If not specified, a temporary file will be created and
+                returned, and that file will be removed automatically when the script is done
+                running.
+            csv_name: str
+                The name of the csv file to be stored in the archive
+            encoding: str
+                The CSV encoding type for `csv.writer()
+                <https://docs.python.org/2/library/csv.html#csv.writer/>`_
+            errors: str
+                Raise an Error if encountered
+            write_header: boolean
+                Include header in output
+            if_exists: str
+                If archive already exists, one of 'replace' or 'append'
+            **csvargs: kwargs
+                ``csv_writer`` optional arguments
+
+        `Returns:`
+            str
+                The path of the archive
+        """
+
+        if not archive_path:
+            archive_path = files.create_temp_file(suffix='.zip')
+
+        cf = self.to_csv(encoding=encoding, errors=errors, write_header=write_header, **csvargs)
+
+        return zip_archive.create_archive(archive_path, cf, file_name=csv_name,
+                                          if_exists=if_exists)
 
     def to_json(self, local_path=None, temp_file_compression=None, line_delimited=False):
         """

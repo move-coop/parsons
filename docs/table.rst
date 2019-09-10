@@ -26,10 +26,10 @@ From Parsons Table
       - Return a Pandas dataframe
     * - ``.to_csv()``
       - CSV File
-      - Write a table to a local CSV file
+      - Write a table to a local csv file
     * - ``.to_s3_csv()``
       - AWS s3 Bucket
-      - A csv written to an s3 bucket
+      - Write a table to a csv stored in S3
     * - ``.to_redshift()``
       - A Redshift Database
       - Write a table to a Redshift database
@@ -38,7 +38,7 @@ From Parsons Table
       - Write table to a Civis Redshift Database using Civis Client
     * - ``.to_petl()``
       - Petl table object
-      - Return a Petl table object
+      - Convert a table a Petl table object
     * - ``.to_json()``
       - JSON file
       - Write a table to a local JSON file

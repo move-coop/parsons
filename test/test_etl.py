@@ -5,6 +5,7 @@ import pandas
 import os
 import shutil
 from test.utils import assert_matching_tables
+from parsons.utilities import zip_archive
 
 
 class TestParsonsTable(unittest.TestCase):
@@ -206,6 +207,18 @@ class TestParsonsTable(unittest.TestCase):
         open(path, 'a').close()
 
         self.assertRaises(ValueError, Table.from_csv, path)
+
+    def test_to_csv_zip(self):
+
+        # Test using the to_csv() method
+        self.tbl.to_csv('myzip.zip')
+        zip_archive.unzip_archive('myzip.zip')
+        assert_matching_tables(self.tbl, Table.from_csv('myzip.csv'))
+
+        # Test using the to_csv_zip() method
+        self.tbl.to_zip_csv('myzip.zip')
+        zip_archive.unzip_archive('myzip.zip')
+        assert_matching_tables(self.tbl, Table.from_csv('myzip.csv'))
 
     def test_to_civis(self):
 

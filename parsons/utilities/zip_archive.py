@@ -3,6 +3,8 @@ import zipfile
 
 def create_archive(archive_path, file_path, file_name=None, if_exists='replace'):
     """
+    Create and fill an archive.
+
     `Args:`
         archive_path: str
             The file name of zip archive
@@ -28,3 +30,16 @@ def create_archive(archive_path, file_path, file_name=None, if_exists='replace')
         z.write(file_path, arcname=file_name, compress_type=zipfile.ZIP_STORED)
 
     return archive_path
+
+def unzip_archive(archive_path):
+    """
+    Unzip an archive.
+
+    `Args:`
+        archive_path: str
+    `Returns:`
+        ``None``
+    """
+
+    with zipfile.ZipFile(archive_path, 'r') as z:
+        z.extractall()

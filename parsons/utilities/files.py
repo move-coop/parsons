@@ -134,6 +134,7 @@ def string_to_temp_file(string, suffix=None):
 
     return temp_file_path
 
+
 def zip_check(file_path, compression_type):
     """
     Check if the file suffix or the compression type indicates that it is
@@ -149,6 +150,7 @@ def zip_check(file_path, compression_type):
 
     else:
         return False
+
 
 def extract_file_name(file_path=None):
     """

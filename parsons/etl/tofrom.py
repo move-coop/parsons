@@ -85,8 +85,8 @@ class ToFrom(object):
     def to_csv(self, local_path=None, temp_file_compression=None, encoding=None, errors='strict',
                write_header=True, **csvargs):
         """
-        Outputs table to a CSV. Additional additional key word arguments are passed 
-        to ``csv.writer()``. So, e.g., to override the delimiter from the default CSV dialect, 
+        Outputs table to a CSV. Additional additional key word arguments are passed
+        to ``csv.writer()``. So, e.g., to override the delimiter from the default CSV dialect,
         provide the delimiter keyword argument.
 
         .. warning::
@@ -175,7 +175,7 @@ class ToFrom(object):
         """
         Outputs table to a CSV in a zip archive. Additional additional key word arguments
         are passed to ``csv.writer()``. So, e.g., to override the delimiter
-        from the default CSV dialect, provide the delimiter keyword argument. Use this 
+        from the default CSV dialect, provide the delimiter keyword argument. Use this
         method if you would like to write multiple csv files to the same archive.
 
         .. warning::
@@ -337,7 +337,7 @@ class ToFrom(object):
             aws_secret_access_key: str
                 Required if not included as environmental variable
             compression: str
-                The compression type for the s3 object. Currently "None" and "gzip" are supported.
+                The compression type for the s3 object. Currently "None", "gzip" are supported.
             encoding: str
                 The CSV encoding type for `csv.writer()
                 <https://docs.python.org/2/library/csv.html#csv.writer/>`_

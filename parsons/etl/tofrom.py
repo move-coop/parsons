@@ -85,9 +85,9 @@ class ToFrom(object):
     def to_csv(self, local_path=None, temp_file_compression=None, encoding=None, errors='strict',
                write_header=True, **csvargs):
         """
-        Outputs table to a CSV. Additional additional key word arguments are passed
-        to ``csv.writer()``. So, e.g., to override the delimiter from the default CSV dialect,
-        provide the delimiter keyword argument.
+        Outputs table to a CSV. Additional key word arguments are passed to ``csv.writer()``. So,
+        e.g., to override the delimiter from the default CSV dialect, provide the delimiter
+        keyword argument.
 
         .. warning::
                 If a file already exists at the given location, it will be
@@ -173,16 +173,16 @@ class ToFrom(object):
     def to_zip_csv(self, archive_path=None, csv_name=None, encoding=None,
                    errors='strict', write_header=True, if_exists='replace', **csvargs):
         """
-        Outputs table to a CSV in a zip archive. Additional additional key word arguments
-        are passed to ``csv.writer()``. So, e.g., to override the delimiter
-        from the default CSV dialect, provide the delimiter keyword argument. Use this
-        method if you would like to write multiple csv files to the same archive.
+        Outputs table to a CSV in a zip archive. Additional key word arguments are passed to
+        ``csv.writer()``. So, e.g., to override the delimiter from the default CSV dialect,
+        provide the delimiter keyword argument. Use thismethod if you would like to write
+        multiple csv files to the same archive.
 
         .. warning::
                 If a file already exists in the archive, it will be overwritten.
         `Args:`
             archive_path: str
-                The path to zip achive.If not specified, a temporary file will be created and
+                The path to zip achive. If not specified, a temporary file will be created and
                 returned, and that file will be removed automatically when the script is done
                 running.
             csv_name: str
@@ -337,7 +337,8 @@ class ToFrom(object):
             aws_secret_access_key: str
                 Required if not included as environmental variable
             compression: str
-                The compression type for the s3 object. Currently "None", "gzip" are supported.
+                The compression type for the s3 object. Currently "None", "zip" and "gzip" are
+                supported.
             encoding: str
                 The CSV encoding type for `csv.writer()
                 <https://docs.python.org/2/library/csv.html#csv.writer/>`_

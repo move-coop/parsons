@@ -213,7 +213,7 @@ class ToFrom(object):
         if not csv_name:
             csv_name = files.extract_file_name(archive_path) + '.csv'
 
-        return zip_archive.create_archive(archive_path, cf, file_name=csv_name, 
+        return zip_archive.create_archive(archive_path, cf, file_name=csv_name,
                                           if_exists=if_exists)
 
     def to_json(self, local_path=None, temp_file_compression=None, line_delimited=False):

@@ -133,3 +133,31 @@ def string_to_temp_file(string, suffix=None):
         f.write(string)
 
     return temp_file_path
+
+
+def zip_check(file_path, compression_type):
+    """
+    Check if the file suffix or the compression type indicates that it is
+    a zip file.
+    """
+
+    if file_path:
+        if file_path.split('/')[-1].split('.')[-1] == 'zip':
+            return True
+
+    if compression_type == 'zip':
+        return True
+
+    else:
+        return False
+
+
+def extract_file_name(file_path=None):
+    """
+    Extract the file name without the suffix from a file path string.
+    """
+
+    if not file_path:
+        return None
+
+    return file_path.split('/')[-1].split('.')[0]

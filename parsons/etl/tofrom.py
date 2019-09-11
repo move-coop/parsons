@@ -2,7 +2,7 @@ import petl
 import json
 import io
 import gzip
-from parsons.utilities import files
+from parsons.utilities import files, zip_archive
 
 
 class ToFrom(object):
@@ -85,9 +85,9 @@ class ToFrom(object):
     def to_csv(self, local_path=None, temp_file_compression=None, encoding=None, errors='strict',
                write_header=True, **csvargs):
         """
-        Outputs table to a CSV. Additional additional key word arguments
-        are passed to ``csv.writer()``. So, e.g., to override the delimiter
-        from the default CSV dialect, provide the delimiter keyword argument.
+        Outputs table to a CSV. Additional key word arguments are passed to ``csv.writer()``. So,
+        e.g., to override the delimiter from the default CSV dialect, provide the delimiter
+        keyword argument.
 
         .. warning::
                 If a file already exists at the given location, it will be
@@ -95,12 +95,12 @@ class ToFrom(object):
 
         `Args:`
             local_path: str
-                The path to write the csv locally. If it ends in ".gz", the file will be
+                The path to write the csv locally. If it ends in ".gz" or ".zip", the file will be
                 compressed. If not specified, a temporary file will be created and returned,
                 and that file will be removed automatically when the script is done running.
             temp_file_compression: str
                 If a temp file is requested (ie. no ``local_path`` is specified), the compression
-                type for that file. Currently "None" and "gzip" are supported.
+                type for that file. Currently "None", "gzip" or "zip" are supported.
                 If a ``local_path`` is specified, this argument is ignored.
             encoding: str
                 The CSV encoding type for `csv.writer()
@@ -117,10 +117,18 @@ class ToFrom(object):
                 The path of the new file
         """
 
+        if files.zip_check(local_path, temp_file_compression):
+            return self.to_zip_csv(archive_path=local_path,
+                                   encoding=encoding,
+                                   errors=errors,
+                                   write_header=write_header,
+                                   **csvargs)
+
         if not local_path:
             suffix = '.csv' + files.suffix_for_compression_type(temp_file_compression)
             local_path = files.create_temp_file(suffix=suffix)
 
+        # Create normal csv/.gzip
         petl.tocsv(self.table,
                    source=local_path,
                    encoding=encoding,
@@ -161,6 +169,52 @@ class ToFrom(object):
                        errors=errors,
                        **csvargs)
         return local_path
+
+    def to_zip_csv(self, archive_path=None, csv_name=None, encoding=None,
+                   errors='strict', write_header=True, if_exists='replace', **csvargs):
+        """
+        Outputs table to a CSV in a zip archive. Additional key word arguments are passed to
+        ``csv.writer()``. So, e.g., to override the delimiter from the default CSV dialect,
+        provide the delimiter keyword argument. Use thismethod if you would like to write
+        multiple csv files to the same archive.
+
+        .. warning::
+                If a file already exists in the archive, it will be overwritten.
+        `Args:`
+            archive_path: str
+                The path to zip achive. If not specified, a temporary file will be created and
+                returned, and that file will be removed automatically when the script is done
+                running.
+            csv_name: str
+                The name of the csv file to be stored in the archive. If ``None`` will use
+                the archive name.
+            encoding: str
+                The CSV encoding type for `csv.writer()
+                <https://docs.python.org/2/library/csv.html#csv.writer/>`_
+            errors: str
+                Raise an Error if encountered
+            write_header: boolean
+                Include header in output
+            if_exists: str
+                If archive already exists, one of 'replace' or 'append'
+            **csvargs: kwargs
+                ``csv_writer`` optional arguments
+
+        `Returns:`
+            str
+                The path of the archive
+        """
+
+        if not archive_path:
+            archive_path = files.create_temp_file(suffix='.zip')
+
+        cf = self.to_csv(encoding=encoding, errors=errors, write_header=write_header, **csvargs)
+
+        if not csv_name:
+            csv_name = files.extract_file_name(archive_path) + '.csv'
+
+        return zip_archive.create_archive(archive_path, cf, file_name=csv_name,
+                                          if_exists=if_exists)
 
     def to_json(self, local_path=None, temp_file_compression=None, line_delimited=False):
         """
@@ -284,7 +338,8 @@ class ToFrom(object):
             aws_secret_access_key: str
                 Required if not included as environmental variable
             compression: str
-                The compression type for the s3 object. Currently "None" and "gzip" are supported.
+                The compression type for the s3 object. Currently "None", "zip" and "gzip" are
+                supported.
             encoding: str
                 The CSV encoding type for `csv.writer()
                 <https://docs.python.org/2/library/csv.html#csv.writer/>`_

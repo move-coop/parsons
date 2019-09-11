@@ -22,6 +22,7 @@ from parsons.action_kit.action_kit import ActionKit
 from parsons.geocode.census_geocoder import CensusGeocoder
 from parsons.airtable.airtable import Airtable
 from parsons.copper.copper import Copper
+from parsons.crowdtangle.crowdtangle import CrowdTangle
 
 __all__ = [
     'VAN',
@@ -45,7 +46,8 @@ __all__ = [
     'ActionKit',
     'CensusGeocoder',
     'Airtable',
-    'Copper'
+    'Copper',
+    'CrowdTangle'
     ]
 
 # Define the default logging config for Parsons and its submodules. For now the

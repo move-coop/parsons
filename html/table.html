@@ -194,53 +194,6 @@
 <p>Most methods and functions in Parsons return a <code class="docutils literal notranslate"><span class="pre">Table</span></code>, which is a 2D list-like object. (It’s similar to a pandas DataFrame, if you are familiar with that). You can call the following methods on the returned object to output it into a variety of formats or storage types. (For a full list of <code class="docutils literal notranslate"><span class="pre">Table</span></code> methods, scroll down to the class documentation.)</p>
 <div class="section" id="from-parsons-table">
 <h3>From Parsons Table<a class="headerlink" href="#from-parsons-table" title="Permalink to this headline">¶</a></h3>
-<table border="1" class="colwidths-given docutils">
-<colgroup>
-<col width="25%" />
-<col width="25%" />
-<col width="50%" />
-</colgroup>
-<thead valign="bottom">
-<tr class="row-odd"><th class="head">Method</th>
-<th class="head">Destination Type</th>
-<th class="head">Description</th>
-</tr>
-</thead>
-<tbody valign="top">
-<tr class="row-even"><td><code class="docutils literal notranslate"><span class="pre">.to_dataframe()</span></code></td>
-<td>Dataframe</td>
-<td>Return a Pandas dataframe</td>
-</tr>
-<tr class="row-odd"><td><code class="docutils literal notranslate"><span class="pre">.to_csv()</span></code></td>
-<td>CSV File</td>
-<td>Write a table to a local CSV file</td>
-</tr>
-<tr class="row-even"><td><code class="docutils literal notranslate"><span class="pre">.to_s3_csv()</span></code></td>
-<td>AWS s3 Bucket</td>
-<td>A csv written to an s3 bucket</td>
-</tr>
-<tr class="row-odd"><td><code class="docutils literal notranslate"><span class="pre">.to_redshift()</span></code></td>
-<td>A Redshift Database</td>
-<td>Write a table to a Redshift database</td>
-</tr>
-<tr class="row-even"><td><code class="docutils literal notranslate"><span class="pre">.to_civis()</span></code></td>
-<td>Civis Redshift Database</td>
-<td>Write table to a Civis Redshift Database using Civis Client</td>
-</tr>
-<tr class="row-odd"><td><code class="docutils literal notranslate"><span class="pre">.to_petl()</span></code></td>
-<td>Petl table object</td>
-<td>Return a Petl table object</td>
-</tr>
-<tr class="row-even"><td><code class="docutils literal notranslate"><span class="pre">.to_json()</span></code></td>
-<td>JSON file</td>
-<td>Write a table to a local JSON file</td>
-</tr>
-<tr class="row-odd"><td><code class="docutils literal notranslate"><span class="pre">.to_html()</span></code></td>
-<td>HTML formatted table</td>
-<td>Write a table to a local html file</td>
-</tr>
-</tbody>
-</table>
 </div>
 <div class="section" id="to-parsons-table">
 <h3>To Parsons Table<a class="headerlink" href="#to-parsons-table" title="Permalink to this headline">¶</a></h3>
@@ -460,9 +413,9 @@ is done running.</dd>
 <dl class="method">
 <dt id="parsons.etl.tofrom.ToFrom.to_csv">
 <code class="descname">to_csv</code><span class="sig-paren">(</span><em>local_path=None</em>, <em>temp_file_compression=None</em>, <em>encoding=None</em>, <em>errors='strict'</em>, <em>write_header=True</em>, <em>**csvargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/etl/tofrom.html#ToFrom.to_csv"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.etl.tofrom.ToFrom.to_csv" title="Permalink to this definition">¶</a></dt>
-<dd><p>Outputs table to a CSV. Additional additional key word arguments
-are passed to <code class="docutils literal notranslate"><span class="pre">csv.writer()</span></code>. So, e.g., to override the delimiter
-from the default CSV dialect, provide the delimiter keyword argument.</p>
+<dd><p>Outputs table to a CSV. Additional key word arguments are passed to <code class="docutils literal notranslate"><span class="pre">csv.writer()</span></code>. So,
+e.g., to override the delimiter from the default CSV dialect, provide the delimiter
+keyword argument.</p>
 <div class="admonition warning">
 <p class="first admonition-title">Warning</p>
 <p class="last">If a file already exists at the given location, it will be
@@ -472,12 +425,12 @@ overwritten.</p>
 <dt><cite>Args:</cite></dt>
 <dd><dl class="first last docutils">
 <dt>local_path: str</dt>
-<dd>The path to write the csv locally. If it ends in “.gz”, the file will be
+<dd>The path to write the csv locally. If it ends in “.gz” or “.zip”, the file will be
 compressed. If not specified, a temporary file will be created and returned,
 and that file will be removed automatically when the script is done running.</dd>
 <dt>temp_file_compression: str</dt>
 <dd>If a temp file is requested (ie. no <code class="docutils literal notranslate"><span class="pre">local_path</span></code> is specified), the compression
-type for that file. Currently “None” and “gzip” are supported.
+type for that file. Currently “None”, “gzip” or “zip” are supported.
 If a <code class="docutils literal notranslate"><span class="pre">local_path</span></code> is specified, this argument is ignored.</dd>
 <dt>encoding: str</dt>
 <dd>The CSV encoding type for <a class="reference external" href="https://docs.python.org/2/library/csv.html#csv.writer/">csv.writer()</a></dd>
@@ -523,6 +476,48 @@ be compressed.</dd>
 <dd><dl class="first last docutils">
 <dt>str</dt>
 <dd>The path of the file</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="parsons.etl.tofrom.ToFrom.to_zip_csv">
+<code class="descname">to_zip_csv</code><span class="sig-paren">(</span><em>archive_path=None</em>, <em>csv_name=None</em>, <em>encoding=None</em>, <em>errors='strict'</em>, <em>write_header=True</em>, <em>if_exists='replace'</em>, <em>**csvargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/etl/tofrom.html#ToFrom.to_zip_csv"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.etl.tofrom.ToFrom.to_zip_csv" title="Permalink to this definition">¶</a></dt>
+<dd><p>Outputs table to a CSV in a zip archive. Additional key word arguments are passed to
+<code class="docutils literal notranslate"><span class="pre">csv.writer()</span></code>. So, e.g., to override the delimiter from the default CSV dialect,
+provide the delimiter keyword argument. Use thismethod if you would like to write
+multiple csv files to the same archive.</p>
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p class="last">If a file already exists in the archive, it will be overwritten.</p>
+</div>
+<dl class="docutils">
+<dt><cite>Args:</cite></dt>
+<dd><dl class="first last docutils">
+<dt>archive_path: str</dt>
+<dd>The path to zip achive. If not specified, a temporary file will be created and
+returned, and that file will be removed automatically when the script is done
+running.</dd>
+<dt>csv_name: str</dt>
+<dd>The name of the csv file to be stored in the archive. If <code class="docutils literal notranslate"><span class="pre">None</span></code> will use
+the archive name.</dd>
+<dt>encoding: str</dt>
+<dd>The CSV encoding type for <a class="reference external" href="https://docs.python.org/2/library/csv.html#csv.writer/">csv.writer()</a></dd>
+<dt>errors: str</dt>
+<dd>Raise an Error if encountered</dd>
+<dt>write_header: boolean</dt>
+<dd>Include header in output</dd>
+<dt>if_exists: str</dt>
+<dd>If archive already exists, one of ‘replace’ or ‘append’</dd>
+<dt><a href="#id10"><span class="problematic" id="id11">**</span></a>csvargs: kwargs</dt>
+<dd><code class="docutils literal notranslate"><span class="pre">csv_writer</span></code> optional arguments</dd>
+</dl>
+</dd>
+<dt><cite>Returns:</cite></dt>
+<dd><dl class="first last docutils">
+<dt>str</dt>
+<dd>The path of the archive</dd>
 </dl>
 </dd>
 </dl>
@@ -595,7 +590,7 @@ JSON file.</dd>
 <dd>Raise an Error if encountered</dd>
 <dt>write_header: boolean</dt>
 <dd>Include header in output</dd>
-<dt><a href="#id10"><span class="problematic" id="id11">**</span></a>csvargs: kwargs</dt>
+<dt><a href="#id13"><span class="problematic" id="id14">**</span></a>csvargs: kwargs</dt>
 <dd><code class="docutils literal notranslate"><span class="pre">csv_writer</span></code> optional arguments</dd>
 </dl>
 </dd>
@@ -618,14 +613,15 @@ JSON file.</dd>
 <dt>aws_secret_access_key: str</dt>
 <dd>Required if not included as environmental variable</dd>
 <dt>compression: str</dt>
-<dd>The compression type for the s3 object. Currently “None” and “gzip” are supported.</dd>
+<dd>The compression type for the s3 object. Currently “None”, “zip” and “gzip” are
+supported.</dd>
 <dt>encoding: str</dt>
 <dd>The CSV encoding type for <a class="reference external" href="https://docs.python.org/2/library/csv.html#csv.writer/">csv.writer()</a></dd>
 <dt>errors: str</dt>
 <dd>Raise an Error if encountered</dd>
 <dt>write_header: boolean</dt>
 <dd>Include header in output</dd>
-<dt><a href="#id13"><span class="problematic" id="id14">**</span></a>csvargs: kwargs</dt>
+<dt><a href="#id16"><span class="problematic" id="id17">**</span></a>csvargs: kwargs</dt>
 <dd><code class="docutils literal notranslate"><span class="pre">csv_writer</span></code> optional arguments</dd>
 </dl>
 </dd>
@@ -650,7 +646,7 @@ AWS S3 credentials or store them as environmental variables.</p>
 <dd>Required if env variable <code class="docutils literal notranslate"><span class="pre">REDSHIFT_DB</span></code> not populated</dd>
 <dt>port: int</dt>
 <dd>Required if env variable <code class="docutils literal notranslate"><span class="pre">REDSHIFT_PORT</span></code> not populated. Port 5439 is typical.</dd>
-<dt><a href="#id15"><span class="problematic" id="id16">**</span></a>copy_args: kwargs</dt>
+<dt><a href="#id18"><span class="problematic" id="id19">**</span></a>copy_args: kwargs</dt>
 <dd>See <code class="xref py py-func docutils literal notranslate"><span class="pre">copy`()</span></code> for options.</dd>
 </dl>
 </dd>
@@ -709,7 +705,7 @@ Defaults to <cite>‘fail’</cite>.</dd>
 <dt>local_path: obj</dt>
 <dd>A csv formatted local path, url or ftp. If this is a
 file path that ends in “.gz”, the file will be decompressed first.</dd>
-<dt><a href="#id17"><span class="problematic" id="id18">**</span></a>csvargs: kwargs</dt>
+<dt><a href="#id20"><span class="problematic" id="id21">**</span></a>csvargs: kwargs</dt>
 <dd><code class="docutils literal notranslate"><span class="pre">csv_reader</span></code> optional arguments</dd>
 </dl>
 </dd>
@@ -860,7 +856,7 @@ JSON file.</dd>
 <dl class="docutils">
 <dt><cite>Args:</cite></dt>
 <dd><dl class="first last docutils">
-<dt><a href="#id19"><span class="problematic" id="id20">*</span></a>columns: str</dt>
+<dt><a href="#id22"><span class="problematic" id="id23">*</span></a>columns: str</dt>
 <dd>Column names</dd>
 </dl>
 </dd>
@@ -950,9 +946,9 @@ method. Example usage can be found <cite>here</cite> &lt;<a class="reference ext
 <dl class="docutils">
 <dt><cite>Args:</cite></dt>
 <dd><dl class="first last docutils">
-<dt><a href="#id21"><span class="problematic" id="id22">*</span></a>column: str</dt>
+<dt><a href="#id24"><span class="problematic" id="id25">*</span></a>column: str</dt>
 <dd>A single column or multiple columns passed as a list</dd>
-<dt><a href="#id23"><span class="problematic" id="id24">**</span></a>kwargs: str, method or variable</dt>
+<dt><a href="#id26"><span class="problematic" id="id27">**</span></a>kwargs: str, method or variable</dt>
 <dd>The update function, method, or variable to process the update</dd>
 </dl>
 </dd>
@@ -1044,7 +1040,7 @@ found <cite>here</cite> &lt;<a class="reference external" href="https://petl.rea
 <dl class="docutils">
 <dt><cite>Args:</cite></dt>
 <dd><dl class="first last docutils">
-<dt><a href="#id25"><span class="problematic" id="id26">*</span></a>args: str, method or variable</dt>
+<dt><a href="#id28"><span class="problematic" id="id29">*</span></a>args: str, method or variable</dt>
 <dd>The update function, method, or variable to process the update. Can also</dd>
 </dl>
 </dd>
@@ -1214,7 +1210,7 @@ set to column name.</dd>
 <dl class="docutils">
 <dt><cite>Args:</cite></dt>
 <dd><dl class="first last docutils">
-<dt><a href="#id27"><span class="problematic" id="id28">*</span></a>columns: str</dt>
+<dt><a href="#id30"><span class="problematic" id="id31">*</span></a>columns: str</dt>
 <dd>Columns in the parsons table</dd>
 </dl>
 </dd>
@@ -1249,7 +1245,7 @@ tbl3
 </div></blockquote>
 <dl class="docutils">
 <dt><cite>Args:</cite></dt>
-<dd><a href="#id29"><span class="problematic" id="id30">*</span></a>filters: function or str</dd>
+<dd><a href="#id32"><span class="problematic" id="id33">*</span></a>filters: function or str</dd>
 <dt><cite>Returns:</cite></dt>
 <dd>A new parsons table containing the selected rows</dd>
 </dl>

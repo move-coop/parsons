@@ -172,7 +172,7 @@
 <span class="kn">import</span> <span class="nn">json</span>
 <span class="kn">import</span> <span class="nn">io</span>
 <span class="kn">import</span> <span class="nn">gzip</span>
-<span class="kn">from</span> <span class="nn">parsons.utilities</span> <span class="k">import</span> <span class="n">files</span>
+<span class="kn">from</span> <span class="nn">parsons.utilities</span> <span class="k">import</span> <span class="n">files</span><span class="p">,</span> <span class="n">zip_archive</span>
 
 
 <div class="viewcode-block" id="ToFrom"><a class="viewcode-back" href="../../../table.html#parsons.etl.tofrom.ToFrom">[docs]</a><span class="k">class</span> <span class="nc">ToFrom</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
@@ -255,9 +255,9 @@
 <div class="viewcode-block" id="ToFrom.to_csv"><a class="viewcode-back" href="../../../table.html#parsons.etl.tofrom.ToFrom.to_csv">[docs]</a>    <span class="k">def</span> <span class="nf">to_csv</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">local_path</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">temp_file_compression</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">errors</span><span class="o">=</span><span class="s1">&#39;strict&#39;</span><span class="p">,</span>
                <span class="n">write_header</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="o">**</span><span class="n">csvargs</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Outputs table to a CSV. Additional additional key word arguments</span>
-<span class="sd">        are passed to ``csv.writer()``. So, e.g., to override the delimiter</span>
-<span class="sd">        from the default CSV dialect, provide the delimiter keyword argument.</span>
+<span class="sd">        Outputs table to a CSV. Additional key word arguments are passed to ``csv.writer()``. So,</span>
+<span class="sd">        e.g., to override the delimiter from the default CSV dialect, provide the delimiter</span>
+<span class="sd">        keyword argument.</span>
 
 <span class="sd">        .. warning::</span>
 <span class="sd">                If a file already exists at the given location, it will be</span>
@@ -265,12 +265,12 @@
 
 <span class="sd">        `Args:`</span>
 <span class="sd">            local_path: str</span>
-<span class="sd">                The path to write the csv locally. If it ends in &quot;.gz&quot;, the file will be</span>
+<span class="sd">                The path to write the csv locally. If it ends in &quot;.gz&quot; or &quot;.zip&quot;, the file will be</span>
 <span class="sd">                compressed. If not specified, a temporary file will be created and returned,</span>
 <span class="sd">                and that file will be removed automatically when the script is done running.</span>
 <span class="sd">            temp_file_compression: str</span>
 <span class="sd">                If a temp file is requested (ie. no ``local_path`` is specified), the compression</span>
-<span class="sd">                type for that file. Currently &quot;None&quot; and &quot;gzip&quot; are supported.</span>
+<span class="sd">                type for that file. Currently &quot;None&quot;, &quot;gzip&quot; or &quot;zip&quot; are supported.</span>
 <span class="sd">                If a ``local_path`` is specified, this argument is ignored.</span>
 <span class="sd">            encoding: str</span>
 <span class="sd">                The CSV encoding type for `csv.writer()</span>
@@ -287,10 +287,18 @@
 <span class="sd">                The path of the new file</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
+        <span class="k">if</span> <span class="n">files</span><span class="o">.</span><span class="n">zip_check</span><span class="p">(</span><span class="n">local_path</span><span class="p">,</span> <span class="n">temp_file_compression</span><span class="p">):</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">to_zip_csv</span><span class="p">(</span><span class="n">archive_path</span><span class="o">=</span><span class="n">local_path</span><span class="p">,</span>
+                                   <span class="n">encoding</span><span class="o">=</span><span class="n">encoding</span><span class="p">,</span>
+                                   <span class="n">errors</span><span class="o">=</span><span class="n">errors</span><span class="p">,</span>
+                                   <span class="n">write_header</span><span class="o">=</span><span class="n">write_header</span><span class="p">,</span>
+                                   <span class="o">**</span><span class="n">csvargs</span><span class="p">)</span>
+
         <span class="k">if</span> <span class="ow">not</span> <span class="n">local_path</span><span class="p">:</span>
             <span class="n">suffix</span> <span class="o">=</span> <span class="s1">&#39;.csv&#39;</span> <span class="o">+</span> <span class="n">files</span><span class="o">.</span><span class="n">suffix_for_compression_type</span><span class="p">(</span><span class="n">temp_file_compression</span><span class="p">)</span>
             <span class="n">local_path</span> <span class="o">=</span> <span class="n">files</span><span class="o">.</span><span class="n">create_temp_file</span><span class="p">(</span><span class="n">suffix</span><span class="o">=</span><span class="n">suffix</span><span class="p">)</span>
 
+        <span class="c1"># Create normal csv/.gzip</span>
         <span class="n">petl</span><span class="o">.</span><span class="n">tocsv</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">table</span><span class="p">,</span>
                    <span class="n">source</span><span class="o">=</span><span class="n">local_path</span><span class="p">,</span>
                    <span class="n">encoding</span><span class="o">=</span><span class="n">encoding</span><span class="p">,</span>
@@ -331,6 +339,52 @@
                        <span class="n">errors</span><span class="o">=</span><span class="n">errors</span><span class="p">,</span>
                        <span class="o">**</span><span class="n">csvargs</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">local_path</span></div>
+
+<div class="viewcode-block" id="ToFrom.to_zip_csv"><a class="viewcode-back" href="../../../table.html#parsons.etl.tofrom.ToFrom.to_zip_csv">[docs]</a>    <span class="k">def</span> <span class="nf">to_zip_csv</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">archive_path</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">csv_name</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                   <span class="n">errors</span><span class="o">=</span><span class="s1">&#39;strict&#39;</span><span class="p">,</span> <span class="n">write_header</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">if_exists</span><span class="o">=</span><span class="s1">&#39;replace&#39;</span><span class="p">,</span> <span class="o">**</span><span class="n">csvargs</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Outputs table to a CSV in a zip archive. Additional key word arguments are passed to</span>
+<span class="sd">        ``csv.writer()``. So, e.g., to override the delimiter from the default CSV dialect,</span>
+<span class="sd">        provide the delimiter keyword argument. Use thismethod if you would like to write</span>
+<span class="sd">        multiple csv files to the same archive.</span>
+
+<span class="sd">        .. warning::</span>
+<span class="sd">                If a file already exists in the archive, it will be overwritten.</span>
+<span class="sd">        `Args:`</span>
+<span class="sd">            archive_path: str</span>
+<span class="sd">                The path to zip achive. If not specified, a temporary file will be created and</span>
+<span class="sd">                returned, and that file will be removed automatically when the script is done</span>
+<span class="sd">                running.</span>
+<span class="sd">            csv_name: str</span>
+<span class="sd">                The name of the csv file to be stored in the archive. If ``None`` will use</span>
+<span class="sd">                the archive name.</span>
+<span class="sd">            encoding: str</span>
+<span class="sd">                The CSV encoding type for `csv.writer()</span>
+<span class="sd">                &lt;https://docs.python.org/2/library/csv.html#csv.writer/&gt;`_</span>
+<span class="sd">            errors: str</span>
+<span class="sd">                Raise an Error if encountered</span>
+<span class="sd">            write_header: boolean</span>
+<span class="sd">                Include header in output</span>
+<span class="sd">            if_exists: str</span>
+<span class="sd">                If archive already exists, one of &#39;replace&#39; or &#39;append&#39;</span>
+<span class="sd">            **csvargs: kwargs</span>
+<span class="sd">                ``csv_writer`` optional arguments</span>
+
+<span class="sd">        `Returns:`</span>
+<span class="sd">            str</span>
+<span class="sd">                The path of the archive</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">archive_path</span><span class="p">:</span>
+            <span class="n">archive_path</span> <span class="o">=</span> <span class="n">files</span><span class="o">.</span><span class="n">create_temp_file</span><span class="p">(</span><span class="n">suffix</span><span class="o">=</span><span class="s1">&#39;.zip&#39;</span><span class="p">)</span>
+
+        <span class="n">cf</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="n">encoding</span><span class="o">=</span><span class="n">encoding</span><span class="p">,</span> <span class="n">errors</span><span class="o">=</span><span class="n">errors</span><span class="p">,</span> <span class="n">write_header</span><span class="o">=</span><span class="n">write_header</span><span class="p">,</span> <span class="o">**</span><span class="n">csvargs</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">csv_name</span><span class="p">:</span>
+            <span class="n">csv_name</span> <span class="o">=</span> <span class="n">files</span><span class="o">.</span><span class="n">extract_file_name</span><span class="p">(</span><span class="n">archive_path</span><span class="p">)</span> <span class="o">+</span> <span class="s1">&#39;.csv&#39;</span>
+
+        <span class="k">return</span> <span class="n">zip_archive</span><span class="o">.</span><span class="n">create_archive</span><span class="p">(</span><span class="n">archive_path</span><span class="p">,</span> <span class="n">cf</span><span class="p">,</span> <span class="n">file_name</span><span class="o">=</span><span class="n">csv_name</span><span class="p">,</span>
+                                          <span class="n">if_exists</span><span class="o">=</span><span class="n">if_exists</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="ToFrom.to_json"><a class="viewcode-back" href="../../../table.html#parsons.etl.tofrom.ToFrom.to_json">[docs]</a>    <span class="k">def</span> <span class="nf">to_json</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">local_path</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">temp_file_compression</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">line_delimited</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
@@ -453,7 +507,8 @@
 <span class="sd">            aws_secret_access_key: str</span>
 <span class="sd">                Required if not included as environmental variable</span>
 <span class="sd">            compression: str</span>
-<span class="sd">                The compression type for the s3 object. Currently &quot;None&quot; and &quot;gzip&quot; are supported.</span>
+<span class="sd">                The compression type for the s3 object. Currently &quot;None&quot;, &quot;zip&quot; and &quot;gzip&quot; are</span>
+<span class="sd">                supported.</span>
 <span class="sd">            encoding: str</span>
 <span class="sd">                The CSV encoding type for `csv.writer()</span>
 <span class="sd">                &lt;https://docs.python.org/2/library/csv.html#csv.writer/&gt;`_</span>

@@ -1,0 +1,436 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>parsons.crowdtangle.crowdtangle &mdash; Parsons 0.5 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+
+  
+  <script src="../../../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../../../index.html" class="icon icon-home"> Parsons
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Integrations</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../action_kit.html">ActionKit</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../airtable.html">Airtable</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../civis.html">Civis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../copper.html">Copper</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../crowdtangle.html">CrowdTangle</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../facebook_ads.html">FacebookAds</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../google_sheets.html">GoogleSheets</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../google_cloud.html">Google Cloud</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../mobile_commons.html">Mobile Commons</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../mobilize_america.html">Mobilize America</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../ngpvan.html">VAN</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../p2a.html">Phone2Action</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../redshift.html">Redshift</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../s3.html">S3</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../sftp.html">SFTP</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../ts.html">TargetSmart</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../turbovote.html">TurboVote</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Enhancements</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../google_civic.html">Google Civic</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../census_geocoder.html">US Census Geocoder</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Framework</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../table.html">Parsons Table</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../notifications.html">Notifications</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">Parsons</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../../index.html">Module code</a> &raquo;</li>
+        
+      <li>parsons.crowdtangle.crowdtangle</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for parsons.crowdtangle.crowdtangle</h1><div class="highlight"><pre>
+<span></span><span class="kn">from</span> <span class="nn">requests</span> <span class="k">import</span> <span class="n">request</span>
+<span class="kn">import</span> <span class="nn">time</span>
+<span class="kn">from</span> <span class="nn">parsons</span> <span class="k">import</span> <span class="n">Table</span>
+<span class="kn">from</span> <span class="nn">parsons.utilities</span> <span class="k">import</span> <span class="n">check_env</span>
+<span class="kn">import</span> <span class="nn">logging</span>
+
+<span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
+
+<span class="n">CT_URI</span> <span class="o">=</span> <span class="s2">&quot;https://api.crowdtangle.com/&quot;</span>
+<span class="n">PAGE_SIZE</span> <span class="o">=</span> <span class="mi">100</span>
+<span class="n">REQUEST_SLEEP</span> <span class="o">=</span> <span class="mi">10</span>  <span class="c1"># CT has a rather agressive 6 requests per minute rate limit.</span>
+
+
+<div class="viewcode-block" id="CrowdTangle"><a class="viewcode-back" href="../../../crowdtangle.html#parsons.CrowdTangle">[docs]</a><span class="k">class</span> <span class="nc">CrowdTangle</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Instantiate CrowdTangle Class</span>
+
+<span class="sd">    `Args:`</span>
+<span class="sd">        api_key: str</span>
+<span class="sd">            A valid CrowdTangle API key. Not required if ``CROWDTANGLE_API_KEY`` env</span>
+<span class="sd">            variable set.</span>
+<span class="sd">    `Returns:`</span>
+<span class="sd">        CrowdTangle Class</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">api_key</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">api_key</span> <span class="o">=</span> <span class="n">check_env</span><span class="o">.</span><span class="n">check</span><span class="p">(</span><span class="s1">&#39;CT_API_KEY&#39;</span><span class="p">,</span> <span class="n">api_key</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">uri</span> <span class="o">=</span> <span class="n">CT_URI</span>
+
+    <span class="k">def</span> <span class="nf">base_request</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">endpoint</span><span class="p">,</span> <span class="n">req_type</span><span class="o">=</span><span class="s1">&#39;GET&#39;</span><span class="p">,</span> <span class="n">args</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="c1"># Internal Request Method</span>
+
+        <span class="n">url</span> <span class="o">=</span> <span class="n">f</span><span class="s1">&#39;</span><span class="si">{self.uri}</span><span class="s1">/</span><span class="si">{endpoint}</span><span class="s1">&#39;</span>
+        <span class="n">base_args</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;token&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">api_key</span><span class="p">,</span>
+                     <span class="s1">&#39;count&#39;</span><span class="p">:</span> <span class="n">PAGE_SIZE</span><span class="p">}</span>
+
+        <span class="c1"># Add any args passed through to the base args</span>
+        <span class="k">if</span> <span class="n">args</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">base_args</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">args</span><span class="p">)</span>
+
+        <span class="n">r</span> <span class="o">=</span> <span class="n">request</span><span class="p">(</span><span class="n">req_type</span><span class="p">,</span> <span class="n">url</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="n">base_args</span><span class="p">)</span><span class="o">.</span><span class="n">json</span><span class="p">()</span>
+        <span class="n">json</span> <span class="o">=</span> <span class="n">r</span><span class="p">[</span><span class="s1">&#39;result&#39;</span><span class="p">]</span>
+        <span class="n">keys</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">json</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="n">json</span><span class="p">[</span><span class="n">keys</span><span class="p">[</span><span class="mi">0</span><span class="p">]]</span>
+
+        <span class="k">while</span> <span class="s1">&#39;nextPage&#39;</span> <span class="ow">in</span> <span class="nb">list</span><span class="p">(</span><span class="n">json</span><span class="p">[</span><span class="s1">&#39;pagination&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">keys</span><span class="p">()):</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="n">f</span><span class="s2">&quot;Retrieving </span><span class="si">{PAGE_SIZE}</span><span class="s2"> rows.&quot;</span><span class="p">)</span>
+            <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="n">REQUEST_SLEEP</span><span class="p">)</span>
+            <span class="n">next_url</span> <span class="o">=</span> <span class="n">json</span><span class="p">[</span><span class="s1">&#39;pagination&#39;</span><span class="p">][</span><span class="s1">&#39;nextPage&#39;</span><span class="p">]</span>
+            <span class="n">r</span> <span class="o">=</span> <span class="n">request</span><span class="p">(</span><span class="n">req_type</span><span class="p">,</span> <span class="n">next_url</span><span class="p">)</span><span class="o">.</span><span class="n">json</span><span class="p">()</span>
+            <span class="n">json</span> <span class="o">=</span> <span class="n">r</span><span class="p">[</span><span class="s1">&#39;result&#39;</span><span class="p">]</span>
+            <span class="n">data</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">json</span><span class="p">[</span><span class="n">keys</span><span class="p">[</span><span class="mi">0</span><span class="p">]])</span>
+
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="n">f</span><span class="s2">&quot;Retrieved {len(data)} rows.&quot;</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">data</span>
+
+    <span class="k">def</span> <span class="nf">base_unpack</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ParsonsTable</span><span class="p">):</span>
+        <span class="c1"># Unpack base request</span>
+
+        <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;Working to unpack the Parsons Table...&quot;</span><span class="p">)</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="n">f</span><span class="s1">&#39;Starting with {len(ParsonsTable.columns)} columns...&#39;</span><span class="p">)</span>
+        <span class="n">sample</span> <span class="o">=</span> <span class="n">ParsonsTable</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+
+        <span class="n">col_dict</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">ParsonsTable</span><span class="o">.</span><span class="n">columns</span><span class="p">:</span>
+            <span class="n">col_dict</span><span class="p">[</span><span class="n">x</span><span class="p">]</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="n">sample</span><span class="p">[</span><span class="n">x</span><span class="p">]))</span>
+
+        <span class="k">for</span> <span class="n">col</span> <span class="ow">in</span> <span class="n">col_dict</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">col_dict</span><span class="p">[</span><span class="n">col</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;&lt;class &#39;dict&#39;&gt;&quot;</span><span class="p">:</span>
+                <span class="n">ParsonsTable</span><span class="o">.</span><span class="n">unpack_dict</span><span class="p">(</span><span class="n">col</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="n">col_dict</span><span class="p">[</span><span class="n">x</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;&lt;class &#39;list&#39;&gt;&quot;</span><span class="p">:</span>
+                <span class="n">ParsonsTable</span><span class="o">.</span><span class="n">unpack_list</span><span class="p">(</span><span class="n">col</span><span class="p">)</span>
+
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="n">f</span><span class="s1">&#39;There are now {len(ParsonsTable.columns)} columns...&#39;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">ParsonsTable</span>
+
+    <span class="k">def</span> <span class="nf">unpack</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ParsonsTable</span><span class="p">):</span>
+
+        <span class="k">if</span> <span class="n">ParsonsTable</span><span class="o">.</span><span class="n">num_rows</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">None</span>
+
+        <span class="n">first_count</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">ParsonsTable</span><span class="o">.</span><span class="n">columns</span><span class="p">)</span>
+        <span class="n">second_count</span> <span class="o">=</span> <span class="n">first_count</span> <span class="o">+</span> <span class="mi">1</span>
+
+        <span class="k">while</span> <span class="n">second_count</span> <span class="o">&gt;</span> <span class="n">first_count</span><span class="p">:</span>
+            <span class="n">first_count</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">ParsonsTable</span><span class="o">.</span><span class="n">columns</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">base_unpack</span><span class="p">(</span><span class="n">ParsonsTable</span><span class="p">)</span>
+            <span class="n">second_count</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">ParsonsTable</span><span class="o">.</span><span class="n">columns</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">ParsonsTable</span>
+
+<div class="viewcode-block" id="CrowdTangle.get_posts"><a class="viewcode-back" href="../../../crowdtangle.html#parsons.CrowdTangle.get_posts">[docs]</a>    <span class="k">def</span> <span class="nf">get_posts</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">start_date</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">end_date</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">language</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">list_ids</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                  <span class="n">min_interations</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">search_term</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">types</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Return advocates (person records).</span>
+
+<span class="sd">        `Args:`</span>
+<span class="sd">            start_date: Format is “yyyy-mm-ddThh:mm:ss”</span>
+<span class="sd">                The earliest date at which a post could be posted. Time zone is UTC.</span>
+<span class="sd">            end_date: Format is “yyyy-mm-ddThh:mm:ss”</span>
+<span class="sd">              The latest date at which a post could be posted. Time zone is UTC.</span>
+<span class="sd">            language: str</span>
+<span class="sd">                2-character Locale code</span>
+<span class="sd">                Exceptions: Some languages require more than two characters: Chinese</span>
+<span class="sd">                (Simplified) is zh-CN and Chinese (Traditional) is zh-TW.</span>
+<span class="sd">            list_ids: comma separated</span>
+<span class="sd">                The IDs of lists or saved searches to retrieve.</span>
+<span class="sd">                These can be separated by commas to include multiple lists.</span>
+<span class="sd">            min_interactions: int</span>
+<span class="sd">                If set, will exclude posts with total interactions below this threshold.</span>
+<span class="sd">            search_team: str</span>
+<span class="sd">                Returns only posts that match this search term. For multiple terms, separate</span>
+<span class="sd">                with commas for OR, use quotes for phrases.</span>
+<span class="sd">            types: str</span>
+<span class="sd">                episode, extra_clip, link, live_video, live_video_complete,</span>
+<span class="sd">                live_video_scheduled, native_video, photo, status, trailer,</span>
+<span class="sd">                tweet, video, vine, youtube	The types of post to include.</span>
+<span class="sd">                These can be separated by commas to include multiple types.</span>
+<span class="sd">                If you want all live videos (whether currently or formerly live),</span>
+<span class="sd">                be sure to include both live_video and live_video_complete.</span>
+<span class="sd">                The &quot;video&quot; type does not mean all videos, it refers to videos</span>
+<span class="sd">                that aren&#39;t native_video, youtube or vine (e.g. a video on Vimeo).</span>
+
+<span class="sd">        `Returns:`</span>
+<span class="sd">            Parsons Table</span>
+<span class="sd">                See :ref:`parsons-table` for output options.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">args</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;startDate&#39;</span><span class="p">:</span> <span class="n">start_date</span><span class="p">,</span>
+                <span class="s1">&#39;endDate&#39;</span><span class="p">:</span> <span class="n">end_date</span><span class="p">,</span>
+                <span class="s1">&#39;language&#39;</span><span class="p">:</span> <span class="n">language</span><span class="p">,</span>
+                <span class="s1">&#39;listIds&#39;</span><span class="p">:</span> <span class="n">list_ids</span><span class="p">,</span>
+                <span class="s1">&#39;minInteractions&#39;</span><span class="p">:</span> <span class="n">min_interations</span><span class="p">,</span>
+                <span class="s1">&#39;searchTerm&#39;</span><span class="p">:</span> <span class="n">search_term</span><span class="p">,</span>
+                <span class="s1">&#39;types&#39;</span><span class="p">:</span> <span class="n">types</span><span class="p">}</span>
+
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Retrieving posts.&quot;</span><span class="p">)</span>
+        <span class="n">pt</span> <span class="o">=</span> <span class="n">Table</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">base_request</span><span class="p">(</span><span class="s1">&#39;posts&#39;</span><span class="p">,</span> <span class="n">args</span><span class="o">=</span><span class="n">args</span><span class="p">))</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="n">f</span><span class="s1">&#39;Retrieved </span><span class="si">{pt.num_rows}</span><span class="s1"> posts.&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">unpack</span><span class="p">(</span><span class="n">pt</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">pt</span></div>
+
+<div class="viewcode-block" id="CrowdTangle.get_leaderboard"><a class="viewcode-back" href="../../../crowdtangle.html#parsons.CrowdTangle.get_leaderboard">[docs]</a>    <span class="k">def</span> <span class="nf">get_leaderboard</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">start_date</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">end_date</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">list_ids</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">account_ids</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Return advocates (person records).</span>
+
+<span class="sd">        `Args:`</span>
+<span class="sd">            start_date: Format is “yyyy-mm-ddThh:mm:ss”</span>
+<span class="sd">                The earliest date at which a post could be posted. Time zone is UTC.</span>
+<span class="sd">            end_date: Format is “yyyy-mm-ddThh:mm:ss”</span>
+<span class="sd">              The latest date at which a post could be posted. Time zone is UTC.</span>
+<span class="sd">            list_ids: comma separated</span>
+<span class="sd">                The IDs of lists or saved searches to retrieve.</span>
+<span class="sd">                These can be separated by commas to include multiple lists.</span>
+<span class="sd">            account_ids: comma separated</span>
+<span class="sd">                A list of CrowdTangle accountIds to retrieve leaderboard data for.</span>
+<span class="sd">                These should be provided comma-separated. This and listId are mutually</span>
+<span class="sd">                exclusive; if both are sent, accountIds will be preferred.</span>
+
+<span class="sd">        `Returns:`</span>
+<span class="sd">            Parsons Table</span>
+<span class="sd">                See :ref:`parsons-table` for output options.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">args</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;startDate&#39;</span><span class="p">:</span> <span class="n">start_date</span><span class="p">,</span>
+                <span class="s1">&#39;endDate&#39;</span><span class="p">:</span> <span class="n">end_date</span><span class="p">,</span>
+                <span class="s1">&#39;listIds&#39;</span><span class="p">:</span> <span class="n">list_ids</span><span class="p">,</span>
+                <span class="s1">&#39;accountIds&#39;</span><span class="p">:</span> <span class="n">account_ids</span><span class="p">}</span>
+
+        <span class="n">pt</span> <span class="o">=</span> <span class="n">Table</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">base_request</span><span class="p">(</span><span class="s1">&#39;leaderboard&#39;</span><span class="p">,</span> <span class="n">args</span><span class="o">=</span><span class="n">args</span><span class="p">))</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="n">f</span><span class="s1">&#39;Retrieved </span><span class="si">{pt.num_rows}</span><span class="s1"> records from the leaderbooard.&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">unpack</span><span class="p">(</span><span class="n">pt</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">pt</span></div>
+
+<div class="viewcode-block" id="CrowdTangle.get_links"><a class="viewcode-back" href="../../../crowdtangle.html#parsons.CrowdTangle.get_links">[docs]</a>    <span class="k">def</span> <span class="nf">get_links</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">link</span><span class="p">,</span> <span class="n">start_date</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">end_date</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">include_summary</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                  <span class="n">platforms</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Return posts based on a specific link.</span>
+
+<span class="sd">        `Args:`</span>
+<span class="sd">            link: string</span>
+<span class="sd">                The link to query by</span>
+<span class="sd">            start_date: Format is “yyyy-mm-ddThh:mm:ss”</span>
+<span class="sd">                The earliest date at which a post could be posted. Time zone is UTC.</span>
+<span class="sd">            end_date: Format is “yyyy-mm-ddThh:mm:ss”</span>
+<span class="sd">              The latest date at which a post could be posted. Time zone is UTC.</span>
+<span class="sd">            include_summary: &#39;true&#39;,&#39;false&#39;</span>
+<span class="sd">                Adds a &quot;summary&quot; section with AccountStatistics for each platform</span>
+<span class="sd">                that has posted this link. It will look beyond the count</span>
+<span class="sd">                requested to summarize across the time searched.</span>
+<span class="sd">                Requires a value for startDate.</span>
+<span class="sd">            platforms: comma separated</span>
+<span class="sd">                The platforms from which to retrieve links. This value can be comma-separated.</span>
+
+<span class="sd">        `Returns:`</span>
+<span class="sd">            Parsons Table</span>
+<span class="sd">                See :ref:`parsons-table` for output options.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">args</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;link&#39;</span><span class="p">:</span> <span class="n">link</span><span class="p">,</span>
+                <span class="s1">&#39;startDate&#39;</span><span class="p">:</span> <span class="n">start_date</span><span class="p">,</span>
+                <span class="s1">&#39;endDate&#39;</span><span class="p">:</span> <span class="n">end_date</span><span class="p">,</span>
+                <span class="s1">&#39;includeSummary&#39;</span><span class="p">:</span> <span class="n">include_summary</span><span class="p">,</span>
+                <span class="s1">&#39;platforms&#39;</span><span class="p">:</span> <span class="n">platforms</span><span class="p">}</span>
+
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Retrieving posts based on link.&quot;</span><span class="p">)</span>
+        <span class="n">pt</span> <span class="o">=</span> <span class="n">Table</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">base_request</span><span class="p">(</span><span class="s1">&#39;links&#39;</span><span class="p">,</span> <span class="n">args</span><span class="o">=</span><span class="n">args</span><span class="p">))</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="n">f</span><span class="s1">&#39;Retrieved </span><span class="si">{pt.num_rows}</span><span class="s1"> links.&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">unpack</span><span class="p">(</span><span class="n">pt</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">pt</span></div></div>
+</pre></div>
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2019, The Movement Cooperative
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../../../_static/jquery.js"></script>
+        <script type="text/javascript" src="../../../_static/underscore.js"></script>
+        <script type="text/javascript" src="../../../_static/doctools.js"></script>
+        <script type="text/javascript" src="../../../_static/language_data.js"></script>
+    
+
+  
+
+  <script type="text/javascript" src="../../../_static/js/theme.js"></script>
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

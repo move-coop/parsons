@@ -1,0 +1,369 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>CrowdTangle &mdash; Parsons 0.5 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="FacebookAds" href="facebook_ads.html" />
+    <link rel="prev" title="Copper" href="copper.html" /> 
+
+  
+  <script src="_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="index.html" class="icon icon-home"> Parsons
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Integrations</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="action_kit.html">ActionKit</a></li>
+<li class="toctree-l1"><a class="reference internal" href="airtable.html">Airtable</a></li>
+<li class="toctree-l1"><a class="reference internal" href="civis.html">Civis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="copper.html">Copper</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">CrowdTangle</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#overview">Overview</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#crowdtangle-class">CrowdTangle Class</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="facebook_ads.html">FacebookAds</a></li>
+<li class="toctree-l1"><a class="reference internal" href="google_sheets.html">GoogleSheets</a></li>
+<li class="toctree-l1"><a class="reference internal" href="google_cloud.html">Google Cloud</a></li>
+<li class="toctree-l1"><a class="reference internal" href="mobile_commons.html">Mobile Commons</a></li>
+<li class="toctree-l1"><a class="reference internal" href="mobilize_america.html">Mobilize America</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ngpvan.html">VAN</a></li>
+<li class="toctree-l1"><a class="reference internal" href="p2a.html">Phone2Action</a></li>
+<li class="toctree-l1"><a class="reference internal" href="redshift.html">Redshift</a></li>
+<li class="toctree-l1"><a class="reference internal" href="s3.html">S3</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sftp.html">SFTP</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ts.html">TargetSmart</a></li>
+<li class="toctree-l1"><a class="reference internal" href="turbovote.html">TurboVote</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Enhancements</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="google_civic.html">Google Civic</a></li>
+<li class="toctree-l1"><a class="reference internal" href="census_geocoder.html">US Census Geocoder</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Framework</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="table.html">Parsons Table</a></li>
+<li class="toctree-l1"><a class="reference internal" href="notifications.html">Notifications</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">Parsons</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html">Docs</a> &raquo;</li>
+        
+      <li>CrowdTangle</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="_sources/crowdtangle.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="crowdtangle">
+<h1>CrowdTangle<a class="headerlink" href="#crowdtangle" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="overview">
+<h2>Overview<a class="headerlink" href="#overview" title="Permalink to this headline">¶</a></h2>
+<p><a class="reference external" href="https://www.crowdtangle.com/">CrowdTangle</a> is a content monitoring and social monitoring platform. In order
+to access this API, you must have been issued a private API key.</p>
+</div>
+<div class="section" id="crowdtangle-class">
+<h2>CrowdTangle Class<a class="headerlink" href="#crowdtangle-class" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="parsons.CrowdTangle">
+<em class="property">class </em><code class="descclassname">parsons.</code><code class="descname">CrowdTangle</code><span class="sig-paren">(</span><em>api_key=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/crowdtangle/crowdtangle.html#CrowdTangle"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.CrowdTangle" title="Permalink to this definition">¶</a></dt>
+<dd><p>Instantiate CrowdTangle Class</p>
+<dl class="docutils">
+<dt><cite>Args:</cite></dt>
+<dd><dl class="first last docutils">
+<dt>api_key: str</dt>
+<dd>A valid CrowdTangle API key. Not required if <code class="docutils literal notranslate"><span class="pre">CROWDTANGLE_API_KEY</span></code> env
+variable set.</dd>
+</dl>
+</dd>
+<dt><cite>Returns:</cite></dt>
+<dd>CrowdTangle Class</dd>
+</dl>
+<dl class="method">
+<dt id="parsons.CrowdTangle.get_posts">
+<code class="descname">get_posts</code><span class="sig-paren">(</span><em>start_date=None</em>, <em>end_date=None</em>, <em>language=None</em>, <em>list_ids=None</em>, <em>min_interations=None</em>, <em>search_term=None</em>, <em>types=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/crowdtangle/crowdtangle.html#CrowdTangle.get_posts"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.CrowdTangle.get_posts" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return advocates (person records).</p>
+<dl class="docutils">
+<dt><cite>Args:</cite></dt>
+<dd><dl class="first last docutils">
+<dt>start_date: Format is “yyyy-mm-ddThh:mm:ss”</dt>
+<dd>The earliest date at which a post could be posted. Time zone is UTC.</dd>
+<dt>end_date: Format is “yyyy-mm-ddThh:mm:ss”</dt>
+<dd>The latest date at which a post could be posted. Time zone is UTC.</dd>
+<dt>language: str</dt>
+<dd>2-character Locale code
+Exceptions: Some languages require more than two characters: Chinese
+(Simplified) is zh-CN and Chinese (Traditional) is zh-TW.</dd>
+<dt>list_ids: comma separated</dt>
+<dd>The IDs of lists or saved searches to retrieve.
+These can be separated by commas to include multiple lists.</dd>
+<dt>min_interactions: int</dt>
+<dd>If set, will exclude posts with total interactions below this threshold.</dd>
+<dt>search_team: str</dt>
+<dd>Returns only posts that match this search term. For multiple terms, separate
+with commas for OR, use quotes for phrases.</dd>
+<dt>types: str</dt>
+<dd>episode, extra_clip, link, live_video, live_video_complete,
+live_video_scheduled, native_video, photo, status, trailer,
+tweet, video, vine, youtube     The types of post to include.
+These can be separated by commas to include multiple types.
+If you want all live videos (whether currently or formerly live),
+be sure to include both live_video and live_video_complete.
+The “video” type does not mean all videos, it refers to videos
+that aren’t native_video, youtube or vine (e.g. a video on Vimeo).</dd>
+</dl>
+</dd>
+<dt><cite>Returns:</cite></dt>
+<dd><dl class="first last docutils">
+<dt>Parsons Table</dt>
+<dd>See <a class="reference internal" href="table.html#parsons-table"><span class="std std-ref">Parsons Table</span></a> for output options.</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="parsons.CrowdTangle.get_leaderboard">
+<code class="descname">get_leaderboard</code><span class="sig-paren">(</span><em>start_date=None</em>, <em>end_date=None</em>, <em>list_ids=None</em>, <em>account_ids=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/crowdtangle/crowdtangle.html#CrowdTangle.get_leaderboard"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.CrowdTangle.get_leaderboard" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return advocates (person records).</p>
+<dl class="docutils">
+<dt><cite>Args:</cite></dt>
+<dd><dl class="first last docutils">
+<dt>start_date: Format is “yyyy-mm-ddThh:mm:ss”</dt>
+<dd>The earliest date at which a post could be posted. Time zone is UTC.</dd>
+<dt>end_date: Format is “yyyy-mm-ddThh:mm:ss”</dt>
+<dd>The latest date at which a post could be posted. Time zone is UTC.</dd>
+<dt>list_ids: comma separated</dt>
+<dd>The IDs of lists or saved searches to retrieve.
+These can be separated by commas to include multiple lists.</dd>
+<dt>account_ids: comma separated</dt>
+<dd>A list of CrowdTangle accountIds to retrieve leaderboard data for.
+These should be provided comma-separated. This and listId are mutually
+exclusive; if both are sent, accountIds will be preferred.</dd>
+</dl>
+</dd>
+<dt><cite>Returns:</cite></dt>
+<dd><dl class="first last docutils">
+<dt>Parsons Table</dt>
+<dd>See <a class="reference internal" href="table.html#parsons-table"><span class="std std-ref">Parsons Table</span></a> for output options.</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="parsons.CrowdTangle.get_links">
+<code class="descname">get_links</code><span class="sig-paren">(</span><em>link</em>, <em>start_date=None</em>, <em>end_date=None</em>, <em>include_summary=None</em>, <em>platforms=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/crowdtangle/crowdtangle.html#CrowdTangle.get_links"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.CrowdTangle.get_links" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return posts based on a specific link.</p>
+<dl class="docutils">
+<dt><cite>Args:</cite></dt>
+<dd><dl class="first last docutils">
+<dt>link: string</dt>
+<dd>The link to query by</dd>
+<dt>start_date: Format is “yyyy-mm-ddThh:mm:ss”</dt>
+<dd>The earliest date at which a post could be posted. Time zone is UTC.</dd>
+<dt>end_date: Format is “yyyy-mm-ddThh:mm:ss”</dt>
+<dd>The latest date at which a post could be posted. Time zone is UTC.</dd>
+<dt>include_summary: ‘true’,’false’</dt>
+<dd>Adds a “summary” section with AccountStatistics for each platform
+that has posted this link. It will look beyond the count
+requested to summarize across the time searched.
+Requires a value for startDate.</dd>
+<dt>platforms: comma separated</dt>
+<dd>The platforms from which to retrieve links. This value can be comma-separated.</dd>
+</dl>
+</dd>
+<dt><cite>Returns:</cite></dt>
+<dd><dl class="first last docutils">
+<dt>Parsons Table</dt>
+<dd>See <a class="reference internal" href="table.html#parsons-table"><span class="std std-ref">Parsons Table</span></a> for output options.</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="facebook_ads.html" class="btn btn-neutral float-right" title="FacebookAds" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="copper.html" class="btn btn-neutral" title="Copper" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2019, The Movement Cooperative
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script type="text/javascript" src="_static/jquery.js"></script>
+        <script type="text/javascript" src="_static/underscore.js"></script>
+        <script type="text/javascript" src="_static/doctools.js"></script>
+        <script type="text/javascript" src="_static/language_data.js"></script>
+    
+
+  
+
+  <script type="text/javascript" src="_static/js/theme.js"></script>
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

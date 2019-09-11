@@ -4,11 +4,6 @@ from parsons.etl.table import Table
 import pandas
 import os
 import shutil
-import _io
-import io
-import json
-import datetime
-import gzip
 from test.utils import assert_matching_tables
 
 

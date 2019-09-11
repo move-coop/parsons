@@ -4,10 +4,12 @@ import zipfile
 def create_archive(archive_path, file_path, file_name=None, if_exists='replace'):
     """
     `Args:`
-        archive_name: str
+        archive_path: str
             The file name of zip archive
-        csv_path: str
+        file_path: str
             The path of the file
+        file_name: str
+            The name of the file in the archive
         if_exists: str
             If archive already exists, one of 'replace' or 'append'
     `Returns:`

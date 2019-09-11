@@ -85,9 +85,9 @@ class ToFrom(object):
     def to_csv(self, local_path=None, temp_file_compression=None, encoding=None, errors='strict',
                write_header=True, **csvargs):
         """
-        Outputs table to a CSV. Additional additional key word arguments
-        are passed to ``csv.writer()``. So, e.g., to override the delimiter
-        from the default CSV dialect, provide the delimiter keyword argument.
+        Outputs table to a CSV. Additional additional key word arguments are passed 
+        to ``csv.writer()``. So, e.g., to override the delimiter from the default CSV dialect, 
+        provide the delimiter keyword argument.
 
         .. warning::
                 If a file already exists at the given location, it will be
@@ -95,12 +95,12 @@ class ToFrom(object):
 
         `Args:`
             local_path: str
-                The path to write the csv locally. If it ends in ".gz", the file will be
+                The path to write the csv locally. If it ends in ".gz" or ".zip", the file will be
                 compressed. If not specified, a temporary file will be created and returned,
                 and that file will be removed automatically when the script is done running.
             temp_file_compression: str
                 If a temp file is requested (ie. no ``local_path`` is specified), the compression
-                type for that file. Currently "None" and "gzip" are supported.
+                type for that file. Currently "None", "gzip" or "zip" are supported.
                 If a ``local_path`` is specified, this argument is ignored.
             encoding: str
                 The CSV encoding type for `csv.writer()
@@ -117,10 +117,18 @@ class ToFrom(object):
                 The path of the new file
         """
 
+        if files.zip_check(local_path, temp_file_compression):
+            return self.to_zip_csv(archive_path=local_path,
+                                   encoding=encoding,
+                                   errors=errors,
+                                   write_header=write_header,
+                                   **csvargs)
+
         if not local_path:
             suffix = '.csv' + files.suffix_for_compression_type(temp_file_compression)
             local_path = files.create_temp_file(suffix=suffix)
 
+        # Create normal csv/.gzip
         petl.tocsv(self.table,
                    source=local_path,
                    encoding=encoding,
@@ -167,7 +175,8 @@ class ToFrom(object):
         """
         Outputs table to a CSV in a zip archive. Additional additional key word arguments
         are passed to ``csv.writer()``. So, e.g., to override the delimiter
-        from the default CSV dialect, provide the delimiter keyword argument.
+        from the default CSV dialect, provide the delimiter keyword argument. Use this 
+        method if you would like to write multiple csv files to the same archive.
 
         .. warning::
                 If a file already exists in the archive, it will be overwritten.
@@ -177,7 +186,8 @@ class ToFrom(object):
                 returned, and that file will be removed automatically when the script is done
                 running.
             csv_name: str
-                The name of the csv file to be stored in the archive
+                The name of the csv file to be stored in the archive. If ``None`` will use
+                the archive name.
             encoding: str
                 The CSV encoding type for `csv.writer()
                 <https://docs.python.org/2/library/csv.html#csv.writer/>`_
@@ -200,7 +210,10 @@ class ToFrom(object):
 
         cf = self.to_csv(encoding=encoding, errors=errors, write_header=write_header, **csvargs)
 
-        return zip_archive.create_archive(archive_path, cf, file_name=csv_name,
+        if not csv_name:
+            csv_name = files.extract_file_name(archive_path) + '.csv'
+
+        return zip_archive.create_archive(archive_path, cf, file_name=csv_name, 
                                           if_exists=if_exists)
 
     def to_json(self, local_path=None, temp_file_compression=None, line_delimited=False):

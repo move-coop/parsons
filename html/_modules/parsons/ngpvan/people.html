@@ -223,8 +223,7 @@
 <span class="sd">                other arguments if provided.</span>
 <span class="sd">            fields: The fields to return. Leave as default for all available fields</span>
 <span class="sd">        `Returns:`</span>
-<span class="sd">            Parsons Table</span>
-<span class="sd">                See :ref:`parsons-table` for output options.</span>
+<span class="sd">            A person dict</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
         <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="n">f</span><span class="s1">&#39;Finding </span><span class="si">{first_name}</span><span class="s1"> </span><span class="si">{last_name}</span><span class="s1">.&#39;</span><span class="p">)</span>
@@ -276,8 +275,7 @@
 <span class="sd">                A dictionary of values to match against. Will override all</span>
 <span class="sd">                other arguments if provided.</span>
 <span class="sd">        `Returns:`</span>
-<span class="sd">            Parsons Table</span>
-<span class="sd">                See :ref:`parsons-table` for output options.</span>
+<span class="sd">            A person dict</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_people_search</span><span class="p">(</span><span class="n">first_name</span><span class="p">,</span> <span class="n">last_name</span><span class="p">,</span> <span class="n">date_of_birth</span><span class="p">,</span> <span class="n">email</span><span class="p">,</span> <span class="n">phone</span><span class="p">,</span>
@@ -352,7 +350,7 @@
 <span class="sd">                such as ``dwid``</span>
 <span class="sd">            fields: The fields to return. Leave as default for all available fields</span>
 <span class="sd">        `Returns:`</span>
-<span class="sd">            dict</span>
+<span class="sd">            A person dict</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
         <span class="n">url</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">connection</span><span class="o">.</span><span class="n">uri</span> <span class="o">+</span> <span class="s1">&#39;people/find&#39;</span>

@@ -22,7 +22,7 @@ From Parsons Table
       - Destination Type
       - Description
     * - ``.to_dataframe()``
-      - Dataframe
+      - Pandas Dataframe
       - Return a Pandas dataframe
     * - ``.to_csv()``
       - CSV File

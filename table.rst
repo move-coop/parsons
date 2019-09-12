@@ -21,6 +21,9 @@ From Parsons Table
     * - Method
       - Destination Type
       - Description
+    * - ``.to_dataframe()``
+      - Pandas Dataframe
+      - Return a Pandas dataframe
     * - ``.to_csv()``
       - CSV File
       - Write a table to a local csv file

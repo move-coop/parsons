@@ -599,7 +599,7 @@ JSON file.</dd>
 
 <dl class="method">
 <dt id="parsons.etl.tofrom.ToFrom.to_s3_csv">
-<code class="descname">to_s3_csv</code><span class="sig-paren">(</span><em>bucket</em>, <em>key</em>, <em>aws_access_key_id=None</em>, <em>aws_secret_access_key=None</em>, <em>compression=None</em>, <em>encoding=None</em>, <em>errors='strict'</em>, <em>write_header=True</em>, <em>**csvargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/etl/tofrom.html#ToFrom.to_s3_csv"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.etl.tofrom.ToFrom.to_s3_csv" title="Permalink to this definition">¶</a></dt>
+<code class="descname">to_s3_csv</code><span class="sig-paren">(</span><em>bucket</em>, <em>key</em>, <em>aws_access_key_id=None</em>, <em>aws_secret_access_key=None</em>, <em>compression=None</em>, <em>encoding=None</em>, <em>errors='strict'</em>, <em>write_header=True</em>, <em>public_url=False</em>, <em>public_url_expires=3600</em>, <em>**csvargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/etl/tofrom.html#ToFrom.to_s3_csv"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.etl.tofrom.ToFrom.to_s3_csv" title="Permalink to this definition">¶</a></dt>
 <dd><p>Writes the table to an s3 object as a CSV</p>
 <dl class="docutils">
 <dt><cite>Args:</cite></dt>
@@ -621,10 +621,16 @@ supported.</dd>
 <dd>Raise an Error if encountered</dd>
 <dt>write_header: boolean</dt>
 <dd>Include header in output</dd>
+<dt>public_url: boolean</dt>
+<dd>Create a public link to the file</dd>
+<dt>public_url_expire: 3600</dt>
+<dd>The time, in seconds, until the url expires if <code class="docutils literal notranslate"><span class="pre">public_url</span></code> set to <code class="docutils literal notranslate"><span class="pre">True</span></code>.</dd>
 <dt><a href="#id16"><span class="problematic" id="id17">**</span></a>csvargs: kwargs</dt>
 <dd><code class="docutils literal notranslate"><span class="pre">csv_writer</span></code> optional arguments</dd>
 </dl>
 </dd>
+<dt><cite>Returns:</cite></dt>
+<dd>Public url if specified. If not <code class="docutils literal notranslate"><span class="pre">None</span></code>.</dd>
 </dl>
 </dd></dl>
 

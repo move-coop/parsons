@@ -493,7 +493,8 @@
 
 <div class="viewcode-block" id="ToFrom.to_s3_csv"><a class="viewcode-back" href="../../../table.html#parsons.etl.tofrom.ToFrom.to_s3_csv">[docs]</a>    <span class="k">def</span> <span class="nf">to_s3_csv</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">bucket</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="n">aws_access_key_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
                   <span class="n">aws_secret_access_key</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">compression</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-                  <span class="n">errors</span><span class="o">=</span><span class="s1">&#39;strict&#39;</span><span class="p">,</span> <span class="n">write_header</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="o">**</span><span class="n">csvargs</span><span class="p">):</span>
+                  <span class="n">errors</span><span class="o">=</span><span class="s1">&#39;strict&#39;</span><span class="p">,</span> <span class="n">write_header</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">public_url</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+                  <span class="n">public_url_expires</span><span class="o">=</span><span class="mi">3600</span><span class="p">,</span> <span class="o">**</span><span class="n">csvargs</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Writes the table to an s3 object as a CSV</span>
 
@@ -516,8 +517,14 @@
 <span class="sd">                Raise an Error if encountered</span>
 <span class="sd">            write_header: boolean</span>
 <span class="sd">                Include header in output</span>
+<span class="sd">            public_url: boolean</span>
+<span class="sd">                Create a public link to the file</span>
+<span class="sd">            public_url_expire: 3600</span>
+<span class="sd">                The time, in seconds, until the url expires if ``public_url`` set to ``True``.</span>
 <span class="sd">            **csvargs: kwargs</span>
 <span class="sd">                ``csv_writer`` optional arguments</span>
+<span class="sd">        `Returns:`</span>
+<span class="sd">            Public url if specified. If not ``None``.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
         <span class="n">compression</span> <span class="o">=</span> <span class="n">files</span><span class="o">.</span><span class="n">compression_type_for_path</span><span class="p">(</span><span class="n">key</span><span class="p">)</span>
@@ -528,11 +535,15 @@
             <span class="n">write_header</span><span class="o">=</span><span class="n">write_header</span><span class="p">,</span> <span class="o">**</span><span class="n">csvargs</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">s3</span> <span class="o">=</span> <span class="n">S3</span><span class="p">(</span><span class="n">aws_access_key_id</span><span class="o">=</span><span class="n">aws_access_key_id</span><span class="p">,</span>
                      <span class="n">aws_secret_access_key</span><span class="o">=</span><span class="n">aws_secret_access_key</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">s3</span><span class="o">.</span><span class="n">put_file</span><span class="p">(</span><span class="n">bucket</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="n">local_path</span><span class="p">)</span></div>
+        <span class="bp">self</span><span class="o">.</span><span class="n">s3</span><span class="o">.</span><span class="n">put_file</span><span class="p">(</span><span class="n">bucket</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="n">local_path</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">public_url</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">s3</span><span class="o">.</span><span class="n">get_url</span><span class="p">(</span><span class="n">bucket</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="n">expires_in</span><span class="o">=</span><span class="n">public_url_expires</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">None</span></div>
 
 <div class="viewcode-block" id="ToFrom.to_redshift"><a class="viewcode-back" href="../../../table.html#parsons.etl.tofrom.ToFrom.to_redshift">[docs]</a>    <span class="k">def</span> <span class="nf">to_redshift</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">table_name</span><span class="p">,</span> <span class="n">username</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">password</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">host</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
                     <span class="n">db</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">port</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">copy_args</span><span class="p">):</span>
-
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Write a table to a Redshift database. Note, this requires you to pass</span>
 <span class="sd">        AWS S3 credentials or store them as environmental variables.</span>

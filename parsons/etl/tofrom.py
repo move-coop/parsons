@@ -323,7 +323,8 @@ class ToFrom(object):
 
     def to_s3_csv(self, bucket, key, aws_access_key_id=None,
                   aws_secret_access_key=None, compression=None, encoding=None,
-                  errors='strict', write_header=True, **csvargs):
+                  errors='strict', write_header=True, public_url=False,
+                  public_url_expires=3600, **csvargs):
         """
         Writes the table to an s3 object as a CSV
 
@@ -346,8 +347,14 @@ class ToFrom(object):
                 Raise an Error if encountered
             write_header: boolean
                 Include header in output
+            public_url: boolean
+                Create a public link to the file
+            public_url_expire: 3600
+                The time, in seconds, until the url expires if ``public_url`` set to ``True``.
             **csvargs: kwargs
                 ``csv_writer`` optional arguments
+        `Returns:`
+            Public url if specified. If not ``None``.
         """
 
         compression = files.compression_type_for_path(key)
@@ -360,9 +367,13 @@ class ToFrom(object):
                      aws_secret_access_key=aws_secret_access_key)
         self.s3.put_file(bucket, key, local_path)
 
+        if public_url:
+            return self.s3.get_url(bucket, key, expires_in=public_url_expires)
+        else:
+            return None
+
     def to_redshift(self, table_name, username=None, password=None, host=None,
                     db=None, port=None, **copy_args):
-
         """
         Write a table to a Redshift database. Note, this requires you to pass
         AWS S3 credentials or store them as environmental variables.

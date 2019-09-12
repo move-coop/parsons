@@ -53,8 +53,7 @@ class People(object):
                 other arguments if provided.
             fields: The fields to return. Leave as default for all available fields
         `Returns:`
-            Parsons Table
-                See :ref:`parsons-table` for output options.
+            A person dict
         """
 
         logger.info(f'Finding {first_name} {last_name}.')
@@ -106,8 +105,7 @@ class People(object):
                 A dictionary of values to match against. Will override all
                 other arguments if provided.
         `Returns:`
-            Parsons Table
-                See :ref:`parsons-table` for output options.
+            A person dict
         """
 
         return self._people_search(first_name, last_name, date_of_birth, email, phone,
@@ -182,7 +180,7 @@ class People(object):
                 such as ``dwid``
             fields: The fields to return. Leave as default for all available fields
         `Returns:`
-            dict
+            A person dict
         """
 
         url = self.connection.uri + 'people/find'

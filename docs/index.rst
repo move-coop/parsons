@@ -109,6 +109,7 @@ Indices and tables
    airtable
    civis
    copper
+   crowdtangle
    facebook_ads
    google_sheets
    google_cloud

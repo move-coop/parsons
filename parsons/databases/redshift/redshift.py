@@ -392,7 +392,7 @@ class Redshift(RedshiftCreateTable, RedshiftCopyTable, RedshiftQueries, Redshift
              sortkey=None, padding=None, statupdate=False, compupdate=True, acceptanydate=True,
              emptyasnull=True, blanksasnull=True, nullas=None, acceptinvchars=True,
              dateformat='auto', timeformat='auto', varchar_max=None, truncatecolumns=False,
-             columntypes=None, specifycols=False
+             columntypes=None, specifycols=False,
              aws_access_key_id=None, aws_secret_access_key=None):
         """
         Copy a parsons table object to Redshift.

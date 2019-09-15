@@ -41,7 +41,7 @@ class ETL(object):
                 Column names
         `Returns:`
             `Parsons Table` and also updates self
-        """
+        """ # noqa: W605
 
         self.table = petl.cutout(self.table, *columns)
 
@@ -239,7 +239,7 @@ class ETL(object):
                 The update function, method, or variable to process the update. Can also
         `Returns:`
             `Parsons Table` and also updates self
-        """
+        """ # noqa: W605
 
         self.convert_column(self.columns, *args)
 

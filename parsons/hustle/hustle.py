@@ -1,4 +1,3 @@
-from parsons import Table
 from requests import request
 from parsons.utilities import check_env
 import datetime
@@ -75,7 +74,7 @@ class Hustle(object):
         return r
 
     def _error_check(self, r, raise_on_error):
-    	# Check for errors
+        # Check for errors
 
         if r.status_code == 200:
 
@@ -93,8 +92,8 @@ class Hustle(object):
             logger.info(r.json())
             return None
 
-    def create_lead(self, group_id, first_name, phone_number, email=None, notes=None,
-                    follow_up=None, custom_fields=None, tag_id=None):
+    def create_lead(self, group_id, first_name, phone_number, last_name=None, email=None,
+                    notes=None, follow_up=None, custom_fields=None, tag_id=None):
         """
         Create a single lead.
 
@@ -105,6 +104,8 @@ class Hustle(object):
                 The first name of the lead
             phone_number: str
                 The phone number of the lead
+            last_name: str
+                The last name of the lead
             email: str
                 The email address of the lead
             notes: str
@@ -112,7 +113,7 @@ class Hustle(object):
             follow_up: str
                 Follow up for the lead
             custom_fields: dict
-                A dictionary of custom fields, with key as the value name, and 
+                A dictionary of custom fields, with key as the value name, and
                 value as the value.
         `Returns:`
                 ``None``
@@ -120,7 +121,7 @@ class Hustle(object):
 
         # To Do: Check that you can send empty args
         # To Do: Find out if there is any error checking for the values in creating leads
-        #		 e.g. phone number validation or string character limits.
+        # e.g. phone number validation or string character limits.
         # To Do: Check that custom fields are just dicts - or what they are
 
         endpoint = f'groups/{group_id}/leads'
@@ -136,7 +137,7 @@ class Hustle(object):
                 }
 
         logger.debug('Generating lead for {first_name} {last_name}.')
-        return self_.request(endpoint, req_type="POST", payload=lead)
+        return self._request(endpoint, req_type="POST", payload=lead)
 
     def create_leads(self, table, group_id=None):
         """

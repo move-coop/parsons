@@ -395,7 +395,7 @@ class ToFrom(object):
 
         Returns:
             ``None``
-        """
+        """  # noqa: W605
 
         from parsons import Redshift
         rs = Redshift(
@@ -465,7 +465,7 @@ class ToFrom(object):
         `Returns:`
             Parsons Table
                 See :ref:`parsons-table` for output options.
-        """
+        """  # noqa: W605
 
         return cls(petl.fromcsv(local_path, **csvargs))
 

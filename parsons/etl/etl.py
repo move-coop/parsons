@@ -226,11 +226,11 @@ class ETL(object):
             >> {{first_name: 'Jane', last_name: 'Doe', 'date_of_birth': '1908-01-01'}}
         """
 
-        for c in self.table.columns:
+        for c in self.columns:
             for k, v in column_map.items():
                 for i in v:
                     if c == i:
-                        self.table.rename_column(c, k)
+                        self.rename_column(c, k)
 
         return self
 

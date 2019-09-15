@@ -1,3 +1,4 @@
+from parsons import Table
 from requests import request
 from parsons.utilities import check_env
 import datetime
@@ -32,7 +33,7 @@ class Hustle(object):
 
     def _token_check(self):
         # Tokens are only valid for 7200 seconds. This checks to make sure that it has
-        # not expired and generated another one if it has.
+        # not expired and generate another one if it has.
 
         logger.debug("Checking token expiration.")
         if datetime.datetime.now() >= self.token_expiration:
@@ -67,9 +68,9 @@ class Hustle(object):
         while r.json['pagination']['hasNextPage'] == 'true':
 
             parameters['cursor'] = r.json['pagination']['cursor']
-            r = request(req_type, url, params=args, payload=payload, headers=headers)
-            result.append(r.json()['items'])
+            r = request(req_type, url, params=parameters, payload=payload, headers=headers)
             self._error_check(r, raise_on_error)
+            result.append(r.json()['items'])
 
         return r
 
@@ -179,4 +180,43 @@ class Hustle(object):
 
             self.create_lead(**lead)
 
-        logger.info("Created {table.num_rows} leads.")
+        logger.info(f"Created {table.num_rows} leads.")
+
+    def update_lead(self, lead_id, first_name=None, last_name=None, email=None,
+                    global_opt_out=None, notes=None, follow_up=None, tag_ids=None):
+
+        endpoint = f'leads/{lead_id}'
+
+        lead = {'leadId': lead_id,
+                'firstName': first_name,
+                'lastName': last_name,
+                'email': email,
+                'globalOptOut': global_opt_out,
+                'notes': notes,
+                'followUp': follow_up,
+                'tagIds': tag_ids}
+
+        # Remove empty args in dictionary
+        for k, v in lead.items():
+            if not v:
+                del lead[k]
+
+        logger.debug('Updating lead for {first_name} {last_name}.')
+        return self._request(endpoint, req_type="PUT", payload=lead)
+
+    def get_lead(self, lead_id):
+        """
+        Get lead metadata.
+
+        `Args`:
+            lead_id: str
+
+        `Returns:`
+            dict
+        """
+
+        endpoint = f'leads/{lead_id}'
+
+        return self._request(endpoint)
+
+

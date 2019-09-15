@@ -161,7 +161,7 @@ class ToFrom(object):
         `Returns:`
             str
                 The path of the file
-        """
+        """  # noqa: W605
 
         petl.appendcsv(self.table,
                        source=local_path,
@@ -204,7 +204,7 @@ class ToFrom(object):
         `Returns:`
             str
                 The path of the archive
-        """
+        """  # noqa: W605
 
         if not archive_path:
             archive_path = files.create_temp_file(suffix='.zip')
@@ -310,7 +310,7 @@ class ToFrom(object):
                 Include header in output
             \**csvargs: kwargs
                 ``csv_writer`` optional arguments
-        """
+        """  # noqa: W605
 
         from parsons import SFTP
         sftp = SFTP(host, username, password, port)
@@ -356,7 +356,7 @@ class ToFrom(object):
                 ``csv_writer`` optional arguments
         `Returns:`
             Public url if specified. If not ``None``.
-        """
+        """  # noqa: W605
 
         compression = files.compression_type_for_path(key)
 

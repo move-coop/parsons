@@ -12,6 +12,17 @@ PAGE_LIMIT = 1000
 
 
 class Hustle(object):
+    """
+    Instantiate Hustle Class
+
+    `Args:`
+        client_id:
+            The client id provided by Hustle.
+        client_secret:
+            The client secret provided by Hustle.
+    `Returns:`
+        Hustle Class
+    """
 
     def __init__(self, client_id, client_secret):
 
@@ -29,7 +40,7 @@ class Hustle(object):
 
         self.auth_token = r[0]['access_token']
         self.token_expiration = datetime.datetime.now() + datetime.timedelta(seconds=7200)
-        logger.debug("Authentication token generated")
+        logger.info("Authentication token generated")
 
     def _token_check(self):
         # Tokens are only valid for 7200 seconds. This checks to make sure that it has

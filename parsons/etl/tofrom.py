@@ -109,7 +109,7 @@ class ToFrom(object):
                 Raise an Error if encountered
             write_header: boolean
                 Include header in output
-            **csvargs: kwargs
+            \**csvargs: kwargs
                 ``csv_writer`` optional arguments
 
         `Returns:`
@@ -155,7 +155,7 @@ class ToFrom(object):
                 <https://docs.python.org/2/library/csv.html#csv.writer/>`_
             errors: str
                 Raise an Error if encountered
-            **csvargs: kwargs
+            \**csvargs: kwargs
                 ``csv_writer`` optional arguments
 
         `Returns:`
@@ -180,6 +180,7 @@ class ToFrom(object):
 
         .. warning::
                 If a file already exists in the archive, it will be overwritten.
+
         `Args:`
             archive_path: str
                 The path to zip achive. If not specified, a temporary file will be created and
@@ -197,7 +198,7 @@ class ToFrom(object):
                 Include header in output
             if_exists: str
                 If archive already exists, one of 'replace' or 'append'
-            **csvargs: kwargs
+            \**csvargs: kwargs
                 ``csv_writer`` optional arguments
 
         `Returns:`
@@ -307,7 +308,7 @@ class ToFrom(object):
                 Raise an Error if encountered
             write_header: boolean
                 Include header in output
-            **csvargs: kwargs
+            \**csvargs: kwargs
                 ``csv_writer`` optional arguments
         """
 
@@ -351,7 +352,7 @@ class ToFrom(object):
                 Create a public link to the file
             public_url_expire: 3600
                 The time, in seconds, until the url expires if ``public_url`` set to ``True``.
-            **csvargs: kwargs
+            \**csvargs: kwargs
                 ``csv_writer`` optional arguments
         `Returns:`
             Public url if specified. If not ``None``.
@@ -389,7 +390,7 @@ class ToFrom(object):
                 Required if env variable ``REDSHIFT_DB`` not populated
             port: int
                 Required if env variable ``REDSHIFT_PORT`` not populated. Port 5439 is typical.
-            **copy_args: kwargs
+            \**copy_args: kwargs
                 See :func:`~parsons.databases.Redshift.copy`` for options.
 
         Returns:
@@ -459,7 +460,7 @@ class ToFrom(object):
             local_path: obj
                 A csv formatted local path, url or ftp. If this is a
                 file path that ends in ".gz", the file will be decompressed first.
-            **csvargs: kwargs
+            \**csvargs: kwargs
                 ``csv_reader`` optional arguments
         `Returns:`
             Parsons Table

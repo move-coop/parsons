@@ -210,13 +210,43 @@ class Hustle(object):
 
         `Args`:
             lead_id: str
-
+                The lead id.
         `Returns:`
             dict
         """
 
         endpoint = f'leads/{lead_id}'
-
+        logger.info('Retrieving {lead_id} lead.')
         return self._request(endpoint)
+
+    def get_leads(self, organization_id=None, group_id=None):
+        """
+        Get leads metadata. One of ``organization_id`` and ``group_id`` must be passed
+        as an argument. If both are passed, an error will be raised.
+
+        `Args:`
+            organization_id: str
+                The organization id
+            group_id:
+                The group id
+        `Returns:`
+            Parsons Table
+                See :ref:`parsons-table` for output options.
+        """
+
+        if organization_id is None and group_id is None:
+            raise ValueError('Either organization_id or group_id required.')
+
+        if organization_id is not None and group_id is not None:
+            raise ValueError('Only one of organization_id and group_id may be populated.')
+
+        if organization_id:
+            endpoint = f'organizations/{organization_id}/leads'
+            logger.info(f'Retrieving {organization_id} organization leads.')
+        if group_id:
+            endpoint = f'groups/{group_id}/leads'
+            logger.info(f'Retrieving {group_id} group leads.')
+
+        return Table(self._request(endpoint))
 
 

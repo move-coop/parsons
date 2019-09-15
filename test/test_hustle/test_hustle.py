@@ -11,7 +11,7 @@ CLIENT_SECRET = 'FAKE_SECRET'
 class TestHustle(unittest.TestCase):
 
     @requests_mock.Mocker()
-    def setUp(self):
+    def setUp(self, m):
 
         m.post(self.hustle.uri + 'oauth/token', json=json_responses.auth_token)
         self.hustle = Hustle(CLIENT_ID, CLIENT_SECRET)

@@ -3,6 +3,7 @@ from requests import request
 from parsons.utilities import check_env
 import datetime
 from parsons.hustle.column_map import LEAD_COLUMN_MAP
+import logging
 
 logger = logging.getLogger(__name__)
 
@@ -14,6 +15,7 @@ class Hustle(object):
 
     def __init__(self, client_id, client_secret):
 
+        self.uri = HUSTLE_URI
         self.client_id = check_env.check('HUSTLE_CLIENT_ID', client_id)
         self.client_secret = check_env.check('HUSTLE_CLIENT_SECRET', client_secret)
         self.auth_token = self._get_auth_token(client_id, client_secret)
@@ -23,7 +25,7 @@ class Hustle(object):
 
         args = {client_id: client_id, client_secret: client_secret}
 
-        r = self._request(req_type='POST', args=args)
+        r = self._request(endpoint='oauth/token', req_type='POST', args=args)
 
         self.auth_token = r[0]['access_token']
         self.token_expiration = datetime.datetime.now() + datetime.timedelta(seconds=7200)
@@ -36,7 +38,7 @@ class Hustle(object):
         logger.debug("Checking token expiration.")
         if datetime.datetime.now() >= self.token_expiration:
 
-        	logger.info("Refreshing authentication token.")
+            logger.info("Refreshing authentication token.")
             self._get_auth_token(self.client_id, self.client_secret)
 
         else:
@@ -45,7 +47,7 @@ class Hustle(object):
 
     def _request(self, endpoint, req_type='GET', args=None, payload=None, raise_on_error=True):
 
-        url = HUSTLE_URI + endpoint
+        url = self.uri + endpoint
 
         self._token_check()
 
@@ -136,13 +138,16 @@ class Hustle(object):
         logger.debug('Generating lead for {first_name} {last_name}.')
         return self_.request(endpoint, req_type="POST", payload=lead)
 
-    def create_leads(self, table):
+    def create_leads(self, table, group_id=None):
         """
         Create multiple leads. All unrecognized fields will be passed as custom fields.
 
         `Args:`
             table: Parsons table
                 A Parsons table containing leads
+            group_id:
+                The group id for the leads. If ``None``, must be passed as a column
+                value.
         `Returns:`
             ``None``
         """
@@ -150,11 +155,11 @@ class Hustle(object):
         table.map_columns(LEAD_COLUMN_MAP)
 
         arg_list = ['first_name', 'last_name', 'email', 'phone_number', 'follow_up',
-                    'tag_id']
+                    'tag_id', 'group_id']
 
         for row in table:
 
-            lead = {}
+            lead = {'group_id': group_id}
             custom_fields = {}
 
             # Check for column names that map to arguments, if not assign
@@ -165,7 +170,12 @@ class Hustle(object):
                 else:
                     custom_fields[k] == v
 
+            # Group Id check
+            if not group_id and 'group_id' not in table.columns:
+                raise ValueError('Group Id must be passed as an argument or a column value.')
+            if group_id:
+                lead['group_id'] == group_id
+
             self.create_lead(**lead)
 
         logger.info("Created {table.num_rows} leads.")
-

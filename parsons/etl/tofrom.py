@@ -115,7 +115,7 @@ class ToFrom(object):
         `Returns:`
             str
                 The path of the new file
-        """ # noqa: W605
+        """ #  noqa: W605
 
         if files.zip_check(local_path, temp_file_compression):
             return self.to_zip_csv(archive_path=local_path,

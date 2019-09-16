@@ -149,7 +149,7 @@ class People(object):
 
         json = match_map
         # Check if VANID actually supplied in match_map
-        if 'id' in [k.lower() for k in match_map]:
+        if 'vanid' in [k.lower() for k in match_map]:
             id = {k.lower(): v for k, v in match_map.items()}['vanid']
 
         if id is None:

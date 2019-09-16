@@ -194,6 +194,61 @@
 <p>Most methods and functions in Parsons return a <code class="docutils literal notranslate"><span class="pre">Table</span></code>, which is a 2D list-like object. (It’s similar to a pandas DataFrame, if you are familiar with that). You can call the following methods on the returned object to output it into a variety of formats or storage types. (For a full list of <code class="docutils literal notranslate"><span class="pre">Table</span></code> methods, scroll down to the class documentation.)</p>
 <div class="section" id="from-parsons-table">
 <h3>From Parsons Table<a class="headerlink" href="#from-parsons-table" title="Permalink to this headline">¶</a></h3>
+<table border="1" class="colwidths-given docutils">
+<colgroup>
+<col width="25%" />
+<col width="25%" />
+<col width="50%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Method</th>
+<th class="head">Destination Type</th>
+<th class="head">Description</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td><code class="docutils literal notranslate"><span class="pre">.to_dataframe()</span></code></td>
+<td>Pandas Dataframe</td>
+<td>Return a Pandas dataframe</td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal notranslate"><span class="pre">.to_csv()</span></code></td>
+<td>CSV File</td>
+<td>Write a table to a local csv file</td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal notranslate"><span class="pre">.to_s3_csv()</span></code></td>
+<td>AWS s3 Bucket</td>
+<td>Write a table to a csv stored in S3</td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal notranslate"><span class="pre">.to_sftp_csv()</span></code></td>
+<td>SFTP Server</td>
+<td>Write a table to a csv stored on an SFTP server</td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal notranslate"><span class="pre">.to_redshift()</span></code></td>
+<td>A Redshift Database</td>
+<td>Write a table to a Redshift database</td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal notranslate"><span class="pre">.to_civis()</span></code></td>
+<td>Civis Redshift Database</td>
+<td>Write a table to Civis platform database</td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal notranslate"><span class="pre">.to_dataframe()</span></code></td>
+<td>Dataframe</td>
+<td>Return a Pandas dataframe</td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal notranslate"><span class="pre">.to_petl()</span></code></td>
+<td>Petl table object</td>
+<td>Convert a table a Petl table object</td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal notranslate"><span class="pre">.to_json()</span></code></td>
+<td>JSON file</td>
+<td>Write a table to a local JSON file</td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal notranslate"><span class="pre">.to_html()</span></code></td>
+<td>HTML formatted table</td>
+<td>Write a table to a local html file</td>
+</tr>
+</tbody>
+</table>
 </div>
 <div class="section" id="to-parsons-table">
 <h3>To Parsons Table<a class="headerlink" href="#to-parsons-table" title="Permalink to this headline">¶</a></h3>
@@ -438,7 +493,7 @@ If a <code class="docutils literal notranslate"><span class="pre">local_path</sp
 <dd>Raise an Error if encountered</dd>
 <dt>write_header: boolean</dt>
 <dd>Include header in output</dd>
-<dt><a href="#id4"><span class="problematic" id="id5">**</span></a>csvargs: kwargs</dt>
+<dt>**csvargs: kwargs</dt>
 <dd><code class="docutils literal notranslate"><span class="pre">csv_writer</span></code> optional arguments</dd>
 </dl>
 </dd>
@@ -468,7 +523,7 @@ be compressed.</dd>
 <dd>The CSV encoding type for <a class="reference external" href="https://docs.python.org/2/library/csv.html#csv.writer/">csv.writer()</a></dd>
 <dt>errors: str</dt>
 <dd>Raise an Error if encountered</dd>
-<dt><a href="#id7"><span class="problematic" id="id8">**</span></a>csvargs: kwargs</dt>
+<dt>**csvargs: kwargs</dt>
 <dd><code class="docutils literal notranslate"><span class="pre">csv_writer</span></code> optional arguments</dd>
 </dl>
 </dd>
@@ -510,7 +565,7 @@ the archive name.</dd>
 <dd>Include header in output</dd>
 <dt>if_exists: str</dt>
 <dd>If archive already exists, one of ‘replace’ or ‘append’</dd>
-<dt><a href="#id10"><span class="problematic" id="id11">**</span></a>csvargs: kwargs</dt>
+<dt>**csvargs: kwargs</dt>
 <dd><code class="docutils literal notranslate"><span class="pre">csv_writer</span></code> optional arguments</dd>
 </dl>
 </dd>
@@ -590,7 +645,7 @@ JSON file.</dd>
 <dd>Raise an Error if encountered</dd>
 <dt>write_header: boolean</dt>
 <dd>Include header in output</dd>
-<dt><a href="#id13"><span class="problematic" id="id14">**</span></a>csvargs: kwargs</dt>
+<dt>**csvargs: kwargs</dt>
 <dd><code class="docutils literal notranslate"><span class="pre">csv_writer</span></code> optional arguments</dd>
 </dl>
 </dd>
@@ -625,7 +680,7 @@ supported.</dd>
 <dd>Create a public link to the file</dd>
 <dt>public_url_expire: 3600</dt>
 <dd>The time, in seconds, until the url expires if <code class="docutils literal notranslate"><span class="pre">public_url</span></code> set to <code class="docutils literal notranslate"><span class="pre">True</span></code>.</dd>
-<dt><a href="#id16"><span class="problematic" id="id17">**</span></a>csvargs: kwargs</dt>
+<dt>**csvargs: kwargs</dt>
 <dd><code class="docutils literal notranslate"><span class="pre">csv_writer</span></code> optional arguments</dd>
 </dl>
 </dd>
@@ -652,7 +707,7 @@ AWS S3 credentials or store them as environmental variables.</p>
 <dd>Required if env variable <code class="docutils literal notranslate"><span class="pre">REDSHIFT_DB</span></code> not populated</dd>
 <dt>port: int</dt>
 <dd>Required if env variable <code class="docutils literal notranslate"><span class="pre">REDSHIFT_PORT</span></code> not populated. Port 5439 is typical.</dd>
-<dt><a href="#id18"><span class="problematic" id="id19">**</span></a>copy_args: kwargs</dt>
+<dt>**copy_args: kwargs</dt>
 <dd>See <code class="xref py py-func docutils literal notranslate"><span class="pre">copy`()</span></code> for options.</dd>
 </dl>
 </dd>
@@ -711,7 +766,7 @@ Defaults to <cite>‘fail’</cite>.</dd>
 <dt>local_path: obj</dt>
 <dd>A csv formatted local path, url or ftp. If this is a
 file path that ends in “.gz”, the file will be decompressed first.</dd>
-<dt><a href="#id20"><span class="problematic" id="id21">**</span></a>csvargs: kwargs</dt>
+<dt>**csvargs: kwargs</dt>
 <dd><code class="docutils literal notranslate"><span class="pre">csv_reader</span></code> optional arguments</dd>
 </dl>
 </dd>
@@ -862,7 +917,7 @@ JSON file.</dd>
 <dl class="docutils">
 <dt><cite>Args:</cite></dt>
 <dd><dl class="first last docutils">
-<dt><a href="#id22"><span class="problematic" id="id23">*</span></a>columns: str</dt>
+<dt>*columns: str</dt>
 <dd>Column names</dd>
 </dl>
 </dd>
@@ -952,9 +1007,9 @@ method. Example usage can be found <cite>here</cite> &lt;<a class="reference ext
 <dl class="docutils">
 <dt><cite>Args:</cite></dt>
 <dd><dl class="first last docutils">
-<dt><a href="#id24"><span class="problematic" id="id25">*</span></a>column: str</dt>
+<dt>*column: str</dt>
 <dd>A single column or multiple columns passed as a list</dd>
-<dt><a href="#id26"><span class="problematic" id="id27">**</span></a>kwargs: str, method or variable</dt>
+<dt>**kwargs: str, method or variable</dt>
 <dd>The update function, method, or variable to process the update</dd>
 </dl>
 </dd>
@@ -1046,7 +1101,7 @@ found <cite>here</cite> &lt;<a class="reference external" href="https://petl.rea
 <dl class="docutils">
 <dt><cite>Args:</cite></dt>
 <dd><dl class="first last docutils">
-<dt><a href="#id28"><span class="problematic" id="id29">*</span></a>args: str, method or variable</dt>
+<dt>*args: str, method or variable</dt>
 <dd>The update function, method, or variable to process the update. Can also</dd>
 </dl>
 </dd>
@@ -1216,7 +1271,7 @@ set to column name.</dd>
 <dl class="docutils">
 <dt><cite>Args:</cite></dt>
 <dd><dl class="first last docutils">
-<dt><a href="#id30"><span class="problematic" id="id31">*</span></a>columns: str</dt>
+<dt>*columns: str</dt>
 <dd>Columns in the parsons table</dd>
 </dl>
 </dd>
@@ -1251,7 +1306,7 @@ tbl3
 </div></blockquote>
 <dl class="docutils">
 <dt><cite>Args:</cite></dt>
-<dd><a href="#id32"><span class="problematic" id="id33">*</span></a>filters: function or str</dd>
+<dd>*filters: function or str</dd>
 <dt><cite>Returns:</cite></dt>
 <dd>A new parsons table containing the selected rows</dd>
 </dl>
@@ -1398,9 +1453,9 @@ to reduce all those to a single row containg the entire query.</p>
 <span class="go">+--------------+--------------+----------------------------------------------------+</span>
 <span class="go">| &#39;db_scratch&#39; | &#39;state_fips&#39; | &#39;(&#39;                                                |</span>
 <span class="go">+--------------+--------------+----------------------------------------------------+</span>
-<span class="go">| &#39;db_scratch&#39; | &#39;state_fips&#39; | &#39;   state VARCHAR(1024)   ENCODE RAW&#39;               |</span>
+<span class="go">| &#39;db_scratch&#39; | &#39;state_fips&#39; | &#39;   state VARCHAR(1024)   ENCODE RAW&#39;              |</span>
 <span class="go">+--------------+--------------+----------------------------------------------------+</span>
-<span class="go">| &#39;db_scratch&#39; | &#39;state_fips&#39; | &#39;   ,stusab VARCHAR(1024)   ENCODE RAW&#39;             |</span>
+<span class="go">| &#39;db_scratch&#39; | &#39;state_fips&#39; | &#39;   ,stusab VARCHAR(1024)   ENCODE RAW&#39;            |</span>
 <span class="go">+--------------+--------------+----------------------------------------------------+</span>
 
 <span class="gp">&gt;&gt;&gt; </span><span class="n">reducer_fn</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">columns</span><span class="p">,</span> <span class="n">rows</span><span class="p">:</span> <span class="p">[</span>

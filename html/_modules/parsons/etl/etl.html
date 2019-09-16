@@ -207,11 +207,11 @@
 <span class="sd">        Remove a column from your table</span>
 
 <span class="sd">        `Args:`</span>
-<span class="sd">            *columns: str</span>
+<span class="sd">            \*columns: str</span>
 <span class="sd">                Column names</span>
 <span class="sd">        `Returns:`</span>
 <span class="sd">            `Parsons Table` and also updates self</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        &quot;&quot;&quot;</span>  <span class="c1"># noqa: W605</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">table</span> <span class="o">=</span> <span class="n">petl</span><span class="o">.</span><span class="n">cutout</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">table</span><span class="p">,</span> <span class="o">*</span><span class="n">columns</span><span class="p">)</span>
 
@@ -297,9 +297,9 @@
 <span class="sd">        method. Example usage can be found `here` &lt;https://petl.readthedocs.io/en/v0.24/transform.html#petl.convert&gt;`_</span>
 
 <span class="sd">        `Args:`</span>
-<span class="sd">            *column: str</span>
+<span class="sd">            \*column: str</span>
 <span class="sd">                A single column or multiple columns passed as a list</span>
-<span class="sd">            **kwargs: str, method or variable</span>
+<span class="sd">            \**kwargs: str, method or variable</span>
 <span class="sd">                The update function, method, or variable to process the update</span>
 <span class="sd">        `Returns:`</span>
 <span class="sd">            `Parsons Table` and also updates self</span>
@@ -405,11 +405,11 @@
 <span class="sd">        found `here` &lt;https://petl.readthedocs.io/en/v0.24/transform.html#petl.convert&gt;`_.</span>
 
 <span class="sd">        `Args:`</span>
-<span class="sd">            *args: str, method or variable</span>
+<span class="sd">            \*args: str, method or variable</span>
 <span class="sd">                The update function, method, or variable to process the update. Can also</span>
 <span class="sd">        `Returns:`</span>
 <span class="sd">            `Parsons Table` and also updates self</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        &quot;&quot;&quot;</span>  <span class="c1"># noqa: W605</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">convert_column</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">columns</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">)</span>
 
@@ -706,11 +706,11 @@
 <span class="sd">        Return a table of selection of columns</span>
 
 <span class="sd">        `Args:`</span>
-<span class="sd">            *columns: str</span>
+<span class="sd">            \*columns: str</span>
 <span class="sd">                Columns in the parsons table</span>
 <span class="sd">        `Returns:`</span>
 <span class="sd">            A new parsons table containing the selected columnns</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        &quot;&quot;&quot;</span>  <span class="c1"># noqa: W605</span>
 
         <span class="kn">from</span> <span class="nn">parsons.etl.table</span> <span class="k">import</span> <span class="n">Table</span>
 
@@ -741,10 +741,10 @@
 <span class="sd">            &gt;&gt;&gt; {foo: &#39;a&#39;, &#39;bar&#39;: 2, &#39;baz&#39;: 88.1}</span>
 
 <span class="sd">        `Args:`</span>
-<span class="sd">            *filters: function or str</span>
+<span class="sd">            \*filters: function or str</span>
 <span class="sd">        `Returns:`</span>
 <span class="sd">            A new parsons table containing the selected rows</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        &quot;&quot;&quot;</span>  <span class="c1"># noqa: W605</span>
 
         <span class="kn">from</span> <span class="nn">parsons.etl.table</span> <span class="k">import</span> <span class="n">Table</span>
 
@@ -968,9 +968,9 @@
 <span class="sd">            +--------------+--------------+----------------------------------------------------+</span>
 <span class="sd">            | &#39;db_scratch&#39; | &#39;state_fips&#39; | &#39;(&#39;                                                |</span>
 <span class="sd">            +--------------+--------------+----------------------------------------------------+</span>
-<span class="sd">            | &#39;db_scratch&#39; | &#39;state_fips&#39; | &#39;\tstate VARCHAR(1024)   ENCODE RAW&#39;               |</span>
+<span class="sd">            | &#39;db_scratch&#39; | &#39;state_fips&#39; | &#39;\tstate VARCHAR(1024)   ENCODE RAW&#39;              |</span>
 <span class="sd">            +--------------+--------------+----------------------------------------------------+</span>
-<span class="sd">            | &#39;db_scratch&#39; | &#39;state_fips&#39; | &#39;\t,stusab VARCHAR(1024)   ENCODE RAW&#39;             |</span>
+<span class="sd">            | &#39;db_scratch&#39; | &#39;state_fips&#39; | &#39;\t,stusab VARCHAR(1024)   ENCODE RAW&#39;            |</span>
 <span class="sd">            +--------------+--------------+----------------------------------------------------+</span>
 
 <span class="sd">            &gt;&gt;&gt; reducer_fn = lambda columns, rows: [</span>
@@ -1011,6 +1011,7 @@
 <span class="sd">            `Parsons Table` and also updates self</span>
 
 <span class="sd">        &quot;&quot;&quot;</span>
+
         <span class="bp">self</span><span class="o">.</span><span class="n">table</span> <span class="o">=</span> <span class="n">petl</span><span class="o">.</span><span class="n">rowreduce</span><span class="p">(</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">table</span><span class="p">,</span>
             <span class="n">columns</span><span class="p">,</span>

@@ -279,13 +279,13 @@
 <span class="sd">                Raise an Error if encountered</span>
 <span class="sd">            write_header: boolean</span>
 <span class="sd">                Include header in output</span>
-<span class="sd">            **csvargs: kwargs</span>
+<span class="sd">            \**csvargs: kwargs</span>
 <span class="sd">                ``csv_writer`` optional arguments</span>
 
 <span class="sd">        `Returns:`</span>
 <span class="sd">            str</span>
 <span class="sd">                The path of the new file</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        &quot;&quot;&quot;</span>  <span class="c1"># noqa: W605</span>
 
         <span class="k">if</span> <span class="n">files</span><span class="o">.</span><span class="n">zip_check</span><span class="p">(</span><span class="n">local_path</span><span class="p">,</span> <span class="n">temp_file_compression</span><span class="p">):</span>
             <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">to_zip_csv</span><span class="p">(</span><span class="n">archive_path</span><span class="o">=</span><span class="n">local_path</span><span class="p">,</span>
@@ -325,13 +325,13 @@
 <span class="sd">                &lt;https://docs.python.org/2/library/csv.html#csv.writer/&gt;`_</span>
 <span class="sd">            errors: str</span>
 <span class="sd">                Raise an Error if encountered</span>
-<span class="sd">            **csvargs: kwargs</span>
+<span class="sd">            \**csvargs: kwargs</span>
 <span class="sd">                ``csv_writer`` optional arguments</span>
 
 <span class="sd">        `Returns:`</span>
 <span class="sd">            str</span>
 <span class="sd">                The path of the file</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        &quot;&quot;&quot;</span>  <span class="c1"># noqa: W605</span>
 
         <span class="n">petl</span><span class="o">.</span><span class="n">appendcsv</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">table</span><span class="p">,</span>
                        <span class="n">source</span><span class="o">=</span><span class="n">local_path</span><span class="p">,</span>
@@ -350,6 +350,7 @@
 
 <span class="sd">        .. warning::</span>
 <span class="sd">                If a file already exists in the archive, it will be overwritten.</span>
+
 <span class="sd">        `Args:`</span>
 <span class="sd">            archive_path: str</span>
 <span class="sd">                The path to zip achive. If not specified, a temporary file will be created and</span>
@@ -367,13 +368,13 @@
 <span class="sd">                Include header in output</span>
 <span class="sd">            if_exists: str</span>
 <span class="sd">                If archive already exists, one of &#39;replace&#39; or &#39;append&#39;</span>
-<span class="sd">            **csvargs: kwargs</span>
+<span class="sd">            \**csvargs: kwargs</span>
 <span class="sd">                ``csv_writer`` optional arguments</span>
 
 <span class="sd">        `Returns:`</span>
 <span class="sd">            str</span>
 <span class="sd">                The path of the archive</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        &quot;&quot;&quot;</span>  <span class="c1"># noqa: W605</span>
 
         <span class="k">if</span> <span class="ow">not</span> <span class="n">archive_path</span><span class="p">:</span>
             <span class="n">archive_path</span> <span class="o">=</span> <span class="n">files</span><span class="o">.</span><span class="n">create_temp_file</span><span class="p">(</span><span class="n">suffix</span><span class="o">=</span><span class="s1">&#39;.zip&#39;</span><span class="p">)</span>
@@ -477,9 +478,9 @@
 <span class="sd">                Raise an Error if encountered</span>
 <span class="sd">            write_header: boolean</span>
 <span class="sd">                Include header in output</span>
-<span class="sd">            **csvargs: kwargs</span>
+<span class="sd">            \**csvargs: kwargs</span>
 <span class="sd">                ``csv_writer`` optional arguments</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        &quot;&quot;&quot;</span>  <span class="c1"># noqa: W605</span>
 
         <span class="kn">from</span> <span class="nn">parsons</span> <span class="k">import</span> <span class="n">SFTP</span>
         <span class="n">sftp</span> <span class="o">=</span> <span class="n">SFTP</span><span class="p">(</span><span class="n">host</span><span class="p">,</span> <span class="n">username</span><span class="p">,</span> <span class="n">password</span><span class="p">,</span> <span class="n">port</span><span class="p">)</span>
@@ -521,11 +522,11 @@
 <span class="sd">                Create a public link to the file</span>
 <span class="sd">            public_url_expire: 3600</span>
 <span class="sd">                The time, in seconds, until the url expires if ``public_url`` set to ``True``.</span>
-<span class="sd">            **csvargs: kwargs</span>
+<span class="sd">            \**csvargs: kwargs</span>
 <span class="sd">                ``csv_writer`` optional arguments</span>
 <span class="sd">        `Returns:`</span>
 <span class="sd">            Public url if specified. If not ``None``.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        &quot;&quot;&quot;</span>  <span class="c1"># noqa: W605</span>
 
         <span class="n">compression</span> <span class="o">=</span> <span class="n">files</span><span class="o">.</span><span class="n">compression_type_for_path</span><span class="p">(</span><span class="n">key</span><span class="p">)</span>
 
@@ -559,12 +560,12 @@
 <span class="sd">                Required if env variable ``REDSHIFT_DB`` not populated</span>
 <span class="sd">            port: int</span>
 <span class="sd">                Required if env variable ``REDSHIFT_PORT`` not populated. Port 5439 is typical.</span>
-<span class="sd">            **copy_args: kwargs</span>
+<span class="sd">            \**copy_args: kwargs</span>
 <span class="sd">                See :func:`~parsons.databases.Redshift.copy`` for options.</span>
 
 <span class="sd">        Returns:</span>
 <span class="sd">            ``None``</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        &quot;&quot;&quot;</span>  <span class="c1"># noqa: W605</span>
 
         <span class="kn">from</span> <span class="nn">parsons</span> <span class="k">import</span> <span class="n">Redshift</span>
         <span class="n">rs</span> <span class="o">=</span> <span class="n">Redshift</span><span class="p">(</span>
@@ -629,12 +630,12 @@
 <span class="sd">            local_path: obj</span>
 <span class="sd">                A csv formatted local path, url or ftp. If this is a</span>
 <span class="sd">                file path that ends in &quot;.gz&quot;, the file will be decompressed first.</span>
-<span class="sd">            **csvargs: kwargs</span>
+<span class="sd">            \**csvargs: kwargs</span>
 <span class="sd">                ``csv_reader`` optional arguments</span>
 <span class="sd">        `Returns:`</span>
 <span class="sd">            Parsons Table</span>
 <span class="sd">                See :ref:`parsons-table` for output options.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        &quot;&quot;&quot;</span>  <span class="c1"># noqa: W605</span>
 
         <span class="k">return</span> <span class="bp">cls</span><span class="p">(</span><span class="n">petl</span><span class="o">.</span><span class="n">fromcsv</span><span class="p">(</span><span class="n">local_path</span><span class="p">,</span> <span class="o">**</span><span class="n">csvargs</span><span class="p">))</span></div>
 

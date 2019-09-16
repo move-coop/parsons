@@ -10,31 +10,43 @@ class People(object):
 
         self.connection = van_connection
 
-    def find_person(self, first_name=None, last_name=None, date_of_birth=None, email=None,
-                    phone=None, street_number=None, street_name=None, zip=None, match_map=None):
+    def find_person(self, id=None, id_type=None, expand_fields=None, firstName=None, lastName=None,
+                    dateOfBirth=None, email=None, phone=None, address1=None, zip=None,
+                    match_map=None):
         """
         Find a person record.
 
         .. note::
-            Person find must include the following minimum combinations to conduct
-            a search.
+            Person find must include VAN ID or one the following minimum combinations
+            to conduct a search.
 
-            - first_name, last_name, email
-            - first_name, last_name, phone
-            - first_name, last_name, zip5, date_of_birth
-            - first_name, last_name, street_number, street_name, zip5
+            - firstName, lastName, email
+            - firstName, lastName, phone
+            - firstName, lastName, zip5, dateOfBirth
+            - firstName, lastName, street_number, street_name, zip5
             - email_address
 
         .. note::
             The arguments that can be passed are a selection of the possible values that
             can be used in a search. A full list of possible values can be found
             `here <https://developers.ngpvan.com/van-api#match-candidates>`_. To use these
-            values, pass in a dictionary using the match_map argument.
+            values, pass in a dictionary using the match_map argument. To expand objects
+            such as phones, emails, etc. make sure to include a comma-separated list in
+            match_map with the key as `'$expand'`  - for more details, see
+            - see `VAN docs <https://developers.ngpvan.com/van-api#people-get-people--vanid>`_.
 
         `Args:`
-            first_name: str
+            id: int or str
+                Any of the record's unique identifiers (e.g. VAN ID) if already known
+            id_type: str
+                If `id` is provided, this is the person ID type (defaults to 'vanid')
+            expand_fields: list
+                List of nested fields to expand for full data (e.g. emails, addresses, etc.)
+                Only relevant if `id` is provided, defaults to all expandable fields
+                - see `VAN docs <https://developers.ngpvan.com/van-api#people-get-people--vanid>`_.
+            firstName: str
                 The person's first name
-            last_name: str
+            lastName: str
                 The person's last name
             dob: str
                 ISO 8601 formatted date of birth (e.g. ``1981-02-01``)
@@ -42,37 +54,36 @@ class People(object):
                 The person's email address
             phone: str
                 Phone number of any type (Work, Cell, Home)
-            street_number: str
-                Street Number
-            street_name: str
-                Street Name
+            address1: str
+                Must contain Street Number and Street Name
             zip: str
                 5 digit zip code
             match_map: dict
                 A dictionary of values to match against. Will override all
                 other arguments if provided.
-            fields: The fields to return. Leave as default for all available fields
         `Returns:`
-            A person dict
+            Parsons Table
+                See :ref:`parsons-table` for output options.
         """
 
-        logger.info(f'Finding {first_name} {last_name}.')
+        logger.info(f'Finding {firstName} {lastName}.')
 
-        return self._people_search(first_name, last_name, date_of_birth, email, phone,
-                                   street_number, street_name, zip, match_map)
+        return self._people_search(id, id_type, expand_fields, firstName, lastName, dateOfBirth,
+                                   email, phone, address1, zip, match_map)
 
-    def upsert_person(self, first_name=None, last_name=None, date_of_birth=None, email=None,
-                      phone=None, street_number=None, street_name=None, zip=None, match_map=None):
+    def upsert_person(self, id=None, id_type=None, firstName=None, lastName=None, dateOfBirth=None,
+                      email=None, phone=None, address1=None, zip=None,
+                      match_map=None):
         """
         Create or update a person record.
 
         .. note::
-            Person find must include the following minimum combinations.
+            Person find must include VAN ID or one of the following minimum combinations.
 
-            - first_name, last_name, email
-            - first_name, last_name, phone
-            - first_name, last_name, zip5, date_of_birth
-            - first_name, last_name, street_number, street_name, zip5
+            - firstName, lastName, email
+            - firstName, lastName, phone
+            - firstName, lastName, zip5, dateOfBirth
+            - firstName, lastName, street_number, street_name, zip5
             - email_address
 
         .. note::
@@ -85,9 +96,13 @@ class People(object):
             This method can only be run on MyMembers, EveryAction, MyCampaign databases.
 
         `Args:`
-            first_name: str
+            id: int or str
+                Any of the record's unique identifiers (e.g. VAN ID) if already known
+            id_type: str
+                If `id` is provided, this is the person ID type (defaults to 'vanid')
+            firstName: str
                 The person's first name
-            last_name: str
+            lastName: str
                 The person's last name
             dob: str
                 ISO 8601 formatted date of birth (e.g. ``1981-02-01``)
@@ -95,71 +110,115 @@ class People(object):
                 The person's email address
             phone: str
                 Phone number of any type (Work, Cell, Home)
-            street_number: str
-                Street Number
-            street_name: str
-                Street Name
+            address1: str
+                Must contain Street Number and Street Name
             zip: str
                 5 digit zip code
             match_map: dict
                 A dictionary of values to match against. Will override all
                 other arguments if provided.
         `Returns:`
-            A person dict
+            Parsons Table
+                See :ref:`parsons-table` for output options.
         """
 
-        return self._people_search(first_name, last_name, date_of_birth, email, phone,
-                                   street_number, street_name, zip, match_map, create=True)
+        return self._people_search(id, id_type, None, firstName, lastName, dateOfBirth, email,
+                                   phone, address1, zip, match_map, create=True)
 
-    def _people_search(self, first_name=None, last_name=None, date_of_birth=None, email=None,
-                       phone=None, street_number=None, street_name=None, zip=None, match_map=None,
-                       create=False):
+    def _people_search(self, id=None, id_type=None, expand_fields=None, firstName=None,
+                       lastName=None, dateOfBirth=None, email=None, phone=None,
+                       addressLine1=None, zipOrPostalCode=None, match_map=None, create=False):
         # Internal method to hit the people find/create endpoints
 
-        # Ensure that the minimum combination of fields were passed
-        self._valid_search(first_name, last_name, email, phone, date_of_birth, street_number,
-                           street_name, zip, match_map)
-
         # Check to see if a match map has been provided
-        if not match_map:
-            json = {"firstName": first_name, "lastName": last_name}
+        if match_map is None:
+            match_map = {}
+        match_map.update({"firstName": firstName, "lastName": lastName})
 
-            # Will fail if empty dicts are provided, hence needed to add if exist
-            if email:
-                json['emails'] = [{'email': email}]
-            if phone:  # To Do: Strip out non-integers from phone
-                json['phones'] = [{'phoneNumber': phone}]
-            if date_of_birth:
-                json['dateOfBirth'] = date_of_birth
-            if zip:
-                json['addresses'] = [{'zipOrPostalCode': zip}]
+        # Will fail if empty dicts are provided, hence needed to add if exist
+        if email is not None:
+            match_map['emails'] = [{'email': email}]
+        if phone is not None:  # To Do: Strip out non-integers from phone
+            match_map['phones'] = [{'phoneNumber': phone}]
+        if dateOfBirth is not None:
+            match_map['dateOfBirth'] = dateOfBirth
+        if zipOrPostalCode is not None:
+            match_map['addresses'] = [{'zipOrPostalCode': zipOrPostalCode}]
+        if addressLine1 is not None:
+            match_map['addresses'][0]['addressLine1'] = addressLine1
+
+        json = match_map
+        # Check if VANID actually supplied in match_map
+        if 'id' in [k.lower() for k in match_map]:
+            id = {k.lower(): v for k, v in match_map.items()}['vanid']
+
+        if id is None:
+
+            # Ensure that the minimum combination of fields were passed
+            self._valid_search(json)
+
+            # Determine correct url
+            url = self.connection.uri + 'people/find'
+            if create:
+                url = url + 'orCreate'
+
+            req_type = 'POST'
+
+        # An id was provided
         else:
-            json = match_map
 
-        # Determine correct url
-        url = self.connection.uri + 'people/find'
-        if create:
-            url = url + 'orCreate'
+            # Determine whether the id type needs to be in the url
+            url_id = "" if id_type is None else f"{id_type}:"
 
-        return self.connection.request(url, req_type="POST", post_data=json)
+            url = self.connection.uri + 'people/' + url_id + str(id)
+            req_type = 'GET'
+            params = None
+            if create:
+                req_type = 'POST'
+            else:
+                # If not creating a new record the expand fields need to be added as param
+                if isinstance(expand_fields, str):
+                    expand_fields = [expand_fields]
+                elif expand_fields is None:
+                    expand_fields = ['contributionHistory', 'addresses', 'phones', 'emails',
+                                     'codes', 'customFields', 'externalIds', 'preferences',
+                                     'recordedAddresses', 'reportedDemographics', 'suppressions',
+                                     'cases', 'customProperties', 'districts', 'electionRecords',
+                                     'membershipStatuses', 'notes', 'organizationRoles',
+                                     'disclosureFieldValues']
+                params = {"$expand": ','.join(expand_fields)}
 
-    def _valid_search(self, first_name, last_name, email, phone, dob, street_number,
-                      street_name, zip, match_map):
+        if req_type == 'POST':
+            return self.connection.request(url, req_type="POST", post_data=json)
+        else:
+            return self.connection.request(url, req_type="GET", args=params)
+
+    def _valid_search(self, json):
         # Internal method to check if a search is valid
 
-        if (None in [first_name, last_name, email] and
-            None in [first_name, last_name, phone] and
-            None in [first_name, last_name, zip, dob] and
-            None in [first_name, last_name, street_number, street_name, zip] and
-                None in [email]):
+        # Flatten the JSON so that we get the bottom-level keys for comparison
+        keys = set()
+        for k, v in json.items():
+            if isinstance(v, list):
+                for x in v:
+                    for i in x:
+                        keys.add(i)
+            elif v is not None:
+                keys.add(k)
+
+        if (len({'firstName', 'lastName', 'email'} - keys) > 0 and
+            len({'firstName', 'lastName', 'phoneNumber'} - keys) > 0 and
+            len({'firstName', 'lastName', 'zipOrPostalCode', 'dateOfBirth'} - keys) > 0 and
+            len({'firstName', 'lastName', 'addressLine1', 'zipOrPostalCode'} - keys) > 0 and
+                'email' not in keys):
 
             raise ValueError("""
                              Person find must include the following minimum
                              combinations to conduct a search.
-                                - first_name, last_name, email
-                                - first_name, last_name, phone
-                                - first_name, last_name, zip, dob
-                                - first_name, last_name, street_number, street_name, zip
+                                - firstName, lastName, email
+                                - firstName, lastName, phone
+                                - firstName, lastName, zip, dob
+                                - firstName, lastName, street_number, street_name, zip
                                 - email
                             """)
 

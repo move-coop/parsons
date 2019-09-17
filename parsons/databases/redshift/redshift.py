@@ -332,7 +332,7 @@ class Redshift(RedshiftCreateTable, RedshiftCopyTable, RedshiftQueries, Redshift
                 leftover target table columns filled in with the `DEFAULT` value.
                 .. warning::
                    This will only work if the provided column names all have _exact_ matches
-                   in the target table. This will also fail if the target table has an `IDENTITY` 
+                   in the target table. This will also fail if the target table has an `IDENTITY`
                    column and that column name is among the provided columns.
             aws_access_key_id:
                 An AWS access key granted to the bucket where the file is located. Not required
@@ -455,7 +455,7 @@ class Redshift(RedshiftCreateTable, RedshiftCopyTable, RedshiftQueries, Redshift
                 leftover target table columns filled in with the `DEFAULT` value.
                 .. warning::
                    This will only work if the source table's column names all have _exact_ matches
-                   in the target table. This will also fail if the target table has an `IDENTITY` 
+                   in the target table. This will also fail if the target table has an `IDENTITY`
                    column and that column name is among the source table's columns.
             aws_access_key_id:
                 An AWS access key granted to the bucket where the file is located. Not required

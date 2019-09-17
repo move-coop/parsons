@@ -473,6 +473,15 @@ class ToFrom(object):
     def from_csv_string(cls, str, **csvargs):
         """
         Create a ``parsons table`` object from a string representing a CSV.
+
+        `Args:`
+            str: str
+                The string object to convert to a table
+            **csvargs: kwargs
+                ``csv_reader`` optional arguments
+        `Returns:`
+            Parsons Table
+                See :ref:`parsons-table` for output options.
         """
 
         bytesio = io.BytesIO(str.encode('utf-8'))

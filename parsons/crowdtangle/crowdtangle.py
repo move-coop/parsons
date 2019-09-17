@@ -97,31 +97,46 @@ class CrowdTangle(object):
         Return advocates (person records).
 
         `Args:`
-            start_date: Format is “yyyy-mm-ddThh:mm:ss”
-                The earliest date at which a post could be posted. Time zone is UTC.
-            end_date: Format is “yyyy-mm-ddThh:mm:ss”
-              The latest date at which a post could be posted. Time zone is UTC.
+            start_date: str
+                Filter to the earliest date at which a post could be posted.
+                The time is formatted as UTC (e.g. ``yyyy-mm-ddThh:mm:ss``).
+            end_date: str
+                Filter to the latest date at which a post could be posted.
+                The time is formatted as UTC (e.g. ``yyyy-mm-ddThh:mm:ss``).
             language: str
-                2-character Locale code
-                Exceptions: Some languages require more than two characters: Chinese
-                (Simplified) is zh-CN and Chinese (Traditional) is zh-TW.
-            list_ids: comma separated
-                The IDs of lists or saved searches to retrieve.
-                These can be separated by commas to include multiple lists.
+                Filter to 2-character Locale code. Some languages require more
+                than two characters: Chinese (Simplified) is zh-CN and
+                Chinese (Traditional) is zh-TW.
+            list_ids: list
+                Filter to the ids of lists or saved searches to retrieve.
             min_interactions: int
-                If set, will exclude posts with total interactions below this threshold.
+                Filter to posts with total interactions above this threshold.
             search_team: str
                 Returns only posts that match this search term. For multiple terms, separate
                 with commas for OR, use quotes for phrases.
-            types: str
-                episode, extra_clip, link, live_video, live_video_complete,
-                live_video_scheduled, native_video, photo, status, trailer,
-                tweet, video, vine, youtube	The types of post to include.
-                These can be separated by commas to include multiple types.
+            types: list
+                Filter to post types including:
+                * ``episode``
+                * ``extra_clip``
+                * ``link``
+                * ``live_video``
+                * ``live_video_complete``
+                * ``live_video_scheduled``
+                * ``native_video``
+                * ``photo``
+                * ``status``
+                * ``trailer``
+                * ``tweet``
+                * ``vimeo``
+                * ``vine``
+                * ``youtube``
+
                 If you want all live videos (whether currently or formerly live),
-                be sure to include both live_video and live_video_complete.
-                The "video" type does not mean all videos, it refers to videos
-                that aren't native_video, youtube or vine (e.g. a video on Vimeo).
+                pass include both ``live_video`` and ``live_video_complete``
+                parameters.
+
+                The ``video`` type does not mean all videos, it refers to videos
+                that are not ``native_video``, ``youtube`` or ``vine``.
 
         `Returns:`
             Parsons Table
@@ -131,7 +146,7 @@ class CrowdTangle(object):
         args = {'startDate': start_date,
                 'endDate': end_date,
                 'language': language,
-                'listIds': list_ids,
+                'listIds': ','.join(list_ids),
                 'minInteractions': min_interations,
                 'searchTerm': search_term,
                 'types': types}
@@ -143,23 +158,22 @@ class CrowdTangle(object):
         return pt
 
     def get_leaderboard(self, start_date=None, end_date=None, list_ids=None, account_ids=None):
-
         """
         Return advocates (person records).
 
         `Args:`
-            start_date: Format is “yyyy-mm-ddThh:mm:ss”
-                The earliest date at which a post could be posted. Time zone is UTC.
-            end_date: Format is “yyyy-mm-ddThh:mm:ss”
-              The latest date at which a post could be posted. Time zone is UTC.
-            list_ids: comma separated
-                The IDs of lists or saved searches to retrieve.
-                These can be separated by commas to include multiple lists.
-            account_ids: comma separated
+            start_date: str
+                Filter to the earliest date at which a post could be posted.
+                The time is formatted as UTC (e.g. ``yyyy-mm-ddThh:mm:ss``).
+            end_date: str
+                Filter to the latest date at which a post could be posted.
+                The time is formatted as UTC (e.g. ``yyyy-mm-ddThh:mm:ss``).
+            list_ids: list
+                Filter to the ids of lists or saved searches to retrieve.
+            account_ids: list
                 A list of CrowdTangle accountIds to retrieve leaderboard data for.
-                These should be provided comma-separated. This and listId are mutually
-                exclusive; if both are sent, accountIds will be preferred.
-
+                This and ``list_id`` are mutually exclusive; if both are sent, the
+                ``account_ids`` value will be used.
         `Returns:`
             Parsons Table
                 See :ref:`parsons-table` for output options.
@@ -167,8 +181,8 @@ class CrowdTangle(object):
 
         args = {'startDate': start_date,
                 'endDate': end_date,
-                'listIds': list_ids,
-                'accountIds': account_ids}
+                'listIds': ','.join(list_ids),
+                'accountIds': ','.join(account_ids)}
 
         pt = Table(self.base_request('leaderboard', args=args))
         logger.info(f'Retrieved {pt.num_rows} records from the leaderbooard.')
@@ -177,24 +191,25 @@ class CrowdTangle(object):
 
     def get_links(self, link, start_date=None, end_date=None, include_summary=None,
                   platforms=None):
-
         """
         Return posts based on a specific link.
 
         `Args:`
-            link: string
-                The link to query by
-            start_date: Format is “yyyy-mm-ddThh:mm:ss”
-                The earliest date at which a post could be posted. Time zone is UTC.
-            end_date: Format is “yyyy-mm-ddThh:mm:ss”
-              The latest date at which a post could be posted. Time zone is UTC.
-            include_summary: 'true','false'
-                Adds a "summary" section with AccountStatistics for each platform
+            link: str
+                The link to filter posts to.
+            start_date: str
+                Filter to the earliest date at which a post could be posted.
+                The time is formatted as UTC (e.g. ``yyyy-mm-ddThh:mm:ss``).
+            end_date: str
+                Filter to the latest date at which a post could be posted.
+                The time is formatted as UTC (e.g. ``yyyy-mm-ddThh:mm:ss``).
+            include_summary: boolean
+                Adds a ``summary`` column with account statistics for each platform
                 that has posted this link. It will look beyond the count
                 requested to summarize across the time searched.
-                Requires a value for startDate.
-            platforms: comma separated
-                The platforms from which to retrieve links. This value can be comma-separated.
+                Requires a value for ``start_date``.
+            platforms: list
+                Filter by platforms
 
         `Returns:`
             Parsons Table
@@ -204,8 +219,8 @@ class CrowdTangle(object):
         args = {'link': link,
                 'startDate': start_date,
                 'endDate': end_date,
-                'includeSummary': include_summary,
-                'platforms': platforms}
+                'includeSummary': str(include_summary.lower()),
+                'platforms': ','.join(platforms)}
 
         logger.info("Retrieving posts based on link.")
         pt = Table(self.base_request('links', args=args))

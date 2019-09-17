@@ -12,16 +12,13 @@ additional details and information.
 
 .. note:: 
    API Keys
-      - VAN API Keys are required to use this module.
       - API Keys are specific to each committee and state, so you might need many.
-      - Not all API Keys are provisioned for all end points. You should contact VAN if you need access.
-      - VAN typically offers a cap of free API calls per day. API calls which exceed the free limit
-        incurr a cost.
+      - Not all API Keys are provisioned for all end points. When requesting API keys, you should specify the endpoints that you need access to.
 
 .. warning:: 
    VANIDs
       VANIDs are unique to each state and instance of the VAN. VANIDs used for the AV VAN **will not** match
-      those of the SmartVAN.
+      those of the SmartVAN or VoteBuilder.
 
 .. toctree::
 	:maxdepth: 1

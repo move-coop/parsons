@@ -7,11 +7,6 @@ Overview
 
 The Copper class allows you to pull person, company, and activity data - along with related metadata - from the Copper CRM.
 
-In order to instantiate the class you must pass valid kwargs or store the following environmental variables:
-
-* ``'COPPER_API_KEY'``
-* ``'COPPER_USER_EMAIL'``
-
 .. note::
 	Getting Your API Key
 		- Sign into Copper

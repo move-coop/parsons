@@ -8,15 +8,16 @@ About
 
 Parsons, named after `Lucy Parsons <https://en.wikipedia.org/wiki/Lucy_Parsons>`_, is a Python package that contains a growing list of connectors and integrations to move data between various tools. Parsons is focused on integrations and connectors for tools utilized by the progressive community.
 
-.. warning::
-   Parsons is under **very active development** and, while it includes extensive unit testing, please **use at your own risk**.
-
 Parsons was built out of a belief that progressive organizations spend far too much time building the same integrations, over and over and over again, while they should be engaged in more important and impactful work. It
 was built and is mantained by The Movement Cooperative.
 
 The Movement Cooperative
 ========================
 The Movement Cooperative is a member led organization focused on providing data, tools and strategic support for the progressive community. Our mission is to break down technological barriers for organizations that fight for social justice.
+
+License and Usage
+=================
+Usage of Parsons is governed by the `TMC Parsons License <https://github.com/move-coop/parsons_public/blob/master/LICENSE.md>`_, which allows for unlimited non-commercial usage, provided that individuals and organizations adhere to our broad values statement.
 
 Design Goals
 ============
@@ -26,10 +27,49 @@ The goal of Parsons is to make the movement of data between systems as easy and 
 
 Parsons seeks to be flexible from a data ingestion and output perspective, while providing ETL tools that recognize that our data is **always** messy. Central to this concept is the :ref:`parsons-table` the table-like object that most methods return.
 
+QuickStart
+==========
+
+
+```
+# VAN - Download activist codes to a CSV
+
+from parsons import VAN
+van = VAN(db='MyVoters')
+ac = van.get_activist_codes()
+ac.to_csv('my_activist_codes.csv')
+
+# Redshift - Create a table from a CSV
+
+from parsons import Table
+tbl = Table.from_csv('my_table.csv')
+tbl.to_redshift('my_schema.my_table')
+
+# Redshift - Export from a query to CSV
+
+from parsons import Redshift
+sql = 'select * from my_schema.my_table'
+rs = Redshift()
+tbl = rs.query(sql)
+tbl.to_csv('my_table.csv')
+
+# Upload a file to S3
+
+from parsons import S3
+s3 = S3()
+s3.put_file('my_bucket','my_table.csv')
+
+# TargetSmart - Append data to a record
+
+from parsons import TargetSmart
+ts = TargetSmart(api_key='MY_KEY')
+record = ts.data_enhance(231231231, state='DC')
+```
+
 Sources
 =======
-* Documentation: `<https://move-coop.github.io/parsons/html/index.html>`_
-* Source Code: `<https://github.com/move-coop/parsons>`_
+* Documentation: `<https://move-coop.github.io/parsons_public/html/index.html>`_
+* Source Code: `<https://github.com/move-coop/parsons_public>`_
 
 Installation
 ============

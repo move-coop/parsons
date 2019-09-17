@@ -181,22 +181,13 @@
 <div class="section" id="overview">
 <h2>Overview<a class="headerlink" href="#overview" title="Permalink to this headline">¶</a></h2>
 <p>The Redshift class allows you to interact with an <a class="reference external" href="https://aws.amazon.com/redshift/">Amazon Redshift</a> relational batabase. The Redshift Connector utilizes the <code class="docutils literal notranslate"><span class="pre">psycopg2</span></code> python package to connect to the database.</p>
-<p>In order to instantiate the class you must pass valid kwargs or store the following
-environmental variables:</p>
-<ul class="simple">
-<li><code class="docutils literal notranslate"><span class="pre">'REDSHIFT_USERNAME'</span></code></li>
-<li><code class="docutils literal notranslate"><span class="pre">'REDSHIFT_PASSWORD'</span></code></li>
-<li><code class="docutils literal notranslate"><span class="pre">'REDSHIFT_HOST'</span></code></li>
-<li><code class="docutils literal notranslate"><span class="pre">'REDSHIFT_DB'</span></code></li>
-<li><code class="docutils literal notranslate"><span class="pre">'REDSHIFT_PORT'</span></code></li>
-</ul>
 <div class="admonition note">
 <p class="first admonition-title">Note</p>
 <dl class="last docutils">
 <dt>S3 Credentials</dt>
 <dd>Redshift only allows data to be copied to the database via S3. As such, you need to include AWS
 S3 credentials in your copy methods or, better yet, store them as environmental variables.
-In addition, you’ll need to provide the env var <cite>S3_TEMP_BUCKET</cite>, which is the bucket name used
+In addition, you’ll need to provide the env var <code class="docutils literal notranslate"><span class="pre">S3_TEMP_BUCKET</span></code>, which is the bucket name used
 for storing data en route to Redshift.</dd>
 <dt>Whitelisting</dt>
 <dd>Remember to ensure that the IP address from which you are connecting has been whitelisted.</dd>

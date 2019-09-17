@@ -643,6 +643,15 @@
     <span class="k">def</span> <span class="nf">from_csv_string</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="nb">str</span><span class="p">,</span> <span class="o">**</span><span class="n">csvargs</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Create a ``parsons table`` object from a string representing a CSV.</span>
+
+<span class="sd">        `Args:`</span>
+<span class="sd">            str: str</span>
+<span class="sd">                The string object to convert to a table</span>
+<span class="sd">            **csvargs: kwargs</span>
+<span class="sd">                ``csv_reader`` optional arguments</span>
+<span class="sd">        `Returns:`</span>
+<span class="sd">            Parsons Table</span>
+<span class="sd">                See :ref:`parsons-table` for output options.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
         <span class="n">bytesio</span> <span class="o">=</span> <span class="n">io</span><span class="o">.</span><span class="n">BytesIO</span><span class="p">(</span><span class="nb">str</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s1">&#39;utf-8&#39;</span><span class="p">))</span>

@@ -173,10 +173,6 @@
   <div class="section" id="about">
 <h1>About<a class="headerlink" href="#about" title="Permalink to this headline">¶</a></h1>
 <p>Parsons, named after <a class="reference external" href="https://en.wikipedia.org/wiki/Lucy_Parsons">Lucy Parsons</a>, is a Python package that contains a growing list of connectors and integrations to move data between various tools. Parsons is focused on integrations and connectors for tools utilized by the progressive community.</p>
-<div class="admonition warning">
-<p class="first admonition-title">Warning</p>
-<p class="last">Parsons is under <strong>very active development</strong> and, while it includes extensive unit testing, please <strong>use at your own risk</strong>.</p>
-</div>
 <p>Parsons was built out of a belief that progressive organizations spend far too much time building the same integrations, over and over and over again, while they should be engaged in more important and impactful work. It
 was built and is mantained by The Movement Cooperative.</p>
 </div>
@@ -184,17 +180,49 @@ was built and is mantained by The Movement Cooperative.</p>
 <h1>The Movement Cooperative<a class="headerlink" href="#the-movement-cooperative" title="Permalink to this headline">¶</a></h1>
 <p>The Movement Cooperative is a member led organization focused on providing data, tools and strategic support for the progressive community. Our mission is to break down technological barriers for organizations that fight for social justice.</p>
 </div>
+<div class="section" id="license-and-usage">
+<h1>License and Usage<a class="headerlink" href="#license-and-usage" title="Permalink to this headline">¶</a></h1>
+<p>Usage of Parsons is governed by the <a class="reference external" href="https://github.com/move-coop/parsons_public/blob/master/LICENSE.md">TMC Parsons License</a>, which allows for unlimited non-commercial usage, provided that individuals and organizations adhere to our broad values statement.</p>
+</div>
 <div class="section" id="design-goals">
 <h1>Design Goals<a class="headerlink" href="#design-goals" title="Permalink to this headline">¶</a></h1>
 <p>The goal of Parsons is to make the movement of data between systems as easy and straightforward as possible. Simply put, we seek to reduce the lines of code that are written by the progressive community. Not only is this a waste of time, but we rarely have the capacity and resources to fully unittest our scripts.</p>
 <img alt="_images/parsons_diagram.png" src="_images/parsons_diagram.png" />
 <p>Parsons seeks to be flexible from a data ingestion and output perspective, while providing ETL tools that recognize that our data is <strong>always</strong> messy. Central to this concept is the <a class="reference internal" href="table.html#parsons-table"><span class="std std-ref">Parsons Table</span></a> the table-like object that most methods return.</p>
 </div>
+<div class="section" id="quickstart">
+<h1>QuickStart<a class="headerlink" href="#quickstart" title="Permalink to this headline">¶</a></h1>
+<p><a href="#id1"><span class="problematic" id="id2">``</span></a>`
+# VAN - Download activist codes to a CSV</p>
+<p>from parsons import VAN
+van = VAN(db=’MyVoters’)
+ac = van.get_activist_codes()
+ac.to_csv(‘my_activist_codes.csv’)</p>
+<p># Redshift - Create a table from a CSV</p>
+<p>from parsons import Table
+tbl = Table.from_csv(‘my_table.csv’)
+tbl.to_redshift(‘my_schema.my_table’)</p>
+<p># Redshift - Export from a query to CSV</p>
+<p>from parsons import Redshift
+sql = ‘select * from my_schema.my_table’
+rs = Redshift()
+tbl = rs.query(sql)
+tbl.to_csv(‘my_table.csv’)</p>
+<p># Upload a file to S3</p>
+<p>from parsons import S3
+s3 = S3()
+s3.put_file(‘my_bucket’,’my_table.csv’)</p>
+<p># TargetSmart - Append data to a record</p>
+<p>from parsons import TargetSmart
+ts = TargetSmart(api_key=’MY_KEY’)
+record = ts.data_enhance(231231231, state=’DC’)
+<a href="#id3"><span class="problematic" id="id4">``</span></a><a href="#id5"><span class="problematic" id="id6">`</span></a></p>
+</div>
 <div class="section" id="sources">
 <h1>Sources<a class="headerlink" href="#sources" title="Permalink to this headline">¶</a></h1>
 <ul class="simple">
-<li>Documentation: <a class="reference external" href="https://move-coop.github.io/parsons/html/index.html">https://move-coop.github.io/parsons/html/index.html</a></li>
-<li>Source Code: <a class="reference external" href="https://github.com/move-coop/parsons">https://github.com/move-coop/parsons</a></li>
+<li>Documentation: <a class="reference external" href="https://move-coop.github.io/parsons_public/html/index.html">https://move-coop.github.io/parsons_public/html/index.html</a></li>
+<li>Source Code: <a class="reference external" href="https://github.com/move-coop/parsons_public">https://github.com/move-coop/parsons_public</a></li>
 </ul>
 </div>
 <div class="section" id="installation">

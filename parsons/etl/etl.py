@@ -37,11 +37,11 @@ class ETL(object):
         Remove a column from your table
 
         `Args:`
-            *columns: str
+            \*columns: str
                 Column names
         `Returns:`
             `Parsons Table` and also updates self
-        """
+        """  # noqa: W605
 
         self.table = petl.cutout(self.table, *columns)
 
@@ -127,9 +127,9 @@ class ETL(object):
         method. Example usage can be found `here` <https://petl.readthedocs.io/en/v0.24/transform.html#petl.convert>`_
 
         `Args:`
-            *column: str
+            \*column: str
                 A single column or multiple columns passed as a list
-            **kwargs: str, method or variable
+            \**kwargs: str, method or variable
                 The update function, method, or variable to process the update
         `Returns:`
             `Parsons Table` and also updates self
@@ -235,11 +235,11 @@ class ETL(object):
         found `here` <https://petl.readthedocs.io/en/v0.24/transform.html#petl.convert>`_.
 
         `Args:`
-            *args: str, method or variable
+            \*args: str, method or variable
                 The update function, method, or variable to process the update. Can also
         `Returns:`
             `Parsons Table` and also updates self
-        """
+        """  # noqa: W605
 
         self.convert_column(self.columns, *args)
 
@@ -536,11 +536,11 @@ class ETL(object):
         Return a table of selection of columns
 
         `Args:`
-            *columns: str
+            \*columns: str
                 Columns in the parsons table
         `Returns:`
             A new parsons table containing the selected columnns
-        """
+        """  # noqa: W605
 
         from parsons.etl.table import Table
 
@@ -571,10 +571,10 @@ class ETL(object):
             >>> {foo: 'a', 'bar': 2, 'baz': 88.1}
 
         `Args:`
-            *filters: function or str
+            \*filters: function or str
         `Returns:`
             A new parsons table containing the selected rows
-        """
+        """  # noqa: W605
 
         from parsons.etl.table import Table
 
@@ -798,9 +798,9 @@ class ETL(object):
             +--------------+--------------+----------------------------------------------------+
             | 'db_scratch' | 'state_fips' | '('                                                |
             +--------------+--------------+----------------------------------------------------+
-            | 'db_scratch' | 'state_fips' | '\tstate VARCHAR(1024)   ENCODE RAW'               |
+            | 'db_scratch' | 'state_fips' | '\tstate VARCHAR(1024)   ENCODE RAW'              |
             +--------------+--------------+----------------------------------------------------+
-            | 'db_scratch' | 'state_fips' | '\t,stusab VARCHAR(1024)   ENCODE RAW'             |
+            | 'db_scratch' | 'state_fips' | '\t,stusab VARCHAR(1024)   ENCODE RAW'            |
             +--------------+--------------+----------------------------------------------------+
 
             >>> reducer_fn = lambda columns, rows: [
@@ -841,6 +841,7 @@ class ETL(object):
             `Parsons Table` and also updates self
 
         """
+
         self.table = petl.rowreduce(
             self.table,
             columns,

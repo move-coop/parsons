@@ -21,6 +21,9 @@ From Parsons Table
     * - Method
       - Destination Type
       - Description
+    * - ``.to_dataframe()``
+      - Pandas Dataframe
+      - Return a Pandas dataframe
     * - ``.to_csv()``
       - CSV File
       - Write a table to a local csv file
@@ -28,6 +31,7 @@ From Parsons Table
       - AWS s3 Bucket
       - Write a table to a csv stored in S3
     * - ``.to_sftp_csv()``
+      - SFTP Server
       - Write a table to a csv stored on an SFTP server
     * - ``.to_redshift()``
       - A Redshift Database

@@ -206,31 +206,45 @@ variable set.</dd>
 <dl class="docutils">
 <dt><cite>Args:</cite></dt>
 <dd><dl class="first last docutils">
-<dt>start_date: Format is “yyyy-mm-ddThh:mm:ss”</dt>
-<dd>The earliest date at which a post could be posted. Time zone is UTC.</dd>
-<dt>end_date: Format is “yyyy-mm-ddThh:mm:ss”</dt>
-<dd>The latest date at which a post could be posted. Time zone is UTC.</dd>
+<dt>start_date: str</dt>
+<dd>Filter to the earliest date at which a post could be posted.
+The time is formatted as UTC (e.g. <code class="docutils literal notranslate"><span class="pre">yyyy-mm-ddThh:mm:ss</span></code>).</dd>
+<dt>end_date: str</dt>
+<dd>Filter to the latest date at which a post could be posted.
+The time is formatted as UTC (e.g. <code class="docutils literal notranslate"><span class="pre">yyyy-mm-ddThh:mm:ss</span></code>).</dd>
 <dt>language: str</dt>
-<dd>2-character Locale code
-Exceptions: Some languages require more than two characters: Chinese
-(Simplified) is zh-CN and Chinese (Traditional) is zh-TW.</dd>
-<dt>list_ids: comma separated</dt>
-<dd>The IDs of lists or saved searches to retrieve.
-These can be separated by commas to include multiple lists.</dd>
+<dd>Filter to 2-character Locale code. Some languages require more
+than two characters: Chinese (Simplified) is zh-CN and
+Chinese (Traditional) is zh-TW.</dd>
+<dt>list_ids: list</dt>
+<dd>Filter to the ids of lists or saved searches to retrieve.</dd>
 <dt>min_interactions: int</dt>
-<dd>If set, will exclude posts with total interactions below this threshold.</dd>
+<dd>Filter to posts with total interactions above this threshold.</dd>
 <dt>search_team: str</dt>
 <dd>Returns only posts that match this search term. For multiple terms, separate
 with commas for OR, use quotes for phrases.</dd>
-<dt>types: str</dt>
-<dd>episode, extra_clip, link, live_video, live_video_complete,
-live_video_scheduled, native_video, photo, status, trailer,
-tweet, video, vine, youtube     The types of post to include.
-These can be separated by commas to include multiple types.
-If you want all live videos (whether currently or formerly live),
-be sure to include both live_video and live_video_complete.
-The “video” type does not mean all videos, it refers to videos
-that aren’t native_video, youtube or vine (e.g. a video on Vimeo).</dd>
+<dt>types: list</dt>
+<dd><p class="first">Filter to post types including:
+* <code class="docutils literal notranslate"><span class="pre">episode</span></code>
+* <code class="docutils literal notranslate"><span class="pre">extra_clip</span></code>
+* <code class="docutils literal notranslate"><span class="pre">link</span></code>
+* <code class="docutils literal notranslate"><span class="pre">live_video</span></code>
+* <code class="docutils literal notranslate"><span class="pre">live_video_complete</span></code>
+* <code class="docutils literal notranslate"><span class="pre">live_video_scheduled</span></code>
+* <code class="docutils literal notranslate"><span class="pre">native_video</span></code>
+* <code class="docutils literal notranslate"><span class="pre">photo</span></code>
+* <code class="docutils literal notranslate"><span class="pre">status</span></code>
+* <code class="docutils literal notranslate"><span class="pre">trailer</span></code>
+* <code class="docutils literal notranslate"><span class="pre">tweet</span></code>
+* <code class="docutils literal notranslate"><span class="pre">vimeo</span></code>
+* <code class="docutils literal notranslate"><span class="pre">vine</span></code>
+* <code class="docutils literal notranslate"><span class="pre">youtube</span></code></p>
+<p>If you want all live videos (whether currently or formerly live),
+pass include both <code class="docutils literal notranslate"><span class="pre">live_video</span></code> and <code class="docutils literal notranslate"><span class="pre">live_video_complete</span></code>
+parameters.</p>
+<p class="last">The <code class="docutils literal notranslate"><span class="pre">video</span></code> type does not mean all videos, it refers to videos
+that are not <code class="docutils literal notranslate"><span class="pre">native_video</span></code>, <code class="docutils literal notranslate"><span class="pre">youtube</span></code> or <code class="docutils literal notranslate"><span class="pre">vine</span></code>.</p>
+</dd>
 </dl>
 </dd>
 <dt><cite>Returns:</cite></dt>
@@ -249,17 +263,18 @@ that aren’t native_video, youtube or vine (e.g. a video on Vimeo).</dd>
 <dl class="docutils">
 <dt><cite>Args:</cite></dt>
 <dd><dl class="first last docutils">
-<dt>start_date: Format is “yyyy-mm-ddThh:mm:ss”</dt>
-<dd>The earliest date at which a post could be posted. Time zone is UTC.</dd>
-<dt>end_date: Format is “yyyy-mm-ddThh:mm:ss”</dt>
-<dd>The latest date at which a post could be posted. Time zone is UTC.</dd>
-<dt>list_ids: comma separated</dt>
-<dd>The IDs of lists or saved searches to retrieve.
-These can be separated by commas to include multiple lists.</dd>
-<dt>account_ids: comma separated</dt>
+<dt>start_date: str</dt>
+<dd>Filter to the earliest date at which a post could be posted.
+The time is formatted as UTC (e.g. <code class="docutils literal notranslate"><span class="pre">yyyy-mm-ddThh:mm:ss</span></code>).</dd>
+<dt>end_date: str</dt>
+<dd>Filter to the latest date at which a post could be posted.
+The time is formatted as UTC (e.g. <code class="docutils literal notranslate"><span class="pre">yyyy-mm-ddThh:mm:ss</span></code>).</dd>
+<dt>list_ids: list</dt>
+<dd>Filter to the ids of lists or saved searches to retrieve.</dd>
+<dt>account_ids: list</dt>
 <dd>A list of CrowdTangle accountIds to retrieve leaderboard data for.
-These should be provided comma-separated. This and listId are mutually
-exclusive; if both are sent, accountIds will be preferred.</dd>
+This and <code class="docutils literal notranslate"><span class="pre">list_id</span></code> are mutually exclusive; if both are sent, the
+<code class="docutils literal notranslate"><span class="pre">account_ids</span></code> value will be used.</dd>
 </dl>
 </dd>
 <dt><cite>Returns:</cite></dt>
@@ -278,19 +293,21 @@ exclusive; if both are sent, accountIds will be preferred.</dd>
 <dl class="docutils">
 <dt><cite>Args:</cite></dt>
 <dd><dl class="first last docutils">
-<dt>link: string</dt>
-<dd>The link to query by</dd>
-<dt>start_date: Format is “yyyy-mm-ddThh:mm:ss”</dt>
-<dd>The earliest date at which a post could be posted. Time zone is UTC.</dd>
-<dt>end_date: Format is “yyyy-mm-ddThh:mm:ss”</dt>
-<dd>The latest date at which a post could be posted. Time zone is UTC.</dd>
-<dt>include_summary: ‘true’,’false’</dt>
-<dd>Adds a “summary” section with AccountStatistics for each platform
+<dt>link: str</dt>
+<dd>The link to filter posts to.</dd>
+<dt>start_date: str</dt>
+<dd>Filter to the earliest date at which a post could be posted.
+The time is formatted as UTC (e.g. <code class="docutils literal notranslate"><span class="pre">yyyy-mm-ddThh:mm:ss</span></code>).</dd>
+<dt>end_date: str</dt>
+<dd>Filter to the latest date at which a post could be posted.
+The time is formatted as UTC (e.g. <code class="docutils literal notranslate"><span class="pre">yyyy-mm-ddThh:mm:ss</span></code>).</dd>
+<dt>include_summary: boolean</dt>
+<dd>Adds a <code class="docutils literal notranslate"><span class="pre">summary</span></code> column with account statistics for each platform
 that has posted this link. It will look beyond the count
 requested to summarize across the time searched.
-Requires a value for startDate.</dd>
-<dt>platforms: comma separated</dt>
-<dd>The platforms from which to retrieve links. This value can be comma-separated.</dd>
+Requires a value for <code class="docutils literal notranslate"><span class="pre">start_date</span></code>.</dd>
+<dt>platforms: list</dt>
+<dd>Filter by platforms</dd>
 </dl>
 </dd>
 <dt><cite>Returns:</cite></dt>

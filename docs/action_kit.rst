@@ -1,5 +1,5 @@
 ActionKit
-========
+=========
 
 ********
 Overview
@@ -19,9 +19,9 @@ Quickstart
   ak = ActionKit()
   user_data = ak.get_user(123)
 
-**************
+***************
 ActionKit Class
-**************
+***************
 
 .. autoclass :: parsons.ActionKit
    :inherited-members:

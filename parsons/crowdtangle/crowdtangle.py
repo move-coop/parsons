@@ -91,6 +91,13 @@ class CrowdTangle(object):
 
         return ParsonsTable
 
+    def list_to_string(self, list_arg):
+
+        if list_arg:
+            return ','.join(list_arg)
+        else:
+            return None
+
     def get_posts(self, start_date=None, end_date=None, language=None, list_ids=None,
                   min_interations=None, search_term=None, types=None):
         """
@@ -146,7 +153,7 @@ class CrowdTangle(object):
         args = {'startDate': start_date,
                 'endDate': end_date,
                 'language': language,
-                'listIds': ','.join(list_ids),
+                'listIds': self.list_to_string(list_ids),
                 'minInteractions': min_interations,
                 'searchTerm': search_term,
                 'types': types}
@@ -181,8 +188,8 @@ class CrowdTangle(object):
 
         args = {'startDate': start_date,
                 'endDate': end_date,
-                'listIds': ','.join(list_ids),
-                'accountIds': ','.join(account_ids)}
+                'listIds': self.list_to_string(list_ids),
+                'accountIds': self.list_to_string(account_ids)}
 
         pt = Table(self.base_request('leaderboard', args=args))
         logger.info(f'Retrieved {pt.num_rows} records from the leaderbooard.')
@@ -219,8 +226,8 @@ class CrowdTangle(object):
         args = {'link': link,
                 'startDate': start_date,
                 'endDate': end_date,
-                'includeSummary': str(include_summary.lower()),
-                'platforms': ','.join(platforms)}
+                'includeSummary': str(include_summary),
+                'platforms': self.list_to_string(platforms)}
 
         logger.info("Retrieving posts based on link.")
         pt = Table(self.base_request('links', args=args))

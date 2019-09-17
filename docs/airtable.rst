@@ -15,7 +15,6 @@ you must generate an Airtable API Key which can be found in your Airtable `accou
     * The url of the resulting page will contain the ``base_key``.
     * Example: ``https://airtable.com/[BASE_KEY]/api/docs#curl/introduction``
 
-
 **************
 Airtable Class
 **************

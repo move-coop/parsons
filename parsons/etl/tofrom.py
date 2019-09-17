@@ -109,13 +109,13 @@ class ToFrom(object):
                 Raise an Error if encountered
             write_header: boolean
                 Include header in output
-            **csvargs: kwargs
+            \**csvargs: kwargs
                 ``csv_writer`` optional arguments
 
         `Returns:`
             str
                 The path of the new file
-        """
+        """  # noqa: W605
 
         if files.zip_check(local_path, temp_file_compression):
             return self.to_zip_csv(archive_path=local_path,
@@ -155,13 +155,13 @@ class ToFrom(object):
                 <https://docs.python.org/2/library/csv.html#csv.writer/>`_
             errors: str
                 Raise an Error if encountered
-            **csvargs: kwargs
+            \**csvargs: kwargs
                 ``csv_writer`` optional arguments
 
         `Returns:`
             str
                 The path of the file
-        """
+        """  # noqa: W605
 
         petl.appendcsv(self.table,
                        source=local_path,
@@ -180,6 +180,7 @@ class ToFrom(object):
 
         .. warning::
                 If a file already exists in the archive, it will be overwritten.
+
         `Args:`
             archive_path: str
                 The path to zip achive. If not specified, a temporary file will be created and
@@ -197,13 +198,13 @@ class ToFrom(object):
                 Include header in output
             if_exists: str
                 If archive already exists, one of 'replace' or 'append'
-            **csvargs: kwargs
+            \**csvargs: kwargs
                 ``csv_writer`` optional arguments
 
         `Returns:`
             str
                 The path of the archive
-        """
+        """  # noqa: W605
 
         if not archive_path:
             archive_path = files.create_temp_file(suffix='.zip')
@@ -307,9 +308,9 @@ class ToFrom(object):
                 Raise an Error if encountered
             write_header: boolean
                 Include header in output
-            **csvargs: kwargs
+            \**csvargs: kwargs
                 ``csv_writer`` optional arguments
-        """
+        """  # noqa: W605
 
         from parsons import SFTP
         sftp = SFTP(host, username, password, port)
@@ -323,7 +324,8 @@ class ToFrom(object):
 
     def to_s3_csv(self, bucket, key, aws_access_key_id=None,
                   aws_secret_access_key=None, compression=None, encoding=None,
-                  errors='strict', write_header=True, **csvargs):
+                  errors='strict', write_header=True, public_url=False,
+                  public_url_expires=3600, **csvargs):
         """
         Writes the table to an s3 object as a CSV
 
@@ -346,9 +348,15 @@ class ToFrom(object):
                 Raise an Error if encountered
             write_header: boolean
                 Include header in output
-            **csvargs: kwargs
+            public_url: boolean
+                Create a public link to the file
+            public_url_expire: 3600
+                The time, in seconds, until the url expires if ``public_url`` set to ``True``.
+            \**csvargs: kwargs
                 ``csv_writer`` optional arguments
-        """
+        `Returns:`
+            Public url if specified. If not ``None``.
+        """  # noqa: W605
 
         compression = files.compression_type_for_path(key)
 
@@ -359,6 +367,11 @@ class ToFrom(object):
         self.s3 = S3(aws_access_key_id=aws_access_key_id,
                      aws_secret_access_key=aws_secret_access_key)
         self.s3.put_file(bucket, key, local_path)
+
+        if public_url:
+            return self.s3.get_url(bucket, key, expires_in=public_url_expires)
+        else:
+            return None
 
     def to_redshift(self, table_name, username=None, password=None, host=None,
                     db=None, port=None, **copy_args):
@@ -377,11 +390,12 @@ class ToFrom(object):
                 Required if env variable ``REDSHIFT_DB`` not populated
             port: int
                 Required if env variable ``REDSHIFT_PORT`` not populated. Port 5439 is typical.
-            **copy_args: kwargs
-                See :func:`~parsons.Redshift.copy`` for options.
+            \**copy_args: kwargs
+                See :func:`~parsons.databases.Redshift.copy`` for options.
+
         Returns:
             ``None``
-        """
+        """  # noqa: W605
 
         from parsons import Redshift
         rs = Redshift(
@@ -446,12 +460,12 @@ class ToFrom(object):
             local_path: obj
                 A csv formatted local path, url or ftp. If this is a
                 file path that ends in ".gz", the file will be decompressed first.
-            **csvargs: kwargs
+            \**csvargs: kwargs
                 ``csv_reader`` optional arguments
         `Returns:`
             Parsons Table
                 See :ref:`parsons-table` for output options.
-        """
+        """  # noqa: W605
 
         return cls(petl.fromcsv(local_path, **csvargs))
 

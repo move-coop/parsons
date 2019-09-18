@@ -11,3 +11,23 @@ def arg_format(arg):
     arg_list[0] = arg_list[0].lower()
 
     return ''.join(arg_list)
+
+
+def list_to_string(list_arg):
+
+    if list_arg:
+        return ','.join(list_arg)
+    else:
+        return None
+
+
+def remove_empty_keys(dirty_dict):
+    # Remove empty args in dictionary
+
+    clean_dict = {}
+
+    for k, v in dirty_dict.items():
+        if v and len(v) > 0:
+            clean_dict[k] = v
+
+    return clean_dict

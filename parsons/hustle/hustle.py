@@ -1,6 +1,6 @@
 from parsons import Table
 from requests import request
-from parsons.utilities import check_env
+from parsons.utilities import check_env, json_format
 import datetime
 from parsons.hustle.column_map import LEAD_COLUMN_MAP
 import logging
@@ -29,16 +29,20 @@ class Hustle(object):
         self.uri = HUSTLE_URI
         self.client_id = check_env.check('HUSTLE_CLIENT_ID', client_id)
         self.client_secret = check_env.check('HUSTLE_CLIENT_SECRET', client_secret)
-        self.auth_token = self._get_auth_token(client_id, client_secret)
+        self.token_expiration = None
+        self._get_auth_token(client_id, client_secret)
 
     def _get_auth_token(self, client_id, client_secret):
         # Generate a temporary authorization token
 
-        args = {client_id: client_id, client_secret: client_secret}
+        data = {'client_id': client_id,
+                'client_secret': client_secret,
+                'grant_type': 'client_credentials'}
 
-        r = self._request(endpoint='oauth/token', req_type='POST', args=args)
+        r = request('POST', self.uri + 'oauth/token', data=data)
+        logger.debug(r.json())
 
-        self.auth_token = r[0]['access_token']
+        self.auth_token = r.json()['access_token']
         self.token_expiration = datetime.datetime.now() + datetime.timedelta(seconds=7200)
         logger.info("Authentication token generated")
 
@@ -59,31 +63,37 @@ class Hustle(object):
     def _request(self, endpoint, req_type='GET', args=None, payload=None, raise_on_error=True):
 
         url = self.uri + endpoint
-
         self._token_check()
 
-        headers = f'Authorization: Bearer {self.auth_token}'
+        headers = {'Authorization': f'Bearer {self.auth_token}'}
 
         parameters = {'limit': PAGE_LIMIT}
 
         if args:
             parameters.update(args)
 
-        r = request(req_type, url, params=parameters, payload=payload, headers=headers)
+        r = request(req_type, url, params=parameters, data=payload, headers=headers)
+        #print (r.json())
 
         self._error_check(r, raise_on_error)
 
-        result = [r.json()['items']]
+        # If a single item return the dict
+        if 'items' not in r.json().keys():
+
+            return r.json()
+
+        else:
+            result = r.json()['items']
 
         # Pagination
-        while r.json['pagination']['hasNextPage'] == 'true':
+        while r.json()['pagination']['hasNextPage'] == 'true':
 
             parameters['cursor'] = r.json['pagination']['cursor']
             r = request(req_type, url, params=parameters, payload=payload, headers=headers)
             self._error_check(r, raise_on_error)
             result.append(r.json()['items'])
 
-        return r
+        return result
 
     def _error_check(self, r, raise_on_error):
         # Check for errors
@@ -104,8 +114,57 @@ class Hustle(object):
             logger.info(r.json())
             return None
 
+    def get_organizations(self):
+        """
+        Get organizations.
+
+        `Returns:`
+            Parsons Table
+                See :ref:`parsons-table` for output options.
+        """
+
+        return Table(self._request('organizations'))
+
+    def get_organization(self, organization_id):
+        """
+        Get a single organization
+
+        `Args:`
+            organization_id: str
+                The organization id
+        `Returns:`
+            dict
+        """
+
+        return self._request(f'organizations/{organization_id}')
+
+    def get_groups(self, organization_id):
+        """
+        Get a list of groups.
+
+        `Args:`
+            organization_id: str
+        `Returns:`
+            Parsons Table
+                See :ref:`parsons-table` for output options.
+        """
+
+        return Table(self._request(f'organizations/{organization_id}/groups'))
+
+    def get_group(self, group_id):
+        """
+        Get group metadata
+
+        `Args:`
+            group_id: str
+        `Returns:`
+            dict
+        """
+
+        return self._request(f'groups/{group_id}')
+
     def create_lead(self, group_id, first_name, phone_number, last_name=None, email=None,
-                    notes=None, follow_up=None, custom_fields=None, tag_id=None):
+                    notes=None, follow_up=None, custom_fields=None, tag_ids=None):
         """
         Create a single lead.
 
@@ -127,6 +186,8 @@ class Hustle(object):
             custom_fields: dict
                 A dictionary of custom fields, with key as the value name, and
                 value as the value.
+            tag_ids: list
+                A list of tag ids
         `Returns:`
                 ``None``
         """
@@ -141,19 +202,39 @@ class Hustle(object):
         lead = {'firstName': first_name,
                 'lastName': last_name,
                 'email': email,
-                'phone_number': phone_number,
+                'phoneNumber': phone_number,
                 'notes': notes,
-                'follow_up': follow_up,
-                'custom_fields': custom_fields,
-                'tagIds': tag_id
+                'followUp': follow_up,
+                'customFields': custom_fields,
+                'tagIds': [json_format.list_to_string(tag_ids)]
                 }
+
+        print (lead)
 
         logger.debug('Generating lead for {first_name} {last_name}.')
         return self._request(endpoint, req_type="POST", payload=lead)
 
     def create_leads(self, table, group_id=None):
         """
-        Create multiple leads. All unrecognized fields will be passed as custom fields.
+        Create multiple leads. All unrecognized fields will be passed as custom fields. Column
+        names must map to the following names.
+
+        .. list-table::
+            :widths: 20 80
+            :header-rows: 1
+
+            * - Column Name
+              - Valid Column Names
+            * - first_name
+              - ``first_name``, ``first``, ``fn``, ``firstname``
+            * - last_name
+              - ``last_name``, ``last``, ``ln, ``lastname``
+            * - phone_number
+              - ``phone_number``, ``phone``, ``cell``, ``phonenumber``
+            * - email
+              - ``email``, ``email_address``, ``emailaddress``
+            * - follow_up
+              - ``follow_up``, ``followup``
 
         `Args:`
             table: Parsons table
@@ -179,9 +260,11 @@ class Hustle(object):
             # to custom fields
             for k, v in row.items():
                 if k in arg_list:
-                    lead[k] == v
+                    lead[k] = v
                 else:
-                    custom_fields[k] == v
+                    custom_fields[k] = v
+
+            lead['custom_fields'] = custom_fields
 
             # Group Id check
             if not group_id and 'group_id' not in table.columns:
@@ -189,14 +272,33 @@ class Hustle(object):
             if group_id:
                 lead['group_id'] == group_id
 
+            print (lead)
+
             self.create_lead(**lead)
 
         logger.info(f"Created {table.num_rows} leads.")
 
     def update_lead(self, lead_id, first_name=None, last_name=None, email=None,
                     global_opt_out=None, notes=None, follow_up=None, tag_ids=None):
-
-        endpoint = f'leads/{lead_id}'
+        """
+        `Args`:
+            lead_id: str
+                The lead id
+            first_name: str
+                The first name of the lead
+            phone_number: str
+                The phone number of the lead
+            last_name: str
+                The last name of the lead
+            email: str
+                The email address of the lead
+            global_opt_out: boolean
+                Opt out flag for the lead
+            notes: str
+                The notes for the lead
+            follow_up: str
+                Follow up for the lead
+        """
 
         lead = {'leadId': lead_id,
                 'firstName': first_name,
@@ -205,15 +307,13 @@ class Hustle(object):
                 'globalOptOut': global_opt_out,
                 'notes': notes,
                 'followUp': follow_up,
-                'tagIds': tag_ids}
+                'tagIds': json_format.list_to_string(tag_ids)}
 
         # Remove empty args in dictionary
-        for k, v in lead.items():
-            if not v:
-                del lead[k]
+        lead = json_format.remove_empty_keys(lead)
 
         logger.debug('Updating lead for {first_name} {last_name}.')
-        return self._request(endpoint, req_type="PUT", payload=lead)
+        return self._request(f'leads/{lead_id}', req_type="PUT", payload=lead)
 
     def get_lead(self, lead_id):
         """
@@ -226,9 +326,8 @@ class Hustle(object):
             dict
         """
 
-        endpoint = f'leads/{lead_id}'
-        logger.info('Retrieving {lead_id} lead.')
-        return self._request(endpoint)
+        logger.info(f'Retrieving {lead_id} lead.')
+        return self._request(f'leads/{lead_id}')
 
     def get_leads(self, organization_id=None, group_id=None):
         """
@@ -259,5 +358,3 @@ class Hustle(object):
             logger.info(f'Retrieving {group_id} group leads.')
 
         return Table(self._request(endpoint))
-
-

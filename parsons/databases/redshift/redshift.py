@@ -326,7 +326,7 @@ class Redshift(RedshiftCreateTable, RedshiftCopyTable, RedshiftQueries, Redshift
                 Optional map of column name to redshift column type, overriding the usual type
                 inference. You only specify the columns you want to override, eg.
                 ``columntypes={'phone': 'varchar(12)', 'age': 'int'})``.
-            specifycols: boolean
+            specifycols: list
                 Adds a column list to the Redshift `COPY` command, allowing for the source file
                 in an append to have the columnns out of order, and to have fewer columns with any
                 leftover target table columns filled in with the `DEFAULT` value.

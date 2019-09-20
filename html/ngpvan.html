@@ -391,15 +391,15 @@ specified in the event creation.</li>
 <em class="property">class </em><code class="descclassname">parsons.ngpvan.van.</code><code class="descname">People</code><span class="sig-paren">(</span><em>van_connection</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/ngpvan/people.html#People"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.ngpvan.van.People" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="method">
 <dt id="parsons.ngpvan.van.People.find_person">
-<code class="descname">find_person</code><span class="sig-paren">(</span><em>first_name=None</em>, <em>last_name=None</em>, <em>date_of_birth=None</em>, <em>email=None</em>, <em>phone=None</em>, <em>street_number=None</em>, <em>street_name=None</em>, <em>zip=None</em>, <em>match_map=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/ngpvan/people.html#People.find_person"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.ngpvan.van.People.find_person" title="Permalink to this definition">¶</a></dt>
+<code class="descname">find_person</code><span class="sig-paren">(</span><em>id=None</em>, <em>id_type=None</em>, <em>expand_fields=None</em>, <em>first_name=None</em>, <em>last_name=None</em>, <em>date_of_birth=None</em>, <em>email=None</em>, <em>phone_number=None</em>, <em>address_line1=None</em>, <em>zip=None</em>, <em>match_map=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/ngpvan/people.html#People.find_person"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.ngpvan.van.People.find_person" title="Permalink to this definition">¶</a></dt>
 <dd><p>Find a person record.</p>
 <div class="admonition note">
 <p class="first admonition-title">Note</p>
-<p>Person find must include the following minimum combinations to conduct
-a search.</p>
+<p>Person find must include VAN ID or one the following minimum combinations
+to conduct a search.</p>
 <ul class="last simple">
 <li>first_name, last_name, email</li>
-<li>first_name, last_name, phone</li>
+<li>first_name, last_name, phone_number</li>
 <li>first_name, last_name, zip5, date_of_birth</li>
 <li>first_name, last_name, street_number, street_name, zip5</li>
 <li>email_address</li>
@@ -410,11 +410,22 @@ a search.</p>
 <p class="last">The arguments that can be passed are a selection of the possible values that
 can be used in a search. A full list of possible values can be found
 <a class="reference external" href="https://developers.ngpvan.com/van-api#match-candidates">here</a>. To use these
-values, pass in a dictionary using the match_map argument.</p>
+values, pass in a dictionary using the match_map argument. To expand objects
+such as phones, emails, etc. make sure to include a comma-separated list in
+match_map with the key as <cite>‘$expand’</cite>  - for more details, see
+- see <a class="reference external" href="https://developers.ngpvan.com/van-api#people-get-people--vanid">VAN docs</a>.</p>
 </div>
 <dl class="docutils">
 <dt><cite>Args:</cite></dt>
-<dd><dl class="first docutils">
+<dd><dl class="first last docutils">
+<dt>id: int or str</dt>
+<dd>Any of the record’s unique identifiers (e.g. VAN ID) if already known</dd>
+<dt>id_type: str</dt>
+<dd>If <cite>id</cite> is provided, this is the person ID type (defaults to ‘vanid’)</dd>
+<dt>expand_fields: list</dt>
+<dd>List of nested fields to expand for full data (e.g. emails, addresses, etc.)
+Only relevant if <cite>id</cite> is provided, defaults to all expandable fields
+- see <a class="reference external" href="https://developers.ngpvan.com/van-api#people-get-people--vanid">VAN docs</a>.</dd>
 <dt>first_name: str</dt>
 <dd>The person’s first name</dd>
 <dt>last_name: str</dt>
@@ -423,35 +434,36 @@ values, pass in a dictionary using the match_map argument.</p>
 <dd>ISO 8601 formatted date of birth (e.g. <code class="docutils literal notranslate"><span class="pre">1981-02-01</span></code>)</dd>
 <dt>email: str</dt>
 <dd>The person’s email address</dd>
-<dt>phone: str</dt>
+<dt>phone_number: str</dt>
 <dd>Phone number of any type (Work, Cell, Home)</dd>
-<dt>street_number: str</dt>
-<dd>Street Number</dd>
-<dt>street_name: str</dt>
-<dd>Street Name</dd>
+<dt>address_line1: str</dt>
+<dd>Must contain Street Number and Street Name</dd>
 <dt>zip: str</dt>
 <dd>5 digit zip code</dd>
 <dt>match_map: dict</dt>
 <dd>A dictionary of values to match against. Will override all
 other arguments if provided.</dd>
 </dl>
-<p class="last">fields: The fields to return. Leave as default for all available fields</p>
 </dd>
 <dt><cite>Returns:</cite></dt>
-<dd>A person dict</dd>
+<dd><dl class="first last docutils">
+<dt>Parsons Table</dt>
+<dd>See <a class="reference internal" href="table.html#parsons-table"><span class="std std-ref">Parsons Table</span></a> for output options.</dd>
+</dl>
+</dd>
 </dl>
 </dd></dl>
 
 <dl class="method">
 <dt id="parsons.ngpvan.van.People.upsert_person">
-<code class="descname">upsert_person</code><span class="sig-paren">(</span><em>first_name=None</em>, <em>last_name=None</em>, <em>date_of_birth=None</em>, <em>email=None</em>, <em>phone=None</em>, <em>street_number=None</em>, <em>street_name=None</em>, <em>zip=None</em>, <em>match_map=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/ngpvan/people.html#People.upsert_person"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.ngpvan.van.People.upsert_person" title="Permalink to this definition">¶</a></dt>
+<code class="descname">upsert_person</code><span class="sig-paren">(</span><em>id=None</em>, <em>id_type=None</em>, <em>first_name=None</em>, <em>last_name=None</em>, <em>date_of_birth=None</em>, <em>email=None</em>, <em>phone_number=None</em>, <em>address_line1=None</em>, <em>zip=None</em>, <em>match_map=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/ngpvan/people.html#People.upsert_person"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.ngpvan.van.People.upsert_person" title="Permalink to this definition">¶</a></dt>
 <dd><p>Create or update a person record.</p>
 <div class="admonition note">
 <p class="first admonition-title">Note</p>
-<p>Person find must include the following minimum combinations.</p>
+<p>Person find must include VAN ID or one of the following minimum combinations.</p>
 <ul class="last simple">
 <li>first_name, last_name, email</li>
-<li>first_name, last_name, phone</li>
+<li>first_name, last_name, phone_number</li>
 <li>first_name, last_name, zip5, date_of_birth</li>
 <li>first_name, last_name, street_number, street_name, zip5</li>
 <li>email_address</li>
@@ -471,6 +483,10 @@ values, pass in a dictionary using the match_map argument.</p>
 <dl class="docutils">
 <dt><cite>Args:</cite></dt>
 <dd><dl class="first last docutils">
+<dt>id: int or str</dt>
+<dd>Any of the record’s unique identifiers (e.g. VAN ID) if already known</dd>
+<dt>id_type: str</dt>
+<dd>If <cite>id</cite> is provided, this is the person ID type (defaults to ‘vanid’)</dd>
 <dt>first_name: str</dt>
 <dd>The person’s first name</dd>
 <dt>last_name: str</dt>
@@ -479,12 +495,10 @@ values, pass in a dictionary using the match_map argument.</p>
 <dd>ISO 8601 formatted date of birth (e.g. <code class="docutils literal notranslate"><span class="pre">1981-02-01</span></code>)</dd>
 <dt>email: str</dt>
 <dd>The person’s email address</dd>
-<dt>phone: str</dt>
+<dt>phone_number: str</dt>
 <dd>Phone number of any type (Work, Cell, Home)</dd>
-<dt>street_number: str</dt>
-<dd>Street Number</dd>
-<dt>street_name: str</dt>
-<dd>Street Name</dd>
+<dt>address_line1: str</dt>
+<dd>Must contain Street Number and Street Name</dd>
 <dt>zip: str</dt>
 <dd>5 digit zip code</dd>
 <dt>match_map: dict</dt>
@@ -493,7 +507,11 @@ other arguments if provided.</dd>
 </dl>
 </dd>
 <dt><cite>Returns:</cite></dt>
-<dd>A person dict</dd>
+<dd><dl class="first last docutils">
+<dt>Parsons Table</dt>
+<dd>See <a class="reference internal" href="table.html#parsons-table"><span class="std std-ref">Parsons Table</span></a> for output options.</dd>
+</dl>
+</dd>
 </dl>
 </dd></dl>
 

@@ -169,6 +169,7 @@
             
   <h1>Source code for parsons.ngpvan.people</h1><div class="highlight"><pre>
 <span></span><span class="kn">from</span> <span class="nn">parsons.utilities</span> <span class="k">import</span> <span class="n">json_format</span>
+<span class="kn">from</span> <span class="nn">parsons.utilities.converted_dict</span> <span class="k">import</span> <span class="n">converted_dict</span>
 <span class="kn">import</span> <span class="nn">logging</span>
 
 <span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
@@ -180,17 +181,18 @@
 
         <span class="bp">self</span><span class="o">.</span><span class="n">connection</span> <span class="o">=</span> <span class="n">van_connection</span>
 
-<div class="viewcode-block" id="People.find_person"><a class="viewcode-back" href="../../../ngpvan.html#parsons.ngpvan.van.People.find_person">[docs]</a>    <span class="k">def</span> <span class="nf">find_person</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">first_name</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">last_name</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">date_of_birth</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">email</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-                    <span class="n">phone</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">street_number</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">street_name</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="nb">zip</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">match_map</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<div class="viewcode-block" id="People.find_person"><a class="viewcode-back" href="../../../ngpvan.html#parsons.ngpvan.van.People.find_person">[docs]</a>    <span class="k">def</span> <span class="nf">find_person</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">id_type</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">expand_fields</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">first_name</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                    <span class="n">last_name</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">date_of_birth</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">email</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">phone_number</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                    <span class="n">address_line1</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="nb">zip</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">match_map</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Find a person record.</span>
 
 <span class="sd">        .. note::</span>
-<span class="sd">            Person find must include the following minimum combinations to conduct</span>
-<span class="sd">            a search.</span>
+<span class="sd">            Person find must include VAN ID or one the following minimum combinations</span>
+<span class="sd">            to conduct a search.</span>
 
 <span class="sd">            - first_name, last_name, email</span>
-<span class="sd">            - first_name, last_name, phone</span>
+<span class="sd">            - first_name, last_name, phone_number</span>
 <span class="sd">            - first_name, last_name, zip5, date_of_birth</span>
 <span class="sd">            - first_name, last_name, street_number, street_name, zip5</span>
 <span class="sd">            - email_address</span>
@@ -199,9 +201,20 @@
 <span class="sd">            The arguments that can be passed are a selection of the possible values that</span>
 <span class="sd">            can be used in a search. A full list of possible values can be found</span>
 <span class="sd">            `here &lt;https://developers.ngpvan.com/van-api#match-candidates&gt;`_. To use these</span>
-<span class="sd">            values, pass in a dictionary using the match_map argument.</span>
+<span class="sd">            values, pass in a dictionary using the match_map argument. To expand objects</span>
+<span class="sd">            such as phones, emails, etc. make sure to include a comma-separated list in</span>
+<span class="sd">            match_map with the key as `&#39;$expand&#39;`  - for more details, see</span>
+<span class="sd">            - see `VAN docs &lt;https://developers.ngpvan.com/van-api#people-get-people--vanid&gt;`_.</span>
 
 <span class="sd">        `Args:`</span>
+<span class="sd">            id: int or str</span>
+<span class="sd">                Any of the record&#39;s unique identifiers (e.g. VAN ID) if already known</span>
+<span class="sd">            id_type: str</span>
+<span class="sd">                If `id` is provided, this is the person ID type (defaults to &#39;vanid&#39;)</span>
+<span class="sd">            expand_fields: list</span>
+<span class="sd">                List of nested fields to expand for full data (e.g. emails, addresses, etc.)</span>
+<span class="sd">                Only relevant if `id` is provided, defaults to all expandable fields</span>
+<span class="sd">                - see `VAN docs &lt;https://developers.ngpvan.com/van-api#people-get-people--vanid&gt;`_.</span>
 <span class="sd">            first_name: str</span>
 <span class="sd">                The person&#39;s first name</span>
 <span class="sd">            last_name: str</span>
@@ -210,37 +223,36 @@
 <span class="sd">                ISO 8601 formatted date of birth (e.g. ``1981-02-01``)</span>
 <span class="sd">            email: str</span>
 <span class="sd">                The person&#39;s email address</span>
-<span class="sd">            phone: str</span>
+<span class="sd">            phone_number: str</span>
 <span class="sd">                Phone number of any type (Work, Cell, Home)</span>
-<span class="sd">            street_number: str</span>
-<span class="sd">                Street Number</span>
-<span class="sd">            street_name: str</span>
-<span class="sd">                Street Name</span>
+<span class="sd">            address_line1: str</span>
+<span class="sd">                Must contain Street Number and Street Name</span>
 <span class="sd">            zip: str</span>
 <span class="sd">                5 digit zip code</span>
 <span class="sd">            match_map: dict</span>
 <span class="sd">                A dictionary of values to match against. Will override all</span>
 <span class="sd">                other arguments if provided.</span>
-<span class="sd">            fields: The fields to return. Leave as default for all available fields</span>
 <span class="sd">        `Returns:`</span>
-<span class="sd">            A person dict</span>
+<span class="sd">            Parsons Table</span>
+<span class="sd">                See :ref:`parsons-table` for output options.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
         <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="n">f</span><span class="s1">&#39;Finding </span><span class="si">{first_name}</span><span class="s1"> </span><span class="si">{last_name}</span><span class="s1">.&#39;</span><span class="p">)</span>
 
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_people_search</span><span class="p">(</span><span class="n">first_name</span><span class="p">,</span> <span class="n">last_name</span><span class="p">,</span> <span class="n">date_of_birth</span><span class="p">,</span> <span class="n">email</span><span class="p">,</span> <span class="n">phone</span><span class="p">,</span>
-                                   <span class="n">street_number</span><span class="p">,</span> <span class="n">street_name</span><span class="p">,</span> <span class="nb">zip</span><span class="p">,</span> <span class="n">match_map</span><span class="p">)</span></div>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_people_search</span><span class="p">(</span><span class="nb">id</span><span class="p">,</span> <span class="n">id_type</span><span class="p">,</span> <span class="n">expand_fields</span><span class="p">,</span> <span class="n">first_name</span><span class="p">,</span> <span class="n">last_name</span><span class="p">,</span> <span class="n">date_of_birth</span><span class="p">,</span>
+                                   <span class="n">email</span><span class="p">,</span> <span class="n">phone_number</span><span class="p">,</span> <span class="n">address_line1</span><span class="p">,</span> <span class="nb">zip</span><span class="p">,</span> <span class="n">match_map</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="People.upsert_person"><a class="viewcode-back" href="../../../ngpvan.html#parsons.ngpvan.van.People.upsert_person">[docs]</a>    <span class="k">def</span> <span class="nf">upsert_person</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">first_name</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">last_name</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">date_of_birth</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">email</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-                      <span class="n">phone</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">street_number</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">street_name</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="nb">zip</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">match_map</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<div class="viewcode-block" id="People.upsert_person"><a class="viewcode-back" href="../../../ngpvan.html#parsons.ngpvan.van.People.upsert_person">[docs]</a>    <span class="k">def</span> <span class="nf">upsert_person</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">id_type</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">first_name</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">last_name</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                      <span class="n">date_of_birth</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">email</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">phone_number</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">address_line1</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                      <span class="nb">zip</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">match_map</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Create or update a person record.</span>
 
 <span class="sd">        .. note::</span>
-<span class="sd">            Person find must include the following minimum combinations.</span>
+<span class="sd">            Person find must include VAN ID or one of the following minimum combinations.</span>
 
 <span class="sd">            - first_name, last_name, email</span>
-<span class="sd">            - first_name, last_name, phone</span>
+<span class="sd">            - first_name, last_name, phone_number</span>
 <span class="sd">            - first_name, last_name, zip5, date_of_birth</span>
 <span class="sd">            - first_name, last_name, street_number, street_name, zip5</span>
 <span class="sd">            - email_address</span>
@@ -255,6 +267,10 @@
 <span class="sd">            This method can only be run on MyMembers, EveryAction, MyCampaign databases.</span>
 
 <span class="sd">        `Args:`</span>
+<span class="sd">            id: int or str</span>
+<span class="sd">                Any of the record&#39;s unique identifiers (e.g. VAN ID) if already known</span>
+<span class="sd">            id_type: str</span>
+<span class="sd">                If `id` is provided, this is the person ID type (defaults to &#39;vanid&#39;)</span>
 <span class="sd">            first_name: str</span>
 <span class="sd">                The person&#39;s first name</span>
 <span class="sd">            last_name: str</span>
@@ -263,65 +279,111 @@
 <span class="sd">                ISO 8601 formatted date of birth (e.g. ``1981-02-01``)</span>
 <span class="sd">            email: str</span>
 <span class="sd">                The person&#39;s email address</span>
-<span class="sd">            phone: str</span>
+<span class="sd">            phone_number: str</span>
 <span class="sd">                Phone number of any type (Work, Cell, Home)</span>
-<span class="sd">            street_number: str</span>
-<span class="sd">                Street Number</span>
-<span class="sd">            street_name: str</span>
-<span class="sd">                Street Name</span>
+<span class="sd">            address_line1: str</span>
+<span class="sd">                Must contain Street Number and Street Name</span>
 <span class="sd">            zip: str</span>
 <span class="sd">                5 digit zip code</span>
 <span class="sd">            match_map: dict</span>
 <span class="sd">                A dictionary of values to match against. Will override all</span>
 <span class="sd">                other arguments if provided.</span>
 <span class="sd">        `Returns:`</span>
-<span class="sd">            A person dict</span>
+<span class="sd">            Parsons Table</span>
+<span class="sd">                See :ref:`parsons-table` for output options.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_people_search</span><span class="p">(</span><span class="n">first_name</span><span class="p">,</span> <span class="n">last_name</span><span class="p">,</span> <span class="n">date_of_birth</span><span class="p">,</span> <span class="n">email</span><span class="p">,</span> <span class="n">phone</span><span class="p">,</span>
-                                   <span class="n">street_number</span><span class="p">,</span> <span class="n">street_name</span><span class="p">,</span> <span class="nb">zip</span><span class="p">,</span> <span class="n">match_map</span><span class="p">,</span> <span class="n">create</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span></div>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_people_search</span><span class="p">(</span><span class="nb">id</span><span class="p">,</span> <span class="n">id_type</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="n">first_name</span><span class="p">,</span> <span class="n">last_name</span><span class="p">,</span> <span class="n">date_of_birth</span><span class="p">,</span> <span class="n">email</span><span class="p">,</span>
+                                   <span class="n">phone_number</span><span class="p">,</span> <span class="n">address_line1</span><span class="p">,</span> <span class="nb">zip</span><span class="p">,</span> <span class="n">match_map</span><span class="p">,</span> <span class="n">create</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span></div>
 
-    <span class="k">def</span> <span class="nf">_people_search</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">first_name</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">last_name</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">date_of_birth</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">email</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-                       <span class="n">phone</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">street_number</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">street_name</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="nb">zip</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">match_map</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-                       <span class="n">create</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">_people_search</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">id_type</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">expand_fields</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">first_name</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                       <span class="n">last_name</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">date_of_birth</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">email</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">phone_number</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                       <span class="n">address_line1</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">zip_or_postal_code</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">match_map</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">create</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
         <span class="c1"># Internal method to hit the people find/create endpoints</span>
 
-        <span class="c1"># Ensure that the minimum combination of fields were passed</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_valid_search</span><span class="p">(</span><span class="n">first_name</span><span class="p">,</span> <span class="n">last_name</span><span class="p">,</span> <span class="n">email</span><span class="p">,</span> <span class="n">phone</span><span class="p">,</span> <span class="n">date_of_birth</span><span class="p">,</span> <span class="n">street_number</span><span class="p">,</span>
-                           <span class="n">street_name</span><span class="p">,</span> <span class="nb">zip</span><span class="p">,</span> <span class="n">match_map</span><span class="p">)</span>
-
         <span class="c1"># Check to see if a match map has been provided</span>
-        <span class="k">if</span> <span class="ow">not</span> <span class="n">match_map</span><span class="p">:</span>
-            <span class="n">json</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;firstName&quot;</span><span class="p">:</span> <span class="n">first_name</span><span class="p">,</span> <span class="s2">&quot;lastName&quot;</span><span class="p">:</span> <span class="n">last_name</span><span class="p">}</span>
+        <span class="k">if</span> <span class="n">match_map</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">match_map</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="n">match_map</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="s2">&quot;first_name&quot;</span><span class="p">:</span> <span class="n">first_name</span><span class="p">,</span> <span class="s2">&quot;last_name&quot;</span><span class="p">:</span> <span class="n">last_name</span><span class="p">})</span>
 
-            <span class="c1"># Will fail if empty dicts are provided, hence needed to add if exist</span>
-            <span class="k">if</span> <span class="n">email</span><span class="p">:</span>
-                <span class="n">json</span><span class="p">[</span><span class="s1">&#39;emails&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[{</span><span class="s1">&#39;email&#39;</span><span class="p">:</span> <span class="n">email</span><span class="p">}]</span>
-            <span class="k">if</span> <span class="n">phone</span><span class="p">:</span>  <span class="c1"># To Do: Strip out non-integers from phone</span>
-                <span class="n">json</span><span class="p">[</span><span class="s1">&#39;phones&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[{</span><span class="s1">&#39;phoneNumber&#39;</span><span class="p">:</span> <span class="n">phone</span><span class="p">}]</span>
-            <span class="k">if</span> <span class="n">date_of_birth</span><span class="p">:</span>
-                <span class="n">json</span><span class="p">[</span><span class="s1">&#39;dateOfBirth&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">date_of_birth</span>
-            <span class="k">if</span> <span class="nb">zip</span><span class="p">:</span>
-                <span class="n">json</span><span class="p">[</span><span class="s1">&#39;addresses&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[{</span><span class="s1">&#39;zipOrPostalCode&#39;</span><span class="p">:</span> <span class="nb">zip</span><span class="p">}]</span>
+        <span class="c1"># Will fail if empty dicts are provided, hence needed to add if exist</span>
+        <span class="k">if</span> <span class="n">email</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">match_map</span><span class="p">[</span><span class="s1">&#39;emails&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[{</span><span class="s1">&#39;email&#39;</span><span class="p">:</span> <span class="n">email</span><span class="p">}]</span>
+        <span class="k">if</span> <span class="n">phone_number</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>  <span class="c1"># To Do: Strip out non-integers from phone</span>
+            <span class="n">match_map</span><span class="p">[</span><span class="s1">&#39;phones&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[{</span><span class="s1">&#39;phone_number&#39;</span><span class="p">:</span> <span class="n">phone_number</span><span class="p">}]</span>
+        <span class="k">if</span> <span class="n">date_of_birth</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">match_map</span><span class="p">[</span><span class="s1">&#39;date_of_birth&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">date_of_birth</span>
+        <span class="k">if</span> <span class="n">zip_or_postal_code</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">or</span> <span class="n">address_line1</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">match_map</span><span class="p">[</span><span class="s1">&#39;addresses&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="k">if</span> <span class="n">zip_or_postal_code</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">match_map</span><span class="p">[</span><span class="s1">&#39;addresses&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="s1">&#39;address_line1&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">address_line1</span>
+            <span class="k">if</span> <span class="n">address_line1</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">match_map</span><span class="p">[</span><span class="s1">&#39;addresses&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="s1">&#39;zip_or_postal_code&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">zip_or_postal_code</span>
+
+        <span class="n">json</span> <span class="o">=</span> <span class="n">converted_dict</span><span class="p">(</span><span class="n">match_map</span><span class="p">,</span> <span class="n">json_format</span><span class="o">.</span><span class="n">arg_format</span><span class="p">)</span><span class="o">.</span><span class="n">result</span>
+        <span class="c1"># Check if VANID actually supplied in match_map</span>
+        <span class="k">if</span> <span class="s1">&#39;vanid&#39;</span> <span class="ow">in</span> <span class="p">[</span><span class="n">k</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">match_map</span><span class="p">]:</span>
+            <span class="nb">id</span> <span class="o">=</span> <span class="p">{</span><span class="n">k</span><span class="o">.</span><span class="n">lower</span><span class="p">():</span> <span class="n">v</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">match_map</span><span class="o">.</span><span class="n">items</span><span class="p">()}[</span><span class="s1">&#39;vanid&#39;</span><span class="p">]</span>
+
+        <span class="k">if</span> <span class="nb">id</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+
+            <span class="c1"># Ensure that the minimum combination of fields were passed</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_valid_search</span><span class="p">(</span><span class="n">json</span><span class="p">)</span>
+
+            <span class="c1"># Determine correct url</span>
+            <span class="n">url</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">connection</span><span class="o">.</span><span class="n">uri</span> <span class="o">+</span> <span class="s1">&#39;people/find&#39;</span>
+            <span class="k">if</span> <span class="n">create</span><span class="p">:</span>
+                <span class="n">url</span> <span class="o">=</span> <span class="n">url</span> <span class="o">+</span> <span class="s1">&#39;orCreate&#39;</span>
+
+            <span class="n">req_type</span> <span class="o">=</span> <span class="s1">&#39;POST&#39;</span>
+
+        <span class="c1"># An id was provided</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="n">json</span> <span class="o">=</span> <span class="n">match_map</span>
 
-        <span class="c1"># Determine correct url</span>
-        <span class="n">url</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">connection</span><span class="o">.</span><span class="n">uri</span> <span class="o">+</span> <span class="s1">&#39;people/find&#39;</span>
-        <span class="k">if</span> <span class="n">create</span><span class="p">:</span>
-            <span class="n">url</span> <span class="o">=</span> <span class="n">url</span> <span class="o">+</span> <span class="s1">&#39;orCreate&#39;</span>
+            <span class="c1"># Determine whether the id type needs to be in the url</span>
+            <span class="n">url_id</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span> <span class="k">if</span> <span class="n">id_type</span> <span class="ow">is</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">f</span><span class="s2">&quot;</span><span class="si">{id_type}</span><span class="s2">:&quot;</span>
 
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">connection</span><span class="o">.</span><span class="n">request</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">req_type</span><span class="o">=</span><span class="s2">&quot;POST&quot;</span><span class="p">,</span> <span class="n">post_data</span><span class="o">=</span><span class="n">json</span><span class="p">)</span>
+            <span class="n">url</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">connection</span><span class="o">.</span><span class="n">uri</span> <span class="o">+</span> <span class="s1">&#39;people/&#39;</span> <span class="o">+</span> <span class="n">url_id</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="nb">id</span><span class="p">)</span>
+            <span class="n">req_type</span> <span class="o">=</span> <span class="s1">&#39;GET&#39;</span>
+            <span class="n">params</span> <span class="o">=</span> <span class="kc">None</span>
+            <span class="k">if</span> <span class="n">create</span><span class="p">:</span>
+                <span class="n">req_type</span> <span class="o">=</span> <span class="s1">&#39;POST&#39;</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="c1"># If not creating a new record the expand fields need to be added as param</span>
+                <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">expand_fields</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+                    <span class="n">expand_fields</span> <span class="o">=</span> <span class="p">[</span><span class="n">expand_fields</span><span class="p">]</span>
+                <span class="k">elif</span> <span class="n">expand_fields</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                    <span class="n">expand_fields</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;contributionHistory&#39;</span><span class="p">,</span> <span class="s1">&#39;addresses&#39;</span><span class="p">,</span> <span class="s1">&#39;phones&#39;</span><span class="p">,</span> <span class="s1">&#39;emails&#39;</span><span class="p">,</span>
+                                     <span class="s1">&#39;codes&#39;</span><span class="p">,</span> <span class="s1">&#39;customFields&#39;</span><span class="p">,</span> <span class="s1">&#39;externalIds&#39;</span><span class="p">,</span> <span class="s1">&#39;preferences&#39;</span><span class="p">,</span>
+                                     <span class="s1">&#39;recordedAddresses&#39;</span><span class="p">,</span> <span class="s1">&#39;reportedDemographics&#39;</span><span class="p">,</span> <span class="s1">&#39;suppressions&#39;</span><span class="p">,</span>
+                                     <span class="s1">&#39;cases&#39;</span><span class="p">,</span> <span class="s1">&#39;customProperties&#39;</span><span class="p">,</span> <span class="s1">&#39;districts&#39;</span><span class="p">,</span> <span class="s1">&#39;electionRecords&#39;</span><span class="p">,</span>
+                                     <span class="s1">&#39;membershipStatuses&#39;</span><span class="p">,</span> <span class="s1">&#39;notes&#39;</span><span class="p">,</span> <span class="s1">&#39;organizationRoles&#39;</span><span class="p">,</span>
+                                     <span class="s1">&#39;disclosureFieldValues&#39;</span><span class="p">]</span>
+                <span class="n">params</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;$expand&quot;</span><span class="p">:</span> <span class="s1">&#39;,&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">expand_fields</span><span class="p">)}</span>
 
-    <span class="k">def</span> <span class="nf">_valid_search</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">first_name</span><span class="p">,</span> <span class="n">last_name</span><span class="p">,</span> <span class="n">email</span><span class="p">,</span> <span class="n">phone</span><span class="p">,</span> <span class="n">dob</span><span class="p">,</span> <span class="n">street_number</span><span class="p">,</span>
-                      <span class="n">street_name</span><span class="p">,</span> <span class="nb">zip</span><span class="p">,</span> <span class="n">match_map</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">req_type</span> <span class="o">==</span> <span class="s1">&#39;POST&#39;</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">connection</span><span class="o">.</span><span class="n">request</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">req_type</span><span class="o">=</span><span class="s2">&quot;POST&quot;</span><span class="p">,</span> <span class="n">post_data</span><span class="o">=</span><span class="n">json</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">connection</span><span class="o">.</span><span class="n">request</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">req_type</span><span class="o">=</span><span class="s2">&quot;GET&quot;</span><span class="p">,</span> <span class="n">args</span><span class="o">=</span><span class="n">params</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_valid_search</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">json</span><span class="p">):</span>
         <span class="c1"># Internal method to check if a search is valid</span>
 
-        <span class="k">if</span> <span class="p">(</span><span class="kc">None</span> <span class="ow">in</span> <span class="p">[</span><span class="n">first_name</span><span class="p">,</span> <span class="n">last_name</span><span class="p">,</span> <span class="n">email</span><span class="p">]</span> <span class="ow">and</span>
-            <span class="kc">None</span> <span class="ow">in</span> <span class="p">[</span><span class="n">first_name</span><span class="p">,</span> <span class="n">last_name</span><span class="p">,</span> <span class="n">phone</span><span class="p">]</span> <span class="ow">and</span>
-            <span class="kc">None</span> <span class="ow">in</span> <span class="p">[</span><span class="n">first_name</span><span class="p">,</span> <span class="n">last_name</span><span class="p">,</span> <span class="nb">zip</span><span class="p">,</span> <span class="n">dob</span><span class="p">]</span> <span class="ow">and</span>
-            <span class="kc">None</span> <span class="ow">in</span> <span class="p">[</span><span class="n">first_name</span><span class="p">,</span> <span class="n">last_name</span><span class="p">,</span> <span class="n">street_number</span><span class="p">,</span> <span class="n">street_name</span><span class="p">,</span> <span class="nb">zip</span><span class="p">]</span> <span class="ow">and</span>
-                <span class="kc">None</span> <span class="ow">in</span> <span class="p">[</span><span class="n">email</span><span class="p">]):</span>
+        <span class="c1"># Flatten the JSON so that we get the bottom-level keys for comparison</span>
+        <span class="n">keys</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
+        <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">json</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="nb">list</span><span class="p">):</span>
+                <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">v</span><span class="p">:</span>
+                    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">x</span><span class="p">:</span>
+                        <span class="n">keys</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="n">v</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">keys</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">k</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="p">(</span><span class="nb">len</span><span class="p">({</span><span class="s1">&#39;firstName&#39;</span><span class="p">,</span> <span class="s1">&#39;lastName&#39;</span><span class="p">,</span> <span class="s1">&#39;email&#39;</span><span class="p">}</span> <span class="o">-</span> <span class="n">keys</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="ow">and</span>
+            <span class="nb">len</span><span class="p">({</span><span class="s1">&#39;firstName&#39;</span><span class="p">,</span> <span class="s1">&#39;lastName&#39;</span><span class="p">,</span> <span class="s1">&#39;phoneNumber&#39;</span><span class="p">}</span> <span class="o">-</span> <span class="n">keys</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="ow">and</span>
+            <span class="nb">len</span><span class="p">({</span><span class="s1">&#39;firstName&#39;</span><span class="p">,</span> <span class="s1">&#39;lastName&#39;</span><span class="p">,</span> <span class="s1">&#39;zipOrPostalCode&#39;</span><span class="p">,</span> <span class="s1">&#39;dateOfBirth&#39;</span><span class="p">}</span> <span class="o">-</span> <span class="n">keys</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="ow">and</span>
+            <span class="nb">len</span><span class="p">({</span><span class="s1">&#39;firstName&#39;</span><span class="p">,</span> <span class="s1">&#39;lastName&#39;</span><span class="p">,</span> <span class="s1">&#39;addressLine1&#39;</span><span class="p">,</span> <span class="s1">&#39;zipOrPostalCode&#39;</span><span class="p">}</span> <span class="o">-</span> <span class="n">keys</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="ow">and</span>
+                <span class="s1">&#39;email&#39;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">keys</span><span class="p">):</span>
 
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;&quot;&quot;</span>
 <span class="s2">                             Person find must include the following minimum</span>

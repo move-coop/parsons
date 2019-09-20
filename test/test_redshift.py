@@ -155,17 +155,39 @@ class TestRedshift(unittest.TestCase):
             aws_access_key_id='abc123', aws_secret_access_key='abc123')
 
         # Scrub the keys
-        s = 'aws_access_key_id=[KEY];aws_secret_access_key=[KEY]'
-        sql = re.sub('=.+;|=.+', '=*HIDDEN*', s)
+        sql = re.sub(r'id=.+;', '*id=HIDDEN*;', re.sub(r"key=.+'", "key=*HIDDEN*'", sql))
 
-        expected_options = ['statupdate', 'compudate', 'ignoreheader 1', 'acceptanydate',
+        expected_options = ['statupdate', 'compupdate', 'ignoreheader 1', 'acceptanydate',
                             "dateformat 'auto'", "timeformat 'auto'", "csv delimiter ','",
                             "copy test_schema.test \nfrom 's3://buck/file.csv'",
-                            "'aws_access_key_id=*HIDDEN*;aws_secret_access_key=*HIDDEN*'",
-                            'emptyasnull', 'blankasnull', 'acceptinvchars']
+                            "'aws_access_key_*id=HIDDEN*;aws_secret_access_key=*HIDDEN*'",
+                            'emptyasnull', 'blanksasnull', 'acceptinvchars']
 
         # Check that all of the expected options are there:
-        [self.assertNotEqual(sql.find(o), -1) for o in ['']]
+        [self.assertNotEqual(sql.find(o), -1) for o in expected_options]
+
+    def test_copy_statement_columns(self):
+
+        cols = ['a', 'b', 'c']
+
+        sql = self.rs.copy_statement('test_schema.test', 'buck', 'file.csv',
+            aws_access_key_id='abc123', aws_secret_access_key='abc123', specifycols=cols)
+
+        # Scrub the keys
+        sql = re.sub(r'id=.+;', '*id=HIDDEN*;', re.sub(r"key=.+'", "key=*HIDDEN*'", sql))
+
+        print(sql)
+
+        expected_options = ['statupdate', 'compupdate', 'ignoreheader 1', 'acceptanydate',
+                            "dateformat 'auto'", "timeformat 'auto'", "csv delimiter ','",
+                            "copy test_schema.test(a, b, c) \nfrom 's3://buck/file.csv'",
+                            "'aws_access_key_*id=HIDDEN*;aws_secret_access_key=*HIDDEN*'",
+                            'emptyasnull', 'blanksasnull', 'acceptinvchars']
+        for o in expected_options:
+            print(o, sql.find(o))
+
+        # Check that all of the expected options are there:
+        [self.assertNotEqual(sql.find(o), -1) for o in expected_options]
 
 # These tests interact directly with the Redshift database
 

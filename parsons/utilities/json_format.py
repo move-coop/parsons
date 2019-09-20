@@ -14,6 +14,9 @@ def arg_format(arg):
 
 
 def list_to_string(list_arg):
+    """
+    Convert a list object to a string and not raise error if None
+    """
 
     if list_arg:
         return ','.join(list_arg)
@@ -22,7 +25,10 @@ def list_to_string(list_arg):
 
 
 def remove_empty_keys(dirty_dict):
-    # Remove empty args in dictionary
+    """
+    Remove empty keys from a dictionary. This method is useful when passing jsons
+    in which a null field will update the value to null and you don't want that.
+    """
 
     clean_dict = {}
 

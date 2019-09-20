@@ -15,17 +15,17 @@ Quick Start
 
 	hustle = Hustle(client_secret='MYID', client_secret='MYSECRET')
 
-	# Export your groups
+	# Export your groups to a csv
 	tbl = hustle.get_groups(organization_id='ORGID')
 	tbl.to_csv('my_hustle_groups.csv')
 
 	# Export organizations to Redshift
 	tbl.get_organizations().to_redshift('hustleschema.hustle_organizations')
 
-	# Import Leads From A CSV
+	# Import leads from a csv
 	leads = Table().from_csv('my_leads.csv')
 	group_id = 'MYGROUP'
-	hustle.create_leads(group_id, leads)
+	hustle.create_leads(leads, group_id)
 
 *******
 Methods

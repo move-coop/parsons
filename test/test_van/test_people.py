@@ -20,7 +20,8 @@ class TestNGPVAN(unittest.TestCase):
 
         m.post(self.van.connection.uri + 'people/find', json=json)
 
-        person = self.van.find_person(first_name='Bob', last_name='Smith', phone=4142020792)
+        person = self.van.find_person(first_name='Bob', last_name='Smith',
+            phone_number=4142020792)
 
         self.assertEqual(person, json)
 
@@ -36,28 +37,33 @@ class TestNGPVAN(unittest.TestCase):
     def test_valid_search(self):
 
         # Fails with FN / LN Only
-        self.assertRaises(ValueError, self.van._valid_search, 'Barack',
-                          'Obama', None, None, None, None, None, None, None)
+        json = {"firstName": "Barack", "lastName": "Obama"}
+        self.assertRaises(ValueError, self.van._valid_search, json)
 
         # Fails with only Zip
-        self.assertRaises(ValueError, self.van._valid_search, 'Barack',
-                          'Obama', None, None, None, None, None, 60622, None)
+        json.update({"addresses": [{"zipOrPostalCode": 60615}]})
+        self.assertRaises(ValueError, self.van._valid_search, json)
 
-        # Fails with no street number
-        self.assertRaises(ValueError, self.van._valid_search, 'Barack',
-                          'Obama', None, None, None, None, 'Pennsylvania Ave', None, None)
+        # Fails with street address but no Zip
+        del json['addresses'][0]['zipOrPostalCode']
+        json['addresses'][0].update({"addressLine1": "5042 S. Woodlawn Ave."})
+        self.assertRaises(ValueError, self.van._valid_search, json)
 
         # Successful with FN/LN/Email
-        self.van._valid_search('Barack', 'Obama', 'barack@email.com', None, None, None,
-                               None, None, None)
+        del json['addresses']
+        json.update({"emails": [{"email": "barack@email.com"}]})
+        self.van._valid_search(json)
 
         # Successful with FN/LN/DOB/ZIP
-        self.van._valid_search('Barack', 'Obama', 'barack@email.com', None, None, '2000-01-01',
-                               None, 20009, None)
+        del json['emails']
+        json.update({"addresses": [{"zipOrPostalCode": 60615}], "dateOfBirth": '1961-08-04'})
+        self.van._valid_search(json)
 
         # Successful with FN/LN/Phone
-        self.van._valid_search('Barack', 'Obama', None, 2024291000, None, None,
-                               None, None, None)
+        del json['addresses']
+        del json['dateOfBirth']
+        json.update({"phones": [{"phoneNumber": 2024291000}]})
+        self.van._valid_search(json)
 
     @requests_mock.Mocker()
     def test_get_person(self, m):

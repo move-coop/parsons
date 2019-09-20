@@ -72,8 +72,12 @@ class Hustle(object):
         if args:
             parameters.update(args)
 
-        r = request(req_type, url, params=parameters, data=payload, headers=headers)
-        #print (r.json())
+        r = request(req_type, url, params=parameters, json=payload, headers=headers)
+        # TEMP ***************************
+        import curlify
+        #print(curlify.to_curl(r.request))
+        print (r.json())
+        # ********************************
 
         self._error_check(r, raise_on_error)
 
@@ -163,7 +167,7 @@ class Hustle(object):
 
         return self._request(f'groups/{group_id}')
 
-    def create_lead(self, group_id, first_name, phone_number, last_name=None, email=None,
+    def create_lead(self, group_id, phone_number, first_name, last_name=None, email=None,
                     notes=None, follow_up=None, custom_fields=None, tag_ids=None):
         """
         Create a single lead.
@@ -206,10 +210,11 @@ class Hustle(object):
                 'notes': notes,
                 'followUp': follow_up,
                 'customFields': custom_fields,
-                'tagIds': [json_format.list_to_string(tag_ids)]
+                'tagIds': tag_ids
                 }
 
-        print (lead)
+        # Remove empty args in dictionary
+        lead = json_format.remove_empty_keys(lead)
 
         logger.debug('Generating lead for {first_name} {last_name}.')
         return self._request(endpoint, req_type="POST", payload=lead)
@@ -272,8 +277,6 @@ class Hustle(object):
             if group_id:
                 lead['group_id'] == group_id
 
-            print (lead)
-
             self.create_lead(**lead)
 
         logger.info(f"Created {table.num_rows} leads.")
@@ -286,8 +289,6 @@ class Hustle(object):
                 The lead id
             first_name: str
                 The first name of the lead
-            phone_number: str
-                The phone number of the lead
             last_name: str
                 The last name of the lead
             email: str
@@ -304,10 +305,10 @@ class Hustle(object):
                 'firstName': first_name,
                 'lastName': last_name,
                 'email': email,
-                'globalOptOut': global_opt_out,
+                'globalOptedOut': global_opt_out,
                 'notes': notes,
                 'followUp': follow_up,
-                'tagIds': json_format.list_to_string(tag_ids)}
+                'tagIds': tag_ids}
 
         # Remove empty args in dictionary
         lead = json_format.remove_empty_keys(lead)

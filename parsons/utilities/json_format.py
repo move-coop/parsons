@@ -27,7 +27,10 @@ def remove_empty_keys(dirty_dict):
     clean_dict = {}
 
     for k, v in dirty_dict.items():
-        if v and len(v) > 0:
-            clean_dict[k] = v
+        if v:
+            if str and len == 0:
+                break
+            else:
+                clean_dict[k] = v
 
     return clean_dict

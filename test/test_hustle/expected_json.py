@@ -119,6 +119,38 @@ lead = {
   'createdAt': '2019-09-18T03:53:21.381Z'
 }
 
+leads_tbl_01 = {
+  'id': 'yK5jo2tlms',
+  'type': 'Lead',
+  'customFields': {
+    'address': '123 Main Street'
+  },
+  'globalOptedOut': False,
+  'groupIds': ['cMCH0hxwGt'],
+  'firstName': 'Lyndon',
+  'lastName': 'Johnson',
+  'organizationId': 'LePEoKzD3Z',
+  'phoneNumber': '+14435705355',
+  'tagIds': [],
+  'createdAt': '2019-09-20T22:15:46.706Z'
+}
+
+leads_tbl_02 = {
+  'id': 't18JdlHW7r',
+  'type': 'Lead',
+  'customFields': {
+    'address': '124 Main Street'
+  },
+  'globalOptedOut': False,
+  'groupIds': ['cMCH0hxwGt'],
+  'firstName': 'Ann',
+  'lastName': 'Richards',
+  'organizationId': 'LePEoKzD3Z',
+  'phoneNumber': '+14435705354',
+  'tagIds': [],
+  'createdAt': '2019-09-20T22:15:48.033Z'
+}
+
 leads = {
   'items': [{
     'id': 'wqy78hlz2',

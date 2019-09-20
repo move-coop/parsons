@@ -374,7 +374,7 @@ to the <cite>public</cite> schema, when one isn’t provided.</p>
 
 <dl class="method">
 <dt id="parsons.Redshift.copy_s3">
-<code class="descname">copy_s3</code><span class="sig-paren">(</span><em>table_name</em>, <em>bucket</em>, <em>key</em>, <em>manifest=False</em>, <em>data_type='csv'</em>, <em>csv_delimiter='</em>, <em>'</em>, <em>compression=None</em>, <em>if_exists='fail'</em>, <em>max_errors=0</em>, <em>distkey=None</em>, <em>sortkey=None</em>, <em>padding=None</em>, <em>varchar_max=None</em>, <em>statupdate=True</em>, <em>compupdate=True</em>, <em>ignoreheader=1</em>, <em>acceptanydate=True</em>, <em>dateformat='auto'</em>, <em>timeformat='auto'</em>, <em>emptyasnull=True</em>, <em>blanksasnull=True</em>, <em>nullas=None</em>, <em>acceptinvchars=True</em>, <em>truncatecolumns=False</em>, <em>columntypes=None</em>, <em>aws_access_key_id=None</em>, <em>aws_secret_access_key=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/databases/redshift/redshift.html#Redshift.copy_s3"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.Redshift.copy_s3" title="Permalink to this definition">¶</a></dt>
+<code class="descname">copy_s3</code><span class="sig-paren">(</span><em>table_name</em>, <em>bucket</em>, <em>key</em>, <em>manifest=False</em>, <em>data_type='csv'</em>, <em>csv_delimiter='</em>, <em>'</em>, <em>compression=None</em>, <em>if_exists='fail'</em>, <em>max_errors=0</em>, <em>distkey=None</em>, <em>sortkey=None</em>, <em>padding=None</em>, <em>varchar_max=None</em>, <em>statupdate=True</em>, <em>compupdate=True</em>, <em>ignoreheader=1</em>, <em>acceptanydate=True</em>, <em>dateformat='auto'</em>, <em>timeformat='auto'</em>, <em>emptyasnull=True</em>, <em>blanksasnull=True</em>, <em>nullas=None</em>, <em>acceptinvchars=True</em>, <em>truncatecolumns=False</em>, <em>columntypes=None</em>, <em>specifycols=None</em>, <em>aws_access_key_id=None</em>, <em>aws_secret_access_key=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/databases/redshift/redshift.html#Redshift.copy_s3"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.Redshift.copy_s3" title="Permalink to this definition">¶</a></dt>
 <dd><p>Copy a file from s3 to Redshift.</p>
 <dl class="docutils">
 <dt><cite>Args:</cite></dt>
@@ -442,6 +442,17 @@ with a VARCHAR or CHAR data type, and rows 4 MB or less in size.</dd>
 <dd>Optional map of column name to redshift column type, overriding the usual type
 inference. You only specify the columns you want to override, eg.
 <code class="docutils literal notranslate"><span class="pre">columntypes={'phone':</span> <span class="pre">'varchar(12)',</span> <span class="pre">'age':</span> <span class="pre">'int'})</span></code>.</dd>
+<dt>specifycols: list</dt>
+<dd><p class="first">Adds a column list to the Redshift <cite>COPY</cite> command, allowing for the source file
+in an append to have the columnns out of order, and to have fewer columns with any
+leftover target table columns filled in with the <cite>DEFAULT</cite> value.
+.. warning:</p>
+<div class="last highlight-default notranslate"><div class="highlight"><pre><span></span>This will only work if the provided column names all have _exact_ matches
+in the target table. This will also fail if the target table has an `IDENTITY`
+column and that column name is among the provided columns.
+</pre></div>
+</div>
+</dd>
 <dt>aws_access_key_id:</dt>
 <dd>An AWS access key granted to the bucket where the file is located. Not required
 if keys are stored as environmental variables.</dd>
@@ -461,7 +472,7 @@ required if keys are stored as environmental variables.</dd>
 
 <dl class="method">
 <dt id="parsons.Redshift.copy">
-<code class="descname">copy</code><span class="sig-paren">(</span><em>table_obj</em>, <em>table_name</em>, <em>if_exists='fail'</em>, <em>max_errors=0</em>, <em>distkey=None</em>, <em>sortkey=None</em>, <em>padding=None</em>, <em>statupdate=False</em>, <em>compupdate=True</em>, <em>acceptanydate=True</em>, <em>emptyasnull=True</em>, <em>blanksasnull=True</em>, <em>nullas=None</em>, <em>acceptinvchars=True</em>, <em>dateformat='auto'</em>, <em>timeformat='auto'</em>, <em>varchar_max=None</em>, <em>truncatecolumns=False</em>, <em>columntypes=None</em>, <em>aws_access_key_id=None</em>, <em>aws_secret_access_key=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/databases/redshift/redshift.html#Redshift.copy"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.Redshift.copy" title="Permalink to this definition">¶</a></dt>
+<code class="descname">copy</code><span class="sig-paren">(</span><em>table_obj</em>, <em>table_name</em>, <em>if_exists='fail'</em>, <em>max_errors=0</em>, <em>distkey=None</em>, <em>sortkey=None</em>, <em>padding=None</em>, <em>statupdate=False</em>, <em>compupdate=True</em>, <em>acceptanydate=True</em>, <em>emptyasnull=True</em>, <em>blanksasnull=True</em>, <em>nullas=None</em>, <em>acceptinvchars=True</em>, <em>dateformat='auto'</em>, <em>timeformat='auto'</em>, <em>varchar_max=None</em>, <em>truncatecolumns=False</em>, <em>columntypes=None</em>, <em>specifycols=False</em>, <em>aws_access_key_id=None</em>, <em>aws_secret_access_key=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/databases/redshift/redshift.html#Redshift.copy"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.Redshift.copy" title="Permalink to this definition">¶</a></dt>
 <dd><p>Copy a parsons table object to Redshift.</p>
 <dl class="docutils">
 <dt><cite>Args:</cite></dt>
@@ -517,6 +528,17 @@ with a VARCHAR or CHAR data type, and rows 4 MB or less in size.</dd>
 <dd>Optional map of column name to redshift column type, overriding the usual type
 inference. You only specify the columns you want to override, eg.
 <code class="docutils literal notranslate"><span class="pre">columntypes={'phone':</span> <span class="pre">'varchar(12)',</span> <span class="pre">'age':</span> <span class="pre">'int'})</span></code>.</dd>
+<dt>specifycols: boolean</dt>
+<dd><p class="first">Adds a column list to the Redshift <cite>COPY</cite> command, allowing for the source table
+in an append to have the columnns out of order, and to have fewer columns with any
+leftover target table columns filled in with the <cite>DEFAULT</cite> value.
+.. warning:</p>
+<div class="last highlight-default notranslate"><div class="highlight"><pre><span></span>This will only work if the source table&#39;s column names all have _exact_ matches
+in the target table. This will also fail if the target table has an `IDENTITY`
+column and that column name is among the source table&#39;s columns.
+</pre></div>
+</div>
+</dd>
 <dt>aws_access_key_id:</dt>
 <dd>An AWS access key granted to the bucket where the file is located. Not required
 if keys are stored as environmental variables.</dd>

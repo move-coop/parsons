@@ -73,11 +73,6 @@ class Hustle(object):
             parameters.update(args)
 
         r = request(req_type, url, params=parameters, json=payload, headers=headers)
-        # TEMP ***************************
-        import curlify
-        #print(curlify.to_curl(r.request))
-        print (r.json())
-        # ********************************
 
         self._error_check(r, raise_on_error)
 
@@ -166,6 +161,50 @@ class Hustle(object):
         """
 
         return self._request(f'groups/{group_id}')
+
+    def get_lead(self, lead_id):
+        """
+        Get lead metadata.
+
+        `Args`:
+            lead_id: str
+                The lead id.
+        `Returns:`
+            dict
+        """
+
+        logger.info(f'Retrieving {lead_id} lead.')
+        return self._request(f'leads/{lead_id}')
+
+    def get_leads(self, organization_id=None, group_id=None):
+        """
+        Get leads metadata. One of ``organization_id`` and ``group_id`` must be passed
+        as an argument. If both are passed, an error will be raised.
+
+        `Args:`
+            organization_id: str
+                The organization id
+            group_id:
+                The group id
+        `Returns:`
+            Parsons Table
+                See :ref:`parsons-table` for output options.
+        """
+
+        if organization_id is None and group_id is None:
+            raise ValueError('Either organization_id or group_id required.')
+
+        if organization_id is not None and group_id is not None:
+            raise ValueError('Only one of organization_id and group_id may be populated.')
+
+        if organization_id:
+            endpoint = f'organizations/{organization_id}/leads'
+            logger.info(f'Retrieving {organization_id} organization leads.')
+        if group_id:
+            endpoint = f'groups/{group_id}/leads'
+            logger.info(f'Retrieving {group_id} group leads.')
+
+        return Table(self._request(endpoint))
 
     def create_lead(self, group_id, phone_number, first_name, last_name=None, email=None,
                     notes=None, follow_up=None, custom_fields=None, tag_ids=None):
@@ -315,47 +354,3 @@ class Hustle(object):
 
         logger.debug('Updating lead for {first_name} {last_name}.')
         return self._request(f'leads/{lead_id}', req_type="PUT", payload=lead)
-
-    def get_lead(self, lead_id):
-        """
-        Get lead metadata.
-
-        `Args`:
-            lead_id: str
-                The lead id.
-        `Returns:`
-            dict
-        """
-
-        logger.info(f'Retrieving {lead_id} lead.')
-        return self._request(f'leads/{lead_id}')
-
-    def get_leads(self, organization_id=None, group_id=None):
-        """
-        Get leads metadata. One of ``organization_id`` and ``group_id`` must be passed
-        as an argument. If both are passed, an error will be raised.
-
-        `Args:`
-            organization_id: str
-                The organization id
-            group_id:
-                The group id
-        `Returns:`
-            Parsons Table
-                See :ref:`parsons-table` for output options.
-        """
-
-        if organization_id is None and group_id is None:
-            raise ValueError('Either organization_id or group_id required.')
-
-        if organization_id is not None and group_id is not None:
-            raise ValueError('Only one of organization_id and group_id may be populated.')
-
-        if organization_id:
-            endpoint = f'organizations/{organization_id}/leads'
-            logger.info(f'Retrieving {organization_id} organization leads.')
-        if group_id:
-            endpoint = f'groups/{group_id}/leads'
-            logger.info(f'Retrieving {group_id} group leads.')
-
-        return Table(self._request(endpoint))

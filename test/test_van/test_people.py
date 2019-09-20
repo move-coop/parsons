@@ -20,7 +20,8 @@ class TestNGPVAN(unittest.TestCase):
 
         m.post(self.van.connection.uri + 'people/find', json=json)
 
-        person = self.van.find_person(firstName='Bob', lastName='Smith', phone=4142020792)
+        person = self.van.find_person(first_name='Bob', last_name='Smith',
+            phone_number=4142020792)
 
         self.assertEqual(person, json)
 
@@ -56,6 +57,7 @@ class TestNGPVAN(unittest.TestCase):
         # Successful with FN/LN/DOB/ZIP
         del json['emails']
         json.update({"addresses": [{"zipOrPostalCode": 60615}], "dateOfBirth": '1961-08-04'})
+        print(json)
         self.van._valid_search(json)
 
         # Successful with FN/LN/Phone

@@ -1,4 +1,5 @@
 from parsons.utilities import json_format
+from parsons.utilities.converted_dict import converted_dict
 import logging
 
 logger = logging.getLogger(__name__)
@@ -10,9 +11,9 @@ class People(object):
 
         self.connection = van_connection
 
-    def find_person(self, id=None, id_type=None, expand_fields=None, firstName=None, lastName=None,
-                    dateOfBirth=None, email=None, phone=None, address1=None, zip=None,
-                    match_map=None):
+    def find_person(self, id=None, id_type=None, expand_fields=None, first_name=None,
+                    last_name=None, date_of_birth=None, email=None, phone_number=None,
+                    address_line1=None, zip=None, match_map=None):
         """
         Find a person record.
 
@@ -20,10 +21,10 @@ class People(object):
             Person find must include VAN ID or one the following minimum combinations
             to conduct a search.
 
-            - firstName, lastName, email
-            - firstName, lastName, phone
-            - firstName, lastName, zip5, dateOfBirth
-            - firstName, lastName, street_number, street_name, zip5
+            - first_name, last_name, email
+            - first_name, last_name, phone_number
+            - first_name, last_name, zip5, date_of_birth
+            - first_name, last_name, street_number, street_name, zip5
             - email_address
 
         .. note::
@@ -44,17 +45,17 @@ class People(object):
                 List of nested fields to expand for full data (e.g. emails, addresses, etc.)
                 Only relevant if `id` is provided, defaults to all expandable fields
                 - see `VAN docs <https://developers.ngpvan.com/van-api#people-get-people--vanid>`_.
-            firstName: str
+            first_name: str
                 The person's first name
-            lastName: str
+            last_name: str
                 The person's last name
             dob: str
                 ISO 8601 formatted date of birth (e.g. ``1981-02-01``)
             email: str
                 The person's email address
-            phone: str
+            phone_number: str
                 Phone number of any type (Work, Cell, Home)
-            address1: str
+            address_line1: str
                 Must contain Street Number and Street Name
             zip: str
                 5 digit zip code
@@ -66,24 +67,24 @@ class People(object):
                 See :ref:`parsons-table` for output options.
         """
 
-        logger.info(f'Finding {firstName} {lastName}.')
+        logger.info(f'Finding {first_name} {last_name}.')
 
-        return self._people_search(id, id_type, expand_fields, firstName, lastName, dateOfBirth,
-                                   email, phone, address1, zip, match_map)
+        return self._people_search(id, id_type, expand_fields, first_name, last_name, date_of_birth,
+                                   email, phone_number, address_line1, zip, match_map)
 
-    def upsert_person(self, id=None, id_type=None, firstName=None, lastName=None, dateOfBirth=None,
-                      email=None, phone=None, address1=None, zip=None,
-                      match_map=None):
+    def upsert_person(self, id=None, id_type=None, first_name=None, last_name=None,
+                      date_of_birth=None, email=None, phone_number=None, address_line1=None,
+                      zip=None, match_map=None):
         """
         Create or update a person record.
 
         .. note::
             Person find must include VAN ID or one of the following minimum combinations.
 
-            - firstName, lastName, email
-            - firstName, lastName, phone
-            - firstName, lastName, zip5, dateOfBirth
-            - firstName, lastName, street_number, street_name, zip5
+            - first_name, last_name, email
+            - first_name, last_name, phone_number
+            - first_name, last_name, zip5, date_of_birth
+            - first_name, last_name, street_number, street_name, zip5
             - email_address
 
         .. note::
@@ -100,17 +101,17 @@ class People(object):
                 Any of the record's unique identifiers (e.g. VAN ID) if already known
             id_type: str
                 If `id` is provided, this is the person ID type (defaults to 'vanid')
-            firstName: str
+            first_name: str
                 The person's first name
-            lastName: str
+            last_name: str
                 The person's last name
             dob: str
                 ISO 8601 formatted date of birth (e.g. ``1981-02-01``)
             email: str
                 The person's email address
-            phone: str
+            phone_number: str
                 Phone number of any type (Work, Cell, Home)
-            address1: str
+            address_line1: str
                 Must contain Street Number and Street Name
             zip: str
                 5 digit zip code
@@ -122,32 +123,34 @@ class People(object):
                 See :ref:`parsons-table` for output options.
         """
 
-        return self._people_search(id, id_type, None, firstName, lastName, dateOfBirth, email,
-                                   phone, address1, zip, match_map, create=True)
+        return self._people_search(id, id_type, None, first_name, last_name, date_of_birth, email,
+                                   phone_number, address_line1, zip, match_map, create=True)
 
-    def _people_search(self, id=None, id_type=None, expand_fields=None, firstName=None,
-                       lastName=None, dateOfBirth=None, email=None, phone=None,
-                       addressLine1=None, zipOrPostalCode=None, match_map=None, create=False):
+    def _people_search(self, id=None, id_type=None, expand_fields=None, first_name=None,
+                       last_name=None, date_of_birth=None, email=None, phone_number=None,
+                       address_line1=None, zip_or_postal_code=None, match_map=None, create=False):
         # Internal method to hit the people find/create endpoints
 
         # Check to see if a match map has been provided
         if match_map is None:
             match_map = {}
-        match_map.update({"firstName": firstName, "lastName": lastName})
+        match_map.update({"first_name": first_name, "last_name": last_name})
 
         # Will fail if empty dicts are provided, hence needed to add if exist
         if email is not None:
             match_map['emails'] = [{'email': email}]
-        if phone is not None:  # To Do: Strip out non-integers from phone
-            match_map['phones'] = [{'phoneNumber': phone}]
-        if dateOfBirth is not None:
-            match_map['dateOfBirth'] = dateOfBirth
-        if zipOrPostalCode is not None:
-            match_map['addresses'] = [{'zipOrPostalCode': zipOrPostalCode}]
-        if addressLine1 is not None:
-            match_map['addresses'][0]['addressLine1'] = addressLine1
+        if phone_number is not None:  # To Do: Strip out non-integers from phone
+            match_map['phones'] = [{'phone_number': phone_number}]
+        if date_of_birth is not None:
+            match_map['date_of_birth'] = date_of_birth
+        if zip_or_postal_code is not None or address_line1 is not None:
+            match_map['addresses'] = []
+            if zip_or_postal_code is not None:
+                match_map['addresses'][0]['address_line1'] = address_line1
+            if address_line1 is not None:
+                match_map['addresses'][0]['zip_or_postal_code'] = zip_or_postal_code
 
-        json = match_map
+        json = converted_dict(match_map, json_format.arg_format).result
         # Check if VANID actually supplied in match_map
         if 'vanid' in [k.lower() for k in match_map]:
             id = {k.lower(): v for k, v in match_map.items()}['vanid']
@@ -215,10 +218,10 @@ class People(object):
             raise ValueError("""
                              Person find must include the following minimum
                              combinations to conduct a search.
-                                - firstName, lastName, email
-                                - firstName, lastName, phone
-                                - firstName, lastName, zip, dob
-                                - firstName, lastName, street_number, street_name, zip
+                                - first_name, last_name, email
+                                - first_name, last_name, phone
+                                - first_name, last_name, zip, dob
+                                - first_name, last_name, street_number, street_name, zip
                                 - email
                             """)
 

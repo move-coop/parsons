@@ -57,7 +57,6 @@ class TestNGPVAN(unittest.TestCase):
         # Successful with FN/LN/DOB/ZIP
         del json['emails']
         json.update({"addresses": [{"zipOrPostalCode": 60615}], "dateOfBirth": '1961-08-04'})
-        print(json)
         self.van._valid_search(json)
 
         # Successful with FN/LN/Phone

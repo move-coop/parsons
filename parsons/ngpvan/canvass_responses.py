@@ -11,7 +11,7 @@ class CanvassResponses(object):
 
     def get_canvass_responses_contact_types(self):
         """
-        Get canvass response contact types available to the API user.
+        Get canvass response contact types.
 
         `Returns:`
             Parsons Table
@@ -29,7 +29,7 @@ class CanvassResponses(object):
 
     def get_canvass_responses_input_types(self):
         """
-        Get canvass response input types available to the API user.
+        Get canvass response input types.
 
         `Returns:`
             Parsons Table
@@ -47,7 +47,7 @@ class CanvassResponses(object):
 
     def get_canvass_responses_result_codes(self):
         """
-        Get canvass response result code ids available to the API user.
+        Get canvass response result code ids.
 
         `Returns:`
             Parsons Table

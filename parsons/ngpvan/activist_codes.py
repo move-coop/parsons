@@ -5,14 +5,12 @@ logger = logging.getLogger(__name__)
 
 
 class ActivistCodes(object):
-    """Class for '/activistCodes' end points.
-
+    """
         .. note::
             To apply or remove activist codes, use the :meth:`toggle_activist_code` method.
     """
 
     def __init__(self, van_connection):
-        """Initialize class"""
 
         self.connection = van_connection
 

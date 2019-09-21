@@ -20,7 +20,6 @@ class CanvassResponses(object):
 
         url = self.connection.uri + 'canvassResponses/contactTypes'
 
-        logger.info(f'Getting canvass response contact types...')
         crc = self.connection.request(url)
         logger.debug(crc)
         logger.info(f'Found {crc.num_rows} canvass response contact types.')
@@ -38,7 +37,6 @@ class CanvassResponses(object):
 
         url = self.connection.uri + 'canvassResponses/inputTypes'
 
-        logger.info(f'Getting canvass response input types...')
         cri = self.connection.request(url)
         logger.debug(cri)
         logger.info(f'Found {cri.num_rows} canvass response input types.')
@@ -56,7 +54,6 @@ class CanvassResponses(object):
 
         url = self.connection.uri + 'canvassResponses/resultCodes'
 
-        logger.info(f'Getting canvass response result codes...')
         crr = self.connection.request(url)
         logger.debug(crr)
         logger.info(f'Found {crr.num_rows} canvass response result codes.')

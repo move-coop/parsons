@@ -19,13 +19,13 @@ class Codes(object):
 
         `Args:`
             name : str
-                Filter by name of code
+                Filter by name of code.
             supported_entities : str
-                Filter by supported entities
+                Filter by supported entities.
             parent_code_id : str
-                Filter by parent code id
+                Filter by parent code id.
             code_type : str
-                Filter by code type
+                Filter by code type.
         `Returns:`
             Parsons Table
                 See :ref:`parsons-table` for output options.
@@ -48,7 +48,7 @@ class Codes(object):
 
     def get_code(self, code_id):
         """
-        Get code.
+        Get a code.
 
         `Args:`
             code_id : int
@@ -87,19 +87,17 @@ class Codes(object):
     def create_code(self, name=None, parent_code_id=None, description=None,
                     code_type='SourceCode', supported_entities=None):
         """
-        Create a code
+        Create a code.
 
         `Args:`
             name: str
-                The name of the code
+                The name of the code.
             parent_code_id: int
-                A unique identifier for this Code’s parent
+                A unique identifier for this code’s parent.
             description: str
-                A description for this Code, no longer than 200 characters
-                and may be null.
+                A description for this code, no longer than 200 characters.
             code_type: str
-                Determines whether a Code is a Tag or Source Code. Valid values are ``Tag`` and
-                ``SourceCode``. Default is SourceCode.
+                The code type. ``Tag`` and ``SourceCode`` are valid values.
             supported_entities: list
                 A list of dicts that enumerate the searchability and applicability rules of the
                 code. You can find supported entities with the :meth:`code_supported_entities`
@@ -215,7 +213,6 @@ class Codes(object):
 
         url = self.connection.uri + 'codes/{}'.format(code_id)
 
-        logger.info(f'Deleting code {code_id}...')
         c = self.connection.request(url, req_type="DELETE", raw=True)
         logger.info(f'Code {code_id} deleted.')
         return c
@@ -231,7 +228,6 @@ class Codes(object):
 
         url = self.connection.uri + 'codes/supportedEntities'
 
-        logger.info(f'Getting code supported entities...')
         cse = Table(petl.fromcolumns([self.connection.request(url, raw=True).json()],
                                      header=['supported_entities']))
         logger.debug(cse)

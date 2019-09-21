@@ -106,3 +106,4 @@ class Locations(object):
             table.unpack_dict('geoLocation', prepend=False)
 
         return table
+

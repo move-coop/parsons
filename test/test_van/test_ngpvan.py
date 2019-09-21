@@ -70,15 +70,7 @@ class TestNGPVAN(unittest.TestCase):
 
         m.get(self.van.connection.uri + 'activistCodes/4388538', json=json)
 
-        # Expected Structure
-        expected = ['status', 'scriptQuestion', 'name', 'mediumName',
-                    'activistCodeId', 'shortName', 'type', 'description']
-
-        # Assert response is expected structure
-        self.assertTrue(
-            validate_list(
-                expected,
-                self.van.get_activist_code(4388538)))
+        self.assertEqual(json, self.van.get_activist_code(4388538))
 
         # To Do: Test what happens when it doesn't find the AC
 

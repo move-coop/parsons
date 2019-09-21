@@ -2,8 +2,8 @@ import logging
 
 logger = logging.getLogger(__name__)
 
-class Locations(object):
 
+class Locations(object):
 
     def __init__(self, van_connection):
 

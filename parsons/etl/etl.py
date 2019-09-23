@@ -220,7 +220,7 @@ class ETL(object):
                           last_name: ['ln', 'last', 'lastname'],
                           date_of_birth: ['dob', 'birthday']}
 
-            tbl.standardize_columns(column_map)
+            tbl.map_columns(column_map)
 
             print (tbl)
             >> {{first_name: 'Jane', last_name: 'Doe', 'date_of_birth': '1908-01-01'}}

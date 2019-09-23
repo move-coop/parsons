@@ -126,7 +126,7 @@ class Hustle(object):
 
     def get_organization(self, organization_id):
         """
-        Get a single organization
+        Get a single organization.
 
         `Args:`
             organization_id: str
@@ -139,10 +139,11 @@ class Hustle(object):
 
     def get_groups(self, organization_id):
         """
-        Get a list of groups.
+        Get groups.
 
         `Args:`
             organization_id: str
+                Filter by organization id.
         `Returns:`
             Parsons Table
                 See :ref:`parsons-table` for output options.
@@ -152,7 +153,7 @@ class Hustle(object):
 
     def get_group(self, group_id):
         """
-        Get group metadata
+        Get a single group.
 
         `Args:`
             group_id: str
@@ -164,7 +165,7 @@ class Hustle(object):
 
     def get_lead(self, lead_id):
         """
-        Get lead metadata.
+        Get a single lead..
 
         `Args`:
             lead_id: str
@@ -178,7 +179,7 @@ class Hustle(object):
 
     def get_leads(self, organization_id=None, group_id=None):
         """
-        Get leads metadata. One of ``organization_id`` and ``group_id`` must be passed
+        Get leads. One of ``organization_id`` and ``group_id`` must be passed
         as an argument. If both are passed, an error will be raised.
 
         `Args:`
@@ -209,7 +210,7 @@ class Hustle(object):
     def create_lead(self, group_id, phone_number, first_name, last_name=None, email=None,
                     notes=None, follow_up=None, custom_fields=None, tag_ids=None):
         """
-        Create a single lead.
+        Create a lead.
 
         `Args:`
             group_id: str
@@ -272,7 +273,7 @@ class Hustle(object):
             * - first_name
               - ``first_name``, ``first``, ``fn``, ``firstname``
             * - last_name
-              - ``last_name``, ``last``, ``ln, ``lastname``
+              - ``last_name``, ``last``, ``ln``, ``lastname``
             * - phone_number
               - ``phone_number``, ``phone``, ``cell``, ``phonenumber``
             * - email
@@ -323,6 +324,8 @@ class Hustle(object):
     def update_lead(self, lead_id, first_name=None, last_name=None, email=None,
                     global_opt_out=None, notes=None, follow_up=None, tag_ids=None):
         """
+        Update a lead.
+
         `Args`:
             lead_id: str
                 The lead id

@@ -130,7 +130,7 @@ class Hustle(object):
 
         `Args:`
             organization_id: str
-                The organization id
+                The organization id.
         `Returns:`
             dict
         """
@@ -157,6 +157,7 @@ class Hustle(object):
 
         `Args:`
             group_id: str
+                The group id.
         `Returns:`
             dict
         """
@@ -184,9 +185,9 @@ class Hustle(object):
 
         `Args:`
             organization_id: str
-                The organization id
-            group_id:
-                The group id
+                The organization id.
+            group_id: str
+                The group id.
         `Returns:`
             Parsons Table
                 See :ref:`parsons-table` for output options.
@@ -214,24 +215,24 @@ class Hustle(object):
 
         `Args:`
             group_id: str
-                The group id to store the lead
+                The group id to assign the leads.
             first_name: str
-                The first name of the lead
+                The first name of the lead.
             phone_number: str
-                The phone number of the lead
+                The phone number of the lead.
             last_name: str
-                The last name of the lead
+                The last name of the lead.
             email: str
-                The email address of the lead
+                The email address of the lead.
             notes: str
-                The notes for the lead
+                The notes for the lead.
             follow_up: str
-                Follow up for the lead
+                Follow up for the lead.
             custom_fields: dict
                 A dictionary of custom fields, with key as the value name, and
                 value as the value.
             tag_ids: list
-                A list of tag ids
+                A list of tag ids.
         `Returns:`
                 ``None``
         """
@@ -285,7 +286,7 @@ class Hustle(object):
             table: Parsons table
                 A Parsons table containing leads
             group_id:
-                The group id for the leads. If ``None``, must be passed as a column
+                The group id to assign the leads. If ``None``, must be passed as a column
                 value.
         `Returns:`
             ``None``

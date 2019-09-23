@@ -113,6 +113,52 @@ class Hustle(object):
             logger.info(r.json())
             return None
 
+    def get_agents(self, group_id):
+        """
+        Get a list of agents.
+
+        `Args:`
+            group_id: str
+                The group id.
+
+        `Returns:`
+            Parsons Table
+                See :ref:`parsons-table` for output options.
+        """
+
+        return Table(self._request(f'/groups/{group_id}/agents'))
+
+    def get_agent(self, agent_id):
+        """
+        Get a single agent.
+
+        `Args:`
+            agent_id: str
+                The agent id.
+        `Returns:`
+            dict
+        """
+
+        return Table(self._request(f'/agents/{agent_id}'))
+
+    def create_agent(self, group_id, name, full_name, phone_number, send_invite=False, email=None):
+        """
+        Create an agent.
+        """
+
+        agent = {'groupId': group_id,
+                 'name': name,
+                 'full_name': email,
+                 'phone_number': phone_number,
+                 'sendInvite': send_invite,
+                 'email': email}
+
+        # Remove empty args in dictionary
+        agent = json_format.remove_empty_keys(agent)
+
+        logger.debug('Generating {full_name} agent.')
+        return self._request(f'groups/{group_id}/agent', req_type="POST", payload=agent)
+
     def get_organizations(self):
         """
         Get organizations.
@@ -238,11 +284,6 @@ class Hustle(object):
         """
 
         # To Do: Check that you can send empty args
-        # To Do: Find out if there is any error checking for the values in creating leads
-        # e.g. phone number validation or string character limits.
-        # To Do: Check that custom fields are just dicts - or what they are
-
-        endpoint = f'groups/{group_id}/leads'
 
         lead = {'firstName': first_name,
                 'lastName': last_name,
@@ -258,7 +299,7 @@ class Hustle(object):
         lead = json_format.remove_empty_keys(lead)
 
         logger.debug('Generating lead for {first_name} {last_name}.')
-        return self._request(endpoint, req_type="POST", payload=lead)
+        return self._request(f'groups/{group_id}/leads', req_type="POST", payload=lead)
 
     def create_leads(self, table, group_id=None):
         """

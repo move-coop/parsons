@@ -37,6 +37,26 @@ class APIConnector(object):
     def request(self, url, req_type, json=None, data=None, params=None, raise_on_error=True):
         """
         Base request using requests libary.
+        
+        `Args:`
+            url: str
+                The url request string
+            req_type: str
+                The request type. One of GET, POST, PATCH, DELETE, OPTIONS
+            json: dict
+                The payload of the request object. By using json, it will automatically
+                serialize the dictionary
+            data: str or byte or dict
+                The payload of the request object. Use instead of json in some instances.
+            params: dict
+                The parameters to append to the url (e.g. http://myapi.com/things?id=1)
+            raise_on_error:
+                If the request yields an error status code (anything above 400), raise an
+                error. In most cases, this should be True, however in some cases, if you
+                are looping through data, you might want to ignore individual failures.
+        
+        `Returns:`
+            requests response
         """
 
         r = _request(req_type, url, headers=self.headers, auth=self.auth, json=None, data=None,
@@ -66,6 +86,8 @@ class APIConnector(object):
 
         r = self.request(url, req_type='GET', params=None)
 
+        # To Do: Implement better and more robust error handling method, but this
+        # will work for the time being.
         if raise_on_error:
             r.raise_for_status()
 
@@ -114,6 +136,9 @@ class APIConnector(object):
         data. This is useful in dealing with requests that might return multiple records, while
         others might return only a single record.
         """
+
+        # To Do: Some response jsons are enclosed in a list. Need to deal with unpacking and/or
+        # not assuming that it is going to be a dict.
 
         if self.data_key and self.data_key in resp.keys():
             return resp[self.data_key]

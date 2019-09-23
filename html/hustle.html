@@ -1,0 +1,489 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Hustle &mdash; Parsons 0.5 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Mobile Commons" href="mobile_commons.html" />
+    <link rel="prev" title="Google Cloud" href="google_cloud.html" /> 
+
+  
+  <script src="_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="index.html" class="icon icon-home"> Parsons
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Integrations</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="action_kit.html">ActionKit</a></li>
+<li class="toctree-l1"><a class="reference internal" href="airtable.html">Airtable</a></li>
+<li class="toctree-l1"><a class="reference internal" href="civis.html">Civis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="copper.html">Copper</a></li>
+<li class="toctree-l1"><a class="reference internal" href="crowdtangle.html">CrowdTangle</a></li>
+<li class="toctree-l1"><a class="reference internal" href="facebook_ads.html">FacebookAds</a></li>
+<li class="toctree-l1"><a class="reference internal" href="google_sheets.html">GoogleSheets</a></li>
+<li class="toctree-l1"><a class="reference internal" href="google_cloud.html">Google Cloud</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Hustle</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#quick-start">Quick Start</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#methods">Methods</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="mobile_commons.html">Mobile Commons</a></li>
+<li class="toctree-l1"><a class="reference internal" href="mobilize_america.html">Mobilize America</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ngpvan.html">VAN</a></li>
+<li class="toctree-l1"><a class="reference internal" href="p2a.html">Phone2Action</a></li>
+<li class="toctree-l1"><a class="reference internal" href="redshift.html">Redshift</a></li>
+<li class="toctree-l1"><a class="reference internal" href="s3.html">S3</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sftp.html">SFTP</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ts.html">TargetSmart</a></li>
+<li class="toctree-l1"><a class="reference internal" href="turbovote.html">TurboVote</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Enhancements</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="google_civic.html">Google Civic</a></li>
+<li class="toctree-l1"><a class="reference internal" href="census_geocoder.html">US Census Geocoder</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Framework</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="table.html">Parsons Table</a></li>
+<li class="toctree-l1"><a class="reference internal" href="notifications.html">Notifications</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">Parsons</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html">Docs</a> &raquo;</li>
+        
+      <li>Hustle</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="_sources/hustle.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="hustle">
+<h1>Hustle<a class="headerlink" href="#hustle" title="Permalink to this headline">¶</a></h1>
+<p>Hustle is a Peer to Peer texting communication platform. The methods are built against the <cite>Hustle v1 API &lt;https://api.hustle.com/docs/&gt;</cite>.</p>
+<ul class="simple">
+<li>Access to the API is limited to 100 requests per second for endpoints returning resources. When this limit is reached the API will return an error and the request will need to be retried.</li>
+<li>Creating an access token is an exception in that it only limits the number of failed attempts to create an access token. After 10 failed attempts to create an access token the ip of the request will be blocked for some period of time, but only for the account in question. Additionally 100 failed attempts in a 24-hour period will result in the requester’s ip being blocked.</li>
+</ul>
+<div class="section" id="quick-start">
+<h2>Quick Start<a class="headerlink" href="#quick-start" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">hustle</span> <span class="o">=</span> <span class="n">Hustle</span><span class="p">(</span><span class="n">client_secret</span><span class="o">=</span><span class="s1">&#39;MYID&#39;</span><span class="p">,</span> <span class="n">client_secret</span><span class="o">=</span><span class="s1">&#39;MYSECRET&#39;</span><span class="p">)</span>
+
+<span class="c1"># Export your groups to a csv</span>
+<span class="n">tbl</span> <span class="o">=</span> <span class="n">hustle</span><span class="o">.</span><span class="n">get_groups</span><span class="p">(</span><span class="n">organization_id</span><span class="o">=</span><span class="s1">&#39;ORGID&#39;</span><span class="p">)</span>
+<span class="n">tbl</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="s1">&#39;my_hustle_groups.csv&#39;</span><span class="p">)</span>
+
+<span class="c1"># Export organizations to Redshift</span>
+<span class="n">tbl</span><span class="o">.</span><span class="n">get_organizations</span><span class="p">()</span><span class="o">.</span><span class="n">to_redshift</span><span class="p">(</span><span class="s1">&#39;hustleschema.hustle_organizations&#39;</span><span class="p">)</span>
+
+<span class="c1"># Import leads from a csv</span>
+<span class="n">leads</span> <span class="o">=</span> <span class="n">Table</span><span class="p">()</span><span class="o">.</span><span class="n">from_csv</span><span class="p">(</span><span class="s1">&#39;my_leads.csv&#39;</span><span class="p">)</span>
+<span class="n">group_id</span> <span class="o">=</span> <span class="s1">&#39;MYGROUP&#39;</span>
+<span class="n">hustle</span><span class="o">.</span><span class="n">create_leads</span><span class="p">(</span><span class="n">leads</span><span class="p">,</span> <span class="n">group_id</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="methods">
+<h2>Methods<a class="headerlink" href="#methods" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="parsons.Hustle">
+<em class="property">class </em><code class="descclassname">parsons.</code><code class="descname">Hustle</code><span class="sig-paren">(</span><em>client_id</em>, <em>client_secret</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/hustle/hustle.html#Hustle"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.Hustle" title="Permalink to this definition">¶</a></dt>
+<dd><p>Instantiate Hustle Class</p>
+<dl class="docutils">
+<dt><cite>Args:</cite></dt>
+<dd><dl class="first last docutils">
+<dt>client_id:</dt>
+<dd>The client id provided by Hustle.</dd>
+<dt>client_secret:</dt>
+<dd>The client secret provided by Hustle.</dd>
+</dl>
+</dd>
+<dt><cite>Returns:</cite></dt>
+<dd>Hustle Class</dd>
+</dl>
+<dl class="method">
+<dt id="parsons.Hustle.get_organizations">
+<code class="descname">get_organizations</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/hustle/hustle.html#Hustle.get_organizations"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.Hustle.get_organizations" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get organizations.</p>
+<dl class="docutils">
+<dt><cite>Returns:</cite></dt>
+<dd><dl class="first last docutils">
+<dt>Parsons Table</dt>
+<dd>See <a class="reference internal" href="table.html#parsons-table"><span class="std std-ref">Parsons Table</span></a> for output options.</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="parsons.Hustle.get_organization">
+<code class="descname">get_organization</code><span class="sig-paren">(</span><em>organization_id</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/hustle/hustle.html#Hustle.get_organization"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.Hustle.get_organization" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get a single organization</p>
+<dl class="docutils">
+<dt><cite>Args:</cite></dt>
+<dd><dl class="first last docutils">
+<dt>organization_id: str</dt>
+<dd>The organization id</dd>
+</dl>
+</dd>
+<dt><cite>Returns:</cite></dt>
+<dd>dict</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="parsons.Hustle.get_groups">
+<code class="descname">get_groups</code><span class="sig-paren">(</span><em>organization_id</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/hustle/hustle.html#Hustle.get_groups"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.Hustle.get_groups" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get a list of groups.</p>
+<dl class="docutils">
+<dt><cite>Args:</cite></dt>
+<dd>organization_id: str</dd>
+<dt><cite>Returns:</cite></dt>
+<dd><dl class="first last docutils">
+<dt>Parsons Table</dt>
+<dd>See <a class="reference internal" href="table.html#parsons-table"><span class="std std-ref">Parsons Table</span></a> for output options.</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="parsons.Hustle.get_group">
+<code class="descname">get_group</code><span class="sig-paren">(</span><em>group_id</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/hustle/hustle.html#Hustle.get_group"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.Hustle.get_group" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get group metadata</p>
+<dl class="docutils">
+<dt><cite>Args:</cite></dt>
+<dd>group_id: str</dd>
+<dt><cite>Returns:</cite></dt>
+<dd>dict</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="parsons.Hustle.get_lead">
+<code class="descname">get_lead</code><span class="sig-paren">(</span><em>lead_id</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/hustle/hustle.html#Hustle.get_lead"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.Hustle.get_lead" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get lead metadata.</p>
+<dl class="docutils">
+<dt><cite>Args</cite>:</dt>
+<dd><dl class="first last docutils">
+<dt>lead_id: str</dt>
+<dd>The lead id.</dd>
+</dl>
+</dd>
+<dt><cite>Returns:</cite></dt>
+<dd>dict</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="parsons.Hustle.get_leads">
+<code class="descname">get_leads</code><span class="sig-paren">(</span><em>organization_id=None</em>, <em>group_id=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/hustle/hustle.html#Hustle.get_leads"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.Hustle.get_leads" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get leads metadata. One of <code class="docutils literal notranslate"><span class="pre">organization_id</span></code> and <code class="docutils literal notranslate"><span class="pre">group_id</span></code> must be passed
+as an argument. If both are passed, an error will be raised.</p>
+<dl class="docutils">
+<dt><cite>Args:</cite></dt>
+<dd><dl class="first last docutils">
+<dt>organization_id: str</dt>
+<dd>The organization id</dd>
+<dt>group_id:</dt>
+<dd>The group id</dd>
+</dl>
+</dd>
+<dt><cite>Returns:</cite></dt>
+<dd><dl class="first last docutils">
+<dt>Parsons Table</dt>
+<dd>See <a class="reference internal" href="table.html#parsons-table"><span class="std std-ref">Parsons Table</span></a> for output options.</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="parsons.Hustle.create_lead">
+<code class="descname">create_lead</code><span class="sig-paren">(</span><em>group_id</em>, <em>phone_number</em>, <em>first_name</em>, <em>last_name=None</em>, <em>email=None</em>, <em>notes=None</em>, <em>follow_up=None</em>, <em>custom_fields=None</em>, <em>tag_ids=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/hustle/hustle.html#Hustle.create_lead"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.Hustle.create_lead" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create a single lead.</p>
+<dl class="docutils">
+<dt><cite>Args:</cite></dt>
+<dd><dl class="first last docutils">
+<dt>group_id: str</dt>
+<dd>The group id to store the lead</dd>
+<dt>first_name: str</dt>
+<dd>The first name of the lead</dd>
+<dt>phone_number: str</dt>
+<dd>The phone number of the lead</dd>
+<dt>last_name: str</dt>
+<dd>The last name of the lead</dd>
+<dt>email: str</dt>
+<dd>The email address of the lead</dd>
+<dt>notes: str</dt>
+<dd>The notes for the lead</dd>
+<dt>follow_up: str</dt>
+<dd>Follow up for the lead</dd>
+<dt>custom_fields: dict</dt>
+<dd>A dictionary of custom fields, with key as the value name, and
+value as the value.</dd>
+<dt>tag_ids: list</dt>
+<dd>A list of tag ids</dd>
+</dl>
+</dd>
+<dt><cite>Returns:</cite></dt>
+<dd><code class="docutils literal notranslate"><span class="pre">None</span></code></dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="parsons.Hustle.create_leads">
+<code class="descname">create_leads</code><span class="sig-paren">(</span><em>table</em>, <em>group_id=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/hustle/hustle.html#Hustle.create_leads"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.Hustle.create_leads" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create multiple leads. All unrecognized fields will be passed as custom fields. Column
+names must map to the following names.</p>
+<table border="1" class="colwidths-given docutils">
+<colgroup>
+<col width="20%" />
+<col width="80%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Column Name</th>
+<th class="head">Valid Column Names</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>first_name</td>
+<td><code class="docutils literal notranslate"><span class="pre">first_name</span></code>, <code class="docutils literal notranslate"><span class="pre">first</span></code>, <code class="docutils literal notranslate"><span class="pre">fn</span></code>, <code class="docutils literal notranslate"><span class="pre">firstname</span></code></td>
+</tr>
+<tr class="row-odd"><td>last_name</td>
+<td><code class="docutils literal notranslate"><span class="pre">last_name</span></code>, <code class="docutils literal notranslate"><span class="pre">last</span></code>, <code class="docutils literal notranslate"><span class="pre">ln,</span> <span class="pre">``lastname</span></code></td>
+</tr>
+<tr class="row-even"><td>phone_number</td>
+<td><code class="docutils literal notranslate"><span class="pre">phone_number</span></code>, <code class="docutils literal notranslate"><span class="pre">phone</span></code>, <code class="docutils literal notranslate"><span class="pre">cell</span></code>, <code class="docutils literal notranslate"><span class="pre">phonenumber</span></code></td>
+</tr>
+<tr class="row-odd"><td>email</td>
+<td><code class="docutils literal notranslate"><span class="pre">email</span></code>, <code class="docutils literal notranslate"><span class="pre">email_address</span></code>, <code class="docutils literal notranslate"><span class="pre">emailaddress</span></code></td>
+</tr>
+<tr class="row-even"><td>follow_up</td>
+<td><code class="docutils literal notranslate"><span class="pre">follow_up</span></code>, <code class="docutils literal notranslate"><span class="pre">followup</span></code></td>
+</tr>
+</tbody>
+</table>
+<dl class="docutils">
+<dt><cite>Args:</cite></dt>
+<dd><dl class="first last docutils">
+<dt>table: Parsons table</dt>
+<dd>A Parsons table containing leads</dd>
+<dt>group_id:</dt>
+<dd>The group id for the leads. If <code class="docutils literal notranslate"><span class="pre">None</span></code>, must be passed as a column
+value.</dd>
+</dl>
+</dd>
+<dt><cite>Returns:</cite></dt>
+<dd><code class="docutils literal notranslate"><span class="pre">None</span></code></dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="parsons.Hustle.update_lead">
+<code class="descname">update_lead</code><span class="sig-paren">(</span><em>lead_id</em>, <em>first_name=None</em>, <em>last_name=None</em>, <em>email=None</em>, <em>global_opt_out=None</em>, <em>notes=None</em>, <em>follow_up=None</em>, <em>tag_ids=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/hustle/hustle.html#Hustle.update_lead"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.Hustle.update_lead" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="docutils">
+<dt><cite>Args</cite>:</dt>
+<dd><dl class="first last docutils">
+<dt>lead_id: str</dt>
+<dd>The lead id</dd>
+<dt>first_name: str</dt>
+<dd>The first name of the lead</dd>
+<dt>last_name: str</dt>
+<dd>The last name of the lead</dd>
+<dt>email: str</dt>
+<dd>The email address of the lead</dd>
+<dt>global_opt_out: boolean</dt>
+<dd>Opt out flag for the lead</dd>
+<dt>notes: str</dt>
+<dd>The notes for the lead</dd>
+<dt>follow_up: str</dt>
+<dd>Follow up for the lead</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="mobile_commons.html" class="btn btn-neutral float-right" title="Mobile Commons" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="google_cloud.html" class="btn btn-neutral" title="Google Cloud" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2019, The Movement Cooperative
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script type="text/javascript" src="_static/jquery.js"></script>
+        <script type="text/javascript" src="_static/underscore.js"></script>
+        <script type="text/javascript" src="_static/doctools.js"></script>
+        <script type="text/javascript" src="_static/language_data.js"></script>
+    
+
+  
+
+  <script type="text/javascript" src="_static/js/theme.js"></script>
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

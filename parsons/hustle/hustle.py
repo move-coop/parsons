@@ -126,7 +126,9 @@ class Hustle(object):
                 See :ref:`parsons-table` for output options.
         """
 
-        return Table(self._request(f'/groups/{group_id}/agents'))
+        tbl = Table(self._request(f'groups/{group_id}/agents'))
+        logger.info(f'Got {tbl.num_rows} agents from {group_id} group.')
+        return tbl
 
     def get_agent(self, agent_id):
         """
@@ -139,15 +141,32 @@ class Hustle(object):
             dict
         """
 
-        return Table(self._request(f'/agents/{agent_id}'))
+        r = self._request(f'agents/{agent_id}')
+        logger.info(f'Got {agent_id} agent.')
+        return r
 
     def create_agent(self, group_id, name, full_name, phone_number, send_invite=False, email=None):
         """
         Create an agent.
+
+        `Args:`
+            group_id: str
+                The group id to assign the agent.
+            name: str
+                The name of the agent.
+            full_name: str
+                The full name of the agent.
+            phone_number: str
+                The valid phone number of the agent.
+            send_invite: boolean
+                Send an invitation to the agent.
+            email:
+                The email address of the agent.
+        `Returns:`
+            ``None``
         """
 
-        agent = {'groupId': group_id,
-                 'name': name,
+        agent = {'name': name,
                  'full_name': email,
                  'phone_number': phone_number,
                  'sendInvite': send_invite,
@@ -156,8 +175,40 @@ class Hustle(object):
         # Remove empty args in dictionary
         agent = json_format.remove_empty_keys(agent)
 
-        logger.debug('Generating {full_name} agent.')
+        logger.info('Generating {full_name} agent.')
         return self._request(f'groups/{group_id}/agent', req_type="POST", payload=agent)
+
+    def update_agent(self, agent_id, name=None, full_name=None, send_invite=False):
+        """
+        Update an agent.
+
+        `Args:`
+            agent_id: str
+                The agent id.
+            name: str
+                The name of the agent.
+            full_name: str
+                The full name of the agent.
+            phone_number: str
+                The valid phone number of the agent.
+            send_invite: boolean
+                Send an invitation to the agent.
+            email:
+                The email address of the agent.
+        `Returns:`
+            ``None``
+        """
+
+        agent = {'groupId': agent_id,
+                 'name': name,
+                 'fullName': full_name,
+                 'sendInvite': send_invite}
+
+        # Remove empty args in dictionary
+        agent = json_format.remove_empty_keys(agent)
+
+        logger.info('Updating agent {agent_id}.')
+        return self._request(f'agents/{agent_id}', req_type="PUT", payload=agent)
 
     def get_organizations(self):
         """
@@ -168,7 +219,9 @@ class Hustle(object):
                 See :ref:`parsons-table` for output options.
         """
 
-        return Table(self._request('organizations'))
+        tbl = Table(self._request('organizations'))
+        logger.info(f'Got {tbl.num_rows} organizations.')
+        return tbl
 
     def get_organization(self, organization_id):
         """
@@ -181,7 +234,9 @@ class Hustle(object):
             dict
         """
 
-        return self._request(f'organizations/{organization_id}')
+        r = self._request(f'organizations/{organization_id}')
+        logger.info(f'Got {organization_id} organization.')
+        return r
 
     def get_groups(self, organization_id):
         """
@@ -195,7 +250,9 @@ class Hustle(object):
                 See :ref:`parsons-table` for output options.
         """
 
-        return Table(self._request(f'organizations/{organization_id}/groups'))
+        tbl = Table(self._request(f'organizations/{organization_id}/groups'))
+        logger.info(f'Got {tbl.num_rows} groups.')
+        return tbl
 
     def get_group(self, group_id):
         """
@@ -208,7 +265,9 @@ class Hustle(object):
             dict
         """
 
-        return self._request(f'groups/{group_id}')
+        r = self._request(f'groups/{group_id}')
+        logger.info(f'Got {group_id} group.')
+        return r
 
     def get_lead(self, lead_id):
         """
@@ -221,8 +280,9 @@ class Hustle(object):
             dict
         """
 
-        logger.info(f'Retrieving {lead_id} lead.')
-        return self._request(f'leads/{lead_id}')
+        r = self._request(f'leads/{lead_id}')
+        logger.info(f'Got {lead_id} lead.')
+        return r
 
     def get_leads(self, organization_id=None, group_id=None):
         """
@@ -252,7 +312,9 @@ class Hustle(object):
             endpoint = f'groups/{group_id}/leads'
             logger.info(f'Retrieving {group_id} group leads.')
 
-        return Table(self._request(endpoint))
+        tbl = self._request(endpoint)
+        logger.info(f'Got {tbl.num_rows} leads.')
+        return tbl
 
     def create_lead(self, group_id, phone_number, first_name, last_name=None, email=None,
                     notes=None, follow_up=None, custom_fields=None, tag_ids=None):
@@ -383,6 +445,8 @@ class Hustle(object):
                 The notes for the lead
             follow_up: str
                 Follow up for the lead
+        `Returns:`
+            ``None``
         """
 
         lead = {'leadId': lead_id,
@@ -399,3 +463,34 @@ class Hustle(object):
 
         logger.debug('Updating lead for {first_name} {last_name}.')
         return self._request(f'leads/{lead_id}', req_type="PUT", payload=lead)
+
+    def get_tags(self, organization_id):
+        """
+        Get an organization's tags.
+
+        `Args:`
+            organization_id: str
+                The organization id.
+        `Returns:`
+            Parsons Table
+                See :ref:`parsons-table` for output options.
+        """
+
+        tbl = Table(self._request(f'organizations/{organization_id}/tags'))
+        logger.info(f'Got {tbl.num_rows} tags for {organization_id} organization.')
+        return tbl
+
+    def get_tag(self, tag_id):
+        """
+        Get a single tag.
+
+        `Args:`
+            tag_id: str
+                The tag id.
+        `Returns:`
+            dict
+        """
+
+        r = self._request(f'tags/{tag_id}')
+        logger.info(f'Got {tag_id} tag.')
+        return r

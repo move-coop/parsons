@@ -635,3 +635,17 @@ class TestParsonsTable(unittest.TestCase):
             ['foo', 'barsum'])
 
         self.assertEqual(expected, ptable.to_dicts())
+
+    def test_map_columns(self):
+
+        input_tbl = Table([['fn', 'ln'],['J', 'B']])
+
+        expected_tbl = Table([['first_name', 'last_name'],
+                              ['J', 'B']])
+
+        column_map = {'first_name': ['fn', 'first'],
+                      'last_name': ['last', 'ln']}
+
+        input_tbl.map_columns(column_map)
+
+        assert_matching_tables(input_tbl, expected_tbl)

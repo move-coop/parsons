@@ -37,7 +37,7 @@ class APIConnector(object):
     def request(self, url, req_type, json=None, data=None, params=None, raise_on_error=True):
         """
         Base request using requests libary.
-        
+
         `Args:`
             url: str
                 The url request string
@@ -54,7 +54,7 @@ class APIConnector(object):
                 If the request yields an error status code (anything above 400), raise an
                 error. In most cases, this should be True, however in some cases, if you
                 are looping through data, you might want to ignore individual failures.
-        
+
         `Returns:`
             requests response
         """

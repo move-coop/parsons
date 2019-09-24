@@ -17,9 +17,11 @@ class Hustle(object):
 
     `Args:`
         client_id:
-            The client id provided by Hustle.
+            The client id provided by Hustle. Not required if ``HUSTLE_CLIENT_ID`` env variable
+            set.
         client_secret:
-            The client secret provided by Hustle.
+            The client secret provided by Hustle. Not required if ``HUSTLE_CLIENT_SECRET`` env
+            variable set.
     `Returns:`
         Hustle Class
     """

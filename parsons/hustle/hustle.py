@@ -21,7 +21,7 @@ class Hustle(object):
         client_secret:
             The client secret provided by Hustle.
     `Returns:`
-        Hustle Class
+        ``Hustle Class``
     """
 
     def __init__(self, client_id, client_secret):
@@ -73,6 +73,8 @@ class Hustle(object):
             parameters.update(args)
 
         r = request(req_type, url, params=parameters, json=payload, headers=headers)
+
+        print (r.json())
 
         self._error_check(r, raise_on_error)
 
@@ -163,20 +165,20 @@ class Hustle(object):
             email:
                 The email address of the agent.
         `Returns:`
-            ``None``
+            dict
         """
 
         agent = {'name': name,
-                 'full_name': email,
-                 'phone_number': phone_number,
+                 'fullName': email,
+                 'phoneNumber': phone_number,
                  'sendInvite': send_invite,
                  'email': email}
 
         # Remove empty args in dictionary
         agent = json_format.remove_empty_keys(agent)
 
-        logger.info('Generating {full_name} agent.')
-        return self._request(f'groups/{group_id}/agent', req_type="POST", payload=agent)
+        logger.info(f'Generating {full_name} agent.')
+        return self._request(f'groups/{group_id}/agents', req_type="POST", payload=agent)
 
     def update_agent(self, agent_id, name=None, full_name=None, send_invite=False):
         """
@@ -196,7 +198,7 @@ class Hustle(object):
             email:
                 The email address of the agent.
         `Returns:`
-            ``None``
+            dict
         """
 
         agent = {'groupId': agent_id,
@@ -207,7 +209,7 @@ class Hustle(object):
         # Remove empty args in dictionary
         agent = json_format.remove_empty_keys(agent)
 
-        logger.info('Updating agent {agent_id}.')
+        logger.info(f'Updating agent {agent_id}.')
         return self._request(f'agents/{agent_id}', req_type="PUT", payload=agent)
 
     def get_organizations(self):
@@ -312,7 +314,7 @@ class Hustle(object):
             endpoint = f'groups/{group_id}/leads'
             logger.info(f'Retrieving {group_id} group leads.')
 
-        tbl = self._request(endpoint)
+        tbl = Table(self._request(endpoint))
         logger.info(f'Got {tbl.num_rows} leads.')
         return tbl
 

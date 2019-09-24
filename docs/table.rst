@@ -31,6 +31,7 @@ From Parsons Table
       - AWS s3 Bucket
       - Write a table to a csv stored in S3
     * - ``.to_sftp_csv()``
+      - SFTP Server
       - Write a table to a csv stored on an SFTP server
     * - ``.to_redshift()``
       - A Redshift Database
@@ -109,7 +110,6 @@ Parsons Table Attributes
       - A list of column names in the table
     * - ``.data``
       - The actual data (rows) of the table, as a list of tuples (without field names)
-
 
 A note on indexing and iterating over a table's data:
 If you need to iterate over the data, make sure to use the python iterator syntax, so any data transformations can be applied efficiently. An example:

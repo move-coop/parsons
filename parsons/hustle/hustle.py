@@ -21,7 +21,7 @@ class Hustle(object):
         client_secret:
             The client secret provided by Hustle.
     `Returns:`
-        ``Hustle Class``
+        Hustle Class
     """
 
     def __init__(self, client_id, client_secret):
@@ -232,7 +232,6 @@ class Hustle(object):
                 The organization id.
         `Returns:`
             dict
-        """
 
         r = self._request(f'organizations/{organization_id}')
         logger.info(f'Got {organization_id} organization.')
@@ -240,11 +239,10 @@ class Hustle(object):
 
     def get_groups(self, organization_id):
         """
-        Get groups.
+        Get a list of groups.
 
         `Args:`
             organization_id: str
-                Filter by organization id.
         `Returns:`
             Parsons Table
                 See :ref:`parsons-table` for output options.
@@ -261,9 +259,6 @@ class Hustle(object):
         `Args:`
             group_id: str
                 The group id.
-        `Returns:`
-            dict
-        """
 
         r = self._request(f'groups/{group_id}')
         logger.info(f'Got {group_id} group.')
@@ -286,7 +281,7 @@ class Hustle(object):
 
     def get_leads(self, organization_id=None, group_id=None):
         """
-        Get leads. One of ``organization_id`` and ``group_id`` must be passed
+        Get leads metadata. One of ``organization_id`` and ``group_id`` must be passed
         as an argument. If both are passed, an error will be raised.
 
         `Args:`
@@ -319,6 +314,7 @@ class Hustle(object):
     def create_lead(self, group_id, phone_number, first_name, last_name=None, email=None,
                     notes=None, follow_up=None, custom_fields=None, tag_ids=None):
         """
+
         Create a lead.
 
         `Args:`
@@ -344,8 +340,6 @@ class Hustle(object):
         `Returns:`
                 ``None``
         """
-
-        # To Do: Check that you can send empty args
 
         lead = {'firstName': first_name,
                 'lastName': last_name,
@@ -446,7 +440,7 @@ class Hustle(object):
             follow_up: str
                 Follow up for the lead
         `Returns:`
-            ``None``
+            dict
         """
 
         lead = {'leadId': lead_id,
@@ -461,7 +455,7 @@ class Hustle(object):
         # Remove empty args in dictionary
         lead = json_format.remove_empty_keys(lead)
 
-        logger.debug('Updating lead for {first_name} {last_name}.')
+        logger.info('Updating lead for {first_name} {last_name}.')
         return self._request(f'leads/{lead_id}', req_type="PUT", payload=lead)
 
     def get_tags(self, organization_id):

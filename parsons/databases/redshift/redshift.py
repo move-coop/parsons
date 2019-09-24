@@ -257,7 +257,7 @@ class Redshift(RedshiftCreateTable, RedshiftCopyTable, RedshiftQueries, Redshift
                 statupdate=True, compupdate=True, ignoreheader=1, acceptanydate=True,
                 dateformat='auto', timeformat='auto', emptyasnull=True,
                 blanksasnull=True, nullas=None, acceptinvchars=True, truncatecolumns=False,
-                columntypes=None,
+                columntypes=None, specifycols=None,
                 aws_access_key_id=None, aws_secret_access_key=None):
         """
         Copy a file from s3 to Redshift.
@@ -326,6 +326,14 @@ class Redshift(RedshiftCreateTable, RedshiftCopyTable, RedshiftQueries, Redshift
                 Optional map of column name to redshift column type, overriding the usual type
                 inference. You only specify the columns you want to override, eg.
                 ``columntypes={'phone': 'varchar(12)', 'age': 'int'})``.
+            specifycols: list
+                Adds a column list to the Redshift `COPY` command, allowing for the source file
+                in an append to have the columnns out of order, and to have fewer columns with any
+                leftover target table columns filled in with the `DEFAULT` value.
+                .. warning::
+                   This will only work if the provided column names all have _exact_ matches
+                   in the target table. This will also fail if the target table has an `IDENTITY`
+                   column and that column name is among the provided columns.
             aws_access_key_id:
                 An AWS access key granted to the bucket where the file is located. Not required
                 if keys are stored as environmental variables.
@@ -374,6 +382,7 @@ class Redshift(RedshiftCreateTable, RedshiftCopyTable, RedshiftQueries, Redshift
                                            emptyasnull=emptyasnull, blanksasnull=blanksasnull,
                                            nullas=nullas, acceptinvchars=acceptinvchars,
                                            truncatecolumns=truncatecolumns,
+                                           specifycols=specifycols,
                                            dateformat=dateformat, timeformat=timeformat)
 
             self.query_with_connection(copy_sql, connection, commit=False)
@@ -383,7 +392,7 @@ class Redshift(RedshiftCreateTable, RedshiftCopyTable, RedshiftQueries, Redshift
              sortkey=None, padding=None, statupdate=False, compupdate=True, acceptanydate=True,
              emptyasnull=True, blanksasnull=True, nullas=None, acceptinvchars=True,
              dateformat='auto', timeformat='auto', varchar_max=None, truncatecolumns=False,
-             columntypes=None,
+             columntypes=None, specifycols=False,
              aws_access_key_id=None, aws_secret_access_key=None):
         """
         Copy a parsons table object to Redshift.
@@ -440,6 +449,14 @@ class Redshift(RedshiftCreateTable, RedshiftCopyTable, RedshiftQueries, Redshift
                 Optional map of column name to redshift column type, overriding the usual type
                 inference. You only specify the columns you want to override, eg.
                 ``columntypes={'phone': 'varchar(12)', 'age': 'int'})``.
+            specifycols: boolean
+                Adds a column list to the Redshift `COPY` command, allowing for the source table
+                in an append to have the columnns out of order, and to have fewer columns with any
+                leftover target table columns filled in with the `DEFAULT` value.
+                .. warning::
+                   This will only work if the source table's column names all have _exact_ matches
+                   in the target table. This will also fail if the target table has an `IDENTITY`
+                   column and that column name is among the source table's columns.
             aws_access_key_id:
                 An AWS access key granted to the bucket where the file is located. Not required
                 if keys are stored as environmental variables.
@@ -457,6 +474,10 @@ class Redshift(RedshiftCreateTable, RedshiftCopyTable, RedshiftQueries, Redshift
 
         key = self.temp_s3_copy(table_obj)
 
+        cols = None
+        if specifycols:
+            cols = table_obj.columns
+
         try:
 
             self.copy_s3(table_name, self.s3_temp_bucket, key,
@@ -466,7 +487,7 @@ class Redshift(RedshiftCreateTable, RedshiftCopyTable, RedshiftQueries, Redshift
                          acceptanydate=acceptanydate, dateformat=dateformat, timeformat=timeformat,
                          blanksasnull=blanksasnull, nullas=nullas, emptyasnull=emptyasnull,
                          acceptinvchars=acceptinvchars, truncatecolumns=truncatecolumns,
-                         columntypes=columntypes,
+                         columntypes=columntypes, specifycols=cols,
                          aws_access_key_id=aws_access_key_id,
                          aws_secret_access_key=aws_secret_access_key, compression='gzip')
 

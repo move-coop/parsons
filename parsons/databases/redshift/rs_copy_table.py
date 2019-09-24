@@ -19,12 +19,16 @@ class RedshiftCopyTable(object):
                        statupdate=True, compupdate=True, ignoreheader=1, acceptanydate=True,
                        dateformat='auto', timeformat='auto', emptyasnull=True,
                        blanksasnull=True, nullas=None, acceptinvchars=True, truncatecolumns=False,
-                       aws_access_key_id=None, aws_secret_access_key=None,
+                       specifycols=None, aws_access_key_id=None, aws_secret_access_key=None,
                        compression=None):
 
         # Source / Destination
         source = f's3://{bucket}/{key}'
-        sql = f"copy {table_name} \nfrom '{source}' \n"
+
+        # Add column list for mapping or if there are fewer columns on source file
+        col_list = f"({', '.join(specifycols)})" if specifycols is not None else ""
+
+        sql = f"copy {table_name}{col_list} \nfrom '{source}' \n"
 
         # Generate credentials
         sql += self.get_creds(aws_access_key_id, aws_secret_access_key)

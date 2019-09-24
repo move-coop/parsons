@@ -260,6 +260,7 @@ class Hustle(object):
         `Args:`
             group_id: str
                 The group id.
+        """
 
         r = self._request(f'groups/{group_id}')
         logger.info(f'Got {group_id} group.')

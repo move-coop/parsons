@@ -74,8 +74,6 @@ class Hustle(object):
 
         r = request(req_type, url, params=parameters, json=payload, headers=headers)
 
-        print (r.json())
-
         self._error_check(r, raise_on_error)
 
         # If a single item return the dict

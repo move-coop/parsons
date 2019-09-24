@@ -232,6 +232,7 @@ class Hustle(object):
                 The organization id.
         `Returns:`
             dict
+        """
 
         r = self._request(f'organizations/{organization_id}')
         logger.info(f'Got {organization_id} organization.')

@@ -716,15 +716,14 @@ can be found by using the <code class="xref py py-meth docutils literal notransl
 <dl class="class">
 <dt id="parsons.ngpvan.van.ActivistCodes">
 <em class="property">class </em><code class="descclassname">parsons.ngpvan.van.</code><code class="descname">ActivistCodes</code><span class="sig-paren">(</span><em>van_connection</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/ngpvan/activist_codes.html#ActivistCodes"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.ngpvan.van.ActivistCodes" title="Permalink to this definition">¶</a></dt>
-<dd><p>Class for ‘/activistCodes’ end points.</p>
-<div class="admonition note">
+<dd><div class="admonition note">
 <p class="first admonition-title">Note</p>
 <p class="last">To apply or remove activist codes, use the <code class="xref py py-meth docutils literal notranslate"><span class="pre">toggle_activist_code()</span></code> method.</p>
 </div>
 <dl class="method">
 <dt id="parsons.ngpvan.van.ActivistCodes.get_activist_codes">
 <code class="descname">get_activist_codes</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/ngpvan/activist_codes.html#ActivistCodes.get_activist_codes"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.ngpvan.van.ActivistCodes.get_activist_codes" title="Permalink to this definition">¶</a></dt>
-<dd><p>Get activist code objects</p>
+<dd><p>Get activist codes.</p>
 <dl class="docutils">
 <dt><cite>Returns:</cite></dt>
 <dd><dl class="first last docutils">
@@ -738,12 +737,12 @@ can be found by using the <code class="xref py py-meth docutils literal notransl
 <dl class="method">
 <dt id="parsons.ngpvan.van.ActivistCodes.get_activist_code">
 <code class="descname">get_activist_code</code><span class="sig-paren">(</span><em>activist_code_id</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/ngpvan/activist_codes.html#ActivistCodes.get_activist_code"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.ngpvan.van.ActivistCodes.get_activist_code" title="Permalink to this definition">¶</a></dt>
-<dd><p>Get an activist code</p>
+<dd><p>Get an activist code.</p>
 <dl class="docutils">
 <dt><cite>Args:</cite></dt>
 <dd><dl class="first last docutils">
 <dt>activist_code_id <span class="classifier-delimiter">:</span> <span class="classifier">int</span></dt>
-<dd>The activist code id associated with the activist code.</dd>
+<dd>The activist code id.</dd>
 </dl>
 </dd>
 <dt><cite>Returns:</cite></dt>
@@ -766,8 +765,7 @@ can be found by using the <code class="xref py py-meth docutils literal notransl
 <dd><dl class="method">
 <dt id="parsons.ngpvan.van.SurveyQuestions.get_survey_questions">
 <code class="descname">get_survey_questions</code><span class="sig-paren">(</span><em>statuses=None</em>, <em>name=None</em>, <em>sq_type=None</em>, <em>question=None</em>, <em>cycle=None</em>, <em>page_size=200</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/ngpvan/survey_questions.html#SurveyQuestions.get_survey_questions"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.ngpvan.van.SurveyQuestions.get_survey_questions" title="Permalink to this definition">¶</a></dt>
-<dd><p>Returns a list of survey questions. Use arguments to filter
-the returned list.</p>
+<dd><p>Get survey questions.</p>
 <dl class="docutils">
 <dt><cite>Args:</cite></dt>
 <dd><dl class="first last docutils">
@@ -775,12 +773,11 @@ the returned list.</p>
 <dd>Comma delimited list of statuses of Survey Questions. One or
 more of Active (default), Archived, and Inactive.</dd>
 <dt>name: str</dt>
-<dd>Filters to Survey Questions with names that start with the
-given input</dd>
+<dd>Filter to survey questions with names begin with the input</dd>
 <dt>sq_type: str</dt>
-<dd>Filters to Survey Questions of the given type</dd>
+<dd>Filter to survey questions of the given type</dd>
 <dt>question: str</dt>
-<dd>Filters to Survey Questions with script questions that
+<dd>Filter to survey questions with script questions that
 contain the given input</dd>
 <dt>cycle: str</dt>
 <dd>A year in the format YYYY; filters to Survey Questions with
@@ -799,7 +796,7 @@ the given cycle</dd>
 <dl class="method">
 <dt id="parsons.ngpvan.van.SurveyQuestions.get_survey_question">
 <code class="descname">get_survey_question</code><span class="sig-paren">(</span><em>survey_question_id</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/ngpvan/survey_questions.html#SurveyQuestions.get_survey_question"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.ngpvan.van.SurveyQuestions.get_survey_question" title="Permalink to this definition">¶</a></dt>
-<dd><p>Return a survey question</p>
+<dd><p>Get a survey question</p>
 <dl class="docutils">
 <dt><cite>Returns:</cite></dt>
 <dd><dl class="first last docutils">
@@ -818,11 +815,10 @@ the given cycle</dd>
 <dl class="class">
 <dt id="parsons.ngpvan.van.Events">
 <em class="property">class </em><code class="descclassname">parsons.ngpvan.van.</code><code class="descname">Events</code><span class="sig-paren">(</span><em>van_connection</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/ngpvan/events.html#Events"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.ngpvan.van.Events" title="Permalink to this definition">¶</a></dt>
-<dd><p>Class for ‘/events’ end points.</p>
-<dl class="method">
+<dd><dl class="method">
 <dt id="parsons.ngpvan.van.Events.get_events">
 <code class="descname">get_events</code><span class="sig-paren">(</span><em>code_ids=None, event_type_ids=None, rep_event_id=None, starting_after=None, starting_before=None, district_field=None, expand=['locations', 'codes', 'shifts', 'roles', 'notes', 'onlineForms']</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/ngpvan/events.html#Events.get_events"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.ngpvan.van.Events.get_events" title="Permalink to this definition">¶</a></dt>
-<dd><p>Get events. Use kwargs to filter event list.</p>
+<dd><p>Get events.</p>
 <dl class="docutils">
 <dt><cite>Args:</cite></dt>
 <dd><dl class="first last docutils">
@@ -831,7 +827,7 @@ the given cycle</dd>
 <dt>event_type_ids: str</dt>
 <dd>Filter by event_type_ids</dd>
 <dt>rep_event_id: str</dt>
-<dd>Filter by in repetitiona with event id</dd>
+<dd>Filters to recurring events that are recurrences the passed event id.</dd>
 <dt>starting_after: str</dt>
 <dd>Events beginning after <code class="docutils literal notranslate"><span class="pre">iso8601</span></code> formatted date.</dd>
 <dt>starting_before: str</dt>
@@ -858,13 +854,13 @@ object. Can be <code class="docutils literal notranslate"><span class="pre">loca
 <dl class="method">
 <dt id="parsons.ngpvan.van.Events.get_event">
 <code class="descname">get_event</code><span class="sig-paren">(</span><em>event_id, expand=['locations', 'codes', 'shifts', 'roles', 'notes', 'onlineForms']</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/ngpvan/events.html#Events.get_event"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.ngpvan.van.Events.get_event" title="Permalink to this definition">¶</a></dt>
-<dd><p>Get an event object</p>
+<dd><p>Get an event.</p>
 <dl class="docutils">
 <dt><cite>Args:</cite></dt>
 <dd><dl class="first last docutils">
-<dt>event_id <span class="classifier-delimiter">:</span> <span class="classifier">int</span></dt>
-<dd>Event id for the event object</dd>
-<dt>expand <span class="classifier-delimiter">:</span> <span class="classifier">list</span></dt>
+<dt>event_id: int</dt>
+<dd>The event id.</dd>
+<dt>expand: list</dt>
 <dd>A list of nested jsons to include in returned event
 object. Can be <code class="docutils literal notranslate"><span class="pre">locations</span></code>, <code class="docutils literal notranslate"><span class="pre">codes</span></code>, <code class="docutils literal notranslate"><span class="pre">shifts</span></code>,
 <code class="docutils literal notranslate"><span class="pre">roles</span></code>, <code class="docutils literal notranslate"><span class="pre">notes</span></code>, <code class="docutils literal notranslate"><span class="pre">onlineForms</span></code>.</dd>
@@ -887,17 +883,17 @@ object. Can be <code class="docutils literal notranslate"><span class="pre">loca
 <dt><cite>Args:</cite></dt>
 <dd><dl class="first last docutils">
 <dt>name: str</dt>
-<dd>A name for this Event, no longer than 500 characters</dd>
+<dd>A name for this event, no longer than 500 characters.</dd>
 <dt>short_name: str</dt>
-<dd>A shorter name for this Event, no longer than 12 characters</dd>
+<dd>A shorter name for this event, no longer than 12 characters.</dd>
 <dt>start_date: str</dt>
-<dd>A start date and time for this Event</dd>
+<dd>The start date and time for this event.</dd>
 <dt>end_date: str</dt>
-<dd>An end date and time for this Event that is after <code class="docutils literal notranslate"><span class="pre">start_date</span></code></dd>
+<dd>The end date and time for this event that is after <code class="docutils literal notranslate"><span class="pre">start_date</span></code></dd>
 <dt>event_type_id: int</dt>
-<dd>A valid event type id</dd>
+<dd>A valid event type id.</dd>
 <dt>roles: list</dt>
-<dd>A list of valid role ids that correspond the with the event type</dd>
+<dd>A list of valid role ids that correspond the with the event type.</dd>
 <dt>shifts:</dt>
 <dd><p class="first">A list of dicts with shifts formatted as:</p>
 <div class="last highlight-python notranslate"><div class="highlight"><pre><span></span><span class="p">[</span>
@@ -916,20 +912,20 @@ object. Can be <code class="docutils literal notranslate"><span class="pre">loca
 </div>
 </dd>
 <dt>description: str</dt>
-<dd>An optional description for this Event, no longer than 500 characters</dd>
+<dd>An optional description for this Event, no longer than 500 characters.</dd>
 <dt>editable: boolean</dt>
-<dd>If true, prevents modification of this Event by any users other than the
-user associated with the API context. Setting this to true effectively makes
-the Event read-only in the VAN interface.</dd>
+<dd>If <code class="docutils literal notranslate"><span class="pre">True</span></code>, prevents modification of this event by any users other than the
+user associated the API key. Setting this to true effectively makes
+the event read-only in the VAN interface.</dd>
 <dt>publicly_viewable: boolean</dt>
-<dd>Used by NGP VAN’s website platform to indicate whether this Event can be
+<dd>Used by NGP VAN’s website platform to indicate whether this event can be
 viewed publicly.</dd>
-<dt>location_ids: lst</dt>
+<dt>location_ids: list</dt>
 <dd>A list of location_ids where the event is taking place</dd>
-<dt>code_ids: lst</dt>
-<dd>A list of codes that are applied to this Event for organizational purposes. Note
-that at most one Source Code, and any number of Tags, may be applied to an Event.</dd>
-<dt>notes:</dt>
+<dt>code_ids: list</dt>
+<dd>A list of codes that are applied to this event for organizational purposes. Note
+that at most one source code and any number of tags, may be applied to an event.</dd>
+<dt>notes: list</dt>
 <dd>A list of notes</dd>
 </dl>
 </dd>
@@ -941,12 +937,12 @@ that at most one Source Code, and any number of Tags, may be applied to an Event
 <dl class="method">
 <dt id="parsons.ngpvan.van.Events.delete_event">
 <code class="descname">delete_event</code><span class="sig-paren">(</span><em>event_id</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/ngpvan/events.html#Events.delete_event"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.ngpvan.van.Events.delete_event" title="Permalink to this definition">¶</a></dt>
-<dd><p>Delete an event</p>
+<dd><p>Delete an event.</p>
 <dl class="docutils">
 <dt><cite>Args:</cite></dt>
 <dd><dl class="first last docutils">
 <dt>event_id: int</dt>
-<dd>Unique identifier for an editable Event</dd>
+<dd>The event id.</dd>
 </dl>
 </dd>
 <dt><cite>Returns:</cite></dt>
@@ -960,7 +956,17 @@ that at most one Source Code, and any number of Tags, may be applied to an Event
 <dd><p>Add shifts to an event</p>
 <dl class="docutils">
 <dt><cite>Args:</cite></dt>
-<dd>event_id</dd>
+<dd><dl class="first last docutils">
+<dt>event_id: int</dt>
+<dd>The event id.</dd>
+<dt>shift_name: str</dt>
+<dd>The name of the shift</dd>
+<dt>start_time: str</dt>
+<dd>The start time for the shift.</dd>
+<dt>end_time: str</dt>
+<dd>The end time of the shift.</dd>
+</dl>
+</dd>
 <dt><cite>Returns:</cite></dt>
 <dd><code class="docutils literal notranslate"><span class="pre">None</span></code></dd>
 </dl>
@@ -969,7 +975,7 @@ that at most one Source Code, and any number of Tags, may be applied to an Event
 <dl class="method">
 <dt id="parsons.ngpvan.van.Events.get_event_types">
 <code class="descname">get_event_types</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/ngpvan/events.html#Events.get_event_types"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.ngpvan.van.Events.get_event_types" title="Permalink to this definition">¶</a></dt>
-<dd><p>Returns event types</p>
+<dd><p>Get event types.</p>
 <dl class="docutils">
 <dt><cite>Returns:</cite></dt>
 <dd><dl class="first last docutils">
@@ -988,16 +994,15 @@ that at most one Source Code, and any number of Tags, may be applied to an Event
 <dl class="class">
 <dt id="parsons.ngpvan.van.Locations">
 <em class="property">class </em><code class="descclassname">parsons.ngpvan.van.</code><code class="descname">Locations</code><span class="sig-paren">(</span><em>van_connection</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/ngpvan/locations.html#Locations"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.ngpvan.van.Locations" title="Permalink to this definition">¶</a></dt>
-<dd><p>Class for ‘/locations’ end points.</p>
-<dl class="method">
+<dd><dl class="method">
 <dt id="parsons.ngpvan.van.Locations.get_locations">
 <code class="descname">get_locations</code><span class="sig-paren">(</span><em>name=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/ngpvan/locations.html#Locations.get_locations"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.ngpvan.van.Locations.get_locations" title="Permalink to this definition">¶</a></dt>
-<dd><p>Get locations and optionally filter by name</p>
+<dd><p>Get locations.</p>
 <dl class="docutils">
 <dt><cite>Args:</cite></dt>
 <dd><dl class="first last docutils">
 <dt>name: str</dt>
-<dd>Filters to Locations with names that contain the given input</dd>
+<dd>Filter locations by name.</dd>
 </dl>
 </dd>
 <dt><cite>Returns:</cite></dt>
@@ -1012,12 +1017,12 @@ that at most one Source Code, and any number of Tags, may be applied to an Event
 <dl class="method">
 <dt id="parsons.ngpvan.van.Locations.get_location">
 <code class="descname">get_location</code><span class="sig-paren">(</span><em>location_id</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/ngpvan/locations.html#Locations.get_location"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.ngpvan.van.Locations.get_location" title="Permalink to this definition">¶</a></dt>
-<dd><p>Get a location object</p>
+<dd><p>Get a location.</p>
 <dl class="docutils">
 <dt><cite>Args:</cite></dt>
 <dd><dl class="first last docutils">
 <dt>location_id: int</dt>
-<dd>A valid location id</dd>
+<dd>The location id.</dd>
 </dl>
 </dd>
 <dt><cite>Returns:</cite></dt>
@@ -1031,23 +1036,23 @@ that at most one Source Code, and any number of Tags, may be applied to an Event
 
 <dl class="method">
 <dt id="parsons.ngpvan.van.Locations.create_location">
-<code class="descname">create_location</code><span class="sig-paren">(</span><em>name</em>, <em>address_line1=None</em>, <em>address_line2=None</em>, <em>city=None</em>, <em>state=None</em>, <em>zipcode=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/ngpvan/locations.html#Locations.create_location"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.ngpvan.van.Locations.create_location" title="Permalink to this definition">¶</a></dt>
-<dd><p>Find or Create a location. If location already exists, will return location id.</p>
+<code class="descname">create_location</code><span class="sig-paren">(</span><em>name</em>, <em>address_line1=None</em>, <em>address_line2=None</em>, <em>city=None</em>, <em>state=None</em>, <em>zip_code=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/ngpvan/locations.html#Locations.create_location"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.ngpvan.van.Locations.create_location" title="Permalink to this definition">¶</a></dt>
+<dd><p>Find or create a location. If location already exists, will return location id.</p>
 <dl class="docutils">
 <dt><cite>Args:</cite></dt>
 <dd><dl class="first last docutils">
 <dt>name: str</dt>
-<dd>A name for this Location, no longer than 50 characters</dd>
+<dd>A name for this location, no longer than 50 characters.</dd>
 <dt>address_line1: str</dt>
-<dd>Optional; First line of a Street Address</dd>
+<dd>First line of a street address.</dd>
 <dt>address_line2: str</dt>
-<dd>Optional; Second line of a Street Address</dd>
+<dd>Second line of a street address.</dd>
 <dt>city: str</dt>
-<dd>Optional; City or Town</dd>
+<dd>City or town name.</dd>
 <dt>state: str</dt>
-<dd>Optional; Two or three character State or Province code (e.g., MN, ON, NSW, etc.)</dd>
-<dt>zipcode: str</dt>
-<dd>Optional; ZIP, ZIP+4, Postal Code, Post code, etc.</dd>
+<dd>Two or three character state or province code (e.g., MN, ON, NSW, etc.).</dd>
+<dt>zip_code: str</dt>
+<dd>ZIP, ZIP+4, Postal Code, Post code, etc.</dd>
 <dt><cite>Returns:</cite></dt>
 <dd>A location id</dd>
 </dl>
@@ -1058,12 +1063,12 @@ that at most one Source Code, and any number of Tags, may be applied to an Event
 <dl class="method">
 <dt id="parsons.ngpvan.van.Locations.delete_location">
 <code class="descname">delete_location</code><span class="sig-paren">(</span><em>location_id</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/ngpvan/locations.html#Locations.delete_location"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.ngpvan.van.Locations.delete_location" title="Permalink to this definition">¶</a></dt>
-<dd><p>Delete a location object</p>
+<dd><p>Delete a location.</p>
 <dl class="docutils">
 <dt><cite>Args:</cite></dt>
 <dd><dl class="first last docutils">
-<dt>location_id:</dt>
-<dd>A valid location id</dd>
+<dt>location_id: int</dt>
+<dd>The location id</dd>
 </dl>
 </dd>
 <dt><cite>Returns:</cite></dt>
@@ -1251,24 +1256,21 @@ with them.</p>
 <dl class="class">
 <dt id="parsons.ngpvan.van.Codes">
 <em class="property">class </em><code class="descclassname">parsons.ngpvan.van.</code><code class="descname">Codes</code><span class="sig-paren">(</span><em>van_connection</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/ngpvan/codes.html#Codes"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.ngpvan.van.Codes" title="Permalink to this definition">¶</a></dt>
-<dd><p>Class for ‘/codes’ end points.</p>
-<dl class="method">
+<dd><dl class="method">
 <dt id="parsons.ngpvan.van.Codes.get_codes">
-<code class="descname">get_codes</code><span class="sig-paren">(</span><em>name=None</em>, <em>supported_entities=None</em>, <em>parent_code_id=None</em>, <em>code_type=None</em>, <em>page_size=200</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/ngpvan/codes.html#Codes.get_codes"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.ngpvan.van.Codes.get_codes" title="Permalink to this definition">¶</a></dt>
-<dd><p>Get all codes</p>
+<code class="descname">get_codes</code><span class="sig-paren">(</span><em>name=None</em>, <em>supported_entities=None</em>, <em>parent_code_id=None</em>, <em>code_type=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/ngpvan/codes.html#Codes.get_codes"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.ngpvan.van.Codes.get_codes" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get codes.</p>
 <dl class="docutils">
 <dt><cite>Args:</cite></dt>
 <dd><dl class="first last docutils">
 <dt>name <span class="classifier-delimiter">:</span> <span class="classifier">str</span></dt>
-<dd><cite>Optional</cite> Filter by name of code</dd>
+<dd>Filter by name of code.</dd>
 <dt>supported_entities <span class="classifier-delimiter">:</span> <span class="classifier">str</span></dt>
-<dd><cite>Optional</cite> Filter by supported entities</dd>
+<dd>Filter by supported entities.</dd>
 <dt>parent_code_id <span class="classifier-delimiter">:</span> <span class="classifier">str</span></dt>
-<dd><cite>Optional</cite> Filter by parent code id</dd>
+<dd>Filter by parent code id.</dd>
 <dt>code_type <span class="classifier-delimiter">:</span> <span class="classifier">str</span></dt>
-<dd><cite>Optional</cite> Filter by code type</dd>
-<dt>page_size <span class="classifier-delimiter">:</span> <span class="classifier">int</span></dt>
-<dd><cite>Optional</cite> Not implemented</dd>
+<dd>Filter by code type.</dd>
 </dl>
 </dd>
 <dt><cite>Returns:</cite></dt>
@@ -1283,12 +1285,12 @@ with them.</p>
 <dl class="method">
 <dt id="parsons.ngpvan.van.Codes.get_code">
 <code class="descname">get_code</code><span class="sig-paren">(</span><em>code_id</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/ngpvan/codes.html#Codes.get_code"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.ngpvan.van.Codes.get_code" title="Permalink to this definition">¶</a></dt>
-<dd><p>Get a single code object</p>
+<dd><p>Get a code.</p>
 <dl class="docutils">
 <dt><cite>Args:</cite></dt>
 <dd><dl class="first last docutils">
 <dt>code_id <span class="classifier-delimiter">:</span> <span class="classifier">int</span></dt>
-<dd>Code id for the code object</dd>
+<dd>The code id.</dd>
 </dl>
 </dd>
 <dt><cite>Returns:</cite></dt>
@@ -1303,7 +1305,7 @@ with them.</p>
 <dl class="method">
 <dt id="parsons.ngpvan.van.Codes.get_code_types">
 <code class="descname">get_code_types</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/ngpvan/codes.html#Codes.get_code_types"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.ngpvan.van.Codes.get_code_types" title="Permalink to this definition">¶</a></dt>
-<dd><p>Get code types</p>
+<dd><p>Get code types.</p>
 <dl class="docutils">
 <dt><cite>Returns:</cite></dt>
 <dd><dl class="first last docutils">
@@ -1317,20 +1319,18 @@ with them.</p>
 <dl class="method">
 <dt id="parsons.ngpvan.van.Codes.create_code">
 <code class="descname">create_code</code><span class="sig-paren">(</span><em>name=None</em>, <em>parent_code_id=None</em>, <em>description=None</em>, <em>code_type='SourceCode'</em>, <em>supported_entities=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/ngpvan/codes.html#Codes.create_code"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.ngpvan.van.Codes.create_code" title="Permalink to this definition">¶</a></dt>
-<dd><p>Create a code</p>
+<dd><p>Create a code.</p>
 <dl class="docutils">
 <dt><cite>Args:</cite></dt>
 <dd><dl class="first last docutils">
 <dt>name: str</dt>
-<dd>The name of the code</dd>
+<dd>The name of the code.</dd>
 <dt>parent_code_id: int</dt>
-<dd>A unique identifier for this Code’s parent</dd>
+<dd>A unique identifier for this code’s parent.</dd>
 <dt>description: str</dt>
-<dd>A description for this Code, no longer than 200 characters
-and may be null.</dd>
+<dd>A description for this code, no longer than 200 characters.</dd>
 <dt>code_type: str</dt>
-<dd>Determines whether a Code is a Tag or Source Code. Valid values are <code class="docutils literal notranslate"><span class="pre">Tag</span></code> and
-<code class="docutils literal notranslate"><span class="pre">SourceCode</span></code>. Default is SourceCode.</dd>
+<dd>The code type. <code class="docutils literal notranslate"><span class="pre">Tag</span></code> and <code class="docutils literal notranslate"><span class="pre">SourceCode</span></code> are valid values.</dd>
 <dt>supported_entities: list</dt>
 <dd><p class="first">A list of dicts that enumerate the searchability and applicability rules of the
 code. You can find supported entities with the <code class="xref py py-meth docutils literal notranslate"><span class="pre">code_supported_entities()</span></code></p>
@@ -1356,21 +1356,21 @@ code. You can find supported entities with the <code class="xref py py-meth docu
 
 <dl class="method">
 <dt id="parsons.ngpvan.van.Codes.update_code">
-<code class="descname">update_code</code><span class="sig-paren">(</span><em>code_id</em>, <em>name=None</em>, <em>parent_code_id=None</em>, <em>description=None</em>, <em>code_type=None</em>, <em>supported_entities=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/ngpvan/codes.html#Codes.update_code"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.ngpvan.van.Codes.update_code" title="Permalink to this definition">¶</a></dt>
-<dd><p>Update a code</p>
+<code class="descname">update_code</code><span class="sig-paren">(</span><em>code_id</em>, <em>name=None</em>, <em>parent_code_id=None</em>, <em>description=None</em>, <em>code_type='SourceCode'</em>, <em>supported_entities=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/ngpvan/codes.html#Codes.update_code"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.ngpvan.van.Codes.update_code" title="Permalink to this definition">¶</a></dt>
+<dd><p>Update a code.</p>
 <dl class="docutils">
 <dt><cite>Args:</cite></dt>
 <dd><dl class="first last docutils">
+<dt>code_id: int</dt>
+<dd>The code id.</dd>
 <dt>name: str</dt>
-<dd>The name of the code</dd>
+<dd>The name of the code.</dd>
 <dt>parent_code_id: int</dt>
-<dd>A unique identifier for this Code’s parent</dd>
+<dd>A unique identifier for this code’s parent.</dd>
 <dt>description: str</dt>
-<dd>A description for this Code, no longer than 200 characters
-and may be null.</dd>
+<dd>A description for this code, no longer than 200 characters.</dd>
 <dt>code_type: str</dt>
-<dd>Determines whether a Code is a Tag or Source Code. Valid values are <code class="docutils literal notranslate"><span class="pre">Tag</span></code> and
-<code class="docutils literal notranslate"><span class="pre">SourceCode</span></code>. Default is SourceCode.</dd>
+<dd>The code type. <code class="docutils literal notranslate"><span class="pre">Tag</span></code> and <code class="docutils literal notranslate"><span class="pre">SourceCode</span></code> are valid values.</dd>
 <dt>supported_entities: list</dt>
 <dd><p class="first">A list of dicts that enumerate the searchability and applicability rules of the
 code. You can find supported entities with the <code class="xref py py-meth docutils literal notranslate"><span class="pre">code_supported_entities()</span></code></p>
@@ -1397,12 +1397,12 @@ code. You can find supported entities with the <code class="xref py py-meth docu
 <dl class="method">
 <dt id="parsons.ngpvan.van.Codes.delete_code">
 <code class="descname">delete_code</code><span class="sig-paren">(</span><em>code_id</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/ngpvan/codes.html#Codes.delete_code"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.ngpvan.van.Codes.delete_code" title="Permalink to this definition">¶</a></dt>
-<dd><p>Delete a code</p>
+<dd><p>Delete a code.</p>
 <dl class="docutils">
 <dt><cite>Args:</cite></dt>
 <dd><dl class="first last docutils">
 <dt>code_id: int</dt>
-<dd>The code id of the code to delete</dd>
+<dd>The code id.</dd>
 </dl>
 </dd>
 <dt><cite>Returns:</cite></dt>
@@ -1413,7 +1413,15 @@ code. You can find supported entities with the <code class="xref py py-meth docu
 <dl class="method">
 <dt id="parsons.ngpvan.van.Codes.get_code_supported_entities">
 <code class="descname">get_code_supported_entities</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/ngpvan/codes.html#Codes.get_code_supported_entities"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.ngpvan.van.Codes.get_code_supported_entities" title="Permalink to this definition">¶</a></dt>
-<dd><p>List code supported entities</p>
+<dd><p>Get code supported entities.</p>
+<dl class="docutils">
+<dt><cite>Returns:</cite></dt>
+<dd><dl class="first last docutils">
+<dt>Parsons Table</dt>
+<dd>See <a class="reference internal" href="table.html#parsons-table"><span class="std std-ref">Parsons Table</span></a> for output options.</dd>
+</dl>
+</dd>
+</dl>
 </dd></dl>
 
 </dd></dl>
@@ -1427,7 +1435,7 @@ code. You can find supported entities with the <code class="xref py py-meth docu
 <dd><dl class="method">
 <dt id="parsons.ngpvan.van.CanvassResponses.get_canvass_responses_contact_types">
 <code class="descname">get_canvass_responses_contact_types</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/ngpvan/canvass_responses.html#CanvassResponses.get_canvass_responses_contact_types"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.ngpvan.van.CanvassResponses.get_canvass_responses_contact_types" title="Permalink to this definition">¶</a></dt>
-<dd><p>Get canvass response contact types available to the API user.</p>
+<dd><p>Get canvass response contact types.</p>
 <dl class="docutils">
 <dt><cite>Returns:</cite></dt>
 <dd><dl class="first last docutils">
@@ -1441,7 +1449,7 @@ code. You can find supported entities with the <code class="xref py py-meth docu
 <dl class="method">
 <dt id="parsons.ngpvan.van.CanvassResponses.get_canvass_responses_input_types">
 <code class="descname">get_canvass_responses_input_types</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/ngpvan/canvass_responses.html#CanvassResponses.get_canvass_responses_input_types"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.ngpvan.van.CanvassResponses.get_canvass_responses_input_types" title="Permalink to this definition">¶</a></dt>
-<dd><p>Get canvass response input types available to the API user.</p>
+<dd><p>Get canvass response input types.</p>
 <dl class="docutils">
 <dt><cite>Returns:</cite></dt>
 <dd><dl class="first last docutils">
@@ -1455,7 +1463,7 @@ code. You can find supported entities with the <code class="xref py py-meth docu
 <dl class="method">
 <dt id="parsons.ngpvan.van.CanvassResponses.get_canvass_responses_result_codes">
 <code class="descname">get_canvass_responses_result_codes</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/ngpvan/canvass_responses.html#CanvassResponses.get_canvass_responses_result_codes"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.ngpvan.van.CanvassResponses.get_canvass_responses_result_codes" title="Permalink to this definition">¶</a></dt>
-<dd><p>Get canvass response result code ids available to the API user.</p>
+<dd><p>Get canvass response result code ids.</p>
 <dl class="docutils">
 <dt><cite>Returns:</cite></dt>
 <dd><dl class="first last docutils">

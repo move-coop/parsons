@@ -175,7 +175,6 @@
 
 
 <div class="viewcode-block" id="Events"><a class="viewcode-back" href="../../../ngpvan.html#parsons.ngpvan.van.Events">[docs]</a><span class="k">class</span> <span class="nc">Events</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Class for &#39;/events&#39; end points.&quot;&quot;&quot;</span>
 
     <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">van_connection</span><span class="p">):</span>
 
@@ -186,7 +185,7 @@
                    <span class="n">expand</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;locations&#39;</span><span class="p">,</span> <span class="s1">&#39;codes&#39;</span><span class="p">,</span> <span class="s1">&#39;shifts&#39;</span><span class="p">,</span> <span class="s1">&#39;roles&#39;</span><span class="p">,</span> <span class="s1">&#39;notes&#39;</span><span class="p">,</span>
                            <span class="s1">&#39;onlineForms&#39;</span><span class="p">]):</span>
         <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Get events. Use kwargs to filter event list.</span>
+<span class="sd">        Get events.</span>
 
 <span class="sd">        `Args:`</span>
 <span class="sd">            code_ids: str</span>
@@ -194,7 +193,7 @@
 <span class="sd">            event_type_ids: str</span>
 <span class="sd">                Filter by event_type_ids</span>
 <span class="sd">            rep_event_id: str</span>
-<span class="sd">                Filter by in repetitiona with event id</span>
+<span class="sd">                Filters to recurring events that are recurrences the passed event id.</span>
 <span class="sd">            starting_after: str</span>
 <span class="sd">                Events beginning after ``iso8601`` formatted date.</span>
 <span class="sd">            starting_before: str</span>
@@ -237,12 +236,12 @@
 <div class="viewcode-block" id="Events.get_event"><a class="viewcode-back" href="../../../ngpvan.html#parsons.ngpvan.van.Events.get_event">[docs]</a>    <span class="k">def</span> <span class="nf">get_event</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">event_id</span><span class="p">,</span> <span class="n">expand</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;locations&#39;</span><span class="p">,</span> <span class="s1">&#39;codes&#39;</span><span class="p">,</span> <span class="s1">&#39;shifts&#39;</span><span class="p">,</span> <span class="s1">&#39;roles&#39;</span><span class="p">,</span>
                                           <span class="s1">&#39;notes&#39;</span><span class="p">,</span> <span class="s1">&#39;onlineForms&#39;</span><span class="p">]):</span>
         <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Get an event object</span>
+<span class="sd">        Get an event.</span>
 
 <span class="sd">        `Args:`</span>
-<span class="sd">            event_id : int</span>
-<span class="sd">                Event id for the event object</span>
-<span class="sd">            expand : list</span>
+<span class="sd">            event_id: int</span>
+<span class="sd">                The event id.</span>
+<span class="sd">            expand: list</span>
 <span class="sd">                A list of nested jsons to include in returned event</span>
 <span class="sd">                object. Can be ``locations``, ``codes``, ``shifts``,</span>
 <span class="sd">                ``roles``, ``notes``, ``onlineForms``.</span>
@@ -272,17 +271,17 @@
 
 <span class="sd">        `Args:`</span>
 <span class="sd">            name: str</span>
-<span class="sd">                A name for this Event, no longer than 500 characters</span>
+<span class="sd">                A name for this event, no longer than 500 characters.</span>
 <span class="sd">            short_name: str</span>
-<span class="sd">                A shorter name for this Event, no longer than 12 characters</span>
+<span class="sd">                A shorter name for this event, no longer than 12 characters.</span>
 <span class="sd">            start_date: str</span>
-<span class="sd">                A start date and time for this Event</span>
+<span class="sd">                The start date and time for this event.</span>
 <span class="sd">            end_date: str</span>
-<span class="sd">                An end date and time for this Event that is after ``start_date``</span>
+<span class="sd">                The end date and time for this event that is after ``start_date``</span>
 <span class="sd">            event_type_id: int</span>
-<span class="sd">                A valid event type id</span>
+<span class="sd">                A valid event type id.</span>
 <span class="sd">            roles: list</span>
-<span class="sd">                A list of valid role ids that correspond the with the event type</span>
+<span class="sd">                A list of valid role ids that correspond the with the event type.</span>
 <span class="sd">            shifts:</span>
 <span class="sd">                A list of dicts with shifts formatted as:</span>
 
@@ -303,20 +302,20 @@
 <span class="sd">                    ]</span>
 
 <span class="sd">            description: str</span>
-<span class="sd">                An optional description for this Event, no longer than 500 characters</span>
+<span class="sd">                An optional description for this Event, no longer than 500 characters.</span>
 <span class="sd">            editable: boolean</span>
-<span class="sd">                If true, prevents modification of this Event by any users other than the</span>
-<span class="sd">                user associated with the API context. Setting this to true effectively makes</span>
-<span class="sd">                the Event read-only in the VAN interface.</span>
+<span class="sd">                If ``True``, prevents modification of this event by any users other than the</span>
+<span class="sd">                user associated the API key. Setting this to true effectively makes</span>
+<span class="sd">                the event read-only in the VAN interface.</span>
 <span class="sd">            publicly_viewable: boolean</span>
-<span class="sd">                Used by NGP VAN’s website platform to indicate whether this Event can be</span>
+<span class="sd">                Used by NGP VAN’s website platform to indicate whether this event can be</span>
 <span class="sd">                viewed publicly.</span>
-<span class="sd">            location_ids: lst</span>
+<span class="sd">            location_ids: list</span>
 <span class="sd">                A list of location_ids where the event is taking place</span>
-<span class="sd">            code_ids: lst</span>
-<span class="sd">                A list of codes that are applied to this Event for organizational purposes. Note</span>
-<span class="sd">                that at most one Source Code, and any number of Tags, may be applied to an Event.</span>
-<span class="sd">            notes:</span>
+<span class="sd">            code_ids: list</span>
+<span class="sd">                A list of codes that are applied to this event for organizational purposes. Note</span>
+<span class="sd">                that at most one source code and any number of tags, may be applied to an event.</span>
+<span class="sd">            notes: list</span>
 <span class="sd">                A list of notes</span>
 <span class="sd">        `Returns:`</span>
 <span class="sd">            The event code</span>
@@ -364,11 +363,11 @@
 
 <div class="viewcode-block" id="Events.delete_event"><a class="viewcode-back" href="../../../ngpvan.html#parsons.ngpvan.van.Events.delete_event">[docs]</a>    <span class="k">def</span> <span class="nf">delete_event</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">event_id</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Delete an event</span>
+<span class="sd">        Delete an event.</span>
 
 <span class="sd">        `Args:`</span>
 <span class="sd">            event_id: int</span>
-<span class="sd">                Unique identifier for an editable Event</span>
+<span class="sd">                The event id.</span>
 <span class="sd">        `Returns:`</span>
 <span class="sd">            ``None``</span>
 <span class="sd">        &quot;&quot;&quot;</span>
@@ -386,7 +385,14 @@
 <span class="sd">        Add shifts to an event</span>
 
 <span class="sd">        `Args:`</span>
-<span class="sd">            event_id</span>
+<span class="sd">            event_id: int</span>
+<span class="sd">                The event id.</span>
+<span class="sd">            shift_name: str</span>
+<span class="sd">                The name of the shift</span>
+<span class="sd">            start_time: str</span>
+<span class="sd">                The start time for the shift.</span>
+<span class="sd">            end_time: str</span>
+<span class="sd">                The end time of the shift.</span>
 <span class="sd">        `Returns:`</span>
 <span class="sd">            ``None``</span>
 <span class="sd">        &quot;&quot;&quot;</span>
@@ -407,7 +413,7 @@
 
 <div class="viewcode-block" id="Events.get_event_types"><a class="viewcode-back" href="../../../ngpvan.html#parsons.ngpvan.van.Events.get_event_types">[docs]</a>    <span class="k">def</span> <span class="nf">get_event_types</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Returns event types</span>
+<span class="sd">        Get event types.</span>
 
 <span class="sd">        `Returns:`</span>
 <span class="sd">            Parsons Table</span>

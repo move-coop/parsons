@@ -4,7 +4,6 @@ logger = logging.getLogger(__name__)
 
 
 class Events(object):
-    """Class for '/events' end points."""
 
     def __init__(self, van_connection):
 
@@ -15,7 +14,7 @@ class Events(object):
                    expand=['locations', 'codes', 'shifts', 'roles', 'notes',
                            'onlineForms']):
         """
-        Get events. Use kwargs to filter event list.
+        Get events.
 
         `Args:`
             code_ids: str
@@ -23,7 +22,7 @@ class Events(object):
             event_type_ids: str
                 Filter by event_type_ids
             rep_event_id: str
-                Filter by in repetitiona with event id
+                Filters to recurring events that are recurrences the passed event id.
             starting_after: str
                 Events beginning after ``iso8601`` formatted date.
             starting_before: str
@@ -66,12 +65,12 @@ class Events(object):
     def get_event(self, event_id, expand=['locations', 'codes', 'shifts', 'roles',
                                           'notes', 'onlineForms']):
         """
-        Get an event object
+        Get an event.
 
         `Args:`
-            event_id : int
-                Event id for the event object
-            expand : list
+            event_id: int
+                The event id.
+            expand: list
                 A list of nested jsons to include in returned event
                 object. Can be ``locations``, ``codes``, ``shifts``,
                 ``roles``, ``notes``, ``onlineForms``.
@@ -101,17 +100,17 @@ class Events(object):
 
         `Args:`
             name: str
-                A name for this Event, no longer than 500 characters
+                A name for this event, no longer than 500 characters.
             short_name: str
-                A shorter name for this Event, no longer than 12 characters
+                A shorter name for this event, no longer than 12 characters.
             start_date: str
-                A start date and time for this Event
+                The start date and time for this event.
             end_date: str
-                An end date and time for this Event that is after ``start_date``
+                The end date and time for this event that is after ``start_date``
             event_type_id: int
-                A valid event type id
+                A valid event type id.
             roles: list
-                A list of valid role ids that correspond the with the event type
+                A list of valid role ids that correspond the with the event type.
             shifts:
                 A list of dicts with shifts formatted as:
 
@@ -132,20 +131,20 @@ class Events(object):
                     ]
 
             description: str
-                An optional description for this Event, no longer than 500 characters
+                An optional description for this Event, no longer than 500 characters.
             editable: boolean
-                If true, prevents modification of this Event by any users other than the
-                user associated with the API context. Setting this to true effectively makes
-                the Event read-only in the VAN interface.
+                If ``True``, prevents modification of this event by any users other than the
+                user associated the API key. Setting this to true effectively makes
+                the event read-only in the VAN interface.
             publicly_viewable: boolean
-                Used by NGP VAN’s website platform to indicate whether this Event can be
+                Used by NGP VAN’s website platform to indicate whether this event can be
                 viewed publicly.
-            location_ids: lst
+            location_ids: list
                 A list of location_ids where the event is taking place
-            code_ids: lst
-                A list of codes that are applied to this Event for organizational purposes. Note
-                that at most one Source Code, and any number of Tags, may be applied to an Event.
-            notes:
+            code_ids: list
+                A list of codes that are applied to this event for organizational purposes. Note
+                that at most one source code and any number of tags, may be applied to an event.
+            notes: list
                 A list of notes
         `Returns:`
             The event code
@@ -193,11 +192,11 @@ class Events(object):
 
     def delete_event(self, event_id):
         """
-        Delete an event
+        Delete an event.
 
         `Args:`
             event_id: int
-                Unique identifier for an editable Event
+                The event id.
         `Returns:`
             ``None``
         """
@@ -215,7 +214,14 @@ class Events(object):
         Add shifts to an event
 
         `Args:`
-            event_id
+            event_id: int
+                The event id.
+            shift_name: str
+                The name of the shift
+            start_time: str
+                The start time for the shift.
+            end_time: str
+                The end time of the shift.
         `Returns:`
             ``None``
         """
@@ -236,7 +242,7 @@ class Events(object):
 
     def get_event_types(self):
         """
-        Returns event types
+        Get event types.
 
         `Returns:`
             Parsons Table

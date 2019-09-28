@@ -2,6 +2,7 @@ from requests import request as _request
 from parsons.etl.table import Table
 import logging
 from parsons.utilities import check_env
+from parsons.utilities.api_connector import APIConnector
 
 logger = logging.getLogger(__name__)
 
@@ -27,6 +28,14 @@ class VANConnector(object):
         self.auth_name = auth_name
         self.raise_for_status = raise_for_status
         self.auth = (self.auth_name, self.api_key + '|' + str(self.db_code))
+
+        # Standardized API Connector. This is only being used by the get_activist_code methods
+        # but would like to roll out to the rest of the VAN methods in the future. Long term,
+        # would like to use for all classes in Parsons.
+        self.api = APIConnector(self.uri, auth=self.auth, data_key='items',
+                                pagination_key='nextPageLink')
+
+
 
     def _error_check(self, r):
 

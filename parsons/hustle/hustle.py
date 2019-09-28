@@ -99,7 +99,7 @@ class Hustle(object):
     def _error_check(self, r, raise_on_error):
         # Check for errors
 
-        if r.status_code == 200:
+        if r.status_code in (200, 201):
 
             logger.debug(r.json())
             return None
@@ -169,7 +169,7 @@ class Hustle(object):
         """
 
         agent = {'name': name,
-                 'fullName': email,
+                 'fullName': full_name,
                  'phoneNumber': phone_number,
                  'sendInvite': send_invite,
                  'email': email}
@@ -195,14 +195,11 @@ class Hustle(object):
                 The valid phone number of the agent.
             send_invite: boolean
                 Send an invitation to the agent.
-            email:
-                The email address of the agent.
         `Returns:`
             dict
         """
 
-        agent = {'groupId': agent_id,
-                 'name': name,
+        agent = {'name': name,
                  'fullName': full_name,
                  'sendInvite': send_invite}
 

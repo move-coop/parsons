@@ -1,5 +1,4 @@
 import civis
-import os
 from parsons.etl.table import Table
 from parsons.utilities import check_env
 
@@ -26,8 +25,8 @@ class CivisClient(object):
         """
         The Civis API client. Utilize this attribute to access to lower level and more
         advanced methods which might not be surfaced in Parsons. A list of the methods
-        can be found by reading the Civis API client `documentation <https://civis-python.readthedocs.io/en/stable/client.html>`_. 
-        """ # noqa: W605
+        can be found by reading the Civis API client `documentation <https://civis-python.readthedocs.io/en/stable/client.html>`_.
+        """  # noqa: E501
 
     def query(self, sql, preview_rows=10, polling_interval=None, hidden=True,
               wait=True):

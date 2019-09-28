@@ -8,20 +8,22 @@ class CivisClient(object):
     Instantiate the Civis class.
 
     `Args:`
-        api_key:
+        api_key: str
             The Civis api key.
-        db:
+        db: str or int
             The Civis Redshift database. Can be a database id or the name of the
             database.
+        **kwargs: args
+            Option settings for the client that are `described in the documentation <https://civis-python.readthedocs.io/en/stable/client.html#civis.APIClient>`_.
     `Returns:`
         Civis class
-    """
+    """  # noqa: E501
 
-    def __init__(self, db=None, api_key=None, resources='all'):
+    def __init__(self, db=None, api_key=None, **kwargs):
 
         self.api_key = check_env.check('CIVIS_API_KEY', api_key)
         self.db = check_env.check('CIVIS_DATABASE', db)
-        self.client = civis.APIClient(resources=resources)
+        self.client = civis.APIClient(api_key=api_key, **kwargs)
         """
         The Civis API client. Utilize this attribute to access to lower level and more
         advanced methods which might not be surfaced in Parsons. A list of the methods

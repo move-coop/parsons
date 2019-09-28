@@ -1,36 +1,33 @@
 import civis
 import os
 from parsons.etl.table import Table
+from parsons.utilities import check_env
 
 
 class CivisClient(object):
+    """
+    Instantiate the Civis class.
 
-    def __init__(self, db=None, api_key=None):
+    `Args:`
+        api_key:
+            The Civis api key.
+        db:
+            The Civis Redshift database. Can be a database id or the name of the
+            database.
+    `Returns:`
+        Civis class
+    """
 
-        if api_key is None:
+    def __init__(self, db=None, api_key=None, resources='all'):
 
-            try:
-                self.api_key = os.environ['CIVIS_API_KEY']
-            except KeyError:
-                raise KeyError('No Civis API key found. Please store'
-                               ' in environment variable or pass as an'
-                               'argument.')
-
-        if db is None:
-            try:
-                db = os.environ['CIVIS_DATABASE']
-            except KeyError:
-                raise KeyError('No Civis Database kwarg found. Please store'
-                               ' in environment variable or pass as an'
-                               'argument.')
-
-        if str(db).isdigit():
-            db = int(db)
-
-        self.db = db
-
-        if api_key:
-            os.environ['CIVIS_API_KEY'] = api_key
+        self.api_key = check_env.check('CIVIS_API_KEY', api_key)
+        self.db = check_env.check('CIVIS_DATABASE', db)
+        self.client = civis.APIClient(resources=resources)
+        """
+        The Civis API client. Utilize this attribute to access to lower level and more
+        advanced methods which might not be surfaced in Parsons. A list of the methods
+        can be found by reading the Civis API client `documentation <https://civis-python.readthedocs.io/en/stable/client.html>`_. 
+        """ # noqa: W605
 
     def query(self, sql, preview_rows=10, polling_interval=None, hidden=True,
               wait=True):

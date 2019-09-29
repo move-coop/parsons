@@ -57,6 +57,8 @@ class VANConnector(object):
                 r.raise_for_status()
         """
 
+        # print (r.json())
+
         if req_type in ['POST', 'DELETE', 'PUT'] or (req_type == 'GET' and r.status_code != 200):
             return self.code_parse(r)
 

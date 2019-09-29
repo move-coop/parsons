@@ -13,6 +13,8 @@ Quick Start
 
 .. code-block:: python
 
+        from parsons import Hustle
+	
 	hustle = Hustle(client_secret='MYID', client_secret='MYSECRET')
 
 	# Export your groups to a csv

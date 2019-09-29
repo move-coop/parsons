@@ -3,13 +3,76 @@ import logging
 logger = logging.getLogger(__name__)
 
 
-class RedshiftQueries(object):
+class RedshiftTableUtilities(object):
 
     def __init__(self):
         pass
 
-    def get_row_count(self, table):
-        count_query = self.query(f"select count(*) from {table}")
+    def table_exists(self, table_name, view=True):
+        """
+        Check if a table or view exists in the database.
+
+        `Args:`
+            table_name: str
+                The table name and schema (e.g. ``myschema.mytable``).
+            view: boolean
+                Check to see if a view exists by the same name
+
+        `Returns:`
+            boolean
+                ``True`` if the table exists and ``False`` if it does not.
+        """
+        with self.connection() as connection:
+            return self.table_exists_with_connection(table_name, connection, view)
+
+    def table_exists_with_connection(self, table_name, connection, view=True):
+        table_name = table_name.lower().split('.')
+
+        # Check in pg tables for the table
+        sql = """select count(*) from pg_tables where schemaname='{}' and
+                 tablename='{}';""".format(table_name[0], table_name[1])
+
+        # TODO maybe convert these queries to use self.query_with_connection
+
+        with self.cursor(connection) as cursor:
+
+            cursor.execute(sql)
+            result = cursor.fetchone()[0]
+
+            # Check in the pg_views for the table
+            if view:
+                sql = """select count(*) from pg_views where schemaname='{}' and
+                         viewname='{}';""".format(table_name[0], table_name[1])
+
+            cursor.execute(sql)
+            result += cursor.fetchone()[0]
+
+        # If in either, return boolean
+        if result >= 1:
+            logger.info(f'{table_name[0]}.{table_name[1]} exists.')
+            return True
+        else:
+            logger.info(f'{table_name[0]}.{table_name[1]} does NOT exist.')
+            return False
+
+    def get_row_count(self, table_name):
+        """
+        Return the row count of a table.
+
+        **SQL Code**
+
+        .. code-block:: sql
+
+           SELECT COUNT(*) FROM myschema.mytable
+
+        `Args:`
+            table_name: str
+                The schema and name (e.g. ``myschema.mytable``) of the table.
+        `Returns:`
+            int
+        """
+
+        count_query = self.query(f"select count(*) from {table_name}")
         return count_query[0]['count']
 
     def rename_table(self, table_name, new_table_name):
@@ -18,14 +81,13 @@ class RedshiftQueries(object):
 
         .. note::
             You cannot move schemas when renaming a table. Instead, utilize
-            the :meth:``parsons.Redshift.table_duplicate.`` method.
+            the :meth:`table_duplicate()`. method.
 
         Args:
             table_name: str
                 Name of existing schema and table (e.g. ``myschema.oldtable``)
             new_table_name: str
-                New name for table. Note: Omit schema in table name.
-
+                New name for table with the schema omitted (e.g. ``newtable``).
         """
 
         sql = f"alter table {table_name} rename to {new_table_name}"
@@ -34,19 +96,17 @@ class RedshiftQueries(object):
 
     def move_table(self, source_table, new_table, drop_source_table=False):
         """
-        Move an existing table in the database.
-
-        It will inherit encoding, sortkey and distkey. **Once run, the source table
-        rows will be empty.** This is more efficiant than running
-        ``"create newtable as select * from oldtable"``.
+        Move an existing table in the database.It will inherit encoding, sortkey
+        and distkey. **Once run, the source table rows will be empty.** This is
+        more efficiant than running ``"create newtable as select * from oldtable"``.
 
         For more information see: `ALTER TABLE APPEND <https://docs.aws.amazon.com/redshift/latest/dg/r_ALTER_TABLE_APPEND.html>`_
 
         Args:
             source_table: str
-                Name of existing schema and table (e.g. ``myschema.oldtable``)
+                Name of existing schema and table (e.g. ``mys_chema.old_table``)
             new_table: str
-                New name of schema and table (e.g. ``myschema.newtable``)
+                New name of schema and table (e.g. ``mys_chema.newtable``)
             drop_original: boolean
                 Drop the source table.
         Returns:
@@ -128,7 +188,7 @@ class RedshiftQueries(object):
             query: str
                 The SQL query
             destination_table: str
-                Name of destination schema and table (e.g. ``myschema.newtable``)
+                Name of destination schema and table (e.g. ``mys_chema.new_table``)
             if_exists: str
                 If the table already exists, either ``fail``, ``append``, ``drop``,
                 or ``truncate`` the table.
@@ -206,7 +266,8 @@ class RedshiftQueries(object):
             tables: list
                 A list of tables to union
             union_all: boolean
-                If ``False`` will dedupe rows
+                If ``False`` will deduplicate rows. If ``True`` will include
+                duplicate rows.
             view: boolean
                 Create a view rather than a static table
         Returns:
@@ -622,3 +683,47 @@ class RedshiftQueries(object):
             return None
 
         return ddl_view.to_dicts()
+
+    @staticmethod
+    def split_full_table_name(full_table_name):
+        """
+        Split a full table name into its schema and table. If a schema isn't
+        present, return `public` for the schema. Similarly, Redshift defaults
+        to the `public` schema, when one isn't provided.
+
+        Eg:
+        ``(schema, table) = Redshift.split_full_table_name("some_schema.some_table")``
+
+        `Args:`
+            full_table_name: str
+                The table name, as "schema.table"
+        `Returns:`
+            tuple
+                A tuple containing (schema, table)
+        """
+        if "." not in full_table_name:
+            return "public", full_table_name
+
+        try:
+            schema, table = full_table_name.split(".")
+        except ValueError as e:
+            if "too many values to unpack" in str(e):
+                raise ValueError(f"Invalid Redshift table {full_table_name}")
+
+        return schema, table
+
+    @staticmethod
+    def combine_schema_and_table_name(schema, table):
+        """
+        Creates a full table name by combining a schema and table.
+
+        `Args:`
+            schema: str
+                The schema name
+            table: str
+                The table name
+        `Returns:`
+            str
+                The combined full table name
+        """
+        return f"{schema}.{table}"

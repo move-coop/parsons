@@ -1,7 +1,7 @@
 from parsons.etl.table import Table
 from parsons.databases.redshift.rs_copy_table import RedshiftCopyTable
 from parsons.databases.redshift.rs_create_table import RedshiftCreateTable
-from parsons.databases.redshift.rs_queries import RedshiftQueries
+from parsons.databases.redshift.rs_table_utilities import RedshiftTableUtilities
 from parsons.databases.redshift.rs_schema import RedshiftSchema
 from parsons.utilities import files
 import psycopg2
@@ -22,7 +22,7 @@ QUERY_BATCH_SIZE = 100000
 logger = logging.getLogger(__name__)
 
 
-class Redshift(RedshiftCreateTable, RedshiftCopyTable, RedshiftQueries, RedshiftSchema):
+class Redshift(RedshiftCreateTable, RedshiftCopyTable, RedshiftTableUtilities, RedshiftSchema):
     """
     A Redshift class to connect to database.
 
@@ -102,8 +102,10 @@ class Redshift(RedshiftCreateTable, RedshiftCopyTable, RedshiftQueries, Redshift
 
         To include python variables in your query, it is recommended to pass them as parameters,
         following the `psycopg style <http://initd.org/psycopg/docs/usage.html#passing-parameters-to-sql-queries>`_.
+        Using the ``parameters`` argument ensures that values are escaped properly, and avoids SQL
+        injection attacks.
 
-        For example...
+        **Parameter Examples**
 
         .. code-block:: python
 
@@ -113,17 +115,12 @@ class Redshift(RedshiftCreateTable, RedshiftCopyTable, RedshiftQueries, Redshift
             sql = "SELECT * FROM my_table WHERE name = %s"
             rs.query(sql, parameters=[name])
 
-        An example of passing a list of values...
-
         .. code-block:: python
 
             names = ["Allen Smith", "Beatrice O'Brady", "Cathy Thompson"]
             placeholders = ', '.join('%s' for item in names)
             sql = f"SELECT * FROM my_table WHERE name IN ({placeholders})"
             rs.query(sql, parameters=names)
-
-        Using the ``parameters`` argument ensures that values are escaped properly, and avoids SQL
-        injection attacks.
 
         `Args:`
             sql: str
@@ -154,7 +151,7 @@ class Redshift(RedshiftCreateTable, RedshiftCopyTable, RedshiftQueries, Redshift
             parameters: list
                 A list of python variables to be converted into SQL values in your query
             commit: boolean
-                Whether to commit the transaction immediately. If False the transaction will
+                Whether to commit the transaction immediately. If ``False`` the transaction will
                 be committed when the connection goes out of scope and is closed (or you can
                 commit manually with ``connection.commit()``).
 
@@ -207,50 +204,6 @@ class Redshift(RedshiftCreateTable, RedshiftCopyTable, RedshiftQueries, Redshift
                 logger.debug(f'Query returned {final_tbl.num_rows} rows.')
                 return final_tbl
 
-    @staticmethod
-    def split_full_table_name(full_table_name):
-        """
-        Split a full table name into its schema and table. If a schema isn't
-        present, return `public` for the schema. Similarly, Redshift defaults
-        to the `public` schema, when one isn't provided.
-
-        Eg:
-        ``(schema, table) = Redshift.split_full_table_name("some_schema.some_table")``
-
-        `Args:`
-            full_table_name: str
-                The table name, as "schema.table"
-        `Returns:`
-            tuple
-                A tuple containing (schema, table)
-        """
-        if "." not in full_table_name:
-            return "public", full_table_name
-
-        try:
-            schema, table = full_table_name.split(".")
-        except ValueError as e:
-            if "too many values to unpack" in str(e):
-                raise ValueError(f"Invalid Redshift table {full_table_name}")
-
-        return schema, table
-
-    @staticmethod
-    def combine_schema_and_table_name(schema, table):
-        """
-        Creates a full table name by combining a schema and table.
-
-        `Args:`
-            schema: str
-                The schema name
-            table: str
-                The table name
-        `Returns:`
-            str
-                The combined full table name
-        """
-        return f"{schema}.{table}"
-
     def copy_s3(self, table_name, bucket, key, manifest=False, data_type='csv',
                 csv_delimiter=',', compression=None, if_exists='fail', max_errors=0,
                 distkey=None, sortkey=None, padding=None, varchar_max=None,
@@ -282,7 +235,7 @@ class Redshift(RedshiftCreateTable, RedshiftCopyTable, RedshiftQueries, Redshift
                 or ``truncate`` the table.
             max_errors: int
                 The maximum number of rows that can error and be skipped before
-                the copy job fails.
+                the job fails.
             distkey: str
                 The column name of the distkey
             sortkey: str
@@ -326,14 +279,14 @@ class Redshift(RedshiftCreateTable, RedshiftCopyTable, RedshiftQueries, Redshift
                 Optional map of column name to redshift column type, overriding the usual type
                 inference. You only specify the columns you want to override, eg.
                 ``columntypes={'phone': 'varchar(12)', 'age': 'int'})``.
-            specifycols: list
-                Adds a column list to the Redshift `COPY` command, allowing for the source file
+            specifycols: boolean
+                Adds a column list to the Redshift `COPY` command, allowing for the source table
                 in an append to have the columnns out of order, and to have fewer columns with any
                 leftover target table columns filled in with the `DEFAULT` value.
-                .. warning::
-                   This will only work if the provided column names all have _exact_ matches
-                   in the target table. This will also fail if the target table has an `IDENTITY`
-                   column and that column name is among the provided columns.
+
+                This will fail if all of the source table's columns do not match a column in the
+                target table. This will also fail if the target table has an `IDENTITY`
+                column and that column name is among the source table's columns.
             aws_access_key_id:
                 An AWS access key granted to the bucket where the file is located. Not required
                 if keys are stored as environmental variables.
@@ -395,19 +348,19 @@ class Redshift(RedshiftCreateTable, RedshiftCopyTable, RedshiftQueries, Redshift
              columntypes=None, specifycols=False,
              aws_access_key_id=None, aws_secret_access_key=None):
         """
-        Copy a parsons table object to Redshift.
+        Copy a :ref:`parsons-table` to Redshift.
 
         `Args:`
             table_obj: obj
-                A ``Parsons Table``.
+                A Parsons Table.
             table_name: str
-                The table name and schema (``tmc.cool_table``) to point the file.
+                The destination table name (ex. ``my_schema.my_table``).
             if_exists: str
                 If the table already exists, either ``fail``, ``append``, ``drop``
                 or ``truncate`` the table.
             max_errors: int
                 The maximum number of rows that can error and be skipped before
-                the copy job fails.
+                the job fails.
             distkey: str
                 The column name of the distkey
             sortkey: str
@@ -453,10 +406,10 @@ class Redshift(RedshiftCreateTable, RedshiftCopyTable, RedshiftQueries, Redshift
                 Adds a column list to the Redshift `COPY` command, allowing for the source table
                 in an append to have the columnns out of order, and to have fewer columns with any
                 leftover target table columns filled in with the `DEFAULT` value.
-                .. warning::
-                   This will only work if the source table's column names all have _exact_ matches
-                   in the target table. This will also fail if the target table has an `IDENTITY`
-                   column and that column name is among the source table's columns.
+
+                This will fail if all of the source table's columns do not match a column in the
+                target table. This will also fail if the target table has an `IDENTITY`
+                column and that column name is among the source table's columns.
             aws_access_key_id:
                 An AWS access key granted to the bucket where the file is located. Not required
                 if keys are stored as environmental variables.
@@ -502,7 +455,7 @@ class Redshift(RedshiftCreateTable, RedshiftCopyTable, RedshiftQueries, Redshift
         """
         Unload Redshift data to S3 Bucket. This is a more efficient method than running a query
         to export data as it can export in parallel and directly into an S3 bucket. Consider
-        using this for data of 10MM or more rows.
+        using this for exports of 10MM or more rows.
 
         sql: str
             The SQL string to execute to generate the data to unload.
@@ -577,53 +530,6 @@ class Redshift(RedshiftCreateTable, RedshiftCopyTable, RedshiftQueries, Redshift
         logger.debug(statement)
 
         return self.query(statement)
-
-    def table_exists(self, table_name, view=True):
-        """
-        Check if a table exists in the database.
-
-        `Args:`
-            table_name: str
-                The table name and schema (``tmc.cool_table``) to point the file.
-            view: boolean
-                Check to see if a view exists by the same name
-
-        `Returns:`
-            boolean
-                ``True`` if the table exists and ``False`` if it does not.
-        """
-        with self.connection() as connection:
-            return self.table_exists_with_connection(table_name, connection, view)
-
-    def table_exists_with_connection(self, table_name, connection, view=True):
-        table_name = table_name.lower().split('.')
-
-        # Check in pg tables for the table
-        sql = """select count(*) from pg_tables where schemaname='{}' and
-                 tablename='{}';""".format(table_name[0], table_name[1])
-
-        # TODO maybe convert these queries to use self.query_with_connection
-
-        with self.cursor(connection) as cursor:
-
-            cursor.execute(sql)
-            result = cursor.fetchone()[0]
-
-            # Check in the pg_views for the table
-            if view:
-                sql = """select count(*) from pg_views where schemaname='{}' and
-                         viewname='{}';""".format(table_name[0], table_name[1])
-
-            cursor.execute(sql)
-            result += cursor.fetchone()[0]
-
-        # If in either, return boolean
-        if result >= 1:
-            logger.info(f'{table_name[0]}.{table_name[1]} exists.')
-            return True
-        else:
-            logger.info(f'{table_name[0]}.{table_name[1]} does NOT exist.')
-            return False
 
     def generate_manifest(self, buckets, aws_access_key_id=None, aws_secret_access_key=None,
                           mandatory=True, prefix=None, manifest_bucket=None, manifest_key=None,

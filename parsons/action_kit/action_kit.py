@@ -12,7 +12,8 @@ class ActionKit(object):
 
     `Args:`
         domain: str
-            The ActionKit domain. Not required if ``ACTION_KIT_DOMAIN`` env variable set.
+            The ActionKit domain (e.g. ``myorg.acktionkit.org``) Not required if
+            ``ACTION_KIT_DOMAIN`` env variable set.
         username: str
             The authorized ActionKit username. Not required if ``ACTION_KIT_USERNAME`` env
             variable set.
@@ -41,7 +42,7 @@ class ActionKit(object):
     def _base_endpoint(self, endpoint, entity_id=None):
         # Create the base endpoint URL
 
-        url = f'https://{self.domain}.actionkit.com/rest/v1/{endpoint}/'
+        url = f'https://{self.domain}/rest/v1/{endpoint}/'
 
         if entity_id:
             return url + f'{entity_id}/'

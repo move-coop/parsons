@@ -162,6 +162,12 @@ def zip_check(file_path, compression_type):
 def extract_file_name(file_path=None, include_suffix=True):
     """
     Extract the file name with the file path string.
+
+    file_path: str
+        The file path
+    include_suffix: boolean
+        If True, includes full file name with suffix. If False returns the
+        file name without the suffix (e.g. "myfile.zip" vs. "myfile").
     """
 
     if not file_path:

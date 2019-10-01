@@ -12,7 +12,7 @@ class ActionKit(object):
 
     `Args:`
         domain: str
-            The ActionKit domain (e.g. ``myorg.acktionkit.org``) Not required if
+            The ActionKit domain (e.g. ``myorg.actionkit.org``) Not required if
             ``ACTION_KIT_DOMAIN`` env variable set.
         username: str
             The authorized ActionKit username. Not required if ``ACTION_KIT_USERNAME`` env

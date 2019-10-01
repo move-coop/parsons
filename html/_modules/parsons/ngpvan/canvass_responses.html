@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>parsons.ngpvan.canvass_responses &mdash; Parsons 0.1 documentation</title>
+  <title>parsons.ngpvan.canvass_responses &mdash; Parsons 0.5 documentation</title>
   
 
   
@@ -79,9 +79,14 @@
               <p class="caption"><span class="caption-text">Integrations</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../../action_kit.html">ActionKit</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../airtable.html">Airtable</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../civis.html">Civis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../copper.html">Copper</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../crowdtangle.html">CrowdTangle</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../facebook_ads.html">FacebookAds</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../google_sheets.html">GoogleSheets</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../google_cloud.html">Google Cloud</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../hustle.html">Hustle</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../mobile_commons.html">Mobile Commons</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../mobilize_america.html">Mobilize America</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../ngpvan.html">VAN</a></li>
@@ -91,6 +96,11 @@
 <li class="toctree-l1"><a class="reference internal" href="../../../sftp.html">SFTP</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../ts.html">TargetSmart</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../turbovote.html">TurboVote</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Enhancements</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../google_civic.html">Google Civic</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../census_geocoder.html">US Census Geocoder</a></li>
 </ul>
 <p class="caption"><span class="caption-text">Framework</span></p>
 <ul>
@@ -171,7 +181,8 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">connection</span> <span class="o">=</span> <span class="n">van_connection</span>
 
 <div class="viewcode-block" id="CanvassResponses.get_canvass_responses_contact_types"><a class="viewcode-back" href="../../../ngpvan.html#parsons.ngpvan.van.CanvassResponses.get_canvass_responses_contact_types">[docs]</a>    <span class="k">def</span> <span class="nf">get_canvass_responses_contact_types</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Get canvass response contact types</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Get canvass response contact types.</span>
 
 <span class="sd">        `Returns:`</span>
 <span class="sd">            Parsons Table</span>
@@ -180,7 +191,6 @@
 
         <span class="n">url</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">connection</span><span class="o">.</span><span class="n">uri</span> <span class="o">+</span> <span class="s1">&#39;canvassResponses/contactTypes&#39;</span>
 
-        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="n">f</span><span class="s1">&#39;Getting canvass response contact types...&#39;</span><span class="p">)</span>
         <span class="n">crc</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">connection</span><span class="o">.</span><span class="n">request</span><span class="p">(</span><span class="n">url</span><span class="p">)</span>
         <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="n">crc</span><span class="p">)</span>
         <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="n">f</span><span class="s1">&#39;Found </span><span class="si">{crc.num_rows}</span><span class="s1"> canvass response contact types.&#39;</span><span class="p">)</span>
@@ -188,7 +198,8 @@
         <span class="k">return</span> <span class="n">crc</span></div>
 
 <div class="viewcode-block" id="CanvassResponses.get_canvass_responses_input_types"><a class="viewcode-back" href="../../../ngpvan.html#parsons.ngpvan.van.CanvassResponses.get_canvass_responses_input_types">[docs]</a>    <span class="k">def</span> <span class="nf">get_canvass_responses_input_types</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Get canvass response input types</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Get canvass response input types.</span>
 
 <span class="sd">        `Returns:`</span>
 <span class="sd">            Parsons Table</span>
@@ -197,7 +208,6 @@
 
         <span class="n">url</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">connection</span><span class="o">.</span><span class="n">uri</span> <span class="o">+</span> <span class="s1">&#39;canvassResponses/inputTypes&#39;</span>
 
-        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="n">f</span><span class="s1">&#39;Getting canvass response input types...&#39;</span><span class="p">)</span>
         <span class="n">cri</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">connection</span><span class="o">.</span><span class="n">request</span><span class="p">(</span><span class="n">url</span><span class="p">)</span>
         <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="n">cri</span><span class="p">)</span>
         <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="n">f</span><span class="s1">&#39;Found </span><span class="si">{cri.num_rows}</span><span class="s1"> canvass response input types.&#39;</span><span class="p">)</span>
@@ -205,7 +215,8 @@
         <span class="k">return</span> <span class="n">cri</span></div>
 
 <div class="viewcode-block" id="CanvassResponses.get_canvass_responses_result_codes"><a class="viewcode-back" href="../../../ngpvan.html#parsons.ngpvan.van.CanvassResponses.get_canvass_responses_result_codes">[docs]</a>    <span class="k">def</span> <span class="nf">get_canvass_responses_result_codes</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Get canvass response result codes</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Get canvass response result code ids.</span>
 
 <span class="sd">        `Returns:`</span>
 <span class="sd">            Parsons Table</span>
@@ -214,7 +225,6 @@
 
         <span class="n">url</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">connection</span><span class="o">.</span><span class="n">uri</span> <span class="o">+</span> <span class="s1">&#39;canvassResponses/resultCodes&#39;</span>
 
-        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="n">f</span><span class="s1">&#39;Getting canvass response result codes...&#39;</span><span class="p">)</span>
         <span class="n">crr</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">connection</span><span class="o">.</span><span class="n">request</span><span class="p">(</span><span class="n">url</span><span class="p">)</span>
         <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="n">crr</span><span class="p">)</span>
         <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="n">f</span><span class="s1">&#39;Found </span><span class="si">{crr.num_rows}</span><span class="s1"> canvass response result codes.&#39;</span><span class="p">)</span>

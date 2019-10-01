@@ -179,6 +179,84 @@ create a Google Developer Key in their <a class="reference external" href="https
 use Google Civic, you must enable this specific end point.</p>
 <p>The Google Civic API utilizes the <a class="reference external" href="https://www.votinginfoproject.org/">Voting Information Project</a> to collect
 key civic information such as personalized ballots and polling location information.</p>
+<dl class="class">
+<dt id="parsons.GoogleCivic">
+<em class="property">class </em><code class="descclassname">parsons.</code><code class="descname">GoogleCivic</code><span class="sig-paren">(</span><em>api_key=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/google/google_civic.html#GoogleCivic"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.GoogleCivic" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="docutils">
+<dt><cite>Args:</cite></dt>
+<dd><dl class="first last docutils">
+<dt>api_key <span class="classifier-delimiter">:</span> <span class="classifier">str</span></dt>
+<dd>A valid Google api key. Not required if <code class="docutils literal notranslate"><span class="pre">GOOGLE_CIVIC_API_KEY</span></code>
+env variable set.</dd>
+</dl>
+</dd>
+<dt><cite>Returns:</cite></dt>
+<dd>class</dd>
+</dl>
+<dl class="method">
+<dt id="parsons.GoogleCivic.get_elections">
+<code class="descname">get_elections</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/google/google_civic.html#GoogleCivic.get_elections"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.GoogleCivic.get_elections" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get a collection of information about elections and voter information.</p>
+<dl class="docutils">
+<dt><cite>Returns:</cite></dt>
+<dd><dl class="first last docutils">
+<dt>Parsons Table</dt>
+<dd>See <a class="reference internal" href="table.html#parsons-table"><span class="std std-ref">Parsons Table</span></a> for output options.</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="parsons.GoogleCivic.get_polling_location">
+<code class="descname">get_polling_location</code><span class="sig-paren">(</span><em>election_id</em>, <em>address</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/google/google_civic.html#GoogleCivic.get_polling_location"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.GoogleCivic.get_polling_location" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get polling location information for a given address.</p>
+<dl class="docutils">
+<dt><cite>Args:</cite></dt>
+<dd><dl class="first last docutils">
+<dt>election_id: int</dt>
+<dd>A valid election id. Election ids can be found by running the
+<a class="reference internal" href="#parsons.GoogleCivic.get_elections" title="parsons.GoogleCivic.get_elections"><code class="xref py py-meth docutils literal notranslate"><span class="pre">get_elections()</span></code></a> method.</dd>
+<dt>address: str</dt>
+<dd>A valid US address in a single string.</dd>
+</dl>
+</dd>
+<dt><cite>Returns:</cite></dt>
+<dd><dl class="first last docutils">
+<dt>Parsons Table</dt>
+<dd>See <a class="reference internal" href="table.html#parsons-table"><span class="std std-ref">Parsons Table</span></a> for output options.</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="parsons.GoogleCivic.get_polling_locations">
+<code class="descname">get_polling_locations</code><span class="sig-paren">(</span><em>election_id</em>, <em>table</em>, <em>address_field='address'</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/google/google_civic.html#GoogleCivic.get_polling_locations"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.GoogleCivic.get_polling_locations" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get polling location information for a table of addresses.</p>
+<dl class="docutils">
+<dt><cite>Args:</cite></dt>
+<dd><dl class="first last docutils">
+<dt>election_id: int</dt>
+<dd>A valid election id. Election ids can be found by running the
+<a class="reference internal" href="#parsons.GoogleCivic.get_elections" title="parsons.GoogleCivic.get_elections"><code class="xref py py-meth docutils literal notranslate"><span class="pre">get_elections()</span></code></a> method.</dd>
+<dt>address: str</dt>
+<dd>A valid US address in a single string.</dd>
+<dt>address_field: str</dt>
+<dd>The name of the column where the address is stored.</dd>
+</dl>
+</dd>
+<dt><cite>Returns:</cite></dt>
+<dd><dl class="first last docutils">
+<dt>Parsons Table</dt>
+<dd>See <a class="reference internal" href="table.html#parsons-table"><span class="std std-ref">Parsons Table</span></a> for output options.</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
 </div>
 
 

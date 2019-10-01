@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>parsons.facebook_ads.facebook_ads &mdash; Parsons 0.1 documentation</title>
+  <title>parsons.facebook_ads.facebook_ads &mdash; Parsons 0.5 documentation</title>
   
 
   
@@ -79,9 +79,14 @@
               <p class="caption"><span class="caption-text">Integrations</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../../action_kit.html">ActionKit</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../airtable.html">Airtable</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../civis.html">Civis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../copper.html">Copper</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../crowdtangle.html">CrowdTangle</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../facebook_ads.html">FacebookAds</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../google_sheets.html">GoogleSheets</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../google_cloud.html">Google Cloud</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../hustle.html">Hustle</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../mobile_commons.html">Mobile Commons</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../mobilize_america.html">Mobilize America</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../ngpvan.html">VAN</a></li>
@@ -91,6 +96,11 @@
 <li class="toctree-l1"><a class="reference internal" href="../../../sftp.html">SFTP</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../ts.html">TargetSmart</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../turbovote.html">TurboVote</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Enhancements</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../google_civic.html">Google Civic</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../census_geocoder.html">US Census Geocoder</a></li>
 </ul>
 <p class="caption"><span class="caption-text">Framework</span></p>
 <ul>
@@ -178,6 +188,25 @@
 
 
 <div class="viewcode-block" id="FacebookAds"><a class="viewcode-back" href="../../../facebook_ads.html#parsons.FacebookAds">[docs]</a><span class="k">class</span> <span class="nc">FacebookAds</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    A connector for Facebook Ads, eg. for creating custom audiences.</span>
+
+<span class="sd">    This connector is currently a thin wrapper around the FB Business SDK, so some of that</span>
+<span class="sd">    SDK is exposed. Eg. You may see exceptions like FacebookRequestError.</span>
+
+<span class="sd">    For details of the Facebook Business SDK for Python:</span>
+<span class="sd">    https://github.com/facebook/facebook-python-business-sdk</span>
+
+<span class="sd">    `Args:`</span>
+<span class="sd">        app_id: str</span>
+<span class="sd">            A Facebook app ID. Required if env var FB_APP_ID is not populated.</span>
+<span class="sd">        app_secret: str</span>
+<span class="sd">            A Facebook app secret. Required if env var FB_APP_SECRET is not populated.</span>
+<span class="sd">        access_token: str</span>
+<span class="sd">            A Facebook access token. Required if env var FB_ACCESS_TOKEN is not populated.</span>
+<span class="sd">        ad_account_id: str</span>
+<span class="sd">            A Facebook ad account ID. Required if env var FB_AD_ACCOUNT_ID isnot populated.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="c1"># The data columns that are valid for creating a custom audience.</span>
     <span class="c1"># Feel free to add more variants to capture common column names, as long as they&#39;re fairly</span>
@@ -223,25 +252,6 @@
     <span class="p">}</span>
 
     <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">app_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">app_secret</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">access_token</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">ad_account_id</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        A connector for Facebook Ads, eg. for creating custom audiences.</span>
-
-<span class="sd">        This connector is currently a thin wrapper around the FB Business SDK, so some of that</span>
-<span class="sd">        SDK is exposed. Eg. You may see exceptions like FacebookRequestError.</span>
-
-<span class="sd">        For details of the Facebook Business SDK for Python:</span>
-<span class="sd">        https://github.com/facebook/facebook-python-business-sdk</span>
-
-<span class="sd">        `Args:`</span>
-<span class="sd">            app_id: str</span>
-<span class="sd">                A Facebook app ID. Required if env var FB_APP_ID is not populated.</span>
-<span class="sd">            app_secret: str</span>
-<span class="sd">                A Facebook app secret. Required if env var FB_APP_SECRET is not populated.</span>
-<span class="sd">            access_token: str</span>
-<span class="sd">                A Facebook access token. Required if env var FB_ACCESS_TOKEN is not populated.</span>
-<span class="sd">            ad_account_id: str</span>
-<span class="sd">                A Facebook ad account ID. Required if env var FB_AD_ACCOUNT_ID isnot populated.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
 
         <span class="k">try</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">app_id</span> <span class="o">=</span> <span class="n">app_id</span> <span class="ow">or</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s1">&#39;FB_APP_ID&#39;</span><span class="p">]</span>

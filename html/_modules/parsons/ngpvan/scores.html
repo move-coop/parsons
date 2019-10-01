@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>parsons.ngpvan.scores &mdash; Parsons 0.1 documentation</title>
+  <title>parsons.ngpvan.scores &mdash; Parsons 0.5 documentation</title>
   
 
   
@@ -79,9 +79,14 @@
               <p class="caption"><span class="caption-text">Integrations</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../../action_kit.html">ActionKit</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../airtable.html">Airtable</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../civis.html">Civis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../copper.html">Copper</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../crowdtangle.html">CrowdTangle</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../facebook_ads.html">FacebookAds</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../google_sheets.html">GoogleSheets</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../google_cloud.html">Google Cloud</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../hustle.html">Hustle</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../mobile_commons.html">Mobile Commons</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../mobilize_america.html">Mobilize America</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../ngpvan.html">VAN</a></li>
@@ -91,6 +96,11 @@
 <li class="toctree-l1"><a class="reference internal" href="../../../sftp.html">SFTP</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../ts.html">TargetSmart</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../turbovote.html">TurboVote</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Enhancements</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../google_civic.html">Google Civic</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../census_geocoder.html">US Census Geocoder</a></li>
 </ul>
 <p class="caption"><span class="caption-text">Framework</span></p>
 <ul>
@@ -330,8 +340,8 @@
 
         <span class="n">columns</span> <span class="o">=</span> <span class="p">[{</span><span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="n">c</span><span class="p">}</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">columns</span><span class="p">]</span>
 
-        <span class="k">if</span> <span class="n">file_url</span><span class="p">[</span><span class="o">-</span><span class="mi">4</span><span class="p">:]</span> <span class="o">!=</span> <span class="s1">&#39;.zip&#39;</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;Score file must be a compressed zip file.&#39;</span><span class="p">)</span>
+        <span class="c1"># To Do: Validate that it is a .zip file. Not entirely sure if this is possible</span>
+        <span class="c1"># as some urls might not end in &quot;.zip&quot;.</span>
 
         <span class="k">if</span> <span class="n">delimiter</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;csv&#39;</span><span class="p">,</span> <span class="s1">&#39;tab&#39;</span><span class="p">,</span> <span class="s1">&#39;pipe&#39;</span><span class="p">]:</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Delimiter must be one of &#39;csv&#39;, &#39;tab&#39; or &#39;pipe&#39;&quot;</span><span class="p">)</span>
@@ -403,8 +413,8 @@
 
         <span class="n">columns</span> <span class="o">=</span> <span class="p">[{</span><span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="n">c</span><span class="p">}</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">columns</span><span class="p">]</span>
 
-        <span class="k">if</span> <span class="n">file_url</span><span class="p">[</span><span class="o">-</span><span class="mi">4</span><span class="p">:]</span> <span class="o">!=</span> <span class="s1">&#39;.zip&#39;</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;Score file must be a compressed zip file.&#39;</span><span class="p">)</span>
+        <span class="c1"># To Do: Validate that it is a .zip file. Not entirely sure if this is possible</span>
+        <span class="c1"># as some urls might not end in &quot;.zip&quot;.</span>
 
         <span class="k">if</span> <span class="n">delimiter</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;csv&#39;</span><span class="p">,</span> <span class="s1">&#39;tab&#39;</span><span class="p">,</span> <span class="s1">&#39;pipe&#39;</span><span class="p">]:</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Delimiter must be one of &#39;csv&#39;, &#39;tab&#39; or &#39;pipe&#39;&quot;</span><span class="p">)</span>

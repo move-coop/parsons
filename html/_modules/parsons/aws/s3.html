@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>parsons.aws.s3 &mdash; Parsons 0.5 documentation</title>
+  <title>parsons.aws.s3 &mdash; Parsons 0.1 documentation</title>
   
 
   
@@ -79,14 +79,9 @@
               <p class="caption"><span class="caption-text">Integrations</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../../action_kit.html">ActionKit</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../airtable.html">Airtable</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../civis.html">Civis</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../copper.html">Copper</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../crowdtangle.html">CrowdTangle</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../facebook_ads.html">FacebookAds</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../google_sheets.html">GoogleSheets</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../google_cloud.html">Google Cloud</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../hustle.html">Hustle</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../mobile_commons.html">Mobile Commons</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../mobilize_america.html">Mobilize America</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../ngpvan.html">VAN</a></li>
@@ -96,11 +91,6 @@
 <li class="toctree-l1"><a class="reference internal" href="../../../sftp.html">SFTP</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../ts.html">TargetSmart</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../turbovote.html">TurboVote</a></li>
-</ul>
-<p class="caption"><span class="caption-text">Enhancements</span></p>
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="../../../google_civic.html">Google Civic</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../census_geocoder.html">US Census Geocoder</a></li>
 </ul>
 <p class="caption"><span class="caption-text">Framework</span></p>
 <ul>
@@ -236,15 +226,6 @@
 <span class="sd">                ``True`` if the bucket exists and ``False`` if not.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
-        <span class="k">try</span><span class="p">:</span>
-            <span class="c1"># If we can list the keys, the bucket definitely exists. We do this check since</span>
-            <span class="c1"># it will account for buckets that live on other AWS accounts and that we</span>
-            <span class="c1"># have access to.</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">list_keys</span><span class="p">(</span><span class="n">bucket</span><span class="p">)</span>
-            <span class="k">return</span> <span class="kc">True</span>
-        <span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>
-            <span class="k">pass</span>
-
         <span class="k">return</span> <span class="n">bucket</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">list_buckets</span><span class="p">()</span></div>
 
 <div class="viewcode-block" id="S3.list_keys"><a class="viewcode-back" href="../../../s3.html#parsons.S3.list_keys">[docs]</a>    <span class="k">def</span> <span class="nf">list_keys</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">bucket</span><span class="p">,</span> <span class="n">prefix</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">suffix</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">regex</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
@@ -343,21 +324,16 @@
 <div class="viewcode-block" id="S3.create_bucket"><a class="viewcode-back" href="../../../s3.html#parsons.S3.create_bucket">[docs]</a>    <span class="k">def</span> <span class="nf">create_bucket</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">bucket</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Create an s3 bucket.</span>
+<span class="sd">        WARNING - S3 has a limit on the number of buckets you can create in an AWS account, and</span>
+<span class="sd">        that limit is fairly low (typically 100). If you are creating buckets frequently,</span>
+<span class="sd">        you may be mis-using S3, and should consider using the same bucket for multiple tasks.</span>
+<span class="sd">        There is no limit on the number of objects in a bucket.</span>
+<span class="sd">        See `AWS bucket restrictions</span>
+<span class="sd">        &lt;https://docs.aws.amazon.com/AmazonS3/latest/dev/BucketRestrictions.html&gt;`_ for more info.</span>
 
-<span class="sd">        .. warning::</span>
-<span class="sd">            S3 has a limit on the number of buckets you can create in an AWS account, and</span>
-<span class="sd">            that limit is fairly low (typically 100). If you are creating buckets frequently,</span>
-<span class="sd">            you may be mis-using S3, and should consider using the same bucket for multiple tasks.</span>
-<span class="sd">            There is no limit on the number of objects in a bucket.</span>
-<span class="sd">            See `AWS bucket restrictions</span>
-<span class="sd">            &lt;https://docs.aws.amazon.com/AmazonS3/latest/dev/BucketRestrictions.html&gt;`_ for more</span>
-<span class="sd">            info.</span>
-
-<span class="sd">        .. warning::</span>
-<span class="sd">            S3 bucket names are *globally* unique. So when creating a new bucket,</span>
-<span class="sd">            the name can&#39;t collide with any existing bucket names. If the provided name does</span>
-<span class="sd">            collide, you&#39;ll see errors like `IllegalLocationConstraintException` or</span>
-<span class="sd">            `BucketAlreadyExists`.</span>
+<span class="sd">        Also be aware that S3 bucket names are *globally* unique. So when creating a new bucket,</span>
+<span class="sd">        the name can&#39;t collide with any existing bucket names. If the provided name does collide,</span>
+<span class="sd">        you&#39;ll see errors like `IllegalLocationConstraintException` or `BucketAlreadyExists`.</span>
 
 <span class="sd">        `Args:`</span>
 <span class="sd">            bucket: str</span>
@@ -454,7 +430,7 @@
 <div class="viewcode-block" id="S3.transfer_bucket"><a class="viewcode-back" href="../../../s3.html#parsons.S3.transfer_bucket">[docs]</a>    <span class="k">def</span> <span class="nf">transfer_bucket</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">origin_bucket</span><span class="p">,</span> <span class="n">origin_key</span><span class="p">,</span> <span class="n">destination_bucket</span><span class="p">,</span>
                         <span class="n">destination_key</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">suffix</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">regex</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
                         <span class="n">date_modified_before</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">date_modified_after</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-                        <span class="n">public_read</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+                        <span class="n">public_read</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Transfer files between s3 buckets</span>
 <span class="sd">        `Args:`</span>
 <span class="sd">            origin_bucket: str</span>

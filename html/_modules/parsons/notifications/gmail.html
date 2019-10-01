@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>parsons.notifications.gmail &mdash; Parsons 0.5 documentation</title>
+  <title>parsons.notifications.gmail &mdash; Parsons 0.1 documentation</title>
   
 
   
@@ -79,14 +79,9 @@
               <p class="caption"><span class="caption-text">Integrations</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../../action_kit.html">ActionKit</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../airtable.html">Airtable</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../civis.html">Civis</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../copper.html">Copper</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../crowdtangle.html">CrowdTangle</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../facebook_ads.html">FacebookAds</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../google_sheets.html">GoogleSheets</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../google_cloud.html">Google Cloud</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../hustle.html">Hustle</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../mobile_commons.html">Mobile Commons</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../mobilize_america.html">Mobilize America</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../ngpvan.html">VAN</a></li>
@@ -96,11 +91,6 @@
 <li class="toctree-l1"><a class="reference internal" href="../../../sftp.html">SFTP</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../ts.html">TargetSmart</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../turbovote.html">TurboVote</a></li>
-</ul>
-<p class="caption"><span class="caption-text">Enhancements</span></p>
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="../../../google_civic.html">Google Civic</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../census_geocoder.html">US Census Geocoder</a></li>
 </ul>
 <p class="caption"><span class="caption-text">Framework</span></p>
 <ul>
@@ -202,17 +192,17 @@
 
 
 <div class="viewcode-block" id="Gmail"><a class="viewcode-back" href="../../../notifications.html#parsons.Gmail">[docs]</a><span class="k">class</span> <span class="nc">Gmail</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Create a Gmail object, for sending emails.</span>
-
-<span class="sd">    `Args:`</span>
-<span class="sd">        creds_path: str</span>
-<span class="sd">            The path to the credentials.json file.</span>
-<span class="sd">        token_path: str</span>
-<span class="sd">            The path to the token.json file.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="sd">&quot;&quot;&quot;Class for sending emails using gmail.&quot;&quot;&quot;</span>
 
     <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">creds_path</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">token_path</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Create a Gmail object.</span>
 
+<span class="sd">        `Args:`</span>
+<span class="sd">            creds_path: str</span>
+<span class="sd">                The path to the credentials.json file.</span>
+<span class="sd">            token_path: str</span>
+<span class="sd">                The path to the token.json file.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">user_id</span> <span class="o">=</span> <span class="s1">&#39;me&#39;</span>
 
         <span class="k">if</span> <span class="ow">not</span> <span class="n">creds_path</span><span class="p">:</span>

@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>parsons.phone2action.p2a &mdash; Parsons 0.5 documentation</title>
+  <title>parsons.phone2action.p2a &mdash; Parsons 0.1 documentation</title>
   
 
   
@@ -79,14 +79,9 @@
               <p class="caption"><span class="caption-text">Integrations</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../../action_kit.html">ActionKit</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../airtable.html">Airtable</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../civis.html">Civis</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../copper.html">Copper</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../crowdtangle.html">CrowdTangle</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../facebook_ads.html">FacebookAds</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../google_sheets.html">GoogleSheets</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../google_cloud.html">Google Cloud</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../hustle.html">Hustle</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../mobile_commons.html">Mobile Commons</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../mobilize_america.html">Mobilize America</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../ngpvan.html">VAN</a></li>
@@ -96,11 +91,6 @@
 <li class="toctree-l1"><a class="reference internal" href="../../../sftp.html">SFTP</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../ts.html">TargetSmart</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../turbovote.html">TurboVote</a></li>
-</ul>
-<p class="caption"><span class="caption-text">Enhancements</span></p>
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="../../../google_civic.html">Google Civic</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../census_geocoder.html">US Census Geocoder</a></li>
 </ul>
 <p class="caption"><span class="caption-text">Framework</span></p>
 <ul>
@@ -181,21 +171,21 @@
 
 
 <div class="viewcode-block" id="Phone2Action"><a class="viewcode-back" href="../../../p2a.html#parsons.Phone2Action">[docs]</a><span class="k">class</span> <span class="nc">Phone2Action</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Instantiate Phone2Action Class</span>
-
-<span class="sd">    `Args:`</span>
-<span class="sd">        app_id: str</span>
-<span class="sd">            The Phone2Action provided application id. Not required if ``PHONE2ACTION_APP_ID``</span>
-<span class="sd">            env variable set.</span>
-<span class="sd">        app_key: str</span>
-<span class="sd">            The Phone2Action provided application key. Not required if ``PHONE2ACTION_APP_KEY``</span>
-<span class="sd">            env variable set.</span>
-<span class="sd">    `Returns:`</span>
-<span class="sd">        Phone2Action Class</span>
-<span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">app_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">app_key</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Instantiate Phone2Action Class</span>
+
+<span class="sd">        `Args:`</span>
+<span class="sd">            app_id:</span>
+<span class="sd">                The Phone2Action provided application id. Not required if ``PHONE2ACTION_APP_ID``</span>
+<span class="sd">                env variable set.</span>
+<span class="sd">            app_key:</span>
+<span class="sd">                The Phone2Action provided application key. Not required if ``PHONE2ACTION_APP_KEY``</span>
+<span class="sd">                env. variable set.</span>
+<span class="sd">        `Returns:`</span>
+<span class="sd">            Phone2Action Class</span>
+<span class="sd">        &quot;&quot;&quot;</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">app_id</span> <span class="o">=</span> <span class="n">check_env</span><span class="o">.</span><span class="n">check</span><span class="p">(</span><span class="s1">&#39;PHONE2ACTION_APP_ID&#39;</span><span class="p">,</span> <span class="n">app_id</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">app_key</span> <span class="o">=</span> <span class="n">check_env</span><span class="o">.</span><span class="n">check</span><span class="p">(</span><span class="s1">&#39;PHONE2ACTION_APP_KEY&#39;</span><span class="p">,</span> <span class="n">app_key</span><span class="p">)</span>

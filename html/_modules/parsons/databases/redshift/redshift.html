@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>parsons.databases.redshift.redshift &mdash; Parsons 0.5 documentation</title>
+  <title>parsons.databases.redshift.redshift &mdash; Parsons 0.1 documentation</title>
   
 
   
@@ -79,14 +79,9 @@
               <p class="caption"><span class="caption-text">Integrations</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../../../action_kit.html">ActionKit</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../../airtable.html">Airtable</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../../civis.html">Civis</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../../copper.html">Copper</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../../crowdtangle.html">CrowdTangle</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../../facebook_ads.html">FacebookAds</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../../google_sheets.html">GoogleSheets</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../../google_cloud.html">Google Cloud</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../../hustle.html">Hustle</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../../mobile_commons.html">Mobile Commons</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../../mobilize_america.html">Mobilize America</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../../ngpvan.html">VAN</a></li>
@@ -96,11 +91,6 @@
 <li class="toctree-l1"><a class="reference internal" href="../../../../sftp.html">SFTP</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../../ts.html">TargetSmart</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../../turbovote.html">TurboVote</a></li>
-</ul>
-<p class="caption"><span class="caption-text">Enhancements</span></p>
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="../../../../google_civic.html">Google Civic</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../../census_geocoder.html">US Census Geocoder</a></li>
 </ul>
 <p class="caption"><span class="caption-text">Framework</span></p>
 <ul>
@@ -153,6 +143,8 @@
         
           <li><a href="../../../index.html">Module code</a> &raquo;</li>
         
+          <li><a href="../redshift.html">parsons.databases.redshift</a> &raquo;</li>
+        
       <li>parsons.databases.redshift.redshift</li>
     
     
@@ -170,6 +162,7 @@
             
   <h1>Source code for parsons.databases.redshift.redshift</h1><div class="highlight"><pre>
 <span></span><span class="kn">from</span> <span class="nn">parsons.etl.table</span> <span class="k">import</span> <span class="n">Table</span>
+<span class="kn">from</span> <span class="nn">parsons.databases.sqldb</span> <span class="k">import</span> <span class="n">SQLDatabase</span>
 <span class="kn">from</span> <span class="nn">parsons.databases.redshift.rs_copy_table</span> <span class="k">import</span> <span class="n">RedshiftCopyTable</span>
 <span class="kn">from</span> <span class="nn">parsons.databases.redshift.rs_create_table</span> <span class="k">import</span> <span class="n">RedshiftCreateTable</span>
 <span class="kn">from</span> <span class="nn">parsons.databases.redshift.rs_queries</span> <span class="k">import</span> <span class="n">RedshiftQueries</span>
@@ -193,31 +186,32 @@
 <span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
 
 
-<div class="viewcode-block" id="Redshift"><a class="viewcode-back" href="../../../../redshift.html#parsons.Redshift">[docs]</a><span class="k">class</span> <span class="nc">Redshift</span><span class="p">(</span><span class="n">RedshiftCreateTable</span><span class="p">,</span> <span class="n">RedshiftCopyTable</span><span class="p">,</span> <span class="n">RedshiftQueries</span><span class="p">,</span> <span class="n">RedshiftSchema</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    A Redshift class to connect to database.</span>
-
-<span class="sd">    Args:</span>
-<span class="sd">        username: str</span>
-<span class="sd">            Required if env variable ``REDSHIFT_USERNAME`` not populated</span>
-<span class="sd">        password: str</span>
-<span class="sd">            Required if env variable ``REDSHIFT_PASSWORD`` not populated</span>
-<span class="sd">        host: str</span>
-<span class="sd">            Required if env variable ``REDSHIFT_HOST`` not populated</span>
-<span class="sd">        db: str</span>
-<span class="sd">            Required if env variable ``REDSHIFT_DB`` not populated</span>
-<span class="sd">        port: int</span>
-<span class="sd">            Required if env variable ``REDSHIFT_PORT`` not populated. Port 5439 is typical.</span>
-<span class="sd">        timeout: int</span>
-<span class="sd">            Seconds to timeout if connection not established</span>
-<span class="sd">        s3_temp_bucket: str</span>
-<span class="sd">            Name of the S3 bucket that will be used for storing data during bulk transfers.</span>
-<span class="sd">            Required if you intend to perform bulk data transfers (eg. the copy_s3 method),</span>
-<span class="sd">            and env variable ``S3_TEMP_BUCKET`` is not populated.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<div class="viewcode-block" id="Redshift"><a class="viewcode-back" href="../../../../redshift.html#parsons.Redshift">[docs]</a><span class="k">class</span> <span class="nc">Redshift</span><span class="p">(</span><span class="n">RedshiftCreateTable</span><span class="p">,</span> <span class="n">RedshiftCopyTable</span><span class="p">,</span> <span class="n">RedshiftQueries</span><span class="p">,</span> <span class="n">RedshiftSchema</span><span class="p">,</span>
+               <span class="n">SQLDatabase</span><span class="p">):</span>
 
     <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">username</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">password</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">host</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">db</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">port</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
                  <span class="n">timeout</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">s3_temp_bucket</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        A Redshift class to connect to database.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            username: str</span>
+<span class="sd">                Required if env variable ``REDSHIFT_USERNAME`` not populated</span>
+<span class="sd">            password: str</span>
+<span class="sd">                Required if env variable ``REDSHIFT_PASSWORD`` not populated</span>
+<span class="sd">            host: str</span>
+<span class="sd">                Required if env variable ``REDSHIFT_HOST`` not populated</span>
+<span class="sd">            db: str</span>
+<span class="sd">                Required if env variable ``REDSHIFT_DB`` not populated</span>
+<span class="sd">            port: int</span>
+<span class="sd">                Required if env variable ``REDSHIFT_PORT`` not populated. Port 5439 is typical.</span>
+<span class="sd">            timeout: int</span>
+<span class="sd">                Seconds to timeout if connection not established</span>
+<span class="sd">            s3_temp_bucket: str</span>
+<span class="sd">                Name of the S3 bucket that will be used for storing data during bulk transfers.</span>
+<span class="sd">                Required if you intend to perform bulk data transfers (eg. the copy_s3 method),</span>
+<span class="sd">                and env variable ``S3_TEMP_BUCKET`` is not populated.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
 
         <span class="k">try</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">username</span> <span class="o">=</span> <span class="n">username</span> <span class="ow">or</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s1">&#39;REDSHIFT_USERNAME&#39;</span><span class="p">]</span>
@@ -272,26 +266,22 @@
 <span class="sd">        if the query returns zero rows.</span>
 
 <span class="sd">        To include python variables in your query, it is recommended to pass them as parameters,</span>
-<span class="sd">        following the `psycopg style &lt;http://initd.org/psycopg/docs/usage.html#passing-parameters-to-sql-queries&gt;`_.</span>
+<span class="sd">        following the `psycopg style&lt;http://initd.org/psycopg/docs/usage.html#passing-parameters-to-sql-queries&gt;`_.</span>
 
 <span class="sd">        For example...</span>
 
-<span class="sd">        .. code-block:: python</span>
-
-<span class="sd">            # Note that the name contains a quote, which could break your query if not escaped</span>
-<span class="sd">            # properly.</span>
-<span class="sd">            name = &quot;Beatrice O&#39;Brady&quot;</span>
-<span class="sd">            sql = &quot;SELECT * FROM my_table WHERE name = %s&quot;</span>
-<span class="sd">            rs.query(sql, parameters=[name])</span>
+<span class="sd">        # Note that the name contains a quote, which could break your query if not escaped</span>
+<span class="sd">        # properly.</span>
+<span class="sd">        name = &quot;Beatrice O&#39;Brady&quot;</span>
+<span class="sd">        sql = &quot;SELECT * FROM my_table WHERE name = %s&quot;</span>
+<span class="sd">        rs.query(sql, parameters=[name])</span>
 
 <span class="sd">        An example of passing a list of values...</span>
 
-<span class="sd">        .. code-block:: python</span>
-
-<span class="sd">            names = [&quot;Allen Smith&quot;, &quot;Beatrice O&#39;Brady&quot;, &quot;Cathy Thompson&quot;]</span>
-<span class="sd">            placeholders = &#39;, &#39;.join(&#39;%s&#39; for item in names)</span>
-<span class="sd">            sql = f&quot;SELECT * FROM my_table WHERE name IN ({placeholders})&quot;</span>
-<span class="sd">            rs.query(sql, parameters=names)</span>
+<span class="sd">        names = [&quot;Allen Smith&quot;, &quot;Beatrice O&#39;Brady&quot;, &quot;Cathy Thompson&quot;]</span>
+<span class="sd">        placeholders = &#39;, &#39;.join(&#39;%s&#39; for item in names)</span>
+<span class="sd">        sql = f&quot;SELECT * FROM my_table WHERE name IN ({placeholders})&quot;</span>
+<span class="sd">        rs.query(sql, parameters=names)</span>
 
 <span class="sd">        Using the ``parameters`` argument ensures that values are escaped properly, and avoids SQL</span>
 <span class="sd">        injection attacks.</span>
@@ -339,7 +329,7 @@
 
         <span class="k">with</span> <span class="bp">self</span><span class="o">.</span><span class="n">cursor</span><span class="p">(</span><span class="n">connection</span><span class="p">)</span> <span class="k">as</span> <span class="n">cursor</span><span class="p">:</span>
 
-            <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="n">f</span><span class="s1">&#39;SQL Query: </span><span class="si">{sql}</span><span class="s1">&#39;</span><span class="p">)</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="n">f</span><span class="s1">&#39;SQL Query: </span><span class="si">{cursor.query}</span><span class="s1">&#39;</span><span class="p">)</span>
             <span class="n">cursor</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="n">sql</span><span class="p">,</span> <span class="n">parameters</span><span class="p">)</span>
 
             <span class="k">if</span> <span class="n">commit</span><span class="p">:</span>
@@ -378,57 +368,12 @@
                 <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="n">f</span><span class="s1">&#39;Query returned </span><span class="si">{final_tbl.num_rows}</span><span class="s1"> rows.&#39;</span><span class="p">)</span>
                 <span class="k">return</span> <span class="n">final_tbl</span></div>
 
-<div class="viewcode-block" id="Redshift.split_full_table_name"><a class="viewcode-back" href="../../../../redshift.html#parsons.Redshift.split_full_table_name">[docs]</a>    <span class="nd">@staticmethod</span>
-    <span class="k">def</span> <span class="nf">split_full_table_name</span><span class="p">(</span><span class="n">full_table_name</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Split a full table name into its schema and table. If a schema isn&#39;t</span>
-<span class="sd">        present, return `public` for the schema. Similarly, Redshift defaults</span>
-<span class="sd">        to the `public` schema, when one isn&#39;t provided.</span>
-
-<span class="sd">        Eg:</span>
-<span class="sd">        ``(schema, table) = Redshift.split_full_table_name(&quot;some_schema.some_table&quot;)``</span>
-
-<span class="sd">        `Args:`</span>
-<span class="sd">            full_table_name: str</span>
-<span class="sd">                The table name, as &quot;schema.table&quot;</span>
-<span class="sd">        `Returns:`</span>
-<span class="sd">            tuple</span>
-<span class="sd">                A tuple containing (schema, table)</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">if</span> <span class="s2">&quot;.&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">full_table_name</span><span class="p">:</span>
-            <span class="k">return</span> <span class="s2">&quot;public&quot;</span><span class="p">,</span> <span class="n">full_table_name</span>
-
-        <span class="k">try</span><span class="p">:</span>
-            <span class="n">schema</span><span class="p">,</span> <span class="n">table</span> <span class="o">=</span> <span class="n">full_table_name</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;.&quot;</span><span class="p">)</span>
-        <span class="k">except</span> <span class="ne">ValueError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
-            <span class="k">if</span> <span class="s2">&quot;too many values to unpack&quot;</span> <span class="ow">in</span> <span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">):</span>
-                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="n">f</span><span class="s2">&quot;Invalid Redshift table </span><span class="si">{full_table_name}</span><span class="s2">&quot;</span><span class="p">)</span>
-
-        <span class="k">return</span> <span class="n">schema</span><span class="p">,</span> <span class="n">table</span></div>
-
-<div class="viewcode-block" id="Redshift.combine_schema_and_table_name"><a class="viewcode-back" href="../../../../redshift.html#parsons.Redshift.combine_schema_and_table_name">[docs]</a>    <span class="nd">@staticmethod</span>
-    <span class="k">def</span> <span class="nf">combine_schema_and_table_name</span><span class="p">(</span><span class="n">schema</span><span class="p">,</span> <span class="n">table</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Creates a full table name by combining a schema and table.</span>
-
-<span class="sd">        `Args:`</span>
-<span class="sd">            schema: str</span>
-<span class="sd">                The schema name</span>
-<span class="sd">            table: str</span>
-<span class="sd">                The table name</span>
-<span class="sd">        `Returns:`</span>
-<span class="sd">            str</span>
-<span class="sd">                The combined full table name</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="n">f</span><span class="s2">&quot;</span><span class="si">{schema}</span><span class="s2">.</span><span class="si">{table}</span><span class="s2">&quot;</span></div>
-
 <div class="viewcode-block" id="Redshift.copy_s3"><a class="viewcode-back" href="../../../../redshift.html#parsons.Redshift.copy_s3">[docs]</a>    <span class="k">def</span> <span class="nf">copy_s3</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">table_name</span><span class="p">,</span> <span class="n">bucket</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="n">manifest</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">data_type</span><span class="o">=</span><span class="s1">&#39;csv&#39;</span><span class="p">,</span>
                 <span class="n">csv_delimiter</span><span class="o">=</span><span class="s1">&#39;,&#39;</span><span class="p">,</span> <span class="n">compression</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">if_exists</span><span class="o">=</span><span class="s1">&#39;fail&#39;</span><span class="p">,</span> <span class="n">max_errors</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
                 <span class="n">distkey</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">sortkey</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">padding</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">varchar_max</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-                <span class="n">statupdate</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">compupdate</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">ignoreheader</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">acceptanydate</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                <span class="n">statupdate</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">compudate</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">ignoreheader</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">acceptanydate</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
                 <span class="n">dateformat</span><span class="o">=</span><span class="s1">&#39;auto&#39;</span><span class="p">,</span> <span class="n">timeformat</span><span class="o">=</span><span class="s1">&#39;auto&#39;</span><span class="p">,</span> <span class="n">emptyasnull</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
                 <span class="n">blanksasnull</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">nullas</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">acceptinvchars</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">truncatecolumns</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
-                <span class="n">columntypes</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">specifycols</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
                 <span class="n">aws_access_key_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">aws_secret_access_key</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Copy a file from s3 to Redshift.</span>
@@ -467,7 +412,7 @@
 <span class="sd">            statupate: boolean</span>
 <span class="sd">                Governs automatic computation and refresh of optimizer statistics at the end</span>
 <span class="sd">                of a successful COPY command.</span>
-<span class="sd">            compupdate: boolean</span>
+<span class="sd">            compudate: boolean</span>
 <span class="sd">                Controls whether compression encodings are automatically applied during a COPY.</span>
 <span class="sd">            ignore_header: int</span>
 <span class="sd">                The number of header rows to skip. Ignored if data_type is ``json``.</span>
@@ -493,18 +438,6 @@
 <span class="sd">                If the table already exists, truncates data in columns to the appropriate number</span>
 <span class="sd">                of characters so that it fits the column specification. Applies only to columns</span>
 <span class="sd">                with a VARCHAR or CHAR data type, and rows 4 MB or less in size.</span>
-<span class="sd">            columntypes: dict</span>
-<span class="sd">                Optional map of column name to redshift column type, overriding the usual type</span>
-<span class="sd">                inference. You only specify the columns you want to override, eg.</span>
-<span class="sd">                ``columntypes={&#39;phone&#39;: &#39;varchar(12)&#39;, &#39;age&#39;: &#39;int&#39;})``.</span>
-<span class="sd">            specifycols: list</span>
-<span class="sd">                Adds a column list to the Redshift `COPY` command, allowing for the source file</span>
-<span class="sd">                in an append to have the columnns out of order, and to have fewer columns with any</span>
-<span class="sd">                leftover target table columns filled in with the `DEFAULT` value.</span>
-<span class="sd">                .. warning::</span>
-<span class="sd">                   This will only work if the provided column names all have _exact_ matches</span>
-<span class="sd">                   in the target table. This will also fail if the target table has an `IDENTITY`</span>
-<span class="sd">                   column and that column name is among the provided columns.</span>
 <span class="sd">            aws_access_key_id:</span>
 <span class="sd">                An AWS access key granted to the bucket where the file is located. Not required</span>
 <span class="sd">                if keys are stored as environmental variables.</span>
@@ -535,8 +468,7 @@
                 <span class="c1"># Create the table</span>
                 <span class="n">sql</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">create_statement</span><span class="p">(</span><span class="n">tbl</span><span class="p">,</span> <span class="n">table_name</span><span class="p">,</span> <span class="n">padding</span><span class="o">=</span><span class="n">padding</span><span class="p">,</span>
                                             <span class="n">distkey</span><span class="o">=</span><span class="n">distkey</span><span class="p">,</span> <span class="n">sortkey</span><span class="o">=</span><span class="n">sortkey</span><span class="p">,</span>
-                                            <span class="n">varchar_max</span><span class="o">=</span><span class="n">varchar_max</span><span class="p">,</span>
-                                            <span class="n">columntypes</span><span class="o">=</span><span class="n">columntypes</span><span class="p">)</span>
+                                            <span class="n">varchar_max</span><span class="o">=</span><span class="n">varchar_max</span><span class="p">)</span>
 
                 <span class="bp">self</span><span class="o">.</span><span class="n">query_with_connection</span><span class="p">(</span><span class="n">sql</span><span class="p">,</span> <span class="n">connection</span><span class="p">,</span> <span class="n">commit</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
                 <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="n">f</span><span class="s1">&#39;</span><span class="si">{table_name}</span><span class="s1"> created.&#39;</span><span class="p">)</span>
@@ -546,24 +478,22 @@
                                            <span class="n">data_type</span><span class="o">=</span><span class="n">data_type</span><span class="p">,</span> <span class="n">csv_delimiter</span><span class="o">=</span><span class="n">csv_delimiter</span><span class="p">,</span>
                                            <span class="n">compression</span><span class="o">=</span><span class="n">compression</span><span class="p">,</span>
                                            <span class="n">max_errors</span><span class="o">=</span><span class="n">max_errors</span><span class="p">,</span>
-                                           <span class="n">statupdate</span><span class="o">=</span><span class="n">statupdate</span><span class="p">,</span> <span class="n">compupdate</span><span class="o">=</span><span class="n">compupdate</span><span class="p">,</span>
+                                           <span class="n">statupdate</span><span class="o">=</span><span class="n">statupdate</span><span class="p">,</span> <span class="n">compudate</span><span class="o">=</span><span class="n">compudate</span><span class="p">,</span>
                                            <span class="n">aws_access_key_id</span><span class="o">=</span><span class="n">aws_access_key_id</span><span class="p">,</span>
                                            <span class="n">aws_secret_access_key</span><span class="o">=</span><span class="n">aws_secret_access_key</span><span class="p">,</span>
                                            <span class="n">ignoreheader</span><span class="o">=</span><span class="n">ignoreheader</span><span class="p">,</span> <span class="n">acceptanydate</span><span class="o">=</span><span class="n">acceptanydate</span><span class="p">,</span>
                                            <span class="n">emptyasnull</span><span class="o">=</span><span class="n">emptyasnull</span><span class="p">,</span> <span class="n">blanksasnull</span><span class="o">=</span><span class="n">blanksasnull</span><span class="p">,</span>
                                            <span class="n">nullas</span><span class="o">=</span><span class="n">nullas</span><span class="p">,</span> <span class="n">acceptinvchars</span><span class="o">=</span><span class="n">acceptinvchars</span><span class="p">,</span>
                                            <span class="n">truncatecolumns</span><span class="o">=</span><span class="n">truncatecolumns</span><span class="p">,</span>
-                                           <span class="n">specifycols</span><span class="o">=</span><span class="n">specifycols</span><span class="p">,</span>
                                            <span class="n">dateformat</span><span class="o">=</span><span class="n">dateformat</span><span class="p">,</span> <span class="n">timeformat</span><span class="o">=</span><span class="n">timeformat</span><span class="p">)</span>
 
             <span class="bp">self</span><span class="o">.</span><span class="n">query_with_connection</span><span class="p">(</span><span class="n">copy_sql</span><span class="p">,</span> <span class="n">connection</span><span class="p">,</span> <span class="n">commit</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
             <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="n">f</span><span class="s1">&#39;Data copied to </span><span class="si">{table_name}</span><span class="s1">.&#39;</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="Redshift.copy"><a class="viewcode-back" href="../../../../redshift.html#parsons.Redshift.copy">[docs]</a>    <span class="k">def</span> <span class="nf">copy</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">table_obj</span><span class="p">,</span> <span class="n">table_name</span><span class="p">,</span> <span class="n">if_exists</span><span class="o">=</span><span class="s1">&#39;fail&#39;</span><span class="p">,</span> <span class="n">max_errors</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">distkey</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-             <span class="n">sortkey</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">padding</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">statupdate</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">compupdate</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">acceptanydate</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+             <span class="n">sortkey</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">padding</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">statupdate</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">compudate</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">acceptanydate</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
              <span class="n">emptyasnull</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">blanksasnull</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">nullas</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">acceptinvchars</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
              <span class="n">dateformat</span><span class="o">=</span><span class="s1">&#39;auto&#39;</span><span class="p">,</span> <span class="n">timeformat</span><span class="o">=</span><span class="s1">&#39;auto&#39;</span><span class="p">,</span> <span class="n">varchar_max</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">truncatecolumns</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
-             <span class="n">columntypes</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">specifycols</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
              <span class="n">aws_access_key_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">aws_secret_access_key</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Copy a parsons table object to Redshift.</span>
@@ -592,7 +522,7 @@
 <span class="sd">            statupate: boolean</span>
 <span class="sd">                Governs automatic computation and refresh of optimizer statistics at the end</span>
 <span class="sd">                of a successful COPY command.</span>
-<span class="sd">            compupdate: boolean</span>
+<span class="sd">            compudate: boolean</span>
 <span class="sd">                Controls whether compression encodings are automatically applied during a COPY.</span>
 <span class="sd">            acceptanydate: boolean</span>
 <span class="sd">                Allows any date format, including invalid formats such as 00/00/00 00:00:00, to be</span>
@@ -616,18 +546,6 @@
 <span class="sd">                If the table already exists, truncates data in columns to the appropriate number</span>
 <span class="sd">                of characters so that it fits the column specification. Applies only to columns</span>
 <span class="sd">                with a VARCHAR or CHAR data type, and rows 4 MB or less in size.</span>
-<span class="sd">            columntypes: dict</span>
-<span class="sd">                Optional map of column name to redshift column type, overriding the usual type</span>
-<span class="sd">                inference. You only specify the columns you want to override, eg.</span>
-<span class="sd">                ``columntypes={&#39;phone&#39;: &#39;varchar(12)&#39;, &#39;age&#39;: &#39;int&#39;})``.</span>
-<span class="sd">            specifycols: boolean</span>
-<span class="sd">                Adds a column list to the Redshift `COPY` command, allowing for the source table</span>
-<span class="sd">                in an append to have the columnns out of order, and to have fewer columns with any</span>
-<span class="sd">                leftover target table columns filled in with the `DEFAULT` value.</span>
-<span class="sd">                .. warning::</span>
-<span class="sd">                   This will only work if the source table&#39;s column names all have _exact_ matches</span>
-<span class="sd">                   in the target table. This will also fail if the target table has an `IDENTITY`</span>
-<span class="sd">                   column and that column name is among the source table&#39;s columns.</span>
 <span class="sd">            aws_access_key_id:</span>
 <span class="sd">                An AWS access key granted to the bucket where the file is located. Not required</span>
 <span class="sd">                if keys are stored as environmental variables.</span>
@@ -645,20 +563,15 @@
 
         <span class="n">key</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">temp_s3_copy</span><span class="p">(</span><span class="n">table_obj</span><span class="p">)</span>
 
-        <span class="n">cols</span> <span class="o">=</span> <span class="kc">None</span>
-        <span class="k">if</span> <span class="n">specifycols</span><span class="p">:</span>
-            <span class="n">cols</span> <span class="o">=</span> <span class="n">table_obj</span><span class="o">.</span><span class="n">columns</span>
-
         <span class="k">try</span><span class="p">:</span>
 
             <span class="bp">self</span><span class="o">.</span><span class="n">copy_s3</span><span class="p">(</span><span class="n">table_name</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">s3_temp_bucket</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span>
                          <span class="n">if_exists</span><span class="o">=</span><span class="n">if_exists</span><span class="p">,</span> <span class="n">max_errors</span><span class="o">=</span><span class="n">max_errors</span><span class="p">,</span>
                          <span class="n">distkey</span><span class="o">=</span><span class="n">distkey</span><span class="p">,</span> <span class="n">sortkey</span><span class="o">=</span><span class="n">sortkey</span><span class="p">,</span> <span class="n">padding</span><span class="o">=</span><span class="n">padding</span><span class="p">,</span> <span class="n">ignoreheader</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
-                         <span class="n">varchar_max</span><span class="o">=</span><span class="n">varchar_max</span><span class="p">,</span> <span class="n">statupdate</span><span class="o">=</span><span class="n">statupdate</span><span class="p">,</span> <span class="n">compupdate</span><span class="o">=</span><span class="n">compupdate</span><span class="p">,</span>
+                         <span class="n">varchar_max</span><span class="o">=</span><span class="n">varchar_max</span><span class="p">,</span> <span class="n">statupdate</span><span class="o">=</span><span class="n">statupdate</span><span class="p">,</span> <span class="n">compudate</span><span class="o">=</span><span class="n">compudate</span><span class="p">,</span>
                          <span class="n">acceptanydate</span><span class="o">=</span><span class="n">acceptanydate</span><span class="p">,</span> <span class="n">dateformat</span><span class="o">=</span><span class="n">dateformat</span><span class="p">,</span> <span class="n">timeformat</span><span class="o">=</span><span class="n">timeformat</span><span class="p">,</span>
                          <span class="n">blanksasnull</span><span class="o">=</span><span class="n">blanksasnull</span><span class="p">,</span> <span class="n">nullas</span><span class="o">=</span><span class="n">nullas</span><span class="p">,</span> <span class="n">emptyasnull</span><span class="o">=</span><span class="n">emptyasnull</span><span class="p">,</span>
                          <span class="n">acceptinvchars</span><span class="o">=</span><span class="n">acceptinvchars</span><span class="p">,</span> <span class="n">truncatecolumns</span><span class="o">=</span><span class="n">truncatecolumns</span><span class="p">,</span>
-                         <span class="n">columntypes</span><span class="o">=</span><span class="n">columntypes</span><span class="p">,</span> <span class="n">specifycols</span><span class="o">=</span><span class="n">cols</span><span class="p">,</span>
                          <span class="n">aws_access_key_id</span><span class="o">=</span><span class="n">aws_access_key_id</span><span class="p">,</span>
                          <span class="n">aws_secret_access_key</span><span class="o">=</span><span class="n">aws_secret_access_key</span><span class="p">,</span> <span class="n">compression</span><span class="o">=</span><span class="s1">&#39;gzip&#39;</span><span class="p">)</span>
 
@@ -896,7 +809,6 @@
         <span class="k">with</span> <span class="bp">self</span><span class="o">.</span><span class="n">connection</span><span class="p">()</span> <span class="k">as</span> <span class="n">connection</span><span class="p">:</span>
 
             <span class="c1"># Copy to a staging table</span>
-            <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="n">f</span><span class="s1">&#39;Building staging table: </span><span class="si">{staging_tbl}</span><span class="s1">&#39;</span><span class="p">)</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="n">table_obj</span><span class="p">,</span> <span class="n">staging_tbl</span><span class="p">)</span>
 
             <span class="k">try</span><span class="p">:</span>
@@ -928,7 +840,7 @@
                 <span class="c1"># Drop the staging table</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">query_with_connection</span><span class="p">(</span><span class="n">f</span><span class="s2">&quot;DROP TABLE IF EXISTS </span><span class="si">{staging_tbl}</span><span class="s2">;&quot;</span><span class="p">,</span>
                                            <span class="n">connection</span><span class="p">,</span> <span class="n">commit</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
-                <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="n">f</span><span class="s1">&#39;</span><span class="si">{staging_tbl}</span><span class="s1"> staging table dropped.&#39;</span><span class="p">)</span>
+                <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="n">f</span><span class="s1">&#39;</span><span class="si">{staging_tbl}</span><span class="s1"> dropped.&#39;</span><span class="p">)</span>
 
         <span class="c1"># Vacuum table. You must commit when running this type of transaction.</span>
         <span class="k">if</span> <span class="n">vacuum</span><span class="p">:</span>

@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>parsons.etl.tofrom &mdash; Parsons 0.5 documentation</title>
+  <title>parsons.etl.tofrom &mdash; Parsons 0.1 documentation</title>
   
 
   
@@ -79,14 +79,9 @@
               <p class="caption"><span class="caption-text">Integrations</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../../action_kit.html">ActionKit</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../airtable.html">Airtable</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../civis.html">Civis</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../copper.html">Copper</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../crowdtangle.html">CrowdTangle</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../facebook_ads.html">FacebookAds</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../google_sheets.html">GoogleSheets</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../google_cloud.html">Google Cloud</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../hustle.html">Hustle</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../mobile_commons.html">Mobile Commons</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../mobilize_america.html">Mobilize America</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../ngpvan.html">VAN</a></li>
@@ -96,11 +91,6 @@
 <li class="toctree-l1"><a class="reference internal" href="../../../sftp.html">SFTP</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../ts.html">TargetSmart</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../turbovote.html">TurboVote</a></li>
-</ul>
-<p class="caption"><span class="caption-text">Enhancements</span></p>
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="../../../google_civic.html">Google Civic</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../census_geocoder.html">US Census Geocoder</a></li>
 </ul>
 <p class="caption"><span class="caption-text">Framework</span></p>
 <ul>
@@ -173,7 +163,7 @@
 <span class="kn">import</span> <span class="nn">json</span>
 <span class="kn">import</span> <span class="nn">io</span>
 <span class="kn">import</span> <span class="nn">gzip</span>
-<span class="kn">from</span> <span class="nn">parsons.utilities</span> <span class="k">import</span> <span class="n">files</span><span class="p">,</span> <span class="n">zip_archive</span>
+<span class="kn">from</span> <span class="nn">parsons.utilities</span> <span class="k">import</span> <span class="n">files</span>
 
 
 <div class="viewcode-block" id="ToFrom"><a class="viewcode-back" href="../../../table.html#parsons.etl.tofrom.ToFrom">[docs]</a><span class="k">class</span> <span class="nc">ToFrom</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
@@ -256,9 +246,9 @@
 <div class="viewcode-block" id="ToFrom.to_csv"><a class="viewcode-back" href="../../../table.html#parsons.etl.tofrom.ToFrom.to_csv">[docs]</a>    <span class="k">def</span> <span class="nf">to_csv</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">local_path</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">temp_file_compression</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">errors</span><span class="o">=</span><span class="s1">&#39;strict&#39;</span><span class="p">,</span>
                <span class="n">write_header</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="o">**</span><span class="n">csvargs</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Outputs table to a CSV. Additional key word arguments are passed to ``csv.writer()``. So,</span>
-<span class="sd">        e.g., to override the delimiter from the default CSV dialect, provide the delimiter</span>
-<span class="sd">        keyword argument.</span>
+<span class="sd">        Outputs table to a CSV. Additional additional key word arguments</span>
+<span class="sd">        are passed to ``csv.writer()``. So, e.g., to override the delimiter</span>
+<span class="sd">        from the default CSV dialect, provide the delimiter keyword argument.</span>
 
 <span class="sd">        .. warning::</span>
 <span class="sd">                If a file already exists at the given location, it will be</span>
@@ -266,12 +256,12 @@
 
 <span class="sd">        `Args:`</span>
 <span class="sd">            local_path: str</span>
-<span class="sd">                The path to write the csv locally. If it ends in &quot;.gz&quot; or &quot;.zip&quot;, the file will be</span>
+<span class="sd">                The path to write the csv locally. If it ends in &quot;.gz&quot;, the file will be</span>
 <span class="sd">                compressed. If not specified, a temporary file will be created and returned,</span>
 <span class="sd">                and that file will be removed automatically when the script is done running.</span>
 <span class="sd">            temp_file_compression: str</span>
 <span class="sd">                If a temp file is requested (ie. no ``local_path`` is specified), the compression</span>
-<span class="sd">                type for that file. Currently &quot;None&quot;, &quot;gzip&quot; or &quot;zip&quot; are supported.</span>
+<span class="sd">                type for that file. Currently &quot;None&quot; and &quot;gzip&quot; are supported.</span>
 <span class="sd">                If a ``local_path`` is specified, this argument is ignored.</span>
 <span class="sd">            encoding: str</span>
 <span class="sd">                The CSV encoding type for `csv.writer()</span>
@@ -280,26 +270,18 @@
 <span class="sd">                Raise an Error if encountered</span>
 <span class="sd">            write_header: boolean</span>
 <span class="sd">                Include header in output</span>
-<span class="sd">            \**csvargs: kwargs</span>
+<span class="sd">            **csvargs: kwargs</span>
 <span class="sd">                ``csv_writer`` optional arguments</span>
 
 <span class="sd">        `Returns:`</span>
 <span class="sd">            str</span>
 <span class="sd">                The path of the new file</span>
-<span class="sd">        &quot;&quot;&quot;</span>  <span class="c1"># noqa: W605</span>
-
-        <span class="k">if</span> <span class="n">files</span><span class="o">.</span><span class="n">zip_check</span><span class="p">(</span><span class="n">local_path</span><span class="p">,</span> <span class="n">temp_file_compression</span><span class="p">):</span>
-            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">to_zip_csv</span><span class="p">(</span><span class="n">archive_path</span><span class="o">=</span><span class="n">local_path</span><span class="p">,</span>
-                                   <span class="n">encoding</span><span class="o">=</span><span class="n">encoding</span><span class="p">,</span>
-                                   <span class="n">errors</span><span class="o">=</span><span class="n">errors</span><span class="p">,</span>
-                                   <span class="n">write_header</span><span class="o">=</span><span class="n">write_header</span><span class="p">,</span>
-                                   <span class="o">**</span><span class="n">csvargs</span><span class="p">)</span>
+<span class="sd">        &quot;&quot;&quot;</span>
 
         <span class="k">if</span> <span class="ow">not</span> <span class="n">local_path</span><span class="p">:</span>
             <span class="n">suffix</span> <span class="o">=</span> <span class="s1">&#39;.csv&#39;</span> <span class="o">+</span> <span class="n">files</span><span class="o">.</span><span class="n">suffix_for_compression_type</span><span class="p">(</span><span class="n">temp_file_compression</span><span class="p">)</span>
             <span class="n">local_path</span> <span class="o">=</span> <span class="n">files</span><span class="o">.</span><span class="n">create_temp_file</span><span class="p">(</span><span class="n">suffix</span><span class="o">=</span><span class="n">suffix</span><span class="p">)</span>
 
-        <span class="c1"># Create normal csv/.gzip</span>
         <span class="n">petl</span><span class="o">.</span><span class="n">tocsv</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">table</span><span class="p">,</span>
                    <span class="n">source</span><span class="o">=</span><span class="n">local_path</span><span class="p">,</span>
                    <span class="n">encoding</span><span class="o">=</span><span class="n">encoding</span><span class="p">,</span>
@@ -326,13 +308,13 @@
 <span class="sd">                &lt;https://docs.python.org/2/library/csv.html#csv.writer/&gt;`_</span>
 <span class="sd">            errors: str</span>
 <span class="sd">                Raise an Error if encountered</span>
-<span class="sd">            \**csvargs: kwargs</span>
+<span class="sd">            **csvargs: kwargs</span>
 <span class="sd">                ``csv_writer`` optional arguments</span>
 
 <span class="sd">        `Returns:`</span>
 <span class="sd">            str</span>
 <span class="sd">                The path of the file</span>
-<span class="sd">        &quot;&quot;&quot;</span>  <span class="c1"># noqa: W605</span>
+<span class="sd">        &quot;&quot;&quot;</span>
 
         <span class="n">petl</span><span class="o">.</span><span class="n">appendcsv</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">table</span><span class="p">,</span>
                        <span class="n">source</span><span class="o">=</span><span class="n">local_path</span><span class="p">,</span>
@@ -340,53 +322,6 @@
                        <span class="n">errors</span><span class="o">=</span><span class="n">errors</span><span class="p">,</span>
                        <span class="o">**</span><span class="n">csvargs</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">local_path</span></div>
-
-<div class="viewcode-block" id="ToFrom.to_zip_csv"><a class="viewcode-back" href="../../../table.html#parsons.etl.tofrom.ToFrom.to_zip_csv">[docs]</a>    <span class="k">def</span> <span class="nf">to_zip_csv</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">archive_path</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">csv_name</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-                   <span class="n">errors</span><span class="o">=</span><span class="s1">&#39;strict&#39;</span><span class="p">,</span> <span class="n">write_header</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">if_exists</span><span class="o">=</span><span class="s1">&#39;replace&#39;</span><span class="p">,</span> <span class="o">**</span><span class="n">csvargs</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Outputs table to a CSV in a zip archive. Additional key word arguments are passed to</span>
-<span class="sd">        ``csv.writer()``. So, e.g., to override the delimiter from the default CSV dialect,</span>
-<span class="sd">        provide the delimiter keyword argument. Use thismethod if you would like to write</span>
-<span class="sd">        multiple csv files to the same archive.</span>
-
-<span class="sd">        .. warning::</span>
-<span class="sd">                If a file already exists in the archive, it will be overwritten.</span>
-
-<span class="sd">        `Args:`</span>
-<span class="sd">            archive_path: str</span>
-<span class="sd">                The path to zip achive. If not specified, a temporary file will be created and</span>
-<span class="sd">                returned, and that file will be removed automatically when the script is done</span>
-<span class="sd">                running.</span>
-<span class="sd">            csv_name: str</span>
-<span class="sd">                The name of the csv file to be stored in the archive. If ``None`` will use</span>
-<span class="sd">                the archive name.</span>
-<span class="sd">            encoding: str</span>
-<span class="sd">                The CSV encoding type for `csv.writer()</span>
-<span class="sd">                &lt;https://docs.python.org/2/library/csv.html#csv.writer/&gt;`_</span>
-<span class="sd">            errors: str</span>
-<span class="sd">                Raise an Error if encountered</span>
-<span class="sd">            write_header: boolean</span>
-<span class="sd">                Include header in output</span>
-<span class="sd">            if_exists: str</span>
-<span class="sd">                If archive already exists, one of &#39;replace&#39; or &#39;append&#39;</span>
-<span class="sd">            \**csvargs: kwargs</span>
-<span class="sd">                ``csv_writer`` optional arguments</span>
-
-<span class="sd">        `Returns:`</span>
-<span class="sd">            str</span>
-<span class="sd">                The path of the archive</span>
-<span class="sd">        &quot;&quot;&quot;</span>  <span class="c1"># noqa: W605</span>
-
-        <span class="k">if</span> <span class="ow">not</span> <span class="n">archive_path</span><span class="p">:</span>
-            <span class="n">archive_path</span> <span class="o">=</span> <span class="n">files</span><span class="o">.</span><span class="n">create_temp_file</span><span class="p">(</span><span class="n">suffix</span><span class="o">=</span><span class="s1">&#39;.zip&#39;</span><span class="p">)</span>
-
-        <span class="n">cf</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="n">encoding</span><span class="o">=</span><span class="n">encoding</span><span class="p">,</span> <span class="n">errors</span><span class="o">=</span><span class="n">errors</span><span class="p">,</span> <span class="n">write_header</span><span class="o">=</span><span class="n">write_header</span><span class="p">,</span> <span class="o">**</span><span class="n">csvargs</span><span class="p">)</span>
-
-        <span class="k">if</span> <span class="ow">not</span> <span class="n">csv_name</span><span class="p">:</span>
-            <span class="n">csv_name</span> <span class="o">=</span> <span class="n">files</span><span class="o">.</span><span class="n">extract_file_name</span><span class="p">(</span><span class="n">archive_path</span><span class="p">)</span> <span class="o">+</span> <span class="s1">&#39;.csv&#39;</span>
-
-        <span class="k">return</span> <span class="n">zip_archive</span><span class="o">.</span><span class="n">create_archive</span><span class="p">(</span><span class="n">archive_path</span><span class="p">,</span> <span class="n">cf</span><span class="p">,</span> <span class="n">file_name</span><span class="o">=</span><span class="n">csv_name</span><span class="p">,</span>
-                                          <span class="n">if_exists</span><span class="o">=</span><span class="n">if_exists</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="ToFrom.to_json"><a class="viewcode-back" href="../../../table.html#parsons.etl.tofrom.ToFrom.to_json">[docs]</a>    <span class="k">def</span> <span class="nf">to_json</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">local_path</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">temp_file_compression</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">line_delimited</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
@@ -446,16 +381,6 @@
 
         <span class="k">return</span> <span class="n">local_path</span></div>
 
-<div class="viewcode-block" id="ToFrom.to_dicts"><a class="viewcode-back" href="../../../table.html#parsons.etl.tofrom.ToFrom.to_dicts">[docs]</a>    <span class="k">def</span> <span class="nf">to_dicts</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Output table as a list of dicts.</span>
-
-<span class="sd">        `Returns:`</span>
-<span class="sd">            list</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-
-        <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="n">petl</span><span class="o">.</span><span class="n">dicts</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">table</span><span class="p">))</span></div>
-
 <div class="viewcode-block" id="ToFrom.to_sftp_csv"><a class="viewcode-back" href="../../../table.html#parsons.etl.tofrom.ToFrom.to_sftp_csv">[docs]</a>    <span class="k">def</span> <span class="nf">to_sftp_csv</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">remote_path</span><span class="p">,</span> <span class="n">host</span><span class="p">,</span> <span class="n">username</span><span class="p">,</span> <span class="n">password</span><span class="p">,</span> <span class="n">port</span><span class="o">=</span><span class="mi">22</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
                     <span class="n">compression</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">errors</span><span class="o">=</span><span class="s1">&#39;strict&#39;</span><span class="p">,</span> <span class="n">write_header</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="o">**</span><span class="n">csvargs</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
@@ -479,9 +404,9 @@
 <span class="sd">                Raise an Error if encountered</span>
 <span class="sd">            write_header: boolean</span>
 <span class="sd">                Include header in output</span>
-<span class="sd">            \**csvargs: kwargs</span>
+<span class="sd">            **csvargs: kwargs</span>
 <span class="sd">                ``csv_writer`` optional arguments</span>
-<span class="sd">        &quot;&quot;&quot;</span>  <span class="c1"># noqa: W605</span>
+<span class="sd">        &quot;&quot;&quot;</span>
 
         <span class="kn">from</span> <span class="nn">parsons</span> <span class="k">import</span> <span class="n">SFTP</span>
         <span class="n">sftp</span> <span class="o">=</span> <span class="n">SFTP</span><span class="p">(</span><span class="n">host</span><span class="p">,</span> <span class="n">username</span><span class="p">,</span> <span class="n">password</span><span class="p">,</span> <span class="n">port</span><span class="p">)</span>
@@ -495,8 +420,7 @@
 
 <div class="viewcode-block" id="ToFrom.to_s3_csv"><a class="viewcode-back" href="../../../table.html#parsons.etl.tofrom.ToFrom.to_s3_csv">[docs]</a>    <span class="k">def</span> <span class="nf">to_s3_csv</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">bucket</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="n">aws_access_key_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
                   <span class="n">aws_secret_access_key</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">compression</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-                  <span class="n">errors</span><span class="o">=</span><span class="s1">&#39;strict&#39;</span><span class="p">,</span> <span class="n">write_header</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">public_url</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
-                  <span class="n">public_url_expires</span><span class="o">=</span><span class="mi">3600</span><span class="p">,</span> <span class="o">**</span><span class="n">csvargs</span><span class="p">):</span>
+                  <span class="n">errors</span><span class="o">=</span><span class="s1">&#39;strict&#39;</span><span class="p">,</span> <span class="n">write_header</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="o">**</span><span class="n">csvargs</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Writes the table to an s3 object as a CSV</span>
 
@@ -510,8 +434,7 @@
 <span class="sd">            aws_secret_access_key: str</span>
 <span class="sd">                Required if not included as environmental variable</span>
 <span class="sd">            compression: str</span>
-<span class="sd">                The compression type for the s3 object. Currently &quot;None&quot;, &quot;zip&quot; and &quot;gzip&quot; are</span>
-<span class="sd">                supported.</span>
+<span class="sd">                The compression type for the s3 object. Currently &quot;None&quot; and &quot;gzip&quot; are supported.</span>
 <span class="sd">            encoding: str</span>
 <span class="sd">                The CSV encoding type for `csv.writer()</span>
 <span class="sd">                &lt;https://docs.python.org/2/library/csv.html#csv.writer/&gt;`_</span>
@@ -519,15 +442,9 @@
 <span class="sd">                Raise an Error if encountered</span>
 <span class="sd">            write_header: boolean</span>
 <span class="sd">                Include header in output</span>
-<span class="sd">            public_url: boolean</span>
-<span class="sd">                Create a public link to the file</span>
-<span class="sd">            public_url_expire: 3600</span>
-<span class="sd">                The time, in seconds, until the url expires if ``public_url`` set to ``True``.</span>
-<span class="sd">            \**csvargs: kwargs</span>
+<span class="sd">            **csvargs: kwargs</span>
 <span class="sd">                ``csv_writer`` optional arguments</span>
-<span class="sd">        `Returns:`</span>
-<span class="sd">            Public url if specified. If not ``None``.</span>
-<span class="sd">        &quot;&quot;&quot;</span>  <span class="c1"># noqa: W605</span>
+<span class="sd">        &quot;&quot;&quot;</span>
 
         <span class="n">compression</span> <span class="o">=</span> <span class="n">files</span><span class="o">.</span><span class="n">compression_type_for_path</span><span class="p">(</span><span class="n">key</span><span class="p">)</span>
 
@@ -537,15 +454,11 @@
             <span class="n">write_header</span><span class="o">=</span><span class="n">write_header</span><span class="p">,</span> <span class="o">**</span><span class="n">csvargs</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">s3</span> <span class="o">=</span> <span class="n">S3</span><span class="p">(</span><span class="n">aws_access_key_id</span><span class="o">=</span><span class="n">aws_access_key_id</span><span class="p">,</span>
                      <span class="n">aws_secret_access_key</span><span class="o">=</span><span class="n">aws_secret_access_key</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">s3</span><span class="o">.</span><span class="n">put_file</span><span class="p">(</span><span class="n">bucket</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="n">local_path</span><span class="p">)</span>
-
-        <span class="k">if</span> <span class="n">public_url</span><span class="p">:</span>
-            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">s3</span><span class="o">.</span><span class="n">get_url</span><span class="p">(</span><span class="n">bucket</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="n">expires_in</span><span class="o">=</span><span class="n">public_url_expires</span><span class="p">)</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="k">return</span> <span class="kc">None</span></div>
+        <span class="bp">self</span><span class="o">.</span><span class="n">s3</span><span class="o">.</span><span class="n">put_file</span><span class="p">(</span><span class="n">bucket</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="n">local_path</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="ToFrom.to_redshift"><a class="viewcode-back" href="../../../table.html#parsons.etl.tofrom.ToFrom.to_redshift">[docs]</a>    <span class="k">def</span> <span class="nf">to_redshift</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">table_name</span><span class="p">,</span> <span class="n">username</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">password</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">host</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
                     <span class="n">db</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">port</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">copy_args</span><span class="p">):</span>
+
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Write a table to a Redshift database. Note, this requires you to pass</span>
 <span class="sd">        AWS S3 credentials or store them as environmental variables.</span>
@@ -561,12 +474,12 @@
 <span class="sd">                Required if env variable ``REDSHIFT_DB`` not populated</span>
 <span class="sd">            port: int</span>
 <span class="sd">                Required if env variable ``REDSHIFT_PORT`` not populated. Port 5439 is typical.</span>
-<span class="sd">            \**copy_args: kwargs</span>
+<span class="sd">            **copy_args: kwargs</span>
 <span class="sd">                See :func:`~parsons.databases.Redshift.copy`` for options.</span>
 
 <span class="sd">        Returns:</span>
 <span class="sd">            ``None``</span>
-<span class="sd">        &quot;&quot;&quot;</span>  <span class="c1"># noqa: W605</span>
+<span class="sd">        &quot;&quot;&quot;</span>
 
         <span class="kn">from</span> <span class="nn">parsons</span> <span class="k">import</span> <span class="n">Redshift</span>
         <span class="n">rs</span> <span class="o">=</span> <span class="n">Redshift</span><span class="p">(</span>
@@ -631,12 +544,12 @@
 <span class="sd">            local_path: obj</span>
 <span class="sd">                A csv formatted local path, url or ftp. If this is a</span>
 <span class="sd">                file path that ends in &quot;.gz&quot;, the file will be decompressed first.</span>
-<span class="sd">            \**csvargs: kwargs</span>
+<span class="sd">            **csvargs: kwargs</span>
 <span class="sd">                ``csv_reader`` optional arguments</span>
 <span class="sd">        `Returns:`</span>
 <span class="sd">            Parsons Table</span>
 <span class="sd">                See :ref:`parsons-table` for output options.</span>
-<span class="sd">        &quot;&quot;&quot;</span>  <span class="c1"># noqa: W605</span>
+<span class="sd">        &quot;&quot;&quot;</span>
 
         <span class="k">return</span> <span class="bp">cls</span><span class="p">(</span><span class="n">petl</span><span class="o">.</span><span class="n">fromcsv</span><span class="p">(</span><span class="n">local_path</span><span class="p">,</span> <span class="o">**</span><span class="n">csvargs</span><span class="p">))</span></div>
 
@@ -644,15 +557,6 @@
     <span class="k">def</span> <span class="nf">from_csv_string</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="nb">str</span><span class="p">,</span> <span class="o">**</span><span class="n">csvargs</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Create a ``parsons table`` object from a string representing a CSV.</span>
-
-<span class="sd">        `Args:`</span>
-<span class="sd">            str: str</span>
-<span class="sd">                The string object to convert to a table</span>
-<span class="sd">            **csvargs: kwargs</span>
-<span class="sd">                ``csv_reader`` optional arguments</span>
-<span class="sd">        `Returns:`</span>
-<span class="sd">            Parsons Table</span>
-<span class="sd">                See :ref:`parsons-table` for output options.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
         <span class="n">bytesio</span> <span class="o">=</span> <span class="n">io</span><span class="o">.</span><span class="n">BytesIO</span><span class="p">(</span><span class="nb">str</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s1">&#39;utf-8&#39;</span><span class="p">))</span>

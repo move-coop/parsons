@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>parsons.databases.redshift.rs_queries &mdash; Parsons 0.5 documentation</title>
+  <title>parsons.databases.redshift.rs_queries &mdash; Parsons 0.1 documentation</title>
   
 
   
@@ -79,14 +79,9 @@
               <p class="caption"><span class="caption-text">Integrations</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../../../action_kit.html">ActionKit</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../../airtable.html">Airtable</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../../civis.html">Civis</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../../copper.html">Copper</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../../crowdtangle.html">CrowdTangle</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../../facebook_ads.html">FacebookAds</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../../google_sheets.html">GoogleSheets</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../../google_cloud.html">Google Cloud</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../../hustle.html">Hustle</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../../mobile_commons.html">Mobile Commons</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../../mobilize_america.html">Mobilize America</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../../ngpvan.html">VAN</a></li>
@@ -96,11 +91,6 @@
 <li class="toctree-l1"><a class="reference internal" href="../../../../sftp.html">SFTP</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../../ts.html">TargetSmart</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../../turbovote.html">TurboVote</a></li>
-</ul>
-<p class="caption"><span class="caption-text">Enhancements</span></p>
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="../../../../google_civic.html">Google Civic</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../../census_geocoder.html">US Census Geocoder</a></li>
 </ul>
 <p class="caption"><span class="caption-text">Framework</span></p>
 <ul>
@@ -153,6 +143,8 @@
         
           <li><a href="../../../index.html">Module code</a> &raquo;</li>
         
+          <li><a href="../redshift.html">parsons.databases.redshift</a> &raquo;</li>
+        
       <li>parsons.databases.redshift.rs_queries</li>
     
     
@@ -177,11 +169,8 @@
 <span class="k">class</span> <span class="nc">RedshiftQueries</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
 
     <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">pass</span>
 
-    <span class="k">def</span> <span class="nf">get_row_count</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">table</span><span class="p">):</span>
-        <span class="n">count_query</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="n">f</span><span class="s2">&quot;select count(*) from </span><span class="si">{table}</span><span class="s2">&quot;</span><span class="p">)</span>
-        <span class="k">return</span> <span class="n">count_query</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s1">&#39;count&#39;</span><span class="p">]</span>
+        <span class="k">pass</span>
 
     <span class="k">def</span> <span class="nf">rename_table</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">table_name</span><span class="p">,</span> <span class="n">new_table_name</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
@@ -211,7 +200,7 @@
 <span class="sd">        rows will be empty.** This is more efficiant than running</span>
 <span class="sd">        ``&quot;create newtable as select * from oldtable&quot;``.</span>
 
-<span class="sd">        For more information see: `ALTER TABLE APPEND &lt;https://docs.aws.amazon.com/redshift/latest/dg/r_ALTER_TABLE_APPEND.html&gt;`_</span>
+<span class="sd">        For more imformation see: `ALTER TABLE APPEND &lt;https://docs.aws.amazon.com/redshift/latest/dg/r_ALTER_TABLE_APPEND.html&gt;`_</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            source_table: str</span>
@@ -459,9 +448,8 @@
 <span class="sd">        If you just need the column names, you can treat the return value like a list, eg:</span>
 
 <span class="sd">        .. code-block:: python</span>
-
-<span class="sd">            for col in rs.get_columns(&#39;some_schema&#39;, &#39;some_table&#39;):</span>
-<span class="sd">                print(col)</span>
+<span class="sd">          for col in rs.get_columns(&#39;some_schema&#39;, &#39;some_table&#39;):</span>
+<span class="sd">            print(col)</span>
 
 <span class="sd">        `Args:`</span>
 <span class="sd">            schema: str</span>
@@ -470,8 +458,11 @@
 <span class="sd">                The table name</span>
 <span class="sd">        `Returns:`</span>
 <span class="sd">            A dict mapping column name to a dict with extra info. The keys of the dict are ordered</span>
-<span class="sd">            just like the columns in the table. The extra info is a dict with format</span>
-<span class="sd">            ``{&#39;data_type&#39;: str, &#39;max_length&#39;: int or None, &#39;is_nullable&#39;: bool}``</span>
+<span class="sd">            just like the columns in the table. The extra info is a dict with format {</span>
+<span class="sd">              &#39;data_type&#39;: str,</span>
+<span class="sd">              &#39;max_length&#39;: int or None,</span>
+<span class="sd">              &#39;is_nullable&#39;: bool,</span>
+<span class="sd">            }</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
         <span class="n">query</span> <span class="o">=</span> <span class="n">f</span><span class="s2">&quot;&quot;&quot;</span>
@@ -582,217 +573,18 @@
 
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="n">sql</span><span class="p">)</span>
 
-    <span class="k">def</span> <span class="nf">get_max_value</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">table_name</span><span class="p">,</span> <span class="n">value_column</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">get_max_date</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">table_name</span><span class="p">,</span> <span class="n">date_column</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Return the max value from a table.</span>
+<span class="sd">        Return the max date from a table.a</span>
 
 <span class="sd">        `Args:`</span>
 <span class="sd">            table_name: str</span>
 <span class="sd">                Schema and table name</span>
-<span class="sd">            value_column: str</span>
-<span class="sd">                The column containing the values</span>
+<span class="sd">            date_column: str</span>
+<span class="sd">                The column containing the date</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="n">f</span><span class="s1">&#39;SELECT MAX(</span><span class="si">{value_column}</span><span class="s1">) value from </span><span class="si">{table_name}</span><span class="s1">&#39;</span><span class="p">)[</span><span class="mi">0</span><span class="p">][</span><span class="s1">&#39;value&#39;</span><span class="p">]</span>
-
-    <span class="k">def</span> <span class="nf">get_object_type</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">object_name</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Get object type.</span>
-
-<span class="sd">        One of `view`, `table`, `index`, `sequence`, or `TOAST table`.</span>
-
-<span class="sd">        `Args:`</span>
-<span class="sd">            object_name: str</span>
-<span class="sd">                The schema.obj for which to get the object type.</span>
-<span class="sd">        `Returns:`</span>
-<span class="sd">            `str` of the object type.</span>
-
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">sql_obj_type</span> <span class="o">=</span> <span class="n">f</span><span class="s2">&quot;&quot;&quot;</span>
-<span class="s2">            select n.nspname||&#39;.&#39;||c.relname as objname</span>
-<span class="s2">            , case</span>
-<span class="s2">                when relkind=&#39;v&#39; then &#39;view&#39;</span>
-<span class="s2">                when relkind=&#39;r&#39; then &#39;table&#39;</span>
-<span class="s2">                when relkind=&#39;i&#39; then &#39;index&#39;</span>
-<span class="s2">                when relkind=&#39;s&#39; then &#39;sequence&#39;</span>
-<span class="s2">                when relkind=&#39;t&#39; then &#39;TOAST table&#39;</span>
-<span class="s2">                end as object_name</span>
-<span class="s2">            from pg_catalog.pg_class as c</span>
-<span class="s2">            inner join pg_catalog.pg_namespace as n</span>
-<span class="s2">                on c.relnamespace = n.oid</span>
-<span class="s2">            where objname=&#39;</span><span class="si">{object_name}</span><span class="s2">&#39;</span>
-<span class="s2">        &quot;&quot;&quot;</span>
-        <span class="n">tbl</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="n">sql_obj_type</span><span class="p">)</span>
-
-        <span class="k">if</span> <span class="n">tbl</span><span class="o">.</span><span class="n">num_rows</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
-            <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="n">f</span><span class="s2">&quot;</span><span class="si">{object_name}</span><span class="s2"> doesn&#39;t exist.&quot;</span><span class="p">)</span>
-            <span class="k">return</span> <span class="kc">None</span>
-
-        <span class="k">return</span> <span class="n">tbl</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s1">&#39;object_name&#39;</span><span class="p">]</span>
-
-    <span class="k">def</span> <span class="nf">is_view</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">object_name</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Return true if the object is a view.</span>
-
-<span class="sd">        `Args:`</span>
-<span class="sd">            object_name: str</span>
-<span class="sd">                The schema.obj to test if it&#39;s a view.</span>
-<span class="sd">        `Returns:`</span>
-<span class="sd">            `bool`</span>
-
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">is_view</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_object_type</span><span class="p">(</span><span class="n">object_name</span><span class="p">)</span> <span class="o">==</span> <span class="s2">&quot;view&quot;</span>
-        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="n">f</span><span class="s2">&quot;</span><span class="si">{object_name}</span><span class="s2"> is {&#39;&#39; if is_view else &#39;not&#39;} a view.&quot;</span><span class="p">)</span>
-        <span class="k">return</span> <span class="n">is_view</span>
-
-    <span class="k">def</span> <span class="nf">is_table</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">object_name</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Return true if the object is a table.</span>
-
-<span class="sd">        `Args:`</span>
-<span class="sd">            object_name: str</span>
-<span class="sd">                The schema.obj to test if it&#39;s a table.</span>
-<span class="sd">        `Returns:`</span>
-<span class="sd">            `bool`</span>
-
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">is_table</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_object_type</span><span class="p">(</span><span class="n">object_name</span><span class="p">)</span> <span class="o">==</span> <span class="s2">&quot;table&quot;</span>
-        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="n">f</span><span class="s2">&quot;</span><span class="si">{object_name}</span><span class="s2"> is {&#39;&#39; if is_table else &#39;not&#39;} a table.&quot;</span><span class="p">)</span>
-        <span class="k">return</span> <span class="n">is_table</span>
-
-    <span class="k">def</span> <span class="nf">get_table_definition</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">table</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Get the table definition (i.e. the create statement).</span>
-
-<span class="sd">        `Args:`</span>
-<span class="sd">            table: str</span>
-<span class="sd">                The schema.table for which to get the table definition.</span>
-<span class="sd">        `Returns:`</span>
-<span class="sd">            str</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-
-        <span class="n">schema</span><span class="p">,</span> <span class="n">table</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">split_full_table_name</span><span class="p">(</span><span class="n">table</span><span class="p">)</span>
-
-        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_table</span><span class="p">(</span><span class="n">f</span><span class="s2">&quot;</span><span class="si">{schema}</span><span class="s2">.</span><span class="si">{table}</span><span class="s2">&quot;</span><span class="p">):</span>
-            <span class="k">return</span> <span class="kc">None</span>
-
-        <span class="n">results</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_table_definitions</span><span class="p">(</span><span class="n">schema</span><span class="p">,</span> <span class="n">table</span><span class="p">)</span>
-
-        <span class="k">return</span> <span class="n">results</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s2">&quot;ddl&quot;</span><span class="p">]</span>
-
-    <span class="k">def</span> <span class="nf">get_table_definitions</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">schema</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">table</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Get the table definition (i.e. the create statement) for multiple tables.</span>
-
-<span class="sd">        This works similar to `get_table_def` except it runs a single query</span>
-<span class="sd">        to get the ddl for multiple tables. It supports SQL wildcards for</span>
-<span class="sd">        `schema` and `table`. Only returns the ddl for _tables_ that match</span>
-<span class="sd">        `schema` and `table` if they exist.</span>
-
-<span class="sd">        `Args:`</span>
-<span class="sd">            schema: str</span>
-<span class="sd">                The schema to filter by.</span>
-<span class="sd">            table: str</span>
-<span class="sd">                The table to filter by.</span>
-<span class="sd">        `Returns:`</span>
-<span class="sd">            `list` of dicts with matching tables.</span>
-
-<span class="sd">        &quot;&quot;&quot;</span>
-
-        <span class="n">conditions</span> <span class="o">=</span> <span class="p">[]</span>
-        <span class="k">if</span> <span class="n">schema</span><span class="p">:</span>
-            <span class="n">conditions</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">f</span><span class="s2">&quot;schemaname like &#39;</span><span class="si">{schema}</span><span class="s2">&#39;&quot;</span><span class="p">)</span>
-        <span class="k">if</span> <span class="n">table</span><span class="p">:</span>
-            <span class="n">conditions</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">f</span><span class="s2">&quot;tablename like &#39;</span><span class="si">{table}</span><span class="s2">&#39;&quot;</span><span class="p">)</span>
-
-        <span class="n">conditions_str</span> <span class="o">=</span> <span class="s1">&#39; and &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">conditions</span><span class="p">)</span>
-        <span class="n">where_clause</span> <span class="o">=</span> <span class="n">f</span><span class="s2">&quot;where </span><span class="si">{conditions_str}</span><span class="s2">&quot;</span> <span class="k">if</span> <span class="n">conditions_str</span> <span class="k">else</span> <span class="s1">&#39;&#39;</span>
-
-        <span class="n">sql_get_ddl</span> <span class="o">=</span> <span class="n">f</span><span class="s2">&quot;&quot;&quot;</span>
-<span class="s2">            select *</span>
-<span class="s2">            from admin.v_generate_tbl_ddl</span>
-<span class="s2">            </span><span class="si">{where_clause}</span><span class="s2"></span>
-<span class="s2">        &quot;&quot;&quot;</span>
-        <span class="n">ddl_table</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="n">sql_get_ddl</span><span class="p">)</span>
-
-        <span class="k">if</span> <span class="n">ddl_table</span><span class="o">.</span><span class="n">num_rows</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
-            <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="n">f</span><span class="s2">&quot;No tables matching </span><span class="si">{schema}</span><span class="s2"> and </span><span class="si">{table}</span><span class="s2">.&quot;</span><span class="p">)</span>
-            <span class="k">return</span> <span class="kc">None</span>
-
-        <span class="k">def</span> <span class="nf">join_sql_parts</span><span class="p">(</span><span class="n">columns</span><span class="p">,</span> <span class="n">rows</span><span class="p">):</span>
-            <span class="k">return</span> <span class="p">[</span><span class="n">f</span><span class="s2">&quot;</span><span class="si">{columns[1]}</span><span class="s2">.</span><span class="si">{columns[2]}</span><span class="s2">&quot;</span><span class="p">,</span>
-                    <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="n">row</span><span class="p">[</span><span class="mi">4</span><span class="p">]</span> <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">rows</span><span class="p">])]</span>
-
-        <span class="c1"># The query returns the sql over multiple rows</span>
-        <span class="c1"># We need to join then into a single row</span>
-        <span class="n">ddl_table</span><span class="o">.</span><span class="n">reduce_rows</span><span class="p">(</span>
-            <span class="p">[</span><span class="s1">&#39;table_id&#39;</span><span class="p">,</span> <span class="s1">&#39;schemaname&#39;</span><span class="p">,</span> <span class="s1">&#39;tablename&#39;</span><span class="p">],</span>
-            <span class="n">join_sql_parts</span><span class="p">,</span>
-            <span class="p">[</span><span class="s1">&#39;tablename&#39;</span><span class="p">,</span> <span class="s1">&#39;ddl&#39;</span><span class="p">],</span>
-            <span class="n">presorted</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-
-        <span class="k">return</span> <span class="n">ddl_table</span><span class="o">.</span><span class="n">to_dicts</span><span class="p">()</span>
-
-    <span class="k">def</span> <span class="nf">get_view_definition</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">view</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Get the view definition (i.e. the create statement).</span>
-
-<span class="sd">        `Args:`</span>
-<span class="sd">            view: str</span>
-<span class="sd">                The schema.view for which to get the view definition.</span>
-<span class="sd">        `Returns:`</span>
-<span class="sd">            str</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-
-        <span class="n">schema</span><span class="p">,</span> <span class="n">view</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">split_full_table_name</span><span class="p">(</span><span class="n">view</span><span class="p">)</span>
-
-        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_view</span><span class="p">(</span><span class="n">f</span><span class="s2">&quot;</span><span class="si">{schema}</span><span class="s2">.</span><span class="si">{view}</span><span class="s2">&quot;</span><span class="p">):</span>
-            <span class="k">return</span> <span class="kc">None</span>
-
-        <span class="n">results</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_view_definitions</span><span class="p">(</span><span class="n">schema</span><span class="p">,</span> <span class="n">view</span><span class="p">)</span>
-
-        <span class="k">return</span> <span class="n">results</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s2">&quot;ddl&quot;</span><span class="p">]</span>
-
-    <span class="k">def</span> <span class="nf">get_view_definitions</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">schema</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">view</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Get the view definition (i.e. the create statement) for multiple views.</span>
-
-<span class="sd">        This works similar to `get_view_def` except it runs a single query</span>
-<span class="sd">        to get the ddl for multiple views. It supports SQL wildcards for</span>
-<span class="sd">        `schema` and `view`. Only returns the ddl for _views_ that match</span>
-<span class="sd">        `schema` and `view` if they exist.</span>
-
-<span class="sd">        `Args:`</span>
-<span class="sd">            schema: str</span>
-<span class="sd">                The schema to filter by.</span>
-<span class="sd">            view: str</span>
-<span class="sd">                The view to filter by.</span>
-<span class="sd">        `Returns:`</span>
-<span class="sd">            `list` of dicts with matching views.</span>
-
-<span class="sd">        &quot;&quot;&quot;</span>
-
-        <span class="n">conditions</span> <span class="o">=</span> <span class="p">[]</span>
-        <span class="k">if</span> <span class="n">schema</span><span class="p">:</span>
-            <span class="n">conditions</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">f</span><span class="s2">&quot;schemaname like &#39;</span><span class="si">{schema}</span><span class="s2">&#39;&quot;</span><span class="p">)</span>
-        <span class="k">if</span> <span class="n">view</span><span class="p">:</span>
-            <span class="n">conditions</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">f</span><span class="s2">&quot;g.viewname like &#39;</span><span class="si">{view}</span><span class="s2">&#39;&quot;</span><span class="p">)</span>
-
-        <span class="n">conditions_str</span> <span class="o">=</span> <span class="s1">&#39; and &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">conditions</span><span class="p">)</span>
-        <span class="n">where_clause</span> <span class="o">=</span> <span class="n">f</span><span class="s2">&quot;where </span><span class="si">{conditions_str}</span><span class="s2">&quot;</span> <span class="k">if</span> <span class="n">conditions_str</span> <span class="k">else</span> <span class="s1">&#39;&#39;</span>
-
-        <span class="n">sql_get_ddl</span> <span class="o">=</span> <span class="n">f</span><span class="s2">&quot;&quot;&quot;</span>
-<span class="s2">            select schemaname || &#39;.&#39; || viewname as viewname, ddl</span>
-<span class="s2">            from admin.v_generate_view_ddl g</span>
-<span class="s2">            </span><span class="si">{where_clause}</span><span class="s2"></span>
-<span class="s2">        &quot;&quot;&quot;</span>
-        <span class="n">ddl_view</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="n">sql_get_ddl</span><span class="p">)</span>
-
-        <span class="k">if</span> <span class="n">ddl_view</span><span class="o">.</span><span class="n">num_rows</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
-            <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="n">f</span><span class="s2">&quot;No views matching </span><span class="si">{schema}</span><span class="s2"> and </span><span class="si">{view}</span><span class="s2">.&quot;</span><span class="p">)</span>
-            <span class="k">return</span> <span class="kc">None</span>
-
-        <span class="k">return</span> <span class="n">ddl_view</span><span class="o">.</span><span class="n">to_dicts</span><span class="p">()</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="n">f</span><span class="s1">&#39;SELECT MAX(</span><span class="si">{date_column}</span><span class="s1">) date from </span><span class="si">{table_name}</span><span class="s1">&#39;</span><span class="p">)[</span><span class="mi">0</span><span class="p">][</span><span class="s1">&#39;date&#39;</span><span class="p">]</span>
 </pre></div>
 
            </div>

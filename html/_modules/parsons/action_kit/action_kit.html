@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>parsons.action_kit.action_kit &mdash; Parsons 0.5 documentation</title>
+  <title>parsons.action_kit.action_kit &mdash; Parsons 0.1 documentation</title>
   
 
   
@@ -79,14 +79,9 @@
               <p class="caption"><span class="caption-text">Integrations</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../../action_kit.html">ActionKit</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../airtable.html">Airtable</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../civis.html">Civis</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../copper.html">Copper</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../crowdtangle.html">CrowdTangle</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../facebook_ads.html">FacebookAds</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../google_sheets.html">GoogleSheets</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../google_cloud.html">Google Cloud</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../hustle.html">Hustle</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../mobile_commons.html">Mobile Commons</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../mobilize_america.html">Mobilize America</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../ngpvan.html">VAN</a></li>
@@ -96,11 +91,6 @@
 <li class="toctree-l1"><a class="reference internal" href="../../../sftp.html">SFTP</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../ts.html">TargetSmart</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../turbovote.html">TurboVote</a></li>
-</ul>
-<p class="caption"><span class="caption-text">Enhancements</span></p>
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="../../../google_civic.html">Google Civic</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../census_geocoder.html">US Census Geocoder</a></li>
 </ul>
 <p class="caption"><span class="caption-text">Framework</span></p>
 <ul>
@@ -178,29 +168,27 @@
 
 
 <div class="viewcode-block" id="ActionKit"><a class="viewcode-back" href="../../../action_kit.html#parsons.ActionKit">[docs]</a><span class="k">class</span> <span class="nc">ActionKit</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Instatiate the ActionKit class</span>
-
-<span class="sd">    `Args:`</span>
-<span class="sd">        domain: str</span>
-<span class="sd">            The ActionKit domain. Not required if ``ACTION_KIT_DOMAIN`` env variable set.</span>
-<span class="sd">        username: str</span>
-<span class="sd">            The authorized ActionKit username. Not required if ``ACTION_KIT_USERNAME`` env</span>
-<span class="sd">            variable set.</span>
-<span class="sd">        password: str</span>
-<span class="sd">            The authorized ActionKit user password. Not required if ``ACTION_KIT_USERNAME``</span>
-<span class="sd">            env variable set.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">domain</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">username</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">password</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Instatiate the ActionKit class</span>
 
+<span class="sd">        `Args:`</span>
+<span class="sd">            domain: str</span>
+<span class="sd">                The ActionKit domain. Not required if ``ACTION_KIT_DOMAIN`` env variable set.</span>
+<span class="sd">            username: str</span>
+<span class="sd">                The authorized ActionKit username. Not required if ``ACTION_KIT_USERNAME`` env</span>
+<span class="sd">                variable set.</span>
+<span class="sd">            password: str</span>
+<span class="sd">                The authorized ActionKit user password. Not required if ``ACTION_KIT_USERNAME``</span>
+<span class="sd">                env variable set.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">domain</span> <span class="o">=</span> <span class="n">check_env</span><span class="o">.</span><span class="n">check</span><span class="p">(</span><span class="s1">&#39;ACTION_KIT_DOMAIN&#39;</span><span class="p">,</span> <span class="n">domain</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">username</span> <span class="o">=</span> <span class="n">check_env</span><span class="o">.</span><span class="n">check</span><span class="p">(</span><span class="s1">&#39;ACTION_KIT_USERNAME&#39;</span><span class="p">,</span> <span class="n">username</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">password</span> <span class="o">=</span> <span class="n">check_env</span><span class="o">.</span><span class="n">check</span><span class="p">(</span><span class="s1">&#39;ACTION_KIT_PASSWORD&#39;</span><span class="p">,</span> <span class="n">password</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">conn</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_conn</span><span class="p">()</span>
 
     <span class="k">def</span> <span class="nf">_conn</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-
         <span class="n">client</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">Session</span><span class="p">()</span>
         <span class="n">client</span><span class="o">.</span><span class="n">auth</span> <span class="o">=</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">username</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">password</span><span class="p">)</span>
         <span class="n">client</span><span class="o">.</span><span class="n">headers</span><span class="o">.</span><span class="n">update</span><span class="p">({</span>
@@ -210,84 +198,62 @@
         <span class="k">return</span> <span class="n">client</span>
 
     <span class="k">def</span> <span class="nf">_base_endpoint</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">endpoint</span><span class="p">,</span> <span class="n">entity_id</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-        <span class="c1"># Create the base endpoint URL</span>
-
-        <span class="n">url</span> <span class="o">=</span> <span class="n">f</span><span class="s1">&#39;https://</span><span class="si">{self.domain}</span><span class="s1">.actionkit.com/rest/v1/</span><span class="si">{endpoint}</span><span class="s1">/&#39;</span>
-
+        <span class="n">url</span> <span class="o">=</span> <span class="s1">&#39;https://</span><span class="si">{DOMAIN}</span><span class="s1">.actionkit.com/rest/v1/</span><span class="si">{ENDPOINT}</span><span class="s1">/&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+            <span class="n">DOMAIN</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">domain</span><span class="p">,</span>
+            <span class="n">ENDPOINT</span><span class="o">=</span><span class="n">endpoint</span>
+        <span class="p">)</span>
         <span class="k">if</span> <span class="n">entity_id</span><span class="p">:</span>
-            <span class="k">return</span> <span class="n">url</span> <span class="o">+</span> <span class="n">f</span><span class="s1">&#39;</span><span class="si">{entity_id}</span><span class="s1">/&#39;</span>
+            <span class="k">return</span> <span class="n">url</span> <span class="o">+</span> <span class="s1">&#39;</span><span class="si">%s</span><span class="s1">/&#39;</span> <span class="o">%</span> <span class="nb">str</span><span class="p">(</span><span class="n">entity_id</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">url</span>
-
-    <span class="k">def</span> <span class="nf">_base_get</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">endpoint</span><span class="p">,</span> <span class="n">entity_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">exception_message</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-        <span class="c1"># Make a general get request to ActionKit</span>
-
-        <span class="n">resp</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">conn</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_base_endpoint</span><span class="p">(</span><span class="n">endpoint</span><span class="p">,</span> <span class="n">entity_id</span><span class="p">))</span>
-
-        <span class="k">if</span> <span class="n">exception_message</span> <span class="ow">and</span> <span class="n">resp</span><span class="o">.</span><span class="n">status_code</span> <span class="o">==</span> <span class="mi">404</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="n">exception_message</span><span class="p">)</span>
-
-        <span class="k">return</span> <span class="n">resp</span><span class="o">.</span><span class="n">json</span><span class="p">()</span>
-
-    <span class="k">def</span> <span class="nf">_base_post</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">endpoint</span><span class="p">,</span> <span class="n">exception_message</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
-        <span class="c1"># Make a general post request to ActionKit</span>
-
-        <span class="n">resp</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">conn</span><span class="o">.</span><span class="n">post</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_base_endpoint</span><span class="p">(</span><span class="n">endpoint</span><span class="p">),</span> <span class="n">data</span><span class="o">=</span><span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">kwargs</span><span class="p">))</span>
-
-        <span class="k">if</span> <span class="n">resp</span><span class="o">.</span><span class="n">status_code</span> <span class="o">!=</span> <span class="mi">201</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="n">exception_message</span><span class="p">)</span>
-
-        <span class="k">if</span> <span class="s1">&#39;headers&#39;</span> <span class="ow">in</span> <span class="n">resp</span><span class="o">.</span><span class="vm">__dict__</span><span class="p">:</span>
-            <span class="k">return</span> <span class="n">resp</span><span class="o">.</span><span class="vm">__dict__</span><span class="p">[</span><span class="s1">&#39;headers&#39;</span><span class="p">][</span><span class="s1">&#39;Location&#39;</span><span class="p">]</span>
 
 <div class="viewcode-block" id="ActionKit.get_user"><a class="viewcode-back" href="../../../action_kit.html#parsons.ActionKit.get_user">[docs]</a>    <span class="k">def</span> <span class="nf">get_user</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">user_id</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Get a user.</span>
+<span class="sd">        Get a user</span>
 
 <span class="sd">        `Args:`</span>
-<span class="sd">            user_id: int</span>
-<span class="sd">                The user id of the record to get.</span>
+<span class="sd">            user_id: str</span>
+<span class="sd">                The user id of the person record to get.</span>
 <span class="sd">        `Returns`:</span>
 <span class="sd">            User json object</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_base_get</span><span class="p">(</span><span class="n">endpoint</span><span class="o">=</span><span class="s1">&#39;user&#39;</span><span class="p">,</span> <span class="n">entity_id</span><span class="o">=</span><span class="n">user_id</span><span class="p">,</span>
-                              <span class="n">exception_message</span><span class="o">=</span><span class="s1">&#39;User not found&#39;</span><span class="p">)</span></div>
+        <span class="n">resp</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">conn</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_base_endpoint</span><span class="p">(</span><span class="s1">&#39;user&#39;</span><span class="p">,</span> <span class="n">user_id</span><span class="p">))</span>
 
-<div class="viewcode-block" id="ActionKit.get_user_fields"><a class="viewcode-back" href="../../../action_kit.html#parsons.ActionKit.get_user_fields">[docs]</a>    <span class="k">def</span> <span class="nf">get_user_fields</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Get list of valid user fields that can be passed with the</span>
-<span class="sd">        :meth:`ActionKit.create_user` method.</span>
+        <span class="k">if</span> <span class="n">resp</span><span class="o">.</span><span class="n">status_code</span> <span class="o">==</span> <span class="mi">404</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s1">&#39;User not found&#39;</span><span class="p">)</span>
 
-<span class="sd">        `Returns`:</span>
-<span class="sd">            List of user fields</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">resp</span><span class="o">.</span><span class="n">json</span><span class="p">()</span></div>
 
-        <span class="n">resp</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_base_get</span><span class="p">(</span><span class="n">endpoint</span><span class="o">=</span><span class="s1">&#39;user/schema&#39;</span><span class="p">)</span>
-
-        <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="n">resp</span><span class="p">[</span><span class="s1">&#39;fields&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span></div>
-
-<div class="viewcode-block" id="ActionKit.create_user"><a class="viewcode-back" href="../../../action_kit.html#parsons.ActionKit.create_user">[docs]</a>    <span class="k">def</span> <span class="nf">create_user</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">email</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<div class="viewcode-block" id="ActionKit.create_user"><a class="viewcode-back" href="../../../action_kit.html#parsons.ActionKit.create_user">[docs]</a>    <span class="k">def</span> <span class="nf">create_user</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">user_dict</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Create a user.</span>
 
 <span class="sd">        `Args:`</span>
-<span class="sd">            email: str</span>
-<span class="sd">                Email for the user</span>
 <span class="sd">            user_dict: dict</span>
-<span class="sd">                Optional; Additional user fields</span>
+<span class="sd">                A dictionary of fields to create for the user.The minimumal requirement is</span>
+<span class="sd">                an ``email`` key.</span>
 <span class="sd">        `Returns:`</span>
-<span class="sd">            User json object</span>
+<span class="sd">            ``None``</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_base_post</span><span class="p">(</span><span class="n">endpoint</span><span class="o">=</span><span class="s1">&#39;user&#39;</span><span class="p">,</span> <span class="n">exception_message</span><span class="o">=</span><span class="s1">&#39;Could not create user&#39;</span><span class="p">,</span>
-                               <span class="n">email</span><span class="o">=</span><span class="n">email</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">user_dict</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;email&#39;</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;New users require email&#39;</span><span class="p">)</span>
 
-<div class="viewcode-block" id="ActionKit.update_user"><a class="viewcode-back" href="../../../action_kit.html#parsons.ActionKit.update_user">[docs]</a>    <span class="k">def</span> <span class="nf">update_user</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">user_id</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="n">resp</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">conn</span><span class="o">.</span><span class="n">post</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_base_endpoint</span><span class="p">(</span><span class="s1">&#39;user&#39;</span><span class="p">),</span>
+            <span class="n">data</span><span class="o">=</span><span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">user_dict</span><span class="p">)</span>
+        <span class="p">)</span>
+        <span class="k">if</span> <span class="n">resp</span><span class="o">.</span><span class="n">status_code</span> <span class="o">!=</span> <span class="mi">201</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s1">&#39;Could not create user&#39;</span><span class="p">)</span>
+
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s1">&#39;User created&#39;</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="ActionKit.update_user"><a class="viewcode-back" href="../../../action_kit.html#parsons.ActionKit.update_user">[docs]</a>    <span class="k">def</span> <span class="nf">update_user</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">user_id</span><span class="p">,</span> <span class="n">user_dict</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Update a user.</span>
 
 <span class="sd">        `Args:`</span>
-<span class="sd">            user_id: int</span>
+<span class="sd">            user_id: str</span>
 <span class="sd">                The user id of the person to update</span>
 <span class="sd">            user_dict: dict</span>
 <span class="sd">                A dictionary of fields to update for the user.</span>
@@ -295,316 +261,28 @@
 <span class="sd">            ``None``</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
-        <span class="n">resp</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">conn</span><span class="o">.</span><span class="n">patch</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_base_endpoint</span><span class="p">(</span><span class="s1">&#39;user&#39;</span><span class="p">,</span> <span class="n">user_id</span><span class="p">),</span> <span class="n">data</span><span class="o">=</span><span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">kwargs</span><span class="p">))</span>
-        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="n">f</span><span class="s1">&#39;</span><span class="si">{resp.status_code}</span><span class="s1">: </span><span class="si">{user_id}</span><span class="s1">&#39;</span><span class="p">)</span></div>
+        <span class="n">resp</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">conn</span><span class="o">.</span><span class="n">patch</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_base_endpoint</span><span class="p">(</span><span class="s1">&#39;user&#39;</span><span class="p">,</span> <span class="n">user_id</span><span class="p">),</span>
+            <span class="n">data</span><span class="o">=</span><span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">user_dict</span><span class="p">)</span>
+        <span class="p">)</span>
+        <span class="k">if</span> <span class="n">resp</span><span class="o">.</span><span class="n">status_code</span> <span class="o">!=</span> <span class="mi">202</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="n">f</span><span class="s1">&#39;Could not update user </span><span class="si">{user_id}</span><span class="s1">&#39;</span><span class="p">)</span>
+
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s1">&#39;Updated user&#39;</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="ActionKit.delete_user"><a class="viewcode-back" href="../../../action_kit.html#parsons.ActionKit.delete_user">[docs]</a>    <span class="k">def</span> <span class="nf">delete_user</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">user_id</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Delete a user.</span>
 
 <span class="sd">        `Args:`</span>
-<span class="sd">            user_id: int</span>
+<span class="sd">            user_id: str</span>
 <span class="sd">                The user id of the person to delete</span>
 <span class="sd">        `Returns:`</span>
 <span class="sd">            ``None``</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
         <span class="n">resp</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">conn</span><span class="o">.</span><span class="n">delete</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_base_endpoint</span><span class="p">(</span><span class="s1">&#39;user&#39;</span><span class="p">,</span> <span class="n">user_id</span><span class="p">))</span>
-        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="n">f</span><span class="s1">&#39;</span><span class="si">{resp.status_code}</span><span class="s1">: </span><span class="si">{user_id}</span><span class="s1">&#39;</span><span class="p">)</span></div>
-
-<div class="viewcode-block" id="ActionKit.get_campaign"><a class="viewcode-back" href="../../../action_kit.html#parsons.ActionKit.get_campaign">[docs]</a>    <span class="k">def</span> <span class="nf">get_campaign</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">campaign_id</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Get a campaign.</span>
-
-<span class="sd">        `Args:`</span>
-<span class="sd">            campaign_id: int</span>
-<span class="sd">                The campaign id of the record.</span>
-<span class="sd">        `Returns`:</span>
-<span class="sd">            Campaign json object</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_base_get</span><span class="p">(</span><span class="n">endpoint</span><span class="o">=</span><span class="s1">&#39;campaign&#39;</span><span class="p">,</span> <span class="n">entity_id</span><span class="o">=</span><span class="n">campaign_id</span><span class="p">,</span>
-                              <span class="n">exception_message</span><span class="o">=</span><span class="s1">&#39;Campaign not found&#39;</span><span class="p">)</span></div>
-
-<div class="viewcode-block" id="ActionKit.get_campaign_fields"><a class="viewcode-back" href="../../../action_kit.html#parsons.ActionKit.get_campaign_fields">[docs]</a>    <span class="k">def</span> <span class="nf">get_campaign_fields</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Get list of valid campaign fields that can be passed with the</span>
-<span class="sd">        :meth:`ActionKit.create_campaign` and :meth:`ActionKit.update_campaign` methods.</span>
-
-<span class="sd">        `Returns`:</span>
-<span class="sd">            List of campaign fields</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-
-        <span class="n">resp</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_base_get</span><span class="p">(</span><span class="n">endpoint</span><span class="o">=</span><span class="s1">&#39;campaign/schema&#39;</span><span class="p">)</span>
-        <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="n">resp</span><span class="p">[</span><span class="s1">&#39;fields&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span></div>
-
-<div class="viewcode-block" id="ActionKit.create_campaign"><a class="viewcode-back" href="../../../action_kit.html#parsons.ActionKit.create_campaign">[docs]</a>    <span class="k">def</span> <span class="nf">create_campaign</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Create a campaign.</span>
-
-<span class="sd">        `Args:`</span>
-<span class="sd">            name: str</span>
-<span class="sd">                The name of the campaign to create</span>
-<span class="sd">        `Returns`:</span>
-<span class="sd">            API location of new resource</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_base_post</span><span class="p">(</span><span class="n">endpoint</span><span class="o">=</span><span class="s1">&#39;campaign&#39;</span><span class="p">,</span> <span class="n">exception_message</span><span class="o">=</span><span class="s1">&#39;Could not create campaign&#39;</span><span class="p">,</span>
-                               <span class="n">name</span><span class="o">=</span><span class="n">name</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
-
-<div class="viewcode-block" id="ActionKit.get_event_create_page"><a class="viewcode-back" href="../../../action_kit.html#parsons.ActionKit.get_event_create_page">[docs]</a>    <span class="k">def</span> <span class="nf">get_event_create_page</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">event_create_page_id</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Get a event create page.</span>
-
-<span class="sd">        `Args:`</span>
-<span class="sd">            event_create_page_id: int</span>
-<span class="sd">                The event create page id of the record to get.</span>
-<span class="sd">        `Returns`:</span>
-<span class="sd">            Event create page json object</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_base_get</span><span class="p">(</span><span class="n">endpoint</span><span class="o">=</span><span class="s1">&#39;eventcreatepage&#39;</span><span class="p">,</span> <span class="n">entity_id</span><span class="o">=</span><span class="n">event_create_page_id</span><span class="p">,</span>
-                              <span class="n">exception_message</span><span class="o">=</span><span class="s1">&#39;Event create page not found&#39;</span><span class="p">)</span></div>
-
-<div class="viewcode-block" id="ActionKit.get_event_create_page_fields"><a class="viewcode-back" href="../../../action_kit.html#parsons.ActionKit.get_event_create_page_fields">[docs]</a>    <span class="k">def</span> <span class="nf">get_event_create_page_fields</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Get list of event create page fields that can be passed with the</span>
-<span class="sd">        :meth:`ActionKit.create_event_create_page`.</span>
-
-<span class="sd">        `Returns`:</span>
-<span class="sd">            List of event create page fields</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-
-        <span class="n">resp</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_base_get</span><span class="p">(</span><span class="n">endpoint</span><span class="o">=</span><span class="s1">&#39;eventcreatepage/schema&#39;</span><span class="p">)</span>
-        <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="n">resp</span><span class="p">[</span><span class="s1">&#39;fields&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span></div>
-
-<div class="viewcode-block" id="ActionKit.create_event_create_page"><a class="viewcode-back" href="../../../action_kit.html#parsons.ActionKit.create_event_create_page">[docs]</a>    <span class="k">def</span> <span class="nf">create_event_create_page</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">campaign_id</span><span class="p">,</span> <span class="n">title</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Add an event page to a campaign.</span>
-
-<span class="sd">        `Args:`</span>
-<span class="sd">            campaign_id: int</span>
-<span class="sd">                The campaign to assoicate page with</span>
-<span class="sd">            name: str</span>
-<span class="sd">                The name of the page to create</span>
-<span class="sd">            title: str</span>
-<span class="sd">                The title of the page to create</span>
-<span class="sd">        `Returns`:</span>
-<span class="sd">            API location of new resource</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_base_post</span><span class="p">(</span><span class="n">endpoint</span><span class="o">=</span><span class="s1">&#39;eventcreatepage&#39;</span><span class="p">,</span>
-                               <span class="n">exception_message</span><span class="o">=</span><span class="s1">&#39;Could not create event create page&#39;</span><span class="p">,</span>
-                               <span class="n">campaign</span><span class="o">=</span><span class="n">f</span><span class="s1">&#39;/rest/v1/campaign/</span><span class="si">{campaign_id}</span><span class="s1">/&#39;</span><span class="p">,</span>
-                               <span class="n">name</span><span class="o">=</span><span class="n">name</span><span class="p">,</span>
-                               <span class="n">title</span><span class="o">=</span><span class="n">title</span><span class="p">,</span>
-                               <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
-
-<div class="viewcode-block" id="ActionKit.get_event_create_form"><a class="viewcode-back" href="../../../action_kit.html#parsons.ActionKit.get_event_create_form">[docs]</a>    <span class="k">def</span> <span class="nf">get_event_create_form</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">event_create_form_id</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Get a event create form.</span>
-
-<span class="sd">        `Args:`</span>
-<span class="sd">            event_create_form_id: int</span>
-<span class="sd">                The event create form id of the record to get.</span>
-<span class="sd">        `Returns`:</span>
-<span class="sd">            Event create form json object</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_base_get</span><span class="p">(</span><span class="n">endpoint</span><span class="o">=</span><span class="s1">&#39;eventcreateform&#39;</span><span class="p">,</span> <span class="n">entity_id</span><span class="o">=</span><span class="n">event_create_form_id</span><span class="p">,</span>
-                              <span class="n">exception_message</span><span class="o">=</span><span class="s1">&#39;Event create page not found&#39;</span><span class="p">)</span></div>
-
-<div class="viewcode-block" id="ActionKit.get_event_create_form_fields"><a class="viewcode-back" href="../../../action_kit.html#parsons.ActionKit.get_event_create_form_fields">[docs]</a>    <span class="k">def</span> <span class="nf">get_event_create_form_fields</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Get list of valid event create form fields that can be passed with the</span>
-<span class="sd">        :meth:`ActionKit.create_event_create_form` method.</span>
-
-<span class="sd">        `Returns`:</span>
-<span class="sd">            List of event create form fields</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-
-        <span class="n">resp</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_base_get</span><span class="p">(</span><span class="n">endpoint</span><span class="o">=</span><span class="s1">&#39;eventcreateform/schema&#39;</span><span class="p">)</span>
-        <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="n">resp</span><span class="p">[</span><span class="s1">&#39;fields&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span></div>
-
-<div class="viewcode-block" id="ActionKit.create_event_create_form"><a class="viewcode-back" href="../../../action_kit.html#parsons.ActionKit.create_event_create_form">[docs]</a>    <span class="k">def</span> <span class="nf">create_event_create_form</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">page_id</span><span class="p">,</span> <span class="n">thank_you_text</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Create a event create form.</span>
-
-<span class="sd">        `Args:`</span>
-<span class="sd">            page_id: int</span>
-<span class="sd">                The page to associate the form with</span>
-<span class="sd">            thank_you_text: str</span>
-<span class="sd">                Free form thank you text</span>
-<span class="sd">        `Returns:`</span>
-<span class="sd">            API location of new resource</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_base_post</span><span class="p">(</span><span class="n">endpoint</span><span class="o">=</span><span class="s1">&#39;eventcreateform&#39;</span><span class="p">,</span>
-                               <span class="n">exception_message</span><span class="o">=</span><span class="s1">&#39;Could not event create form&#39;</span><span class="p">,</span>
-                               <span class="n">page</span><span class="o">=</span><span class="n">f</span><span class="s1">&#39;/rest/v1/eventcreatepage/</span><span class="si">{page_id}</span><span class="s1">/&#39;</span><span class="p">,</span>
-                               <span class="n">thank_you_text</span><span class="o">=</span><span class="n">thank_you_text</span><span class="p">,</span>
-                               <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
-
-<div class="viewcode-block" id="ActionKit.get_event_signup_page"><a class="viewcode-back" href="../../../action_kit.html#parsons.ActionKit.get_event_signup_page">[docs]</a>    <span class="k">def</span> <span class="nf">get_event_signup_page</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">event_signup_page_id</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Get event signup page.</span>
-
-<span class="sd">        `Args:`</span>
-<span class="sd">            event_signup_page_id: int</span>
-<span class="sd">                The event signup page id of the record to get.</span>
-<span class="sd">        `Returns`:</span>
-<span class="sd">            Event signup page json object</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_base_get</span><span class="p">(</span><span class="n">endpoint</span><span class="o">=</span><span class="s1">&#39;eventsignuppage&#39;</span><span class="p">,</span> <span class="n">entity_id</span><span class="o">=</span><span class="n">event_signup_page_id</span><span class="p">,</span>
-                              <span class="n">exception_message</span><span class="o">=</span><span class="s1">&#39;User page signup page not found&#39;</span><span class="p">)</span></div>
-
-<div class="viewcode-block" id="ActionKit.get_event_signup_page_fields"><a class="viewcode-back" href="../../../action_kit.html#parsons.ActionKit.get_event_signup_page_fields">[docs]</a>    <span class="k">def</span> <span class="nf">get_event_signup_page_fields</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Get list of valid event signup page fields that can be passed with the</span>
-<span class="sd">        :meth:`ActionKit.create_event_signup_page` method.</span>
-
-<span class="sd">        `Returns`:</span>
-<span class="sd">            List of event signup page fields</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-
-        <span class="n">resp</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_base_get</span><span class="p">(</span><span class="n">endpoint</span><span class="o">=</span><span class="s1">&#39;eventsignuppage/schema&#39;</span><span class="p">)</span>
-        <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="n">resp</span><span class="p">[</span><span class="s1">&#39;fields&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span></div>
-
-<div class="viewcode-block" id="ActionKit.create_event_signup_page"><a class="viewcode-back" href="../../../action_kit.html#parsons.ActionKit.create_event_signup_page">[docs]</a>    <span class="k">def</span> <span class="nf">create_event_signup_page</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">campaign_id</span><span class="p">,</span> <span class="n">title</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Add an event signup page to a campaign.</span>
-
-<span class="sd">        `Args:`</span>
-<span class="sd">            campaign_id: int</span>
-<span class="sd">                The campaign to assoicate page with</span>
-<span class="sd">            name: str</span>
-<span class="sd">                The name of the page to create</span>
-<span class="sd">            title: str</span>
-<span class="sd">                The title of the page to create</span>
-<span class="sd">        `Returns`:</span>
-<span class="sd">            API location of new resource</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_base_post</span><span class="p">(</span><span class="n">endpoint</span><span class="o">=</span><span class="s1">&#39;eventsignuppage&#39;</span><span class="p">,</span>
-                               <span class="n">exception_message</span><span class="o">=</span><span class="s1">&#39;Could not create signup page&#39;</span><span class="p">,</span>
-                               <span class="n">campaign</span><span class="o">=</span><span class="n">f</span><span class="s1">&#39;/rest/v1/campaign/</span><span class="si">{campaign_id}</span><span class="s1">/&#39;</span><span class="p">,</span>
-                               <span class="n">name</span><span class="o">=</span><span class="n">name</span><span class="p">,</span>
-                               <span class="n">title</span><span class="o">=</span><span class="n">title</span><span class="p">,</span>
-                               <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
-
-<div class="viewcode-block" id="ActionKit.get_event_signup_form"><a class="viewcode-back" href="../../../action_kit.html#parsons.ActionKit.get_event_signup_form">[docs]</a>    <span class="k">def</span> <span class="nf">get_event_signup_form</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">event_signup_form_id</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Get a user.</span>
-
-<span class="sd">        `Args:`</span>
-<span class="sd">            event_signup_form_id: str</span>
-<span class="sd">                The event signup form id of the record to get.</span>
-<span class="sd">        `Returns`:</span>
-<span class="sd">            Event signup form json object</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_base_get</span><span class="p">(</span><span class="n">endpoint</span><span class="o">=</span><span class="s1">&#39;eventsignupform&#39;</span><span class="p">,</span> <span class="n">entity_id</span><span class="o">=</span><span class="n">event_signup_form_id</span><span class="p">,</span>
-                              <span class="n">exception_message</span><span class="o">=</span><span class="s1">&#39;User page signup form not found&#39;</span><span class="p">)</span></div>
-
-<div class="viewcode-block" id="ActionKit.get_event_signup_form_fields"><a class="viewcode-back" href="../../../action_kit.html#parsons.ActionKit.get_event_signup_form_fields">[docs]</a>    <span class="k">def</span> <span class="nf">get_event_signup_form_fields</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Get list of valid event signup form fields that can be passed with the</span>
-<span class="sd">        :meth:`ActionKit.create_event_signup_form` method.</span>
-
-<span class="sd">        `Returns`:</span>
-<span class="sd">            List of event signup form fields</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-
-        <span class="n">resp</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_base_get</span><span class="p">(</span><span class="n">endpoint</span><span class="o">=</span><span class="s1">&#39;eventsignupform/schema&#39;</span><span class="p">)</span>
-        <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="n">resp</span><span class="p">[</span><span class="s1">&#39;fields&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span></div>
-
-<div class="viewcode-block" id="ActionKit.create_event_signup_form"><a class="viewcode-back" href="../../../action_kit.html#parsons.ActionKit.create_event_signup_form">[docs]</a>    <span class="k">def</span> <span class="nf">create_event_signup_form</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">page_id</span><span class="p">,</span> <span class="n">thank_you_text</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Create a event signup form.</span>
-
-<span class="sd">        `Args:`</span>
-<span class="sd">            page_id: int</span>
-<span class="sd">                The page to associate the form with</span>
-<span class="sd">            thank_you_text: str</span>
-<span class="sd">                Free form thank you text</span>
-<span class="sd">        `Returns:`</span>
-<span class="sd">            API location of new resource</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_base_post</span><span class="p">(</span><span class="n">endpoint</span><span class="o">=</span><span class="s1">&#39;eventsignupform&#39;</span><span class="p">,</span>
-                               <span class="n">exception_message</span><span class="o">=</span><span class="s1">&#39;Could not event create signup form&#39;</span><span class="p">,</span>
-                               <span class="n">page</span><span class="o">=</span><span class="n">f</span><span class="s1">&#39;/rest/v1/page/</span><span class="si">{page_id}</span><span class="s1">/&#39;</span><span class="p">,</span>
-                               <span class="n">thank_you_text</span><span class="o">=</span><span class="n">thank_you_text</span><span class="p">,</span>
-                               <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
-
-<div class="viewcode-block" id="ActionKit.get_page_followup"><a class="viewcode-back" href="../../../action_kit.html#parsons.ActionKit.get_page_followup">[docs]</a>    <span class="k">def</span> <span class="nf">get_page_followup</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">page_followup_id</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Get a page followup.</span>
-
-<span class="sd">        `Args:`</span>
-<span class="sd">            page_followup_id: int</span>
-<span class="sd">                The user id of the record to get.</span>
-<span class="sd">        `Returns`:</span>
-<span class="sd">            Page followup json object</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_base_get</span><span class="p">(</span><span class="n">endpoint</span><span class="o">=</span><span class="s1">&#39;pagefollowup&#39;</span><span class="p">,</span> <span class="n">entity_id</span><span class="o">=</span><span class="n">page_followup_id</span><span class="p">,</span>
-                              <span class="n">exception_message</span><span class="o">=</span><span class="s1">&#39;Page followup not found&#39;</span><span class="p">)</span></div>
-
-<div class="viewcode-block" id="ActionKit.get_page_followup_fields"><a class="viewcode-back" href="../../../action_kit.html#parsons.ActionKit.get_page_followup_fields">[docs]</a>    <span class="k">def</span> <span class="nf">get_page_followup_fields</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Get list of valid page followup fields that can be passed with the</span>
-<span class="sd">        :meth:`ActionKit.create_page_followup` method.</span>
-
-<span class="sd">        `Returns`:</span>
-<span class="sd">            List of page followup fields</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-
-        <span class="n">resp</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_base_get</span><span class="p">(</span><span class="n">endpoint</span><span class="o">=</span><span class="s1">&#39;pagefollowup/schema&#39;</span><span class="p">)</span>
-        <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="n">resp</span><span class="p">[</span><span class="s1">&#39;fields&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span></div>
-
-<div class="viewcode-block" id="ActionKit.create_page_followup"><a class="viewcode-back" href="../../../action_kit.html#parsons.ActionKit.create_page_followup">[docs]</a>    <span class="k">def</span> <span class="nf">create_page_followup</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">signup_page_id</span><span class="p">,</span> <span class="n">url</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Add a page followup.</span>
-
-<span class="sd">        `Args:`</span>
-<span class="sd">            signup_page_id: int</span>
-<span class="sd">                The signup page to associate the followup page with</span>
-<span class="sd">            url: str</span>
-<span class="sd">                URL of the folloup page</span>
-<span class="sd">        `Returns`:</span>
-<span class="sd">            API location of new resource</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_base_post</span><span class="p">(</span><span class="n">endpoint</span><span class="o">=</span><span class="s1">&#39;pagefollowup&#39;</span><span class="p">,</span>
-                               <span class="n">exception_message</span><span class="o">=</span><span class="s1">&#39;Could not create page followup&#39;</span><span class="p">,</span>
-                               <span class="n">page</span><span class="o">=</span><span class="n">f</span><span class="s1">&#39;/rest/v1/eventsignuppage/</span><span class="si">{signup_page_id}</span><span class="s1">/&#39;</span><span class="p">,</span>
-                               <span class="n">url</span><span class="o">=</span><span class="n">url</span><span class="p">,</span>
-                               <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div></div>
-
-    <span class="c1"># TO DO</span>
-    <span class="c1"># def upload_file(self, page, file_name):</span>
-    <span class="c1">#     &quot;&quot;&quot;</span>
-    <span class="c1">#     Further Testing - Upload file to ActionKit</span>
-    <span class="c1">#</span>
-    <span class="c1">#     `Args:`</span>
-    <span class="c1">#         page: str</span>
-    <span class="c1">#             Path for the</span>
-    <span class="c1">#         file_name: str</span>
-    <span class="c1">#             The path for the file_name</span>
-    <span class="c1">#     &quot;&quot;&quot;</span>
-    <span class="c1">#     with open(file_name, &#39;rb&#39;) as local_file:</span>
-    <span class="c1">#         resp = self.conn.post(</span>
-    <span class="c1">#             self._base_endpoint(&#39;upload&#39;),</span>
-    <span class="c1">#             files={&#39;upload&#39;: local_file},</span>
-    <span class="c1">#             data={</span>
-    <span class="c1">#                 &#39;page&#39;: page,</span>
-    <span class="c1">#                 &#39;autocreate_user_fields&#39;: &#39;true&#39;</span>
-    <span class="c1">#             }</span>
-    <span class="c1">#         )</span>
-    <span class="c1">#</span>
-    <span class="c1">#     return resp.status_code</span>
+        <span class="k">return</span> <span class="n">resp</span><span class="o">.</span><span class="n">json</span><span class="p">()</span></div></div>
 </pre></div>
 
            </div>

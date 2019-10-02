@@ -28,7 +28,7 @@ class ActivistCodes(object):
 
         url = self.connection.uri + 'activistCodes'
 
-        tbl = Table(self.connection.api.get_request(url))
+        tbl = Table(self.connection.get_request(url))
         logger.info(f'Found {tbl.num_rows} activist codes.')
         return tbl
 
@@ -44,6 +44,6 @@ class ActivistCodes(object):
 
         url = self.connection.uri + f'activistCodes/{activist_code_id}'
 
-        r = self.connection.api.get_request(url)
+        r = self.connection.get_request(url)
         logger.info(f'Found activist code {activist_code_id}.')
         return r

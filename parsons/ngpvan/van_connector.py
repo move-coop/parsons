@@ -32,8 +32,21 @@ class VANConnector(object):
         # Standardized API Connector. This is only being used by the get_activist_code methods
         # but would like to roll out to the rest of the VAN methods in the future. Long term,
         # would like to use for all classes in Parsons.
-        self.api = APIConnector(self.uri, auth=self.auth, data_key='items',
-                                pagination_key='nextPageLink')
+        self.api = APIConnector(self.uri, auth=self.auth, data_key='items')
+
+    def get_request(self, endpoint, **kwargs):
+
+        url = self.uri + endpoint
+        r = self.api.get_request(endpoint, **kwargs)
+        data = self.api.data_parse(r)
+
+        # Paginate
+        while self.api.next_page_check_url(r):
+            url = self.pagination_key
+            r = self.api.get_request(url, **kwargs)
+            data.extend(self.api.data_parse(r))
+
+        return data
 
     def _error_check(self, r):
 

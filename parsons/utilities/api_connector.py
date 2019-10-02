@@ -7,7 +7,10 @@ logger = logging.getLogger(__name__)
 class APIConnector(object):
     """
     The API Connector is a low level class for API requests that other connectors
-    can utilize.
+    can utilize. It is understood that there are many standards for REST APIs and it will be
+    difficult to create a universal connector. The goal of this class is create series
+    of utilities that can be mixed and matched to, hopefully, meet the needs of the specific
+    API.
 
     `Args:`
         uri: str
@@ -62,12 +65,14 @@ class APIConnector(object):
         r = _request(req_type, url, headers=self.headers, auth=self.auth, json=None, data=None,
                      params=params)
 
+        # To Do: Implement better and more robust error handling method, but this
+        # will work for the time being.
         if raise_on_error:
             r.raise_for_status()
 
         return r
 
-    def base_get_request(self, url, params=None, raise_on_error=True):
+    def get_request(self, url, params=None, raise_on_error=True):
         """
         Args:
             url: str
@@ -86,42 +91,16 @@ class APIConnector(object):
 
         r = self.request(url, req_type='GET', params=None)
 
-        # To Do: Implement better and more robust error handling method, but this
-        # will work for the time being.
-        if raise_on_error:
-            r.raise_for_status()
-
         return r.json()
 
-    def get_request(self, endpoint, **kwargs):
+    # There are many different ways in which APIs indicate whether there is a next page
+    # of data following the initial request. The goal is build out a series of utilities
+    # that mean most of the most common use cases.
+
+    def next_page_check_url(self, resp):
         """
-        Get request including pagination.
-
-        `Args:`
-            endpoint: str
-                The api endpoint. Add to the end of the uri to create a complete and
-                valid url.
-            **kwargs: args
-                Kwargs for the :meth:`APIConnector.base_get_request`
-        """
-
-        url = self.uri + endpoint
-
-        r = self.base_get_request(endpoint, **kwargs)
-
-        data = self.data_parse(r)
-
-        # Paginate
-        while self.next_page_check(r):
-            url = self.pagination_key
-            r = self.base_get_request(url, **kwargs)
-            data.extend(r.json[self.data_key])
-
-        return data
-
-    def next_page_check(self, resp):
-        """
-        Check to determine if there is a next page.
+        Check to determine if there is a next page. This requires that the response json
+        contains a pagination key that is empty if there is not a next page.
         """
 
         # To Do: Some response jsons are enclosed in a list. Need to deal with unpacking and/or

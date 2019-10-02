@@ -364,8 +364,6 @@ class ToFrom(object):
             Public url if specified. If not ``None``.
         """  # noqa: W605
 
-        # TO DO: Currently not working with the compression_type_for_path
-
         compression = compression or files.compression_type_for_path(key)
 
         csv_name = files.extract_file_name(key, include_suffix=False) + '.csv'

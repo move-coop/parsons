@@ -56,7 +56,7 @@ jobs:
       # Download and cache dependencies
       - restore_cache:
           keys:
-          - v1-dependencies-python3.7-{{ checksum "requirements.txt" }}
+          - v1-dependencies-python3.7-{{ checksum "./docs/requirements.txt" }}
           # fallback to using the latest cache if no exact match is found
           - v1-dependencies-python3.7-
       - run:
@@ -68,11 +68,11 @@ jobs:
             npm install -g --silent gh-pages@2.0.1
             python3 -m venv venv
             . venv/bin/activate
-            pip install -r requirements.txt
+            pip install -r ./docs/requirements.txt
       - save_cache:
           paths:
             - ./venv
-          key: v1-dependencies-python3.7-{{ checksum "requirements.txt" }}
+          key: v1-dependencies-python3.7-{{ checksum "./docs/requirements.txt" }}
       - add_ssh_keys:
           # This SSH key is the "CircleCI write key v2" in https://github.com/move-coop/parsons/settings/keys
           # We need write access to the Parsons repo, so we can push the "gh-pages" branch.

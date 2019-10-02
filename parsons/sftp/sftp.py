@@ -132,3 +132,20 @@ class SFTP(object):
 
         with self._create_connection() as conn:
             conn.remove(remote_path)
+
+    def get_file_size(self, remote_path):
+        """
+        Get the size of a file in MB on the SFTP Server
+
+        `Args:`
+            remote_path: str
+                The remote path of the file
+        `Returns:`
+            int
+                The file size in MB.
+        """
+
+        with self._create_connection() as conn:
+            size = conn.file(remote_path, 'r')._get_size()
+
+        return size / 1024

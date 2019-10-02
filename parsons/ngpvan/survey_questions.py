@@ -7,20 +7,19 @@ class SurveyQuestions(object):
     def get_survey_questions(self, statuses=None, name=None,
                              sq_type=None, question=None, cycle=None,
                              page_size=200):
-        """Returns a list of survey questions. Use arguments to filter
-        the returned list.
+        """
+        Get survey questions.
 
         `Args:`
             statuses: str
                 Comma delimited list of statuses of Survey Questions. One or
                 more of Active (default), Archived, and Inactive.
             name: str
-                Filters to Survey Questions with names that start with the
-                given input
+                Filter to survey questions with names begin with the input
             sq_type: str
-                Filters to Survey Questions of the given type
+                Filter to survey questions of the given type
             question: str
-                Filters to Survey Questions with script questions that
+                Filter to survey questions with script questions that
                 contain the given input
             cycle: str
                 A year in the format YYYY; filters to Survey Questions with
@@ -43,7 +42,8 @@ class SurveyQuestions(object):
         return self.connection.request_paginate(url, args=args)
 
     def get_survey_question(self, survey_question_id):
-        """Return a survey question
+        """
+        Get a survey question
 
         `Returns:`
             Parsons Table

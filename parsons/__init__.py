@@ -23,6 +23,7 @@ from parsons.geocode.census_geocoder import CensusGeocoder
 from parsons.airtable.airtable import Airtable
 from parsons.copper.copper import Copper
 from parsons.crowdtangle.crowdtangle import CrowdTangle
+from parsons.hustle.hustle import Hustle
 
 __all__ = [
     'VAN',
@@ -47,7 +48,8 @@ __all__ = [
     'CensusGeocoder',
     'Airtable',
     'Copper',
-    'CrowdTangle'
+    'CrowdTangle',
+    'Hustle'
     ]
 
 # Define the default logging config for Parsons and its submodules. For now the

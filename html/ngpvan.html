@@ -1805,34 +1805,22 @@ is only available to API keys with permission to automatically approve scores.</
 </dl>
 </dd>
 <dt><cite>Returns:</cite></dt>
-<dd><dl class="first last docutils">
-<dt>Parsons Table</dt>
-<dd>See <a class="reference internal" href="table.html#parsons-table"><span class="std std-ref">Parsons Table</span></a> for output options.</dd>
-</dl>
-</dd>
+<dd>dict</dd>
 </dl>
 </dd></dl>
 
-</dd></dl>
-
-</div>
-<div class="section" id="score-updates">
-<h2>Score Updates<a class="headerlink" href="#score-updates" title="Permalink to this headline">¶</a></h2>
-<dl class="class">
-<dt id="parsons.ngpvan.van.ScoreUpdates">
-<em class="property">class </em><code class="descclassname">parsons.ngpvan.van.</code><code class="descname">ScoreUpdates</code><span class="sig-paren">(</span><em>van_connection</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/ngpvan/scores.html#ScoreUpdates"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.ngpvan.van.ScoreUpdates" title="Permalink to this definition">¶</a></dt>
-<dd><dl class="method">
-<dt id="parsons.ngpvan.van.ScoreUpdates.get_score_updates">
-<code class="descname">get_score_updates</code><span class="sig-paren">(</span><em>created_before=None</em>, <em>created_after=None</em>, <em>score_id=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/ngpvan/scores.html#ScoreUpdates.get_score_updates"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.ngpvan.van.ScoreUpdates.get_score_updates" title="Permalink to this definition">¶</a></dt>
-<dd><p>Get all score updates</p>
+<dl class="method">
+<dt id="parsons.ngpvan.van.Scores.get_score_updates">
+<code class="descname">get_score_updates</code><span class="sig-paren">(</span><em>created_before=None</em>, <em>created_after=None</em>, <em>score_id=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/ngpvan/scores.html#Scores.get_score_updates"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.ngpvan.van.Scores.get_score_updates" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get score updates.</p>
 <dl class="docutils">
 <dt><cite>Args:</cite></dt>
 <dd><dl class="first last docutils">
 <dt>created_before: str</dt>
-<dd>Optional; Filter score updates to those created before date. Use “YYYY-MM-DD”
+<dd>Filter score updates to those created before date. Use “YYYY-MM-DD”
 format.</dd>
 <dt>created_after: str</dt>
-<dd>Optional; Filter score updates to those created after date. Use “YYYY-MM-DD”
+<dd>Filter score updates to those created after date. Use “YYYY-MM-DD”
 format.</dd>
 </dl>
 </dd>
@@ -1846,8 +1834,8 @@ format.</dd>
 </dd></dl>
 
 <dl class="method">
-<dt id="parsons.ngpvan.van.ScoreUpdates.get_score_update">
-<code class="descname">get_score_update</code><span class="sig-paren">(</span><em>score_update_id</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/ngpvan/scores.html#ScoreUpdates.get_score_update"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.ngpvan.van.ScoreUpdates.get_score_update" title="Permalink to this definition">¶</a></dt>
+<dt id="parsons.ngpvan.van.Scores.get_score_update">
+<code class="descname">get_score_update</code><span class="sig-paren">(</span><em>score_update_id</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/ngpvan/scores.html#Scores.get_score_update"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.ngpvan.van.Scores.get_score_update" title="Permalink to this definition">¶</a></dt>
 <dd><p>Get a score update object</p>
 <blockquote>
 <div><dl class="docutils">
@@ -1858,18 +1846,14 @@ format.</dd>
 </dl>
 </dd>
 <dt><cite>Returns:</cite></dt>
-<dd><dl class="first last docutils">
-<dt>Parsons Table</dt>
-<dd>See <a class="reference internal" href="table.html#parsons-table"><span class="std std-ref">Parsons Table</span></a> for output options.</dd>
-</dl>
-</dd>
+<dd>dict</dd>
 </dl>
 </div></blockquote>
 </dd></dl>
 
 <dl class="method">
-<dt id="parsons.ngpvan.van.ScoreUpdates.update_score_status">
-<code class="descname">update_score_status</code><span class="sig-paren">(</span><em>score_update_id</em>, <em>status</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/ngpvan/scores.html#ScoreUpdates.update_score_status"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.ngpvan.van.ScoreUpdates.update_score_status" title="Permalink to this definition">¶</a></dt>
+<dt id="parsons.ngpvan.van.Scores.update_score_status">
+<code class="descname">update_score_status</code><span class="sig-paren">(</span><em>score_update_id</em>, <em>status</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/ngpvan/scores.html#Scores.update_score_status"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.ngpvan.van.Scores.update_score_status" title="Permalink to this definition">¶</a></dt>
 <dd><p>Change the status of a score update object. This end point is used to
 approve a score loading job.</p>
 <dl class="docutils">
@@ -1892,6 +1876,9 @@ approve a score loading job.</p>
 
 </dd></dl>
 
+</div>
+<div class="section" id="score-updates">
+<h2>Score Updates<a class="headerlink" href="#score-updates" title="Permalink to this headline">¶</a></h2>
 </div>
 <div class="section" id="file-loading-jobs">
 <h2>File Loading Jobs<a class="headerlink" href="#file-loading-jobs" title="Permalink to this headline">¶</a></h2>

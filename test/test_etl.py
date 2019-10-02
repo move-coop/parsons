@@ -97,17 +97,18 @@ class TestParsonsTable(unittest.TestCase):
     def test_from_datafame(self):
 
         import pandas
-        
+
         # Assert creates table without index
         tbl = Table(self.lst)
         tbl_from_df = Table.from_dataframe(tbl.to_dataframe())
         assert_matching_tables(tbl, tbl_from_df)
-    """
+
 
     def test_to_dataframe(self):
 
         # Is a dataframe
         self.assertIsInstance(self.tbl.to_dataframe(), pandas.core.frame.DataFrame)
+    """
 
     def test_to_petl(self):
 

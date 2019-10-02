@@ -481,52 +481,53 @@ class TestNGPVAN(unittest.TestCase):
                 u'description': None}
 
         m.get(self.van.connection.uri + 'scores/{}'.format(score_id), json=json)
-
-        expected = ['origin', 'scoreId', 'name', 'maxValue', 'minValue',
-                    'state', 'shortName', 'description']
-
-        self.assertTrue(validate_list(expected, self.van.get_score(score_id)))
+        self.assertEqual(json, self.van.get_score(score_id))
 
     @requests_mock.Mocker()
     def test_get_score_updates(self, m):
 
-        json = {'count': 46, 'items':
-                [{
-                    "loadStatus": "Canceled",
-                    "updateStatistics": {
-                        "increasedBy": 1,
-                        "nulledOut": 1,
-                        "added": 0,
-                        "matchedRows": 4,
-                        "matchPercent": 100.0,
-                        "outOfRange": 0,
-                        "badValues": 1,
-                        "totalRows": 4,
-                        "maxValue": 30.0,
-                        "medianValue": 15.0,
-                        "minValue": 10.0,
-                        "duplicateRows": "null",
-                        "averageValue": 20.0,
-                        "decreasedBy": 2
-                    },
-                    "score": {
-                        "origin": "null",
-                        "scoreId": 2716,
-                        "name": "Democratic Party Support",
-                        "maxValue": 100.0,
-                        "minValue": 1.0,
-                        "state": "null",
-                        "shortName": "null",
-                        "description": "null"
-                    },
-                    "dateProcessed": "null",
-                    "scoreUpdateId": 27892
-                }],
-                'nextPageLink': None}
+        json = {'items': [{
+                'scoreUpdateId': 58319,
+                'score': {
+                  'scoreId': 29817,
+                  'name': 'TargetSmart Gun Ownership',
+                  'shortName': None,
+                  'description': None,
+                  'minValue': 0.0,
+                  'maxValue': 100.0,
+                  'state': 'MT',
+                  'origin': None
+                },
+                'updateStatistics': {
+                  'totalRows': 856644,
+                  'duplicateRows': 0,
+                  'matchedRows': 856644,
+                  'matchPercent': 100.0,
+                  'increasedBy': 441264,
+                  'decreasedBy': 280588,
+                  'nulledOut': 3649,
+                  'added': 115129,
+                  'outOfRange': 0,
+                  'badValues': 0,
+                  'maxValue': 95.9,
+                  'minValue': 11.2,
+                  'averageValue': 72.3338,
+                  'medianValue': 76.3
+                },
+                'loadStatus': 'Completed',
+                'dateProcessed': '2019-09-10T02:07:00Z'
+              }],
+              'nextPageLink': None,
+              'count': 306
+            }
 
         m.get(self.van.connection.uri + 'scoreUpdates', json=json)
 
-        expected = ['loadStatus', 'updateStatistics', 'score', 'dateProcessed', 'scoreUpdateId']
+        expected = ['scoreUpdateId', 'loadStatus', 'dateProcessed', 'added', 'averageValue',
+                    'badValues', 'decreasedBy', 'duplicateRows', 'increasedBy', 'matchPercent',
+                    'matchedRows', 'maxValue', 'medianValue', 'minValue', 'nulledOut',
+                    'outOfRange', 'totalRows', 'description', 'maxValue', 'minValue', 'name',
+                    'origin', 'scoreId', 'shortName', 'state']
 
         self.assertTrue(validate_list(expected, self.van.get_score_updates()))
 
@@ -567,11 +568,11 @@ class TestNGPVAN(unittest.TestCase):
             "scoreUpdateId": 27892
         }
 
-        m.get(self.van.connection.uri + 'scoreUpdates/{}'.format(score_update_id), json=json)
+        m.get(self.van.connection.uri + f'scoreUpdates/{score_update_id}', json=json)
 
         expected = ['loadStatus', 'updateStatistics', 'score', 'dateProcessed', 'scoreUpdateId']
 
-        self.assertTrue(validate_list(expected, self.van.get_score_update(score_update_id)))
+        self.assertEqual(json, self.van.get_score_update(score_update_id))
 
     @requests_mock.Mocker()
     def test_update_score_status(self, m):

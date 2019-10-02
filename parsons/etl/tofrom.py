@@ -83,7 +83,7 @@ class ToFrom(object):
         return local_path
 
     def to_csv(self, local_path=None, temp_file_compression=None, encoding=None, errors='strict',
-               write_header=True, **csvargs):
+               write_header=True, csv_name=None, **csvargs):
         """
         Outputs table to a CSV. Additional key word arguments are passed to ``csv.writer()``. So,
         e.g., to override the delimiter from the default CSV dialect, provide the delimiter
@@ -109,6 +109,9 @@ class ToFrom(object):
                 Raise an Error if encountered
             write_header: boolean
                 Include header in output
+            csv_name: str
+                If ``zip`` compression (either specified or inferred), the name of csv file
+                within the archive.
             \**csvargs: kwargs
                 ``csv_writer`` optional arguments
 
@@ -117,11 +120,13 @@ class ToFrom(object):
                 The path of the new file
         """  # noqa: W605
 
+        # If a zip archive.
         if files.zip_check(local_path, temp_file_compression):
             return self.to_zip_csv(archive_path=local_path,
                                    encoding=encoding,
                                    errors=errors,
                                    write_header=write_header,
+                                   csv_name=csv_name,
                                    **csvargs)
 
         if not local_path:
@@ -212,7 +217,7 @@ class ToFrom(object):
         cf = self.to_csv(encoding=encoding, errors=errors, write_header=write_header, **csvargs)
 
         if not csv_name:
-            csv_name = files.extract_file_name(archive_path) + '.csv'
+            csv_name = files.extract_file_name(archive_path, include_suffix=False) + '.csv'
 
         return zip_archive.create_archive(archive_path, cf, file_name=csv_name,
                                           if_exists=if_exists)
@@ -333,14 +338,15 @@ class ToFrom(object):
             bucket: str
                 The s3 bucket to upload to
             key: str
-                The s3 key to name the file. If it ends in '.gz', the file will be compressed.
+                The s3 key to name the file. If it ends in '.gz' or '.zip', the file will be
+                compressed.
             aws_access_key_id: str
                 Required if not included as environmental variable
             aws_secret_access_key: str
                 Required if not included as environmental variable
             compression: str
                 The compression type for the s3 object. Currently "None", "zip" and "gzip" are
-                supported.
+                supported. If specified, will override the key suffix.
             encoding: str
                 The CSV encoding type for `csv.writer()
                 <https://docs.python.org/2/library/csv.html#csv.writer/>`_
@@ -358,12 +364,20 @@ class ToFrom(object):
             Public url if specified. If not ``None``.
         """  # noqa: W605
 
-        compression = files.compression_type_for_path(key)
+        compression = compression or files.compression_type_for_path(key)
 
+        csv_name = files.extract_file_name(key, include_suffix=False) + '.csv'
+
+        # Save the CSV as a temp file
+        local_path = self.to_csv(temp_file_compression=compression,
+                                 encoding=encoding,
+                                 errors=errors,
+                                 write_header=write_header,
+                                 csv_name=csv_name,
+                                 **csvargs)
+
+        # Put the file on S3
         from parsons import S3
-        local_path = self.to_csv(
-            temp_file_compression=compression, encoding=encoding, errors=errors,
-            write_header=write_header, **csvargs)
         self.s3 = S3(aws_access_key_id=aws_access_key_id,
                      aws_secret_access_key=aws_secret_access_key)
         self.s3.put_file(bucket, key, local_path)

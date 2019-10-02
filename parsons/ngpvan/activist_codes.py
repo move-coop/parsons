@@ -6,20 +6,18 @@ logger = logging.getLogger(__name__)
 
 
 class ActivistCodes(object):
-    """Class for '/activistCodes' end points.
-
+    """
         .. note::
             To apply or remove activist codes, use the :meth:`toggle_activist_code` method.
     """
 
     def __init__(self, van_connection):
-        """Initialize class"""
 
         self.connection = van_connection
 
     def get_activist_codes(self):
         """
-        Get activist code objects
+        Get activist codes.
 
         `Returns:`
             Parsons Table
@@ -33,11 +31,11 @@ class ActivistCodes(object):
         return tbl
 
     def get_activist_code(self, activist_code_id):
-        """Get an activist code
+        """Get an activist code.
 
         `Args:`
             activist_code_id : int
-                The activist code id associated with the activist code.
+                The activist code id.
         `Returns:`
             dict
         """

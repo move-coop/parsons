@@ -6,7 +6,6 @@ from parsons.utilities import date_convert
 from parsons.utilities import files
 from parsons.utilities import check_env
 from parsons.utilities import json_format
-from parsons.utilities import converted_dict
 
 
 """
@@ -56,15 +55,6 @@ def test_compression_type_for_path():
 
 def test_json_format():
     assert json_format.arg_format('my_arg') == 'myArg'
-
-def test_converted_dict():
-    dct = {"ak": 1, "aak": ["a", "aa", {"aaak": 3}, {"aaaak": 4},
-        {"aaaaak": ["aaa", "aaaa"]}], "aaaaaak": {"aaaaaaak": 7}}
-    
-    def remove_a(string):
-        return string.replace("a", "")
-
-    assert not "a" in converted_dict.converted_dict(dct, remove_a).result
 
 class TestCheckEnv(unittest.TestCase):
 

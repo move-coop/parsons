@@ -14,7 +14,7 @@ class TestActionKit(unittest.TestCase):
 
     def setUp(self):
         self.actionkit = ActionKit(
-            domain='domain',
+            domain='domain.actionkit.com',
             username='user',
             password='password'
         )

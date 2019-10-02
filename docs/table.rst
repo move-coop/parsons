@@ -112,6 +112,8 @@ Parsons Table Attributes
       - A list of column names in the table
     * - ``.data``
       - The actual data (rows) of the table, as a list of tuples (without field names)
+    * - ``.csv_size``
+      - The estimated size of the table if saved as a csv file.
 
 A note on indexing and iterating over a table's data:
 If you need to iterate over the data, make sure to use the python iterator syntax, so any data transformations can be applied efficiently. An example:

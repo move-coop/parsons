@@ -474,7 +474,7 @@ is done running.</dd>
 
 <dl class="method">
 <dt id="parsons.etl.tofrom.ToFrom.to_csv">
-<code class="descname">to_csv</code><span class="sig-paren">(</span><em>local_path=None</em>, <em>temp_file_compression=None</em>, <em>encoding=None</em>, <em>errors='strict'</em>, <em>write_header=True</em>, <em>**csvargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/etl/tofrom.html#ToFrom.to_csv"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.etl.tofrom.ToFrom.to_csv" title="Permalink to this definition">¶</a></dt>
+<code class="descname">to_csv</code><span class="sig-paren">(</span><em>local_path=None</em>, <em>temp_file_compression=None</em>, <em>encoding=None</em>, <em>errors='strict'</em>, <em>write_header=True</em>, <em>csv_name=None</em>, <em>**csvargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/etl/tofrom.html#ToFrom.to_csv"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.etl.tofrom.ToFrom.to_csv" title="Permalink to this definition">¶</a></dt>
 <dd><p>Outputs table to a CSV. Additional key word arguments are passed to <code class="docutils literal notranslate"><span class="pre">csv.writer()</span></code>. So,
 e.g., to override the delimiter from the default CSV dialect, provide the delimiter
 keyword argument.</p>
@@ -500,6 +500,9 @@ If a <code class="docutils literal notranslate"><span class="pre">local_path</sp
 <dd>Raise an Error if encountered</dd>
 <dt>write_header: boolean</dt>
 <dd>Include header in output</dd>
+<dt>csv_name: str</dt>
+<dd>If <code class="docutils literal notranslate"><span class="pre">zip</span></code> compression (either specified or inferred), the name of csv file
+within the archive.</dd>
 <dt>**csvargs: kwargs</dt>
 <dd><code class="docutils literal notranslate"><span class="pre">csv_writer</span></code> optional arguments</dd>
 </dl>
@@ -669,14 +672,15 @@ JSON file.</dd>
 <dt>bucket: str</dt>
 <dd>The s3 bucket to upload to</dd>
 <dt>key: str</dt>
-<dd>The s3 key to name the file. If it ends in ‘.gz’, the file will be compressed.</dd>
+<dd>The s3 key to name the file. If it ends in ‘.gz’ or ‘.zip’, the file will be
+compressed.</dd>
 <dt>aws_access_key_id: str</dt>
 <dd>Required if not included as environmental variable</dd>
 <dt>aws_secret_access_key: str</dt>
 <dd>Required if not included as environmental variable</dd>
 <dt>compression: str</dt>
 <dd>The compression type for the s3 object. Currently “None”, “zip” and “gzip” are
-supported.</dd>
+supported. If specified, will override the key suffix.</dd>
 <dt>encoding: str</dt>
 <dd>The CSV encoding type for <a class="reference external" href="https://docs.python.org/2/library/csv.html#csv.writer/">csv.writer()</a></dd>
 <dt>errors: str</dt>

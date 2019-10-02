@@ -1,3 +1,6 @@
+import logging
+
+logger = logging.getLogger(__name__)
 
 
 class Scores(object):
@@ -17,7 +20,9 @@ class Scores(object):
 
         url = self.connection.uri + 'scores'
 
-        return self.connection.request_paginate(url)
+        tbl = self.connection.request_paginate(url)
+        logger.info(f'Found {tbl.num_rows} scores.')
+        return tbl
 
     def get_score(self, score_id):
         """
@@ -27,32 +32,24 @@ class Scores(object):
             score_id: int
                 The score id
         `Returns:`
-            Parsons Table
-                See :ref:`parsons-table` for output options.
+            dict
         """
 
-        url = self.connection.uri + 'scores/{}'.format(score_id)
+        url = self.connection.uri + f'scores/{score_id}'
+        r = self.connection.request(url, raw=True)
+        logger.info(f'Returning score {score_id}.')
+        return r.json()
 
-        return self.connection.request(url)
-
-
-class ScoreUpdates(object):
-
-    def __init__(self, van_connection):
-
-        self.connection = van_connection
-
-    def get_score_updates(self, created_before=None, created_after=None,
-                          score_id=None):
+    def get_score_updates(self, created_before=None, created_after=None, score_id=None):
         """
-        Get all score updates
+        Get score updates.
 
         `Args:`
             created_before: str
-                Optional; Filter score updates to those created before date. Use "YYYY-MM-DD"
+                Filter score updates to those created before date. Use "YYYY-MM-DD"
                 format.
             created_after: str
-                Optional; Filter score updates to those created after date. Use "YYYY-MM-DD"
+                Filter score updates to those created after date. Use "YYYY-MM-DD"
                 format.
         `Returns:`
             Parsons Table
@@ -65,7 +62,12 @@ class ScoreUpdates(object):
                 'createdAfter': created_after,
                 'scoreId': score_id}
 
-        return self.connection.request_paginate(url, args=args)
+        tbl = self.connection.request_paginate(url, args=args)
+        if tbl.num_rows:
+            tbl.unpack_dict('updateStatistics', prepend=False)
+            tbl.unpack_dict('score', prepend=False)
+        logger.info(f'Found {tbl.num_rows} score updates.')
+        return tbl
 
     def get_score_update(self, score_update_id):
         """
@@ -75,13 +77,14 @@ class ScoreUpdates(object):
                 score_update_id : int
                         The score update id
             `Returns:`
-                Parsons Table
-                    See :ref:`parsons-table` for output options.
+                dict
         """
 
-        url = self.connection.uri + 'scoreUpdates/{}'.format(score_update_id)
+        url = self.connection.uri + f'scoreUpdates/{score_update_id}'
 
-        return self.connection.request(url)
+        r = self.connection.request(url, raw=True)
+        logger.info(f'Returning score update {score_update_id}.')
+        return r.json()
 
     def update_score_status(self, score_update_id, status):
         """

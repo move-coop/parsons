@@ -1,7 +1,6 @@
 import unittest
 import petl
 from parsons.etl.table import Table
-import pandas
 import os
 import shutil
 from test.utils import assert_matching_tables
@@ -97,6 +96,8 @@ class TestParsonsTable(unittest.TestCase):
     """
     def test_from_datafame(self):
 
+        import pandas
+        
         # Assert creates table without index
         tbl = Table(self.lst)
         tbl_from_df = Table.from_dataframe(tbl.to_dataframe())

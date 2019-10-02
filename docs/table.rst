@@ -21,9 +21,6 @@ From Parsons Table
     * - Method
       - Destination Type
       - Description
-    * - ``.to_dataframe()``
-      - Pandas Dataframe
-      - Return a Pandas dataframe
     * - ``.to_csv()``
       - CSV File
       - Write a table to a local csv file
@@ -51,6 +48,11 @@ From Parsons Table
     * - ``.to_html()``
       - HTML formatted table
       - Write a table to a local html file
+    * - ``.to_dataframe()``
+      - Pandas Dataframe [1]_
+      - Return a Pandas dataframe 
+
+.. [1] Requires optional installation of Pandas package by running ``pip install pandas``.
 
 ================
 To Parsons Table

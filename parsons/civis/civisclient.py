@@ -1,36 +1,34 @@
 import civis
-import os
 from parsons.etl.table import Table
+from parsons.utilities import check_env
 
 
 class CivisClient(object):
+    """
+    Instantiate the Civis class.
 
-    def __init__(self, db=None, api_key=None):
+    `Args:`
+        api_key: str
+            The Civis api key.
+        db: str or int
+            The Civis Redshift database. Can be a database id or the name of the
+            database.
+        **kwargs: args
+            Option settings for the client that are `described in the documentation <https://civis-python.readthedocs.io/en/stable/client.html#civis.APIClient>`_.
+    `Returns:`
+        Civis class
+    """  # noqa: E501
 
-        if api_key is None:
+    def __init__(self, db=None, api_key=None, **kwargs):
 
-            try:
-                self.api_key = os.environ['CIVIS_API_KEY']
-            except KeyError:
-                raise KeyError('No Civis API key found. Please store'
-                               ' in environment variable or pass as an'
-                               'argument.')
-
-        if db is None:
-            try:
-                db = os.environ['CIVIS_DATABASE']
-            except KeyError:
-                raise KeyError('No Civis Database kwarg found. Please store'
-                               ' in environment variable or pass as an'
-                               'argument.')
-
-        if str(db).isdigit():
-            db = int(db)
-
-        self.db = db
-
-        if api_key:
-            os.environ['CIVIS_API_KEY'] = api_key
+        self.api_key = check_env.check('CIVIS_API_KEY', api_key)
+        self.db = check_env.check('CIVIS_DATABASE', db)
+        self.client = civis.APIClient(api_key=api_key, **kwargs)
+        """
+        The Civis API client. Utilize this attribute to access to lower level and more
+        advanced methods which might not be surfaced in Parsons. A list of the methods
+        can be found by reading the Civis API client `documentation <https://civis-python.readthedocs.io/en/stable/client.html>`_.
+        """  # noqa: E501
 
     def query(self, sql, preview_rows=10, polling_interval=None, hidden=True,
               wait=True):

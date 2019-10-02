@@ -93,12 +93,15 @@ class TestParsonsTable(unittest.TestCase):
 
         self.assertEqual(tbl[0], {'col1': 1, 'col2': 'a'})
 
+    # Removing this test since it is an optional dependency.
+    """
     def test_from_datafame(self):
 
         # Assert creates table without index
         tbl = Table(self.lst)
         tbl_from_df = Table.from_dataframe(tbl.to_dataframe())
         assert_matching_tables(tbl, tbl_from_df)
+    """
 
     def test_to_dataframe(self):
 

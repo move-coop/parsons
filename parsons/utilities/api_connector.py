@@ -91,6 +91,13 @@ class APIConnector(object):
         Determines if the response json has nested data. If it is nested, it just returns the
         data. This is useful in dealing with requests that might return multiple records, while
         others might return only a single record.
+
+        `Args:`
+            resp:
+                A response dictionary
+        `Returns:`
+            dict
+                A dictionary of data.
         """
 
         # To Do: Some response jsons are enclosed in a list. Need to deal with unpacking and/or
@@ -109,6 +116,12 @@ class APIConnector(object):
         """
         Check to determine if there is a next page. This requires that the response json
         contains a pagination key that is empty if there is not a next page.
+
+        `Args:`
+            resp:
+                A response dictionary
+        `Returns:
+            boolean
         """
 
         # To Do: Some response jsons are enclosed in a list. Need to deal with unpacking and/or

@@ -36,13 +36,12 @@ class VANConnector(object):
 
     def get_request(self, endpoint, **kwargs):
 
-        r = self.api.get_request(endpoint, **kwargs)
+        r = self.api.get_request(self.uri + endpoint, **kwargs)
         data = self.api.data_parse(r)
 
         # Paginate
         while self.api.next_page_check_url(r):
-            url = self.pagination_key
-            r = self.api.get_request(url, **kwargs)
+            r = self.api.get_request(r[self.pagination_key], **kwargs)
             data.extend(self.api.data_parse(r))
 
         return data

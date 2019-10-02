@@ -302,7 +302,24 @@
 <span class="sd">        &quot;&quot;&quot;</span>
 
         <span class="k">with</span> <span class="bp">self</span><span class="o">.</span><span class="n">_create_connection</span><span class="p">()</span> <span class="k">as</span> <span class="n">conn</span><span class="p">:</span>
-            <span class="n">conn</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">remote_path</span><span class="p">)</span></div></div>
+            <span class="n">conn</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">remote_path</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="SFTP.get_file_size"><a class="viewcode-back" href="../../../sftp.html#parsons.SFTP.get_file_size">[docs]</a>    <span class="k">def</span> <span class="nf">get_file_size</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">remote_path</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Get the size of a file in MB on the SFTP Server</span>
+
+<span class="sd">        `Args:`</span>
+<span class="sd">            remote_path: str</span>
+<span class="sd">                The remote path of the file</span>
+<span class="sd">        `Returns:`</span>
+<span class="sd">            int</span>
+<span class="sd">                The file size in MB.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">with</span> <span class="bp">self</span><span class="o">.</span><span class="n">_create_connection</span><span class="p">()</span> <span class="k">as</span> <span class="n">conn</span><span class="p">:</span>
+            <span class="n">size</span> <span class="o">=</span> <span class="n">conn</span><span class="o">.</span><span class="n">file</span><span class="p">(</span><span class="n">remote_path</span><span class="p">,</span> <span class="s1">&#39;r&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">_get_size</span><span class="p">()</span>
+
+        <span class="k">return</span> <span class="n">size</span> <span class="o">/</span> <span class="mi">1024</span></div></div>
 </pre></div>
 
            </div>

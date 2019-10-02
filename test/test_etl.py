@@ -271,6 +271,10 @@ class TestParsonsTable(unittest.TestCase):
         # Test that columns are listed correctly
         self.assertEqual(self.tbl.columns, ['first', 'last'])
 
+    def test_csv_size(self):
+        # Test that the size of the csv is expected.
+        self.assertEqual(Table(self.lst).csv_size, 48)
+
     def test_add_column(self):
         # Test that a new column is added correctly
         self.tbl.add_column('middle', index=1)

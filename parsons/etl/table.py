@@ -1,5 +1,6 @@
 from parsons.etl.etl import ETL
 from parsons.etl.tofrom import ToFrom
+from parsons.utilities import files
 import petl
 import logging
 
@@ -103,6 +104,21 @@ class Table(ETL, ToFrom):
                 List of the table's column names
         """
         return list(petl.header(self.table))
+
+    @property
+    def csv_size(self, sample=1000):
+        """
+        Estimates the approximate file size of the table in bytes if converted to
+        a csv.
+        """
+
+        sample_table = Table(petl.head(self.table, n=sample))
+        path = sample_table.to_csv()
+
+        if self.num_rows < sample:
+            sample = self.num_rows
+
+        return (files.get_file_size(path)/sample)*self.num_rows
 
     def materialize(self):
         """

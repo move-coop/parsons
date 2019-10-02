@@ -6,6 +6,7 @@ from parsons.utilities import date_convert
 from parsons.utilities import files
 from parsons.utilities import check_env
 from parsons.utilities import json_format
+from parsons.etl.table import Table
 
 
 """
@@ -19,10 +20,9 @@ class TestDateConvert(unittest.TestCase):
         self.assertEqual(date_convert.iso_to_unix('2018-12-13'), 1544659200)
 """
 
-#
-# File utility tests (pytest-style)
-#
-
+#########
+# FILES #
+#########
 
 def test_create_temp_file_for_path():
     temp_path = files.create_temp_file_for_path('some/file.gz')
@@ -52,6 +52,11 @@ def test_compression_type_for_path():
     assert files.compression_type_for_path('some/file') == None
     assert files.compression_type_for_path('some/file.csv') == None
     assert files.compression_type_for_path('some/file.csv.gz') == 'gzip'
+
+def test_get_file_size():
+    tbl = Table([[1,2,3],['a','b','c']])
+    file_path = tbl.to_csv()
+    assert files.get_file_size(file_path) == 14
 
 def test_json_format():
     assert json_format.arg_format('my_arg') == 'myArg'

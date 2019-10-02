@@ -1,5 +1,6 @@
 from tempfile import NamedTemporaryFile
 import gzip
+import os
 
 __all__ = [
     'create_temp_file',
@@ -161,3 +162,10 @@ def extract_file_name(file_path=None):
         return None
 
     return file_path.split('/')[-1].split('.')[0]
+
+def get_file_size(file_path):
+    """
+    Calculate the size of a file. Returns the size in bytes.
+    """
+
+    return os.path.getsize(file_path)

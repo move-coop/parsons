@@ -17,7 +17,8 @@ logger = logging.getLogger(__name__)
 
 
 class VAN(People, Events, SavedLists, Folders, ExportJobs, ActivistCodes, CanvassResponses,
-          SurveyQuestions, Codes, Scores, FileLoadingJobs, SupporterGroups, Signups, Locations):
+          SurveyQuestions, Codes, Scores, FileLoadingJobs, SupporterGroups, Signups, Locations,
+          BulkImport):
     """
     Returns the VAN class
 

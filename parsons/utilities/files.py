@@ -87,6 +87,10 @@ def is_gzip_path(path):
     return (path[-3:] == '.gz')
 
 
+def is_zip_path(path):
+    return (path[-4:] == '.zip')
+
+
 def suffix_for_compression_type(compression):
     if compression == 'gzip':
         return '.gz'
@@ -97,6 +101,9 @@ def suffix_for_compression_type(compression):
 def compression_type_for_path(path):
     if is_gzip_path(path):
         return 'gzip'
+
+    if is_zip_path(path):
+        return 'zip'
 
     return None
 
@@ -153,13 +160,22 @@ def zip_check(file_path, compression_type):
         return False
 
 
-def extract_file_name(file_path=None):
+def extract_file_name(file_path=None, include_suffix=True):
     """
-    Extract the file name without the suffix from a file path string.
+    Extract the file name with the file path string.
+
+    file_path: str
+        The file path
+    include_suffix: boolean
+        If True, includes full file name with suffix. If False returns the
+        file name without the suffix (e.g. "myfile.zip" vs. "myfile").
     """
 
     if not file_path:
         return None
+
+    if include_suffix:
+        return file_path.split('/')[-1]
 
     return file_path.split('/')[-1].split('.')[0]
 

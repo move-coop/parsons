@@ -179,6 +179,7 @@ def extract_file_name(file_path=None, include_suffix=True):
 
     return file_path.split('/')[-1].split('.')[0]
 
+
 def get_file_size(file_path):
     """
     Calculate the size of a file. Returns the size in bytes.

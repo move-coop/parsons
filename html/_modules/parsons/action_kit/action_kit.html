@@ -183,7 +183,8 @@
 
 <span class="sd">    `Args:`</span>
 <span class="sd">        domain: str</span>
-<span class="sd">            The ActionKit domain. Not required if ``ACTION_KIT_DOMAIN`` env variable set.</span>
+<span class="sd">            The ActionKit domain (e.g. ``myorg.actionkit.com``) Not required if</span>
+<span class="sd">            ``ACTION_KIT_DOMAIN`` env variable set.</span>
 <span class="sd">        username: str</span>
 <span class="sd">            The authorized ActionKit username. Not required if ``ACTION_KIT_USERNAME`` env</span>
 <span class="sd">            variable set.</span>
@@ -212,7 +213,7 @@
     <span class="k">def</span> <span class="nf">_base_endpoint</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">endpoint</span><span class="p">,</span> <span class="n">entity_id</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="c1"># Create the base endpoint URL</span>
 
-        <span class="n">url</span> <span class="o">=</span> <span class="n">f</span><span class="s1">&#39;https://</span><span class="si">{self.domain}</span><span class="s1">.actionkit.com/rest/v1/</span><span class="si">{endpoint}</span><span class="s1">/&#39;</span>
+        <span class="n">url</span> <span class="o">=</span> <span class="n">f</span><span class="s1">&#39;https://</span><span class="si">{self.domain}</span><span class="s1">/rest/v1/</span><span class="si">{endpoint}</span><span class="s1">/&#39;</span>
 
         <span class="k">if</span> <span class="n">entity_id</span><span class="p">:</span>
             <span class="k">return</span> <span class="n">url</span> <span class="o">+</span> <span class="n">f</span><span class="s1">&#39;</span><span class="si">{entity_id}</span><span class="s1">/&#39;</span>

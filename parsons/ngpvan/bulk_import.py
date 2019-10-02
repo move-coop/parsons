@@ -12,7 +12,7 @@ class BulkImport(object):
 
     def get_bulk_import_resources(self):
         """
-        Get bulk import resources that avaliable to the user. These define
+        Get bulk import resources that available to the user. These define
         the types of bulk imports that you can run. These might include
         ``Contacts``, ``ActivistCodes``, ``ContactsActivistCodes`` and others.
 

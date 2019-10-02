@@ -72,26 +72,34 @@ class APIConnector(object):
 
         return r
 
-    def get_request(self, url, params=None, raise_on_error=True):
+    def get_request(self, url, params=None):
         """
         Args:
             url: str
                 A complete and valid url for the api request
-            headers: dict
-                The header dict
-            auth: dict
-                The authentication dict
             params: dict
                 The request parameters
-            raise_on_error: bool
-                Raise if status code returns an error
         Returns:
                 A requests response object
         """
 
         r = self.request(url, req_type='GET', params=None)
-
         return r.json()
+
+    def data_parse(self, resp):
+        """
+        Determines if the response json has nested data. If it is nested, it just returns the
+        data. This is useful in dealing with requests that might return multiple records, while
+        others might return only a single record.
+        """
+
+        # To Do: Some response jsons are enclosed in a list. Need to deal with unpacking and/or
+        # not assuming that it is going to be a dict.
+
+        if self.data_key and self.data_key in resp.keys():
+            return resp[self.data_key]
+        else:
+            return resp
 
     # There are many different ways in which APIs indicate whether there is a next page
     # of data following the initial request. The goal is build out a series of utilities
@@ -111,18 +119,3 @@ class APIConnector(object):
                 return True
         else:
             return False
-
-    def data_parse(self, resp):
-        """
-        Determines if the response json has nested data. If it is nested, it just returns the
-        data. This is useful in dealing with requests that might return multiple records, while
-        others might return only a single record.
-        """
-
-        # To Do: Some response jsons are enclosed in a list. Need to deal with unpacking and/or
-        # not assuming that it is going to be a dict.
-
-        if self.data_key and self.data_key in resp.keys():
-            return resp[self.data_key]
-        else:
-            return resp

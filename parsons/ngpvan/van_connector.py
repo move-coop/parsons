@@ -36,7 +36,6 @@ class VANConnector(object):
 
     def get_request(self, endpoint, **kwargs):
 
-        url = self.uri + endpoint
         r = self.api.get_request(endpoint, **kwargs)
         data = self.api.data_parse(r)
 
@@ -48,6 +47,10 @@ class VANConnector(object):
 
         return data
 
+    # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
+    # Below is all of the old code that will be replaced in future PRs. However, it works #
+    # for the time being, so we are going to keep it.                                     #
+    # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
     def _error_check(self, r):
 
         if r.status_code == 404:

@@ -383,21 +383,11 @@ class TestNGPVAN(unittest.TestCase):
     @requests_mock.Mocker()
     def test_get_supporter_group(self, m):
 
-        supporter_group_id = 12
-
         json = {"id": 12, "name": "tmc", "description": "A fun group."}
-
-        m.get(self.van.connection.uri + 'supporterGroups/{}'.format(supporter_group_id), json=json)
-
-        expected = ['id', "name", "description"]
-
-        r = self.van.get_supporter_group(supporter_group_id)
+        m.get(self.van.connection.uri + 'supporterGroups/12', json=json)
 
         # Test that columns are expected columns
-        self.assertTrue(validate_list(expected, r))
-
-        # Test correct group id
-        self.assertEqual(supporter_group_id, r[0]['id'])
+        self.assertEqual(self.van.get_supporter_group(12), json)
 
     @requests_mock.Mocker()
     def test_add_person_supporter_group(self, m):

@@ -96,7 +96,9 @@
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Redshift</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#overview">Overview</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#quickstart">Quickstart</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#redshift-class">Redshift Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#core-methods">Core Methods</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#table-and-view-utilities">Table and View Utilities</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#schema-utilities">Schema Utilities</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="s3.html">S3</a></li>
@@ -181,15 +183,14 @@
 <h1>Redshift<a class="headerlink" href="#redshift" title="Permalink to this headline">¶</a></h1>
 <div class="section" id="overview">
 <h2>Overview<a class="headerlink" href="#overview" title="Permalink to this headline">¶</a></h2>
-<p>The Redshift class allows you to interact with an <a class="reference external" href="https://aws.amazon.com/redshift/">Amazon Redshift</a> relational batabase. The Redshift Connector utilizes the <code class="docutils literal notranslate"><span class="pre">psycopg2</span></code> python package to connect to the database.</p>
+<p>The Redshift class allows you to interact with an <a class="reference external" href="https://aws.amazon.com/redshift/">Amazon Redshift</a> relational database. The Redshift Connector utilizes the <code class="docutils literal notranslate"><span class="pre">psycopg2</span></code> python package to connect to the database.</p>
 <div class="admonition note">
 <p class="first admonition-title">Note</p>
 <dl class="last docutils">
 <dt>S3 Credentials</dt>
-<dd>Redshift only allows data to be copied to the database via S3. As such, you need to include AWS
-S3 credentials in your copy methods or, better yet, store them as environmental variables.
-In addition, you’ll need to provide the env var <code class="docutils literal notranslate"><span class="pre">S3_TEMP_BUCKET</span></code>, which is the bucket name used
-for storing data en route to Redshift.</dd>
+<dd>Redshift only allows data to be copied to the database via S3. As such, the the <code class="xref py py-meth docutils literal notranslate"><span class="pre">copy()</span></code> and <code class="xref py py-meth docutils literal notranslate"><span class="pre">copy_s3()</span></code>
+methods require S3 credentials and write access on an S3 Bucket, which will be used for storing data en route to
+Redshift.</dd>
 <dt>Whitelisting</dt>
 <dd>Remember to ensure that the IP address from which you are connecting has been whitelisted.</dd>
 </dl>
@@ -212,8 +213,9 @@ for storing data en route to Redshift.</dd>
 <p>All of the standard copy options can be passed as kwargs. See the <code class="xref py py-meth docutils literal notranslate"><span class="pre">copy()</span></code> method for all
 options.</p>
 </div>
-<div class="section" id="redshift-class">
-<h2>Redshift Class<a class="headerlink" href="#redshift-class" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="core-methods">
+<h2>Core Methods<a class="headerlink" href="#core-methods" title="Permalink to this headline">¶</a></h2>
+<p>Redshift core methods focus on input, output and querying of the database.</p>
 <dl class="class">
 <dt id="parsons.Redshift">
 <em class="property">class </em><code class="descclassname">parsons.</code><code class="descname">Redshift</code><span class="sig-paren">(</span><em>username=None</em>, <em>password=None</em>, <em>host=None</em>, <em>db=None</em>, <em>port=None</em>, <em>timeout=10</em>, <em>s3_temp_bucket=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/databases/redshift/redshift.html#Redshift"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.Redshift" title="Permalink to this definition">¶</a></dt>
@@ -240,9 +242,11 @@ and env variable <code class="docutils literal notranslate"><span class="pre">S3
 </dl>
 </dd>
 </dl>
-<dl class="method">
+</dd></dl>
+
+<dl class="function">
 <dt id="parsons.Redshift.connection">
-<code class="descname">connection</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/databases/redshift/redshift.html#Redshift.connection"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.Redshift.connection" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">parsons.Redshift.</code><code class="descname">connection</code><span class="sig-paren">(</span><em>self</em><span class="sig-paren">)</span><a class="headerlink" href="#parsons.Redshift.connection" title="Permalink to this definition">¶</a></dt>
 <dd><p>Generate a Redshift connection.
 The connection is set up as a python “context manager”, so it will be closed
 automatically (and all queries committed) when the connection goes out of scope.</p>
@@ -255,14 +259,16 @@ any context manager):
 </dl>
 </dd></dl>
 
-<dl class="method">
+<dl class="function">
 <dt id="parsons.Redshift.query">
-<code class="descname">query</code><span class="sig-paren">(</span><em>sql</em>, <em>parameters=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/databases/redshift/redshift.html#Redshift.query"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.Redshift.query" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">parsons.Redshift.</code><code class="descname">query</code><span class="sig-paren">(</span><em>self</em>, <em>sql</em>, <em>parameters=None</em><span class="sig-paren">)</span><a class="headerlink" href="#parsons.Redshift.query" title="Permalink to this definition">¶</a></dt>
 <dd><p>Execute a query against the Redshift database. Will return <code class="docutils literal notranslate"><span class="pre">None</span></code>
 if the query returns zero rows.</p>
 <p>To include python variables in your query, it is recommended to pass them as parameters,
-following the <a class="reference external" href="http://initd.org/psycopg/docs/usage.html#passing-parameters-to-sql-queries">psycopg style</a>.</p>
-<p>For example…</p>
+following the <a class="reference external" href="http://initd.org/psycopg/docs/usage.html#passing-parameters-to-sql-queries">psycopg style</a>.
+Using the <code class="docutils literal notranslate"><span class="pre">parameters</span></code> argument ensures that values are escaped properly, and avoids SQL
+injection attacks.</p>
+<p><strong>Parameter Examples</strong></p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Note that the name contains a quote, which could break your query if not escaped</span>
 <span class="c1"># properly.</span>
 <span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;Beatrice O&#39;Brady&quot;</span>
@@ -270,15 +276,12 @@ following the <a class="reference external" href="http://initd.org/psycopg/docs/
 <span class="n">rs</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="n">sql</span><span class="p">,</span> <span class="n">parameters</span><span class="o">=</span><span class="p">[</span><span class="n">name</span><span class="p">])</span>
 </pre></div>
 </div>
-<p>An example of passing a list of values…</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">names</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;Allen Smith&quot;</span><span class="p">,</span> <span class="s2">&quot;Beatrice O&#39;Brady&quot;</span><span class="p">,</span> <span class="s2">&quot;Cathy Thompson&quot;</span><span class="p">]</span>
 <span class="n">placeholders</span> <span class="o">=</span> <span class="s1">&#39;, &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s1">&#39;</span><span class="si">%s</span><span class="s1">&#39;</span> <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">names</span><span class="p">)</span>
 <span class="n">sql</span> <span class="o">=</span> <span class="n">f</span><span class="s2">&quot;SELECT * FROM my_table WHERE name IN ({placeholders})&quot;</span>
 <span class="n">rs</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="n">sql</span><span class="p">,</span> <span class="n">parameters</span><span class="o">=</span><span class="n">names</span><span class="p">)</span>
 </pre></div>
 </div>
-<p>Using the <code class="docutils literal notranslate"><span class="pre">parameters</span></code> argument ensures that values are escaped properly, and avoids SQL
-injection attacks.</p>
 <dl class="docutils">
 <dt><cite>Args:</cite></dt>
 <dd><dl class="first last docutils">
@@ -297,9 +300,9 @@ injection attacks.</p>
 </dl>
 </dd></dl>
 
-<dl class="method">
+<dl class="function">
 <dt id="parsons.Redshift.query_with_connection">
-<code class="descname">query_with_connection</code><span class="sig-paren">(</span><em>sql</em>, <em>connection</em>, <em>parameters=None</em>, <em>commit=True</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/databases/redshift/redshift.html#Redshift.query_with_connection"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.Redshift.query_with_connection" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">parsons.Redshift.</code><code class="descname">query_with_connection</code><span class="sig-paren">(</span><em>self</em>, <em>sql</em>, <em>connection</em>, <em>parameters=None</em>, <em>commit=True</em><span class="sig-paren">)</span><a class="headerlink" href="#parsons.Redshift.query_with_connection" title="Permalink to this definition">¶</a></dt>
 <dd><p>Execute a query against the Redshift database, with an existing connection.
 Useful for batching queries together. Will return <code class="docutils literal notranslate"><span class="pre">None</span></code> if the query
 returns zero rows.</p>
@@ -313,7 +316,7 @@ returns zero rows.</p>
 <dt>parameters: list</dt>
 <dd>A list of python variables to be converted into SQL values in your query</dd>
 <dt>commit: boolean</dt>
-<dd>Whether to commit the transaction immediately. If False the transaction will
+<dd>Whether to commit the transaction immediately. If <code class="docutils literal notranslate"><span class="pre">False</span></code> the transaction will
 be committed when the connection goes out of scope and is closed (or you can
 commit manually with <code class="docutils literal notranslate"><span class="pre">connection.commit()</span></code>).</dd>
 </dl>
@@ -327,167 +330,23 @@ commit manually with <code class="docutils literal notranslate"><span class="pre
 </dl>
 </dd></dl>
 
-<dl class="staticmethod">
-<dt id="parsons.Redshift.split_full_table_name">
-<em class="property">static </em><code class="descname">split_full_table_name</code><span class="sig-paren">(</span><em>full_table_name</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/databases/redshift/redshift.html#Redshift.split_full_table_name"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.Redshift.split_full_table_name" title="Permalink to this definition">¶</a></dt>
-<dd><p>Split a full table name into its schema and table. If a schema isn’t
-present, return <cite>public</cite> for the schema. Similarly, Redshift defaults
-to the <cite>public</cite> schema, when one isn’t provided.</p>
-<p>Eg:
-<code class="docutils literal notranslate"><span class="pre">(schema,</span> <span class="pre">table)</span> <span class="pre">=</span> <span class="pre">Redshift.split_full_table_name(&quot;some_schema.some_table&quot;)</span></code></p>
-<dl class="docutils">
-<dt><cite>Args:</cite></dt>
-<dd><dl class="first last docutils">
-<dt>full_table_name: str</dt>
-<dd>The table name, as “schema.table”</dd>
-</dl>
-</dd>
-<dt><cite>Returns:</cite></dt>
-<dd><dl class="first last docutils">
-<dt>tuple</dt>
-<dd>A tuple containing (schema, table)</dd>
-</dl>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="staticmethod">
-<dt id="parsons.Redshift.combine_schema_and_table_name">
-<em class="property">static </em><code class="descname">combine_schema_and_table_name</code><span class="sig-paren">(</span><em>schema</em>, <em>table</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/databases/redshift/redshift.html#Redshift.combine_schema_and_table_name"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.Redshift.combine_schema_and_table_name" title="Permalink to this definition">¶</a></dt>
-<dd><p>Creates a full table name by combining a schema and table.</p>
-<dl class="docutils">
-<dt><cite>Args:</cite></dt>
-<dd><dl class="first last docutils">
-<dt>schema: str</dt>
-<dd>The schema name</dd>
-<dt>table: str</dt>
-<dd>The table name</dd>
-</dl>
-</dd>
-<dt><cite>Returns:</cite></dt>
-<dd><dl class="first last docutils">
-<dt>str</dt>
-<dd>The combined full table name</dd>
-</dl>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="method">
-<dt id="parsons.Redshift.copy_s3">
-<code class="descname">copy_s3</code><span class="sig-paren">(</span><em>table_name</em>, <em>bucket</em>, <em>key</em>, <em>manifest=False</em>, <em>data_type='csv'</em>, <em>csv_delimiter='</em>, <em>'</em>, <em>compression=None</em>, <em>if_exists='fail'</em>, <em>max_errors=0</em>, <em>distkey=None</em>, <em>sortkey=None</em>, <em>padding=None</em>, <em>varchar_max=None</em>, <em>statupdate=True</em>, <em>compupdate=True</em>, <em>ignoreheader=1</em>, <em>acceptanydate=True</em>, <em>dateformat='auto'</em>, <em>timeformat='auto'</em>, <em>emptyasnull=True</em>, <em>blanksasnull=True</em>, <em>nullas=None</em>, <em>acceptinvchars=True</em>, <em>truncatecolumns=False</em>, <em>columntypes=None</em>, <em>specifycols=None</em>, <em>aws_access_key_id=None</em>, <em>aws_secret_access_key=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/databases/redshift/redshift.html#Redshift.copy_s3"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.Redshift.copy_s3" title="Permalink to this definition">¶</a></dt>
-<dd><p>Copy a file from s3 to Redshift.</p>
-<dl class="docutils">
-<dt><cite>Args:</cite></dt>
-<dd><dl class="first last docutils">
-<dt>table_name: str</dt>
-<dd>The table name and schema (<code class="docutils literal notranslate"><span class="pre">tmc.cool_table</span></code>) to point the file.</dd>
-<dt>bucket: str</dt>
-<dd>The s3 bucket where the file or manifest is located.</dd>
-<dt>key: str</dt>
-<dd>The key of the file or manifest in the s3 bucket.</dd>
-<dt>manifest: str</dt>
-<dd>If using a manifest</dd>
-<dt>data_type: str</dt>
-<dd>The data type of the file. Only <code class="docutils literal notranslate"><span class="pre">csv</span></code> supported currently.</dd>
-<dt>csv_delimiter: str</dt>
-<dd>The delimiter of the <code class="docutils literal notranslate"><span class="pre">csv</span></code>. Only relevant if data_type is <code class="docutils literal notranslate"><span class="pre">csv</span></code>.</dd>
-<dt>compression: str</dt>
-<dd>If specified (<code class="docutils literal notranslate"><span class="pre">gzip</span></code>), will attempt to decompress the file.</dd>
-<dt>if_exists: str</dt>
-<dd>If the table already exists, either <code class="docutils literal notranslate"><span class="pre">fail</span></code>, <code class="docutils literal notranslate"><span class="pre">append</span></code>, <code class="docutils literal notranslate"><span class="pre">drop</span></code>
-or <code class="docutils literal notranslate"><span class="pre">truncate</span></code> the table.</dd>
-<dt>max_errors: int</dt>
-<dd>The maximum number of rows that can error and be skipped before
-the copy job fails.</dd>
-<dt>distkey: str</dt>
-<dd>The column name of the distkey</dd>
-<dt>sortkey: str</dt>
-<dd>The column name of the sortkey</dd>
-<dt>padding: float</dt>
-<dd>A percentage padding to add to varchar columns if creating a new table. This is
-helpful to add a buffer for future copies in which the data might be wider.</dd>
-<dt>varchar_max: list</dt>
-<dd>A list of columns in which to set the width of the varchar column to 65,535
-characters.</dd>
-<dt>statupate: boolean</dt>
-<dd>Governs automatic computation and refresh of optimizer statistics at the end
-of a successful COPY command.</dd>
-<dt>compupdate: boolean</dt>
-<dd>Controls whether compression encodings are automatically applied during a COPY.</dd>
-<dt>ignore_header: int</dt>
-<dd>The number of header rows to skip. Ignored if data_type is <code class="docutils literal notranslate"><span class="pre">json</span></code>.</dd>
-<dt>acceptanydate: boolean</dt>
-<dd>Allows any date format, including invalid formats such as 00/00/00 00:00:00, to be
-loaded without generating an error.</dd>
-<dt>emptyasnull: boolean</dt>
-<dd>Indicates that Amazon Redshift should load empty char and varchar fields
-as <code class="docutils literal notranslate"><span class="pre">NULL</span></code>.</dd>
-<dt>blanksasnull: boolean</dt>
-<dd>Loads blank varchar fields, which consist of only white space characters,
-as <code class="docutils literal notranslate"><span class="pre">NULL</span></code>.</dd>
-<dt>nullas: str</dt>
-<dd>Loads fields that match string as NULL</dd>
-<dt>acceptinvchars: boolean</dt>
-<dd>Enables loading of data into VARCHAR columns even if the data contains
-invalid UTF-8 characters.</dd>
-<dt>dateformat: str</dt>
-<dd>Set the date format. Defaults to <code class="docutils literal notranslate"><span class="pre">auto</span></code>.</dd>
-<dt>timeformat: str</dt>
-<dd>Set the time format. Defaults to <code class="docutils literal notranslate"><span class="pre">auto</span></code>.</dd>
-<dt>truncatecolumns: boolean</dt>
-<dd>If the table already exists, truncates data in columns to the appropriate number
-of characters so that it fits the column specification. Applies only to columns
-with a VARCHAR or CHAR data type, and rows 4 MB or less in size.</dd>
-<dt>columntypes: dict</dt>
-<dd>Optional map of column name to redshift column type, overriding the usual type
-inference. You only specify the columns you want to override, eg.
-<code class="docutils literal notranslate"><span class="pre">columntypes={'phone':</span> <span class="pre">'varchar(12)',</span> <span class="pre">'age':</span> <span class="pre">'int'})</span></code>.</dd>
-<dt>specifycols: list</dt>
-<dd><p class="first">Adds a column list to the Redshift <cite>COPY</cite> command, allowing for the source file
-in an append to have the columnns out of order, and to have fewer columns with any
-leftover target table columns filled in with the <cite>DEFAULT</cite> value.
-.. warning:</p>
-<div class="last highlight-default notranslate"><div class="highlight"><pre><span></span>This will only work if the provided column names all have _exact_ matches
-in the target table. This will also fail if the target table has an `IDENTITY`
-column and that column name is among the provided columns.
-</pre></div>
-</div>
-</dd>
-<dt>aws_access_key_id:</dt>
-<dd>An AWS access key granted to the bucket where the file is located. Not required
-if keys are stored as environmental variables.</dd>
-<dt>aws_secret_access_key:</dt>
-<dd>An AWS secret access key granted to the bucket where the file is located. Not
-required if keys are stored as environmental variables.</dd>
-</dl>
-</dd>
-<dt><cite>Returns</cite></dt>
-<dd><dl class="first last docutils">
-<dt>Parsons Table or <code class="docutils literal notranslate"><span class="pre">None</span></code></dt>
-<dd>See <a class="reference internal" href="table.html#parsons-table"><span class="std std-ref">Parsons Table</span></a> for output options.</dd>
-</dl>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="method">
+<dl class="function">
 <dt id="parsons.Redshift.copy">
-<code class="descname">copy</code><span class="sig-paren">(</span><em>table_obj</em>, <em>table_name</em>, <em>if_exists='fail'</em>, <em>max_errors=0</em>, <em>distkey=None</em>, <em>sortkey=None</em>, <em>padding=None</em>, <em>statupdate=False</em>, <em>compupdate=True</em>, <em>acceptanydate=True</em>, <em>emptyasnull=True</em>, <em>blanksasnull=True</em>, <em>nullas=None</em>, <em>acceptinvchars=True</em>, <em>dateformat='auto'</em>, <em>timeformat='auto'</em>, <em>varchar_max=None</em>, <em>truncatecolumns=False</em>, <em>columntypes=None</em>, <em>specifycols=False</em>, <em>aws_access_key_id=None</em>, <em>aws_secret_access_key=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/databases/redshift/redshift.html#Redshift.copy"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.Redshift.copy" title="Permalink to this definition">¶</a></dt>
-<dd><p>Copy a parsons table object to Redshift.</p>
+<code class="descclassname">parsons.Redshift.</code><code class="descname">copy</code><span class="sig-paren">(</span><em>self</em>, <em>table_obj</em>, <em>table_name</em>, <em>if_exists='fail'</em>, <em>max_errors=0</em>, <em>distkey=None</em>, <em>sortkey=None</em>, <em>padding=None</em>, <em>statupdate=False</em>, <em>compupdate=True</em>, <em>acceptanydate=True</em>, <em>emptyasnull=True</em>, <em>blanksasnull=True</em>, <em>nullas=None</em>, <em>acceptinvchars=True</em>, <em>dateformat='auto'</em>, <em>timeformat='auto'</em>, <em>varchar_max=None</em>, <em>truncatecolumns=False</em>, <em>columntypes=None</em>, <em>specifycols=False</em>, <em>aws_access_key_id=None</em>, <em>aws_secret_access_key=None</em><span class="sig-paren">)</span><a class="headerlink" href="#parsons.Redshift.copy" title="Permalink to this definition">¶</a></dt>
+<dd><p>Copy a <a class="reference internal" href="table.html#parsons-table"><span class="std std-ref">Parsons Table</span></a> to Redshift.</p>
 <dl class="docutils">
 <dt><cite>Args:</cite></dt>
 <dd><dl class="first last docutils">
 <dt>table_obj: obj</dt>
-<dd>A <code class="docutils literal notranslate"><span class="pre">Parsons</span> <span class="pre">Table</span></code>.</dd>
+<dd>A Parsons Table.</dd>
 <dt>table_name: str</dt>
-<dd>The table name and schema (<code class="docutils literal notranslate"><span class="pre">tmc.cool_table</span></code>) to point the file.</dd>
+<dd>The destination table name (ex. <code class="docutils literal notranslate"><span class="pre">my_schema.my_table</span></code>).</dd>
 <dt>if_exists: str</dt>
 <dd>If the table already exists, either <code class="docutils literal notranslate"><span class="pre">fail</span></code>, <code class="docutils literal notranslate"><span class="pre">append</span></code>, <code class="docutils literal notranslate"><span class="pre">drop</span></code>
 or <code class="docutils literal notranslate"><span class="pre">truncate</span></code> the table.</dd>
 <dt>max_errors: int</dt>
 <dd>The maximum number of rows that can error and be skipped before
-the copy job fails.</dd>
+the job fails.</dd>
 <dt>distkey: str</dt>
 <dd>The column name of the distkey</dd>
 <dt>sortkey: str</dt>
@@ -532,13 +391,10 @@ inference. You only specify the columns you want to override, eg.
 <dt>specifycols: boolean</dt>
 <dd><p class="first">Adds a column list to the Redshift <cite>COPY</cite> command, allowing for the source table
 in an append to have the columnns out of order, and to have fewer columns with any
-leftover target table columns filled in with the <cite>DEFAULT</cite> value.
-.. warning:</p>
-<div class="last highlight-default notranslate"><div class="highlight"><pre><span></span>This will only work if the source table&#39;s column names all have _exact_ matches
-in the target table. This will also fail if the target table has an `IDENTITY`
-column and that column name is among the source table&#39;s columns.
-</pre></div>
-</div>
+leftover target table columns filled in with the <cite>DEFAULT</cite> value.</p>
+<p class="last">This will fail if all of the source table’s columns do not match a column in the
+target table. This will also fail if the target table has an <cite>IDENTITY</cite>
+column and that column name is among the source table’s columns.</p>
 </dd>
 <dt>aws_access_key_id:</dt>
 <dd>An AWS access key granted to the bucket where the file is located. Not required
@@ -557,12 +413,107 @@ required if keys are stored as environmental variables.</dd>
 </dl>
 </dd></dl>
 
-<dl class="method">
+<dl class="function">
+<dt id="parsons.Redshift.copy_s3">
+<code class="descclassname">parsons.Redshift.</code><code class="descname">copy_s3</code><span class="sig-paren">(</span><em>self</em>, <em>table_name</em>, <em>bucket</em>, <em>key</em>, <em>manifest=False</em>, <em>data_type='csv'</em>, <em>csv_delimiter='</em>, <em>'</em>, <em>compression=None</em>, <em>if_exists='fail'</em>, <em>max_errors=0</em>, <em>distkey=None</em>, <em>sortkey=None</em>, <em>padding=None</em>, <em>varchar_max=None</em>, <em>statupdate=True</em>, <em>compupdate=True</em>, <em>ignoreheader=1</em>, <em>acceptanydate=True</em>, <em>dateformat='auto'</em>, <em>timeformat='auto'</em>, <em>emptyasnull=True</em>, <em>blanksasnull=True</em>, <em>nullas=None</em>, <em>acceptinvchars=True</em>, <em>truncatecolumns=False</em>, <em>columntypes=None</em>, <em>specifycols=None</em>, <em>aws_access_key_id=None</em>, <em>aws_secret_access_key=None</em><span class="sig-paren">)</span><a class="headerlink" href="#parsons.Redshift.copy_s3" title="Permalink to this definition">¶</a></dt>
+<dd><p>Copy a file from s3 to Redshift.</p>
+<dl class="docutils">
+<dt><cite>Args:</cite></dt>
+<dd><dl class="first last docutils">
+<dt>table_name: str</dt>
+<dd>The table name and schema (<code class="docutils literal notranslate"><span class="pre">tmc.cool_table</span></code>) to point the file.</dd>
+<dt>bucket: str</dt>
+<dd>The s3 bucket where the file or manifest is located.</dd>
+<dt>key: str</dt>
+<dd>The key of the file or manifest in the s3 bucket.</dd>
+<dt>manifest: str</dt>
+<dd>If using a manifest</dd>
+<dt>data_type: str</dt>
+<dd>The data type of the file. Only <code class="docutils literal notranslate"><span class="pre">csv</span></code> supported currently.</dd>
+<dt>csv_delimiter: str</dt>
+<dd>The delimiter of the <code class="docutils literal notranslate"><span class="pre">csv</span></code>. Only relevant if data_type is <code class="docutils literal notranslate"><span class="pre">csv</span></code>.</dd>
+<dt>compression: str</dt>
+<dd>If specified (<code class="docutils literal notranslate"><span class="pre">gzip</span></code>), will attempt to decompress the file.</dd>
+<dt>if_exists: str</dt>
+<dd>If the table already exists, either <code class="docutils literal notranslate"><span class="pre">fail</span></code>, <code class="docutils literal notranslate"><span class="pre">append</span></code>, <code class="docutils literal notranslate"><span class="pre">drop</span></code>
+or <code class="docutils literal notranslate"><span class="pre">truncate</span></code> the table.</dd>
+<dt>max_errors: int</dt>
+<dd>The maximum number of rows that can error and be skipped before
+the job fails.</dd>
+<dt>distkey: str</dt>
+<dd>The column name of the distkey</dd>
+<dt>sortkey: str</dt>
+<dd>The column name of the sortkey</dd>
+<dt>padding: float</dt>
+<dd>A percentage padding to add to varchar columns if creating a new table. This is
+helpful to add a buffer for future copies in which the data might be wider.</dd>
+<dt>varchar_max: list</dt>
+<dd>A list of columns in which to set the width of the varchar column to 65,535
+characters.</dd>
+<dt>statupate: boolean</dt>
+<dd>Governs automatic computation and refresh of optimizer statistics at the end
+of a successful COPY command.</dd>
+<dt>compupdate: boolean</dt>
+<dd>Controls whether compression encodings are automatically applied during a COPY.</dd>
+<dt>ignore_header: int</dt>
+<dd>The number of header rows to skip. Ignored if data_type is <code class="docutils literal notranslate"><span class="pre">json</span></code>.</dd>
+<dt>acceptanydate: boolean</dt>
+<dd>Allows any date format, including invalid formats such as 00/00/00 00:00:00, to be
+loaded without generating an error.</dd>
+<dt>emptyasnull: boolean</dt>
+<dd>Indicates that Amazon Redshift should load empty char and varchar fields
+as <code class="docutils literal notranslate"><span class="pre">NULL</span></code>.</dd>
+<dt>blanksasnull: boolean</dt>
+<dd>Loads blank varchar fields, which consist of only white space characters,
+as <code class="docutils literal notranslate"><span class="pre">NULL</span></code>.</dd>
+<dt>nullas: str</dt>
+<dd>Loads fields that match string as NULL</dd>
+<dt>acceptinvchars: boolean</dt>
+<dd>Enables loading of data into VARCHAR columns even if the data contains
+invalid UTF-8 characters.</dd>
+<dt>dateformat: str</dt>
+<dd>Set the date format. Defaults to <code class="docutils literal notranslate"><span class="pre">auto</span></code>.</dd>
+<dt>timeformat: str</dt>
+<dd>Set the time format. Defaults to <code class="docutils literal notranslate"><span class="pre">auto</span></code>.</dd>
+<dt>truncatecolumns: boolean</dt>
+<dd>If the table already exists, truncates data in columns to the appropriate number
+of characters so that it fits the column specification. Applies only to columns
+with a VARCHAR or CHAR data type, and rows 4 MB or less in size.</dd>
+<dt>columntypes: dict</dt>
+<dd>Optional map of column name to redshift column type, overriding the usual type
+inference. You only specify the columns you want to override, eg.
+<code class="docutils literal notranslate"><span class="pre">columntypes={'phone':</span> <span class="pre">'varchar(12)',</span> <span class="pre">'age':</span> <span class="pre">'int'})</span></code>.</dd>
+<dt>specifycols: boolean</dt>
+<dd><p class="first">Adds a column list to the Redshift <cite>COPY</cite> command, allowing for the source table
+in an append to have the columnns out of order, and to have fewer columns with any
+leftover target table columns filled in with the <cite>DEFAULT</cite> value.</p>
+<p class="last">This will fail if all of the source table’s columns do not match a column in the
+target table. This will also fail if the target table has an <cite>IDENTITY</cite>
+column and that column name is among the source table’s columns.</p>
+</dd>
+<dt>aws_access_key_id:</dt>
+<dd>An AWS access key granted to the bucket where the file is located. Not required
+if keys are stored as environmental variables.</dd>
+<dt>aws_secret_access_key:</dt>
+<dd>An AWS secret access key granted to the bucket where the file is located. Not
+required if keys are stored as environmental variables.</dd>
+</dl>
+</dd>
+<dt><cite>Returns</cite></dt>
+<dd><dl class="first last docutils">
+<dt>Parsons Table or <code class="docutils literal notranslate"><span class="pre">None</span></code></dt>
+<dd>See <a class="reference internal" href="table.html#parsons-table"><span class="std std-ref">Parsons Table</span></a> for output options.</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
 <dt id="parsons.Redshift.unload">
-<code class="descname">unload</code><span class="sig-paren">(</span><em>sql</em>, <em>bucket</em>, <em>key_prefix</em>, <em>manifest=True</em>, <em>header=True</em>, <em>compression='gzip'</em>, <em>add_quotes=True</em>, <em>null_as=None</em>, <em>escape=True</em>, <em>allow_overwrite=True</em>, <em>parallel=True</em>, <em>max_file_size='6.2 GB'</em>, <em>aws_region=None</em>, <em>aws_access_key_id=None</em>, <em>aws_secret_access_key=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/databases/redshift/redshift.html#Redshift.unload"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.Redshift.unload" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">parsons.Redshift.</code><code class="descname">unload</code><span class="sig-paren">(</span><em>self</em>, <em>sql</em>, <em>bucket</em>, <em>key_prefix</em>, <em>manifest=True</em>, <em>header=True</em>, <em>compression='gzip'</em>, <em>add_quotes=True</em>, <em>null_as=None</em>, <em>escape=True</em>, <em>allow_overwrite=True</em>, <em>parallel=True</em>, <em>max_file_size='6.2 GB'</em>, <em>aws_region=None</em>, <em>aws_access_key_id=None</em>, <em>aws_secret_access_key=None</em><span class="sig-paren">)</span><a class="headerlink" href="#parsons.Redshift.unload" title="Permalink to this definition">¶</a></dt>
 <dd><p>Unload Redshift data to S3 Bucket. This is a more efficient method than running a query
 to export data as it can export in parallel and directly into an S3 bucket. Consider
-using this for data of 10MM or more rows.</p>
+using this for exports of 10MM or more rows.</p>
 <dl class="docutils">
 <dt>sql: str</dt>
 <dd>The SQL string to execute to generate the data to unload.</dd>
@@ -611,31 +562,35 @@ required if keys are stored as environmental variables.</dd>
 </dl>
 </dd></dl>
 
-<dl class="method">
-<dt id="parsons.Redshift.table_exists">
-<code class="descname">table_exists</code><span class="sig-paren">(</span><em>table_name</em>, <em>view=True</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/databases/redshift/redshift.html#Redshift.table_exists"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.Redshift.table_exists" title="Permalink to this definition">¶</a></dt>
-<dd><p>Check if a table exists in the database.</p>
+<dl class="function">
+<dt id="parsons.Redshift.upsert">
+<code class="descclassname">parsons.Redshift.</code><code class="descname">upsert</code><span class="sig-paren">(</span><em>self</em>, <em>table_obj</em>, <em>target_table</em>, <em>primary_key</em>, <em>vacuum=True</em>, <em>distinct_check=True</em><span class="sig-paren">)</span><a class="headerlink" href="#parsons.Redshift.upsert" title="Permalink to this definition">¶</a></dt>
+<dd><p>Preform an upsert on an existing table. An upsert is a function in which records
+in a table are updated and inserted at the same time. Unlike other SQL databases,
+it does not exist natively in Redshift.</p>
 <dl class="docutils">
 <dt><cite>Args:</cite></dt>
 <dd><dl class="first last docutils">
-<dt>table_name: str</dt>
-<dd>The table name and schema (<code class="docutils literal notranslate"><span class="pre">tmc.cool_table</span></code>) to point the file.</dd>
-<dt>view: boolean</dt>
-<dd>Check to see if a view exists by the same name</dd>
-</dl>
-</dd>
-<dt><cite>Returns:</cite></dt>
-<dd><dl class="first last docutils">
-<dt>boolean</dt>
-<dd><code class="docutils literal notranslate"><span class="pre">True</span></code> if the table exists and <code class="docutils literal notranslate"><span class="pre">False</span></code> if it does not.</dd>
+<dt>table_obj: obj</dt>
+<dd>A Parsons table object</dd>
+<dt>target_table: str</dt>
+<dd>The schema and table name to upsert</dd>
+<dt>primary_key: str</dt>
+<dd>The primary key column of the target table</dd>
+<dt>vacuum: boolean</dt>
+<dd>Re-sorts rows and reclaims space in the specified table. You must be a table owner
+or super user to effectively vacuum a table, however the method will not fail
+if you lack these priviledges.</dd>
+<dt>distinct_check: boolean</dt>
+<dd>Check if the primary key column is distinct. Raise error if not.</dd>
 </dl>
 </dd>
 </dl>
 </dd></dl>
 
-<dl class="method">
+<dl class="function">
 <dt id="parsons.Redshift.generate_manifest">
-<code class="descname">generate_manifest</code><span class="sig-paren">(</span><em>buckets</em>, <em>aws_access_key_id=None</em>, <em>aws_secret_access_key=None</em>, <em>mandatory=True</em>, <em>prefix=None</em>, <em>manifest_bucket=None</em>, <em>manifest_key=None</em>, <em>path=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/databases/redshift/redshift.html#Redshift.generate_manifest"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.Redshift.generate_manifest" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">parsons.Redshift.</code><code class="descname">generate_manifest</code><span class="sig-paren">(</span><em>self</em>, <em>buckets</em>, <em>aws_access_key_id=None</em>, <em>aws_secret_access_key=None</em>, <em>mandatory=True</em>, <em>prefix=None</em>, <em>manifest_bucket=None</em>, <em>manifest_key=None</em>, <em>path=None</em><span class="sig-paren">)</span><a class="headerlink" href="#parsons.Redshift.generate_manifest" title="Permalink to this definition">¶</a></dt>
 <dd><p>Given a list of S3 buckets, generate a manifest file (JSON format). A manifest file
 allows you to copy multiple files into a single table at once. Once the manifest is
 generated, you can pass it with the <code class="xref py py-func docutils literal notranslate"><span class="pre">copy_s3()</span></code> method.</p>
@@ -667,56 +622,127 @@ terminate if the file does not exist.</dd>
 </dl>
 </dd></dl>
 
-<dl class="method">
-<dt id="parsons.Redshift.upsert">
-<code class="descname">upsert</code><span class="sig-paren">(</span><em>table_obj</em>, <em>target_table</em>, <em>primary_key</em>, <em>vacuum=True</em>, <em>distinct_check=True</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/databases/redshift/redshift.html#Redshift.upsert"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.Redshift.upsert" title="Permalink to this definition">¶</a></dt>
-<dd><p>Preform an upsert on an existing table. An upsert is a function in which records
-in a table are updated and inserted at the same time. Unlike other SQL databases,
-it does not exist natively in Redshift.</p>
+</div>
+<div class="section" id="table-and-view-utilities">
+<h2>Table and View Utilities<a class="headerlink" href="#table-and-view-utilities" title="Permalink to this headline">¶</a></h2>
+<p>Table and view utilities are a series of helper methods, all built off of commonly
+used SQL queries run against the Redshift database.</p>
+<dl class="class">
+<dt id="parsons.databases.redshift.redshift.RedshiftTableUtilities">
+<em class="property">class </em><code class="descclassname">parsons.databases.redshift.redshift.</code><code class="descname">RedshiftTableUtilities</code><a class="reference internal" href="_modules/parsons/databases/redshift/rs_table_utilities.html#RedshiftTableUtilities"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.databases.redshift.redshift.RedshiftTableUtilities" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="method">
+<dt id="parsons.databases.redshift.redshift.RedshiftTableUtilities.table_exists">
+<code class="descname">table_exists</code><span class="sig-paren">(</span><em>table_name</em>, <em>view=True</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/databases/redshift/rs_table_utilities.html#RedshiftTableUtilities.table_exists"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.databases.redshift.redshift.RedshiftTableUtilities.table_exists" title="Permalink to this definition">¶</a></dt>
+<dd><p>Check if a table or view exists in the database.</p>
 <dl class="docutils">
 <dt><cite>Args:</cite></dt>
 <dd><dl class="first last docutils">
-<dt>table_obj: obj</dt>
-<dd>A Parsons table object</dd>
-<dt>target_table: str</dt>
-<dd>The schema and table name to upsert</dd>
-<dt>primary_key: str</dt>
-<dd>The primary key column of the target table</dd>
-<dt>vacuum: boolean</dt>
-<dd>Re-sorts rows and reclaims space in the specified table. You must be a table owner
-or super user to effectively vacuum a table, however the method will not fail
-if you lack these priviledges.</dd>
-<dt>distinct_check: boolean</dt>
-<dd>Check if the primary key column is distinct. Raise error if not.</dd>
+<dt>table_name: str</dt>
+<dd>The table name and schema (e.g. <code class="docutils literal notranslate"><span class="pre">myschema.mytable</span></code>).</dd>
+<dt>view: boolean</dt>
+<dd>Check to see if a view exists by the same name</dd>
+</dl>
+</dd>
+<dt><cite>Returns:</cite></dt>
+<dd><dl class="first last docutils">
+<dt>boolean</dt>
+<dd><code class="docutils literal notranslate"><span class="pre">True</span></code> if the table exists and <code class="docutils literal notranslate"><span class="pre">False</span></code> if it does not.</dd>
 </dl>
 </dd>
 </dl>
 </dd></dl>
 
 <dl class="method">
-<dt id="parsons.Redshift.create_schema_with_permissions">
-<code class="descname">create_schema_with_permissions</code><span class="sig-paren">(</span><em>schema</em>, <em>group=None</em><span class="sig-paren">)</span><a class="headerlink" href="#parsons.Redshift.create_schema_with_permissions" title="Permalink to this definition">¶</a></dt>
-<dd><p>Creates a Redshift schema (if it doesn’t already exist), and grants usage permissions to
-a Redshift group (if specified).</p>
+<dt id="parsons.databases.redshift.redshift.RedshiftTableUtilities.get_row_count">
+<code class="descname">get_row_count</code><span class="sig-paren">(</span><em>table_name</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/databases/redshift/rs_table_utilities.html#RedshiftTableUtilities.get_row_count"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.databases.redshift.redshift.RedshiftTableUtilities.get_row_count" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the row count of a table.</p>
+<p><strong>SQL Code</strong></p>
+<div class="highlight-sql notranslate"><div class="highlight"><pre><span></span><span class="k">SELECT</span> <span class="k">COUNT</span><span class="p">(</span><span class="o">*</span><span class="p">)</span> <span class="k">FROM</span> <span class="n">myschema</span><span class="p">.</span><span class="n">mytable</span>
+</pre></div>
+</div>
 <dl class="docutils">
 <dt><cite>Args:</cite></dt>
 <dd><dl class="first last docutils">
-<dt>schema: str</dt>
-<dd>The schema name</dd>
-<dt>group: str</dt>
-<dd>The Redshift group name</dd>
-<dt>type: str</dt>
-<dd>The type of permissions to grant. Supports <cite>select</cite>, <cite>all</cite>, etc. (For
-full list, see the
-<a class="reference external" href="https://docs.aws.amazon.com/redshift/latest/dg/r_GRANT.html">Redshift GRANT docs</a>)</dd>
+<dt>table_name: str</dt>
+<dd>The schema and name (e.g. <code class="docutils literal notranslate"><span class="pre">myschema.mytable</span></code>) of the table.</dd>
+</dl>
+</dd>
+<dt><cite>Returns:</cite></dt>
+<dd>int</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="parsons.databases.redshift.redshift.RedshiftTableUtilities.rename_table">
+<code class="descname">rename_table</code><span class="sig-paren">(</span><em>table_name</em>, <em>new_table_name</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/databases/redshift/rs_table_utilities.html#RedshiftTableUtilities.rename_table"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.databases.redshift.redshift.RedshiftTableUtilities.rename_table" title="Permalink to this definition">¶</a></dt>
+<dd><p>Rename an existing table.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">You cannot move schemas when renaming a table. Instead, utilize
+the <code class="xref py py-meth docutils literal notranslate"><span class="pre">table_duplicate()</span></code>. method.</p>
+</div>
+<dl class="docutils">
+<dt>Args:</dt>
+<dd><dl class="first last docutils">
+<dt>table_name: str</dt>
+<dd>Name of existing schema and table (e.g. <code class="docutils literal notranslate"><span class="pre">myschema.oldtable</span></code>)</dd>
+<dt>new_table_name: str</dt>
+<dd>New name for table with the schema omitted (e.g. <code class="docutils literal notranslate"><span class="pre">newtable</span></code>).</dd>
 </dl>
 </dd>
 </dl>
 </dd></dl>
 
 <dl class="method">
-<dt id="parsons.Redshift.duplicate_table">
-<code class="descname">duplicate_table</code><span class="sig-paren">(</span><em>source_table</em>, <em>destination_table</em>, <em>where_clause=''</em>, <em>if_exists='fail'</em>, <em>drop_source_table=False</em><span class="sig-paren">)</span><a class="headerlink" href="#parsons.Redshift.duplicate_table" title="Permalink to this definition">¶</a></dt>
+<dt id="parsons.databases.redshift.redshift.RedshiftTableUtilities.move_table">
+<code class="descname">move_table</code><span class="sig-paren">(</span><em>source_table</em>, <em>new_table</em>, <em>drop_source_table=False</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/databases/redshift/rs_table_utilities.html#RedshiftTableUtilities.move_table"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.databases.redshift.redshift.RedshiftTableUtilities.move_table" title="Permalink to this definition">¶</a></dt>
+<dd><p>Move an existing table in the database.It will inherit encoding, sortkey
+and distkey. <strong>Once run, the source table rows will be empty.</strong> This is
+more efficiant than running <code class="docutils literal notranslate"><span class="pre">&quot;create</span> <span class="pre">newtable</span> <span class="pre">as</span> <span class="pre">select</span> <span class="pre">*</span> <span class="pre">from</span> <span class="pre">oldtable&quot;</span></code>.</p>
+<p>For more information see: <a class="reference external" href="https://docs.aws.amazon.com/redshift/latest/dg/r_ALTER_TABLE_APPEND.html">ALTER TABLE APPEND</a></p>
+<dl class="docutils">
+<dt>Args:</dt>
+<dd><dl class="first last docutils">
+<dt>source_table: str</dt>
+<dd>Name of existing schema and table (e.g. <code class="docutils literal notranslate"><span class="pre">my_schema.old_table</span></code>)</dd>
+<dt>new_table: str</dt>
+<dd>New name of schema and table (e.g. <code class="docutils literal notranslate"><span class="pre">my_schema.newtable</span></code>)</dd>
+<dt>drop_original: boolean</dt>
+<dd>Drop the source table.</dd>
+</dl>
+</dd>
+<dt>Returns:</dt>
+<dd>None</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="parsons.databases.redshift.redshift.RedshiftTableUtilities.populate_table_from_query">
+<code class="descname">populate_table_from_query</code><span class="sig-paren">(</span><em>query</em>, <em>destination_table</em>, <em>if_exists='fail'</em>, <em>distkey=None</em>, <em>sortkey=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/databases/redshift/rs_table_utilities.html#RedshiftTableUtilities.populate_table_from_query"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.databases.redshift.redshift.RedshiftTableUtilities.populate_table_from_query" title="Permalink to this definition">¶</a></dt>
+<dd><p>Populate a Redshift table with the results of a SQL query, creating the table if it
+doesn’t yet exist.</p>
+<dl class="docutils">
+<dt><cite>Args:</cite></dt>
+<dd><dl class="first last docutils">
+<dt>query: str</dt>
+<dd>The SQL query</dd>
+<dt>destination_table: str</dt>
+<dd>Name of destination schema and table (e.g. <code class="docutils literal notranslate"><span class="pre">mys_chema.new_table</span></code>)</dd>
+<dt>if_exists: str</dt>
+<dd>If the table already exists, either <code class="docutils literal notranslate"><span class="pre">fail</span></code>, <code class="docutils literal notranslate"><span class="pre">append</span></code>, <code class="docutils literal notranslate"><span class="pre">drop</span></code>,
+or <code class="docutils literal notranslate"><span class="pre">truncate</span></code> the table.</dd>
+<dt>distkey: str</dt>
+<dd>The column to use as the distkey for the table.</dd>
+<dt>sortkey: str</dt>
+<dd>The column to use as the sortkey for the table.</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="parsons.databases.redshift.redshift.RedshiftTableUtilities.duplicate_table">
+<code class="descname">duplicate_table</code><span class="sig-paren">(</span><em>source_table</em>, <em>destination_table</em>, <em>where_clause=''</em>, <em>if_exists='fail'</em>, <em>drop_source_table=False</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/databases/redshift/rs_table_utilities.html#RedshiftTableUtilities.duplicate_table"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.databases.redshift.redshift.RedshiftTableUtilities.duplicate_table" title="Permalink to this definition">¶</a></dt>
 <dd><p>Create a copy of an existing table (or subset of rows) in a new
 table. It will inherit encoding, sortkey and distkey.</p>
 <dl class="docutils">
@@ -739,72 +765,41 @@ or <code class="docutils literal notranslate"><span class="pre">truncate</span><
 </dd></dl>
 
 <dl class="method">
-<dt id="parsons.Redshift.get_columns">
-<code class="descname">get_columns</code><span class="sig-paren">(</span><em>schema</em>, <em>table_name</em><span class="sig-paren">)</span><a class="headerlink" href="#parsons.Redshift.get_columns" title="Permalink to this definition">¶</a></dt>
-<dd><p>Gets the column names (and some other column info) for a table.</p>
-<p>If you just need the column names, you can treat the return value like a list, eg:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">col</span> <span class="ow">in</span> <span class="n">rs</span><span class="o">.</span><span class="n">get_columns</span><span class="p">(</span><span class="s1">&#39;some_schema&#39;</span><span class="p">,</span> <span class="s1">&#39;some_table&#39;</span><span class="p">):</span>
-    <span class="k">print</span><span class="p">(</span><span class="n">col</span><span class="p">)</span>
-</pre></div>
-</div>
+<dt id="parsons.databases.redshift.redshift.RedshiftTableUtilities.union_tables">
+<code class="descname">union_tables</code><span class="sig-paren">(</span><em>new_table_name</em>, <em>tables</em>, <em>union_all=True</em>, <em>view=False</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/databases/redshift/rs_table_utilities.html#RedshiftTableUtilities.union_tables"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.databases.redshift.redshift.RedshiftTableUtilities.union_tables" title="Permalink to this definition">¶</a></dt>
+<dd><p>Union a series of table into a new table.</p>
 <dl class="docutils">
-<dt><cite>Args:</cite></dt>
+<dt>Args:</dt>
+<dd><dl class="first last docutils">
+<dt>new_table_name: str</dt>
+<dd>The new table and schema (e.g. <code class="docutils literal notranslate"><span class="pre">myschema.newtable</span></code>)</dd>
+<dt>tables: list</dt>
+<dd>A list of tables to union</dd>
+<dt>union_all: boolean</dt>
+<dd>If <code class="docutils literal notranslate"><span class="pre">False</span></code> will deduplicate rows. If <code class="docutils literal notranslate"><span class="pre">True</span></code> will include
+duplicate rows.</dd>
+<dt>view: boolean</dt>
+<dd>Create a view rather than a static table</dd>
+</dl>
+</dd>
+<dt>Returns:</dt>
+<dd>None</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="parsons.databases.redshift.redshift.RedshiftTableUtilities.get_tables">
+<code class="descname">get_tables</code><span class="sig-paren">(</span><em>schema=None</em>, <em>table_name=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/databases/redshift/rs_table_utilities.html#RedshiftTableUtilities.get_tables"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.databases.redshift.redshift.RedshiftTableUtilities.get_tables" title="Permalink to this definition">¶</a></dt>
+<dd><p>List the tables in a schema including metadata.</p>
+<dl class="docutils">
+<dt>Args:</dt>
 <dd><dl class="first last docutils">
 <dt>schema: str</dt>
-<dd>The schema name</dd>
+<dd>Filter by a schema</dd>
 <dt>table_name: str</dt>
-<dd>The table name</dd>
+<dd>Filter by a table name</dd>
 </dl>
 </dd>
-<dt><cite>Returns:</cite></dt>
-<dd>A dict mapping column name to a dict with extra info. The keys of the dict are ordered
-just like the columns in the table. The extra info is a dict with format
-<code class="docutils literal notranslate"><span class="pre">{'data_type':</span> <span class="pre">str,</span> <span class="pre">'max_length':</span> <span class="pre">int</span> <span class="pre">or</span> <span class="pre">None,</span> <span class="pre">'is_nullable':</span> <span class="pre">bool}</span></code></dd>
-</dl>
-</dd></dl>
-
-<dl class="method">
-<dt id="parsons.Redshift.get_max_value">
-<code class="descname">get_max_value</code><span class="sig-paren">(</span><em>table_name</em>, <em>value_column</em><span class="sig-paren">)</span><a class="headerlink" href="#parsons.Redshift.get_max_value" title="Permalink to this definition">¶</a></dt>
-<dd><p>Return the max value from a table.</p>
-<dl class="docutils">
-<dt><cite>Args:</cite></dt>
-<dd><dl class="first last docutils">
-<dt>table_name: str</dt>
-<dd>Schema and table name</dd>
-<dt>value_column: str</dt>
-<dd>The column containing the values</dd>
-</dl>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="method">
-<dt id="parsons.Redshift.get_object_type">
-<code class="descname">get_object_type</code><span class="sig-paren">(</span><em>object_name</em><span class="sig-paren">)</span><a class="headerlink" href="#parsons.Redshift.get_object_type" title="Permalink to this definition">¶</a></dt>
-<dd><p>Get object type.</p>
-<p>One of <cite>view</cite>, <cite>table</cite>, <cite>index</cite>, <cite>sequence</cite>, or <cite>TOAST table</cite>.</p>
-<dl class="docutils">
-<dt><cite>Args:</cite></dt>
-<dd><dl class="first last docutils">
-<dt>object_name: str</dt>
-<dd>The schema.obj for which to get the object type.</dd>
-</dl>
-</dd>
-<dt><cite>Returns:</cite></dt>
-<dd><cite>str</cite> of the object type.</dd>
-</dl>
-</dd></dl>
-
-<dl class="method">
-<dt id="parsons.Redshift.get_queries">
-<code class="descname">get_queries</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#parsons.Redshift.get_queries" title="Permalink to this definition">¶</a></dt>
-<dd><p>Return the Current queries running and queueing, along with resource consumption.</p>
-<div class="admonition warning">
-<p class="first admonition-title">Warning</p>
-<p class="last">Must be a Redshift superuser to run this method.</p>
-</div>
-<dl class="docutils">
 <dt><cite>Returns:</cite></dt>
 <dd><dl class="first last docutils">
 <dt>Parsons Table</dt>
@@ -815,46 +810,8 @@ just like the columns in the table. The extra info is a dict with format
 </dd></dl>
 
 <dl class="method">
-<dt id="parsons.Redshift.get_table_definition">
-<code class="descname">get_table_definition</code><span class="sig-paren">(</span><em>table</em><span class="sig-paren">)</span><a class="headerlink" href="#parsons.Redshift.get_table_definition" title="Permalink to this definition">¶</a></dt>
-<dd><p>Get the table definition (i.e. the create statement).</p>
-<dl class="docutils">
-<dt><cite>Args:</cite></dt>
-<dd><dl class="first last docutils">
-<dt>table: str</dt>
-<dd>The schema.table for which to get the table definition.</dd>
-</dl>
-</dd>
-<dt><cite>Returns:</cite></dt>
-<dd>str</dd>
-</dl>
-</dd></dl>
-
-<dl class="method">
-<dt id="parsons.Redshift.get_table_definitions">
-<code class="descname">get_table_definitions</code><span class="sig-paren">(</span><em>schema=None</em>, <em>table=None</em><span class="sig-paren">)</span><a class="headerlink" href="#parsons.Redshift.get_table_definitions" title="Permalink to this definition">¶</a></dt>
-<dd><p>Get the table definition (i.e. the create statement) for multiple tables.</p>
-<p>This works similar to <cite>get_table_def</cite> except it runs a single query
-to get the ddl for multiple tables. It supports SQL wildcards for
-<cite>schema</cite> and <cite>table</cite>. Only returns the ddl for _tables_ that match
-<cite>schema</cite> and <cite>table</cite> if they exist.</p>
-<dl class="docutils">
-<dt><cite>Args:</cite></dt>
-<dd><dl class="first last docutils">
-<dt>schema: str</dt>
-<dd>The schema to filter by.</dd>
-<dt>table: str</dt>
-<dd>The table to filter by.</dd>
-</dl>
-</dd>
-<dt><cite>Returns:</cite></dt>
-<dd><cite>list</cite> of dicts with matching tables.</dd>
-</dl>
-</dd></dl>
-
-<dl class="method">
-<dt id="parsons.Redshift.get_table_stats">
-<code class="descname">get_table_stats</code><span class="sig-paren">(</span><em>schema=None</em>, <em>table_name=None</em><span class="sig-paren">)</span><a class="headerlink" href="#parsons.Redshift.get_table_stats" title="Permalink to this definition">¶</a></dt>
+<dt id="parsons.databases.redshift.redshift.RedshiftTableUtilities.get_table_stats">
+<code class="descname">get_table_stats</code><span class="sig-paren">(</span><em>schema=None</em>, <em>table_name=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/databases/redshift/rs_table_utilities.html#RedshiftTableUtilities.get_table_stats"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.databases.redshift.redshift.RedshiftTableUtilities.get_table_stats" title="Permalink to this definition">¶</a></dt>
 <dd><p>List the tables statistics includes row count and size.</p>
 <div class="admonition warning">
 <p class="first admonition-title">Warning</p>
@@ -879,68 +836,33 @@ to get the ddl for multiple tables. It supports SQL wildcards for
 </dd></dl>
 
 <dl class="method">
-<dt id="parsons.Redshift.get_tables">
-<code class="descname">get_tables</code><span class="sig-paren">(</span><em>schema=None</em>, <em>table_name=None</em><span class="sig-paren">)</span><a class="headerlink" href="#parsons.Redshift.get_tables" title="Permalink to this definition">¶</a></dt>
-<dd><p>List the tables in a schema including metadata.</p>
+<dt id="parsons.databases.redshift.redshift.RedshiftTableUtilities.get_columns">
+<code class="descname">get_columns</code><span class="sig-paren">(</span><em>schema</em>, <em>table_name</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/databases/redshift/rs_table_utilities.html#RedshiftTableUtilities.get_columns"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.databases.redshift.redshift.RedshiftTableUtilities.get_columns" title="Permalink to this definition">¶</a></dt>
+<dd><p>Gets the column names (and some other column info) for a table.</p>
+<p>If you just need the column names, you can treat the return value like a list, eg:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">col</span> <span class="ow">in</span> <span class="n">rs</span><span class="o">.</span><span class="n">get_columns</span><span class="p">(</span><span class="s1">&#39;some_schema&#39;</span><span class="p">,</span> <span class="s1">&#39;some_table&#39;</span><span class="p">):</span>
+    <span class="k">print</span><span class="p">(</span><span class="n">col</span><span class="p">)</span>
+</pre></div>
+</div>
 <dl class="docutils">
-<dt>Args:</dt>
+<dt><cite>Args:</cite></dt>
 <dd><dl class="first last docutils">
 <dt>schema: str</dt>
-<dd>Filter by a schema</dd>
+<dd>The schema name</dd>
 <dt>table_name: str</dt>
-<dd>Filter by a table name</dd>
+<dd>The table name</dd>
 </dl>
 </dd>
 <dt><cite>Returns:</cite></dt>
-<dd><dl class="first last docutils">
-<dt>Parsons Table</dt>
-<dd>See <a class="reference internal" href="table.html#parsons-table"><span class="std std-ref">Parsons Table</span></a> for output options.</dd>
-</dl>
-</dd>
+<dd>A dict mapping column name to a dict with extra info. The keys of the dict are ordered
+just like the columns in the table. The extra info is a dict with format
+<code class="docutils literal notranslate"><span class="pre">{'data_type':</span> <span class="pre">str,</span> <span class="pre">'max_length':</span> <span class="pre">int</span> <span class="pre">or</span> <span class="pre">None,</span> <span class="pre">'is_nullable':</span> <span class="pre">bool}</span></code></dd>
 </dl>
 </dd></dl>
 
 <dl class="method">
-<dt id="parsons.Redshift.get_view_definition">
-<code class="descname">get_view_definition</code><span class="sig-paren">(</span><em>view</em><span class="sig-paren">)</span><a class="headerlink" href="#parsons.Redshift.get_view_definition" title="Permalink to this definition">¶</a></dt>
-<dd><p>Get the view definition (i.e. the create statement).</p>
-<dl class="docutils">
-<dt><cite>Args:</cite></dt>
-<dd><dl class="first last docutils">
-<dt>view: str</dt>
-<dd>The schema.view for which to get the view definition.</dd>
-</dl>
-</dd>
-<dt><cite>Returns:</cite></dt>
-<dd>str</dd>
-</dl>
-</dd></dl>
-
-<dl class="method">
-<dt id="parsons.Redshift.get_view_definitions">
-<code class="descname">get_view_definitions</code><span class="sig-paren">(</span><em>schema=None</em>, <em>view=None</em><span class="sig-paren">)</span><a class="headerlink" href="#parsons.Redshift.get_view_definitions" title="Permalink to this definition">¶</a></dt>
-<dd><p>Get the view definition (i.e. the create statement) for multiple views.</p>
-<p>This works similar to <cite>get_view_def</cite> except it runs a single query
-to get the ddl for multiple views. It supports SQL wildcards for
-<cite>schema</cite> and <cite>view</cite>. Only returns the ddl for _views_ that match
-<cite>schema</cite> and <cite>view</cite> if they exist.</p>
-<dl class="docutils">
-<dt><cite>Args:</cite></dt>
-<dd><dl class="first last docutils">
-<dt>schema: str</dt>
-<dd>The schema to filter by.</dd>
-<dt>view: str</dt>
-<dd>The view to filter by.</dd>
-</dl>
-</dd>
-<dt><cite>Returns:</cite></dt>
-<dd><cite>list</cite> of dicts with matching views.</dd>
-</dl>
-</dd></dl>
-
-<dl class="method">
-<dt id="parsons.Redshift.get_views">
-<code class="descname">get_views</code><span class="sig-paren">(</span><em>schema=None</em>, <em>view=None</em><span class="sig-paren">)</span><a class="headerlink" href="#parsons.Redshift.get_views" title="Permalink to this definition">¶</a></dt>
+<dt id="parsons.databases.redshift.redshift.RedshiftTableUtilities.get_views">
+<code class="descname">get_views</code><span class="sig-paren">(</span><em>schema=None</em>, <em>view=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/databases/redshift/rs_table_utilities.html#RedshiftTableUtilities.get_views"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.databases.redshift.redshift.RedshiftTableUtilities.get_views" title="Permalink to this definition">¶</a></dt>
 <dd><p>List views.</p>
 <dl class="docutils">
 <dt>Args:</dt>
@@ -961,9 +883,225 @@ to get the ddl for multiple views. It supports SQL wildcards for
 </dd></dl>
 
 <dl class="method">
-<dt id="parsons.Redshift.grant_schema_permissions">
-<code class="descname">grant_schema_permissions</code><span class="sig-paren">(</span><em>schema</em>, <em>group</em>, <em>permissions_type='select'</em><span class="sig-paren">)</span><a class="headerlink" href="#parsons.Redshift.grant_schema_permissions" title="Permalink to this definition">¶</a></dt>
-<dd><p>Grants a Redshift group permissions to all tables within an existing schema.</p>
+<dt id="parsons.databases.redshift.redshift.RedshiftTableUtilities.get_queries">
+<code class="descname">get_queries</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/databases/redshift/rs_table_utilities.html#RedshiftTableUtilities.get_queries"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.databases.redshift.redshift.RedshiftTableUtilities.get_queries" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the Current queries running and queueing, along with resource consumption.</p>
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p class="last">Must be a Redshift superuser to run this method.</p>
+</div>
+<dl class="docutils">
+<dt><cite>Returns:</cite></dt>
+<dd><dl class="first last docutils">
+<dt>Parsons Table</dt>
+<dd>See <a class="reference internal" href="table.html#parsons-table"><span class="std std-ref">Parsons Table</span></a> for output options.</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="parsons.databases.redshift.redshift.RedshiftTableUtilities.get_max_value">
+<code class="descname">get_max_value</code><span class="sig-paren">(</span><em>table_name</em>, <em>value_column</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/databases/redshift/rs_table_utilities.html#RedshiftTableUtilities.get_max_value"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.databases.redshift.redshift.RedshiftTableUtilities.get_max_value" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the max value from a table.</p>
+<dl class="docutils">
+<dt><cite>Args:</cite></dt>
+<dd><dl class="first last docutils">
+<dt>table_name: str</dt>
+<dd>Schema and table name</dd>
+<dt>value_column: str</dt>
+<dd>The column containing the values</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="parsons.databases.redshift.redshift.RedshiftTableUtilities.get_object_type">
+<code class="descname">get_object_type</code><span class="sig-paren">(</span><em>object_name</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/databases/redshift/rs_table_utilities.html#RedshiftTableUtilities.get_object_type"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.databases.redshift.redshift.RedshiftTableUtilities.get_object_type" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get object type.</p>
+<p>One of <cite>view</cite>, <cite>table</cite>, <cite>index</cite>, <cite>sequence</cite>, or <cite>TOAST table</cite>.</p>
+<dl class="docutils">
+<dt><cite>Args:</cite></dt>
+<dd><dl class="first last docutils">
+<dt>object_name: str</dt>
+<dd>The schema.obj for which to get the object type.</dd>
+</dl>
+</dd>
+<dt><cite>Returns:</cite></dt>
+<dd><cite>str</cite> of the object type.</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="parsons.databases.redshift.redshift.RedshiftTableUtilities.is_view">
+<code class="descname">is_view</code><span class="sig-paren">(</span><em>object_name</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/databases/redshift/rs_table_utilities.html#RedshiftTableUtilities.is_view"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.databases.redshift.redshift.RedshiftTableUtilities.is_view" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return true if the object is a view.</p>
+<dl class="docutils">
+<dt><cite>Args:</cite></dt>
+<dd><dl class="first last docutils">
+<dt>object_name: str</dt>
+<dd>The schema.obj to test if it’s a view.</dd>
+</dl>
+</dd>
+<dt><cite>Returns:</cite></dt>
+<dd><cite>bool</cite></dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="parsons.databases.redshift.redshift.RedshiftTableUtilities.is_table">
+<code class="descname">is_table</code><span class="sig-paren">(</span><em>object_name</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/databases/redshift/rs_table_utilities.html#RedshiftTableUtilities.is_table"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.databases.redshift.redshift.RedshiftTableUtilities.is_table" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return true if the object is a table.</p>
+<dl class="docutils">
+<dt><cite>Args:</cite></dt>
+<dd><dl class="first last docutils">
+<dt>object_name: str</dt>
+<dd>The schema.obj to test if it’s a table.</dd>
+</dl>
+</dd>
+<dt><cite>Returns:</cite></dt>
+<dd><cite>bool</cite></dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="parsons.databases.redshift.redshift.RedshiftTableUtilities.get_table_definition">
+<code class="descname">get_table_definition</code><span class="sig-paren">(</span><em>table</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/databases/redshift/rs_table_utilities.html#RedshiftTableUtilities.get_table_definition"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.databases.redshift.redshift.RedshiftTableUtilities.get_table_definition" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the table definition (i.e. the create statement).</p>
+<dl class="docutils">
+<dt><cite>Args:</cite></dt>
+<dd><dl class="first last docutils">
+<dt>table: str</dt>
+<dd>The schema.table for which to get the table definition.</dd>
+</dl>
+</dd>
+<dt><cite>Returns:</cite></dt>
+<dd>str</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="parsons.databases.redshift.redshift.RedshiftTableUtilities.get_table_definitions">
+<code class="descname">get_table_definitions</code><span class="sig-paren">(</span><em>schema=None</em>, <em>table=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/databases/redshift/rs_table_utilities.html#RedshiftTableUtilities.get_table_definitions"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.databases.redshift.redshift.RedshiftTableUtilities.get_table_definitions" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the table definition (i.e. the create statement) for multiple tables.</p>
+<p>This works similar to <cite>get_table_def</cite> except it runs a single query
+to get the ddl for multiple tables. It supports SQL wildcards for
+<cite>schema</cite> and <cite>table</cite>. Only returns the ddl for _tables_ that match
+<cite>schema</cite> and <cite>table</cite> if they exist.</p>
+<dl class="docutils">
+<dt><cite>Args:</cite></dt>
+<dd><dl class="first last docutils">
+<dt>schema: str</dt>
+<dd>The schema to filter by.</dd>
+<dt>table: str</dt>
+<dd>The table to filter by.</dd>
+</dl>
+</dd>
+<dt><cite>Returns:</cite></dt>
+<dd><cite>list</cite> of dicts with matching tables.</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="parsons.databases.redshift.redshift.RedshiftTableUtilities.get_view_definition">
+<code class="descname">get_view_definition</code><span class="sig-paren">(</span><em>view</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/databases/redshift/rs_table_utilities.html#RedshiftTableUtilities.get_view_definition"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.databases.redshift.redshift.RedshiftTableUtilities.get_view_definition" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the view definition (i.e. the create statement).</p>
+<dl class="docutils">
+<dt><cite>Args:</cite></dt>
+<dd><dl class="first last docutils">
+<dt>view: str</dt>
+<dd>The schema.view for which to get the view definition.</dd>
+</dl>
+</dd>
+<dt><cite>Returns:</cite></dt>
+<dd>str</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="parsons.databases.redshift.redshift.RedshiftTableUtilities.get_view_definitions">
+<code class="descname">get_view_definitions</code><span class="sig-paren">(</span><em>schema=None</em>, <em>view=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/databases/redshift/rs_table_utilities.html#RedshiftTableUtilities.get_view_definitions"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.databases.redshift.redshift.RedshiftTableUtilities.get_view_definitions" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the view definition (i.e. the create statement) for multiple views.</p>
+<p>This works similar to <cite>get_view_def</cite> except it runs a single query
+to get the ddl for multiple views. It supports SQL wildcards for
+<cite>schema</cite> and <cite>view</cite>. Only returns the ddl for _views_ that match
+<cite>schema</cite> and <cite>view</cite> if they exist.</p>
+<dl class="docutils">
+<dt><cite>Args:</cite></dt>
+<dd><dl class="first last docutils">
+<dt>schema: str</dt>
+<dd>The schema to filter by.</dd>
+<dt>view: str</dt>
+<dd>The view to filter by.</dd>
+</dl>
+</dd>
+<dt><cite>Returns:</cite></dt>
+<dd><cite>list</cite> of dicts with matching views.</dd>
+</dl>
+</dd></dl>
+
+<dl class="staticmethod">
+<dt id="parsons.databases.redshift.redshift.RedshiftTableUtilities.split_full_table_name">
+<em class="property">static </em><code class="descname">split_full_table_name</code><span class="sig-paren">(</span><em>full_table_name</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/databases/redshift/rs_table_utilities.html#RedshiftTableUtilities.split_full_table_name"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.databases.redshift.redshift.RedshiftTableUtilities.split_full_table_name" title="Permalink to this definition">¶</a></dt>
+<dd><p>Split a full table name into its schema and table. If a schema isn’t
+present, return <cite>public</cite> for the schema. Similarly, Redshift defaults
+to the <cite>public</cite> schema, when one isn’t provided.</p>
+<p>Eg:
+<code class="docutils literal notranslate"><span class="pre">(schema,</span> <span class="pre">table)</span> <span class="pre">=</span> <span class="pre">Redshift.split_full_table_name(&quot;some_schema.some_table&quot;)</span></code></p>
+<dl class="docutils">
+<dt><cite>Args:</cite></dt>
+<dd><dl class="first last docutils">
+<dt>full_table_name: str</dt>
+<dd>The table name, as “schema.table”</dd>
+</dl>
+</dd>
+<dt><cite>Returns:</cite></dt>
+<dd><dl class="first last docutils">
+<dt>tuple</dt>
+<dd>A tuple containing (schema, table)</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="staticmethod">
+<dt id="parsons.databases.redshift.redshift.RedshiftTableUtilities.combine_schema_and_table_name">
+<em class="property">static </em><code class="descname">combine_schema_and_table_name</code><span class="sig-paren">(</span><em>schema</em>, <em>table</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/databases/redshift/rs_table_utilities.html#RedshiftTableUtilities.combine_schema_and_table_name"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.databases.redshift.redshift.RedshiftTableUtilities.combine_schema_and_table_name" title="Permalink to this definition">¶</a></dt>
+<dd><p>Creates a full table name by combining a schema and table.</p>
+<dl class="docutils">
+<dt><cite>Args:</cite></dt>
+<dd><dl class="first last docutils">
+<dt>schema: str</dt>
+<dd>The schema name</dd>
+<dt>table: str</dt>
+<dd>The table name</dd>
+</dl>
+</dd>
+<dt><cite>Returns:</cite></dt>
+<dd><dl class="first last docutils">
+<dt>str</dt>
+<dd>The combined full table name</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="schema-utilities">
+<h2>Schema Utilities<a class="headerlink" href="#schema-utilities" title="Permalink to this headline">¶</a></h2>
+<p>Schema utilities are a series of helper methods, all built off of commonly
+used SQL queries run against the Redshift database.</p>
+<dl class="class">
+<dt id="parsons.databases.redshift.redshift.RedshiftSchema">
+<em class="property">class </em><code class="descclassname">parsons.databases.redshift.redshift.</code><code class="descname">RedshiftSchema</code><a class="reference internal" href="_modules/parsons/databases/redshift/rs_schema.html#RedshiftSchema"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.databases.redshift.redshift.RedshiftSchema" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="method">
+<dt id="parsons.databases.redshift.redshift.RedshiftSchema.create_schema_with_permissions">
+<code class="descname">create_schema_with_permissions</code><span class="sig-paren">(</span><em>schema</em>, <em>group=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/databases/redshift/rs_schema.html#RedshiftSchema.create_schema_with_permissions"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.databases.redshift.redshift.RedshiftSchema.create_schema_with_permissions" title="Permalink to this definition">¶</a></dt>
+<dd><p>Creates a Redshift schema (if it doesn’t already exist), and grants usage permissions to
+a Redshift group (if specified).</p>
 <dl class="docutils">
 <dt><cite>Args:</cite></dt>
 <dd><dl class="first last docutils">
@@ -981,125 +1119,22 @@ full list, see the
 </dd></dl>
 
 <dl class="method">
-<dt id="parsons.Redshift.is_table">
-<code class="descname">is_table</code><span class="sig-paren">(</span><em>object_name</em><span class="sig-paren">)</span><a class="headerlink" href="#parsons.Redshift.is_table" title="Permalink to this definition">¶</a></dt>
-<dd><p>Return true if the object is a table.</p>
+<dt id="parsons.databases.redshift.redshift.RedshiftSchema.grant_schema_permissions">
+<code class="descname">grant_schema_permissions</code><span class="sig-paren">(</span><em>schema</em>, <em>group</em>, <em>permissions_type='select'</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/databases/redshift/rs_schema.html#RedshiftSchema.grant_schema_permissions"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.databases.redshift.redshift.RedshiftSchema.grant_schema_permissions" title="Permalink to this definition">¶</a></dt>
+<dd><p>Grants a Redshift group permissions to all tables within an existing schema.</p>
 <dl class="docutils">
 <dt><cite>Args:</cite></dt>
 <dd><dl class="first last docutils">
-<dt>object_name: str</dt>
-<dd>The schema.obj to test if it’s a table.</dd>
+<dt>schema: str</dt>
+<dd>The schema name</dd>
+<dt>group: str</dt>
+<dd>The Redshift group name</dd>
+<dt>type: str</dt>
+<dd>The type of permissions to grant. Supports <cite>select</cite>, <cite>all</cite>, etc. (For
+full list, see the
+<a class="reference external" href="https://docs.aws.amazon.com/redshift/latest/dg/r_GRANT.html">Redshift GRANT docs</a>)</dd>
 </dl>
 </dd>
-<dt><cite>Returns:</cite></dt>
-<dd><cite>bool</cite></dd>
-</dl>
-</dd></dl>
-
-<dl class="method">
-<dt id="parsons.Redshift.is_view">
-<code class="descname">is_view</code><span class="sig-paren">(</span><em>object_name</em><span class="sig-paren">)</span><a class="headerlink" href="#parsons.Redshift.is_view" title="Permalink to this definition">¶</a></dt>
-<dd><p>Return true if the object is a view.</p>
-<dl class="docutils">
-<dt><cite>Args:</cite></dt>
-<dd><dl class="first last docutils">
-<dt>object_name: str</dt>
-<dd>The schema.obj to test if it’s a view.</dd>
-</dl>
-</dd>
-<dt><cite>Returns:</cite></dt>
-<dd><cite>bool</cite></dd>
-</dl>
-</dd></dl>
-
-<dl class="method">
-<dt id="parsons.Redshift.move_table">
-<code class="descname">move_table</code><span class="sig-paren">(</span><em>source_table</em>, <em>new_table</em>, <em>drop_source_table=False</em><span class="sig-paren">)</span><a class="headerlink" href="#parsons.Redshift.move_table" title="Permalink to this definition">¶</a></dt>
-<dd><p>Move an existing table in the database.</p>
-<p>It will inherit encoding, sortkey and distkey. <strong>Once run, the source table
-rows will be empty.</strong> This is more efficiant than running
-<code class="docutils literal notranslate"><span class="pre">&quot;create</span> <span class="pre">newtable</span> <span class="pre">as</span> <span class="pre">select</span> <span class="pre">*</span> <span class="pre">from</span> <span class="pre">oldtable&quot;</span></code>.</p>
-<p>For more information see: <a class="reference external" href="https://docs.aws.amazon.com/redshift/latest/dg/r_ALTER_TABLE_APPEND.html">ALTER TABLE APPEND</a></p>
-<dl class="docutils">
-<dt>Args:</dt>
-<dd><dl class="first last docutils">
-<dt>source_table: str</dt>
-<dd>Name of existing schema and table (e.g. <code class="docutils literal notranslate"><span class="pre">myschema.oldtable</span></code>)</dd>
-<dt>new_table: str</dt>
-<dd>New name of schema and table (e.g. <code class="docutils literal notranslate"><span class="pre">myschema.newtable</span></code>)</dd>
-<dt>drop_original: boolean</dt>
-<dd>Drop the source table.</dd>
-</dl>
-</dd>
-<dt>Returns:</dt>
-<dd>None</dd>
-</dl>
-</dd></dl>
-
-<dl class="method">
-<dt id="parsons.Redshift.populate_table_from_query">
-<code class="descname">populate_table_from_query</code><span class="sig-paren">(</span><em>query</em>, <em>destination_table</em>, <em>if_exists='fail'</em>, <em>distkey=None</em>, <em>sortkey=None</em><span class="sig-paren">)</span><a class="headerlink" href="#parsons.Redshift.populate_table_from_query" title="Permalink to this definition">¶</a></dt>
-<dd><p>Populate a Redshift table with the results of a SQL query, creating the table if it
-doesn’t yet exist.</p>
-<dl class="docutils">
-<dt><cite>Args:</cite></dt>
-<dd><dl class="first last docutils">
-<dt>query: str</dt>
-<dd>The SQL query</dd>
-<dt>destination_table: str</dt>
-<dd>Name of destination schema and table (e.g. <code class="docutils literal notranslate"><span class="pre">myschema.newtable</span></code>)</dd>
-<dt>if_exists: str</dt>
-<dd>If the table already exists, either <code class="docutils literal notranslate"><span class="pre">fail</span></code>, <code class="docutils literal notranslate"><span class="pre">append</span></code>, <code class="docutils literal notranslate"><span class="pre">drop</span></code>,
-or <code class="docutils literal notranslate"><span class="pre">truncate</span></code> the table.</dd>
-<dt>distkey: str</dt>
-<dd>The column to use as the distkey for the table.</dd>
-<dt>sortkey: str</dt>
-<dd>The column to use as the sortkey for the table.</dd>
-</dl>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="method">
-<dt id="parsons.Redshift.rename_table">
-<code class="descname">rename_table</code><span class="sig-paren">(</span><em>table_name</em>, <em>new_table_name</em><span class="sig-paren">)</span><a class="headerlink" href="#parsons.Redshift.rename_table" title="Permalink to this definition">¶</a></dt>
-<dd><p>Rename an existing table.</p>
-<div class="admonition note">
-<p class="first admonition-title">Note</p>
-<p class="last">You cannot move schemas when renaming a table. Instead, utilize
-the :meth:<code class="docutils literal notranslate"><span class="pre">parsons.Redshift.table_duplicate.</span></code> method.</p>
-</div>
-<dl class="docutils">
-<dt>Args:</dt>
-<dd><dl class="first last docutils">
-<dt>table_name: str</dt>
-<dd>Name of existing schema and table (e.g. <code class="docutils literal notranslate"><span class="pre">myschema.oldtable</span></code>)</dd>
-<dt>new_table_name: str</dt>
-<dd>New name for table. Note: Omit schema in table name.</dd>
-</dl>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="method">
-<dt id="parsons.Redshift.union_tables">
-<code class="descname">union_tables</code><span class="sig-paren">(</span><em>new_table_name</em>, <em>tables</em>, <em>union_all=True</em>, <em>view=False</em><span class="sig-paren">)</span><a class="headerlink" href="#parsons.Redshift.union_tables" title="Permalink to this definition">¶</a></dt>
-<dd><p>Union a series of table into a new table.</p>
-<dl class="docutils">
-<dt>Args:</dt>
-<dd><dl class="first last docutils">
-<dt>new_table_name: str</dt>
-<dd>The new table and schema (e.g. <code class="docutils literal notranslate"><span class="pre">myschema.newtable</span></code>)</dd>
-<dt>tables: list</dt>
-<dd>A list of tables to union</dd>
-<dt>union_all: boolean</dt>
-<dd>If <code class="docutils literal notranslate"><span class="pre">False</span></code> will dedupe rows</dd>
-<dt>view: boolean</dt>
-<dd>Create a view rather than a static table</dd>
-</dl>
-</dd>
-<dt>Returns:</dt>
-<dd>None</dd>
 </dl>
 </dd></dl>
 

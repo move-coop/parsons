@@ -176,17 +176,24 @@
 <h1>S3<a class="headerlink" href="#s3" title="Permalink to this headline">¶</a></h1>
 <p>The S3 class heavily reliant on the <code class="docutils literal notranslate"><span class="pre">boto3</span></code> python package. It includes a suite of common methods that are commonly
 used with S3.</p>
-<p>In order to instantiate the class you must pass valid kwargs, or have a aws config file stored locally, or store the following
-environmental variables:</p>
-<ul class="simple">
-<li><code class="docutils literal notranslate"><span class="pre">'AWS_ACCESS_KEY_ID'</span></code></li>
-<li><code class="docutils literal notranslate"><span class="pre">'AWS_SECRET_ACCESS_KEY'</span></code></li>
-</ul>
 <dl class="class">
 <dt id="parsons.S3">
 <em class="property">class </em><code class="descclassname">parsons.</code><code class="descname">S3</code><span class="sig-paren">(</span><em>aws_access_key_id=None</em>, <em>aws_secret_access_key=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/aws/s3.html#S3"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.S3" title="Permalink to this definition">¶</a></dt>
-<dd><p>Instatiate by passing <code class="docutils literal notranslate"><span class="pre">aws_access_key_id</span></code> and <code class="docutils literal notranslate"><span class="pre">aws_secret_access_key</span></code>
-or enviromental variables <code class="docutils literal notranslate"><span class="pre">AWS_ACCESS_KEY_ID</span></code> and <code class="docutils literal notranslate"><span class="pre">AWS_SECRET_ACCESS_KEY</span></code>.</p>
+<dd><p>Instantiate the S3 class.</p>
+<dl class="docutils">
+<dt><cite>Args:</cite></dt>
+<dd><dl class="first last docutils">
+<dt>aws_access_key_id: str</dt>
+<dd>The AWS access key id. Not required if the <code class="docutils literal notranslate"><span class="pre">AWS_ACCESS_KEY_ID</span></code> env variable
+is set.</dd>
+<dt>aws_secret_access_key: str</dt>
+<dd>The AWS secret access key. Not required if the <code class="docutils literal notranslate"><span class="pre">AWS_SECRET_ACCESS_KEY</span></code> env
+variable is set.</dd>
+</dl>
+</dd>
+<dt><cite>Returns:</cite></dt>
+<dd>S3 class.</dd>
+</dl>
 <dl class="attribute">
 <dt id="parsons.S3.s3">
 <code class="descname">s3</code><em class="property"> = None</em><a class="headerlink" href="#parsons.S3.s3" title="Permalink to this definition">¶</a></dt>

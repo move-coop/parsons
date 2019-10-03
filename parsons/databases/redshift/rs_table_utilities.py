@@ -104,9 +104,9 @@ class RedshiftTableUtilities(object):
 
         Args:
             source_table: str
-                Name of existing schema and table (e.g. ``mys_chema.old_table``)
+                Name of existing schema and table (e.g. ``my_schema.old_table``)
             new_table: str
-                New name of schema and table (e.g. ``mys_chema.newtable``)
+                New name of schema and table (e.g. ``my_schema.newtable``)
             drop_original: boolean
                 Drop the source table.
         Returns:

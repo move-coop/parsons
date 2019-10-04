@@ -2,6 +2,7 @@ from requests import request as _request
 from parsons.etl.table import Table
 import logging
 from parsons.utilities import check_env
+from parsons.utilities.api_connector import APIConnector
 
 logger = logging.getLogger(__name__)
 
@@ -28,6 +29,27 @@ class VANConnector(object):
         self.raise_for_status = raise_for_status
         self.auth = (self.auth_name, self.api_key + '|' + str(self.db_code))
 
+        # Standardized API Connector. This is only being used by the get_activist_code methods
+        # but would like to roll out to the rest of the VAN methods in the future. Long term,
+        # would like to use for all classes in Parsons.
+        self.api = APIConnector(self.uri, auth=self.auth, data_key='items')
+
+    def get_request(self, endpoint, **kwargs):
+
+        r = self.api.get_request(self.uri + endpoint, **kwargs)
+        data = self.api.data_parse(r)
+
+        # Paginate
+        while self.api.next_page_check_url(r):
+            r = self.api.get_request(r[self.pagination_key], **kwargs)
+            data.extend(self.api.data_parse(r))
+
+        return data
+
+    # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
+    # Below is all of the old code that will be replaced in future PRs. However, it works #
+    # for the time being, so we are going to keep it.                                     #
+    # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
     def _error_check(self, r):
 
         if r.status_code == 404:

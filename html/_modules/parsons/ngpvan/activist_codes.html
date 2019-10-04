@@ -171,6 +171,7 @@
   <h1>Source code for parsons.ngpvan.activist_codes</h1><div class="highlight"><pre>
 <span></span><span class="sd">&quot;&quot;&quot;NGPVAN Activist Code Endpoints&quot;&quot;&quot;</span>
 
+<span class="kn">from</span> <span class="nn">parsons.etl.table</span> <span class="k">import</span> <span class="n">Table</span>
 <span class="kn">import</span> <span class="nn">logging</span>
 <span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
 
@@ -194,31 +195,25 @@
 <span class="sd">                See :ref:`parsons-table` for output options.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
-        <span class="n">url</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">connection</span><span class="o">.</span><span class="n">uri</span> <span class="o">+</span> <span class="s1">&#39;activistCodes&#39;</span>
-
-        <span class="n">acs</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">connection</span><span class="o">.</span><span class="n">request_paginate</span><span class="p">(</span><span class="n">url</span><span class="p">)</span>
-        <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="n">acs</span><span class="p">)</span>
-        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="n">f</span><span class="s1">&#39;Found </span><span class="si">{acs.num_rows}</span><span class="s1"> activist codes.&#39;</span><span class="p">)</span>
-
-        <span class="k">return</span> <span class="n">acs</span></div>
+        <span class="n">tbl</span> <span class="o">=</span> <span class="n">Table</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">connection</span><span class="o">.</span><span class="n">get_request</span><span class="p">(</span><span class="s1">&#39;activistCodes&#39;</span><span class="p">))</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="n">f</span><span class="s1">&#39;Found </span><span class="si">{tbl.num_rows}</span><span class="s1"> activist codes.&#39;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">tbl</span></div>
 
 <div class="viewcode-block" id="ActivistCodes.get_activist_code"><a class="viewcode-back" href="../../../ngpvan.html#parsons.ngpvan.van.ActivistCodes.get_activist_code">[docs]</a>    <span class="k">def</span> <span class="nf">get_activist_code</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">activist_code_id</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Get an activist code.</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Get an activist code.</span>
 
 <span class="sd">        `Args:`</span>
 <span class="sd">            activist_code_id : int</span>
 <span class="sd">                The activist code id.</span>
 <span class="sd">        `Returns:`</span>
-<span class="sd">            Parsons Table</span>
-<span class="sd">                See :ref:`parsons-table` for output options.</span>
+<span class="sd">            dict</span>
+<span class="sd">                The activist code</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
-        <span class="n">url</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">connection</span><span class="o">.</span><span class="n">uri</span> <span class="o">+</span> <span class="s1">&#39;activistCodes/</span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">activist_code_id</span><span class="p">)</span>
-
-        <span class="n">ac</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">connection</span><span class="o">.</span><span class="n">request</span><span class="p">(</span><span class="n">url</span><span class="p">)</span>
-        <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="n">ac</span><span class="p">)</span>
+        <span class="n">r</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">connection</span><span class="o">.</span><span class="n">get_request</span><span class="p">(</span><span class="n">f</span><span class="s1">&#39;activistCodes/</span><span class="si">{activist_code_id}</span><span class="s1">&#39;</span><span class="p">)</span>
         <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="n">f</span><span class="s1">&#39;Found activist code </span><span class="si">{activist_code_id}</span><span class="s1">.&#39;</span><span class="p">)</span>
-        <span class="k">return</span> <span class="n">ac</span></div></div>
+        <span class="k">return</span> <span class="n">r</span></div></div>
 </pre></div>
 
            </div>

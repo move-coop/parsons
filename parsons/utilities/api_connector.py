@@ -74,6 +74,8 @@ class APIConnector(object):
 
     def get_request(self, url, params=None):
         """
+        Make a GET request.
+
         Args:
             url: str
                 A complete and valid url for the api request
@@ -83,8 +85,35 @@ class APIConnector(object):
                 A requests response object
         """
 
-        r = self.request(url, req_type='GET', params=None)
+        r = self.request(url, 'GET', params=None)
         return r.json()
+
+    def post_request(self, url, params=None, data=None, json=None, success_code=204):
+        """
+        Make a POST request.
+
+        `Args:`
+            url: str
+                A complete and valid url for the api request
+            params: dict
+                The request parameters
+            data: str or file
+                A data object to post
+            json:
+                A JSON object to post
+        `Returns:`
+            A requests response object
+        """
+
+        r = self.request(url, 'POST', params=None, data=None, json=None)
+
+        # Check for a valid success code for the POST. Some APIs return messages with the
+        # success code and some do not. Be able to account for both of these types.
+        if r.status_code == success_code:
+            if r.json():
+                return r.json
+            else:
+                return r.status_code
 
     def data_parse(self, resp):
         """

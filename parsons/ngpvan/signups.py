@@ -1,23 +1,27 @@
+"""NGPVAN Signups Endpoints"""
+from parsons.etl.table import Table
+import logging
+
+logger = logging.getLogger(__name__)
 
 
 class Signups(object):
-    """Class for '/signups' end points."""
 
     def __init__(self, van_connection):
 
         self.connection = van_connection
 
-    def get_signups_statuses(self, event_id=None, event_type_id=None):
+    def get_event_signups(self, event_id=None, event_type_id=None):
         """
         Get a list of valid signup statuses for a given event type
-        or event. You may pass either and ``event_id`` or an ``event_type_id``
+        or event. You must pass one of ``event_id`` or ``event_type_id``
         but not both.
 
         `Args:`
             event_id: int
-                A valid event id
+                A valid event id.
             event_type_id: int
-                A valid event type id
+                A valid event type id.
         `Returns:`
             Parsons Table
                 See :ref:`parsons-table` for output options.
@@ -34,9 +38,9 @@ class Signups(object):
         if event_type_id:
             args = {'eventTypeId': event_type_id}
 
-        url = self.connection.uri + 'signups/statuses'
-
-        return self.connection.request(url, args=args)
+        tbl = Table(self.connection.get_request('signups/statuses', params=params))
+        logger.info(f'Found {tbl.num_rows} signups.')
+        return tbl
 
     def get_person_signups(self, vanid):
         """
@@ -44,15 +48,15 @@ class Signups(object):
 
         `Args:`
             vanid: int
-                A valid vanid associated with a person
+                A valid vanid associated with a person.
         `Returns:`
             Parsons Table
                 See :ref:`parsons-table` for output options.
         """
 
-        url = self.connection.uri + 'signups'
-
-        return self._unpack_signups(self.connection.request_paginate(url, args={'vanID': vanid}))
+        tbl = Table(self.connection.get_request('signups', params={'vanID': vanid}))
+        logger.info(f'Found {tbl.num_rows} signups for {vanid}.')
+        return self._unpack_signups(tbl)
 
     def get_event_signups(self, event_id):
         """
@@ -66,26 +70,25 @@ class Signups(object):
                 See :ref:`parsons-table` for output options.
         """
 
-        url = self.connection.uri + 'signups'
-
-        return self._unpack_signups(self.connection.request_paginate(url,
-                                                                     args={'eventId': event_id}))
+        tbl = Table(self.connection.get_request('signups', params={'eventId': event_id}))
+        logger.info(f'Found {tbl.num_rows} signups for event {event_id}.')
+        return self._unpack_signups(tbl)
 
     def get_signup(self, event_signup_id):
         """
         Get a single signup object.
 
         `Args:`
-            event_id: int
+            event_signup_id: int
                 A valid event_signup_id associated with a signup.
         `Returns:`
             Parsons Table
                 See :ref:`parsons-table` for output options.
         """
 
-        url = self.connection.uri + 'signups/{}'.format(event_signup_id)
-
-        return self._unpack_signups(self.connection.request(url))
+        r = self.connection.get_request(f'signups')
+        logger.info(f'Found sign up {event_signup_id}.')
+        return r
 
     def create_signup(self, vanid, event_id, shift_id, role_id, status_id, location_id):
         """

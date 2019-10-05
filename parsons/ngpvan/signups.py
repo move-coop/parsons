@@ -11,7 +11,7 @@ class Signups(object):
 
         self.connection = van_connection
 
-    def get_event_signups(self, event_id=None, event_type_id=None):
+    def get_signups_statuses(self, event_id=None, event_type_id=None):
         """
         Get a list of valid signup statuses for a given event type
         or event. You must pass one of ``event_id`` or ``event_type_id``
@@ -34,9 +34,9 @@ class Signups(object):
             raise ValueError('Event Id and Event Type ID may not BOTH be populated')
 
         if event_id:
-            args = {'eventId': event_id}
+            params = {'eventId': event_id}
         if event_type_id:
-            args = {'eventTypeId': event_type_id}
+            params = {'eventTypeId': event_type_id}
 
         tbl = Table(self.connection.get_request('signups/statuses', params=params))
         logger.info(f'Found {tbl.num_rows} signups.')
@@ -86,7 +86,7 @@ class Signups(object):
                 See :ref:`parsons-table` for output options.
         """
 
-        r = self.connection.get_request(f'signups')
+        r = self.connection.get_request(f'signups/{event_signup_id}')
         logger.info(f'Found sign up {event_signup_id}.')
         return r
 

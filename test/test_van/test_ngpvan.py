@@ -149,12 +149,7 @@ class TestNGPVAN(unittest.TestCase):
 
         m.get(self.van.connection.uri + 'savedLists', json=json)
 
-        expected = [
-            'savedListId',
-            'listCount',
-            'name',
-            'doorCount',
-            'description']
+        expected = ['savedListId', 'listCount', 'name', 'doorCount','description']
 
         self.assertTrue(validate_list(expected, self.van.get_saved_lists()))
 
@@ -170,25 +165,14 @@ class TestNGPVAN(unittest.TestCase):
                 "description": "null"
                 }
 
-        m.get(
-            self.van.connection.uri +
-            'savedLists/{}'.format(saved_list_id),
-            json=json)
+        m.get(self.van.connection.uri + f'savedLists/{saved_list_id}', json=json)
 
-        expected = [
-            'savedListId',
-            'listCount',
-            'name',
-            'doorCount',
-            'description']
+        expected = ['savedListId', 'listCount', 'name', 'doorCount', 'description']
 
-        self.assertTrue(
-            validate_list(
-                expected,
-                self.van.get_saved_list(saved_list_id)))
+        self.assertEqual(self.van.get_saved_list(saved_list_id), json)
 
     @requests_mock.Mocker()
-    def test_folders(self, m):
+    def test_get_folders(self, m):
 
         json = {u'count': 2,
                 u'items': [
@@ -205,23 +189,18 @@ class TestNGPVAN(unittest.TestCase):
 
         expected = ['folderId', 'name']
 
-        self.assertTrue(validate_list(expected, self.van.folders()))
+        self.assertTrue(validate_list(expected, self.van.get_folders()))
 
     @requests_mock.Mocker()
-    def test_folder(self, m):
+    def test_get_folder(self, m):
 
         folder_id = 5046
 
         json = {"folderId": 5046, "name": "#2018_MN_active_universe"}
 
-        m.get(
-            self.van.connection.uri +
-            'folders/{}'.format(folder_id),
-            json=json)
+        m.get(self.van.connection.uri + f'folders/{folder_id}', json=json)
 
-        expected = ['folderId', 'name']
-
-        self.assertTrue(validate_list(expected, self.van.folder(folder_id)))
+        self.assertEqual(json, self.van.get_folder(folder_id))
 
     @requests_mock.Mocker()
     def test_export_job_types(self, m):
@@ -234,7 +213,7 @@ class TestNGPVAN(unittest.TestCase):
 
         expected = ['exportJobTypeId', 'name']
 
-        self.assertTrue(validate_list(expected, self.van.export_job_types()))
+        self.assertTrue(validate_list(expected, self.van.get_export_job_types()))
 
     @requests_mock.Mocker()
     def test_export_job_create(self, m):
@@ -279,7 +258,7 @@ class TestNGPVAN(unittest.TestCase):
         self.assertEqual(json,self.van.export_job_create(saved_list_id))
 
     @requests_mock.Mocker()
-    def test_export_job(self, m):
+    def test_get_export_job(self, m):
 
         export_job_id = 448
 
@@ -316,12 +295,9 @@ class TestNGPVAN(unittest.TestCase):
             'type',
             'exportJobId']
 
-        m.get(
-            self.van.connection.uri +
-            'exportJobs/{}'.format(export_job_id),
-            json=json)
+        m.get(self.van.connection.uri + f'exportJobs/{export_job_id}', json=json)
 
-        self.assertTrue(validate_list(expected, self.van.export_job(export_job_id)))
+        self.assertEqual(json, self.van.get_export_job(export_job_id))
 
     @requests_mock.Mocker()
     def test_get_survey_questions(self, m):

@@ -183,18 +183,16 @@ class People(object):
             A person dict
         """
 
-        url = self.connection.uri + 'people/find'
-
         # Change end point based on id type
         if id_type == 'vanid':
-            url = self.connection.uri + f'people/{id}'
+            url = f'people/{id}'
         else:
-            url = self.connection.uri + f'people/{id_type}:{id}'
+            url = f'people/{id_type}:{id}'
 
         fields = ','.join([json_format.arg_format(f) for f in fields])
 
         logger.info(f'Getting person with {id_type} of {id}')
-        return self.connection.request(url, args={'$expand': fields}, raw=True).json()
+        return self.connection.get_request(url, params={'$expand': fields})
 
     def apply_canvass_result(self, id, result_code_id, id_type='vanid', contact_type_id=None,
                              input_type_id=None, date_canvassed=None):

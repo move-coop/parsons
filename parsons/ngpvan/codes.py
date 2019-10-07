@@ -1,5 +1,4 @@
 """NGPVAN Code Endpoints"""
-import petl
 from parsons.etl.table import Table
 import logging
 

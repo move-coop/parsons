@@ -18,7 +18,7 @@ class BulkImport(object):
 
         `Returns:`
             list
-                A list of resources
+                A list of resources.
         """
 
         r = self.connection.get_request(f'bulkImportJobs/resources')

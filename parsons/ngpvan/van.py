@@ -11,12 +11,14 @@ from parsons.ngpvan.codes import Codes
 from parsons.ngpvan.scores import Scores, FileLoadingJobs
 from parsons.ngpvan.signups import Signups
 from parsons.ngpvan.locations import Locations
+from parsons.ngpvan.bulk_import import BulkImport
 
 logger = logging.getLogger(__name__)
 
 
 class VAN(People, Events, SavedLists, Folders, ExportJobs, ActivistCodes, CanvassResponses,
-          SurveyQuestions, Codes, Scores, FileLoadingJobs, SupporterGroups, Signups, Locations):
+          SurveyQuestions, Codes, Scores, FileLoadingJobs, SupporterGroups, Signups, Locations,
+          BulkImport):
     """
     Returns the VAN class
 

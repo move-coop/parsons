@@ -1,42 +1,44 @@
+"""NGPVAN Supporter Groups Endpoints"""
+from parsons.etl.table import Table
+import logging
+
+logger = logging.getLogger(__name__)
 
 
 class SupporterGroups(object):
-    """Class for '/activistCodes' end points."""
 
     def __init__(self, van_connection):
-        """Initialize class"""
 
         self.connection = van_connection
 
     def get_supporter_groups(self):
         """
-        Get supporter group objects
+        Get supporter groups.
 
         `Returns:`
             Parsons Table
                 See :ref:`parsons-table` for output options.
         """
 
-        url = self.connection.uri + 'supporterGroups'
-
-        return self.connection.request_paginate(url)
+        tbl = Table(self.connection.get_request('supporterGroups'))
+        logger.info(f'Found {tbl.num_rows} supporter groups.')
+        return tbl
 
     def get_supporter_group(self, supporter_group_id):
         """
-        Get a single supporter group object
+        Get a supporter group.
 
         `Args:`
-            supporter_group_id : int
-                The activist code id associated with the activist code.
+            supporter_group_id: int
+                The supporter group id.
         `Returns:`
             Parsons Table
                 See :ref:`parsons-table` for output options.
         """
 
-        url = self.connection.uri + \
-            'supporterGroups/{}'.format(supporter_group_id)
-
-        return self.connection.request(url)
+        r = self.connection.get_request(f'supporterGroups/{supporter_group_id}')
+        logger.info(f'Found supporter group {supporter_group_id}.')
+        return r
 
     def create_supporter_group(self, name, description):
         """

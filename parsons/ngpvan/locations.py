@@ -1,3 +1,6 @@
+"""NGPVAN Locations Endpoints"""
+
+from parsons.etl.table import Table
 import logging
 
 logger = logging.getLogger(__name__)
@@ -21,12 +24,9 @@ class Locations(object):
                 See :ref:`parsons-table` for output options.
          """
 
-        url = self.connection.uri + 'locations'
-
-        if name:
-            name = {'name': name}
-
-        return self._unpack_loc(self.connection.request_paginate(url, args=name))
+        tbl = Table(self.connection.get_request('locations', params={'name': name}))
+        logger.info(f'Found {tbl.num_rows} locations.')
+        return self._unpack_loc(tbl)
 
     def get_location(self, location_id):
         """
@@ -36,13 +36,12 @@ class Locations(object):
             location_id: int
                 The location id.
         `Returns:`
-            Parsons Table
-                See :ref:`parsons-table` for output options.
+            dict
         """
 
-        url = self.connection.uri + 'locations/{}'.format(location_id)
-
-        return self._unpack_loc(self.connection.request(url))
+        r = self.connection.get_request(f'locations/{location_id}')
+        logger.info(f'Found location {location_id}.')
+        return r
 
     def create_location(self, name, address_line1=None, address_line2=None, city=None,
                         state=None, zip_code=None):

@@ -40,3 +40,6 @@ class VAN(People, Events, SavedLists, Folders, ExportJobs, ActivistCodes, Canvas
         self.connection = VANConnector(api_key=api_key, db=db, raise_for_status=raise_for_status)
         self.api_key = api_key
         self.db = db
+
+        # The size of each page to return. Currently set to maximum.
+        self.page_size = 200

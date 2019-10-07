@@ -1,3 +1,6 @@
+"""NGPVAN Canvass Responses Endpoints"""
+
+from parsons.etl.table import Table
 import logging
 
 logger = logging.getLogger(__name__)
@@ -18,13 +21,9 @@ class CanvassResponses(object):
                 See :ref:`parsons-table` for output options.
         """
 
-        url = self.connection.uri + 'canvassResponses/contactTypes'
-
-        crc = self.connection.request(url)
-        logger.debug(crc)
-        logger.info(f'Found {crc.num_rows} canvass response contact types.')
-
-        return crc
+        tbl = Table(self.connection.get_request('canvassResponses/contactTypes'))
+        logger.info(f'Found {tbl.num_rows} canvass response contact types.')
+        return tbl
 
     def get_canvass_responses_input_types(self):
         """
@@ -35,27 +34,19 @@ class CanvassResponses(object):
                 See :ref:`parsons-table` for output options.
         """
 
-        url = self.connection.uri + 'canvassResponses/inputTypes'
-
-        cri = self.connection.request(url)
-        logger.debug(cri)
-        logger.info(f'Found {cri.num_rows} canvass response input types.')
-
-        return cri
+        tbl = Table(self.connection.get_request('canvassResponses/inputTypes'))
+        logger.info(f'Found {tbl.num_rows} canvass response input types.')
+        return tbl
 
     def get_canvass_responses_result_codes(self):
         """
-        Get canvass response result code ids.
+        Get canvass response result codes.
 
         `Returns:`
             Parsons Table
                 See :ref:`parsons-table` for output options.
         """
 
-        url = self.connection.uri + 'canvassResponses/resultCodes'
-
-        crr = self.connection.request(url)
-        logger.debug(crr)
-        logger.info(f'Found {crr.num_rows} canvass response result codes.')
-
-        return crr
+        tbl = Table(self.connection.get_request('canvassResponses/resultCodes'))
+        logger.info(f'Found {tbl.num_rows} canvass response result codes.')
+        return tbl

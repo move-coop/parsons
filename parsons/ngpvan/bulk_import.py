@@ -21,7 +21,6 @@ class BulkImport(object):
                 A list of resources
         """
 
-        url = self.connection.uri + 'bulkImportJobs/resources'
-        r = self.connection.request(url, raw=True)
-        logger.info(f'Bulk import resources: {r.json()}')
-        return r.json()
+        r = self.connection.get_request(f'bulkImportJobs/resources')
+        logger.info(f'Found {len(r)} bulk import resources.')
+        return r

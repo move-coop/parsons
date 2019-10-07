@@ -62,7 +62,9 @@ class APIConnector(object):
             requests response
         """
 
-        r = _request(req_type, url, headers=self.headers, auth=self.auth, json=None, data=None,
+        print (json)
+
+        r = _request(req_type, url, headers=self.headers, auth=self.auth, json=json, data=data,
                      params=params)
 
         # To Do: Implement better and more robust error handling method, but this
@@ -88,7 +90,7 @@ class APIConnector(object):
         r = self.request(url, 'GET', params=None)
         return r.json()
 
-    def post_request(self, url, params=None, data=None, json=None, success_code=204):
+    def post_request(self, url, params=None, data=None, json=None, success_code=201, raise_on_error=False):
         """
         Make a POST request.
 
@@ -101,11 +103,13 @@ class APIConnector(object):
                 A data object to post
             json:
                 A JSON object to post
+            raise_on_error: boolean
+                Whether to raise status automatically if a status code of 400+ is returned.
         `Returns:`
             A requests response object
         """
 
-        r = self.request(url, 'POST', params=None, data=None, json=None)
+        r = self.request(url, 'POST', params=params, data=data, json=json, raise_on_error=raise_on_error)
 
         # Check for a valid success code for the POST. Some APIs return messages with the
         # success code and some do not. Be able to account for both of these types.
@@ -114,6 +118,12 @@ class APIConnector(object):
                 return r.json
             else:
                 return r.status_code
+
+        # If it is not a valid success code, return the error.
+        # TO DO: Come up with a way to raise for status when this happens too. Might want to make that
+        # part of the error handling in the API Connector.
+        else:
+            return (int(r.status_code), r.json())
 
     def data_parse(self, resp):
         """

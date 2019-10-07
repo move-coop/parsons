@@ -46,6 +46,10 @@ class VANConnector(object):
 
         return data
 
+    def post_request(self, endpoint, **kwargs):
+
+        return self.api.post_request(self.uri + endpoint, **kwargs)
+
     # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
     # Below is all of the old code that will be replaced in future PRs. However, it works #
     # for the time being, so we are going to keep it.                                     #

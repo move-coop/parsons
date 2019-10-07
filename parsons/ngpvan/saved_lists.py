@@ -1,55 +1,56 @@
+"""NGPVAN Saved List Endpoints"""
+
 from parsons.etl.table import Table
+import logging
+
+logger = logging.getLogger(__name__)
 
 
 class SavedLists(object):
 
     def __init__(self, van_connection):
 
-        # Some sort of test if the van_connection is not present.
-
         self.connection = van_connection
 
     def get_saved_lists(self, folder_id=None):
         """
-        Get all saved lists
+        Get saved lists.
 
         `Args:`
-            folder_id : int
-                Optional; the id for a VAN folder. If included returns only
+            folder_id: int
+                Filter by the id for a VAN folder. If included returns only
                 the saved lists in the folder
         `Returns:`
             Parsons Table
                 See :ref:`parsons-table` for output options.
         """
 
-        url = self.connection.uri + 'savedLists'
-
-        return self.connection.request_paginate(
-            url, args={'folderId': folder_id})
+        tbl = Table(self.connection.get_request('savedLists', params={'folderId': folder_id}))
+        logger.info(f'Found {tbl.num_rows} saved lists.')
+        return tbl
 
     def get_saved_list(self, saved_list_id):
         """
-        Returns a single saved list object
+        Returns a saved list object.
 
         `Args:`
-            saved_list_id : int
-                The saved list id associated with the saved list.
+            saved_list_id: int
+                The saved list id.
         `Returns:`
-            Parsons Table
-                See :ref:`parsons-table` for output options.
+            dict
         """
 
-        url = self.connection.uri + 'savedLists/{}'.format(str(saved_list_id))
-
-        return self.connection.request(url)
+        r = self.connection.get_request(f'savedLists/{saved_list_id}')
+        logger.info(f'Found saved list {saved_list_id}.')
+        return r
 
     def download_saved_list(self, saved_list_id):
         """
-        Download a saved list
+        Download the vanids associated with a saved list.
 
         `Args:`
-            saved_list_id
-                The saved list id associated with the saved list.
+            saved_list_id: int
+                The saved list id.
         `Returns:`
             Parsons Table
                 See :ref:`parsons-table` for output options.
@@ -72,34 +73,34 @@ class Folders(object):
 
         self.connection = van_connection
 
-    def folders(self):
+    def get_folders(self):
         """
-        List all folders
+        Get all folders owned or shared with the API user.
 
         `Returns:`
             Parsons Table
                 See :ref:`parsons-table` for output options.
         """
 
-        url = self.connection.uri + 'folders'
+        tbl = Table(self.connection.get_request('folders'))
+        logger.info(f'Found {tbl.num_rows} folders.')
+        return tbl
 
-        return self.connection.request_paginate(url)
-
-    def folder(self, folder_id):
+    def get_folder(self, folder_id):
         """
-        Get a single folder
+        Get a folder owned by or shared with the API user.
 
         `Args:`
             folder_id: int
-                The folder id associated with the folder.
+                The folder id.
         `Returns:`
             Parsons Table
                 See :ref:`parsons-table` for output options.
         """
 
-        url = self.connection.uri + 'folders/{}'.format(str(folder_id))
-
-        return self.connection.request(url)
+        r = self.connection.get_request(f'folders/{folder_id}')
+        logger.info(f'Found folder {folder_id}.')
+        return r
 
 
 class ExportJobs(object):
@@ -108,18 +109,18 @@ class ExportJobs(object):
 
         self.connection = van_connection
 
-    def export_job_types(self):
+    def get_export_job_types(self):
         """
-        Lists export job types
+        Get export job types
 
         `Returns:`
             Parsons Table
                 See :ref:`parsons-table` for output options.
         """
 
-        url = self.connection.uri + 'exportJobTypes'
-
-        return self.connection.request_paginate(url)
+        tbl = Table(self.connection.get_request('exportJobTypes'))
+        logger.info(f'Found {tbl.num_rows} export job types.')
+        return tbl
 
     def export_job_create(self, list_id, export_type=4,
                           webhookUrl="https://www.nothing.com"):
@@ -152,18 +153,18 @@ class ExportJobs(object):
 
         return self.connection.request(url, req_type='POST', post_data=data, raw=True)
 
-    def export_job(self, export_job_id):
+    def get_export_job(self, export_job_id):
         """
-        Returns a single export job
+        Get an export job.
 
         `Args:`
             export_job_id: int
-                Export job id
+                The xxport job id.
         `Returns:`
             Parsons Table
                 See :ref:`parsons-table` for output options.
         """
 
-        url = self.connection.uri + 'exportJobs/{}'.format(str(export_job_id))
-
-        return self.connection.request(url)
+        r = self.connection.get_request(f'exportJobs/{export_job_id}')
+        logger.info(f'Found export job {export_job_id}.')
+        return r

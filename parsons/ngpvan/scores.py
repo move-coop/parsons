@@ -1,3 +1,6 @@
+"""NGPVAN Score Endpoints"""
+
+from parsons.etl.table import Table
 import logging
 
 logger = logging.getLogger(__name__)
@@ -11,22 +14,20 @@ class Scores(object):
 
     def get_scores(self):
         """
-        Get all scores
+        Get all scores.
 
         `Returns:`
             Parsons Table
                 See :ref:`parsons-table` for output options.
         """
 
-        url = self.connection.uri + 'scores'
-
-        tbl = self.connection.request_paginate(url)
+        tbl = Table(self.connection.get_request('scores'))
         logger.info(f'Found {tbl.num_rows} scores.')
         return tbl
 
     def get_score(self, score_id):
         """
-        Get an individual score
+        Get an individual score.
 
         `Args:`
             score_id: int
@@ -35,10 +36,9 @@ class Scores(object):
             dict
         """
 
-        url = self.connection.uri + f'scores/{score_id}'
-        r = self.connection.request(url, raw=True)
-        logger.info(f'Returning score {score_id}.')
-        return r.json()
+        r = self.connection.get_request(f'scores/{score_id}')
+        logger.info(f'Found score {score_id}.')
+        return r
 
     def get_score_updates(self, created_before=None, created_after=None, score_id=None):
         """
@@ -56,13 +56,11 @@ class Scores(object):
                 See :ref:`parsons-table` for output options.
         """
 
-        url = self.connection.uri + 'scoreUpdates'
+        params = {'createdBefore': created_before,
+                  'createdAfter': created_after,
+                  'scoreId': score_id}
 
-        args = {'createdBefore': created_before,
-                'createdAfter': created_after,
-                'scoreId': score_id}
-
-        tbl = self.connection.request_paginate(url, args=args)
+        tbl = Table(self.connection.get_request('scoreUpdates', params=params))
         if tbl.num_rows:
             tbl.unpack_dict('updateStatistics', prepend=False)
             tbl.unpack_dict('score', prepend=False)
@@ -80,11 +78,9 @@ class Scores(object):
                 dict
         """
 
-        url = self.connection.uri + f'scoreUpdates/{score_update_id}'
-
-        r = self.connection.request(url, raw=True)
+        r = self.connection.get_request(f'scoreUpdates/{score_update_id}')
         logger.info(f'Returning score update {score_update_id}.')
-        return r.json()
+        return r
 
     def update_score_status(self, score_update_id, status):
         """

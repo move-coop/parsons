@@ -2,7 +2,7 @@ import unittest
 import os
 import requests_mock
 from parsons.ngpvan.van import VAN
-from test.utils import validate_list
+from test.utils import validate_list, assert_matching_tables
 
 os.environ['VAN_API_KEY'] = 'SOME_KEY'
 
@@ -33,14 +33,8 @@ class TestCodes(unittest.TestCase):
                            'contactType': None}],
                 'nextPageLink': None, 'count': 8}
 
-        m.get(self.van.connection.uri + 'codes?%24top=200', json=json)
-
-        expected = ['codeId', 'parentCodeId', 'name', 'description', 'codePath',
-                    'createdByName', 'dateCreated', 'supportedEntities', 'codeType',
-                    'campaign', 'contactType']
-
-        # Assert response is expected structure
-        self.assertTrue(validate_list(expected, self.van.get_codes()))
+        m.get(self.van.connection.uri + 'codes', json=json)
+        assert_matching_tables(json['items'],self.van.get_codes())
 
     @requests_mock.Mocker()
     def test_get_code(self, m):
@@ -72,11 +66,8 @@ class TestCodes(unittest.TestCase):
     def test_get_code_types(self, m):
 
         json = ['Tag', 'SourceCode']
-
         m.get(self.van.connection.uri + 'codeTypes', json=json)
-
-        # Assert response is expected structure
-        self.assertEqual({'code_type': 'Tag'}, self.van.get_code_types()[0])
+        self.assertEqual(json, self.van.get_code_types())
 
     @requests_mock.Mocker()
     def test_create_code(self, m):
@@ -116,9 +107,5 @@ class TestCodes(unittest.TestCase):
     def test_get_code_supported_entities(self, m):
 
         json = ['Contacts', 'Events', 'Locations']
-
         m.get(self.van.connection.uri + 'codes/supportedEntities', json=json)
-
-        # Assert response is expected structure
-        self.assertEqual({'supported_entities': 'Contacts'},
-                         self.van.get_code_supported_entities()[0])
+        self.assertEqual(json, self.van.get_code_supported_entities())

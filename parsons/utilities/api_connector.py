@@ -103,6 +103,10 @@ class APIConnector(object):
         # To Do: Some response jsons are enclosed in a list. Need to deal with unpacking and/or
         # not assuming that it is going to be a dict.
 
+        # In some instances responses are just lists.
+        if isinstance(resp, list):
+            return resp
+
         if self.data_key and self.data_key in resp.keys():
             return resp[self.data_key]
         else:

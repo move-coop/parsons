@@ -1,3 +1,6 @@
+"""NGPVAN Events Endpoints"""
+
+from parsons.etl.table import Table
 import logging
 
 logger = logging.getLogger(__name__)
@@ -18,9 +21,9 @@ class Events(object):
 
         `Args:`
             code_ids: str
-                Filter by code id
+                Filter by code id.
             event_type_ids: str
-                Filter by event_type_ids
+                Filter by event_type_ids.
             rep_event_id: str
                 Filters to recurring events that are recurrences the passed event id.
             starting_after: str
@@ -28,9 +31,7 @@ class Events(object):
             starting_before: str
                 Events beginning before ``iso8601`` formatted date.
             district_field: str
-                Filter by district field
-            page_size: str
-                Not Implemented
+                Filter by district field.
             expand : list
                 A list of nested jsons to include in returned event
                 object. Can be ``locations``, ``codes``, ``shifts``,
@@ -40,27 +41,22 @@ class Events(object):
                 See :ref:`parsons-table` for output options.
         """
 
-        url = self.connection.uri + 'events/'
-
         if expand:
             expand = ','.join(expand)
 
-        args = {'codeIds': code_ids,
-                'eventTypeIds': event_type_ids,
-                'inRepetitionWithEventId': rep_event_id,
-                'startingAfter': starting_after,
-                'startingBefore': starting_before,
-                'districtFieldValue': district_field,
-                'top': 50,
-                '$expand': expand
-                }
+        params = {'codeIds': code_ids,
+                  'eventTypeIds': event_type_ids,
+                  'inRepetitionWithEventId': rep_event_id,
+                  'startingAfter': starting_after,
+                  'startingBefore': starting_before,
+                  'districtFieldValue': district_field,
+                  'top': 50,
+                  '$expand': expand
+                  }
 
-        logger.info('Getting events...')
-        events = self.connection.request_paginate(url, args=args)
-        logger.debug(events)
-        logger.info(f'Found {events.num_rows} events.')
-
-        return events
+        tbl = Table(self.connection.get_request('events', params=params))
+        logger.info(f'Found {tbl.num_rows} events.')
+        return tbl
 
     def get_event(self, event_id, expand=['locations', 'codes', 'shifts', 'roles',
                                           'notes', 'onlineForms']):
@@ -84,12 +80,9 @@ class Events(object):
         if expand:
             expand = ','.join(expand)
 
-        logger.info(f'Getting event {event_id}...')
-        event = self.connection.request(url, args={'$expand': expand})
-        logger.debug(event)
+        r = self.connection.get_request(f'events/{event_id}', params={'$expand': expand})
         logger.info(f'Found event {event_id}.')
-
-        return event
+        return r
 
     def create_event(self, name, short_name, start_date, end_date, event_type_id,
                      roles, shifts=None, description=None, editable=False,
@@ -249,11 +242,6 @@ class Events(object):
                 See :ref:`parsons-table` for output options.
         """
 
-        url = self.connection.uri + 'events/types'
-
-        logger.info(f'Getting event types...')
-        types = self.connection.request(url)
-        logger.debug(types)
-        logger.info(f'Found {types.num_rows} event types')
-
-        return types
+        tbl = Table(self.connection.get_request('events/types'))
+        logger.info(f'Found {tbl.num_rows} events.')
+        return tbl

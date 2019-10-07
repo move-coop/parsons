@@ -2,8 +2,8 @@ import unittest
 import os
 import requests_mock
 from parsons.ngpvan.van import VAN
-from test.utils import validate_list
-
+from parsons.etl.table import Table
+from test.utils import validate_list, assert_matching_tables
 
 os.environ['VAN_API_KEY'] = 'SOME_KEY'
 
@@ -81,36 +81,16 @@ class TestNGPVAN(unittest.TestCase):
                 "contactTypeId": 19,
                 "channelTypeName": "Phone"}
 
-        m.get(
-            self.van.connection.uri +
-            'canvassResponses/contactTypes',
-            json=json)
+        m.get(self.van.connection.uri + 'canvassResponses/contactTypes', json=json)
 
-        # Expected Structure
-        expected = ['name', 'contactTypeId', 'channelTypeName']
-
-        self.assertTrue(
-            validate_list(
-                expected,
-                self.van.get_canvass_responses_contact_types()))
+        assert_matching_tables(Table(json), self.van.get_canvass_responses_contact_types())
 
     @requests_mock.Mocker()
     def test_get_canvass_responses_input_types(self, m):
 
         json = {"inputTypeId": 11, "name": "API"}
-
-        m.get(
-            self.van.connection.uri +
-            'canvassResponses/inputTypes',
-            json=json)
-
-        # Expected Structure
-        expected = ['inputTypeId', 'name']
-
-        self.assertTrue(
-            validate_list(
-                expected,
-                self.van.get_canvass_responses_input_types()))
+        m.get(self.van.connection.uri + 'canvassResponses/inputTypes', json=json)
+        assert_matching_tables(Table(json), self.van.get_canvass_responses_input_types())
 
     @requests_mock.Mocker()
     def test_get_canvass_responses_result_codes(self, m):
@@ -122,18 +102,8 @@ class TestNGPVAN(unittest.TestCase):
             "mediumName": "Busy"
         }
 
-        m.get(
-            self.van.connection.uri +
-            'canvassResponses/resultCodes',
-            json=json)
-
-        # Expected Structure
-        expected = ['shortName', 'resultCodeId', 'name', 'mediumName']
-
-        self.assertTrue(
-            validate_list(
-                expected,
-                self.van.get_canvass_responses_result_codes()))
+        m.get(self.van.connection.uri + 'canvassResponses/resultCodes', json=json)
+        assert_matching_tables(Table(json), self.van.get_canvass_responses_result_codes())
 
     @requests_mock.Mocker()
     def test_get_saved_lists(self, m):

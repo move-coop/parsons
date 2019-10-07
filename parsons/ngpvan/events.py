@@ -75,8 +75,6 @@ class Events(object):
                 See :ref:`parsons-table` for output options.
         """
 
-        url = self.connection.uri + 'events/{}'.format(event_id)
-
         if expand:
             expand = ','.join(expand)
 

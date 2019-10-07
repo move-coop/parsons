@@ -55,12 +55,8 @@ class TestCodes(unittest.TestCase):
 
         m.get(self.van.connection.uri + 'codes/1004916', json=json)
 
-        expected = ['codeId', 'parentCodeId', 'name', 'description', 'codePath',
-                    'createdByName', 'dateCreated', 'supportedEntities', 'codeType',
-                    'campaign', 'contactType']
-
         # Assert response is expected structure
-        self.assertTrue(validate_list(expected, self.van.get_code(1004916)))
+        self.assertEqual(json, self.van.get_code(1004916))
 
     @requests_mock.Mocker()
     def test_get_code_types(self, m):

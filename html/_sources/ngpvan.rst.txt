@@ -203,6 +203,12 @@ People
 .. autoclass:: parsons.ngpvan.van.People
    :inherited-members:
 
+***********
+Bulk Import
+***********
+.. autoclass:: parsons.ngpvan.van.BulkImport
+   :inherited-members:
+
 **************
 Activist Codes
 **************

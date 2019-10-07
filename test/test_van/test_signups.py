@@ -96,10 +96,9 @@ class TestSignups(unittest.TestCase):
 
         event_signup_id = 14285
 
-        m.get(self.van.connection.uri + 'signups/{}'.format(event_signup_id), json=signup)
+        m.get(self.van.connection.uri + f'signups/{event_signup_id}'.format(), json=signup)
 
-        self.assertTrue(validate_list(signup_expected,
-                                      self.van.get_signup(event_signup_id)))
+        self.assertEqual(signup, self.van.get_signup(event_signup_id))
 
     @requests_mock.Mocker()
     def test_create_signup(self, m):

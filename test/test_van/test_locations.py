@@ -57,13 +57,7 @@ class TestLocations(unittest.TestCase):
 
         # Valid location id
         m.get(self.van.connection.uri + 'locations/34', json=location_json)
-
-        # Invalid location id
-        m.get(self.van.connection.uri + 'locations/99', status_code=404)
-
-        self.assertTrue(validate_list(expected_loc, self.van.get_location(34)))
-
-        self.assertEqual(self.van.get_location(99)[0], 404)
+        self.assertEqual(location_json, self.van.get_location(34))
 
     @requests_mock.Mocker()
     def test_delete_location(self, m):

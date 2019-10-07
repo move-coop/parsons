@@ -48,7 +48,7 @@ class TestNGPVAN(unittest.TestCase):
              }],
             'nextPageLink': None}
 
-        m.get(self.van.connection.uri + 'events/', json=json)
+        m.get(self.van.connection.uri + 'events', json=json)
 
         # Expected Structure
         expected = [
@@ -107,30 +107,7 @@ class TestNGPVAN(unittest.TestCase):
 
         m.get(self.van.connection.uri + 'events/{}'.format(event_id), json=json)
 
-        # Expected Structure
-        expected = [
-            'eventId',
-            'startDate',
-            'codes',
-            'endDate',
-            'name',
-            'roles',
-            'isOnlyEditableByCreatingUser',
-            'ticketCategories',
-            'eventType',
-            'notes',
-            'districtFieldValue',
-            'locations',
-            'shifts',
-            'voterRegistrationBatches',
-            'createdDate',
-            'financialProgram',
-            'shortName',
-            'isPubliclyViewable',
-            'isActive',
-            'description']
-
-        self.assertTrue(validate_list(expected, self.van.get_event(event_id)))
+        self.assertEqual(json, self.van.get_event(event_id))
 
     @requests_mock.Mocker()
     def test_create_event(self, m):

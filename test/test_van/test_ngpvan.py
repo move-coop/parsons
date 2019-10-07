@@ -2,8 +2,8 @@ import unittest
 import os
 import requests_mock
 from parsons.ngpvan.van import VAN
-from test.utils import validate_list
-
+from parsons.etl.table import Table
+from test.utils import validate_list, assert_matching_tables
 
 os.environ['VAN_API_KEY'] = 'SOME_KEY'
 
@@ -70,15 +70,7 @@ class TestNGPVAN(unittest.TestCase):
 
         m.get(self.van.connection.uri + 'activistCodes/4388538', json=json)
 
-        # Expected Structure
-        expected = ['status', 'scriptQuestion', 'name', 'mediumName',
-                    'activistCodeId', 'shortName', 'type', 'description']
-
-        # Assert response is expected structure
-        self.assertTrue(
-            validate_list(
-                expected,
-                self.van.get_activist_code(4388538)))
+        self.assertEqual(json, self.van.get_activist_code(4388538))
 
         # To Do: Test what happens when it doesn't find the AC
 
@@ -89,36 +81,16 @@ class TestNGPVAN(unittest.TestCase):
                 "contactTypeId": 19,
                 "channelTypeName": "Phone"}
 
-        m.get(
-            self.van.connection.uri +
-            'canvassResponses/contactTypes',
-            json=json)
+        m.get(self.van.connection.uri + 'canvassResponses/contactTypes', json=json)
 
-        # Expected Structure
-        expected = ['name', 'contactTypeId', 'channelTypeName']
-
-        self.assertTrue(
-            validate_list(
-                expected,
-                self.van.get_canvass_responses_contact_types()))
+        assert_matching_tables(Table(json), self.van.get_canvass_responses_contact_types())
 
     @requests_mock.Mocker()
     def test_get_canvass_responses_input_types(self, m):
 
         json = {"inputTypeId": 11, "name": "API"}
-
-        m.get(
-            self.van.connection.uri +
-            'canvassResponses/inputTypes',
-            json=json)
-
-        # Expected Structure
-        expected = ['inputTypeId', 'name']
-
-        self.assertTrue(
-            validate_list(
-                expected,
-                self.van.get_canvass_responses_input_types()))
+        m.get(self.van.connection.uri + 'canvassResponses/inputTypes', json=json)
+        assert_matching_tables(Table(json), self.van.get_canvass_responses_input_types())
 
     @requests_mock.Mocker()
     def test_get_canvass_responses_result_codes(self, m):
@@ -130,18 +102,8 @@ class TestNGPVAN(unittest.TestCase):
             "mediumName": "Busy"
         }
 
-        m.get(
-            self.van.connection.uri +
-            'canvassResponses/resultCodes',
-            json=json)
-
-        # Expected Structure
-        expected = ['shortName', 'resultCodeId', 'name', 'mediumName']
-
-        self.assertTrue(
-            validate_list(
-                expected,
-                self.van.get_canvass_responses_result_codes()))
+        m.get(self.van.connection.uri + 'canvassResponses/resultCodes', json=json)
+        assert_matching_tables(Table(json), self.van.get_canvass_responses_result_codes())
 
     @requests_mock.Mocker()
     def test_get_saved_lists(self, m):
@@ -157,12 +119,7 @@ class TestNGPVAN(unittest.TestCase):
 
         m.get(self.van.connection.uri + 'savedLists', json=json)
 
-        expected = [
-            'savedListId',
-            'listCount',
-            'name',
-            'doorCount',
-            'description']
+        expected = ['savedListId', 'listCount', 'name', 'doorCount','description']
 
         self.assertTrue(validate_list(expected, self.van.get_saved_lists()))
 
@@ -178,25 +135,14 @@ class TestNGPVAN(unittest.TestCase):
                 "description": "null"
                 }
 
-        m.get(
-            self.van.connection.uri +
-            'savedLists/{}'.format(saved_list_id),
-            json=json)
+        m.get(self.van.connection.uri + f'savedLists/{saved_list_id}', json=json)
 
-        expected = [
-            'savedListId',
-            'listCount',
-            'name',
-            'doorCount',
-            'description']
+        expected = ['savedListId', 'listCount', 'name', 'doorCount', 'description']
 
-        self.assertTrue(
-            validate_list(
-                expected,
-                self.van.get_saved_list(saved_list_id)))
+        self.assertEqual(self.van.get_saved_list(saved_list_id), json)
 
     @requests_mock.Mocker()
-    def test_folders(self, m):
+    def test_get_folders(self, m):
 
         json = {u'count': 2,
                 u'items': [
@@ -213,23 +159,18 @@ class TestNGPVAN(unittest.TestCase):
 
         expected = ['folderId', 'name']
 
-        self.assertTrue(validate_list(expected, self.van.folders()))
+        self.assertTrue(validate_list(expected, self.van.get_folders()))
 
     @requests_mock.Mocker()
-    def test_folder(self, m):
+    def test_get_folder(self, m):
 
         folder_id = 5046
 
         json = {"folderId": 5046, "name": "#2018_MN_active_universe"}
 
-        m.get(
-            self.van.connection.uri +
-            'folders/{}'.format(folder_id),
-            json=json)
+        m.get(self.van.connection.uri + f'folders/{folder_id}', json=json)
 
-        expected = ['folderId', 'name']
-
-        self.assertTrue(validate_list(expected, self.van.folder(folder_id)))
+        self.assertEqual(json, self.van.get_folder(folder_id))
 
     @requests_mock.Mocker()
     def test_export_job_types(self, m):
@@ -242,7 +183,7 @@ class TestNGPVAN(unittest.TestCase):
 
         expected = ['exportJobTypeId', 'name']
 
-        self.assertTrue(validate_list(expected, self.van.export_job_types()))
+        self.assertTrue(validate_list(expected, self.van.get_export_job_types()))
 
     @requests_mock.Mocker()
     def test_export_job_create(self, m):
@@ -287,7 +228,7 @@ class TestNGPVAN(unittest.TestCase):
         self.assertEqual(json,self.van.export_job_create(saved_list_id))
 
     @requests_mock.Mocker()
-    def test_export_job(self, m):
+    def test_get_export_job(self, m):
 
         export_job_id = 448
 
@@ -324,12 +265,9 @@ class TestNGPVAN(unittest.TestCase):
             'type',
             'exportJobId']
 
-        m.get(
-            self.van.connection.uri +
-            'exportJobs/{}'.format(export_job_id),
-            json=json)
+        m.get(self.van.connection.uri + f'exportJobs/{export_job_id}', json=json)
 
-        self.assertTrue(validate_list(expected, self.van.export_job(export_job_id)))
+        self.assertEqual(json, self.van.get_export_job(export_job_id))
 
     @requests_mock.Mocker()
     def test_get_survey_questions(self, m):
@@ -391,21 +329,11 @@ class TestNGPVAN(unittest.TestCase):
     @requests_mock.Mocker()
     def test_get_supporter_group(self, m):
 
-        supporter_group_id = 12
-
         json = {"id": 12, "name": "tmc", "description": "A fun group."}
-
-        m.get(self.van.connection.uri + 'supporterGroups/{}'.format(supporter_group_id), json=json)
-
-        expected = ['id', "name", "description"]
-
-        r = self.van.get_supporter_group(supporter_group_id)
+        m.get(self.van.connection.uri + 'supporterGroups/12', json=json)
 
         # Test that columns are expected columns
-        self.assertTrue(validate_list(expected, r))
-
-        # Test correct group id
-        self.assertEqual(supporter_group_id, r[0]['id'])
+        self.assertEqual(self.van.get_supporter_group(12), json)
 
     @requests_mock.Mocker()
     def test_add_person_supporter_group(self, m):

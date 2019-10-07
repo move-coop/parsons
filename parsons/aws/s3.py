@@ -28,8 +28,17 @@ class AWSConnection(object):
 
 class S3(object):
     """
-    Instatiate by passing ``aws_access_key_id`` and ``aws_secret_access_key``
-    or enviromental variables ``AWS_ACCESS_KEY_ID`` and ``AWS_SECRET_ACCESS_KEY``.
+    Instantiate the S3 class.
+
+    `Args:`
+        aws_access_key_id: str
+            The AWS access key id. Not required if the ``AWS_ACCESS_KEY_ID`` env variable
+            is set.
+        aws_secret_access_key: str
+            The AWS secret access key. Not required if the ``AWS_SECRET_ACCESS_KEY`` env
+            variable is set.
+    `Returns:`
+        S3 class.
     """
 
     def __init__(self, aws_access_key_id=None, aws_secret_access_key=None):

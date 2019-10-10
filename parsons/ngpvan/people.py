@@ -291,6 +291,8 @@ class People(object):
                 `Optional`; Defaults to 11 (API Input)
             date_canvassed : str
                 `Optional`; ISO 8601 formatted date. Defaults to todays date
+        Returns:
+            Status code 204
         """
 
         response = {"activistCodeId": activist_code_id,
@@ -299,11 +301,10 @@ class People(object):
 
         logger.info(f'{id_type.upper()} {id} {action.capitalize()} ' +
                     f'activist code {activist_code_id}')
-        self.apply_response(id, response, id_type, result_code_id=result_code_id,
-                            contact_type_id=contact_type_id, input_type_id=input_type_id,
-                            date_canvassed=date_canvassed)
+        return self.apply_response(id, response, id_type, result_code_id=result_code_id,
+                                   contact_type_id=contact_type_id, input_type_id=input_type_id,
+                                   date_canvassed=date_canvassed)
 
-        return True
 
     def toggle_volunteer_action(self, id, volunteer_activity_id, action, id_type='vanid',
                                 result_code_id=None, contact_type_id=None, input_type_id=None,
@@ -398,21 +399,19 @@ class People(object):
                          "action": "SurveyResponse"}
                         ]
             van.apply_response(5222, response)
-        """ # noqa: E501,E261
+        """  # noqa: E501,E261
 
         # Set url based on id_type
         if id_type == 'vanid':
-            url = self.connection.uri + f"people/{id}/canvassResponses"
+            url = f"people/{id}/canvassResponses"
         else:
-            url = self.connection.uri + f"people/{id_type}:{id}/canvassResponses"
+            url = f"people/{id_type}:{id}/canvassResponses"
 
         json = {"canvassContext": {
             "contactTypeId": contact_type_id,
             "inputTypeId": input_type_id,
-            "dateCanvassed": date_canvassed
-        },
-            "resultCodeId": result_code_id
-        }
+            "dateCanvassed": date_canvassed},
+            "resultCodeId": result_code_id}
 
         if response:
             json['responses'] = response
@@ -427,17 +426,7 @@ class People(object):
             raise ValueError(
                 "Both result_code_id and responses cannot be specified.")
 
-        r = self.connection.request(url, req_type="POST", post_data=json, raw=True)
-
-        # Will probably want to generalize this at some point in the future
-        # for other methods, but leaving this here for now.
-        if r[0] == 204:
-            logger.info(f'{id_type.upper()} {id} updated.')
-        else:
-            logger.info(f"{r[1]['errors'][0]['code']}: {r[1]['errors'][0]['text']}")
-            raise ValueError(f"{r[1]['errors'][0]['text']}")
-
-        return True
+        return self.connection.post_request(url, json=json)
 
     def create_relationship(self, vanid_1, vanid_2, relationship_id):
         """

@@ -39,7 +39,7 @@ class APIConnector(object):
         self.pagination_key = pagination_key
         self.data_key = data_key
 
-    def request(self, url, req_type, json=None, data=None, params=None, raise_on_error=True):
+    def request(self, url, req_type, json=None, data=None, params=None):
         """
         Base request using requests libary.
 
@@ -67,7 +67,7 @@ class APIConnector(object):
         return _request(req_type, url, headers=self.headers, auth=self.auth, json=json, data=data,
                         params=params)
 
-    def get_request(self, url, params=None, raise_on_error=True):
+    def get_request(self, url, params=None):
         """
         Make a GET request.
 

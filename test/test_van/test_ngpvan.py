@@ -5,7 +5,7 @@ from parsons.ngpvan.van import VAN
 from parsons.etl.table import Table
 from test.utils import validate_list, assert_matching_tables
 
-os.environ['VAN_API_KEY'] = 'SOME_KEY'
+
 
 
 class TestNGPVAN(unittest.TestCase):
@@ -28,51 +28,6 @@ class TestNGPVAN(unittest.TestCase):
 
         # Tests API connection with a key.
         self.assertTrue(self.van.connection.api_test())
-
-    @requests_mock.Mocker()
-    def test_get_activist_codes(self, m):
-
-        # Create response
-        json = {u'count': 43, u'items':
-                [{u'status': u'Active',
-                  u'scriptQuestion': None,
-                  u'name': u'TEST CODE',
-                  u'mediumName': u'TEST CODE',
-                  u'activistCodeId': 4388538,
-                  u'shortName': u'TC',
-                  u'type': u'Action',
-                  u'description': None}],
-                u'nextPageLink': None}
-
-        m.get(self.van.connection.uri + 'activistCodes', json=json)
-
-        # Expected Structure
-        expected = ['status', 'scriptQuestion', 'name', 'mediumName',
-                    'activistCodeId', 'shortName', 'type', 'description']
-
-        # Assert response is expected structure
-        self.assertTrue(validate_list(expected, self.van.get_activist_codes()))
-
-        # To Do: Test what happens when it doesn't find any ACs
-
-    @requests_mock.Mocker()
-    def test_get_activist_code(self, m):
-
-        # Create response
-        json = {"status": "Active",
-                "scriptQuestion": "null",
-                "name": "Anti-Choice",
-                "mediumName": "Anti",
-                "activistCodeId": 4135099,
-                "shortName": "AC",
-                "type": "Constituency",
-                "description": "A person who has been flagged as anti-choice."}
-
-        m.get(self.van.connection.uri + 'activistCodes/4388538', json=json)
-
-        self.assertEqual(json, self.van.get_activist_code(4388538))
-
-        # To Do: Test what happens when it doesn't find the AC
 
     @requests_mock.Mocker()
     def test_get_canvass_responses_contact_types(self, m):

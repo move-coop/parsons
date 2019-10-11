@@ -130,17 +130,6 @@ class TestNGPVAN(unittest.TestCase):
         m.post(self.van.connection.uri + f'people/2335282/canvassResponses', status_code=400)
         self.assertRaises(HTTPError, self.van.apply_survey_response, 2335282, 351006, 0)
 
-    @requests_mock.Mocker()
-    def test_toggle_activist_code(self, m):
-
-        # Test apply activist code
-        m.post(self.van.connection.uri + f'people/2335282/canvassResponses', status_code=204)
-        self.assertTrue(self.van.toggle_activist_code(2335282, 4429154, 'apply'))
-
-        # Test remove activist code
-        m.post(self.van.connection.uri + f'people/2335282/canvassResponses', status_code=204)
-        self.assertTrue(self.van.toggle_activist_code(2335282, 4429154, 'remove'))
-
     def test_toggle_volunteer_action(self):
 
         pass

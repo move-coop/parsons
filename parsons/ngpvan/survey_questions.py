@@ -17,7 +17,7 @@ class SurveyQuestions(object):
         Get survey questions.
 
         `Args:`
-            statuses: str
+            statuses: list
                 Filter to a list of statuses of survey questions. One or more of ``Active``,
                 ``Archived``, and ``Inactive``.
             name: str

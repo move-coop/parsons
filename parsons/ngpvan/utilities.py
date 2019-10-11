@@ -13,3 +13,14 @@ def action_parse(action):
         raise ValueError("Action must be either 'Apply' or 'Remove'")
 
     return action
+
+
+def list_to_string(string_arg):
+    """
+    Some methods arguments parsing of a list to a string.
+    """
+
+    if string_arg:
+        return '.'.join(string_arg)
+    else:
+        return string_arg

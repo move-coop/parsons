@@ -37,7 +37,7 @@ class VAN(People, Events, SavedLists, Folders, ExportJobs, ActivistCodes, Canvas
 
     def __init__(self, api_key=None, auth_name='default', db=None, raise_for_status=True):
 
-        self.connection = VANConnector(api_key=api_key, db=db, raise_for_status=raise_for_status)
+        self.connection = VANConnector(api_key=api_key, db=db)
         self.api_key = api_key
         self.db = db
 

@@ -1,5 +1,7 @@
 """NGPVAN Code Endpoints"""
+
 from parsons.etl.table import Table
+from parsons.ngpvan.utilities import list_to_string
 import logging
 
 logger = logging.getLogger(__name__)
@@ -19,7 +21,7 @@ class Codes(object):
         `Args:`
             name : str
                 Filter by name of code.
-            supported_entities: str
+            supported_entities: list
                 Filter by supported entities.
             parent_code_id: str
                 Filter by parent code id.
@@ -31,7 +33,7 @@ class Codes(object):
         """
 
         params = {'name': name,
-                  'supportedEntities': supported_entities,
+                  'supportedEntities': list_to_string(supported_entities),
                   'parentCodeId': parent_code_id,
                   'codeType': code_type,
                   '$top': 200
@@ -84,45 +86,16 @@ class Codes(object):
                 A description for this code, no longer than 200 characters.
             code_type: str
                 The code type. ``Tag`` and ``SourceCode`` are valid values.
-            supported_entities: list
-                A list of dicts that enumerate the searchability and applicability rules of the
-                code. You can find supported entities with the :meth:`code_supported_entities`
-
-                .. highlight:: python
-                .. code-block:: python
-
-                    [
-                        {
-                         'name': 'Event',
-                         'is_searchable': True,
-                         'is_applicable': True
-                        }
-                        {
-                         'name': 'Locations',
-                         'start_time': '12-31-2018T13:00:00',
-                         'end_time': '12-31-2018T14:00:00'
-                        }
-                    ]
         """
 
-        url = self.connection.uri + 'codes'
+        json = {"parentCodeId": parent_code_id,
+                "name": name,
+                "codeType": code_type,
+                "description": description}
 
-        if supported_entities:
-
-            se = [{'name': s['name'],
-                   'isSearchable': s['is_searchable'],
-                   'is_applicable': s['is_applicable']} for s in supported_entities]
-
-        post_data = {"parentCodeId": parent_code_id,
-                     "name": name,
-                     "codeType": code_type,
-                     "supportedEntities": se,
-                     "description": description}
-
-        c = self.connection.request(url, req_type="POST", post_data=post_data)
-        logger.debug(c)
-        logger.info(f'Code {c} created')
-        return c
+        r = self.connection.post_request('codes', json=json, success_code=201)
+        logger.info(f'Code {r} created.')
+        return r
 
     def update_code(self, code_id, name=None, parent_code_id=None, description=None,
                     code_type='SourceCode', supported_entities=None):

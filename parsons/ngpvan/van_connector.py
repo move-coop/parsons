@@ -11,7 +11,7 @@ URI = 'https://api.securevan.com/v4/'
 
 class VANConnector(object):
 
-    def __init__(self, api_key=None, auth_name='default', db=None, raise_for_status=True):
+    def __init__(self, api_key=None, auth_name='default', db=None):
 
         self.api_key = check_env.check('VAN_API_KEY', api_key)
 
@@ -26,7 +26,6 @@ class VANConnector(object):
         self.uri = URI
         self.db = db
         self.auth_name = auth_name
-        self.raise_for_status = raise_for_status
         self.auth = (self.auth_name, self.api_key + '|' + str(self.db_code))
 
         # Standardized API Connector. This is only being used by the get_activist_code methods

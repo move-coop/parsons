@@ -74,7 +74,7 @@ class ActivistCodes(object):
                 A known person identifier type available on this VAN instance
                 such as ``dwid``
         Returns:
-            Status code 204
+            ``None``
         """
 
         return self.toggle_activist_code(id, activist_code_id, 'Apply', id_type=id_type)
@@ -94,7 +94,7 @@ class ActivistCodes(object):
                 A known person identifier type available on this VAN instance
                 such as ``dwid``
         Returns:
-            Status code 204
+            ``None``
         """
 
         return self.toggle_activist_code(id, activist_code_id, 'Remove', id_type=id_type)

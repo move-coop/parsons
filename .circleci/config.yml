@@ -2,6 +2,16 @@
 #
 # Check https://circleci.com/docs/2.0/language-python/ for more details
 #
+workflows:
+  version: 2
+  build:
+    jobs:
+      - test
+      - docs-build-deploy:
+          filters:
+            branches:
+              only: master
+
 version: 2
 jobs:
   test:
@@ -91,14 +101,5 @@ jobs:
             export PATH=/home/circleci/npm/bin:$PATH
             gh-pages --dotfiles --dist docs
 
-workflows:
-  version: 2
-  build:
-    jobs:
-      - test
-      - docs-build-deploy:
-          filters:
-            branches:
-              only: master
 
 

@@ -97,10 +97,10 @@ class APIConnector(object):
                 The request parameters
             data: str or file
                 A data object to post
-            json:
+            json: dict
                 A JSON object to post
-            raise_on_error: boolean
-                Whether to raise status automatically if a status code of 400+ is returned.
+            success_code: int
+                The expected success code to be returned
         `Returns:`
             A requests response object
         """
@@ -122,10 +122,15 @@ class APIConnector(object):
         """
         Validate that the response is not an error code. If it is, then raise an error
         and display the error message.
+        
+        `Args:`
+            resp: object
+                A response object
         """
 
         if resp.status_code >= 400:
-            # Some errors return JSONs with useful information. Surface this.
+
+            # Some errors return JSONs with useful info about the error. Return it if exists.
             if self.json_check(resp):
                 raise HTTPError(f'HTTP error occurred: {HTTPError}, {resp.json()}')
             else:

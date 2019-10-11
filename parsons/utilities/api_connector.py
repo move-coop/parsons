@@ -122,7 +122,7 @@ class APIConnector(object):
         """
         Validate that the response is not an error code. If it is, then raise an error
         and display the error message.
-        
+
         `Args:`
             resp: object
                 A response object

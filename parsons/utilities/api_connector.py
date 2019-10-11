@@ -86,8 +86,7 @@ class APIConnector(object):
 
         return r.json()
 
-    def post_request(self, url, params=None, data=None, json=None, success_code=204,
-                     raise_for_status=True):
+    def post_request(self, url, params=None, data=None, json=None, success_code=204):
         """
         Make a POST request.
 
@@ -127,7 +126,7 @@ class APIConnector(object):
 
         if resp.status_code >= 400:
             # Some errors return JSONs with useful information. Surface this.
-            if self.json_check(r):
+            if self.json_check(resp):
                 raise HTTPError(f'HTTP error occurred: {HTTPError}, {resp.json()}')
             else:
                 raise HTTPError(f'HTTP error occurred: {HTTPError}')

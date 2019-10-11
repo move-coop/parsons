@@ -13,7 +13,7 @@ Parsons is only compatible with Python 3.x
 Usage of Parsons is governed by the [TMC Parsons License](https://github.com/move-coop/parsons/blob/master/LICENSE.md), which allows for unlimited non-commercial usage, provided that individuals and organizations adhere to our broad values statement. 
 
 ### Documentation
-The gain a full understanding of all of the features of Parsons, please review the Parson's [documentation](https://move-coop.github.io/parsons_public/html/index.html).
+The gain a full understanding of all of the features of Parsons, please review the Parson's [documentation](https://move-coop.github.io/parsons/html/index.html).
 
 
 ### Installation
@@ -28,7 +28,7 @@ You can install the most recent release by running: `pip install parsons`
 To access the most recent code base that may contain features not yet included in the latest release, download this repository and then run `python setup.py develop`.
 
 #### Docker Container
-We have a Parsons Docker container hosted on [DockerHub](https://cloud.docker.com/u/movementcooperative/repository/docker/movementcooperative/parsons_public) for each release of Parsons, including the `latest`.
+We have a Parsons Docker container hosted on [DockerHub](https://cloud.docker.com/u/movementcooperative/repository/docker/movementcooperative/parsons) for each release of Parsons, including the `latest`.
 
 ### Quickstart
 
@@ -69,6 +69,6 @@ record = ts.data_enhance(231231231, state='DC')
 
 
 ### Community
-We hope to foster a strong and robust community of individuals who use and contribute to further development. Individuals are encouraged to submit issues with bugs, suggestions and feature requests. [Here](https://github.com/move-coop/parsons_public/blob/master/docs/contributing.md) are the guidelines and best practices for contributing to Parsons.
+We hope to foster a strong and robust community of individuals who use and contribute to further development. Individuals are encouraged to submit issues with bugs, suggestions and feature requests. [Here](https://github.com/move-coop/parsons/blob/master/docs/contributing.md) are the guidelines and best practices for contributing to Parsons.
 
 You can also stay up to date by joining the [Parsons python google group](https://groups.google.com/forum/#!forum/parsons-python/join).

@@ -1,5 +1,6 @@
 # Parsons
-
+[![Downloads](https://pepy.tech/badge/parsons)](https://pepy.tech/project/parsons)
+[![CircleCI](https://circleci.com/gh/move-coop/parsons/tree/master.svg?style=shield)](https://circleci.com/gh/move-coop/parsons/tree/master)
 
 A Python package that provides a simple interface to a variety of utilities and tools frequently used by progressive organizations, political and issue campaigns, activists, and other allied actors.
 

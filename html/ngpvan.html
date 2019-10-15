@@ -304,18 +304,14 @@ and canvass reponses.</p>
 <span class="c1"># Instatiate Class</span>
 <span class="n">van</span> <span class="o">=</span> <span class="n">VAN</span><span class="p">(</span><span class="n">db</span><span class="o">=</span><span class="s2">&quot;MyVoters&quot;</span><span class="p">)</span>
 
-<span class="n">sq_id</span> <span class="o">=</span> <span class="mi">311838</span> <span class="c1"># Valid survey question id</span>
+<span class="n">van_id</span> <span class="o">=</span> <span class="mi">13242</span>
+<span class="n">sq</span> <span class="o">=</span> <span class="mi">311838</span> <span class="c1"># Valid survey question id</span>
 <span class="n">sr</span> <span class="o">=</span> <span class="mi">1288926</span> <span class="c1"># Valid survey response id</span>
 <span class="n">ct</span> <span class="o">=</span> <span class="mi">36</span> <span class="c1"># Valid contact type id</span>
-<span class="n">it_id</span> <span class="o">=</span> <span class="mi">4</span> <span class="c1"># Valid input type id</span>
+<span class="n">it</span> <span class="o">=</span> <span class="mi">4</span> <span class="c1"># Valid input type id</span>
 
 <span class="c1"># Create a valid survey question response</span>
-<span class="n">sq_response</span> <span class="o">=</span> <span class="n">van</span><span class="o">.</span><span class="n">people_sq_response</span><span class="p">(</span><span class="n">sq_id</span><span class="p">,</span><span class="n">sr_id</span><span class="p">)</span>
-<span class="n">van</span><span class="o">.</span><span class="n">people_canvass_response</span><span class="p">(</span><span class="n">dwid</span><span class="p">,</span>
-                            <span class="n">key_type</span><span class="o">=</span><span class="s1">&#39;dwid&#39;</span><span class="p">,</span>
-                            <span class="n">contact_type_id</span><span class="o">=</span><span class="n">ct_id</span><span class="p">,</span>
-                            <span class="n">input_type_id</span><span class="o">=</span><span class="n">it_id</span><span class="p">,</span>
-                            <span class="n">responses</span><span class="o">=</span><span class="n">sq_response</span><span class="p">)</span>
+<span class="n">van</span><span class="o">.</span><span class="n">apply_survey_response</span><span class="p">(</span><span class="n">vanid</span><span class="p">,</span> <span class="n">sq</span><span class="p">,</span> <span class="n">sr</span><span class="p">,</span> <span class="n">contact_type_id</span><span class="o">=</span><span class="n">ct</span><span class="p">,</span> <span class="n">input_type_id</span><span class="o">=</span><span class="n">it</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>

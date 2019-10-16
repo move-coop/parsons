@@ -1,5 +1,6 @@
 from parsons.etl.etl import ETL
 from parsons.etl.tofrom import ToFrom
+from parsons.utilities.resources import ResourceManager
 import petl
 import logging
 
@@ -19,13 +20,9 @@ class Table(ETL, ToFrom):
     `Args:`
         lst: list
             See above for accepted list formats
-        source: str
-            The original data source from which the data was pulled (optional)
-        name: str
-            The name of the table (optional)
     """
 
-    def __init__(self, lst=[]):
+    def __init__(self, lst=[], resource_manager=None):
 
         self.table = None
 
@@ -55,6 +52,8 @@ class Table(ETL, ToFrom):
         # Count how many times someone is indexing directly into this table, so we can warn
         # against inefficient usage.
         self._index_count = 0
+
+        self.resource_manager = ResourceManager(resource_manager)
 
     def __repr__(self):
 
@@ -114,6 +113,7 @@ class Table(ETL, ToFrom):
         """
 
         self.table = petl.wrap(petl.tupleoftuples(self.table))
+        self.resource_manager.release()
 
     def is_valid_table(self):
         """

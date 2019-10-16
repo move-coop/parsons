@@ -3,7 +3,7 @@ from parsons.databases.redshift.rs_copy_table import RedshiftCopyTable
 from parsons.databases.redshift.rs_create_table import RedshiftCreateTable
 from parsons.databases.redshift.rs_table_utilities import RedshiftTableUtilities
 from parsons.databases.redshift.rs_schema import RedshiftSchema
-from parsons.utilities import files
+from parsons.utilities.resources import ResourceManager
 import psycopg2
 import psycopg2.extras
 import os
@@ -11,6 +11,7 @@ import logging
 import json
 import pickle
 import petl
+import tempfile
 from contextlib import contextmanager
 import datetime
 
@@ -182,7 +183,9 @@ class Redshift(RedshiftCreateTable, RedshiftCopyTable, RedshiftTableUtilities, R
                 # (We pickle rather than writing to, say, a CSV, so that we maintain
                 # all the type information for each field.)
 
-                temp_file = files.create_temp_file()
+                # Use a resource manager to track the temp file we create.
+                resource_manager = ResourceManager()
+                temp_file = resource_manager.create_temp_file()
 
                 with open(temp_file, 'wb') as f:
                     # Grab the header
@@ -198,8 +201,8 @@ class Redshift(RedshiftCreateTable, RedshiftCopyTable, RedshiftTableUtilities, R
                         for row in batch:
                             pickle.dump(list(row), f)
 
-                # Load a Table from the file
-                final_tbl = Table(petl.frompickle(temp_file))
+                # Load a Table from the file, passing in the resource manager that owns the file
+                final_tbl = Table(petl.frompickle(temp_file), resource_manager)
 
                 logger.debug(f'Query returned {final_tbl.num_rows} rows.')
                 return final_tbl
@@ -307,21 +310,22 @@ class Redshift(RedshiftCreateTable, RedshiftCopyTable, RedshiftTableUtilities, R
                 s3 = S3(aws_access_key_id=aws_access_key_id,
                         aws_secret_access_key=aws_secret_access_key)
 
-                local_path = s3.get_file(bucket, key)
+                with tempfile.NamedTemporaryFile() as temp_file:
+                    local_path = s3.get_file(bucket, key, temp_file.name)
 
-                if data_type == 'csv':
-                    tbl = Table.from_csv(local_path)
-                else:
-                    raise TypeError("Invalid data type provided")
+                    if data_type == 'csv':
+                        tbl = Table.from_csv(local_path)
+                    else:
+                        raise TypeError("Invalid data type provided")
 
-                # Create the table
-                sql = self.create_statement(tbl, table_name, padding=padding,
-                                            distkey=distkey, sortkey=sortkey,
-                                            varchar_max=varchar_max,
-                                            columntypes=columntypes)
+                    # Create the table
+                    sql = self.create_statement(tbl, table_name, padding=padding,
+                                                distkey=distkey, sortkey=sortkey,
+                                                varchar_max=varchar_max,
+                                                columntypes=columntypes)
 
-                self.query_with_connection(sql, connection, commit=False)
-                logger.info(f'{table_name} created.')
+                    self.query_with_connection(sql, connection, commit=False)
+                    logger.info(f'{table_name} created.')
 
             # Copy the table
             copy_sql = self.copy_statement(table_name, bucket, key, manifest=manifest,
@@ -589,14 +593,13 @@ class Redshift(RedshiftCreateTable, RedshiftCopyTable, RedshiftTableUtilities, R
         # Save the file to s3 bucket if provided
         if manifest_key and manifest_bucket:
             # Dump the manifest to a temp JSON file
-            manifest_path = files.create_temp_file()
-            with open(manifest_path, 'w') as manifest_file_obj:
-                json.dump(manifest, manifest_file_obj, sort_keys=True, indent=4)
+            with tempfile.NamedTemporaryFile() as temp_file:
+                json.dump(manifest, temp_file, sort_keys=True, indent=4)
 
-            # Upload the file to S3
-            s3.put_file(manifest_bucket, manifest_key, manifest_path)
+                # Upload the file to S3
+                s3.put_file(manifest_bucket, manifest_key, temp_file.name)
 
-            logger.info(f'Manifest saved to s3://{manifest_bucket}/{manifest_key}')
+                logger.info(f'Manifest saved to s3://{manifest_bucket}/{manifest_key}')
 
         return manifest
 

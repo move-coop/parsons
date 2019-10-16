@@ -1,5 +1,6 @@
-from tempfile import NamedTemporaryFile
 import gzip
+
+from parsons.utilities.resources import ResourceManager
 
 __all__ = [
     'create_temp_file',
@@ -11,15 +12,15 @@ __all__ = [
     ]
 
 
-# This global list keeps track of all temp files created during the runtime of a script.
+# This global ResourceManger keeps track of all temp files created during the runtime of a script.
 # We can't rely exclusively on the "automatic removal" behavior of the built-in `tempfile`
 # library, because of our use of petl. Specifically, if a petl table is loaded from a
 # temporary file (eg. a CSV), petl may not actually read the file until much later, after the
 # TemporaryFile object has already gone out of scope and the file removed. If this
 # occurs, the petl load will fail since it's trying to read from a file that doesn't exist.
-# So by storing all the temp files in this list, we can keep them "in scope" for the remaining
+# So by keeping a global resource manager, we can keep our files "in scope" for the remaining
 # runtime of the script.
-_temp_files = []
+_resource_manager = ResourceManager()
 
 
 def create_temp_file(suffix=None):
@@ -33,9 +34,7 @@ def create_temp_file(suffix=None):
         str
             The path of the temp file
     """
-    temp_file = NamedTemporaryFile(suffix=suffix)
-    _temp_files.append(temp_file)
-    return temp_file.name
+    return _resource_manager.create_temp_file(suffix)
 
 
 def create_temp_file_for_path(path):
@@ -50,12 +49,7 @@ def create_temp_file_for_path(path):
         str
             The path of the temp file
     """
-
-    # Add the appropriate compression suffix to the file, so other libraries that check the
-    # file's extension will know that it is compressed.
-    # TODO Make this more robust, maybe even using the entire remote file name as the suffix.
-    suffix = '.gz' if is_gzip_path(path) else None
-    return create_temp_file(suffix=suffix)
+    return _resource_manager.create_temp_file_for_path(path)
 
 
 def close_temp_file(path):
@@ -73,13 +67,7 @@ def close_temp_file(path):
         bool
             Whether the temp file was found and closed
     """
-
-    for temp_file in _temp_files:
-        if temp_file.name == path:
-            _temp_files.remove(temp_file)
-            return True
-
-    return False
+    return _resource_manager.close_temp_file(path)
 
 
 def is_gzip_path(path):

@@ -656,6 +656,20 @@ class TestParsonsTable(unittest.TestCase):
 
         assert_matching_tables(input_tbl, expected_tbl)
 
+    def test_cut__inherit_resources(self):
+        resource_manager = ResourceManager()
+        temp_file = resource_manager.create_temp_file()
+        self.assertTrue(os.path.exists(temp_file))
+
+        new_table = Table([{'one': 1, 'two': 2}], resource_manager)
+
+        cut_table = new_table.cut('one')
+        new_table.clear()
+        self.assertTrue(os.path.exists(temp_file))
+
+        cut_table.clear()
+        self.assertFalse(os.path.exists(temp_file))
+
     def test_clear(self):
         table = Table(self.tbl)
 
@@ -669,11 +683,11 @@ class TestParsonsTable(unittest.TestCase):
         self.assertTrue(os.path.exists(temp_file))
 
         new_table = Table([{'one': 1, 'two': 2}], resource_manager)
-        self.assertEquals(1, new_table.num_rows)
+        self.assertEqual(1, new_table.num_rows)
 
         new_table.clear()
         self.assertFalse(os.path.exists(temp_file))
-        self.assertEqual(0, table.num_rows)
+        self.assertEqual(0, new_table.num_rows)
 
     def test_context_manager(self):
         resource_manager = ResourceManager()
@@ -681,6 +695,6 @@ class TestParsonsTable(unittest.TestCase):
 
         with Table([{'one': 1, 'two': 2}], resource_manager) as new_table:
             self.assertTrue(os.path.exists(temp_file))
-            self.assertEqual(0, new_table.num_rows)
+            self.assertEqual(1, new_table.num_rows)
 
         self.assertFalse(os.path.exists(temp_file))

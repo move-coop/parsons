@@ -53,7 +53,7 @@ class Table(ETL, ToFrom):
         # against inefficient usage.
         self._index_count = 0
 
-        self.resource_manager = ResourceManager(resource_manager)
+        self.resource_manager = resource_manager or ResourceManager()
 
     def __repr__(self):
 

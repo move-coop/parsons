@@ -446,8 +446,8 @@ class ETL(object):
         from parsons.etl.table import Table
 
         # Use melt to pivot both sets of columns into their own Tables and clean out None values
-        melted_list = Table(petl.melt(table_list.table, ignore_cols), self.resource_manager)
-        melted_dict = Table(petl.melt(table_dict.table, ignore_cols), self.resource_manager)
+        melted_list = Table(petl.melt(table_list.table, ignore_cols), self.resource_manager.clone())
+        melted_dict = Table(petl.melt(table_dict.table, ignore_cols), self.resource_manager.clone())
 
         melted_list.remove_null_rows('value')
         melted_dict.remove_null_rows('value')
@@ -580,7 +580,7 @@ class ETL(object):
 
         from parsons.etl.table import Table
 
-        return Table(petl.cut(self.table, *columns), self.resource_manager)
+        return Table(petl.cut(self.table, *columns), self.resource_manager.clone())
 
     def select_rows(self, *filters):
         """
@@ -614,7 +614,7 @@ class ETL(object):
 
         from parsons.etl.table import Table
 
-        return Table(petl.select(self.table, *filters), self.resource_manager)
+        return Table(petl.select(self.table, *filters), self.resource_manager.clone())
 
     def remove_null_rows(self, columns):
         """
@@ -706,7 +706,7 @@ class ETL(object):
 
         from parsons import Table  # Just trying to avoid recursive imports.
         return [
-            Table(petl.rowslice(self.table, i, i+rows), self.resource_manager)
+            Table(petl.rowslice(self.table, i, i+rows), self.resource_manager.clone())
             for i in range(0, self.num_rows, rows)
         ]
 

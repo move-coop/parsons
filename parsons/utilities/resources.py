@@ -43,12 +43,20 @@ class ResourceManager:
         ResouceManager Class
     """
 
-    def __init__(self, existing_manager=None):
-        existing_resources = existing_manager.resources if existing_manager else []
-        self.resources = [
-            resource.reference() for resource
-            in existing_resources
-        ]
+    def __init__(self):
+        self.resources = []
+
+    def clone(self):
+        """
+        Clone an existing resource manager which will also have a reference of all of this resource
+        manager's resources.
+
+        `Returns:`
+            ResouceManager Class
+        """
+        clone = ResourceManager()
+        clone.resources = [resource.reference() for resource in self.resources]
+        return clone
 
     def release(self):
         """

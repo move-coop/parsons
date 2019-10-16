@@ -60,7 +60,7 @@ class TestResourceManager(unittest.TestCase):
         temp_filename = manager_one.create_temp_file()
         self.assertTrue(os.path.exists(temp_filename))
 
-        manager_two = ResourceManager(manager_one)
+        manager_two = manager_one.clone()
 
         manager_one.release()
         self.assertTrue(os.path.exists(temp_filename))
@@ -73,7 +73,7 @@ class TestResourceManager(unittest.TestCase):
         temp_filename = manager_one.create_temp_file()
         self.assertTrue(os.path.exists(temp_filename))
 
-        manager_two = ResourceManager(manager_one)
+        manager_two = manager_one.clone()
 
         manager_two.release()
         self.assertTrue(os.path.exists(temp_filename))
@@ -86,11 +86,11 @@ class TestResourceManager(unittest.TestCase):
         temp_filename = manager_one.create_temp_file()
         self.assertTrue(os.path.exists(temp_filename))
 
-        manager_two = ResourceManager(manager_one)
-        manager_three = ResourceManager(manager_one)
-        manager_four = ResourceManager(manager_three)
-        manager_five = ResourceManager(manager_four)
-        manager_six = ResourceManager(manager_four)
+        manager_two = manager_one.clone()
+        manager_three = manager_one.clone()
+        manager_four = manager_three.clone()
+        manager_five = manager_four.clone()
+        manager_six = manager_four.clone()
 
         manager_one.release()
         self.assertTrue(os.path.exists(temp_filename))

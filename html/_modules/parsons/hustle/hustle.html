@@ -525,8 +525,7 @@
 
         <span class="c1"># Remove empty args in dictionary</span>
         <span class="n">lead</span> <span class="o">=</span> <span class="n">json_format</span><span class="o">.</span><span class="n">remove_empty_keys</span><span class="p">(</span><span class="n">lead</span><span class="p">)</span>
-
-        <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s1">&#39;Generating lead for </span><span class="si">{first_name}</span><span class="s1"> </span><span class="si">{last_name}</span><span class="s1">.&#39;</span><span class="p">)</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="n">f</span><span class="s1">&#39;Generating lead for </span><span class="si">{first_name}</span><span class="s1"> </span><span class="si">{last_name}</span><span class="s1">.&#39;</span><span class="p">)</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_request</span><span class="p">(</span><span class="n">f</span><span class="s1">&#39;groups/</span><span class="si">{group_id}</span><span class="s1">/leads&#39;</span><span class="p">,</span> <span class="n">req_type</span><span class="o">=</span><span class="s2">&quot;POST&quot;</span><span class="p">,</span> <span class="n">payload</span><span class="o">=</span><span class="n">lead</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="Hustle.create_leads"><a class="viewcode-back" href="../../../hustle.html#parsons.Hustle.create_leads">[docs]</a>    <span class="k">def</span> <span class="nf">create_leads</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">table</span><span class="p">,</span> <span class="n">group_id</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>

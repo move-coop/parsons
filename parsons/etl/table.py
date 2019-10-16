@@ -77,6 +77,12 @@ class Table(ETL, ToFrom):
 
         return petl.dicts(self.table)[index]
 
+    def __enter__(self):
+        return self
+
+    def __exit__(self, exc_type, exc_value, traceback):
+        self.clear()
+
     @property
     def num_rows(self):
         """
@@ -102,6 +108,14 @@ class Table(ETL, ToFrom):
                 List of the table's column names
         """
         return list(petl.header(self.table))
+
+    def clear(self):
+        """
+        Clear out all of the contents of the Table, releasing any underlying resources
+        being held.
+        """
+        self.resource_manager.release()
+        self.table = petl.fromdicts([])
 
     def materialize(self):
         """

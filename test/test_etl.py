@@ -5,6 +5,7 @@ import os
 import shutil
 from test.utils import assert_matching_tables
 from parsons.utilities import zip_archive
+from parsons.utilities.resources import ResourceManager
 
 
 class TestParsonsTable(unittest.TestCase):
@@ -654,3 +655,33 @@ class TestParsonsTable(unittest.TestCase):
         input_tbl.map_columns(column_map)
 
         assert_matching_tables(input_tbl, expected_tbl)
+
+    def test_clear(self):
+        table = Table(self.tbl)
+
+        table.clear()
+
+        self.assertEqual(0, table.num_rows)
+
+    def test_clear__resources(self):
+        resource_manager = ResourceManager()
+        temp_file = resource_manager.create_temp_file()
+        self.assertTrue(os.path.exists(temp_file))
+
+        new_table = Table([{'one': 1, 'two': 2}], resource_manager)
+        self.assertEquals(1, new_table.num_rows)
+
+        new_table.clear()
+        self.assertFalse(os.path.exists(temp_file))
+        self.assertEqual(0, table.num_rows)
+
+    def test_context_manager(self):
+        resource_manager = ResourceManager()
+        temp_file = resource_manager.create_temp_file()
+
+        with Table([{'one': 1, 'two': 2}], resource_manager) as new_table:
+            self.assertTrue(os.path.exists(temp_file))
+            self.assertEqual(0, table.num_rows)
+
+        self.assertFalse(os.path.exists(temp_file))
+        self.assertEqual(0, table.num_rows)

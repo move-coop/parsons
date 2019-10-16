@@ -172,16 +172,13 @@
 <span></span><span class="sd">&quot;&quot;&quot;NGPVAN Activist Code Endpoints&quot;&quot;&quot;</span>
 
 <span class="kn">from</span> <span class="nn">parsons.etl.table</span> <span class="k">import</span> <span class="n">Table</span>
+<span class="kn">from</span> <span class="nn">parsons.ngpvan.utilities</span> <span class="k">import</span> <span class="n">action_parse</span>
 <span class="kn">import</span> <span class="nn">logging</span>
 
 <span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
 
 
 <div class="viewcode-block" id="ActivistCodes"><a class="viewcode-back" href="../../../ngpvan.html#parsons.ngpvan.van.ActivistCodes">[docs]</a><span class="k">class</span> <span class="nc">ActivistCodes</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        .. note::</span>
-<span class="sd">            To apply or remove activist codes, use the :meth:`toggle_activist_code` method.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">van_connection</span><span class="p">):</span>
 
@@ -214,7 +211,64 @@
 
         <span class="n">r</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">connection</span><span class="o">.</span><span class="n">get_request</span><span class="p">(</span><span class="n">f</span><span class="s1">&#39;activistCodes/</span><span class="si">{activist_code_id}</span><span class="s1">&#39;</span><span class="p">)</span>
         <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="n">f</span><span class="s1">&#39;Found activist code </span><span class="si">{activist_code_id}</span><span class="s1">.&#39;</span><span class="p">)</span>
-        <span class="k">return</span> <span class="n">r</span></div></div>
+        <span class="k">return</span> <span class="n">r</span></div>
+
+    <span class="k">def</span> <span class="nf">toggle_activist_code</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">id</span><span class="p">,</span> <span class="n">activist_code_id</span><span class="p">,</span> <span class="n">action</span><span class="p">,</span> <span class="n">id_type</span><span class="o">=</span><span class="s1">&#39;vanid&#39;</span><span class="p">):</span>
+        <span class="c1"># Internal method to apply/remove activist codes. Was previously a public method,</span>
+        <span class="c1"># but for the sake of simplicity, breaking out into two public methods.</span>
+
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="n">f</span><span class="s1">&#39;Method deprecated. Use apply_activist_code() or remove_activist_code().&#39;</span><span class="p">)</span>
+
+        <span class="n">response</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;activistCodeId&quot;</span><span class="p">:</span> <span class="n">activist_code_id</span><span class="p">,</span>
+                    <span class="s2">&quot;action&quot;</span><span class="p">:</span> <span class="n">action_parse</span><span class="p">(</span><span class="n">action</span><span class="p">),</span>
+                    <span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;activistCode&quot;</span><span class="p">}</span>
+
+        <span class="n">r</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">apply_response</span><span class="p">(</span><span class="nb">id</span><span class="p">,</span> <span class="n">response</span><span class="p">,</span> <span class="n">id_type</span><span class="p">)</span>
+
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="n">f</span><span class="s1">&#39;{id_type.upper()} </span><span class="si">{id}</span><span class="s1"> {action.capitalize()} &#39;</span> <span class="o">+</span>
+                    <span class="n">f</span><span class="s1">&#39;activist code </span><span class="si">{activist_code_id}</span><span class="s1">&#39;</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">r</span>
+
+<div class="viewcode-block" id="ActivistCodes.apply_activist_code"><a class="viewcode-back" href="../../../ngpvan.html#parsons.ngpvan.van.ActivistCodes.apply_activist_code">[docs]</a>    <span class="k">def</span> <span class="nf">apply_activist_code</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">id</span><span class="p">,</span> <span class="n">activist_code_id</span><span class="p">,</span> <span class="n">id_type</span><span class="o">=</span><span class="s1">&#39;vanid&#39;</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Apply an activist code to or from a person.</span>
+
+<span class="sd">        `Args:`</span>
+<span class="sd">            id: str</span>
+<span class="sd">                A valid person id</span>
+<span class="sd">            activist_code_id: int</span>
+<span class="sd">                A valid activist code id</span>
+<span class="sd">            action: str</span>
+<span class="sd">                Either &#39;apply&#39; or &#39;remove&#39;</span>
+<span class="sd">            id_type: str</span>
+<span class="sd">                A known person identifier type available on this VAN instance</span>
+<span class="sd">                such as ``dwid``</span>
+<span class="sd">        Returns:</span>
+<span class="sd">            ``None``</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">toggle_activist_code</span><span class="p">(</span><span class="nb">id</span><span class="p">,</span> <span class="n">activist_code_id</span><span class="p">,</span> <span class="s1">&#39;Apply&#39;</span><span class="p">,</span> <span class="n">id_type</span><span class="o">=</span><span class="n">id_type</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="ActivistCodes.remove_activist_code"><a class="viewcode-back" href="../../../ngpvan.html#parsons.ngpvan.van.ActivistCodes.remove_activist_code">[docs]</a>    <span class="k">def</span> <span class="nf">remove_activist_code</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">id</span><span class="p">,</span> <span class="n">activist_code_id</span><span class="p">,</span> <span class="n">id_type</span><span class="o">=</span><span class="s1">&#39;vanid&#39;</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Remove an activist code to or from a person.</span>
+
+<span class="sd">        `Args:`</span>
+<span class="sd">            id: str</span>
+<span class="sd">                A valid person id</span>
+<span class="sd">            activist_code_id: int</span>
+<span class="sd">                A valid activist code id</span>
+<span class="sd">            action: str</span>
+<span class="sd">                Either &#39;apply&#39; or &#39;remove&#39;</span>
+<span class="sd">            id_type: str</span>
+<span class="sd">                A known person identifier type available on this VAN instance</span>
+<span class="sd">                such as ``dwid``</span>
+<span class="sd">        Returns:</span>
+<span class="sd">            ``None``</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">toggle_activist_code</span><span class="p">(</span><span class="nb">id</span><span class="p">,</span> <span class="n">activist_code_id</span><span class="p">,</span> <span class="s1">&#39;Remove&#39;</span><span class="p">,</span> <span class="n">id_type</span><span class="o">=</span><span class="n">id_type</span><span class="p">)</span></div></div>
 </pre></div>
 
            </div>

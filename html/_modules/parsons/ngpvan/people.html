@@ -435,47 +435,6 @@
 
         <span class="k">return</span> <span class="kc">True</span></div>
 
-<div class="viewcode-block" id="People.toggle_activist_code"><a class="viewcode-back" href="../../../ngpvan.html#parsons.ngpvan.van.People.toggle_activist_code">[docs]</a>    <span class="k">def</span> <span class="nf">toggle_activist_code</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">id</span><span class="p">,</span> <span class="n">activist_code_id</span><span class="p">,</span> <span class="n">action</span><span class="p">,</span> <span class="n">id_type</span><span class="o">=</span><span class="s1">&#39;vanid&#39;</span><span class="p">,</span>
-                             <span class="n">result_code_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">contact_type_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">input_type_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-                             <span class="n">date_canvassed</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Apply or remove an activist code to or from a person.</span>
-
-<span class="sd">        `Args:`</span>
-<span class="sd">            id: str</span>
-<span class="sd">                A valid person id</span>
-<span class="sd">            activist_code_id: int</span>
-<span class="sd">                A valid activist code id</span>
-<span class="sd">            action: str</span>
-<span class="sd">                Either &#39;apply&#39; or &#39;remove&#39;</span>
-<span class="sd">            id_type: str</span>
-<span class="sd">                A known person identifier type available on this VAN instance</span>
-<span class="sd">                such as ``dwid``</span>
-<span class="sd">            result_code_id : int</span>
-<span class="sd">                `Optional`; Specifies the result code of the response. If</span>
-<span class="sd">                not included,responses must be specified. Conversely, if</span>
-<span class="sd">                responses are specified, result_code_id must be null. Valid ids</span>
-<span class="sd">                can be found by using the :meth:`get_canvass_responses_result_codes`</span>
-<span class="sd">            contact_type_id : int</span>
-<span class="sd">                `Optional`; A valid contact type id</span>
-<span class="sd">            input_type_id : int</span>
-<span class="sd">                `Optional`; Defaults to 11 (API Input)</span>
-<span class="sd">            date_canvassed : str</span>
-<span class="sd">                `Optional`; ISO 8601 formatted date. Defaults to todays date</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-
-        <span class="n">response</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;activistCodeId&quot;</span><span class="p">:</span> <span class="n">activist_code_id</span><span class="p">,</span>
-                    <span class="s2">&quot;action&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_action_parse</span><span class="p">(</span><span class="n">action</span><span class="p">),</span>
-                    <span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;activistCode&quot;</span><span class="p">}</span>
-
-        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="n">f</span><span class="s1">&#39;{id_type.upper()} </span><span class="si">{id}</span><span class="s1"> {action.capitalize()} &#39;</span> <span class="o">+</span>
-                    <span class="n">f</span><span class="s1">&#39;activist code </span><span class="si">{activist_code_id}</span><span class="s1">&#39;</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">apply_response</span><span class="p">(</span><span class="nb">id</span><span class="p">,</span> <span class="n">response</span><span class="p">,</span> <span class="n">id_type</span><span class="p">,</span> <span class="n">result_code_id</span><span class="o">=</span><span class="n">result_code_id</span><span class="p">,</span>
-                            <span class="n">contact_type_id</span><span class="o">=</span><span class="n">contact_type_id</span><span class="p">,</span> <span class="n">input_type_id</span><span class="o">=</span><span class="n">input_type_id</span><span class="p">,</span>
-                            <span class="n">date_canvassed</span><span class="o">=</span><span class="n">date_canvassed</span><span class="p">)</span>
-
-        <span class="k">return</span> <span class="kc">True</span></div>
-
 <div class="viewcode-block" id="People.toggle_volunteer_action"><a class="viewcode-back" href="../../../ngpvan.html#parsons.ngpvan.van.People.toggle_volunteer_action">[docs]</a>    <span class="k">def</span> <span class="nf">toggle_volunteer_action</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">id</span><span class="p">,</span> <span class="n">volunteer_activity_id</span><span class="p">,</span> <span class="n">action</span><span class="p">,</span> <span class="n">id_type</span><span class="o">=</span><span class="s1">&#39;vanid&#39;</span><span class="p">,</span>
                                 <span class="n">result_code_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">contact_type_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">input_type_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
                                 <span class="n">date_canvassed</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
@@ -516,17 +475,6 @@
 <span class="sd">        self.apply_response(id, response, id_type, contact_type_id, input_type_id, date_canvassed,</span>
 <span class="sd">                            result_code_id)</span>
 <span class="sd">        &quot;&quot;&quot;</span></div>
-
-    <span class="k">def</span> <span class="nf">_action_parse</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">action</span><span class="p">):</span>
-        <span class="c1"># Internal method to parse and validate actions</span>
-
-        <span class="n">action</span> <span class="o">=</span> <span class="n">action</span><span class="o">.</span><span class="n">capitalize</span><span class="p">()</span>
-
-        <span class="k">if</span> <span class="n">action</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">(</span><span class="s1">&#39;Apply&#39;</span><span class="p">,</span> <span class="s1">&#39;Remove&#39;</span><span class="p">):</span>
-
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Action must be either &#39;Apply&#39; or &#39;Remove&#39;&quot;</span><span class="p">)</span>
-
-        <span class="k">return</span> <span class="n">action</span>
 
 <div class="viewcode-block" id="People.apply_response"><a class="viewcode-back" href="../../../ngpvan.html#parsons.ngpvan.van.People.apply_response">[docs]</a>    <span class="k">def</span> <span class="nf">apply_response</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">id</span><span class="p">,</span> <span class="n">response</span><span class="p">,</span> <span class="n">id_type</span><span class="o">=</span><span class="s1">&#39;vanid&#39;</span><span class="p">,</span> <span class="n">contact_type_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
                        <span class="n">input_type_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">date_canvassed</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">result_code_id</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
@@ -569,21 +517,19 @@
 <span class="sd">                         &quot;action&quot;: &quot;SurveyResponse&quot;}</span>
 <span class="sd">                        ]</span>
 <span class="sd">            van.apply_response(5222, response)</span>
-<span class="sd">        &quot;&quot;&quot;</span> <span class="c1"># noqa: E501,E261</span>
+<span class="sd">        &quot;&quot;&quot;</span>  <span class="c1"># noqa: E501,E261</span>
 
         <span class="c1"># Set url based on id_type</span>
         <span class="k">if</span> <span class="n">id_type</span> <span class="o">==</span> <span class="s1">&#39;vanid&#39;</span><span class="p">:</span>
-            <span class="n">url</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">connection</span><span class="o">.</span><span class="n">uri</span> <span class="o">+</span> <span class="n">f</span><span class="s2">&quot;people/</span><span class="si">{id}</span><span class="s2">/canvassResponses&quot;</span>
+            <span class="n">url</span> <span class="o">=</span> <span class="n">f</span><span class="s2">&quot;people/</span><span class="si">{id}</span><span class="s2">/canvassResponses&quot;</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="n">url</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">connection</span><span class="o">.</span><span class="n">uri</span> <span class="o">+</span> <span class="n">f</span><span class="s2">&quot;people/</span><span class="si">{id_type}</span><span class="s2">:</span><span class="si">{id}</span><span class="s2">/canvassResponses&quot;</span>
+            <span class="n">url</span> <span class="o">=</span> <span class="n">f</span><span class="s2">&quot;people/</span><span class="si">{id_type}</span><span class="s2">:</span><span class="si">{id}</span><span class="s2">/canvassResponses&quot;</span>
 
         <span class="n">json</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;canvassContext&quot;</span><span class="p">:</span> <span class="p">{</span>
             <span class="s2">&quot;contactTypeId&quot;</span><span class="p">:</span> <span class="n">contact_type_id</span><span class="p">,</span>
             <span class="s2">&quot;inputTypeId&quot;</span><span class="p">:</span> <span class="n">input_type_id</span><span class="p">,</span>
-            <span class="s2">&quot;dateCanvassed&quot;</span><span class="p">:</span> <span class="n">date_canvassed</span>
-        <span class="p">},</span>
-            <span class="s2">&quot;resultCodeId&quot;</span><span class="p">:</span> <span class="n">result_code_id</span>
-        <span class="p">}</span>
+            <span class="s2">&quot;dateCanvassed&quot;</span><span class="p">:</span> <span class="n">date_canvassed</span><span class="p">},</span>
+            <span class="s2">&quot;resultCodeId&quot;</span><span class="p">:</span> <span class="n">result_code_id</span><span class="p">}</span>
 
         <span class="k">if</span> <span class="n">response</span><span class="p">:</span>
             <span class="n">json</span><span class="p">[</span><span class="s1">&#39;responses&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">response</span>
@@ -598,17 +544,7 @@
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
                 <span class="s2">&quot;Both result_code_id and responses cannot be specified.&quot;</span><span class="p">)</span>
 
-        <span class="n">r</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">connection</span><span class="o">.</span><span class="n">request</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">req_type</span><span class="o">=</span><span class="s2">&quot;POST&quot;</span><span class="p">,</span> <span class="n">post_data</span><span class="o">=</span><span class="n">json</span><span class="p">,</span> <span class="n">raw</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-
-        <span class="c1"># Will probably want to generalize this at some point in the future</span>
-        <span class="c1"># for other methods, but leaving this here for now.</span>
-        <span class="k">if</span> <span class="n">r</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="mi">204</span><span class="p">:</span>
-            <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="n">f</span><span class="s1">&#39;{id_type.upper()} </span><span class="si">{id}</span><span class="s1"> updated.&#39;</span><span class="p">)</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="n">f</span><span class="s2">&quot;</span><span class="si">{r[1][&#39;errors&#39;][0][&#39;code&#39;]}</span><span class="s2">: </span><span class="si">{r[1][&#39;errors&#39;][0][&#39;text&#39;]}</span><span class="s2">&quot;</span><span class="p">)</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="n">f</span><span class="s2">&quot;</span><span class="si">{r[1][&#39;errors&#39;][0][&#39;text&#39;]}</span><span class="s2">&quot;</span><span class="p">)</span>
-
-        <span class="k">return</span> <span class="kc">True</span></div>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">connection</span><span class="o">.</span><span class="n">post_request</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">json</span><span class="o">=</span><span class="n">json</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="People.create_relationship"><a class="viewcode-back" href="../../../ngpvan.html#parsons.ngpvan.van.People.create_relationship">[docs]</a>    <span class="k">def</span> <span class="nf">create_relationship</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">vanid_1</span><span class="p">,</span> <span class="n">vanid_2</span><span class="p">,</span> <span class="n">relationship_id</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>

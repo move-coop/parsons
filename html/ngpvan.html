@@ -575,38 +575,6 @@ can be found by using the <code class="xref py py-meth docutils literal notransl
 </dd></dl>
 
 <dl class="method">
-<dt id="parsons.ngpvan.van.People.toggle_activist_code">
-<code class="descname">toggle_activist_code</code><span class="sig-paren">(</span><em>id</em>, <em>activist_code_id</em>, <em>action</em>, <em>id_type='vanid'</em>, <em>result_code_id=None</em>, <em>contact_type_id=None</em>, <em>input_type_id=None</em>, <em>date_canvassed=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/ngpvan/people.html#People.toggle_activist_code"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.ngpvan.van.People.toggle_activist_code" title="Permalink to this definition">¶</a></dt>
-<dd><p>Apply or remove an activist code to or from a person.</p>
-<dl class="docutils">
-<dt><cite>Args:</cite></dt>
-<dd><dl class="first last docutils">
-<dt>id: str</dt>
-<dd>A valid person id</dd>
-<dt>activist_code_id: int</dt>
-<dd>A valid activist code id</dd>
-<dt>action: str</dt>
-<dd>Either ‘apply’ or ‘remove’</dd>
-<dt>id_type: str</dt>
-<dd>A known person identifier type available on this VAN instance
-such as <code class="docutils literal notranslate"><span class="pre">dwid</span></code></dd>
-<dt>result_code_id <span class="classifier-delimiter">:</span> <span class="classifier">int</span></dt>
-<dd><cite>Optional</cite>; Specifies the result code of the response. If
-not included,responses must be specified. Conversely, if
-responses are specified, result_code_id must be null. Valid ids
-can be found by using the <code class="xref py py-meth docutils literal notranslate"><span class="pre">get_canvass_responses_result_codes()</span></code></dd>
-<dt>contact_type_id <span class="classifier-delimiter">:</span> <span class="classifier">int</span></dt>
-<dd><cite>Optional</cite>; A valid contact type id</dd>
-<dt>input_type_id <span class="classifier-delimiter">:</span> <span class="classifier">int</span></dt>
-<dd><cite>Optional</cite>; Defaults to 11 (API Input)</dd>
-<dt>date_canvassed <span class="classifier-delimiter">:</span> <span class="classifier">str</span></dt>
-<dd><cite>Optional</cite>; ISO 8601 formatted date. Defaults to todays date</dd>
-</dl>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="method">
 <dt id="parsons.ngpvan.van.People.toggle_volunteer_action">
 <code class="descname">toggle_volunteer_action</code><span class="sig-paren">(</span><em>id</em>, <em>volunteer_activity_id</em>, <em>action</em>, <em>id_type='vanid'</em>, <em>result_code_id=None</em>, <em>contact_type_id=None</em>, <em>input_type_id=None</em>, <em>date_canvassed=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/ngpvan/people.html#People.toggle_volunteer_action"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.ngpvan.van.People.toggle_volunteer_action" title="Permalink to this definition">¶</a></dt>
 <dd><p>Apply or remove a volunteer action to or from a person.</p>
@@ -737,11 +705,7 @@ the types of bulk imports that you can run. These might include
 <dl class="class">
 <dt id="parsons.ngpvan.van.ActivistCodes">
 <em class="property">class </em><code class="descclassname">parsons.ngpvan.van.</code><code class="descname">ActivistCodes</code><span class="sig-paren">(</span><em>van_connection</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/ngpvan/activist_codes.html#ActivistCodes"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.ngpvan.van.ActivistCodes" title="Permalink to this definition">¶</a></dt>
-<dd><div class="admonition note">
-<p class="first admonition-title">Note</p>
-<p class="last">To apply or remove activist codes, use the <code class="xref py py-meth docutils literal notranslate"><span class="pre">toggle_activist_code()</span></code> method.</p>
-</div>
-<dl class="method">
+<dd><dl class="method">
 <dt id="parsons.ngpvan.van.ActivistCodes.get_activist_codes">
 <code class="descname">get_activist_codes</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/ngpvan/activist_codes.html#ActivistCodes.get_activist_codes"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.ngpvan.van.ActivistCodes.get_activist_codes" title="Permalink to this definition">¶</a></dt>
 <dd><p>Get activist codes.</p>
@@ -775,6 +739,52 @@ the types of bulk imports that you can run. These might include
 </dl>
 </dd></dl>
 
+<dl class="method">
+<dt id="parsons.ngpvan.van.ActivistCodes.apply_activist_code">
+<code class="descname">apply_activist_code</code><span class="sig-paren">(</span><em>id</em>, <em>activist_code_id</em>, <em>id_type='vanid'</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/ngpvan/activist_codes.html#ActivistCodes.apply_activist_code"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.ngpvan.van.ActivistCodes.apply_activist_code" title="Permalink to this definition">¶</a></dt>
+<dd><p>Apply an activist code to or from a person.</p>
+<dl class="docutils">
+<dt><cite>Args:</cite></dt>
+<dd><dl class="first last docutils">
+<dt>id: str</dt>
+<dd>A valid person id</dd>
+<dt>activist_code_id: int</dt>
+<dd>A valid activist code id</dd>
+<dt>action: str</dt>
+<dd>Either ‘apply’ or ‘remove’</dd>
+<dt>id_type: str</dt>
+<dd>A known person identifier type available on this VAN instance
+such as <code class="docutils literal notranslate"><span class="pre">dwid</span></code></dd>
+</dl>
+</dd>
+<dt>Returns:</dt>
+<dd><code class="docutils literal notranslate"><span class="pre">None</span></code></dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="parsons.ngpvan.van.ActivistCodes.remove_activist_code">
+<code class="descname">remove_activist_code</code><span class="sig-paren">(</span><em>id</em>, <em>activist_code_id</em>, <em>id_type='vanid'</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/ngpvan/activist_codes.html#ActivistCodes.remove_activist_code"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.ngpvan.van.ActivistCodes.remove_activist_code" title="Permalink to this definition">¶</a></dt>
+<dd><p>Remove an activist code to or from a person.</p>
+<dl class="docutils">
+<dt><cite>Args:</cite></dt>
+<dd><dl class="first last docutils">
+<dt>id: str</dt>
+<dd>A valid person id</dd>
+<dt>activist_code_id: int</dt>
+<dd>A valid activist code id</dd>
+<dt>action: str</dt>
+<dd>Either ‘apply’ or ‘remove’</dd>
+<dt>id_type: str</dt>
+<dd>A known person identifier type available on this VAN instance
+such as <code class="docutils literal notranslate"><span class="pre">dwid</span></code></dd>
+</dl>
+</dd>
+<dt>Returns:</dt>
+<dd><code class="docutils literal notranslate"><span class="pre">None</span></code></dd>
+</dl>
+</dd></dl>
+
 </dd></dl>
 
 </div>
@@ -790,7 +800,7 @@ the types of bulk imports that you can run. These might include
 <dl class="docutils">
 <dt><cite>Args:</cite></dt>
 <dd><dl class="first last docutils">
-<dt>statuses: str</dt>
+<dt>statuses: list</dt>
 <dd>Filter to a list of statuses of survey questions. One or more of <code class="docutils literal notranslate"><span class="pre">Active</span></code>,
 <code class="docutils literal notranslate"><span class="pre">Archived</span></code>, and <code class="docutils literal notranslate"><span class="pre">Inactive</span></code>.</dd>
 <dt>name: str</dt>

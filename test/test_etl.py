@@ -681,7 +681,6 @@ class TestParsonsTable(unittest.TestCase):
 
         with Table([{'one': 1, 'two': 2}], resource_manager) as new_table:
             self.assertTrue(os.path.exists(temp_file))
-            self.assertEqual(0, table.num_rows)
+            self.assertEqual(0, new_table.num_rows)
 
         self.assertFalse(os.path.exists(temp_file))
-        self.assertEqual(0, table.num_rows)

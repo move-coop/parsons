@@ -1,16 +1,13 @@
 """NGPVAN Activist Code Endpoints"""
 
 from parsons.etl.table import Table
+from parsons.ngpvan.utilities import action_parse
 import logging
 
 logger = logging.getLogger(__name__)
 
 
 class ActivistCodes(object):
-    """
-        .. note::
-            To apply or remove activist codes, use the :meth:`toggle_activist_code` method.
-    """
 
     def __init__(self, van_connection):
 
@@ -44,3 +41,60 @@ class ActivistCodes(object):
         r = self.connection.get_request(f'activistCodes/{activist_code_id}')
         logger.info(f'Found activist code {activist_code_id}.')
         return r
+
+    def toggle_activist_code(self, id, activist_code_id, action, id_type='vanid'):
+        # Internal method to apply/remove activist codes. Was previously a public method,
+        # but for the sake of simplicity, breaking out into two public methods.
+
+        logger.info(f'Method deprecated. Use apply_activist_code() or remove_activist_code().')
+
+        response = {"activistCodeId": activist_code_id,
+                    "action": action_parse(action),
+                    "type": "activistCode"}
+
+        r = self.apply_response(id, response, id_type)
+
+        logger.info(f'{id_type.upper()} {id} {action.capitalize()} ' +
+                    f'activist code {activist_code_id}')
+
+        return r
+
+    def apply_activist_code(self, id, activist_code_id, id_type='vanid'):
+        """
+        Apply an activist code to or from a person.
+
+        `Args:`
+            id: str
+                A valid person id
+            activist_code_id: int
+                A valid activist code id
+            action: str
+                Either 'apply' or 'remove'
+            id_type: str
+                A known person identifier type available on this VAN instance
+                such as ``dwid``
+        Returns:
+            ``None``
+        """
+
+        return self.toggle_activist_code(id, activist_code_id, 'Apply', id_type=id_type)
+
+    def remove_activist_code(self, id, activist_code_id, id_type='vanid'):
+        """
+        Remove an activist code to or from a person.
+
+        `Args:`
+            id: str
+                A valid person id
+            activist_code_id: int
+                A valid activist code id
+            action: str
+                Either 'apply' or 'remove'
+            id_type: str
+                A known person identifier type available on this VAN instance
+                such as ``dwid``
+        Returns:
+            ``None``
+        """
+
+        return self.toggle_activist_code(id, activist_code_id, 'Remove', id_type=id_type)

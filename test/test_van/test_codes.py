@@ -37,32 +37,6 @@ class TestCodes(unittest.TestCase):
         assert_matching_tables(json['items'],self.van.get_codes())
 
     @requests_mock.Mocker()
-    def test_get_code(self, m):
-
-        json = {'codeId': 1004916,
-                'parentCodeId': None,
-                'name': 'Data Entry',
-                        'description': 'for test.',
-                        'codePath': 'Data Entry',
-                        'createdByName': 'Barack Obama',
-                        'dateCreated': '2018-07-13T15:16:00Z',
-                        'supportedEntities': [{'name': 'Contacts',
-                                               'isSearchable': True,
-                                               'isApplicable': True}],
-                        'codeType': 'Tag',
-                        'campaign': None,
-                        'contactType': None}
-
-        m.get(self.van.connection.uri + 'codes/1004916', json=json)
-
-        expected = ['codeId', 'parentCodeId', 'name', 'description', 'codePath',
-                    'createdByName', 'dateCreated', 'supportedEntities', 'codeType',
-                    'campaign', 'contactType']
-
-        # Assert response is expected structure
-        self.assertTrue(validate_list(expected, self.van.get_code(1004916)))
-
-    @requests_mock.Mocker()
     def test_get_code_types(self, m):
 
         json = ['Tag', 'SourceCode']

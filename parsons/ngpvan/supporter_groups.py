@@ -54,11 +54,17 @@ class SupporterGroups(object):
             and description
         """
 
+        """
         url = self.connection.uri + 'supporterGroups'
 
         json = {'name': name, 'description': description}
 
         return self.connection.request(url, req_type="POST", post_data=json)
+        """
+
+        json = {'name': name, 'description': description}
+        r = self.connection.post_request('supporterGroups', json=json)
+        return r
 
     def add_person_supporter_group(self, supporter_group_id, vanid):
         """

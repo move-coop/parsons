@@ -1,5 +1,7 @@
 from requests import request as _request
+from requests.exceptions import HTTPError
 import logging
+from simplejson.errors import JSONDecodeError
 
 logger = logging.getLogger(__name__)
 
@@ -37,7 +39,7 @@ class APIConnector(object):
         self.pagination_key = pagination_key
         self.data_key = data_key
 
-    def request(self, url, req_type, json=None, data=None, params=None, raise_on_error=True):
+    def request(self, url, req_type, json=None, data=None, params=None):
         """
         Base request using requests libary.
 
@@ -62,18 +64,13 @@ class APIConnector(object):
             requests response
         """
 
-        r = _request(req_type, url, headers=self.headers, auth=self.auth, json=None, data=None,
-                     params=params)
-
-        # To Do: Implement better and more robust error handling method, but this
-        # will work for the time being.
-        if raise_on_error:
-            r.raise_for_status()
-
-        return r
+        return _request(req_type, url, headers=self.headers, auth=self.auth, json=json, data=data,
+                        params=params)
 
     def get_request(self, url, params=None):
         """
+        Make a GET request.
+
         Args:
             url: str
                 A complete and valid url for the api request
@@ -83,8 +80,61 @@ class APIConnector(object):
                 A requests response object
         """
 
-        r = self.request(url, req_type='GET', params=None)
+        r = self.request(url, 'GET', params=None)
+
+        self.validate_response(r)
+
         return r.json()
+
+    def post_request(self, url, params=None, data=None, json=None, success_code=204):
+        """
+        Make a POST request.
+
+        `Args:`
+            url: str
+                A complete and valid url for the api request
+            params: dict
+                The request parameters
+            data: str or file
+                A data object to post
+            json: dict
+                A JSON object to post
+            success_code: int
+                The expected success code to be returned
+        `Returns:`
+            A requests response object
+        """
+
+        r = self.request(url, 'POST', params=params, data=data, json=json)
+
+        # Validate the response and lift up an errors.
+        self.validate_response(r)
+
+        # Check for a valid success code for the POST. Some APIs return messages with the
+        # success code and some do not. Be able to account for both of these types.
+        if r.status_code == success_code:
+            if self.json_check(r):
+                return r.json()
+            else:
+                return r.status_code
+
+    def validate_response(self, resp):
+        """
+        Validate that the response is not an error code. If it is, then raise an error
+        and display the error message.
+
+        `Args:`
+            resp: object
+                A response object
+        """
+
+        if resp.status_code >= 400:
+
+            # Some errors return JSONs with useful info about the error. Return it if exists.
+            if self.json_check(resp):
+                raise HTTPError(f'HTTP error occurred: {HTTPError}, {resp.json()}')
+            else:
+                raise HTTPError(f'HTTP error occurred: {HTTPError}')
 
     def data_parse(self, resp):
         """
@@ -135,4 +185,15 @@ class APIConnector(object):
             if resp[self.pagination_key]:
                 return True
         else:
+            return False
+
+    def json_check(self, resp):
+        """
+        Check to see if a response has a json included in it.
+        """
+
+        try:
+            resp.json()
+            return True
+        except JSONDecodeError:
             return False

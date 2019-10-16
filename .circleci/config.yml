@@ -84,10 +84,10 @@ jobs:
             - ./venv
           key: v1-dependencies-python3.7-{{ checksum "./docs/requirements.txt" }}
       - add_ssh_keys:
-          # This SSH key is the "CircleCI write key v2" in https://github.com/move-coop/parsons/settings/keys
+          # This SSH key is "CircleCI Docs" in https://github.com/move-coop/parsons/settings/keys
           # We need write access to the Parsons repo, so we can push the "gh-pages" branch.
           fingerprints:
-            - "45:3d:91:e1:ae:bd:2c:b6:d4:7c:4f:b1:20:6c:1f:6c"
+            - "a6:b1:ec:19:86:19:8b:98:1e:b1:41:b2:e1:4a:4f:3d"
       - run:
           name: Build and deploy docs
           # When running gh-pages, we specify to include dotfiles, so we pick up the .nojerkyll file.

@@ -112,18 +112,14 @@ and canvass reponses.
    # Instatiate Class
    van = VAN(db="MyVoters")
 
-   sq_id = 311838 # Valid survey question id 
+   van_id = 13242
+   sq = 311838 # Valid survey question id 
    sr = 1288926 # Valid survey response id
    ct = 36 # Valid contact type id
-   it_id = 4 # Valid input type id
+   it = 4 # Valid input type id
 
    # Create a valid survey question response
-   sq_response = van.people_sq_response(sq_id,sr_id)
-   van.people_canvass_response(dwid,
-                               key_type='dwid',
-                               contact_type_id=ct_id,
-                               input_type_id=it_id,
-                               responses=sq_response)
+   van.apply_survey_response(vanid, sq, sr, contact_type_id=ct, input_type_id=it)
 
 =============================
 Event: Creating and Modifying

@@ -354,8 +354,7 @@ class Hustle(object):
 
         # Remove empty args in dictionary
         lead = json_format.remove_empty_keys(lead)
-
-        logger.debug('Generating lead for {first_name} {last_name}.')
+        logger.info(f'Generating lead for {first_name} {last_name}.')
         return self._request(f'groups/{group_id}/leads', req_type="POST", payload=lead)
 
     def create_leads(self, table, group_id=None):

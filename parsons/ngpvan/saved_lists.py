@@ -143,8 +143,6 @@ class ExportJobs(object):
                 The export job object
         """
 
-        url = self.connection.uri + 'exportJobs'
-
         json = {"savedListId": str(list_id),
                 "type": str(export_type),
                 "webhookUrl": webhookUrl

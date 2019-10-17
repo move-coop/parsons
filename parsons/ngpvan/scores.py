@@ -197,8 +197,8 @@ class FileLoadingJobs(object):
 
         if auto_average and auto_tolerance:
 
-            post_data["actions"]["approvalCriteria"] = {"average": auto_average,
-                                                        "tolerance": auto_tolerance}
+            json["actions"]["approvalCriteria"] = {"average": auto_average,
+                                                   "tolerance": auto_tolerance}
 
         r = self.connection.post_request('FileLoadingJobs', json=json)['jobId']
         logger.info(f'Score loading job {r} created.')
@@ -249,8 +249,6 @@ class FileLoadingJobs(object):
 
         delimiter = delimiter.capitalize()
 
-        url = self.connection.uri + 'FileLoadingJobs'
-
         json = {"description": 'A description',
                 "file": {
                     "columnDelimiter": delimiter,
@@ -282,7 +280,7 @@ class FileLoadingJobs(object):
 
             actions.append(action)
 
-        post_data['actions'] = actions
+        json['actions'] = actions
 
         r = self.connection.post_request('FileLoadingJobs', json=json)['jobId']
         logger.info(f'Score loading job {r} created.')

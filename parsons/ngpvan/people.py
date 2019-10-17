@@ -393,5 +393,5 @@ class People(object):
         json = {'relationshipId': relationship_id,
                 'vanId': vanid_2}
 
-        r = self.connection.post_request(f"people/{vanid_1}/relationships", json=json)
+        self.connection.post_request(f"people/{vanid_1}/relationships", json=json)
         logger.info('Relationship {vanid_1} to {vanid_2} created.')

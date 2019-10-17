@@ -6,8 +6,6 @@ from parsons.etl.table import Table
 from test.utils import validate_list, assert_matching_tables
 
 
-
-
 class TestNGPVAN(unittest.TestCase):
 
     def setUp(self):

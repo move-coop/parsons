@@ -15,7 +15,7 @@ Quick Start
 
         from parsons import Hustle
 	
-	hustle = Hustle(client_secret='MYID', client_secret='MYSECRET')
+	hustle = Hustle(client_id='MYID', client_secret='MYSECRET')
 
 	# Export your groups to a csv
 	tbl = hustle.get_groups(organization_id='ORGID')

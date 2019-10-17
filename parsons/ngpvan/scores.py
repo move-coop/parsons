@@ -176,33 +176,33 @@ class FileLoadingJobs(object):
 
         delimiter = delimiter.capitalize()
 
-        url = self.connection.uri + 'FileLoadingJobs'
-
-        post_data = {"description": 'A description',
-                     "file": {
-                         "columnDelimiter": delimiter,
-                         "columns": columns,
-                         "fileName": file_name,
-                         "hasHeader": header,
-                         "sourceUrl": file_url
-                     },
-                     "actions": [
-                         {"actionType": "score",
-                          "personIdColumn": id_column,
-                          "personIdType": id_type,
-                          "scoreColumn": score_column,
-                          "scoreId": score_id}],
-                     "listeners": [
-                         {"type": "EMAIL",
-                          "value": email}]
-                     }
+        json = {"description": 'A description',
+                "file": {
+                    "columnDelimiter": delimiter,
+                    "columns": columns,
+                    "fileName": file_name,
+                    "hasHeader": header,
+                    "sourceUrl": file_url
+                },
+                "actions": [
+                    {"actionType": "score",
+                     "personIdColumn": id_column,
+                     "personIdType": id_type,
+                     "scoreColumn": score_column,
+                     "scoreId": score_id}],
+                "listeners": [
+                    {"type": "EMAIL",
+                     "value": email}]
+                }
 
         if auto_average and auto_tolerance:
 
             post_data["actions"]["approvalCriteria"] = {"average": auto_average,
                                                         "tolerance": auto_tolerance}
 
-        return self.connection.request(url, req_type="POST", post_data=post_data, raw=True)['jobId']
+        r = self.connection.post_request('FileLoadingJobs', json=json)['jobId']
+        logger.info(f'Score loading job {r} created.')
+        return r
 
     def create_file_load_multi(self, file_name, file_url, columns, id_column, id_type,
                                score_map, delimiter='csv', header=True, description=None,
@@ -251,19 +251,19 @@ class FileLoadingJobs(object):
 
         url = self.connection.uri + 'FileLoadingJobs'
 
-        post_data = {"description": 'A description',
-                     "file": {
-                         "columnDelimiter": delimiter,
-                         "columns": columns,
-                         "fileName": file_name,
-                         "hasHeader": header,
-                         "sourceUrl": file_url
-                     },
+        json = {"description": 'A description',
+                "file": {
+                    "columnDelimiter": delimiter,
+                    "columns": columns,
+                    "fileName": file_name,
+                    "hasHeader": header,
+                    "sourceUrl": file_url
+                },
 
-                     "listeners": [
-                         {"type": "EMAIL",
-                          "value": email}]
-                     }
+                "listeners": [
+                    {"type": "EMAIL",
+                     "value": email}]
+                }
 
         actions = []
 
@@ -284,4 +284,6 @@ class FileLoadingJobs(object):
 
         post_data['actions'] = actions
 
-        return self.connection.request(url, req_type="POST", post_data=post_data)
+        r = self.connection.post_request('FileLoadingJobs', json=json)['jobId']
+        logger.info(f'Score loading job {r} created.')
+        return r

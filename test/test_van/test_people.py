@@ -19,7 +19,7 @@ class TestNGPVAN(unittest.TestCase):
 
         json = find_people_response
 
-        m.post(self.van.connection.uri + 'people/find', json=json)
+        m.post(self.van.connection.uri + 'people/find', json=json, status_code=201)
 
         person = self.van.find_person(first_name='Bob', last_name='Smith', phone=4142020792)
 
@@ -155,8 +155,7 @@ class TestNGPVAN(unittest.TestCase):
                status_code=204)
 
         # Test bad input
-        self.assertEqual(self.van.create_relationship(bad_vanid_1, vanid_2, relationship_id)[0],
-                         404)
+        self.assertRaises(HTTPError, self.van.create_relationship, bad_vanid_1, vanid_2, relationship_id)
+        self.assertRaises(HTTPError, self.van.create_relationship, bad_vanid_1, vanid_2, relationship_id)
 
-        self.assertEqual(self.van.create_relationship(good_vanid_1, vanid_2, relationship_id)[0],
-                         204)
+        self.van.create_relationship(good_vanid_1, vanid_2, relationship_id)

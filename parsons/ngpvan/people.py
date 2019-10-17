@@ -137,11 +137,11 @@ class People(object):
             json = match_map
 
         # Determine correct url
-        url = self.connection.uri + 'people/find'
+        url = 'people/find'
         if create:
             url = url + 'orCreate'
 
-        return self.connection.request(url, req_type="POST", post_data=json)
+        return self.connection.post_request(url, json=json)
 
     def _valid_search(self, first_name, last_name, email, phone, dob, street_number,
                       street_name, zip, match_map):
@@ -387,12 +387,11 @@ class People(object):
             relationship_id : int
                 The relationship id indicating the type of relationship
         `Returns:`
-            Tuple of ``(204, No Content)`` if successful, ``(404, Not Found)``.
+            ``None``
         """
-
-        url = self.connection.uri + f"people/{vanid_1}/relationships"
 
         json = {'relationshipId': relationship_id,
                 'vanId': vanid_2}
 
-        return self.connection.request(url, req_type="POST", post_data=json, raw=True)
+        r = self.connection.post_request(f"people/{vanid_1}/relationships", json=json)
+        logger.info('Relationship {vanid_1} to {vanid_2} created.')

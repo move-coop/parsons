@@ -109,24 +109,21 @@ class Codes(object):
                     ]
         """
 
-        url = self.connection.uri + 'codes'
-
         if supported_entities:
 
             se = [{'name': s['name'],
                    'isSearchable': s['is_searchable'],
                    'is_applicable': s['is_applicable']} for s in supported_entities]
 
-        post_data = {"parentCodeId": parent_code_id,
-                     "name": name,
-                     "codeType": code_type,
-                     "supportedEntities": se,
-                     "description": description}
+        json = {"parentCodeId": parent_code_id,
+                "name": name,
+                "codeType": code_type,
+                "supportedEntities": se,
+                "description": description}
 
-        c = self.connection.request(url, req_type="POST", post_data=post_data)
-        logger.debug(c)
-        logger.info(f'Code {c} created')
-        return c
+        r = self.connection.post_request('codes', json=json)
+        logger.info(f'Code {r} created.')
+        return r
 
     def update_code(self, code_id, name=None, parent_code_id=None, description=None,
                     code_type='SourceCode', supported_entities=None):

@@ -86,7 +86,7 @@ class APIConnector(object):
 
         return r.json()
 
-    def post_request(self, url, params=None, data=None, json=None, success_code=204):
+    def post_request(self, url, params=None, data=None, json=None, success_codes=[204, 201]):
         """
         Make a POST request.
 
@@ -112,7 +112,7 @@ class APIConnector(object):
 
         # Check for a valid success code for the POST. Some APIs return messages with the
         # success code and some do not. Be able to account for both of these types.
-        if r.status_code == success_code:
+        if r.status_code in success_codes:
             if self.json_check(r):
                 return r.json()
             else:

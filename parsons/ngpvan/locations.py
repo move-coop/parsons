@@ -62,10 +62,9 @@ class Locations(object):
             zip_code: str
                 ZIP, ZIP+4, Postal Code, Post code, etc.
             `Returns:`
-                A location id
+                int
+                    A location id.
         """
-
-        url = self.connection.uri + 'locations/findOrCreate'
 
         location = {'name': name,
                     'address': {
@@ -76,7 +75,9 @@ class Locations(object):
                         'zipOrPostalCode': zip_code
                     }}
 
-        return self.connection.request(url, req_type='POST', post_data=location, raw=True)
+        r = self.connection.post_request(f'locations/findOrCreate', json=location)
+        logger.info(f'Location {r} created.')
+        return r
 
     def delete_location(self, location_id):
         """

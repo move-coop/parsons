@@ -110,6 +110,7 @@
 <li class="toctree-l2"><a class="reference internal" href="#events">Events</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#locations">Locations</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#signups">Signups</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#changed-entities">Changed Entities</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#codes">Codes</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#canvass-responses">Canvass Responses</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#supporter-groups">Supporter Groups</a></li>
@@ -1271,6 +1272,40 @@ with them.</p>
 <dd><dl class="first last docutils">
 <dt>tuple</dt>
 <dd>If successful <code class="docutils literal notranslate"><span class="pre">(204,</span> <span class="pre">No</span> <span class="pre">Content)</span></code></dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="changed-entities">
+<h2>Changed Entities<a class="headerlink" href="#changed-entities" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="parsons.ngpvan.van.ChangedEntities">
+<em class="property">class </em><code class="descclassname">parsons.ngpvan.van.</code><code class="descname">ChangedEntities</code><a class="reference internal" href="_modules/parsons/ngpvan/changed_entities.html#ChangedEntities"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.ngpvan.van.ChangedEntities" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="method">
+<dt id="parsons.ngpvan.van.ChangedEntities.get_changed_entity_resources">
+<code class="descname">get_changed_entity_resources</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/ngpvan/changed_entities.html#ChangedEntities.get_changed_entity_resources"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.ngpvan.van.ChangedEntities.get_changed_entity_resources" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get changed entity resources available to the API user.</p>
+<dl class="docutils">
+<dt><cite>Returns:</cite></dt>
+<dd>list</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="parsons.ngpvan.van.ChangedEntities.get_changed_entity_resource_fields">
+<code class="descname">get_changed_entity_resource_fields</code><span class="sig-paren">(</span><em>resource_type</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/ngpvan/changed_entities.html#ChangedEntities.get_changed_entity_resource_fields"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.ngpvan.van.ChangedEntities.get_changed_entity_resource_fields" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get export fields avaliable for each changed entity resource.</p>
+<dl class="docutils">
+<dt><cite>Args:</cite></dt>
+<dd>resource_type: str</dd>
+<dt><cite>Returns:</cite></dt>
+<dd><dl class="first last docutils">
+<dt>Parsons Table</dt>
+<dd>See <a class="reference internal" href="table.html#parsons-table"><span class="std std-ref">Parsons Table</span></a> for output options.</dd>
 </dl>
 </dd>
 </dl>

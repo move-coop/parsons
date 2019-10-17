@@ -56,6 +56,20 @@ def test_compression_type_for_path():
 def test_json_format():
     assert json_format.arg_format('my_arg') == 'myArg'
 
+def test_remove_empty_keys():
+
+    # Assert key removed when None
+    test_dict = {'a': None, 'b': 2}
+    assert json_format.remove_empty_keys(test_dict) == {'b': 2}
+
+    # Assert key not removed when None
+    test_dict = {'a': 1, 'b': 2}
+    assert json_format.remove_empty_keys(test_dict) == {'a': 1, 'b': 2}
+
+    # Assert that a nested empty string is removed
+    test_dict = {'a': '', 'b': 2}
+    assert json_format.remove_empty_keys(test_dict) ==  {'b': 2}
+
 class TestCheckEnv(unittest.TestCase):
 
     def test_environment_field(self):

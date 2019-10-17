@@ -80,7 +80,7 @@ class TestNGPVAN(unittest.TestCase):
 
         # Test a valid attempt
         m.post(self.van.connection.uri + f'people/2335282/canvassResponses', status_code=204)
-        self.assertTrue(self.van.apply_canvass_result(2335282, 18))
+        self.van.apply_canvass_result(2335282, 18)
 
 
         # Test a bad result code
@@ -104,14 +104,14 @@ class TestNGPVAN(unittest.TestCase):
 
         # Test a good dwid
         m.post(self.van.connection.uri + f'people/DWID:2335282/canvassResponses', status_code=204)
-        self.assertTrue(self.van.apply_canvass_result(2335282, 18, id_type='DWID'))
+        self.van.apply_canvass_result(2335282, 18, id_type='DWID')
 
     @requests_mock.Mocker()
     def test_apply_survey_question(self, m):
 
         # Test valid survey question
         m.post(self.van.connection.uri + f'people/2335282/canvassResponses', status_code=204)
-        self.assertTrue(self.van.apply_survey_response(2335282, 351006, 1443891))
+        self.van.apply_survey_response(2335282, 351006, 1443891)
 
         # Test bad survey response id
         json = {'errors':

@@ -80,7 +80,7 @@ class APIConnector(object):
                 A requests response object
         """
 
-        r = self.request(url, 'GET', params=None)
+        r = self.request(url, 'GET', params=params)
 
         self.validate_response(r)
 

@@ -130,11 +130,16 @@ class APIConnector(object):
 
         if resp.status_code >= 400:
 
+            if resp.reason:
+                message = f'HTTP error occurred ({resp.status_code}): {resp.reason}'
+            else:
+                message = f'HTTP error occurred ({resp.status_code})'
+
             # Some errors return JSONs with useful info about the error. Return it if exists.
             if self.json_check(resp):
-                raise HTTPError(f'HTTP error occurred: {HTTPError}, {resp.json()}')
+                raise HTTPError(f'{message}, json: {resp.json()}')
             else:
-                raise HTTPError(f'HTTP error occurred: {HTTPError}')
+                raise HTTPError(message)
 
     def data_parse(self, resp):
         """

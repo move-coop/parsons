@@ -1,3 +1,4 @@
+import os
 import unittest
 import unittest.mock as mock
 from parsons.google.google_bigquery import BigQuery
@@ -15,6 +16,8 @@ class FakeResults:
 
 class TestBigQuery(unittest.TestCase):
     def test_query(self):
+        os.environ['GOOGLE_APPLICATION_CREDENTIALS'] = 'foo'
+
         query_string = 'select * from table'
         client_class = self._build_mock_client_class([{'one': 1, 'two': 2}])
 
@@ -30,6 +33,8 @@ class TestBigQuery(unittest.TestCase):
         self.assertEqual(result[0], {'one': 1, 'two': 2})
 
     def test_query__no_results(self):
+        os.environ['GOOGLE_APPLICATION_CREDENTIALS'] = 'foo'
+
         query_string = 'select * from table'
         client_class = self._build_mock_client_class([])
 

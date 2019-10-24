@@ -1,6 +1,6 @@
 import unittest
 import unittest.mock as mock
-from parsons.databases.bigquery import BigQuery
+from parsons.google.google_bigquery import BigQuery
 
 
 # Test class to fake the RowIterator interface for BigQuery job results
@@ -29,12 +29,6 @@ class TestBigQuery(unittest.TestCase):
         self.assertEqual(result.columns, ['one', 'two'])
         self.assertEqual(result[0], {'one': 1, 'two': 2})
 
-        # Make sure our client class constructor was called.
-        self.assertEqual(client_class.call_count, 1)
-        self.assertEqual(client_class.call_args[1]['project'], None)
-        self.assertEqual(client_class.call_args[1]['credentials'], None)
-        self.assertEqual(client_class.call_args[1]['location'], None)
-
     def test_query__no_results(self):
         query_string = 'select * from table'
         client_class = self._build_mock_client_class([])
@@ -49,16 +43,14 @@ class TestBigQuery(unittest.TestCase):
         self.assertEqual(result, None)
 
     def test_query__custom_params(self):
-        # For our purposes here, we don't care the value type.. just want to make sure things
-        # are passed around as expected
-        credentials = {'some': 'values'}
+        credentials = '/path/to/creds.json'
         location = 'US'
         project_id = 'project'
 
         client_class = self._build_mock_client_class([{'one': 1, 'two': 2}])
 
         # Pass the mock class into our BigQuery constructor
-        bq = BigQuery(project=project_id, credentials=credentials, location=location,
+        bq = BigQuery(app_creds=credentials, project=project_id, location=location,
                       client_class=client_class)
 
         # Run a query against our parsons BigQuery class
@@ -68,7 +60,6 @@ class TestBigQuery(unittest.TestCase):
         # BigQuery class
         self.assertEqual(client_class.call_count, 1)
         self.assertEqual(client_class.call_args[1]['project'], project_id)
-        self.assertEqual(client_class.call_args[1]['credentials'], credentials)
         self.assertEqual(client_class.call_args[1]['location'], location)
 
     def _build_mock_client_class(self, results):

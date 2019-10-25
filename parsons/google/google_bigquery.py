@@ -31,34 +31,32 @@ class BigQuery:
             if ``GOOGLE_APPLICATION_CREDENTIALS`` env variable set.
         location: str
             (optional) Default geographic location for tables
-        client_class: obj
-            (optional) Class to use use the BigQuery client
     """
 
-    def __init__(self, app_creds=None, project=None, location=None, client_class=Client):
+    def __init__(self, app_creds=None, project=None, location=None):
         setup_google_application_credentials(app_creds)
 
         self.project = project
         self.location = location
-        self.client_class = client_class
 
-    def query(self, query):
+        # We will not create the client until we need to use it, since creating the client
+        # without valid GOOGLE_APPLICATION_CREDENTIALS raises an exception.
+        # This attribute will be used to hold the client once we have created it.
+        self._client = None
+
+    def query(self, sql):
         """Run a BigQuery query and return the results as a Parsons table.
 
         `Args:`
-            query: str
+            sql: str
                 A valid BigTable statement
 
         `Returns:`
             Parsons Table
                 See :ref:`parsons-table` for output options.
         """
-        # Create a BigQuery client to use to make the query
-        client = self.client_class(project=self.project,
-                                   location=self.location)
-
         # Run the query
-        query_job = client.query(query)
+        query_job = self.client.query(sql)
 
         # We will use a temp file to cache the results so that they are not all living
         # in memory. We'll use pickle to serialize the results to file in order to maintain
@@ -87,3 +85,11 @@ class BigQuery:
         final_table = Table(ptable)
 
         return final_table
+
+    @property
+    def client(self):
+        if not self._client:
+            # Create a BigQuery client to use to make the query
+            self._client = Client(project=self.project, location=self.location)
+
+        return self._client

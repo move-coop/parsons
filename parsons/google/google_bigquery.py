@@ -30,7 +30,7 @@ class BigQuery:
             A credentials json string or a path to a json file. Not required
             if ``GOOGLE_APPLICATION_CREDENTIALS`` env variable set.
         location: str
-            (optional) Default geographic location for tables
+            Default geographic location for tables
     """
 
     def __init__(self, app_creds=None, project=None, location=None):
@@ -45,7 +45,8 @@ class BigQuery:
         self._client = None
 
     def query(self, sql):
-        """Run a BigQuery query and return the results as a Parsons table.
+        """
+        Run a BigQuery query and return the results as a Parsons table.
 
         `Args:`
             sql: str
@@ -88,6 +89,12 @@ class BigQuery:
 
     @property
     def client(self):
+        """
+        Get the Google BigQuery client to use for making queries.
+
+        `Returns:`
+            `google.cloud.bigquery.client.Client`
+        """
         if not self._client:
             # Create a BigQuery client to use to make the query
             self._client = Client(project=self.project, location=self.location)

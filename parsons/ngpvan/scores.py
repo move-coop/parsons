@@ -129,7 +129,7 @@ class FileLoadingJobs(object):
         self.connection = van_connection
 
     def create_file_load(self, file_name, file_url, columns, id_column, id_type,
-                         score_id, score_column, delimiter='csv', header=True,
+                         score_id, score_column, delimiter='csv', header=True, quotes=True,
                          description=None, email=None, auto_average=None,
                          auto_tolerance=None):
         """
@@ -176,7 +176,7 @@ class FileLoadingJobs(object):
 
         delimiter = delimiter.capitalize()
 
-        url = self.connection.uri + 'FileLoadingJobs'
+        url = self.connection.uri + 'fileLoadingJobs'
 
         post_data = {"description": 'A description',
                      "file": {
@@ -184,6 +184,7 @@ class FileLoadingJobs(object):
                          "columns": columns,
                          "fileName": file_name,
                          "hasHeader": header,
+                         "hasQuotes": quotes,
                          "sourceUrl": file_url
                      },
                      "actions": [
@@ -205,8 +206,8 @@ class FileLoadingJobs(object):
         return self.connection.request(url, req_type="POST", post_data=post_data, raw=True)['jobId']
 
     def create_file_load_multi(self, file_name, file_url, columns, id_column, id_type,
-                               score_map, delimiter='csv', header=True, description=None,
-                               email=None):
+                               score_map, delimiter='csv', header=True, quotes=True,
+                               description=None, email=None):
         """
         An iteration of the :meth:`file_load` method that allows you to load multiple scores
         at the same time.
@@ -249,7 +250,7 @@ class FileLoadingJobs(object):
 
         delimiter = delimiter.capitalize()
 
-        url = self.connection.uri + 'FileLoadingJobs'
+        url = self.connection.uri + 'fileLoadingJobs'
 
         post_data = {"description": 'A description',
                      "file": {
@@ -257,6 +258,7 @@ class FileLoadingJobs(object):
                          "columns": columns,
                          "fileName": file_name,
                          "hasHeader": header,
+                         "hasQuotes": quotes,
                          "sourceUrl": file_url
                      },
 

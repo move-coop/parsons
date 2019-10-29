@@ -42,6 +42,7 @@ SELECT vb_smartvan_id
     , hash
     , activist_code_id
 FROM schema.table
+WHERE vb_vf_source_state IN ({states}) 
 """
 
 records = rs.query(sql)

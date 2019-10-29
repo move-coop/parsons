@@ -46,3 +46,4 @@ else:
             table.to_redshift(table_name, if_exists='truncate')
         except:
             table.to_redshift(table_name, if_exists='drop')
+        utilities.files.close_temp_file(file)

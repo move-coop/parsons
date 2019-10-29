@@ -33,21 +33,21 @@ logger.setLevel('INFO')
 
 # Let's write some code!
 
-# Get Vendor Bucket Information - this assumes it lives in Redshift
-bucket_guide = rs.query(f"select * from {table}")
-logger.info(f"We will be getting data from {bucket_guide.num_rows} buckets...")
+# Get Vendor Bucket Information
+bucket_guide = s3_vendor.list_buckets()
+logger.info(f"We will be getting data from {len(bucket_guide)} buckets...")
 
 # Define Destination Bucket
 dest_bucket = 'tmc-data'
 
 # Moving Files from Vendor s3 Bucket to Destination s3 Bucket
-for x in bucket_guide:
+for bucket in bucket_guide:
 
-    logger.info(f"Working on files for {x['s3_bucket']}...")
-    keys = s3_hustle.list_keys(x['s3_bucket'])
+    logger.info(f"Working on files for {bucket}...")
+    keys = s3_vendor.list_keys(bucket)
     logger.info(f"Found {len(keys)}.")
     for key in keys:
-        temp_file = s3_vendor.get_file(x['s3_bucket'], key)
-        tmc_key = f"account_level_exports/{x['account_id']}/{key}"
+        temp_file = s3_vendor.get_file(bucket, key)
+        tmc_key = f"vendor_exports/{bucket}/{key}"
         s3.put_file(dest_bucket, tmc_key, temp_file)
         utilities.files.close_temp_file(temp_file)

@@ -6,7 +6,7 @@ import petl
 import pickle
 
 
-class BigQuery:
+class GoogleBigQuery:
     """
     Class for querying BigQuery table and returning the data as Parsons tables.
 

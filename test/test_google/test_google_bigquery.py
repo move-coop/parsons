@@ -1,7 +1,7 @@
 import os
 import unittest
 import unittest.mock as mock
-from parsons.google.google_bigquery import BigQuery
+from parsons.google.google_bigquery import GoogleBigQuery
 
 
 # Test class to fake the RowIterator interface for BigQuery job results
@@ -14,17 +14,17 @@ class FakeResults:
         return iter(self.data)
 
 
-class TestBigQuery(unittest.TestCase):
+class TestGoogleBigQuery(unittest.TestCase):
     def test_query(self):
         os.environ['GOOGLE_APPLICATION_CREDENTIALS'] = 'foo'
 
         query_string = 'select * from table'
 
-        # Pass the mock class into our BigQuery constructor
-        bq = BigQuery()
+        # Pass the mock class into our GoogleBigQuery constructor
+        bq = GoogleBigQuery()
         bq._client = self._build_mock_client([{'one': 1, 'two': 2}])
 
-        # Run a query against our parsons BigQuery class
+        # Run a query against our parsons GoogleBigQuery class
         result = bq.query(query_string)
 
         # Check our return value
@@ -37,11 +37,11 @@ class TestBigQuery(unittest.TestCase):
 
         query_string = 'select * from table'
 
-        # Pass the mock class into our BigQuery constructor
-        bq = BigQuery()
+        # Pass the mock class into our GoogleBigQuery constructor
+        bq = GoogleBigQuery()
         bq._client = self._build_mock_client([])
 
-        # Run a query against our parsons BigQuery class
+        # Run a query against our parsons GoogleBigQuery class
         result = bq.query(query_string)
 
         # Check our return value
@@ -52,7 +52,7 @@ class TestBigQuery(unittest.TestCase):
         query_job = mock.MagicMock()
         query_job.result.return_value = FakeResults(results)
 
-        # Create a mock that will play the role of our BigQuery client
+        # Create a mock that will play the role of our GoogleBigQuery client
         client = mock.MagicMock()
         client.query.return_value = query_job
 

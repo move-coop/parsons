@@ -171,10 +171,8 @@
   <h1>Source code for parsons.google.google_cloud_storage</h1><div class="highlight"><pre>
 <span></span><span class="kn">import</span> <span class="nn">google</span>
 <span class="kn">from</span> <span class="nn">google.cloud</span> <span class="k">import</span> <span class="n">storage</span>
+<span class="kn">from</span> <span class="nn">parsons.google.utitities</span> <span class="k">import</span> <span class="n">setup_google_application_credentials</span>
 <span class="kn">from</span> <span class="nn">parsons.utilities</span> <span class="k">import</span> <span class="n">files</span>
-<span class="kn">from</span> <span class="nn">parsons.utilities</span> <span class="k">import</span> <span class="n">check_env</span>
-<span class="kn">import</span> <span class="nn">os</span>
-<span class="kn">import</span> <span class="nn">json</span>
 <span class="kn">import</span> <span class="nn">logging</span>
 
 <span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
@@ -208,19 +206,7 @@
 
     <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">app_creds</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">project</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
 
-        <span class="c1"># Detect if the app_creds string is a path or json and if it is a</span>
-        <span class="c1"># json string, then convert it to a temporary file. Then set the</span>
-        <span class="c1"># environmental variable.</span>
-        <span class="k">if</span> <span class="n">app_creds</span><span class="p">:</span>
-            <span class="k">try</span><span class="p">:</span>
-                <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">app_creds</span><span class="p">)</span>
-                <span class="n">creds_path</span> <span class="o">=</span> <span class="n">files</span><span class="o">.</span><span class="n">string_to_temp_file</span><span class="p">(</span><span class="n">app_creds</span><span class="p">,</span> <span class="n">suffix</span><span class="o">=</span><span class="s1">&#39;.json&#39;</span><span class="p">)</span>
-            <span class="k">except</span> <span class="ne">ValueError</span><span class="p">:</span>
-                <span class="n">creds_path</span> <span class="o">=</span> <span class="n">app_creds</span>
-
-            <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s1">&#39;GOOGLE_APPLICATION_CREDENTIALS&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">creds_path</span>
-
-        <span class="n">check_env</span><span class="o">.</span><span class="n">check</span><span class="p">(</span><span class="s1">&#39;GOOGLE_APPLICATION_CREDENTIALS&#39;</span><span class="p">,</span> <span class="n">app_creds</span><span class="p">)</span>
+        <span class="n">setup_google_application_credentials</span><span class="p">(</span><span class="n">app_creds</span><span class="p">)</span>
 
         <span class="c1"># Throws an error if you pass project=None, so adding if/else statement.</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="n">project</span><span class="p">:</span>

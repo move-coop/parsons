@@ -89,6 +89,7 @@
 <li class="toctree-l1"><a class="reference internal" href="google_sheets.html">GoogleSheets</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Google Cloud</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#google-cloud-storage">Google Cloud Storage</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#google-bigquery">Google BigQuery</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="hustle.html">Hustle</a></li>
@@ -177,12 +178,12 @@
             
   <div class="section" id="google-cloud">
 <h1>Google Cloud<a class="headerlink" href="#google-cloud" title="Permalink to this headline">¶</a></h1>
+<p>Google Cloud services utilize a credentials JSON file for authentication. If you are the adminstrator of your Google Cloud account,
+you can generate them in the <a class="reference external" href="https://console.cloud.google.com/apis/credentials/serviceaccountkey?_ga=2.116342342.-1334320118.1565013288">Google Cloud Console APIs and Services</a>.</p>
 <div class="section" id="google-cloud-storage">
 <h2>Google Cloud Storage<a class="headerlink" href="#google-cloud-storage" title="Permalink to this headline">¶</a></h2>
 <p>Google Cloud Storage is a cloud file storage system. It uses buckets in which to
 store arbitary files referred to as blobs.</p>
-<p>Authentication utilizes a credentials json file. If you are the adminstrator of your Google Cloud account,
-you can generate them in the <a class="reference external" href="https://console.cloud.google.com/apis/credentials/serviceaccountkey?_ga=2.116342342.-1334320118.1565013288">Google Cloud Console APIs and Services</a>.</p>
 <dl class="class">
 <dt id="parsons.GoogleCloudStorage">
 <em class="property">class </em><code class="descclassname">parsons.</code><code class="descname">GoogleCloudStorage</code><span class="sig-paren">(</span><em>app_creds=None</em>, <em>project=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/google/google_cloud_storage.html#GoogleCloudStorage"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.GoogleCloudStorage" title="Permalink to this definition">¶</a></dt>
@@ -412,6 +413,74 @@ when the script is done running.</dd>
 </dd>
 <dt><cite>Returns:</cite></dt>
 <dd><code class="docutils literal notranslate"><span class="pre">None</span></code></dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="google-bigquery">
+<h2>Google BigQuery<a class="headerlink" href="#google-bigquery" title="Permalink to this headline">¶</a></h2>
+<p>Google BigQuery is a cloud data warehouse solution. Data is stored in tables, and users can query using SQL.
+BigQuery uses datasets as top level containers for tables, and datasets are themselves contained within
+Google Cloud projects.</p>
+<dl class="class">
+<dt id="parsons.GoogleBigQuery">
+<em class="property">class </em><code class="descclassname">parsons.</code><code class="descname">GoogleBigQuery</code><span class="sig-paren">(</span><em>app_creds=None</em>, <em>project=None</em>, <em>location=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/google/google_bigquery.html#GoogleBigQuery"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.GoogleBigQuery" title="Permalink to this definition">¶</a></dt>
+<dd><p>Class for querying BigQuery table and returning the data as Parsons tables.</p>
+<p>This class requires application credentials in the form of a json. It can be passed
+in the following ways:</p>
+<ul>
+<li><p class="first">Set an environmental variable named <code class="docutils literal notranslate"><span class="pre">GOOGLE_APPLICATION_CREDENTIALS</span></code> with the
+local path to the credentials json.</p>
+<p>Example: <code class="docutils literal notranslate"><span class="pre">GOOGLE_APPLICATION_CREDENTALS='path/to/creds.json'</span></code></p>
+</li>
+<li><p class="first">Pass in the path to the credentials using the <code class="docutils literal notranslate"><span class="pre">app_creds</span></code> argument.</p>
+</li>
+<li><p class="first">Pass in a json string using the <code class="docutils literal notranslate"><span class="pre">app_creds</span></code> argument.</p>
+</li>
+</ul>
+<dl class="docutils">
+<dt>Args:</dt>
+<dd><dl class="first last docutils">
+<dt>project_id: str</dt>
+<dd>The project which the client is acting on behalf of. If not passed
+then will use the default inferred environment.</dd>
+<dt>app_creds: str</dt>
+<dd>A credentials json string or a path to a json file. Not required
+if <code class="docutils literal notranslate"><span class="pre">GOOGLE_APPLICATION_CREDENTIALS</span></code> env variable set.</dd>
+<dt>location: str</dt>
+<dd>Default geographic location for tables</dd>
+</dl>
+</dd>
+</dl>
+<dl class="method">
+<dt id="parsons.GoogleBigQuery.query">
+<code class="descname">query</code><span class="sig-paren">(</span><em>sql</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/google/google_bigquery.html#GoogleBigQuery.query"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.GoogleBigQuery.query" title="Permalink to this definition">¶</a></dt>
+<dd><p>Run a BigQuery query and return the results as a Parsons table.</p>
+<dl class="docutils">
+<dt><cite>Args:</cite></dt>
+<dd><dl class="first last docutils">
+<dt>sql: str</dt>
+<dd>A valid BigTable statement</dd>
+</dl>
+</dd>
+<dt><cite>Returns:</cite></dt>
+<dd><dl class="first last docutils">
+<dt>Parsons Table</dt>
+<dd>See <a class="reference internal" href="table.html#parsons-table"><span class="std std-ref">Parsons Table</span></a> for output options.</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="parsons.GoogleBigQuery.client">
+<code class="descname">client</code><a class="headerlink" href="#parsons.GoogleBigQuery.client" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the Google BigQuery client to use for making queries.</p>
+<dl class="docutils">
+<dt><cite>Returns:</cite></dt>
+<dd><cite>google.cloud.bigquery.client.Client</cite></dd>
 </dl>
 </dd></dl>
 

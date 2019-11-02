@@ -131,7 +131,7 @@ class Twilio:
         return tbl
 
     def get_messages(self, to=None, from_=None, date_sent=None, date_sent_before=None,
-                             date_sent_after=None, limit=None):
+                     date_sent_after=None, limit=None):
         """
         Get Twilio messages.
 
@@ -158,4 +158,3 @@ class Twilio:
         tbl = self.table_convert(r)
         logger.info(f'Retrieved {tbl.num_rows} messages.')
         return tbl
-

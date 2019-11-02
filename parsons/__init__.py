@@ -25,6 +25,7 @@ from parsons.airtable.airtable import Airtable
 from parsons.copper.copper import Copper
 from parsons.crowdtangle.crowdtangle import CrowdTangle
 from parsons.hustle.hustle import Hustle
+from parsons.twilio.twilio import Twilio
 
 __all__ = [
     'VAN',
@@ -51,7 +52,8 @@ __all__ = [
     'Airtable',
     'Copper',
     'CrowdTangle',
-    'Hustle'
+    'Hustle',
+    'Twilio'
     ]
 
 # Define the default logging config for Parsons and its submodules. For now the

@@ -19,9 +19,15 @@ class TestTwilio(unittest.TestCase):
         self.twilio.get_account(fake_sid)
         assert self.twilio.client.api.accounts.called_with(fake_sid)
 
-    def test_get_inbound_messages(self):
+    def test_get_accounts(self):
 
-        self.twilio.get_inbound_messages(date_sent='2019-10-29')
+        x = self.twilio.get_accounts(name='MyOrg', status='active')
+        assert self.twilio.client.api.accounts.list.called_with(friendly_name='MyOrg', status='active')
+
+
+    def test_get_messages(self):
+
+        self.twilio.get_messages(date_sent='2019-10-29')
         assert self.twilio.client.messages.list.called_with(date_sent='2019-10-29')
 
     def test_get_account_usage(self):

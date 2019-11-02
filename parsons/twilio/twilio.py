@@ -30,6 +30,10 @@ class Twilio:
         # Internal method to create a Parsons table from a Twilio object.
 
         tbl = Table([x.__dict__['_properties'] for x in obj])
+
+        if 'subresource_uris' in tbl.columns and 'uri' in tbl.columns:
+            tbl.remove_column('subresource_uris', 'uri')
+
         return tbl
 
     def get_account(self, account_sid):
@@ -63,9 +67,6 @@ class Twilio:
 
         r = self.client.api.accounts.list(friendly_name=name, status=status)
         tbl = self.table_convert(r)
-
-        # Remove useless columns
-        tbl.remove_column('subresource_uris', 'uri')
 
         logger.info(f'Retrieved {tbl.num_rows} accounts.')
         return tbl
@@ -127,15 +128,12 @@ class Twilio:
         if exclude_null:
             tbl.remove_null_rows('count', null_value='0')
 
-        # Remove useless columns
-        tbl.remove_column('subresource_uris', 'uri')
-
         return tbl
 
-    def get_inbound_messages(self, to=None, from_=None, date_sent=None, date_sent_before=None,
+    def get_messages(self, to=None, from_=None, date_sent=None, date_sent_before=None,
                              date_sent_after=None, limit=None):
         """
-        Get inbound Twilio messages.
+        Get Twilio messages.
 
         `Args:`
             to: str
@@ -155,8 +153,9 @@ class Twilio:
 
         r = self.client.messages.list(to=to, from_=from_, date_sent=date_sent,
                                       date_sent_before=date_sent_before,
-                                      date_sent_after=date_sent_after, limit=limit)
+                                      date_sent_after=date_sent_after)
 
         tbl = self.table_convert(r)
         logger.info(f'Retrieved {tbl.num_rows} messages.')
         return tbl
+

@@ -3,6 +3,7 @@ import os
 import requests_mock
 from parsons.ngpvan.van import VAN
 from test.utils import validate_list
+from requests.exceptions import HTTPError
 
 
 os.environ['VAN_API_KEY'] = 'SOME_KEY'
@@ -62,11 +63,13 @@ class TestLocations(unittest.TestCase):
     @requests_mock.Mocker()
     def test_delete_location(self, m):
 
+        # Test good location delete
         m.delete(self.van.connection.uri + 'locations/1', status_code=200)
-        m.delete(self.van.connection.uri + 'locations/2', status_code=404)
+        self.van.delete_location(1)
 
-        self.assertEqual(self.van.delete_location(1)[0], 200)
-        self.assertEqual(self.van.delete_location(2)[0], 404)
+        # Test invalid location delete
+        m.delete(self.van.connection.uri + 'locations/2', status_code=404)
+        self.assertRaises(HTTPError, self.van.delete_location, 2)
 
     @requests_mock.Mocker()
     def test_create_location(self, m):

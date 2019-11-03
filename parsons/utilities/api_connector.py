@@ -118,6 +118,91 @@ class APIConnector(object):
             else:
                 return r.status_code
 
+    def delete_request(self, url, params=None, success_codes=[204, 201]):
+        """
+        Make a DELETE request.
+
+        Args:
+            url: str
+                A complete and valid url for the api request
+            params: dict
+                The request parameters
+            success_codes: int
+                The expected success codes to be returned
+        Returns:
+                A requests response object or status code
+        """
+
+        r = self.request(url, 'DELETE', params=params)
+
+        self.validate_response(r)
+
+        # Check for a valid success code for the POST. Some APIs return messages with the
+        # success code and some do not. Be able to account for both of these types.
+        if r.status_code in success_codes:
+            if self.json_check(r):
+                return r.json()
+            else:
+                return r.status_code
+
+    def put_request(self, url, data=None, json=None, params=None, success_codes=[204, 201]):
+        """
+        Make a PUT request.
+
+        Args:
+            url: str
+                A complete and valid url for the api request
+            params: dict
+                The request parameters
+            data: str or file
+                A data object to post
+            json: dict
+                A JSON object to post
+        Returns:
+                A requests response object
+        """
+
+        r = self.request(url, 'PUT', params=params, data=data, json=json)
+
+        self.validate_response(r)
+
+        if r.status_code in success_codes:
+            if self.json_check(r):
+                return r.json()
+            else:
+                return r.status_code
+
+    def patch_request(self, url, params=None, data=None, json=None, success_codes=[204, 201]):
+        """
+        Make a PATCH request.
+
+        `Args:`
+            url: str
+                A complete and valid url for the api request
+            params: dict
+                The request parameters
+            data: str or file
+                A data object to post
+            json: dict
+                A JSON object to post
+            success_codes: int
+                The expected success codes to be returned
+        `Returns:`
+            A requests response object
+        """
+
+        r = self.request(url, 'PATCH', params=params, data=data, json=json)
+
+        self.validate_response(r)
+
+        # Check for a valid success code for the POST. Some APIs return messages with the
+        # success code and some do not. Be able to account for both of these types.
+        if r.status_code in success_codes:
+            if self.json_check(r):
+                return r.json()
+            else:
+                return r.status_code
+
     def validate_response(self, resp):
         """
         Validate that the response is not an error code. If it is, then raise an error

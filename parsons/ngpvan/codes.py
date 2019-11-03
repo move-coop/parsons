@@ -165,8 +165,6 @@ class Codes(object):
                     ]
         """
 
-        url = self.connection.uri + 'codes/{}'.format(code_id)
-
         post_data = {}
 
         if name:
@@ -185,10 +183,9 @@ class Codes(object):
                    'is_applicable': s['is_applicable']} for s in supported_entities]
             post_data['supportedEntities'] = se
 
-        c = self.connection.request(url, req_type="PUT", post_data=post_data)
-        logger.debug(c)
+        r = self.connection.put_request(f'codes/{code_id}', json=post_data)
         logger.info(f'Code {code_id} updated.')
-        return c
+        return r
 
     def delete_code(self, code_id):
         """
@@ -198,14 +195,12 @@ class Codes(object):
             code_id: int
                 The code id.
         `Returns:`
-            ``(204, 'No Content')`` if successful
+            ``None``
         """
 
-        url = self.connection.uri + 'codes/{}'.format(code_id)
-
-        c = self.connection.request(url, req_type="DELETE", raw=True)
+        r = self.connection.delete_request(f'codes/{code_id}')
         logger.info(f'Code {code_id} deleted.')
-        return c
+        return r
 
     def get_code_supported_entities(self):
         """

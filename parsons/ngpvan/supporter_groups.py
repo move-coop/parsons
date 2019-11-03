@@ -32,8 +32,7 @@ class SupporterGroups(object):
             supporter_group_id: int
                 The supporter group id.
         `Returns:`
-            Parsons Table
-                See :ref:`parsons-table` for output options.
+            dict
         """
 
         r = self.connection.get_request(f'supporterGroups/{supporter_group_id}')
@@ -75,12 +74,13 @@ class SupporterGroups(object):
                 The supporter group id
             vanid: int
                 The vanid of the person to apply
+        `Returns:`
+            ``None``
         """
 
-        url = self.connection.uri + \
-            'supporterGroups/{}/people/{}'.format(supporter_group_id, vanid)
-
-        return self.connection.request(url, req_type="PUT")
+        r = self.connection.put_request(f'supporterGroups/{supporter_group_id}/people/{vanid}')
+        logger.info(f'Added person {vanid} to {supporter_group_id} supporter group.')
+        return r
 
     def delete_person_supporter_group(self, supporter_group_id, vanid):
         """
@@ -91,9 +91,10 @@ class SupporterGroups(object):
                 The supporter group id
             vanid: int
                 The vanid of the person to remove
+        `Returns:`
+            ``None``
         """
 
-        url = self.connection.uri + \
-            'supporterGroups/{}/people/{}'.format(supporter_group_id, vanid)
-
-        return self.connection.request(url, req_type="DELETE")
+        r = self.connection.delete_request(f'supporterGroups/{supporter_group_id}/people/{vanid}')
+        logger.info(f'Deleted person {vanid} from {supporter_group_id} supporter group.')
+        return r

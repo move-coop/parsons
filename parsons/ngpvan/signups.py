@@ -172,13 +172,12 @@ class Signups(object):
             event_signup_id: int
                 A valid event signup id
         `Returns:`
-            tuple
-                If successful ``(204, No Content)``
+            ``None``
         """
 
-        url = self.connection.uri + 'signups/{}'.format(event_signup_id)
-
-        return self.connection.request(url, req_type="DELETE")
+        r = self.connection.delete_request(f'signups/{event_signup_id}')
+        logger.info(f'Signup {event_signup_id} deleted.')
+        return r
 
     def _unpack_signups(self, table):
 

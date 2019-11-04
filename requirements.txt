@@ -20,6 +20,7 @@ joblib==0.11
 censusgeocode==0.4.3.post1
 airtable-python-wrapper==0.11.3.post1
 google-cloud-storage==1.17.0
+google-cloud-bigquery==1.21.0
 docutils<0.15,>=0.10 # Botocore and Sphinx have conflicting needs.
 urllib3<1.25,>=1.21.1 # Requests 2.20.0 requirement
 simplejson==3.16.0

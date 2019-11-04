@@ -235,6 +235,12 @@ Signups
 .. autoclass:: parsons.ngpvan.van.Signups
    :inherited-members:
 
+****************
+Changed Entities
+****************
+.. autoclass:: parsons.ngpvan.van.ChangedEntities
+   :inherited-members:
+
 *****
 Codes
 *****

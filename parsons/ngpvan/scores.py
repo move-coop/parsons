@@ -129,7 +129,7 @@ class FileLoadingJobs(object):
         self.connection = van_connection
 
     def create_file_load(self, file_name, file_url, columns, id_column, id_type,
-                         score_id, score_column, delimiter='csv', header=True,
+                         score_id, score_column, delimiter='csv', header=True, quotes=True,
                          description=None, email=None, auto_average=None,
                          auto_tolerance=None):
         """
@@ -182,6 +182,7 @@ class FileLoadingJobs(object):
                     "columns": columns,
                     "fileName": file_name,
                     "hasHeader": header,
+                    "hasQuotes": quotes,
                     "sourceUrl": file_url
                 },
                 "actions": [
@@ -200,13 +201,13 @@ class FileLoadingJobs(object):
             json["actions"]["approvalCriteria"] = {"average": auto_average,
                                                    "tolerance": auto_tolerance}
 
-        r = self.connection.post_request('FileLoadingJobs', json=json)['jobId']
+        r = self.connection.post_request('fileLoadingJobs', json=json)['jobId']
         logger.info(f'Score loading job {r} created.')
         return r
 
     def create_file_load_multi(self, file_name, file_url, columns, id_column, id_type,
-                               score_map, delimiter='csv', header=True, description=None,
-                               email=None):
+                               score_map, delimiter='csv', header=True, quotes=True,
+                               description=None, email=None):
         """
         An iteration of the :meth:`file_load` method that allows you to load multiple scores
         at the same time.
@@ -255,9 +256,9 @@ class FileLoadingJobs(object):
                     "columns": columns,
                     "fileName": file_name,
                     "hasHeader": header,
+                    "hasQuotes": quotes,
                     "sourceUrl": file_url
                 },
-
                 "listeners": [
                     {"type": "EMAIL",
                      "value": email}]
@@ -282,6 +283,6 @@ class FileLoadingJobs(object):
 
         json['actions'] = actions
 
-        r = self.connection.post_request('FileLoadingJobs', json=json)['jobId']
+        r = self.connection.post_request('fileLoadingJobs', json=json)['jobId']
         logger.info(f'Score loading job {r} created.')
         return r

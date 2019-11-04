@@ -12,6 +12,7 @@ from parsons.notifications.gmail import Gmail
 from parsons.google.google_civic import GoogleCivic
 from parsons.google.google_sheets import GoogleSheets
 from parsons.google.google_cloud_storage import GoogleCloudStorage
+from parsons.google.google_bigquery import GoogleBigQuery
 from parsons.phone2action.p2a import Phone2Action
 from parsons.mobilize_america.ma import MobilizeAmerica
 from parsons.facebook_ads.facebook_ads import FacebookAds
@@ -37,6 +38,7 @@ __all__ = [
     'Gmail',
     'GoogleCivic',
     'GoogleCloudStorage',
+    'GoogleBigQuery',
     'GoogleSheets',
     'Phone2Action',
     'MobilizeAmerica',

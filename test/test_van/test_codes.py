@@ -46,7 +46,7 @@ class TestCodes(unittest.TestCase):
     @requests_mock.Mocker()
     def test_create_code(self, m):
 
-        m.post(self.van.connection.uri + 'codes', json=1004960)
+        m.post(self.van.connection.uri + 'codes', json=1004960, status_code=201)
 
         # Test that it doesn't throw and error
         r = self.van.create_code('Test Code', supported_entities=[{'name': 'Events',

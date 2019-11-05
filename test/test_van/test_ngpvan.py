@@ -159,7 +159,7 @@ class TestNGPVAN(unittest.TestCase):
                 "type": 4,
                 "exportJobId": 448}
 
-        m.post(self.van.connection.uri + 'exportJobs', json=json)
+        m.post(self.van.connection.uri + 'exportJobs', json=json, status_code=201)
 
         expected = [
             'status',
@@ -492,7 +492,7 @@ class TestNGPVAN(unittest.TestCase):
 
         json = {'jobId': 9749}
 
-        m.post(self.van.connection.uri + 'FileLoadingJobs', json=json)
+        m.post(self.van.connection.uri + 'FileLoadingJobs', json=json, status_code=201)
 
         # Test bad delimiter
         self.assertRaises(ValueError, self.van.create_file_load, file_name, file_url_good, columns,

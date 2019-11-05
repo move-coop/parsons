@@ -112,8 +112,6 @@ class Signups(object):
                 The event signup id
         """
 
-        url = self.connection.uri + 'signups'
-
         signup = {'person': {'vanId': vanid},
                   'event': {'eventId': event_id},
                   'shift': {'eventShiftId': shift_id},
@@ -122,7 +120,9 @@ class Signups(object):
                   'location': {'locationId': location_id}
                   }
 
-        return self.connection.request(url, req_type="POST", post_data=signup, raw=True)
+        r = self.connection.post_request('signups', json=signup)
+        logger.info('Signup {r} created.')
+        return r
 
     def update_signup(self, event_signup_id, shift_id=None, role_id=None, status_id=None,
                       location_id=None):

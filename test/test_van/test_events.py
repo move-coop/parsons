@@ -112,7 +112,7 @@ class TestNGPVAN(unittest.TestCase):
     @requests_mock.Mocker()
     def test_create_event(self, m):
 
-        m.post(self.van.connection.uri + 'events/', json=750000984)
+        m.post(self.van.connection.uri + 'events', json=750000984, status_code=204)
 
         # Test that it doesn't throw and error
         r = self.van.create_event('Canvass 01', 'Can01', '2016-06-01', '2016-06-02',

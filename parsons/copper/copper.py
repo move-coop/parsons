@@ -117,7 +117,7 @@ class Copper(object):
         `Args:`
             `filters: dict`
                 Optional; pass additional parameters to filter the records returned.
-                See `Copper documentation <https://developer.copper.com/?version=latest#9c15869b-c894-4fa2-9346-d65a6602c129>`_ for choices # noqa: E501
+                See `Copper documentation <https://developer.copper.com/?version=latest#9c15869b-c894-4fa2-9346-d65a6602c129>`_ for choices
             `tidy: boolean or int`
                 Optional; unpack list and dict columns as additional rows instead of columns
                 If `True`: creates new table out of unpacked rows
@@ -132,7 +132,8 @@ class Copper(object):
                 * people_custom_fields
                 * people_socials
                 * people_websites
-        """
+        """ # noqa: E501,E261
+
         return self.get_standard_object("people", filters=filters, tidy=tidy)
 
     def get_companies(self, filters=None, tidy=False):
@@ -142,7 +143,7 @@ class Copper(object):
         `Args:`
             `filters: dict`
                 Optional; pass additional parameters to filter the records returned.
-                See `Copper documentation <https://developer.copper.com/?version=latest#0b4f267f-3180-4041-861c-13f3cf17bcf9>`_ for choices # noqa: E501
+                See `Copper documentation <https://developer.copper.com/?version=latest#0b4f267f-3180-4041-861c-13f3cf17bcf9>`_ for choices
             `tidy: boolean or int`
                 Optional; unpack list and dict columns as additional rows instead of columns
                 If `True`: creates new table out of unpacked rows
@@ -156,7 +157,8 @@ class Copper(object):
                 * companies_custom_fields
                 * companies_socials
                 * companies_websites
-        """
+        """ # noqa: E501,E261
+
         return self.get_standard_object("companies", filters=filters, tidy=tidy)
 
     def get_activities(self, filters=None, tidy=False):
@@ -166,8 +168,7 @@ class Copper(object):
         `Args:`
             `filters: dict`
                 Optional; pass additional parameters to filter the records returned.
-                See `Copper documentation <https://developer.copper.com/?version=latest#d2e6ddd8-6699-4ff3-87e3-1febb0410dc9>`_ for choices # noqa: E501
-            `tidy: boolean or int`
+                See `Copper documentation <https://developer.copper.com/?version=latest#d2e6ddd8-6699-4ff3-87e3-1febb0410dc9>`_ for choices
                 Optional; unpack list and dict columns as additional rows instead of columns
                 If `True`: creates new table out of unpacked rows
                 If 'int': adds rows to original table if max rows per key <= given number
@@ -176,7 +177,8 @@ class Copper(object):
         `Returns:`
             List of dicts of Parsons Tables:
                 * activities
-        """
+        """ # noqa: E501,E261
+
         return self.get_standard_object("activities", filters=filters, tidy=tidy)
 
     def get_opportunities(self, filters=None, tidy=False):
@@ -186,8 +188,7 @@ class Copper(object):
         `Args:`
             `filters: dict`
                 Optional; pass additional parameters to filter the records returned.
-                See `Copper documentation <https://developer.copper.com/?version=latest#5bb8adc1-137f-46bf-aa86-7df037840e57>`_ for choices # noqa: E501
-            `tidy: boolean or int`
+                See `Copper documentation <https://developer.copper.com/?version=latest#5bb8adc1-137f-46bf-aa86-7df037840e57>`_ for choices
                 Optional; unpack list and dict columns as additional rows instead of columns
                 If `True`: creates new table out of unpacked rows
                 If 'int': adds rows to original table if max rows per key <= given number
@@ -197,7 +198,8 @@ class Copper(object):
             List of dicts of Parsons Tables:
                 * opportunities
                 * opportunities_custom_fields
-        """
+        """ # noqa: E501,E261
+
         return self.get_standard_object("opportunities", filters=filters, tidy=tidy)
 
     def get_standard_object(self, object_name, filters=None, tidy=False):

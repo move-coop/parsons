@@ -347,34 +347,34 @@
 
         <span class="n">delimiter</span> <span class="o">=</span> <span class="n">delimiter</span><span class="o">.</span><span class="n">capitalize</span><span class="p">()</span>
 
-        <span class="n">url</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">connection</span><span class="o">.</span><span class="n">uri</span> <span class="o">+</span> <span class="s1">&#39;fileLoadingJobs&#39;</span>
-
-        <span class="n">post_data</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;description&quot;</span><span class="p">:</span> <span class="s1">&#39;A description&#39;</span><span class="p">,</span>
-                     <span class="s2">&quot;file&quot;</span><span class="p">:</span> <span class="p">{</span>
-                         <span class="s2">&quot;columnDelimiter&quot;</span><span class="p">:</span> <span class="n">delimiter</span><span class="p">,</span>
-                         <span class="s2">&quot;columns&quot;</span><span class="p">:</span> <span class="n">columns</span><span class="p">,</span>
-                         <span class="s2">&quot;fileName&quot;</span><span class="p">:</span> <span class="n">file_name</span><span class="p">,</span>
-                         <span class="s2">&quot;hasHeader&quot;</span><span class="p">:</span> <span class="n">header</span><span class="p">,</span>
-                         <span class="s2">&quot;hasQuotes&quot;</span><span class="p">:</span> <span class="n">quotes</span><span class="p">,</span>
-                         <span class="s2">&quot;sourceUrl&quot;</span><span class="p">:</span> <span class="n">file_url</span>
-                     <span class="p">},</span>
-                     <span class="s2">&quot;actions&quot;</span><span class="p">:</span> <span class="p">[</span>
-                         <span class="p">{</span><span class="s2">&quot;actionType&quot;</span><span class="p">:</span> <span class="s2">&quot;score&quot;</span><span class="p">,</span>
-                          <span class="s2">&quot;personIdColumn&quot;</span><span class="p">:</span> <span class="n">id_column</span><span class="p">,</span>
-                          <span class="s2">&quot;personIdType&quot;</span><span class="p">:</span> <span class="n">id_type</span><span class="p">,</span>
-                          <span class="s2">&quot;scoreColumn&quot;</span><span class="p">:</span> <span class="n">score_column</span><span class="p">,</span>
-                          <span class="s2">&quot;scoreId&quot;</span><span class="p">:</span> <span class="n">score_id</span><span class="p">}],</span>
-                     <span class="s2">&quot;listeners&quot;</span><span class="p">:</span> <span class="p">[</span>
-                         <span class="p">{</span><span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;EMAIL&quot;</span><span class="p">,</span>
-                          <span class="s2">&quot;value&quot;</span><span class="p">:</span> <span class="n">email</span><span class="p">}]</span>
-                     <span class="p">}</span>
+        <span class="n">json</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;description&quot;</span><span class="p">:</span> <span class="s1">&#39;A description&#39;</span><span class="p">,</span>
+                <span class="s2">&quot;file&quot;</span><span class="p">:</span> <span class="p">{</span>
+                    <span class="s2">&quot;columnDelimiter&quot;</span><span class="p">:</span> <span class="n">delimiter</span><span class="p">,</span>
+                    <span class="s2">&quot;columns&quot;</span><span class="p">:</span> <span class="n">columns</span><span class="p">,</span>
+                    <span class="s2">&quot;fileName&quot;</span><span class="p">:</span> <span class="n">file_name</span><span class="p">,</span>
+                    <span class="s2">&quot;hasHeader&quot;</span><span class="p">:</span> <span class="n">header</span><span class="p">,</span>
+                    <span class="s2">&quot;hasQuotes&quot;</span><span class="p">:</span> <span class="n">quotes</span><span class="p">,</span>
+                    <span class="s2">&quot;sourceUrl&quot;</span><span class="p">:</span> <span class="n">file_url</span>
+                <span class="p">},</span>
+                <span class="s2">&quot;actions&quot;</span><span class="p">:</span> <span class="p">[</span>
+                    <span class="p">{</span><span class="s2">&quot;actionType&quot;</span><span class="p">:</span> <span class="s2">&quot;score&quot;</span><span class="p">,</span>
+                     <span class="s2">&quot;personIdColumn&quot;</span><span class="p">:</span> <span class="n">id_column</span><span class="p">,</span>
+                     <span class="s2">&quot;personIdType&quot;</span><span class="p">:</span> <span class="n">id_type</span><span class="p">,</span>
+                     <span class="s2">&quot;scoreColumn&quot;</span><span class="p">:</span> <span class="n">score_column</span><span class="p">,</span>
+                     <span class="s2">&quot;scoreId&quot;</span><span class="p">:</span> <span class="n">score_id</span><span class="p">}],</span>
+                <span class="s2">&quot;listeners&quot;</span><span class="p">:</span> <span class="p">[</span>
+                    <span class="p">{</span><span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;EMAIL&quot;</span><span class="p">,</span>
+                     <span class="s2">&quot;value&quot;</span><span class="p">:</span> <span class="n">email</span><span class="p">}]</span>
+                <span class="p">}</span>
 
         <span class="k">if</span> <span class="n">auto_average</span> <span class="ow">and</span> <span class="n">auto_tolerance</span><span class="p">:</span>
 
-            <span class="n">post_data</span><span class="p">[</span><span class="s2">&quot;actions&quot;</span><span class="p">][</span><span class="s2">&quot;approvalCriteria&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;average&quot;</span><span class="p">:</span> <span class="n">auto_average</span><span class="p">,</span>
-                                                        <span class="s2">&quot;tolerance&quot;</span><span class="p">:</span> <span class="n">auto_tolerance</span><span class="p">}</span>
+            <span class="n">json</span><span class="p">[</span><span class="s2">&quot;actions&quot;</span><span class="p">][</span><span class="s2">&quot;approvalCriteria&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;average&quot;</span><span class="p">:</span> <span class="n">auto_average</span><span class="p">,</span>
+                                                   <span class="s2">&quot;tolerance&quot;</span><span class="p">:</span> <span class="n">auto_tolerance</span><span class="p">}</span>
 
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">connection</span><span class="o">.</span><span class="n">request</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">req_type</span><span class="o">=</span><span class="s2">&quot;POST&quot;</span><span class="p">,</span> <span class="n">post_data</span><span class="o">=</span><span class="n">post_data</span><span class="p">,</span> <span class="n">raw</span><span class="o">=</span><span class="kc">True</span><span class="p">)[</span><span class="s1">&#39;jobId&#39;</span><span class="p">]</span></div>
+        <span class="n">r</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">connection</span><span class="o">.</span><span class="n">post_request</span><span class="p">(</span><span class="s1">&#39;fileLoadingJobs&#39;</span><span class="p">,</span> <span class="n">json</span><span class="o">=</span><span class="n">json</span><span class="p">)[</span><span class="s1">&#39;jobId&#39;</span><span class="p">]</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="n">f</span><span class="s1">&#39;Score loading job </span><span class="si">{r}</span><span class="s1"> created.&#39;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">r</span></div>
 
 <div class="viewcode-block" id="FileLoadingJobs.create_file_load_multi"><a class="viewcode-back" href="../../../ngpvan.html#parsons.ngpvan.van.FileLoadingJobs.create_file_load_multi">[docs]</a>    <span class="k">def</span> <span class="nf">create_file_load_multi</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">file_name</span><span class="p">,</span> <span class="n">file_url</span><span class="p">,</span> <span class="n">columns</span><span class="p">,</span> <span class="n">id_column</span><span class="p">,</span> <span class="n">id_type</span><span class="p">,</span>
                                <span class="n">score_map</span><span class="p">,</span> <span class="n">delimiter</span><span class="o">=</span><span class="s1">&#39;csv&#39;</span><span class="p">,</span> <span class="n">header</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">quotes</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
@@ -421,22 +421,19 @@
 
         <span class="n">delimiter</span> <span class="o">=</span> <span class="n">delimiter</span><span class="o">.</span><span class="n">capitalize</span><span class="p">()</span>
 
-        <span class="n">url</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">connection</span><span class="o">.</span><span class="n">uri</span> <span class="o">+</span> <span class="s1">&#39;fileLoadingJobs&#39;</span>
-
-        <span class="n">post_data</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;description&quot;</span><span class="p">:</span> <span class="s1">&#39;A description&#39;</span><span class="p">,</span>
-                     <span class="s2">&quot;file&quot;</span><span class="p">:</span> <span class="p">{</span>
-                         <span class="s2">&quot;columnDelimiter&quot;</span><span class="p">:</span> <span class="n">delimiter</span><span class="p">,</span>
-                         <span class="s2">&quot;columns&quot;</span><span class="p">:</span> <span class="n">columns</span><span class="p">,</span>
-                         <span class="s2">&quot;fileName&quot;</span><span class="p">:</span> <span class="n">file_name</span><span class="p">,</span>
-                         <span class="s2">&quot;hasHeader&quot;</span><span class="p">:</span> <span class="n">header</span><span class="p">,</span>
-                         <span class="s2">&quot;hasQuotes&quot;</span><span class="p">:</span> <span class="n">quotes</span><span class="p">,</span>
-                         <span class="s2">&quot;sourceUrl&quot;</span><span class="p">:</span> <span class="n">file_url</span>
-                     <span class="p">},</span>
-
-                     <span class="s2">&quot;listeners&quot;</span><span class="p">:</span> <span class="p">[</span>
-                         <span class="p">{</span><span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;EMAIL&quot;</span><span class="p">,</span>
-                          <span class="s2">&quot;value&quot;</span><span class="p">:</span> <span class="n">email</span><span class="p">}]</span>
-                     <span class="p">}</span>
+        <span class="n">json</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;description&quot;</span><span class="p">:</span> <span class="s1">&#39;A description&#39;</span><span class="p">,</span>
+                <span class="s2">&quot;file&quot;</span><span class="p">:</span> <span class="p">{</span>
+                    <span class="s2">&quot;columnDelimiter&quot;</span><span class="p">:</span> <span class="n">delimiter</span><span class="p">,</span>
+                    <span class="s2">&quot;columns&quot;</span><span class="p">:</span> <span class="n">columns</span><span class="p">,</span>
+                    <span class="s2">&quot;fileName&quot;</span><span class="p">:</span> <span class="n">file_name</span><span class="p">,</span>
+                    <span class="s2">&quot;hasHeader&quot;</span><span class="p">:</span> <span class="n">header</span><span class="p">,</span>
+                    <span class="s2">&quot;hasQuotes&quot;</span><span class="p">:</span> <span class="n">quotes</span><span class="p">,</span>
+                    <span class="s2">&quot;sourceUrl&quot;</span><span class="p">:</span> <span class="n">file_url</span>
+                <span class="p">},</span>
+                <span class="s2">&quot;listeners&quot;</span><span class="p">:</span> <span class="p">[</span>
+                    <span class="p">{</span><span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;EMAIL&quot;</span><span class="p">,</span>
+                     <span class="s2">&quot;value&quot;</span><span class="p">:</span> <span class="n">email</span><span class="p">}]</span>
+                <span class="p">}</span>
 
         <span class="n">actions</span> <span class="o">=</span> <span class="p">[]</span>
 
@@ -455,9 +452,11 @@
 
             <span class="n">actions</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">action</span><span class="p">)</span>
 
-        <span class="n">post_data</span><span class="p">[</span><span class="s1">&#39;actions&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">actions</span>
+        <span class="n">json</span><span class="p">[</span><span class="s1">&#39;actions&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">actions</span>
 
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">connection</span><span class="o">.</span><span class="n">request</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">req_type</span><span class="o">=</span><span class="s2">&quot;POST&quot;</span><span class="p">,</span> <span class="n">post_data</span><span class="o">=</span><span class="n">post_data</span><span class="p">)</span></div></div>
+        <span class="n">r</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">connection</span><span class="o">.</span><span class="n">post_request</span><span class="p">(</span><span class="s1">&#39;fileLoadingJobs&#39;</span><span class="p">,</span> <span class="n">json</span><span class="o">=</span><span class="n">json</span><span class="p">)[</span><span class="s1">&#39;jobId&#39;</span><span class="p">]</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="n">f</span><span class="s1">&#39;Score loading job </span><span class="si">{r}</span><span class="s1"> created.&#39;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">r</span></div></div>
 </pre></div>
 
            </div>

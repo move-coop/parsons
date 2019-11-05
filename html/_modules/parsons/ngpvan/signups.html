@@ -283,8 +283,6 @@
 <span class="sd">                The event signup id</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
-        <span class="n">url</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">connection</span><span class="o">.</span><span class="n">uri</span> <span class="o">+</span> <span class="s1">&#39;signups&#39;</span>
-
         <span class="n">signup</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;person&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;vanId&#39;</span><span class="p">:</span> <span class="n">vanid</span><span class="p">},</span>
                   <span class="s1">&#39;event&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;eventId&#39;</span><span class="p">:</span> <span class="n">event_id</span><span class="p">},</span>
                   <span class="s1">&#39;shift&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;eventShiftId&#39;</span><span class="p">:</span> <span class="n">shift_id</span><span class="p">},</span>
@@ -293,7 +291,9 @@
                   <span class="s1">&#39;location&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;locationId&#39;</span><span class="p">:</span> <span class="n">location_id</span><span class="p">}</span>
                   <span class="p">}</span>
 
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">connection</span><span class="o">.</span><span class="n">request</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">req_type</span><span class="o">=</span><span class="s2">&quot;POST&quot;</span><span class="p">,</span> <span class="n">post_data</span><span class="o">=</span><span class="n">signup</span><span class="p">,</span> <span class="n">raw</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span></div>
+        <span class="n">r</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">connection</span><span class="o">.</span><span class="n">post_request</span><span class="p">(</span><span class="s1">&#39;signups&#39;</span><span class="p">,</span> <span class="n">json</span><span class="o">=</span><span class="n">signup</span><span class="p">)</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s1">&#39;Signup </span><span class="si">{r}</span><span class="s1"> created.&#39;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">r</span></div>
 
 <div class="viewcode-block" id="Signups.update_signup"><a class="viewcode-back" href="../../../ngpvan.html#parsons.ngpvan.van.Signups.update_signup">[docs]</a>    <span class="k">def</span> <span class="nf">update_signup</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">event_signup_id</span><span class="p">,</span> <span class="n">shift_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">role_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">status_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
                       <span class="n">location_id</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>

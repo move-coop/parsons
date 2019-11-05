@@ -308,11 +308,11 @@
             <span class="n">json</span> <span class="o">=</span> <span class="n">match_map</span>
 
         <span class="c1"># Determine correct url</span>
-        <span class="n">url</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">connection</span><span class="o">.</span><span class="n">uri</span> <span class="o">+</span> <span class="s1">&#39;people/find&#39;</span>
+        <span class="n">url</span> <span class="o">=</span> <span class="s1">&#39;people/find&#39;</span>
         <span class="k">if</span> <span class="n">create</span><span class="p">:</span>
             <span class="n">url</span> <span class="o">=</span> <span class="n">url</span> <span class="o">+</span> <span class="s1">&#39;orCreate&#39;</span>
 
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">connection</span><span class="o">.</span><span class="n">request</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">req_type</span><span class="o">=</span><span class="s2">&quot;POST&quot;</span><span class="p">,</span> <span class="n">post_data</span><span class="o">=</span><span class="n">json</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">connection</span><span class="o">.</span><span class="n">post_request</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">json</span><span class="o">=</span><span class="n">json</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">_valid_search</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">first_name</span><span class="p">,</span> <span class="n">last_name</span><span class="p">,</span> <span class="n">email</span><span class="p">,</span> <span class="n">phone</span><span class="p">,</span> <span class="n">dob</span><span class="p">,</span> <span class="n">street_number</span><span class="p">,</span>
                       <span class="n">street_name</span><span class="p">,</span> <span class="nb">zip</span><span class="p">,</span> <span class="n">match_map</span><span class="p">):</span>
@@ -386,54 +386,14 @@
 <span class="sd">                `Optional`; Defaults to 11 (API Input)</span>
 <span class="sd">            date_canvassed : str</span>
 <span class="sd">                `Optional`; ISO 8601 formatted date. Defaults to todays date</span>
+<span class="sd">        `Returns:`</span>
+<span class="sd">            ``None``</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
         <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="n">f</span><span class="s1">&#39;Applying result code </span><span class="si">{result_code_id}</span><span class="s1"> to </span><span class="si">{id_type}</span><span class="s1"> </span><span class="si">{id}</span><span class="s1">.&#39;</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">apply_response</span><span class="p">(</span><span class="nb">id</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="n">id_type</span><span class="o">=</span><span class="n">id_type</span><span class="p">,</span> <span class="n">contact_type_id</span><span class="o">=</span><span class="n">contact_type_id</span><span class="p">,</span>
                             <span class="n">input_type_id</span><span class="o">=</span><span class="n">input_type_id</span><span class="p">,</span> <span class="n">date_canvassed</span><span class="o">=</span><span class="n">date_canvassed</span><span class="p">,</span>
-                            <span class="n">result_code_id</span><span class="o">=</span><span class="n">result_code_id</span><span class="p">)</span>
-
-        <span class="k">return</span> <span class="kc">True</span></div>
-
-<div class="viewcode-block" id="People.apply_survey_response"><a class="viewcode-back" href="../../../ngpvan.html#parsons.ngpvan.van.People.apply_survey_response">[docs]</a>    <span class="k">def</span> <span class="nf">apply_survey_response</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">id</span><span class="p">,</span> <span class="n">survey_question_id</span><span class="p">,</span> <span class="n">survey_response_id</span><span class="p">,</span>
-                              <span class="n">id_type</span><span class="o">=</span><span class="s1">&#39;vanid&#39;</span><span class="p">,</span> <span class="n">result_code_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">contact_type_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-                              <span class="n">input_type_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">date_canvassed</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Apply a single survey response to a person.</span>
-
-<span class="sd">        `Args:`</span>
-<span class="sd">            id: str</span>
-<span class="sd">                A valid person id</span>
-<span class="sd">            survey_question_id: int</span>
-<span class="sd">                A valid survey question id</span>
-<span class="sd">            survey_response_id: int</span>
-<span class="sd">                A valid survey response id</span>
-<span class="sd">            id_type: str</span>
-<span class="sd">                A known person identifier type available on this VAN instance</span>
-<span class="sd">                such as ``dwid``</span>
-<span class="sd">            result_code_id : int</span>
-<span class="sd">                `Optional`; Specifies the result code of the response. If</span>
-<span class="sd">                not included,responses must be specified. Conversely, if</span>
-<span class="sd">                responses are specified, result_code_id must be null. Valid ids</span>
-<span class="sd">                can be found by using the :meth:`get_canvass_responses_result_codes`</span>
-<span class="sd">            contact_type_id : int</span>
-<span class="sd">                `Optional`; A valid contact type id</span>
-<span class="sd">            input_type_id : int</span>
-<span class="sd">                `Optional`; Defaults to 11 (API Input)</span>
-<span class="sd">            date_canvassed : str</span>
-<span class="sd">                `Optional`; ISO 8601 formatted date. Defaults to todays date</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-
-        <span class="n">response</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;surveyQuestionId&quot;</span><span class="p">:</span> <span class="n">survey_question_id</span><span class="p">,</span>
-                    <span class="s2">&quot;surveyResponseId&quot;</span><span class="p">:</span> <span class="n">survey_response_id</span><span class="p">,</span>
-                    <span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;surveyResponse&quot;</span><span class="p">}</span>
-
-        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="n">f</span><span class="s1">&#39;Applying survey question </span><span class="si">{survey_question_id}</span><span class="s1"> to </span><span class="si">{id_type}</span><span class="s1"> </span><span class="si">{id}</span><span class="s1">&#39;</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">apply_response</span><span class="p">(</span><span class="nb">id</span><span class="p">,</span> <span class="n">response</span><span class="p">,</span> <span class="n">id_type</span><span class="p">,</span> <span class="n">result_code_id</span><span class="o">=</span><span class="n">result_code_id</span><span class="p">,</span>
-                            <span class="n">contact_type_id</span><span class="o">=</span><span class="n">contact_type_id</span><span class="p">,</span> <span class="n">input_type_id</span><span class="o">=</span><span class="n">input_type_id</span><span class="p">,</span>
-                            <span class="n">date_canvassed</span><span class="o">=</span><span class="n">date_canvassed</span><span class="p">)</span>
-
-        <span class="k">return</span> <span class="kc">True</span></div>
+                            <span class="n">result_code_id</span><span class="o">=</span><span class="n">result_code_id</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="People.toggle_volunteer_action"><a class="viewcode-back" href="../../../ngpvan.html#parsons.ngpvan.van.People.toggle_volunteer_action">[docs]</a>    <span class="k">def</span> <span class="nf">toggle_volunteer_action</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">id</span><span class="p">,</span> <span class="n">volunteer_activity_id</span><span class="p">,</span> <span class="n">action</span><span class="p">,</span> <span class="n">id_type</span><span class="o">=</span><span class="s1">&#39;vanid&#39;</span><span class="p">,</span>
                                 <span class="n">result_code_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">contact_type_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">input_type_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
@@ -558,15 +518,14 @@
 <span class="sd">            relationship_id : int</span>
 <span class="sd">                The relationship id indicating the type of relationship</span>
 <span class="sd">        `Returns:`</span>
-<span class="sd">            Tuple of ``(204, No Content)`` if successful, ``(404, Not Found)``.</span>
+<span class="sd">            ``None``</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-
-        <span class="n">url</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">connection</span><span class="o">.</span><span class="n">uri</span> <span class="o">+</span> <span class="n">f</span><span class="s2">&quot;people/</span><span class="si">{vanid_1}</span><span class="s2">/relationships&quot;</span>
 
         <span class="n">json</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;relationshipId&#39;</span><span class="p">:</span> <span class="n">relationship_id</span><span class="p">,</span>
                 <span class="s1">&#39;vanId&#39;</span><span class="p">:</span> <span class="n">vanid_2</span><span class="p">}</span>
 
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">connection</span><span class="o">.</span><span class="n">request</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">req_type</span><span class="o">=</span><span class="s2">&quot;POST&quot;</span><span class="p">,</span> <span class="n">post_data</span><span class="o">=</span><span class="n">json</span><span class="p">,</span> <span class="n">raw</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span></div></div>
+        <span class="bp">self</span><span class="o">.</span><span class="n">connection</span><span class="o">.</span><span class="n">post_request</span><span class="p">(</span><span class="n">f</span><span class="s2">&quot;people/</span><span class="si">{vanid_1}</span><span class="s2">/relationships&quot;</span><span class="p">,</span> <span class="n">json</span><span class="o">=</span><span class="n">json</span><span class="p">)</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s1">&#39;Relationship </span><span class="si">{vanid_1}</span><span class="s1"> to </span><span class="si">{vanid_2}</span><span class="s1"> created.&#39;</span><span class="p">)</span></div></div>
 </pre></div>
 
            </div>

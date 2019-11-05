@@ -540,38 +540,8 @@ such as <code class="docutils literal notranslate"><span class="pre">dwid</span>
 <dd><cite>Optional</cite>; ISO 8601 formatted date. Defaults to todays date</dd>
 </dl>
 </dd>
-</dl>
-</dd></dl>
-
-<dl class="method">
-<dt id="parsons.ngpvan.van.People.apply_survey_response">
-<code class="descname">apply_survey_response</code><span class="sig-paren">(</span><em>id</em>, <em>survey_question_id</em>, <em>survey_response_id</em>, <em>id_type='vanid'</em>, <em>result_code_id=None</em>, <em>contact_type_id=None</em>, <em>input_type_id=None</em>, <em>date_canvassed=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/ngpvan/people.html#People.apply_survey_response"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.ngpvan.van.People.apply_survey_response" title="Permalink to this definition">¶</a></dt>
-<dd><p>Apply a single survey response to a person.</p>
-<dl class="docutils">
-<dt><cite>Args:</cite></dt>
-<dd><dl class="first last docutils">
-<dt>id: str</dt>
-<dd>A valid person id</dd>
-<dt>survey_question_id: int</dt>
-<dd>A valid survey question id</dd>
-<dt>survey_response_id: int</dt>
-<dd>A valid survey response id</dd>
-<dt>id_type: str</dt>
-<dd>A known person identifier type available on this VAN instance
-such as <code class="docutils literal notranslate"><span class="pre">dwid</span></code></dd>
-<dt>result_code_id <span class="classifier-delimiter">:</span> <span class="classifier">int</span></dt>
-<dd><cite>Optional</cite>; Specifies the result code of the response. If
-not included,responses must be specified. Conversely, if
-responses are specified, result_code_id must be null. Valid ids
-can be found by using the <code class="xref py py-meth docutils literal notranslate"><span class="pre">get_canvass_responses_result_codes()</span></code></dd>
-<dt>contact_type_id <span class="classifier-delimiter">:</span> <span class="classifier">int</span></dt>
-<dd><cite>Optional</cite>; A valid contact type id</dd>
-<dt>input_type_id <span class="classifier-delimiter">:</span> <span class="classifier">int</span></dt>
-<dd><cite>Optional</cite>; Defaults to 11 (API Input)</dd>
-<dt>date_canvassed <span class="classifier-delimiter">:</span> <span class="classifier">str</span></dt>
-<dd><cite>Optional</cite>; ISO 8601 formatted date. Defaults to todays date</dd>
-</dl>
-</dd>
+<dt><cite>Returns:</cite></dt>
+<dd><code class="docutils literal notranslate"><span class="pre">None</span></code></dd>
 </dl>
 </dd></dl>
 
@@ -670,7 +640,7 @@ can be found by using the <code class="xref py py-meth docutils literal notransl
 </dl>
 </dd>
 <dt><cite>Returns:</cite></dt>
-<dd>Tuple of <code class="docutils literal notranslate"><span class="pre">(204,</span> <span class="pre">No</span> <span class="pre">Content)</span></code> if successful, <code class="docutils literal notranslate"><span class="pre">(404,</span> <span class="pre">Not</span> <span class="pre">Found)</span></code>.</dd>
+<dd><code class="docutils literal notranslate"><span class="pre">None</span></code></dd>
 </dl>
 </dd></dl>
 
@@ -843,6 +813,38 @@ such as <code class="docutils literal notranslate"><span class="pre">dwid</span>
 </dl>
 </dd></dl>
 
+<dl class="method">
+<dt id="parsons.ngpvan.van.SurveyQuestions.apply_survey_response">
+<code class="descname">apply_survey_response</code><span class="sig-paren">(</span><em>id</em>, <em>survey_question_id</em>, <em>survey_response_id</em>, <em>id_type='vanid'</em>, <em>result_code_id=None</em>, <em>contact_type_id=None</em>, <em>input_type_id=None</em>, <em>date_canvassed=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/ngpvan/survey_questions.html#SurveyQuestions.apply_survey_response"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.ngpvan.van.SurveyQuestions.apply_survey_response" title="Permalink to this definition">¶</a></dt>
+<dd><p>Apply a single survey response to a person.</p>
+<dl class="docutils">
+<dt><cite>Args:</cite></dt>
+<dd><dl class="first last docutils">
+<dt>id: str</dt>
+<dd>A valid person id</dd>
+<dt>survey_question_id: int</dt>
+<dd>A valid survey question id</dd>
+<dt>survey_response_id: int</dt>
+<dd>A valid survey response id</dd>
+<dt>id_type: str</dt>
+<dd>A known person identifier type available on this VAN instance
+such as <code class="docutils literal notranslate"><span class="pre">dwid</span></code></dd>
+<dt>result_code_id <span class="classifier-delimiter">:</span> <span class="classifier">int</span></dt>
+<dd><cite>Optional</cite>; Specifies the result code of the response. If
+not included,responses must be specified. Conversely, if
+responses are specified, result_code_id must be null. Valid ids
+can be found by using the <code class="xref py py-meth docutils literal notranslate"><span class="pre">get_canvass_responses_result_codes()</span></code></dd>
+<dt>contact_type_id <span class="classifier-delimiter">:</span> <span class="classifier">int</span></dt>
+<dd><cite>Optional</cite>; A valid contact type id</dd>
+<dt>input_type_id <span class="classifier-delimiter">:</span> <span class="classifier">int</span></dt>
+<dd><cite>Optional</cite>; Defaults to 11 (API Input)</dd>
+<dt>date_canvassed <span class="classifier-delimiter">:</span> <span class="classifier">str</span></dt>
+<dd><cite>Optional</cite>; ISO 8601 formatted date. Defaults to todays date</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
 </dd></dl>
 
 </div>
@@ -964,7 +966,11 @@ that at most one source code and any number of tags, may be applied to an event.
 </dl>
 </dd>
 <dt><cite>Returns:</cite></dt>
-<dd>The event code</dd>
+<dd><dl class="first last docutils">
+<dt>int</dt>
+<dd>The event code.</dd>
+</dl>
+</dd>
 </dl>
 </dd></dl>
 
@@ -996,13 +1002,17 @@ that at most one source code and any number of tags, may be applied to an event.
 <dt>shift_name: str</dt>
 <dd>The name of the shift</dd>
 <dt>start_time: str</dt>
-<dd>The start time for the shift.</dd>
+<dd>The start time for the shift (<code class="docutils literal notranslate"><span class="pre">iso8601</span></code> formatted date).</dd>
 <dt>end_time: str</dt>
-<dd>The end time of the shift.</dd>
+<dd>The end time of the shift (<code class="docutils literal notranslate"><span class="pre">iso8601</span></code> formatted date).</dd>
 </dl>
 </dd>
 <dt><cite>Returns:</cite></dt>
-<dd><code class="docutils literal notranslate"><span class="pre">None</span></code></dd>
+<dd><dl class="first last docutils">
+<dt>int</dt>
+<dd>The shift id.</dd>
+</dl>
+</dd>
 </dl>
 </dd></dl>
 
@@ -1084,7 +1094,11 @@ that at most one source code and any number of tags, may be applied to an event.
 <dt>zip_code: str</dt>
 <dd>ZIP, ZIP+4, Postal Code, Post code, etc.</dd>
 <dt><cite>Returns:</cite></dt>
-<dd>A location id</dd>
+<dd><dl class="first last docutils">
+<dt>int</dt>
+<dd>A location id.</dd>
+</dl>
+</dd>
 </dl>
 </dd>
 </dl>
@@ -1789,9 +1803,8 @@ instead.</p>
 </dd>
 <dt><cite>Returns:</cite></dt>
 <dd><dl class="first last docutils">
-<dt>Parsons Table</dt>
-<dd>See <a class="reference internal" href="table.html#parsons-table"><span class="std std-ref">Parsons Table</span></a> for output options. Includes a
-download link for the file.</dd>
+<dt>dict</dt>
+<dd>The export job object</dd>
 </dl>
 </dd>
 </dl>

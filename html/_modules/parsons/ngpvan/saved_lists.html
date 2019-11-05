@@ -310,19 +310,18 @@
 <span class="sd">            webhookUrl:</span>
 <span class="sd">                A webhook to include to notify as to the status of the export</span>
 <span class="sd">        `Returns:`</span>
-<span class="sd">            Parsons Table</span>
-<span class="sd">                See :ref:`parsons-table` for output options. Includes a</span>
-<span class="sd">                download link for the file.</span>
+<span class="sd">            dict</span>
+<span class="sd">                The export job object</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
-        <span class="n">url</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">connection</span><span class="o">.</span><span class="n">uri</span> <span class="o">+</span> <span class="s1">&#39;exportJobs&#39;</span>
-
-        <span class="n">data</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;savedListId&quot;</span><span class="p">:</span> <span class="nb">str</span><span class="p">(</span><span class="n">list_id</span><span class="p">),</span>
+        <span class="n">json</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;savedListId&quot;</span><span class="p">:</span> <span class="nb">str</span><span class="p">(</span><span class="n">list_id</span><span class="p">),</span>
                 <span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="nb">str</span><span class="p">(</span><span class="n">export_type</span><span class="p">),</span>
                 <span class="s2">&quot;webhookUrl&quot;</span><span class="p">:</span> <span class="n">webhookUrl</span>
                 <span class="p">}</span>
 
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">connection</span><span class="o">.</span><span class="n">request</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">req_type</span><span class="o">=</span><span class="s1">&#39;POST&#39;</span><span class="p">,</span> <span class="n">post_data</span><span class="o">=</span><span class="n">data</span><span class="p">,</span> <span class="n">raw</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span></div>
+        <span class="n">r</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">connection</span><span class="o">.</span><span class="n">post_request</span><span class="p">(</span><span class="s1">&#39;exportJobs&#39;</span><span class="p">,</span> <span class="n">json</span><span class="o">=</span><span class="n">json</span><span class="p">)</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s1">&#39;Retrieved export job.&#39;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">r</span></div>
 
 <div class="viewcode-block" id="ExportJobs.get_export_job"><a class="viewcode-back" href="../../../ngpvan.html#parsons.ngpvan.van.ExportJobs.get_export_job">[docs]</a>    <span class="k">def</span> <span class="nf">get_export_job</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">export_job_id</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>

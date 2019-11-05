@@ -225,14 +225,6 @@
 <span class="sd">            and description</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
-        <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        url = self.connection.uri + &#39;supporterGroups&#39;</span>
-
-<span class="sd">        json = {&#39;name&#39;: name, &#39;description&#39;: description}</span>
-
-<span class="sd">        return self.connection.request(url, req_type=&quot;POST&quot;, post_data=json)</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-
         <span class="n">json</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="n">name</span><span class="p">,</span> <span class="s1">&#39;description&#39;</span><span class="p">:</span> <span class="n">description</span><span class="p">}</span>
         <span class="n">r</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">connection</span><span class="o">.</span><span class="n">post_request</span><span class="p">(</span><span class="s1">&#39;supporterGroups&#39;</span><span class="p">,</span> <span class="n">json</span><span class="o">=</span><span class="n">json</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">r</span></div>

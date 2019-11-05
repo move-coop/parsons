@@ -309,10 +309,9 @@
 <span class="sd">            notes: list</span>
 <span class="sd">                A list of notes</span>
 <span class="sd">        `Returns:`</span>
-<span class="sd">            The event code</span>
+<span class="sd">            int</span>
+<span class="sd">              The event code.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-
-        <span class="n">url</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">connection</span><span class="o">.</span><span class="n">uri</span> <span class="o">+</span> <span class="s1">&#39;events/&#39;</span>
 
         <span class="k">if</span> <span class="n">shifts</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">shifts</span> <span class="o">=</span> <span class="p">[{</span><span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="s1">&#39;Default Shift&#39;</span><span class="p">,</span>
@@ -344,13 +343,9 @@
         <span class="k">if</span> <span class="n">code_ids</span><span class="p">:</span>
             <span class="n">event</span><span class="p">[</span><span class="s1">&#39;codes&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[{</span><span class="s1">&#39;codeID&#39;</span><span class="p">:</span> <span class="n">c</span><span class="p">}</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">code_ids</span><span class="p">]</span>
 
-        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s1">&#39;Creating new event...&#39;</span><span class="p">)</span>
-        <span class="n">event_code</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">connection</span><span class="o">.</span><span class="n">request</span><span class="p">(</span>
-            <span class="n">url</span><span class="p">,</span> <span class="n">req_type</span><span class="o">=</span><span class="s2">&quot;POST&quot;</span><span class="p">,</span> <span class="n">post_data</span><span class="o">=</span><span class="n">event</span><span class="p">,</span> <span class="n">raw</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-        <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="n">event</span><span class="p">)</span>
-        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="n">f</span><span class="s1">&#39;Event </span><span class="si">{event_code}</span><span class="s1"> created.&#39;</span><span class="p">)</span>
-
-        <span class="k">return</span> <span class="n">event_code</span></div>
+        <span class="n">r</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">connection</span><span class="o">.</span><span class="n">post_request</span><span class="p">(</span><span class="s1">&#39;events&#39;</span><span class="p">,</span> <span class="n">json</span><span class="o">=</span><span class="n">event</span><span class="p">)</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="n">f</span><span class="s1">&#39;Event </span><span class="si">{r}</span><span class="s1"> created.&#39;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">r</span></div>
 
 <div class="viewcode-block" id="Events.delete_event"><a class="viewcode-back" href="../../../ngpvan.html#parsons.ngpvan.van.Events.delete_event">[docs]</a>    <span class="k">def</span> <span class="nf">delete_event</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">event_id</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
@@ -381,26 +376,22 @@
 <span class="sd">            shift_name: str</span>
 <span class="sd">                The name of the shift</span>
 <span class="sd">            start_time: str</span>
-<span class="sd">                The start time for the shift.</span>
+<span class="sd">                The start time for the shift (``iso8601`` formatted date).</span>
 <span class="sd">            end_time: str</span>
-<span class="sd">                The end time of the shift.</span>
+<span class="sd">                The end time of the shift (``iso8601`` formatted date).</span>
 <span class="sd">        `Returns:`</span>
-<span class="sd">            ``None``</span>
+<span class="sd">            int</span>
+<span class="sd">              The shift id.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-
-        <span class="n">url</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">connection</span><span class="o">.</span><span class="n">uri</span> <span class="o">+</span> <span class="s1">&#39;events/</span><span class="si">{}</span><span class="s1">/shifts&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">event_id</span><span class="p">)</span>
 
         <span class="n">shift</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="n">shift_name</span><span class="p">,</span>
                  <span class="s1">&#39;startTime&#39;</span><span class="p">:</span> <span class="n">start_time</span><span class="p">,</span>
                  <span class="s1">&#39;endTime&#39;</span><span class="p">:</span> <span class="n">end_time</span>
                  <span class="p">}</span>
 
-        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="n">f</span><span class="s1">&#39;Adding shifts to event </span><span class="si">{event_id}</span><span class="s1">...&#39;</span><span class="p">)</span>
-        <span class="n">shifts</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">connection</span><span class="o">.</span><span class="n">request</span><span class="p">(</span>
-            <span class="n">url</span><span class="p">,</span> <span class="n">req_type</span><span class="o">=</span><span class="s2">&quot;POST&quot;</span><span class="p">,</span> <span class="n">post_data</span><span class="o">=</span><span class="n">shift</span><span class="p">,</span> <span class="n">raw</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s1">&#39;Finished adding shifts.&#39;</span><span class="p">)</span>
-
-        <span class="k">return</span> <span class="n">shifts</span></div>
+        <span class="n">r</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">connection</span><span class="o">.</span><span class="n">post_request</span><span class="p">(</span><span class="n">f</span><span class="s1">&#39;events/</span><span class="si">{event_id}</span><span class="s1">/shifts&#39;</span><span class="p">,</span> <span class="n">json</span><span class="o">=</span><span class="n">shift</span><span class="p">)</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="n">f</span><span class="s1">&#39;Shift </span><span class="si">{r}</span><span class="s1"> added.&#39;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">r</span></div>
 
 <div class="viewcode-block" id="Events.get_event_types"><a class="viewcode-back" href="../../../ngpvan.html#parsons.ngpvan.van.Events.get_event_types">[docs]</a>    <span class="k">def</span> <span class="nf">get_event_types</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>

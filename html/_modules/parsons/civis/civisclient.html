@@ -95,6 +95,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../../../s3.html">S3</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../sftp.html">SFTP</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../ts.html">TargetSmart</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../twilio.html">Twilio</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../turbovote.html">TurboVote</a></li>
 </ul>
 <p class="caption"><span class="caption-text">Enhancements</span></p>
@@ -203,7 +204,8 @@
 
 <div class="viewcode-block" id="CivisClient.query"><a class="viewcode-back" href="../../../civis.html#parsons.CivisClient.query">[docs]</a>    <span class="k">def</span> <span class="nf">query</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sql</span><span class="p">,</span> <span class="n">preview_rows</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">polling_interval</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">hidden</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
               <span class="n">wait</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Execute a SQL statement as a Civis query.</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Execute a SQL statement as a Civis query.</span>
 
 <span class="sd">        Run a query that may return no results or where only a small</span>
 <span class="sd">        preview is required. To execute a query that returns a large number</span>
@@ -276,7 +278,7 @@
 <span class="sd">                Wait for write job to complete before exiting method.</span>
 <span class="sd">        `Returns`</span>
 <span class="sd">            ``None``</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        &quot;&quot;&quot;</span> <span class="c1"># noqa: E501,E261</span>
 
         <span class="n">fut</span> <span class="o">=</span> <span class="n">civis</span><span class="o">.</span><span class="n">io</span><span class="o">.</span><span class="n">dataframe_to_civis</span><span class="p">(</span><span class="n">table_obj</span><span class="o">.</span><span class="n">to_dataframe</span><span class="p">(),</span> <span class="n">database</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">db</span><span class="p">,</span>
                                           <span class="n">table</span><span class="o">=</span><span class="n">table</span><span class="p">,</span> <span class="n">max_errors</span><span class="o">=</span><span class="n">max_errors</span><span class="p">,</span>

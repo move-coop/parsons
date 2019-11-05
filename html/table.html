@@ -97,6 +97,7 @@
 <li class="toctree-l1"><a class="reference internal" href="s3.html">S3</a></li>
 <li class="toctree-l1"><a class="reference internal" href="sftp.html">SFTP</a></li>
 <li class="toctree-l1"><a class="reference internal" href="ts.html">TargetSmart</a></li>
+<li class="toctree-l1"><a class="reference internal" href="twilio.html">Twilio</a></li>
 <li class="toctree-l1"><a class="reference internal" href="turbovote.html">TurboVote</a></li>
 </ul>
 <p class="caption"><span class="caption-text">Enhancements</span></p>
@@ -1374,7 +1375,7 @@ tbl3
 
 <dl class="method">
 <dt id="parsons.etl.etl.ETL.remove_null_rows">
-<code class="descname">remove_null_rows</code><span class="sig-paren">(</span><em>columns</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/etl/etl.html#ETL.remove_null_rows"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.etl.etl.ETL.remove_null_rows" title="Permalink to this definition">¶</a></dt>
+<code class="descname">remove_null_rows</code><span class="sig-paren">(</span><em>columns</em>, <em>null_value=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/etl/etl.html#ETL.remove_null_rows"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.etl.etl.ETL.remove_null_rows" title="Permalink to this definition">¶</a></dt>
 <dd><p>Remove rows if the values in a column are <code class="docutils literal notranslate"><span class="pre">None</span></code>. If multiple columns
 are passed as list, it will remove all rows with null values in any
 of the passed columns.</p>
@@ -1383,6 +1384,8 @@ of the passed columns.</p>
 <dd><dl class="first last docutils">
 <dt>column: str or list</dt>
 <dd>The column or columns to analyze</dd>
+<dt>null_value: int or float or str</dt>
+<dd>The null value</dd>
 </dl>
 </dd>
 <dt><cite>Returns:</cite></dt>

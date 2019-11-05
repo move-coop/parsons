@@ -95,6 +95,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../../../s3.html">S3</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../sftp.html">SFTP</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../ts.html">TargetSmart</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../twilio.html">Twilio</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../turbovote.html">TurboVote</a></li>
 </ul>
 <p class="caption"><span class="caption-text">Enhancements</span></p>
@@ -787,7 +788,7 @@
 
         <span class="k">return</span> <span class="n">Table</span><span class="p">(</span><span class="n">petl</span><span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">table</span><span class="p">,</span> <span class="o">*</span><span class="n">filters</span><span class="p">))</span></div>
 
-<div class="viewcode-block" id="ETL.remove_null_rows"><a class="viewcode-back" href="../../../table.html#parsons.etl.etl.ETL.remove_null_rows">[docs]</a>    <span class="k">def</span> <span class="nf">remove_null_rows</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">columns</span><span class="p">):</span>
+<div class="viewcode-block" id="ETL.remove_null_rows"><a class="viewcode-back" href="../../../table.html#parsons.etl.etl.ETL.remove_null_rows">[docs]</a>    <span class="k">def</span> <span class="nf">remove_null_rows</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">columns</span><span class="p">,</span> <span class="n">null_value</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Remove rows if the values in a column are ``None``. If multiple columns</span>
 <span class="sd">        are passed as list, it will remove all rows with null values in any</span>
@@ -796,6 +797,8 @@
 <span class="sd">        `Args:`</span>
 <span class="sd">            column: str or list</span>
 <span class="sd">                The column or columns to analyze</span>
+<span class="sd">            null_value: int or float or str</span>
+<span class="sd">                The null value</span>
 <span class="sd">        `Returns:`</span>
 <span class="sd">            ``None``</span>
 <span class="sd">        &quot;&quot;&quot;</span>
@@ -803,7 +806,7 @@
             <span class="n">columns</span> <span class="o">=</span> <span class="p">[</span><span class="n">columns</span><span class="p">]</span>
 
         <span class="k">for</span> <span class="n">col</span> <span class="ow">in</span> <span class="n">columns</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">table</span> <span class="o">=</span> <span class="n">petl</span><span class="o">.</span><span class="n">selectisnot</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">table</span><span class="p">,</span> <span class="n">col</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">table</span> <span class="o">=</span> <span class="n">petl</span><span class="o">.</span><span class="n">selectisnot</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">table</span><span class="p">,</span> <span class="n">col</span><span class="p">,</span> <span class="n">null_value</span><span class="p">)</span>
 
         <span class="k">return</span> <span class="bp">self</span></div>
 

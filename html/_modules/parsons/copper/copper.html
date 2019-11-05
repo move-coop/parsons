@@ -95,6 +95,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../../../s3.html">S3</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../sftp.html">SFTP</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../ts.html">TargetSmart</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../twilio.html">Twilio</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../turbovote.html">TurboVote</a></li>
 </ul>
 <p class="caption"><span class="caption-text">Enhancements</span></p>
@@ -288,7 +289,7 @@
 <span class="sd">        `Args:`</span>
 <span class="sd">            `filters: dict`</span>
 <span class="sd">                Optional; pass additional parameters to filter the records returned.</span>
-<span class="sd">                See `Copper documentation &lt;https://developer.copper.com/?version=latest#9c15869b-c894-4fa2-9346-d65a6602c129&gt;`_ for choices # noqa: E501</span>
+<span class="sd">                See `Copper documentation &lt;https://developer.copper.com/?version=latest#9c15869b-c894-4fa2-9346-d65a6602c129&gt;`_ for choices</span>
 <span class="sd">            `tidy: boolean or int`</span>
 <span class="sd">                Optional; unpack list and dict columns as additional rows instead of columns</span>
 <span class="sd">                If `True`: creates new table out of unpacked rows</span>
@@ -303,7 +304,8 @@
 <span class="sd">                * people_custom_fields</span>
 <span class="sd">                * people_socials</span>
 <span class="sd">                * people_websites</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        &quot;&quot;&quot;</span> <span class="c1"># noqa: E501,E261</span>
+
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_standard_object</span><span class="p">(</span><span class="s2">&quot;people&quot;</span><span class="p">,</span> <span class="n">filters</span><span class="o">=</span><span class="n">filters</span><span class="p">,</span> <span class="n">tidy</span><span class="o">=</span><span class="n">tidy</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="Copper.get_companies"><a class="viewcode-back" href="../../../copper.html#parsons.Copper.get_companies">[docs]</a>    <span class="k">def</span> <span class="nf">get_companies</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">filters</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">tidy</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
@@ -313,7 +315,7 @@
 <span class="sd">        `Args:`</span>
 <span class="sd">            `filters: dict`</span>
 <span class="sd">                Optional; pass additional parameters to filter the records returned.</span>
-<span class="sd">                See `Copper documentation &lt;https://developer.copper.com/?version=latest#0b4f267f-3180-4041-861c-13f3cf17bcf9&gt;`_ for choices # noqa: E501</span>
+<span class="sd">                See `Copper documentation &lt;https://developer.copper.com/?version=latest#0b4f267f-3180-4041-861c-13f3cf17bcf9&gt;`_ for choices</span>
 <span class="sd">            `tidy: boolean or int`</span>
 <span class="sd">                Optional; unpack list and dict columns as additional rows instead of columns</span>
 <span class="sd">                If `True`: creates new table out of unpacked rows</span>
@@ -327,7 +329,8 @@
 <span class="sd">                * companies_custom_fields</span>
 <span class="sd">                * companies_socials</span>
 <span class="sd">                * companies_websites</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        &quot;&quot;&quot;</span> <span class="c1"># noqa: E501,E261</span>
+
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_standard_object</span><span class="p">(</span><span class="s2">&quot;companies&quot;</span><span class="p">,</span> <span class="n">filters</span><span class="o">=</span><span class="n">filters</span><span class="p">,</span> <span class="n">tidy</span><span class="o">=</span><span class="n">tidy</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="Copper.get_activities"><a class="viewcode-back" href="../../../copper.html#parsons.Copper.get_activities">[docs]</a>    <span class="k">def</span> <span class="nf">get_activities</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">filters</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">tidy</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
@@ -337,8 +340,7 @@
 <span class="sd">        `Args:`</span>
 <span class="sd">            `filters: dict`</span>
 <span class="sd">                Optional; pass additional parameters to filter the records returned.</span>
-<span class="sd">                See `Copper documentation &lt;https://developer.copper.com/?version=latest#d2e6ddd8-6699-4ff3-87e3-1febb0410dc9&gt;`_ for choices # noqa: E501</span>
-<span class="sd">            `tidy: boolean or int`</span>
+<span class="sd">                See `Copper documentation &lt;https://developer.copper.com/?version=latest#d2e6ddd8-6699-4ff3-87e3-1febb0410dc9&gt;`_ for choices</span>
 <span class="sd">                Optional; unpack list and dict columns as additional rows instead of columns</span>
 <span class="sd">                If `True`: creates new table out of unpacked rows</span>
 <span class="sd">                If &#39;int&#39;: adds rows to original table if max rows per key &lt;= given number</span>
@@ -347,7 +349,8 @@
 <span class="sd">        `Returns:`</span>
 <span class="sd">            List of dicts of Parsons Tables:</span>
 <span class="sd">                * activities</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        &quot;&quot;&quot;</span> <span class="c1"># noqa: E501,E261</span>
+
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_standard_object</span><span class="p">(</span><span class="s2">&quot;activities&quot;</span><span class="p">,</span> <span class="n">filters</span><span class="o">=</span><span class="n">filters</span><span class="p">,</span> <span class="n">tidy</span><span class="o">=</span><span class="n">tidy</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="Copper.get_opportunities"><a class="viewcode-back" href="../../../copper.html#parsons.Copper.get_opportunities">[docs]</a>    <span class="k">def</span> <span class="nf">get_opportunities</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">filters</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">tidy</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
@@ -357,8 +360,7 @@
 <span class="sd">        `Args:`</span>
 <span class="sd">            `filters: dict`</span>
 <span class="sd">                Optional; pass additional parameters to filter the records returned.</span>
-<span class="sd">                See `Copper documentation &lt;https://developer.copper.com/?version=latest#5bb8adc1-137f-46bf-aa86-7df037840e57&gt;`_ for choices # noqa: E501</span>
-<span class="sd">            `tidy: boolean or int`</span>
+<span class="sd">                See `Copper documentation &lt;https://developer.copper.com/?version=latest#5bb8adc1-137f-46bf-aa86-7df037840e57&gt;`_ for choices</span>
 <span class="sd">                Optional; unpack list and dict columns as additional rows instead of columns</span>
 <span class="sd">                If `True`: creates new table out of unpacked rows</span>
 <span class="sd">                If &#39;int&#39;: adds rows to original table if max rows per key &lt;= given number</span>
@@ -368,7 +370,8 @@
 <span class="sd">            List of dicts of Parsons Tables:</span>
 <span class="sd">                * opportunities</span>
 <span class="sd">                * opportunities_custom_fields</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        &quot;&quot;&quot;</span> <span class="c1"># noqa: E501,E261</span>
+
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_standard_object</span><span class="p">(</span><span class="s2">&quot;opportunities&quot;</span><span class="p">,</span> <span class="n">filters</span><span class="o">=</span><span class="n">filters</span><span class="p">,</span> <span class="n">tidy</span><span class="o">=</span><span class="n">tidy</span><span class="p">)</span></div>
 
     <span class="k">def</span> <span class="nf">get_standard_object</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">object_name</span><span class="p">,</span> <span class="n">filters</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">tidy</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>

@@ -160,7 +160,7 @@ class TestNGPVAN(unittest.TestCase):
                 "type": 4,
                 "exportJobId": 448}
 
-        m.post(self.van.connection.uri + 'exportJobs', json=json)
+        m.post(self.van.connection.uri + 'exportJobs', json=json, status_code=201)
 
         expected = [
             'status',

@@ -76,7 +76,7 @@ class TestLocations(unittest.TestCase):
 
         loc_id = 32
 
-        m.post(self.van.connection.uri + 'locations/findOrCreate', json=loc_id)
+        m.post(self.van.connection.uri + 'locations/findOrCreate', json=loc_id, status_code=204)
 
         self.assertEqual(self.van.create_location(
             name='Chicagowide', city='Chicago', state='IL'), loc_id)

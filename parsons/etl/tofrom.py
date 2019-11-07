@@ -481,6 +481,9 @@ class ToFrom(object):
                 See :ref:`parsons-table` for output options.
         """  # noqa: W605
 
+        if not files.has_data(local_path):
+            raise ValueError('CSV file is empty')
+
         return cls(petl.fromcsv(local_path, **csvargs))
 
     @classmethod

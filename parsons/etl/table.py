@@ -105,7 +105,7 @@ class Table(ETL, ToFrom):
         return list(petl.header(self.table))
 
     @property
-    def value(self):
+    def first(self):
         """
         Returns the first value in the table. Useful for database queries that only
         return a single value.

@@ -2,6 +2,7 @@ import petl
 import json
 import io
 import gzip
+import os
 from parsons.utilities import files, zip_archive
 
 
@@ -480,6 +481,9 @@ class ToFrom(object):
             Parsons Table
                 See :ref:`parsons-table` for output options.
         """  # noqa: W605
+
+        if not files.has_data(local_path):
+            raise ValueError('CSV file is empty')
 
         return cls(petl.fromcsv(local_path, **csvargs))
 

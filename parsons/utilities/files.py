@@ -1,5 +1,6 @@
 from tempfile import NamedTemporaryFile
 import gzip
+import os
 
 __all__ = [
     'create_temp_file',
@@ -177,3 +178,22 @@ def extract_file_name(file_path=None, include_suffix=True):
         return file_path.split('/')[-1]
 
     return file_path.split('/')[-1].split('.')[0]
+
+
+def has_data(file_path):
+    """
+    Check if a file has any data in it.
+
+    `Args:`
+        file_path: str
+            The file path.
+    `Returns:`
+        boolean
+            ``True`` if data in the file and ``False`` if not.
+    """
+
+    if os.stat(file_path).st_size == 0:
+        return False
+
+    else:
+        return True

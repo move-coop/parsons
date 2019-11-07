@@ -1,7 +1,9 @@
 import unittest
 import os
 import pytest
+import shutil
 from unittest import mock
+from parsons.etl.table import Table
 from parsons.utilities import date_convert
 from parsons.utilities import files
 from parsons.utilities import check_env
@@ -36,6 +38,7 @@ def test_close_temp_file():
     with pytest.raises(FileNotFoundError):
         open(temp, 'r')
 
+
 def test_is_gzip_path():
     assert files.is_gzip_path('some/file.gz')
     assert not files.is_gzip_path('some/file')
@@ -52,6 +55,20 @@ def test_compression_type_for_path():
     assert files.compression_type_for_path('some/file') == None
     assert files.compression_type_for_path('some/file.csv') == None
     assert files.compression_type_for_path('some/file.csv.gz') == 'gzip'
+
+def test_empty_file():
+
+    # Create fake files.
+    os.mkdir('tmp')
+    with open('tmp/empty.csv', 'w+') as f:
+        pass
+    Table([['1'],['a']]).to_csv('tmp/full.csv')
+
+    assert files.has_data('tmp/empty.csv') == False
+    assert files.has_data('tmp/full.csv') == True
+
+    # Remove fake files and dir
+    shutil.rmtree('tmp')
 
 def test_json_format():
     assert json_format.arg_format('my_arg') == 'myArg'

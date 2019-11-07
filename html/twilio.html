@@ -97,7 +97,15 @@
 <li class="toctree-l1"><a class="reference internal" href="s3.html">S3</a></li>
 <li class="toctree-l1"><a class="reference internal" href="sftp.html">SFTP</a></li>
 <li class="toctree-l1"><a class="reference internal" href="ts.html">TargetSmart</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="#">Twilio</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Twilio</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#quick-start">Quick Start</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#get-account-usage">Get Account Usage</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#get-inbound-and-outbound-messages">Get Inbound and Outbound Messages</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#api">API</a></li>
+</ul>
+</li>
 <li class="toctree-l1"><a class="reference internal" href="turbovote.html">TurboVote</a></li>
 </ul>
 <p class="caption"><span class="caption-text">Enhancements</span></p>
@@ -175,8 +183,44 @@
             
   <div class="section" id="twilio">
 <h1>Twilio<a class="headerlink" href="#twilio" title="Permalink to this headline">¶</a></h1>
-<p><a href="#id1"><span class="problematic" id="id2">`</span></a>Twilio &lt;<a class="reference external" href="https://twilio.com">https://twilio.com</a>&gt;`_is a messaging platform that allows you to send SMS messages, voice calls and
+<p><a class="reference external" href="https://twilio.com">Twilio</a> is a messaging platform that allows you to send SMS messages, voice calls and
 variety of other tools.</p>
+<div class="section" id="quick-start">
+<h2>Quick Start<a class="headerlink" href="#quick-start" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="get-account-usage">
+<h3>Get Account Usage<a class="headerlink" href="#get-account-usage" title="Permalink to this headline">¶</a></h3>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">parsons</span> <span class="kn">import</span> <span class="n">Twilio</span>
+
+<span class="n">twilio</span> <span class="o">=</span> <span class="n">Twilio</span><span class="p">()</span>
+
+<span class="c1"># Get usage last month</span>
+<span class="n">twilio</span><span class="o">.</span><span class="n">get_account_usage</span><span class="p">(</span><span class="n">time_period</span><span class="o">=</span><span class="s1">&#39;last_month&#39;</span><span class="p">)</span>
+
+<span class="c1"># Get usage for a specific date period</span>
+<span class="n">twilio</span><span class="o">.</span><span class="n">get_account_usage</span><span class="p">(</span><span class="n">start_date</span><span class="o">=</span><span class="s1">&#39;2019-10-01&#39;</span><span class="p">,</span> <span class="n">end_date</span><span class="o">=</span><span class="s1">&#39;2019-10-05&#39;</span><span class="p">)</span>
+
+<span class="c1"># Get usage for a specific resource</span>
+<span class="n">twilio</span><span class="o">.</span><span class="n">get_account_usage</span><span class="p">(</span><span class="n">category</span><span class="o">=</span><span class="s1">&#39;sms-inbound&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="get-inbound-and-outbound-messages">
+<h3>Get Inbound and Outbound Messages<a class="headerlink" href="#get-inbound-and-outbound-messages" title="Permalink to this headline">¶</a></h3>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">parsons</span> <span class="kn">import</span> <span class="n">Twilio</span>
+
+<span class="n">twilio</span> <span class="o">=</span> <span class="n">Twilio</span><span class="p">()</span>
+
+<span class="c1"># Get messages from a specific day</span>
+<span class="n">twilio</span><span class="o">.</span><span class="n">get_messages</span><span class="p">(</span><span class="n">date_sent</span><span class="o">=</span><span class="s1">&#39;10-01-2019&#39;</span><span class="p">)</span>
+
+<span class="c1"># Get messages sent to a specific phone number</span>
+<span class="n">twilio</span><span class="o">.</span><span class="n">get_messages</span><span class="p">(</span><span class="n">to</span><span class="o">=</span><span class="s1">&#39;9995675309&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="api">
+<h2>API<a class="headerlink" href="#api" title="Permalink to this headline">¶</a></h2>
 <dl class="class">
 <dt id="parsons.Twilio">
 <em class="property">class </em><code class="descclassname">parsons.</code><code class="descname">Twilio</code><span class="sig-paren">(</span><em>account_sid=None</em>, <em>auth_token=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/twilio/twilio.html#Twilio"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.Twilio" title="Permalink to this definition">¶</a></dt>
@@ -194,8 +238,108 @@ passed.</dd>
 <dt><cite>Returns</cite>:</dt>
 <dd>Twilio class</dd>
 </dl>
+<dl class="method">
+<dt id="parsons.Twilio.get_account">
+<code class="descname">get_account</code><span class="sig-paren">(</span><em>account_sid</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/twilio/twilio.html#Twilio.get_account"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.Twilio.get_account" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get Twilio account</p>
+<dl class="docutils">
+<dt><cite>Args:</cite></dt>
+<dd><dl class="first last docutils">
+<dt>account_sid: str</dt>
+<dd>The Twilio account sid</dd>
+</dl>
+</dd>
+<dt><cite>Returns:</cite></dt>
+<dd>dict</dd>
+</dl>
 </dd></dl>
 
+<dl class="method">
+<dt id="parsons.Twilio.get_accounts">
+<code class="descname">get_accounts</code><span class="sig-paren">(</span><em>name=None</em>, <em>status=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/twilio/twilio.html#Twilio.get_accounts"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.Twilio.get_accounts" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get Twilio accounts including subaccounts.</p>
+<dl class="docutils">
+<dt><cite>Args:</cite></dt>
+<dd><dl class="first last docutils">
+<dt>name: str</dt>
+<dd>Filter to name of the account</dd>
+<dt>status: str</dt>
+<dd>Filter to an account status of <code class="docutils literal notranslate"><span class="pre">active</span></code>, <code class="docutils literal notranslate"><span class="pre">closed</span></code> or <code class="docutils literal notranslate"><span class="pre">suspended</span></code>.</dd>
+</dl>
+</dd>
+<dt><cite>Returns:</cite></dt>
+<dd><dl class="first last docutils">
+<dt>Parsons Table</dt>
+<dd>See <a class="reference internal" href="table.html#parsons-table"><span class="std std-ref">Parsons Table</span></a> for output options.</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="parsons.Twilio.get_account_usage">
+<code class="descname">get_account_usage</code><span class="sig-paren">(</span><em>category=None</em>, <em>start_date=None</em>, <em>end_date=None</em>, <em>time_period=None</em>, <em>group_by=None</em>, <em>exclude_null=False</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/twilio/twilio.html#Twilio.get_account_usage"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.Twilio.get_account_usage" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get Twilio account usage.</p>
+<dl class="docutils">
+<dt><cite>Args:</cite></dt>
+<dd><dl class="first last docutils">
+<dt>category: str</dt>
+<dd>Filter to a specfic type of usage category. The list of possibilities can be found
+<a class="reference external" href="https://www.twilio.com/docs/usage/api/usage-record?code-sample=code-last-months-usage-for-all-usage-categories-4&amp;code-language=Python&amp;code-sdk-version=5.x#usage-all-categories">here</a>.</dd>
+<dt>start_date: str</dt>
+<dd>Filter to usage from a specific start date (ex. <code class="docutils literal notranslate"><span class="pre">2019-01-01</span></code>).</dd>
+<dt>end_date: str</dt>
+<dd>Filter to usage from a specific end date (ex. <code class="docutils literal notranslate"><span class="pre">2019-01-01</span></code>).</dd>
+<dt>time_period: str</dt>
+<dd>A convenience method to filter usage. Can be one of <code class="docutils literal notranslate"><span class="pre">today</span></code>, <code class="docutils literal notranslate"><span class="pre">yesterday</span></code>,
+<code class="docutils literal notranslate"><span class="pre">this_month</span></code>, <code class="docutils literal notranslate"><span class="pre">last_month</span></code>.</dd>
+<dt>group_by: str</dt>
+<dd>The time interval to group usage by. Can be one of <code class="docutils literal notranslate"><span class="pre">daily</span></code>, <code class="docutils literal notranslate"><span class="pre">monthly</span></code> or
+<code class="docutils literal notranslate"><span class="pre">yearly</span></code>.</dd>
+<dt>exclude_null: boolean</dt>
+<dd>Exclude rows that have no usage.</dd>
+</dl>
+</dd>
+<dt><cite>Returns:</cite></dt>
+<dd><dl class="first last docutils">
+<dt>Parsons Table</dt>
+<dd>See <a class="reference internal" href="table.html#parsons-table"><span class="std std-ref">Parsons Table</span></a> for output options.</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="parsons.Twilio.get_messages">
+<code class="descname">get_messages</code><span class="sig-paren">(</span><em>to=None</em>, <em>from_=None</em>, <em>date_sent=None</em>, <em>date_sent_before=None</em>, <em>date_sent_after=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/twilio/twilio.html#Twilio.get_messages"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.Twilio.get_messages" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get Twilio messages.</p>
+<dl class="docutils">
+<dt><cite>Args:</cite></dt>
+<dd><dl class="first last docutils">
+<dt>to: str</dt>
+<dd>Filter to messages only sent to the specified phone number.</dd>
+<dt><a href="#id2"><span class="problematic" id="id3">from_</span></a>: str</dt>
+<dd>Filter to messages only sent from the specified phone number.</dd>
+<dt>date_sent: str</dt>
+<dd>Filter to messages only sent on the specified date (ex. <code class="docutils literal notranslate"><span class="pre">2019-01-01</span></code>).</dd>
+<dt>date_sent_before: str</dt>
+<dd>Filter to messages only sent before the specified date (ex. <code class="docutils literal notranslate"><span class="pre">2019-01-01</span></code>).</dd>
+<dt>date_sent_after: str</dt>
+<dd>Filter to messages only sent after the specified date (ex. <code class="docutils literal notranslate"><span class="pre">2019-01-01</span></code>).</dd>
+</dl>
+</dd>
+<dt><cite>Returns:</cite></dt>
+<dd><dl class="first last docutils">
+<dt>Parsons Table</dt>
+<dd>See <a class="reference internal" href="table.html#parsons-table"><span class="std std-ref">Parsons Table</span></a> for output options.</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</div>
 </div>
 
 

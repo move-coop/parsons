@@ -520,6 +520,14 @@ class TestParsonsTable(unittest.TestCase):
         # Test that there is only one row in the table
         self.assertEqual(self.tbl.num_rows, 1)
 
+    def test_value(self):
+        # Test that the first value in the table is returned.
+        self.assertEqual(self.tbl.value, 'Bob')
+
+        # Test empty value returns None
+        empty_tbl = Table([[1], [], [3]])
+        self.assertIsNone(empty_tbl.value)
+
     def test_stack(self):
         tbl1 = self.tbl
         tbl2 = Table([{'first': 'Mary', 'last': 'Nichols'}])

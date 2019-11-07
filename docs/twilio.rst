@@ -26,7 +26,7 @@ Get Account Usage
 	twilio.get_account_usage(start_date='2019-10-01', end_date='2019-10-05')
 
 	# Get usage for a specific resource
-	twilio.get_account_usae(category='sms-inbound')
+	twilio.get_account_usage(category='sms-inbound')
 
 =================================
 Get Inbound and Outbound Messages

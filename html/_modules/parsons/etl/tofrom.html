@@ -653,6 +653,9 @@
 <span class="sd">                See :ref:`parsons-table` for output options.</span>
 <span class="sd">        &quot;&quot;&quot;</span>  <span class="c1"># noqa: W605</span>
 
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">files</span><span class="o">.</span><span class="n">has_data</span><span class="p">(</span><span class="n">local_path</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;CSV file is empty&#39;</span><span class="p">)</span>
+
         <span class="k">return</span> <span class="bp">cls</span><span class="p">(</span><span class="n">petl</span><span class="o">.</span><span class="n">fromcsv</span><span class="p">(</span><span class="n">local_path</span><span class="p">,</span> <span class="o">**</span><span class="n">csvargs</span><span class="p">))</span></div>
 
 <div class="viewcode-block" id="ToFrom.from_csv_string"><a class="viewcode-back" href="../../../table.html#parsons.etl.tofrom.ToFrom.from_csv_string">[docs]</a>    <span class="nd">@classmethod</span>

@@ -2,7 +2,6 @@ import petl
 import json
 import io
 import gzip
-import os
 from parsons.utilities import files, zip_archive
 
 

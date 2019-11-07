@@ -104,6 +104,20 @@ class Table(ETL, ToFrom):
         """
         return list(petl.header(self.table))
 
+    @property
+    def first(self):
+        """
+        Returns the first value in the table. Useful for database queries that only
+        return a single value.
+        """
+
+        try:
+            return self.data[0][0]
+
+        # If first value is empty, return None
+        except IndexError:
+            return None
+
     def materialize(self):
         """
         "Materializes" a Table, meaning all data is loaded into memory and all pending

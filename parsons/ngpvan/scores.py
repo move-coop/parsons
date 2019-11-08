@@ -93,8 +93,7 @@ class Scores(object):
             status: str
                 One of 'pending approval', 'approved', 'disapproved'
         `Returns:`
-            boolean
-                ``True`` if the status update is accepted
+            ``None``
         """
 
         if status not in ['pending approval', 'approved', 'disapproved',
@@ -109,17 +108,11 @@ class Scores(object):
             else:
                 status = status.capitalize()
 
-        post_data = {"loadStatus": status}
+        json = {"loadStatus": status}
 
-        url = self.connection.uri + 'scoreUpdates/{}'.format(score_update_id)
-
-        r = self.connection.request(
-            url, req_type="PATCH", post_data=post_data, raw=True)
-
-        if r.status_code == 204:
-            return True
-        else:
-            return r.status_code
+        r = self.connection.patch_request(f'scoreUpdates/{score_update_id}', json=json)
+        logger.info(f'Score {score_update_id} status updated to {status}.')
+        return r
 
 
 class FileLoadingJobs(object):

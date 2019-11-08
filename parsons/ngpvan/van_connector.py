@@ -49,6 +49,18 @@ class VANConnector(object):
 
         return self.api.post_request(self.uri + endpoint, **kwargs)
 
+    def delete_request(self, endpoint, **kwargs):
+
+        return self.api.delete_request(self.uri + endpoint, **kwargs)
+
+    def patch_request(self, endpoint, **kwargs):
+
+        return self.api.patch_request(self.uri + endpoint, **kwargs)
+
+    def put_request(self, endpoint, **kwargs):
+
+        return self.api.put_request(self.uri + endpoint, **kwargs)
+
     # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
     # Below is all of the old code that will be replaced in future PRs. However, it works #
     # for the time being, so we are going to keep it.                                     #

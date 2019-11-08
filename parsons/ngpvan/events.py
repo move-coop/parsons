@@ -187,13 +187,9 @@ class Events(object):
             ``None``
         """
 
-        url = self.connection.uri + 'events/{}'.format(event_id)
-
-        logger.info(f'Deleting event {event_id}...')
-        old_event = self.connection.request(url, req_type="DELETE", raw=True)
+        r = self.connection.delete_request(f'events/{event_id}')
         logger.info(f'Event {event_id} deleted.')
-
-        return old_event
+        return r
 
     def add_event_shift(self, event_id, shift_name, start_time, end_time):
         """

@@ -87,12 +87,12 @@ class Locations(object):
             location_id: int
                 The location id
         `Returns:`
-            ``200: OK`` if successful and ``404 Not Found`` if location not found
+            ``None``
         """
 
-        url = self.connection.uri + 'locations/{}'.format(location_id)
-
-        return self.connection.request(url, req_type='DELETE', raw=True)
+        r = self.connection.delete_request(f'locations/{location_id}')
+        logger.info(f'Location {location_id} deleted.')
+        return r
 
     def _unpack_loc(self, table):
         # Internal method to unpack location json

@@ -3,6 +3,7 @@ import os
 import requests_mock
 from parsons.ngpvan.van import VAN
 from test.utils import validate_list, assert_matching_tables
+from requests.exceptions import HTTPError
 
 os.environ['VAN_API_KEY'] = 'SOME_KEY'
 
@@ -58,24 +59,24 @@ class TestCodes(unittest.TestCase):
     @requests_mock.Mocker()
     def test_update_code(self, m):
 
+        # Test a good input
         m.put(self.van.connection.uri + 'codes/1004960', status_code=204)
+        self.van.update_code(1004960, name='Test')
 
-        # Test that it doesn't throw and error
-        r = self.van.update_code(1004960, name='Test')
-
-        # Assert that it returns the right code
-        self.assertEqual(r[0], 204)
+        # Test a bad input
+        m.put(self.van.connection.uri + 'codes/100496Q', status_code=404)
+        self.assertRaises(HTTPError, self.van.update_code, '100496Q')
 
     @requests_mock.Mocker()
     def test_delete_code(self, m):
 
+        # Test a good input
         m.delete(self.van.connection.uri + 'codes/1004960', status_code=204)
+        self.van.delete_code(1004960)
 
-        # Test that it doesn't throw and error
-        r = self.van.delete_code(1004960)
-
-        # Assert that it returns the right code
-        self.assertEqual(r[0], 204)
+        # Test a bad input
+        m.delete(self.van.connection.uri + 'codes/100496Q', status_code=404)
+        self.assertRaises(HTTPError, self.van.delete_code, '100496Q')
 
     @requests_mock.Mocker()
     def test_get_code_supported_entities(self, m):

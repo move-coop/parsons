@@ -138,10 +138,9 @@ class Events(object):
             notes: list
                 A list of notes
         `Returns:`
-            The event code
+            int
+              The event code.
         """
-
-        url = self.connection.uri + 'events/'
 
         if shifts is None:
             shifts = [{'name': 'Default Shift',
@@ -173,13 +172,9 @@ class Events(object):
         if code_ids:
             event['codes'] = [{'codeID': c} for c in code_ids]
 
-        logger.info('Creating new event...')
-        event_code = self.connection.request(
-            url, req_type="POST", post_data=event, raw=True)
-        logger.debug(event)
-        logger.info(f'Event {event_code} created.')
-
-        return event_code
+        r = self.connection.post_request('events', json=event)
+        logger.info(f'Event {r} created.')
+        return r
 
     def delete_event(self, event_id):
         """
@@ -206,26 +201,22 @@ class Events(object):
             shift_name: str
                 The name of the shift
             start_time: str
-                The start time for the shift.
+                The start time for the shift (``iso8601`` formatted date).
             end_time: str
-                The end time of the shift.
+                The end time of the shift (``iso8601`` formatted date).
         `Returns:`
-            ``None``
+            int
+              The shift id.
         """
-
-        url = self.connection.uri + 'events/{}/shifts'.format(event_id)
 
         shift = {'name': shift_name,
                  'startTime': start_time,
                  'endTime': end_time
                  }
 
-        logger.info(f'Adding shifts to event {event_id}...')
-        shifts = self.connection.request(
-            url, req_type="POST", post_data=shift, raw=True)
-        logger.info('Finished adding shifts.')
-
-        return shifts
+        r = self.connection.post_request(f'events/{event_id}/shifts', json=shift)
+        logger.info(f'Shift {r} added.')
+        return r
 
     def get_event_types(self):
         """

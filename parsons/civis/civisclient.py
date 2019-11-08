@@ -32,7 +32,8 @@ class CivisClient(object):
 
     def query(self, sql, preview_rows=10, polling_interval=None, hidden=True,
               wait=True):
-        """Execute a SQL statement as a Civis query.
+        """
+        Execute a SQL statement as a Civis query.
 
         Run a query that may return no results or where only a small
         preview is required. To execute a query that returns a large number
@@ -105,7 +106,7 @@ class CivisClient(object):
                 Wait for write job to complete before exiting method.
         `Returns`
             ``None``
-        """
+        """ # noqa: E501,E261
 
         fut = civis.io.dataframe_to_civis(table_obj.to_dataframe(), database=self.db,
                                           table=table, max_errors=max_errors,

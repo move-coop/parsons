@@ -169,34 +169,34 @@ class FileLoadingJobs(object):
 
         delimiter = delimiter.capitalize()
 
-        url = self.connection.uri + 'fileLoadingJobs'
-
-        post_data = {"description": 'A description',
-                     "file": {
-                         "columnDelimiter": delimiter,
-                         "columns": columns,
-                         "fileName": file_name,
-                         "hasHeader": header,
-                         "hasQuotes": quotes,
-                         "sourceUrl": file_url
-                     },
-                     "actions": [
-                         {"actionType": "score",
-                          "personIdColumn": id_column,
-                          "personIdType": id_type,
-                          "scoreColumn": score_column,
-                          "scoreId": score_id}],
-                     "listeners": [
-                         {"type": "EMAIL",
-                          "value": email}]
-                     }
+        json = {"description": 'A description',
+                "file": {
+                    "columnDelimiter": delimiter,
+                    "columns": columns,
+                    "fileName": file_name,
+                    "hasHeader": header,
+                    "hasQuotes": quotes,
+                    "sourceUrl": file_url
+                },
+                "actions": [
+                    {"actionType": "score",
+                     "personIdColumn": id_column,
+                     "personIdType": id_type,
+                     "scoreColumn": score_column,
+                     "scoreId": score_id}],
+                "listeners": [
+                    {"type": "EMAIL",
+                     "value": email}]
+                }
 
         if auto_average and auto_tolerance:
 
-            post_data["actions"]["approvalCriteria"] = {"average": auto_average,
-                                                        "tolerance": auto_tolerance}
+            json["actions"]["approvalCriteria"] = {"average": auto_average,
+                                                   "tolerance": auto_tolerance}
 
-        return self.connection.request(url, req_type="POST", post_data=post_data, raw=True)['jobId']
+        r = self.connection.post_request('fileLoadingJobs', json=json)['jobId']
+        logger.info(f'Score loading job {r} created.')
+        return r
 
     def create_file_load_multi(self, file_name, file_url, columns, id_column, id_type,
                                score_map, delimiter='csv', header=True, quotes=True,
@@ -243,22 +243,19 @@ class FileLoadingJobs(object):
 
         delimiter = delimiter.capitalize()
 
-        url = self.connection.uri + 'fileLoadingJobs'
-
-        post_data = {"description": 'A description',
-                     "file": {
-                         "columnDelimiter": delimiter,
-                         "columns": columns,
-                         "fileName": file_name,
-                         "hasHeader": header,
-                         "hasQuotes": quotes,
-                         "sourceUrl": file_url
-                     },
-
-                     "listeners": [
-                         {"type": "EMAIL",
-                          "value": email}]
-                     }
+        json = {"description": 'A description',
+                "file": {
+                    "columnDelimiter": delimiter,
+                    "columns": columns,
+                    "fileName": file_name,
+                    "hasHeader": header,
+                    "hasQuotes": quotes,
+                    "sourceUrl": file_url
+                },
+                "listeners": [
+                    {"type": "EMAIL",
+                     "value": email}]
+                }
 
         actions = []
 
@@ -277,6 +274,8 @@ class FileLoadingJobs(object):
 
             actions.append(action)
 
-        post_data['actions'] = actions
+        json['actions'] = actions
 
-        return self.connection.request(url, req_type="POST", post_data=post_data)
+        r = self.connection.post_request('fileLoadingJobs', json=json)['jobId']
+        logger.info(f'Score loading job {r} created.')
+        return r

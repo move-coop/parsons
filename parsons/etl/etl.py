@@ -616,7 +616,7 @@ class ETL(object):
 
         return Table(petl.select(self.table, *filters))
 
-    def remove_null_rows(self, columns):
+    def remove_null_rows(self, columns, null_value=None):
         """
         Remove rows if the values in a column are ``None``. If multiple columns
         are passed as list, it will remove all rows with null values in any
@@ -625,6 +625,8 @@ class ETL(object):
         `Args:`
             column: str or list
                 The column or columns to analyze
+            null_value: int or float or str
+                The null value
         `Returns:`
             ``None``
         """
@@ -632,7 +634,7 @@ class ETL(object):
             columns = [columns]
 
         for col in columns:
-            self.table = petl.selectisnot(self.table, col, None)
+            self.table = petl.selectisnot(self.table, col, null_value)
 
         return self
 

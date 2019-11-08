@@ -139,19 +139,18 @@ class ExportJobs(object):
             webhookUrl:
                 A webhook to include to notify as to the status of the export
         `Returns:`
-            Parsons Table
-                See :ref:`parsons-table` for output options. Includes a
-                download link for the file.
+            dict
+                The export job object
         """
 
-        url = self.connection.uri + 'exportJobs'
-
-        data = {"savedListId": str(list_id),
+        json = {"savedListId": str(list_id),
                 "type": str(export_type),
                 "webhookUrl": webhookUrl
                 }
 
-        return self.connection.request(url, req_type='POST', post_data=data, raw=True)
+        r = self.connection.post_request('exportJobs', json=json)
+        logger.info('Retrieved export job.')
+        return r
 
     def get_export_job(self, export_job_id):
         """

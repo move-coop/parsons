@@ -39,7 +39,7 @@ def create_temp_file(suffix=None):
         str
             The path of the temp file
     """
-    temp_file = TempFilePath(suffix=suffix)
+    temp_file = TempFile(suffix=suffix)
     _temp_files.append(temp_file)
     return temp_file.name
 
@@ -233,7 +233,7 @@ def generate_tempfile(suffix):
         path = os.path.join(temp_dir, name)
 
         try:
-            # "Touch" the file path to ensure that there is a file there, so that if our user tries
+            # "Touch" the file to ensure that there is a file there, so that if our user tries
             # open it in read mode later, they won't get an error about the file not existing.
             # Also, use mode='x' (exclusive create) to make sure we get an error if the file already
             # exists
@@ -248,13 +248,13 @@ def generate_tempfile(suffix):
                           "No usable temporary directory name found")
 
 
-class TempFilePath:
+class TempFile:
     """
-    Class for creating and eventually cleaning up a temporary file path.
+    Class for creating and eventually cleaning up a temporary file.
 
-    Creating the instance of the TempFilePath will create a unique temporary file path. When the
+    Creating the instance of the TempFilePath will create a uniquely named temporary file. When the
     instance is garbage collected (e.g., when the Python process closes) or when the remove method
-    is called explicitly, the temporary file path is removed from disk.
+    is called explicitly, the temporary file is removed from disk.
 
     Unlike NamedTemporaryFile from the Python standard library, this class does NOT represent
     an open file handle to the file. It simply represents a file on disk. This class was

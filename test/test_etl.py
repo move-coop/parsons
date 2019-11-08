@@ -215,15 +215,19 @@ class TestParsonsTable(unittest.TestCase):
 
     def test_to_csv_zip(self):
 
-        # Test using the to_csv() method
-        self.tbl.to_csv('myzip.zip')
-        zip_archive.unzip_archive('myzip.zip')
-        assert_matching_tables(self.tbl, Table.from_csv('myzip.csv'))
+        try:
+            # Test using the to_csv() method
+            self.tbl.to_csv('myzip.zip')
+            zip_archive.unzip_archive('myzip.zip')
+            assert_matching_tables(self.tbl, Table.from_csv('myzip.csv'))
 
-        # Test using the to_csv_zip() method
-        self.tbl.to_zip_csv('myzip.zip')
-        zip_archive.unzip_archive('myzip.zip')
-        assert_matching_tables(self.tbl, Table.from_csv('myzip.csv'))
+            # Test using the to_csv_zip() method
+            self.tbl.to_zip_csv('myzip.zip')
+            zip_archive.unzip_archive('myzip.zip')
+            assert_matching_tables(self.tbl, Table.from_csv('myzip.csv'))
+        finally:
+            os.unlink('myzip.zip')
+            os.unlink('myzip.csv')
 
     def test_to_civis(self):
 

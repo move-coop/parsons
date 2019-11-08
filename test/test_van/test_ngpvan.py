@@ -18,17 +18,6 @@ class TestNGPVAN(unittest.TestCase):
         pass
 
     @requests_mock.Mocker()
-    def test_connection(self, m):
-
-        # Create response
-        json = {u'message': u'True',
-                u'dateSent': u'2018-08-11T15:08:20.1679461Z'}
-        m.post(self.van.connection.uri + 'echoes/', json=json)
-
-        # Tests API connection with a key.
-        self.assertTrue(self.van.connection.api_test())
-
-    @requests_mock.Mocker()
     def test_get_canvass_responses_contact_types(self, m):
 
         json = {"name": "Auto Dial",

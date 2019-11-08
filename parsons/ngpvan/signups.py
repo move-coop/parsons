@@ -142,13 +142,11 @@ class Signups(object):
             location_id: int
                 The location_id to update
         `Returns:`
-            tuple
-                If successful ``(204, No Content)``
+            ``None``
         """
 
         #  Get the signup object
-        s_url = self.connection.uri + 'signups/{}'.format(event_signup_id)
-        signup = self.connection.request(s_url, raw=True).json()
+        signup = self.connection.get_request(f'signups/{event_signup_id}')
 
         # Update the signup object
         if shift_id:
@@ -160,9 +158,7 @@ class Signups(object):
         if location_id:
             signup['location'] = {'locationId': location_id}
 
-        url = self.connection.uri + 'signups/{}'.format(event_signup_id)
-
-        return self.connection.request(url, req_type="PUT", post_data=signup)
+        return self.connection.put_request(f'signups/{event_signup_id}', json=signup)
 
     def delete_signup(self, event_signup_id):
         """

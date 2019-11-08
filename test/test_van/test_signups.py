@@ -115,9 +115,9 @@ class TestSignups(unittest.TestCase):
         event_signup_id = 14285
 
         # Get object route
-        m.get(self.van.connection.uri + 'signups/{}'.format(event_signup_id), json=signup)
+        m.get(self.van.connection.uri + f'signups/{event_signup_id}', json=signup)
 
         # Update object
-        m.put(self.van.connection.uri + 'signups/{}'.format(event_signup_id), status_code=204)
+        m.put(self.van.connection.uri + f'signups/{event_signup_id}', status_code=204)
 
-        self.assertEqual(self.van.update_signup(event_signup_id, status_id=6), (204, 'No Content'))
+        self.van.update_signup(event_signup_id, status_id=6)

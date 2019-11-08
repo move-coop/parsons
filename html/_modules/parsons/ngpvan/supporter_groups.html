@@ -204,8 +204,7 @@
 <span class="sd">            supporter_group_id: int</span>
 <span class="sd">                The supporter group id.</span>
 <span class="sd">        `Returns:`</span>
-<span class="sd">            Parsons Table</span>
-<span class="sd">                See :ref:`parsons-table` for output options.</span>
+<span class="sd">            dict</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
         <span class="n">r</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">connection</span><span class="o">.</span><span class="n">get_request</span><span class="p">(</span><span class="n">f</span><span class="s1">&#39;supporterGroups/</span><span class="si">{supporter_group_id}</span><span class="s1">&#39;</span><span class="p">)</span>
@@ -239,12 +238,13 @@
 <span class="sd">                The supporter group id</span>
 <span class="sd">            vanid: int</span>
 <span class="sd">                The vanid of the person to apply</span>
+<span class="sd">        `Returns:`</span>
+<span class="sd">            ``None``</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
-        <span class="n">url</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">connection</span><span class="o">.</span><span class="n">uri</span> <span class="o">+</span> \
-            <span class="s1">&#39;supporterGroups/</span><span class="si">{}</span><span class="s1">/people/</span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">supporter_group_id</span><span class="p">,</span> <span class="n">vanid</span><span class="p">)</span>
-
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">connection</span><span class="o">.</span><span class="n">request</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">req_type</span><span class="o">=</span><span class="s2">&quot;PUT&quot;</span><span class="p">)</span></div>
+        <span class="n">r</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">connection</span><span class="o">.</span><span class="n">put_request</span><span class="p">(</span><span class="n">f</span><span class="s1">&#39;supporterGroups/</span><span class="si">{supporter_group_id}</span><span class="s1">/people/</span><span class="si">{vanid}</span><span class="s1">&#39;</span><span class="p">)</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="n">f</span><span class="s1">&#39;Added person </span><span class="si">{vanid}</span><span class="s1"> to </span><span class="si">{supporter_group_id}</span><span class="s1"> supporter group.&#39;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">r</span></div>
 
 <div class="viewcode-block" id="SupporterGroups.delete_person_supporter_group"><a class="viewcode-back" href="../../../ngpvan.html#parsons.ngpvan.van.SupporterGroups.delete_person_supporter_group">[docs]</a>    <span class="k">def</span> <span class="nf">delete_person_supporter_group</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">supporter_group_id</span><span class="p">,</span> <span class="n">vanid</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
@@ -255,12 +255,13 @@
 <span class="sd">                The supporter group id</span>
 <span class="sd">            vanid: int</span>
 <span class="sd">                The vanid of the person to remove</span>
+<span class="sd">        `Returns:`</span>
+<span class="sd">            ``None``</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
-        <span class="n">url</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">connection</span><span class="o">.</span><span class="n">uri</span> <span class="o">+</span> \
-            <span class="s1">&#39;supporterGroups/</span><span class="si">{}</span><span class="s1">/people/</span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">supporter_group_id</span><span class="p">,</span> <span class="n">vanid</span><span class="p">)</span>
-
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">connection</span><span class="o">.</span><span class="n">request</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">req_type</span><span class="o">=</span><span class="s2">&quot;DELETE&quot;</span><span class="p">)</span></div></div>
+        <span class="n">r</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">connection</span><span class="o">.</span><span class="n">delete_request</span><span class="p">(</span><span class="n">f</span><span class="s1">&#39;supporterGroups/</span><span class="si">{supporter_group_id}</span><span class="s1">/people/</span><span class="si">{vanid}</span><span class="s1">&#39;</span><span class="p">)</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="n">f</span><span class="s1">&#39;Deleted person </span><span class="si">{vanid}</span><span class="s1"> from </span><span class="si">{supporter_group_id}</span><span class="s1"> supporter group.&#39;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">r</span></div></div>
 </pre></div>
 
            </div>

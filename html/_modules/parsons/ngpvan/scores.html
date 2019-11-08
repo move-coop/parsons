@@ -265,8 +265,7 @@
 <span class="sd">            status: str</span>
 <span class="sd">                One of &#39;pending approval&#39;, &#39;approved&#39;, &#39;disapproved&#39;</span>
 <span class="sd">        `Returns:`</span>
-<span class="sd">            boolean</span>
-<span class="sd">                ``True`` if the status update is accepted</span>
+<span class="sd">            ``None``</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
         <span class="k">if</span> <span class="n">status</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;pending approval&#39;</span><span class="p">,</span> <span class="s1">&#39;approved&#39;</span><span class="p">,</span> <span class="s1">&#39;disapproved&#39;</span><span class="p">,</span>
@@ -281,17 +280,11 @@
             <span class="k">else</span><span class="p">:</span>
                 <span class="n">status</span> <span class="o">=</span> <span class="n">status</span><span class="o">.</span><span class="n">capitalize</span><span class="p">()</span>
 
-        <span class="n">post_data</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;loadStatus&quot;</span><span class="p">:</span> <span class="n">status</span><span class="p">}</span>
+        <span class="n">json</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;loadStatus&quot;</span><span class="p">:</span> <span class="n">status</span><span class="p">}</span>
 
-        <span class="n">url</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">connection</span><span class="o">.</span><span class="n">uri</span> <span class="o">+</span> <span class="s1">&#39;scoreUpdates/</span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">score_update_id</span><span class="p">)</span>
-
-        <span class="n">r</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">connection</span><span class="o">.</span><span class="n">request</span><span class="p">(</span>
-            <span class="n">url</span><span class="p">,</span> <span class="n">req_type</span><span class="o">=</span><span class="s2">&quot;PATCH&quot;</span><span class="p">,</span> <span class="n">post_data</span><span class="o">=</span><span class="n">post_data</span><span class="p">,</span> <span class="n">raw</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-
-        <span class="k">if</span> <span class="n">r</span><span class="o">.</span><span class="n">status_code</span> <span class="o">==</span> <span class="mi">204</span><span class="p">:</span>
-            <span class="k">return</span> <span class="kc">True</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="k">return</span> <span class="n">r</span><span class="o">.</span><span class="n">status_code</span></div></div>
+        <span class="n">r</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">connection</span><span class="o">.</span><span class="n">patch_request</span><span class="p">(</span><span class="n">f</span><span class="s1">&#39;scoreUpdates/</span><span class="si">{score_update_id}</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">json</span><span class="o">=</span><span class="n">json</span><span class="p">)</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="n">f</span><span class="s1">&#39;Score </span><span class="si">{score_update_id}</span><span class="s1"> status updated to </span><span class="si">{status}</span><span class="s1">.&#39;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">r</span></div></div>
 
 
 <div class="viewcode-block" id="FileLoadingJobs"><a class="viewcode-back" href="../../../ngpvan.html#parsons.ngpvan.van.FileLoadingJobs">[docs]</a><span class="k">class</span> <span class="nc">FileLoadingJobs</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>

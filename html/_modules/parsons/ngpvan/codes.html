@@ -334,8 +334,6 @@
 <span class="sd">                    ]</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
-        <span class="n">url</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">connection</span><span class="o">.</span><span class="n">uri</span> <span class="o">+</span> <span class="s1">&#39;codes/</span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">code_id</span><span class="p">)</span>
-
         <span class="n">post_data</span> <span class="o">=</span> <span class="p">{}</span>
 
         <span class="k">if</span> <span class="n">name</span><span class="p">:</span>
@@ -354,10 +352,9 @@
                    <span class="s1">&#39;is_applicable&#39;</span><span class="p">:</span> <span class="n">s</span><span class="p">[</span><span class="s1">&#39;is_applicable&#39;</span><span class="p">]}</span> <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">supported_entities</span><span class="p">]</span>
             <span class="n">post_data</span><span class="p">[</span><span class="s1">&#39;supportedEntities&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">se</span>
 
-        <span class="n">c</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">connection</span><span class="o">.</span><span class="n">request</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">req_type</span><span class="o">=</span><span class="s2">&quot;PUT&quot;</span><span class="p">,</span> <span class="n">post_data</span><span class="o">=</span><span class="n">post_data</span><span class="p">)</span>
-        <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="n">c</span><span class="p">)</span>
+        <span class="n">r</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">connection</span><span class="o">.</span><span class="n">put_request</span><span class="p">(</span><span class="n">f</span><span class="s1">&#39;codes/</span><span class="si">{code_id}</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">json</span><span class="o">=</span><span class="n">post_data</span><span class="p">)</span>
         <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="n">f</span><span class="s1">&#39;Code </span><span class="si">{code_id}</span><span class="s1"> updated.&#39;</span><span class="p">)</span>
-        <span class="k">return</span> <span class="n">c</span></div>
+        <span class="k">return</span> <span class="n">r</span></div>
 
 <div class="viewcode-block" id="Codes.delete_code"><a class="viewcode-back" href="../../../ngpvan.html#parsons.ngpvan.van.Codes.delete_code">[docs]</a>    <span class="k">def</span> <span class="nf">delete_code</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">code_id</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
@@ -367,14 +364,12 @@
 <span class="sd">            code_id: int</span>
 <span class="sd">                The code id.</span>
 <span class="sd">        `Returns:`</span>
-<span class="sd">            ``(204, &#39;No Content&#39;)`` if successful</span>
+<span class="sd">            ``None``</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
-        <span class="n">url</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">connection</span><span class="o">.</span><span class="n">uri</span> <span class="o">+</span> <span class="s1">&#39;codes/</span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">code_id</span><span class="p">)</span>
-
-        <span class="n">c</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">connection</span><span class="o">.</span><span class="n">request</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">req_type</span><span class="o">=</span><span class="s2">&quot;DELETE&quot;</span><span class="p">,</span> <span class="n">raw</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="n">r</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">connection</span><span class="o">.</span><span class="n">delete_request</span><span class="p">(</span><span class="n">f</span><span class="s1">&#39;codes/</span><span class="si">{code_id}</span><span class="s1">&#39;</span><span class="p">)</span>
         <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="n">f</span><span class="s1">&#39;Code </span><span class="si">{code_id}</span><span class="s1"> deleted.&#39;</span><span class="p">)</span>
-        <span class="k">return</span> <span class="n">c</span></div>
+        <span class="k">return</span> <span class="n">r</span></div>
 
 <div class="viewcode-block" id="Codes.get_code_supported_entities"><a class="viewcode-back" href="../../../ngpvan.html#parsons.ngpvan.van.Codes.get_code_supported_entities">[docs]</a>    <span class="k">def</span> <span class="nf">get_code_supported_entities</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>

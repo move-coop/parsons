@@ -80,8 +80,10 @@ Create Parsons Table object using the following methods.
       - Redshift table
       - Loads a Redshift table into a Table
     * - ``.from_dataframe()``
-      - Pandas Dataframe
+      - Pandas Dataframe [1]_
       - Load a Parsons table from a Pandas Dataframe
+
+.. [2] Requires optional installation of Pandas package by running ``pip install pandas``.
 
 You can also use the Table constructor to create a Table from a python list or petl table:
 

@@ -344,13 +344,12 @@
 <span class="sd">            event_signup_id: int</span>
 <span class="sd">                A valid event signup id</span>
 <span class="sd">        `Returns:`</span>
-<span class="sd">            tuple</span>
-<span class="sd">                If successful ``(204, No Content)``</span>
+<span class="sd">            ``None``</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
-        <span class="n">url</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">connection</span><span class="o">.</span><span class="n">uri</span> <span class="o">+</span> <span class="s1">&#39;signups/</span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">event_signup_id</span><span class="p">)</span>
-
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">connection</span><span class="o">.</span><span class="n">request</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">req_type</span><span class="o">=</span><span class="s2">&quot;DELETE&quot;</span><span class="p">)</span></div>
+        <span class="n">r</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">connection</span><span class="o">.</span><span class="n">delete_request</span><span class="p">(</span><span class="n">f</span><span class="s1">&#39;signups/</span><span class="si">{event_signup_id}</span><span class="s1">&#39;</span><span class="p">)</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="n">f</span><span class="s1">&#39;Signup </span><span class="si">{event_signup_id}</span><span class="s1"> deleted.&#39;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">r</span></div>
 
     <span class="k">def</span> <span class="nf">_unpack_signups</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">table</span><span class="p">):</span>
 

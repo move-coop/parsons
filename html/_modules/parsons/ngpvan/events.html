@@ -359,13 +359,9 @@
 <span class="sd">            ``None``</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
-        <span class="n">url</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">connection</span><span class="o">.</span><span class="n">uri</span> <span class="o">+</span> <span class="s1">&#39;events/</span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">event_id</span><span class="p">)</span>
-
-        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="n">f</span><span class="s1">&#39;Deleting event </span><span class="si">{event_id}</span><span class="s1">...&#39;</span><span class="p">)</span>
-        <span class="n">old_event</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">connection</span><span class="o">.</span><span class="n">request</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">req_type</span><span class="o">=</span><span class="s2">&quot;DELETE&quot;</span><span class="p">,</span> <span class="n">raw</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="n">r</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">connection</span><span class="o">.</span><span class="n">delete_request</span><span class="p">(</span><span class="n">f</span><span class="s1">&#39;events/</span><span class="si">{event_id}</span><span class="s1">&#39;</span><span class="p">)</span>
         <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="n">f</span><span class="s1">&#39;Event </span><span class="si">{event_id}</span><span class="s1"> deleted.&#39;</span><span class="p">)</span>
-
-        <span class="k">return</span> <span class="n">old_event</span></div>
+        <span class="k">return</span> <span class="n">r</span></div>
 
 <div class="viewcode-block" id="Events.add_event_shift"><a class="viewcode-back" href="../../../ngpvan.html#parsons.ngpvan.van.Events.add_event_shift">[docs]</a>    <span class="k">def</span> <span class="nf">add_event_shift</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">event_id</span><span class="p">,</span> <span class="n">shift_name</span><span class="p">,</span> <span class="n">start_time</span><span class="p">,</span> <span class="n">end_time</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>

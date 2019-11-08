@@ -1,5 +1,3 @@
-from requests import request as _request
-from parsons.etl.table import Table
 import logging
 from parsons.utilities import check_env
 from parsons.utilities.api_connector import APIConnector

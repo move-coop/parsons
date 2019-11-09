@@ -51,8 +51,8 @@ You can then call various endpoints:
    # List all folders shared with API Key User
    folders = van.get_folders()
 
-   # Return a dataframe rather than a list of dicts
-   saved_lists = van.get_saved_lists().to_dataframe()
+   # Return to a Redshift database
+   saved_lists = van.get_saved_lists().to_redshift('van.my_saved_lists')
 
 This a is just a small sampling of all of the VAN endpoints that you can leverage. We recommend reviewing the
 documentation for all functions.
@@ -61,43 +61,68 @@ documentation for all functions.
 Common Workflows
 ****************
 
-===========================
-Score: Loading and Updating
-===========================
+============================
+Scores: Loading and Updating
+============================
 
-Loading a score a multi-step process. Once a score is set to approved, loading takes place
-overnight. 
+Loading a score a multi-step process. Once a score is set to approved, loading takes place overnight. 
+
+**Standard Load**
+
+.. code-block:: python
+   
+   from parsons import VAN
+   van = VAN(db='MyVoters') # API key stored as an environmental variable
+
+   # If you don't know the id, you can run van.get_scores() to list the
+   # slots that avaliable and their associated score ids.
+   score_id = 9999
+
+   # Load the Parsons table with the scores. The first column of the table
+   # must be the person id (e.g. VANID). You could create this from Redshift or
+   # another source.
+   tbl = Table.from_csv('winning_scores.csv')
+
+   # This configuration will require you to approve the model after creating the job
+   # which you do can by running van.update_status().
+   config = [{'id': score_id, 'column': 'winning_model'}]
+
+   # If you have multiple models in the same file, you can load them all at the same time.
+   # In fact, VAN recommends that you do so to reduce their server loads.
+   config = [{'id': 5555, 'column': 'score1'}, {'id': 5556, 'column': 'score2'}]
+
+   # The score file must posted to the internet. This configuration uses S3 to do so. In this
+   # example, your S3 keys are stored as environmental variables. If not, you can pass them
+   # as arguments.
+   job_id = van.upload_scores(tbl, config, url_type='S3', email='info@tmc.org', bucket='tmc-fake')
+
+   # You will then get an email with the status of the load. Sometimes is takes a few minutes
+   # depending on the number of scores you are loading. Be patient. The email also includes
+   # to helpful statistics for qcing your load. You then should approve the model.
+   van.score_update_status(job_id,'approved')
+
+**Auto-Approval Score Loading**
 
 .. code-block:: python
 
    from parsons import VAN
+   van = VAN(db='MyVoters') # API key stored as an environmental variable
 
-   #Instatiate Class
-   van = VAN(db="MyVoters")
+   # If you don't know the id, you can run van.get_scores() to list the
+   # slots that avaliable and their associated score ids.
+   score_id = 9999
 
-   #List all of the scores / slots
-   print json.dumps(van.get_scores(), indent=4)
+   # Load the Parsons table with the scores. The first column of the table
+   # must be the person id (e.g. VANID)
+   tbl = Table.from_csv('winning_scores.csv')
 
-   #Input the score slot id
-   score_slot_id = 34115
+   # Set the expected average score of the models and the allowed deviation from that average in the 
+   # config. If VAN determines that the scores are within the allowed boundaries then it will
+   # automatically approve it. The maximum tolerance is .1
+   config = [{'score_id': 5555, 'score_column': 'score1', 'average': 50, 'tolerance': .1}
 
-   #Load the file via the file to VAN
-   r = van.file_load('score.csv',
-                 'https://box.com/scores.zip',
-                 ['vanid','myscore'],
-                 'vanid',
-                 'VANID',
-                  score_slot_id,
-                  'myscore',  
-                  email='anemailaddress@gmail.com')
-
-
-   # Update Status - The email that you get when it is loaded will include a score update
-   # id. Pass this to approve the score to be loaded.
-   #   - Might take a few minutes to get the email
-   #   - Email will also include some nice stats to QC, included matched rows
-
-   van.score_update_status(47187,'approved') # Pass the score update id and set to approved
+   # Your model should then load and not require you to approve it.
+   van.upload_scores(tbl, score_config, url_type='S3', email='info@tmc.org', bucket='tmc-fake')
 
 ===========================
 People: Add Survey Response
@@ -293,19 +318,13 @@ a score slot.
 
 .. note:: 
   Score Auto Approval
-    Scores can be automatically set to ``approved`` through the file_load function allowing
-    you to skip calling the :meth:`file_load` function. To automatically approve scores,
-    if the average of the scores is within the fault tolerance specified by the user.It 
+    Scores can be automatically set to ``approved`` through the :meth:`VAN.upload_scores`
+    method allowing you to skip calling :meth:`VAN.update_score_status`. To automatically approve
+    scores, if the average of the scores is within the fault tolerance specified by the user.It 
     is only available to API keys with permission to automatically approve scores.
 
 
 .. autoclass:: parsons.ngpvan.van.Scores
-   :inherited-members:
-
-*************
-Score Updates
-*************
-.. autoclass:: parsons.ngpvan.van.ScoreUpdates
    :inherited-members:
 
 *****************

@@ -1,6 +1,8 @@
 """NGPVAN Score Endpoints"""
 
 from parsons.etl.table import Table
+from parsons.utilities import cloud_storage, files
+import uuid
 import logging
 
 logger = logging.getLogger(__name__)
@@ -114,6 +116,101 @@ class Scores(object):
         logger.info(f'Score {score_update_id} status updated to {status}.')
         return r
 
+    def upload_scores(self, tbl, config, url_type, id_type='vanid', email=None,
+                      **url_kwargs):
+        """
+        Upload scores. Use to create or overwrite scores. Multiple score loads
+        should be configured in a single call. [1]_
+
+        `Args:`
+            tbl: object
+                A parsons.Table object. The table must contain the scores and first column in the
+                table must contain the primary key (e.g. vanid).
+            config: list
+                The score configuration. A list of dictionaries in which you specify the following
+
+                .. list-table::
+                    :widths: 20 80
+                    :header-rows: 0
+
+                    * - ``score_column``
+                      - The name of the column where the score is housed.
+                    * - ``score_id``
+                      - The score slot id.
+                    * - ``auto_average``
+                      - Provide expected average score value. (Required For Auto Approve)
+                    * - ``auto_tolerance``
+                      - The max allowed deviation from the average (Required For Auto Approve)
+
+                Example:
+
+                .. highlight:: python
+                .. code-block:: python
+
+                  [{'score1_id' : int, score1_column': str, 'average': float, 'tolerance': float }
+                   {'score2_id' : int, score2_column': str, 'average': float, 'tolerance': float }]
+
+            url_type: str
+                The cloud file storage to use to post the file. Currently only ``S3``.
+            email: str
+                An email address to send job load status updates.
+            **url_kwargs: kwargs
+                Arguments to configure your cloud storage url type.
+                    * S3 requires ``bucket`` argument and, if not stored as env variables
+                      ``aws_access_key`` and ``aws_secret_access_key``.
+        `Returns:`
+            int
+               The score load job id.
+
+        .. [1] NGPVAN asks that you load multiple scores in a single call to reduce the load
+           on their servers.
+        """
+
+        # Move to cloud storage
+        file_name = str(uuid.uuid1()) + '.zip'
+        public_url = cloud_storage.post_file(tbl, url_type, file_path=file_name, **url_kwargs)
+        csv_name = files.extract_file_name(file_name, include_suffix=False) + '.csv'
+        logger.info(f'Table uploaded to {url_type}.')
+
+        # Generate shell request
+        json = {"description": 'A description',
+                "file": {
+                    "columnDelimiter": 'csv',
+                    "columns": [{'name': c} for c in tbl.columns],
+                    "fileName": csv_name,
+                    "hasHeader": "True",
+                    "hasQuotes": "False",
+                    "sourceUrl": public_url},
+                "actions": []
+                }
+
+        # Configure each score
+        for i in score_config:
+            json['actions'].append(self._generate_action(i, id_type, tbl.columns[0]))
+
+        if email:
+            json['listeners'] = [{"type": "EMAIL", 'value': email}]
+
+        r = self.connection.post_request('fileLoadingJobs', json=json)
+        logger.info(f"Scores job {r['jobId']} created.")
+        return r['jobId']
+
+    def _generate_action(self, config, id_type, id_column):
+        # Internal method to create a valid action.
+
+        action = {"actionType": "score",
+                  "personIdColumn": id_column,
+                  "personIdType": id_type,
+                  "scoreColumn": config['score_column'],
+                  "scoreId": config['score_id']}
+
+        if 'average' in config and 'tolerance' in config:
+
+            action['approvalCriteria'] = {"average": config['average'],
+                                          "tolerance": config['tolerance']}
+
+        return action
+
 
 class FileLoadingJobs(object):
 
@@ -126,6 +223,9 @@ class FileLoadingJobs(object):
                          description=None, email=None, auto_average=None,
                          auto_tolerance=None):
         """
+        .. warning::
+           .. deprecated:: 0.7 Use :func:`parsons.VAN.upload_scores` instead. 
+
         Loads a file. Only used for loading scores at this time. Scores must be
         compressed using `zip`.
 
@@ -202,6 +302,9 @@ class FileLoadingJobs(object):
                                score_map, delimiter='csv', header=True, quotes=True,
                                description=None, email=None):
         """
+        .. warning::
+           .. deprecated:: 0.7 Use :func:`parsons.VAN.upload_scores` instead. 
+
         An iteration of the :meth:`file_load` method that allows you to load multiple scores
         at the same time.
 

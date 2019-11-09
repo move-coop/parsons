@@ -206,7 +206,6 @@ class Scores(object):
             json['listeners'] = [{"type": "EMAIL", 'value': email}]
 
         # Upload scores
-        print (json)
         r = self.connection.post_request('fileLoadingJobs', json=json)
         logger.info(f"Scores job {r['jobId']} created.")
         return r['jobId']
@@ -303,7 +302,7 @@ class FileLoadingJobs(object):
                                description=None, email=None):
         """
         .. warning::
-           .. deprecated:: 0.7 Use :func:`parsons.VAN.upload_scores` instead. 
+           .. deprecated:: 0.7 Use :func:`parsons.VAN.upload_scores` instead.
 
         An iteration of the :meth:`file_load` method that allows you to load multiple scores
         at the same time.

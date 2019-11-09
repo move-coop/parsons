@@ -67,7 +67,7 @@ Scores: Loading and Updating
 
 Loading a score a multi-step process. Once a score is set to approved, loading takes place overnight. 
 
-**Standard Load**
+**Standard Auto Approve Load**
 
 .. code-block:: python
    
@@ -83,8 +83,7 @@ Loading a score a multi-step process. Once a score is set to approved, loading t
    # another source.
    tbl = Table.from_csv('winning_scores.csv')
 
-   # This configuration will require you to approve the model after creating the job
-   # which you do can by running van.update_status().
+   # Specify the score id slot and the column name for each score.
    config = [{'id': score_id, 'column': 'winning_model'}]
 
    # If you have multiple models in the same file, you can load them all at the same time.
@@ -96,33 +95,21 @@ Loading a score a multi-step process. Once a score is set to approved, loading t
    # as arguments.
    job_id = van.upload_scores(tbl, config, url_type='S3', email='info@tmc.org', bucket='tmc-fake')
 
-   # You will then get an email with the status of the load. Sometimes is takes a few minutes
-   # depending on the number of scores you are loading. Be patient. The email also includes
-   # to helpful statistics for qcing your load. You then should approve the model.
-   van.score_update_status(job_id,'approved')
-
-**Auto-Approval Score Loading**
-
+**Standard Load Requiring Approval**
 .. code-block:: python
-
+   
    from parsons import VAN
+
    van = VAN(db='MyVoters') # API key stored as an environmental variable
+   config = [{'id': 3421, 'column': 'winning_model'}]
+   
+   # Note that auto_approve is set to False. This means that you need to manually approve
+   # the job once it is loaded.
+   job_id = van.upload_scores(tbl, config, url_type='S3', email='info@tmc.org',
+                              bucket='tmc-fake', auto_approve=False)
 
-   # If you don't know the id, you can run van.get_scores() to list the
-   # slots that avaliable and their associated score ids.
-   score_id = 9999
-
-   # Load the Parsons table with the scores. The first column of the table
-   # must be the person id (e.g. VANID)
-   tbl = Table.from_csv('winning_scores.csv')
-
-   # Set the expected average score of the models and the allowed deviation from that average in the 
-   # config. If VAN determines that the scores are within the allowed boundaries then it will
-   # automatically approve it. The maximum tolerance is .1
-   config = [{'score_id': 5555, 'score_column': 'score1', 'average': 50, 'tolerance': .1}
-
-   # Your model should then load and not require you to approve it.
-   van.upload_scores(tbl, score_config, url_type='S3', email='info@tmc.org', bucket='tmc-fake')
+   # Approve the job
+   van.score_update_status(job_id,'approved')
 
 ===========================
 People: Add Survey Response

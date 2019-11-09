@@ -4,6 +4,7 @@ from parsons.etl.table import Table
 from parsons.utilities import cloud_storage, files
 import uuid
 import logging
+import petl
 
 logger = logging.getLogger(__name__)
 
@@ -116,8 +117,8 @@ class Scores(object):
         logger.info(f'Score {score_update_id} status updated to {status}.')
         return r
 
-    def upload_scores(self, tbl, config, url_type, id_type='vanid', email=None,
-                      **url_kwargs):
+    def upload_scores(self, tbl, config, url_type, id_type='vanid', email=None, auto_approve=True,
+                      approve_tolerance=.1, **url_kwargs):
         """
         Upload scores. Use to create or overwrite scores. Multiple score loads
         should be configured in a single call. [1]_
@@ -137,23 +138,25 @@ class Scores(object):
                       - The name of the column where the score is housed.
                     * - ``score_id``
                       - The score slot id.
-                    * - ``auto_average``
-                      - Provide expected average score value. (Required For Auto Approve)
-                    * - ``auto_tolerance``
-                      - The max allowed deviation from the average (Required For Auto Approve)
 
                 Example:
 
                 .. highlight:: python
                 .. code-block:: python
 
-                  [{'score1_id' : int, score1_column': str, 'average': float, 'tolerance': float }
-                   {'score2_id' : int, score2_column': str, 'average': float, 'tolerance': float }]
+                  [{'score1_id' : int, score1_column': str}
+                   {'score2_id' : int, score2_column': str}]
 
             url_type: str
                 The cloud file storage to use to post the file. Currently only ``S3``.
             email: str
                 An email address to send job load status updates.
+            auto_approve: boolean
+                If the scores are within the expected tolerance of deviation from the
+                average values provided, then score will be automatically approved.
+            approve_tolderance: float
+                The deviation from the average scores allowed in order to automatically
+                approve the score. Maximum of .1.
             **url_kwargs: kwargs
                 Arguments to configure your cloud storage url type.
                     * S3 requires ``bucket`` argument and, if not stored as env variables
@@ -185,31 +188,28 @@ class Scores(object):
                 }
 
         # Configure each score
-        for i in score_config:
-            json['actions'].append(self._generate_action(i, id_type, tbl.columns[0]))
+        for i in config:
+            action = {"actionType": "score",
+                      "personIdColumn": tbl.columns[0],
+                      "personIdType": id_type,
+                      "scoreColumn": i['score_column'],
+                      "scoreId": i['score_id']}
 
+            if auto_approve:
+                average = petl.stats(tbl.table, i['score_column']).mean
+                action['approvalCriteria'] = {"average": average, "tolerance": approve_tolerance}
+
+            json['actions'].append(action)
+
+        # Add email listener
         if email:
             json['listeners'] = [{"type": "EMAIL", 'value': email}]
 
+        # Upload scores
+        print (json)
         r = self.connection.post_request('fileLoadingJobs', json=json)
         logger.info(f"Scores job {r['jobId']} created.")
         return r['jobId']
-
-    def _generate_action(self, config, id_type, id_column):
-        # Internal method to create a valid action.
-
-        action = {"actionType": "score",
-                  "personIdColumn": id_column,
-                  "personIdType": id_type,
-                  "scoreColumn": config['score_column'],
-                  "scoreId": config['score_id']}
-
-        if 'average' in config and 'tolerance' in config:
-
-            action['approvalCriteria'] = {"average": config['average'],
-                                          "tolerance": config['tolerance']}
-
-        return action
 
 
 class FileLoadingJobs(object):
@@ -224,7 +224,7 @@ class FileLoadingJobs(object):
                          auto_tolerance=None):
         """
         .. warning::
-           .. deprecated:: 0.7 Use :func:`parsons.VAN.upload_scores` instead. 
+           .. deprecated:: 0.7 Use :func:`parsons.VAN.upload_scores` instead.
 
         Loads a file. Only used for loading scores at this time. Scores must be
         compressed using `zip`.

@@ -1,9 +1,11 @@
 import unittest
 import os
 import requests_mock
+import unittest.mock as mock
 from parsons.ngpvan.van import VAN
 from parsons.etl.table import Table
 from test.utils import validate_list, assert_matching_tables
+from parsons.utilities import cloud_storage
 
 
 os.environ['VAN_API_KEY'] = 'SOME_KEY'
@@ -156,6 +158,19 @@ class TestScores(unittest.TestCase):
 
         # Test good input
         self.assertTrue(self.van.update_score_status(score_update_id, 'approved'))
+
+    @requests_mock.Mocker()
+    def test_upload_scores(self, m):
+
+        # Mock Cloud Storage
+        cloud_storage.post_file = mock.MagicMock()
+        cloud_storage.post_file.return_value = 'https://box.com/my_file.zip'
+
+        # Test uploading a job
+        tbl = Table([['vanid', 'col'], ['1', '.5']])
+        json = {'jobId': 9749}
+        m.post(self.van.connection.uri + 'FileLoadingJobs', json=json, status_code=201)
+        job_id = self.van.upload_scores(tbl, [{'score_id': 9999, 'score_column': 'col'}], url_type='S3')
 
     @requests_mock.Mocker()
     def test_create_file_load(self, m):

@@ -583,9 +583,38 @@ class ToFrom(object):
         """
 
         from parsons import Redshift
-        rs = Redshift(
-            username=username, password=password, host=host, db=db, port=port)
+        rs = Redshift(username=username, password=password, host=host, db=db, port=port)
         return rs.query(query)
+
+    @classmethod
+    def from_s3_csv(cls, bucket, key, aws_access_key_id=None, aws_secret_access_key=None,
+                    **csvargs):
+        """
+        Create a ``parsons table`` from a key in an S3 bucket.
+
+        `Args:`
+            bucket: str
+                The S3 bucket.
+            key: str
+                The S3 key
+            aws_access_key_id: str
+                Required if not included as environmental variable.
+            aws_secret_access_key: str
+                Required if not included as environmental variable.
+            \**csvargs: kwargs
+                ``csv_reader`` optional arguments
+        `Returns:`
+            `parsons.Table` object
+        """
+
+        from parsons import S3
+        s3 = S3(aws_access_key_id, aws_secret_access_key)
+        file_obj = s3.get_file(bucket, key)
+
+        if files.compression_type_for_path(key) == 'zip':
+            file_obj = files.zip_archive.unzip_archive(file_obj)
+
+        return cls(petl.fromcsv(file_obj, **csvargs))
 
     @classmethod
     def from_dataframe(cls, dataframe, include_index=False):

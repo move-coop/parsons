@@ -36,9 +36,6 @@ From Parsons Table
     * - ``.to_civis()``
       - Civis Redshift Database
       - Write a table to Civis platform database
-    * - ``.to_dataframe()``
-      - Dataframe
-      - Return a Pandas dataframe
     * - ``.to_petl()``
       - Petl table object
       - Convert a table a Petl table object
@@ -80,8 +77,11 @@ Create Parsons Table object using the following methods.
       - Redshift table
       - Loads a Redshift table into a Table
     * - ``.from_dataframe()``
-      - Pandas Dataframe [1]_
+      - Pandas Dataframe [2]_
       - Load a Parsons table from a Pandas Dataframe
+    * - ``.from_s3_csv()``
+      - S3 CSV
+      - Load a Parsons table from a file on S3
 
 .. [2] Requires optional installation of Pandas package by running ``pip install pandas``.
 

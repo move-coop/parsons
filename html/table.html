@@ -229,23 +229,19 @@
 <td>Civis Redshift Database</td>
 <td>Write a table to Civis platform database</td>
 </tr>
-<tr class="row-odd"><td><code class="docutils literal notranslate"><span class="pre">.to_dataframe()</span></code></td>
-<td>Dataframe</td>
-<td>Return a Pandas dataframe</td>
-</tr>
-<tr class="row-even"><td><code class="docutils literal notranslate"><span class="pre">.to_petl()</span></code></td>
+<tr class="row-odd"><td><code class="docutils literal notranslate"><span class="pre">.to_petl()</span></code></td>
 <td>Petl table object</td>
 <td>Convert a table a Petl table object</td>
 </tr>
-<tr class="row-odd"><td><code class="docutils literal notranslate"><span class="pre">.to_json()</span></code></td>
+<tr class="row-even"><td><code class="docutils literal notranslate"><span class="pre">.to_json()</span></code></td>
 <td>JSON file</td>
 <td>Write a table to a local JSON file</td>
 </tr>
-<tr class="row-even"><td><code class="docutils literal notranslate"><span class="pre">.to_html()</span></code></td>
+<tr class="row-odd"><td><code class="docutils literal notranslate"><span class="pre">.to_html()</span></code></td>
 <td>HTML formatted table</td>
 <td>Write a table to a local html file</td>
 </tr>
-<tr class="row-odd"><td><code class="docutils literal notranslate"><span class="pre">.to_dataframe()</span></code></td>
+<tr class="row-even"><td><code class="docutils literal notranslate"><span class="pre">.to_dataframe()</span></code></td>
 <td>Pandas Dataframe <a class="footnote-reference" href="#id3" id="id2">[1]</a></td>
 <td>Return a Pandas dataframe</td>
 </tr>
@@ -254,7 +250,7 @@
 <table class="docutils footnote" frame="void" id="id3" rules="none">
 <colgroup><col class="label" /><col /></colgroup>
 <tbody valign="top">
-<tr><td class="label">[1]</td><td><em>(<a class="fn-backref" href="#id2">1</a>, <a class="fn-backref" href="#id4">2</a>)</em> Requires optional installation of Pandas package by running <code class="docutils literal notranslate"><span class="pre">pip</span> <span class="pre">install</span> <span class="pre">pandas</span></code>.</td></tr>
+<tr><td class="label"><a class="fn-backref" href="#id2">[1]</a></td><td>Requires optional installation of Pandas package by running <code class="docutils literal notranslate"><span class="pre">pip</span> <span class="pre">install</span> <span class="pre">pandas</span></code>.</td></tr>
 </tbody>
 </table>
 </div>
@@ -291,15 +287,19 @@
 <td>Loads a Redshift table into a Table</td>
 </tr>
 <tr class="row-even"><td><code class="docutils literal notranslate"><span class="pre">.from_dataframe()</span></code></td>
-<td>Pandas Dataframe <a class="footnote-reference" href="#id3" id="id4">[1]</a></td>
+<td>Pandas Dataframe <a class="footnote-reference" href="#id5" id="id4">[2]</a></td>
 <td>Load a Parsons table from a Pandas Dataframe</td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal notranslate"><span class="pre">.from_s3_csv()</span></code></td>
+<td>S3 CSV</td>
+<td>Load a Parsons table from a file on S3</td>
 </tr>
 </tbody>
 </table>
 <table class="docutils footnote" frame="void" id="id5" rules="none">
 <colgroup><col class="label" /><col /></colgroup>
 <tbody valign="top">
-<tr><td class="label">[2]</td><td>Requires optional installation of Pandas package by running <code class="docutils literal notranslate"><span class="pre">pip</span> <span class="pre">install</span> <span class="pre">pandas</span></code>.</td></tr>
+<tr><td class="label"><a class="fn-backref" href="#id4">[2]</a></td><td>Requires optional installation of Pandas package by running <code class="docutils literal notranslate"><span class="pre">pip</span> <span class="pre">install</span> <span class="pre">pandas</span></code>.</td></tr>
 </tbody>
 </table>
 <p>You can also use the Table constructor to create a Table from a python list or petl table:</p>
@@ -899,6 +899,30 @@ JSON file.</dd>
 <dd>See <a class="reference internal" href="#parsons-table"><span class="std std-ref">Parsons Table</span></a> for output options.</dd>
 </dl>
 </dd>
+</dl>
+</dd></dl>
+
+<dl class="classmethod">
+<dt id="parsons.etl.tofrom.ToFrom.from_s3_csv">
+<em class="property">classmethod </em><code class="descname">from_s3_csv</code><span class="sig-paren">(</span><em>bucket</em>, <em>key</em>, <em>aws_access_key_id=None</em>, <em>aws_secret_access_key=None</em>, <em>**csvargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/etl/tofrom.html#ToFrom.from_s3_csv"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.etl.tofrom.ToFrom.from_s3_csv" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create a <code class="docutils literal notranslate"><span class="pre">parsons</span> <span class="pre">table</span></code> from a key in an S3 bucket.</p>
+<dl class="docutils">
+<dt><cite>Args:</cite></dt>
+<dd><dl class="first last docutils">
+<dt>bucket: str</dt>
+<dd>The S3 bucket.</dd>
+<dt>key: str</dt>
+<dd>The S3 key</dd>
+<dt>aws_access_key_id: str</dt>
+<dd>Required if not included as environmental variable.</dd>
+<dt>aws_secret_access_key: str</dt>
+<dd>Required if not included as environmental variable.</dd>
+<dt>**csvargs: kwargs</dt>
+<dd><code class="docutils literal notranslate"><span class="pre">csv_reader</span></code> optional arguments</dd>
+</dl>
+</dd>
+<dt><cite>Returns:</cite></dt>
+<dd><cite>parsons.Table</cite> object</dd>
 </dl>
 </dd></dl>
 

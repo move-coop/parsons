@@ -755,9 +755,38 @@
 <span class="sd">        &quot;&quot;&quot;</span>
 
         <span class="kn">from</span> <span class="nn">parsons</span> <span class="k">import</span> <span class="n">Redshift</span>
-        <span class="n">rs</span> <span class="o">=</span> <span class="n">Redshift</span><span class="p">(</span>
-            <span class="n">username</span><span class="o">=</span><span class="n">username</span><span class="p">,</span> <span class="n">password</span><span class="o">=</span><span class="n">password</span><span class="p">,</span> <span class="n">host</span><span class="o">=</span><span class="n">host</span><span class="p">,</span> <span class="n">db</span><span class="o">=</span><span class="n">db</span><span class="p">,</span> <span class="n">port</span><span class="o">=</span><span class="n">port</span><span class="p">)</span>
+        <span class="n">rs</span> <span class="o">=</span> <span class="n">Redshift</span><span class="p">(</span><span class="n">username</span><span class="o">=</span><span class="n">username</span><span class="p">,</span> <span class="n">password</span><span class="o">=</span><span class="n">password</span><span class="p">,</span> <span class="n">host</span><span class="o">=</span><span class="n">host</span><span class="p">,</span> <span class="n">db</span><span class="o">=</span><span class="n">db</span><span class="p">,</span> <span class="n">port</span><span class="o">=</span><span class="n">port</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">rs</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="n">query</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="ToFrom.from_s3_csv"><a class="viewcode-back" href="../../../table.html#parsons.etl.tofrom.ToFrom.from_s3_csv">[docs]</a>    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">from_s3_csv</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">bucket</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="n">aws_access_key_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">aws_secret_access_key</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                    <span class="o">**</span><span class="n">csvargs</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Create a ``parsons table`` from a key in an S3 bucket.</span>
+
+<span class="sd">        `Args:`</span>
+<span class="sd">            bucket: str</span>
+<span class="sd">                The S3 bucket.</span>
+<span class="sd">            key: str</span>
+<span class="sd">                The S3 key</span>
+<span class="sd">            aws_access_key_id: str</span>
+<span class="sd">                Required if not included as environmental variable.</span>
+<span class="sd">            aws_secret_access_key: str</span>
+<span class="sd">                Required if not included as environmental variable.</span>
+<span class="sd">            \**csvargs: kwargs</span>
+<span class="sd">                ``csv_reader`` optional arguments</span>
+<span class="sd">        `Returns:`</span>
+<span class="sd">            `parsons.Table` object</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="kn">from</span> <span class="nn">parsons</span> <span class="k">import</span> <span class="n">S3</span>
+        <span class="n">s3</span> <span class="o">=</span> <span class="n">S3</span><span class="p">(</span><span class="n">aws_access_key_id</span><span class="p">,</span> <span class="n">aws_secret_access_key</span><span class="p">)</span>
+        <span class="n">file_obj</span> <span class="o">=</span> <span class="n">s3</span><span class="o">.</span><span class="n">get_file</span><span class="p">(</span><span class="n">bucket</span><span class="p">,</span> <span class="n">key</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">files</span><span class="o">.</span><span class="n">compression_type_for_path</span><span class="p">(</span><span class="n">key</span><span class="p">)</span> <span class="o">==</span> <span class="s1">&#39;zip&#39;</span><span class="p">:</span>
+            <span class="n">file_obj</span> <span class="o">=</span> <span class="n">files</span><span class="o">.</span><span class="n">zip_archive</span><span class="o">.</span><span class="n">unzip_archive</span><span class="p">(</span><span class="n">file_obj</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="bp">cls</span><span class="p">(</span><span class="n">petl</span><span class="o">.</span><span class="n">fromcsv</span><span class="p">(</span><span class="n">file_obj</span><span class="p">,</span> <span class="o">**</span><span class="n">csvargs</span><span class="p">))</span></div>
 
 <div class="viewcode-block" id="ToFrom.from_dataframe"><a class="viewcode-back" href="../../../table.html#parsons.etl.tofrom.ToFrom.from_dataframe">[docs]</a>    <span class="nd">@classmethod</span>
     <span class="k">def</span> <span class="nf">from_dataframe</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">dataframe</span><span class="p">,</span> <span class="n">include_index</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>

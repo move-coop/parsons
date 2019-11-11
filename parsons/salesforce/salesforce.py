@@ -39,6 +39,18 @@ class Salesforce:
 		    domain=self.domain
 		)
 
+	def query(self, soql):
+		"""
+		`Args:`
+			soql: str
+				The desired query in Salesforce SOQL language (SQL with additional limitations).
+				For reference, see `Salesforce SOQL documentation<https://developer.salesforce.com/docs/atlas.en-us.soql_sosl.meta/soql_sosl/sforce_api_calls_soql.htm>`_.
+		`Returns:`
+			list of dicts with Salesforce data
+		"""
+
+		return self.client.query_all(soql)
+
 	def insert(self, object, data_table):
 		"""
 		Insert new records of the desired object into Salesforce

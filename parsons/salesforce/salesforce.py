@@ -26,6 +26,7 @@ class Salesorce:
         Salesforce class
     """
 
+
     def __init__(self, username=None, password=None, security_token=None, test_environment=False):
 
         self.username = check_env.check('SALESFORCE_USERNAME', username)

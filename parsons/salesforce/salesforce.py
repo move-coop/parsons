@@ -52,7 +52,7 @@ class Salesorce:
             list of dicts with Salesforce data
         """ # noqa: E501,E261
 
-        return self.client.query_all(soql)
+        return Table(self.client.query_all(soql))
 
     def insert(self, object, data_table):
         """
@@ -62,9 +62,10 @@ class Salesorce:
             object: str
                 The API name of the type of records to insert.
                 Note that custom object names end in `__c`
-            data_table: Parsons Table
-                Data for records inserted. Column names must match object field API names, though
-                case need not match. Note that custom field names end in `__c`.
+            data_table: obj
+                A Parsons Table with data for inserting records. Column names must match object
+                field API names, though case and order need not match.
+                Note that custom field names end in `__c`.
         `Returns:`
             list of dicts that have the following data:
             * success: boolean
@@ -73,8 +74,9 @@ class Salesorce:
             * errors: list of dicts (with error details)
         """
 
-        dicts = [row for row in data_table]
-        return getattr(self.client.bulk, object).insert(dicts)
+        r = getattr(self.client.bulk, object).insert(data_table.to_dicts())
+        logger.info(f'Inserted {data_table.num_rows} to {object}')
+        return r
 
     def update(self, object, data_table, id_col):
         """
@@ -84,9 +86,10 @@ class Salesorce:
             object: str
                 The API name of the type of records to update.
                 Note that custom object names end in `__c`
-            data_table: Parsons Table
-                Data for updating records. Column names must match object field API names, though
-                case need not match. Note that custom field names end in `__c`.
+            data_table: obj
+                A Parsons Table with data for updating records. Column names must match object
+                field API names, though case and order need not match.
+                Note that custom field names end in `__c`.
             id_col: str
                 The column name in `data_table` that stores the record ID.
             `Returns:`
@@ -97,8 +100,9 @@ class Salesorce:
                 * errors: list of dicts (with error details)
         """
 
-        dicts = [row for row in data_table]
-        return getattr(self.client.bulk, object).update(dicts, id_col)
+        r = getattr(self.client.bulk, object).update(data_table.to_dicts(), id_col)
+        logger.info(f'Updated {data_table.num_rows} to {object}')
+        return r
 
     def upsert(self, object, data_table, id_col):
         """
@@ -108,9 +112,10 @@ class Salesorce:
             object: str
                 The API name of the type of records to upsert.
                 Note that custom object names end in `__c`
-            data_table: Parsons Table
-                Data for upserting records. Column names must match object field API names, though
-                case need not match. Note that custom field names end in `__c`.
+            data_table: obj
+                A Parsons Table with data for upserting records. Column names must match object
+                field API names, though case and order need not match.
+                Note that custom field names end in `__c`.
             id_col: str
                 The column name in `data_table` that stores the record ID.
                 Required even if all records are new/inserted.
@@ -122,8 +127,9 @@ class Salesorce:
                 * errors: list of dicts (with error details)
         """
 
-        dicts = [row for row in data_table]
-        return getattr(self.client.bulk, object).upsert(dicts, id_col)
+        r = getattr(self.client.bulk, object).upsert(data_table.to_dicts(), id_col)
+        logger.info(f'Upserted {data_table.num_rows} to {object}')
+        return r
 
     def delete(self, object, id_table, hard_delete=False):
         """
@@ -133,8 +139,8 @@ class Salesorce:
             object: str
                 The API name of the type of records to delete.
                 Note that custom object names end in `__c`
-            id_table: Parsons Table
-                The table of record IDs to delete.
+            id_table: obj
+                A Parsons Table of record IDs to delete.
                 Note that 'Id' is the default Salesforce record ID field name.
             hard_delete: boolean
                 If true, will permanently delete record instead of moving it to trash
@@ -146,8 +152,10 @@ class Salesorce:
                 * errors: list of dicts (with error details)
         """
 
-        dicts = [row for row in id_table]
         if hard_delete is True:
-            return getattr(self.client.bulk, object).hard_delete(dicts)
+            r = getattr(self.client.bulk, object).hard_delete(id_table.to_dicts())
         else:
-            return getattr(self.client.bulk, object).delete(dicts)
+            r = getattr(self.client.bulk, object).delete(id_table.to_dicts())
+
+        logger.info(f'Deleted {data_table.num_rows} from {object}')
+        return r

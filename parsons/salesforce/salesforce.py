@@ -26,12 +26,14 @@ class Salesorce:
         Salesforce class
     """
 
-    def __init__(self, username=None, password=None, security_token=None, domain=None):
+    def __init__(self, username=None, password=None, security_token=None, test_environment=False):
 
         self.username = check_env.check('SALESFORCE_USERNAME', username)
         self.password = check_env.check('SALESFORCE_PASSWORD', password)
         self.security_token = check_env.check('SALESFORCE_SECURITY_TOKEN', security_token)
-        self.domain = check_env.check('SALESFORCE_DOMAIN', domain)
+
+        if test_environment:
+	        self.domain = check_env.check('SALESFORCE_DOMAIN', 'test')
 
         self.client = _Salesforce(
             username=self.username,

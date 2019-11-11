@@ -52,7 +52,9 @@ class Salesorce:
             list of dicts with Salesforce data
         """ # noqa: E501,E261
 
-        return Table(self.client.query_all(soql))
+        q = Table(self.client.query_all(soql))
+        logger.info(f'Found {q.num_rows} results')
+        return q
 
     def insert(self, object, data_table):
         """
@@ -152,7 +154,7 @@ class Salesorce:
                 * errors: list of dicts (with error details)
         """
 
-        if hard_delete is True:
+        if hard_delete:
             r = getattr(self.client.bulk, object).hard_delete(id_table.to_dicts())
         else:
             r = getattr(self.client.bulk, object).delete(id_table.to_dicts())

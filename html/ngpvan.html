@@ -97,7 +97,7 @@
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#quickstart">QuickStart</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#common-workflows">Common Workflows</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#score-loading-and-updating">Score: Loading and Updating</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#scores-loading-and-updating">Scores: Loading and Updating</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#people-add-survey-response">People: Add Survey Response</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#event-creating-and-modifying">Event: Creating and Modifying</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#signup-adding-and-modifying">Signup: Adding and Modifying</a></li>
@@ -118,7 +118,6 @@
 <li class="toctree-l2"><a class="reference internal" href="#folders">Folders</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#export-jobs">Export Jobs</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#scores">Scores</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#score-updates">Score Updates</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#file-loading-jobs">File Loading Jobs</a></li>
 </ul>
 </li>
@@ -253,8 +252,8 @@ those of the SmartVAN or VoteBuilder.</dd>
  <span class="c1"># List all folders shared with API Key User</span>
  <span class="n">folders</span> <span class="o">=</span> <span class="n">van</span><span class="o">.</span><span class="n">get_folders</span><span class="p">()</span>
 
- <span class="c1"># Return a dataframe rather than a list of dicts</span>
- <span class="n">saved_lists</span> <span class="o">=</span> <span class="n">van</span><span class="o">.</span><span class="n">get_saved_lists</span><span class="p">()</span><span class="o">.</span><span class="n">to_dataframe</span><span class="p">()</span>
+ <span class="c1"># Return to a Redshift database</span>
+ <span class="n">saved_lists</span> <span class="o">=</span> <span class="n">van</span><span class="o">.</span><span class="n">get_saved_lists</span><span class="p">()</span><span class="o">.</span><span class="n">to_redshift</span><span class="p">(</span><span class="s1">&#39;van.my_saved_lists&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
 <p>This a is just a small sampling of all of the VAN endpoints that you can leverage. We recommend reviewing the
@@ -262,40 +261,49 @@ documentation for all functions.</p>
 </div>
 <div class="section" id="common-workflows">
 <h2>Common Workflows<a class="headerlink" href="#common-workflows" title="Permalink to this headline">¶</a></h2>
-<div class="section" id="score-loading-and-updating">
-<h3>Score: Loading and Updating<a class="headerlink" href="#score-loading-and-updating" title="Permalink to this headline">¶</a></h3>
-<p>Loading a score a multi-step process. Once a score is set to approved, loading takes place
-overnight.</p>
+<div class="section" id="scores-loading-and-updating">
+<h3>Scores: Loading and Updating<a class="headerlink" href="#scores-loading-and-updating" title="Permalink to this headline">¶</a></h3>
+<p>Loading a score a multi-step process. Once a score is set to approved, loading takes place overnight.</p>
+<p><strong>Standard Auto Approve Load</strong></p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">parsons</span> <span class="kn">import</span> <span class="n">VAN</span>
+<span class="n">van</span> <span class="o">=</span> <span class="n">VAN</span><span class="p">(</span><span class="n">db</span><span class="o">=</span><span class="s1">&#39;MyVoters&#39;</span><span class="p">)</span> <span class="c1"># API key stored as an environmental variable</span>
 
-<span class="c1">#Instatiate Class</span>
-<span class="n">van</span> <span class="o">=</span> <span class="n">VAN</span><span class="p">(</span><span class="n">db</span><span class="o">=</span><span class="s2">&quot;MyVoters&quot;</span><span class="p">)</span>
+<span class="c1"># If you don&#39;t know the id, you can run van.get_scores() to list the</span>
+<span class="c1"># slots that avaliable and their associated score ids.</span>
+<span class="n">score_id</span> <span class="o">=</span> <span class="mi">9999</span>
 
-<span class="c1">#List all of the scores / slots</span>
-<span class="k">print</span> <span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">van</span><span class="o">.</span><span class="n">get_scores</span><span class="p">(),</span> <span class="n">indent</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span>
+<span class="c1"># Load the Parsons table with the scores. The first column of the table</span>
+<span class="c1"># must be the person id (e.g. VANID). You could create this from Redshift or</span>
+<span class="c1"># another source.</span>
+<span class="n">tbl</span> <span class="o">=</span> <span class="n">Table</span><span class="o">.</span><span class="n">from_csv</span><span class="p">(</span><span class="s1">&#39;winning_scores.csv&#39;</span><span class="p">)</span>
 
-<span class="c1">#Input the score slot id</span>
-<span class="n">score_slot_id</span> <span class="o">=</span> <span class="mi">34115</span>
+<span class="c1"># Specify the score id slot and the column name for each score.</span>
+<span class="n">config</span> <span class="o">=</span> <span class="p">[{</span><span class="s1">&#39;id&#39;</span><span class="p">:</span> <span class="n">score_id</span><span class="p">,</span> <span class="s1">&#39;column&#39;</span><span class="p">:</span> <span class="s1">&#39;winning_model&#39;</span><span class="p">}]</span>
 
-<span class="c1">#Load the file via the file to VAN</span>
-<span class="n">r</span> <span class="o">=</span> <span class="n">van</span><span class="o">.</span><span class="n">file_load</span><span class="p">(</span><span class="s1">&#39;score.csv&#39;</span><span class="p">,</span>
-              <span class="s1">&#39;https://box.com/scores.zip&#39;</span><span class="p">,</span>
-              <span class="p">[</span><span class="s1">&#39;vanid&#39;</span><span class="p">,</span><span class="s1">&#39;myscore&#39;</span><span class="p">],</span>
-              <span class="s1">&#39;vanid&#39;</span><span class="p">,</span>
-              <span class="s1">&#39;VANID&#39;</span><span class="p">,</span>
-               <span class="n">score_slot_id</span><span class="p">,</span>
-               <span class="s1">&#39;myscore&#39;</span><span class="p">,</span>
-               <span class="n">email</span><span class="o">=</span><span class="s1">&#39;anemailaddress@gmail.com&#39;</span><span class="p">)</span>
+<span class="c1"># If you have multiple models in the same file, you can load them all at the same time.</span>
+<span class="c1"># In fact, VAN recommends that you do so to reduce their server loads.</span>
+<span class="n">config</span> <span class="o">=</span> <span class="p">[{</span><span class="s1">&#39;id&#39;</span><span class="p">:</span> <span class="mi">5555</span><span class="p">,</span> <span class="s1">&#39;column&#39;</span><span class="p">:</span> <span class="s1">&#39;score1&#39;</span><span class="p">},</span> <span class="p">{</span><span class="s1">&#39;id&#39;</span><span class="p">:</span> <span class="mi">5556</span><span class="p">,</span> <span class="s1">&#39;column&#39;</span><span class="p">:</span> <span class="s1">&#39;score2&#39;</span><span class="p">}]</span>
 
-
-<span class="c1"># Update Status - The email that you get when it is loaded will include a score update</span>
-<span class="c1"># id. Pass this to approve the score to be loaded.</span>
-<span class="c1">#   - Might take a few minutes to get the email</span>
-<span class="c1">#   - Email will also include some nice stats to QC, included matched rows</span>
-
-<span class="n">van</span><span class="o">.</span><span class="n">score_update_status</span><span class="p">(</span><span class="mi">47187</span><span class="p">,</span><span class="s1">&#39;approved&#39;</span><span class="p">)</span> <span class="c1"># Pass the score update id and set to approved</span>
+<span class="c1"># The score file must posted to the internet. This configuration uses S3 to do so. In this</span>
+<span class="c1"># example, your S3 keys are stored as environmental variables. If not, you can pass them</span>
+<span class="c1"># as arguments.</span>
+<span class="n">job_id</span> <span class="o">=</span> <span class="n">van</span><span class="o">.</span><span class="n">upload_scores</span><span class="p">(</span><span class="n">tbl</span><span class="p">,</span> <span class="n">config</span><span class="p">,</span> <span class="n">url_type</span><span class="o">=</span><span class="s1">&#39;S3&#39;</span><span class="p">,</span> <span class="n">email</span><span class="o">=</span><span class="s1">&#39;info@tmc.org&#39;</span><span class="p">,</span> <span class="n">bucket</span><span class="o">=</span><span class="s1">&#39;tmc-fake&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
+<p><strong>Standard Load Requiring Approval</strong>
+.. code-block:: python</p>
+<blockquote>
+<div><p>from parsons import VAN</p>
+<p>van = VAN(db=’MyVoters’) # API key stored as an environmental variable
+config = [{‘id’: 3421, ‘column’: ‘winning_model’}]</p>
+<p># Note that auto_approve is set to False. This means that you need to manually approve
+# the job once it is loaded.
+job_id = van.upload_scores(tbl, config, url_type=’S3’, <a class="reference external" href="mailto:email='info&#37;&#52;&#48;tmc&#46;org">email=’info<span>&#64;</span>tmc<span>&#46;</span>org</a>’,</p>
+<blockquote>
+<div>bucket=’tmc-fake’, auto_approve=False)</div></blockquote>
+<p># Approve the job
+van.score_update_status(job_id,’approved’)</p>
+</div></blockquote>
 </div>
 <div class="section" id="people-add-survey-response">
 <h3>People: Add Survey Response<a class="headerlink" href="#people-add-survey-response" title="Permalink to this headline">¶</a></h3>
@@ -1834,9 +1842,9 @@ a score slot.</p>
 <p class="first admonition-title">Note</p>
 <dl class="last docutils">
 <dt>Score Auto Approval</dt>
-<dd>Scores can be automatically set to <code class="docutils literal notranslate"><span class="pre">approved</span></code> through the file_load function allowing
-you to skip calling the <code class="xref py py-meth docutils literal notranslate"><span class="pre">file_load()</span></code> function. To automatically approve scores,
-if the average of the scores is within the fault tolerance specified by the user.It
+<dd>Scores can be automatically set to <code class="docutils literal notranslate"><span class="pre">approved</span></code> through the <code class="xref py py-meth docutils literal notranslate"><span class="pre">VAN.upload_scores()</span></code>
+method allowing you to skip calling <code class="xref py py-meth docutils literal notranslate"><span class="pre">VAN.update_score_status()</span></code>. To automatically approve
+scores, if the average of the scores is within the fault tolerance specified by the user.It
 is only available to API keys with permission to automatically approve scores.</dd>
 </dl>
 </div>
@@ -1934,11 +1942,79 @@ approve a score loading job.</p>
 </dl>
 </dd></dl>
 
+<dl class="method">
+<dt id="parsons.ngpvan.van.Scores.upload_scores">
+<code class="descname">upload_scores</code><span class="sig-paren">(</span><em>tbl</em>, <em>config</em>, <em>url_type</em>, <em>id_type='vanid'</em>, <em>email=None</em>, <em>auto_approve=True</em>, <em>approve_tolerance=0.1</em>, <em>**url_kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/ngpvan/scores.html#Scores.upload_scores"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.ngpvan.van.Scores.upload_scores" title="Permalink to this definition">¶</a></dt>
+<dd><p>Upload scores. Use to create or overwrite scores. Multiple score loads
+should be configured in a single call. <a class="footnote-reference" href="#id5" id="id2">[1]</a></p>
+<dl class="docutils">
+<dt><cite>Args:</cite></dt>
+<dd><dl class="first last docutils">
+<dt>tbl: object</dt>
+<dd>A parsons.Table object. The table must contain the scores and first column in the
+table must contain the primary key (e.g. vanid).</dd>
+<dt>config: list</dt>
+<dd><p class="first">The score configuration. A list of dictionaries in which you specify the following</p>
+<table border="1" class="colwidths-given docutils">
+<colgroup>
+<col width="20%" />
+<col width="80%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><code class="docutils literal notranslate"><span class="pre">score_column</span></code></td>
+<td>The name of the column where the score is housed.</td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal notranslate"><span class="pre">score_id</span></code></td>
+<td>The score slot id.</td>
+</tr>
+</tbody>
+</table>
+<p>Example:</p>
+<div class="last highlight-python notranslate"><div class="highlight"><pre><span></span><span class="p">[{</span><span class="s1">&#39;score1_id&#39;</span> <span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">score1_column</span><span class="s1">&#39;: str}</span>
+ <span class="p">{</span><span class="s1">&#39;score2_id&#39;</span> <span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">score2_column</span><span class="s1">&#39;: str}]</span>
+</pre></div>
+</div>
+</dd>
+<dt>url_type: str</dt>
+<dd>The cloud file storage to use to post the file. Currently only <code class="docutils literal notranslate"><span class="pre">S3</span></code>.</dd>
+<dt>email: str</dt>
+<dd>An email address to send job load status updates.</dd>
+<dt>auto_approve: boolean</dt>
+<dd>If the scores are within the expected tolerance of deviation from the
+average values provided, then score will be automatically approved.</dd>
+<dt>approve_tolderance: float</dt>
+<dd>The deviation from the average scores allowed in order to automatically
+approve the score. Maximum of .1.</dd>
+<dt><a href="#id3"><span class="problematic" id="id4">**</span></a>url_kwargs: kwargs</dt>
+<dd><dl class="first last docutils">
+<dt>Arguments to configure your cloud storage url type.</dt>
+<dd><ul class="first last simple">
+<li>S3 requires <code class="docutils literal notranslate"><span class="pre">bucket</span></code> argument and, if not stored as env variables
+<code class="docutils literal notranslate"><span class="pre">aws_access_key</span></code> and <code class="docutils literal notranslate"><span class="pre">aws_secret_access_key</span></code>.</li>
+</ul>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd>
+<dt><cite>Returns:</cite></dt>
+<dd><dl class="first last docutils">
+<dt>int</dt>
+<dd>The score load job id.</dd>
+</dl>
+</dd>
+</dl>
+<table class="docutils footnote" frame="void" id="id5" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id2">[1]</a></td><td>NGPVAN asks that you load multiple scores in a single call to reduce the load
+on their servers.</td></tr>
+</tbody>
+</table>
 </dd></dl>
 
-</div>
-<div class="section" id="score-updates">
-<h2>Score Updates<a class="headerlink" href="#score-updates" title="Permalink to this headline">¶</a></h2>
+</dd></dl>
+
 </div>
 <div class="section" id="file-loading-jobs">
 <h2>File Loading Jobs<a class="headerlink" href="#file-loading-jobs" title="Permalink to this headline">¶</a></h2>
@@ -1948,7 +2024,13 @@ approve a score loading job.</p>
 <dd><dl class="method">
 <dt id="parsons.ngpvan.van.FileLoadingJobs.create_file_load">
 <code class="descname">create_file_load</code><span class="sig-paren">(</span><em>file_name</em>, <em>file_url</em>, <em>columns</em>, <em>id_column</em>, <em>id_type</em>, <em>score_id</em>, <em>score_column</em>, <em>delimiter='csv'</em>, <em>header=True</em>, <em>quotes=True</em>, <em>description=None</em>, <em>email=None</em>, <em>auto_average=None</em>, <em>auto_tolerance=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/ngpvan/scores.html#FileLoadingJobs.create_file_load"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.ngpvan.van.FileLoadingJobs.create_file_load" title="Permalink to this definition">¶</a></dt>
-<dd><p>Loads a file. Only used for loading scores at this time. Scores must be
+<dd><div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<div class="last deprecated">
+<p><span class="versionmodified">Deprecated since version 0.7: </span>Use <code class="xref py py-func docutils literal notranslate"><span class="pre">parsons.VAN.upload_scores()</span></code> instead.</p>
+</div>
+</div>
+<p>Loads a file. Only used for loading scores at this time. Scores must be
 compressed using <cite>zip</cite>.</p>
 <dl class="docutils">
 <dt><cite>Args:</cite></dt>
@@ -1991,7 +2073,13 @@ minimum possible acceptable values of the score.</dd>
 <dl class="method">
 <dt id="parsons.ngpvan.van.FileLoadingJobs.create_file_load_multi">
 <code class="descname">create_file_load_multi</code><span class="sig-paren">(</span><em>file_name</em>, <em>file_url</em>, <em>columns</em>, <em>id_column</em>, <em>id_type</em>, <em>score_map</em>, <em>delimiter='csv'</em>, <em>header=True</em>, <em>quotes=True</em>, <em>description=None</em>, <em>email=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/ngpvan/scores.html#FileLoadingJobs.create_file_load_multi"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.ngpvan.van.FileLoadingJobs.create_file_load_multi" title="Permalink to this definition">¶</a></dt>
-<dd><p>An iteration of the <code class="xref py py-meth docutils literal notranslate"><span class="pre">file_load()</span></code> method that allows you to load multiple scores
+<dd><div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<div class="last deprecated">
+<p><span class="versionmodified">Deprecated since version 0.7: </span>Use <code class="xref py py-func docutils literal notranslate"><span class="pre">parsons.VAN.upload_scores()</span></code> instead.</p>
+</div>
+</div>
+<p>An iteration of the <code class="xref py py-meth docutils literal notranslate"><span class="pre">file_load()</span></code> method that allows you to load multiple scores
 at the same time.</p>
 <dl class="docutils">
 <dt><cite>Args:</cite></dt>

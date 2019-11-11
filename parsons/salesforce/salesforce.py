@@ -77,7 +77,10 @@ class Salesorce:
         """
 
         r = getattr(self.client.bulk, object).insert(data_table.to_dicts())
-        logger.info(f'Inserted {data_table.num_rows} to {object}')
+        s = [x for x in r if x.get('success') is True]
+        logger.info(
+            f'Successfully inserted {len(s)} out of {data_table.num_rows} records to {object}'
+        )
         return r
 
     def update(self, object, data_table, id_col):
@@ -103,7 +106,10 @@ class Salesorce:
         """
 
         r = getattr(self.client.bulk, object).update(data_table.to_dicts(), id_col)
-        logger.info(f'Updated {data_table.num_rows} to {object}')
+        s = [x for x in r if x.get('success') is True]
+        logger.info(
+            f'Successfully updated {len(s)} out of {data_table.num_rows} records in {object}'
+        )
         return r
 
     def upsert(self, object, data_table, id_col):
@@ -130,7 +136,10 @@ class Salesorce:
         """
 
         r = getattr(self.client.bulk, object).upsert(data_table.to_dicts(), id_col)
-        logger.info(f'Upserted {data_table.num_rows} to {object}')
+        s = [x for x in r if x.get('success') is True]
+        logger.info(
+            f'Successfully upserted {len(s)} out of {data_table.num_rows} records to {object}'
+        )
         return r
 
     def delete(self, object, id_table, hard_delete=False):
@@ -159,5 +168,8 @@ class Salesorce:
         else:
             r = getattr(self.client.bulk, object).delete(id_table.to_dicts())
 
-        logger.info(f'Deleted {id_table.num_rows} from {object}')
+        s = [x for x in r if x.get('success') is True]
+        logger.info(
+            f'Successfully deleted {len(s)} out of {id_table.num_rows} records from {object}'
+        )
         return r

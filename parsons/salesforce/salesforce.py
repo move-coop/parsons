@@ -1,6 +1,6 @@
 from simple_salesforce import Salesforce as _Salesforce
 from parsons.utilities import check_env
-# from parsons import Table
+from parsons import Table
 import logging
 
 logger = logging.getLogger(__name__)
@@ -26,7 +26,6 @@ class Salesorce:
         Salesforce class
     """
 
-
     def __init__(self, username=None, password=None, security_token=None, test_environment=False):
 
         self.username = check_env.check('SALESFORCE_USERNAME', username)
@@ -34,7 +33,7 @@ class Salesorce:
         self.security_token = check_env.check('SALESFORCE_SECURITY_TOKEN', security_token)
 
         if test_environment:
-	        self.domain = check_env.check('SALESFORCE_DOMAIN', 'test')
+            self.domain = check_env.check('SALESFORCE_DOMAIN', 'test')
 
         self.client = _Salesforce(
             username=self.username,
@@ -160,5 +159,5 @@ class Salesorce:
         else:
             r = getattr(self.client.bulk, object).delete(id_table.to_dicts())
 
-        logger.info(f'Deleted {data_table.num_rows} from {object}')
+        logger.info(f'Deleted {id_table.num_rows} from {object}')
         return r

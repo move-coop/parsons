@@ -26,6 +26,7 @@ from parsons.copper.copper import Copper
 from parsons.crowdtangle.crowdtangle import CrowdTangle
 from parsons.hustle.hustle import Hustle
 from parsons.twilio.twilio import Twilio
+from parsons.salesforce.salesforce import Salesforce
 
 __all__ = [
     'VAN',
@@ -53,7 +54,8 @@ __all__ = [
     'Copper',
     'CrowdTangle',
     'Hustle',
-    'Twilio'
+    'Twilio',
+    'Salesforce'
     ]
 
 # Define the default logging config for Parsons and its submodules. For now the

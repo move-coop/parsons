@@ -1,6 +1,7 @@
-from tempfile import NamedTemporaryFile
+import errno
 import gzip
 import os
+import tempfile
 
 __all__ = [
     'create_temp_file',
@@ -10,6 +11,10 @@ __all__ = [
     'compression_type_for_path',
     'string_to_temp_file'
     ]
+
+
+# Maximum number of times to try to open a new temp file before giving up.
+TMP_MAX = 1000
 
 
 # This global list keeps track of all temp files created during the runtime of a script.
@@ -34,7 +39,7 @@ def create_temp_file(suffix=None):
         str
             The path of the temp file
     """
-    temp_file = NamedTemporaryFile(suffix=suffix)
+    temp_file = TempFile(suffix=suffix)
     _temp_files.append(temp_file)
     return temp_file.name
 
@@ -77,6 +82,9 @@ def close_temp_file(path):
 
     for temp_file in _temp_files:
         if temp_file.name == path:
+            # Call close explicitly to clean up, because we can't always assume that de-refencing
+            # will necessarily result in the TempFilePath being cleaned up (depends on platform)
+            temp_file.remove()
             _temp_files.remove(temp_file)
             return True
 
@@ -197,3 +205,97 @@ def has_data(file_path):
 
     else:
         return True
+
+
+def generate_tempfile(suffix):
+    """
+    Create a new temp file with a unique filename.
+
+    `Args:`
+        suffix: str
+            The suffix to give the file path in order to advertise the file/mime type of the file.
+    `Returns`
+        str
+            The path of the newly created temp file.
+    """
+    # _get_candidate_names gives us an iterator that will keep trying to generate a random filename.
+    # It's not ideal to use a "protected" function from another module, but this function does some
+    # heavy lifting for us.
+    names = tempfile._get_candidate_names()
+    temp_dir = tempfile.gettempdir()
+
+    # Try multiple times to create a temp file, just in case (however unlikely) we have some
+    # collisions with already existing files.
+    for _ in range(TMP_MAX):
+        name = next(names)
+        if suffix:
+            name = f'{name}{suffix}'
+        path = os.path.join(temp_dir, name)
+
+        try:
+            # "Touch" the file to ensure that there is a file there, so that if our user tries
+            # open it in read mode later, they won't get an error about the file not existing.
+            # Also, use mode='x' (exclusive create) to make sure we get an error if the file already
+            # exists
+            with open(path, mode='x') as _:
+                pass
+            return path
+        # PermissionError can be Windows' way of saying the file exists
+        except (FileExistsError, PermissionError):
+            continue    # try again with another filename if we got an error
+
+    raise FileExistsError(errno.EEXIST,
+                          "No usable temporary directory name found")
+
+
+class TempFile:
+    """
+    Class for creating and eventually cleaning up a temporary file.
+
+    Creating the instance of the TempFilePath will create a uniquely named temporary file. When the
+    instance is garbage collected (e.g., when the Python process closes) or when the remove method
+    is called explicitly, the temporary file is removed from disk.
+
+    Unlike NamedTemporaryFile from the Python standard library, this class does NOT represent
+    an open file handle to the file. It simply represents a file on disk. This class was
+    written to workaround the fact that on Windows, NamedTemporaryFile opens the file with an
+    exclusive read lock, which means that no one else can open the file for reading.
+
+    Since Parsons hands out the temporary file's path and not the file handle, users must be able
+    to open the file, but that is impossible as long as NamedTemporaryFile holds onto the open
+    file handle with its exclusive read lock. So we wrote, TempFilePath to not hold onto the open
+    file handle.
+
+    `Args:`
+        suffix: str
+            The suffix to give the file path in order to advertise the file/mime type of the file.
+    """
+
+    def __init__(self, suffix=None):
+        self.remove_called = False
+        self.name = generate_tempfile(suffix)
+
+    def __del__(self):
+        # When we are being cleaned up, call remove to make sure the file is removed from disk.
+        self.remove()
+
+    def remove(self, unlink=os.unlink):
+        """
+        Remove the file from disk.
+
+        Note: We cache a reference to the os.unlink function because during shutdown of the Python
+        process, the reference to the os module may be None'd out as part of garbage collection.
+        So, we want to make sure we have a reference to the function saved somewhere.
+
+        `Args:`
+            unlink: function
+                Function to use for removing the file from disk.
+        """
+        # Only try to unlink if we have a valid file path and we haven't yet called close.
+        if self.name and not self.remove_called:
+            try:
+                unlink(self.name)
+            except FileNotFoundError:
+                pass  # if the file isn't found, our work is done
+
+        self.remove_called = True

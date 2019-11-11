@@ -1,6 +1,6 @@
 from simple_salesforce import Salesforce as _Salesforce
 from parsons.utilities import check_env
-# from parsons import Table
+from parsons import Table
 import logging
 
 logger = logging.getLogger(__name__)

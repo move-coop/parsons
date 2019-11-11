@@ -1,8 +1,4 @@
-<<<<<<< HEAD
 from simple_salesforce import Salesforce as _Salesforce
-=======
-from simple_salesforce import Salesforce
->>>>>>> created init and documentation for Salesforce class
 from parsons.utilities import check_env
 from parsons import Table
 import logging

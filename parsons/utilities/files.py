@@ -293,6 +293,9 @@ class TempFile:
         """
         # Only try to unlink if we have a valid file path and we haven't yet called close.
         if self.name and not self.remove_called:
-            unlink(self.name)
+            try:
+                unlink(self.name)
+            except FileNotFoundError:
+                pass  # if the file isn't found, our work is done
 
         self.remove_called = True

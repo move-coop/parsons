@@ -605,7 +605,7 @@ class ToFrom(object):
                 ``csv_reader`` optional arguments
         `Returns:`
             `parsons.Table` object
-        """
+        """  # noqa: W605
 
         from parsons import S3
         s3 = S3(aws_access_key_id, aws_secret_access_key)

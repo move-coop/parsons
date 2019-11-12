@@ -6,7 +6,7 @@ import logging
 logger = logging.getLogger(__name__)
 
 
-class Salesorce:
+class Salesforce:
     """
     `Args:`
         username: str

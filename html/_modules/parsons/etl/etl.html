@@ -1008,14 +1008,14 @@
 <span class="sd">            +--------------+--------------+----------------------------------------------------+</span>
 <span class="sd">            | &#39;db_scratch&#39; | &#39;state_fips&#39; | &#39;(&#39;                                                |</span>
 <span class="sd">            +--------------+--------------+----------------------------------------------------+</span>
-<span class="sd">            | &#39;db_scratch&#39; | &#39;state_fips&#39; | &#39;\tstate VARCHAR(1024)   ENCODE RAW&#39;              |</span>
+<span class="sd">            | &#39;db_scratch&#39; | &#39;state_fips&#39; | &#39;\\tstate VARCHAR(1024)   ENCODE RAW&#39;               |</span>
 <span class="sd">            +--------------+--------------+----------------------------------------------------+</span>
-<span class="sd">            | &#39;db_scratch&#39; | &#39;state_fips&#39; | &#39;\t,stusab VARCHAR(1024)   ENCODE RAW&#39;            |</span>
+<span class="sd">            | &#39;db_scratch&#39; | &#39;state_fips&#39; | &#39;\\t,stusab VARCHAR(1024)   ENCODE RAW&#39;             |</span>
 <span class="sd">            +--------------+--------------+----------------------------------------------------+</span>
 
 <span class="sd">            &gt;&gt;&gt; reducer_fn = lambda columns, rows: [</span>
 <span class="sd">            ...     f&quot;{columns[0]}.{columns[1]}&quot;,</span>
-<span class="sd">            ...     &#39;\n&#39;.join([row[2] for row in rows])]</span>
+<span class="sd">            ...     &#39;\\n&#39;.join([row[2] for row in rows])]</span>
 <span class="sd">            &gt;&gt;&gt; ddl.reduce_rows(</span>
 <span class="sd">            ...     [&#39;schemaname&#39;, &#39;tablename&#39;],</span>
 <span class="sd">            ...     reducer_fn,</span>
@@ -1023,16 +1023,16 @@
 <span class="sd">            ...     presorted=True)</span>
 <span class="sd">            &gt;&gt;&gt; ddl.table</span>
 
-<span class="sd">            +-------------------------+------------------------------------------------------------------+</span>
-<span class="sd">            | tablename               | ddl                                                              |</span>
-<span class="sd">            +=========================+==================================================================+</span>
-<span class="sd">            | &#39;db_scratch.state_fips&#39; | &#39;--DROP TABLE db_scratch.state_fips;\nCREATE TABLE IF NOT EXISTS |</span>
-<span class="sd">            |                         | db_scratch.state_fips\n(\n\tstate VARCHAR(1024)   ENCODE RAW\n\t |</span>
-<span class="sd">            |                         | ,db_scratch.state_fips\n(\n\tstate VARCHAR(1024)   ENCODE RAW    |</span>
-<span class="sd">            |                         | \n\t,stusab VARCHAR(1024)   ENCODE RAW\n\t,state_name            |</span>
-<span class="sd">            |                         | VARCHAR(1024)   ENCODE RAW\n\t,statens VARCHAR(1024)   ENCODE    |</span>
-<span class="sd">            |                         | RAW\n)\nDISTSTYLE EVEN\n;&#39;                                       |</span>
-<span class="sd">            +-------------------------+------------------------------------------------------------------+</span>
+<span class="sd">            +-------------------------+-----------------------------------------------------------------------+</span>
+<span class="sd">            | tablename               | ddl                                                                   |</span>
+<span class="sd">            +=========================+=======================================================================+</span>
+<span class="sd">            | &#39;db_scratch.state_fips&#39; | &#39;--DROP TABLE db_scratch.state_fips;\\nCREATE TABLE IF NOT EXISTS      |</span>
+<span class="sd">            |                         | db_scratch.state_fips\\n(\\n\\tstate VARCHAR(1024)   ENCODE RAW\\n\\t      |</span>
+<span class="sd">            |                         | ,db_scratch.state_fips\\n(\\n\\tstate VARCHAR(1024)   ENCODE RAW         |</span>
+<span class="sd">            |                         | \\n\\t,stusab VARCHAR(1024)   ENCODE RAW\\n\\t,state_name                 |</span>
+<span class="sd">            |                         | VARCHAR(1024)   ENCODE RAW\\n\\t,statens VARCHAR(1024)   ENCODE         |</span>
+<span class="sd">            |                         | RAW\\n)\\nDISTSTYLE EVEN\\n;&#39;                                            |</span>
+<span class="sd">            +-------------------------+-----------------------------------------------------------------------+</span>
 
 <span class="sd">        `Args:`</span>
 <span class="sd">            columns: list</span>

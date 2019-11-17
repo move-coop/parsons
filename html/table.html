@@ -1531,8 +1531,7 @@ value of None), ‘ignore’ them, or ‘fail’ (raising an error).</dd>
 <dl class="method">
 <dt id="parsons.etl.etl.ETL.reduce_rows">
 <code class="descname">reduce_rows</code><span class="sig-paren">(</span><em>columns</em>, <em>reduce_func</em>, <em>headers</em>, <em>presorted=False</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/etl/etl.html#ETL.reduce_rows"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.etl.etl.ETL.reduce_rows" title="Permalink to this definition">¶</a></dt>
-<dd><blockquote>
-<div><p>Group rows by a column or columns, then reduce the groups to a single row.</p>
+<dd><p>Group rows by a column or columns, then reduce the groups to a single row.</p>
 <p>Based on the <cite>rowreduce</cite> petl function - <a class="reference external" href="https://petl.readthedocs.io/en/stable/transform.html#petl.transform.reductions.rowreduce">https://petl.readthedocs.io/en/stable/transform.html#petl.transform.reductions.rowreduce</a> # noqa</p>
 <p>For example, the output from the query to get a table’s definition is
 returned as one component per row. The <cite>reduce_rows</cite> method can be used
@@ -1549,80 +1548,33 @@ to reduce all those to a single row containg the entire query.</p>
 <span class="go">+--------------+--------------+----------------------------------------------------+</span>
 <span class="go">| &#39;db_scratch&#39; | &#39;state_fips&#39; | &#39;(&#39;                                                |</span>
 <span class="go">+--------------+--------------+----------------------------------------------------+</span>
-<span class="go">| &#39;db_scratch&#39; | &#39;state_fips&#39; | &#39;   state VARCHAR(1024)   ENCODE RAW&#39;              |</span>
+<span class="go">| &#39;db_scratch&#39; | &#39;state_fips&#39; | &#39;\tstate VARCHAR(1024)   ENCODE RAW&#39;               |</span>
 <span class="go">+--------------+--------------+----------------------------------------------------+</span>
-<span class="go">| &#39;db_scratch&#39; | &#39;state_fips&#39; | &#39;   ,stusab VARCHAR(1024)   ENCODE RAW&#39;            |</span>
+<span class="go">| &#39;db_scratch&#39; | &#39;state_fips&#39; | &#39;\t,stusab VARCHAR(1024)   ENCODE RAW&#39;             |</span>
 <span class="go">+--------------+--------------+----------------------------------------------------+</span>
 
 <span class="gp">&gt;&gt;&gt; </span><span class="n">reducer_fn</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">columns</span><span class="p">,</span> <span class="n">rows</span><span class="p">:</span> <span class="p">[</span>
 <span class="gp">... </span>    <span class="n">f</span><span class="s2">&quot;{columns[0]}.{columns[1]}&quot;</span><span class="p">,</span>
-<span class="gp">... </span>    <span class="s1">&#39;</span>
-</pre></div>
-</div>
-</div></blockquote>
-<dl class="docutils">
-<dt>‘.join([row[2] for row in rows])]</dt>
-<dd><div class="first last highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">ddl</span><span class="o">.</span><span class="n">reduce_rows</span><span class="p">(</span>
+<span class="gp">... </span>    <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="n">row</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">rows</span><span class="p">])]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ddl</span><span class="o">.</span><span class="n">reduce_rows</span><span class="p">(</span>
 <span class="gp">... </span>    <span class="p">[</span><span class="s1">&#39;schemaname&#39;</span><span class="p">,</span> <span class="s1">&#39;tablename&#39;</span><span class="p">],</span>
 <span class="gp">... </span>    <span class="n">reducer_fn</span><span class="p">,</span>
 <span class="gp">... </span>    <span class="p">[</span><span class="s1">&#39;tablename&#39;</span><span class="p">,</span> <span class="s1">&#39;ddl&#39;</span><span class="p">],</span>
-<span class="gp">... </span>    <span class="n">presorted</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="gp">... </span>    <span class="n">presorted</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">ddl</span><span class="o">.</span><span class="n">table</span>
+
+<span class="go">+-------------------------+-----------------------------------------------------------------------+</span>
+<span class="go">| tablename               | ddl                                                                   |</span>
+<span class="go">+=========================+=======================================================================+</span>
+<span class="go">| &#39;db_scratch.state_fips&#39; | &#39;--DROP TABLE db_scratch.state_fips;\nCREATE TABLE IF NOT EXISTS      |</span>
+<span class="go">|                         | db_scratch.state_fips\n(\n\tstate VARCHAR(1024)   ENCODE RAW\n\t      |</span>
+<span class="go">|                         | ,db_scratch.state_fips\n(\n\tstate VARCHAR(1024)   ENCODE RAW         |</span>
+<span class="go">|                         | \n\t,stusab VARCHAR(1024)   ENCODE RAW\n\t,state_name                 |</span>
+<span class="go">|                         | VARCHAR(1024)   ENCODE RAW\n\t,statens VARCHAR(1024)   ENCODE         |</span>
+<span class="go">|                         | RAW\n)\nDISTSTYLE EVEN\n;&#39;                                            |</span>
+<span class="go">+-------------------------+-----------------------------------------------------------------------+</span>
 </pre></div>
 </div>
-</dd>
-<dt>CREATE TABLE IF NOT EXISTS |</dt>
-<dd><div class="first last line-block">
-<div class="line">| db_scratch.state_fips</div>
-</div>
-</dd>
-</dl>
-<dl class="docutils">
-<dt>(</dt>
-<dd><dl class="first last docutils">
-<dt>state VARCHAR(1024)   ENCODE RAW</dt>
-<dd><div class="first last line-block">
-<div class="line">|                         | ,db_scratch.state_fips</div>
-</div>
-</dd>
-</dl>
-</dd>
-</dl>
-<dl class="docutils">
-<dt>(</dt>
-<dd><dl class="first docutils">
-<dt>state VARCHAR(1024)   ENCODE RAW    |</dt>
-<dd><div class="first last line-block">
-<div class="line">| </div>
-</div>
-</dd>
-</dl>
-<p>,stusab VARCHAR(1024)   ENCODE RAW
-,state_name            |</p>
-<blockquote>
-<div><div class="line-block">
-<div class="line">| VARCHAR(1024)   ENCODE RAW</div>
-</div>
-</div></blockquote>
-<dl class="last docutils">
-<dt>,statens VARCHAR(1024)   ENCODE    |</dt>
-<dd><div class="first last line-block">
-<div class="line">| RAW</div>
-</div>
-</dd>
-</dl>
-</dd>
-</dl>
-<p>)
-DISTSTYLE EVEN
-;’                                       |</p>
-<blockquote>
-<div><blockquote>
-<div><table border="1" class="docutils">
-<tbody valign="top">
-</tbody>
-</table>
-</div></blockquote>
 <dl class="docutils">
 <dt><cite>Args:</cite></dt>
 <dd><dl class="first last docutils">
@@ -1643,7 +1595,6 @@ function.</dd>
 <dt><cite>Returns:</cite></dt>
 <dd><cite>Parsons Table</cite> and also updates self</dd>
 </dl>
-</div></blockquote>
 </dd></dl>
 
 </dd></dl>

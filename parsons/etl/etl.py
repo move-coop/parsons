@@ -836,14 +836,14 @@ class ETL(object):
             +--------------+--------------+----------------------------------------------------+
             | 'db_scratch' | 'state_fips' | '('                                                |
             +--------------+--------------+----------------------------------------------------+
-            | 'db_scratch' | 'state_fips' | '\tstate VARCHAR(1024)   ENCODE RAW'              |
+            | 'db_scratch' | 'state_fips' | '\\tstate VARCHAR(1024)   ENCODE RAW'               |
             +--------------+--------------+----------------------------------------------------+
-            | 'db_scratch' | 'state_fips' | '\t,stusab VARCHAR(1024)   ENCODE RAW'            |
+            | 'db_scratch' | 'state_fips' | '\\t,stusab VARCHAR(1024)   ENCODE RAW'             |
             +--------------+--------------+----------------------------------------------------+
 
             >>> reducer_fn = lambda columns, rows: [
             ...     f"{columns[0]}.{columns[1]}",
-            ...     '\n'.join([row[2] for row in rows])]
+            ...     '\\n'.join([row[2] for row in rows])]
             >>> ddl.reduce_rows(
             ...     ['schemaname', 'tablename'],
             ...     reducer_fn,
@@ -851,16 +851,16 @@ class ETL(object):
             ...     presorted=True)
             >>> ddl.table
 
-            +-------------------------+------------------------------------------------------------------+
-            | tablename               | ddl                                                              |
-            +=========================+==================================================================+
-            | 'db_scratch.state_fips' | '--DROP TABLE db_scratch.state_fips;\nCREATE TABLE IF NOT EXISTS |
-            |                         | db_scratch.state_fips\n(\n\tstate VARCHAR(1024)   ENCODE RAW\n\t |
-            |                         | ,db_scratch.state_fips\n(\n\tstate VARCHAR(1024)   ENCODE RAW    |
-            |                         | \n\t,stusab VARCHAR(1024)   ENCODE RAW\n\t,state_name            |
-            |                         | VARCHAR(1024)   ENCODE RAW\n\t,statens VARCHAR(1024)   ENCODE    |
-            |                         | RAW\n)\nDISTSTYLE EVEN\n;'                                       |
-            +-------------------------+------------------------------------------------------------------+
+            +-------------------------+-----------------------------------------------------------------------+
+            | tablename               | ddl                                                                   |
+            +=========================+=======================================================================+
+            | 'db_scratch.state_fips' | '--DROP TABLE db_scratch.state_fips;\\nCREATE TABLE IF NOT EXISTS      |
+            |                         | db_scratch.state_fips\\n(\\n\\tstate VARCHAR(1024)   ENCODE RAW\\n\\t      |
+            |                         | ,db_scratch.state_fips\\n(\\n\\tstate VARCHAR(1024)   ENCODE RAW         |
+            |                         | \\n\\t,stusab VARCHAR(1024)   ENCODE RAW\\n\\t,state_name                 |
+            |                         | VARCHAR(1024)   ENCODE RAW\\n\\t,statens VARCHAR(1024)   ENCODE         |
+            |                         | RAW\\n)\\nDISTSTYLE EVEN\\n;'                                            |
+            +-------------------------+-----------------------------------------------------------------------+
 
         `Args:`
             columns: list

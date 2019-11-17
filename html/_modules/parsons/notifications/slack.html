@@ -172,6 +172,7 @@
   <h1>Source code for parsons.notifications.slack</h1><div class="highlight"><pre>
 <span></span><span class="kn">from</span> <span class="nn">parsons</span> <span class="k">import</span> <span class="n">Table</span>
 <span class="kn">from</span> <span class="nn">slackclient</span> <span class="k">import</span> <span class="n">SlackClient</span>
+<span class="kn">from</span> <span class="nn">slackclient.exceptions</span> <span class="k">import</span> <span class="n">SlackClientError</span>
 <span class="kn">import</span> <span class="nn">os</span>
 
 
@@ -278,6 +279,9 @@
         <span class="n">resp</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">api_call</span><span class="p">(</span>
             <span class="s2">&quot;chat.postMessage&quot;</span><span class="p">,</span> <span class="n">channel</span><span class="o">=</span><span class="n">channel</span><span class="p">,</span> <span class="n">text</span><span class="o">=</span><span class="n">text</span><span class="p">,</span> <span class="n">as_user</span><span class="o">=</span><span class="n">as_user</span><span class="p">)</span>
 
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">resp</span><span class="p">[</span><span class="s1">&#39;ok&#39;</span><span class="p">]:</span>
+            <span class="k">raise</span> <span class="n">SlackClientError</span><span class="p">(</span><span class="n">resp</span><span class="p">[</span><span class="s1">&#39;error&#39;</span><span class="p">])</span>
+
         <span class="k">return</span> <span class="n">resp</span></div>
 
 <div class="viewcode-block" id="Slack.upload_file"><a class="viewcode-back" href="../../../notifications.html#parsons.Slack.upload_file">[docs]</a>    <span class="k">def</span> <span class="nf">upload_file</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">channels</span><span class="p">,</span> <span class="n">filename</span><span class="p">,</span> <span class="n">filetype</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
@@ -313,6 +317,9 @@
                 <span class="n">filetype</span><span class="o">=</span><span class="n">filetype</span><span class="p">,</span> <span class="n">initial_comment</span><span class="o">=</span><span class="n">initial_comment</span><span class="p">,</span>
                 <span class="n">title</span><span class="o">=</span><span class="n">title</span><span class="p">)</span>
 
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">resp</span><span class="p">[</span><span class="s1">&#39;ok&#39;</span><span class="p">]:</span>
+            <span class="k">raise</span> <span class="n">SlackClientError</span><span class="p">(</span><span class="n">resp</span><span class="p">[</span><span class="s1">&#39;error&#39;</span><span class="p">])</span>
+
         <span class="k">return</span> <span class="n">resp</span></div>
 
     <span class="k">def</span> <span class="nf">_paginate_request</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">endpoint</span><span class="p">,</span> <span class="n">collection</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
@@ -324,13 +331,16 @@
         <span class="n">next_page</span> <span class="o">=</span> <span class="kc">True</span>
         <span class="n">cursor</span> <span class="o">=</span> <span class="kc">None</span>
         <span class="k">while</span> <span class="n">next_page</span><span class="p">:</span>
-            <span class="n">users</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">api_call</span><span class="p">(</span>
+            <span class="n">resp</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">api_call</span><span class="p">(</span>
                 <span class="n">endpoint</span><span class="p">,</span> <span class="n">cursor</span><span class="o">=</span><span class="n">cursor</span><span class="p">,</span> <span class="n">limit</span><span class="o">=</span><span class="n">LIMIT</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
 
-            <span class="n">items</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">users</span><span class="p">[</span><span class="n">collection</span><span class="p">])</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">resp</span><span class="p">[</span><span class="s1">&#39;ok&#39;</span><span class="p">]:</span>
+                <span class="k">raise</span> <span class="n">SlackClientError</span><span class="p">(</span><span class="n">resp</span><span class="p">[</span><span class="s1">&#39;error&#39;</span><span class="p">])</span>
 
-            <span class="k">if</span> <span class="n">users</span><span class="p">[</span><span class="s2">&quot;response_metadata&quot;</span><span class="p">][</span><span class="s2">&quot;next_cursor&quot;</span><span class="p">]:</span>
-                <span class="n">cursor</span> <span class="o">=</span> <span class="n">users</span><span class="p">[</span><span class="s2">&quot;response_metadata&quot;</span><span class="p">][</span><span class="s2">&quot;next_cursor&quot;</span><span class="p">]</span>
+            <span class="n">items</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">resp</span><span class="p">[</span><span class="n">collection</span><span class="p">])</span>
+
+            <span class="k">if</span> <span class="n">resp</span><span class="p">[</span><span class="s2">&quot;response_metadata&quot;</span><span class="p">][</span><span class="s2">&quot;next_cursor&quot;</span><span class="p">]:</span>
+                <span class="n">cursor</span> <span class="o">=</span> <span class="n">resp</span><span class="p">[</span><span class="s2">&quot;response_metadata&quot;</span><span class="p">][</span><span class="s2">&quot;next_cursor&quot;</span><span class="p">]</span>
             <span class="k">else</span><span class="p">:</span>
                 <span class="n">next_page</span> <span class="o">=</span> <span class="kc">False</span>
 

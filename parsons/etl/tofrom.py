@@ -480,8 +480,13 @@ class ToFrom(object):
             Parsons Table
                 See :ref:`parsons-table` for output options.
         """  # noqa: W605
+        remote_prefixes = ["http://", "https://", "ftp://", "s3://"]
+        if any(map(local_path.startswith, remote_prefixes)):
+            is_remote_file = True
+        else:
+            is_remote_file = False
 
-        if not files.has_data(local_path):
+        if not is_remote_file and not files.has_data(local_path):
             raise ValueError('CSV file is empty')
 
         return cls(petl.fromcsv(local_path, **csvargs))

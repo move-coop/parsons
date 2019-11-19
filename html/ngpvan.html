@@ -263,13 +263,13 @@ documentation for all functions.</p>
 <h2>Common Workflows<a class="headerlink" href="#common-workflows" title="Permalink to this headline">¶</a></h2>
 <div class="section" id="scores-loading-and-updating">
 <h3>Scores: Loading and Updating<a class="headerlink" href="#scores-loading-and-updating" title="Permalink to this headline">¶</a></h3>
-<p>Loading a score a multi-step process. Once a score is set to approved, loading takes place overnight.</p>
+<p>Loading a score is a multi-step process. Once a score is set to approved, loading takes place overnight.</p>
 <p><strong>Standard Auto Approve Load</strong></p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">parsons</span> <span class="kn">import</span> <span class="n">VAN</span>
 <span class="n">van</span> <span class="o">=</span> <span class="n">VAN</span><span class="p">(</span><span class="n">db</span><span class="o">=</span><span class="s1">&#39;MyVoters&#39;</span><span class="p">)</span> <span class="c1"># API key stored as an environmental variable</span>
 
 <span class="c1"># If you don&#39;t know the id, you can run van.get_scores() to list the</span>
-<span class="c1"># slots that avaliable and their associated score ids.</span>
+<span class="c1"># slots that are available and their associated score ids.</span>
 <span class="n">score_id</span> <span class="o">=</span> <span class="mi">9999</span>
 
 <span class="c1"># Load the Parsons table with the scores. The first column of the table</span>
@@ -308,10 +308,10 @@ van.score_update_status(job_id,’approved’)</p>
 <div class="section" id="people-add-survey-response">
 <h3>People: Add Survey Response<a class="headerlink" href="#people-add-survey-response" title="Permalink to this headline">¶</a></h3>
 <p>The following workflow can be used to apply survey questions, activist codes
-and canvass reponses.</p>
+and canvass responses.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">parsons</span> <span class="kn">import</span> <span class="n">VAN</span>
 
-<span class="c1"># Instatiate Class</span>
+<span class="c1"># Instantiate Class</span>
 <span class="n">van</span> <span class="o">=</span> <span class="n">VAN</span><span class="p">(</span><span class="n">db</span><span class="o">=</span><span class="s2">&quot;MyVoters&quot;</span><span class="p">)</span>
 
 <span class="n">van_id</span> <span class="o">=</span> <span class="mi">13242</span>
@@ -341,7 +341,7 @@ specified in the event creation.</li>
 </ul>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">parsons</span> <span class="kn">import</span> <span class="n">VAN</span>
 
-<span class="c1"># Instatiate class</span>
+<span class="c1"># Instantiate class</span>
 <span class="n">van</span> <span class="o">=</span> <span class="n">VAN</span><span class="p">(</span><span class="n">db</span><span class="o">=</span><span class="s2">&quot;EveryAction&quot;</span><span class="p">)</span>
 
 <span class="c1"># Create A Location</span>
@@ -369,7 +369,7 @@ specified in the event creation.</li>
 <h3>Signup: Adding and Modifying<a class="headerlink" href="#signup-adding-and-modifying" title="Permalink to this headline">¶</a></h3>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">parsons</span> <span class="kn">import</span> <span class="n">VAN</span>
 
-<span class="c1"># Instatiate class</span>
+<span class="c1"># Instantiate class</span>
 <span class="n">van</span> <span class="o">=</span> <span class="n">VAN</span><span class="p">(</span><span class="n">db</span><span class="o">=</span><span class="s2">&quot;EveryAction&quot;</span><span class="p">)</span>
 
 <span class="c1"># Create a new signup</span>
@@ -1843,9 +1843,9 @@ a score slot.</p>
 <dl class="last docutils">
 <dt>Score Auto Approval</dt>
 <dd>Scores can be automatically set to <code class="docutils literal notranslate"><span class="pre">approved</span></code> through the <code class="xref py py-meth docutils literal notranslate"><span class="pre">VAN.upload_scores()</span></code>
-method allowing you to skip calling <code class="xref py py-meth docutils literal notranslate"><span class="pre">VAN.update_score_status()</span></code>. To automatically approve
-scores, if the average of the scores is within the fault tolerance specified by the user.It
-is only available to API keys with permission to automatically approve scores.</dd>
+method allowing you to skip calling <code class="xref py py-meth docutils literal notranslate"><span class="pre">VAN.update_score_status()</span></code>, if the average of
+the scores is within the fault tolerance specified by the user. It is only available
+to API keys with permission to automatically approve scores.</dd>
 </dl>
 </div>
 <dl class="class">

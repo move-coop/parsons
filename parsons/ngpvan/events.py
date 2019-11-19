@@ -61,8 +61,8 @@ class Events(object):
         return tbl
 
     def get_event(self, event_id, expand_fields=['locations', 'codes', 'shifts', 'roles',
-                                          'notes', 'financialProgram', 'ticketCategories',
-                                          'voterRegistrationBatches']):
+                                                 'notes', 'financialProgram', 'ticketCategories',
+                                                 'voterRegistrationBatches']):
         """
         Get an event.
 

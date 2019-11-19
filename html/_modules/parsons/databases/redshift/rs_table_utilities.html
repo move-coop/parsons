@@ -533,16 +533,17 @@
 <span class="sd">        `Returns:`</span>
 <span class="sd">            A dict mapping column name to a dict with extra info. The keys of the dict are ordered</span>
 <span class="sd">            just like the columns in the table. The extra info is a dict with format</span>
-<span class="sd">            ``{&#39;data_type&#39;: str, &#39;max_length&#39;: int or None, &#39;is_nullable&#39;: bool}``</span>
+<span class="sd">            ``{&#39;data_type&#39;: str, &#39;max_length&#39;: int or None, &#39;max_precision&#39;: int or None,</span>
+<span class="sd">               &#39;max_scale&#39;: int or None, &#39;is_nullable&#39;: bool}``</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
         <span class="n">query</span> <span class="o">=</span> <span class="n">f</span><span class="s2">&quot;&quot;&quot;</span>
 <span class="s2">            select ordinal_position,</span>
 <span class="s2">                   column_name,</span>
 <span class="s2">                   data_type,</span>
-<span class="s2">                   case when character_maximum_length is not null</span>
-<span class="s2">                        then character_maximum_length</span>
-<span class="s2">                        else numeric_precision end as max_length,</span>
+<span class="s2">                   character_maximum_length as max_length,</span>
+<span class="s2">                   numeric_precision as max_precision,</span>
+<span class="s2">                   numeric_scale as max_scale,</span>
 <span class="s2">                   is_nullable</span>
 <span class="s2">            from information_schema.columns</span>
 <span class="s2">            where table_name = &#39;</span><span class="si">{table_name}</span><span class="s2">&#39;</span>
@@ -554,6 +555,8 @@
             <span class="n">row</span><span class="p">[</span><span class="s1">&#39;column_name&#39;</span><span class="p">]:</span> <span class="p">{</span>
                 <span class="s1">&#39;data_type&#39;</span><span class="p">:</span> <span class="n">row</span><span class="p">[</span><span class="s1">&#39;data_type&#39;</span><span class="p">],</span>
                 <span class="s1">&#39;max_length&#39;</span><span class="p">:</span> <span class="n">row</span><span class="p">[</span><span class="s1">&#39;max_length&#39;</span><span class="p">],</span>
+                <span class="s1">&#39;max_precision&#39;</span><span class="p">:</span> <span class="n">row</span><span class="p">[</span><span class="s1">&#39;max_precision&#39;</span><span class="p">],</span>
+                <span class="s1">&#39;max_scale&#39;</span><span class="p">:</span> <span class="n">row</span><span class="p">[</span><span class="s1">&#39;max_scale&#39;</span><span class="p">],</span>
                 <span class="s1">&#39;is_nullable&#39;</span><span class="p">:</span> <span class="n">row</span><span class="p">[</span><span class="s1">&#39;is_nullable&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;YES&#39;</span><span class="p">,</span>
             <span class="p">}</span>
             <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="n">query</span><span class="p">)</span>

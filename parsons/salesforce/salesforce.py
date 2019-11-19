@@ -10,18 +10,18 @@ class Salesforce:
     """
     `Args:`
         username: str
-            The Salesforce username (usually an email address).
-            Not required if ``SALESFORCE_USERNAME`` env variable is passed.
+            The Salesforce username (usually an email address). Not required if
+            ``SALESFORCE_USERNAME`` env variable is passed.
         password: str
-            The Salesforce password.
-            Not required if ``SALESFORCE_PASSWORD`` env variable is passed.
+            The Salesforce password. Not required if ``SALESFORCE_PASSWORD`` env variable is
+            passed.
         security_token: str
             The Salesforce security token that can be acquired or reset in
             Settings > My Personal Information > Reset My Security Token.
             Not required if ``SALESFORCE_SECURITY_TOKEN`` env variable is passed.
-        domain: str
-            If the Saleforce instance is a sandbox, set to `'test'`. Otherwise, not required.
-            Can also be passed through ``SALESFORCE_DOMAIN`` env variable.
+        test_environment: bool
+            If ``True`` the client will connect to a Saleforce sandbox instance. Not required if
+            ``SALESFORCE_DOMAIN`` env variable is passed.
     `Returns:`
         Salesforce class
     """
@@ -62,12 +62,12 @@ class Salesforce:
 
         `Args:`
             object: str
-                The API name of the type of records to insert.
-                Note that custom object names end in `__c`
+                The API name of the type of records to insert. Note that custom object names end
+                in `__c`
             data_table: obj
                 A Parsons Table with data for inserting records. Column names must match object
-                field API names, though case and order need not match.
-                Note that custom field names end in `__c`.
+                field API names, though case and order need not match. Note that custom field
+                names end in `__c`.
         `Returns:`
             list of dicts that have the following data:
             * success: boolean
@@ -89,12 +89,12 @@ class Salesforce:
 
         `Args:`
             object: str
-                The API name of the type of records to update.
-                Note that custom object names end in `__c`
+                The API name of the type of records to update. Note that custom object names end
+                in `__c`
             data_table: obj
                 A Parsons Table with data for updating records. Column names must match object
-                field API names, though case and order need not match.
-                Note that custom field names end in `__c`.
+                field API names, though case and order need not match. Note that custom field
+                names end in `__c`.
             id_col: str
                 The column name in `data_table` that stores the record ID.
             `Returns:`
@@ -118,15 +118,15 @@ class Salesforce:
 
         `Args:`
             object: str
-                The API name of the type of records to upsert.
-                Note that custom object names end in `__c`
+                The API name of the type of records to upsert. Note that custom object names end
+                in `__c`
             data_table: obj
                 A Parsons Table with data for upserting records. Column names must match object
-                field API names, though case and order need not match.
-                Note that custom field names end in `__c`.
+                field API names, though case and order need not match. Note that custom field
+                names end in `__c`.
             id_col: str
-                The column name in `data_table` that stores the record ID.
-                Required even if all records are new/inserted.
+                The column name in `data_table` that stores the record ID. Required even if all
+                records are new/inserted.
             `Returns:`
                 list of dicts that have the following data:
                 * success: boolean
@@ -148,11 +148,11 @@ class Salesforce:
 
         `Args:`
             object: str
-                The API name of the type of records to delete.
-                Note that custom object names end in `__c`
+                The API name of the type of records to delete. Note that custom object names end
+                in `__c`
             id_table: obj
-                A Parsons Table of record IDs to delete.
-                Note that 'Id' is the default Salesforce record ID field name.
+                A Parsons Table of record IDs to delete. Note that 'Id' is the default Salesforce
+                record ID field name.
             hard_delete: boolean
                 If true, will permanently delete record instead of moving it to trash
             `Returns:`

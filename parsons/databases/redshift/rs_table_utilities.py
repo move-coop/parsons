@@ -361,16 +361,17 @@ class RedshiftTableUtilities(object):
         `Returns:`
             A dict mapping column name to a dict with extra info. The keys of the dict are ordered
             just like the columns in the table. The extra info is a dict with format
-            ``{'data_type': str, 'max_length': int or None, 'is_nullable': bool}``
+            ``{'data_type': str, 'max_length': int or None, 'max_precision': int or None,
+               'max_scale': int or None, 'is_nullable': bool}``
         """
 
         query = f"""
             select ordinal_position,
                    column_name,
                    data_type,
-                   case when character_maximum_length is not null
-                        then character_maximum_length
-                        else numeric_precision end as max_length,
+                   character_maximum_length as max_length,
+                   numeric_precision as max_precision,
+                   numeric_scale as max_scale,
                    is_nullable
             from information_schema.columns
             where table_name = '{table_name}'
@@ -382,6 +383,8 @@ class RedshiftTableUtilities(object):
             row['column_name']: {
                 'data_type': row['data_type'],
                 'max_length': row['max_length'],
+                'max_precision': row['max_precision'],
+                'max_scale': row['max_scale'],
                 'is_nullable': row['is_nullable'] == 'YES',
             }
             for row in self.query(query)

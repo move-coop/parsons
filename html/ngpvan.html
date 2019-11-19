@@ -507,18 +507,25 @@ other arguments if provided.</dd>
 
 <dl class="method">
 <dt id="parsons.ngpvan.van.People.get_person">
-<code class="descname">get_person</code><span class="sig-paren">(</span><em>id, id_type='vanid', fields=['emails', 'phones', 'custom_fields', 'external_ids', 'addresses', 'recorded_addresses', 'preferences', 'suppressions', 'reported_demographics', 'disclosure_field_values']</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/ngpvan/people.html#People.get_person"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.ngpvan.van.People.get_person" title="Permalink to this definition">¶</a></dt>
+<code class="descname">get_person</code><span class="sig-paren">(</span><em>id, id_type='vanid', expand_fields=['contribution_history', 'addresses', 'phones', 'emails', 'codes', 'custom_fields', 'external_ids', 'preferences', 'recorded_addresses', 'reported_demographics', 'suppressions', 'cases', 'custom_properties', 'districts', 'election_records', 'membership_statuses', 'notes', 'organization_roles', 'scores', 'disclosure_field_values']</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/ngpvan/people.html#People.get_person"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.ngpvan.van.People.get_person" title="Permalink to this definition">¶</a></dt>
 <dd><p>Returns a single person record using their VANID or external id.</p>
 <dl class="docutils">
 <dt><cite>Args:</cite></dt>
-<dd><dl class="first docutils">
+<dd><dl class="first last docutils">
 <dt>id: str</dt>
 <dd>A valid id</dd>
 <dt>id_type: str</dt>
 <dd>A known person identifier type available on this VAN instance
 such as <code class="docutils literal notranslate"><span class="pre">dwid</span></code></dd>
+<dt>expand_fields: list</dt>
+<dd>A list of fields for which to include data. If a field is omitted,
+<code class="docutils literal notranslate"><span class="pre">None</span></code> will be returned for that field. Can be <code class="docutils literal notranslate"><span class="pre">contribution_history</span></code>,
+<code class="docutils literal notranslate"><span class="pre">addresses</span></code>, <code class="docutils literal notranslate"><span class="pre">phones</span></code>, <code class="docutils literal notranslate"><span class="pre">emails</span></code>, <code class="docutils literal notranslate"><span class="pre">codes</span></code>, <code class="docutils literal notranslate"><span class="pre">custom_fields</span></code>,
+<code class="docutils literal notranslate"><span class="pre">external_ids</span></code>, <code class="docutils literal notranslate"><span class="pre">preferences</span></code>, <code class="docutils literal notranslate"><span class="pre">recorded_addresses</span></code>,
+<code class="docutils literal notranslate"><span class="pre">reported_demographics</span></code>, <code class="docutils literal notranslate"><span class="pre">suppressions</span></code>, <code class="docutils literal notranslate"><span class="pre">cases</span></code>, <code class="docutils literal notranslate"><span class="pre">custom_properties</span></code>,
+<code class="docutils literal notranslate"><span class="pre">districts</span></code>, <code class="docutils literal notranslate"><span class="pre">election_records</span></code>, <code class="docutils literal notranslate"><span class="pre">membership_statuses</span></code>, <code class="docutils literal notranslate"><span class="pre">notes</span></code>,
+<code class="docutils literal notranslate"><span class="pre">organization_roles</span></code>, <code class="docutils literal notranslate"><span class="pre">scores</span></code>, <code class="docutils literal notranslate"><span class="pre">disclosure_field_values</span></code>.</dd>
 </dl>
-<p class="last">fields: The fields to return. Leave as default for all available fields</p>
 </dd>
 <dt><cite>Returns:</cite></dt>
 <dd>A person dict</dd>
@@ -864,7 +871,7 @@ can be found by using the <code class="xref py py-meth docutils literal notransl
 <em class="property">class </em><code class="descclassname">parsons.ngpvan.van.</code><code class="descname">Events</code><span class="sig-paren">(</span><em>van_connection</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/ngpvan/events.html#Events"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.ngpvan.van.Events" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="method">
 <dt id="parsons.ngpvan.van.Events.get_events">
-<code class="descname">get_events</code><span class="sig-paren">(</span><em>code_ids=None, event_type_ids=None, rep_event_id=None, starting_after=None, starting_before=None, district_field=None, expand=['locations', 'codes', 'shifts', 'roles', 'notes', 'onlineForms']</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/ngpvan/events.html#Events.get_events"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.ngpvan.van.Events.get_events" title="Permalink to this definition">¶</a></dt>
+<code class="descname">get_events</code><span class="sig-paren">(</span><em>code_ids=None, event_type_ids=None, rep_event_id=None, starting_after=None, starting_before=None, district_field=None, expand_fields=['locations', 'codes', 'shifts', 'roles', 'notes', 'financialProgram', 'ticketCategories', 'onlineForms']</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/ngpvan/events.html#Events.get_events"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.ngpvan.van.Events.get_events" title="Permalink to this definition">¶</a></dt>
 <dd><p>Get events.</p>
 <dl class="docutils">
 <dt><cite>Args:</cite></dt>
@@ -881,10 +888,11 @@ can be found by using the <code class="xref py py-meth docutils literal notransl
 <dd>Events beginning before <code class="docutils literal notranslate"><span class="pre">iso8601</span></code> formatted date.</dd>
 <dt>district_field: str</dt>
 <dd>Filter by district field.</dd>
-<dt>expand <span class="classifier-delimiter">:</span> <span class="classifier">list</span></dt>
-<dd>A list of nested jsons to include in returned event
-object. Can be <code class="docutils literal notranslate"><span class="pre">locations</span></code>, <code class="docutils literal notranslate"><span class="pre">codes</span></code>, <code class="docutils literal notranslate"><span class="pre">shifts</span></code>,
-<code class="docutils literal notranslate"><span class="pre">roles</span></code>, <code class="docutils literal notranslate"><span class="pre">notes</span></code>, <code class="docutils literal notranslate"><span class="pre">onlineForms</span></code>.</dd>
+<dt>expand_fields: list</dt>
+<dd>A list of fields for which to include data. If a field is omitted,
+<code class="docutils literal notranslate"><span class="pre">None</span></code> will be returned for that field. Can be <code class="docutils literal notranslate"><span class="pre">locations</span></code>, <code class="docutils literal notranslate"><span class="pre">codes</span></code>,
+<code class="docutils literal notranslate"><span class="pre">shifts</span></code>,``roles``, <code class="docutils literal notranslate"><span class="pre">notes</span></code>, <code class="docutils literal notranslate"><span class="pre">financialProgram</span></code>, <code class="docutils literal notranslate"><span class="pre">ticketCategories</span></code>,
+<code class="docutils literal notranslate"><span class="pre">onlineForms</span></code>.</dd>
 </dl>
 </dd>
 <dt><cite>Returns:</cite></dt>
@@ -898,17 +906,18 @@ object. Can be <code class="docutils literal notranslate"><span class="pre">loca
 
 <dl class="method">
 <dt id="parsons.ngpvan.van.Events.get_event">
-<code class="descname">get_event</code><span class="sig-paren">(</span><em>event_id, expand=['locations', 'codes', 'shifts', 'roles', 'notes', 'onlineForms']</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/ngpvan/events.html#Events.get_event"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.ngpvan.van.Events.get_event" title="Permalink to this definition">¶</a></dt>
+<code class="descname">get_event</code><span class="sig-paren">(</span><em>event_id, expand_fields=['locations', 'codes', 'shifts', 'roles', 'notes', 'financialProgram', 'ticketCategories', 'voterRegistrationBatches']</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/ngpvan/events.html#Events.get_event"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.ngpvan.van.Events.get_event" title="Permalink to this definition">¶</a></dt>
 <dd><p>Get an event.</p>
 <dl class="docutils">
 <dt><cite>Args:</cite></dt>
 <dd><dl class="first last docutils">
 <dt>event_id: int</dt>
 <dd>The event id.</dd>
-<dt>expand: list</dt>
-<dd>A list of nested jsons to include in returned event
-object. Can be <code class="docutils literal notranslate"><span class="pre">locations</span></code>, <code class="docutils literal notranslate"><span class="pre">codes</span></code>, <code class="docutils literal notranslate"><span class="pre">shifts</span></code>,
-<code class="docutils literal notranslate"><span class="pre">roles</span></code>, <code class="docutils literal notranslate"><span class="pre">notes</span></code>, <code class="docutils literal notranslate"><span class="pre">onlineForms</span></code>.</dd>
+<dt>expand_fields: list</dt>
+<dd>A list of fields for which to include data. If a field is omitted,
+<code class="docutils literal notranslate"><span class="pre">None</span></code> will be returned for that field. Can be <code class="docutils literal notranslate"><span class="pre">locations</span></code>,
+<code class="docutils literal notranslate"><span class="pre">codes</span></code>, <code class="docutils literal notranslate"><span class="pre">shifts</span></code>, <code class="docutils literal notranslate"><span class="pre">roles</span></code>, <code class="docutils literal notranslate"><span class="pre">notes</span></code>, <code class="docutils literal notranslate"><span class="pre">financialProgram</span></code>,
+<code class="docutils literal notranslate"><span class="pre">ticketCategories</span></code>, <a href="#id2"><span class="problematic" id="id3">``</span></a>voterRegistrationBatches`.`</dd>
 </dl>
 </dd>
 <dt><cite>Returns:</cite></dt>
@@ -1946,7 +1955,7 @@ approve a score loading job.</p>
 <dt id="parsons.ngpvan.van.Scores.upload_scores">
 <code class="descname">upload_scores</code><span class="sig-paren">(</span><em>tbl</em>, <em>config</em>, <em>url_type</em>, <em>id_type='vanid'</em>, <em>email=None</em>, <em>auto_approve=True</em>, <em>approve_tolerance=0.1</em>, <em>**url_kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/ngpvan/scores.html#Scores.upload_scores"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.ngpvan.van.Scores.upload_scores" title="Permalink to this definition">¶</a></dt>
 <dd><p>Upload scores. Use to create or overwrite scores. Multiple score loads
-should be configured in a single call. <a class="footnote-reference" href="#id5" id="id2">[1]</a></p>
+should be configured in a single call. <a class="footnote-reference" href="#id7" id="id4">[1]</a></p>
 <dl class="docutils">
 <dt><cite>Args:</cite></dt>
 <dd><dl class="first last docutils">
@@ -1985,7 +1994,7 @@ average values provided, then score will be automatically approved.</dd>
 <dt>approve_tolderance: float</dt>
 <dd>The deviation from the average scores allowed in order to automatically
 approve the score. Maximum of .1.</dd>
-<dt><a href="#id3"><span class="problematic" id="id4">**</span></a>url_kwargs: kwargs</dt>
+<dt><a href="#id5"><span class="problematic" id="id6">**</span></a>url_kwargs: kwargs</dt>
 <dd><dl class="first last docutils">
 <dt>Arguments to configure your cloud storage url type.</dt>
 <dd><ul class="first last simple">
@@ -2004,10 +2013,10 @@ approve the score. Maximum of .1.</dd>
 </dl>
 </dd>
 </dl>
-<table class="docutils footnote" frame="void" id="id5" rules="none">
+<table class="docutils footnote" frame="void" id="id7" rules="none">
 <colgroup><col class="label" /><col /></colgroup>
 <tbody valign="top">
-<tr><td class="label"><a class="fn-backref" href="#id2">[1]</a></td><td>NGPVAN asks that you load multiple scores in a single call to reduce the load
+<tr><td class="label"><a class="fn-backref" href="#id4">[1]</a></td><td>NGPVAN asks that you load multiple scores in a single call to reduce the load
 on their servers.</td></tr>
 </tbody>
 </table>

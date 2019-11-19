@@ -337,10 +337,13 @@
 
         <span class="k">return</span> <span class="kc">True</span>
 
-<div class="viewcode-block" id="People.get_person"><a class="viewcode-back" href="../../../ngpvan.html#parsons.ngpvan.van.People.get_person">[docs]</a>    <span class="k">def</span> <span class="nf">get_person</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">id</span><span class="p">,</span> <span class="n">id_type</span><span class="o">=</span><span class="s1">&#39;vanid&#39;</span><span class="p">,</span>
-                   <span class="n">fields</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;emails&#39;</span><span class="p">,</span> <span class="s1">&#39;phones&#39;</span><span class="p">,</span> <span class="s1">&#39;custom_fields&#39;</span><span class="p">,</span> <span class="s1">&#39;external_ids&#39;</span><span class="p">,</span> <span class="s1">&#39;addresses&#39;</span><span class="p">,</span>
-                           <span class="s1">&#39;recorded_addresses&#39;</span><span class="p">,</span> <span class="s1">&#39;preferences&#39;</span><span class="p">,</span> <span class="s1">&#39;suppressions&#39;</span><span class="p">,</span>
-                           <span class="s1">&#39;reported_demographics&#39;</span><span class="p">,</span> <span class="s1">&#39;disclosure_field_values&#39;</span><span class="p">]):</span>
+<div class="viewcode-block" id="People.get_person"><a class="viewcode-back" href="../../../ngpvan.html#parsons.ngpvan.van.People.get_person">[docs]</a>    <span class="k">def</span> <span class="nf">get_person</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">id</span><span class="p">,</span> <span class="n">id_type</span><span class="o">=</span><span class="s1">&#39;vanid&#39;</span><span class="p">,</span> <span class="n">expand_fields</span><span class="o">=</span><span class="p">[</span>
+                   <span class="s1">&#39;contribution_history&#39;</span><span class="p">,</span> <span class="s1">&#39;addresses&#39;</span><span class="p">,</span> <span class="s1">&#39;phones&#39;</span><span class="p">,</span> <span class="s1">&#39;emails&#39;</span><span class="p">,</span>
+                   <span class="s1">&#39;codes&#39;</span><span class="p">,</span> <span class="s1">&#39;custom_fields&#39;</span><span class="p">,</span> <span class="s1">&#39;external_ids&#39;</span><span class="p">,</span> <span class="s1">&#39;preferences&#39;</span><span class="p">,</span>
+                   <span class="s1">&#39;recorded_addresses&#39;</span><span class="p">,</span> <span class="s1">&#39;reported_demographics&#39;</span><span class="p">,</span> <span class="s1">&#39;suppressions&#39;</span><span class="p">,</span>
+                   <span class="s1">&#39;cases&#39;</span><span class="p">,</span> <span class="s1">&#39;custom_properties&#39;</span><span class="p">,</span> <span class="s1">&#39;districts&#39;</span><span class="p">,</span> <span class="s1">&#39;election_records&#39;</span><span class="p">,</span>
+                   <span class="s1">&#39;membership_statuses&#39;</span><span class="p">,</span> <span class="s1">&#39;notes&#39;</span><span class="p">,</span> <span class="s1">&#39;organization_roles&#39;</span><span class="p">,</span> <span class="s1">&#39;scores&#39;</span><span class="p">,</span>
+                   <span class="s1">&#39;disclosure_field_values&#39;</span><span class="p">]):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Returns a single person record using their VANID or external id.</span>
 
@@ -350,7 +353,14 @@
 <span class="sd">            id_type: str</span>
 <span class="sd">                A known person identifier type available on this VAN instance</span>
 <span class="sd">                such as ``dwid``</span>
-<span class="sd">            fields: The fields to return. Leave as default for all available fields</span>
+<span class="sd">            expand_fields: list</span>
+<span class="sd">                A list of fields for which to include data. If a field is omitted,</span>
+<span class="sd">                ``None`` will be returned for that field. Can be ``contribution_history``,</span>
+<span class="sd">                ``addresses``, ``phones``, ``emails``, ``codes``, ``custom_fields``,</span>
+<span class="sd">                ``external_ids``, ``preferences``, ``recorded_addresses``,</span>
+<span class="sd">                ``reported_demographics``, ``suppressions``, ``cases``, ``custom_properties``,</span>
+<span class="sd">                ``districts``, ``election_records``, ``membership_statuses``, ``notes``,</span>
+<span class="sd">                ``organization_roles``, ``scores``, ``disclosure_field_values``.</span>
 <span class="sd">        `Returns:`</span>
 <span class="sd">            A person dict</span>
 <span class="sd">        &quot;&quot;&quot;</span>
@@ -361,10 +371,10 @@
         <span class="k">else</span><span class="p">:</span>
             <span class="n">url</span> <span class="o">=</span> <span class="n">f</span><span class="s1">&#39;people/</span><span class="si">{id_type}</span><span class="s1">:</span><span class="si">{id}</span><span class="s1">&#39;</span>
 
-        <span class="n">fields</span> <span class="o">=</span> <span class="s1">&#39;,&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="n">json_format</span><span class="o">.</span><span class="n">arg_format</span><span class="p">(</span><span class="n">f</span><span class="p">)</span> <span class="k">for</span> <span class="n">f</span> <span class="ow">in</span> <span class="n">fields</span><span class="p">])</span>
+        <span class="n">expand_fields</span> <span class="o">=</span> <span class="s1">&#39;,&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="n">json_format</span><span class="o">.</span><span class="n">arg_format</span><span class="p">(</span><span class="n">f</span><span class="p">)</span> <span class="k">for</span> <span class="n">f</span> <span class="ow">in</span> <span class="n">expand_fields</span><span class="p">])</span>
 
         <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="n">f</span><span class="s1">&#39;Getting person with </span><span class="si">{id_type}</span><span class="s1"> of </span><span class="si">{id}</span><span class="s1">&#39;</span><span class="p">)</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">connection</span><span class="o">.</span><span class="n">get_request</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;$expand&#39;</span><span class="p">:</span> <span class="n">fields</span><span class="p">})</span></div>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">connection</span><span class="o">.</span><span class="n">get_request</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;$expand&#39;</span><span class="p">:</span> <span class="n">expand_fields</span><span class="p">})</span></div>
 
 <div class="viewcode-block" id="People.apply_canvass_result"><a class="viewcode-back" href="../../../ngpvan.html#parsons.ngpvan.van.People.apply_canvass_result">[docs]</a>    <span class="k">def</span> <span class="nf">apply_canvass_result</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">id</span><span class="p">,</span> <span class="n">result_code_id</span><span class="p">,</span> <span class="n">id_type</span><span class="o">=</span><span class="s1">&#39;vanid&#39;</span><span class="p">,</span> <span class="n">contact_type_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
                              <span class="n">input_type_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">date_canvassed</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>

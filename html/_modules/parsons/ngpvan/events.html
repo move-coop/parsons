@@ -186,8 +186,9 @@
 
 <div class="viewcode-block" id="Events.get_events"><a class="viewcode-back" href="../../../ngpvan.html#parsons.ngpvan.van.Events.get_events">[docs]</a>    <span class="k">def</span> <span class="nf">get_events</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">code_ids</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">event_type_ids</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">rep_event_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
                    <span class="n">starting_after</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">starting_before</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">district_field</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-                   <span class="n">expand</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;locations&#39;</span><span class="p">,</span> <span class="s1">&#39;codes&#39;</span><span class="p">,</span> <span class="s1">&#39;shifts&#39;</span><span class="p">,</span> <span class="s1">&#39;roles&#39;</span><span class="p">,</span> <span class="s1">&#39;notes&#39;</span><span class="p">,</span>
-                           <span class="s1">&#39;onlineForms&#39;</span><span class="p">]):</span>
+                   <span class="n">expand_fields</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;locations&#39;</span><span class="p">,</span> <span class="s1">&#39;codes&#39;</span><span class="p">,</span> <span class="s1">&#39;shifts&#39;</span><span class="p">,</span> <span class="s1">&#39;roles&#39;</span><span class="p">,</span> <span class="s1">&#39;notes&#39;</span><span class="p">,</span>
+                                  <span class="s1">&#39;financialProgram&#39;</span><span class="p">,</span> <span class="s1">&#39;ticketCategories&#39;</span><span class="p">,</span>
+                                  <span class="s1">&#39;onlineForms&#39;</span><span class="p">]):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Get events.</span>
 
@@ -204,17 +205,18 @@
 <span class="sd">                Events beginning before ``iso8601`` formatted date.</span>
 <span class="sd">            district_field: str</span>
 <span class="sd">                Filter by district field.</span>
-<span class="sd">            expand : list</span>
-<span class="sd">                A list of nested jsons to include in returned event</span>
-<span class="sd">                object. Can be ``locations``, ``codes``, ``shifts``,</span>
-<span class="sd">                ``roles``, ``notes``, ``onlineForms``.</span>
+<span class="sd">            expand_fields: list</span>
+<span class="sd">                A list of fields for which to include data. If a field is omitted,</span>
+<span class="sd">                ``None`` will be returned for that field. Can be ``locations``, ``codes``,</span>
+<span class="sd">                ``shifts``,``roles``, ``notes``, ``financialProgram``, ``ticketCategories``,</span>
+<span class="sd">                ``onlineForms``.</span>
 <span class="sd">        `Returns:`</span>
 <span class="sd">            Parsons Table</span>
 <span class="sd">                See :ref:`parsons-table` for output options.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
-        <span class="k">if</span> <span class="n">expand</span><span class="p">:</span>
-            <span class="n">expand</span> <span class="o">=</span> <span class="s1">&#39;,&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">expand</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">expand_fields</span><span class="p">:</span>
+            <span class="n">expand_fields</span> <span class="o">=</span> <span class="s1">&#39;,&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">expand_fields</span><span class="p">)</span>
 
         <span class="n">params</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;codeIds&#39;</span><span class="p">:</span> <span class="n">code_ids</span><span class="p">,</span>
                   <span class="s1">&#39;eventTypeIds&#39;</span><span class="p">:</span> <span class="n">event_type_ids</span><span class="p">,</span>
@@ -223,34 +225,36 @@
                   <span class="s1">&#39;startingBefore&#39;</span><span class="p">:</span> <span class="n">starting_before</span><span class="p">,</span>
                   <span class="s1">&#39;districtFieldValue&#39;</span><span class="p">:</span> <span class="n">district_field</span><span class="p">,</span>
                   <span class="s1">&#39;top&#39;</span><span class="p">:</span> <span class="mi">50</span><span class="p">,</span>
-                  <span class="s1">&#39;$expand&#39;</span><span class="p">:</span> <span class="n">expand</span>
+                  <span class="s1">&#39;$expand&#39;</span><span class="p">:</span> <span class="n">expand_fields</span>
                   <span class="p">}</span>
 
         <span class="n">tbl</span> <span class="o">=</span> <span class="n">Table</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">connection</span><span class="o">.</span><span class="n">get_request</span><span class="p">(</span><span class="s1">&#39;events&#39;</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="n">params</span><span class="p">))</span>
         <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="n">f</span><span class="s1">&#39;Found </span><span class="si">{tbl.num_rows}</span><span class="s1"> events.&#39;</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">tbl</span></div>
 
-<div class="viewcode-block" id="Events.get_event"><a class="viewcode-back" href="../../../ngpvan.html#parsons.ngpvan.van.Events.get_event">[docs]</a>    <span class="k">def</span> <span class="nf">get_event</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">event_id</span><span class="p">,</span> <span class="n">expand</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;locations&#39;</span><span class="p">,</span> <span class="s1">&#39;codes&#39;</span><span class="p">,</span> <span class="s1">&#39;shifts&#39;</span><span class="p">,</span> <span class="s1">&#39;roles&#39;</span><span class="p">,</span>
-                                          <span class="s1">&#39;notes&#39;</span><span class="p">,</span> <span class="s1">&#39;onlineForms&#39;</span><span class="p">]):</span>
+<div class="viewcode-block" id="Events.get_event"><a class="viewcode-back" href="../../../ngpvan.html#parsons.ngpvan.van.Events.get_event">[docs]</a>    <span class="k">def</span> <span class="nf">get_event</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">event_id</span><span class="p">,</span> <span class="n">expand_fields</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;locations&#39;</span><span class="p">,</span> <span class="s1">&#39;codes&#39;</span><span class="p">,</span> <span class="s1">&#39;shifts&#39;</span><span class="p">,</span> <span class="s1">&#39;roles&#39;</span><span class="p">,</span>
+                                          <span class="s1">&#39;notes&#39;</span><span class="p">,</span> <span class="s1">&#39;financialProgram&#39;</span><span class="p">,</span> <span class="s1">&#39;ticketCategories&#39;</span><span class="p">,</span>
+                                          <span class="s1">&#39;voterRegistrationBatches&#39;</span><span class="p">]):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Get an event.</span>
 
 <span class="sd">        `Args:`</span>
 <span class="sd">            event_id: int</span>
 <span class="sd">                The event id.</span>
-<span class="sd">            expand: list</span>
-<span class="sd">                A list of nested jsons to include in returned event</span>
-<span class="sd">                object. Can be ``locations``, ``codes``, ``shifts``,</span>
-<span class="sd">                ``roles``, ``notes``, ``onlineForms``.</span>
+<span class="sd">            expand_fields: list</span>
+<span class="sd">                A list of fields for which to include data. If a field is omitted,</span>
+<span class="sd">                ``None`` will be returned for that field. Can be ``locations``,</span>
+<span class="sd">                ``codes``, ``shifts``, ``roles``, ``notes``, ``financialProgram``,</span>
+<span class="sd">                ``ticketCategories``, ``voterRegistrationBatches`.`</span>
 <span class="sd">        `Returns:`</span>
 <span class="sd">            Parsons Table</span>
 <span class="sd">                See :ref:`parsons-table` for output options.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
-        <span class="k">if</span> <span class="n">expand</span><span class="p">:</span>
-            <span class="n">expand</span> <span class="o">=</span> <span class="s1">&#39;,&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">expand</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">expand_fields</span><span class="p">:</span>
+            <span class="n">expand_fields</span> <span class="o">=</span> <span class="s1">&#39;,&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">expand_fields</span><span class="p">)</span>
 
-        <span class="n">r</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">connection</span><span class="o">.</span><span class="n">get_request</span><span class="p">(</span><span class="n">f</span><span class="s1">&#39;events/</span><span class="si">{event_id}</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;$expand&#39;</span><span class="p">:</span> <span class="n">expand</span><span class="p">})</span>
+        <span class="n">r</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">connection</span><span class="o">.</span><span class="n">get_request</span><span class="p">(</span><span class="n">f</span><span class="s1">&#39;events/</span><span class="si">{event_id}</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;$expand&#39;</span><span class="p">:</span> <span class="n">expand_fields</span><span class="p">})</span>
         <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="n">f</span><span class="s1">&#39;Found event </span><span class="si">{event_id}</span><span class="s1">.&#39;</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">r</span></div>
 

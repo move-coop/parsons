@@ -40,7 +40,7 @@ class VANConnector(object):
         if not self._soap_client:
 
             # Create the SOAP client
-            soap_auth = {'Header': {'DatabaseMode': self.db, 'APIKey': self.api_key}}
+            soap_auth = {'Header': {'DatabaseMode': 'MyVoterFile', 'APIKey': self.api_key}}
             self._soap_client = Client(SOAP_URI, soapheaders=soap_auth)
 
         return self._soap_client

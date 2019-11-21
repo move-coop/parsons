@@ -121,8 +121,8 @@ class SavedLists(object):
         xml.SourceFile.Format = file_desc
 
         # Assemble request
-        file_desc.Columns.Column.append(col)
-        xml.SourceFile.Format = file_desc
+        #file_desc.Columns.Column.append(col)
+        #xml.SourceFile.Format = file_desc
 
         x = self.connection.soap_client.service.CreateAndStoreSavedList(xml)
         print (client.last_sent())

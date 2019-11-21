@@ -412,4 +412,3 @@ class ActionKit(object):
                                page=f'/rest/v1/eventsignuppage/{signup_page_id}/',
                                url=url,
                                **kwargs)
-

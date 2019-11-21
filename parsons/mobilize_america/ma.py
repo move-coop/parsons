@@ -332,4 +332,3 @@ class MobilizeAmerica(object):
         return Table(self.request_paginate(url,
                                            args={'updated_since': iso_to_unix(updated_since)},
                                            auth=True))
-

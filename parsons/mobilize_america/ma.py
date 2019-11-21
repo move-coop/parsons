@@ -102,29 +102,6 @@ class MobilizeAmerica(object):
         return Table(self.request_paginate(self.uri + 'organizations',
                                            args={'updated_since': iso_to_unix(updated_since)}))
 
-    # NOT IMPLEMENTED
-    # def get_organizations_promoted(self, organization_id, updated_since=None):
-        """
-        Fetches a list of all the organizations that an organization has promoted.
-        This endpoint is accessible only to members of the promoting organization.
-
-        .. note::
-            API Key Required
-
-        `Args:`
-            organization_id: int
-                The organization id
-        `Args:`
-            updated_since: str
-                Filter to organizations updated since given date (ISO Date)
-        `Returns`
-            Parsons Table
-                See :ref:`parsons-table` for output options.
-        """
-
-        # Need a private key
-        # pass
-
     def get_events(self, organization_id=None, updated_since=None, timeslot_start=None,
                    timeslot_end=None, timeslots_table=False, max_timeslots=None):
         """
@@ -309,22 +286,6 @@ class MobilizeAmerica(object):
 
         return Table(self.request_paginate(self.uri + 'events/deleted', args=args))
 
-    # NOT IMPLEMENTED
-    # def get_events_organization_deleted(self, updated_since=None):
-        """
-        Fetch all deleted public events for an organization. This includes both
-        events owned by the organization (as indicated by the organization field
-        on the event object) and events of other organizations promoted by
-        this specified organization.
-
-        .. note::
-            API Key Required
-
-        """
-
-        # Requires API Key
-        # pass
-
     def get_people(self, organization_id=None, updated_since=None):
         """
         Fetch all people (volunteers) who are affiliated with the organization.
@@ -372,16 +333,3 @@ class MobilizeAmerica(object):
                                            args={'updated_since': iso_to_unix(updated_since)},
                                            auth=True))
 
-    # NOT IMPLEMENTED
-    # def attendances_person(self):
-        """
-        Fetches all attendances that are either for that person with that organization,
-        or are for public events and were created after the affiliation between the
-        person and the organization began.
-
-        ** API Key Required **
-
-        **NOT IMPLEMENTED**
-        """
-
-    #    pass

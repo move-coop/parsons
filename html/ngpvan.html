@@ -215,7 +215,7 @@ additional details and information.</p>
 <dt>API Keys</dt>
 <dd><ul class="first last simple">
 <li>API Keys are specific to each committee and state, so you might need many.</li>
-<li>Not all API Keys are provisioned for all end points. When requesting API keys, you should specify the endpoints that you need access to.</li>
+<li>Not all API Keys are provisioned for all endpoints. When requesting API keys, you should specify the endpoints that you need access to.</li>
 </ul>
 </dd>
 </dl>
@@ -236,7 +236,7 @@ those of the SmartVAN or VoteBuilder.</dd>
 <p>To call the VAN class you can either store the api key as an environmental variable VAN_API_KEY or pass it in as an argument..</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">parsons</span> <span class="kn">import</span> <span class="n">VAN</span>
 
- <span class="n">van</span> <span class="o">=</span> <span class="n">VAN</span><span class="p">(</span><span class="n">db</span><span class="o">=</span><span class="s1">&#39;MyVoters&#39;</span><span class="p">)</span> <span class="c1"># Initiate class via environmental variable api key</span>
+ <span class="n">van</span> <span class="o">=</span> <span class="n">VAN</span><span class="p">(</span><span class="n">db</span><span class="o">=</span><span class="s1">&#39;MyVoters&#39;</span><span class="p">)</span> <span class="c1"># Specify the DB type and pass api key via environmental variable.</span>
 
  <span class="n">van</span> <span class="o">=</span> <span class="n">VAN</span><span class="p">(</span><span class="n">api_key</span><span class="o">=</span><span class="s1">&#39;asdfa-sdfadsf-adsfasdf&#39;</span><span class="p">,</span><span class="n">db</span><span class="o">=</span><span class="s1">&#39;MyVoters&#39;</span><span class="p">)</span> <span class="c1"># Pass api key directly</span>
 </pre></div>
@@ -244,7 +244,7 @@ those of the SmartVAN or VoteBuilder.</dd>
 <p>You can then call various endpoints:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">parsons</span> <span class="kn">import</span> <span class="n">VAN</span>
 
- <span class="n">van</span> <span class="o">=</span> <span class="n">VAN</span><span class="p">()</span>
+ <span class="n">van</span> <span class="o">=</span> <span class="n">VAN</span><span class="p">(</span><span class="n">db</span><span class="o">=</span><span class="s1">&#39;MyVoters&#39;</span><span class="p">)</span>
 
  <span class="c1"># List events with a date filter</span>
  <span class="n">events</span> <span class="o">=</span> <span class="n">van</span><span class="o">.</span><span class="n">get_events</span><span class="p">(</span><span class="n">starting_before</span><span class="o">=</span><span class="s1">&#39;2018-02-01&#39;</span><span class="p">)</span>
@@ -290,20 +290,21 @@ documentation for all functions.</p>
 <span class="n">job_id</span> <span class="o">=</span> <span class="n">van</span><span class="o">.</span><span class="n">upload_scores</span><span class="p">(</span><span class="n">tbl</span><span class="p">,</span> <span class="n">config</span><span class="p">,</span> <span class="n">url_type</span><span class="o">=</span><span class="s1">&#39;S3&#39;</span><span class="p">,</span> <span class="n">email</span><span class="o">=</span><span class="s1">&#39;info@tmc.org&#39;</span><span class="p">,</span> <span class="n">bucket</span><span class="o">=</span><span class="s1">&#39;tmc-fake&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
-<p><strong>Standard Load Requiring Approval</strong>
-.. code-block:: python</p>
-<blockquote>
-<div><p>from parsons import VAN</p>
-<p>van = VAN(db=’MyVoters’) # API key stored as an environmental variable
-config = [{‘id’: 3421, ‘column’: ‘winning_model’}]</p>
-<p># Note that auto_approve is set to False. This means that you need to manually approve
-# the job once it is loaded.
-job_id = van.upload_scores(tbl, config, url_type=’S3’, <a class="reference external" href="mailto:email='info&#37;&#52;&#48;tmc&#46;org">email=’info<span>&#64;</span>tmc<span>&#46;</span>org</a>’,</p>
-<blockquote>
-<div>bucket=’tmc-fake’, auto_approve=False)</div></blockquote>
-<p># Approve the job
-van.score_update_status(job_id,’approved’)</p>
-</div></blockquote>
+<p><strong>Standard Load Requiring Approval</strong></p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">parsons</span> <span class="kn">import</span> <span class="n">VAN</span>
+
+<span class="n">van</span> <span class="o">=</span> <span class="n">VAN</span><span class="p">(</span><span class="n">db</span><span class="o">=</span><span class="s1">&#39;MyVoters&#39;</span><span class="p">)</span> <span class="c1"># API key stored as an environmental variable</span>
+<span class="n">config</span> <span class="o">=</span> <span class="p">[{</span><span class="s1">&#39;id&#39;</span><span class="p">:</span> <span class="mi">3421</span><span class="p">,</span> <span class="s1">&#39;column&#39;</span><span class="p">:</span> <span class="s1">&#39;winning_model&#39;</span><span class="p">}]</span>
+
+<span class="c1"># Note that auto_approve is set to False. This means that you need to manually approve</span>
+<span class="c1"># the job once it is loaded.</span>
+<span class="n">job_id</span> <span class="o">=</span> <span class="n">van</span><span class="o">.</span><span class="n">upload_scores</span><span class="p">(</span><span class="n">tbl</span><span class="p">,</span> <span class="n">config</span><span class="p">,</span> <span class="n">url_type</span><span class="o">=</span><span class="s1">&#39;S3&#39;</span><span class="p">,</span> <span class="n">email</span><span class="o">=</span><span class="s1">&#39;info@tmc.org&#39;</span><span class="p">,</span>
+                           <span class="n">bucket</span><span class="o">=</span><span class="s1">&#39;tmc-fake&#39;</span><span class="p">,</span> <span class="n">auto_approve</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+
+<span class="c1"># Approve the job</span>
+<span class="n">van</span><span class="o">.</span><span class="n">score_update_status</span><span class="p">(</span><span class="n">job_id</span><span class="p">,</span><span class="s1">&#39;approved&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
 </div>
 <div class="section" id="people-add-survey-response">
 <h3>People: Add Survey Response<a class="headerlink" href="#people-add-survey-response" title="Permalink to this headline">¶</a></h3>

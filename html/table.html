@@ -1379,25 +1379,25 @@ set to column name.</dd>
 <code class="descname">select_rows</code><span class="sig-paren">(</span><em>*filters</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/etl/etl.html#ETL.select_rows"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.etl.etl.ETL.select_rows" title="Permalink to this definition">¶</a></dt>
 <dd><p>Select specific rows from a Parsons table based on the passed
 filters.</p>
-<p>Example filters:
-.. code-block:: python</p>
-<blockquote>
-<div><dl class="docutils">
-<dt>tbl = Table([[‘foo’, ‘bar’, ‘baz’],</dt>
-<dd>[‘c’, 4, 9.3],
-[‘a’, 2, 88.2],
-[‘b’, 1, 23.3],])</dd>
-</dl>
-<p># You can structure the filter in multiple wayss</p>
-<p># Lambda Function
-tbl2 = tbl.select_rows(lambda row: row.foo == ‘a’ and row.baz &gt; 88.1)
-tbl2
-&gt;&gt;&gt; {foo: ‘a’, ‘bar’: 2, ‘baz’: 88.1}</p>
-<p># Expression String
-tbl3 = tbl.select_rows(“{foo} == ‘a’ and {baz} &gt; 88.1”)
-tbl3
-&gt;&gt;&gt; {foo: ‘a’, ‘bar’: 2, ‘baz’: 88.1}</p>
-</div></blockquote>
+<p>Example filters:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">tbl</span> <span class="o">=</span> <span class="n">Table</span><span class="p">([[</span><span class="s1">&#39;foo&#39;</span><span class="p">,</span> <span class="s1">&#39;bar&#39;</span><span class="p">,</span> <span class="s1">&#39;baz&#39;</span><span class="p">],</span>
+             <span class="p">[</span><span class="s1">&#39;c&#39;</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mf">9.3</span><span class="p">],</span>
+             <span class="p">[</span><span class="s1">&#39;a&#39;</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mf">88.2</span><span class="p">],</span>
+             <span class="p">[</span><span class="s1">&#39;b&#39;</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mf">23.3</span><span class="p">],])</span>
+
+<span class="c1"># You can structure the filter in multiple wayss</span>
+
+<span class="c1"># Lambda Function</span>
+<span class="n">tbl2</span> <span class="o">=</span> <span class="n">tbl</span><span class="o">.</span><span class="n">select_rows</span><span class="p">(</span><span class="k">lambda</span> <span class="n">row</span><span class="p">:</span> <span class="n">row</span><span class="o">.</span><span class="n">foo</span> <span class="o">==</span> <span class="s1">&#39;a&#39;</span> <span class="ow">and</span> <span class="n">row</span><span class="o">.</span><span class="n">baz</span> <span class="o">&gt;</span> <span class="mf">88.1</span><span class="p">)</span>
+<span class="n">tbl2</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="p">{</span><span class="n">foo</span><span class="p">:</span> <span class="s1">&#39;a&#39;</span><span class="p">,</span> <span class="s1">&#39;bar&#39;</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span> <span class="s1">&#39;baz&#39;</span><span class="p">:</span> <span class="mf">88.1</span><span class="p">}</span>
+
+<span class="c1"># Expression String</span>
+<span class="n">tbl3</span> <span class="o">=</span> <span class="n">tbl</span><span class="o">.</span><span class="n">select_rows</span><span class="p">(</span><span class="s2">&quot;{foo} == &#39;a&#39; and {baz} &gt; 88.1&quot;</span><span class="p">)</span>
+<span class="n">tbl3</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="p">{</span><span class="n">foo</span><span class="p">:</span> <span class="s1">&#39;a&#39;</span><span class="p">,</span> <span class="s1">&#39;bar&#39;</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span> <span class="s1">&#39;baz&#39;</span><span class="p">:</span> <span class="mf">88.1</span><span class="p">}</span>
+</pre></div>
+</div>
 <dl class="docutils">
 <dt><cite>Args:</cite></dt>
 <dd>*filters: function or str</dd>
@@ -1532,7 +1532,7 @@ value of None), ‘ignore’ them, or ‘fail’ (raising an error).</dd>
 <dt id="parsons.etl.etl.ETL.reduce_rows">
 <code class="descname">reduce_rows</code><span class="sig-paren">(</span><em>columns</em>, <em>reduce_func</em>, <em>headers</em>, <em>presorted=False</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/etl/etl.html#ETL.reduce_rows"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.etl.etl.ETL.reduce_rows" title="Permalink to this definition">¶</a></dt>
 <dd><p>Group rows by a column or columns, then reduce the groups to a single row.</p>
-<p>Based on the <cite>rowreduce</cite> petl function - <a class="reference external" href="https://petl.readthedocs.io/en/stable/transform.html#petl.transform.reductions.rowreduce">https://petl.readthedocs.io/en/stable/transform.html#petl.transform.reductions.rowreduce</a> # noqa</p>
+<p>Based on the <a class="reference external" href="https://petl.readthedocs.io/en/stable/transform.html#petl.transform.reductions.rowreduce">rowreduce petl function</a>.</p>
 <p>For example, the output from the query to get a table’s definition is
 returned as one component per row. The <cite>reduce_rows</cite> method can be used
 to reduce all those to a single row containg the entire query.</p>

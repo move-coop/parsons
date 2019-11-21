@@ -263,8 +263,6 @@
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Return all active organizations on the platform.</span>
 
-<span class="sd">        ** Public end point **</span>
-
 <span class="sd">        `Args:`</span>
 <span class="sd">            updated_since: str</span>
 <span class="sd">                Filter to organizations updated since given date (ISO Date)</span>
@@ -276,35 +274,10 @@
         <span class="k">return</span> <span class="n">Table</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">request_paginate</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">uri</span> <span class="o">+</span> <span class="s1">&#39;organizations&#39;</span><span class="p">,</span>
                                            <span class="n">args</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;updated_since&#39;</span><span class="p">:</span> <span class="n">iso_to_unix</span><span class="p">(</span><span class="n">updated_since</span><span class="p">)}))</span></div>
 
-<div class="viewcode-block" id="MobilizeAmerica.get_organizations_promoted"><a class="viewcode-back" href="../../../mobilize_america.html#parsons.MobilizeAmerica.get_organizations_promoted">[docs]</a>    <span class="k">def</span> <span class="nf">get_organizations_promoted</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">organization_id</span><span class="p">,</span> <span class="n">updated_since</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Fetches a list of all the organizations that an organization has promoted.</span>
-<span class="sd">        This endpoint is accessible only to members of the promoting organization.</span>
-
-<span class="sd">        **API Key Required**</span>
-
-<span class="sd">        **NOT IMPLEMENTED**</span>
-
-<span class="sd">        `Args:`</span>
-<span class="sd">            organization_id: int</span>
-<span class="sd">                The organization id</span>
-<span class="sd">        `Args:`</span>
-<span class="sd">            updated_since: str</span>
-<span class="sd">                Filter to organizations updated since given date (ISO Date)</span>
-<span class="sd">        `Returns`</span>
-<span class="sd">            Parsons Table</span>
-<span class="sd">                See :ref:`parsons-table` for output options.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-
-        <span class="c1"># Need a private key</span>
-        <span class="k">pass</span></div>
-
 <div class="viewcode-block" id="MobilizeAmerica.get_events"><a class="viewcode-back" href="../../../mobilize_america.html#parsons.MobilizeAmerica.get_events">[docs]</a>    <span class="k">def</span> <span class="nf">get_events</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">organization_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">updated_since</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">timeslot_start</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
                    <span class="n">timeslot_end</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">timeslots_table</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">max_timeslots</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Fetch all public events on the platform.</span>
-
-<span class="sd">        **Public end point**</span>
 
 <span class="sd">        `Args:`</span>
 <span class="sd">            organization_id: list or int</span>
@@ -376,7 +349,8 @@
 <span class="sd">        by the organization (as indicated by the organization field on the event object)</span>
 <span class="sd">        and events of other organizations promoted by this specified organization.</span>
 
-<span class="sd">        **API Key Required**</span>
+<span class="sd">        .. note::</span>
+<span class="sd">            API Key Required</span>
 
 <span class="sd">        `Args:`</span>
 <span class="sd">            organization_id: list or int</span>
@@ -430,7 +404,6 @@
 <span class="sd">                See :ref:`parsons-table` for output options.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
-        <span class="c1"># Requires API Key</span>
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">organization_id</span><span class="p">,</span> <span class="p">(</span><span class="nb">str</span><span class="p">,</span> <span class="nb">int</span><span class="p">)):</span>
             <span class="n">organization_id</span> <span class="o">=</span> <span class="p">[</span><span class="n">organization_id</span><span class="p">]</span>
 
@@ -467,8 +440,6 @@
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Fetch deleted public events on the platform.</span>
 
-<span class="sd">        ** Public end point **</span>
-
 <span class="sd">        `Args:`</span>
 <span class="sd">            organization_id: list or int</span>
 <span class="sd">                Filter events by a single or multiple organization ids</span>
@@ -487,27 +458,12 @@
 
         <span class="k">return</span> <span class="n">Table</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">request_paginate</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">uri</span> <span class="o">+</span> <span class="s1">&#39;events/deleted&#39;</span><span class="p">,</span> <span class="n">args</span><span class="o">=</span><span class="n">args</span><span class="p">))</span></div>
 
-<div class="viewcode-block" id="MobilizeAmerica.get_events_organization_deleted"><a class="viewcode-back" href="../../../mobilize_america.html#parsons.MobilizeAmerica.get_events_organization_deleted">[docs]</a>    <span class="k">def</span> <span class="nf">get_events_organization_deleted</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">updated_since</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Fetch all deleted public events for an organization. This includes both</span>
-<span class="sd">        events owned by the organization (as indicated by the organization field</span>
-<span class="sd">        on the event object) and events of other organizations promoted by</span>
-<span class="sd">        this specified organization.</span>
-
-<span class="sd">        ** API Key Required **</span>
-
-<span class="sd">        ** NOT IMPLEMENTED **</span>
-
-<span class="sd">        &quot;&quot;&quot;</span>
-
-        <span class="c1"># Requires API Key</span>
-        <span class="k">pass</span></div>
-
 <div class="viewcode-block" id="MobilizeAmerica.get_people"><a class="viewcode-back" href="../../../mobilize_america.html#parsons.MobilizeAmerica.get_people">[docs]</a>    <span class="k">def</span> <span class="nf">get_people</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">organization_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">updated_since</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Fetch all people (volunteers) who are affiliated with the organization.</span>
 
-<span class="sd">        ** API Key Required **</span>
+<span class="sd">        .. note::</span>
+<span class="sd">            API Key Required</span>
 
 <span class="sd">        `Args:`</span>
 <span class="sd">            organization_id: list of int</span>
@@ -530,7 +486,8 @@
 <span class="sd">        Fetch all attendances which were either promoted by the organization or</span>
 <span class="sd">        were for events owned by the organization.</span>
 
-<span class="sd">        ** API Key Required **</span>
+<span class="sd">        .. note::</span>
+<span class="sd">            API Key Required</span>
 
 <span class="sd">        `Args:`</span>
 <span class="sd">            organization_id: list of int</span>
@@ -546,20 +503,7 @@
 
         <span class="k">return</span> <span class="n">Table</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">request_paginate</span><span class="p">(</span><span class="n">url</span><span class="p">,</span>
                                            <span class="n">args</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;updated_since&#39;</span><span class="p">:</span> <span class="n">iso_to_unix</span><span class="p">(</span><span class="n">updated_since</span><span class="p">)},</span>
-                                           <span class="n">auth</span><span class="o">=</span><span class="kc">True</span><span class="p">))</span></div>
-
-<div class="viewcode-block" id="MobilizeAmerica.attendances_person"><a class="viewcode-back" href="../../../mobilize_america.html#parsons.MobilizeAmerica.attendances_person">[docs]</a>    <span class="k">def</span> <span class="nf">attendances_person</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Fetches all attendances that are either for that person with that organization,</span>
-<span class="sd">        or are for public events and were created after the affiliation between the</span>
-<span class="sd">        person and the organization began.</span>
-
-<span class="sd">        ** API Key Required **</span>
-
-<span class="sd">        **NOT IMPLEMENTED**</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-
-        <span class="k">pass</span></div></div>
+                                           <span class="n">auth</span><span class="o">=</span><span class="kc">True</span><span class="p">))</span></div></div>
 </pre></div>
 
            </div>

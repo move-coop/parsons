@@ -760,7 +760,9 @@
 <span class="sd">        filters.</span>
 
 <span class="sd">        Example filters:</span>
+
 <span class="sd">        .. code-block:: python</span>
+
 <span class="sd">            tbl = Table([[&#39;foo&#39;, &#39;bar&#39;, &#39;baz&#39;],</span>
 <span class="sd">                         [&#39;c&#39;, 4, 9.3],</span>
 <span class="sd">                         [&#39;a&#39;, 2, 88.2],</span>
@@ -988,7 +990,7 @@
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Group rows by a column or columns, then reduce the groups to a single row.</span>
 
-<span class="sd">        Based on the `rowreduce` petl function - https://petl.readthedocs.io/en/stable/transform.html#petl.transform.reductions.rowreduce # noqa</span>
+<span class="sd">        Based on the `rowreduce petl function &lt;https://petl.readthedocs.io/en/stable/transform.html#petl.transform.reductions.rowreduce&gt;`_.</span>
 
 <span class="sd">        For example, the output from the query to get a table&#39;s definition is</span>
 <span class="sd">        returned as one component per row. The `reduce_rows` method can be used</span>
@@ -1050,7 +1052,7 @@
 <span class="sd">        `Returns:`</span>
 <span class="sd">            `Parsons Table` and also updates self</span>
 
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        &quot;&quot;&quot;</span> <span class="c1"># noqa: E501,E261</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">table</span> <span class="o">=</span> <span class="n">petl</span><span class="o">.</span><span class="n">rowreduce</span><span class="p">(</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">table</span><span class="p">,</span>

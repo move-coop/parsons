@@ -180,10 +180,12 @@ allows you to interact with the tool by leveraging their <a class="reference ext
 in alpha development.</p>
 <div class="admonition note">
 <p class="first admonition-title">Note</p>
-<p class="last">Public vs. Private Methods
-Some of the methods require API keys to be furnished by Mobilize America while other end points are publicly
+<dl class="last docutils">
+<dt>Public vs. Private Methods</dt>
+<dd>Some of the methods require API keys to be furnished by Mobilize America while other end points are publicly
 accessible and do not require authentication. Each method contains a note indicating whether it is public
-or private.</p>
+or private.</dd>
+</dl>
 </div>
 <dl class="class">
 <dt id="parsons.MobilizeAmerica">
@@ -199,37 +201,7 @@ or private.</p>
 <dt id="parsons.MobilizeAmerica.get_organizations">
 <code class="descname">get_organizations</code><span class="sig-paren">(</span><em>updated_since=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/mobilize_america/ma.html#MobilizeAmerica.get_organizations"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.MobilizeAmerica.get_organizations" title="Permalink to this definition">¶</a></dt>
 <dd><p>Return all active organizations on the platform.</p>
-<p>** Public end point **</p>
 <dl class="docutils">
-<dt><cite>Args:</cite></dt>
-<dd><dl class="first last docutils">
-<dt>updated_since: str</dt>
-<dd>Filter to organizations updated since given date (ISO Date)</dd>
-</dl>
-</dd>
-<dt><cite>Returns</cite></dt>
-<dd><dl class="first last docutils">
-<dt>Parsons Table</dt>
-<dd>See <a class="reference internal" href="table.html#parsons-table"><span class="std std-ref">Parsons Table</span></a> for output options.</dd>
-</dl>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="method">
-<dt id="parsons.MobilizeAmerica.get_organizations_promoted">
-<code class="descname">get_organizations_promoted</code><span class="sig-paren">(</span><em>organization_id</em>, <em>updated_since=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/mobilize_america/ma.html#MobilizeAmerica.get_organizations_promoted"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.MobilizeAmerica.get_organizations_promoted" title="Permalink to this definition">¶</a></dt>
-<dd><p>Fetches a list of all the organizations that an organization has promoted.
-This endpoint is accessible only to members of the promoting organization.</p>
-<p><strong>API Key Required</strong></p>
-<p><strong>NOT IMPLEMENTED</strong></p>
-<dl class="docutils">
-<dt><cite>Args:</cite></dt>
-<dd><dl class="first last docutils">
-<dt>organization_id: int</dt>
-<dd>The organization id</dd>
-</dl>
-</dd>
 <dt><cite>Args:</cite></dt>
 <dd><dl class="first last docutils">
 <dt>updated_since: str</dt>
@@ -249,7 +221,6 @@ This endpoint is accessible only to members of the promoting organization.</p>
 <dt id="parsons.MobilizeAmerica.get_events">
 <code class="descname">get_events</code><span class="sig-paren">(</span><em>organization_id=None</em>, <em>updated_since=None</em>, <em>timeslot_start=None</em>, <em>timeslot_end=None</em>, <em>timeslots_table=False</em>, <em>max_timeslots=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/mobilize_america/ma.html#MobilizeAmerica.get_events"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.MobilizeAmerica.get_events" title="Permalink to this definition">¶</a></dt>
 <dd><p>Fetch all public events on the platform.</p>
-<p><strong>Public end point</strong></p>
 <dl class="docutils">
 <dt><cite>Args:</cite></dt>
 <dd><dl class="first last docutils">
@@ -294,7 +265,10 @@ running and want to ensure that the column headers remain static.</p>
 <dd><p>Fetch all public events for an organization. This includes both events owned
 by the organization (as indicated by the organization field on the event object)
 and events of other organizations promoted by this specified organization.</p>
-<p><strong>API Key Required</strong></p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">API Key Required</p>
+</div>
 <dl class="docutils">
 <dt><cite>Args:</cite></dt>
 <dd><dl class="first last docutils">
@@ -357,7 +331,6 @@ running and want to ensure that the column headers remain static.</p>
 <dt id="parsons.MobilizeAmerica.get_events_deleted">
 <code class="descname">get_events_deleted</code><span class="sig-paren">(</span><em>organization_id=None</em>, <em>updated_since=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/mobilize_america/ma.html#MobilizeAmerica.get_events_deleted"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.MobilizeAmerica.get_events_deleted" title="Permalink to this definition">¶</a></dt>
 <dd><p>Fetch deleted public events on the platform.</p>
-<p>** Public end point **</p>
 <dl class="docutils">
 <dt><cite>Args:</cite></dt>
 <dd><dl class="first last docutils">
@@ -377,21 +350,13 @@ running and want to ensure that the column headers remain static.</p>
 </dd></dl>
 
 <dl class="method">
-<dt id="parsons.MobilizeAmerica.get_events_organization_deleted">
-<code class="descname">get_events_organization_deleted</code><span class="sig-paren">(</span><em>updated_since=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/mobilize_america/ma.html#MobilizeAmerica.get_events_organization_deleted"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.MobilizeAmerica.get_events_organization_deleted" title="Permalink to this definition">¶</a></dt>
-<dd><p>Fetch all deleted public events for an organization. This includes both
-events owned by the organization (as indicated by the organization field
-on the event object) and events of other organizations promoted by
-this specified organization.</p>
-<p>** API Key Required **</p>
-<p>** NOT IMPLEMENTED **</p>
-</dd></dl>
-
-<dl class="method">
 <dt id="parsons.MobilizeAmerica.get_people">
 <code class="descname">get_people</code><span class="sig-paren">(</span><em>organization_id=None</em>, <em>updated_since=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/mobilize_america/ma.html#MobilizeAmerica.get_people"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.MobilizeAmerica.get_people" title="Permalink to this definition">¶</a></dt>
 <dd><p>Fetch all people (volunteers) who are affiliated with the organization.</p>
-<p>** API Key Required **</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">API Key Required</p>
+</div>
 <dl class="docutils">
 <dt><cite>Args:</cite></dt>
 <dd><dl class="first last docutils">
@@ -415,7 +380,10 @@ this specified organization.</p>
 <code class="descname">get_attendances</code><span class="sig-paren">(</span><em>organization_id=None</em>, <em>updated_since=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/mobilize_america/ma.html#MobilizeAmerica.get_attendances"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.MobilizeAmerica.get_attendances" title="Permalink to this definition">¶</a></dt>
 <dd><p>Fetch all attendances which were either promoted by the organization or
 were for events owned by the organization.</p>
-<p>** API Key Required **</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">API Key Required</p>
+</div>
 <dl class="docutils">
 <dt><cite>Args:</cite></dt>
 <dd><dl class="first last docutils">
@@ -432,16 +400,6 @@ were for events owned by the organization.</p>
 </dl>
 </dd>
 </dl>
-</dd></dl>
-
-<dl class="method">
-<dt id="parsons.MobilizeAmerica.attendances_person">
-<code class="descname">attendances_person</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/mobilize_america/ma.html#MobilizeAmerica.attendances_person"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.MobilizeAmerica.attendances_person" title="Permalink to this definition">¶</a></dt>
-<dd><p>Fetches all attendances that are either for that person with that organization,
-or are for public events and were created after the affiliation between the
-person and the organization began.</p>
-<p>** API Key Required **</p>
-<p><strong>NOT IMPLEMENTED</strong></p>
 </dd></dl>
 
 </dd></dl>

@@ -13,7 +13,7 @@ additional details and information.
 .. note::
    API Keys
       - API Keys are specific to each committee and state, so you might need many.
-      - Not all API Keys are provisioned for all end points. When requesting API keys, you should specify the endpoints that you need access to.
+      - Not all API Keys are provisioned for all endpoints. When requesting API keys, you should specify the endpoints that you need access to.
 
 .. warning::
    VANIDs
@@ -33,7 +33,7 @@ To call the VAN class you can either store the api key as an environmental varia
 
   from parsons import VAN
 
-   van = VAN(db='MyVoters') # Initiate class via environmental variable api key
+   van = VAN(db='MyVoters') # Specify the DB type and pass api key via environmental variable.
 
    van = VAN(api_key='asdfa-sdfadsf-adsfasdf',db='MyVoters') # Pass api key directly
 
@@ -43,7 +43,7 @@ You can then call various endpoints:
 
   from parsons import VAN
 
-   van = VAN()
+   van = VAN(db='MyVoters')
 
    # List events with a date filter
    events = van.get_events(starting_before='2018-02-01')
@@ -96,6 +96,7 @@ Loading a score is a multi-step process. Once a score is set to approved, loadin
    job_id = van.upload_scores(tbl, config, url_type='S3', email='info@tmc.org', bucket='tmc-fake')
 
 **Standard Load Requiring Approval**
+
 .. code-block:: python
 
    from parsons import VAN

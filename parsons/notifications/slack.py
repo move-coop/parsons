@@ -1,5 +1,6 @@
 from parsons import Table
 from slackclient import SlackClient
+from slackclient.exceptions import SlackClientError
 import os
 
 
@@ -106,6 +107,9 @@ class Slack(object):
         resp = self.client.api_call(
             "chat.postMessage", channel=channel, text=text, as_user=as_user)
 
+        if not resp['ok']:
+            raise SlackClientError(resp['error'])
+
         return resp
 
     def upload_file(self, channels, filename, filetype=None,
@@ -141,6 +145,9 @@ class Slack(object):
                 filetype=filetype, initial_comment=initial_comment,
                 title=title)
 
+        if not resp['ok']:
+            raise SlackClientError(resp['error'])
+
         return resp
 
     def _paginate_request(self, endpoint, collection, **kwargs):
@@ -152,13 +159,16 @@ class Slack(object):
         next_page = True
         cursor = None
         while next_page:
-            users = self.client.api_call(
+            resp = self.client.api_call(
                 endpoint, cursor=cursor, limit=LIMIT, **kwargs)
 
-            items.extend(users[collection])
+            if not resp['ok']:
+                raise SlackClientError(resp['error'])
 
-            if users["response_metadata"]["next_cursor"]:
-                cursor = users["response_metadata"]["next_cursor"]
+            items.extend(resp[collection])
+
+            if resp["response_metadata"]["next_cursor"]:
+                cursor = resp["response_metadata"]["next_cursor"]
             else:
                 next_page = False
 

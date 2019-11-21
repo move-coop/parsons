@@ -549,8 +549,12 @@ class TestRedshiftDB(unittest.TestCase):
 
         # id smallint,name varchar(5)
         expected_cols = {
-            'id':   {'data_type': 'smallint', 'max_length': 16, 'is_nullable': True},
-            'name': {'data_type': 'character varying', 'max_length': 5, 'is_nullable': True},
+            'id':   {
+                'data_type': 'smallint', 'max_length': 16,
+                'max_precision': None, 'max_scale': None, 'is_nullable': True},
+            'name': {
+                'data_type': 'character varying', 'max_length': 5,
+                'max_precision': None, 'max_scale': None, 'is_nullable': True},
         }
 
         self.assertEqual(cols, expected_cols)

@@ -1,21 +1,21 @@
 VAN
 ==========
- 
+
 
 ********
 Overview
 ********
 
-The VAN module leverages the VAN API and generally follows the naming convention of their API endpoints. It 
+The VAN module leverages the VAN API and generally follows the naming convention of their API endpoints. It
 is recommended that you reference their `API documentation <https://developers.ngpvan.com/van-api#van>`_ to
 additional details and information.
 
-.. note:: 
+.. note::
    API Keys
       - API Keys are specific to each committee and state, so you might need many.
       - Not all API Keys are provisioned for all end points. When requesting API keys, you should specify the endpoints that you need access to.
 
-.. warning:: 
+.. warning::
    VANIDs
       VANIDs are unique to each state and instance of the VAN. VANIDs used for the AV VAN **will not** match
       those of the SmartVAN or VoteBuilder.
@@ -51,8 +51,8 @@ You can then call various endpoints:
    # List all folders shared with API Key User
    folders = van.get_folders()
 
-   # Return a dataframe rather than a list of dicts
-   saved_lists = van.get_saved_lists().to_dataframe()
+   # Return to a Redshift database
+   saved_lists = van.get_saved_lists().to_redshift('van.my_saved_lists')
 
 This a is just a small sampling of all of the VAN endpoints that you can leverage. We recommend reviewing the
 documentation for all functions.
@@ -61,59 +61,71 @@ documentation for all functions.
 Common Workflows
 ****************
 
-===========================
-Score: Loading and Updating
-===========================
+============================
+Scores: Loading and Updating
+============================
 
-Loading a score a multi-step process. Once a score is set to approved, loading takes place
-overnight. 
+Loading a score is a multi-step process. Once a score is set to approved, loading takes place overnight.
+
+**Standard Auto Approve Load**
 
 .. code-block:: python
 
    from parsons import VAN
+   van = VAN(db='MyVoters') # API key stored as an environmental variable
 
-   #Instatiate Class
-   van = VAN(db="MyVoters")
+   # If you don't know the id, you can run van.get_scores() to list the
+   # slots that are available and their associated score ids.
+   score_id = 9999
 
-   #List all of the scores / slots
-   print json.dumps(van.get_scores(), indent=4)
+   # Load the Parsons table with the scores. The first column of the table
+   # must be the person id (e.g. VANID). You could create this from Redshift or
+   # another source.
+   tbl = Table.from_csv('winning_scores.csv')
 
-   #Input the score slot id
-   score_slot_id = 34115
+   # Specify the score id slot and the column name for each score.
+   config = [{'id': score_id, 'column': 'winning_model'}]
 
-   #Load the file via the file to VAN
-   r = van.file_load('score.csv',
-                 'https://box.com/scores.zip',
-                 ['vanid','myscore'],
-                 'vanid',
-                 'VANID',
-                  score_slot_id,
-                  'myscore',  
-                  email='anemailaddress@gmail.com')
+   # If you have multiple models in the same file, you can load them all at the same time.
+   # In fact, VAN recommends that you do so to reduce their server loads.
+   config = [{'id': 5555, 'column': 'score1'}, {'id': 5556, 'column': 'score2'}]
 
+   # The score file must posted to the internet. This configuration uses S3 to do so. In this
+   # example, your S3 keys are stored as environmental variables. If not, you can pass them
+   # as arguments.
+   job_id = van.upload_scores(tbl, config, url_type='S3', email='info@tmc.org', bucket='tmc-fake')
 
-   # Update Status - The email that you get when it is loaded will include a score update
-   # id. Pass this to approve the score to be loaded.
-   #   - Might take a few minutes to get the email
-   #   - Email will also include some nice stats to QC, included matched rows
+**Standard Load Requiring Approval**
+.. code-block:: python
 
-   van.score_update_status(47187,'approved') # Pass the score update id and set to approved
+   from parsons import VAN
+
+   van = VAN(db='MyVoters') # API key stored as an environmental variable
+   config = [{'id': 3421, 'column': 'winning_model'}]
+
+   # Note that auto_approve is set to False. This means that you need to manually approve
+   # the job once it is loaded.
+   job_id = van.upload_scores(tbl, config, url_type='S3', email='info@tmc.org',
+                              bucket='tmc-fake', auto_approve=False)
+
+   # Approve the job
+   van.score_update_status(job_id,'approved')
 
 ===========================
 People: Add Survey Response
 ===========================
-The following workflow can be used to apply survey questions, activist codes 
-and canvass reponses.
+The following workflow can be used to apply survey questions, activist codes
+and canvass responses.
 
 .. code-block:: python
 
    from parsons import VAN
 
-   # Instatiate Class
+   # Instantiate Class
    van = VAN(db="MyVoters")
 
    van_id = 13242
-   sq = 311838 # Valid survey question id 
+   sq = 311838 # Valid survey question id
    sr = 1288926 # Valid survey response id
    ct = 36 # Valid contact type id
    it = 4 # Valid input type id
@@ -132,7 +144,7 @@ Events are made up of sub objects that need to exist to create an event
   in the VAN UI and can be reused for multiple events.
 * Locations - An event can have multiple locations. While not required to initially create an
   event, these are required to add signups to an event.
-* Roles - The various roles that a person can have at an event, such as ``Lead`` or 
+* Roles - The various roles that a person can have at an event, such as ``Lead`` or
   ``Canvasser``. These are set as part of the event type.
 * Shifts - Each event can have multiple shits in which a person can be assigned. These are
   specified in the event creation.
@@ -141,12 +153,12 @@ Events are made up of sub objects that need to exist to create an event
 
   from parsons import VAN
 
-  # Instatiate class
+  # Instantiate class
   van = VAN(db="EveryAction")
 
   # Create A Location
   loc_id = van.location(name='Big `Ol Canvass', address='100 W Washington', city='Chicago', state='IL')
- 
+
   # Create Event
   name = 'GOTV Canvass' # Name of event
   short_name = 'GOTVCan' # Short name of event, 12 chars or less
@@ -156,11 +168,11 @@ Events are made up of sub objects that need to exist to create an event
   roles = [259236] # A list of valid role ids
   location_ids = [loc_id] # An optional list of locations ids for the event
   description = 'CPD Super Volunteers Canvass' # Optional description of 200 chars or less
-  shifts = [{'name': 'Shift 1', 
-             'start_time': '2018-11-01T15:00:00', 
+  shifts = [{'name': 'Shift 1',
+             'start_time': '2018-11-01T15:00:00',
              'end_time': '2018-11-11T17:00:00'}] # Shifts must fall within event start/end time.
 
-  new_event = van.event_create(name, short_name, start_time, end_time, event_type_id, roles, 
+  new_event = van.event_create(name, short_name, start_time, end_time, event_type_id, roles,
                                location_ids=location_ids, shifts=shifts, description=description)
 
 
@@ -172,7 +184,7 @@ Signup: Adding and Modifying
 
   from parsons import VAN
 
-  # Instatiate class
+  # Instantiate class
   van = VAN(db="EveryAction")
 
   # Create a new signup
@@ -262,7 +274,7 @@ Supporter Groups
 ***********
 Saved Lists
 ***********
-.. note:: 
+.. note::
    A saved list must be shared with the user associated with your API key to
    be listed.
 
@@ -272,7 +284,7 @@ Saved Lists
 *******
 Folders
 *******
-.. note:: 
+.. note::
    A folder must be shared with the user associated with your API key to
    be listed.
 
@@ -291,21 +303,15 @@ Scores
 Prior to loading a score for the first time, you must contact VAN support to request
 a score slot.
 
-.. note:: 
+.. note::
   Score Auto Approval
-    Scores can be automatically set to ``approved`` through the file_load function allowing
-    you to skip calling the :meth:`file_load` function. To automatically approve scores,
-    if the average of the scores is within the fault tolerance specified by the user.It 
-    is only available to API keys with permission to automatically approve scores.
+    Scores can be automatically set to ``approved`` through the :meth:`VAN.upload_scores`
+    method allowing you to skip calling :meth:`VAN.update_score_status`, if the average of
+    the scores is within the fault tolerance specified by the user. It is only available
+    to API keys with permission to automatically approve scores.
 
 
 .. autoclass:: parsons.ngpvan.van.Scores
-   :inherited-members:
-
-*************
-Score Updates
-*************
-.. autoclass:: parsons.ngpvan.van.ScoreUpdates
    :inherited-members:
 
 *****************
@@ -313,7 +319,3 @@ File Loading Jobs
 *****************
 .. autoclass:: parsons.ngpvan.van.FileLoadingJobs
    :inherited-members:
-
-
-
-

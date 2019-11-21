@@ -480,6 +480,14 @@ class ToFrom(object):
             Parsons Table
                 See :ref:`parsons-table` for output options.
         """  # noqa: W605
+        remote_prefixes = ["http://", "https://", "ftp://", "s3://"]
+        if any(map(local_path.startswith, remote_prefixes)):
+            is_remote_file = True
+        else:
+            is_remote_file = False
+
+        if not is_remote_file and not files.has_data(local_path):
+            raise ValueError('CSV file is empty')
 
         return cls(petl.fromcsv(local_path, **csvargs))
 
@@ -580,9 +588,38 @@ class ToFrom(object):
         """
 
         from parsons import Redshift
-        rs = Redshift(
-            username=username, password=password, host=host, db=db, port=port)
+        rs = Redshift(username=username, password=password, host=host, db=db, port=port)
         return rs.query(query)
+
+    @classmethod
+    def from_s3_csv(cls, bucket, key, aws_access_key_id=None, aws_secret_access_key=None,
+                    **csvargs):
+        """
+        Create a ``parsons table`` from a key in an S3 bucket.
+
+        `Args:`
+            bucket: str
+                The S3 bucket.
+            key: str
+                The S3 key
+            aws_access_key_id: str
+                Required if not included as environmental variable.
+            aws_secret_access_key: str
+                Required if not included as environmental variable.
+            \**csvargs: kwargs
+                ``csv_reader`` optional arguments
+        `Returns:`
+            `parsons.Table` object
+        """  # noqa: W605
+
+        from parsons import S3
+        s3 = S3(aws_access_key_id, aws_secret_access_key)
+        file_obj = s3.get_file(bucket, key)
+
+        if files.compression_type_for_path(key) == 'zip':
+            file_obj = files.zip_archive.unzip_archive(file_obj)
+
+        return cls(petl.fromcsv(file_obj, **csvargs))
 
     @classmethod
     def from_dataframe(cls, dataframe, include_index=False):

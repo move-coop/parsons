@@ -14,8 +14,9 @@ class Events(object):
 
     def get_events(self, code_ids=None, event_type_ids=None, rep_event_id=None,
                    starting_after=None, starting_before=None, district_field=None,
-                   expand=['locations', 'codes', 'shifts', 'roles', 'notes',
-                           'onlineForms']):
+                   expand_fields=['locations', 'codes', 'shifts', 'roles', 'notes',
+                                  'financialProgram', 'ticketCategories',
+                                  'onlineForms']):
         """
         Get events.
 
@@ -32,17 +33,18 @@ class Events(object):
                 Events beginning before ``iso8601`` formatted date.
             district_field: str
                 Filter by district field.
-            expand : list
-                A list of nested jsons to include in returned event
-                object. Can be ``locations``, ``codes``, ``shifts``,
-                ``roles``, ``notes``, ``onlineForms``.
+            expand_fields: list
+                A list of fields for which to include data. If a field is omitted,
+                ``None`` will be returned for that field. Can be ``locations``, ``codes``,
+                ``shifts``,``roles``, ``notes``, ``financialProgram``, ``ticketCategories``,
+                ``onlineForms``.
         `Returns:`
             Parsons Table
                 See :ref:`parsons-table` for output options.
         """
 
-        if expand:
-            expand = ','.join(expand)
+        if expand_fields:
+            expand_fields = ','.join(expand_fields)
 
         params = {'codeIds': code_ids,
                   'eventTypeIds': event_type_ids,
@@ -51,34 +53,36 @@ class Events(object):
                   'startingBefore': starting_before,
                   'districtFieldValue': district_field,
                   'top': 50,
-                  '$expand': expand
+                  '$expand': expand_fields
                   }
 
         tbl = Table(self.connection.get_request('events', params=params))
         logger.info(f'Found {tbl.num_rows} events.')
         return tbl
 
-    def get_event(self, event_id, expand=['locations', 'codes', 'shifts', 'roles',
-                                          'notes', 'onlineForms']):
+    def get_event(self, event_id, expand_fields=['locations', 'codes', 'shifts', 'roles',
+                                                 'notes', 'financialProgram', 'ticketCategories',
+                                                 'voterRegistrationBatches']):
         """
         Get an event.
 
         `Args:`
             event_id: int
                 The event id.
-            expand: list
-                A list of nested jsons to include in returned event
-                object. Can be ``locations``, ``codes``, ``shifts``,
-                ``roles``, ``notes``, ``onlineForms``.
+            expand_fields: list
+                A list of fields for which to include data. If a field is omitted,
+                ``None`` will be returned for that field. Can be ``locations``,
+                ``codes``, ``shifts``, ``roles``, ``notes``, ``financialProgram``,
+                ``ticketCategories``, ``voterRegistrationBatches`.`
         `Returns:`
             Parsons Table
                 See :ref:`parsons-table` for output options.
         """
 
-        if expand:
-            expand = ','.join(expand)
+        if expand_fields:
+            expand_fields = ','.join(expand_fields)
 
-        r = self.connection.get_request(f'events/{event_id}', params={'$expand': expand})
+        r = self.connection.get_request(f'events/{event_id}', params={'$expand': expand_fields})
         logger.info(f'Found event {event_id}.')
         return r
 
@@ -187,13 +191,9 @@ class Events(object):
             ``None``
         """
 
-        url = self.connection.uri + 'events/{}'.format(event_id)
-
-        logger.info(f'Deleting event {event_id}...')
-        old_event = self.connection.request(url, req_type="DELETE", raw=True)
+        r = self.connection.delete_request(f'events/{event_id}')
         logger.info(f'Event {event_id} deleted.')
-
-        return old_event
+        return r
 
     def add_event_shift(self, event_id, shift_name, start_time, end_time):
         """

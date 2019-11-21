@@ -1,12 +1,17 @@
 from parsons import Slack
 from parsons import Table
+
+from slackclient.exceptions import SlackClientError
+
 import os
 import requests_mock
 import unittest
 import json
 
+
 _dir = os.path.dirname(__file__)
 responses_dir = f"{_dir}/responses"
+
 
 class TestSlack(unittest.TestCase):
 
@@ -149,6 +154,15 @@ class TestSlack(unittest.TestCase):
         self.assertIsInstance(dct, dict)
         self.assertListEqual(sorted(dct), sorted(slack_resp))
 
+        m.post(
+            "https://slack.com/api/chat.postMessage",
+            json={"ok": False, "error": "invalid_auth"})
+
+        self.assertRaises(
+            SlackClientError,
+            self.slack.message_channel,
+            "FakeChannel", "Here's a message for you")
+
     @requests_mock.Mocker()
     def test_file_upload(self, m):
 
@@ -163,3 +177,12 @@ class TestSlack(unittest.TestCase):
 
         self.assertIsInstance(dct, dict)
         self.assertListEqual(sorted(dct), sorted(slack_resp))
+
+        m.post(
+            "https://slack.com/api/files.upload",
+            json={"ok": False, "error": "invalid_auth"})
+
+        self.assertRaises(
+            SlackClientError,
+            self.slack.upload_file,
+            ["D0L4B9P0Q"], file_path)

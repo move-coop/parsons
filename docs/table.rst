@@ -36,9 +36,6 @@ From Parsons Table
     * - ``.to_civis()``
       - Civis Redshift Database
       - Write a table to Civis platform database
-    * - ``.to_dataframe()``
-      - Dataframe
-      - Return a Pandas dataframe
     * - ``.to_petl()``
       - Petl table object
       - Convert a table a Petl table object
@@ -80,8 +77,13 @@ Create Parsons Table object using the following methods.
       - Redshift table
       - Loads a Redshift table into a Table
     * - ``.from_dataframe()``
-      - Pandas Dataframe
+      - Pandas Dataframe [2]_
       - Load a Parsons table from a Pandas Dataframe
+    * - ``.from_s3_csv()``
+      - S3 CSV
+      - Load a Parsons table from a file on S3
+
+.. [2] Requires optional installation of Pandas package by running ``pip install pandas``.
 
 You can also use the Table constructor to create a Table from a python list or petl table:
 
@@ -112,6 +114,8 @@ Parsons Table Attributes
       - A list of column names in the table
     * - ``.data``
       - The actual data (rows) of the table, as a list of tuples (without field names)
+    * - ``.first``
+      - The first value in the table. Use for database queries where a single value is returned.
 
 A note on indexing and iterating over a table's data:
 If you need to iterate over the data, make sure to use the python iterator syntax, so any data transformations can be applied efficiently. An example:

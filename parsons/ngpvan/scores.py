@@ -1,7 +1,10 @@
 """NGPVAN Score Endpoints"""
 
 from parsons.etl.table import Table
+from parsons.utilities import cloud_storage, files
+import uuid
 import logging
+import petl
 
 logger = logging.getLogger(__name__)
 
@@ -93,8 +96,7 @@ class Scores(object):
             status: str
                 One of 'pending approval', 'approved', 'disapproved'
         `Returns:`
-            boolean
-                ``True`` if the status update is accepted
+            ``None``
         """
 
         if status not in ['pending approval', 'approved', 'disapproved',
@@ -109,17 +111,104 @@ class Scores(object):
             else:
                 status = status.capitalize()
 
-        post_data = {"loadStatus": status}
+        json = {"loadStatus": status}
 
-        url = self.connection.uri + 'scoreUpdates/{}'.format(score_update_id)
+        r = self.connection.patch_request(f'scoreUpdates/{score_update_id}', json=json)
+        logger.info(f'Score {score_update_id} status updated to {status}.')
+        return r
 
-        r = self.connection.request(
-            url, req_type="PATCH", post_data=post_data, raw=True)
+    def upload_scores(self, tbl, config, url_type, id_type='vanid', email=None, auto_approve=True,
+                      approve_tolerance=.1, **url_kwargs):
+        """
+        Upload scores. Use to create or overwrite scores. Multiple score loads
+        should be configured in a single call. [1]_
 
-        if r.status_code == 204:
-            return True
-        else:
-            return r.status_code
+        `Args:`
+            tbl: object
+                A parsons.Table object. The table must contain the scores and first column in the
+                table must contain the primary key (e.g. vanid).
+            config: list
+                The score configuration. A list of dictionaries in which you specify the following
+
+                .. list-table::
+                    :widths: 20 80
+                    :header-rows: 0
+
+                    * - ``score_column``
+                      - The name of the column where the score is housed.
+                    * - ``score_id``
+                      - The score slot id.
+
+                Example:
+
+                .. highlight:: python
+                .. code-block:: python
+
+                  [{'score1_id' : int, score1_column': str}
+                   {'score2_id' : int, score2_column': str}]
+
+            url_type: str
+                The cloud file storage to use to post the file. Currently only ``S3``.
+            email: str
+                An email address to send job load status updates.
+            auto_approve: boolean
+                If the scores are within the expected tolerance of deviation from the
+                average values provided, then score will be automatically approved.
+            approve_tolderance: float
+                The deviation from the average scores allowed in order to automatically
+                approve the score. Maximum of .1.
+            **url_kwargs: kwargs
+                Arguments to configure your cloud storage url type.
+                    * S3 requires ``bucket`` argument and, if not stored as env variables
+                      ``aws_access_key`` and ``aws_secret_access_key``.
+        `Returns:`
+            int
+               The score load job id.
+
+        .. [1] NGPVAN asks that you load multiple scores in a single call to reduce the load
+           on their servers.
+        """
+
+        # Move to cloud storage
+        file_name = str(uuid.uuid1()) + '.zip'
+        public_url = cloud_storage.post_file(tbl, url_type, file_path=file_name, **url_kwargs)
+        csv_name = files.extract_file_name(file_name, include_suffix=False) + '.csv'
+        logger.info(f'Table uploaded to {url_type}.')
+
+        # Generate shell request
+        json = {"description": 'A description',
+                "file": {
+                    "columnDelimiter": 'csv',
+                    "columns": [{'name': c} for c in tbl.columns],
+                    "fileName": csv_name,
+                    "hasHeader": "True",
+                    "hasQuotes": "False",
+                    "sourceUrl": public_url},
+                "actions": []
+                }
+
+        # Configure each score
+        for i in config:
+            action = {"actionType": "score",
+                      "personIdColumn": tbl.columns[0],
+                      "personIdType": id_type,
+                      "scoreColumn": i['score_column'],
+                      "scoreId": i['score_id']}
+
+            if auto_approve:
+                average = petl.stats(tbl.table, i['score_column']).mean
+                action['approvalCriteria'] = {"average": average, "tolerance": approve_tolerance}
+
+            json['actions'].append(action)
+
+        # Add email listener
+        if email:
+            json['listeners'] = [{"type": "EMAIL", 'value': email}]
+
+        # Upload scores
+        r = self.connection.post_request('fileLoadingJobs', json=json)
+        logger.info(f"Scores job {r['jobId']} created.")
+        return r['jobId']
 
 
 class FileLoadingJobs(object):
@@ -133,6 +222,9 @@ class FileLoadingJobs(object):
                          description=None, email=None, auto_average=None,
                          auto_tolerance=None):
         """
+        .. warning::
+           .. deprecated:: 0.7 Use :func:`parsons.VAN.upload_scores` instead.
+
         Loads a file. Only used for loading scores at this time. Scores must be
         compressed using `zip`.
 
@@ -209,6 +301,9 @@ class FileLoadingJobs(object):
                                score_map, delimiter='csv', header=True, quotes=True,
                                description=None, email=None):
         """
+        .. warning::
+           .. deprecated:: 0.7 Use :func:`parsons.VAN.upload_scores` instead.
+
         An iteration of the :meth:`file_load` method that allows you to load multiple scores
         at the same time.
 

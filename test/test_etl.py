@@ -215,15 +215,19 @@ class TestParsonsTable(unittest.TestCase):
 
     def test_to_csv_zip(self):
 
-        # Test using the to_csv() method
-        self.tbl.to_csv('myzip.zip')
-        zip_archive.unzip_archive('myzip.zip')
-        assert_matching_tables(self.tbl, Table.from_csv('myzip.csv'))
+        try:
+            # Test using the to_csv() method
+            self.tbl.to_csv('myzip.zip')
+            zip_archive.unzip_archive('myzip.zip')
+            assert_matching_tables(self.tbl, Table.from_csv('myzip.csv'))
 
-        # Test using the to_csv_zip() method
-        self.tbl.to_zip_csv('myzip.zip')
-        zip_archive.unzip_archive('myzip.zip')
-        assert_matching_tables(self.tbl, Table.from_csv('myzip.csv'))
+            # Test using the to_csv_zip() method
+            self.tbl.to_zip_csv('myzip.zip')
+            zip_archive.unzip_archive('myzip.zip')
+            assert_matching_tables(self.tbl, Table.from_csv('myzip.csv'))
+        finally:
+            os.unlink('myzip.zip')
+            os.unlink('myzip.csv')
 
     def test_to_civis(self):
 
@@ -519,6 +523,14 @@ class TestParsonsTable(unittest.TestCase):
     def test_rows(self):
         # Test that there is only one row in the table
         self.assertEqual(self.tbl.num_rows, 1)
+
+    def test_first(self):
+        # Test that the first value in the table is returned.
+        self.assertEqual(self.tbl.first, 'Bob')
+
+        # Test empty value returns None
+        empty_tbl = Table([[1], [], [3]])
+        self.assertIsNone(empty_tbl.first)
 
     def test_stack(self):
         tbl1 = self.tbl

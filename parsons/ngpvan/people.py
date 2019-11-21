@@ -165,10 +165,13 @@ class People(object):
 
         return True
 
-    def get_person(self, id, id_type='vanid',
-                   fields=['emails', 'phones', 'custom_fields', 'external_ids', 'addresses',
-                           'recorded_addresses', 'preferences', 'suppressions',
-                           'reported_demographics', 'disclosure_field_values']):
+    def get_person(self, id, id_type='vanid', expand_fields=[
+                   'contribution_history', 'addresses', 'phones', 'emails',
+                   'codes', 'custom_fields', 'external_ids', 'preferences',
+                   'recorded_addresses', 'reported_demographics', 'suppressions',
+                   'cases', 'custom_properties', 'districts', 'election_records',
+                   'membership_statuses', 'notes', 'organization_roles', 'scores',
+                   'disclosure_field_values']):
         """
         Returns a single person record using their VANID or external id.
 
@@ -178,7 +181,14 @@ class People(object):
             id_type: str
                 A known person identifier type available on this VAN instance
                 such as ``dwid``
-            fields: The fields to return. Leave as default for all available fields
+            expand_fields: list
+                A list of fields for which to include data. If a field is omitted,
+                ``None`` will be returned for that field. Can be ``contribution_history``,
+                ``addresses``, ``phones``, ``emails``, ``codes``, ``custom_fields``,
+                ``external_ids``, ``preferences``, ``recorded_addresses``,
+                ``reported_demographics``, ``suppressions``, ``cases``, ``custom_properties``,
+                ``districts``, ``election_records``, ``membership_statuses``, ``notes``,
+                ``organization_roles``, ``scores``, ``disclosure_field_values``.
         `Returns:`
             A person dict
         """
@@ -189,10 +199,10 @@ class People(object):
         else:
             url = f'people/{id_type}:{id}'
 
-        fields = ','.join([json_format.arg_format(f) for f in fields])
+        expand_fields = ','.join([json_format.arg_format(f) for f in expand_fields])
 
         logger.info(f'Getting person with {id_type} of {id}')
-        return self.connection.get_request(url, params={'$expand': fields})
+        return self.connection.get_request(url, params={'$expand': expand_fields})
 
     def apply_canvass_result(self, id, result_code_id, id_type='vanid', contact_type_id=None,
                              input_type_id=None, date_canvassed=None):

@@ -96,6 +96,7 @@ Loading a score is a multi-step process. Once a score is set to approved, loadin
    job_id = van.upload_scores(tbl, config, url_type='S3', email='info@tmc.org', bucket='tmc-fake')
 
 **Standard Load Requiring Approval**
+
 .. code-block:: python
 
    from parsons import VAN

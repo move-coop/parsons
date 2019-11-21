@@ -91,8 +91,6 @@ class MobilizeAmerica(object):
         """
         Return all active organizations on the platform.
 
-        ** Public end point **
-
         `Args:`
             updated_since: str
                 Filter to organizations updated since given date (ISO Date)
@@ -104,35 +102,10 @@ class MobilizeAmerica(object):
         return Table(self.request_paginate(self.uri + 'organizations',
                                            args={'updated_since': iso_to_unix(updated_since)}))
 
-    def get_organizations_promoted(self, organization_id, updated_since=None):
-        """
-        Fetches a list of all the organizations that an organization has promoted.
-        This endpoint is accessible only to members of the promoting organization.
-
-        **API Key Required**
-
-        **NOT IMPLEMENTED**
-
-        `Args:`
-            organization_id: int
-                The organization id
-        `Args:`
-            updated_since: str
-                Filter to organizations updated since given date (ISO Date)
-        `Returns`
-            Parsons Table
-                See :ref:`parsons-table` for output options.
-        """
-
-        # Need a private key
-        pass
-
     def get_events(self, organization_id=None, updated_since=None, timeslot_start=None,
                    timeslot_end=None, timeslots_table=False, max_timeslots=None):
         """
         Fetch all public events on the platform.
-
-        **Public end point**
 
         `Args:`
             organization_id: list or int
@@ -204,7 +177,8 @@ class MobilizeAmerica(object):
         by the organization (as indicated by the organization field on the event object)
         and events of other organizations promoted by this specified organization.
 
-        **API Key Required**
+        .. note::
+            API Key Required
 
         `Args:`
             organization_id: list or int
@@ -258,7 +232,6 @@ class MobilizeAmerica(object):
                 See :ref:`parsons-table` for output options.
         """
 
-        # Requires API Key
         if isinstance(organization_id, (str, int)):
             organization_id = [organization_id]
 
@@ -295,8 +268,6 @@ class MobilizeAmerica(object):
         """
         Fetch deleted public events on the platform.
 
-        ** Public end point **
-
         `Args:`
             organization_id: list or int
                 Filter events by a single or multiple organization ids
@@ -315,27 +286,12 @@ class MobilizeAmerica(object):
 
         return Table(self.request_paginate(self.uri + 'events/deleted', args=args))
 
-    def get_events_organization_deleted(self, updated_since=None):
-        """
-        Fetch all deleted public events for an organization. This includes both
-        events owned by the organization (as indicated by the organization field
-        on the event object) and events of other organizations promoted by
-        this specified organization.
-
-        ** API Key Required **
-
-        ** NOT IMPLEMENTED **
-
-        """
-
-        # Requires API Key
-        pass
-
     def get_people(self, organization_id=None, updated_since=None):
         """
         Fetch all people (volunteers) who are affiliated with the organization.
 
-        ** API Key Required **
+        .. note::
+            API Key Required
 
         `Args:`
             organization_id: list of int
@@ -358,7 +314,8 @@ class MobilizeAmerica(object):
         Fetch all attendances which were either promoted by the organization or
         were for events owned by the organization.
 
-        ** API Key Required **
+        .. note::
+            API Key Required
 
         `Args:`
             organization_id: list of int
@@ -375,16 +332,3 @@ class MobilizeAmerica(object):
         return Table(self.request_paginate(url,
                                            args={'updated_since': iso_to_unix(updated_since)},
                                            auth=True))
-
-    def attendances_person(self):
-        """
-        Fetches all attendances that are either for that person with that organization,
-        or are for public events and were created after the affiliation between the
-        person and the organization began.
-
-        ** API Key Required **
-
-        **NOT IMPLEMENTED**
-        """
-
-        pass

@@ -412,26 +412,3 @@ class ActionKit(object):
                                page=f'/rest/v1/eventsignuppage/{signup_page_id}/',
                                url=url,
                                **kwargs)
-
-    # TO DO
-    # def upload_file(self, page, file_name):
-    #     """
-    #     Further Testing - Upload file to ActionKit
-    #
-    #     `Args:`
-    #         page: str
-    #             Path for the
-    #         file_name: str
-    #             The path for the file_name
-    #     """
-    #     with open(file_name, 'rb') as local_file:
-    #         resp = self.conn.post(
-    #             self._base_endpoint('upload'),
-    #             files={'upload': local_file},
-    #             data={
-    #                 'page': page,
-    #                 'autocreate_user_fields': 'true'
-    #             }
-    #         )
-    #
-    #     return resp.status_code

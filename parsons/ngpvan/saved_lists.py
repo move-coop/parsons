@@ -1,7 +1,10 @@
 """NGPVAN Saved List Endpoints"""
 
 from parsons.etl.table import Table
+from parsons.utilities import cloud_storage, files
+import suds
 import logging
+import uuid
 
 logger = logging.getLogger(__name__)
 
@@ -64,6 +67,65 @@ class SavedLists(object):
         else:
             return Table.from_csv(job['downloadUrl'])
 
+    def upload_saved_list(self, tbl, list_name, folder_id, url_type, id_type='vanid', replace=False,
+                          **url_args):
+        """
+        Upload a saved list.
+
+        `Args:`
+            tbl: parsons.Table
+                A parsons table object.
+            list_name: str
+                The saved list name.
+            folder_id: int
+                The folder id where the list will be stored.
+            url_post_type: str
+                The cloud file storage to use to post the file. Currently only ``S3``.
+            id_type: str
+                The primary key type. The options, beyond ``vanid`` are specific to your
+                instance of VAN.
+            replace: boolean
+                Replace saved list if already exists.
+            **urlargs: kwargs
+                Arguments to configure your url type.
+        """
+
+        # Move to cloud storage
+        file_name = str(uuid.uuid1()) + '.zip'
+        public_url = cloud_storage.post_file(tbl, url_type, file_path=file_name, **url_args)
+        csv_name = files.extract_file_name(file_name, include_suffix=False) + '.csv'
+        logger.info(f'Table uploaded to {url_type}.')
+
+        # Create XML
+        xml = self.connection.soap_client.factory.create('CreateAndStoreSavedListMetaData')
+        xml.SavedList._Name = list_name
+        xml.DestinationFolder._ID = folder_id
+        xml.SourceFile.FileName = csv_name
+        xml.SourceFile.FileUrl = public_url
+        xml.SourceFile.FileCompression = 'zip'
+        xml.Options.OverwriteExistingList = replace
+
+        # Describe file
+        file_desc = self.connection.soap_client.factory.create('SeparatedFileFormatDescription')
+        file_desc._name = 'csv'
+        file_desc.HasHeaderRow = True
+
+        # Only support single column for now
+        col = self.connection.soap_client.factory.create('Column')
+        col.Name = id_type
+        col.RefersTo._Path = f"Person[@PersonIDType=\'{id_type}\']"
+        col._Index = '0'
+
+        # Assemble request
+        file_desc.Columns.Column.append(col)
+        xml.SourceFile.Format = file_desc
+
+        # Assemble request
+        file_desc.Columns.Column.append(col)
+        xml.SourceFile.Format = file_desc
+
+        x = self.connection.soap_client.service.CreateAndStoreSavedList(xml)
+        print (client.last_sent())
 
 class Folders(object):
 

@@ -1,4 +1,5 @@
 from requests import request as _request
+from suds.client import Client
 from parsons.etl.table import Table
 import logging
 from parsons.utilities import check_env
@@ -7,6 +8,7 @@ from parsons.utilities.api_connector import APIConnector
 logger = logging.getLogger(__name__)
 
 URI = 'https://api.securevan.com/v4/'
+SOAP_URI = 'https://api.securevan.com/Services/V3/ListService.asmx?WSDL'
 
 
 class VANConnector(object):
@@ -28,10 +30,24 @@ class VANConnector(object):
         self.auth_name = auth_name
         self.auth = (self.auth_name, self.api_key + '|' + str(self.db_code))
 
-        # Standardized API Connector. This is only being used by the get_activist_code methods
-        # but would like to roll out to the rest of the VAN methods in the future. Long term,
-        # would like to use for all classes in Parsons.
+        # Standardized API Connector.
         self.api = APIConnector(self.uri, auth=self.auth, data_key='items')
+
+        # We will not create the SOAP client unless we need to as this triggers checking for
+        # valid credentials. As not all API keys are provisioned for SOAP, this keeps it from
+        # raising a permission exception when creating the class.
+        self._soap_client = None
+
+    @property
+    def soap_client(self):
+
+        if not self._soap_client:
+
+            # Create the SOAP client
+            soap_auth = {'Header': {'DatabaseMode': self.db, 'APIKey': self.api_key}}
+            self._soap_client = Client(SOAP_URI, soapheaders=soap_auth)
+
+        return self._soap_client
 
     def get_request(self, endpoint, **kwargs):
 

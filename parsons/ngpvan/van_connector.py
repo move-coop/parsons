@@ -40,10 +40,20 @@ class VANConnector(object):
         if not self._soap_client:
 
             # Create the SOAP client
-            soap_auth = {'Header': {'DatabaseMode': 'MyVoterFile', 'APIKey': self.api_key}}
+            soap_auth = {'Header': {'DatabaseMode': self.soap_client_db(), 'APIKey': self.api_key}}
             self._soap_client = Client(SOAP_URI, soapheaders=soap_auth)
 
         return self._soap_client
+
+    def soap_client_db(self):
+        """
+        Parse the REST database name to the accepted SOAP format
+        """
+
+        if self.db == 'MyVoters':
+            return 'MyVoterFile'
+        else:
+            return self.db
 
     def get_request(self, endpoint, **kwargs):
 

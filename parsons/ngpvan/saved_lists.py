@@ -2,7 +2,6 @@
 
 from parsons.etl.table import Table
 from parsons.utilities import cloud_storage, files
-import suds
 import logging
 import uuid
 
@@ -86,8 +85,10 @@ class SavedLists(object):
                 instance of VAN.
             replace: boolean
                 Replace saved list if already exists.
-            **urlargs: kwargs
-                Arguments to configure your url type.
+            **url_kwargs: kwargs
+                Arguments to configure your cloud storage url type.
+                    * S3 requires ``bucket`` argument and, if not stored as env variables
+                      ``aws_access_key`` and ``aws_secret_access_key``.
         """
 
         # Move to cloud storage
@@ -116,16 +117,23 @@ class SavedLists(object):
         col.RefersTo._Path = f"Person[@PersonIDType=\'{id_type}\']"
         col._Index = '0'
 
+        # VAN errors are not particularly descriptive for this method, particularly when adding to
+        # an existing list when the replace boolean is set to false. This is likely to be a common
+        # mistake that folks make, so we will check on our own to see if it exists.
+        if not replace:
+            logger.info('Checking to see if list already exists.')
+            for r in self.get_saved_lists(folder_id):
+                if r['name'] == list_name:
+                    raise ValueError("Saved list already exists. Set to replace"
+                                     " or change the list name.")
+
         # Assemble request
         file_desc.Columns.Column.append(col)
         xml.SourceFile.Format = file_desc
 
-        # Assemble request
-        #file_desc.Columns.Column.append(col)
-        #xml.SourceFile.Format = file_desc
+        self.connection.soap_client.service.CreateAndStoreSavedList(xml)
+        logger.info(f'Uploaded {tbl.num_rows} records to {list_name} saved list.')
 
-        x = self.connection.soap_client.service.CreateAndStoreSavedList(xml)
-        print (client.last_sent())
 
 class Folders(object):
 

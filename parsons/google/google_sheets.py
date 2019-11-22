@@ -165,7 +165,7 @@ class GoogleSheets(object):
         sheet_count = len(spreadsheet.worksheets())
         return (sheet_count-1)
 
-    def append_to_sheet(self, spreadsheet_id, table, sheet_index=0, value_input_option='RAW'):
+    def append_to_sheet(self, spreadsheet_id, table, sheet_index=0, user_entered_value=False):
         """
         Append data from a Parsons table to a Google sheet. Note that the table's columns are
         ignored, as we'll be keeping whatever header row already exists in the Google sheet.
@@ -193,10 +193,14 @@ class GoogleSheets(object):
                 sheet_row_num = existing_table.num_rows + row_num + 2
                 cells.append(gspread.Cell(sheet_row_num, col_num + 1, row[col_num]))
 
+        value_input_option = 'RAW'
+        if user_entered_value:
+            value_input_option = 'USER_ENTERED'
+
         # Update the data in one batch
         sheet.update_cells(cells, value_input_option=value_input_option)
 
-    def overwrite_sheet(self, spreadsheet_id, table, sheet_index=0, value_input_option='RAW'):
+    def overwrite_sheet(self, spreadsheet_id, table, sheet_index=0, user_entered_value=False):
         """
         Replace the data in a Google sheet with a Parsons table, using the table's columns as the
         first row.
@@ -208,10 +212,15 @@ class GoogleSheets(object):
                 Parsons table
             sheet_index: int (optional)
                 The index of the desired worksheet
+
         """
 
         sheet = self._get_sheet(spreadsheet_id, sheet_index)
         sheet.clear()
+
+        value_input_option = 'RAW'
+        if user_entered_value:
+            value_input_option = 'USER_ENTERED'
 
         # Add header row
         sheet.append_row(table.columns, value_input_option=value_input_option)

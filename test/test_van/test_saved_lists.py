@@ -5,6 +5,7 @@ import unittest.mock as mock
 from parsons.ngpvan.van import VAN
 from parsons.etl.table import Table
 from test.utils import validate_list, assert_matching_tables
+from parsons.utilities import cloud_storage
 
 
 class TestSavedLists(unittest.TestCase):
@@ -55,7 +56,7 @@ class TestSavedLists(unittest.TestCase):
 
     def test_upload_saved_list(self):
 
-		cloud_storage.post_file = mock.MagicMock()
+        cloud_storage.post_file = mock.MagicMock()
         cloud_storage.post_file.return_value = 'https://box.com/my_file.zip'
 
         self.van.connection._soap_client = mock.MagicMock()

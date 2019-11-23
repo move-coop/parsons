@@ -52,6 +52,8 @@ class VANConnector(object):
 
         if self.db == 'MyVoters':
             return 'MyVoterFile'
+        if self.db == 'EveryAction':
+            return 'MyCampaign'
         else:
             return self.db
 

@@ -4,6 +4,7 @@ from parsons.etl.table import Table
 from parsons.utilities import cloud_storage, files
 import logging
 import uuid
+from suds.client import Client
 
 logger = logging.getLogger(__name__)
 
@@ -69,11 +70,12 @@ class SavedLists(object):
     def upload_saved_list(self, tbl, list_name, folder_id, url_type, id_type='vanid', replace=False,
                           **url_args):
         """
-        Upload a saved list.
+        Upload a saved list. Invalid or unmatched person id records will be ignored. Your api user
+        must be shared on the target folder.
 
         `Args:`
             tbl: parsons.Table
-                A parsons table object.
+                A parsons table object containing one column of person ids.
             list_name: str
                 The saved list name.
             folder_id: int
@@ -89,6 +91,10 @@ class SavedLists(object):
                 Arguments to configure your cloud storage url type.
                     * S3 requires ``bucket`` argument and, if not stored as env variables
                       ``aws_access_key`` and ``aws_secret_access_key``.
+        `Returns:`
+            dict
+                Upload results information included the number of matched and saved
+                records in your list.
         """
 
         # Move to cloud storage
@@ -117,22 +123,25 @@ class SavedLists(object):
         col.RefersTo._Path = f"Person[@PersonIDType=\'{id_type}\']"
         col._Index = '0'
 
-        # VAN errors are not particularly descriptive for this method, particularly when adding to
-        # an existing list when the replace boolean is set to false. This is likely to be a common
-        # mistake that folks make, so we will check on our own to see if it exists.
+        # VAN errors for this method are not particularly useful or helpful. For that reason, we
+        # will check that the folder exists and if the list already exists.
+        logger.info('Validating folder id and list name.')
+        if folder_id not in [x['folderId'] for x in self.get_folders()]:
+            raise ValueError("Folder does not exist or is not shared with API user.")
+
         if not replace:
-            logger.info('Checking to see if list already exists.')
-            for r in self.get_saved_lists(folder_id):
-                if r['name'] == list_name:
-                    raise ValueError("Saved list already exists. Set to replace"
-                                     " or change the list name.")
+            if list_name in [x['name'] for x in self.get_saved_lists(folder_id)]:
+                raise ValueError("Saved list already exists. Set to replace or change name."
+                                 " name.")
 
         # Assemble request
         file_desc.Columns.Column.append(col)
         xml.SourceFile.Format = file_desc
 
-        self.connection.soap_client.service.CreateAndStoreSavedList(xml)
-        logger.info(f'Uploaded {tbl.num_rows} records to {list_name} saved list.')
+        r = Client.dict(self.connection.soap_client.service.CreateAndStoreSavedList(xml))
+        if r:
+            logger.info(f"Uploaded {r['ListSize']} records to {r['_Name']} saved list.")
+        return r
 
 
 class Folders(object):

@@ -60,6 +60,8 @@ class TestSavedLists(unittest.TestCase):
         cloud_storage.post_file.return_value = 'https://box.com/my_file.zip'
 
         self.van.connection._soap_client = mock.MagicMock()
+        self.van.get_folders = mock.MagicMock()
+        self.van.get_folders.return_value = [{'folderId': 1}]
 
         tbl = Table([['VANID'],['1'],['2'],['3']])
         self.van.upload_saved_list(tbl, 'GOTV List', 1, replace=True, url_type='S3', bucket='tmc-scratch')

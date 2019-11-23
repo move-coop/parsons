@@ -178,7 +178,8 @@ class GoogleSheets(object):
             sheet_index: int (optional)
                 The index of the desired worksheet
             user_entered_value: bool (optional)
-                If True, will submit cell values as entered (required for entering formulas)
+                If True, will submit cell values as entered (required for entering formulas).
+                Otherwise, values will be entered as strings or numbers only.
         """
 
         sheet = self._get_sheet(spreadsheet_id, sheet_index)
@@ -215,7 +216,8 @@ class GoogleSheets(object):
             sheet_index: int (optional)
                 The index of the desired worksheet
             user_entered_value: bool (optional)
-                If True, will submit cell values as entered (required for entering formulas)
+                If True, will submit cell values as entered (required for entering formulas).
+                Otherwise, values will be entered as strings or numbers only.
         """
 
         sheet = self._get_sheet(spreadsheet_id, sheet_index)

@@ -320,7 +320,7 @@ the given email address.</p>
 
 <dl class="method">
 <dt id="parsons.GoogleSheets.append_to_sheet">
-<code class="descname">append_to_sheet</code><span class="sig-paren">(</span><em>spreadsheet_id</em>, <em>table</em>, <em>sheet_index=0</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/google/google_sheets.html#GoogleSheets.append_to_sheet"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.GoogleSheets.append_to_sheet" title="Permalink to this definition">¶</a></dt>
+<code class="descname">append_to_sheet</code><span class="sig-paren">(</span><em>spreadsheet_id</em>, <em>table</em>, <em>sheet_index=0</em>, <em>user_entered_value=False</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/google/google_sheets.html#GoogleSheets.append_to_sheet"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.GoogleSheets.append_to_sheet" title="Permalink to this definition">¶</a></dt>
 <dd><p>Append data from a Parsons table to a Google sheet. Note that the table’s columns are
 ignored, as we’ll be keeping whatever header row already exists in the Google sheet.</p>
 <dl class="docutils">
@@ -332,6 +332,9 @@ ignored, as we’ll be keeping whatever header row already exists in the Google 
 <dd>Parsons table</dd>
 <dt>sheet_index: int (optional)</dt>
 <dd>The index of the desired worksheet</dd>
+<dt>user_entered_value: bool (optional)</dt>
+<dd>If True, will submit cell values as entered (required for entering formulas).
+Otherwise, values will be entered as strings or numbers only.</dd>
 </dl>
 </dd>
 </dl>
@@ -339,7 +342,7 @@ ignored, as we’ll be keeping whatever header row already exists in the Google 
 
 <dl class="method">
 <dt id="parsons.GoogleSheets.overwrite_sheet">
-<code class="descname">overwrite_sheet</code><span class="sig-paren">(</span><em>spreadsheet_id</em>, <em>table</em>, <em>sheet_index=0</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/google/google_sheets.html#GoogleSheets.overwrite_sheet"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.GoogleSheets.overwrite_sheet" title="Permalink to this definition">¶</a></dt>
+<code class="descname">overwrite_sheet</code><span class="sig-paren">(</span><em>spreadsheet_id</em>, <em>table</em>, <em>sheet_index=0</em>, <em>user_entered_value=False</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/google/google_sheets.html#GoogleSheets.overwrite_sheet"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.GoogleSheets.overwrite_sheet" title="Permalink to this definition">¶</a></dt>
 <dd><p>Replace the data in a Google sheet with a Parsons table, using the table’s columns as the
 first row.</p>
 <dl class="docutils">
@@ -351,6 +354,9 @@ first row.</p>
 <dd>Parsons table</dd>
 <dt>sheet_index: int (optional)</dt>
 <dd>The index of the desired worksheet</dd>
+<dt>user_entered_value: bool (optional)</dt>
+<dd>If True, will submit cell values as entered (required for entering formulas).
+Otherwise, values will be entered as strings or numbers only.</dd>
 </dl>
 </dd>
 </dl>

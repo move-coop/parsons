@@ -54,7 +54,7 @@ class ActionKit(object):
         resp = self.conn.get(self._base_endpoint(endpoint, entity_id))
 
         if exception_message and resp.status_code == 404:
-            raise Exception(exception_message)
+            raise Exception(self.parse_error(resp, exception_message))
 
         return resp.json()
 
@@ -64,10 +64,22 @@ class ActionKit(object):
         resp = self.conn.post(self._base_endpoint(endpoint), data=json.dumps(kwargs))
 
         if resp.status_code != 201:
-            raise Exception(exception_message)
+            raise Exception(self.parse_error(resp, exception_message))
 
-        if 'headers' in resp.__dict__:
-            return resp.__dict__['headers']['Location']
+        # Need to figure out how this json parsing is working on calls that don't error!!!
+        return resp.json()
+
+    def parse_error(self, resp, exception_message):
+        # Parse AK error messages.
+
+        if 'errors' in resp.json().keys():
+            if isinstance(resp.json()['errors'], list):
+                exception_message += '\n' + ','.join(resp.json()['errors'])
+            else:
+                for k, v in resp.json()['errors'].items():
+                    exception_message += str('\n' + k + ': ' + ','.join(v))
+
+        return exception_message
 
     def get_user(self, user_id):
         """
@@ -413,25 +425,24 @@ class ActionKit(object):
                                url=url,
                                **kwargs)
 
-    # TO DO
-    # def upload_file(self, page, file_name):
-    #     """
-    #     Further Testing - Upload file to ActionKit
-    #
-    #     `Args:`
-    #         page: str
-    #             Path for the
-    #         file_name: str
-    #             The path for the file_name
-    #     """
-    #     with open(file_name, 'rb') as local_file:
-    #         resp = self.conn.post(
-    #             self._base_endpoint('upload'),
-    #             files={'upload': local_file},
-    #             data={
-    #                 'page': page,
-    #                 'autocreate_user_fields': 'true'
-    #             }
-    #         )
-    #
-    #     return resp.status_code
+    def create_generic_action(self, page, email, **kwargs):
+        """
+        Post a generic action.
+
+        `Args:`
+            page:
+                The page to post the action. The page short name.
+            email:
+                The email address of the user to post the action.
+            **kwargs:
+                Optional arguments and fields that can sent. A full list can be found
+                in the `ActionKit API Documentation <https://roboticdogs.actionkit.com/docs/manual/api/rest/actionprocessing.html>`_.
+        `Returns`:
+            API location of the resource.
+        """
+
+        return self._base_post(endpoint='action',
+                               exception_message='Could not create action.',
+                               email=email,
+                               page=page,
+                               **kwargs)

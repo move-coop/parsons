@@ -66,11 +66,19 @@ class ActionKit(object):
         if resp.status_code != 201:
             raise Exception(self.parse_error(resp, exception_message))
 
-        # Need to figure out how this json parsing is working on calls that don't error!!!
-        return resp.json()
+        # Not all responses return a json
+        try:
+            return resp.json()
+
+        except ValueError:
+            return None
+
+        if 'headers' in resp.__dict__:
+            return resp.__dict__['headers']['Location']
 
     def parse_error(self, resp, exception_message):
-        # Parse AK error messages.
+        # AK provides some pretty robust/helpful error reporting. We should surface them with
+        # our exceptions.
 
         if 'errors' in resp.json().keys():
             if isinstance(resp.json()['errors'], list):

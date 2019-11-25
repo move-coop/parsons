@@ -433,21 +433,27 @@ class ActionKit(object):
                                url=url,
                                **kwargs)
 
-    def create_generic_action(self, page, email, **kwargs):
+    def create_generic_action(self, page, email=None, ak_id=None **kwargs):
         """
-        Post a generic action.
+        Post a generic action. One of ``ak_id`` or ``email`` is a required argument.
 
         `Args:`
             page:
                 The page to post the action. The page short name.
             email:
                 The email address of the user to post the action.
+            ak_id:
+                The action kit id of the record.
             **kwargs:
                 Optional arguments and fields that can sent. A full list can be found
                 in the `ActionKit API Documentation <https://roboticdogs.actionkit.com/docs/manual/api/rest/actionprocessing.html>`_.
         `Returns`:
-            API location of the resource.
-        """
+            dict
+                The response json
+        """ # noqa: E501,E261
+
+        if not email or ak_id:
+            raise ValueError('One of email or ak_id is required.')
 
         return self._base_post(endpoint='action',
                                exception_message='Could not create action.',

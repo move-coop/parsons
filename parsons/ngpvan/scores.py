@@ -1,7 +1,7 @@
 """NGPVAN Score Endpoints"""
 
 from parsons.etl.table import Table
-from parsons.utilities import cloud_storage, files
+from parsons.utilities import cloud_storage
 import uuid
 import logging
 import petl
@@ -171,7 +171,7 @@ class Scores(object):
 
         # Move to cloud storage
         file_name = str(uuid.uuid1())
-        url = cloud_storage.post_file(tbl, url_type, file_path=file_name + '.zip', **url_args)
+        url = cloud_storage.post_file(tbl, url_type, file_path=file_name + '.zip', **url_kwargs)
         logger.info(f'Table uploaded to {url_type}.')
 
         # Generate shell request
@@ -182,7 +182,7 @@ class Scores(object):
                     "fileName": file_name + '.csv',
                     "hasHeader": "True",
                     "hasQuotes": "False",
-                    "sourceUrl": public_url},
+                    "sourceUrl": url},
                 "actions": []
                 }
 

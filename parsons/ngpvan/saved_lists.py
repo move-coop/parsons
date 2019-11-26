@@ -1,7 +1,7 @@
 """NGPVAN Saved List Endpoints"""
 
 from parsons.etl.table import Table
-from parsons.utilities import cloud_storage, files
+from parsons.utilities import cloud_storage
 import logging
 import uuid
 from suds.client import Client
@@ -68,7 +68,7 @@ class SavedLists(object):
             return Table.from_csv(job['downloadUrl'])
 
     def upload_saved_list(self, tbl, list_name, folder_id, url_type, id_type='vanid', replace=False,
-                          **url_args):
+                          **url_kwargs):
         """
         Upload a saved list. Invalid or unmatched person id records will be ignored. Your api user
         must be shared on the target folder.
@@ -99,7 +99,7 @@ class SavedLists(object):
 
         # Move to cloud storage
         file_name = str(uuid.uuid1())
-        url = cloud_storage.post_file(tbl, url_type, file_path=file_name + '.zip', **url_args)
+        url = cloud_storage.post_file(tbl, url_type, file_path=file_name + '.zip', **url_kwargs)
         logger.info(f'Table uploaded to {url_type}.')
 
         # Create XML

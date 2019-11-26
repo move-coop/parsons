@@ -143,26 +143,46 @@ class People(object):
 
         return self.connection.post_request(url, json=json)
 
+    def _get_field(dict_obj, field):
+        return dict_obj.get(field, None)
+
     def _valid_search(self, first_name, last_name, email, phone, dob, street_number,
                       street_name, zip, match_map):
         # Internal method to check if a search is valid
-
-        if (None in [first_name, last_name, email] and
-            None in [first_name, last_name, phone] and
-            None in [first_name, last_name, zip, dob] and
-            None in [first_name, last_name, street_number, street_name, zip] and
-                None in [email]):
-
-            raise ValueError("""
-                             Person find must include the following minimum
-                             combinations to conduct a search.
-                                - first_name, last_name, email
-                                - first_name, last_name, phone
-                                - first_name, last_name, zip, dob
-                                - first_name, last_name, street_number, street_name, zip
-                                - email
-                            """)
-
+        if not match_map:
+            if (
+                None in [first_name, last_name, email] and
+                None in [first_name, last_name, phone] and
+                None in [first_name, last_name, zip, dob] and
+                None in [first_name, last_name, street_number, street_name, zip] and
+                None in [email]
+            ):
+                raise ValueError("""
+                                 Person find must include the following minimum
+                                 combinations to conduct a search.
+                                    - first_name, last_name, email
+                                    - first_name, last_name, phone
+                                    - first_name, last_name, zip, dob
+                                    - first_name, last_name, street_number, street_name, zip
+                                    - email
+                                """)
+        else:
+            if (
+                None in [match_map.get('first_name', None), match_map.get('last_name', None), match_map.get('email', None)] and
+                None in [match_map.get('first_name', None), match_map.get('last_name', None), match_map.get('phone', None)] and
+                None in [match_map.get('first_name', None), match_map.get('last_name', None), match_map.get('zip', None), match_map.get('dob', None)] and
+                None in [match_map.get('first_name', None), match_map.get('street_name', None), match_map.get('street_number', None), match_map.get('zip', None)] and
+                None in [match_map.get('email', None)]
+            ):
+                raise ValueError("""
+                                 Person find must include the following minimum
+                                 combinations to conduct a search.
+                                    - first_name, last_name, email
+                                    - first_name, last_name, phone
+                                    - first_name, last_name, zip, dob
+                                    - first_name, last_name, street_number, street_name, zip
+                                    - email
+                                """)
         return True
 
     def get_person(self, id, id_type='vanid', expand_fields=[

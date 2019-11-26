@@ -60,6 +60,45 @@ class TestNGPVAN(unittest.TestCase):
         self.van._valid_search('Barack', 'Obama', None, 2024291000, None, None,
                                None, None, None)
 
+        # Successful with match_map FN/LN/Email
+        match_map_1 = {'first_name': 'Barack', 'last_name': 'Obama', 'email': 'barack@email.com'}
+
+        self.van._valid_search(None, None, None, None, None, None,
+                               None, None, match_map_1)
+
+        # Successful with match_map FN/LN/Phone
+        match_map_2 = {'first_name': 'Barack', 'last_name': 'Obama', 'phone': 2024291000}
+
+        self.van._valid_search(None, None, None, None, None, None,
+                               None, None, match_map_2)
+
+        # Successful with match_map FN/LN/DOB/ZIP
+        match_map_3 = {'first_name': 'Barack', 'last_name': 'Obama', 'zip': 20009, 'dob': '2000-01-01'}
+
+        self.van._valid_search(None, None, None, None, None, None,
+                               None, None, match_map_3)
+
+        # Successful with match_map FN/LN/STREETNAME/STREETNUMBER/ZIP
+        match_map_4 = {'first_name': 'Barack', 'last_name': 'Obama', 'zip': 20009, 'street_name': 'glenwood drive', 'street_number': 5}
+
+        self.van._valid_search(None, None, None, None, None, None,
+                               None, None, match_map_4)
+
+        # Successful with match_map Email
+        match_map_5 = {'email': 'barack@email.com'}
+
+        self.van._valid_search(None, None, None, None, None, None,
+                               None, None, match_map_5)
+
+        # Fail with match_map no Email
+        match_map_6 = {'first_name': 'Barack', 'last_name': 'Obama'}
+
+        self.van._valid_search(None, None, None, None, None, None,
+                               None, None, match_map_5)
+
+        self.assertRaises(ValueError, self.van._valid_search, None, None, None, None, None, None,
+                          None, None, match_map_6)
+
     @requests_mock.Mocker()
     def test_get_person(self, m):
 
@@ -81,7 +120,6 @@ class TestNGPVAN(unittest.TestCase):
         # Test a valid attempt
         m.post(self.van.connection.uri + f'people/2335282/canvassResponses', status_code=204)
         self.van.apply_canvass_result(2335282, 18)
-
 
         # Test a bad result code
         json = {'errors':

@@ -10,11 +10,12 @@ SOAP_URI = 'https://api.securevan.com/Services/V3/ListService.asmx?WSDL'
 
 class VANConnector(object):
 
-    def __init__(self, api_key=None, auth_name='default', db=None, uri='https://api.securevan.com/v4/'):
+    def __init__(self, api_key=None, auth_name='default',
+                 db=None, uri='https://api.securevan.com/v4/'):
 
         self.api_key = check_env.check('VAN_API_KEY', api_key)
 
-        if db is 'MyVoters':
+        if db == 'MyVoters':
             self.db_code = 0
         elif db in ['MyMembers', 'MyCampaign', 'EveryAction']:
             self.db_code = 1

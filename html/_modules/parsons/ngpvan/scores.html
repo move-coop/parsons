@@ -173,7 +173,7 @@
 <span></span><span class="sd">&quot;&quot;&quot;NGPVAN Score Endpoints&quot;&quot;&quot;</span>
 
 <span class="kn">from</span> <span class="nn">parsons.etl.table</span> <span class="k">import</span> <span class="n">Table</span>
-<span class="kn">from</span> <span class="nn">parsons.utilities</span> <span class="k">import</span> <span class="n">cloud_storage</span><span class="p">,</span> <span class="n">files</span>
+<span class="kn">from</span> <span class="nn">parsons.utilities</span> <span class="k">import</span> <span class="n">cloud_storage</span>
 <span class="kn">import</span> <span class="nn">uuid</span>
 <span class="kn">import</span> <span class="nn">logging</span>
 <span class="kn">import</span> <span class="nn">petl</span>
@@ -342,9 +342,8 @@
 <span class="sd">        &quot;&quot;&quot;</span>
 
         <span class="c1"># Move to cloud storage</span>
-        <span class="n">file_name</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">uuid</span><span class="o">.</span><span class="n">uuid1</span><span class="p">())</span> <span class="o">+</span> <span class="s1">&#39;.zip&#39;</span>
-        <span class="n">public_url</span> <span class="o">=</span> <span class="n">cloud_storage</span><span class="o">.</span><span class="n">post_file</span><span class="p">(</span><span class="n">tbl</span><span class="p">,</span> <span class="n">url_type</span><span class="p">,</span> <span class="n">file_path</span><span class="o">=</span><span class="n">file_name</span><span class="p">,</span> <span class="o">**</span><span class="n">url_kwargs</span><span class="p">)</span>
-        <span class="n">csv_name</span> <span class="o">=</span> <span class="n">files</span><span class="o">.</span><span class="n">extract_file_name</span><span class="p">(</span><span class="n">file_name</span><span class="p">,</span> <span class="n">include_suffix</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span> <span class="o">+</span> <span class="s1">&#39;.csv&#39;</span>
+        <span class="n">file_name</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">uuid</span><span class="o">.</span><span class="n">uuid1</span><span class="p">())</span>
+        <span class="n">url</span> <span class="o">=</span> <span class="n">cloud_storage</span><span class="o">.</span><span class="n">post_file</span><span class="p">(</span><span class="n">tbl</span><span class="p">,</span> <span class="n">url_type</span><span class="p">,</span> <span class="n">file_path</span><span class="o">=</span><span class="n">file_name</span> <span class="o">+</span> <span class="s1">&#39;.zip&#39;</span><span class="p">,</span> <span class="o">**</span><span class="n">url_kwargs</span><span class="p">)</span>
         <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="n">f</span><span class="s1">&#39;Table uploaded to </span><span class="si">{url_type}</span><span class="s1">.&#39;</span><span class="p">)</span>
 
         <span class="c1"># Generate shell request</span>
@@ -352,10 +351,10 @@
                 <span class="s2">&quot;file&quot;</span><span class="p">:</span> <span class="p">{</span>
                     <span class="s2">&quot;columnDelimiter&quot;</span><span class="p">:</span> <span class="s1">&#39;csv&#39;</span><span class="p">,</span>
                     <span class="s2">&quot;columns&quot;</span><span class="p">:</span> <span class="p">[{</span><span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="n">c</span><span class="p">}</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">tbl</span><span class="o">.</span><span class="n">columns</span><span class="p">],</span>
-                    <span class="s2">&quot;fileName&quot;</span><span class="p">:</span> <span class="n">csv_name</span><span class="p">,</span>
+                    <span class="s2">&quot;fileName&quot;</span><span class="p">:</span> <span class="n">file_name</span> <span class="o">+</span> <span class="s1">&#39;.csv&#39;</span><span class="p">,</span>
                     <span class="s2">&quot;hasHeader&quot;</span><span class="p">:</span> <span class="s2">&quot;True&quot;</span><span class="p">,</span>
                     <span class="s2">&quot;hasQuotes&quot;</span><span class="p">:</span> <span class="s2">&quot;False&quot;</span><span class="p">,</span>
-                    <span class="s2">&quot;sourceUrl&quot;</span><span class="p">:</span> <span class="n">public_url</span><span class="p">},</span>
+                    <span class="s2">&quot;sourceUrl&quot;</span><span class="p">:</span> <span class="n">url</span><span class="p">},</span>
                 <span class="s2">&quot;actions&quot;</span><span class="p">:</span> <span class="p">[]</span>
                 <span class="p">}</span>
 

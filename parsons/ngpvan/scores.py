@@ -170,9 +170,8 @@ class Scores(object):
         """
 
         # Move to cloud storage
-        file_name = str(uuid.uuid1()) + '.zip'
-        public_url = cloud_storage.post_file(tbl, url_type, file_path=file_name, **url_kwargs)
-        csv_name = files.extract_file_name(file_name, include_suffix=False) + '.csv'
+        file_name = str(uuid.uuid1())
+        url = cloud_storage.post_file(tbl, url_type, file_path=file_name + '.zip', **url_args)
         logger.info(f'Table uploaded to {url_type}.')
 
         # Generate shell request
@@ -180,7 +179,7 @@ class Scores(object):
                 "file": {
                     "columnDelimiter": 'csv',
                     "columns": [{'name': c} for c in tbl.columns],
-                    "fileName": csv_name,
+                    "fileName": file_name + '.csv',
                     "hasHeader": "True",
                     "hasQuotes": "False",
                     "sourceUrl": public_url},

@@ -5,17 +5,16 @@ from parsons.utilities.api_connector import APIConnector
 
 logger = logging.getLogger(__name__)
 
-URI = 'https://api.securevan.com/v4/'
 SOAP_URI = 'https://api.securevan.com/Services/V3/ListService.asmx?WSDL'
 
 
 class VANConnector(object):
 
-    def __init__(self, api_key=None, auth_name='default', db=None):
+    def __init__(self, api_key=None, auth_name='default', db=None, uri='https://api.securevan.com/v4/'):
 
         self.api_key = check_env.check('VAN_API_KEY', api_key)
 
-        if db == 'MyVoters':
+        if db is 'MyVoters':
             self.db_code = 0
         elif db in ['MyMembers', 'MyCampaign', 'EveryAction']:
             self.db_code = 1
@@ -23,7 +22,7 @@ class VANConnector(object):
             raise KeyError('Invalid database type specified. Pick one of:'
                            ' MyVoters, MyCampaign, MyMembers, EveryAction.')
 
-        self.uri = URI
+        self.uri = uri
         self.db = db
         self.auth_name = auth_name
         self.auth = (self.auth_name, self.api_key + '|' + str(self.db_code))

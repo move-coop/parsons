@@ -98,17 +98,16 @@ class SavedLists(object):
         """
 
         # Move to cloud storage
-        file_name = str(uuid.uuid1()) + '.zip'
-        public_url = cloud_storage.post_file(tbl, url_type, file_path=file_name, **url_args)
-        csv_name = files.extract_file_name(file_name, include_suffix=False) + '.csv'
+        file_name = str(uuid.uuid1())
+        url = cloud_storage.post_file(tbl, url_type, file_path=file_name + '.zip', **url_args)
         logger.info(f'Table uploaded to {url_type}.')
 
         # Create XML
         xml = self.connection.soap_client.factory.create('CreateAndStoreSavedListMetaData')
         xml.SavedList._Name = list_name
         xml.DestinationFolder._ID = folder_id
-        xml.SourceFile.FileName = csv_name
-        xml.SourceFile.FileUrl = public_url
+        xml.SourceFile.FileName = file_name + '.csv'
+        xml.SourceFile.FileUrl = url
         xml.SourceFile.FileCompression = 'zip'
         xml.Options.OverwriteExistingList = replace
 

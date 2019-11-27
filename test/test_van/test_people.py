@@ -61,37 +61,45 @@ class TestNGPVAN(unittest.TestCase):
                                None, None, None)
 
         # Successful with match_map FN/LN/Email
-        match_map_1 = {'first_name': 'Barack', 'last_name': 'Obama', 'email': 'barack@email.com'}
+        match_map_1 = {'firstName': 'Barack', 'lastName': 'Obama', 'emails': [{'email': 'barack@email.com'}]}
 
         self.van._valid_search(None, None, None, None, None, None,
                                None, None, match_map_1)
 
         # Successful with match_map FN/LN/Phone
-        match_map_2 = {'first_name': 'Barack', 'last_name': 'Obama', 'phone': 2024291000}
+        match_map_2 = {'firstName': 'Barack', 'lastName': 'Obama', 'phones': [{'phoneNumber': 2024291000}]}
 
         self.van._valid_search(None, None, None, None, None, None,
                                None, None, match_map_2)
 
         # Successful with match_map FN/LN/DOB/ZIP
-        match_map_3 = {'first_name': 'Barack', 'last_name': 'Obama', 'zip': 20009, 'dob': '2000-01-01'}
+        match_map_3 = {'firstName': 'Barack', 'lastName': 'Obama', 'addresses': [{'zipOrPostalCode': 20009}], 'dateOfBirth': '2000-01-01'}
 
         self.van._valid_search(None, None, None, None, None, None,
                                None, None, match_map_3)
 
         # Successful with match_map FN/LN/STREETNAME/STREETNUMBER/ZIP
-        match_map_4 = {'first_name': 'Barack', 'last_name': 'Obama', 'zip': 20009, 'street_name': 'glenwood drive', 'street_number': 5}
+        match_map_4 = {
+            'firstName': 'Barack',
+            'lastName': 'Obama',
+            'addresses':
+            [{
+                'zipOrPostalCode': 20009,
+                'addressLine1': 'glenwood drive'
+            }]
+        }
 
         self.van._valid_search(None, None, None, None, None, None,
                                None, None, match_map_4)
 
         # Successful with match_map Email
-        match_map_5 = {'email': 'barack@email.com'}
+        match_map_5 = {'emails': [{'email': 'barack@email.com'}]}
 
         self.van._valid_search(None, None, None, None, None, None,
                                None, None, match_map_5)
 
         # Fail with match_map no Email
-        match_map_6 = {'first_name': 'Barack', 'last_name': 'Obama'}
+        match_map_6 = {'firstName': 'Barack', 'lastName': 'Obama'}
 
         self.van._valid_search(None, None, None, None, None, None,
                                None, None, match_map_5)

@@ -68,7 +68,6 @@ class People(object):
 
         .. note::
             Person find must include the following minimum combinations.
-
             - first_name, last_name, email
             - first_name, last_name, phone
             - first_name, last_name, zip5, date_of_birth
@@ -170,7 +169,7 @@ class People(object):
                    'codes', 'custom_fields', 'external_ids', 'preferences',
                    'recorded_addresses', 'reported_demographics', 'suppressions',
                    'cases', 'custom_properties', 'districts', 'election_records',
-                   'membership_statuses', 'notes', 'organization_roles', 'scores',
+                   'membership_statuses', 'notes', 'organization_roles',
                    'disclosure_field_values']):
         """
         Returns a single person record using their VANID or external id.

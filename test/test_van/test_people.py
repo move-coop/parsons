@@ -23,7 +23,7 @@ class TestNGPVAN(unittest.TestCase):
 
         self.assertEqual(person, find_people_response)
 
-    def test_upsert_person(self, m):
+    def test_upsert_person(self):
 
         pass
 

@@ -457,14 +457,12 @@ other arguments if provided.</dd>
 <dd><p>Create or update a person record.</p>
 <div class="admonition note">
 <p class="first admonition-title">Note</p>
-<p>Person find must include the following minimum combinations.</p>
-<ul class="last simple">
-<li>first_name, last_name, email</li>
-<li>first_name, last_name, phone</li>
-<li>first_name, last_name, zip5, date_of_birth</li>
-<li>first_name, last_name, street_number, street_name, zip5</li>
-<li>email_address</li>
-</ul>
+<p class="last">Person find must include the following minimum combinations.
+- first_name, last_name, email
+- first_name, last_name, phone
+- first_name, last_name, zip5, date_of_birth
+- first_name, last_name, street_number, street_name, zip5
+- email_address</p>
 </div>
 <div class="admonition note">
 <p class="first admonition-title">Note</p>
@@ -508,7 +506,7 @@ other arguments if provided.</dd>
 
 <dl class="method">
 <dt id="parsons.ngpvan.van.People.get_person">
-<code class="descname">get_person</code><span class="sig-paren">(</span><em>id, id_type='vanid', expand_fields=['contribution_history', 'addresses', 'phones', 'emails', 'codes', 'custom_fields', 'external_ids', 'preferences', 'recorded_addresses', 'reported_demographics', 'suppressions', 'cases', 'custom_properties', 'districts', 'election_records', 'membership_statuses', 'notes', 'organization_roles', 'scores', 'disclosure_field_values']</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/ngpvan/people.html#People.get_person"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.ngpvan.van.People.get_person" title="Permalink to this definition">¶</a></dt>
+<code class="descname">get_person</code><span class="sig-paren">(</span><em>id, id_type='vanid', expand_fields=['contribution_history', 'addresses', 'phones', 'emails', 'codes', 'custom_fields', 'external_ids', 'preferences', 'recorded_addresses', 'reported_demographics', 'suppressions', 'cases', 'custom_properties', 'districts', 'election_records', 'membership_statuses', 'notes', 'organization_roles', 'disclosure_field_values']</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/ngpvan/people.html#People.get_person"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.ngpvan.van.People.get_person" title="Permalink to this definition">¶</a></dt>
 <dd><p>Returns a single person record using their VANID or external id.</p>
 <dl class="docutils">
 <dt><cite>Args:</cite></dt>

@@ -67,6 +67,14 @@ class People(object):
         Create or update a person record.
 
         .. note::
+            Person find must include the following minimum combinations.
+            - first_name, last_name, email
+            - first_name, last_name, phone
+            - first_name, last_name, zip5, date_of_birth
+            - first_name, last_name, street_number, street_name, zip5
+            - email_address
+
+        .. note::
             The arguments that can be passed are a selection of the possible values that
             can be used in a search. A full list of possible values can be found
             `here <https://developers.ngpvan.com/van-api#match-candidates>`_. To use these
@@ -100,18 +108,16 @@ class People(object):
         """
 
         return self._people_search(first_name, last_name, date_of_birth, email, phone,
-                                   street_number, street_name, zip, match_map, create=True,
-                                   validate=False)
+                                   street_number, street_name, zip, match_map, create=True)
 
     def _people_search(self, first_name=None, last_name=None, date_of_birth=None, email=None,
                        phone=None, street_number=None, street_name=None, zip=None, match_map=None,
-                       create=False, validate=True):
+                       create=False):
         # Internal method to hit the people find/create endpoints
 
         # Ensure that the minimum combination of fields were passed
-        if validate:
-            self._valid_search(first_name, last_name, email, phone, date_of_birth, street_number,
-                               street_name, zip, match_map)
+        self._valid_search(first_name, last_name, email, phone, date_of_birth, street_number,
+                           street_name, zip, match_map)
 
         # Check to see if a match map has been provided
         if not match_map:

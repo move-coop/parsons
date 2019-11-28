@@ -23,13 +23,9 @@ class TestNGPVAN(unittest.TestCase):
 
         self.assertEqual(person, find_people_response)
 
-    @requests_mock.Mocker()
     def test_upsert_person(self, m):
 
-        m.post(self.van.connection.uri + 'people/findOrCreate', json=find_people_response, status_code=201)
-
-        # Assert that validation isn't required for upsert.
-        self.van.upsert_person(first_name='Bob', last_name='Smith')
+        pass
 
     def test_people_search(self):
 

@@ -588,7 +588,9 @@ class ETL(object):
         filters.
 
         Example filters:
+
         .. code-block:: python
+
             tbl = Table([['foo', 'bar', 'baz'],
                          ['c', 4, 9.3],
                          ['a', 2, 88.2],
@@ -816,7 +818,7 @@ class ETL(object):
         """
         Group rows by a column or columns, then reduce the groups to a single row.
 
-        Based on the `rowreduce` petl function - https://petl.readthedocs.io/en/stable/transform.html#petl.transform.reductions.rowreduce # noqa
+        Based on the `rowreduce petl function <https://petl.readthedocs.io/en/stable/transform.html#petl.transform.reductions.rowreduce>`_.
 
         For example, the output from the query to get a table's definition is
         returned as one component per row. The `reduce_rows` method can be used
@@ -878,7 +880,7 @@ class ETL(object):
         `Returns:`
             `Parsons Table` and also updates self
 
-        """
+        """ # noqa: E501,E261
 
         self.table = petl.rowreduce(
             self.table,

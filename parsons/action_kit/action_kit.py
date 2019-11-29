@@ -58,7 +58,7 @@ class ActionKit(object):
 
         return resp.json()
 
-    def _base_post(self, endpoint, exception_message, **kwargs):
+    def _base_post(self, endpoint, exception_message, return_full_json=False, **kwargs):
         # Make a general post request to ActionKit
 
         resp = self.conn.post(self._base_endpoint(endpoint), data=json.dumps(kwargs))
@@ -66,15 +66,17 @@ class ActionKit(object):
         if resp.status_code != 201:
             raise Exception(self.parse_error(resp, exception_message))
 
+        # Some of the methods should just return pointer to location of created
+        # object.
+        if 'headers' in resp.__dict__ and not return_full_json:
+            return resp.__dict__['headers']['Location']
+
         # Not all responses return a json
         try:
             return resp.json()
 
         except ValueError:
             return None
-
-        if 'headers' in resp.__dict__:
-            return resp.__dict__['headers']['Location']
 
     def parse_error(self, resp, exception_message):
         # AK provides some pretty robust/helpful error reporting. We should surface them with
@@ -433,7 +435,7 @@ class ActionKit(object):
                                url=url,
                                **kwargs)
 
-    def create_generic_action(self, page, email=None, ak_id=None **kwargs):
+    def create_generic_action(self, page, email=None, ak_id=None, **kwargs):
         """
         Post a generic action. One of ``ak_id`` or ``email`` is a required argument.
 
@@ -459,4 +461,5 @@ class ActionKit(object):
                                exception_message='Could not create action.',
                                email=email,
                                page=page,
+                               return_full_json=True,
                                **kwargs)

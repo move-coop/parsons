@@ -78,6 +78,13 @@ class Table(ETL, ToFrom):
 
         return petl.dicts(self.table)[index]
 
+    def _repr_html_(self):
+        """
+        Leverage Petl functionality to display well formatted tables in Jupyter Notebook.
+        """
+
+        return self.table._repr_html_()
+
     @property
     def num_rows(self):
         """

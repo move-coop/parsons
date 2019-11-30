@@ -6,11 +6,7 @@ from parsons.utilities import files
 import pickle
 import petl
 import logging
-
-from parsons.databases.redshift.rs_create_table import RedshiftCreateTable # Temporary
-from parsons.databases.redshift.rs_table_utilities import RedshiftTableUtilities # Temporary
-from parsons.databases.redshift.rs_schema import RedshiftSchema # Temporary
-
+from parsons.databases.postgres.postgres_create_table import PostgresCreateTable # Temporary
 
 # Max number of rows that we query at a time, so we can avoid loading huge
 # data sets into memory.
@@ -19,11 +15,7 @@ QUERY_BATCH_SIZE = 100000
 
 logger = logging.getLogger(__name__)
 
-
-# To Do: Might want to rename the subclasses to Postgres at some point in the future. Also
-# need to test them to see if all of the methods work with Postgres.
-
-class PostgresCore(RedshiftCreateTable):
+class PostgresCore(PostgresCreateTable):
 
     @contextmanager
     def connection(self):

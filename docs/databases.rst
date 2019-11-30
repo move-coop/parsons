@@ -5,7 +5,7 @@ Databases
 Google BigQuery
 ***************
 
-See :doc:`google_cloud` for details on Google BigQuery
+See :doc:`google_cloud` for documentation.
 
 ********
 Postgres
@@ -15,9 +15,8 @@ Postgres
    :inherited-members:
 
 
-
 ********
 Redshift
 ********
 
-See :doc:`redshift` section for details.
+See :doc:`redshift` section for documentation.

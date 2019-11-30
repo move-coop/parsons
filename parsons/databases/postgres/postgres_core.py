@@ -23,10 +23,6 @@ logger = logging.getLogger(__name__)
 
 class PostgresCore(RedshiftCreateTable, RedshiftTableUtilities):
 
-    def __init__(self):
-
-        pass
-
     @contextmanager
     def connection(self):
         """

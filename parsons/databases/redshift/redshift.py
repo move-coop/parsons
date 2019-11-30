@@ -299,9 +299,9 @@ class Redshift(RedshiftCreateTable, RedshiftCopyTable, RedshiftTableUtilities, R
         """
 
         with self.connection() as connection:
-            should_create = self._create_table_precheck(connection, table_name, if_exists)
 
-            if should_create:
+            if self._create_table_precheck(connection, table_name, if_exists):
+
                 # Grab the object from s3
                 from parsons.aws.s3 import S3
                 s3 = S3(aws_access_key_id=aws_access_key_id,

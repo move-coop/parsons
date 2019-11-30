@@ -33,9 +33,7 @@ class Postgres(PostgresCore):
         self.host = check_env.check('POSTGRES_HOST', host)
         self.db = check_env.check('POSTGRES_DB', db)
         self.port = check_env.check('POSTGRES_PORT', port)
-
         self.timeout = timeout
-        self.dialect = 'postgresql' # To Do: Not sure if this is needed right now
 
     def copy(self, tbl, table_name, if_exists='fail'):
         """

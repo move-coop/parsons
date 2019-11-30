@@ -9,6 +9,8 @@ import logging
 
 from parsons.databases.redshift.rs_create_table import RedshiftCreateTable # Temporary
 from parsons.databases.redshift.rs_table_utilities import RedshiftTableUtilities # Temporary
+from parsons.databases.redshift.rs_schema import RedshiftSchema # Temporary
+
 
 # Max number of rows that we query at a time, so we can avoid loading huge
 # data sets into memory.
@@ -21,7 +23,7 @@ logger = logging.getLogger(__name__)
 # To Do: Might want to rename the subclasses to Postgres at some point in the future. Also
 # need to test them to see if all of the methods work with Postgres.
 
-class PostgresCore(RedshiftCreateTable, RedshiftTableUtilities):
+class PostgresCore(RedshiftCreateTable):
 
     @contextmanager
     def connection(self):
@@ -159,3 +161,89 @@ class PostgresCore(RedshiftCreateTable, RedshiftTableUtilities):
 
                 logger.debug(f'Query returned {final_tbl.num_rows} rows.')
                 return final_tbl
+
+    def _create_table_precheck(self, connection, table_name, if_exists):
+        """
+        Helper to determine what to do when you need a table that may already exist.
+
+        `Args:`
+            connection: obj
+                A connection object obtained from ``redshift.connection()``
+            table_name: str
+                The table to check
+            if_exists: str
+                If the table already exists, either ``fail``, ``append``, ``drop``,
+                or ``truncate`` the table.
+        `Returns:`
+            bool
+                True if the table needs to be created, False otherwise.
+        """
+
+        if if_exists not in ['fail', 'truncate', 'append', 'drop']:
+            raise ValueError("Invalid value for `if_exists` argument")
+
+        exists = self.table_exists_with_connection(table_name, connection)
+
+        if exists and if_exists in ['fail', 'truncate', 'append']:
+            if if_exists == 'fail':
+                raise ValueError('Table already exists.')
+            elif if_exists == 'truncate':
+                truncate_sql = f"truncate table {table_name}"
+                self.query_with_connection(truncate_sql, connection, commit=False)
+
+        else:
+            if exists and if_exists == 'drop':
+                logger.info(f"Table {table_name} exist, will drop...")
+                drop_sql = f"drop table {table_name};\n"
+                self.query_with_connection(drop_sql, connection, commit=False)
+
+            return True
+
+        return False
+
+    def table_exists(self, table_name, view=True):
+        """
+        Check if a table or view exists in the database.
+
+        `Args:`
+            table_name: str
+                The table name and schema (e.g. ``myschema.mytable``).
+            view: boolean
+                Check to see if a view exists by the same name
+
+        `Returns:`
+            boolean
+                ``True`` if the table exists and ``False`` if it does not.
+        """
+        with self.connection() as connection:
+            return self.table_exists_with_connection(table_name, connection, view)
+
+    def table_exists_with_connection(self, table_name, connection, view=True):
+        table_name = table_name.lower().split('.')
+
+        # Check in pg tables for the table
+        sql = """select count(*) from pg_tables where schemaname='{}' and
+                 tablename='{}';""".format(table_name[0], table_name[1])
+
+        # TODO maybe convert these queries to use self.query_with_connection
+
+        with self.cursor(connection) as cursor:
+
+            cursor.execute(sql)
+            result = cursor.fetchone()[0]
+
+            # Check in the pg_views for the table
+            if view:
+                sql = """select count(*) from pg_views where schemaname='{}' and
+                         viewname='{}';""".format(table_name[0], table_name[1])
+
+            cursor.execute(sql)
+            result += cursor.fetchone()[0]
+
+        # If in either, return boolean
+        if result >= 1:
+            logger.info(f'{table_name[0]}.{table_name[1]} exists.')
+            return True
+        else:
+            logger.info(f'{table_name[0]}.{table_name[1]} does NOT exist.')
+            return False

@@ -20,7 +20,7 @@ class Postgres(PostgresCore):
         db: str
             Required if env variable ``POSTGRES_DB`` not populated
         port: int
-            Required if env variable ``POSTGRES_PORT`` not populated. Port 5432 is typical.
+            Required if env variable ``POSTGRES_PORT`` not populated.
         timeout: int
             Seconds to timeout if connection not established
     """

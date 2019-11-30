@@ -1,23 +1,21 @@
 Databases
 =========
 
-********
-BigQuery
-********
+***************
+Google BigQuery
+***************
 
-.. autoclass:: parsons.google.google_bigquery.GoogleBigQuery
-   :inherited-members:
+See :doc:`google_cloud` for details on Google BigQuery
 
 ********
 Postgres
 ********
 
-.. autoclass:: parsons.databases.postgres.Postgres
+.. autoclass:: parsons.Postgres
    :inherited-members:
 
 ********
 Redshift
 ********
 
-.. autoclass:: parsons.databases.redshift.Redshift
-   :inherited-members:
+See :doc:`redshift` section for details.

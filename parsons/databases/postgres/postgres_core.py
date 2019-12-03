@@ -6,7 +6,7 @@ from parsons.utilities import files
 import pickle
 import petl
 import logging
-from parsons.databases.postgres.postgres_create_table import PostgresCreateTable # Temporary
+from parsons.databases.postgres.postgres_create_table import PostgresCreateTable
 
 # Max number of rows that we query at a time, so we can avoid loading huge
 # data sets into memory.
@@ -14,6 +14,7 @@ from parsons.databases.postgres.postgres_create_table import PostgresCreateTable
 QUERY_BATCH_SIZE = 100000
 
 logger = logging.getLogger(__name__)
+
 
 class PostgresCore(PostgresCreateTable):
 

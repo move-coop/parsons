@@ -1,6 +1,7 @@
 from parsons.utilities import check_env
 from parsons.databases.postgres.postgres_core import PostgresCore
 import logging
+import os
 
 
 logger = logging.getLogger(__name__)
@@ -12,27 +13,31 @@ class Postgres(PostgresCore):
 
     Args:
         username: str
-            Required if env variable ``POSTGRES_USERNAME`` not populated
+            Required if env variable ``PGUSERNAME`` not populated
         password: str
-            Required if env variable ``POSTGRES_PASSWORD`` not populated
+            Required if env variable ``PGPASSWORD`` not populated
         host: str
-            Required if env variable ``POSTGRES_HOST`` not populated
+            Required if env variable ``PGHOST`` not populated
         db: str
-            Required if env variable ``POSTGRES_DB`` not populated
+            Required if env variable ``PGDB`` not populated
         port: int
-            Required if env variable ``POSTGRES_PORT`` not populated.
+            Required if env variable ``PGPORT`` not populated.
+        pg_pass: str
+            The path to your pg pass file
         timeout: int
-            Seconds to timeout if connection not established
+            Seconds to timeout if connection not established.
     """
 
-    def __init__(self, username=None, password=None, host=None, db=None, port=5432,
-                 timeout=10):
+    def __init__(self, username=None, password=None, host=None, db=None, port=5432, timeout=10):
 
-        self.username = check_env.check('POSTGRES_USERNAME', username)
-        self.password = check_env.check('POSTGRES_PASSWORD', password)
-        self.host = check_env.check('POSTGRES_HOST', host)
-        self.db = check_env.check('POSTGRES_DB', db)
-        self.port = check_env.check('POSTGRES_PORT', port)
+        # Check if there is a pgpass file
+        pgpass = os.path.isfile(os.path.expanduser('~/.pgpass'))
+
+        self.username = check_env.check('PGUSERNAME', username, pgpass)
+        self.password = check_env.check('PGPASSWORD', password, pgpass)
+        self.host = check_env.check('PGHOST', host, pgpass)
+        self.db = check_env.check('PGDB', db, pgpass)
+        self.port = check_env.check('PGPORT', port, pgpass)
         self.timeout = timeout
 
     def copy(self, tbl, table_name, if_exists='fail'):

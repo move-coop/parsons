@@ -265,9 +265,9 @@ class People(object):
         """
 
         logger.info(f'Applying result code {result_code_id} to {id_type} {id}.')
-        self.apply_response(id, response=response, id_type=id_type, contact_type_id=contact_type_id,
-                            input_type_id=input_type_id, date_canvassed=date_canvassed,
-                            result_code_id=result_code_id)
+        return self.apply_response(id, response=response, id_type=id_type, contact_type_id=contact_type_id,
+                                   input_type_id=input_type_id, date_canvassed=date_canvassed,
+                                   result_code_id=result_code_id)
 
     def toggle_volunteer_action(self, id, volunteer_activity_id, action, id_type='vanid',
                                 result_code_id=None, contact_type_id=None, input_type_id=None,

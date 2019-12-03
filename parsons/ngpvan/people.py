@@ -139,7 +139,7 @@ class People(object):
         # Determine correct url
         url = 'people/find'
         if create:
-            url = url + 'orCreate'
+            url = url + 'OrCreate'
 
         return self.connection.post_request(url, json=json)
 
@@ -239,7 +239,7 @@ class People(object):
         logger.info(f'Getting person with {id_type} of {id}')
         return self.connection.get_request(url, params={'$expand': expand_fields})
 
-    def apply_canvass_result(self, id, result_code_id, id_type='vanid', contact_type_id=None,
+    def apply_canvass_result(self, id, result_code_id, response=None, id_type='vanid', contact_type_id=None,
                              input_type_id=None, date_canvassed=None):
         """
         Apply a canvass result to a person. Use this end point for attempts that do not
@@ -265,7 +265,7 @@ class People(object):
         """
 
         logger.info(f'Applying result code {result_code_id} to {id_type} {id}.')
-        self.apply_response(id, None, id_type=id_type, contact_type_id=contact_type_id,
+        self.apply_response(id, response=response, id_type=id_type, contact_type_id=contact_type_id,
                             input_type_id=input_type_id, date_canvassed=date_canvassed,
                             result_code_id=result_code_id)
 

@@ -86,7 +86,7 @@ class APIConnector(object):
 
         return r.json()
 
-    def post_request(self, url, params=None, data=None, json=None, success_codes=[204, 201]):
+    def post_request(self, url, params=None, data=None, json=None, success_codes=[200, 201, 204]):
         """
         Make a POST request.
 
@@ -118,7 +118,7 @@ class APIConnector(object):
             else:
                 return r.status_code
 
-    def delete_request(self, url, params=None, success_codes=[204, 201]):
+    def delete_request(self, url, params=None, success_codes=[200, 201, 204]):
         """
         Make a DELETE request.
 
@@ -145,7 +145,7 @@ class APIConnector(object):
             else:
                 return r.status_code
 
-    def put_request(self, url, data=None, json=None, params=None, success_codes=[204, 201]):
+    def put_request(self, url, data=None, json=None, params=None, success_codes=[200, 201, 204]):
         """
         Make a PUT request.
 
@@ -172,7 +172,7 @@ class APIConnector(object):
             else:
                 return r.status_code
 
-    def patch_request(self, url, params=None, data=None, json=None, success_codes=[204, 201]):
+    def patch_request(self, url, params=None, data=None, json=None, success_codes=[200, 201, 204]):
         """
         Make a PATCH request.
 

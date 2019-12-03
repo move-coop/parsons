@@ -9,7 +9,8 @@ logger = logging.getLogger(__name__)
 
 class Postgres(PostgresCore):
     """
-    A Postgres class to connect to database.
+    A Postgres class to connect to database. Credentials can be passed from a ``.pgpass`` file
+    stored in your home directory, environmental variables or passed arguments.
 
     Args:
         username: str
@@ -62,8 +63,7 @@ class Postgres(PostgresCore):
 
                 # Create the table
                 # To Do: Decide which of these parameters we want to pass in.
-                sql = self.create_statement(tbl, table_name, padding=None, varchar_max=None,
-                                            columntypes=None)
+                sql = self.create_statement(tbl, table_name)
 
                 self.query_with_connection(sql, connection, commit=False)
                 logger.info(f'{table_name} created.')

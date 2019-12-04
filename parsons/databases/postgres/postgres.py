@@ -31,7 +31,8 @@ class Postgres(PostgresCore):
 
     def __init__(self, username=None, password=None, host=None, db=None, port=5432, timeout=10):
 
-        # Check if there is a pgpass file
+        # Check if there is a pgpass file. Pscopg2 will search for this file first when
+        # creating a connection.
         pgpass = os.path.isfile(os.path.expanduser('~/.pgpass'))
 
         self.username = check_env.check('PGUSERNAME', username, pgpass)
@@ -54,15 +55,13 @@ class Postgres(PostgresCore):
             or ``truncate`` the table.
         """
 
-        # To Do: Deal with not passing in a schema for the table, if I want to.
-
         with self.connection() as connection:
 
             # Auto-generate table
             if self._create_table_precheck(connection, table_name, if_exists):
 
                 # Create the table
-                # To Do: Decide which of these parameters we want to pass in.
+                # To Do: Pass in the advanced configuration parameters.
                 sql = self.create_statement(tbl, table_name)
 
                 self.query_with_connection(sql, connection, commit=False)

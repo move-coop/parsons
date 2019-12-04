@@ -666,3 +666,13 @@ class TestParsonsTable(unittest.TestCase):
         input_tbl.map_columns(column_map)
 
         assert_matching_tables(input_tbl, expected_tbl)
+
+    def test_get_column_max_with(self):
+
+        tbl = Table([['a', 'b'], ['wide_text', False], ['text', 2]])
+
+        # Basic test
+        self.assertEqual(tbl.get_column_max_width('a'), 9)
+
+        # Doesn't break for non-strings
+        self.assertEqual(tbl.get_column_max_width('b'), 5)

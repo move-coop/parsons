@@ -29,10 +29,6 @@ class TestRedshift(unittest.TestCase):
 
         self.mapping = self.rs.generate_data_types(self.tbl)
 
-    def tearDown(self):
-
-        pass
-
     def test_split_full_table_name(self):
         schema, table = Redshift.split_full_table_name('some_schema.some_table')
         self.assertEqual(schema, 'some_schema')

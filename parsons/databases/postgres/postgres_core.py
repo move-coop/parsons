@@ -6,7 +6,7 @@ from parsons.utilities import files
 import pickle
 import petl
 import logging
-from parsons.databases.postgres.postgres_create_table import PostgresCreateTable
+from parsons.databases.postgres.postgres_create_statement import PostgresCreateStatement
 
 # Max number of rows that we query at a time, so we can avoid loading huge
 # data sets into memory.
@@ -16,7 +16,7 @@ QUERY_BATCH_SIZE = 100000
 logger = logging.getLogger(__name__)
 
 
-class PostgresCore(PostgresCreateTable):
+class PostgresCore(PostgresCreateStatement):
 
     @contextmanager
     def connection(self):
@@ -37,16 +37,25 @@ class PostgresCore(PostgresCreateTable):
         conn = psycopg2.connect(user=self.username, password=self.password,
                                 host=self.host, dbname=self.db, port=self.port,
                                 connect_timeout=self.timeout)
-        yield conn
 
-        conn.commit()
-        conn.close()
+        try:
+            yield conn
+        except psycopg2.Error:
+            conn.rollback()
+            raise
+        else:
+            conn.commit()
+        finally:
+            conn.close()
 
     @contextmanager
     def cursor(self, connection):
         cur = connection.cursor(cursor_factory=psycopg2.extras.DictCursor)
-        yield cur
-        cur.close()
+
+        try:
+            yield cur
+        finally:
+            cur.close()
 
     def query(self, sql, parameters=None):
         """
@@ -174,6 +183,7 @@ class PostgresCore(PostgresCreateTable):
 
         # If the table exists, evaluate the if_exists argument for next steps.
         if self.table_exists_with_connection(table_name, connection):
+
             if if_exists == 'fail':
                 raise ValueError('Table already exists.')
 
@@ -211,26 +221,29 @@ class PostgresCore(PostgresCreateTable):
             return self.table_exists_with_connection(table_name, connection, view)
 
     def table_exists_with_connection(self, table_name, connection, view=True):
-        table_name = table_name.lower().split('.')
 
-        # Check in pg tables for the table
-        sql = """select count(*) from pg_tables where schemaname='{}' and
-                 tablename='{}';""".format(table_name[0], table_name[1])
-
-        # TODO maybe convert these queries to use self.query_with_connection
+        # Extract the table and schema from this. If no schema is detected then
+        # will default to the public schema.
+        try:
+            schema, table = table_name.lower().split('.', 1)
+        except ValueError as e:
+            schema, table = "public", table_name.lower()
 
         with self.cursor(connection) as cursor:
+
+            # Check in pg tables for the table
+            sql = f"""select count(*) from pg_tables where schemaname='{schema}' and
+                     tablename='{table}';"""
 
             cursor.execute(sql)
             result = cursor.fetchone()[0]
 
-            # Check in the pg_views for the table
+            # Check in the pg_views if it is a view
             if view:
-                sql = """select count(*) from pg_views where schemaname='{}' and
-                         viewname='{}';""".format(table_name[0], table_name[1])
-
-            cursor.execute(sql)
-            result += cursor.fetchone()[0]
+                sql = f"""select count(*) from pg_views where schemaname='{schema}' and
+                         viewname='{table}';"""
+                cursor.execute(sql)
+                result += cursor.fetchone()[0]
 
         # If in either, return boolean
         if result >= 1:
@@ -239,3 +252,4 @@ class PostgresCore(PostgresCreateTable):
         else:
             logger.info(f'{table_name[0]}.{table_name[1]} does NOT exist.')
             return False
+

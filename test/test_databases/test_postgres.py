@@ -14,7 +14,7 @@ TEMP_SCHEMA = 'parsons_test'
 # These tests do not interact with the Postgres Database directly, and don't need real credentials
 
 
-class TestPostgres(unittest.TestCase):
+class TestPostgresCreateStatement(unittest.TestCase):
 
     def setUp(self):
 
@@ -26,6 +26,10 @@ class TestPostgres(unittest.TestCase):
                           [3, 'Sarah']])
 
         self.mapping = self.pg.generate_data_types(self.tbl)
+
+    def test_connection(self):
+
+        self.pg = Postgres(username='test', password='test', host='test', db='test')
 
     def test_data_type(self):
 

@@ -39,11 +39,11 @@ class PostgresCreateTable(object):
         # Redshift and should not be passed when generating a create statement for
         # Postgres.
 
-        # Validate and rename column names if needed
-        tbl.table = petl.setheader(tbl.table, self.column_name_validate(tbl.columns))
-
         if tbl.num_rows == 0:
             raise ValueError('Table is empty. Must have 1 or more rows.')
+
+        # Validate and rename column names if needed
+        tbl.table = petl.setheader(tbl.table, self.column_name_validate(tbl.columns))
 
         mapping = self.generate_data_types(tbl)
 

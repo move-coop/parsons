@@ -160,20 +160,31 @@ class TestPostgresDB(unittest.TestCase):
 
     def test_copy(self):
 
-        # Copy a table
+        # Copy a table and ensure table exists
         self.pg.copy(self.tbl, f'{self.temp_schema}.test_copy', if_exists='drop')
-
-        # Test that file exists
         r = self.pg.query(f"select * from {self.temp_schema}.test_copy where name='Jim'")
         self.assertEqual(r[0]['id'], 1)
 
-        # Copy to the same table, to verify that the "truncate" flag works.
+        # Copy table and ensure truncate works.
         self.pg.copy(self.tbl, f'{self.temp_schema}.test_copy', if_exists='truncate')
-        rows = self.pg.query(f"select count(*) from {self.temp_schema}.test_copy")
-        self.assertEqual(rows[0]['count'], 3)
+        tbl = self.pg.query(f"select count(*) from {self.temp_schema}.test_copy")
+        self.assertEqual(tbl.first, 3)
 
-        # Copy to the same table, to verify that the "drop" flag works.
+        # Copy table and ensure that drop works.
         self.pg.copy(self.tbl, f'{self.temp_schema}.test_copy', if_exists='drop')
+        tbl = self.pg.query(f"select count(*) from {self.temp_schema}.test_copy")
+        self.assertEqual(tbl.first, 3)
+
+        # Copy table and ensure that append works.
+        self.pg.copy(self.tbl, f'{self.temp_schema}.test_copy', if_exists='append')
+        tbl = self.pg.query(f"select count(*) from {self.temp_schema}.test_copy")
+        self.assertEqual(tbl.first, 6)
+
+        # Try to copy the table and ensure that default fail works.
+        self.assertRaises(ValueError, self.pg.copy, self.tbl, f'{self.temp_schema}.test_copy')
+
+        # Try to copy the table and ensure that explicit fail works.
+        self.assertRaises(ValueError, self.pg.copy, self.tbl, f'{self.temp_schema}.test_copy', if_exists='fail')
 
 if __name__ == "__main__":
     unittest.main()

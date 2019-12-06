@@ -111,9 +111,6 @@ class PostgresCore(PostgresCreateTable):
                 See :ref:`parsons-table` for output options.
         """
 
-        # To Do: Have it return an ordered dict to return the
-        #        rows in the correct order
-
         with self.cursor(connection) as cursor:
 
             logger.debug(f'SQL Query: {sql}')
@@ -175,24 +172,26 @@ class PostgresCore(PostgresCreateTable):
         if if_exists not in ['fail', 'truncate', 'append', 'drop']:
             raise ValueError("Invalid value for `if_exists` argument")
 
-        exists = self.table_exists_with_connection(table_name, connection)
-
-        if exists and if_exists in ['fail', 'truncate', 'append']:
+        # If the table exists, evaluate the if_exists argument for next steps.
+        if self.table_exists_with_connection(table_name, connection):
             if if_exists == 'fail':
                 raise ValueError('Table already exists.')
-            elif if_exists == 'truncate':
-                truncate_sql = f"truncate table {table_name}"
+
+            if if_exists == 'truncate':
+                truncate_sql = f"TRUNCATE TABLE {table_name};"
+                logger.info(f"Truncating {table_name}.")
                 self.query_with_connection(truncate_sql, connection, commit=False)
 
-        else:
-            if exists and if_exists == 'drop':
-                logger.info(f"Table {table_name} exist, will drop...")
-                drop_sql = f"drop table {table_name};\n"
+            if if_exists == 'drop':
+                logger.info(f"Dropping {table_name}.")
+                drop_sql = f"DROP TABLE {table_name};"
                 self.query_with_connection(drop_sql, connection, commit=False)
+                return True
 
+            return False
+
+        else:
             return True
-
-        return False
 
     def table_exists(self, table_name, view=True):
         """

@@ -226,7 +226,7 @@ class PostgresCore(PostgresCreateStatement):
         # will default to the public schema.
         try:
             schema, table = table_name.lower().split('.', 1)
-        except ValueError as e:
+        except ValueError:
             schema, table = "public", table_name.lower()
 
         with self.cursor(connection) as cursor:

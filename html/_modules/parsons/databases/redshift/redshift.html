@@ -802,11 +802,12 @@
 
         <span class="k">with</span> <span class="bp">self</span><span class="o">.</span><span class="n">connection</span><span class="p">()</span> <span class="k">as</span> <span class="n">connection</span><span class="p">:</span>
 
-            <span class="c1"># Copy to a staging table</span>
-            <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="n">f</span><span class="s1">&#39;Building staging table: </span><span class="si">{staging_tbl}</span><span class="s1">&#39;</span><span class="p">)</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="n">table_obj</span><span class="p">,</span> <span class="n">staging_tbl</span><span class="p">)</span>
-
             <span class="k">try</span><span class="p">:</span>
+
+                <span class="c1"># Copy to a staging table</span>
+                <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="n">f</span><span class="s1">&#39;Building staging table: </span><span class="si">{staging_tbl}</span><span class="s1">&#39;</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="n">table_obj</span><span class="p">,</span> <span class="n">staging_tbl</span><span class="p">)</span>
+
                 <span class="c1"># Delete rows</span>
                 <span class="n">staging_primary_key</span> <span class="o">=</span> <span class="n">f</span><span class="s2">&quot;{staging_tbl.split(&#39;.&#39;)[1]}.</span><span class="si">{primary_key}</span><span class="s2">&quot;</span>
                 <span class="n">target_primary_key</span> <span class="o">=</span> <span class="n">f</span><span class="s2">&quot;{target_table.split(&#39;.&#39;)[1]}.</span><span class="si">{primary_key}</span><span class="s2">&quot;</span>

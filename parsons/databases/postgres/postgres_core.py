@@ -252,4 +252,3 @@ class PostgresCore(PostgresCreateStatement):
         else:
             logger.info(f'{table_name[0]}.{table_name[1]} does NOT exist.')
             return False
-

@@ -630,11 +630,12 @@ class Redshift(RedshiftCreateTable, RedshiftCopyTable, RedshiftTableUtilities, R
 
         with self.connection() as connection:
 
-            # Copy to a staging table
-            logger.info(f'Building staging table: {staging_tbl}')
-            self.copy(table_obj, staging_tbl)
-
             try:
+
+                # Copy to a staging table
+                logger.info(f'Building staging table: {staging_tbl}')
+                self.copy(table_obj, staging_tbl)
+
                 # Delete rows
                 staging_primary_key = f"{staging_tbl.split('.')[1]}.{primary_key}"
                 target_primary_key = f"{target_table.split('.')[1]}.{primary_key}"

@@ -1,6 +1,7 @@
 from parsons.utilities import check_env
 from parsons.databases.postgres.postgres_core import PostgresCore
 import logging
+import os
 
 
 logger = logging.getLogger(__name__)
@@ -8,31 +9,37 @@ logger = logging.getLogger(__name__)
 
 class Postgres(PostgresCore):
     """
-    A Postgres class to connect to database.
+    A Postgres class to connect to database. Credentials can be passed from a ``.pgpass`` file
+    stored in your home directory, environmental variables or passed arguments.
 
     Args:
         username: str
-            Required if env variable ``POSTGRES_USERNAME`` not populated
+            Required if env variable ``PGUSERNAME`` not populated
         password: str
-            Required if env variable ``POSTGRES_PASSWORD`` not populated
+            Required if env variable ``PGPASSWORD`` not populated
         host: str
-            Required if env variable ``POSTGRES_HOST`` not populated
+            Required if env variable ``PGHOST`` not populated
         db: str
-            Required if env variable ``POSTGRES_DB`` not populated
+            Required if env variable ``PGDB`` not populated
         port: int
-            Required if env variable ``POSTGRES_PORT`` not populated.
+            Required if env variable ``PGPORT`` not populated.
+        pg_pass: str
+            The path to your pg pass file
         timeout: int
-            Seconds to timeout if connection not established
+            Seconds to timeout if connection not established.
     """
 
-    def __init__(self, username=None, password=None, host=None, db=None, port=5432,
-                 timeout=10):
+    def __init__(self, username=None, password=None, host=None, db=None, port=5432, timeout=10):
 
-        self.username = check_env.check('POSTGRES_USERNAME', username)
-        self.password = check_env.check('POSTGRES_PASSWORD', password)
-        self.host = check_env.check('POSTGRES_HOST', host)
-        self.db = check_env.check('POSTGRES_DB', db)
-        self.port = check_env.check('POSTGRES_PORT', port)
+        # Check if there is a pgpass file. Pscopg2 will search for this file first when
+        # creating a connection.
+        pgpass = os.path.isfile(os.path.expanduser('~/.pgpass'))
+
+        self.username = check_env.check('PGUSERNAME', username, pgpass)
+        self.password = check_env.check('PGPASSWORD', password, pgpass)
+        self.host = check_env.check('PGHOST', host, pgpass)
+        self.db = check_env.check('PGDB', db, pgpass)
+        self.port = check_env.check('PGPORT', port, pgpass)
         self.timeout = timeout
 
     def copy(self, tbl, table_name, if_exists='fail'):
@@ -48,17 +55,14 @@ class Postgres(PostgresCore):
             or ``truncate`` the table.
         """
 
-        # To Do: Deal with not passing in a schema for the table, if I want to.
-
         with self.connection() as connection:
 
             # Auto-generate table
             if self._create_table_precheck(connection, table_name, if_exists):
 
                 # Create the table
-                # To Do: Decide which of these parameters we want to pass in.
-                sql = self.create_statement(tbl, table_name, padding=None, varchar_max=None,
-                                            columntypes=None)
+                # To Do: Pass in the advanced configuration parameters.
+                sql = self.create_statement(tbl, table_name)
 
                 self.query_with_connection(sql, connection, commit=False)
                 logger.info(f'{table_name} created.')

@@ -4,7 +4,7 @@ import logging
 
 logger = logging.getLogger(__name__)
 
-# These are reserved words by Redshift and cannot be used as column names.
+# These are reserved words by Postgres/Redshift and cannot be used as column names.
 RESERVED_WORDS = ['AES128', 'AES256', 'ALL', 'ALLOWOVERWRITE', 'ANALYSE', 'ANALYZE', 'AND', 'ANY',
                   'ARRAY', 'AS', 'ASC', 'AUTHORIZATION', 'BACKUP', 'BETWEEN', 'BINARY',
                   'BLANKSASNULL', 'BOTH', 'BYTEDICT', 'BZIP2', 'CASE', 'CAST', 'CHECK', 'COLLATE',
@@ -27,7 +27,7 @@ RESERVED_WORDS = ['AES128', 'AES256', 'ALL', 'ALLOWOVERWRITE', 'ANALYSE', 'ANALY
                   'VERBOSE', 'WALLET', 'WHEN', 'WHERE', 'WITH', 'WITHOUT']
 
 
-class PostgresCreateTable(object):
+class PostgresCreateStatement(object):
 
     def __init__(self):
 
@@ -39,11 +39,11 @@ class PostgresCreateTable(object):
         # Redshift and should not be passed when generating a create statement for
         # Postgres.
 
-        # Validate and rename column names if needed
-        tbl.table = petl.setheader(tbl.table, self.column_name_validate(tbl.columns))
-
         if tbl.num_rows == 0:
             raise ValueError('Table is empty. Must have 1 or more rows.')
+
+        # Validate and rename column names if needed
+        tbl.table = petl.setheader(tbl.table, self.column_name_validate(tbl.columns))
 
         mapping = self.generate_data_types(tbl)
 
@@ -71,7 +71,7 @@ class PostgresCreateTable(object):
         return self.create_sql(table_name, mapping, distkey=distkey, sortkey=sortkey)
 
     def data_type(self, val, current_type):
-        # Determine the Redshift data type of a given value
+        # Determine the database data type of a given value
 
         try:
             # Convert to string to reevaluate data type
@@ -102,7 +102,7 @@ class PostgresCreateTable(object):
 
     def is_valid_integer(self, val):
 
-        # Valid ints in python can contain an underscore, but Redshift can't. This
+        # Valid ints in python can contain an underscore, but Postgres can't. This
         # checks to see if there is an underscore in the value and turns it into
         # a varchar if so.
         try:
@@ -141,8 +141,9 @@ class PostgresCreateTable(object):
                     var_type = self.data_type(row[i], type_list[i])
                     type_list[i] = var_type
                 # Calculate width
-                if len(str(row[i]).encode('utf-8')) > longest[i]:
-                    longest[i] = len(str(row[i]).encode('utf-8'))
+                width = len(str(row[i]).encode('utf-8'))
+                if width > longest[i]:
+                    longest[i] = width
 
         return {'longest': longest,
                 'headers': table.columns,
@@ -222,7 +223,7 @@ class PostgresCreateTable(object):
             # If column is a reserved word, replace with 'col_INDEX'. Technically
             # you can allow these with quotes, but I think that it is bad practice
             if c.upper()in RESERVED_WORDS:
-                logger.info(f'{c} is a Redshift reserved word. Renaming column.')
+                logger.info(f'{c} is a Redshift/Postgres reserved word. Renaming column.')
                 c = f'col_{idx}'
 
             # If column name begins with an integer, preprent with 'x_'

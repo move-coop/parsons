@@ -141,8 +141,9 @@ class PostgresCreateStatement(object):
                     var_type = self.data_type(row[i], type_list[i])
                     type_list[i] = var_type
                 # Calculate width
-                if len(str(row[i]).encode('utf-8')) > longest[i]:
-                    longest[i] = len(str(row[i]).encode('utf-8'))
+                width = len(str(row[i]).encode('utf-8'))
+                if width > longest[i]:
+                    longest[i] = width
 
         return {'longest': longest,
                 'headers': table.columns,

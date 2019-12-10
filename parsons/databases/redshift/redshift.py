@@ -671,7 +671,20 @@ class Redshift(RedshiftCreateTable, RedshiftCopyTable, RedshiftTableUtilities, R
                 self.query_with_connection(f'VACUUM {target_table};', connection)
                 logger.info(f'{target_table} vacuumed.')
 
-    def alter_column_widths(self, tbl, table_name):
+    def alter_varchar_column_widths(self, tbl, table_name):
+        """
+        Alter the width of a varchar columns in a Redshift table to match the widths
+        of a Parsons table. The columns are matched by column name and not their
+        index.
+
+        `Args:`
+            tbl: obj
+                A Parsons table
+            table_name:
+                The target table name (e.g. ``my_schema.my_table``)
+        `Returns:`
+            ``None``
+        """
 
         # Make the Parsons table column names match valid Redshift names
         tbl.table = petl.setheader(tbl.table, self.column_name_validate(tbl.columns))
@@ -694,7 +707,7 @@ class Redshift(RedshiftCreateTable, RedshiftCopyTable, RedshiftTableUtilities, R
 
     def alter_table_column_type(self, table_name, column_name, data_type, varchar_width=None):
         """
-        Alter a column type and or varchar width.
+        Alter a column type of an existing table.
 
         table_name: str
             The table name (ex. ``my_schema.my_table``).
@@ -703,7 +716,7 @@ class Redshift(RedshiftCreateTable, RedshiftCopyTable, RedshiftTableUtilities, R
         data_type: str
             A valid Redshift data type to alter the table to.
         varchar_width:
-            The new width of the column if a varchar column.
+            The new width of the column if of type varchar.
         """
 
         sql = f"ALTER TABLE {table_name} ALTER COLUMN {column_name} TYPE {data_type}"

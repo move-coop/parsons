@@ -669,6 +669,16 @@ class TestRedshiftDB(unittest.TestCase):
 
         self.assertEqual(expected_view_defs, actual_view_def)
 
+    def test_alter_varchar_column_widths(self):
+
+        append_tbl = Table([['ID', 'Name'],
+                            [4, 'Jim'],
+                            [5, 'John'],
+                            [6, 'Joanna']])
+
+        # Base table 'Name' column has a width of 5. This should expand it to 6.
+        self.rs.alter_table_widths(append_tbl, f'{self.temp_schema}.test')
+        self.assertEqual(self.rs.get_columns(self.temp_schema, 'test')['name']['max_length'], 6)
 
 if __name__ == "__main__":
     unittest.main()

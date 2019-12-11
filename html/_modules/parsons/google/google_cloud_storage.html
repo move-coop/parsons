@@ -404,11 +404,13 @@
         <span class="k">if</span> <span class="ow">not</span> <span class="n">local_path</span><span class="p">:</span>
             <span class="n">local_path</span> <span class="o">=</span> <span class="n">files</span><span class="o">.</span><span class="n">create_temp_file_for_path</span><span class="p">(</span><span class="s1">&#39;TEMPTHING&#39;</span><span class="p">)</span>
 
-        <span class="n">blob</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_blob</span><span class="p">(</span><span class="n">bucket_name</span><span class="p">,</span> <span class="n">blob_name</span><span class="p">)</span>
+        <span class="n">blob_name</span> <span class="o">=</span> <span class="n">blob_name</span><span class="o">.</span><span class="n">lstrip</span><span class="p">(</span><span class="s1">&#39;/&#39;</span><span class="p">)</span>
+
+        <span class="n">blob_uri</span> <span class="o">=</span> <span class="n">f</span><span class="s1">&#39;gs://</span><span class="si">{bucket_name}</span><span class="s1">/</span><span class="si">{blob_name}</span><span class="s1">&#39;</span>
 
         <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="n">f</span><span class="s1">&#39;Downloading </span><span class="si">{blob_name}</span><span class="s1"> from </span><span class="si">{bucket_name}</span><span class="s1"> bucket.&#39;</span><span class="p">)</span>
         <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">local_path</span><span class="p">,</span> <span class="s1">&#39;wb&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
-            <span class="n">blob</span><span class="o">.</span><span class="n">download_to_file</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">download_blob_to_file</span><span class="p">(</span><span class="n">blob_uri</span><span class="p">,</span> <span class="n">f</span><span class="p">)</span>
         <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="n">f</span><span class="s1">&#39;</span><span class="si">{blob_name}</span><span class="s1"> saved to </span><span class="si">{local_path}</span><span class="s1">.&#39;</span><span class="p">)</span>
 
         <span class="k">return</span> <span class="n">local_path</span></div>

@@ -8,7 +8,6 @@ import petl
 import logging
 from parsons.databases.postgres.postgres_create_statement import PostgresCreateStatement
 
-
 # Max number of rows that we query at a time, so we can avoid loading huge
 # data sets into memory.
 # 100k rows per batch at ~1k bytes each = ~100MB per batch.

@@ -30,8 +30,6 @@ class TestPostgresCreateStatement(unittest.TestCase):
 
     def test_connection(self):
 
-        self.pg = Postgres(username='test', password='test', host='test', db='test')
-
         # Test connection with kwargs passed
         arg_pg = Postgres(username='test', password='test', host='test', db='test')
 

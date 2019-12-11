@@ -7,7 +7,6 @@ def check(env, field):
     and the passed field or arguments have not been passed, then raise an
     error.
     """
-
     if not field:
         try:
             return os.environ[env]

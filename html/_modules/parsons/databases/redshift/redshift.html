@@ -83,6 +83,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../../../../civis.html">Civis</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../../copper.html">Copper</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../../crowdtangle.html">CrowdTangle</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../databases.html">Databases</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../../facebook_ads.html">FacebookAds</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../../google_sheets.html">GoogleSheets</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../../google_cloud.html">Google Cloud</a></li>
@@ -471,9 +472,9 @@
 <span class="sd">        &quot;&quot;&quot;</span>
 
         <span class="k">with</span> <span class="bp">self</span><span class="o">.</span><span class="n">connection</span><span class="p">()</span> <span class="k">as</span> <span class="n">connection</span><span class="p">:</span>
-            <span class="n">should_create</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_create_table_precheck</span><span class="p">(</span><span class="n">connection</span><span class="p">,</span> <span class="n">table_name</span><span class="p">,</span> <span class="n">if_exists</span><span class="p">)</span>
 
-            <span class="k">if</span> <span class="n">should_create</span><span class="p">:</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_create_table_precheck</span><span class="p">(</span><span class="n">connection</span><span class="p">,</span> <span class="n">table_name</span><span class="p">,</span> <span class="n">if_exists</span><span class="p">):</span>
+
                 <span class="c1"># Grab the object from s3</span>
                 <span class="kn">from</span> <span class="nn">parsons.aws.s3</span> <span class="k">import</span> <span class="n">S3</span>
                 <span class="n">s3</span> <span class="o">=</span> <span class="n">S3</span><span class="p">(</span><span class="n">aws_access_key_id</span><span class="o">=</span><span class="n">aws_access_key_id</span><span class="p">,</span>

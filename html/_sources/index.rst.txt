@@ -110,6 +110,7 @@ Indices and tables
    civis
    copper
    crowdtangle
+   databases
    facebook_ads
    google_sheets
    google_cloud

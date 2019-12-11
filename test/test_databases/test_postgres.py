@@ -6,6 +6,7 @@ import os
 import re
 import warnings
 import datetime
+import shutil
 from test.utils import validate_list
 
 # The name of the schema and will be temporarily created for the tests
@@ -29,7 +30,22 @@ class TestPostgresCreateStatement(unittest.TestCase):
 
     def test_connection(self):
 
-        self.pg = Postgres(username='test', password='test', host='test', db='test')
+        # Test connection with kwargs passed
+        arg_pg = Postgres(username='test', password='test', host='test', db='test')
+
+        # Test connection with env variables
+        os.environ['PGUSER'] = 'user_env'
+        os.environ['PGPASSWORD'] = 'pass_env'
+        os.environ['PGHOST'] = 'host_env'
+        os.environ['PGDATABASE'] = 'db_env'
+        os.environ['PGPORT'] = '5432'
+        pg_env = Postgres()
+
+        self.assertEqual(pg_env.username, 'user_env')
+        self.assertEqual(pg_env.password, 'pass_env')
+        self.assertEqual(pg_env.host, 'host_env')
+        self.assertEqual(pg_env.db, 'db_env')
+        self.assertEqual(pg_env.port, 5432)
 
     def test_data_type(self):
 

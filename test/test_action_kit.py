@@ -257,3 +257,18 @@ class TestActionKit(unittest.TestCase):
                 'url': 'url'
             })
         )
+
+    def test_create_generic_action(self):
+        # Test create a generic action
+
+        resp_mock = mock.MagicMock()
+        type(resp_mock.post()).status_code = mock.PropertyMock(return_value=201)
+        self.actionkit.conn = resp_mock
+
+        self.actionkit.create_generic_action(email='bob@bob.com', page='my_action')
+
+        self.actionkit.conn.post.assert_called_with(
+            'https://domain.actionkit.com/rest/v1/action/',
+            data=json.dumps({'email': 'bob@bob.com', 'page': 'my_action'}))
+
+

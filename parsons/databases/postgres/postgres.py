@@ -1,4 +1,3 @@
-from parsons.utilities import check_env
 from parsons.databases.postgres.postgres_core import PostgresCore
 import logging
 import os
@@ -14,13 +13,13 @@ class Postgres(PostgresCore):
 
     Args:
         username: str
-            Required if env variable ``PGUSERNAME`` not populated
+            Required if env variable ``PGUSER`` not populated
         password: str
             Required if env variable ``PGPASSWORD`` not populated
         host: str
             Required if env variable ``PGHOST`` not populated
         db: str
-            Required if env variable ``PGDB`` not populated
+            Required if env variable ``PGDATABASE`` not populated
         port: int
             Required if env variable ``PGPORT`` not populated.
         pg_pass: str
@@ -31,15 +30,20 @@ class Postgres(PostgresCore):
 
     def __init__(self, username=None, password=None, host=None, db=None, port=5432, timeout=10):
 
-        # Check if there is a pgpass file. Pscopg2 will search for this file first when
+        self.username = username or os.environ.get('PGUSER')
+        self.password = password or os.environ.get('PGPASSWORD')
+        self.host = host or os.environ.get('PGHOST')
+        self.db = db or os.environ.get('PGDATABASE')
+        self.port = port or os.environ.get('PGPORT')
+
+        # Check if there is a pgpass file. Psycopg2 will search for this file first when
         # creating a connection.
         pgpass = os.path.isfile(os.path.expanduser('~/.pgpass'))
 
-        self.username = check_env.check('PGUSERNAME', username, pgpass)
-        self.password = check_env.check('PGPASSWORD', password, pgpass)
-        self.host = check_env.check('PGHOST', host, pgpass)
-        self.db = check_env.check('PGDB', db, pgpass)
-        self.port = check_env.check('PGPORT', port, pgpass)
+        if not any([self.username, self.password, self.host, self.db]) and not pgpass:
+            raise ValueError('Connection arguments missing. Please pass as a pgpass file, kwargs',
+                             'or env variables.')
+
         self.timeout = timeout
 
     def copy(self, tbl, table_name, if_exists='fail'):

@@ -1,13 +1,14 @@
 import os
 
 
-def check(env, field, *args):
+def check(env, field):
     """
     Check if an environment variable has been set. If it has not been set
     and the passed field or arguments have not been passed, then raise an
     error.
     """
-    if not field and not args:
+
+    if not field:
         try:
             return os.environ[env]
         except KeyError:

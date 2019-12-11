@@ -565,6 +565,33 @@ env variable set.</dd>
 </dl>
 </dd></dl>
 
+<dl class="method">
+<dt id="parsons.ActionKit.create_generic_action">
+<code class="descname">create_generic_action</code><span class="sig-paren">(</span><em>page</em>, <em>email=None</em>, <em>ak_id=None</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/action_kit/action_kit.html#ActionKit.create_generic_action"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.ActionKit.create_generic_action" title="Permalink to this definition">¶</a></dt>
+<dd><p>Post a generic action. One of <code class="docutils literal notranslate"><span class="pre">ak_id</span></code> or <code class="docutils literal notranslate"><span class="pre">email</span></code> is a required argument.</p>
+<dl class="docutils">
+<dt><cite>Args:</cite></dt>
+<dd><dl class="first last docutils">
+<dt>page:</dt>
+<dd>The page to post the action. The page short name.</dd>
+<dt>email:</dt>
+<dd>The email address of the user to post the action.</dd>
+<dt>ak_id:</dt>
+<dd>The action kit id of the record.</dd>
+<dt><a href="#id2"><span class="problematic" id="id3">**</span></a>kwargs:</dt>
+<dd>Optional arguments and fields that can sent. A full list can be found
+in the <a class="reference external" href="https://roboticdogs.actionkit.com/docs/manual/api/rest/actionprocessing.html">ActionKit API Documentation</a>.</dd>
+</dl>
+</dd>
+<dt><cite>Returns</cite>:</dt>
+<dd><dl class="first last docutils">
+<dt>dict</dt>
+<dd>The response json</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
 </dd></dl>
 
 </div>

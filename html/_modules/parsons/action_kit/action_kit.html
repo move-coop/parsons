@@ -226,20 +226,42 @@
         <span class="n">resp</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">conn</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_base_endpoint</span><span class="p">(</span><span class="n">endpoint</span><span class="p">,</span> <span class="n">entity_id</span><span class="p">))</span>
 
         <span class="k">if</span> <span class="n">exception_message</span> <span class="ow">and</span> <span class="n">resp</span><span class="o">.</span><span class="n">status_code</span> <span class="o">==</span> <span class="mi">404</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="n">exception_message</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">parse_error</span><span class="p">(</span><span class="n">resp</span><span class="p">,</span> <span class="n">exception_message</span><span class="p">))</span>
 
         <span class="k">return</span> <span class="n">resp</span><span class="o">.</span><span class="n">json</span><span class="p">()</span>
 
-    <span class="k">def</span> <span class="nf">_base_post</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">endpoint</span><span class="p">,</span> <span class="n">exception_message</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">_base_post</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">endpoint</span><span class="p">,</span> <span class="n">exception_message</span><span class="p">,</span> <span class="n">return_full_json</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="c1"># Make a general post request to ActionKit</span>
 
         <span class="n">resp</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">conn</span><span class="o">.</span><span class="n">post</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_base_endpoint</span><span class="p">(</span><span class="n">endpoint</span><span class="p">),</span> <span class="n">data</span><span class="o">=</span><span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">kwargs</span><span class="p">))</span>
 
         <span class="k">if</span> <span class="n">resp</span><span class="o">.</span><span class="n">status_code</span> <span class="o">!=</span> <span class="mi">201</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="n">exception_message</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">parse_error</span><span class="p">(</span><span class="n">resp</span><span class="p">,</span> <span class="n">exception_message</span><span class="p">))</span>
 
-        <span class="k">if</span> <span class="s1">&#39;headers&#39;</span> <span class="ow">in</span> <span class="n">resp</span><span class="o">.</span><span class="vm">__dict__</span><span class="p">:</span>
+        <span class="c1"># Some of the methods should just return pointer to location of created</span>
+        <span class="c1"># object.</span>
+        <span class="k">if</span> <span class="s1">&#39;headers&#39;</span> <span class="ow">in</span> <span class="n">resp</span><span class="o">.</span><span class="vm">__dict__</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">return_full_json</span><span class="p">:</span>
             <span class="k">return</span> <span class="n">resp</span><span class="o">.</span><span class="vm">__dict__</span><span class="p">[</span><span class="s1">&#39;headers&#39;</span><span class="p">][</span><span class="s1">&#39;Location&#39;</span><span class="p">]</span>
+
+        <span class="c1"># Not all responses return a json</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">resp</span><span class="o">.</span><span class="n">json</span><span class="p">()</span>
+
+        <span class="k">except</span> <span class="ne">ValueError</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">None</span>
+
+    <span class="k">def</span> <span class="nf">parse_error</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">resp</span><span class="p">,</span> <span class="n">exception_message</span><span class="p">):</span>
+        <span class="c1"># AK provides some pretty robust/helpful error reporting. We should surface them with</span>
+        <span class="c1"># our exceptions.</span>
+
+        <span class="k">if</span> <span class="s1">&#39;errors&#39;</span> <span class="ow">in</span> <span class="n">resp</span><span class="o">.</span><span class="n">json</span><span class="p">()</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">resp</span><span class="o">.</span><span class="n">json</span><span class="p">()[</span><span class="s1">&#39;errors&#39;</span><span class="p">],</span> <span class="nb">list</span><span class="p">):</span>
+                <span class="n">exception_message</span> <span class="o">+=</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span> <span class="o">+</span> <span class="s1">&#39;,&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">resp</span><span class="o">.</span><span class="n">json</span><span class="p">()[</span><span class="s1">&#39;errors&#39;</span><span class="p">])</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">resp</span><span class="o">.</span><span class="n">json</span><span class="p">()[</span><span class="s1">&#39;errors&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+                    <span class="n">exception_message</span> <span class="o">+=</span> <span class="nb">str</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span> <span class="o">+</span> <span class="n">k</span> <span class="o">+</span> <span class="s1">&#39;: &#39;</span> <span class="o">+</span> <span class="s1">&#39;,&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">v</span><span class="p">))</span>
+
+        <span class="k">return</span> <span class="n">exception_message</span>
 
 <div class="viewcode-block" id="ActionKit.get_user"><a class="viewcode-back" href="../../../action_kit.html#parsons.ActionKit.get_user">[docs]</a>    <span class="k">def</span> <span class="nf">get_user</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">user_id</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
@@ -583,6 +605,35 @@
                                <span class="n">exception_message</span><span class="o">=</span><span class="s1">&#39;Could not create page followup&#39;</span><span class="p">,</span>
                                <span class="n">page</span><span class="o">=</span><span class="n">f</span><span class="s1">&#39;/rest/v1/eventsignuppage/</span><span class="si">{signup_page_id}</span><span class="s1">/&#39;</span><span class="p">,</span>
                                <span class="n">url</span><span class="o">=</span><span class="n">url</span><span class="p">,</span>
+                               <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="ActionKit.create_generic_action"><a class="viewcode-back" href="../../../action_kit.html#parsons.ActionKit.create_generic_action">[docs]</a>    <span class="k">def</span> <span class="nf">create_generic_action</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">page</span><span class="p">,</span> <span class="n">email</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">ak_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Post a generic action. One of ``ak_id`` or ``email`` is a required argument.</span>
+
+<span class="sd">        `Args:`</span>
+<span class="sd">            page:</span>
+<span class="sd">                The page to post the action. The page short name.</span>
+<span class="sd">            email:</span>
+<span class="sd">                The email address of the user to post the action.</span>
+<span class="sd">            ak_id:</span>
+<span class="sd">                The action kit id of the record.</span>
+<span class="sd">            **kwargs:</span>
+<span class="sd">                Optional arguments and fields that can sent. A full list can be found</span>
+<span class="sd">                in the `ActionKit API Documentation &lt;https://roboticdogs.actionkit.com/docs/manual/api/rest/actionprocessing.html&gt;`_.</span>
+<span class="sd">        `Returns`:</span>
+<span class="sd">            dict</span>
+<span class="sd">                The response json</span>
+<span class="sd">        &quot;&quot;&quot;</span> <span class="c1"># noqa: E501,E261</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">email</span> <span class="ow">or</span> <span class="n">ak_id</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;One of email or ak_id is required.&#39;</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_base_post</span><span class="p">(</span><span class="n">endpoint</span><span class="o">=</span><span class="s1">&#39;action&#39;</span><span class="p">,</span>
+                               <span class="n">exception_message</span><span class="o">=</span><span class="s1">&#39;Could not create action.&#39;</span><span class="p">,</span>
+                               <span class="n">email</span><span class="o">=</span><span class="n">email</span><span class="p">,</span>
+                               <span class="n">page</span><span class="o">=</span><span class="n">page</span><span class="p">,</span>
+                               <span class="n">return_full_json</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
                                <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div></div>
 </pre></div>
 

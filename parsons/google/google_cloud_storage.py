@@ -232,11 +232,13 @@ class GoogleCloudStorage(object):
         if not local_path:
             local_path = files.create_temp_file_for_path('TEMPTHING')
 
-        blob = self.get_blob(bucket_name, blob_name)
+        blob_name = blob_name.lstrip('/')
+
+        blob_uri = f'gs://{bucket_name}/{blob_name}'
 
         logger.info(f'Downloading {blob_name} from {bucket_name} bucket.')
         with open(local_path, 'wb') as f:
-            blob.download_to_file(f)
+            self.client.download_blob_to_file(blob_uri, f)
         logger.info(f'{blob_name} saved to {local_path}.')
 
         return local_path

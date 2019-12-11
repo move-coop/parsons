@@ -1,4 +1,3 @@
-from parsons.utilities import check_env
 from parsons.databases.postgres.postgres_core import PostgresCore
 import logging
 import os

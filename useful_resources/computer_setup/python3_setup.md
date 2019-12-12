@@ -42,8 +42,16 @@ install it, check that what version you already have.
 3. Check your **Applications** for the python app.
 
 
+## Testing Code Locally
+
+There a many ways to run code locally to make sure it works before submitting
+it for review. For folks who are new to Python, we recommend using [Jupyter
+Notebooks][jupyter] as it allows you to run blocks of code individually and to see
+instant outputs.
+
 [countdown]: https://pythonclock.org/
 [eol_article]: https://www.anaconda.com/end-of-life-eol-for-python-2-7-is-coming-are-you-ready/
 [parsons]: https://move-coop.github.io/parsons/html/index.html
 [install_py3]: https://www.saintlad.com/install-python-3-on-mac/
 [download_py]: https://www.python.org/downloads/
+[jupyter]: https://jupyter.readthedocs.io/en/latest/install.html

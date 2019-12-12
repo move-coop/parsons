@@ -312,6 +312,26 @@
 
         <span class="k">return</span> <span class="bp">self</span></div>
 
+<div class="viewcode-block" id="ETL.get_column_max_width"><a class="viewcode-back" href="../../../table.html#parsons.etl.etl.ETL.get_column_max_width">[docs]</a>    <span class="k">def</span> <span class="nf">get_column_max_width</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">column</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Return the maximum width of the column.</span>
+
+<span class="sd">        `Args:`</span>
+<span class="sd">            column: str</span>
+<span class="sd">                The column name.</span>
+<span class="sd">        `Returns:`</span>
+<span class="sd">            int</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">max_width</span> <span class="o">=</span> <span class="mi">0</span>
+
+        <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">petl</span><span class="o">.</span><span class="n">values</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">table</span><span class="p">,</span> <span class="n">column</span><span class="p">):</span>
+
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">v</span><span class="p">))</span> <span class="o">&gt;</span> <span class="n">max_width</span><span class="p">:</span>
+                <span class="n">max_width</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">v</span><span class="p">))</span>
+
+        <span class="k">return</span> <span class="n">max_width</span></div>
+
 <div class="viewcode-block" id="ETL.convert_columns_to_str"><a class="viewcode-back" href="../../../table.html#parsons.etl.etl.ETL.convert_columns_to_str">[docs]</a>    <span class="k">def</span> <span class="nf">convert_columns_to_str</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Convenience function to convert all non-string or mixed columns in a</span>

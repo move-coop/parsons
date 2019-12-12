@@ -499,8 +499,7 @@
             <span class="c1"># Copy the table</span>
             <span class="n">copy_sql</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">copy_statement</span><span class="p">(</span><span class="n">table_name</span><span class="p">,</span> <span class="n">bucket</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="n">manifest</span><span class="o">=</span><span class="n">manifest</span><span class="p">,</span>
                                            <span class="n">data_type</span><span class="o">=</span><span class="n">data_type</span><span class="p">,</span> <span class="n">csv_delimiter</span><span class="o">=</span><span class="n">csv_delimiter</span><span class="p">,</span>
-                                           <span class="n">compression</span><span class="o">=</span><span class="n">compression</span><span class="p">,</span>
-                                           <span class="n">max_errors</span><span class="o">=</span><span class="n">max_errors</span><span class="p">,</span>
+                                           <span class="n">compression</span><span class="o">=</span><span class="n">compression</span><span class="p">,</span> <span class="n">max_errors</span><span class="o">=</span><span class="n">max_errors</span><span class="p">,</span>
                                            <span class="n">statupdate</span><span class="o">=</span><span class="n">statupdate</span><span class="p">,</span> <span class="n">compupdate</span><span class="o">=</span><span class="n">compupdate</span><span class="p">,</span>
                                            <span class="n">aws_access_key_id</span><span class="o">=</span><span class="n">aws_access_key_id</span><span class="p">,</span>
                                            <span class="n">aws_secret_access_key</span><span class="o">=</span><span class="n">aws_secret_access_key</span><span class="p">,</span>
@@ -844,7 +843,65 @@
             <span class="k">with</span> <span class="bp">self</span><span class="o">.</span><span class="n">connection</span><span class="p">()</span> <span class="k">as</span> <span class="n">connection</span><span class="p">:</span>
                 <span class="n">connection</span><span class="o">.</span><span class="n">set_session</span><span class="p">(</span><span class="n">autocommit</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">query_with_connection</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;VACUUM </span><span class="si">{target_table}</span><span class="s1">;&#39;</span><span class="p">,</span> <span class="n">connection</span><span class="p">)</span>
-                <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{target_table}</span><span class="s1"> vacuumed.&#39;</span><span class="p">)</span></div>
+                <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{target_table}</span><span class="s1"> vacuumed.&#39;</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">alter_varchar_column_widths</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tbl</span><span class="p">,</span> <span class="n">table_name</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Alter the width of a varchar columns in a Redshift table to match the widths</span>
+<span class="sd">        of a Parsons table. The columns are matched by column name and not their</span>
+<span class="sd">        index.</span>
+
+<span class="sd">        `Args:`</span>
+<span class="sd">            tbl: obj</span>
+<span class="sd">                A Parsons table</span>
+<span class="sd">            table_name:</span>
+<span class="sd">                The target table name (e.g. ``my_schema.my_table``)</span>
+<span class="sd">        `Returns:`</span>
+<span class="sd">            ``None``</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="c1"># Make the Parsons table column names match valid Redshift names</span>
+        <span class="n">tbl</span><span class="o">.</span><span class="n">table</span> <span class="o">=</span> <span class="n">petl</span><span class="o">.</span><span class="n">setheader</span><span class="p">(</span><span class="n">tbl</span><span class="o">.</span><span class="n">table</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">column_name_validate</span><span class="p">(</span><span class="n">tbl</span><span class="o">.</span><span class="n">columns</span><span class="p">))</span>
+
+        <span class="c1"># Create a list of column names and max width for string values.</span>
+        <span class="n">pc</span> <span class="o">=</span> <span class="p">{</span><span class="n">c</span><span class="p">:</span> <span class="n">tbl</span><span class="o">.</span><span class="n">get_column_max_width</span><span class="p">(</span><span class="n">c</span><span class="p">)</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">tbl</span><span class="o">.</span><span class="n">columns</span><span class="p">}</span>
+
+        <span class="c1"># Determine the max width of the varchar columns in the Redshift table</span>
+        <span class="n">s</span><span class="p">,</span> <span class="n">t</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">split_full_table_name</span><span class="p">(</span><span class="n">table_name</span><span class="p">)</span>
+        <span class="n">cols</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_columns</span><span class="p">(</span><span class="n">s</span><span class="p">,</span> <span class="n">t</span><span class="p">)</span>
+        <span class="n">rc</span> <span class="o">=</span> <span class="p">{</span><span class="n">k</span><span class="p">:</span> <span class="n">v</span><span class="p">[</span><span class="s1">&#39;max_length&#39;</span><span class="p">]</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">cols</span><span class="o">.</span><span class="n">items</span><span class="p">()</span> <span class="k">if</span> <span class="n">v</span><span class="p">[</span><span class="s1">&#39;data_type&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;character varying&#39;</span><span class="p">}</span> <span class="c1"># noqa: E501, E261</span>
+
+        <span class="c1"># Figure out if any of the destination table varchar columns are smaller than the</span>
+        <span class="c1"># associated Parsons table columns. If they are, then alter column types to expand</span>
+        <span class="c1"># their width.</span>
+        <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="nb">set</span><span class="p">(</span><span class="n">rc</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span><span class="o">.</span><span class="n">intersection</span><span class="p">(</span><span class="nb">set</span><span class="p">(</span><span class="n">pc</span><span class="o">.</span><span class="n">keys</span><span class="p">())):</span>
+            <span class="k">if</span> <span class="n">rc</span><span class="p">[</span><span class="n">c</span><span class="p">]</span> <span class="o">&lt;</span> <span class="n">pc</span><span class="p">[</span><span class="n">c</span><span class="p">]:</span>
+                <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{c}</span><span class="s1"> not wide enough. Expanding column width.&#39;</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">alter_table_column_type</span><span class="p">(</span><span class="n">table_name</span><span class="p">,</span> <span class="n">c</span><span class="p">,</span> <span class="s1">&#39;varchar&#39;</span><span class="p">,</span> <span class="n">varchar_width</span><span class="o">=</span><span class="n">pc</span><span class="p">[</span><span class="n">c</span><span class="p">])</span>
+
+    <span class="k">def</span> <span class="nf">alter_table_column_type</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">table_name</span><span class="p">,</span> <span class="n">column_name</span><span class="p">,</span> <span class="n">data_type</span><span class="p">,</span> <span class="n">varchar_width</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Alter a column type of an existing table.</span>
+
+<span class="sd">        table_name: str</span>
+<span class="sd">            The table name (ex. ``my_schema.my_table``).</span>
+<span class="sd">        column_name: str</span>
+<span class="sd">            The target column name</span>
+<span class="sd">        data_type: str</span>
+<span class="sd">            A valid Redshift data type to alter the table to.</span>
+<span class="sd">        varchar_width:</span>
+<span class="sd">            The new width of the column if of type varchar.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">sql</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;ALTER TABLE </span><span class="si">{table_name}</span><span class="s2"> ALTER COLUMN </span><span class="si">{column_name}</span><span class="s2"> TYPE </span><span class="si">{data_type}</span><span class="s2">&quot;</span>
+
+        <span class="k">if</span> <span class="n">varchar_width</span><span class="p">:</span>
+            <span class="n">sql</span> <span class="o">+=</span> <span class="sa">f</span><span class="s2">&quot;(</span><span class="si">{varchar_width}</span><span class="s2">)&quot;</span>
+
+        <span class="k">with</span> <span class="bp">self</span><span class="o">.</span><span class="n">connection</span><span class="p">()</span> <span class="k">as</span> <span class="n">connection</span><span class="p">:</span>
+            <span class="n">connection</span><span class="o">.</span><span class="n">set_session</span><span class="p">(</span><span class="n">autocommit</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">query_with_connection</span><span class="p">(</span><span class="n">sql</span><span class="p">,</span> <span class="n">connection</span><span class="p">)</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Altered </span><span class="si">{table_name}</span><span class="s1"> </span><span class="si">{column_name}</span><span class="s1">.&#39;</span><span class="p">)</span></div>
 </pre></div>
 
            </div>

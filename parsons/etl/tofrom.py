@@ -329,8 +329,8 @@ class ToFrom(object):
 
     def to_s3_csv(self, bucket, key, aws_access_key_id=None,
                   aws_secret_access_key=None, compression=None, encoding=None,
-                  errors='strict', write_header=True, public_url=False,
-                  public_url_expires=3600, **csvargs):
+                  errors='strict', write_header=True, acl='bucket-owner-full-control',
+                  public_url=False, public_url_expires=3600, , **csvargs):
         """
         Writes the table to an s3 object as a CSV
 
@@ -358,6 +358,8 @@ class ToFrom(object):
                 Create a public link to the file
             public_url_expire: 3600
                 The time, in seconds, until the url expires if ``public_url`` set to ``True``.
+            acl: str
+                The S3 permissions on the file
             \**csvargs: kwargs
                 ``csv_writer`` optional arguments
         `Returns:`

@@ -330,7 +330,7 @@ class ToFrom(object):
     def to_s3_csv(self, bucket, key, aws_access_key_id=None,
                   aws_secret_access_key=None, compression=None, encoding=None,
                   errors='strict', write_header=True, acl='bucket-owner-full-control',
-                  public_url=False, public_url_expires=3600, , **csvargs):
+                  public_url=False, public_url_expires=3600, **csvargs):
         """
         Writes the table to an s3 object as a CSV
 

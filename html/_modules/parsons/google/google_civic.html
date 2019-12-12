@@ -171,9 +171,9 @@
            <div itemprop="articleBody">
             
   <h1>Source code for parsons.google.google_civic</h1><div class="highlight"><pre>
-<span></span><span class="kn">from</span> <span class="nn">parsons.utilities</span> <span class="k">import</span> <span class="n">check_env</span>
+<span></span><span class="kn">from</span> <span class="nn">parsons.utilities</span> <span class="kn">import</span> <span class="n">check_env</span>
 <span class="kn">import</span> <span class="nn">requests</span>
-<span class="kn">from</span> <span class="nn">parsons</span> <span class="k">import</span> <span class="n">Table</span>
+<span class="kn">from</span> <span class="nn">parsons</span> <span class="kn">import</span> <span class="n">Table</span>
 
 <span class="n">URI</span> <span class="o">=</span> <span class="s1">&#39;https://www.googleapis.com/civicinfo/v2/&#39;</span>
 
@@ -188,7 +188,7 @@
 <span class="sd">        class</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">api_key</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">api_key</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">api_key</span> <span class="o">=</span> <span class="n">check_env</span><span class="o">.</span><span class="n">check</span><span class="p">(</span><span class="s1">&#39;GOOGLE_CIVIC_API_KEY&#39;</span><span class="p">,</span> <span class="n">api_key</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">uri</span> <span class="o">=</span> <span class="n">URI</span>

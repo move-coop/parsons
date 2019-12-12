@@ -175,7 +175,7 @@
 <span class="kn">import</span> <span class="nn">json</span>
 <span class="kn">import</span> <span class="nn">io</span>
 <span class="kn">import</span> <span class="nn">gzip</span>
-<span class="kn">from</span> <span class="nn">parsons.utilities</span> <span class="k">import</span> <span class="n">files</span><span class="p">,</span> <span class="n">zip_archive</span>
+<span class="kn">from</span> <span class="nn">parsons.utilities</span> <span class="kn">import</span> <span class="n">files</span><span class="p">,</span> <span class="n">zip_archive</span>
 
 
 <div class="viewcode-block" id="ToFrom"><a class="viewcode-back" href="../../../table.html#parsons.etl.tofrom.ToFrom">[docs]</a><span class="k">class</span> <span class="nc">ToFrom</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
@@ -490,7 +490,7 @@
 <span class="sd">                ``csv_writer`` optional arguments</span>
 <span class="sd">        &quot;&quot;&quot;</span>  <span class="c1"># noqa: W605</span>
 
-        <span class="kn">from</span> <span class="nn">parsons</span> <span class="k">import</span> <span class="n">SFTP</span>
+        <span class="kn">from</span> <span class="nn">parsons</span> <span class="kn">import</span> <span class="n">SFTP</span>
         <span class="n">sftp</span> <span class="o">=</span> <span class="n">SFTP</span><span class="p">(</span><span class="n">host</span><span class="p">,</span> <span class="n">username</span><span class="p">,</span> <span class="n">password</span><span class="p">,</span> <span class="n">port</span><span class="p">)</span>
 
         <span class="n">compression</span> <span class="o">=</span> <span class="n">files</span><span class="o">.</span><span class="n">compression_type_for_path</span><span class="p">(</span><span class="n">remote_path</span><span class="p">)</span>
@@ -502,8 +502,8 @@
 
 <div class="viewcode-block" id="ToFrom.to_s3_csv"><a class="viewcode-back" href="../../../table.html#parsons.etl.tofrom.ToFrom.to_s3_csv">[docs]</a>    <span class="k">def</span> <span class="nf">to_s3_csv</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">bucket</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="n">aws_access_key_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
                   <span class="n">aws_secret_access_key</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">compression</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-                  <span class="n">errors</span><span class="o">=</span><span class="s1">&#39;strict&#39;</span><span class="p">,</span> <span class="n">write_header</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">public_url</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
-                  <span class="n">public_url_expires</span><span class="o">=</span><span class="mi">3600</span><span class="p">,</span> <span class="o">**</span><span class="n">csvargs</span><span class="p">):</span>
+                  <span class="n">errors</span><span class="o">=</span><span class="s1">&#39;strict&#39;</span><span class="p">,</span> <span class="n">write_header</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">acl</span><span class="o">=</span><span class="s1">&#39;bucket-owner-full-control&#39;</span><span class="p">,</span>
+                  <span class="n">public_url</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">public_url_expires</span><span class="o">=</span><span class="mi">3600</span><span class="p">,</span> <span class="o">**</span><span class="n">csvargs</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Writes the table to an s3 object as a CSV</span>
 
@@ -531,6 +531,8 @@
 <span class="sd">                Create a public link to the file</span>
 <span class="sd">            public_url_expire: 3600</span>
 <span class="sd">                The time, in seconds, until the url expires if ``public_url`` set to ``True``.</span>
+<span class="sd">            acl: str</span>
+<span class="sd">                The S3 permissions on the file</span>
 <span class="sd">            \**csvargs: kwargs</span>
 <span class="sd">                ``csv_writer`` optional arguments</span>
 <span class="sd">        `Returns:`</span>
@@ -550,10 +552,10 @@
                                  <span class="o">**</span><span class="n">csvargs</span><span class="p">)</span>
 
         <span class="c1"># Put the file on S3</span>
-        <span class="kn">from</span> <span class="nn">parsons</span> <span class="k">import</span> <span class="n">S3</span>
+        <span class="kn">from</span> <span class="nn">parsons</span> <span class="kn">import</span> <span class="n">S3</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">s3</span> <span class="o">=</span> <span class="n">S3</span><span class="p">(</span><span class="n">aws_access_key_id</span><span class="o">=</span><span class="n">aws_access_key_id</span><span class="p">,</span>
                      <span class="n">aws_secret_access_key</span><span class="o">=</span><span class="n">aws_secret_access_key</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">s3</span><span class="o">.</span><span class="n">put_file</span><span class="p">(</span><span class="n">bucket</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="n">local_path</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">s3</span><span class="o">.</span><span class="n">put_file</span><span class="p">(</span><span class="n">bucket</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="n">local_path</span><span class="p">,</span> <span class="n">acl</span><span class="o">=</span><span class="n">acl</span><span class="p">)</span>
 
         <span class="k">if</span> <span class="n">public_url</span><span class="p">:</span>
             <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">s3</span><span class="o">.</span><span class="n">get_url</span><span class="p">(</span><span class="n">bucket</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="n">expires_in</span><span class="o">=</span><span class="n">public_url_expires</span><span class="p">)</span>
@@ -584,7 +586,7 @@
 <span class="sd">            ``None``</span>
 <span class="sd">        &quot;&quot;&quot;</span>  <span class="c1"># noqa: W605</span>
 
-        <span class="kn">from</span> <span class="nn">parsons</span> <span class="k">import</span> <span class="n">Redshift</span>
+        <span class="kn">from</span> <span class="nn">parsons</span> <span class="kn">import</span> <span class="n">Redshift</span>
         <span class="n">rs</span> <span class="o">=</span> <span class="n">Redshift</span><span class="p">(</span>
             <span class="n">username</span><span class="o">=</span><span class="n">username</span><span class="p">,</span> <span class="n">password</span><span class="o">=</span><span class="n">password</span><span class="p">,</span> <span class="n">host</span><span class="o">=</span><span class="n">host</span><span class="p">,</span> <span class="n">db</span><span class="o">=</span><span class="n">db</span><span class="p">,</span> <span class="n">port</span><span class="o">=</span><span class="n">port</span><span class="p">)</span>
         <span class="n">rs</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">table_name</span><span class="p">,</span> <span class="o">**</span><span class="n">copy_args</span><span class="p">)</span></div>
@@ -631,7 +633,7 @@
 <span class="sd">                Wait for write job to complete before exiting method.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
-        <span class="kn">from</span> <span class="nn">parsons.civis.civisclient</span> <span class="k">import</span> <span class="n">CivisClient</span>
+        <span class="kn">from</span> <span class="nn">parsons.civis.civisclient</span> <span class="kn">import</span> <span class="n">CivisClient</span>
         <span class="n">civis</span> <span class="o">=</span> <span class="n">CivisClient</span><span class="p">(</span><span class="n">db</span><span class="o">=</span><span class="n">db</span><span class="p">,</span> <span class="n">api_key</span><span class="o">=</span><span class="n">api_key</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">civis</span><span class="o">.</span><span class="n">table_import</span><span class="p">(</span>
             <span class="bp">self</span><span class="p">,</span> <span class="n">table</span><span class="p">,</span> <span class="n">max_errors</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
@@ -760,7 +762,7 @@
 <span class="sd">                See :ref:`parsons-table` for output options.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
-        <span class="kn">from</span> <span class="nn">parsons</span> <span class="k">import</span> <span class="n">Redshift</span>
+        <span class="kn">from</span> <span class="nn">parsons</span> <span class="kn">import</span> <span class="n">Redshift</span>
         <span class="n">rs</span> <span class="o">=</span> <span class="n">Redshift</span><span class="p">(</span><span class="n">username</span><span class="o">=</span><span class="n">username</span><span class="p">,</span> <span class="n">password</span><span class="o">=</span><span class="n">password</span><span class="p">,</span> <span class="n">host</span><span class="o">=</span><span class="n">host</span><span class="p">,</span> <span class="n">db</span><span class="o">=</span><span class="n">db</span><span class="p">,</span> <span class="n">port</span><span class="o">=</span><span class="n">port</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">rs</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="n">query</span><span class="p">)</span></div>
 
@@ -785,7 +787,7 @@
 <span class="sd">            `parsons.Table` object</span>
 <span class="sd">        &quot;&quot;&quot;</span>  <span class="c1"># noqa: W605</span>
 
-        <span class="kn">from</span> <span class="nn">parsons</span> <span class="k">import</span> <span class="n">S3</span>
+        <span class="kn">from</span> <span class="nn">parsons</span> <span class="kn">import</span> <span class="n">S3</span>
         <span class="n">s3</span> <span class="o">=</span> <span class="n">S3</span><span class="p">(</span><span class="n">aws_access_key_id</span><span class="p">,</span> <span class="n">aws_secret_access_key</span><span class="p">)</span>
         <span class="n">file_obj</span> <span class="o">=</span> <span class="n">s3</span><span class="o">.</span><span class="n">get_file</span><span class="p">(</span><span class="n">bucket</span><span class="p">,</span> <span class="n">key</span><span class="p">)</span>
 

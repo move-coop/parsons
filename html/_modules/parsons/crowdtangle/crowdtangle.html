@@ -171,10 +171,10 @@
            <div itemprop="articleBody">
             
   <h1>Source code for parsons.crowdtangle.crowdtangle</h1><div class="highlight"><pre>
-<span></span><span class="kn">from</span> <span class="nn">requests</span> <span class="k">import</span> <span class="n">request</span>
+<span></span><span class="kn">from</span> <span class="nn">requests</span> <span class="kn">import</span> <span class="n">request</span>
 <span class="kn">import</span> <span class="nn">time</span>
-<span class="kn">from</span> <span class="nn">parsons</span> <span class="k">import</span> <span class="n">Table</span>
-<span class="kn">from</span> <span class="nn">parsons.utilities</span> <span class="k">import</span> <span class="n">check_env</span>
+<span class="kn">from</span> <span class="nn">parsons</span> <span class="kn">import</span> <span class="n">Table</span>
+<span class="kn">from</span> <span class="nn">parsons.utilities</span> <span class="kn">import</span> <span class="n">check_env</span>
 <span class="kn">import</span> <span class="nn">logging</span>
 
 <span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
@@ -196,7 +196,7 @@
 <span class="sd">        CrowdTangle Class</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">api_key</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">api_key</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">api_key</span> <span class="o">=</span> <span class="n">check_env</span><span class="o">.</span><span class="n">check</span><span class="p">(</span><span class="s1">&#39;CT_API_KEY&#39;</span><span class="p">,</span> <span class="n">api_key</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">uri</span> <span class="o">=</span> <span class="n">CT_URI</span>
@@ -204,7 +204,7 @@
     <span class="k">def</span> <span class="nf">base_request</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">endpoint</span><span class="p">,</span> <span class="n">req_type</span><span class="o">=</span><span class="s1">&#39;GET&#39;</span><span class="p">,</span> <span class="n">args</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="c1"># Internal Request Method</span>
 
-        <span class="n">url</span> <span class="o">=</span> <span class="n">f</span><span class="s1">&#39;</span><span class="si">{self.uri}</span><span class="s1">/</span><span class="si">{endpoint}</span><span class="s1">&#39;</span>
+        <span class="n">url</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{self.uri}</span><span class="s1">/</span><span class="si">{endpoint}</span><span class="s1">&#39;</span>
         <span class="n">base_args</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;token&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">api_key</span><span class="p">,</span>
                      <span class="s1">&#39;count&#39;</span><span class="p">:</span> <span class="n">PAGE_SIZE</span><span class="p">}</span>
 
@@ -218,14 +218,14 @@
         <span class="n">data</span> <span class="o">=</span> <span class="n">json</span><span class="p">[</span><span class="n">keys</span><span class="p">[</span><span class="mi">0</span><span class="p">]]</span>
 
         <span class="k">while</span> <span class="s1">&#39;nextPage&#39;</span> <span class="ow">in</span> <span class="nb">list</span><span class="p">(</span><span class="n">json</span><span class="p">[</span><span class="s1">&#39;pagination&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">keys</span><span class="p">()):</span>
-            <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="n">f</span><span class="s2">&quot;Retrieving </span><span class="si">{PAGE_SIZE}</span><span class="s2"> rows.&quot;</span><span class="p">)</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Retrieving </span><span class="si">{PAGE_SIZE}</span><span class="s2"> rows.&quot;</span><span class="p">)</span>
             <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="n">REQUEST_SLEEP</span><span class="p">)</span>
             <span class="n">next_url</span> <span class="o">=</span> <span class="n">json</span><span class="p">[</span><span class="s1">&#39;pagination&#39;</span><span class="p">][</span><span class="s1">&#39;nextPage&#39;</span><span class="p">]</span>
             <span class="n">r</span> <span class="o">=</span> <span class="n">request</span><span class="p">(</span><span class="n">req_type</span><span class="p">,</span> <span class="n">next_url</span><span class="p">)</span><span class="o">.</span><span class="n">json</span><span class="p">()</span>
             <span class="n">json</span> <span class="o">=</span> <span class="n">r</span><span class="p">[</span><span class="s1">&#39;result&#39;</span><span class="p">]</span>
             <span class="n">data</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">json</span><span class="p">[</span><span class="n">keys</span><span class="p">[</span><span class="mi">0</span><span class="p">]])</span>
 
-        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="n">f</span><span class="s2">&quot;Retrieved {len(data)} rows.&quot;</span><span class="p">)</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Retrieved {len(data)} rows.&quot;</span><span class="p">)</span>
 
         <span class="k">return</span> <span class="n">data</span>
 
@@ -233,7 +233,7 @@
         <span class="c1"># Unpack base request</span>
 
         <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;Working to unpack the Parsons Table...&quot;</span><span class="p">)</span>
-        <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="n">f</span><span class="s1">&#39;Starting with {len(ParsonsTable.columns)} columns...&#39;</span><span class="p">)</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Starting with {len(ParsonsTable.columns)} columns...&#39;</span><span class="p">)</span>
         <span class="n">sample</span> <span class="o">=</span> <span class="n">ParsonsTable</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
 
         <span class="n">col_dict</span> <span class="o">=</span> <span class="p">{}</span>
@@ -246,7 +246,7 @@
             <span class="k">elif</span> <span class="n">col_dict</span><span class="p">[</span><span class="n">x</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;&lt;class &#39;list&#39;&gt;&quot;</span><span class="p">:</span>
                 <span class="n">ParsonsTable</span><span class="o">.</span><span class="n">unpack_list</span><span class="p">(</span><span class="n">col</span><span class="p">)</span>
 
-        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="n">f</span><span class="s1">&#39;There are now {len(ParsonsTable.columns)} columns...&#39;</span><span class="p">)</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;There are now {len(ParsonsTable.columns)} columns...&#39;</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">ParsonsTable</span>
 
     <span class="k">def</span> <span class="nf">unpack</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ParsonsTable</span><span class="p">):</span>
@@ -333,7 +333,7 @@
 
         <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Retrieving posts.&quot;</span><span class="p">)</span>
         <span class="n">pt</span> <span class="o">=</span> <span class="n">Table</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">base_request</span><span class="p">(</span><span class="s1">&#39;posts&#39;</span><span class="p">,</span> <span class="n">args</span><span class="o">=</span><span class="n">args</span><span class="p">))</span>
-        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="n">f</span><span class="s1">&#39;Retrieved </span><span class="si">{pt.num_rows}</span><span class="s1"> posts.&#39;</span><span class="p">)</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Retrieved </span><span class="si">{pt.num_rows}</span><span class="s1"> posts.&#39;</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">unpack</span><span class="p">(</span><span class="n">pt</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">pt</span></div>
 
@@ -365,7 +365,7 @@
                 <span class="s1">&#39;accountIds&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">list_to_string</span><span class="p">(</span><span class="n">account_ids</span><span class="p">)}</span>
 
         <span class="n">pt</span> <span class="o">=</span> <span class="n">Table</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">base_request</span><span class="p">(</span><span class="s1">&#39;leaderboard&#39;</span><span class="p">,</span> <span class="n">args</span><span class="o">=</span><span class="n">args</span><span class="p">))</span>
-        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="n">f</span><span class="s1">&#39;Retrieved </span><span class="si">{pt.num_rows}</span><span class="s1"> records from the leaderbooard.&#39;</span><span class="p">)</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Retrieved </span><span class="si">{pt.num_rows}</span><span class="s1"> records from the leaderbooard.&#39;</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">unpack</span><span class="p">(</span><span class="n">pt</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">pt</span></div>
 
@@ -404,7 +404,7 @@
 
         <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Retrieving posts based on link.&quot;</span><span class="p">)</span>
         <span class="n">pt</span> <span class="o">=</span> <span class="n">Table</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">base_request</span><span class="p">(</span><span class="s1">&#39;links&#39;</span><span class="p">,</span> <span class="n">args</span><span class="o">=</span><span class="n">args</span><span class="p">))</span>
-        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="n">f</span><span class="s1">&#39;Retrieved </span><span class="si">{pt.num_rows}</span><span class="s1"> links.&#39;</span><span class="p">)</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Retrieved </span><span class="si">{pt.num_rows}</span><span class="s1"> links.&#39;</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">unpack</span><span class="p">(</span><span class="n">pt</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">pt</span></div></div>
 </pre></div>

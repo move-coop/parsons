@@ -172,9 +172,9 @@
             
   <h1>Source code for parsons.google.google_cloud_storage</h1><div class="highlight"><pre>
 <span></span><span class="kn">import</span> <span class="nn">google</span>
-<span class="kn">from</span> <span class="nn">google.cloud</span> <span class="k">import</span> <span class="n">storage</span>
-<span class="kn">from</span> <span class="nn">parsons.google.utitities</span> <span class="k">import</span> <span class="n">setup_google_application_credentials</span>
-<span class="kn">from</span> <span class="nn">parsons.utilities</span> <span class="k">import</span> <span class="n">files</span>
+<span class="kn">from</span> <span class="nn">google.cloud</span> <span class="kn">import</span> <span class="n">storage</span>
+<span class="kn">from</span> <span class="nn">parsons.google.utitities</span> <span class="kn">import</span> <span class="n">setup_google_application_credentials</span>
+<span class="kn">from</span> <span class="nn">parsons.utilities</span> <span class="kn">import</span> <span class="n">files</span>
 <span class="kn">import</span> <span class="nn">logging</span>
 
 <span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
@@ -206,7 +206,7 @@
 <span class="sd">        GoogleCloudStorage Class</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">app_creds</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">project</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">app_creds</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">project</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
 
         <span class="n">setup_google_application_credentials</span><span class="p">(</span><span class="n">app_creds</span><span class="p">)</span>
 
@@ -228,7 +228,7 @@
 <span class="sd">        &quot;&quot;&quot;</span>
 
         <span class="n">buckets</span> <span class="o">=</span> <span class="p">[</span><span class="n">b</span><span class="o">.</span><span class="n">name</span> <span class="k">for</span> <span class="n">b</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">list_buckets</span><span class="p">()]</span>
-        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="n">f</span><span class="s1">&#39;Found {len(buckets)}.&#39;</span><span class="p">)</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Found {len(buckets)}.&#39;</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">buckets</span></div>
 
 <div class="viewcode-block" id="GoogleCloudStorage.bucket_exists"><a class="viewcode-back" href="../../../google_cloud.html#parsons.GoogleCloudStorage.bucket_exists">[docs]</a>    <span class="k">def</span> <span class="nf">bucket_exists</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">bucket_name</span><span class="p">):</span>
@@ -243,10 +243,10 @@
 <span class="sd">        &quot;&quot;&quot;</span>
 
         <span class="k">if</span> <span class="n">bucket_name</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">list_buckets</span><span class="p">():</span>
-            <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="n">f</span><span class="s1">&#39;</span><span class="si">{bucket_name}</span><span class="s1"> exists.&#39;</span><span class="p">)</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{bucket_name}</span><span class="s1"> exists.&#39;</span><span class="p">)</span>
             <span class="k">return</span> <span class="kc">True</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="n">f</span><span class="s1">&#39;</span><span class="si">{bucket_name}</span><span class="s1"> does not exist.&#39;</span><span class="p">)</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{bucket_name}</span><span class="s1"> does not exist.&#39;</span><span class="p">)</span>
             <span class="k">return</span> <span class="kc">False</span></div>
 
 <div class="viewcode-block" id="GoogleCloudStorage.get_bucket"><a class="viewcode-back" href="../../../google_cloud.html#parsons.GoogleCloudStorage.get_bucket">[docs]</a>    <span class="k">def</span> <span class="nf">get_bucket</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">bucket_name</span><span class="p">):</span>
@@ -265,7 +265,7 @@
         <span class="k">else</span><span class="p">:</span>
             <span class="k">raise</span> <span class="n">google</span><span class="o">.</span><span class="n">cloud</span><span class="o">.</span><span class="n">exceptions</span><span class="o">.</span><span class="n">NotFound</span><span class="p">(</span><span class="s1">&#39;Bucket not found&#39;</span><span class="p">)</span>
 
-        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="n">f</span><span class="s1">&#39;Returning </span><span class="si">{bucket_name}</span><span class="s1"> object&#39;</span><span class="p">)</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Returning </span><span class="si">{bucket_name}</span><span class="s1"> object&#39;</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">bucket</span></div>
 
 <div class="viewcode-block" id="GoogleCloudStorage.create_bucket"><a class="viewcode-back" href="../../../google_cloud.html#parsons.GoogleCloudStorage.create_bucket">[docs]</a>    <span class="k">def</span> <span class="nf">create_bucket</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">bucket_name</span><span class="p">):</span>
@@ -282,7 +282,7 @@
         <span class="c1"># To Do: Allow user to set all of the bucket parameters</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">create_bucket</span><span class="p">(</span><span class="n">bucket_name</span><span class="p">)</span>
-        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="n">f</span><span class="s1">&#39;Created </span><span class="si">{bucket_name}</span><span class="s1"> bucket.&#39;</span><span class="p">)</span></div>
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Created </span><span class="si">{bucket_name}</span><span class="s1"> bucket.&#39;</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="GoogleCloudStorage.delete_bucket"><a class="viewcode-back" href="../../../google_cloud.html#parsons.GoogleCloudStorage.delete_bucket">[docs]</a>    <span class="k">def</span> <span class="nf">delete_bucket</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">bucket_name</span><span class="p">,</span> <span class="n">delete_blobs</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
@@ -300,7 +300,7 @@
 
         <span class="n">bucket</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_bucket</span><span class="p">(</span><span class="n">bucket_name</span><span class="p">)</span>
         <span class="n">bucket</span><span class="o">.</span><span class="n">delete</span><span class="p">(</span><span class="n">force</span><span class="o">=</span><span class="n">delete_blobs</span><span class="p">)</span>
-        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="n">f</span><span class="s1">&#39;</span><span class="si">{bucket_name}</span><span class="s1"> bucket deleted.&#39;</span><span class="p">)</span></div>
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{bucket_name}</span><span class="s1"> bucket deleted.&#39;</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="GoogleCloudStorage.list_blobs"><a class="viewcode-back" href="../../../google_cloud.html#parsons.GoogleCloudStorage.list_blobs">[docs]</a>    <span class="k">def</span> <span class="nf">list_blobs</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">bucket_name</span><span class="p">,</span> <span class="n">max_results</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">prefix</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
@@ -319,7 +319,7 @@
 
         <span class="n">blobs</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">list_blobs</span><span class="p">(</span><span class="n">bucket_name</span><span class="p">,</span> <span class="n">max_results</span><span class="o">=</span><span class="n">max_results</span><span class="p">,</span> <span class="n">prefix</span><span class="o">=</span><span class="n">prefix</span><span class="p">)</span>
         <span class="n">lst</span> <span class="o">=</span> <span class="p">[</span><span class="n">b</span><span class="o">.</span><span class="n">name</span> <span class="k">for</span> <span class="n">b</span> <span class="ow">in</span> <span class="n">blobs</span><span class="p">]</span>
-        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="n">f</span><span class="s1">&#39;Found {len(lst)} in </span><span class="si">{bucket_name}</span><span class="s1"> bucket.&#39;</span><span class="p">)</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Found {len(lst)} in </span><span class="si">{bucket_name}</span><span class="s1"> bucket.&#39;</span><span class="p">)</span>
 
         <span class="k">return</span> <span class="n">lst</span></div>
 
@@ -337,10 +337,10 @@
 <span class="sd">        &quot;&quot;&quot;</span>
 
         <span class="k">if</span> <span class="n">blob_name</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">list_blobs</span><span class="p">(</span><span class="n">bucket_name</span><span class="p">):</span>
-            <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="n">f</span><span class="s1">&#39;</span><span class="si">{blob_name}</span><span class="s1"> exists.&#39;</span><span class="p">)</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{blob_name}</span><span class="s1"> exists.&#39;</span><span class="p">)</span>
             <span class="k">return</span> <span class="kc">True</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="n">f</span><span class="s1">&#39;</span><span class="si">{blob_name}</span><span class="s1"> does not exist.&#39;</span><span class="p">)</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{blob_name}</span><span class="s1"> does not exist.&#39;</span><span class="p">)</span>
             <span class="k">return</span> <span class="kc">False</span></div>
 
 <div class="viewcode-block" id="GoogleCloudStorage.get_blob"><a class="viewcode-back" href="../../../google_cloud.html#parsons.GoogleCloudStorage.get_blob">[docs]</a>    <span class="k">def</span> <span class="nf">get_blob</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">bucket_name</span><span class="p">,</span> <span class="n">blob_name</span><span class="p">):</span>
@@ -358,7 +358,7 @@
 
         <span class="n">bucket</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_bucket</span><span class="p">(</span><span class="n">bucket_name</span><span class="p">)</span>
         <span class="n">blob</span> <span class="o">=</span> <span class="n">bucket</span><span class="o">.</span><span class="n">get_blob</span><span class="p">(</span><span class="n">blob_name</span><span class="p">)</span>
-        <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="n">f</span><span class="s1">&#39;Got </span><span class="si">{blob_name}</span><span class="s1"> object from </span><span class="si">{bucket_name}</span><span class="s1"> bucket.&#39;</span><span class="p">)</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Got </span><span class="si">{blob_name}</span><span class="s1"> object from </span><span class="si">{bucket_name}</span><span class="s1"> bucket.&#39;</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">blob</span></div>
 
 <div class="viewcode-block" id="GoogleCloudStorage.put_blob"><a class="viewcode-back" href="../../../google_cloud.html#parsons.GoogleCloudStorage.put_blob">[docs]</a>    <span class="k">def</span> <span class="nf">put_blob</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">bucket_name</span><span class="p">,</span> <span class="n">blob_name</span><span class="p">,</span> <span class="n">local_path</span><span class="p">):</span>
@@ -382,7 +382,7 @@
         <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">local_path</span><span class="p">,</span> <span class="s2">&quot;rb&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
             <span class="n">blob</span><span class="o">.</span><span class="n">upload_from_file</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
 
-        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="n">f</span><span class="s1">&#39;</span><span class="si">{blob_name}</span><span class="s1"> put in </span><span class="si">{bucket_name}</span><span class="s1"> bucket.&#39;</span><span class="p">)</span></div>
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{blob_name}</span><span class="s1"> put in </span><span class="si">{bucket_name}</span><span class="s1"> bucket.&#39;</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="GoogleCloudStorage.download_blob"><a class="viewcode-back" href="../../../google_cloud.html#parsons.GoogleCloudStorage.download_blob">[docs]</a>    <span class="k">def</span> <span class="nf">download_blob</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">bucket_name</span><span class="p">,</span> <span class="n">blob_name</span><span class="p">,</span> <span class="n">local_path</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
@@ -407,12 +407,12 @@
 
         <span class="n">blob_name</span> <span class="o">=</span> <span class="n">blob_name</span><span class="o">.</span><span class="n">lstrip</span><span class="p">(</span><span class="s1">&#39;/&#39;</span><span class="p">)</span>
 
-        <span class="n">blob_uri</span> <span class="o">=</span> <span class="n">f</span><span class="s1">&#39;gs://</span><span class="si">{bucket_name}</span><span class="s1">/</span><span class="si">{blob_name}</span><span class="s1">&#39;</span>
+        <span class="n">blob_uri</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;gs://</span><span class="si">{bucket_name}</span><span class="s1">/</span><span class="si">{blob_name}</span><span class="s1">&#39;</span>
 
-        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="n">f</span><span class="s1">&#39;Downloading </span><span class="si">{blob_name}</span><span class="s1"> from </span><span class="si">{bucket_name}</span><span class="s1"> bucket.&#39;</span><span class="p">)</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Downloading </span><span class="si">{blob_name}</span><span class="s1"> from </span><span class="si">{bucket_name}</span><span class="s1"> bucket.&#39;</span><span class="p">)</span>
         <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">local_path</span><span class="p">,</span> <span class="s1">&#39;wb&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">download_blob_to_file</span><span class="p">(</span><span class="n">blob_uri</span><span class="p">,</span> <span class="n">f</span><span class="p">)</span>
-        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="n">f</span><span class="s1">&#39;</span><span class="si">{blob_name}</span><span class="s1"> saved to </span><span class="si">{local_path}</span><span class="s1">.&#39;</span><span class="p">)</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{blob_name}</span><span class="s1"> saved to </span><span class="si">{local_path}</span><span class="s1">.&#39;</span><span class="p">)</span>
 
         <span class="k">return</span> <span class="n">local_path</span></div>
 
@@ -431,7 +431,7 @@
 
         <span class="n">blob</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_blob</span><span class="p">(</span><span class="n">bucket_name</span><span class="p">,</span> <span class="n">blob_name</span><span class="p">)</span>
         <span class="n">blob</span><span class="o">.</span><span class="n">delete</span><span class="p">()</span>
-        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="n">f</span><span class="s1">&#39;</span><span class="si">{blob_name}</span><span class="s1"> blob in </span><span class="si">{bucket_name}</span><span class="s1"> bucket deleted.&#39;</span><span class="p">)</span></div></div>
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{blob_name}</span><span class="s1"> blob in </span><span class="si">{bucket_name}</span><span class="s1"> bucket deleted.&#39;</span><span class="p">)</span></div></div>
 </pre></div>
 
            </div>

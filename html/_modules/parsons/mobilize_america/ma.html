@@ -171,9 +171,9 @@
            <div itemprop="articleBody">
             
   <h1>Source code for parsons.mobilize_america.ma</h1><div class="highlight"><pre>
-<span></span><span class="kn">from</span> <span class="nn">requests</span> <span class="k">import</span> <span class="n">request</span> <span class="k">as</span> <span class="n">_request</span>
-<span class="kn">from</span> <span class="nn">parsons.etl.table</span> <span class="k">import</span> <span class="n">Table</span>
-<span class="kn">from</span> <span class="nn">parsons.utilities.date_convert</span> <span class="k">import</span> <span class="n">iso_to_unix</span>
+<span></span><span class="kn">from</span> <span class="nn">requests</span> <span class="kn">import</span> <span class="n">request</span> <span class="k">as</span> <span class="n">_request</span>
+<span class="kn">from</span> <span class="nn">parsons.etl.table</span> <span class="kn">import</span> <span class="n">Table</span>
+<span class="kn">from</span> <span class="nn">parsons.utilities.date_convert</span> <span class="kn">import</span> <span class="n">iso_to_unix</span>
 <span class="kn">import</span> <span class="nn">petl</span>
 <span class="kn">import</span> <span class="nn">re</span>
 <span class="kn">import</span> <span class="nn">os</span>
@@ -195,7 +195,7 @@
 <span class="sd">        MobilizeAmerica Class</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">api_key</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">api_key</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">uri</span> <span class="o">=</span> <span class="n">MA_URI</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">api_key</span> <span class="o">=</span> <span class="n">api_key</span> <span class="ow">or</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;MOBILIZE_AMERICA_API_KEY&#39;</span><span class="p">)</span>

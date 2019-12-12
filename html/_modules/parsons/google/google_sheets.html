@@ -174,8 +174,8 @@
 <span></span><span class="kn">import</span> <span class="nn">os</span>
 <span class="kn">import</span> <span class="nn">json</span>
 <span class="kn">import</span> <span class="nn">gspread</span>
-<span class="kn">from</span> <span class="nn">oauth2client.service_account</span> <span class="k">import</span> <span class="n">ServiceAccountCredentials</span>
-<span class="kn">from</span> <span class="nn">parsons.etl.table</span> <span class="k">import</span> <span class="n">Table</span>
+<span class="kn">from</span> <span class="nn">oauth2client.service_account</span> <span class="kn">import</span> <span class="n">ServiceAccountCredentials</span>
+<span class="kn">from</span> <span class="nn">parsons.etl.table</span> <span class="kn">import</span> <span class="n">Table</span>
 <span class="kn">import</span> <span class="nn">logging</span>
 
 <span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
@@ -192,7 +192,7 @@
 <span class="sd">            ``GOOGLE_DRIVE_CREDENTIALS`` is not populated.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">google_keyfile_dict</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">google_keyfile_dict</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
 
         <span class="n">scope</span> <span class="o">=</span> <span class="p">[</span>
             <span class="s1">&#39;https://spreadsheets.google.com/feeds&#39;</span><span class="p">,</span>
@@ -239,7 +239,7 @@
         <span class="k">for</span> <span class="n">index</span><span class="p">,</span> <span class="n">sheet</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">sheets</span><span class="p">):</span>
             <span class="k">if</span> <span class="n">sheet</span><span class="o">.</span><span class="n">title</span> <span class="o">==</span> <span class="n">title</span><span class="p">:</span>
                 <span class="k">return</span> <span class="n">index</span>
-        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="n">f</span><span class="s2">&quot;Couldn&#39;t find sheet with title </span><span class="si">{title}</span><span class="s2">&quot;</span><span class="p">)</span></div>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Couldn&#39;t find sheet with title </span><span class="si">{title}</span><span class="s2">&quot;</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="GoogleSheets.read_sheet"><a class="viewcode-back" href="../../../google_sheets.html#parsons.GoogleSheets.read_sheet">[docs]</a>    <span class="k">def</span> <span class="nf">read_sheet</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">spreadsheet_id</span><span class="p">,</span> <span class="n">sheet_index</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>

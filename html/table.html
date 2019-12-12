@@ -675,7 +675,7 @@ JSON file.</dd>
 
 <dl class="method">
 <dt id="parsons.etl.tofrom.ToFrom.to_s3_csv">
-<code class="descname">to_s3_csv</code><span class="sig-paren">(</span><em>bucket</em>, <em>key</em>, <em>aws_access_key_id=None</em>, <em>aws_secret_access_key=None</em>, <em>compression=None</em>, <em>encoding=None</em>, <em>errors='strict'</em>, <em>write_header=True</em>, <em>public_url=False</em>, <em>public_url_expires=3600</em>, <em>**csvargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/etl/tofrom.html#ToFrom.to_s3_csv"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.etl.tofrom.ToFrom.to_s3_csv" title="Permalink to this definition">¶</a></dt>
+<code class="descname">to_s3_csv</code><span class="sig-paren">(</span><em>bucket</em>, <em>key</em>, <em>aws_access_key_id=None</em>, <em>aws_secret_access_key=None</em>, <em>compression=None</em>, <em>encoding=None</em>, <em>errors='strict'</em>, <em>write_header=True</em>, <em>acl='bucket-owner-full-control'</em>, <em>public_url=False</em>, <em>public_url_expires=3600</em>, <em>**csvargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/etl/tofrom.html#ToFrom.to_s3_csv"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.etl.tofrom.ToFrom.to_s3_csv" title="Permalink to this definition">¶</a></dt>
 <dd><p>Writes the table to an s3 object as a CSV</p>
 <dl class="docutils">
 <dt><cite>Args:</cite></dt>
@@ -702,6 +702,8 @@ supported. If specified, will override the key suffix.</dd>
 <dd>Create a public link to the file</dd>
 <dt>public_url_expire: 3600</dt>
 <dd>The time, in seconds, until the url expires if <code class="docutils literal notranslate"><span class="pre">public_url</span></code> set to <code class="docutils literal notranslate"><span class="pre">True</span></code>.</dd>
+<dt>acl: str</dt>
+<dd>The S3 permissions on the file</dd>
 <dt>**csvargs: kwargs</dt>
 <dd><code class="docutils literal notranslate"><span class="pre">csv_writer</span></code> optional arguments</dd>
 </dl>
@@ -1140,7 +1142,7 @@ names.
 
 <span class="n">tbl</span><span class="o">.</span><span class="n">map_columns</span><span class="p">(</span><span class="n">column_map</span><span class="p">)</span>
 
-<span class="k">print</span> <span class="p">(</span><span class="n">tbl</span><span class="p">)</span>
+<span class="nb">print</span> <span class="p">(</span><span class="n">tbl</span><span class="p">)</span>
 <span class="o">&gt;&gt;</span> <span class="p">{{</span><span class="n">first_name</span><span class="p">:</span> <span class="s1">&#39;Jane&#39;</span><span class="p">,</span> <span class="n">last_name</span><span class="p">:</span> <span class="s1">&#39;Doe&#39;</span><span class="p">,</span> <span class="s1">&#39;date_of_birth&#39;</span><span class="p">:</span> <span class="s1">&#39;1908-01-01&#39;</span><span class="p">}}</span>
 </pre></div>
 </div>
@@ -1247,11 +1249,11 @@ columns.</p>
        <span class="p">]</span>
 
 <span class="n">tbl</span> <span class="o">=</span> <span class="n">Table</span><span class="p">(</span><span class="n">json</span><span class="p">)</span>
-<span class="k">print</span> <span class="p">(</span><span class="n">tbl</span><span class="p">)</span>
+<span class="nb">print</span> <span class="p">(</span><span class="n">tbl</span><span class="p">)</span>
 <span class="o">&gt;&gt;&gt;</span> <span class="p">{</span><span class="s1">&#39;id&#39;</span><span class="p">:</span> <span class="s1">&#39;5421&#39;</span><span class="p">,</span> <span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="s1">&#39;Jane Green&#39;</span><span class="p">,</span> <span class="s1">&#39;phones&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;512-699-3334&#39;</span><span class="p">,</span> <span class="s1">&#39;512-222-5478&#39;</span><span class="p">]}</span>
 
-<span class="n">tbl</span><span class="o">.</span><span class="n">unpack_list</span><span class="p">(</span><span class="s1">&#39;phones&#39;</span><span class="p">,</span> <span class="n">replace</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
-<span class="k">print</span> <span class="p">(</span><span class="n">tbl</span><span class="p">)</span>
+<span class="n">tbl</span><span class="o">.</span><span class="n">unpack_list</span><span class="p">(</span><span class="s1">&#39;phones&#39;</span><span class="p">,</span> <span class="n">replace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="nb">print</span> <span class="p">(</span><span class="n">tbl</span><span class="p">)</span>
 <span class="o">&gt;&gt;&gt;</span> <span class="p">{</span><span class="s1">&#39;id&#39;</span><span class="p">:</span> <span class="s1">&#39;5421&#39;</span><span class="p">,</span> <span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="s1">&#39;Jane Green&#39;</span><span class="p">,</span> <span class="s1">&#39;phones_0&#39;</span><span class="p">:</span> <span class="s1">&#39;512-699-3334&#39;</span><span class="p">,</span> <span class="s1">&#39;phones_1&#39;</span><span class="p">:</span> <span class="s1">&#39;512-222-5478&#39;</span><span class="p">}</span> <span class="c1"># noqa: E501</span>
 </pre></div>
 </div>
@@ -1317,16 +1319,16 @@ key.</p>
         <span class="p">}</span>
        <span class="p">]</span>
 <span class="n">tbl</span> <span class="o">=</span> <span class="n">Table</span><span class="p">(</span><span class="n">json</span><span class="p">)</span>
-<span class="k">print</span> <span class="p">(</span><span class="n">tbl</span><span class="p">)</span>
+<span class="nb">print</span> <span class="p">(</span><span class="n">tbl</span><span class="p">)</span>
 <span class="o">&gt;&gt;&gt;</span> <span class="p">{</span><span class="s1">&#39;id&#39;</span><span class="p">:</span> <span class="s1">&#39;5421&#39;</span><span class="p">,</span> <span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="s1">&#39;Jane Green&#39;</span><span class="p">,</span> <span class="s1">&#39;emails&#39;</span><span class="p">:</span> <span class="p">[{</span><span class="s1">&#39;home&#39;</span><span class="p">:</span> <span class="s1">&#39;jane@gmail.com&#39;</span><span class="p">},</span> <span class="p">{</span><span class="s1">&#39;work&#39;</span><span class="p">:</span> <span class="s1">&#39;jane@mywork.com&#39;</span><span class="p">}]}</span> <span class="c1"># noqa: E501</span>
 <span class="o">&gt;&gt;&gt;</span> <span class="p">{</span><span class="s1">&#39;id&#39;</span><span class="p">:</span> <span class="s1">&#39;5421&#39;</span><span class="p">,</span> <span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="s1">&#39;Jane Green&#39;</span><span class="p">,</span> <span class="s1">&#39;emails&#39;</span><span class="p">:</span> <span class="p">[{</span><span class="s1">&#39;home&#39;</span><span class="p">:</span> <span class="s1">&#39;jane@gmail.com&#39;</span><span class="p">},</span> <span class="p">{</span><span class="s1">&#39;work&#39;</span><span class="p">:</span> <span class="s1">&#39;jane@mywork.com&#39;</span><span class="p">}]}</span> <span class="c1"># noqa: E501</span>
 
 <span class="c1"># Create skinny table of just the nested dicts</span>
 <span class="n">email_skinny</span> <span class="o">=</span> <span class="n">tbl</span><span class="o">.</span><span class="n">long_table</span><span class="p">([</span><span class="s1">&#39;id&#39;</span><span class="p">],</span> <span class="s1">&#39;emails&#39;</span><span class="p">)</span>
 
-<span class="k">print</span> <span class="p">(</span><span class="n">email_skinny</span><span class="p">)</span>
-<span class="o">&gt;&gt;&gt;</span> <span class="p">{</span><span class="s1">&#39;id&#39;</span><span class="p">:</span> <span class="s1">&#39;5421&#39;</span><span class="p">,</span> <span class="s1">&#39;emails_home&#39;</span><span class="p">:</span> <span class="s1">&#39;jane@gmail.com&#39;</span><span class="p">,</span> <span class="s1">&#39;emails_work&#39;</span><span class="p">:</span> <span class="bp">None</span><span class="p">}</span>
-<span class="o">&gt;&gt;&gt;</span> <span class="p">{</span><span class="s1">&#39;id&#39;</span><span class="p">:</span> <span class="s1">&#39;5421&#39;</span><span class="p">,</span> <span class="s1">&#39;emails_home&#39;</span><span class="p">:</span> <span class="bp">None</span><span class="p">,</span> <span class="s1">&#39;emails_work&#39;</span><span class="p">:</span> <span class="s1">&#39;jane@mywork.com&#39;</span><span class="p">}</span>
+<span class="nb">print</span> <span class="p">(</span><span class="n">email_skinny</span><span class="p">)</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="p">{</span><span class="s1">&#39;id&#39;</span><span class="p">:</span> <span class="s1">&#39;5421&#39;</span><span class="p">,</span> <span class="s1">&#39;emails_home&#39;</span><span class="p">:</span> <span class="s1">&#39;jane@gmail.com&#39;</span><span class="p">,</span> <span class="s1">&#39;emails_work&#39;</span><span class="p">:</span> <span class="kc">None</span><span class="p">}</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="p">{</span><span class="s1">&#39;id&#39;</span><span class="p">:</span> <span class="s1">&#39;5421&#39;</span><span class="p">,</span> <span class="s1">&#39;emails_home&#39;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span> <span class="s1">&#39;emails_work&#39;</span><span class="p">:</span> <span class="s1">&#39;jane@mywork.com&#39;</span><span class="p">}</span>
 </pre></div>
 </div>
 <dl class="docutils">
@@ -1394,7 +1396,7 @@ filters.</p>
 <span class="o">&gt;&gt;&gt;</span> <span class="p">{</span><span class="n">foo</span><span class="p">:</span> <span class="s1">&#39;a&#39;</span><span class="p">,</span> <span class="s1">&#39;bar&#39;</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span> <span class="s1">&#39;baz&#39;</span><span class="p">:</span> <span class="mf">88.1</span><span class="p">}</span>
 
 <span class="c1"># Expression String</span>
-<span class="n">tbl3</span> <span class="o">=</span> <span class="n">tbl</span><span class="o">.</span><span class="n">select_rows</span><span class="p">(</span><span class="s2">&quot;{foo} == &#39;a&#39; and {baz} &gt; 88.1&quot;</span><span class="p">)</span>
+<span class="n">tbl3</span> <span class="o">=</span> <span class="n">tbl</span><span class="o">.</span><span class="n">select_rows</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">{foo}</span><span class="s2"> == &#39;a&#39; and </span><span class="si">{baz}</span><span class="s2"> &gt; 88.1&quot;</span><span class="p">)</span>
 <span class="n">tbl3</span>
 <span class="o">&gt;&gt;&gt;</span> <span class="p">{</span><span class="n">foo</span><span class="p">:</span> <span class="s1">&#39;a&#39;</span><span class="p">,</span> <span class="s1">&#39;bar&#39;</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span> <span class="s1">&#39;baz&#39;</span><span class="p">:</span> <span class="mf">88.1</span><span class="p">}</span>
 </pre></div>
@@ -1555,13 +1557,13 @@ to reduce all those to a single row containg the entire query.</p>
 <span class="go">+--------------+--------------+----------------------------------------------------+</span>
 
 <span class="gp">&gt;&gt;&gt; </span><span class="n">reducer_fn</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">columns</span><span class="p">,</span> <span class="n">rows</span><span class="p">:</span> <span class="p">[</span>
-<span class="gp">... </span>    <span class="n">f</span><span class="s2">&quot;{columns[0]}.{columns[1]}&quot;</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{columns[0]}</span><span class="s2">.</span><span class="si">{columns[1]}</span><span class="s2">&quot;</span><span class="p">,</span>
 <span class="gp">... </span>    <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="n">row</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">rows</span><span class="p">])]</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">ddl</span><span class="o">.</span><span class="n">reduce_rows</span><span class="p">(</span>
 <span class="gp">... </span>    <span class="p">[</span><span class="s1">&#39;schemaname&#39;</span><span class="p">,</span> <span class="s1">&#39;tablename&#39;</span><span class="p">],</span>
 <span class="gp">... </span>    <span class="n">reducer_fn</span><span class="p">,</span>
 <span class="gp">... </span>    <span class="p">[</span><span class="s1">&#39;tablename&#39;</span><span class="p">,</span> <span class="s1">&#39;ddl&#39;</span><span class="p">],</span>
-<span class="gp">... </span>    <span class="n">presorted</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+<span class="gp">... </span>    <span class="n">presorted</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">ddl</span><span class="o">.</span><span class="n">table</span>
 
 <span class="go">+-------------------------+-----------------------------------------------------------------------+</span>

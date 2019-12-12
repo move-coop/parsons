@@ -173,7 +173,7 @@
   <h1>Source code for parsons.ngpvan.events</h1><div class="highlight"><pre>
 <span></span><span class="sd">&quot;&quot;&quot;NGPVAN Events Endpoints&quot;&quot;&quot;</span>
 
-<span class="kn">from</span> <span class="nn">parsons.etl.table</span> <span class="k">import</span> <span class="n">Table</span>
+<span class="kn">from</span> <span class="nn">parsons.etl.table</span> <span class="kn">import</span> <span class="n">Table</span>
 <span class="kn">import</span> <span class="nn">logging</span>
 
 <span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
@@ -181,7 +181,7 @@
 
 <div class="viewcode-block" id="Events"><a class="viewcode-back" href="../../../ngpvan.html#parsons.ngpvan.van.Events">[docs]</a><span class="k">class</span> <span class="nc">Events</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
 
-    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">van_connection</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">van_connection</span><span class="p">):</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">connection</span> <span class="o">=</span> <span class="n">van_connection</span>
 
@@ -230,7 +230,7 @@
                   <span class="p">}</span>
 
         <span class="n">tbl</span> <span class="o">=</span> <span class="n">Table</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">connection</span><span class="o">.</span><span class="n">get_request</span><span class="p">(</span><span class="s1">&#39;events&#39;</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="n">params</span><span class="p">))</span>
-        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="n">f</span><span class="s1">&#39;Found </span><span class="si">{tbl.num_rows}</span><span class="s1"> events.&#39;</span><span class="p">)</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Found </span><span class="si">{tbl.num_rows}</span><span class="s1"> events.&#39;</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">tbl</span></div>
 
 <div class="viewcode-block" id="Events.get_event"><a class="viewcode-back" href="../../../ngpvan.html#parsons.ngpvan.van.Events.get_event">[docs]</a>    <span class="k">def</span> <span class="nf">get_event</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">event_id</span><span class="p">,</span> <span class="n">expand_fields</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;locations&#39;</span><span class="p">,</span> <span class="s1">&#39;codes&#39;</span><span class="p">,</span> <span class="s1">&#39;shifts&#39;</span><span class="p">,</span> <span class="s1">&#39;roles&#39;</span><span class="p">,</span>
@@ -255,8 +255,8 @@
         <span class="k">if</span> <span class="n">expand_fields</span><span class="p">:</span>
             <span class="n">expand_fields</span> <span class="o">=</span> <span class="s1">&#39;,&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">expand_fields</span><span class="p">)</span>
 
-        <span class="n">r</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">connection</span><span class="o">.</span><span class="n">get_request</span><span class="p">(</span><span class="n">f</span><span class="s1">&#39;events/</span><span class="si">{event_id}</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;$expand&#39;</span><span class="p">:</span> <span class="n">expand_fields</span><span class="p">})</span>
-        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="n">f</span><span class="s1">&#39;Found event </span><span class="si">{event_id}</span><span class="s1">.&#39;</span><span class="p">)</span>
+        <span class="n">r</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">connection</span><span class="o">.</span><span class="n">get_request</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;events/</span><span class="si">{event_id}</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;$expand&#39;</span><span class="p">:</span> <span class="n">expand_fields</span><span class="p">})</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Found event </span><span class="si">{event_id}</span><span class="s1">.&#39;</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">r</span></div>
 
 <div class="viewcode-block" id="Events.create_event"><a class="viewcode-back" href="../../../ngpvan.html#parsons.ngpvan.van.Events.create_event">[docs]</a>    <span class="k">def</span> <span class="nf">create_event</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">short_name</span><span class="p">,</span> <span class="n">start_date</span><span class="p">,</span> <span class="n">end_date</span><span class="p">,</span> <span class="n">event_type_id</span><span class="p">,</span>
@@ -350,7 +350,7 @@
             <span class="n">event</span><span class="p">[</span><span class="s1">&#39;codes&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[{</span><span class="s1">&#39;codeID&#39;</span><span class="p">:</span> <span class="n">c</span><span class="p">}</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">code_ids</span><span class="p">]</span>
 
         <span class="n">r</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">connection</span><span class="o">.</span><span class="n">post_request</span><span class="p">(</span><span class="s1">&#39;events&#39;</span><span class="p">,</span> <span class="n">json</span><span class="o">=</span><span class="n">event</span><span class="p">)</span>
-        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="n">f</span><span class="s1">&#39;Event </span><span class="si">{r}</span><span class="s1"> created.&#39;</span><span class="p">)</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Event </span><span class="si">{r}</span><span class="s1"> created.&#39;</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">r</span></div>
 
 <div class="viewcode-block" id="Events.delete_event"><a class="viewcode-back" href="../../../ngpvan.html#parsons.ngpvan.van.Events.delete_event">[docs]</a>    <span class="k">def</span> <span class="nf">delete_event</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">event_id</span><span class="p">):</span>
@@ -364,8 +364,8 @@
 <span class="sd">            ``None``</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
-        <span class="n">r</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">connection</span><span class="o">.</span><span class="n">delete_request</span><span class="p">(</span><span class="n">f</span><span class="s1">&#39;events/</span><span class="si">{event_id}</span><span class="s1">&#39;</span><span class="p">)</span>
-        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="n">f</span><span class="s1">&#39;Event </span><span class="si">{event_id}</span><span class="s1"> deleted.&#39;</span><span class="p">)</span>
+        <span class="n">r</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">connection</span><span class="o">.</span><span class="n">delete_request</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;events/</span><span class="si">{event_id}</span><span class="s1">&#39;</span><span class="p">)</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Event </span><span class="si">{event_id}</span><span class="s1"> deleted.&#39;</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">r</span></div>
 
 <div class="viewcode-block" id="Events.add_event_shift"><a class="viewcode-back" href="../../../ngpvan.html#parsons.ngpvan.van.Events.add_event_shift">[docs]</a>    <span class="k">def</span> <span class="nf">add_event_shift</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">event_id</span><span class="p">,</span> <span class="n">shift_name</span><span class="p">,</span> <span class="n">start_time</span><span class="p">,</span> <span class="n">end_time</span><span class="p">):</span>
@@ -391,8 +391,8 @@
                  <span class="s1">&#39;endTime&#39;</span><span class="p">:</span> <span class="n">end_time</span>
                  <span class="p">}</span>
 
-        <span class="n">r</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">connection</span><span class="o">.</span><span class="n">post_request</span><span class="p">(</span><span class="n">f</span><span class="s1">&#39;events/</span><span class="si">{event_id}</span><span class="s1">/shifts&#39;</span><span class="p">,</span> <span class="n">json</span><span class="o">=</span><span class="n">shift</span><span class="p">)</span>
-        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="n">f</span><span class="s1">&#39;Shift </span><span class="si">{r}</span><span class="s1"> added.&#39;</span><span class="p">)</span>
+        <span class="n">r</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">connection</span><span class="o">.</span><span class="n">post_request</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;events/</span><span class="si">{event_id}</span><span class="s1">/shifts&#39;</span><span class="p">,</span> <span class="n">json</span><span class="o">=</span><span class="n">shift</span><span class="p">)</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Shift </span><span class="si">{r}</span><span class="s1"> added.&#39;</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">r</span></div>
 
 <div class="viewcode-block" id="Events.get_event_types"><a class="viewcode-back" href="../../../ngpvan.html#parsons.ngpvan.van.Events.get_event_types">[docs]</a>    <span class="k">def</span> <span class="nf">get_event_types</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
@@ -405,7 +405,7 @@
 <span class="sd">        &quot;&quot;&quot;</span>
 
         <span class="n">tbl</span> <span class="o">=</span> <span class="n">Table</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">connection</span><span class="o">.</span><span class="n">get_request</span><span class="p">(</span><span class="s1">&#39;events/types&#39;</span><span class="p">))</span>
-        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="n">f</span><span class="s1">&#39;Found </span><span class="si">{tbl.num_rows}</span><span class="s1"> events.&#39;</span><span class="p">)</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Found </span><span class="si">{tbl.num_rows}</span><span class="s1"> events.&#39;</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">tbl</span></div></div>
 </pre></div>
 

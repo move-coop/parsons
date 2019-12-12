@@ -175,11 +175,11 @@
 <span class="kn">import</span> <span class="nn">collections</span>
 <span class="kn">import</span> <span class="nn">copy</span>
 <span class="kn">import</span> <span class="nn">logging</span>
-<span class="kn">from</span> <span class="nn">joblib</span> <span class="k">import</span> <span class="n">Parallel</span><span class="p">,</span> <span class="n">delayed</span>
-<span class="kn">from</span> <span class="nn">facebook_business.api</span> <span class="k">import</span> <span class="n">FacebookAdsApi</span>
-<span class="kn">from</span> <span class="nn">facebook_business.adobjects.adaccount</span> <span class="k">import</span> <span class="n">AdAccount</span>
-<span class="kn">from</span> <span class="nn">facebook_business.adobjects.customaudience</span> <span class="k">import</span> <span class="n">CustomAudience</span>
-<span class="kn">from</span> <span class="nn">parsons.etl.table</span> <span class="k">import</span> <span class="n">Table</span>
+<span class="kn">from</span> <span class="nn">joblib</span> <span class="kn">import</span> <span class="n">Parallel</span><span class="p">,</span> <span class="n">delayed</span>
+<span class="kn">from</span> <span class="nn">facebook_business.api</span> <span class="kn">import</span> <span class="n">FacebookAdsApi</span>
+<span class="kn">from</span> <span class="nn">facebook_business.adobjects.adaccount</span> <span class="kn">import</span> <span class="n">AdAccount</span>
+<span class="kn">from</span> <span class="nn">facebook_business.adobjects.customaudience</span> <span class="kn">import</span> <span class="n">CustomAudience</span>
+<span class="kn">from</span> <span class="nn">parsons.etl.table</span> <span class="kn">import</span> <span class="n">Table</span>
 
 <span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
 
@@ -253,7 +253,7 @@
         <span class="s2">&quot;DOB YYYYMMDD&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;dob&#39;</span><span class="p">,</span> <span class="s1">&#39;vb_voterbase_dob&#39;</span><span class="p">,</span> <span class="s1">&#39;vb_tsmart_dob&#39;</span><span class="p">]</span>
     <span class="p">}</span>
 
-    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">app_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">app_secret</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">access_token</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">ad_account_id</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">app_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">app_secret</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">access_token</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">ad_account_id</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
 
         <span class="k">try</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">app_id</span> <span class="o">=</span> <span class="n">app_id</span> <span class="ow">or</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s1">&#39;FB_APP_ID&#39;</span><span class="p">]</span>
@@ -451,7 +451,7 @@
 
         <span class="c1"># Note that the FB SDK handles basic normalization and hashing of the data</span>
         <span class="n">CustomAudience</span><span class="p">(</span><span class="n">audience_id</span><span class="p">)</span><span class="o">.</span><span class="n">add_users</span><span class="p">(</span><span class="n">schema</span><span class="p">,</span> <span class="n">batch</span><span class="p">,</span> <span class="n">is_raw</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="n">f</span><span class="s2">&quot;Added {added_so_far+len(batch)}/</span><span class="si">{total_rows}</span><span class="s2"> users to custom audience...&quot;</span><span class="p">)</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Added {added_so_far+len(batch)}/</span><span class="si">{total_rows}</span><span class="s2"> users to custom audience...&quot;</span><span class="p">)</span>
 
 <div class="viewcode-block" id="FacebookAds.add_users_to_custom_audience"><a class="viewcode-back" href="../../../facebook_ads.html#parsons.FacebookAds.add_users_to_custom_audience">[docs]</a>    <span class="k">def</span> <span class="nf">add_users_to_custom_audience</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">audience_id</span><span class="p">,</span> <span class="n">users_table</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
@@ -528,8 +528,8 @@
 
 <span class="sd">        &quot;&quot;&quot;</span> <span class="c1"># noqa: E501,E261</span>
 
-        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="n">f</span><span class="s2">&quot;Adding custom audience users from provided table with &quot;</span>
-                    <span class="n">f</span><span class="s2">&quot;</span><span class="si">{users_table.num_rows}</span><span class="s2"> rows&quot;</span><span class="p">)</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Adding custom audience users from provided table with &quot;</span>
+                    <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{users_table.num_rows}</span><span class="s2"> rows&quot;</span><span class="p">)</span>
 
         <span class="n">match_table</span> <span class="o">=</span> <span class="n">FacebookAds</span><span class="o">.</span><span class="n">get_match_table_for_users_table</span><span class="p">(</span><span class="n">users_table</span><span class="p">)</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="n">match_table</span><span class="o">.</span><span class="n">columns</span><span class="p">:</span>
@@ -537,8 +537,8 @@
                            <span class="s2">&quot;See FacebookAds.KeyMatchMap for supported columns&quot;</span><span class="p">)</span>
 
         <span class="n">num_rows</span> <span class="o">=</span> <span class="n">match_table</span><span class="o">.</span><span class="n">num_rows</span>
-        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="n">f</span><span class="s2">&quot;Found </span><span class="si">{num_rows}</span><span class="s2"> rows with valid FB matching keys&quot;</span><span class="p">)</span>
-        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="n">f</span><span class="s2">&quot;Using FB matching keys: </span><span class="si">{match_table.columns}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Found </span><span class="si">{num_rows}</span><span class="s2"> rows with valid FB matching keys&quot;</span><span class="p">)</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Using FB matching keys: </span><span class="si">{match_table.columns}</span><span class="s2">&quot;</span><span class="p">)</span>
 
         <span class="p">(</span><span class="n">schema</span><span class="p">,</span> <span class="n">data</span><span class="p">)</span> <span class="o">=</span> <span class="n">FacebookAds</span><span class="o">.</span><span class="n">_get_match_schema_and_data</span><span class="p">(</span><span class="n">match_table</span><span class="p">)</span>
 

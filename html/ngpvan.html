@@ -300,7 +300,7 @@ documentation for all functions.</p>
 <span class="c1"># Note that auto_approve is set to False. This means that you need to manually approve</span>
 <span class="c1"># the job once it is loaded.</span>
 <span class="n">job_id</span> <span class="o">=</span> <span class="n">van</span><span class="o">.</span><span class="n">upload_scores</span><span class="p">(</span><span class="n">tbl</span><span class="p">,</span> <span class="n">config</span><span class="p">,</span> <span class="n">url_type</span><span class="o">=</span><span class="s1">&#39;S3&#39;</span><span class="p">,</span> <span class="n">email</span><span class="o">=</span><span class="s1">&#39;info@tmc.org&#39;</span><span class="p">,</span>
-                           <span class="n">bucket</span><span class="o">=</span><span class="s1">&#39;tmc-fake&#39;</span><span class="p">,</span> <span class="n">auto_approve</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+                           <span class="n">bucket</span><span class="o">=</span><span class="s1">&#39;tmc-fake&#39;</span><span class="p">,</span> <span class="n">auto_approve</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
 
 <span class="c1"># Approve the job</span>
 <span class="n">van</span><span class="o">.</span><span class="n">score_update_status</span><span class="p">(</span><span class="n">job_id</span><span class="p">,</span><span class="s1">&#39;approved&#39;</span><span class="p">)</span>
@@ -1424,8 +1424,8 @@ code. You can find supported entities with the <code class="xref py py-meth docu
 <div class="last highlight-python notranslate"><div class="highlight"><pre><span></span><span class="p">[</span>
     <span class="p">{</span>
      <span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="s1">&#39;Event&#39;</span><span class="p">,</span>
-     <span class="s1">&#39;is_searchable&#39;</span><span class="p">:</span> <span class="bp">True</span><span class="p">,</span>
-     <span class="s1">&#39;is_applicable&#39;</span><span class="p">:</span> <span class="bp">True</span>
+     <span class="s1">&#39;is_searchable&#39;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span>
+     <span class="s1">&#39;is_applicable&#39;</span><span class="p">:</span> <span class="kc">True</span>
     <span class="p">}</span>
     <span class="p">{</span>
      <span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="s1">&#39;Locations&#39;</span><span class="p">,</span>
@@ -1464,8 +1464,8 @@ code. You can find supported entities with the <code class="xref py py-meth docu
 <div class="last highlight-python notranslate"><div class="highlight"><pre><span></span><span class="p">[</span>
     <span class="p">{</span>
      <span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="s1">&#39;Event&#39;</span><span class="p">,</span>
-     <span class="s1">&#39;is_searchable&#39;</span><span class="p">:</span> <span class="bp">True</span><span class="p">,</span>
-     <span class="s1">&#39;is_applicable&#39;</span><span class="p">:</span> <span class="bp">True</span>
+     <span class="s1">&#39;is_searchable&#39;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span>
+     <span class="s1">&#39;is_applicable&#39;</span><span class="p">:</span> <span class="kc">True</span>
     <span class="p">}</span>
     <span class="p">{</span>
      <span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="s1">&#39;Locations&#39;</span><span class="p">,</span>

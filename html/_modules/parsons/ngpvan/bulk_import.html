@@ -179,7 +179,7 @@
 
 <div class="viewcode-block" id="BulkImport"><a class="viewcode-back" href="../../../ngpvan.html#parsons.ngpvan.van.BulkImport">[docs]</a><span class="k">class</span> <span class="nc">BulkImport</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
 
-    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 
         <span class="k">pass</span>
 
@@ -194,8 +194,8 @@
 <span class="sd">                A list of resources.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
-        <span class="n">r</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">connection</span><span class="o">.</span><span class="n">get_request</span><span class="p">(</span><span class="n">f</span><span class="s1">&#39;bulkImportJobs/resources&#39;</span><span class="p">)</span>
-        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="n">f</span><span class="s1">&#39;Found {len(r)} bulk import resources.&#39;</span><span class="p">)</span>
+        <span class="n">r</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">connection</span><span class="o">.</span><span class="n">get_request</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;bulkImportJobs/resources&#39;</span><span class="p">)</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Found {len(r)} bulk import resources.&#39;</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">r</span></div></div>
 </pre></div>
 

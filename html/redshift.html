@@ -280,7 +280,7 @@ injection attacks.</p>
 </div>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">names</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;Allen Smith&quot;</span><span class="p">,</span> <span class="s2">&quot;Beatrice O&#39;Brady&quot;</span><span class="p">,</span> <span class="s2">&quot;Cathy Thompson&quot;</span><span class="p">]</span>
 <span class="n">placeholders</span> <span class="o">=</span> <span class="s1">&#39;, &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s1">&#39;</span><span class="si">%s</span><span class="s1">&#39;</span> <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">names</span><span class="p">)</span>
-<span class="n">sql</span> <span class="o">=</span> <span class="n">f</span><span class="s2">&quot;SELECT * FROM my_table WHERE name IN ({placeholders})&quot;</span>
+<span class="n">sql</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;SELECT * FROM my_table WHERE name IN (</span><span class="si">{placeholders}</span><span class="s2">)&quot;</span>
 <span class="n">rs</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="n">sql</span><span class="p">,</span> <span class="n">parameters</span><span class="o">=</span><span class="n">names</span><span class="p">)</span>
 </pre></div>
 </div>
@@ -843,7 +843,7 @@ duplicate rows.</dd>
 <dd><p>Gets the column names (and some other column info) for a table.</p>
 <p>If you just need the column names, you can treat the return value like a list, eg:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">col</span> <span class="ow">in</span> <span class="n">rs</span><span class="o">.</span><span class="n">get_columns</span><span class="p">(</span><span class="s1">&#39;some_schema&#39;</span><span class="p">,</span> <span class="s1">&#39;some_table&#39;</span><span class="p">):</span>
-    <span class="k">print</span><span class="p">(</span><span class="n">col</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">col</span><span class="p">)</span>
 </pre></div>
 </div>
 <dl class="docutils">

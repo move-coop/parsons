@@ -139,6 +139,26 @@ class ETL(object):
 
         return self
 
+    def get_column_max_width(self, column):
+        """
+        Return the maximum width of the column.
+
+        `Args:`
+            column: str
+                The column name.
+        `Returns:`
+            int
+        """
+
+        max_width = 0
+
+        for v in petl.values(self.table, column):
+
+            if len(str(v)) > max_width:
+                max_width = len(str(v))
+
+        return max_width
+
     def convert_columns_to_str(self):
         """
         Convenience function to convert all non-string or mixed columns in a

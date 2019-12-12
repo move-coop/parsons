@@ -382,7 +382,7 @@ class ToFrom(object):
         from parsons import S3
         self.s3 = S3(aws_access_key_id=aws_access_key_id,
                      aws_secret_access_key=aws_secret_access_key)
-        self.s3.put_file(bucket, key, local_path)
+        self.s3.put_file(bucket, key, local_path, acl=acl)
 
         if public_url:
             return self.s3.get_url(bucket, key, expires_in=public_url_expires)

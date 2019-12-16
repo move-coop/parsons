@@ -258,3 +258,37 @@ class GoogleCloudStorage(object):
         blob = self.get_blob(bucket_name, blob_name)
         blob.delete()
         logger.info(f'{blob_name} blob in {bucket_name} bucket deleted.')
+
+    def upload_table(self, table, bucket_name, blob_name, data_type='csv', default_acl=None):
+        """
+        Load the data from a Parsons table into a blob.
+
+        `Args:`
+            table: obj
+                A :ref:`parsons-table`
+            bucket_name: str
+                The name of the bucket to upload the data into.
+            blob_name: str
+                The name of the blob to upload the data into.
+            data_type: str
+                The file format to use when writing the data. One of: `csv` or `json`
+        """
+        bucket = storage.Bucket(self.client, name=bucket_name)
+        blob = storage.Blob(blob_name, bucket)
+
+        if data_type == 'csv':
+            local_file = table.to_csv()
+            content_type = 'text/csv'
+        elif data_type == 'json':
+            local_file = table.to_json()
+            content_type = 'application/json'
+        else:
+            raise ValueError(f'Unknown data_type value ({data_type}): must be one of: csv or json')
+
+        try:
+            blob.upload_from_filename(local_file, content_type=content_type, client=self.client,
+                                      predefined_acl=default_acl)
+        finally:
+            files.close_temp_file(local_file)
+
+        return f'gs://{bucket_name}/{blob_name}'

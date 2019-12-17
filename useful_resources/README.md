@@ -10,7 +10,7 @@ Text that appears like this `pwd` (appears surrounded by \` in the raw markdown)
 
 ## Computer Setup
 
-This folder contains instructions for setting up your local computer.
+[This folder](./computer_setup/) contains instructions for setting up your local computer.
 
 * [Terminal Setup](./computer_setup/terminal_app_setup.md) - Create a bash
   profile and customize how your terminal looks.
@@ -22,7 +22,7 @@ This folder contains instructions for setting up your local computer.
 
 ## Tools
 
-This folder contains instructions and cheat sheets for using commonly used
+[This folder](./tools/) contains instructions and cheat sheets for using commonly used
 tools.
 
 * [Using Bash](./tools/using_bash.md) - Bash is the program that runs in the
@@ -32,7 +32,7 @@ version control.
 
 ## Sample Code
 
-This folder contains examples of Parsons in common use-cases
+[This folder](./sample_code/) contains examples of Parsons in common use-cases
 
 * Updating ActionKit User
 * Moving data between different Amazon S3 accounts

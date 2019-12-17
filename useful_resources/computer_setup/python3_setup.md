@@ -6,31 +6,31 @@
 As you may have heard, starting [January 1, 2020][countdown] [Python 2.x is no
 longer officially supported][eol_article].
 
-Additionally, when using [Parsons][parsons], we use Python 3. Therefore, to make
-collaboration, debugging and maintenance easier, we encourage that you install and
-use Python 3 when writing scripts for TMC.
+Additionally, [Parsons][parsons] is only compatible with Python 3. So, in order to
+use parsons, you need to have Python 3 installed.
 
 
 ## Getting Started
 
 There are a number of ways to [install Python 3][install_py3]. Before you
-install it, check that what version you already have.
+install it, check what version, if any, you already have installed on your computer.
 
 ### Check Python Version
 
 1. Open the **Terminal** app
 2. Type `python --version`
-  * If you see something like `Python 3.x.x` then you are all set.
-    If not got to set 3
+   * If you see something like `Python 3.x.x` then you are all set.
+    If not got to step 3
 3. Type `python3 --version`
-  * If you don't see any output then you need to install python 3.
+   * If you don't see any output then you need to install python 3.
 
 ### Install Python with Homebrew
+MacOS/Linux only
 
 1. Open the **Terminal** app on your Mac.
 2. Type `xcode-select --install` and confirm the installation.
 3. Type `/usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"`
-  * You can check that brew installed by typing `brew doctor`
+   * You can check that brew installed by typing `brew doctor`
 4. Type `brew install python3`
 5. Check python version `python3 --version`
 

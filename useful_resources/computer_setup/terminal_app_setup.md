@@ -1,5 +1,5 @@
 # Setting Up Your Terminal
-
+MacOS only
 
 ## Overview
 
@@ -13,7 +13,8 @@ These are some ways to make your terminal app more informative.
 This is often referred to as a _configuration script_. It can contain variable
 declarations, export variables, and commands to be executed when you start up
 your Terminal[*][ref1]. One common use case is store your API keys and tokens so
-they are not hard-coded in your scripts.
+that you **never** need to hard-code credentials in your scripts. All Parsons
+classes that require credentials allow you to set environment variables.
 
 ### Create a .bash_profile file
 

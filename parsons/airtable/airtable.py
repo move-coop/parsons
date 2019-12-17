@@ -84,7 +84,7 @@ class Airtable(object):
         """
 
         # Raises an error if sort is None type. Thus, only adding if populated.
-        kwargs = {'fields': fields, 'max_records': max_records, 'view': view, 'formula': formula}
+        kwargs = {'fields': fields, 'max_records': max_records, 'formula': formula}
         if sort:
             kwargs['sort'] = sort
 

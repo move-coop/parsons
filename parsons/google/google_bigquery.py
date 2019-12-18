@@ -72,7 +72,7 @@ class GoogleBigQuery:
                 The GoogleCloudStorage Connector to use for loading data into Google Cloud Storage.
             job_config: object
                 A LoadJobConfig object to provide to the underlying call to load_table_from_uri
-                on the BigQuery client.
+                on the BigQuery client. The function will create its own if not provided.
             **load_kwargs: kwargs
                 Arguments to pass to the underlying load_table_from_uri call on the BigQuery
                 client.

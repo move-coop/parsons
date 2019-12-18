@@ -179,7 +179,6 @@ class TestGoogleBigQuery(unittest.TestCase):
         gcs_client.upload_table.return_value = tmp_blob_uri
         return gcs_client
 
-
     @property
     def default_table(self):
         return Table([

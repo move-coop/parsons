@@ -3,8 +3,8 @@ from google.cloud import exceptions
 from parsons import Table
 from parsons.google.utitities import setup_google_application_credentials
 from parsons.google.google_cloud_storage import GoogleCloudStorage
+from parsons.utilities import check_env
 from parsons.utilities.files import create_temp_file
-import os
 import petl
 import pickle
 import uuid
@@ -51,7 +51,7 @@ class GoogleBigQuery:
         self._client = None
 
     def copy(self, table_obj, dataset_name, table_name, if_exists='fail',
-             tmp_gcs_bucket=None, gcs_client=None):
+             tmp_gcs_bucket=None, gcs_client=None, job_config=None, **load_kwargs):
         """
         Copy a :ref:`parsons-table` into Google BigQuery via Google Cloud Storage.
 
@@ -70,11 +70,14 @@ class GoogleBigQuery:
                 into BigQuery. Required if `GCS_TEMP_BUCKET` is not specified.
             gcs_client: object
                 The GoogleCloudStorage Connector to use for loading data into Google Cloud Storage.
+            job_config: object
+                A LoadJobConfig object to provide to the underlying call to load_table_from_uri
+                on the BigQuery client.
+            **load_kwargs: kwargs
+                Arguments to pass to the underlying load_table_from_uri call on the BigQuery
+                client.
         """
-        tmp_gcs_bucket = tmp_gcs_bucket or os.environ.get('GCS_TEMP_BUCKET')
-        if not tmp_gcs_bucket:
-            raise KeyError("Google Cloud Storage bucket not provided. Pass as a parameter or "
-                           "specify as the GOOGLE_TEMP_BUCKET env variable.")
+        tmp_gcs_bucket = check_env.check('GCS_TEMP_BUCKET', tmp_gcs_bucket)
 
         if if_exists not in ['fail', 'truncate', 'append', 'drop']:
             raise ValueError(f'Unexpected value for if_exists: {if_exists}, must be one of '
@@ -82,8 +85,10 @@ class GoogleBigQuery:
 
         table_exists = self.table_exists(dataset_name, table_name)
 
-        job_config = bigquery.LoadJobConfig()
-        job_config.autodetect = True
+        if not job_config:
+            job_config = bigquery.LoadJobConfig()
+            job_config.autodetect = True
+
         job_config.skip_leading_rows = 1
         job_config.source_format = bigquery.SourceFormat.CSV
         job_config.write_disposition = bigquery.WriteDisposition.WRITE_EMPTY
@@ -109,7 +114,7 @@ class GoogleBigQuery:
         try:
             load_job = self.client.load_table_from_uri(
                 temp_blob_uri, dataset_ref.table(table_name),
-                job_config=job_config,
+                job_config=job_config, **load_kwargs,
             )
             load_job.result()
         finally:

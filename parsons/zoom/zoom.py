@@ -2,8 +2,16 @@ from parsons.utilities import check_env
 
 ZOOM_URI = 'https://api.zoom.us/v2/'
 
+# To Do: 
+# - Add Zoom to __init__.py
+# - Add unittests
+# - Add to docs
+
 
 class Zoom():
+	"""
+	Describe how to init the class
+	"""
 
     def __init__(self, token=None):
 

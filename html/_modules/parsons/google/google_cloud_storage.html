@@ -430,7 +430,41 @@
 
         <span class="n">blob</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_blob</span><span class="p">(</span><span class="n">bucket_name</span><span class="p">,</span> <span class="n">blob_name</span><span class="p">)</span>
         <span class="n">blob</span><span class="o">.</span><span class="n">delete</span><span class="p">()</span>
-        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{blob_name}</span><span class="s1"> blob in </span><span class="si">{bucket_name}</span><span class="s1"> bucket deleted.&#39;</span><span class="p">)</span></div></div>
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{blob_name}</span><span class="s1"> blob in </span><span class="si">{bucket_name}</span><span class="s1"> bucket deleted.&#39;</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="GoogleCloudStorage.upload_table"><a class="viewcode-back" href="../../../google_cloud.html#parsons.GoogleCloudStorage.upload_table">[docs]</a>    <span class="k">def</span> <span class="nf">upload_table</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">table</span><span class="p">,</span> <span class="n">bucket_name</span><span class="p">,</span> <span class="n">blob_name</span><span class="p">,</span> <span class="n">data_type</span><span class="o">=</span><span class="s1">&#39;csv&#39;</span><span class="p">,</span> <span class="n">default_acl</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Load the data from a Parsons table into a blob.</span>
+
+<span class="sd">        `Args:`</span>
+<span class="sd">            table: obj</span>
+<span class="sd">                A :ref:`parsons-table`</span>
+<span class="sd">            bucket_name: str</span>
+<span class="sd">                The name of the bucket to upload the data into.</span>
+<span class="sd">            blob_name: str</span>
+<span class="sd">                The name of the blob to upload the data into.</span>
+<span class="sd">            data_type: str</span>
+<span class="sd">                The file format to use when writing the data. One of: `csv` or `json`</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">bucket</span> <span class="o">=</span> <span class="n">storage</span><span class="o">.</span><span class="n">Bucket</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="n">bucket_name</span><span class="p">)</span>
+        <span class="n">blob</span> <span class="o">=</span> <span class="n">storage</span><span class="o">.</span><span class="n">Blob</span><span class="p">(</span><span class="n">blob_name</span><span class="p">,</span> <span class="n">bucket</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">data_type</span> <span class="o">==</span> <span class="s1">&#39;csv&#39;</span><span class="p">:</span>
+            <span class="n">local_file</span> <span class="o">=</span> <span class="n">table</span><span class="o">.</span><span class="n">to_csv</span><span class="p">()</span>
+            <span class="n">content_type</span> <span class="o">=</span> <span class="s1">&#39;text/csv&#39;</span>
+        <span class="k">elif</span> <span class="n">data_type</span> <span class="o">==</span> <span class="s1">&#39;json&#39;</span><span class="p">:</span>
+            <span class="n">local_file</span> <span class="o">=</span> <span class="n">table</span><span class="o">.</span><span class="n">to_json</span><span class="p">()</span>
+            <span class="n">content_type</span> <span class="o">=</span> <span class="s1">&#39;application/json&#39;</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Unknown data_type value (</span><span class="si">{data_type}</span><span class="s1">): must be one of: csv or json&#39;</span><span class="p">)</span>
+
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">blob</span><span class="o">.</span><span class="n">upload_from_filename</span><span class="p">(</span><span class="n">local_file</span><span class="p">,</span> <span class="n">content_type</span><span class="o">=</span><span class="n">content_type</span><span class="p">,</span> <span class="n">client</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="p">,</span>
+                                      <span class="n">predefined_acl</span><span class="o">=</span><span class="n">default_acl</span><span class="p">)</span>
+        <span class="k">finally</span><span class="p">:</span>
+            <span class="n">files</span><span class="o">.</span><span class="n">close_temp_file</span><span class="p">(</span><span class="n">local_file</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="sa">f</span><span class="s1">&#39;gs://</span><span class="si">{bucket_name}</span><span class="s1">/</span><span class="si">{blob_name}</span><span class="s1">&#39;</span></div></div>
 </pre></div>
 
            </div>

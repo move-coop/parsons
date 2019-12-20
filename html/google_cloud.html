@@ -418,6 +418,26 @@ when the script is done running.</dd>
 </dl>
 </dd></dl>
 
+<dl class="method">
+<dt id="parsons.GoogleCloudStorage.upload_table">
+<code class="descname">upload_table</code><span class="sig-paren">(</span><em>table</em>, <em>bucket_name</em>, <em>blob_name</em>, <em>data_type='csv'</em>, <em>default_acl=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/google/google_cloud_storage.html#GoogleCloudStorage.upload_table"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.GoogleCloudStorage.upload_table" title="Permalink to this definition">¶</a></dt>
+<dd><p>Load the data from a Parsons table into a blob.</p>
+<dl class="docutils">
+<dt><cite>Args:</cite></dt>
+<dd><dl class="first last docutils">
+<dt>table: obj</dt>
+<dd>A <a class="reference internal" href="table.html#parsons-table"><span class="std std-ref">Parsons Table</span></a></dd>
+<dt>bucket_name: str</dt>
+<dd>The name of the bucket to upload the data into.</dd>
+<dt>blob_name: str</dt>
+<dd>The name of the blob to upload the data into.</dd>
+<dt>data_type: str</dt>
+<dd>The file format to use when writing the data. One of: <cite>csv</cite> or <cite>json</cite></dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
 </dd></dl>
 
 </div>
@@ -457,6 +477,54 @@ if <code class="docutils literal notranslate"><span class="pre">GOOGLE_APPLICATI
 </dd>
 </dl>
 <dl class="method">
+<dt id="parsons.GoogleBigQuery.copy">
+<code class="descname">copy</code><span class="sig-paren">(</span><em>table_obj</em>, <em>dataset_name</em>, <em>table_name</em>, <em>if_exists='fail'</em>, <em>tmp_gcs_bucket=None</em>, <em>gcs_client=None</em>, <em>job_config=None</em>, <em>**load_kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/google/google_bigquery.html#GoogleBigQuery.copy"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.GoogleBigQuery.copy" title="Permalink to this definition">¶</a></dt>
+<dd><p>Copy a <a class="reference internal" href="table.html#parsons-table"><span class="std std-ref">Parsons Table</span></a> into Google BigQuery via Google Cloud Storage.</p>
+<dl class="docutils">
+<dt><cite>Args:</cite></dt>
+<dd><dl class="first last docutils">
+<dt>table_obj: obj</dt>
+<dd>The Parsons Table to copy into BigQuery.</dd>
+<dt>dataset_name: str</dt>
+<dd>The dataset name to load the data into.</dd>
+<dt>table_name: str</dt>
+<dd>The table name to load the data into.</dd>
+<dt>if_exists: str</dt>
+<dd>If the table already exists, either <code class="docutils literal notranslate"><span class="pre">fail</span></code>, <code class="docutils literal notranslate"><span class="pre">append</span></code>, <code class="docutils literal notranslate"><span class="pre">drop</span></code>
+or <code class="docutils literal notranslate"><span class="pre">truncate</span></code> the table.</dd>
+<dt>temp_gcs_bucket: str</dt>
+<dd>The name of the Google Cloud Storage bucket to use to stage the data to load
+into BigQuery. Required if <cite>GCS_TEMP_BUCKET</cite> is not specified.</dd>
+<dt>gcs_client: object</dt>
+<dd>The GoogleCloudStorage Connector to use for loading data into Google Cloud Storage.</dd>
+<dt>job_config: object</dt>
+<dd>A LoadJobConfig object to provide to the underlying call to load_table_from_uri
+on the BigQuery client. The function will create its own if not provided.</dd>
+<dt><a href="#id3"><span class="problematic" id="id4">**</span></a>load_kwargs: kwargs</dt>
+<dd>Arguments to pass to the underlying load_table_from_uri call on the BigQuery
+client.</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="parsons.GoogleBigQuery.delete_table">
+<code class="descname">delete_table</code><span class="sig-paren">(</span><em>dataset_name</em>, <em>table_name</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/google/google_bigquery.html#GoogleBigQuery.delete_table"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.GoogleBigQuery.delete_table" title="Permalink to this definition">¶</a></dt>
+<dd><p>Delete a BigQuery table.</p>
+<dl class="docutils">
+<dt><cite>Args:</cite></dt>
+<dd><dl class="first last docutils">
+<dt>dataset_name: str</dt>
+<dd>The name of the dataset that the table lives in.</dd>
+<dt>table_name: str</dt>
+<dd>The name of the table to delete.</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
 <dt id="parsons.GoogleBigQuery.query">
 <code class="descname">query</code><span class="sig-paren">(</span><em>sql</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/google/google_bigquery.html#GoogleBigQuery.query"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.GoogleBigQuery.query" title="Permalink to this definition">¶</a></dt>
 <dd><p>Run a BigQuery query and return the results as a Parsons table.</p>
@@ -471,6 +539,28 @@ if <code class="docutils literal notranslate"><span class="pre">GOOGLE_APPLICATI
 <dd><dl class="first last docutils">
 <dt>Parsons Table</dt>
 <dd>See <a class="reference internal" href="table.html#parsons-table"><span class="std std-ref">Parsons Table</span></a> for output options.</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="parsons.GoogleBigQuery.table_exists">
+<code class="descname">table_exists</code><span class="sig-paren">(</span><em>dataset_name</em>, <em>table_name</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/google/google_bigquery.html#GoogleBigQuery.table_exists"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.GoogleBigQuery.table_exists" title="Permalink to this definition">¶</a></dt>
+<dd><p>Check whether or not the Google BigQuery table exists in the specified dataset.</p>
+<dl class="docutils">
+<dt><cite>Args:</cite></dt>
+<dd><dl class="first last docutils">
+<dt>dataset_name: str</dt>
+<dd>The name of the BigQuery dataset to check in</dd>
+<dt>table_name: str</dt>
+<dd>The name of the BigQuery table to check for</dd>
+</dl>
+</dd>
+<dt><cite>Returns:</cite></dt>
+<dd><dl class="first last docutils">
+<dt>bool</dt>
+<dd>True if the table exists in the specified dataset, false otherwise</dd>
 </dl>
 </dd>
 </dl>

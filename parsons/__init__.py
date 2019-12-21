@@ -27,6 +27,7 @@ from parsons.crowdtangle.crowdtangle import CrowdTangle
 from parsons.hustle.hustle import Hustle
 from parsons.twilio.twilio import Twilio
 from parsons.databases.postgres.postgres import Postgres
+from parsons.zoom.zoom import Zoom
 
 __all__ = [
     'VAN',
@@ -55,7 +56,8 @@ __all__ = [
     'CrowdTangle',
     'Hustle',
     'Twilio',
-    'Postgres'
+    'Postgres',
+    'Zoom'
     ]
 
 # Define the default logging config for Parsons and its submodules. For now the

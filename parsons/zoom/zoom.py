@@ -1,40 +1,83 @@
 from parsons.utilities import check_env
+from parsons.utilities.api_connector import APIConnector
+from parsons import Table
+import logging
+import jwt
+import datetime
+import json
+
+logger = logging.getLogger(__name__)
 
 ZOOM_URI = 'https://api.zoom.us/v2/'
 
-# To Do: 
-# - Add Zoom to __init__.py
+# To Do:
 # - Add unittests
 # - Add to docs
 
 
 class Zoom():
-	"""
-	Describe how to init the class
-	"""
+    """
+    Instantiate the Zoom class.
 
-    def __init__(self, token=None):
+    `Args:`
+        api_key: str
+            A valid Zoom api key. Not required if ``ZOOM_API_KEY`` env
+            variable set.
+        api_secret:
+            A valid Zoom api secret. Not required if ``ZOOM_API_SECRET`` env
+            variable set.
+    """
 
-        self.token = check_env.check('ZOOM_TOKEN', token)
+    def __init__(self, api_key=None, api_secret=None):
 
-        self.headers = {'authorization': f"Bearer {self.zoom_token}",
-                        'content-type': "application/json"}
+        self.api_key = check_env.check('ZOOM_API_KEY', api_key)
+        self.api_secret = check_env.check('ZOOM_API_SECRET', api_secret)
+        self.client = APIConnector(ZOOM_URI)
 
-        self.client = APIConnector(ZOOM_URI, header=self.headers)
+    def refresh_header_token(self):
+        # Generate a token that is valid for 30 seconds and update header
 
-    def get_webinars(self):
+        header = {"alg": "HS256", "typ": "JWT"}
+        payload = {"iss": self.api_key, "exp": int(datetime.datetime.now().timestamp() + 30)}
+        token = jwt.encode(payload, self.api_secret, algorithm='HS256').decode("utf-8")
+        self.client.headers = {'authorization': f"Bearer {token}", 'content-type': "application/json"} 
+
+    def get_request(self, endpoint, data_key):
+        # Internal Get request method.
+
+        self.refresh_header_token()
+        r = self.client.get_request(endpoint)
+        self.client.data_key = data_key
+        data = self.client.data_parse(r)
+
+        # Paginate
+        while r['page_number'] < r['page_count']:
+            r = self.client.get_request(endpoint)
+            data = self.api.data_parse(r)
+
+        return Table(data)
+
+    def get_users(self):
+
+        # To Do:
+        pass
+
+    def get_webinars(self, user_id):
         """
         Get webinars.
 
         `Args:`
-            arg1: str
-        `Returns`:
-            A parsons table
+            user_id: str
+                A user id
+        `Returns:`
+            A parsons Table.
         """
 
-        # To Do:
-        # Add in the arguments to pass as params.
-        # Figure out pagination, if it exists
-        # Figure out the endpoint url for 'webinars'
+        tbl = self.get_request(f'users/{user_id}/webinars', 'webinars')
+        logger.info(f'Retrieved {tbl.num_rows} webinars.')
+        return tbl
 
-        return Table(self.client.get('webinars', params=params))
+    def get_webinar_participants(self):
+
+        # To do...
+        pass

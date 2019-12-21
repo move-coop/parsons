@@ -80,7 +80,8 @@ class APIConnector(object):
                 A requests response object
         """
 
-        r = self.request(url, 'GET', params=params)
+        r = self.request(self.uri + url, 'GET', params=params)
+        logger.debug(r)
 
         self.validate_response(r)
 
@@ -105,7 +106,7 @@ class APIConnector(object):
             A requests response object
         """
 
-        r = self.request(url, 'POST', params=params, data=data, json=json)
+        r = self.request(self.uri + url, 'POST', params=params, data=data, json=json)
 
         # Validate the response and lift up an errors.
         self.validate_response(r)
@@ -133,7 +134,7 @@ class APIConnector(object):
                 A requests response object or status code
         """
 
-        r = self.request(url, 'DELETE', params=params)
+        r = self.request(self.uri + url, 'DELETE', params=params)
 
         self.validate_response(r)
 
@@ -162,7 +163,7 @@ class APIConnector(object):
                 A requests response object
         """
 
-        r = self.request(url, 'PUT', params=params, data=data, json=json)
+        r = self.request(self.uri + url, 'PUT', params=params, data=data, json=json)
 
         self.validate_response(r)
 
@@ -191,7 +192,7 @@ class APIConnector(object):
             A requests response object
         """
 
-        r = self.request(url, 'PATCH', params=params, data=data, json=json)
+        r = self.request(self.uri + url, 'PATCH', params=params, data=data, json=json)
 
         self.validate_response(r)
 

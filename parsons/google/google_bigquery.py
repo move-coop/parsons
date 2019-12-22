@@ -50,6 +50,8 @@ class GoogleBigQuery:
         # This attribute will be used to hold the client once we have created it.
         self._client = None
 
+        self.dialect = 'bigquery'
+
     def copy(self, table_obj, dataset_name, table_name, if_exists='fail',
              tmp_gcs_bucket=None, gcs_client=None, job_config=None, **load_kwargs):
         """

@@ -45,6 +45,7 @@ class Postgres(PostgresCore):
                              'or env variables.')
 
         self.timeout = timeout
+        self.dialect = 'postgres'
 
     def copy(self, tbl, table_name, if_exists='fail'):
         """

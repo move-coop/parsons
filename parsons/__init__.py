@@ -27,6 +27,7 @@ from parsons.crowdtangle.crowdtangle import CrowdTangle
 from parsons.hustle.hustle import Hustle
 from parsons.twilio.twilio import Twilio
 from parsons.databases.postgres.postgres import Postgres
+from parsons.databases.db_sync import DBSync
 
 __all__ = [
     'VAN',
@@ -36,6 +37,7 @@ __all__ = [
     'Redshift',
     'S3',
     'CivisClient',
+    'DBSync',
     'Table',
     'Gmail',
     'GoogleCivic',

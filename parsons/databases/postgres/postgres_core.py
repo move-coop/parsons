@@ -247,8 +247,8 @@ class PostgresCore(PostgresCreateStatement):
 
         # If in either, return boolean
         if result >= 1:
-            logger.info(f'{table_name[0]}.{table_name[1]} exists.')
+            logger.info(f'{table_name} exists.')
             return True
         else:
-            logger.info(f'{table_name[0]}.{table_name[1]} does NOT exist.')
+            logger.info(f'{table_name} does NOT exist.')
             return False

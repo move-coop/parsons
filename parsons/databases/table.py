@@ -35,30 +35,24 @@ class BaseTable:
 
         return self.connection.query(f"SELECT COUNT(*) FROM {self.table};").first
 
-    @property
     def max_primary_key(self, primary_key):
         """
         Get the maximum primary key in the table.
         """
 
-        return self.connection.query(f"SELECT MAX(primary_key) FROM {table};").first
+        return self.connection.query(f"SELECT MAX({primary_key}) FROM {self.table};").first
 
     @property
     def exists(self):
 
         return self.connection.table_exists(self.table)
 
-    def get_rows(self, offset=0, chunk_size=None, where=None):
+    def get_rows(self, offset=0, chunk_size=None):
         """
         Get rows from a table.
         """
 
-        sql = f"SELECT * FROM {self.table} "
-
-        if where:
-            sql += where
-
-        sql += f" OFFSET {offset}"
+        sql = f"SELECT * FROM {self.table} OFFSET {offset}"
 
         if chunk_size:
             sql += f" LIMIT {chunk_size};"
@@ -85,9 +79,16 @@ class BaseTable:
         provided.
         """
 
-        sql = f"WHERE {primary_key_col} > {max_value}"
+        sql = f"""SELECT
+                  *
+                  FROM {self.table}
+                  WHERE {primary_key_col} > {max_value}
+               """
 
-        return self.get_rows(offset, chunk_size, where=sql)
+        if chunk_size:
+            sql += f" LIMIT {chunk_size};"
+
+        return self.connection.query(sql)
 
     def drop(self, cascade=False):
         """

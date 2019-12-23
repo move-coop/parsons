@@ -63,19 +63,19 @@ class DBSync:
         while copied_rows < source_tbl.num_rows:
 
             # Get a chunk
-            source_data = source_tbl.get_rows(offset=copied_rows, chunk_size=self.chunk_size)
+            rows = source_tbl.get_rows(offset=copied_rows, chunk_size=self.chunk_size)
 
             # Copy the chunk
-            self.dest_db.copy(source_data, destination_table, if_exists='append', **kwargs)
+            self.dest_db.copy(rows, destination_table, if_exists='append', **kwargs)
 
             # Update counter
-            copied_rows += source_data.num_rows
+            copied_rows += rows.num_rows
 
         logger.info(f'{source_table} synced: {copied_rows} total rows copied.')
 
         self._row_count_verify(source_tbl, destination_tbl)
 
-    def incremental_sync(self, source_table, destination_table, primary_key, **kwargs):
+    def table_sync_increment(self, source_table, destination_table, primary_key, **kwargs):
         """
         Full sync of table from a source database to a destination database.
 
@@ -100,8 +100,8 @@ class DBSync:
         destination_tbl = table_factory(self.dest_db, destination_table)
 
         # Get the max source table and destination table primary key
-        source_max_pk = source_tbl.max_primary_key
-        dest_max_pk = dest_tbl.max_primary_key
+        source_max_pk = source_tbl.max_primary_key(primary_key)
+        dest_max_pk = destination_tbl.max_primary_key(primary_key)
 
         # Check for a mismatch in row counts.
         if dest_max_pk > source_max_pk:
@@ -115,22 +115,27 @@ class DBSync:
 
         else:
             # Get count of rows to be copied.
-            source_tbl.get_new_rows_count(primary_key, dest_max_pk)
+            new_row_count = source_tbl.get_new_rows_count(primary_key, dest_max_pk)
+            logger.info(f'Found {new_row_count} new rows in source table.')
 
             # Copy rows in chunks.
             copied_rows = 0
-            while copied_rows < source_rows:
+            while copied_rows < new_row_count:
 
                 # Get a chunk
-                source_tbl.get_new_rows(primary_key, source_max_pk, copied_rows, chunk_size)
+                rows = source_tbl.get_new_rows(primary_key, dest_max_pk, copied_rows, self.chunk_size)
+
+                print (rows.num_rows)
 
                 # Copy the chunk
-                self.dest_db.copy(source_data, destination_table, if_exists=if_exists, **kwargs)
+                #self.dest_db.copy(rows, destination_table, if_exists='append', **kwargs)
 
                 # Update the counter
-                copied_rows += source_data.num_rows
+                copied_rows += rows.num_rows
 
         self._row_count_verify(source_table, destination_table)
+
+        logger.info(f'{source_table} synced: {copied_rows} total rows copied.')
 
     def _row_count_verify(self, source_table_obj, destination_table_obj):
         """

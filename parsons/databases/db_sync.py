@@ -123,17 +123,18 @@ class DBSync:
             while copied_rows < new_row_count:
 
                 # Get a chunk
-                rows = source_tbl.get_new_rows(primary_key, dest_max_pk, copied_rows, self.chunk_size)
-
-                print (rows.num_rows)
+                rows = source_tbl.get_new_rows(primary_key,
+                                               dest_max_pk,
+                                               copied_rows,
+                                               self.chunk_size)
 
                 # Copy the chunk
-                #self.dest_db.copy(rows, destination_table, if_exists='append', **kwargs)
+                self.dest_db.copy(rows, destination_table, if_exists='append', **kwargs)
 
                 # Update the counter
                 copied_rows += rows.num_rows
 
-        self._row_count_verify(source_table, destination_table)
+        self._row_count_verify(source_tbl, destination_tbl)
 
         logger.info(f'{source_table} synced: {copied_rows} total rows copied.')
 

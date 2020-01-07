@@ -624,6 +624,22 @@ terminate if the file does not exist.</dd>
 </dl>
 </dd></dl>
 
+<dl class="function">
+<dt id="parsons.Redshift.alter_table_column_type">
+<code class="descclassname">parsons.Redshift.</code><code class="descname">alter_table_column_type</code><span class="sig-paren">(</span><em>self</em>, <em>table_name</em>, <em>column_name</em>, <em>data_type</em>, <em>varchar_width=None</em><span class="sig-paren">)</span><a class="headerlink" href="#parsons.Redshift.alter_table_column_type" title="Permalink to this definition">¶</a></dt>
+<dd><p>Alter a column type of an existing table.</p>
+<dl class="docutils">
+<dt>table_name: str</dt>
+<dd>The table name (ex. <code class="docutils literal notranslate"><span class="pre">my_schema.my_table</span></code>).</dd>
+<dt>column_name: str</dt>
+<dd>The target column name</dd>
+<dt>data_type: str</dt>
+<dd>A valid Redshift data type to alter the table to.</dd>
+<dt>varchar_width:</dt>
+<dd>The new width of the column if of type varchar.</dd>
+</dl>
+</dd></dl>
+
 </div>
 <div class="section" id="table-and-view-utilities">
 <h2>Table and View Utilities<a class="headerlink" href="#table-and-view-utilities" title="Permalink to this headline">¶</a></h2>

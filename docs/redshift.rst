@@ -61,6 +61,8 @@ Redshift core methods focus on input, output and querying of the database.
 
 .. autofunction:: parsons.Redshift.generate_manifest
 
+.. autofunction:: parsons.Redshift.alter_table_column_type
+
 ************************
 Table and View Utilities
 ************************

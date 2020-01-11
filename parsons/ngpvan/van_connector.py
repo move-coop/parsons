@@ -37,8 +37,7 @@ class VANConnector(object):
     @property
     def api_key_profile(self):
         """
-        Returns the API key profile with includes permissions and other 
-        meta data
+        Returns the API key profile with includes permissions and other metadata.
         """
 
         return self.get_request('apiKeyProfiles')[0]

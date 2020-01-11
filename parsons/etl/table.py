@@ -134,7 +134,7 @@ class Table(ETL, ToFrom):
             return list(self.table[column_name])
 
         except petl.errors.FieldSelectionError:
-            raise ValueError('Column name not found.') 
+            raise ValueError('Column name not found.')
 
     def materialize(self):
         """

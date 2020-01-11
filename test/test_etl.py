@@ -532,6 +532,13 @@ class TestParsonsTable(unittest.TestCase):
         empty_tbl = Table([[1], [], [3]])
         self.assertIsNone(empty_tbl.first)
 
+    def test_column_data(self):
+        # Test that that the data in the column is returned as a list
+
+        tbl = Table(self.lst)
+        lst = [1, 4, 7, 10, 13]
+        self.assertEqual(tbl.column_data('a'), lst)
+
     def test_stack(self):
         tbl1 = self.tbl
         tbl2 = Table([{'first': 'Mary', 'last': 'Nichols'}])

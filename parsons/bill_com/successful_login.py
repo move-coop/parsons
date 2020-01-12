@@ -12,4 +12,4 @@ params = {
 	"devKey": "<DEV KEY>"
 }
 
-r = request("POST", "https://api-sandbox.bill.com/api/v2/Login.json", data=urllib.parse.urlencode(params), headers=headers)
+r = request("POST", "https://api-sandbox.bill.com/api/v2/Login.json", data=parse.urlencode(params), headers=headers)

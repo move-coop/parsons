@@ -205,76 +205,79 @@ Signup: Adding and Modifying
   new_status_id = 6
   van.signup_update(signup_id, status_id=new_status_id)
 
+***
+API
+***
 
-******
+======
 People
-******
+======
 .. autoclass:: parsons.ngpvan.van.People
    :inherited-members:
 
-***********
+===========
 Bulk Import
-***********
+===========
 .. autoclass:: parsons.ngpvan.van.BulkImport
    :inherited-members:
 
-**************
+==============
 Activist Codes
-**************
+==============
 .. autoclass:: parsons.ngpvan.van.ActivistCodes
    :inherited-members:
 
-*****************
+================
 Survey Questions
-*****************
+================
 .. autoclass:: parsons.ngpvan.van.SurveyQuestions
    :inherited-members:
 
-******
+======
 Events
-******
+======
 .. autoclass:: parsons.ngpvan.van.Events
    :inherited-members:
 
-*********
+=========
 Locations
-*********
+=========
 .. autoclass:: parsons.ngpvan.van.Locations
    :inherited-members:
 
-*******
+=======
 Signups
-*******
+=======
 .. autoclass:: parsons.ngpvan.van.Signups
    :inherited-members:
 
-****************
+================
 Changed Entities
-****************
+================
 .. autoclass:: parsons.ngpvan.van.ChangedEntities
    :inherited-members:
 
-*****
+=====
 Codes
-*****
+=====
 .. autoclass:: parsons.ngpvan.van.Codes
    :inherited-members:
 
-*****************
+=================
 Canvass Responses
-*****************
+=================
 .. autoclass:: parsons.ngpvan.van.CanvassResponses
    :inherited-members:
 
-****************
+================
 Supporter Groups
-****************
+================
 .. autoclass:: parsons.ngpvan.van.SupporterGroups
    :inherited-members:
 
-***********
+===========
 Saved Lists
-***********
+===========
 .. note::
    A saved list must be shared with the user associated with your API key to
    be listed.
@@ -282,9 +285,9 @@ Saved Lists
 .. autoclass:: parsons.ngpvan.van.SavedLists
    :inherited-members:
 
-*******
+=======
 Folders
-*******
+=======
 .. note::
    A folder must be shared with the user associated with your API key to
    be listed.
@@ -292,15 +295,15 @@ Folders
 .. autoclass:: parsons.ngpvan.van.Folders
    :inherited-members:
 
-***********
+===========
 Export Jobs
-***********
+===========
 .. autoclass:: parsons.ngpvan.van.ExportJobs
    :inherited-members:
 
-******
+======
 Scores
-******
+======
 Prior to loading a score for the first time, you must contact VAN support to request
 a score slot.
 
@@ -315,8 +318,8 @@ a score slot.
 .. autoclass:: parsons.ngpvan.van.Scores
    :inherited-members:
 
-*****************
+=================
 File Loading Jobs
-*****************
+=================
 .. autoclass:: parsons.ngpvan.van.FileLoadingJobs
    :inherited-members:

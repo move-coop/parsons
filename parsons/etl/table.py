@@ -125,6 +125,17 @@ class Table(ETL, ToFrom):
         except IndexError:
             return None
 
+    def column_data(self, column_name):
+        """
+        Returns the data in the column as a list.
+        """
+
+        try:
+            return list(self.table[column_name])
+
+        except petl.errors.FieldSelectionError:
+            raise ValueError('Column name not found.')
+
     def materialize(self):
         """
         "Materializes" a Table, meaning all data is loaded into memory and all pending

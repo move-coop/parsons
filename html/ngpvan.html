@@ -214,11 +214,8 @@ additional details and information.</p>
 <p class="first admonition-title">Note</p>
 <dl class="last docutils">
 <dt>API Keys</dt>
-<dd><ul class="first last simple">
-<li>API Keys are specific to each committee and state, so you might need many.</li>
-<li>Not all API Keys are provisioned for all endpoints. When requesting API keys, you should specify the endpoints that you need access to.</li>
-</ul>
-</dd>
+<dd>API Keys are specific to each committee and state, so you might need many. Not all API Keys are provisioned for all endpoints. When requesting API keys, you should specify the endpoints that you need access to. To learn more about
+your api key run <code class="docutils literal notranslate"><span class="pre">VAN.connection.api_key_profile</span></code>.</dd>
 </dl>
 </div>
 <div class="admonition warning">
@@ -1602,7 +1599,7 @@ code. You can find supported entities with the <code class="xref py py-meth docu
 <dl class="method">
 <dt id="parsons.ngpvan.van.SupporterGroups.create_supporter_group">
 <code class="descname">create_supporter_group</code><span class="sig-paren">(</span><em>name</em>, <em>description</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/ngpvan/supporter_groups.html#SupporterGroups.create_supporter_group"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.ngpvan.van.SupporterGroups.create_supporter_group" title="Permalink to this definition">¶</a></dt>
-<dd><p>Create a new supporter group</p>
+<dd><p>Create a new supporter group.</p>
 <dl class="docutils">
 <dt><cite>Args:</cite></dt>
 <dd><dl class="first last docutils">
@@ -1615,6 +1612,22 @@ code. You can find supported entities with the <code class="xref py py-meth docu
 <dt><cite>Returns</cite></dt>
 <dd>Parsons Table with the newly createed supporter group id, name
 and description</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="parsons.ngpvan.van.SupporterGroups.delete_supporter_group">
+<code class="descname">delete_supporter_group</code><span class="sig-paren">(</span><em>supporter_group_id</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/ngpvan/supporter_groups.html#SupporterGroups.delete_supporter_group"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.ngpvan.van.SupporterGroups.delete_supporter_group" title="Permalink to this definition">¶</a></dt>
+<dd><p>Delete a supporter group.</p>
+<dl class="docutils">
+<dt><cite>Args:</cite></dt>
+<dd><dl class="first last docutils">
+<dt>supporter_group_id: int</dt>
+<dd>The supporter group id</dd>
+</dl>
+</dd>
+<dt><cite>Returns:</cite></dt>
+<dd><code class="docutils literal notranslate"><span class="pre">None</span></code></dd>
 </dl>
 </dd></dl>
 

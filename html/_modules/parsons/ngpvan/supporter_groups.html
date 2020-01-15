@@ -214,7 +214,7 @@
 
 <div class="viewcode-block" id="SupporterGroups.create_supporter_group"><a class="viewcode-back" href="../../../ngpvan.html#parsons.ngpvan.van.SupporterGroups.create_supporter_group">[docs]</a>    <span class="k">def</span> <span class="nf">create_supporter_group</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">description</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Create a new supporter group</span>
+<span class="sd">        Create a new supporter group.</span>
 
 <span class="sd">        `Args:`</span>
 <span class="sd">            name: str</span>
@@ -228,6 +228,21 @@
 
         <span class="n">json</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="n">name</span><span class="p">,</span> <span class="s1">&#39;description&#39;</span><span class="p">:</span> <span class="n">description</span><span class="p">}</span>
         <span class="n">r</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">connection</span><span class="o">.</span><span class="n">post_request</span><span class="p">(</span><span class="s1">&#39;supporterGroups&#39;</span><span class="p">,</span> <span class="n">json</span><span class="o">=</span><span class="n">json</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">r</span></div>
+
+<div class="viewcode-block" id="SupporterGroups.delete_supporter_group"><a class="viewcode-back" href="../../../ngpvan.html#parsons.ngpvan.van.SupporterGroups.delete_supporter_group">[docs]</a>    <span class="k">def</span> <span class="nf">delete_supporter_group</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">supporter_group_id</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Delete a supporter group.</span>
+
+<span class="sd">        `Args:`</span>
+<span class="sd">            supporter_group_id: int</span>
+<span class="sd">                The supporter group id</span>
+<span class="sd">        `Returns:`</span>
+<span class="sd">            ``None``</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">r</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">connection</span><span class="o">.</span><span class="n">delete_request</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;supporterGroups/</span><span class="si">{supporter_group_id}</span><span class="s1">&#39;</span><span class="p">)</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Deleted supporter group </span><span class="si">{supporter_group_id}</span><span class="s1">.&#39;</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">r</span></div>
 
 <div class="viewcode-block" id="SupporterGroups.add_person_supporter_group"><a class="viewcode-back" href="../../../ngpvan.html#parsons.ngpvan.van.SupporterGroups.add_person_supporter_group">[docs]</a>    <span class="k">def</span> <span class="nf">add_person_supporter_group</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">supporter_group_id</span><span class="p">,</span> <span class="n">vanid</span><span class="p">):</span>

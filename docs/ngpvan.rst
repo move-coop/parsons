@@ -12,8 +12,8 @@ additional details and information.
 
 .. note::
    API Keys
-      - API Keys are specific to each committee and state, so you might need many.
-      - Not all API Keys are provisioned for all endpoints. When requesting API keys, you should specify the endpoints that you need access to.
+      API Keys are specific to each committee and state, so you might need many. Not all API Keys are provisioned for all endpoints. When requesting API keys, you should specify the endpoints that you need access to. To learn more about
+      your api key run ``VAN.connection.api_key_profile``.
 
 .. warning::
    VANIDs

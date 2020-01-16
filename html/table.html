@@ -113,6 +113,7 @@
 <li class="toctree-l3"><a class="reference internal" href="#from-parsons-table">From Parsons Table</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#to-parsons-table">To Parsons Table</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#parsons-table-attributes">Parsons Table Attributes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#parsons-table-indexing">Parsons Table Indexing</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#petl">PETL</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#lazy-loading">Lazy Loading</a></li>
 </ul>
@@ -121,8 +122,8 @@
 <li class="toctree-l3"><a class="reference internal" href="#basic-pipelines">Basic Pipelines</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="#to-from-methods">To &amp; From Methods</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#etl">ETL</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#to-from-api">To &amp; From API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#etl-api">ETL API</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="notifications.html">Notifications</a></li>
@@ -342,6 +343,23 @@
 </tr>
 </tbody>
 </table>
+</div>
+<div class="section" id="parsons-table-indexing">
+<h3>Parsons Table Indexing<a class="headerlink" href="#parsons-table-indexing" title="Permalink to this headline">¶</a></h3>
+<p>To access rows and columns of data within a Parsons table, you can index on them. To access a column
+pass in the column name as a string (e.g. <code class="docutils literal notranslate"><span class="pre">tbl['a']</span></code>) and to access a row, pass in the row index as
+an integer (e.g. <code class="docutils literal notranslate"><span class="pre">tbl[1]</span></code>).</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">tbl</span> <span class="o">=</span> <span class="n">Table</span><span class="p">([{</span><span class="s1">&#39;a&#39;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="s1">&#39;b&#39;</span><span class="p">:</span> <span class="mi">2</span><span class="p">},</span> <span class="p">{</span><span class="s1">&#39;a&#39;</span><span class="p">:</span> <span class="mi">3</span><span class="p">,</span> <span class="s1">&#39;b&#39;</span><span class="p">:</span> <span class="mi">4</span><span class="p">}])</span>
+
+<span class="c1"># Return a column as a list</span>
+<span class="n">tbl</span><span class="p">[</span><span class="s1">&#39;a&#39;</span><span class="p">]</span>
+<span class="o">&gt;&gt;</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">]</span>
+
+<span class="c1"># Return a row as a dict</span>
+<span class="n">tbl</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+<span class="o">&gt;&gt;</span> <span class="p">{</span><span class="s1">&#39;a&#39;</span><span class="p">:</span> <span class="mi">3</span><span class="p">,</span> <span class="s1">&#39;b&#39;</span><span class="p">:</span> <span class="mi">4</span><span class="p">}</span>
+</pre></div>
+</div>
 <p>A note on indexing and iterating over a table’s data:
 If you need to iterate over the data, make sure to use the python iterator syntax, so any data transformations can be applied efficiently. An example:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Some data transformations</span>
@@ -408,8 +426,8 @@ If you need to iterate over the data, make sure to use the python iterator synta
 </div>
 </div>
 </div>
-<div class="section" id="to-from-methods">
-<h2>To &amp; From Methods<a class="headerlink" href="#to-from-methods" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="to-from-api">
+<h2>To &amp; From API<a class="headerlink" href="#to-from-api" title="Permalink to this headline">¶</a></h2>
 <dl class="class">
 <dt id="parsons.etl.tofrom.ToFrom">
 <em class="property">class </em><code class="descclassname">parsons.etl.tofrom.</code><code class="descname">ToFrom</code><a class="reference internal" href="_modules/parsons/etl/tofrom.html#ToFrom"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.etl.tofrom.ToFrom" title="Permalink to this definition">¶</a></dt>
@@ -948,8 +966,8 @@ JSON file.</dd>
 </dd></dl>
 
 </div>
-<div class="section" id="etl">
-<h2>ETL<a class="headerlink" href="#etl" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="etl-api">
+<h2>ETL API<a class="headerlink" href="#etl-api" title="Permalink to this headline">¶</a></h2>
 <p>The following methods allow you to manipulate the Parsons table data.</p>
 <dl class="class">
 <dt id="parsons.etl.etl.ETL">
@@ -1550,6 +1568,673 @@ value of None), ‘ignore’ them, or ‘fail’ (raising an error).</dd>
 <dl class="method">
 <dt id="parsons.etl.etl.ETL.reduce_rows">
 <code class="descname">reduce_rows</code><span class="sig-paren">(</span><em>columns</em>, <em>reduce_func</em>, <em>headers</em>, <em>presorted=False</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/etl/etl.html#ETL.reduce_rows"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.etl.etl.ETL.reduce_rows" title="Permalink to this definition">¶</a></dt>
+<dd><p>Group rows by a column or columns, then reduce the groups to a single row.</p>
+<p>Based on the <a class="reference external" href="https://petl.readthedocs.io/en/stable/transform.html#petl.transform.reductions.rowreduce">rowreduce petl function</a>.</p>
+<p>For example, the output from the query to get a table’s definition is
+returned as one component per row. The <cite>reduce_rows</cite> method can be used
+to reduce all those to a single row containg the entire query.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">ddl</span> <span class="o">=</span> <span class="n">rs</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="n">sql_to_get_table_ddl</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ddl</span><span class="o">.</span><span class="n">table</span>
+
+<span class="go">+--------------+--------------+----------------------------------------------------+</span>
+<span class="go">| schemaname   | tablename    | ddl                                                |</span>
+<span class="go">+==============+==============+====================================================+</span>
+<span class="go">| &#39;db_scratch&#39; | &#39;state_fips&#39; | &#39;--DROP TABLE db_scratch.state_fips;&#39;              |</span>
+<span class="go">+--------------+--------------+----------------------------------------------------+</span>
+<span class="go">| &#39;db_scratch&#39; | &#39;state_fips&#39; | &#39;CREATE TABLE IF NOT EXISTS db_scratch.state_fips&#39; |</span>
+<span class="go">+--------------+--------------+----------------------------------------------------+</span>
+<span class="go">| &#39;db_scratch&#39; | &#39;state_fips&#39; | &#39;(&#39;                                                |</span>
+<span class="go">+--------------+--------------+----------------------------------------------------+</span>
+<span class="go">| &#39;db_scratch&#39; | &#39;state_fips&#39; | &#39;\tstate VARCHAR(1024)   ENCODE RAW&#39;               |</span>
+<span class="go">+--------------+--------------+----------------------------------------------------+</span>
+<span class="go">| &#39;db_scratch&#39; | &#39;state_fips&#39; | &#39;\t,stusab VARCHAR(1024)   ENCODE RAW&#39;             |</span>
+<span class="go">+--------------+--------------+----------------------------------------------------+</span>
+
+<span class="gp">&gt;&gt;&gt; </span><span class="n">reducer_fn</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">columns</span><span class="p">,</span> <span class="n">rows</span><span class="p">:</span> <span class="p">[</span>
+<span class="gp">... </span>    <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{columns[0]}</span><span class="s2">.</span><span class="si">{columns[1]}</span><span class="s2">&quot;</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="n">row</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">rows</span><span class="p">])]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ddl</span><span class="o">.</span><span class="n">reduce_rows</span><span class="p">(</span>
+<span class="gp">... </span>    <span class="p">[</span><span class="s1">&#39;schemaname&#39;</span><span class="p">,</span> <span class="s1">&#39;tablename&#39;</span><span class="p">],</span>
+<span class="gp">... </span>    <span class="n">reducer_fn</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="p">[</span><span class="s1">&#39;tablename&#39;</span><span class="p">,</span> <span class="s1">&#39;ddl&#39;</span><span class="p">],</span>
+<span class="gp">... </span>    <span class="n">presorted</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ddl</span><span class="o">.</span><span class="n">table</span>
+
+<span class="go">+-------------------------+-----------------------------------------------------------------------+</span>
+<span class="go">| tablename               | ddl                                                                   |</span>
+<span class="go">+=========================+=======================================================================+</span>
+<span class="go">| &#39;db_scratch.state_fips&#39; | &#39;--DROP TABLE db_scratch.state_fips;\nCREATE TABLE IF NOT EXISTS      |</span>
+<span class="go">|                         | db_scratch.state_fips\n(\n\tstate VARCHAR(1024)   ENCODE RAW\n\t      |</span>
+<span class="go">|                         | ,db_scratch.state_fips\n(\n\tstate VARCHAR(1024)   ENCODE RAW         |</span>
+<span class="go">|                         | \n\t,stusab VARCHAR(1024)   ENCODE RAW\n\t,state_name                 |</span>
+<span class="go">|                         | VARCHAR(1024)   ENCODE RAW\n\t,statens VARCHAR(1024)   ENCODE         |</span>
+<span class="go">|                         | RAW\n)\nDISTSTYLE EVEN\n;&#39;                                            |</span>
+<span class="go">+-------------------------+-----------------------------------------------------------------------+</span>
+</pre></div>
+</div>
+<dl class="docutils">
+<dt><cite>Args:</cite></dt>
+<dd><dl class="first last docutils">
+<dt>columns: list</dt>
+<dd>The column(s) by which to group the rows.</dd>
+<dt>reduce_func: fun</dt>
+<dd>The function by which to reduce the rows. Should take the 2
+arguments, the columns list and the rows list and return a list.
+<cite>reducer(columns: list, rows: list) -&gt; list;</cite></dd>
+<dt>headers: list</dt>
+<dd>The list of headers for modified table. The length of <cite>headers</cite>
+should match the length of the list returned by the reduce
+function.</dd>
+<dt>presorted: bool</dt>
+<dd>If false, the row will be sorted.</dd>
+</dl>
+</dd>
+<dt><cite>Returns:</cite></dt>
+<dd><cite>Parsons Table</cite> and also updates self</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt>
+<em class="property">class </em><code class="descclassname">parsons.etl.etl.</code><code class="descname">ETL</code><a class="reference internal" href="_modules/parsons/etl/etl.html#ETL"><span class="viewcode-link">[source]</span></a></dt>
+<dd><dl class="method">
+<dt>
+<code class="descname">add_column</code><span class="sig-paren">(</span><em>column</em>, <em>value=None</em>, <em>index=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/etl/etl.html#ETL.add_column"><span class="viewcode-link">[source]</span></a></dt>
+<dd><p>Add a column to your table</p>
+<dl class="docutils">
+<dt><cite>Args:</cite></dt>
+<dd><dl class="first last docutils">
+<dt>column: str</dt>
+<dd>Name of column to add</dd>
+<dt>value:</dt>
+<dd>A fixed or calculated value</dd>
+<dt>index: int</dt>
+<dd>The position of the new column in the table</dd>
+</dl>
+</dd>
+<dt><cite>Returns:</cite></dt>
+<dd><cite>Parsons Table</cite> and also updates self</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt>
+<code class="descname">remove_column</code><span class="sig-paren">(</span><em>*columns</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/etl/etl.html#ETL.remove_column"><span class="viewcode-link">[source]</span></a></dt>
+<dd><p>Remove a column from your table</p>
+<dl class="docutils">
+<dt><cite>Args:</cite></dt>
+<dd><dl class="first last docutils">
+<dt>*columns: str</dt>
+<dd>Column names</dd>
+</dl>
+</dd>
+<dt><cite>Returns:</cite></dt>
+<dd><cite>Parsons Table</cite> and also updates self</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt>
+<code class="descname">rename_column</code><span class="sig-paren">(</span><em>column_name</em>, <em>new_column_name</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/etl/etl.html#ETL.rename_column"><span class="viewcode-link">[source]</span></a></dt>
+<dd><p>Rename a column</p>
+<dl class="docutils">
+<dt><cite>Args:</cite></dt>
+<dd><dl class="first last docutils">
+<dt>column_name: str</dt>
+<dd>The current column name</dd>
+<dt>new_column_name: str</dt>
+<dd>The new column name</dd>
+</dl>
+</dd>
+<dt><cite>Returns:</cite></dt>
+<dd><cite>Parsons Table</cite> and also updates self</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt>
+<code class="descname">fill_column</code><span class="sig-paren">(</span><em>column_name</em>, <em>fill_value</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/etl/etl.html#ETL.fill_column"><span class="viewcode-link">[source]</span></a></dt>
+<dd><p>Fill a column in a table</p>
+<dl class="docutils">
+<dt><cite>Args:</cite></dt>
+<dd><dl class="first last docutils">
+<dt>column_name: str</dt>
+<dd>The column to fill</dd>
+<dt>fill_value:</dt>
+<dd>A fixed or calculated value</dd>
+</dl>
+</dd>
+<dt><cite>Returns:</cite></dt>
+<dd><cite>Parsons Table</cite> and also updates self</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt>
+<code class="descname">fillna_column</code><span class="sig-paren">(</span><em>column_name</em>, <em>fill_value</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/etl/etl.html#ETL.fillna_column"><span class="viewcode-link">[source]</span></a></dt>
+<dd><p>Fill None values in a column in a table</p>
+<dl class="docutils">
+<dt><cite>Args:</cite></dt>
+<dd><dl class="first last docutils">
+<dt>column_name: str</dt>
+<dd>The column to fill</dd>
+<dt>fill_value:</dt>
+<dd>Fixed value only</dd>
+</dl>
+</dd>
+<dt><cite>Returns:</cite></dt>
+<dd><cite>Parsons Table</cite> and also updates self</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt>
+<code class="descname">move_column</code><span class="sig-paren">(</span><em>column</em>, <em>index</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/etl/etl.html#ETL.move_column"><span class="viewcode-link">[source]</span></a></dt>
+<dd><p>Move a column</p>
+<dl class="docutils">
+<dt><cite>Args:</cite></dt>
+<dd><dl class="first last docutils">
+<dt>column: str</dt>
+<dd>The column name to move</dd>
+<dt>index:</dt>
+<dd>The new index for the column</dd>
+</dl>
+</dd>
+<dt><cite>Returns:</cite></dt>
+<dd><cite>Parsons Table</cite> and also updates existing object.</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt>
+<code class="descname">convert_column</code><span class="sig-paren">(</span><em>*column</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/etl/etl.html#ETL.convert_column"><span class="viewcode-link">[source]</span></a></dt>
+<dd><p>Transform values under one or more fields via arbitrary functions, method
+invocations or dictionary translations. This leverages the petl <code class="docutils literal notranslate"><span class="pre">convert()</span></code>
+method. Example usage can be found <cite>here</cite> &lt;<a class="reference external" href="https://petl.readthedocs.io/en/v0.24/transform.html#petl.convert">https://petl.readthedocs.io/en/v0.24/transform.html#petl.convert</a>&gt;`_</p>
+<dl class="docutils">
+<dt><cite>Args:</cite></dt>
+<dd><dl class="first last docutils">
+<dt>*column: str</dt>
+<dd>A single column or multiple columns passed as a list</dd>
+<dt>**kwargs: str, method or variable</dt>
+<dd>The update function, method, or variable to process the update</dd>
+</dl>
+</dd>
+<dt><cite>Returns:</cite></dt>
+<dd><cite>Parsons Table</cite> and also updates self</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt>
+<code class="descname">get_column_max_width</code><span class="sig-paren">(</span><em>column</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/etl/etl.html#ETL.get_column_max_width"><span class="viewcode-link">[source]</span></a></dt>
+<dd><p>Return the maximum width of the column.</p>
+<dl class="docutils">
+<dt><cite>Args:</cite></dt>
+<dd><dl class="first last docutils">
+<dt>column: str</dt>
+<dd>The column name.</dd>
+</dl>
+</dd>
+<dt><cite>Returns:</cite></dt>
+<dd>int</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt>
+<code class="descname">convert_columns_to_str</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/etl/etl.html#ETL.convert_columns_to_str"><span class="viewcode-link">[source]</span></a></dt>
+<dd><p>Convenience function to convert all non-string or mixed columns in a
+Parsons table to string (e.g. for comparison)</p>
+<dl class="docutils">
+<dt><cite>Returns:</cite></dt>
+<dd><cite>Parsons Table</cite> and also updates self</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt>
+<code class="descname">coalesce_columns</code><span class="sig-paren">(</span><em>dest_column</em>, <em>source_columns</em>, <em>remove_source_columns=True</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/etl/etl.html#ETL.coalesce_columns"><span class="viewcode-link">[source]</span></a></dt>
+<dd><p>Coalesces values from one or more source columns into a destination column, by selecting
+the first non-empty value. If the destination column doesn’t exist, it will be added.</p>
+<dl class="docutils">
+<dt><cite>Args:</cite></dt>
+<dd><dl class="first last docutils">
+<dt>dest_column: str</dt>
+<dd>Name of destination column</dd>
+<dt>source_columns: list</dt>
+<dd>List of source column names</dd>
+<dt>remove_source_columns: bool</dt>
+<dd>Whether to remove the source columns after the coalesce. If the destination
+column is also one of the source columns, it will not be removed.</dd>
+</dl>
+</dd>
+<dt><cite>Returns:</cite></dt>
+<dd><cite>Parsons Table</cite> and also updates self</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt>
+<code class="descname">map_columns</code><span class="sig-paren">(</span><em>column_map</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/etl/etl.html#ETL.map_columns"><span class="viewcode-link">[source]</span></a></dt>
+<dd><p>Standardizes column names based on multiple possible values. This method
+is helpful when your input table might have multiple and unknown column
+names.
+<cite>Args:</cite></p>
+<blockquote>
+<div><dl class="docutils">
+<dt>column_map: dict</dt>
+<dd>A dictionary of columns and possible values that map to it</dd>
+</dl>
+</div></blockquote>
+<dl class="docutils">
+<dt><cite>Returns:</cite></dt>
+<dd><cite>Parsons Table</cite> and also updates self</dd>
+</dl>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">tbl</span> <span class="o">=</span> <span class="p">[{</span><span class="n">fn</span><span class="p">:</span> <span class="s1">&#39;Jane&#39;</span><span class="p">},</span>
+       <span class="p">{</span><span class="n">lastname</span><span class="p">:</span> <span class="s1">&#39;Doe&#39;</span><span class="p">},</span>
+       <span class="p">{</span><span class="n">dob</span><span class="p">:</span> <span class="s1">&#39;1980-01-01&#39;</span><span class="p">}]</span>
+
+<span class="n">column_map</span> <span class="o">=</span> <span class="p">{</span><span class="n">first_name</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;fn&#39;</span><span class="p">,</span> <span class="s1">&#39;first&#39;</span><span class="p">,</span> <span class="s1">&#39;firstname&#39;</span><span class="p">],</span>
+              <span class="n">last_name</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;ln&#39;</span><span class="p">,</span> <span class="s1">&#39;last&#39;</span><span class="p">,</span> <span class="s1">&#39;lastname&#39;</span><span class="p">],</span>
+              <span class="n">date_of_birth</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;dob&#39;</span><span class="p">,</span> <span class="s1">&#39;birthday&#39;</span><span class="p">]}</span>
+
+<span class="n">tbl</span><span class="o">.</span><span class="n">map_columns</span><span class="p">(</span><span class="n">column_map</span><span class="p">)</span>
+
+<span class="nb">print</span> <span class="p">(</span><span class="n">tbl</span><span class="p">)</span>
+<span class="o">&gt;&gt;</span> <span class="p">{{</span><span class="n">first_name</span><span class="p">:</span> <span class="s1">&#39;Jane&#39;</span><span class="p">,</span> <span class="n">last_name</span><span class="p">:</span> <span class="s1">&#39;Doe&#39;</span><span class="p">,</span> <span class="s1">&#39;date_of_birth&#39;</span><span class="p">:</span> <span class="s1">&#39;1908-01-01&#39;</span><span class="p">}}</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt>
+<code class="descname">get_column_types</code><span class="sig-paren">(</span><em>column</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/etl/etl.html#ETL.get_column_types"><span class="viewcode-link">[source]</span></a></dt>
+<dd><p>Return all of the Python types for values in a given column</p>
+<dl class="docutils">
+<dt><cite>Args:</cite></dt>
+<dd><dl class="first last docutils">
+<dt>column: str</dt>
+<dd>Name of the column to analyze</dd>
+</dl>
+</dd>
+<dt><cite>Returns:</cite></dt>
+<dd><dl class="first last docutils">
+<dt>list</dt>
+<dd>A list of Python types</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt>
+<code class="descname">get_columns_type_stats</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/etl/etl.html#ETL.get_columns_type_stats"><span class="viewcode-link">[source]</span></a></dt>
+<dd><p>Return descriptive stats for all columns</p>
+<dl class="docutils">
+<dt><cite>Returns:</cite></dt>
+<dd><dl class="first last docutils">
+<dt>list</dt>
+<dd>A list of dicts</dd>
+</dl>
+</dd>
+<dt><cite>Returns:</cite></dt>
+<dd><dl class="first last docutils">
+<dt>list</dt>
+<dd>A list of dicts, each containing a column ‘name’ and a ‘type’ list</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt>
+<code class="descname">convert_table</code><span class="sig-paren">(</span><em>*args</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/etl/etl.html#ETL.convert_table"><span class="viewcode-link">[source]</span></a></dt>
+<dd><p>Transform all cells in a table via arbitrary functions, method invocations or dictionary
+translations. This method is useful for cleaning fields and data hygiene functions such
+as regex. This method leverages the petl <code class="docutils literal notranslate"><span class="pre">convert()</span></code> method. Example usage can be
+found <cite>here</cite> &lt;<a class="reference external" href="https://petl.readthedocs.io/en/v0.24/transform.html#petl.convert">https://petl.readthedocs.io/en/v0.24/transform.html#petl.convert</a>&gt;`_.</p>
+<dl class="docutils">
+<dt><cite>Args:</cite></dt>
+<dd><dl class="first last docutils">
+<dt>*args: str, method or variable</dt>
+<dd>The update function, method, or variable to process the update. Can also</dd>
+</dl>
+</dd>
+<dt><cite>Returns:</cite></dt>
+<dd><cite>Parsons Table</cite> and also updates self</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt>
+<code class="descname">unpack_dict</code><span class="sig-paren">(</span><em>column</em>, <em>keys=None</em>, <em>include_original=False</em>, <em>sample_size=1000</em>, <em>missing=None</em>, <em>prepend=True</em>, <em>prepend_value=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/etl/etl.html#ETL.unpack_dict"><span class="viewcode-link">[source]</span></a></dt>
+<dd><p>Unpack dictionary values from one column into separate columns</p>
+<dl class="docutils">
+<dt><cite>Args:</cite></dt>
+<dd><dl class="first last docutils">
+<dt>column: str</dt>
+<dd>The column name to unpack</dd>
+<dt>keys: list</dt>
+<dd>The dict keys in the column to unpack. If <code class="docutils literal notranslate"><span class="pre">None</span></code> will unpack
+all.</dd>
+<dt>include_original: boolean</dt>
+<dd>Retain original column after unpacking</dd>
+<dt>sample_size: int</dt>
+<dd>Number of rows to sample before determining columns</dd>
+<dt>missing: str</dt>
+<dd>If a value is missing, the value to fill it with</dd>
+<dt>prepend:</dt>
+<dd>Prepend the column name of the unpacked values. Useful for
+avoiding duplicate column names</dd>
+<dt>prepend_value:</dt>
+<dd>Value to prepend new columns if <code class="docutils literal notranslate"><span class="pre">prepend=True</span></code>. If None, will
+set to column name.</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt>
+<code class="descname">unpack_list</code><span class="sig-paren">(</span><em>column</em>, <em>include_original=False</em>, <em>missing=None</em>, <em>replace=False</em>, <em>max_columns=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/etl/etl.html#ETL.unpack_list"><span class="viewcode-link">[source]</span></a></dt>
+<dd><p>Unpack list values from one column into separate columns. Numbers the
+columns.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Begin with a list in column</span>
+<span class="n">json</span> <span class="o">=</span> <span class="p">[{</span><span class="s1">&#39;id&#39;</span><span class="p">:</span> <span class="s1">&#39;5421&#39;</span><span class="p">,</span>
+         <span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="s1">&#39;Jane Green&#39;</span><span class="p">,</span>
+         <span class="s1">&#39;phones&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;512-699-3334&#39;</span><span class="p">,</span> <span class="s1">&#39;512-222-5478&#39;</span><span class="p">]</span>
+        <span class="p">}</span>
+       <span class="p">]</span>
+
+<span class="n">tbl</span> <span class="o">=</span> <span class="n">Table</span><span class="p">(</span><span class="n">json</span><span class="p">)</span>
+<span class="nb">print</span> <span class="p">(</span><span class="n">tbl</span><span class="p">)</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="p">{</span><span class="s1">&#39;id&#39;</span><span class="p">:</span> <span class="s1">&#39;5421&#39;</span><span class="p">,</span> <span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="s1">&#39;Jane Green&#39;</span><span class="p">,</span> <span class="s1">&#39;phones&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;512-699-3334&#39;</span><span class="p">,</span> <span class="s1">&#39;512-222-5478&#39;</span><span class="p">]}</span>
+
+<span class="n">tbl</span><span class="o">.</span><span class="n">unpack_list</span><span class="p">(</span><span class="s1">&#39;phones&#39;</span><span class="p">,</span> <span class="n">replace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="nb">print</span> <span class="p">(</span><span class="n">tbl</span><span class="p">)</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="p">{</span><span class="s1">&#39;id&#39;</span><span class="p">:</span> <span class="s1">&#39;5421&#39;</span><span class="p">,</span> <span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="s1">&#39;Jane Green&#39;</span><span class="p">,</span> <span class="s1">&#39;phones_0&#39;</span><span class="p">:</span> <span class="s1">&#39;512-699-3334&#39;</span><span class="p">,</span> <span class="s1">&#39;phones_1&#39;</span><span class="p">:</span> <span class="s1">&#39;512-222-5478&#39;</span><span class="p">}</span> <span class="c1"># noqa: E501</span>
+</pre></div>
+</div>
+<dl class="docutils">
+<dt><cite>Args:</cite></dt>
+<dd><dl class="first last docutils">
+<dt>column: str</dt>
+<dd>The column name to unpack</dd>
+<dt>include_original: boolean</dt>
+<dd>Retain original column after unpacking</dd>
+<dt>sample_size: int</dt>
+<dd>Number of rows to sample before determining columns</dd>
+<dt>missing: str</dt>
+<dd>If a value is missing, the value to fill it with</dd>
+<dt>replace: boolean</dt>
+<dd>Return new table or replace existing</dd>
+<dt>max_columns: int</dt>
+<dd>The maximum number of columns to unpack</dd>
+</dl>
+</dd>
+<dt><cite>Returns:</cite></dt>
+<dd>None</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt>
+<code class="descname">unpack_nested_columns_as_rows</code><span class="sig-paren">(</span><em>column</em>, <em>key='id'</em>, <em>expand_original=False</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/etl/etl.html#ETL.unpack_nested_columns_as_rows"><span class="viewcode-link">[source]</span></a></dt>
+<dd><p>Unpack list or dict values from one column into separate rows.
+Not recommended for JSON columns (i.e. lists of dicts), but can handle columns
+with any mix of types. Makes use of PETL’s <cite>melt()</cite> method.</p>
+<dl class="docutils">
+<dt><cite>Args:</cite></dt>
+<dd><dl class="first last docutils">
+<dt>column: str</dt>
+<dd>The column name to unpack</dd>
+<dt>key: str</dt>
+<dd>The column to use as a key when unpacking. Defaults to <cite>id</cite></dd>
+<dt>expand_original: boolean or int</dt>
+<dd>If <cite>True</cite>: Add resulting unpacked rows (with all other columns) to original
+If <cite>int</cite>: Add to original unless the max added per key is above the given number
+If <cite>False</cite> (default): Return unpacked rows (with <cite>key</cite> column only) as standalone
+Removes packed list and dict rows from original either way.</dd>
+</dl>
+</dd>
+<dt><cite>Returns:</cite></dt>
+<dd>If <cite>expand_original</cite>, original table with packed rows replaced by unpacked rows
+Otherwise, standalone table with key column and unpacked values only</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt>
+<code class="descname">long_table</code><span class="sig-paren">(</span><em>key</em>, <em>column</em>, <em>key_rename=None</em>, <em>retain_original=False</em>, <em>prepend=True</em>, <em>prepend_value=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/etl/etl.html#ETL.long_table"><span class="viewcode-link">[source]</span></a></dt>
+<dd><p>Create a new long parsons table from a column, including the foreign
+key.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Begin with nested dicts in a column</span>
+<span class="n">json</span> <span class="o">=</span> <span class="p">[{</span><span class="s1">&#39;id&#39;</span><span class="p">:</span> <span class="s1">&#39;5421&#39;</span><span class="p">,</span>
+         <span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="s1">&#39;Jane Green&#39;</span><span class="p">,</span>
+         <span class="s1">&#39;emails&#39;</span><span class="p">:</span> <span class="p">[{</span><span class="s1">&#39;home&#39;</span><span class="p">:</span> <span class="s1">&#39;jane@gmail.com&#39;</span><span class="p">},</span>
+                    <span class="p">{</span><span class="s1">&#39;work&#39;</span><span class="p">:</span> <span class="s1">&#39;jane@mywork.com&#39;</span><span class="p">}</span>
+                   <span class="p">]</span>
+        <span class="p">}</span>
+       <span class="p">]</span>
+<span class="n">tbl</span> <span class="o">=</span> <span class="n">Table</span><span class="p">(</span><span class="n">json</span><span class="p">)</span>
+<span class="nb">print</span> <span class="p">(</span><span class="n">tbl</span><span class="p">)</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="p">{</span><span class="s1">&#39;id&#39;</span><span class="p">:</span> <span class="s1">&#39;5421&#39;</span><span class="p">,</span> <span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="s1">&#39;Jane Green&#39;</span><span class="p">,</span> <span class="s1">&#39;emails&#39;</span><span class="p">:</span> <span class="p">[{</span><span class="s1">&#39;home&#39;</span><span class="p">:</span> <span class="s1">&#39;jane@gmail.com&#39;</span><span class="p">},</span> <span class="p">{</span><span class="s1">&#39;work&#39;</span><span class="p">:</span> <span class="s1">&#39;jane@mywork.com&#39;</span><span class="p">}]}</span> <span class="c1"># noqa: E501</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="p">{</span><span class="s1">&#39;id&#39;</span><span class="p">:</span> <span class="s1">&#39;5421&#39;</span><span class="p">,</span> <span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="s1">&#39;Jane Green&#39;</span><span class="p">,</span> <span class="s1">&#39;emails&#39;</span><span class="p">:</span> <span class="p">[{</span><span class="s1">&#39;home&#39;</span><span class="p">:</span> <span class="s1">&#39;jane@gmail.com&#39;</span><span class="p">},</span> <span class="p">{</span><span class="s1">&#39;work&#39;</span><span class="p">:</span> <span class="s1">&#39;jane@mywork.com&#39;</span><span class="p">}]}</span> <span class="c1"># noqa: E501</span>
+
+<span class="c1"># Create skinny table of just the nested dicts</span>
+<span class="n">email_skinny</span> <span class="o">=</span> <span class="n">tbl</span><span class="o">.</span><span class="n">long_table</span><span class="p">([</span><span class="s1">&#39;id&#39;</span><span class="p">],</span> <span class="s1">&#39;emails&#39;</span><span class="p">)</span>
+
+<span class="nb">print</span> <span class="p">(</span><span class="n">email_skinny</span><span class="p">)</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="p">{</span><span class="s1">&#39;id&#39;</span><span class="p">:</span> <span class="s1">&#39;5421&#39;</span><span class="p">,</span> <span class="s1">&#39;emails_home&#39;</span><span class="p">:</span> <span class="s1">&#39;jane@gmail.com&#39;</span><span class="p">,</span> <span class="s1">&#39;emails_work&#39;</span><span class="p">:</span> <span class="kc">None</span><span class="p">}</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="p">{</span><span class="s1">&#39;id&#39;</span><span class="p">:</span> <span class="s1">&#39;5421&#39;</span><span class="p">,</span> <span class="s1">&#39;emails_home&#39;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span> <span class="s1">&#39;emails_work&#39;</span><span class="p">:</span> <span class="s1">&#39;jane@mywork.com&#39;</span><span class="p">}</span>
+</pre></div>
+</div>
+<dl class="docutils">
+<dt><cite>Args:</cite></dt>
+<dd><dl class="first last docutils">
+<dt>key: lst</dt>
+<dd>The columns to retain in the long table (e.g. foreign keys)</dd>
+<dt>column: str</dt>
+<dd>The column name to make long</dd>
+<dt>key_rename: dict</dt>
+<dd>The new name for the foreign key to better identify it. For
+example, you might want to rename <code class="docutils literal notranslate"><span class="pre">id</span></code> to <code class="docutils literal notranslate"><span class="pre">person_id</span></code>.
+Ex. {‘KEY_NAME’: ‘NEW_KEY_NAME’}</dd>
+<dt>retain_original: boolean</dt>
+<dd>Retain the original column from the source table.</dd>
+<dt>prepend:</dt>
+<dd>Prepend the column name of the unpacked values. Useful for
+avoiding duplicate column names</dd>
+<dt>prepend_value:</dt>
+<dd>Value to prepend new columns if <code class="docutils literal notranslate"><span class="pre">prepend=True</span></code>. If None, will
+set to column name.</dd>
+</dl>
+</dd>
+<dt><cite>Returns:</cite></dt>
+<dd><dl class="first last docutils">
+<dt>Parsons Table</dt>
+<dd>The new long table</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt>
+<code class="descname">cut</code><span class="sig-paren">(</span><em>*columns</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/etl/etl.html#ETL.cut"><span class="viewcode-link">[source]</span></a></dt>
+<dd><p>Return a table of selection of columns</p>
+<dl class="docutils">
+<dt><cite>Args:</cite></dt>
+<dd><dl class="first last docutils">
+<dt>*columns: str</dt>
+<dd>Columns in the parsons table</dd>
+</dl>
+</dd>
+<dt><cite>Returns:</cite></dt>
+<dd>A new parsons table containing the selected columnns</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt>
+<code class="descname">select_rows</code><span class="sig-paren">(</span><em>*filters</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/etl/etl.html#ETL.select_rows"><span class="viewcode-link">[source]</span></a></dt>
+<dd><p>Select specific rows from a Parsons table based on the passed
+filters.</p>
+<p>Example filters:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">tbl</span> <span class="o">=</span> <span class="n">Table</span><span class="p">([[</span><span class="s1">&#39;foo&#39;</span><span class="p">,</span> <span class="s1">&#39;bar&#39;</span><span class="p">,</span> <span class="s1">&#39;baz&#39;</span><span class="p">],</span>
+             <span class="p">[</span><span class="s1">&#39;c&#39;</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mf">9.3</span><span class="p">],</span>
+             <span class="p">[</span><span class="s1">&#39;a&#39;</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mf">88.2</span><span class="p">],</span>
+             <span class="p">[</span><span class="s1">&#39;b&#39;</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mf">23.3</span><span class="p">],])</span>
+
+<span class="c1"># You can structure the filter in multiple wayss</span>
+
+<span class="c1"># Lambda Function</span>
+<span class="n">tbl2</span> <span class="o">=</span> <span class="n">tbl</span><span class="o">.</span><span class="n">select_rows</span><span class="p">(</span><span class="k">lambda</span> <span class="n">row</span><span class="p">:</span> <span class="n">row</span><span class="o">.</span><span class="n">foo</span> <span class="o">==</span> <span class="s1">&#39;a&#39;</span> <span class="ow">and</span> <span class="n">row</span><span class="o">.</span><span class="n">baz</span> <span class="o">&gt;</span> <span class="mf">88.1</span><span class="p">)</span>
+<span class="n">tbl2</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="p">{</span><span class="n">foo</span><span class="p">:</span> <span class="s1">&#39;a&#39;</span><span class="p">,</span> <span class="s1">&#39;bar&#39;</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span> <span class="s1">&#39;baz&#39;</span><span class="p">:</span> <span class="mf">88.1</span><span class="p">}</span>
+
+<span class="c1"># Expression String</span>
+<span class="n">tbl3</span> <span class="o">=</span> <span class="n">tbl</span><span class="o">.</span><span class="n">select_rows</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">{foo}</span><span class="s2"> == &#39;a&#39; and </span><span class="si">{baz}</span><span class="s2"> &gt; 88.1&quot;</span><span class="p">)</span>
+<span class="n">tbl3</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="p">{</span><span class="n">foo</span><span class="p">:</span> <span class="s1">&#39;a&#39;</span><span class="p">,</span> <span class="s1">&#39;bar&#39;</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span> <span class="s1">&#39;baz&#39;</span><span class="p">:</span> <span class="mf">88.1</span><span class="p">}</span>
+</pre></div>
+</div>
+<dl class="docutils">
+<dt><cite>Args:</cite></dt>
+<dd>*filters: function or str</dd>
+<dt><cite>Returns:</cite></dt>
+<dd>A new parsons table containing the selected rows</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt>
+<code class="descname">remove_null_rows</code><span class="sig-paren">(</span><em>columns</em>, <em>null_value=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/etl/etl.html#ETL.remove_null_rows"><span class="viewcode-link">[source]</span></a></dt>
+<dd><p>Remove rows if the values in a column are <code class="docutils literal notranslate"><span class="pre">None</span></code>. If multiple columns
+are passed as list, it will remove all rows with null values in any
+of the passed columns.</p>
+<dl class="docutils">
+<dt><cite>Args:</cite></dt>
+<dd><dl class="first last docutils">
+<dt>column: str or list</dt>
+<dd>The column or columns to analyze</dd>
+<dt>null_value: int or float or str</dt>
+<dd>The null value</dd>
+</dl>
+</dd>
+<dt><cite>Returns:</cite></dt>
+<dd><code class="docutils literal notranslate"><span class="pre">None</span></code></dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt>
+<code class="descname">stack</code><span class="sig-paren">(</span><em>*tables</em>, <em>missing=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/etl/etl.html#ETL.stack"><span class="viewcode-link">[source]</span></a></dt>
+<dd><p>Stack Parsons tables on top of one another.</p>
+<p>Similar to <code class="docutils literal notranslate"><span class="pre">table.concat()</span></code>, except no attempt is made to align fields from
+different tables.</p>
+<dl class="docutils">
+<dt><cite>Args:</cite></dt>
+<dd><dl class="first last docutils">
+<dt>tables: Parsons Table or list</dt>
+<dd>A single table, or a list of tables</dd>
+<dt>missing: bool</dt>
+<dd>The value to use when padding missing values</dd>
+</dl>
+</dd>
+<dt><cite>Returns:</cite></dt>
+<dd><code class="docutils literal notranslate"><span class="pre">None</span></code></dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt>
+<code class="descname">concat</code><span class="sig-paren">(</span><em>*tables</em>, <em>missing=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/etl/etl.html#ETL.concat"><span class="viewcode-link">[source]</span></a></dt>
+<dd><p>Concatenates one or more tables onto this one.</p>
+<p>Note that the tables do not need to share exactly the same fields.
+Any missing fields will be padded with None, or whatever is provided via the
+<code class="docutils literal notranslate"><span class="pre">missing</span></code> keyword argument.</p>
+<dl class="docutils">
+<dt><cite>Args:</cite></dt>
+<dd><dl class="first last docutils">
+<dt>tables: Parsons Table or list</dt>
+<dd>A single table, or a list of tables</dd>
+<dt>missing: bool</dt>
+<dd>The value to use when padding missing values</dd>
+</dl>
+</dd>
+<dt><cite>Returns:</cite></dt>
+<dd><code class="docutils literal notranslate"><span class="pre">None</span></code></dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt>
+<code class="descname">chunk</code><span class="sig-paren">(</span><em>rows</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/etl/etl.html#ETL.chunk"><span class="viewcode-link">[source]</span></a></dt>
+<dd><p>Divides a Parsons table into smaller tables of a specified row count. If the table
+cannot be divided evenly, then the final table will only include the remainder.</p>
+<dl class="docutils">
+<dt><cite>Args:</cite></dt>
+<dd><dl class="first last docutils">
+<dt>rows: int</dt>
+<dd>The number of rows of each new Parsons table</dd>
+</dl>
+</dd>
+<dt><cite>Returns:</cite></dt>
+<dd>List of Parsons tables</dd>
+</dl>
+</dd></dl>
+
+<dl class="staticmethod">
+<dt>
+<em class="property">static </em><code class="descname">get_normalized_column_name</code><span class="sig-paren">(</span><em>column_name</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/etl/etl.html#ETL.get_normalized_column_name"><span class="viewcode-link">[source]</span></a></dt>
+<dd><p>Returns a column name with whitespace removed, non-alphanumeric characters removed, and
+everything lowercased.</p>
+<dl class="docutils">
+<dt><cite>Returns:</cite></dt>
+<dd><dl class="first last docutils">
+<dt>str</dt>
+<dd>Normalized column name</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt>
+<code class="descname">match_columns</code><span class="sig-paren">(</span><em>desired_columns</em>, <em>fuzzy_match=True</em>, <em>if_extra_columns='remove'</em>, <em>if_missing_columns='add'</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/etl/etl.html#ETL.match_columns"><span class="viewcode-link">[source]</span></a></dt>
+<dd><p>Changes the column names and ordering in this Table to match a list of desired column
+names.</p>
+<dl class="docutils">
+<dt><cite>Args:</cite></dt>
+<dd><dl class="first last docutils">
+<dt>desired_columns: list</dt>
+<dd>Ordered list of desired column names</dd>
+<dt>fuzzy_match: bool</dt>
+<dd>Whether to normalize column names when matching against the desired column names,
+removing whitespace and non-alphanumeric characters, and lowercasing everything.
+Eg. With this flag set, “FIRST NAME” would match “first_name”.
+If the Table has two columns that normalize to the same string (eg. “FIRST NAME”
+and “first_name”), the latter will be considered an extra column.</dd>
+<dt>if_extra_columns: string</dt>
+<dd>If the Table has columns that don’t match any desired columns, either ‘remove’
+them, ‘ignore’ them, or ‘fail’ (raising an error).</dd>
+<dt>if_missing_columns: string</dt>
+<dd>If the Table is missing some of the desired columns, either ‘add’ them (with a
+value of None), ‘ignore’ them, or ‘fail’ (raising an error).</dd>
+</dl>
+</dd>
+<dt><cite>Returns:</cite></dt>
+<dd><cite>Parsons Table</cite> and also updates self</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt>
+<code class="descname">reduce_rows</code><span class="sig-paren">(</span><em>columns</em>, <em>reduce_func</em>, <em>headers</em>, <em>presorted=False</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/etl/etl.html#ETL.reduce_rows"><span class="viewcode-link">[source]</span></a></dt>
 <dd><p>Group rows by a column or columns, then reduce the groups to a single row.</p>
 <p>Based on the <a class="reference external" href="https://petl.readthedocs.io/en/stable/transform.html#petl.transform.reductions.rowreduce">rowreduce petl function</a>.</p>
 <p>For example, the output from the query to get a table’s definition is

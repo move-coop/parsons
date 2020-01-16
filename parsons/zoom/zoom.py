@@ -40,7 +40,7 @@ class Zoom():
         header = {"alg": "HS256", "typ": "JWT"}
         payload = {"iss": self.api_key, "exp": int(datetime.datetime.now().timestamp() + 30)}
         token = jwt.encode(payload, self.api_secret, algorithm='HS256').decode("utf-8")
-        self.client.headers = {'authorization': f"Bearer {token}", 'content-type': "application/json"} 
+        self.client.headers = {'authorization': f"Bearer {token}", 'content-type': "application/json"}
 
     def get_request(self, endpoint, data_key):
         # Internal Get request method.
@@ -57,9 +57,25 @@ class Zoom():
 
         return Table(data)
 
-    def get_users(self):
+    def get_users(self, status):
+        """
+        Get users.
+
+        `Args:`
+            status: str
+                One of the following: active, inactive, pending. Defaults to active.
+
+        `Returns:`
+            A parsons Table.
+        """
+
+        tbl = self.get_request('users', 'users', status=status)
+        logger.info(f'Retrieved {tbl.num_rows} users.')
 
         # To Do:
+        # Melissa needs to test this
+        # Add optional argument of role_id
+        
         pass
 
     def get_webinars(self, user_id):

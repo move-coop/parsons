@@ -71,11 +71,12 @@ class Zoom():
 
         tbl = self.get_request('users', 'users', status=status)
         logger.info(f'Retrieved {tbl.num_rows} users.')
+        return tbl
 
-        # To Do:
-        # Melissa needs to test this
-        # Add optional argument of role_id
-        
+        # Questions:
+        # Is this the right way to incorporate status?
+        # Add optional argument of role_id - how do we make an argument optional?
+
         pass
 
     def get_webinars(self, user_id):
@@ -93,7 +94,33 @@ class Zoom():
         logger.info(f'Retrieved {tbl.num_rows} webinars.')
         return tbl
 
-    def get_webinar_participants(self):
+    def get_webinar_participants(self, webinar_id):
+        """
+        Get a webinar participant report.
 
-        # To do...
+        `Args:`
+            webinar_id: str
+                A webinar id
+        `Returns:`
+            A parsons Table.
+        """
+
+        raw = self.get_request(f'/report/webinars/{webinar_id}/participants', 'reports')
+        participants_raw = json.loads(raw.text)
+        # Create empty list of participant dictionaries which we will turn into a Parsons table
+        final_list = []
+        # Accounting for webinars that got cancelled, had no participants, or otherwise raise error code
+        if 'code' in participants_raw:
+            logger.info('Could not find any participants for this webinar.')
+        else:
+            participant_list = participants_raw['participants']
+            final_list.extend(participant_list)
+
+        # Creating the parsons Table
+        if len(final_list) > 0:
+            participant_table = Table(final_list)
+            logger.info(f'Retrieved {participant_table.num_rows} participants.')
+
+        return participant_table
+
         pass

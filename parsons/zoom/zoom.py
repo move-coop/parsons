@@ -42,42 +42,44 @@ class Zoom():
         token = jwt.encode(payload, self.api_secret, algorithm='HS256').decode("utf-8")
         self.client.headers = {'authorization': f"Bearer {token}", 'content-type': "application/json"}
 
-    def get_request(self, endpoint, data_key):
+    def get_request(self, endpoint, data_key, **kwargs):
         # Internal Get request method.
 
         self.refresh_header_token()
-        r = self.client.get_request(endpoint)
+        r = self.client.get_request(endpoint, **kwargs)
         self.client.data_key = data_key
         data = self.client.data_parse(r)
 
         # Paginate
         while r['page_number'] < r['page_count']:
-            r = self.client.get_request(endpoint)
+            r = self.client.get_request(endpoint, **kwargs)
             data = self.api.data_parse(r)
 
         return Table(data)
 
-    def get_users(self, status):
+    def get_users(self, status='active', role_id=None):
         """
         Get users.
 
         `Args:`
             status: str
-                One of the following: active, inactive, pending. Defaults to active.
-
+                Filter by the user status. Must be one of following: ``active``,
+                ``inactive``, or ``pending``.
+            role_id: str
+                Filter by the user role.
         `Returns:`
             A parsons Table.
         """
 
-        tbl = self.get_request('users', 'users', status=status)
+        if status not in ['active', 'inactive', 'pending']:
+            raise ValueError('Invalid status type provided.')
+
+        params = {'status': status,
+                  'role_id': role_id}
+
+        tbl = self.get_request('users', 'users', params=params)
         logger.info(f'Retrieved {tbl.num_rows} users.')
         return tbl
-
-        # Questions:
-        # Is this the right way to incorporate status?
-        # Add optional argument of role_id - how do we make an argument optional?
-
-        pass
 
     def get_webinars(self, user_id):
         """

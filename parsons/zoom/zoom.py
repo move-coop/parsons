@@ -42,17 +42,21 @@ class Zoom():
         token = jwt.encode(payload, self.api_secret, algorithm='HS256').decode("utf-8")
         self.client.headers = {'authorization': f"Bearer {token}", 'content-type': "application/json"}
 
-    def get_request(self, endpoint, data_key, **kwargs):
+    def get_request(self, endpoint, data_key, params=None, **kwargs):
         # Internal Get request method.
 
         self.refresh_header_token()
-        r = self.client.get_request(endpoint, **kwargs)
+        r = self.client.get_request(endpoint, params=params, **kwargs)
         self.client.data_key = data_key
         data = self.client.data_parse(r)
 
+        if not params:
+            params = {}
+
         # Paginate
         while r['page_number'] < r['page_count']:
-            r = self.client.get_request(endpoint, **kwargs)
+            params['page_number'] = int(r['page_number']) + 1
+            r = self.client.get_request(endpoint, params=params, **kwargs)
             data = self.api.data_parse(r)
 
         return Table(data)

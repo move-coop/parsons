@@ -35,6 +35,14 @@ class VANConnector(object):
         self._soap_client = None
 
     @property
+    def api_key_profile(self):
+        """
+        Returns the API key profile with includes permissions and other metadata.
+        """
+
+        return self.get_request('apiKeyProfiles')[0]
+
+    @property
     def soap_client(self):
 
         if not self._soap_client:

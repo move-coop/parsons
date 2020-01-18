@@ -41,7 +41,7 @@ class SupporterGroups(object):
 
     def create_supporter_group(self, name, description):
         """
-        Create a new supporter group
+        Create a new supporter group.
 
         `Args:`
             name: str
@@ -55,6 +55,21 @@ class SupporterGroups(object):
 
         json = {'name': name, 'description': description}
         r = self.connection.post_request('supporterGroups', json=json)
+        return r
+
+    def delete_supporter_group(self, supporter_group_id):
+        """
+        Delete a supporter group.
+
+        `Args:`
+            supporter_group_id: int
+                The supporter group id
+        `Returns:`
+            ``None``
+        """
+
+        r = self.connection.delete_request(f'supporterGroups/{supporter_group_id}')
+        logger.info(f'Deleted supporter group {supporter_group_id}.')
         return r
 
     def add_person_supporter_group(self, supporter_group_id, vanid):

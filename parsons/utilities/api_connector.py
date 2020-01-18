@@ -80,10 +80,9 @@ class APIConnector(object):
                 A requests response object
         """
 
-        r = self.request(self.uri + url, 'GET', params=params)
-        logger.debug(r)
-
+        r = self.request(url, 'GET', params=params)
         self.validate_response(r)
+        logger.debug(r.json())
 
         return r.json()
 

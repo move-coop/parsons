@@ -90,8 +90,9 @@
 <li class="toctree-l1"><a class="reference internal" href="google_sheets.html">GoogleSheets</a></li>
 <li class="toctree-l1"><a class="reference internal" href="google_cloud.html">Google Cloud</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Hustle</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#overview">Overview</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#quick-start">Quick Start</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#methods">Methods</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#api">API</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="mobile_commons.html">Mobile Commons</a></li>
@@ -180,11 +181,14 @@
             
   <div class="section" id="hustle">
 <h1>Hustle<a class="headerlink" href="#hustle" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="overview">
+<h2>Overview<a class="headerlink" href="#overview" title="Permalink to this headline">¶</a></h2>
 <p>Hustle is a peer to peer texting communication platform. The methods are built against the <a class="reference external" href="https://api.hustle.com/docs/">Hustle v1 API</a>.</p>
 <ul class="simple">
 <li>Access to the API is limited to 100 requests per second for endpoints returning resources. When this limit is reached the API will return an error and the request will need to be retried.</li>
 <li>Creating an access token is an exception in that it only limits the number of failed attempts to create an access token. After 10 failed attempts to create an access token the ip of the request will be blocked for some period of time, but only for the account in question. Additionally 100 failed attempts in a 24-hour period will result in the requester’s ip being blocked.</li>
 </ul>
+</div>
 <div class="section" id="quick-start">
 <h2>Quick Start<a class="headerlink" href="#quick-start" title="Permalink to this headline">¶</a></h2>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">parsons</span> <span class="kn">import</span> <span class="n">Hustle</span>
@@ -205,8 +209,8 @@
 </pre></div>
 </div>
 </div>
-<div class="section" id="methods">
-<h2>Methods<a class="headerlink" href="#methods" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="api">
+<h2>API<a class="headerlink" href="#api" title="Permalink to this headline">¶</a></h2>
 <dl class="class">
 <dt id="parsons.Hustle">
 <em class="property">class </em><code class="descclassname">parsons.</code><code class="descname">Hustle</code><span class="sig-paren">(</span><em>client_id</em>, <em>client_secret</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/hustle/hustle.html#Hustle"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.Hustle" title="Permalink to this definition">¶</a></dt>

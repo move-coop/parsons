@@ -97,9 +97,9 @@
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Redshift</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#overview">Overview</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#quickstart">Quickstart</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#core-methods">Core Methods</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#table-and-view-utilities">Table and View Utilities</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#schema-utilities">Schema Utilities</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#core-api">Core API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#table-and-view-api">Table and View API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#schema-api">Schema API</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="s3.html">S3</a></li>
@@ -215,8 +215,8 @@ Redshift.</dd>
 <p>All of the standard copy options can be passed as kwargs. See the <code class="xref py py-meth docutils literal notranslate"><span class="pre">copy()</span></code> method for all
 options.</p>
 </div>
-<div class="section" id="core-methods">
-<h2>Core Methods<a class="headerlink" href="#core-methods" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="core-api">
+<h2>Core API<a class="headerlink" href="#core-api" title="Permalink to this headline">¶</a></h2>
 <p>Redshift core methods focus on input, output and querying of the database.</p>
 <dl class="class">
 <dt id="parsons.Redshift">
@@ -641,8 +641,8 @@ terminate if the file does not exist.</dd>
 </dd></dl>
 
 </div>
-<div class="section" id="table-and-view-utilities">
-<h2>Table and View Utilities<a class="headerlink" href="#table-and-view-utilities" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="table-and-view-api">
+<h2>Table and View API<a class="headerlink" href="#table-and-view-api" title="Permalink to this headline">¶</a></h2>
 <p>Table and view utilities are a series of helper methods, all built off of commonly
 used SQL queries run against the Redshift database.</p>
 <dl class="class">
@@ -1111,8 +1111,8 @@ to the <cite>public</cite> schema, when one isn’t provided.</p>
 </dd></dl>
 
 </div>
-<div class="section" id="schema-utilities">
-<h2>Schema Utilities<a class="headerlink" href="#schema-utilities" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="schema-api">
+<h2>Schema API<a class="headerlink" href="#schema-api" title="Permalink to this headline">¶</a></h2>
 <p>Schema utilities are a series of helper methods, all built off of commonly
 used SQL queries run against the Redshift database.</p>
 <dl class="class">

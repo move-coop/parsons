@@ -95,7 +95,11 @@
 <li class="toctree-l1"><a class="reference internal" href="ngpvan.html">VAN</a></li>
 <li class="toctree-l1"><a class="reference internal" href="p2a.html">Phone2Action</a></li>
 <li class="toctree-l1"><a class="reference internal" href="redshift.html">Redshift</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="#">S3</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">S3</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#overview">Overview</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#api">API</a></li>
+</ul>
+</li>
 <li class="toctree-l1"><a class="reference internal" href="sftp.html">SFTP</a></li>
 <li class="toctree-l1"><a class="reference internal" href="ts.html">TargetSmart</a></li>
 <li class="toctree-l1"><a class="reference internal" href="twilio.html">Twilio</a></li>
@@ -176,8 +180,13 @@
             
   <div class="section" id="s3">
 <h1>S3<a class="headerlink" href="#s3" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="overview">
+<h2>Overview<a class="headerlink" href="#overview" title="Permalink to this headline">¶</a></h2>
 <p>The S3 class heavily reliant on the <code class="docutils literal notranslate"><span class="pre">boto3</span></code> python package. It includes a suite of common methods that are commonly
 used with S3.</p>
+</div>
+<div class="section" id="api">
+<h2>API<a class="headerlink" href="#api" title="Permalink to this headline">¶</a></h2>
 <dl class="class">
 <dt id="parsons.S3">
 <em class="property">class </em><code class="descclassname">parsons.</code><code class="descname">S3</code><span class="sig-paren">(</span><em>aws_access_key_id=None</em>, <em>aws_secret_access_key=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/aws/s3.html#S3"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.S3" title="Permalink to this definition">¶</a></dt>
@@ -450,6 +459,7 @@ to new prefix</dd>
 
 </dd></dl>
 
+</div>
 </div>
 
 

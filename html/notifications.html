@@ -114,15 +114,15 @@
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="#quickstart">QuickStart</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id1">Slack</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#api">API</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#gmail">Gmail</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#id2">Overview</a><ul class="simple">
+<li class="toctree-l3"><a class="reference internal" href="#id1">Overview</a><ul class="simple">
 </ul>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="#id3">QuickStart</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id4">Gmail</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id2">QuickStart</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id3">API</a></li>
 </ul>
 </li>
 </ul>
@@ -241,8 +241,8 @@ variable <cite>SLACK_API_TOKEN</cite> or pass it in as an argument.</p>
 </pre></div>
 </div>
 </div>
-<div class="section" id="id1">
-<h3>Slack<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="api">
+<h3>API<a class="headerlink" href="#api" title="Permalink to this headline">¶</a></h3>
 <dl class="class">
 <dt id="parsons.Slack">
 <em class="property">class </em><code class="descclassname">parsons.</code><code class="descname">Slack</code><span class="sig-paren">(</span><em>api_key=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/notifications/slack.html#Slack"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.Slack" title="Permalink to this definition">¶</a></dt>
@@ -362,11 +362,12 @@ file object.</dd>
 </dd></dl>
 
 </div>
+<p></p>
 </div>
 <div class="section" id="gmail">
 <h2>Gmail<a class="headerlink" href="#gmail" title="Permalink to this headline">¶</a></h2>
-<div class="section" id="id2">
-<h3>Overview<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id1">
+<h3>Overview<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h3>
 <p>The Gmail module leverages the Gmail API and provides an way to easily send
 notifications through email. It is recommended that you reference the
 <a class="reference external" href="https://developers.google.com/gmail/api/">Gmail API documentation</a> for
@@ -397,8 +398,8 @@ the Google Developer Console (look for the “Gmail API”).</li>
 <div class="toctree-wrapper compound">
 </div>
 </div>
-<div class="section" id="id3">
-<h3>QuickStart<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id2">
+<h3>QuickStart<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h3>
 <p>To call the Gmail class you will need to pass in the path to a
 <cite>credentials.json</cite> and the path to <cite>tokens.json</cite>.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">parsons</span> <span class="kn">import</span> <span class="n">Gmail</span>
@@ -430,8 +431,8 @@ attachments.</p>
 <p>Additionally, you can create a raw email messages and send it. See below for
 more details.</p>
 </div>
-<div class="section" id="id4">
-<h3>Gmail<a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id3">
+<h3>API<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h3>
 <dl class="class">
 <dt id="parsons.Gmail">
 <em class="property">class </em><code class="descclassname">parsons.</code><code class="descname">Gmail</code><span class="sig-paren">(</span><em>creds_path=None</em>, <em>token_path=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/notifications/gmail.html#Gmail"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.Gmail" title="Permalink to this definition">¶</a></dt>

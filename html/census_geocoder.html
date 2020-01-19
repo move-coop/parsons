@@ -104,7 +104,11 @@
 <p class="caption"><span class="caption-text">Enhancements</span></p>
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="google_civic.html">Google Civic</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="#">US Census Geocoder</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">US Census Geocoder</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#overview">Overview</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#api">API</a></li>
+</ul>
+</li>
 </ul>
 <p class="caption"><span class="caption-text">Framework</span></p>
 <ul>
@@ -176,9 +180,14 @@
             
   <div class="section" id="us-census-geocoder">
 <h1>US Census Geocoder<a class="headerlink" href="#us-census-geocoder" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="overview">
+<h2>Overview<a class="headerlink" href="#overview" title="Permalink to this headline">¶</a></h2>
 <p>The US Census Geocoder leverages the US Census Geocoding service for single record and batch geocoding. The
 service enforces no limits and is free to US. More information can be found at the <a class="reference external" href="https://geocoding.geo.census.gov/">US Census</a>
 website. For multiple records, it is recommended that you use the <code class="xref py py-meth docutils literal notranslate"><span class="pre">CensusGeocoder.geocode_address_batch()</span></code> method.</p>
+</div>
+<div class="section" id="api">
+<h2>API<a class="headerlink" href="#api" title="Permalink to this headline">¶</a></h2>
 <dl class="class">
 <dt id="parsons.CensusGeocoder">
 <em class="property">class </em><code class="descclassname">parsons.</code><code class="descname">CensusGeocoder</code><span class="sig-paren">(</span><em>benchmark='Public_AR_Current'</em>, <em>vintage='Current_Current'</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/geocode/census_geocoder.html#CensusGeocoder"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.CensusGeocoder" title="Permalink to this definition">¶</a></dt>
@@ -300,6 +309,7 @@ while <code class="docutils literal notranslate"><span class="pre">locations</sp
 
 </dd></dl>
 
+</div>
 </div>
 
 

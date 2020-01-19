@@ -19,9 +19,9 @@ Quickstart
   ak = ActionKit()
   user_data = ak.get_user(123)
 
-***************
-ActionKit Class
-***************
+***
+API
+***
 
 .. autoclass :: parsons.ActionKit
    :inherited-members:

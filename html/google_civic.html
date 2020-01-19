@@ -103,7 +103,11 @@
 </ul>
 <p class="caption"><span class="caption-text">Enhancements</span></p>
 <ul class="current">
-<li class="toctree-l1 current"><a class="current reference internal" href="#">Google Civic</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Google Civic</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#overview">Overview</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#api">API</a></li>
+</ul>
+</li>
 <li class="toctree-l1"><a class="reference internal" href="census_geocoder.html">US Census Geocoder</a></li>
 </ul>
 <p class="caption"><span class="caption-text">Framework</span></p>
@@ -176,11 +180,16 @@
             
   <div class="section" id="google-civic">
 <h1>Google Civic<a class="headerlink" href="#google-civic" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="overview">
+<h2>Overview<a class="headerlink" href="#overview" title="Permalink to this headline">¶</a></h2>
 <p>Google Civic is an API which provides helpful information about elections. In order to access Google Civic you must
 create a Google Developer Key in their <a class="reference external" href="https://console.developers.google.com/apis/">API console</a>. In order to
 use Google Civic, you must enable this specific end point.</p>
 <p>The Google Civic API utilizes the <a class="reference external" href="https://www.votinginfoproject.org/">Voting Information Project</a> to collect
 key civic information such as personalized ballots and polling location information.</p>
+</div>
+<div class="section" id="api">
+<h2>API<a class="headerlink" href="#api" title="Permalink to this headline">¶</a></h2>
 <dl class="class">
 <dt id="parsons.GoogleCivic">
 <em class="property">class </em><code class="descclassname">parsons.</code><code class="descname">GoogleCivic</code><span class="sig-paren">(</span><em>api_key=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/google/google_civic.html#GoogleCivic"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.GoogleCivic" title="Permalink to this definition">¶</a></dt>
@@ -259,6 +268,7 @@ env variable set.</dd>
 
 </dd></dl>
 
+</div>
 </div>
 
 

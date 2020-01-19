@@ -87,7 +87,11 @@
 <li class="toctree-l1"><a class="reference internal" href="crowdtangle.html">CrowdTangle</a></li>
 <li class="toctree-l1"><a class="reference internal" href="databases.html">Databases</a></li>
 <li class="toctree-l1"><a class="reference internal" href="facebook_ads.html">FacebookAds</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="#">GoogleSheets</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">GoogleSheets</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#overview">Overview</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#api">API</a></li>
+</ul>
+</li>
 <li class="toctree-l1"><a class="reference internal" href="google_cloud.html">Google Cloud</a></li>
 <li class="toctree-l1"><a class="reference internal" href="hustle.html">Hustle</a></li>
 <li class="toctree-l1"><a class="reference internal" href="mobile_commons.html">Mobile Commons</a></li>
@@ -176,8 +180,13 @@
             
   <div class="section" id="googlesheets">
 <h1>GoogleSheets<a class="headerlink" href="#googlesheets" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="overview">
+<h2>Overview<a class="headerlink" href="#overview" title="Permalink to this headline">¶</a></h2>
 <p>The GoogleSheets class allows you to interact with a Google Drive spreadsheet.</p>
 <p>In order to instantiate the class, you must pass Google Drive credentials as a dictionary, or store the credentials as a JSON string in the <code class="docutils literal notranslate"><span class="pre">GOOGLE_DRIVE_CREDENTIALS</span></code> environment variable. Typically you’ll get the credentials from the Google Developer Console (look for the “Google Drive API”).</p>
+</div>
+<div class="section" id="api">
+<h2>API<a class="headerlink" href="#api" title="Permalink to this headline">¶</a></h2>
 <dl class="class">
 <dt id="parsons.GoogleSheets">
 <em class="property">class </em><code class="descclassname">parsons.</code><code class="descname">GoogleSheets</code><span class="sig-paren">(</span><em>google_keyfile_dict=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/google/google_sheets.html#GoogleSheets"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.GoogleSheets" title="Permalink to this definition">¶</a></dt>
@@ -365,6 +374,7 @@ Otherwise, values will be entered as strings or numbers only.</dd>
 
 </dd></dl>
 
+</div>
 </div>
 
 

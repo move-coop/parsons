@@ -1,6 +1,10 @@
 FacebookAds
 ===========
 
+********
+Overview
+********
+
 The FacebookAds class allows you to interact with parts of the Facebook Business API.
 
 Facebook's advertising and Pages systems are massive, so check out the overviews to get oriented:
@@ -22,6 +26,9 @@ In order to instantiate the class, you must pass valid Facebook credentials as k
 * ``FB_ACCESS_TOKEN``
 * ``FB_AD_ACCOUNT_ID``
 
+***
+API
+***
 
 .. autoclass :: parsons.FacebookAds
    :inherited-members:

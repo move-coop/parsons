@@ -38,9 +38,9 @@ Quickstart
 All of the standard copy options can be passed as kwargs. See the :meth:`copy` method for all
 options.
 
-************
-Core Methods
-************
+********
+Core API
+********
 Redshift core methods focus on input, output and querying of the database.
 
 .. autoclass :: parsons.Redshift
@@ -63,18 +63,18 @@ Redshift core methods focus on input, output and querying of the database.
 
 .. autofunction:: parsons.Redshift.alter_table_column_type
 
-************************
-Table and View Utilities
-************************
+******************
+Table and View API
+******************
 Table and view utilities are a series of helper methods, all built off of commonly
 used SQL queries run against the Redshift database.
 
 .. autoclass :: parsons.databases.redshift.redshift.RedshiftTableUtilities
    :inherited-members:
 
-****************
-Schema Utilities
-****************
+**********
+Schema API
+**********
 Schema utilities are a series of helper methods, all built off of commonly
 used SQL queries run against the Redshift database.
 

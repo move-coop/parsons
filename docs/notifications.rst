@@ -55,9 +55,9 @@ You can then send messages:
   # share a file
   slack.upload_file(["channel_1", "channel_2"], "my_slack_file.txt")
 
-*****
-Slack
-*****
+***
+API
+***
 .. autoclass:: parsons.Slack
    :inherited-members:
 
@@ -131,8 +131,8 @@ attachments.
 Additionally, you can create a raw email messages and send it. See below for
 more details.
 
-*****
-Gmail
-*****
+***
+API
+***
 .. autoclass:: parsons.Gmail
   :inherited-members:

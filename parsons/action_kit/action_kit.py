@@ -457,7 +457,7 @@ class ActionKit(object):
         if not email or ak_id:
             raise ValueError('One of email or ak_id is required.')
 
-        return self._base_post(endpoint='action',
+        return self._base_post(endpoint='action/',
                                exception_message='Could not create action.',
                                email=email,
                                page=page,

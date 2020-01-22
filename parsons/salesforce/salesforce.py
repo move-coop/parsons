@@ -34,13 +34,10 @@ class Salesforce:
 
         if test_environment:
             self.domain = check_env.check('SALESFORCE_DOMAIN', 'test')
+        else:
+        	self.domain = None
 
-        self.client = _Salesforce(
-            username=self.username,
-            password=self.password,
-            security_token=self.security_token,
-            domain=self.domain
-        )
+        self._client = None
 
     def query(self, soql):
         """
@@ -173,3 +170,22 @@ class Salesforce:
             f'Successfully deleted {len(s)} out of {id_table.num_rows} records from {object}'
         )
         return r
+
+    @property
+    def client(self):
+        """
+        Get the Salesforce client to use for making all calls.
+
+        `Returns:`
+            `simple-salesforce Salesforce object`
+        """
+        if not self._client:
+            # Create a Salesforce client to use to make bulk calls
+            self._client = self.client = _Salesforce(
+	            username=self.username,
+	            password=self.password,
+	            security_token=self.security_token,
+	            domain=self.domain
+	        )
+
+        return self._client

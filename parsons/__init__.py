@@ -56,7 +56,7 @@ __all__ = [
     'CrowdTangle',
     'Hustle',
     'Twilio',
-    'Salesforce'
+    'Salesforce',
     'Postgres'
     ]
 

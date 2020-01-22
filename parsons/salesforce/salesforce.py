@@ -35,7 +35,7 @@ class Salesforce:
         if test_environment:
             self.domain = check_env.check('SALESFORCE_DOMAIN', 'test')
         else:
-        	self.domain = None
+            self.domain = None
 
         self._client = None
 
@@ -182,10 +182,10 @@ class Salesforce:
         if not self._client:
             # Create a Salesforce client to use to make bulk calls
             self._client = self.client = _Salesforce(
-	            username=self.username,
-	            password=self.password,
-	            security_token=self.security_token,
-	            domain=self.domain
-	        )
+                username=self.username,
+                password=self.password,
+                security_token=self.security_token,
+                domain=self.domain
+            )
 
         return self._client

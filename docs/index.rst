@@ -1,5 +1,5 @@
 .. Parsons documentation master file, created by
-   sphinx-quickstart on Sat Sep  8 14:41:56 2018. 
+   sphinx-quickstart on Sat Sep  8 14:41:56 2018.
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
 
@@ -9,7 +9,7 @@ About
 Parsons, named after `Lucy Parsons <https://en.wikipedia.org/wiki/Lucy_Parsons>`_, is a Python package that contains a growing list of connectors and integrations to move data between various tools. Parsons is focused on integrations and connectors for tools utilized by the progressive community.
 
 Parsons was built out of a belief that progressive organizations spend far too much time building the same integrations, over and over and over again, while they should be engaged in more important and impactful work. It
-was built and is mantained by The Movement Cooperative.
+was built and is maintained by The Movement Cooperative.
 
 The Movement Cooperative
 ========================
@@ -110,6 +110,7 @@ Indices and tables
    civis
    copper
    crowdtangle
+   databases
    facebook_ads
    google_sheets
    google_cloud

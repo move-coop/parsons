@@ -54,20 +54,42 @@ class ActionKit(object):
         resp = self.conn.get(self._base_endpoint(endpoint, entity_id))
 
         if exception_message and resp.status_code == 404:
-            raise Exception(exception_message)
+            raise Exception(self.parse_error(resp, exception_message))
 
         return resp.json()
 
-    def _base_post(self, endpoint, exception_message, **kwargs):
+    def _base_post(self, endpoint, exception_message, return_full_json=False, **kwargs):
         # Make a general post request to ActionKit
 
         resp = self.conn.post(self._base_endpoint(endpoint), data=json.dumps(kwargs))
 
         if resp.status_code != 201:
-            raise Exception(exception_message)
+            raise Exception(self.parse_error(resp, exception_message))
 
-        if 'headers' in resp.__dict__:
+        # Some of the methods should just return pointer to location of created
+        # object.
+        if 'headers' in resp.__dict__ and not return_full_json:
             return resp.__dict__['headers']['Location']
+
+        # Not all responses return a json
+        try:
+            return resp.json()
+
+        except ValueError:
+            return None
+
+    def parse_error(self, resp, exception_message):
+        # AK provides some pretty robust/helpful error reporting. We should surface them with
+        # our exceptions.
+
+        if 'errors' in resp.json().keys():
+            if isinstance(resp.json()['errors'], list):
+                exception_message += '\n' + ','.join(resp.json()['errors'])
+            else:
+                for k, v in resp.json()['errors'].items():
+                    exception_message += str('\n' + k + ': ' + ','.join(v))
+
+        return exception_message
 
     def get_user(self, user_id):
         """
@@ -413,25 +435,31 @@ class ActionKit(object):
                                url=url,
                                **kwargs)
 
-    # TO DO
-    # def upload_file(self, page, file_name):
-    #     """
-    #     Further Testing - Upload file to ActionKit
-    #
-    #     `Args:`
-    #         page: str
-    #             Path for the
-    #         file_name: str
-    #             The path for the file_name
-    #     """
-    #     with open(file_name, 'rb') as local_file:
-    #         resp = self.conn.post(
-    #             self._base_endpoint('upload'),
-    #             files={'upload': local_file},
-    #             data={
-    #                 'page': page,
-    #                 'autocreate_user_fields': 'true'
-    #             }
-    #         )
-    #
-    #     return resp.status_code
+    def create_generic_action(self, page, email=None, ak_id=None, **kwargs):
+        """
+        Post a generic action. One of ``ak_id`` or ``email`` is a required argument.
+
+        `Args:`
+            page:
+                The page to post the action. The page short name.
+            email:
+                The email address of the user to post the action.
+            ak_id:
+                The action kit id of the record.
+            **kwargs:
+                Optional arguments and fields that can sent. A full list can be found
+                in the `ActionKit API Documentation <https://roboticdogs.actionkit.com/docs/manual/api/rest/actionprocessing.html>`_.
+        `Returns`:
+            dict
+                The response json
+        """ # noqa: E501,E261
+
+        if not email or ak_id:
+            raise ValueError('One of email or ak_id is required.')
+
+        return self._base_post(endpoint='action',
+                               exception_message='Could not create action.',
+                               email=email,
+                               page=page,
+                               return_full_json=True,
+                               **kwargs)

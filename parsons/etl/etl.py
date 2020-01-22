@@ -139,6 +139,26 @@ class ETL(object):
 
         return self
 
+    def get_column_max_width(self, column):
+        """
+        Return the maximum width of the column.
+
+        `Args:`
+            column: str
+                The column name.
+        `Returns:`
+            int
+        """
+
+        max_width = 0
+
+        for v in petl.values(self.table, column):
+
+            if len(str(v)) > max_width:
+                max_width = len(str(v))
+
+        return max_width
+
     def convert_columns_to_str(self):
         """
         Convenience function to convert all non-string or mixed columns in a
@@ -588,7 +608,9 @@ class ETL(object):
         filters.
 
         Example filters:
+
         .. code-block:: python
+
             tbl = Table([['foo', 'bar', 'baz'],
                          ['c', 4, 9.3],
                          ['a', 2, 88.2],
@@ -816,7 +838,7 @@ class ETL(object):
         """
         Group rows by a column or columns, then reduce the groups to a single row.
 
-        Based on the `rowreduce` petl function - https://petl.readthedocs.io/en/stable/transform.html#petl.transform.reductions.rowreduce # noqa
+        Based on the `rowreduce petl function <https://petl.readthedocs.io/en/stable/transform.html#petl.transform.reductions.rowreduce>`_.
 
         For example, the output from the query to get a table's definition is
         returned as one component per row. The `reduce_rows` method can be used
@@ -836,14 +858,14 @@ class ETL(object):
             +--------------+--------------+----------------------------------------------------+
             | 'db_scratch' | 'state_fips' | '('                                                |
             +--------------+--------------+----------------------------------------------------+
-            | 'db_scratch' | 'state_fips' | '\tstate VARCHAR(1024)   ENCODE RAW'              |
+            | 'db_scratch' | 'state_fips' | '\\tstate VARCHAR(1024)   ENCODE RAW'               |
             +--------------+--------------+----------------------------------------------------+
-            | 'db_scratch' | 'state_fips' | '\t,stusab VARCHAR(1024)   ENCODE RAW'            |
+            | 'db_scratch' | 'state_fips' | '\\t,stusab VARCHAR(1024)   ENCODE RAW'             |
             +--------------+--------------+----------------------------------------------------+
 
             >>> reducer_fn = lambda columns, rows: [
             ...     f"{columns[0]}.{columns[1]}",
-            ...     '\n'.join([row[2] for row in rows])]
+            ...     '\\n'.join([row[2] for row in rows])]
             >>> ddl.reduce_rows(
             ...     ['schemaname', 'tablename'],
             ...     reducer_fn,
@@ -851,16 +873,16 @@ class ETL(object):
             ...     presorted=True)
             >>> ddl.table
 
-            +-------------------------+------------------------------------------------------------------+
-            | tablename               | ddl                                                              |
-            +=========================+==================================================================+
-            | 'db_scratch.state_fips' | '--DROP TABLE db_scratch.state_fips;\nCREATE TABLE IF NOT EXISTS |
-            |                         | db_scratch.state_fips\n(\n\tstate VARCHAR(1024)   ENCODE RAW\n\t |
-            |                         | ,db_scratch.state_fips\n(\n\tstate VARCHAR(1024)   ENCODE RAW    |
-            |                         | \n\t,stusab VARCHAR(1024)   ENCODE RAW\n\t,state_name            |
-            |                         | VARCHAR(1024)   ENCODE RAW\n\t,statens VARCHAR(1024)   ENCODE    |
-            |                         | RAW\n)\nDISTSTYLE EVEN\n;'                                       |
-            +-------------------------+------------------------------------------------------------------+
+            +-------------------------+-----------------------------------------------------------------------+
+            | tablename               | ddl                                                                   |
+            +=========================+=======================================================================+
+            | 'db_scratch.state_fips' | '--DROP TABLE db_scratch.state_fips;\\nCREATE TABLE IF NOT EXISTS      |
+            |                         | db_scratch.state_fips\\n(\\n\\tstate VARCHAR(1024)   ENCODE RAW\\n\\t      |
+            |                         | ,db_scratch.state_fips\\n(\\n\\tstate VARCHAR(1024)   ENCODE RAW         |
+            |                         | \\n\\t,stusab VARCHAR(1024)   ENCODE RAW\\n\\t,state_name                 |
+            |                         | VARCHAR(1024)   ENCODE RAW\\n\\t,statens VARCHAR(1024)   ENCODE         |
+            |                         | RAW\\n)\\nDISTSTYLE EVEN\\n;'                                            |
+            +-------------------------+-----------------------------------------------------------------------+
 
         `Args:`
             columns: list
@@ -878,7 +900,7 @@ class ETL(object):
         `Returns:`
             `Parsons Table` and also updates self
 
-        """
+        """ # noqa: E501,E261
 
         self.table = petl.rowreduce(
             self.table,

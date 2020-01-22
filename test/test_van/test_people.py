@@ -17,13 +17,11 @@ class TestNGPVAN(unittest.TestCase):
     @requests_mock.Mocker()
     def test_find_person(self, m):
 
-        json = find_people_response
-
-        m.post(self.van.connection.uri + 'people/find', json=json, status_code=201)
+        m.post(self.van.connection.uri + 'people/find', json=find_people_response, status_code=200)
 
         person = self.van.find_person(first_name='Bob', last_name='Smith', phone=4142020792)
 
-        self.assertEqual(person, json)
+        self.assertEqual(person, find_people_response)
 
     def test_upsert_person(self):
 

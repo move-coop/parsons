@@ -1,7 +1,10 @@
 """NGPVAN Saved List Endpoints"""
 
 from parsons.etl.table import Table
+from parsons.utilities import cloud_storage
 import logging
+import uuid
+from suds.client import Client
 
 logger = logging.getLogger(__name__)
 
@@ -63,6 +66,81 @@ class SavedLists(object):
             return job
         else:
             return Table.from_csv(job['downloadUrl'])
+
+    def upload_saved_list(self, tbl, list_name, folder_id, url_type, id_type='vanid', replace=False,
+                          **url_kwargs):
+        """
+        Upload a saved list. Invalid or unmatched person id records will be ignored. Your api user
+        must be shared on the target folder.
+
+        `Args:`
+            tbl: parsons.Table
+                A parsons table object containing one column of person ids.
+            list_name: str
+                The saved list name.
+            folder_id: int
+                The folder id where the list will be stored.
+            url_post_type: str
+                The cloud file storage to use to post the file. Currently only ``S3``.
+            id_type: str
+                The primary key type. The options, beyond ``vanid`` are specific to your
+                instance of VAN.
+            replace: boolean
+                Replace saved list if already exists.
+            **url_kwargs: kwargs
+                Arguments to configure your cloud storage url type.
+                    * S3 requires ``bucket`` argument and, if not stored as env variables
+                      ``aws_access_key`` and ``aws_secret_access_key``.
+        `Returns:`
+            dict
+                Upload results information included the number of matched and saved
+                records in your list.
+        """
+
+        # Move to cloud storage
+        file_name = str(uuid.uuid1())
+        url = cloud_storage.post_file(tbl, url_type, file_path=file_name + '.zip', **url_kwargs)
+        logger.info(f'Table uploaded to {url_type}.')
+
+        # Create XML
+        xml = self.connection.soap_client.factory.create('CreateAndStoreSavedListMetaData')
+        xml.SavedList._Name = list_name
+        xml.DestinationFolder._ID = folder_id
+        xml.SourceFile.FileName = file_name + '.csv'
+        xml.SourceFile.FileUrl = url
+        xml.SourceFile.FileCompression = 'zip'
+        xml.Options.OverwriteExistingList = replace
+
+        # Describe file
+        file_desc = self.connection.soap_client.factory.create('SeparatedFileFormatDescription')
+        file_desc._name = 'csv'
+        file_desc.HasHeaderRow = True
+
+        # Only support single column for now
+        col = self.connection.soap_client.factory.create('Column')
+        col.Name = id_type
+        col.RefersTo._Path = f"Person[@PersonIDType=\'{id_type}\']"
+        col._Index = '0'
+
+        # VAN errors for this method are not particularly useful or helpful. For that reason, we
+        # will check that the folder exists and if the list already exists.
+        logger.info('Validating folder id and list name.')
+        if folder_id not in [x['folderId'] for x in self.get_folders()]:
+            raise ValueError("Folder does not exist or is not shared with API user.")
+
+        if not replace:
+            if list_name in [x['name'] for x in self.get_saved_lists(folder_id)]:
+                raise ValueError("Saved list already exists. Set to replace argument to True or "
+                                 "change list name.")
+
+        # Assemble request
+        file_desc.Columns.Column.append(col)
+        xml.SourceFile.Format = file_desc
+
+        r = Client.dict(self.connection.soap_client.service.CreateAndStoreSavedList(xml))
+        if r:
+            logger.info(f"Uploaded {r['ListSize']} records to {r['_Name']} saved list.")
+        return r
 
 
 class Folders(object):

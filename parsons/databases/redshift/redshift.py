@@ -299,9 +299,9 @@ class Redshift(RedshiftCreateTable, RedshiftCopyTable, RedshiftTableUtilities, R
         """
 
         with self.connection() as connection:
-            should_create = self._create_table_precheck(connection, table_name, if_exists)
 
-            if should_create:
+            if self._create_table_precheck(connection, table_name, if_exists):
+
                 # Grab the object from s3
                 from parsons.aws.s3 import S3
                 s3 = S3(aws_access_key_id=aws_access_key_id,
@@ -310,7 +310,7 @@ class Redshift(RedshiftCreateTable, RedshiftCopyTable, RedshiftTableUtilities, R
                 local_path = s3.get_file(bucket, key)
 
                 if data_type == 'csv':
-                    tbl = Table.from_csv(local_path)
+                    tbl = Table.from_csv(local_path, delimiter=csv_delimiter)
                 else:
                     raise TypeError("Invalid data type provided")
 
@@ -326,8 +326,7 @@ class Redshift(RedshiftCreateTable, RedshiftCopyTable, RedshiftTableUtilities, R
             # Copy the table
             copy_sql = self.copy_statement(table_name, bucket, key, manifest=manifest,
                                            data_type=data_type, csv_delimiter=csv_delimiter,
-                                           compression=compression,
-                                           max_errors=max_errors,
+                                           compression=compression, max_errors=max_errors,
                                            statupdate=statupdate, compupdate=compupdate,
                                            aws_access_key_id=aws_access_key_id,
                                            aws_secret_access_key=aws_secret_access_key,
@@ -630,11 +629,12 @@ class Redshift(RedshiftCreateTable, RedshiftCopyTable, RedshiftTableUtilities, R
 
         with self.connection() as connection:
 
-            # Copy to a staging table
-            logger.info(f'Building staging table: {staging_tbl}')
-            self.copy(table_obj, staging_tbl)
-
             try:
+
+                # Copy to a staging table
+                logger.info(f'Building staging table: {staging_tbl}')
+                self.copy(table_obj, staging_tbl)
+
                 # Delete rows
                 staging_primary_key = f"{staging_tbl.split('.')[1]}.{primary_key}"
                 target_primary_key = f"{target_table.split('.')[1]}.{primary_key}"
@@ -671,3 +671,61 @@ class Redshift(RedshiftCreateTable, RedshiftCopyTable, RedshiftTableUtilities, R
                 connection.set_session(autocommit=True)
                 self.query_with_connection(f'VACUUM {target_table};', connection)
                 logger.info(f'{target_table} vacuumed.')
+
+    def alter_varchar_column_widths(self, tbl, table_name):
+        """
+        Alter the width of a varchar columns in a Redshift table to match the widths
+        of a Parsons table. The columns are matched by column name and not their
+        index.
+
+        `Args:`
+            tbl: obj
+                A Parsons table
+            table_name:
+                The target table name (e.g. ``my_schema.my_table``)
+        `Returns:`
+            ``None``
+        """
+
+        # Make the Parsons table column names match valid Redshift names
+        tbl.table = petl.setheader(tbl.table, self.column_name_validate(tbl.columns))
+
+        # Create a list of column names and max width for string values.
+        pc = {c: tbl.get_column_max_width(c) for c in tbl.columns}
+
+        # Determine the max width of the varchar columns in the Redshift table
+        s, t = self.split_full_table_name(table_name)
+        cols = self.get_columns(s, t)
+        rc = {k: v['max_length'] for k, v in cols.items() if v['data_type'] == 'character varying'} # noqa: E501, E261
+
+        # Figure out if any of the destination table varchar columns are smaller than the
+        # associated Parsons table columns. If they are, then alter column types to expand
+        # their width.
+        for c in set(rc.keys()).intersection(set(pc.keys())):
+            if rc[c] < pc[c]:
+                logger.info(f'{c} not wide enough. Expanding column width.')
+                self.alter_table_column_type(table_name, c, 'varchar', varchar_width=pc[c])
+
+    def alter_table_column_type(self, table_name, column_name, data_type, varchar_width=None):
+        """
+        Alter a column type of an existing table.
+
+        table_name: str
+            The table name (ex. ``my_schema.my_table``).
+        column_name: str
+            The target column name
+        data_type: str
+            A valid Redshift data type to alter the table to.
+        varchar_width:
+            The new width of the column if of type varchar.
+        """
+
+        sql = f"ALTER TABLE {table_name} ALTER COLUMN {column_name} TYPE {data_type}"
+
+        if varchar_width:
+            sql += f"({varchar_width})"
+
+        with self.connection() as connection:
+            connection.set_session(autocommit=True)
+            self.query_with_connection(sql, connection)
+            logger.info(f'Altered {table_name} {column_name}.')

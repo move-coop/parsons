@@ -532,6 +532,36 @@ class TestParsonsTable(unittest.TestCase):
         empty_tbl = Table([[1], [], [3]])
         self.assertIsNone(empty_tbl.first)
 
+    def test_get_item(self):
+        # Test indexing on table
+        
+        # Test a valid column
+        tbl = Table(self.lst)
+        lst = [1, 4, 7, 10, 13]
+        self.assertEqual(tbl['a'], lst)
+
+        # Test a valid row
+        row = {'a': 4, 'b': 5, 'c': 6}
+        self.assertEqual(tbl[1], row)
+
+    def test_column_data(self):
+        # Test that that the data in the column is returned as a list
+
+        # Test a valid column
+        tbl = Table(self.lst)
+        lst = [1, 4, 7, 10, 13]
+        self.assertEqual(tbl.column_data('a'), lst)
+
+        # Test an invalid column
+        self.assertRaises(TypeError, tbl['c'])
+
+    def test_row_data(self):
+
+        # Test a valid column
+        tbl = Table(self.lst)
+        row = {'a': 4, 'b': 5, 'c': 6}
+        self.assertEqual(tbl.row_data(1), row)
+
     def test_stack(self):
         tbl1 = self.tbl
         tbl2 = Table([{'first': 'Mary', 'last': 'Nichols'}])
@@ -666,3 +696,13 @@ class TestParsonsTable(unittest.TestCase):
         input_tbl.map_columns(column_map)
 
         assert_matching_tables(input_tbl, expected_tbl)
+
+    def test_get_column_max_with(self):
+
+        tbl = Table([['a', 'b'], ['wide_text', False], ['text', 2]])
+
+        # Basic test
+        self.assertEqual(tbl.get_column_max_width('a'), 9)
+
+        # Doesn't break for non-strings
+        self.assertEqual(tbl.get_column_max_width('b'), 5)

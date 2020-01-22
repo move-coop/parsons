@@ -329,8 +329,8 @@ class ToFrom(object):
 
     def to_s3_csv(self, bucket, key, aws_access_key_id=None,
                   aws_secret_access_key=None, compression=None, encoding=None,
-                  errors='strict', write_header=True, public_url=False,
-                  public_url_expires=3600, **csvargs):
+                  errors='strict', write_header=True, acl='bucket-owner-full-control',
+                  public_url=False, public_url_expires=3600, **csvargs):
         """
         Writes the table to an s3 object as a CSV
 
@@ -358,6 +358,8 @@ class ToFrom(object):
                 Create a public link to the file
             public_url_expire: 3600
                 The time, in seconds, until the url expires if ``public_url`` set to ``True``.
+            acl: str
+                The S3 permissions on the file
             \**csvargs: kwargs
                 ``csv_writer`` optional arguments
         `Returns:`
@@ -380,7 +382,7 @@ class ToFrom(object):
         from parsons import S3
         self.s3 = S3(aws_access_key_id=aws_access_key_id,
                      aws_secret_access_key=aws_secret_access_key)
-        self.s3.put_file(bucket, key, local_path)
+        self.s3.put_file(bucket, key, local_path, acl=acl)
 
         if public_url:
             return self.s3.get_url(bucket, key, expires_in=public_url_expires)
@@ -480,8 +482,13 @@ class ToFrom(object):
             Parsons Table
                 See :ref:`parsons-table` for output options.
         """  # noqa: W605
+        remote_prefixes = ["http://", "https://", "ftp://", "s3://"]
+        if any(map(local_path.startswith, remote_prefixes)):
+            is_remote_file = True
+        else:
+            is_remote_file = False
 
-        if not files.has_data(local_path):
+        if not is_remote_file and not files.has_data(local_path):
             raise ValueError('CSV file is empty')
 
         return cls(petl.fromcsv(local_path, **csvargs))

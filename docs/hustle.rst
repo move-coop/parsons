@@ -1,6 +1,10 @@
 Hustle
 ======
 
+********
+Overview
+********
+
 Hustle is a peer to peer texting communication platform. The methods are built against the `Hustle v1 API <https://api.hustle.com/docs/>`_.
 
 * Access to the API is limited to 100 requests per second for endpoints returning resources. When this limit is reached the API will return an error and the request will need to be retried.
@@ -29,9 +33,9 @@ Quick Start
 	group_id = 'MYGROUP'
 	hustle.create_leads(leads, group_id)
 
-*******
-Methods
-*******
+***
+API
+***
 
 .. autoclass :: parsons.Hustle
    :inherited-members:

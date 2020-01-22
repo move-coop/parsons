@@ -46,8 +46,6 @@ class ActivistCodes(object):
         # Internal method to apply/remove activist codes. Was previously a public method,
         # but for the sake of simplicity, breaking out into two public methods.
 
-        logger.info(f'Method deprecated. Use apply_activist_code() or remove_activist_code().')
-
         response = {"activistCodeId": activist_code_id,
                     "action": action_parse(action),
                     "type": "activistCode"}

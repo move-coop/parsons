@@ -6,7 +6,7 @@ allows you to interact with the tool by leveraging their `API <https://github.co
 in alpha development.
 
 .. note::
-	Public vs. Private Methods
+   Public vs. Private Methods
 	Some of the methods require API keys to be furnished by Mobilize America while other end points are publicly
 	accessible and do not require authentication. Each method contains a note indicating whether it is public
 	or private.

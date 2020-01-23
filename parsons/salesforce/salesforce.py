@@ -53,7 +53,7 @@ class Salesforce:
         logger.info(f'Found {q.num_rows} results')
         return q
 
-    def insert(self, object, data_table):
+    def insert_record(self, object, data_table):
         """
         Insert new records of the desired object into Salesforce
 
@@ -80,7 +80,7 @@ class Salesforce:
         )
         return r
 
-    def update(self, object, data_table, id_col):
+    def update_record(self, object, data_table, id_col):
         """
         Update existing records of the desired object in Salesforce
 
@@ -109,7 +109,7 @@ class Salesforce:
         )
         return r
 
-    def upsert(self, object, data_table, id_col):
+    def upsert_record(self, object, data_table, id_col):
         """
         Insert new records and update existing ones of the desired object in Salesforce
 
@@ -139,7 +139,7 @@ class Salesforce:
         )
         return r
 
-    def delete(self, object, id_table, hard_delete=False):
+    def delete_record(self, object, id_table, hard_delete=False):
         """
         Delete existing records of the desired object in Salesforce
 
@@ -174,7 +174,8 @@ class Salesforce:
     @property
     def client(self):
         """
-        Get the Salesforce client to use for making all calls.
+        Get the Salesforce client to use for making all calls. For more information, check the
+        `Simple Salesforce Documentation <https://simple-salesforce.readthedocs.io/en/latest/>`_
 
         `Returns:`
             `simple-salesforce Salesforce object`

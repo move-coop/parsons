@@ -41,7 +41,7 @@ class TestSalesforce(unittest.TestCase):
     def test_insert(self):
 
         fake_data = Table([{'firstname': 'Chrisjen', 'lastname': 'Avasarala'}])
-        response = self.sf.insert('Contact', fake_data)
+        response = self.sf.insert_record('Contact', fake_data)
         assert self.sf.client.bulk.Contact.insert.called_with(fake_data)
         assert response[0]['created']
 
@@ -50,7 +50,7 @@ class TestSalesforce(unittest.TestCase):
         fake_data = Table([{'id': '1234567890AaBbC',
             'firstname': 'Chrisjen',
             'lastname': 'Avasarala'}])
-        response = self.sf.update('Contact', fake_data, 'id')
+        response = self.sf.update_record('Contact', fake_data, 'id')
         assert self.sf.client.bulk.Contact.update.called_with(fake_data)
         assert not response[0]['created']
 
@@ -62,7 +62,7 @@ class TestSalesforce(unittest.TestCase):
             {'id': None,
             'firstname': 'Roberta',
             'lastname': 'Draper'}])
-        response = self.sf.upsert('Contact', fake_data, 'id')
+        response = self.sf.upsert_record('Contact', fake_data, 'id')
         assert self.sf.client.bulk.Contact.update.called_with(fake_data)
         print(response)
         assert not response[0]['created']
@@ -71,6 +71,6 @@ class TestSalesforce(unittest.TestCase):
     def test_delete(self):
 
         fake_data = Table([{'id': '1234567890AaBbC'}])
-        response = self.sf.delete('Contact', fake_data)
+        response = self.sf.delete_record('Contact', fake_data)
         assert self.sf.client.bulk.Contact.update.called_with(fake_data)
         assert not response[0]['created']

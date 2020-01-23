@@ -26,6 +26,7 @@ from parsons.copper.copper import Copper
 from parsons.crowdtangle.crowdtangle import CrowdTangle
 from parsons.hustle.hustle import Hustle
 from parsons.twilio.twilio import Twilio
+from parsons.salesforce.salesforce import Salesforce
 from parsons.databases.postgres.postgres import Postgres
 
 __all__ = [
@@ -55,6 +56,7 @@ __all__ = [
     'CrowdTangle',
     'Hustle',
     'Twilio',
+    'Salesforce',
     'Postgres'
     ]
 

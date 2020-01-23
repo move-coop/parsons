@@ -121,6 +121,7 @@ Indices and tables
    p2a
    redshift
    s3
+   salesforce
    sftp
    ts
    twilio

@@ -1,0 +1,410 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Salesforce &mdash; Parsons 0.5 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" /> 
+
+  
+  <script src="_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="index.html" class="icon icon-home"> Parsons
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Integrations</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="action_kit.html">ActionKit</a></li>
+<li class="toctree-l1"><a class="reference internal" href="airtable.html">Airtable</a></li>
+<li class="toctree-l1"><a class="reference internal" href="civis.html">Civis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="copper.html">Copper</a></li>
+<li class="toctree-l1"><a class="reference internal" href="crowdtangle.html">CrowdTangle</a></li>
+<li class="toctree-l1"><a class="reference internal" href="databases.html">Databases</a></li>
+<li class="toctree-l1"><a class="reference internal" href="facebook_ads.html">FacebookAds</a></li>
+<li class="toctree-l1"><a class="reference internal" href="google_sheets.html">GoogleSheets</a></li>
+<li class="toctree-l1"><a class="reference internal" href="google_cloud.html">Google Cloud</a></li>
+<li class="toctree-l1"><a class="reference internal" href="hustle.html">Hustle</a></li>
+<li class="toctree-l1"><a class="reference internal" href="mobile_commons.html">Mobile Commons</a></li>
+<li class="toctree-l1"><a class="reference internal" href="mobilize_america.html">Mobilize America</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ngpvan.html">VAN</a></li>
+<li class="toctree-l1"><a class="reference internal" href="p2a.html">Phone2Action</a></li>
+<li class="toctree-l1"><a class="reference internal" href="redshift.html">Redshift</a></li>
+<li class="toctree-l1"><a class="reference internal" href="s3.html">S3</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sftp.html">SFTP</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ts.html">TargetSmart</a></li>
+<li class="toctree-l1"><a class="reference internal" href="twilio.html">Twilio</a></li>
+<li class="toctree-l1"><a class="reference internal" href="turbovote.html">TurboVote</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Enhancements</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="google_civic.html">Google Civic</a></li>
+<li class="toctree-l1"><a class="reference internal" href="census_geocoder.html">US Census Geocoder</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Framework</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="table.html">Parsons Table</a></li>
+<li class="toctree-l1"><a class="reference internal" href="notifications.html">Notifications</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">Parsons</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html">Docs</a> &raquo;</li>
+        
+      <li>Salesforce</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="_sources/salesforce.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="salesforce">
+<h1>Salesforce<a class="headerlink" href="#salesforce" title="Permalink to this headline">¶</a></h1>
+<p><a class="reference external" href="https://www.salesforce.com">Salesforce</a> is a cloud-based CRM with a huge share of the for-profit
+and apolitical non-profit markets.</p>
+<div class="section" id="quick-start">
+<h2>Quick Start<a class="headerlink" href="#quick-start" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">parsons</span> <span class="kn">import</span> <span class="n">Salesforce</span><span class="p">,</span> <span class="n">Table</span>
+
+<span class="n">sf</span> <span class="o">=</span> <span class="n">Salesforce</span><span class="p">()</span>
+
+<span class="c1"># Get IDs and names for all Contacts</span>
+<span class="n">all_contacts</span> <span class="o">=</span> <span class="n">sf</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="s2">&quot;SELECT Id, firstname, lastname FROM Contact&quot;</span><span class="p">)</span>
+
+<span class="c1"># Get IDs, names, and email addresses from Contacts with a specific value for a custom field</span>
+<span class="n">ak_contacts</span> <span class="o">=</span> <span class="n">sf</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="s2">&quot;SELECT Id, firstname, lastname, email FROM Contact WHERE digital_source__c == &#39;AK&#39;&quot;</span><span class="p">)</span>
+
+<span class="c1"># Update existing Contacts and create new records based on data in a Parsons Table</span>
+<span class="n">upsert_results</span> <span class="o">=</span> <span class="n">sf</span><span class="o">.</span><span class="n">upsert</span><span class="p">(</span><span class="s1">&#39;Contact&#39;</span><span class="p">,</span> <span class="n">contacts_table</span><span class="p">,</span> <span class="s1">&#39;id&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="api">
+<h2>API<a class="headerlink" href="#api" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="parsons.Salesforce">
+<em class="property">class </em><code class="descclassname">parsons.</code><code class="descname">Salesforce</code><span class="sig-paren">(</span><em>username=None</em>, <em>password=None</em>, <em>security_token=None</em>, <em>test_environment=False</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/salesforce/salesforce.html#Salesforce"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.Salesforce" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="docutils">
+<dt><cite>Args:</cite></dt>
+<dd><dl class="first last docutils">
+<dt>username: str</dt>
+<dd>The Salesforce username (usually an email address). Not required if
+<code class="docutils literal notranslate"><span class="pre">SALESFORCE_USERNAME</span></code> env variable is passed.</dd>
+<dt>password: str</dt>
+<dd>The Salesforce password. Not required if <code class="docutils literal notranslate"><span class="pre">SALESFORCE_PASSWORD</span></code> env variable is
+passed.</dd>
+<dt>security_token: str</dt>
+<dd>The Salesforce security token that can be acquired or reset in
+Settings &gt; My Personal Information &gt; Reset My Security Token.
+Not required if <code class="docutils literal notranslate"><span class="pre">SALESFORCE_SECURITY_TOKEN</span></code> env variable is passed.</dd>
+<dt>test_environment: bool</dt>
+<dd>If <code class="docutils literal notranslate"><span class="pre">True</span></code> the client will connect to a Saleforce sandbox instance. Not required if
+<code class="docutils literal notranslate"><span class="pre">SALESFORCE_DOMAIN</span></code> env variable is passed.</dd>
+</dl>
+</dd>
+<dt><cite>Returns:</cite></dt>
+<dd>Salesforce class</dd>
+</dl>
+<dl class="method">
+<dt id="parsons.Salesforce.query">
+<code class="descname">query</code><span class="sig-paren">(</span><em>soql</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/salesforce/salesforce.html#Salesforce.query"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.Salesforce.query" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="docutils">
+<dt><cite>Args:</cite></dt>
+<dd><dl class="first last docutils">
+<dt>soql: str</dt>
+<dd>The desired query in Salesforce SOQL language (SQL with additional limitations).
+For reference, see <a href="#id2"><span class="problematic" id="id3">`Salesforce SOQL documentation&lt;https://developer.salesforce.com/docs/atlas.en-us.soql_sosl.meta/soql_sosl/sforce_api_calls_soql.htm&gt;`_</span></a>.</dd>
+</dl>
+</dd>
+<dt><cite>Returns:</cite></dt>
+<dd>list of dicts with Salesforce data</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="parsons.Salesforce.insert_record">
+<code class="descname">insert_record</code><span class="sig-paren">(</span><em>object</em>, <em>data_table</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/salesforce/salesforce.html#Salesforce.insert_record"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.Salesforce.insert_record" title="Permalink to this definition">¶</a></dt>
+<dd><p>Insert new records of the desired object into Salesforce</p>
+<dl class="docutils">
+<dt><cite>Args:</cite></dt>
+<dd><dl class="first last docutils">
+<dt>object: str</dt>
+<dd>The API name of the type of records to insert. Note that custom object names end
+in <cite>__c</cite></dd>
+<dt>data_table: obj</dt>
+<dd>A Parsons Table with data for inserting records. Column names must match object
+field API names, though case and order need not match. Note that custom field
+names end in <cite>__c</cite>.</dd>
+</dl>
+</dd>
+<dt><cite>Returns:</cite></dt>
+<dd>list of dicts that have the following data:
+* success: boolean
+* created: boolean (if new record is created)
+* id: str (id of record created, if successful)
+* errors: list of dicts (with error details)</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="parsons.Salesforce.update_record">
+<code class="descname">update_record</code><span class="sig-paren">(</span><em>object</em>, <em>data_table</em>, <em>id_col</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/salesforce/salesforce.html#Salesforce.update_record"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.Salesforce.update_record" title="Permalink to this definition">¶</a></dt>
+<dd><p>Update existing records of the desired object in Salesforce</p>
+<dl class="docutils">
+<dt><cite>Args:</cite></dt>
+<dd><dl class="first last docutils">
+<dt>object: str</dt>
+<dd>The API name of the type of records to update. Note that custom object names end
+in <cite>__c</cite></dd>
+<dt>data_table: obj</dt>
+<dd>A Parsons Table with data for updating records. Column names must match object
+field API names, though case and order need not match. Note that custom field
+names end in <cite>__c</cite>.</dd>
+<dt>id_col: str</dt>
+<dd>The column name in <cite>data_table</cite> that stores the record ID.</dd>
+<dt><cite>Returns:</cite></dt>
+<dd>list of dicts that have the following data:
+* success: boolean
+* created: boolean (if new record is created)
+* id: str (id of record altered, if successful)
+* errors: list of dicts (with error details)</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="parsons.Salesforce.upsert_record">
+<code class="descname">upsert_record</code><span class="sig-paren">(</span><em>object</em>, <em>data_table</em>, <em>id_col</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/salesforce/salesforce.html#Salesforce.upsert_record"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.Salesforce.upsert_record" title="Permalink to this definition">¶</a></dt>
+<dd><p>Insert new records and update existing ones of the desired object in Salesforce</p>
+<dl class="docutils">
+<dt><cite>Args:</cite></dt>
+<dd><dl class="first last docutils">
+<dt>object: str</dt>
+<dd>The API name of the type of records to upsert. Note that custom object names end
+in <cite>__c</cite></dd>
+<dt>data_table: obj</dt>
+<dd>A Parsons Table with data for upserting records. Column names must match object
+field API names, though case and order need not match. Note that custom field
+names end in <cite>__c</cite>.</dd>
+<dt>id_col: str</dt>
+<dd>The column name in <cite>data_table</cite> that stores the record ID. Required even if all
+records are new/inserted.</dd>
+<dt><cite>Returns:</cite></dt>
+<dd>list of dicts that have the following data:
+* success: boolean
+* created: boolean (if new record is created)
+* id: str (id of record created or altered, if successful)
+* errors: list of dicts (with error details)</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="parsons.Salesforce.delete_record">
+<code class="descname">delete_record</code><span class="sig-paren">(</span><em>object</em>, <em>id_table</em>, <em>hard_delete=False</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/salesforce/salesforce.html#Salesforce.delete_record"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.Salesforce.delete_record" title="Permalink to this definition">¶</a></dt>
+<dd><p>Delete existing records of the desired object in Salesforce</p>
+<dl class="docutils">
+<dt><cite>Args:</cite></dt>
+<dd><dl class="first last docutils">
+<dt>object: str</dt>
+<dd>The API name of the type of records to delete. Note that custom object names end
+in <cite>__c</cite></dd>
+<dt>id_table: obj</dt>
+<dd>A Parsons Table of record IDs to delete. Note that ‘Id’ is the default Salesforce
+record ID field name.</dd>
+<dt>hard_delete: boolean</dt>
+<dd>If true, will permanently delete record instead of moving it to trash</dd>
+<dt><cite>Returns:</cite></dt>
+<dd>list of dicts that have the following data:
+* success: boolean
+* created: boolean (if new record is created)
+* id: str (id of record deleted, if successful)
+* errors: list of dicts (with error details)</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="parsons.Salesforce.client">
+<code class="descname">client</code><a class="headerlink" href="#parsons.Salesforce.client" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the Salesforce client to use for making all calls. For more information, check the
+<a class="reference external" href="https://simple-salesforce.readthedocs.io/en/latest/">Simple Salesforce Documentation</a></p>
+<dl class="docutils">
+<dt><cite>Returns:</cite></dt>
+<dd><cite>simple-salesforce Salesforce object</cite></dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2019, The Movement Cooperative
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script type="text/javascript" src="_static/jquery.js"></script>
+        <script type="text/javascript" src="_static/underscore.js"></script>
+        <script type="text/javascript" src="_static/doctools.js"></script>
+        <script type="text/javascript" src="_static/language_data.js"></script>
+    
+
+  
+
+  <script type="text/javascript" src="_static/js/theme.js"></script>
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

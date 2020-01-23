@@ -1,0 +1,417 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>parsons.salesforce.salesforce &mdash; Parsons 0.5 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+
+  
+  <script src="../../../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../../../index.html" class="icon icon-home"> Parsons
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Integrations</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../action_kit.html">ActionKit</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../airtable.html">Airtable</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../civis.html">Civis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../copper.html">Copper</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../crowdtangle.html">CrowdTangle</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../databases.html">Databases</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../facebook_ads.html">FacebookAds</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../google_sheets.html">GoogleSheets</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../google_cloud.html">Google Cloud</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../hustle.html">Hustle</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../mobile_commons.html">Mobile Commons</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../mobilize_america.html">Mobilize America</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../ngpvan.html">VAN</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../p2a.html">Phone2Action</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../redshift.html">Redshift</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../s3.html">S3</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../sftp.html">SFTP</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../ts.html">TargetSmart</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../twilio.html">Twilio</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../turbovote.html">TurboVote</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Enhancements</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../google_civic.html">Google Civic</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../census_geocoder.html">US Census Geocoder</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Framework</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../table.html">Parsons Table</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../notifications.html">Notifications</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">Parsons</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../../index.html">Module code</a> &raquo;</li>
+        
+      <li>parsons.salesforce.salesforce</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for parsons.salesforce.salesforce</h1><div class="highlight"><pre>
+<span></span><span class="kn">from</span> <span class="nn">simple_salesforce</span> <span class="kn">import</span> <span class="n">Salesforce</span> <span class="k">as</span> <span class="n">_Salesforce</span>
+<span class="kn">from</span> <span class="nn">parsons.utilities</span> <span class="kn">import</span> <span class="n">check_env</span>
+<span class="kn">from</span> <span class="nn">parsons</span> <span class="kn">import</span> <span class="n">Table</span>
+<span class="kn">import</span> <span class="nn">logging</span>
+
+<span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
+
+
+<div class="viewcode-block" id="Salesforce"><a class="viewcode-back" href="../../../salesforce.html#parsons.Salesforce">[docs]</a><span class="k">class</span> <span class="nc">Salesforce</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    `Args:`</span>
+<span class="sd">        username: str</span>
+<span class="sd">            The Salesforce username (usually an email address). Not required if</span>
+<span class="sd">            ``SALESFORCE_USERNAME`` env variable is passed.</span>
+<span class="sd">        password: str</span>
+<span class="sd">            The Salesforce password. Not required if ``SALESFORCE_PASSWORD`` env variable is</span>
+<span class="sd">            passed.</span>
+<span class="sd">        security_token: str</span>
+<span class="sd">            The Salesforce security token that can be acquired or reset in</span>
+<span class="sd">            Settings &gt; My Personal Information &gt; Reset My Security Token.</span>
+<span class="sd">            Not required if ``SALESFORCE_SECURITY_TOKEN`` env variable is passed.</span>
+<span class="sd">        test_environment: bool</span>
+<span class="sd">            If ``True`` the client will connect to a Saleforce sandbox instance. Not required if</span>
+<span class="sd">            ``SALESFORCE_DOMAIN`` env variable is passed.</span>
+<span class="sd">    `Returns:`</span>
+<span class="sd">        Salesforce class</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">username</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">password</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">security_token</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">test_environment</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">username</span> <span class="o">=</span> <span class="n">check_env</span><span class="o">.</span><span class="n">check</span><span class="p">(</span><span class="s1">&#39;SALESFORCE_USERNAME&#39;</span><span class="p">,</span> <span class="n">username</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">password</span> <span class="o">=</span> <span class="n">check_env</span><span class="o">.</span><span class="n">check</span><span class="p">(</span><span class="s1">&#39;SALESFORCE_PASSWORD&#39;</span><span class="p">,</span> <span class="n">password</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">security_token</span> <span class="o">=</span> <span class="n">check_env</span><span class="o">.</span><span class="n">check</span><span class="p">(</span><span class="s1">&#39;SALESFORCE_SECURITY_TOKEN&#39;</span><span class="p">,</span> <span class="n">security_token</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">test_environment</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">domain</span> <span class="o">=</span> <span class="n">check_env</span><span class="o">.</span><span class="n">check</span><span class="p">(</span><span class="s1">&#39;SALESFORCE_DOMAIN&#39;</span><span class="p">,</span> <span class="s1">&#39;test&#39;</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">domain</span> <span class="o">=</span> <span class="kc">None</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_client</span> <span class="o">=</span> <span class="kc">None</span>
+
+<div class="viewcode-block" id="Salesforce.query"><a class="viewcode-back" href="../../../salesforce.html#parsons.Salesforce.query">[docs]</a>    <span class="k">def</span> <span class="nf">query</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">soql</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        `Args:`</span>
+<span class="sd">            soql: str</span>
+<span class="sd">                The desired query in Salesforce SOQL language (SQL with additional limitations).</span>
+<span class="sd">                For reference, see `Salesforce SOQL documentation&lt;https://developer.salesforce.com/docs/atlas.en-us.soql_sosl.meta/soql_sosl/sforce_api_calls_soql.htm&gt;`_.</span>
+<span class="sd">        `Returns:`</span>
+<span class="sd">            list of dicts with Salesforce data</span>
+<span class="sd">        &quot;&quot;&quot;</span> <span class="c1"># noqa: E501,E261</span>
+
+        <span class="n">q</span> <span class="o">=</span> <span class="n">Table</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">query_all</span><span class="p">(</span><span class="n">soql</span><span class="p">))</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Found </span><span class="si">{q.num_rows}</span><span class="s1"> results&#39;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">q</span></div>
+
+<div class="viewcode-block" id="Salesforce.insert_record"><a class="viewcode-back" href="../../../salesforce.html#parsons.Salesforce.insert_record">[docs]</a>    <span class="k">def</span> <span class="nf">insert_record</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">object</span><span class="p">,</span> <span class="n">data_table</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Insert new records of the desired object into Salesforce</span>
+
+<span class="sd">        `Args:`</span>
+<span class="sd">            object: str</span>
+<span class="sd">                The API name of the type of records to insert. Note that custom object names end</span>
+<span class="sd">                in `__c`</span>
+<span class="sd">            data_table: obj</span>
+<span class="sd">                A Parsons Table with data for inserting records. Column names must match object</span>
+<span class="sd">                field API names, though case and order need not match. Note that custom field</span>
+<span class="sd">                names end in `__c`.</span>
+<span class="sd">        `Returns:`</span>
+<span class="sd">            list of dicts that have the following data:</span>
+<span class="sd">            * success: boolean</span>
+<span class="sd">            * created: boolean (if new record is created)</span>
+<span class="sd">            * id: str (id of record created, if successful)</span>
+<span class="sd">            * errors: list of dicts (with error details)</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">r</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">bulk</span><span class="p">,</span> <span class="nb">object</span><span class="p">)</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="n">data_table</span><span class="o">.</span><span class="n">to_dicts</span><span class="p">())</span>
+        <span class="n">s</span> <span class="o">=</span> <span class="p">[</span><span class="n">x</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">r</span> <span class="k">if</span> <span class="n">x</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;success&#39;</span><span class="p">)</span> <span class="ow">is</span> <span class="kc">True</span><span class="p">]</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s1">&#39;Successfully inserted {len(s)} out of </span><span class="si">{data_table.num_rows}</span><span class="s1"> records to </span><span class="si">{object}</span><span class="s1">&#39;</span>
+        <span class="p">)</span>
+        <span class="k">return</span> <span class="n">r</span></div>
+
+<div class="viewcode-block" id="Salesforce.update_record"><a class="viewcode-back" href="../../../salesforce.html#parsons.Salesforce.update_record">[docs]</a>    <span class="k">def</span> <span class="nf">update_record</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">object</span><span class="p">,</span> <span class="n">data_table</span><span class="p">,</span> <span class="n">id_col</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Update existing records of the desired object in Salesforce</span>
+
+<span class="sd">        `Args:`</span>
+<span class="sd">            object: str</span>
+<span class="sd">                The API name of the type of records to update. Note that custom object names end</span>
+<span class="sd">                in `__c`</span>
+<span class="sd">            data_table: obj</span>
+<span class="sd">                A Parsons Table with data for updating records. Column names must match object</span>
+<span class="sd">                field API names, though case and order need not match. Note that custom field</span>
+<span class="sd">                names end in `__c`.</span>
+<span class="sd">            id_col: str</span>
+<span class="sd">                The column name in `data_table` that stores the record ID.</span>
+<span class="sd">            `Returns:`</span>
+<span class="sd">                list of dicts that have the following data:</span>
+<span class="sd">                * success: boolean</span>
+<span class="sd">                * created: boolean (if new record is created)</span>
+<span class="sd">                * id: str (id of record altered, if successful)</span>
+<span class="sd">                * errors: list of dicts (with error details)</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">r</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">bulk</span><span class="p">,</span> <span class="nb">object</span><span class="p">)</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">data_table</span><span class="o">.</span><span class="n">to_dicts</span><span class="p">(),</span> <span class="n">id_col</span><span class="p">)</span>
+        <span class="n">s</span> <span class="o">=</span> <span class="p">[</span><span class="n">x</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">r</span> <span class="k">if</span> <span class="n">x</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;success&#39;</span><span class="p">)</span> <span class="ow">is</span> <span class="kc">True</span><span class="p">]</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s1">&#39;Successfully updated {len(s)} out of </span><span class="si">{data_table.num_rows}</span><span class="s1"> records in </span><span class="si">{object}</span><span class="s1">&#39;</span>
+        <span class="p">)</span>
+        <span class="k">return</span> <span class="n">r</span></div>
+
+<div class="viewcode-block" id="Salesforce.upsert_record"><a class="viewcode-back" href="../../../salesforce.html#parsons.Salesforce.upsert_record">[docs]</a>    <span class="k">def</span> <span class="nf">upsert_record</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">object</span><span class="p">,</span> <span class="n">data_table</span><span class="p">,</span> <span class="n">id_col</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Insert new records and update existing ones of the desired object in Salesforce</span>
+
+<span class="sd">        `Args:`</span>
+<span class="sd">            object: str</span>
+<span class="sd">                The API name of the type of records to upsert. Note that custom object names end</span>
+<span class="sd">                in `__c`</span>
+<span class="sd">            data_table: obj</span>
+<span class="sd">                A Parsons Table with data for upserting records. Column names must match object</span>
+<span class="sd">                field API names, though case and order need not match. Note that custom field</span>
+<span class="sd">                names end in `__c`.</span>
+<span class="sd">            id_col: str</span>
+<span class="sd">                The column name in `data_table` that stores the record ID. Required even if all</span>
+<span class="sd">                records are new/inserted.</span>
+<span class="sd">            `Returns:`</span>
+<span class="sd">                list of dicts that have the following data:</span>
+<span class="sd">                * success: boolean</span>
+<span class="sd">                * created: boolean (if new record is created)</span>
+<span class="sd">                * id: str (id of record created or altered, if successful)</span>
+<span class="sd">                * errors: list of dicts (with error details)</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">r</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">bulk</span><span class="p">,</span> <span class="nb">object</span><span class="p">)</span><span class="o">.</span><span class="n">upsert</span><span class="p">(</span><span class="n">data_table</span><span class="o">.</span><span class="n">to_dicts</span><span class="p">(),</span> <span class="n">id_col</span><span class="p">)</span>
+        <span class="n">s</span> <span class="o">=</span> <span class="p">[</span><span class="n">x</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">r</span> <span class="k">if</span> <span class="n">x</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;success&#39;</span><span class="p">)</span> <span class="ow">is</span> <span class="kc">True</span><span class="p">]</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s1">&#39;Successfully upserted {len(s)} out of </span><span class="si">{data_table.num_rows}</span><span class="s1"> records to </span><span class="si">{object}</span><span class="s1">&#39;</span>
+        <span class="p">)</span>
+        <span class="k">return</span> <span class="n">r</span></div>
+
+<div class="viewcode-block" id="Salesforce.delete_record"><a class="viewcode-back" href="../../../salesforce.html#parsons.Salesforce.delete_record">[docs]</a>    <span class="k">def</span> <span class="nf">delete_record</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">object</span><span class="p">,</span> <span class="n">id_table</span><span class="p">,</span> <span class="n">hard_delete</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Delete existing records of the desired object in Salesforce</span>
+
+<span class="sd">        `Args:`</span>
+<span class="sd">            object: str</span>
+<span class="sd">                The API name of the type of records to delete. Note that custom object names end</span>
+<span class="sd">                in `__c`</span>
+<span class="sd">            id_table: obj</span>
+<span class="sd">                A Parsons Table of record IDs to delete. Note that &#39;Id&#39; is the default Salesforce</span>
+<span class="sd">                record ID field name.</span>
+<span class="sd">            hard_delete: boolean</span>
+<span class="sd">                If true, will permanently delete record instead of moving it to trash</span>
+<span class="sd">            `Returns:`</span>
+<span class="sd">                list of dicts that have the following data:</span>
+<span class="sd">                * success: boolean</span>
+<span class="sd">                * created: boolean (if new record is created)</span>
+<span class="sd">                * id: str (id of record deleted, if successful)</span>
+<span class="sd">                * errors: list of dicts (with error details)</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">if</span> <span class="n">hard_delete</span><span class="p">:</span>
+            <span class="n">r</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">bulk</span><span class="p">,</span> <span class="nb">object</span><span class="p">)</span><span class="o">.</span><span class="n">hard_delete</span><span class="p">(</span><span class="n">id_table</span><span class="o">.</span><span class="n">to_dicts</span><span class="p">())</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">r</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">bulk</span><span class="p">,</span> <span class="nb">object</span><span class="p">)</span><span class="o">.</span><span class="n">delete</span><span class="p">(</span><span class="n">id_table</span><span class="o">.</span><span class="n">to_dicts</span><span class="p">())</span>
+
+        <span class="n">s</span> <span class="o">=</span> <span class="p">[</span><span class="n">x</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">r</span> <span class="k">if</span> <span class="n">x</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;success&#39;</span><span class="p">)</span> <span class="ow">is</span> <span class="kc">True</span><span class="p">]</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s1">&#39;Successfully deleted {len(s)} out of </span><span class="si">{id_table.num_rows}</span><span class="s1"> records from </span><span class="si">{object}</span><span class="s1">&#39;</span>
+        <span class="p">)</span>
+        <span class="k">return</span> <span class="n">r</span></div>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">client</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Get the Salesforce client to use for making all calls. For more information, check the</span>
+<span class="sd">        `Simple Salesforce Documentation &lt;https://simple-salesforce.readthedocs.io/en/latest/&gt;`_</span>
+
+<span class="sd">        `Returns:`</span>
+<span class="sd">            `simple-salesforce Salesforce object`</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">_client</span><span class="p">:</span>
+            <span class="c1"># Create a Salesforce client to use to make bulk calls</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_client</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">client</span> <span class="o">=</span> <span class="n">_Salesforce</span><span class="p">(</span>
+                <span class="n">username</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">username</span><span class="p">,</span>
+                <span class="n">password</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">password</span><span class="p">,</span>
+                <span class="n">security_token</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">security_token</span><span class="p">,</span>
+                <span class="n">domain</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">domain</span>
+            <span class="p">)</span>
+
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_client</span></div>
+</pre></div>
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2019, The Movement Cooperative
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../../../_static/jquery.js"></script>
+        <script type="text/javascript" src="../../../_static/underscore.js"></script>
+        <script type="text/javascript" src="../../../_static/doctools.js"></script>
+        <script type="text/javascript" src="../../../_static/language_data.js"></script>
+    
+
+  
+
+  <script type="text/javascript" src="../../../_static/js/theme.js"></script>
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

@@ -14,13 +14,16 @@ class SFTP(object):
             The user name
         password: str
             The password
+        rsa_private_key_file str
+            Absolute path to a private RSA key used
+            to authenticate stfp connection
         port: int
             Specify if different than the standard port 22
     `Returns:`
         SFTP Class
     """
 
-    def __init__(self, host, username, password, port=22):
+    def __init__(self, host, username, password, rsa_private_key_file=None, port=22):
         self.host = host
         if not self.host:
             raise ValueError("Missing the SFTP host name")
@@ -29,7 +32,11 @@ class SFTP(object):
         if not self.username:
             raise ValueError("Missing the SFTP username")
 
+        if self.username and not (password or rsa_private_key_file):
+            raise ValueError("Missing password or ssh authentication key")
+
         self.password = password
+        self.rsa_private_key_file = rsa_private_key_file
         self.port = port
 
     @contextmanager
@@ -38,7 +45,12 @@ class SFTP(object):
         # Make sure to use this in a ``with`` block, since it's a context manager.
 
         transport = paramiko.Transport((self.host, self.port))
-        transport.connect(username=self.username, password=self.password)
+        pkey = None
+        if self.rsa_private_key_file:
+            # we need to read it in
+            pkey = paramiko.RSAKey.from_private_key_file(self.rsa_private_key_file)
+
+        transport.connect(username=self.username, password=self.password, pkey=pkey)
         conn = paramiko.SFTPClient.from_transport(transport)
         yield conn
         conn.close()

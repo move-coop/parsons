@@ -290,7 +290,7 @@ class ToFrom(object):
 
         return list(petl.dicts(self.table))
 
-    def to_sftp_csv(self, remote_path, host, username, password, port=22, encoding=None,
+    def to_sftp_csv(self, remote_path, host, username, password, rsa_private_key_file=None, port=22, encoding=None,
                     compression=None, errors='strict', write_header=True, **csvargs):
         """
         Writes the table to a CSV file on a remote SFTP server
@@ -318,7 +318,8 @@ class ToFrom(object):
         """  # noqa: W605
 
         from parsons import SFTP
-        sftp = SFTP(host, username, password, port)
+
+        sftp = SFTP(host, username, password, rsa_private_key_file, port)
 
         compression = files.compression_type_for_path(remote_path)
 

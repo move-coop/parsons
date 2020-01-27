@@ -107,7 +107,7 @@ class BillCom(object):
         `Returns:`
             A list of dictionaries of user information for every user from startUser to maxUser.
         """
-        data={
+        data = {
            "start": startUser,
            "max": maxUser,
         }
@@ -125,7 +125,7 @@ class BillCom(object):
             A list of dictionaries of customer information for
             every user from startCustomer to maxCustomer.
         """
-        data={
+        data = {
            "start": startCustomer,
            "max": maxCustomer,
         }
@@ -140,7 +140,7 @@ class BillCom(object):
         `Returns:`
             A dictionary of the customer's information.
         """
-        data={
+        data = {
             'id': customerId
         }
         return self.getRequestResponse(data, "Read", "Customer")
@@ -154,7 +154,7 @@ class BillCom(object):
         `Returns:`
             A dictionary of the invoice information.
         """
-        data={
+        data = {
            "id": invoiceId
         }
         return self.getRequestResponse(data, "Read", "invoice")
@@ -173,7 +173,7 @@ class BillCom(object):
                 OR
                 2. all other fields match
             False otherwise
-                
+
         """
         if "id" in customer1.keys():
             if customer1["id"] == customer2["id"]:
@@ -200,7 +200,7 @@ class BillCom(object):
             if self.checkCustomer(customer, existingCustomer):
                 return existingCustomer
         # customer doesn't exist, create
-        data={
+        data = {
             "obj": customer
         }
         return self.getRequestResponse(data, "Create", "Customer")
@@ -236,7 +236,7 @@ class BillCom(object):
         `Returns:`
             A dictionary of the sent invoice.
         """
-        data={
+        data = {
           "invoiceId": invoiceId,
           "headers": {
             "fromUserId": fromUserId,

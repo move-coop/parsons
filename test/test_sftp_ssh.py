@@ -18,10 +18,10 @@ REMOTE_COMPRESSED_CSV_PATH = f'{REMOTE_DIR}/{REMOTE_COMPRESSED_CSV}'
 @pytest.fixture
 def live_sftp(simple_table, simple_csv_path, simple_compressed_csv_path):
     # Generate a live SFTP connection based on these env vars
-    host = os.environ.get('SFTP_HOST')
-    username = os.environ.get('SFTP_USERNAME')
+    host = os.environ['SFTP_HOST']
+    username = os.environ['SFTP_USERNAME']
     password = None
-    rsa_private_key_file = os.environ.get('SFTP_RSA_PRIVATE_KEY_FILE')
+    rsa_private_key_file = os.environ['SFTP_RSA_PRIVATE_KEY_FILE']
 
     sftp = SFTP(host, username, password, rsa_private_key_file)
 
@@ -106,7 +106,7 @@ def test_table_to_sftp_csv(live_sftp, simple_table, compression):
     # Cleanup
     live_sftp.remove_file(remote_path)
 
-#@mark_live_test
+@mark_live_test
 @pytest.mark.parametrize('compression', [None, 'gzip'])
 def test_table_to_sftp_csv_no_password(live_sftp, simple_table, compression):
     host = os.environ.get('SFTP_HOST')

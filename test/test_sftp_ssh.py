@@ -18,10 +18,10 @@ REMOTE_COMPRESSED_CSV_PATH = f'{REMOTE_DIR}/{REMOTE_COMPRESSED_CSV}'
 @pytest.fixture
 def live_sftp(simple_table, simple_csv_path, simple_compressed_csv_path):
     # Generate a live SFTP connection based on these env vars
-    host = os.environ.get('SFTP_HOST', 's-cad475b922de49a19.server.transfer.us-east-1.amazonaws.com')
-    username = os.environ.get('SFTP_USERNAME', 'dev-test-uptime-testuser')
+    host = os.environ.get('SFTP_HOST')
+    username = os.environ.get('SFTP_USERNAME')
     password = None
-    rsa_private_key_file = os.environ.get('SFTP_RSA_PRIVATE_KEY_FILE', '/Users/angela/.ssh/id_rsa')
+    rsa_private_key_file = os.environ.get('SFTP_RSA_PRIVATE_KEY_FILE')
 
     sftp = SFTP(host, username, password, rsa_private_key_file)
 
@@ -92,7 +92,7 @@ def test_table_to_sftp_csv(live_sftp, simple_table, compression):
     host = os.environ['SFTP_HOST']
     username = os.environ['SFTP_USERNAME']
     password = os.environ['SFTP_PASSWORD']
-    rsa_private_key_file = os.environ.get('SFTP_RSA_PRIVATE_KEY_FILE', '/Users/angela/.ssh/id_rsa')
+    rsa_private_key_file = os.environ.get('SFTP_RSA_PRIVATE_KEY_FILE')
 
     remote_path = f'{REMOTE_DIR}/test_to_sftp.csv'
     if compression == 'gzip':
@@ -109,9 +109,9 @@ def test_table_to_sftp_csv(live_sftp, simple_table, compression):
 #@mark_live_test
 @pytest.mark.parametrize('compression', [None, 'gzip'])
 def test_table_to_sftp_csv_no_password(live_sftp, simple_table, compression):
-    host = os.environ.get('SFTP_HOST', 's-cad475b922de49a19.server.transfer.us-east-1.amazonaws.com')
-    username = os.environ.get('SFTP_USERNAME', 'dev-test-uptime-testuser')
-    rsa_private_key_file = os.environ.get('SFTP_RSA_PRIVATE_KEY_FILE', '/Users/angela/.ssh/id_rsa')
+    host = os.environ.get('SFTP_HOST')
+    username = os.environ.get('SFTP_USERNAME')
+    rsa_private_key_file = os.environ.get('SFTP_RSA_PRIVATE_KEY_FILE')
 
     remote_path = f'{REMOTE_DIR}/test_to_sftp.csv'
     if compression == 'gzip':

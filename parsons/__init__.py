@@ -3,7 +3,6 @@
 from parsons.ngpvan.van import VAN
 from parsons.targetsmart.targetsmart_api import TargetSmartAPI
 from parsons.targetsmart.targetsmart_automation import TargetSmartAutomation
-from parsons.mobile_commons.mobile_commons import MobileCommons
 from parsons.databases.redshift.redshift import Redshift
 from parsons.aws.s3 import S3
 from parsons.civis.civisclient import CivisClient
@@ -33,7 +32,6 @@ __all__ = [
     'VAN',
     'TargetSmartAPI',
     'TargetSmartAutomation',
-    'MobileCommons',
     'Redshift',
     'S3',
     'CivisClient',

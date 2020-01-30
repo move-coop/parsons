@@ -192,7 +192,7 @@ you must generate an Airtable API Key which can be found in your Airtable <a cla
 <dd><blockquote class="first">
 <div>The easiest place to find the <code class="docutils literal notranslate"><span class="pre">base_key</span></code> for the base that you wish to interact with is via the Airtable API documentation.</div></blockquote>
 <ul class="last simple">
-<li>Go to the <a class="reference external" href="https://airtable.com/api">Airtable</a> and select the base.</li>
+<li>Go to the <a class="reference external" href="https://airtable.com/api">Airtable API Base List</a> and select the base.</li>
 <li>The url of the resulting page will contain the <code class="docutils literal notranslate"><span class="pre">base_key</span></code>.</li>
 <li>Example: <code class="docutils literal notranslate"><span class="pre">https://airtable.com/[BASE_KEY]/api/docs#curl/introduction</span></code></li>
 </ul>
@@ -269,7 +269,7 @@ multiple columns, column names can be passed as a list. Sorting Direction is
 ascending by default, but can be reversed by prefixing the column name with a minus
 sign -.</p>
 <p class="last">Example usage:
-<code class="docutils literal notranslate"><span class="pre">airtable.get(sort=['ColumnA',</span> <span class="pre">'-ColumnB'])</span></code></p>
+<code class="docutils literal notranslate"><span class="pre">airtable.get_records(sort=['ColumnA',</span> <span class="pre">'-ColumnB'])</span></code></p>
 </dd>
 </dl>
 </dd>

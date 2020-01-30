@@ -250,7 +250,7 @@
 <span class="sd">                sign -.</span>
 
 <span class="sd">                Example usage:</span>
-<span class="sd">                ``airtable.get(sort=[&#39;ColumnA&#39;, &#39;-ColumnB&#39;])``</span>
+<span class="sd">                ``airtable.get_records(sort=[&#39;ColumnA&#39;, &#39;-ColumnB&#39;])``</span>
 
 <span class="sd">        `Returns:`</span>
 <span class="sd">            Parsons Table</span>
@@ -263,6 +263,11 @@
             <span class="n">kwargs</span><span class="p">[</span><span class="s1">&#39;sort&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">sort</span>
 
         <span class="n">tbl</span> <span class="o">=</span> <span class="n">Table</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">at</span><span class="o">.</span><span class="n">get_all</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">))</span>
+
+        <span class="c1"># If the results are empty, then return an empty table.</span>
+        <span class="k">if</span> <span class="s1">&#39;fields&#39;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">tbl</span><span class="o">.</span><span class="n">columns</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">Table</span><span class="p">([[]])</span>
+
         <span class="k">return</span> <span class="n">tbl</span><span class="o">.</span><span class="n">unpack_dict</span><span class="p">(</span><span class="n">column</span><span class="o">=</span><span class="s1">&#39;fields&#39;</span><span class="p">,</span> <span class="n">prepend</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="Airtable.insert_record"><a class="viewcode-back" href="../../../airtable.html#parsons.Airtable.insert_record">[docs]</a>    <span class="k">def</span> <span class="nf">insert_record</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">row</span><span class="p">):</span>

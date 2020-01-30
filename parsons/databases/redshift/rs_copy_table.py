@@ -54,7 +54,7 @@ class RedshiftCopyTable(object):
         if blanksasnull:
             sql += "blanksasnull \n"
         if nullas:
-            sql += f"nullas {nullas}"
+            sql += f"null as {nullas}"
         if acceptinvchars:
             sql += "acceptinvchars \n"
         if truncatecolumns:

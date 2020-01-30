@@ -76,7 +76,7 @@ class Airtable(object):
                 sign -.
 
                 Example usage:
-                ``airtable.get(sort=['ColumnA', '-ColumnB'])``
+                ``airtable.get_records(sort=['ColumnA', '-ColumnB'])``
 
         `Returns:`
             Parsons Table
@@ -89,6 +89,11 @@ class Airtable(object):
             kwargs['sort'] = sort
 
         tbl = Table(self.at.get_all(**kwargs))
+
+        # If the results are empty, then return an empty table.
+        if 'fields' not in tbl.columns:
+            return Table([[]])
+
         return tbl.unpack_dict(column='fields', prepend=False)
 
     def insert_record(self, row):

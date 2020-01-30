@@ -50,7 +50,7 @@ class TestSalesforce(unittest.TestCase):
         fake_data = Table([{'id': '1234567890AaBbC',
             'firstname': 'Chrisjen',
             'lastname': 'Avasarala'}])
-        response = self.sf.update_record('Contact', fake_data, 'id')
+        response = self.sf.update_record('Contact', fake_data)
         assert self.sf.client.bulk.Contact.update.called_with(fake_data)
         assert not response[0]['created']
 

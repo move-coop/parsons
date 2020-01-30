@@ -115,7 +115,6 @@ Indices and tables
    google_sheets
    google_cloud
    hustle
-   mobile_commons
    mobilize_america
    ngpvan
    p2a

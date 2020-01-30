@@ -80,7 +80,7 @@ class Salesforce:
         )
         return r
 
-    def update_record(self, object, data_table, id_col):
+    def update_record(self, object, data_table):
         """
         Update existing records of the desired object in Salesforce
 
@@ -89,11 +89,9 @@ class Salesforce:
                 The API name of the type of records to update. Note that custom object names end
                 in `__c`
             data_table: obj
-                A Parsons Table with data for updating records. Column names must match object
-                field API names, though case and order need not match. Note that custom field
-                names end in `__c`.
-            id_col: str
-                The column name in `data_table` that stores the record ID.
+                A Parsons Table with data for updating records. Must contain one column named
+                `id`. Column names must match object field API names, though case and order need
+                not match. Note that custom field names end in `__c`.
             `Returns:`
                 list of dicts that have the following data:
                 * success: boolean
@@ -102,7 +100,7 @@ class Salesforce:
                 * errors: list of dicts (with error details)
         """
 
-        r = getattr(self.client.bulk, object).update(data_table.to_dicts(), id_col)
+        r = getattr(self.client.bulk, object).update(data_table.to_dicts())
         s = [x for x in r if x.get('success') is True]
         logger.info(
             f'Successfully updated {len(s)} out of {data_table.num_rows} records in {object}'

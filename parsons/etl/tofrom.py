@@ -321,10 +321,7 @@ class ToFrom(object):
         """  # noqa: W605
 
         from parsons import SFTP
-        print(port)
-        print('that was port')
-        print(rsa_private_key_file)
-        print('rsa_private_key_file')
+
         sftp = SFTP(host, username, password, port, rsa_private_key_file)
 
         compression = files.compression_type_for_path(remote_path)

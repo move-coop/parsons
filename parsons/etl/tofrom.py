@@ -291,7 +291,7 @@ class ToFrom(object):
         return list(petl.dicts(self.table))
 
     def to_sftp_csv(self, remote_path, host, username, password, port=22, encoding=None,
-        compression=None, errors='strict', write_header=True, rsa_private_key_file=None, **csvargs):
+                    compression=None, errors='strict', write_header=True, rsa_private_key_file=None, **csvargs):
         """
         Writes the table to a CSV file on a remote SFTP server
 

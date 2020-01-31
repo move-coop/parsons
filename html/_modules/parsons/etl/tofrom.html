@@ -464,7 +464,8 @@
         <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="n">petl</span><span class="o">.</span><span class="n">dicts</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">table</span><span class="p">))</span></div>
 
 <div class="viewcode-block" id="ToFrom.to_sftp_csv"><a class="viewcode-back" href="../../../table.html#parsons.etl.tofrom.ToFrom.to_sftp_csv">[docs]</a>    <span class="k">def</span> <span class="nf">to_sftp_csv</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">remote_path</span><span class="p">,</span> <span class="n">host</span><span class="p">,</span> <span class="n">username</span><span class="p">,</span> <span class="n">password</span><span class="p">,</span> <span class="n">port</span><span class="o">=</span><span class="mi">22</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-                    <span class="n">compression</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">errors</span><span class="o">=</span><span class="s1">&#39;strict&#39;</span><span class="p">,</span> <span class="n">write_header</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="o">**</span><span class="n">csvargs</span><span class="p">):</span>
+                    <span class="n">compression</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">errors</span><span class="o">=</span><span class="s1">&#39;strict&#39;</span><span class="p">,</span> <span class="n">write_header</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                    <span class="n">rsa_private_key_file</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">csvargs</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Writes the table to a CSV file on a remote SFTP server</span>
 
@@ -486,12 +487,16 @@
 <span class="sd">                Raise an Error if encountered</span>
 <span class="sd">            write_header: boolean</span>
 <span class="sd">                Include header in output</span>
+<span class="sd">            rsa_private_key_file str</span>
+<span class="sd">                Absolute path to a private RSA key used</span>
+<span class="sd">                to authenticate stfp connection</span>
 <span class="sd">            \**csvargs: kwargs</span>
 <span class="sd">                ``csv_writer`` optional arguments</span>
 <span class="sd">        &quot;&quot;&quot;</span>  <span class="c1"># noqa: W605</span>
 
         <span class="kn">from</span> <span class="nn">parsons</span> <span class="kn">import</span> <span class="n">SFTP</span>
-        <span class="n">sftp</span> <span class="o">=</span> <span class="n">SFTP</span><span class="p">(</span><span class="n">host</span><span class="p">,</span> <span class="n">username</span><span class="p">,</span> <span class="n">password</span><span class="p">,</span> <span class="n">port</span><span class="p">)</span>
+
+        <span class="n">sftp</span> <span class="o">=</span> <span class="n">SFTP</span><span class="p">(</span><span class="n">host</span><span class="p">,</span> <span class="n">username</span><span class="p">,</span> <span class="n">password</span><span class="p">,</span> <span class="n">port</span><span class="p">,</span> <span class="n">rsa_private_key_file</span><span class="p">)</span>
 
         <span class="n">compression</span> <span class="o">=</span> <span class="n">files</span><span class="o">.</span><span class="n">compression_type_for_path</span><span class="p">(</span><span class="n">remote_path</span><span class="p">)</span>
 

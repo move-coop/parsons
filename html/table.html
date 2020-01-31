@@ -663,7 +663,7 @@ JSON file.</dd>
 
 <dl class="method">
 <dt id="parsons.etl.tofrom.ToFrom.to_sftp_csv">
-<code class="descname">to_sftp_csv</code><span class="sig-paren">(</span><em>remote_path</em>, <em>host</em>, <em>username</em>, <em>password</em>, <em>port=22</em>, <em>encoding=None</em>, <em>compression=None</em>, <em>errors='strict'</em>, <em>write_header=True</em>, <em>**csvargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/etl/tofrom.html#ToFrom.to_sftp_csv"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.etl.tofrom.ToFrom.to_sftp_csv" title="Permalink to this definition">¶</a></dt>
+<code class="descname">to_sftp_csv</code><span class="sig-paren">(</span><em>remote_path</em>, <em>host</em>, <em>username</em>, <em>password</em>, <em>port=22</em>, <em>encoding=None</em>, <em>compression=None</em>, <em>errors='strict'</em>, <em>write_header=True</em>, <em>rsa_private_key_file=None</em>, <em>**csvargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/etl/tofrom.html#ToFrom.to_sftp_csv"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.etl.tofrom.ToFrom.to_sftp_csv" title="Permalink to this definition">¶</a></dt>
 <dd><p>Writes the table to a CSV file on a remote SFTP server</p>
 <dl class="docutils">
 <dt><cite>Args:</cite></dt>
@@ -684,6 +684,9 @@ JSON file.</dd>
 <dd>Raise an Error if encountered</dd>
 <dt>write_header: boolean</dt>
 <dd>Include header in output</dd>
+<dt>rsa_private_key_file str</dt>
+<dd>Absolute path to a private RSA key used
+to authenticate stfp connection</dd>
 <dt>**csvargs: kwargs</dt>
 <dd><code class="docutils literal notranslate"><span class="pre">csv_writer</span></code> optional arguments</dd>
 </dl>

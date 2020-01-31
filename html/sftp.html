@@ -180,7 +180,7 @@
 <p>It uses the <a class="reference external" href="http://docs.paramiko.org/en/2.4/api/sftp.html">Paramiko SFTP library</a> under the hood.</p>
 <dl class="class">
 <dt id="parsons.SFTP">
-<em class="property">class </em><code class="descclassname">parsons.</code><code class="descname">SFTP</code><span class="sig-paren">(</span><em>host</em>, <em>username</em>, <em>password</em>, <em>port=22</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/sftp/sftp.html#SFTP"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.SFTP" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="descclassname">parsons.</code><code class="descname">SFTP</code><span class="sig-paren">(</span><em>host</em>, <em>username</em>, <em>password</em>, <em>port=22</em>, <em>rsa_private_key_file=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/sftp/sftp.html#SFTP"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.SFTP" title="Permalink to this definition">¶</a></dt>
 <dd><p>Instantiate SFTP Class</p>
 <dl class="docutils">
 <dt><cite>Args:</cite></dt>
@@ -191,6 +191,9 @@
 <dd>The user name</dd>
 <dt>password: str</dt>
 <dd>The password</dd>
+<dt>rsa_private_key_file str</dt>
+<dd>Absolute path to a private RSA key used
+to authenticate stfp connection</dd>
 <dt>port: int</dt>
 <dd>Specify if different than the standard port 22</dd>
 </dl>

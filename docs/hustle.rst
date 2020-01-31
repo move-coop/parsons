@@ -17,7 +17,7 @@ Quick Start
 
 .. code-block:: python
 
-        from parsons import Hustle
+        from parsons.hustle import Hustle
 	
 	hustle = Hustle(client_id='MYID', client_secret='MYSECRET')
 

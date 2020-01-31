@@ -1,4 +1,4 @@
-from parsons import Slack
+from parsons.notifications import Slack
 from parsons import Table
 
 from slackclient.exceptions import SlackClientError

@@ -563,7 +563,7 @@ class Redshift(RedshiftCreateTable, RedshiftCopyTable, RedshiftTableUtilities, R
             ``dict`` of manifest
         """
 
-        from parsons import S3
+        from parsons.aws import S3
         s3 = S3(aws_access_key_id=aws_access_key_id,
                 aws_secret_access_key=aws_secret_access_key)
 

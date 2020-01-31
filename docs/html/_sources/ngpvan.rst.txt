@@ -34,7 +34,7 @@ To call the VAN class you can either store the api key as an environmental varia
 
 .. code-block:: python
 
-  from parsons import VAN
+  from parsons.ngpvan import VAN
 
    van = VAN(db='MyVoters') # Initiate class via environmental variable api key
 
@@ -44,7 +44,7 @@ You can then call various endpoints:
 
 .. code-block:: python
 
-  from parsons import VAN
+  from parsons.ngpvan import VAN
 
    van = VAN()
 
@@ -73,7 +73,7 @@ overnight.
 
 .. code-block:: python
 
-   from parsons import VAN
+   from parsons.ngpvan import VAN
 
    #Instatiate Class
    van = VAN(db="MyVoters")
@@ -110,7 +110,7 @@ and canvass reponses.
 
 .. code-block:: python
 
-   from parsons import VAN
+   from parsons.ngpvan import VAN
 
    # Instatiate Class
    van = VAN(db="MyVoters")
@@ -146,7 +146,7 @@ Events are made up of sub objects that need to exist to create an event
 
 .. code-block:: python
 
-  from parsons import VAN
+  from parsons.ngpvan import VAN
 
   # Instatiate class
   van = VAN(db="EveryAction")
@@ -177,7 +177,7 @@ Signup: Adding and Modifying
 
 .. code-block:: python
 
-  from parsons import VAN
+  from parsons.ngpvan import VAN
 
   # Instatiate class
   van = VAN(db="EveryAction")

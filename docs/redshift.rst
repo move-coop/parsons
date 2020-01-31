@@ -23,7 +23,7 @@ Quickstart
 
 .. code-block:: python
 
-  from parsons import Redshift
+  from parsons.databases.redshift import Redshift
   rs = Redshift()
   table = rs.query('select * from tmc_scratch.test_data')
 
@@ -31,7 +31,7 @@ Quickstart
 
 .. code-block:: python
 
-  from parsons import Redshift
+  from parsons.databases.redshift import Redshift
   rs = Redshift()
   table = rs.copy(tbl, 'tmc_scratch.test_table', if_exists='drop')
 

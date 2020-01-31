@@ -3,7 +3,7 @@ import gspread
 import warnings
 import os
 
-from parsons import GoogleSheets
+from parsons.google import GoogleSheets
 from parsons.etl.table import Table
 
 

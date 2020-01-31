@@ -22,7 +22,7 @@ Quickstart
 
 .. code-block:: python
 
-  from parsons import ActionKit
+  from parsons.action_kit import ActionKit
   ak = ActionKit()
   user_data = ak.get_user(123)
 

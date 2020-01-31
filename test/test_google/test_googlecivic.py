@@ -1,6 +1,6 @@
 import unittest
 import requests_mock
-from parsons import GoogleCivic, Table
+from parsons.google import GoogleCivic, Table
 from googlecivic_responses import *
 from test.utils import assert_matching_tables
 

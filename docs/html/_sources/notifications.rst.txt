@@ -35,7 +35,7 @@ variable `SLACK_API_TOKEN` or pass it in as an argument.
 
 .. code-block:: python
 
-  from parsons import Slack
+  from parsons.notifications.slack import Slack
 
   slack = Slack() # Initiate class via environment variable api token
 
@@ -45,7 +45,7 @@ You can then send messages:
 
 .. code-block:: python
 
-  from parsons import Slack
+  from parsons.notifications.slack import Slack
 
   slack = Slack()
 
@@ -99,7 +99,7 @@ To call the Gmail class you will need to pass in the path to a
 
 .. code-block:: python
 
- from parsons import Gmail
+ from parsons.notifications.gmail import Gmail
 
  gmail = Gmail(
     creds_path="~/secret_location/credentials.json",

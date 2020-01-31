@@ -31,7 +31,7 @@ To call the VAN class you can either store the api key as an environmental varia
 
 .. code-block:: python
 
-  from parsons import VAN
+  from parsons.ngpvan import VAN
 
    van = VAN(db='MyVoters') # Specify the DB type and pass api key via environmental variable.
 
@@ -41,7 +41,7 @@ You can then call various endpoints:
 
 .. code-block:: python
 
-  from parsons import VAN
+  from parsons.ngpvan import VAN
 
    van = VAN(db='MyVoters')
 
@@ -71,7 +71,7 @@ Loading a score is a multi-step process. Once a score is set to approved, loadin
 
 .. code-block:: python
 
-   from parsons import VAN
+   from parsons.ngpvan import VAN
    van = VAN(db='MyVoters') # API key stored as an environmental variable
 
    # If you don't know the id, you can run van.get_scores() to list the
@@ -99,7 +99,7 @@ Loading a score is a multi-step process. Once a score is set to approved, loadin
 
 .. code-block:: python
 
-   from parsons import VAN
+   from parsons.ngpvan import VAN
 
    van = VAN(db='MyVoters') # API key stored as an environmental variable
    config = [{'id': 3421, 'column': 'winning_model'}]
@@ -120,7 +120,7 @@ and canvass responses.
 
 .. code-block:: python
 
-   from parsons import VAN
+   from parsons.ngpvan import VAN
 
    # Instantiate Class
    van = VAN(db="MyVoters")
@@ -152,7 +152,7 @@ Events are made up of sub objects that need to exist to create an event
 
 .. code-block:: python
 
-  from parsons import VAN
+  from parsons.ngpvan import VAN
 
   # Instantiate class
   van = VAN(db="EveryAction")
@@ -183,7 +183,7 @@ Signup: Adding and Modifying
 
 .. code-block:: python
 
-  from parsons import VAN
+  from parsons.ngpvan import VAN
 
   # Instantiate class
   van = VAN(db="EveryAction")

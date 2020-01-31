@@ -1,5 +1,5 @@
-from parsons import Redshift
-from parsons import S3
+from parsons.databases.redshift import Redshift
+from parsons.aws import S3
 from parsons.etl.table import Table
 from test.utils import assert_matching_tables
 import unittest

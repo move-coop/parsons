@@ -1,6 +1,8 @@
 import os
 import logging
-from parsons import Redshift, S3, utilities
+from parsons import utilities
+from parsons.aws import S3
+from parsons.databases.redshift import Redshift
 
 # Redshift setup - this assumes a Civis Platform parameter called "REDSHIFT"
 

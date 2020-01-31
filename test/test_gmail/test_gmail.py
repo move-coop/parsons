@@ -1,4 +1,4 @@
-from parsons import Gmail
+from parsons.notifications import Gmail
 import json
 import os
 import requests_mock

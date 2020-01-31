@@ -38,7 +38,7 @@ We have a Parsons Docker container hosted on [DockerHub](https://cloud.docker.co
 ```
 # VAN - Download activist codes to a CSV
 
-from parsons import VAN
+from parsons.ngpvan import VAN
 van = VAN(db='MyVoters')
 ac = van.get_activist_codes()
 ac.to_csv('my_activist_codes.csv')
@@ -51,7 +51,7 @@ tbl.to_redshift('my_schema.my_table')
 
 # Redshift - Export from a query to CSV
 
-from parsons import Redshift
+from parsons.databases.redshift import Redshift
 sql = 'select * from my_schema.my_table'
 rs = Redshift()
 tbl = rs.query(sql)
@@ -59,13 +59,13 @@ tbl.to_csv('my_table.csv')
 
 # Upload a file to S3
 
-from parsons import S3
+from parsons.aws import S3
 s3 = S3()
 s3.put_file('my_bucket','my_table.csv')
 
 # TargetSmart - Append data to a record
 
-from parsons import TargetSmart
+from parsons.targetsmart import TargetSmart
 ts = TargetSmart(api_key='MY_KEY')
 record = ts.data_enhance(231231231, state='DC')
 ```

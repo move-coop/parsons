@@ -15,7 +15,7 @@ Get Account Usage
 
 .. code-block:: python
 	
-	from parsons import Twilio
+	from parsons.twilio import Twilio
 
 	twilio = Twilio()
 
@@ -34,7 +34,7 @@ Get Inbound and Outbound Messages
 
 .. code-block:: python
 	
-	from parsons import Twilio
+	from parsons.twilio import Twilio
 
 	twilio = Twilio()
 

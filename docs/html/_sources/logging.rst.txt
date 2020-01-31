@@ -23,7 +23,7 @@ To view the standard log outputs of any Parsons module, pass in ``log=True``.
 
 .. code-block:: python
 
-  from parsons import VAN
+  from parsons.ngpvan import VAN
 
    van = VAN(db='MyVoters', log=True) # Use the default log configuration
 

@@ -10,7 +10,7 @@ Quick Start
 
 .. code-block:: python
 	
-	from parsons import Salesforce, Table
+	from parsons.salesforce import Salesforce, Table
 
 	sf = Salesforce()
 

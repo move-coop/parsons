@@ -3,7 +3,9 @@ import sys
 import os
 import datetime
 import logging
-from parsons import Redshift, Table, ActionKit
+from parsons import Table
+from parsons.action_kit import ActionKit
+from parsons.databases.redshift import Redshift
 
 # Redshift setup - this assumes a Civis Platform parameter called "REDSHIFT"
 

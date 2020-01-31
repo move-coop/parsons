@@ -4,7 +4,7 @@ import json
 import requests_mock
 import requests
 import sys
-from parsons import Copper, Table
+from parsons.copper import Copper, Table
 import pytest
 from test.utils import validate_list, assert_matching_tables
 import logging

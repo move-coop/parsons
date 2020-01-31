@@ -23,7 +23,7 @@ def live_sftp(simple_table, simple_csv_path, simple_compressed_csv_path):
     password = None
     rsa_private_key_file = os.environ['SFTP_RSA_PRIVATE_KEY_FILE']
 
-    sftp = SFTP(host, username, password, rsa_private_key_file)
+    sftp = SFTP(host, username, password, rsa_private_key_file=rsa_private_key_file)
 
     # Add a test directory and test files
 
@@ -57,18 +57,20 @@ def test_credential_validation():
 
 @mark_live_test
 def test_list_non_existent_directory(live_sftp):
-    with pytest.raises(FileNotFoundError):
-        file_list = live_sftp.list_directory('abc123')
+    file_list = live_sftp.list_directory('abc123')
+    assert len(file_list) == 0
 
 @mark_live_test
 def test_list_directory_with_files(live_sftp):
     file_list = live_sftp.list_directory(REMOTE_DIR)
-    assert file_list == [REMOTE_COMPRESSED_CSV, REMOTE_CSV]
+    assert len(file_list) == 2
+    assert REMOTE_COMPRESSED_CSV in file_list
+    assert REMOTE_CSV in file_list
 
 @mark_live_test
 def test_get_non_existent_file(live_sftp):
     with pytest.raises(FileNotFoundError):
-        live_sftp.get_file('abc123')
+      file = live_sftp.get_file('abc123')
 
 # Helper function
 def assert_file_matches_table(local_path, table):
@@ -92,13 +94,13 @@ def test_table_to_sftp_csv(live_sftp, simple_table, compression):
     host = os.environ['SFTP_HOST']
     username = os.environ['SFTP_USERNAME']
     password = os.environ['SFTP_PASSWORD']
-    rsa_private_key_file = os.environ.get('SFTP_RSA_PRIVATE_KEY_FILE')
+    rsa_private_key_file = os.environ['SFTP_RSA_PRIVATE_KEY_FILE']
 
     remote_path = f'{REMOTE_DIR}/test_to_sftp.csv'
     if compression == 'gzip':
         remote_path += '.gz'
 
-    simple_table.to_sftp_csv(remote_path, host, username, password, rsa_private_key_file, compression=compression)
+    simple_table.to_sftp_csv(remote_path, host, username, password, rsa_private_key_file=rsa_private_key_file, compression=compression)
 
     local_path = live_sftp.get_file(remote_path)
     assert_file_matches_table(local_path, simple_table)
@@ -117,7 +119,7 @@ def test_table_to_sftp_csv_no_password(live_sftp, simple_table, compression):
     if compression == 'gzip':
         remote_path += '.gz'
 
-    simple_table.to_sftp_csv(remote_path, host, username, None, rsa_private_key_file, compression=compression)
+    simple_table.to_sftp_csv(remote_path, host, username, None, rsa_private_key_file=rsa_private_key_file, compression=compression)
 
     local_path = live_sftp.get_file(remote_path)
     assert_file_matches_table(local_path, simple_table)

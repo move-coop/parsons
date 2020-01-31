@@ -23,7 +23,7 @@ class SFTP(object):
         SFTP Class
     """
 
-    def __init__(self, host, username, password, rsa_private_key_file=None, port=22):
+    def __init__(self, host, username, password, port=22, rsa_private_key_file=None):
         self.host = host
         if not self.host:
             raise ValueError("Missing the SFTP host name")
@@ -32,7 +32,7 @@ class SFTP(object):
         if not self.username:
             raise ValueError("Missing the SFTP username")
 
-        if self.username and not (password or rsa_private_key_file):
+        if not (password or rsa_private_key_file):
             raise ValueError("Missing password or ssh authentication key")
 
         self.password = password
@@ -43,7 +43,6 @@ class SFTP(object):
     def _create_connection(self):
         # Internal method to create a connection and close when it's out of scope.
         # Make sure to use this in a ``with`` block, since it's a context manager.
-
         transport = paramiko.Transport((self.host, self.port))
         pkey = None
         if self.rsa_private_key_file:

@@ -253,7 +253,7 @@
         <span class="p">)</span>
         <span class="k">return</span> <span class="n">r</span></div>
 
-<div class="viewcode-block" id="Salesforce.update_record"><a class="viewcode-back" href="../../../salesforce.html#parsons.Salesforce.update_record">[docs]</a>    <span class="k">def</span> <span class="nf">update_record</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">object</span><span class="p">,</span> <span class="n">data_table</span><span class="p">,</span> <span class="n">id_col</span><span class="p">):</span>
+<div class="viewcode-block" id="Salesforce.update_record"><a class="viewcode-back" href="../../../salesforce.html#parsons.Salesforce.update_record">[docs]</a>    <span class="k">def</span> <span class="nf">update_record</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">object</span><span class="p">,</span> <span class="n">data_table</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Update existing records of the desired object in Salesforce</span>
 
@@ -262,11 +262,9 @@
 <span class="sd">                The API name of the type of records to update. Note that custom object names end</span>
 <span class="sd">                in `__c`</span>
 <span class="sd">            data_table: obj</span>
-<span class="sd">                A Parsons Table with data for updating records. Column names must match object</span>
-<span class="sd">                field API names, though case and order need not match. Note that custom field</span>
-<span class="sd">                names end in `__c`.</span>
-<span class="sd">            id_col: str</span>
-<span class="sd">                The column name in `data_table` that stores the record ID.</span>
+<span class="sd">                A Parsons Table with data for updating records. Must contain one column named</span>
+<span class="sd">                `id`. Column names must match object field API names, though case and order need</span>
+<span class="sd">                not match. Note that custom field names end in `__c`.</span>
 <span class="sd">            `Returns:`</span>
 <span class="sd">                list of dicts that have the following data:</span>
 <span class="sd">                * success: boolean</span>
@@ -275,7 +273,7 @@
 <span class="sd">                * errors: list of dicts (with error details)</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
-        <span class="n">r</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">bulk</span><span class="p">,</span> <span class="nb">object</span><span class="p">)</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">data_table</span><span class="o">.</span><span class="n">to_dicts</span><span class="p">(),</span> <span class="n">id_col</span><span class="p">)</span>
+        <span class="n">r</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">bulk</span><span class="p">,</span> <span class="nb">object</span><span class="p">)</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">data_table</span><span class="o">.</span><span class="n">to_dicts</span><span class="p">())</span>
         <span class="n">s</span> <span class="o">=</span> <span class="p">[</span><span class="n">x</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">r</span> <span class="k">if</span> <span class="n">x</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;success&#39;</span><span class="p">)</span> <span class="ow">is</span> <span class="kc">True</span><span class="p">]</span>
         <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span>
             <span class="sa">f</span><span class="s1">&#39;Successfully updated {len(s)} out of </span><span class="si">{data_table.num_rows}</span><span class="s1"> records in </span><span class="si">{object}</span><span class="s1">&#39;</span>

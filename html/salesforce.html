@@ -268,7 +268,7 @@ names end in <cite>__c</cite>.</dd>
 
 <dl class="method">
 <dt id="parsons.Salesforce.update_record">
-<code class="descname">update_record</code><span class="sig-paren">(</span><em>object</em>, <em>data_table</em>, <em>id_col</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/salesforce/salesforce.html#Salesforce.update_record"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.Salesforce.update_record" title="Permalink to this definition">¶</a></dt>
+<code class="descname">update_record</code><span class="sig-paren">(</span><em>object</em>, <em>data_table</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/salesforce/salesforce.html#Salesforce.update_record"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.Salesforce.update_record" title="Permalink to this definition">¶</a></dt>
 <dd><p>Update existing records of the desired object in Salesforce</p>
 <dl class="docutils">
 <dt><cite>Args:</cite></dt>
@@ -277,11 +277,9 @@ names end in <cite>__c</cite>.</dd>
 <dd>The API name of the type of records to update. Note that custom object names end
 in <cite>__c</cite></dd>
 <dt>data_table: obj</dt>
-<dd>A Parsons Table with data for updating records. Column names must match object
-field API names, though case and order need not match. Note that custom field
-names end in <cite>__c</cite>.</dd>
-<dt>id_col: str</dt>
-<dd>The column name in <cite>data_table</cite> that stores the record ID.</dd>
+<dd>A Parsons Table with data for updating records. Must contain one column named
+<cite>id</cite>. Column names must match object field API names, though case and order need
+not match. Note that custom field names end in <cite>__c</cite>.</dd>
 <dt><cite>Returns:</cite></dt>
 <dd>list of dicts that have the following data:
 * success: boolean

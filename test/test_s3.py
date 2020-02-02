@@ -31,6 +31,10 @@ class TestS3(unittest.TestCase):
         self.tbl = Table([{'first': 'Bob', 'last': 'Smith'}])
         csv_path = self.tbl.to_csv()
 
+        self.test_key_2 = 'test2.csv'
+        self.tbl_2 = Table([{'first': 'Jack', 'last': 'Smith'}])
+        csv_path_2 = self.tbl_2.to_csv()
+
         # Sometimes it runs into issues putting the file
         retry = 1
 
@@ -38,13 +42,13 @@ class TestS3(unittest.TestCase):
             try:
                 # Put a test file in the bucket
                 self.s3.put_file(self.test_bucket, self.test_key, csv_path)
+                self.s3.put_file(self.test_bucket, self.test_key_2, csv_path_2)
                 break
             except:
                 print ('Retrying putting file in bucket...')
                 retry += 1
 
     def tearDown(self):
-
         for k in self.s3.list_keys(self.test_bucket):
             self.s3.remove_file(self.test_bucket, k)
 
@@ -118,7 +122,7 @@ class TestS3(unittest.TestCase):
 
         # Ensure the files created before now are included
         keys = self.s3.list_keys(self.test_bucket, date_modified_before=current_utc)
-        self.assertEqual(len(keys), 1)
+        self.assertEqual(len(keys), 2)
 
         # Ensure the files created after now are not included
         keys = self.s3.list_keys(self.test_bucket, date_modified_after=current_utc)
@@ -149,12 +153,21 @@ class TestS3(unittest.TestCase):
         # Create a destination bucket
         # TODO maybe pull this from an env var as well
         destination_bucket = f"{self.test_bucket}-test"
-        dbuk = self.s3.create_bucket(destination_bucket)
+        self.s3.create_bucket(destination_bucket)
 
-        # Transfer
+        # Copy
         self.s3.transfer_bucket(self.test_bucket, self.test_key, destination_bucket)
 
-        # Test that object made it
+        # Test that object made it 
         path = self.s3.get_file(destination_bucket, self.test_key)
         result_tbl = Table.from_csv(path)
         assert_matching_tables(self.tbl, result_tbl)
+        # Test that original still exists in original bucket
+        self.assertTrue(self.s3.key_exists(self.test_bucket, self.test_key))
+
+        # Transfer and delete original
+        self.s3.transfer_bucket(self.test_bucket, self.test_key_2, destination_bucket, None, None, None, None, None, False, True)
+        path_2 = self.s3.get_file(destination_bucket, self.test_key_2)
+        result_tbl_2 = Table.from_csv(path_2)
+        assert_matching_tables(self.tbl_2, result_tbl_2)
+        self.assertFalse(self.s3.key_exists(self.test_bucket, self.test_key_2))

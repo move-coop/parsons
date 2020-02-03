@@ -141,12 +141,14 @@ class TestS3(unittest.TestCase):
         # Test that you can download from URL
         url = self.s3.get_url(self.test_bucket, self.test_key)
         csv_table = Table.from_csv(url)
+        assert_matching_tables(self.tbl, csv_table)
 
         # Test that the url expires
         url_short = self.s3.get_url(self.test_bucket, self.test_key, expires_in=1)
         time.sleep(2)
-        tbl = Table.from_csv(url_short)
-        self.assertRaises(urllib.error.HTTPError, print, tbl)
+        with self.assertRaises(urllib.error.HTTPError) as cm:
+            Table.from_csv(url_short)
+        self.assertEqual(cm.exception.code, 403)
 
     def test_transfer_bucket(self):
 

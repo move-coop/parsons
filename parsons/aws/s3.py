@@ -351,7 +351,7 @@ class S3(object):
             if remove_original:
                 try:
                     self.remove_file(origin_bucket, origin_key)
-                except:
+                except Exception:
                     pass
 
             if public_read:

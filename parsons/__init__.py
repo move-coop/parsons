@@ -1,5 +1,6 @@
 # Provide shortcuts to importing Parsons submodules
-# LEGACY shortcuts. Please do not add extra items here, but instead encourage imports from the directory above
+# LEGACY shortcuts. Please do not add extra items here,
+# but instead encourage imports from the directory above
 
 try:
     from parsons.ngpvan.van import VAN

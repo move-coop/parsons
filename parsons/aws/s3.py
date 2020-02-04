@@ -292,7 +292,7 @@ class S3(object):
     def transfer_bucket(self, origin_bucket, origin_key, destination_bucket,
                         destination_key=None, suffix=None, regex=None,
                         date_modified_before=None, date_modified_after=None,
-                        public_read=False):
+                        public_read=False, remove_original=False):
         """Transfer files between s3 buckets
         `Args:`
             origin_bucket: str
@@ -314,6 +314,8 @@ class S3(object):
                 Limits the response to keys with date modified after
             public_read: bool
                 If the keys should be set to `public-read`
+            remove_original: bool
+                If the original keys should be removed after transfer
         `Returns:`
             ``None``
         """
@@ -346,6 +348,11 @@ class S3(object):
 
             copy_source = {'Bucket': origin_bucket, 'Key': key}
             self.client.copy(copy_source, destination_bucket, dest_key)
+            if remove_original:
+                try:
+                    self.remove_file(origin_bucket, origin_key)
+                except Exception as e:
+                    logger.error('Failed to delete original key: ' + str(e))
 
             if public_read:
                 object_acl = self.s3.ObjectAcl(destination_bucket, destination_key)

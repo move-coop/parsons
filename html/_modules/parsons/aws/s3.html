@@ -465,7 +465,7 @@
 <div class="viewcode-block" id="S3.transfer_bucket"><a class="viewcode-back" href="../../../s3.html#parsons.S3.transfer_bucket">[docs]</a>    <span class="k">def</span> <span class="nf">transfer_bucket</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">origin_bucket</span><span class="p">,</span> <span class="n">origin_key</span><span class="p">,</span> <span class="n">destination_bucket</span><span class="p">,</span>
                         <span class="n">destination_key</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">suffix</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">regex</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
                         <span class="n">date_modified_before</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">date_modified_after</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-                        <span class="n">public_read</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+                        <span class="n">public_read</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">remove_original</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Transfer files between s3 buckets</span>
 <span class="sd">        `Args:`</span>
 <span class="sd">            origin_bucket: str</span>
@@ -487,6 +487,8 @@
 <span class="sd">                Limits the response to keys with date modified after</span>
 <span class="sd">            public_read: bool</span>
 <span class="sd">                If the keys should be set to `public-read`</span>
+<span class="sd">            remove_original: bool</span>
+<span class="sd">                If the original keys should be removed after transfer</span>
 <span class="sd">        `Returns:`</span>
 <span class="sd">            ``None``</span>
 <span class="sd">        &quot;&quot;&quot;</span>
@@ -519,6 +521,11 @@
 
             <span class="n">copy_source</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;Bucket&#39;</span><span class="p">:</span> <span class="n">origin_bucket</span><span class="p">,</span> <span class="s1">&#39;Key&#39;</span><span class="p">:</span> <span class="n">key</span><span class="p">}</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="n">copy_source</span><span class="p">,</span> <span class="n">destination_bucket</span><span class="p">,</span> <span class="n">dest_key</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">remove_original</span><span class="p">:</span>
+                <span class="k">try</span><span class="p">:</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">remove_file</span><span class="p">(</span><span class="n">origin_bucket</span><span class="p">,</span> <span class="n">origin_key</span><span class="p">)</span>
+                <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+                    <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s1">&#39;Failed to delete original key: &#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">))</span>
 
             <span class="k">if</span> <span class="n">public_read</span><span class="p">:</span>
                 <span class="n">object_acl</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">s3</span><span class="o">.</span><span class="n">ObjectAcl</span><span class="p">(</span><span class="n">destination_bucket</span><span class="p">,</span> <span class="n">destination_key</span><span class="p">)</span>

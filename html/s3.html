@@ -425,7 +425,7 @@ when the script is done running.</dd>
 
 <dl class="method">
 <dt id="parsons.S3.transfer_bucket">
-<code class="descname">transfer_bucket</code><span class="sig-paren">(</span><em>origin_bucket</em>, <em>origin_key</em>, <em>destination_bucket</em>, <em>destination_key=None</em>, <em>suffix=None</em>, <em>regex=None</em>, <em>date_modified_before=None</em>, <em>date_modified_after=None</em>, <em>public_read=False</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/aws/s3.html#S3.transfer_bucket"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.S3.transfer_bucket" title="Permalink to this definition">¶</a></dt>
+<code class="descname">transfer_bucket</code><span class="sig-paren">(</span><em>origin_bucket</em>, <em>origin_key</em>, <em>destination_bucket</em>, <em>destination_key=None</em>, <em>suffix=None</em>, <em>regex=None</em>, <em>date_modified_before=None</em>, <em>date_modified_after=None</em>, <em>public_read=False</em>, <em>remove_original=False</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/aws/s3.html#S3.transfer_bucket"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.S3.transfer_bucket" title="Permalink to this definition">¶</a></dt>
 <dd><p>Transfer files between s3 buckets
 <cite>Args:</cite></p>
 <blockquote>
@@ -449,6 +449,8 @@ to new prefix</dd>
 <dd>Limits the response to keys with date modified after</dd>
 <dt>public_read: bool</dt>
 <dd>If the keys should be set to <cite>public-read</cite></dd>
+<dt>remove_original: bool</dt>
+<dd>If the original keys should be removed after transfer</dd>
 </dl>
 </div></blockquote>
 <dl class="docutils">

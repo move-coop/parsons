@@ -1,5 +1,5 @@
 import unittest
-from parsons import GoogleCloudStorage
+from parsons.google.google_cloud_storage import GoogleCloudStorage
 from parsons.utilities import files
 from google.cloud import storage
 import os

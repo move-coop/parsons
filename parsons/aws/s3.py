@@ -86,7 +86,8 @@ class S3(object):
         return bucket in self.list_buckets()
 
     def list_keys(self, bucket, prefix=None, suffix=None, regex=None,
-                  date_modified_before=None, date_modified_after=None):
+                  date_modified_before=None, date_modified_after=None,
+                  **kwargs):
         """
         List the keys in a bucket, along with extra info about each one.
 
@@ -103,6 +104,8 @@ class S3(object):
                 Limits the response to keys with date modified before
             date_modified_after: datetime.datetime
                 Limits the response to keys with date modified after
+            kwargs:
+                Additional arguments for the S3 API call.
         `Returns:`
             dict
                 Dict mapping the keys to info about each key. The info includes 'LastModified',
@@ -120,6 +123,7 @@ class S3(object):
                 args['Prefix'] = prefix
             if continuation_token:
                 args['ContinuationToken'] = continuation_token
+            args.update(kwargs)
 
             resp = self.client.list_objects_v2(**args)
 
@@ -242,7 +246,7 @@ class S3(object):
 
         self.client.delete_object(Bucket=bucket, Key=key)
 
-    def get_file(self, bucket, key, local_path=None):
+    def get_file(self, bucket, key, local_path=None, **kwargs):
         """
         Download an object from S3 to a local file
 
@@ -255,6 +259,8 @@ class S3(object):
                 The bucket name
             key: str
                 The object key
+            kwargs:
+                Additional arguments for the S3 API call.
 
         `Returns:`
             str
@@ -264,7 +270,7 @@ class S3(object):
         if not local_path:
             local_path = files.create_temp_file_for_path(key)
 
-        self.s3.Object(bucket, key).download_file(local_path)
+        self.s3.Object(bucket, key).download_file(local_path, ExtraArgs=kwargs)
 
         return local_path
 
@@ -292,7 +298,7 @@ class S3(object):
     def transfer_bucket(self, origin_bucket, origin_key, destination_bucket,
                         destination_key=None, suffix=None, regex=None,
                         date_modified_before=None, date_modified_after=None,
-                        public_read=False):
+                        public_read=False, **kwargs):
         """Transfer files between s3 buckets
         `Args:`
             origin_bucket: str
@@ -314,6 +320,8 @@ class S3(object):
                 Limits the response to keys with date modified after
             public_read: bool
                 If the keys should be set to `public-read`
+            kwargs:
+                Additional arguments for the S3 API call.
         `Returns:`
             ``None``
         """
@@ -345,7 +353,7 @@ class S3(object):
                 dest_key = key
 
             copy_source = {'Bucket': origin_bucket, 'Key': key}
-            self.client.copy(copy_source, destination_bucket, dest_key)
+            self.client.copy(copy_source, destination_bucket, dest_key, ExtraArgs=kwargs)
 
             if public_read:
                 object_acl = self.s3.ObjectAcl(destination_bucket, destination_key)

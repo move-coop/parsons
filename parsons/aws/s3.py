@@ -105,7 +105,9 @@ class S3(object):
             date_modified_after: datetime.datetime
                 Limits the response to keys with date modified after
             kwargs:
-                Additional arguments for the S3 API call.
+                Additional arguments for the S3 API call. See `AWS ListObjectsV2 documentation
+                <https://boto3.amazonaws.com/v1/documentation/api/latest/reference/services/s3.html#S3.Client.list_objects_v2>`_
+                for more info.
         `Returns:`
             dict
                 Dict mapping the keys to info about each key. The info includes 'LastModified',
@@ -260,7 +262,9 @@ class S3(object):
             key: str
                 The object key
             kwargs:
-                Additional arguments for the S3 API call.
+                Additional arguments for the S3 API call. See `AWS download_file documentation
+                <https://boto3.amazonaws.com/v1/documentation/api/latest/reference/services/s3.html#S3.Client.download_file>`_
+                for more info.
 
         `Returns:`
             str
@@ -321,7 +325,9 @@ class S3(object):
             public_read: bool
                 If the keys should be set to `public-read`
             kwargs:
-                Additional arguments for the S3 API call.
+                Additional arguments for the S3 API call. See `AWS download_file documentation
+                <https://boto3.amazonaws.com/v1/documentation/api/latest/reference/services/s3.html#S3.Client.copy>`_
+                for more info.
         `Returns:`
             ``None``
         """

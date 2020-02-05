@@ -1,32 +1,143 @@
 # Provide shortcuts to importing Parsons submodules
-# Eg. This allows for: `from parsons import VAN`
-from parsons.ngpvan.van import VAN
-from parsons.targetsmart.targetsmart_api import TargetSmartAPI
-from parsons.targetsmart.targetsmart_automation import TargetSmartAutomation
-from parsons.databases.redshift.redshift import Redshift
-from parsons.aws.s3 import S3
-from parsons.civis.civisclient import CivisClient
-from parsons.etl.table import Table
-from parsons.notifications.gmail import Gmail
-from parsons.google.google_civic import GoogleCivic
-from parsons.google.google_sheets import GoogleSheets
-from parsons.google.google_cloud_storage import GoogleCloudStorage
-from parsons.google.google_bigquery import GoogleBigQuery
-from parsons.phone2action.p2a import Phone2Action
-from parsons.mobilize_america.ma import MobilizeAmerica
-from parsons.facebook_ads.facebook_ads import FacebookAds
-from parsons.notifications.slack import Slack
-from parsons.turbovote.turbovote import TurboVote
-from parsons.sftp.sftp import SFTP
-from parsons.action_kit.action_kit import ActionKit
-from parsons.geocode.census_geocoder import CensusGeocoder
-from parsons.airtable.airtable import Airtable
-from parsons.copper.copper import Copper
-from parsons.crowdtangle.crowdtangle import CrowdTangle
-from parsons.hustle.hustle import Hustle
-from parsons.twilio.twilio import Twilio
-from parsons.salesforce.salesforce import Salesforce
-from parsons.databases.postgres.postgres import Postgres
+# LEGACY shortcuts. Please avoid adding additional
+# auto-imports and document/encourage imports from the next directory up
+# e.g. from parsons.ngpvan import VAN
+
+try:
+    from parsons.ngpvan.van import VAN
+except ImportError:
+    VAN = None
+
+try:
+    from parsons.targetsmart.targetsmart_api import TargetSmartAPI
+except ImportError:
+    TargetSmartAPI = None
+
+try:
+    from parsons.targetsmart.targetsmart_automation import TargetSmartAutomation
+except ImportError:
+    TargetSmartAutomation = None
+
+try:
+    from parsons.databases.redshift.redshift import Redshift
+except ImportError:
+    Redshift = None
+
+try:
+    from parsons.aws.s3 import S3
+except ImportError:
+    S3 = None
+
+try:
+    from parsons.civis.civisclient import CivisClient
+except ImportError:
+    CivisClient = None
+
+try:
+    from parsons.etl.table import Table
+except ImportError:
+    Table = None
+
+try:
+    from parsons.notifications.gmail import Gmail
+except ImportError:
+    Gmail = None
+
+try:
+    from parsons.google.google_civic import GoogleCivic
+except ImportError:
+    GoogleCivic = None
+
+try:
+    from parsons.google.google_sheets import GoogleSheets
+except ImportError:
+    GoogleSheets = None
+
+try:
+    from parsons.google.google_cloud_storage import GoogleCloudStorage
+except ImportError:
+    GoogleCloudStorage = None
+
+try:
+    from parsons.google.google_bigquery import GoogleBigQuery
+except ImportError:
+    GoogleBigQuery = None
+
+try:
+    from parsons.phone2action.p2a import Phone2Action
+except ImportError:
+    Phone2Action = None
+
+try:
+    from parsons.mobilize_america.ma import MobilizeAmerica
+except ImportError:
+    MobilizeAmerica = None
+
+try:
+    from parsons.facebook_ads.facebook_ads import FacebookAds
+except ImportError:
+    FacebookAds = None
+
+try:
+    from parsons.notifications.slack import Slack
+except ImportError:
+    Slack = None
+
+try:
+    from parsons.turbovote.turbovote import TurboVote
+except ImportError:
+    TurboVote = None
+
+try:
+    from parsons.sftp.sftp import SFTP
+except ImportError:
+    SFTP = None
+
+try:
+    from parsons.action_kit.action_kit import ActionKit
+except ImportError:
+    ActionKit = None
+
+try:
+    from parsons.geocode.census_geocoder import CensusGeocoder
+except ImportError:
+    CensusGeocoder = None
+
+try:
+    from parsons.airtable.airtable import Airtable
+except ImportError:
+    Airtable = None
+
+try:
+    from parsons.copper.copper import Copper
+except ImportError:
+    Copper = None
+
+try:
+    from parsons.crowdtangle.crowdtangle import CrowdTangle
+except ImportError:
+    CrowdTangle = None
+
+try:
+    from parsons.hustle.hustle import Hustle
+except ImportError:
+    Hustle = None
+
+try:
+    from parsons.twilio.twilio import Twilio
+except ImportError:
+    Twilio = None
+
+try:
+    from parsons.salesforce.salesforce import Salesforce
+except ImportError:
+    Salesforce = None
+
+try:
+    from parsons.databases.postgres.postgres import Postgres
+except ImportError:
+    Postgres = None
+
 
 __all__ = [
     'VAN',

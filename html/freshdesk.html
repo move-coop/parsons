@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Google Civic &mdash; Parsons 0.5 documentation</title>
+  <title>Freshdesk &mdash; Parsons 0.5 documentation</title>
   
 
   
@@ -28,8 +28,8 @@
   <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="US Census Geocoder" href="census_geocoder.html" />
-    <link rel="prev" title="TurboVote" href="turbovote.html" /> 
+    <link rel="next" title="GoogleSheets" href="google_sheets.html" />
+    <link rel="prev" title="FacebookAds" href="facebook_ads.html" /> 
 
   
   <script src="_static/js/modernizr.min.js"></script>
@@ -79,7 +79,7 @@
             
             
               <p class="caption"><span class="caption-text">Integrations</span></p>
-<ul>
+<ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="action_kit.html">ActionKit</a></li>
 <li class="toctree-l1"><a class="reference internal" href="airtable.html">Airtable</a></li>
 <li class="toctree-l1"><a class="reference internal" href="civis.html">Civis</a></li>
@@ -87,7 +87,11 @@
 <li class="toctree-l1"><a class="reference internal" href="crowdtangle.html">CrowdTangle</a></li>
 <li class="toctree-l1"><a class="reference internal" href="databases.html">Databases</a></li>
 <li class="toctree-l1"><a class="reference internal" href="facebook_ads.html">FacebookAds</a></li>
-<li class="toctree-l1"><a class="reference internal" href="freshdesk.html">Freshdesk</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Freshdesk</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#overview">Overview</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#api">API</a></li>
+</ul>
+</li>
 <li class="toctree-l1"><a class="reference internal" href="google_sheets.html">GoogleSheets</a></li>
 <li class="toctree-l1"><a class="reference internal" href="google_cloud.html">Google Cloud</a></li>
 <li class="toctree-l1"><a class="reference internal" href="hustle.html">Hustle</a></li>
@@ -103,12 +107,8 @@
 <li class="toctree-l1"><a class="reference internal" href="turbovote.html">TurboVote</a></li>
 </ul>
 <p class="caption"><span class="caption-text">Enhancements</span></p>
-<ul class="current">
-<li class="toctree-l1 current"><a class="current reference internal" href="#">Google Civic</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#overview">Overview</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#api">API</a></li>
-</ul>
-</li>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="google_civic.html">Google Civic</a></li>
 <li class="toctree-l1"><a class="reference internal" href="census_geocoder.html">US Census Geocoder</a></li>
 </ul>
 <p class="caption"><span class="caption-text">Framework</span></p>
@@ -160,13 +160,13 @@
     
       <li><a href="index.html">Docs</a> &raquo;</li>
         
-      <li>Google Civic</li>
+      <li>Freshdesk</li>
     
     
       <li class="wy-breadcrumbs-aside">
         
             
-            <a href="_sources/google_civic.rst.txt" rel="nofollow"> View page source</a>
+            <a href="_sources/freshdesk.rst.txt" rel="nofollow"> View page source</a>
           
         
       </li>
@@ -179,37 +179,62 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <div class="section" id="google-civic">
-<h1>Google Civic<a class="headerlink" href="#google-civic" title="Permalink to this headline">¶</a></h1>
+  <div class="section" id="freshdesk">
+<h1>Freshdesk<a class="headerlink" href="#freshdesk" title="Permalink to this headline">¶</a></h1>
 <div class="section" id="overview">
 <h2>Overview<a class="headerlink" href="#overview" title="Permalink to this headline">¶</a></h2>
-<p>Google Civic is an API which provides helpful information about elections. In order to access Google Civic you must
-create a Google Developer Key in their <a class="reference external" href="https://console.developers.google.com/apis/">API console</a>. In order to
-use Google Civic, you must enable this specific end point.</p>
-<p>The Google Civic API utilizes the <a class="reference external" href="https://www.votinginfoproject.org/">Voting Information Project</a> to collect
-key civic information such as personalized ballots and polling location information.</p>
+<p><a class="reference external" href="https://freshdesk.com">Freshdesk</a> is an omnichannel customer support platform utilized.</p>
 </div>
 <div class="section" id="api">
 <h2>API<a class="headerlink" href="#api" title="Permalink to this headline">¶</a></h2>
 <dl class="class">
-<dt id="parsons.GoogleCivic">
-<em class="property">class </em><code class="descclassname">parsons.</code><code class="descname">GoogleCivic</code><span class="sig-paren">(</span><em>api_key=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/google/google_civic.html#GoogleCivic"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.GoogleCivic" title="Permalink to this definition">¶</a></dt>
-<dd><dl class="docutils">
+<dt id="parsons.Freshdesk">
+<em class="property">class </em><code class="descclassname">parsons.</code><code class="descname">Freshdesk</code><span class="sig-paren">(</span><em>domain</em>, <em>api_key</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/freshdesk/freshdesk.html#Freshdesk"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.Freshdesk" title="Permalink to this definition">¶</a></dt>
+<dd><p>Instantiate FreshDesk Class</p>
+<dl class="docutils">
 <dt><cite>Args:</cite></dt>
 <dd><dl class="first last docutils">
-<dt>api_key <span class="classifier-delimiter">:</span> <span class="classifier">str</span></dt>
-<dd>A valid Google api key. Not required if <code class="docutils literal notranslate"><span class="pre">GOOGLE_CIVIC_API_KEY</span></code>
+<dt>domain:</dt>
+<dd>The subdomain of the FreshDesk account. Not required if <code class="docutils literal notranslate"><span class="pre">FRESHDESK_DOMAIN</span></code>
+env variable set.</dd>
+<dt>api_key:</dt>
+<dd>The FreshDesk provided application key. Not required if <code class="docutils literal notranslate"><span class="pre">FRESHDESK_API_KEY</span></code>
 env variable set.</dd>
 </dl>
 </dd>
 <dt><cite>Returns:</cite></dt>
-<dd>class</dd>
+<dd>FreshDesk Class</dd>
 </dl>
 <dl class="method">
-<dt id="parsons.GoogleCivic.get_elections">
-<code class="descname">get_elections</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/google/google_civic.html#GoogleCivic.get_elections"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.GoogleCivic.get_elections" title="Permalink to this definition">¶</a></dt>
-<dd><p>Get a collection of information about elections and voter information.</p>
+<dt id="parsons.Freshdesk.get_tickets">
+<code class="descname">get_tickets</code><span class="sig-paren">(</span><em>ticket_type=None</em>, <em>requester_id=None</em>, <em>requester_email=None</em>, <em>company_id=None</em>, <em>updated_since='2016-01-01'</em>, <em>expand_custom_fields=False</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/freshdesk/freshdesk.html#Freshdesk.get_tickets"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.Freshdesk.get_tickets" title="Permalink to this definition">¶</a></dt>
+<dd><p>List tickets.</p>
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p class="last">Deleted and Spam tickets are not included. However they can be pulled separately
+by utilizing the <code class="docutils literal notranslate"><span class="pre">ticket_type</span></code> parameter.</p>
+</div>
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p class="last">Freshdesk will return a maximum of 9,000 tickets. To access additional tickets,
+utilize the <code class="docutils literal notranslate"><span class="pre">updated_since</span></code> parameter.</p>
+</div>
 <dl class="docutils">
+<dt><cite>Args:</cite></dt>
+<dd><dl class="first last docutils">
+<dt>ticket_type: str</dt>
+<dd>Filter by type of ticket to filter by. Valid fields include <code class="docutils literal notranslate"><span class="pre">new_and_my_open</span></code>,
+<code class="docutils literal notranslate"><span class="pre">watching</span></code>, <code class="docutils literal notranslate"><span class="pre">spam</span></code> and <code class="docutils literal notranslate"><span class="pre">deleted</span></code>.</dd>
+<dt>requester_id: int</dt>
+<dd>Filter by requester id.</dd>
+<dt>requester_email: str</dt>
+<dd>Filter by requester email.</dd>
+<dt>company_id: int</dt>
+<dd>Filter by company_id.</dd>
+<dt>expand_custom_fields: boolean</dt>
+<dd>Expand nested custom fields to their own columns.</dd>
+</dl>
+</dd>
 <dt><cite>Returns:</cite></dt>
 <dd><dl class="first last docutils">
 <dt>Parsons Table</dt>
@@ -220,17 +245,34 @@ env variable set.</dd>
 </dd></dl>
 
 <dl class="method">
-<dt id="parsons.GoogleCivic.get_polling_location">
-<code class="descname">get_polling_location</code><span class="sig-paren">(</span><em>election_id</em>, <em>address</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/google/google_civic.html#GoogleCivic.get_polling_location"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.GoogleCivic.get_polling_location" title="Permalink to this definition">¶</a></dt>
-<dd><p>Get polling location information for a given address.</p>
+<dt id="parsons.Freshdesk.get_contacts">
+<code class="descname">get_contacts</code><span class="sig-paren">(</span><em>email=None</em>, <em>mobile=None</em>, <em>phone=None</em>, <em>company_id=None</em>, <em>state=None</em>, <em>updated_since=None</em>, <em>expand_custom_fields=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/freshdesk/freshdesk.html#Freshdesk.get_contacts"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.Freshdesk.get_contacts" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get contacts.</p>
 <dl class="docutils">
 <dt><cite>Args:</cite></dt>
 <dd><dl class="first last docutils">
-<dt>election_id: int</dt>
-<dd>A valid election id. Election ids can be found by running the
-<a class="reference internal" href="#parsons.GoogleCivic.get_elections" title="parsons.GoogleCivic.get_elections"><code class="xref py py-meth docutils literal notranslate"><span class="pre">get_elections()</span></code></a> method.</dd>
-<dt>address: str</dt>
-<dd>A valid US address in a single string.</dd>
+<dt>email: str</dt>
+<dd>Filter by email address.</dd>
+<dt>mobile: str</dt>
+<dd>Filter by mobile phone number.</dd>
+<dt>phone: str</dt>
+<dd>Filter by phone number.</dd>
+<dt>expand_custom_fields: boolean</dt>
+<dd>Expand nested custom fields to their own columns.</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="parsons.Freshdesk.get_companies">
+<code class="descname">get_companies</code><span class="sig-paren">(</span><em>expand_custom_fields=False</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/freshdesk/freshdesk.html#Freshdesk.get_companies"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.Freshdesk.get_companies" title="Permalink to this definition">¶</a></dt>
+<dd><p>List companies.</p>
+<dl class="docutils">
+<dt><cite>Args:</cite></dt>
+<dd><dl class="first last docutils">
+<dt>expand_custom_fields: boolean</dt>
+<dd>Expand nested custom fields to their own columns.</dd>
 </dl>
 </dd>
 <dt><cite>Returns:</cite></dt>
@@ -243,19 +285,20 @@ env variable set.</dd>
 </dd></dl>
 
 <dl class="method">
-<dt id="parsons.GoogleCivic.get_polling_locations">
-<code class="descname">get_polling_locations</code><span class="sig-paren">(</span><em>election_id</em>, <em>table</em>, <em>address_field='address'</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/google/google_civic.html#GoogleCivic.get_polling_locations"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.GoogleCivic.get_polling_locations" title="Permalink to this definition">¶</a></dt>
-<dd><p>Get polling location information for a table of addresses.</p>
+<dt id="parsons.Freshdesk.get_agents">
+<code class="descname">get_agents</code><span class="sig-paren">(</span><em>email=None</em>, <em>mobile=None</em>, <em>phone=None</em>, <em>state=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/freshdesk/freshdesk.html#Freshdesk.get_agents"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.Freshdesk.get_agents" title="Permalink to this definition">¶</a></dt>
+<dd><p>List agents.</p>
 <dl class="docutils">
 <dt><cite>Args:</cite></dt>
 <dd><dl class="first last docutils">
-<dt>election_id: int</dt>
-<dd>A valid election id. Election ids can be found by running the
-<a class="reference internal" href="#parsons.GoogleCivic.get_elections" title="parsons.GoogleCivic.get_elections"><code class="xref py py-meth docutils literal notranslate"><span class="pre">get_elections()</span></code></a> method.</dd>
-<dt>address: str</dt>
-<dd>A valid US address in a single string.</dd>
-<dt>address_field: str</dt>
-<dd>The name of the column where the address is stored.</dd>
+<dt>email: str</dt>
+<dd>Filter by email address.</dd>
+<dt>mobile: str</dt>
+<dd>Filter by mobile phone number</dd>
+<dt>phone: str</dt>
+<dd>Filter by phone number</dd>
+<dt>state: str</dt>
+<dd>Filter by state</dd>
 </dl>
 </dd>
 <dt><cite>Returns:</cite></dt>
@@ -280,10 +323,10 @@ env variable set.</dd>
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="census_geocoder.html" class="btn btn-neutral float-right" title="US Census Geocoder" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="google_sheets.html" class="btn btn-neutral float-right" title="GoogleSheets" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="turbovote.html" class="btn btn-neutral" title="TurboVote" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="facebook_ads.html" class="btn btn-neutral" title="FacebookAds" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   

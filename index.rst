@@ -112,6 +112,7 @@ Indices and tables
    crowdtangle
    databases
    facebook_ads
+   freshdesk
    google_sheets
    google_cloud
    hustle

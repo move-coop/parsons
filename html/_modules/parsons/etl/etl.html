@@ -85,6 +85,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../../../crowdtangle.html">CrowdTangle</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../databases.html">Databases</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../facebook_ads.html">FacebookAds</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../freshdesk.html">Freshdesk</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../google_sheets.html">GoogleSheets</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../google_cloud.html">Google Cloud</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../hustle.html">Hustle</a></li>
@@ -1082,6 +1083,24 @@
             <span class="n">header</span><span class="o">=</span><span class="n">headers</span><span class="p">,</span>
             <span class="n">presorted</span><span class="o">=</span><span class="n">presorted</span><span class="p">,</span>
             <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="bp">self</span></div>
+
+<div class="viewcode-block" id="ETL.sort"><a class="viewcode-back" href="../../../table.html#parsons.etl.etl.ETL.sort">[docs]</a>    <span class="k">def</span> <span class="nf">sort</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">reverse</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Sort the rows a table.</span>
+
+<span class="sd">        `Args:`</span>
+<span class="sd">            sort_columns: list or str</span>
+<span class="sd">                Sort by a single column or a list of column. If ``None`` then</span>
+<span class="sd">                will sort columns from left to right.</span>
+<span class="sd">            reverse: boolean</span>
+<span class="sd">                Sort rows in reverse order.</span>
+<span class="sd">        `Returns:`</span>
+<span class="sd">            `Parsons Table` and also updates self</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">table</span> <span class="o">=</span> <span class="n">petl</span><span class="o">.</span><span class="n">sort</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">table</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="n">columns</span><span class="p">,</span> <span class="n">reverse</span><span class="o">=</span><span class="n">reverse</span><span class="p">)</span>
 
         <span class="k">return</span> <span class="bp">self</span></div></div>
 </pre></div>

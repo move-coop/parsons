@@ -1,4 +1,4 @@
-from parsons import FreshDesk
+from parsons import Freshdesk
 import unittest
 import requests_mock
 from test.utils import assert_matching_tables
@@ -7,11 +7,11 @@ from test.test_freshdesk import expected_json
 DOMAIN = 'myorg'
 API_KEY = 'mykey'
 
-class TestFreshDesk(unittest.TestCase):
+class TestFreshdesk(unittest.TestCase):
 
     def setUp(self):
 
-        self.fd = FreshDesk(DOMAIN, API_KEY)
+        self.fd = Freshdesk(DOMAIN, API_KEY)
 
     @requests_mock.Mocker()
     def test_get_agents(self, m):

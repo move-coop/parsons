@@ -9,7 +9,7 @@ logger = logging.getLogger(__name__)
 PAGE_SIZE = 100
 
 
-class FreshDesk():
+class Freshdesk():
     """
     Instantiate FreshDesk Class
 

@@ -27,6 +27,7 @@ from parsons.hustle.hustle import Hustle
 from parsons.twilio.twilio import Twilio
 from parsons.salesforce.salesforce import Salesforce
 from parsons.databases.postgres.postgres import Postgres
+from parsons.freshdesk.freshdesk import FreshDesk
 
 __all__ = [
     'VAN',
@@ -55,7 +56,8 @@ __all__ = [
     'Hustle',
     'Twilio',
     'Salesforce',
-    'Postgres'
+    'Postgres',
+    'FreshDesk'
     ]
 
 # Define the default logging config for Parsons and its submodules. For now the

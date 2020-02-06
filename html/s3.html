@@ -249,7 +249,7 @@ variable is set.</dd>
 
 <dl class="method">
 <dt id="parsons.S3.list_keys">
-<code class="descname">list_keys</code><span class="sig-paren">(</span><em>bucket</em>, <em>prefix=None</em>, <em>suffix=None</em>, <em>regex=None</em>, <em>date_modified_before=None</em>, <em>date_modified_after=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/aws/s3.html#S3.list_keys"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.S3.list_keys" title="Permalink to this definition">¶</a></dt>
+<code class="descname">list_keys</code><span class="sig-paren">(</span><em>bucket</em>, <em>prefix=None</em>, <em>suffix=None</em>, <em>regex=None</em>, <em>date_modified_before=None</em>, <em>date_modified_after=None</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/aws/s3.html#S3.list_keys"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.S3.list_keys" title="Permalink to this definition">¶</a></dt>
 <dd><p>List the keys in a bucket, along with extra info about each one.</p>
 <dl class="docutils">
 <dt><cite>Args:</cite></dt>
@@ -266,6 +266,9 @@ variable is set.</dd>
 <dd>Limits the response to keys with date modified before</dd>
 <dt>date_modified_after: datetime.datetime</dt>
 <dd>Limits the response to keys with date modified after</dd>
+<dt>kwargs:</dt>
+<dd>Additional arguments for the S3 API call. See <a class="reference external" href="https://boto3.amazonaws.com/v1/documentation/api/latest/reference/services/s3.html#S3.Client.list_objects_v2">AWS ListObjectsV2 documentation</a>
+for more info.</dd>
 </dl>
 </dd>
 <dt><cite>Returns:</cite></dt>
@@ -375,7 +378,7 @@ info.</dd>
 
 <dl class="method">
 <dt id="parsons.S3.get_file">
-<code class="descname">get_file</code><span class="sig-paren">(</span><em>bucket</em>, <em>key</em>, <em>local_path=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/aws/s3.html#S3.get_file"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.S3.get_file" title="Permalink to this definition">¶</a></dt>
+<code class="descname">get_file</code><span class="sig-paren">(</span><em>bucket</em>, <em>key</em>, <em>local_path=None</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/aws/s3.html#S3.get_file"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.S3.get_file" title="Permalink to this definition">¶</a></dt>
 <dd><p>Download an object from S3 to a local file</p>
 <dl class="docutils">
 <dt><cite>Args:</cite></dt>
@@ -388,6 +391,9 @@ when the script is done running.</dd>
 <dd>The bucket name</dd>
 <dt>key: str</dt>
 <dd>The object key</dd>
+<dt>kwargs:</dt>
+<dd>Additional arguments for the S3 API call. See <a class="reference external" href="https://boto3.amazonaws.com/v1/documentation/api/latest/reference/services/s3.html#S3.Client.download_file">AWS download_file documentation</a>
+for more info.</dd>
 </dl>
 </dd>
 <dt><cite>Returns:</cite></dt>
@@ -425,7 +431,7 @@ when the script is done running.</dd>
 
 <dl class="method">
 <dt id="parsons.S3.transfer_bucket">
-<code class="descname">transfer_bucket</code><span class="sig-paren">(</span><em>origin_bucket</em>, <em>origin_key</em>, <em>destination_bucket</em>, <em>destination_key=None</em>, <em>suffix=None</em>, <em>regex=None</em>, <em>date_modified_before=None</em>, <em>date_modified_after=None</em>, <em>public_read=False</em>, <em>remove_original=False</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/aws/s3.html#S3.transfer_bucket"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.S3.transfer_bucket" title="Permalink to this definition">¶</a></dt>
+<code class="descname">transfer_bucket</code><span class="sig-paren">(</span><em>origin_bucket</em>, <em>origin_key</em>, <em>destination_bucket</em>, <em>destination_key=None</em>, <em>suffix=None</em>, <em>regex=None</em>, <em>date_modified_before=None</em>, <em>date_modified_after=None</em>, <em>public_read=False</em>, <em>remove_original=False</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/aws/s3.html#S3.transfer_bucket"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.S3.transfer_bucket" title="Permalink to this definition">¶</a></dt>
 <dd><p>Transfer files between s3 buckets
 <cite>Args:</cite></p>
 <blockquote>
@@ -451,6 +457,9 @@ to new prefix</dd>
 <dd>If the keys should be set to <cite>public-read</cite></dd>
 <dt>remove_original: bool</dt>
 <dd>If the original keys should be removed after transfer</dd>
+<dt>kwargs:</dt>
+<dd>Additional arguments for the S3 API call. See <a class="reference external" href="https://boto3.amazonaws.com/v1/documentation/api/latest/reference/services/s3.html#S3.Client.copy">AWS download_file documentation</a>
+for more info.</dd>
 </dl>
 </div></blockquote>
 <dl class="docutils">

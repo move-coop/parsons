@@ -259,7 +259,8 @@
         <span class="k">return</span> <span class="n">bucket</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">list_buckets</span><span class="p">()</span></div>
 
 <div class="viewcode-block" id="S3.list_keys"><a class="viewcode-back" href="../../../s3.html#parsons.S3.list_keys">[docs]</a>    <span class="k">def</span> <span class="nf">list_keys</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">bucket</span><span class="p">,</span> <span class="n">prefix</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">suffix</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">regex</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-                  <span class="n">date_modified_before</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">date_modified_after</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+                  <span class="n">date_modified_before</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">date_modified_after</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                  <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        List the keys in a bucket, along with extra info about each one.</span>
 
@@ -276,6 +277,10 @@
 <span class="sd">                Limits the response to keys with date modified before</span>
 <span class="sd">            date_modified_after: datetime.datetime</span>
 <span class="sd">                Limits the response to keys with date modified after</span>
+<span class="sd">            kwargs:</span>
+<span class="sd">                Additional arguments for the S3 API call. See `AWS ListObjectsV2 documentation</span>
+<span class="sd">                &lt;https://boto3.amazonaws.com/v1/documentation/api/latest/reference/services/s3.html#S3.Client.list_objects_v2&gt;`_</span>
+<span class="sd">                for more info.</span>
 <span class="sd">        `Returns:`</span>
 <span class="sd">            dict</span>
 <span class="sd">                Dict mapping the keys to info about each key. The info includes &#39;LastModified&#39;,</span>
@@ -293,6 +298,7 @@
                 <span class="n">args</span><span class="p">[</span><span class="s1">&#39;Prefix&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">prefix</span>
             <span class="k">if</span> <span class="n">continuation_token</span><span class="p">:</span>
                 <span class="n">args</span><span class="p">[</span><span class="s1">&#39;ContinuationToken&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">continuation_token</span>
+            <span class="n">args</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">kwargs</span><span class="p">)</span>
 
             <span class="n">resp</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">list_objects_v2</span><span class="p">(</span><span class="o">**</span><span class="n">args</span><span class="p">)</span>
 
@@ -415,7 +421,7 @@
 
         <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">delete_object</span><span class="p">(</span><span class="n">Bucket</span><span class="o">=</span><span class="n">bucket</span><span class="p">,</span> <span class="n">Key</span><span class="o">=</span><span class="n">key</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="S3.get_file"><a class="viewcode-back" href="../../../s3.html#parsons.S3.get_file">[docs]</a>    <span class="k">def</span> <span class="nf">get_file</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">bucket</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="n">local_path</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<div class="viewcode-block" id="S3.get_file"><a class="viewcode-back" href="../../../s3.html#parsons.S3.get_file">[docs]</a>    <span class="k">def</span> <span class="nf">get_file</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">bucket</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="n">local_path</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Download an object from S3 to a local file</span>
 
@@ -428,6 +434,10 @@
 <span class="sd">                The bucket name</span>
 <span class="sd">            key: str</span>
 <span class="sd">                The object key</span>
+<span class="sd">            kwargs:</span>
+<span class="sd">                Additional arguments for the S3 API call. See `AWS download_file documentation</span>
+<span class="sd">                &lt;https://boto3.amazonaws.com/v1/documentation/api/latest/reference/services/s3.html#S3.Client.download_file&gt;`_</span>
+<span class="sd">                for more info.</span>
 
 <span class="sd">        `Returns:`</span>
 <span class="sd">            str</span>
@@ -437,7 +447,7 @@
         <span class="k">if</span> <span class="ow">not</span> <span class="n">local_path</span><span class="p">:</span>
             <span class="n">local_path</span> <span class="o">=</span> <span class="n">files</span><span class="o">.</span><span class="n">create_temp_file_for_path</span><span class="p">(</span><span class="n">key</span><span class="p">)</span>
 
-        <span class="bp">self</span><span class="o">.</span><span class="n">s3</span><span class="o">.</span><span class="n">Object</span><span class="p">(</span><span class="n">bucket</span><span class="p">,</span> <span class="n">key</span><span class="p">)</span><span class="o">.</span><span class="n">download_file</span><span class="p">(</span><span class="n">local_path</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">s3</span><span class="o">.</span><span class="n">Object</span><span class="p">(</span><span class="n">bucket</span><span class="p">,</span> <span class="n">key</span><span class="p">)</span><span class="o">.</span><span class="n">download_file</span><span class="p">(</span><span class="n">local_path</span><span class="p">,</span> <span class="n">ExtraArgs</span><span class="o">=</span><span class="n">kwargs</span><span class="p">)</span>
 
         <span class="k">return</span> <span class="n">local_path</span></div>
 
@@ -465,7 +475,7 @@
 <div class="viewcode-block" id="S3.transfer_bucket"><a class="viewcode-back" href="../../../s3.html#parsons.S3.transfer_bucket">[docs]</a>    <span class="k">def</span> <span class="nf">transfer_bucket</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">origin_bucket</span><span class="p">,</span> <span class="n">origin_key</span><span class="p">,</span> <span class="n">destination_bucket</span><span class="p">,</span>
                         <span class="n">destination_key</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">suffix</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">regex</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
                         <span class="n">date_modified_before</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">date_modified_after</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-                        <span class="n">public_read</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">remove_original</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+                        <span class="n">public_read</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">remove_original</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Transfer files between s3 buckets</span>
 <span class="sd">        `Args:`</span>
 <span class="sd">            origin_bucket: str</span>
@@ -489,6 +499,10 @@
 <span class="sd">                If the keys should be set to `public-read`</span>
 <span class="sd">            remove_original: bool</span>
 <span class="sd">                If the original keys should be removed after transfer</span>
+<span class="sd">            kwargs:</span>
+<span class="sd">                Additional arguments for the S3 API call. See `AWS download_file documentation</span>
+<span class="sd">                &lt;https://boto3.amazonaws.com/v1/documentation/api/latest/reference/services/s3.html#S3.Client.copy&gt;`_</span>
+<span class="sd">                for more info.</span>
 <span class="sd">        `Returns:`</span>
 <span class="sd">            ``None``</span>
 <span class="sd">        &quot;&quot;&quot;</span>
@@ -520,7 +534,7 @@
                 <span class="n">dest_key</span> <span class="o">=</span> <span class="n">key</span>
 
             <span class="n">copy_source</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;Bucket&#39;</span><span class="p">:</span> <span class="n">origin_bucket</span><span class="p">,</span> <span class="s1">&#39;Key&#39;</span><span class="p">:</span> <span class="n">key</span><span class="p">}</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="n">copy_source</span><span class="p">,</span> <span class="n">destination_bucket</span><span class="p">,</span> <span class="n">dest_key</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="n">copy_source</span><span class="p">,</span> <span class="n">destination_bucket</span><span class="p">,</span> <span class="n">dest_key</span><span class="p">,</span> <span class="n">ExtraArgs</span><span class="o">=</span><span class="n">kwargs</span><span class="p">)</span>
             <span class="k">if</span> <span class="n">remove_original</span><span class="p">:</span>
                 <span class="k">try</span><span class="p">:</span>
                     <span class="bp">self</span><span class="o">.</span><span class="n">remove_file</span><span class="p">(</span><span class="n">origin_bucket</span><span class="p">,</span> <span class="n">origin_key</span><span class="p">)</span>

@@ -706,3 +706,20 @@ class TestParsonsTable(unittest.TestCase):
 
         # Doesn't break for non-strings
         self.assertEqual(tbl.get_column_max_width('b'), 5)
+
+    def test_sort(self):
+
+        # Test basic sort
+        unsorted_tbl = Table([['a', 'b'],[3, 1],[2, 2],[1, 3]])
+        sorted_tbl = unsorted_tbl.sort()
+        self.assertEqual(sorted_tbl[0], {'a': 1, 'b': 3})
+
+        # Test column sort
+        unsorted_tbl = Table([['a', 'b'],[3, 1],[2, 2],[1, 3]])
+        sorted_tbl = unsorted_tbl.sort('b')
+        self.assertEqual(sorted_tbl[0], {'a': 3, 'b': 1})
+
+        # Test reverse sort
+        unsorted_tbl = Table([['a', 'b'],[3, 1],[2, 2],[1, 3]])
+        sorted_tbl = unsorted_tbl.sort(reverse=True)
+        self.assertEqual(sorted_tbl[0], {'a': 3, 'b': 1})

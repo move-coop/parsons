@@ -927,3 +927,5 @@ class ETL(object):
         """
 
         self.table = petl.sort(self.table, key=columns, reverse=reverse)
+
+        return self

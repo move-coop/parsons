@@ -911,3 +911,21 @@ class ETL(object):
             **kwargs)
 
         return self
+
+    def sort(self, columns=None, reverse=False):
+        """
+        Sort the rows a table.
+
+        `Args:`
+            sort_columns: list or str
+                Sort by a single column or a list of column. If ``None`` then
+                will sort columns from left to right.
+            reverse: boolean
+                Sort rows in reverse order.
+        `Returns:`
+            `Parsons Table` and also updates self
+        """
+
+        self.table = petl.sort(self.table, key=columns, reverse=reverse)
+
+        return self

@@ -1,4 +1,7 @@
 # Provide shortcuts to importing Parsons submodules
+# The try...except pattern allows installations with --no-deps
+# and then importing from specific libraries without parsons
+# breaking if dependent libraries are not available.
 
 try:
     from parsons.ngpvan.van import VAN
@@ -135,6 +138,11 @@ try:
 except ImportError:
     Postgres = None
 
+try:
+    from parsons.freshdesk.freshdesk import Freshdesk
+except ImportError:
+    Freshdesk = None
+
 
 __all__ = [
     'VAN',
@@ -163,7 +171,8 @@ __all__ = [
     'Hustle',
     'Twilio',
     'Salesforce',
-    'Postgres'
+    'Postgres',
+    'Freshdesk'
     ]
 
 # Define the default logging config for Parsons and its submodules. For now the

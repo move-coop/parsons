@@ -1,7 +1,4 @@
 # Provide shortcuts to importing Parsons submodules
-# LEGACY shortcuts. Please avoid adding additional
-# auto-imports and document/encourage imports from the next directory up
-# e.g. from parsons.ngpvan import VAN
 
 try:
     from parsons.ngpvan.van import VAN

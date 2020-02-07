@@ -1,7 +1,5 @@
-from .postgres import Postgres
-from parsons import Table
+from parsons.databases.postgres.postgres import Postgres
 
 __all__ = [
-    'Postgres',
-    'Table'
+    'Postgres'
 ]

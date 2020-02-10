@@ -1,4 +1,4 @@
-from parsons import Freshdesk
+from parsons.freshdesk.freshdesk import Freshdesk
 import unittest
 import requests_mock
 from test.utils import assert_matching_tables

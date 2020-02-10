@@ -1,5 +1,5 @@
 from parsons.targetsmart.targetsmart_automation import TargetSmartAutomation
-from parsons import SFTP
+from parsons.sftp import SFTP
 import unittest
 from test.utils import mark_live_test
 

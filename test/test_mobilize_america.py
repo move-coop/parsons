@@ -1,7 +1,7 @@
 import unittest
 import os
 import requests_mock
-from parsons import MobilizeAmerica
+from parsons.mobilize_america import MobilizeAmerica
 from test.utils import validate_list
 
 

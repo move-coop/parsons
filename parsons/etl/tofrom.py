@@ -321,7 +321,7 @@ class ToFrom(object):
                 ``csv_writer`` optional arguments
         """  # noqa: W605
 
-        from parsons import SFTP
+        from parsons.sftp import SFTP
 
         sftp = SFTP(host, username, password, port, rsa_private_key_file)
 
@@ -384,7 +384,7 @@ class ToFrom(object):
                                  **csvargs)
 
         # Put the file on S3
-        from parsons import S3
+        from parsons.aws import S3
         self.s3 = S3(aws_access_key_id=aws_access_key_id,
                      aws_secret_access_key=aws_secret_access_key)
         self.s3.put_file(bucket, key, local_path, acl=acl)
@@ -418,7 +418,7 @@ class ToFrom(object):
             ``None``
         """  # noqa: W605
 
-        from parsons import Redshift
+        from parsons.databases.redshift import Redshift
         rs = Redshift(
             username=username, password=password, host=host, db=db, port=port)
         rs.copy(self, table_name, **copy_args)
@@ -594,7 +594,7 @@ class ToFrom(object):
                 See :ref:`parsons-table` for output options.
         """
 
-        from parsons import Redshift
+        from parsons.databases.redshift import Redshift
         rs = Redshift(username=username, password=password, host=host, db=db, port=port)
         return rs.query(query)
 
@@ -619,7 +619,7 @@ class ToFrom(object):
             `parsons.Table` object
         """  # noqa: W605
 
-        from parsons import S3
+        from parsons.aws import S3
         s3 = S3(aws_access_key_id, aws_secret_access_key)
         file_obj = s3.get_file(bucket, key)
 

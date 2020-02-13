@@ -457,7 +457,7 @@ other arguments if provided.</dd>
 
 <dl class="method">
 <dt id="parsons.ngpvan.van.People.upsert_person">
-<code class="descname">upsert_person</code><span class="sig-paren">(</span><em>first_name=None</em>, <em>last_name=None</em>, <em>date_of_birth=None</em>, <em>email=None</em>, <em>phone=None</em>, <em>street_number=None</em>, <em>street_name=None</em>, <em>zip=None</em>, <em>match_map=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/ngpvan/people.html#People.upsert_person"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.ngpvan.van.People.upsert_person" title="Permalink to this definition">¶</a></dt>
+<code class="descname">upsert_person</code><span class="sig-paren">(</span><em>first_name=None</em>, <em>last_name=None</em>, <em>date_of_birth=None</em>, <em>email=None</em>, <em>phone=None</em>, <em>phone_type=None</em>, <em>street_number=None</em>, <em>street_name=None</em>, <em>zip=None</em>, <em>match_map=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/ngpvan/people.html#People.upsert_person"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.ngpvan.van.People.upsert_person" title="Permalink to this definition">¶</a></dt>
 <dd><p>Create or update a person record.</p>
 <div class="admonition note">
 <p class="first admonition-title">Note</p>
@@ -492,6 +492,9 @@ values, pass in a dictionary using the match_map argument.</p>
 <dd>The person’s email address</dd>
 <dt>phone: str</dt>
 <dd>Phone number of any type (Work, Cell, Home)</dd>
+<dt>phone_type: str</dt>
+<dd>One of ‘H’ for home phone, ‘W’ for work phone, ‘C’ for cell, ‘M’ for
+main phone or ‘F’ for fax line. Defaults to home phone.</dd>
 <dt>street_number: str</dt>
 <dd>Street Number</dd>
 <dt>street_name: str</dt>

@@ -93,6 +93,66 @@ In your scripts that use Parsons, if you want to override the default Parsons lo
    # parsons_logger.addHandler(...)
    # parsons_logger.setFormatter(...)
 
+Minimizing Resource Utilization
+===============================
+
+A primary goal of Parsons is to make installing and using the library as easy as possible. Many
+of the patterns and examples that we document are meant to show how easy it can be to use Parsons,
+but sometimes these patterns trade accessibility for performance.
+
+In environments where efficiency is important, we recommend users take the following steps to
+minimize resource utilization:
+
+  1. Don't import classes from the root Parsons package
+  2. Install only the dependencies you need
+
+*** Don't import from the root Parsons package
+
+Throughout the Parsons documentation, users are encouraged to load Parsons classes like so:
+
+```python
+from parsons import Table
+```
+
+In order to support this pattern, Parsons imports all of its classes into the root `parsons`
+package. Due to how Python loads modules and packages, importing even one Parsons class results
+in ALL of them being loaded. In order to avoid the resource consumption associated with loading all
+of Parsons, we have created a mechanism to skip loading of call of the Parsons classes.
+
+If you set `PARSONS_SKIP_IMPORT_ALL` in your environment, Parsons will not import all of its classes
+into the root `parsons` package. Setting this environment variable means you will **NOT** be able to
+import using the `from parsons import X` pattern. Instead, you will need to import directly from the
+package where a class is defined (e.g. `from parsons.etl import Table`).
+
+If you use the `PARSONS_SKIP_IMPORT_ALL` and import directly from the appropriate sub-package,
+you will only load the classes that you need and will not consume extra resources. Using this
+method, you may see as much as an 8x decrease in memory usage for Parsons.
+
+*** Install only the dependencies you need
+
+Since Parsons needs to talk to so many different API's, it has a number of dependencies on other
+Python libraries. It may be preferable to only install those external dependencies that you will
+use.
+
+For example, if you are running on Google Cloud, you might not need to use any of Parsons' AWS
+connectors. If you don't use any of Parsons' AWS connectors, then you won't need to install the
+Amazon Boto3 library that Parsons uses to access the Amazon APIs.
+
+By default, installing Parsons will install all of its external dependencies. You can prevent
+these dependencies from being installed with Parsons by passing the `--no-deps` flag to pip
+when you install Parsons.
+
+```
+> pip install --no-deps parsons
+```
+
+Once you have Parsons installed without these external dependencies, you can then install
+the libraries as you need them. You can use the requirements.txt as a reference to figure
+out which version you need. At a minimum you will need to install the following libraries
+for Parsons to work at all:
+
+* petl
+
 Indices and tables
 ==================
 

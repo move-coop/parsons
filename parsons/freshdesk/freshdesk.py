@@ -1,7 +1,7 @@
 from parsons.utilities import check_env
 from parsons.utilities.api_connector import APIConnector
 import re
-from parsons import Table
+from parsons.etl import Table
 import logging
 
 logger = logging.getLogger(__name__)

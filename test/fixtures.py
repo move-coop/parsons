@@ -1,5 +1,5 @@
 import pytest
-from parsons import Table
+from parsons.etl import Table
 
 
 '''

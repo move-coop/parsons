@@ -728,7 +728,7 @@ class ETL(object):
             List of Parsons tables
         """
 
-        from parsons import Table  # Just trying to avoid recursive imports.
+        from parsons.etl import Table
         return [Table(petl.rowslice(self.table, i, i+rows)) for i in range(0, self.num_rows, rows)]
 
     @staticmethod
@@ -771,7 +771,7 @@ class ETL(object):
             `Parsons Table` and also updates self
         """
 
-        from parsons import Table  # Just trying to avoid recursive imports.
+        from parsons.etl import Table  # Just trying to avoid recursive imports.
 
         normalize_fn = Table.get_normalized_column_name if fuzzy_match else (lambda s: s)
 

@@ -1,6 +1,6 @@
 from google.cloud import bigquery
 from google.cloud import exceptions
-from parsons import Table
+from parsons.etl import Table
 from parsons.google.utitities import setup_google_application_credentials
 from parsons.google.google_cloud_storage import GoogleCloudStorage
 from parsons.utilities import check_env

@@ -364,3 +364,30 @@ class People(object):
 
         self.connection.post_request(f"people/{vanid_1}/relationships", json=json)
         logger.info('Relationship {vanid_1} to {vanid_2} created.')
+
+    def apply_person_code(self, id, code_id, id_type='vanid'):
+        """
+        Apply a code to a person.
+
+        `Args:`
+            id: str
+                A valid person id.
+            code_id: int
+                A valid code id.
+            id_type: str
+                A known person identifier type available on this VAN instance
+                such as ``dwid``
+        `Returns:`
+            ``None``
+        """
+
+        # Set url based on id_type
+        if id_type == 'vanid':
+            url = f"people/{id}/codes"
+        else:
+            url = f"people/{id_type}:{id}/codes"
+
+        json = {"codeId": code_id}
+
+        self.connection.post_request(url, json=json)
+        logger.info(f'Code {code_id} applied to person id {id}.')

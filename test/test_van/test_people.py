@@ -157,3 +157,17 @@ class TestNGPVAN(unittest.TestCase):
         self.assertRaises(HTTPError, self.van.create_relationship, bad_vanid_1, vanid_2, relationship_id)
 
         self.van.create_relationship(good_vanid_1, vanid_2, relationship_id)
+
+    @requests_mock.Mocker()
+    def test_apply_person_code(self, m):
+
+        vanid = 999
+        code_id = 888
+
+        # Test good request
+        m.post(self.van.connection.uri + f"people/{vanid}/codes", status_code=204)
+        self.van.apply_person_code(vanid, code_id)
+
+        # Test bad request
+        m.post(self.van.connection.uri + f"people/{vanid}/codes", status_code=404)
+        self.assertRaises(HTTPError, self.van.apply_person_code, vanid, code_id)

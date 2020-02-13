@@ -541,7 +541,34 @@
                 <span class="s1">&#39;vanId&#39;</span><span class="p">:</span> <span class="n">vanid_2</span><span class="p">}</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">connection</span><span class="o">.</span><span class="n">post_request</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;people/</span><span class="si">{vanid_1}</span><span class="s2">/relationships&quot;</span><span class="p">,</span> <span class="n">json</span><span class="o">=</span><span class="n">json</span><span class="p">)</span>
-        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s1">&#39;Relationship </span><span class="si">{vanid_1}</span><span class="s1"> to </span><span class="si">{vanid_2}</span><span class="s1"> created.&#39;</span><span class="p">)</span></div></div>
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s1">&#39;Relationship </span><span class="si">{vanid_1}</span><span class="s1"> to </span><span class="si">{vanid_2}</span><span class="s1"> created.&#39;</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="People.apply_person_code"><a class="viewcode-back" href="../../../ngpvan.html#parsons.ngpvan.van.People.apply_person_code">[docs]</a>    <span class="k">def</span> <span class="nf">apply_person_code</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">id</span><span class="p">,</span> <span class="n">code_id</span><span class="p">,</span> <span class="n">id_type</span><span class="o">=</span><span class="s1">&#39;vanid&#39;</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Apply a code to a person.</span>
+
+<span class="sd">        `Args:`</span>
+<span class="sd">            id: str</span>
+<span class="sd">                A valid person id.</span>
+<span class="sd">            code_id: int</span>
+<span class="sd">                A valid code id.</span>
+<span class="sd">            id_type: str</span>
+<span class="sd">                A known person identifier type available on this VAN instance</span>
+<span class="sd">                such as ``dwid``</span>
+<span class="sd">        `Returns:`</span>
+<span class="sd">            ``None``</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="c1"># Set url based on id_type</span>
+        <span class="k">if</span> <span class="n">id_type</span> <span class="o">==</span> <span class="s1">&#39;vanid&#39;</span><span class="p">:</span>
+            <span class="n">url</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;people/</span><span class="si">{id}</span><span class="s2">/codes&quot;</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">url</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;people/</span><span class="si">{id_type}</span><span class="s2">:</span><span class="si">{id}</span><span class="s2">/codes&quot;</span>
+
+        <span class="n">json</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;codeId&quot;</span><span class="p">:</span> <span class="n">code_id</span><span class="p">}</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">connection</span><span class="o">.</span><span class="n">post_request</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">json</span><span class="o">=</span><span class="n">json</span><span class="p">)</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Code </span><span class="si">{code_id}</span><span class="s1"> applied to person id </span><span class="si">{id}</span><span class="s1">.&#39;</span><span class="p">)</span></div></div>
 </pre></div>
 
            </div>

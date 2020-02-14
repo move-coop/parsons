@@ -1,5 +1,5 @@
-from parsons.salesforce.salesforce import SalesForce
+from parsons.salesforce.salesforce import Salesforce
 
 __all__ = [
-    'SalesForce'
+    'Salesforce'
 ]

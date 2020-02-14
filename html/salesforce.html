@@ -202,10 +202,162 @@ and apolitical non-profit markets.</p>
 </div>
 <div class="section" id="api">
 <h2>API<a class="headerlink" href="#api" title="Permalink to this headline">¶</a></h2>
-<dl class="attribute">
+<dl class="class">
 <dt id="parsons.Salesforce">
-<code class="descclassname">parsons.</code><code class="descname">Salesforce</code><a class="headerlink" href="#parsons.Salesforce" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<em class="property">class </em><code class="descclassname">parsons.</code><code class="descname">Salesforce</code><span class="sig-paren">(</span><em>username=None</em>, <em>password=None</em>, <em>security_token=None</em>, <em>test_environment=False</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/salesforce/salesforce.html#Salesforce"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.Salesforce" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="docutils">
+<dt><cite>Args:</cite></dt>
+<dd><dl class="first last docutils">
+<dt>username: str</dt>
+<dd>The Salesforce username (usually an email address). Not required if
+<code class="docutils literal notranslate"><span class="pre">SALESFORCE_USERNAME</span></code> env variable is passed.</dd>
+<dt>password: str</dt>
+<dd>The Salesforce password. Not required if <code class="docutils literal notranslate"><span class="pre">SALESFORCE_PASSWORD</span></code> env variable is
+passed.</dd>
+<dt>security_token: str</dt>
+<dd>The Salesforce security token that can be acquired or reset in
+Settings &gt; My Personal Information &gt; Reset My Security Token.
+Not required if <code class="docutils literal notranslate"><span class="pre">SALESFORCE_SECURITY_TOKEN</span></code> env variable is passed.</dd>
+<dt>test_environment: bool</dt>
+<dd>If <code class="docutils literal notranslate"><span class="pre">True</span></code> the client will connect to a Saleforce sandbox instance. Not required if
+<code class="docutils literal notranslate"><span class="pre">SALESFORCE_DOMAIN</span></code> env variable is passed.</dd>
+</dl>
+</dd>
+<dt><cite>Returns:</cite></dt>
+<dd>Salesforce class</dd>
+</dl>
+<dl class="method">
+<dt id="parsons.Salesforce.query">
+<code class="descname">query</code><span class="sig-paren">(</span><em>soql</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/salesforce/salesforce.html#Salesforce.query"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.Salesforce.query" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="docutils">
+<dt><cite>Args:</cite></dt>
+<dd><dl class="first last docutils">
+<dt>soql: str</dt>
+<dd>The desired query in Salesforce SOQL language (SQL with additional limitations).
+For reference, see <a href="#id2"><span class="problematic" id="id3">`Salesforce SOQL documentation&lt;https://developer.salesforce.com/docs/atlas.en-us.soql_sosl.meta/soql_sosl/sforce_api_calls_soql.htm&gt;`_</span></a>.</dd>
+</dl>
+</dd>
+<dt><cite>Returns:</cite></dt>
+<dd>list of dicts with Salesforce data</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="parsons.Salesforce.insert_record">
+<code class="descname">insert_record</code><span class="sig-paren">(</span><em>object</em>, <em>data_table</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/salesforce/salesforce.html#Salesforce.insert_record"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.Salesforce.insert_record" title="Permalink to this definition">¶</a></dt>
+<dd><p>Insert new records of the desired object into Salesforce</p>
+<dl class="docutils">
+<dt><cite>Args:</cite></dt>
+<dd><dl class="first last docutils">
+<dt>object: str</dt>
+<dd>The API name of the type of records to insert. Note that custom object names end
+in <cite>__c</cite></dd>
+<dt>data_table: obj</dt>
+<dd>A Parsons Table with data for inserting records. Column names must match object
+field API names, though case and order need not match. Note that custom field
+names end in <cite>__c</cite>.</dd>
+</dl>
+</dd>
+<dt><cite>Returns:</cite></dt>
+<dd>list of dicts that have the following data:
+* success: boolean
+* created: boolean (if new record is created)
+* id: str (id of record created, if successful)
+* errors: list of dicts (with error details)</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="parsons.Salesforce.update_record">
+<code class="descname">update_record</code><span class="sig-paren">(</span><em>object</em>, <em>data_table</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/salesforce/salesforce.html#Salesforce.update_record"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.Salesforce.update_record" title="Permalink to this definition">¶</a></dt>
+<dd><p>Update existing records of the desired object in Salesforce</p>
+<dl class="docutils">
+<dt><cite>Args:</cite></dt>
+<dd><dl class="first last docutils">
+<dt>object: str</dt>
+<dd>The API name of the type of records to update. Note that custom object names end
+in <cite>__c</cite></dd>
+<dt>data_table: obj</dt>
+<dd>A Parsons Table with data for updating records. Must contain one column named
+<cite>id</cite>. Column names must match object field API names, though case and order need
+not match. Note that custom field names end in <cite>__c</cite>.</dd>
+<dt><cite>Returns:</cite></dt>
+<dd>list of dicts that have the following data:
+* success: boolean
+* created: boolean (if new record is created)
+* id: str (id of record altered, if successful)
+* errors: list of dicts (with error details)</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="parsons.Salesforce.upsert_record">
+<code class="descname">upsert_record</code><span class="sig-paren">(</span><em>object</em>, <em>data_table</em>, <em>id_col</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/salesforce/salesforce.html#Salesforce.upsert_record"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.Salesforce.upsert_record" title="Permalink to this definition">¶</a></dt>
+<dd><p>Insert new records and update existing ones of the desired object in Salesforce</p>
+<dl class="docutils">
+<dt><cite>Args:</cite></dt>
+<dd><dl class="first last docutils">
+<dt>object: str</dt>
+<dd>The API name of the type of records to upsert. Note that custom object names end
+in <cite>__c</cite></dd>
+<dt>data_table: obj</dt>
+<dd>A Parsons Table with data for upserting records. Column names must match object
+field API names, though case and order need not match. Note that custom field
+names end in <cite>__c</cite>.</dd>
+<dt>id_col: str</dt>
+<dd>The column name in <cite>data_table</cite> that stores the record ID. Required even if all
+records are new/inserted.</dd>
+<dt><cite>Returns:</cite></dt>
+<dd>list of dicts that have the following data:
+* success: boolean
+* created: boolean (if new record is created)
+* id: str (id of record created or altered, if successful)
+* errors: list of dicts (with error details)</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="parsons.Salesforce.delete_record">
+<code class="descname">delete_record</code><span class="sig-paren">(</span><em>object</em>, <em>id_table</em>, <em>hard_delete=False</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/salesforce/salesforce.html#Salesforce.delete_record"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.Salesforce.delete_record" title="Permalink to this definition">¶</a></dt>
+<dd><p>Delete existing records of the desired object in Salesforce</p>
+<dl class="docutils">
+<dt><cite>Args:</cite></dt>
+<dd><dl class="first last docutils">
+<dt>object: str</dt>
+<dd>The API name of the type of records to delete. Note that custom object names end
+in <cite>__c</cite></dd>
+<dt>id_table: obj</dt>
+<dd>A Parsons Table of record IDs to delete. Note that ‘Id’ is the default Salesforce
+record ID field name.</dd>
+<dt>hard_delete: boolean</dt>
+<dd>If true, will permanently delete record instead of moving it to trash</dd>
+<dt><cite>Returns:</cite></dt>
+<dd>list of dicts that have the following data:
+* success: boolean
+* created: boolean (if new record is created)
+* id: str (id of record deleted, if successful)
+* errors: list of dicts (with error details)</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="parsons.Salesforce.client">
+<code class="descname">client</code><a class="headerlink" href="#parsons.Salesforce.client" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the Salesforce client to use for making all calls. For more information, check the
+<a class="reference external" href="https://simple-salesforce.readthedocs.io/en/latest/">Simple Salesforce Documentation</a></p>
+<dl class="docutils">
+<dt><cite>Returns:</cite></dt>
+<dd><cite>simple-salesforce Salesforce object</cite></dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
 
 </div>
 </div>

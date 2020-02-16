@@ -1,4 +1,5 @@
 from parsons.databases.postgres.postgres_core import PostgresCore
+from parsons.databases.table import BaseTable
 import logging
 import os
 
@@ -77,3 +78,13 @@ class Postgres(PostgresCore):
             with self.cursor(connection) as cursor:
                 cursor.copy_expert(sql, open(tbl.to_csv(), "r"))
                 logger.info(f'{tbl.num_rows} rows copied to {table_name}.')
+
+    def table(self, table_name):
+        # Return a Postgres table object
+
+        return PostgresTable(self, table_name)
+
+class PostgresTable(BaseTable):
+    # Postgres table object.
+
+    pass

@@ -1,4 +1,3 @@
-from parsons.databases.table import table_factory
 import logging
 
 logger = logging.getLogger(__name__)
@@ -6,8 +5,7 @@ logger = logging.getLogger(__name__)
 
 class DBSync:
     """
-    Sync tables between databases. Works with ``Redshift``, ``Postgres``
-    and ``BigQuery`` databases.
+    Sync tables between databases. Works with ``Postgres`` databases.
 
     `Args:`
         source_db: Database connection object
@@ -46,8 +44,10 @@ class DBSync:
         """
 
         # Create the table objects
-        source_tbl = table_factory(self.source_db, source_table)
-        destination_tbl = table_factory(self.dest_db, destination_table)
+        source_tbl = self.source_db.table(source_table)
+        destination_tbl = self.dest_db.table(destination_table)
+
+        logger.info(f'Syncing full table data from {source_table} to {destination_table}')
 
         # Drop or truncate if the destination table exists
         if destination_tbl.exists:
@@ -55,6 +55,7 @@ class DBSync:
                 destination_tbl.drop()
             elif if_exists == 'truncate':
                 destination_tbl.truncate()
+                self._check_column_match(source_tbl, destination_tbl)
             else:
                 raise ValueError('Invalid if_exists type. Must be drop or truncate.')
 
@@ -75,9 +76,10 @@ class DBSync:
 
         self._row_count_verify(source_tbl, destination_tbl)
 
-    def table_sync_increment(self, source_table, destination_table, primary_key, **kwargs):
+    def table_sync_incremental(self, source_table, destination_table, primary_key,
+                               distinct_check=True, **kwargs):
         """
-        Full sync of table from a source database to a destination database.
+        Incremental sync of table from a source database to a destination database.
 
         `Args:`
             source_table: str
@@ -88,7 +90,11 @@ class DBSync:
                 If destination table exists either ``drop`` or ``truncate``. Truncate is
                 useful when there are dependent views associated with the table.
             primary_key: str
-                The name of the primary key or timestamp column.
+                The name of the primary key or timestamp column. This must be the same
+                for the source and destination table.
+            distinct_check: bool
+                Check that the source table primary key is distinct prior to running the
+                sync. If it is not, an error will be raised.
             **kwargs: args
                 Optional copy arguments for destination database.
         `Returns:`
@@ -96,8 +102,12 @@ class DBSync:
         """
 
         # Create the table objects
-        source_tbl = table_factory(self.source_db, source_table)
-        destination_tbl = table_factory(self.dest_db, destination_table)
+        source_tbl = self.source_db.table(source_table)
+        destination_tbl = self.dest_db.table(destination_table)
+
+        # Check that the source table primary key is distinct
+        if distinct_check and not source_tbl.distinct_primary_key(primary_key):
+            raise ValueError('{primary_key} is not distinct in source table.')
 
         # Get the max source table and destination table primary key
         source_max_pk = source_tbl.max_primary_key(primary_key)
@@ -123,10 +133,10 @@ class DBSync:
             while copied_rows < new_row_count:
 
                 # Get a chunk
-                rows = source_tbl.get_new_rows(primary_key,
-                                               dest_max_pk,
-                                               copied_rows,
-                                               self.chunk_size)
+                rows = source_tbl.get_new_rows(primary_key=primary_key,
+                                               max_value=dest_max_pk,
+                                               offset=copied_rows,
+                                               chunk_size=self.chunk_size)
 
                 # Copy the chunk
                 self.dest_db.copy(rows, destination_table, if_exists='append', **kwargs)
@@ -136,7 +146,7 @@ class DBSync:
 
         self._row_count_verify(source_tbl, destination_tbl)
 
-        logger.info(f'{source_table} synced: {copied_rows} total rows copied.')
+        logger.info(f'{source_table} synced to {destination_table}.')
 
     def _row_count_verify(self, source_table_obj, destination_table_obj):
         """
@@ -153,3 +163,14 @@ class DBSync:
 
         logger.info('Source and destination table row counts match.')
         return True
+
+
+    def _check_column_match(self, source_table_obj, destination_table_obj):
+        """
+        Ensure that the columns from each table match
+        """
+
+        if source_table_obj.columns != destination_table_obj.columns:
+            raise ValueError("""Destination table columns do not match source table columns.
+                             Consider dropping destination table and running a full sync.""")
+

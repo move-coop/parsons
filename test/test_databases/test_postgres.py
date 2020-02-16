@@ -127,7 +127,6 @@ class TestPostgresDB(unittest.TestCase):
     def setUp(self):
 
         self.temp_schema = TEMP_SCHEMA
-
         self.pg = Postgres()
 
         self.tbl = Table([['ID', 'Name'],

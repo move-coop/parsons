@@ -902,7 +902,7 @@
 <span class="sd">            List of Parsons tables</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
-        <span class="kn">from</span> <span class="nn">parsons</span> <span class="kn">import</span> <span class="n">Table</span>  <span class="c1"># Just trying to avoid recursive imports.</span>
+        <span class="kn">from</span> <span class="nn">parsons.etl</span> <span class="kn">import</span> <span class="n">Table</span>
         <span class="k">return</span> <span class="p">[</span><span class="n">Table</span><span class="p">(</span><span class="n">petl</span><span class="o">.</span><span class="n">rowslice</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">table</span><span class="p">,</span> <span class="n">i</span><span class="p">,</span> <span class="n">i</span><span class="o">+</span><span class="n">rows</span><span class="p">))</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">num_rows</span><span class="p">,</span> <span class="n">rows</span><span class="p">)]</span></div>
 
 <div class="viewcode-block" id="ETL.get_normalized_column_name"><a class="viewcode-back" href="../../../table.html#parsons.etl.etl.ETL.get_normalized_column_name">[docs]</a>    <span class="nd">@staticmethod</span>
@@ -945,7 +945,7 @@
 <span class="sd">            `Parsons Table` and also updates self</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
-        <span class="kn">from</span> <span class="nn">parsons</span> <span class="kn">import</span> <span class="n">Table</span>  <span class="c1"># Just trying to avoid recursive imports.</span>
+        <span class="kn">from</span> <span class="nn">parsons.etl</span> <span class="kn">import</span> <span class="n">Table</span>  <span class="c1"># Just trying to avoid recursive imports.</span>
 
         <span class="n">normalize_fn</span> <span class="o">=</span> <span class="n">Table</span><span class="o">.</span><span class="n">get_normalized_column_name</span> <span class="k">if</span> <span class="n">fuzzy_match</span> <span class="k">else</span> <span class="p">(</span><span class="k">lambda</span> <span class="n">s</span><span class="p">:</span> <span class="n">s</span><span class="p">)</span>
 

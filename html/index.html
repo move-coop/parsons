@@ -257,6 +257,56 @@ was built and is maintained by The Movement Cooperative.</p>
 </pre></div>
 </div>
 </div>
+<div class="section" id="minimizing-resource-utilization">
+<h1>Minimizing Resource Utilization<a class="headerlink" href="#minimizing-resource-utilization" title="Permalink to this headline">¶</a></h1>
+<p>A primary goal of Parsons is to make installing and using the library as easy as possible. Many
+of the patterns and examples that we document are meant to show how easy it can be to use Parsons,
+but sometimes these patterns trade accessibility for performance.</p>
+<p>In environments where efficiency is important, we recommend users take the following steps to
+minimize resource utilization:</p>
+<blockquote>
+<div><ol class="arabic simple">
+<li>Don’t import classes from the root Parsons package</li>
+<li>Install only the dependencies you need</li>
+</ol>
+</div></blockquote>
+<p><a href="#id1"><span class="problematic" id="id2">**</span></a>* Don’t import from the root Parsons package</p>
+<p>Throughout the Parsons documentation, users are encouraged to load Parsons classes like so:</p>
+<p><code class="docutils literal notranslate"><span class="pre">`python</span>
+<span class="pre">from</span> <span class="pre">parsons</span> <span class="pre">import</span> <span class="pre">Table</span>
+<span class="pre">`</span></code></p>
+<p>In order to support this pattern, Parsons imports all of its classes into the root <cite>parsons</cite>
+package. Due to how Python loads modules and packages, importing even one Parsons class results
+in ALL of them being loaded. In order to avoid the resource consumption associated with loading all
+of Parsons, we have created a mechanism to skip loading of call of the Parsons classes.</p>
+<p>If you set <cite>PARSONS_SKIP_IMPORT_ALL</cite> in your environment, Parsons will not import all of its classes
+into the root <cite>parsons</cite> package. Setting this environment variable means you will <strong>NOT</strong> be able to
+import using the <cite>from parsons import X</cite> pattern. Instead, you will need to import directly from the
+package where a class is defined (e.g. <cite>from parsons.etl import Table</cite>).</p>
+<p>If you use the <cite>PARSONS_SKIP_IMPORT_ALL</cite> and import directly from the appropriate sub-package,
+you will only load the classes that you need and will not consume extra resources. Using this
+method, you may see as much as an 8x decrease in memory usage for Parsons.</p>
+<p><a href="#id3"><span class="problematic" id="id4">**</span></a>* Install only the dependencies you need</p>
+<p>Since Parsons needs to talk to so many different API’s, it has a number of dependencies on other
+Python libraries. It may be preferable to only install those external dependencies that you will
+use.</p>
+<p>For example, if you are running on Google Cloud, you might not need to use any of Parsons’ AWS
+connectors. If you don’t use any of Parsons’ AWS connectors, then you won’t need to install the
+Amazon Boto3 library that Parsons uses to access the Amazon APIs.</p>
+<p>By default, installing Parsons will install all of its external dependencies. You can prevent
+these dependencies from being installed with Parsons by passing the <cite>–no-deps</cite> flag to pip
+when you install Parsons.</p>
+<p><code class="docutils literal notranslate"><span class="pre">`</span>
+<span class="pre">&gt;</span> <span class="pre">pip</span> <span class="pre">install</span> <span class="pre">--no-deps</span> <span class="pre">parsons</span>
+<span class="pre">`</span></code></p>
+<p>Once you have Parsons installed without these external dependencies, you can then install
+the libraries as you need them. You can use the requirements.txt as a reference to figure
+out which version you need. At a minimum you will need to install the following libraries
+for Parsons to work at all:</p>
+<ul class="simple">
+<li>petl</li>
+</ul>
+</div>
 <div class="section" id="indices-and-tables">
 <h1>Indices and tables<a class="headerlink" href="#indices-and-tables" title="Permalink to this headline">¶</a></h1>
 <ul class="simple">

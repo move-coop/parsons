@@ -6,6 +6,7 @@ _dir = os.path.dirname(__file__)
 
 TEMP_SCHEMA = 'parsons_test'
 
+
 # These tests interact directly with the Postgres database. In order to run, set the
 # env to LIVE_TEST='TRUE'.
 @unittest.skipIf(not os.environ.get('LIVE_TEST'), 'Skipping because not running live test')

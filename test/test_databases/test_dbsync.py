@@ -2,12 +2,6 @@ from parsons import Postgres, DBSync, Table
 from test.utils import assert_matching_tables
 import unittest
 
-# TEMP
-import os
-os.environ["PGUSER"] = "justinburchard"
-os.environ["PGPASSWORD"] = "justinburchard"
-os.environ["PGHOST"] = "localhost"
-
 _dir = os.path.dirname(__file__)
 
 TEMP_SCHEMA = 'parsons_test'
@@ -77,3 +71,22 @@ class TestPostgresCreateStatement(unittest.TestCase):
         source = self.pg.query(f"SELECT * FROM {self.temp_schema}.source")
         destination = self.pg.query(f"SELECT * FROM {self.temp_schema}.destination")
         assert_matching_tables(source, destination)
+
+    def test_table_sync_incremental(self):
+        # Test that incremental sync
+
+        # Test that a basic incremental sync works.
+        self.pg.copy(self.table1, f'{self.temp_schema}.destination')
+        self.pg.copy(self.table2, f'{self.temp_schema}.source', if_exists='append')
+        self.db_sync.table_sync_incremental(f'{self.temp_schema}.source',
+                                            f'{self.temp_schema}.destination',
+                                            'pk')
+
+        count1 = self.pg.query(f"SELECT COUNT(*) FROM {self.temp_schema}.source")
+        count2 = self.pg.query(f"SELECT COUNT(*) FROM {self.temp_schema}.destination")
+        assert_matching_tables(count1, count2)
+
+
+
+
+

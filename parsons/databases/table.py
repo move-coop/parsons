@@ -56,7 +56,7 @@ class BaseTable:
         """
 
         if not self._columns:
-            sql = f"SELECT * FROM {self.table} LIMIT 1"
+            sql = f"SELECT * FROM {self.table} LIMIT 1;"
             self._columns = self.db.query(sql).columns
 
         return self._columns
@@ -87,10 +87,11 @@ class BaseTable:
         than the one provided.
         """
 
-        sql = f"""SELECT
-                  COUNT(*)
-                  FROM {self.table}
-                  WHERE {primary_key_col} > {max_value};
+        sql = f"""
+               SELECT
+               COUNT(*)
+               FROM {self.table}
+               WHERE {primary_key_col} > {max_value};
                """
 
         return self.db.query(sql).first

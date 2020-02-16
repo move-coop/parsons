@@ -13,7 +13,8 @@ class DBSync:
         destination_db: Database connection object
             A database object.
         chunk_size: int
-            The number of rows per transaction copy when syncing a table.
+            The number of rows per transaction copy when syncing a table. The
+            default value is 500,000 rows.
     `Returns:`
         A DBSync object.
     """
@@ -27,13 +28,14 @@ class DBSync:
     def table_sync_full(self, source_table, destination_table, if_exists='drop',
                         **kwargs):
         """
-        Full sync of table from a source database to a destination database.
+        Full sync of table from a source database to a destination database. This will
+        wipe all data from the destination table.
 
         `Args:`
             source_table: str
-                Full table path if desired (e.g. ``my_schema.my_table``)
+                Full table path (e.g. ``my_schema.my_table``)
             destination_table: str
-                Full table path if desired (e.g. ``my_schema.my_table``)
+                Full table path (e.g. ``my_schema.my_table``)
             if_exists: str
                 If destination table exists either ``drop`` or ``truncate``. Truncate is
                 useful when there are dependent views associated with the table.
@@ -83,9 +85,9 @@ class DBSync:
 
         `Args:`
             source_table: str
-                Full table path if desired (e.g. ``my_schema.my_table``)
+                Full table path (e.g. ``my_schema.my_table``)
             destination_table: str
-                Full table path if desired (e.g. ``my_schema.my_table``)
+                Full table path (e.g. ``my_schema.my_table``)
             if_exists: str
                 If destination table exists either ``drop`` or ``truncate``. Truncate is
                 useful when there are dependent views associated with the table.

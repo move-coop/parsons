@@ -1,7 +1,8 @@
 import unittest
 import os
 import requests_mock
-from parsons import Airtable, Table
+from parsons.airtable import Airtable
+from parsons.etl import Table
 from test.utils import assert_matching_tables
 from airtable_responses import *
 

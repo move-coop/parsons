@@ -1,4 +1,4 @@
-from parsons import Table
+from parsons.etl import Table
 import requests
 import logging
 from parsons.utilities import check_env

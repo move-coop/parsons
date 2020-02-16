@@ -66,17 +66,17 @@ class Table(ETL, ToFrom):
 
     def __getitem__(self, index):
 
-        self._index_count += 1
-        if self._index_count >= DIRECT_INDEX_WARNING_COUNT:
-            logger.warning("""
-                You have indexed directly into this Table multiple times. This can be inefficient,
-                as data transformations you've made will be computed _each time_ you index into the
-                Table. If you are accessing many rows of data, consider switching to this style of
-                iteration, which is much more efficient:
-                `for row in table:`
-                """)
+        if isinstance(index, int):
 
-        return petl.dicts(self.table)[index]
+            return self.row_data(index)
+
+        elif isinstance(index, str):
+
+            return self.column_data(index)
+
+        else:
+
+            raise TypeError('You must pass a string or an index as a value.')
 
     def _repr_html_(self):
         """
@@ -124,6 +124,48 @@ class Table(ETL, ToFrom):
         # If first value is empty, return None
         except IndexError:
             return None
+
+    def row_data(self, row_index):
+        """
+        Returns a row in table
+
+        `Args:`
+            row_index: int
+        `Returns:`
+            dict
+                A dictionary of the row with the column as the key and the cell
+                as the value.
+        """
+
+        self._index_count += 1
+        if self._index_count >= DIRECT_INDEX_WARNING_COUNT:
+            logger.warning("""
+                You have indexed directly into this Table multiple times. This can be inefficient,
+                as data transformations you've made will be computed _each time_ you index into the
+                Table. If you are accessing many rows of data, consider switching to this style of
+                iteration, which is much more efficient:
+                `for row in table:`
+                """)
+
+        return petl.dicts(self.table)[row_index]
+
+    def column_data(self, column_name):
+        """
+        Returns the data in the column as a list.
+
+        `Args:`
+            column_name: str
+                The name of the column
+        `Returns`:
+            list
+                A list of data in the column.
+        """
+
+        if column_name in self.columns:
+            return list(self.table[column_name])
+
+        else:
+            raise ValueError('Column name not found.')
 
     def materialize(self):
         """

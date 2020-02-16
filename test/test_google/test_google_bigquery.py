@@ -4,7 +4,7 @@ import unittest.mock as mock
 from google.cloud import bigquery
 from google.cloud import exceptions
 from parsons.google.google_bigquery import GoogleBigQuery
-from parsons import Table
+from parsons.etl import Table
 
 
 # Test class to fake the RowIterator interface for BigQuery job results

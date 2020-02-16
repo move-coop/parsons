@@ -1,4 +1,4 @@
-from parsons import Table
+from parsons.etl import Table
 from requests import request
 from parsons.utilities import check_env, json_format
 import datetime

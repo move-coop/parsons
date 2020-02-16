@@ -1,4 +1,4 @@
-from parsons import Table
+from parsons.etl import Table
 from slackclient import SlackClient
 from slackclient.exceptions import SlackClientError
 import os

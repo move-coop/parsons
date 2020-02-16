@@ -115,6 +115,22 @@ class TestNGPVAN(unittest.TestCase):
         self.assertEqual(self.van.get_supporter_group(12), json)
 
     @requests_mock.Mocker()
+    def test_delete_supporter_group(self, m):
+
+        # Test good input
+        good_supporter_group_id = 5
+        good_ep = f'supporterGroups/{good_supporter_group_id}'
+        m.delete(self.van.connection.uri + good_ep, status_code=204)
+        self.van.delete_supporter_group(good_supporter_group_id)
+
+        # Test bad input raises
+        bad_supporter_group_id = 999
+        bad_vanid = 99999
+        bad_ep = f'supporterGroups/{bad_supporter_group_id}'
+        m.delete(self.van.connection.uri + bad_ep, status_code=404)
+        self.assertRaises(HTTPError, self.van.delete_supporter_group, bad_supporter_group_id)
+
+    @requests_mock.Mocker()
     def test_add_person_supporter_group(self, m):
 
         # Test good input

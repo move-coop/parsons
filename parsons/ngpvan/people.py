@@ -62,7 +62,8 @@ class People(object):
                                    street_number, street_name, zip, match_map)
 
     def upsert_person(self, first_name=None, last_name=None, date_of_birth=None, email=None,
-                      phone=None, street_number=None, street_name=None, zip=None, match_map=None):
+                      phone=None, phone_type=None, street_number=None, street_name=None, zip=None,
+                      match_map=None):
         """
         Create or update a person record.
 
@@ -94,6 +95,9 @@ class People(object):
                 The person's email address
             phone: str
                 Phone number of any type (Work, Cell, Home)
+            phone_type: str
+                One of 'H' for home phone, 'W' for work phone, 'C' for cell, 'M' for
+                main phone or 'F' for fax line. Defaults to home phone.
             street_number: str
                 Street Number
             street_name: str
@@ -107,12 +111,12 @@ class People(object):
             A person dict
         """
 
-        return self._people_search(first_name, last_name, date_of_birth, email, phone,
+        return self._people_search(first_name, last_name, date_of_birth, email, phone, phone_type,
                                    street_number, street_name, zip, match_map, create=True)
 
     def _people_search(self, first_name=None, last_name=None, date_of_birth=None, email=None,
-                       phone=None, street_number=None, street_name=None, zip=None, match_map=None,
-                       create=False):
+                       phone=None, phone_type='H', street_number=None, street_name=None,
+                       zip=None, match_map=None, create=False):
         # Internal method to hit the people find/create endpoints
 
         # Ensure that the minimum combination of fields were passed
@@ -127,7 +131,7 @@ class People(object):
             if email:
                 json['emails'] = [{'email': email}]
             if phone:  # To Do: Strip out non-integers from phone
-                json['phones'] = [{'phoneNumber': phone}]
+                json['phones'] = [{'phoneNumber': phone, 'phoneType': phone_type}]
             if date_of_birth:
                 json['dateOfBirth'] = date_of_birth
             if zip:
@@ -364,3 +368,30 @@ class People(object):
 
         self.connection.post_request(f"people/{vanid_1}/relationships", json=json)
         logger.info('Relationship {vanid_1} to {vanid_2} created.')
+
+    def apply_person_code(self, id, code_id, id_type='vanid'):
+        """
+        Apply a code to a person.
+
+        `Args:`
+            id: str
+                A valid person id.
+            code_id: int
+                A valid code id.
+            id_type: str
+                A known person identifier type available on this VAN instance
+                such as ``dwid``
+        `Returns:`
+            ``None``
+        """
+
+        # Set url based on id_type
+        if id_type == 'vanid':
+            url = f"people/{id}/codes"
+        else:
+            url = f"people/{id_type}:{id}/codes"
+
+        json = {"codeId": code_id}
+
+        self.connection.post_request(url, json=json)
+        logger.info(f'Code {code_id} applied to person id {id}.')

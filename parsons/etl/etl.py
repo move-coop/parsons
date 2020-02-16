@@ -728,7 +728,7 @@ class ETL(object):
             List of Parsons tables
         """
 
-        from parsons import Table  # Just trying to avoid recursive imports.
+        from parsons.etl import Table
         return [Table(petl.rowslice(self.table, i, i+rows)) for i in range(0, self.num_rows, rows)]
 
     @staticmethod
@@ -771,7 +771,7 @@ class ETL(object):
             `Parsons Table` and also updates self
         """
 
-        from parsons import Table  # Just trying to avoid recursive imports.
+        from parsons.etl import Table  # Just trying to avoid recursive imports.
 
         normalize_fn = Table.get_normalized_column_name if fuzzy_match else (lambda s: s)
 
@@ -909,5 +909,23 @@ class ETL(object):
             header=headers,
             presorted=presorted,
             **kwargs)
+
+        return self
+
+    def sort(self, columns=None, reverse=False):
+        """
+        Sort the rows a table.
+
+        `Args:`
+            sort_columns: list or str
+                Sort by a single column or a list of column. If ``None`` then
+                will sort columns from left to right.
+            reverse: boolean
+                Sort rows in reverse order.
+        `Returns:`
+            `Parsons Table` and also updates self
+        """
+
+        self.table = petl.sort(self.table, key=columns, reverse=reverse)
 
         return self

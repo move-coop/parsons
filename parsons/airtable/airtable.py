@@ -1,5 +1,5 @@
 from airtable import Airtable as AT
-from parsons import Table
+from parsons.etl import Table
 from parsons.utilities import check_env
 import logging
 

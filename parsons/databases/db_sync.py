@@ -81,7 +81,8 @@ class DBSync:
     def table_sync_incremental(self, source_table, destination_table, primary_key,
                                distinct_check=True, **kwargs):
         """
-        Incremental sync of table from a source database to a destination database.
+        Incremental sync of table from a source database to a destination database
+        using an incremental primary key.
 
         `Args:`
             source_table: str
@@ -92,8 +93,8 @@ class DBSync:
                 If destination table exists either ``drop`` or ``truncate``. Truncate is
                 useful when there are dependent views associated with the table.
             primary_key: str
-                The name of the primary key or timestamp column. This must be the same
-                for the source and destination table.
+                The name of the primary key. This must be the same for the source and
+                destination table.
             distinct_check: bool
                 Check that the source table primary key is distinct prior to running the
                 sync. If it is not, an error will be raised.

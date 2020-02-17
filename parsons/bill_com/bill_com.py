@@ -302,7 +302,8 @@ class BillCom(object):
           "headers": {
             "fromUserId": from_user_id,
             "toEmailAddresses": to_email_addresses,
-            "subject": message_subject
+            "subject": message_subject,
+            **locals()['kwargs']
           },
           "content": {
             "body": message_body

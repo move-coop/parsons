@@ -59,7 +59,7 @@ class DBSync:
                 destination_tbl.truncate()
                 self._check_column_match(source_tbl, destination_tbl)
             else:
-                raise ValueError('Invalid if_exists type. Must be drop or truncate.')
+                raise ValueError('Invalid if_exists argument. Must be drop or truncate.')
 
         # Copy rows in chunks
         copied_rows = 0
@@ -106,6 +106,11 @@ class DBSync:
         # Create the table objects
         source_tbl = self.source_db.table(source_table)
         destination_tbl = self.dest_db.table(destination_table)
+
+        # Check that the destination table exists. If it does not, then run a
+        # full sync instead.
+        if not destination_tbl.exists:
+            self.table_sync_full(source_table, destination_table)
 
         # Check that the source table primary key is distinct
         if distinct_check and not source_tbl.distinct_primary_key(primary_key):

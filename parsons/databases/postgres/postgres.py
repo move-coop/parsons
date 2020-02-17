@@ -84,6 +84,7 @@ class Postgres(PostgresCore):
 
         return PostgresTable(self, table_name)
 
+
 class PostgresTable(BaseTable):
     # Postgres table object.
 

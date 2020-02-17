@@ -172,7 +172,6 @@ class DBSync:
         logger.info('Source and destination table row counts match.')
         return True
 
-
     def _check_column_match(self, source_table_obj, destination_table_obj):
         """
         Ensure that the columns from each table match
@@ -181,4 +180,3 @@ class DBSync:
         if source_table_obj.columns != destination_table_obj.columns:
             raise ValueError("""Destination table columns do not match source table columns.
                              Consider dropping destination table and running a full sync.""")
-

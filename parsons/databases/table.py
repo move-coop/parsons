@@ -3,9 +3,10 @@ import logging
 logger = logging.getLogger(__name__)
 
 """
-The BaseTable class is a child class for generating a table classes that are 
+The BaseTable class is a child class for generating a table classes that are
 specific to each flavor of SQL database.
 """
+
 
 class BaseTable:
     """

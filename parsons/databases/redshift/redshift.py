@@ -3,6 +3,7 @@ from parsons.databases.redshift.rs_copy_table import RedshiftCopyTable
 from parsons.databases.redshift.rs_create_table import RedshiftCreateTable
 from parsons.databases.redshift.rs_table_utilities import RedshiftTableUtilities
 from parsons.databases.redshift.rs_schema import RedshiftSchema
+from parsons.databases.table import BaseTable
 from parsons.utilities import files
 import psycopg2
 import psycopg2.extras
@@ -727,3 +728,14 @@ class Redshift(RedshiftCreateTable, RedshiftCopyTable, RedshiftTableUtilities, R
             connection.set_session(autocommit=True)
             self.query_with_connection(sql, connection)
             logger.info(f'Altered {table_name} {column_name}.')
+
+    def table(self, table_name):
+        # Return a Redshift table object
+
+        return RedshiftTable(self, table_name)
+
+
+class RedshiftTable(BaseTable):
+    # Postgres table object.
+
+    pass

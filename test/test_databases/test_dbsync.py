@@ -64,7 +64,7 @@ class TestPostgresDBSync(unittest.TestCase):
         assert_matching_tables(source, destination)
 
     def test_table_sync_full_chunk(self):
-        # Test chunking.
+        # Test chunking in full sync.
 
         self.db_sync.chunk_size = 10
         self.db_sync.table_sync_full(f'{self.temp_schema}.source',
@@ -77,7 +77,6 @@ class TestPostgresDBSync(unittest.TestCase):
     def test_table_sync_incremental(self):
         # Test that incremental sync
 
-        # Test that a basic incremental sync works.
         self.pg.copy(self.table1, f'{self.temp_schema}.destination')
         self.pg.copy(self.table2, f'{self.temp_schema}.source', if_exists='append')
         self.db_sync.table_sync_incremental(f'{self.temp_schema}.source',
@@ -87,6 +86,21 @@ class TestPostgresDBSync(unittest.TestCase):
         count1 = self.pg.query(f"SELECT * FROM {self.temp_schema}.source")
         count2 = self.pg.query(f"SELECT * FROM {self.temp_schema}.destination")
         assert_matching_tables(count1, count2)
+
+    def test_table_sync_full_chunk(self):
+        # Test chunking of incremental sync.
+
+        self.db_sync.chunk_size = 10
+        self.pg.copy(self.table1, f'{self.temp_schema}.destination')
+        self.pg.copy(self.table2, f'{self.temp_schema}.source', if_exists='append')
+        self.db_sync.table_sync_incremental(f'{self.temp_schema}.source',
+                                            f'{self.temp_schema}.destination',
+                                            'pk')
+
+        count1 = self.pg.query(f"SELECT * FROM {self.temp_schema}.source")
+        count2 = self.pg.query(f"SELECT * FROM {self.temp_schema}.destination")
+        assert_matching_tables(count1, count2)
+
 
     def test_table_sync_incremental_create_destination_table(self):
         # Test that an incremental sync works if the destination table does not exist.

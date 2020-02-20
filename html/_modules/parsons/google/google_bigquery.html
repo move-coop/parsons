@@ -224,6 +224,8 @@
         <span class="c1"># This attribute will be used to hold the client once we have created it.</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_client</span> <span class="o">=</span> <span class="kc">None</span>
 
+        <span class="bp">self</span><span class="o">.</span><span class="n">dialect</span> <span class="o">=</span> <span class="s1">&#39;bigquery&#39;</span>
+
 <div class="viewcode-block" id="GoogleBigQuery.copy"><a class="viewcode-back" href="../../../google_cloud.html#parsons.GoogleBigQuery.copy">[docs]</a>    <span class="k">def</span> <span class="nf">copy</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">table_obj</span><span class="p">,</span> <span class="n">dataset_name</span><span class="p">,</span> <span class="n">table_name</span><span class="p">,</span> <span class="n">if_exists</span><span class="o">=</span><span class="s1">&#39;fail&#39;</span><span class="p">,</span>
              <span class="n">tmp_gcs_bucket</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">gcs_client</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">job_config</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">load_kwargs</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>

@@ -235,9 +235,7 @@
             <span class="k">raise</span> <span class="n">error</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">timeout</span> <span class="o">=</span> <span class="n">timeout</span>
-        <span class="c1"># Petl needs this to create tables</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">dialect</span> <span class="o">=</span> <span class="s1">&#39;postgresql&#39;</span>
-
+        <span class="bp">self</span><span class="o">.</span><span class="n">dialect</span> <span class="o">=</span> <span class="s1">&#39;redshift&#39;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">s3_temp_bucket</span> <span class="o">=</span> <span class="n">s3_temp_bucket</span> <span class="ow">or</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;S3_TEMP_BUCKET&#39;</span><span class="p">)</span>
 
     <span class="nd">@contextmanager</span>

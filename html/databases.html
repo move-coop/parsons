@@ -89,6 +89,11 @@
 <li class="toctree-l2"><a class="reference internal" href="#google-bigquery">Google BigQuery</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#postgres">Postgres</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#redshift">Redshift</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#database-sync">Database Sync</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#examples">Examples</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#api">API</a></li>
+</ul>
+</li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="facebook_ads.html">FacebookAds</a></li>
@@ -340,6 +345,114 @@ commit manually with <code class="docutils literal notranslate"><span class="pre
 <div class="section" id="redshift">
 <h2>Redshift<a class="headerlink" href="#redshift" title="Permalink to this headline">¶</a></h2>
 <p>See <a class="reference internal" href="redshift.html"><span class="doc">Redshift</span></a> section for documentation.</p>
+</div>
+<div class="section" id="database-sync">
+<h2>Database Sync<a class="headerlink" href="#database-sync" title="Permalink to this headline">¶</a></h2>
+<p>Sync tables between two databases with just a few lines of code.</p>
+<div class="section" id="examples">
+<h3>Examples<a class="headerlink" href="#examples" title="Permalink to this headline">¶</a></h3>
+<p><strong>Full Sync Of Tables</strong>
+Copy all data from a source table to a destination table.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Create source and destination database objects</span>
+<span class="n">source_rs</span> <span class="o">=</span> <span class="n">Redshift</span><span class="p">()</span>
+<span class="n">destination_rs</span> <span class="o">=</span> <span class="n">Postgres</span><span class="p">()</span>
+
+<span class="c1"># Create db sync object and run sync.</span>
+<span class="n">db_sync</span> <span class="o">=</span> <span class="n">DBSync</span><span class="p">(</span><span class="n">source_rs</span><span class="p">,</span> <span class="n">destination_rs</span><span class="p">)</span> <span class="c1"># Create DBSync Object</span>
+<span class="n">db_sync</span><span class="o">.</span><span class="n">table_sync_full</span><span class="p">(</span><span class="s1">&#39;parsons.source_data&#39;</span><span class="p">,</span> <span class="s1">&#39;parsons.destination_data&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><strong>Incremental Sync of Tables</strong>
+Copy just new data in the table. Utilize this method for tables with
+distinct primary keys.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Create source and destination database objects</span>
+<span class="n">source_rs</span> <span class="o">=</span> <span class="n">Postgres</span><span class="p">()</span>
+<span class="n">destination_rs</span> <span class="o">=</span> <span class="n">Postgres</span><span class="p">()</span>
+
+<span class="c1"># Create db sync object and run sync.</span>
+<span class="n">db_sync</span> <span class="o">=</span> <span class="n">DBSync</span><span class="p">(</span><span class="n">source_pg</span><span class="p">,</span> <span class="n">destination_pg</span><span class="p">)</span> <span class="c1"># Create DBSync Object</span>
+<span class="n">db_sync</span><span class="o">.</span><span class="n">table_sync_incremental</span><span class="p">(</span><span class="s1">&#39;parsons.source_data&#39;</span><span class="p">,</span> <span class="s1">&#39;parsons.destination_data&#39;</span><span class="p">,</span> <span class="s1">&#39;myid&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="api">
+<h3>API<a class="headerlink" href="#api" title="Permalink to this headline">¶</a></h3>
+<dl class="class">
+<dt id="parsons.DBSync">
+<em class="property">class </em><code class="descclassname">parsons.</code><code class="descname">DBSync</code><span class="sig-paren">(</span><em>source_db</em>, <em>destination_db</em>, <em>chunk_size=100000</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/databases/db_sync.html#DBSync"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.DBSync" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sync tables between databases. Works with <code class="docutils literal notranslate"><span class="pre">Postgres</span></code> databases.</p>
+<dl class="docutils">
+<dt><cite>Args:</cite></dt>
+<dd><dl class="first last docutils">
+<dt>source_db: Database connection object</dt>
+<dd>A database object.</dd>
+<dt>destination_db: Database connection object</dt>
+<dd>A database object.</dd>
+<dt>chunk_size: int</dt>
+<dd>The number of rows per transaction copy when syncing a table. The
+default value is 100,000 rows.</dd>
+</dl>
+</dd>
+<dt><cite>Returns:</cite></dt>
+<dd>A DBSync object.</dd>
+</dl>
+<dl class="method">
+<dt id="parsons.DBSync.table_sync_full">
+<code class="descname">table_sync_full</code><span class="sig-paren">(</span><em>source_table</em>, <em>destination_table</em>, <em>if_exists='drop'</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/databases/db_sync.html#DBSync.table_sync_full"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.DBSync.table_sync_full" title="Permalink to this definition">¶</a></dt>
+<dd><p>Full sync of table from a source database to a destination database. This will
+wipe all data from the destination table.</p>
+<dl class="docutils">
+<dt><cite>Args:</cite></dt>
+<dd><dl class="first last docutils">
+<dt>source_table: str</dt>
+<dd>Full table path (e.g. <code class="docutils literal notranslate"><span class="pre">my_schema.my_table</span></code>)</dd>
+<dt>destination_table: str</dt>
+<dd>Full table path (e.g. <code class="docutils literal notranslate"><span class="pre">my_schema.my_table</span></code>)</dd>
+<dt>if_exists: str</dt>
+<dd>If destination table exists either <code class="docutils literal notranslate"><span class="pre">drop</span></code> or <code class="docutils literal notranslate"><span class="pre">truncate</span></code>. Truncate is
+useful when there are dependent views associated with the table.</dd>
+<dt><a href="#id3"><span class="problematic" id="id4">**</span></a>kwargs: args</dt>
+<dd>Optional copy arguments for destination database.</dd>
+</dl>
+</dd>
+<dt><cite>Returns:</cite></dt>
+<dd><code class="docutils literal notranslate"><span class="pre">None</span></code></dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="parsons.DBSync.table_sync_incremental">
+<code class="descname">table_sync_incremental</code><span class="sig-paren">(</span><em>source_table</em>, <em>destination_table</em>, <em>primary_key</em>, <em>distinct_check=True</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/databases/db_sync.html#DBSync.table_sync_incremental"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.DBSync.table_sync_incremental" title="Permalink to this definition">¶</a></dt>
+<dd><p>Incremental sync of table from a source database to a destination database
+using an incremental primary key.</p>
+<dl class="docutils">
+<dt><cite>Args:</cite></dt>
+<dd><dl class="first last docutils">
+<dt>source_table: str</dt>
+<dd>Full table path (e.g. <code class="docutils literal notranslate"><span class="pre">my_schema.my_table</span></code>)</dd>
+<dt>destination_table: str</dt>
+<dd>Full table path (e.g. <code class="docutils literal notranslate"><span class="pre">my_schema.my_table</span></code>)</dd>
+<dt>if_exists: str</dt>
+<dd>If destination table exists either <code class="docutils literal notranslate"><span class="pre">drop</span></code> or <code class="docutils literal notranslate"><span class="pre">truncate</span></code>. Truncate is
+useful when there are dependent views associated with the table.</dd>
+<dt>primary_key: str</dt>
+<dd>The name of the primary key. This must be the same for the source and
+destination table.</dd>
+<dt>distinct_check: bool</dt>
+<dd>Check that the source table primary key is distinct prior to running the
+sync. If it is not, an error will be raised.</dd>
+<dt><a href="#id5"><span class="problematic" id="id6">**</span></a>kwargs: args</dt>
+<dd>Optional copy arguments for destination database.</dd>
+</dl>
+</dd>
+<dt><cite>Returns:</cite></dt>
+<dd><code class="docutils literal notranslate"><span class="pre">None</span></code></dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</div>
 </div>
 </div>
 

@@ -88,7 +88,7 @@ class Redash(object):
                 the values, then you must include the "p_" prefixes and it should be a single
                 url-encoded string as you would see it in the URL bar.
         `Returns:`
-            Response Class
+            Table Class
         """
         query_id = check('REDASH_QUERY_ID', query_id, optional=True)
         params_from_env = check('REDASH_QUERY_PARAMS', '', optional=True)
@@ -127,7 +127,7 @@ class Redash(object):
                 If you did not supply a user_api_key on the Redash object, then you can
                 supply a query_api_key to get cached results back anonymously.
         `Returns:`
-            Response Class
+            Table Class
         """
         query_id = check('REDASH_QUERY_ID', query_id)
         query_api_key = check('REDASH_QUERY_API_KEY', query_id)

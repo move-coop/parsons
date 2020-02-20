@@ -61,9 +61,7 @@ class Redshift(RedshiftCreateTable, RedshiftCopyTable, RedshiftTableUtilities, R
             raise error
 
         self.timeout = timeout
-        # Petl needs this to create tables
-        self.dialect = 'postgresql'
-
+        self.dialect = 'redshift'
         self.s3_temp_bucket = s3_temp_bucket or os.environ.get('S3_TEMP_BUCKET')
 
     @contextmanager

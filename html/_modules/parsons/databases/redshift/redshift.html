@@ -187,6 +187,7 @@
 <span class="kn">import</span> <span class="nn">petl</span>
 <span class="kn">from</span> <span class="nn">contextlib</span> <span class="kn">import</span> <span class="n">contextmanager</span>
 <span class="kn">import</span> <span class="nn">datetime</span>
+<span class="kn">import</span> <span class="nn">random</span>
 
 <span class="c1"># Max number of rows that we query at a time, so we can avoid loading huge</span>
 <span class="c1"># data sets into memory.</span>
@@ -794,7 +795,10 @@
 <span class="sd">                Check if the primary key column is distinct. Raise error if not.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
-        <span class="n">staging_tbl</span> <span class="o">=</span> <span class="s1">&#39;</span><span class="si">{}</span><span class="s1">_</span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">target_table</span><span class="p">,</span> <span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s1">&#39;%Y%m</span><span class="si">%d</span><span class="s1">_%M%S&#39;</span><span class="p">))</span>
+        <span class="n">noise</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;{random.randrange(0, 10000):04}&#39;</span><span class="p">[:</span><span class="mi">4</span><span class="p">]</span>
+        <span class="n">date_stamp</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s1">&#39;%Y%m</span><span class="si">%d</span><span class="s1">_%H%M&#39;</span><span class="p">)</span>
+        <span class="c1"># Generate a temp table like &quot;table_tmp_20200210_1230_14212&quot;</span>
+        <span class="n">staging_tbl</span> <span class="o">=</span> <span class="s1">&#39;</span><span class="si">{}</span><span class="s1">_stg_</span><span class="si">{}</span><span class="s1">_</span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">target_table</span><span class="p">,</span> <span class="n">date_stamp</span><span class="p">,</span> <span class="n">noise</span><span class="p">)</span>
 
         <span class="k">if</span> <span class="n">distinct_check</span><span class="p">:</span>
             <span class="n">sql</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;SELECT COUNT(*)-COUNT(DISTINCT </span><span class="si">{primary_key}</span><span class="s1">) C FROM </span><span class="si">{target_table}</span><span class="s1">;&#39;</span>

@@ -110,7 +110,8 @@ class Redash(object):
                 f'{self.base_url}/api/queries/{query_id}/results/{result_id}.csv',
                 verify=self.verify)
             if response.status_code != 200:
-                raise RedashQueryFailed(f'Failed getting results for query {query_id}. {response.text}')
+                raise RedashQueryFailed(
+                    f'Failed getting results for query {query_id}. {response.text}')
         else:
             raise RedashQueryFailed(f'Failed getting result {query_id}. {response.text}')
         return Table.from_csv_string(response.text)

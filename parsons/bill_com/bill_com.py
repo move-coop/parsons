@@ -66,7 +66,7 @@ class BillCom(object):
         `Returns:`
             A dictionary containing the JSON response from the post request.
         """
-        
+
         if action == 'Read':
             url = "%sCrud/%s/%s.json" % (self.api_url, action, object_name)
         elif action == 'Create':
@@ -137,7 +137,7 @@ class BillCom(object):
         data = {
            "start": start_customer,
            "max": max_customer,
-            **locals()['kwargs']
+           **locals()['kwargs']
         }
         return self.get_request_response(data, "List", "Customer")
 
@@ -158,7 +158,7 @@ class BillCom(object):
         data = {
            "start": start_invoice,
            "max": max_invoice,
-            **locals()['kwargs']
+           **locals()['kwargs']
         }
         return self.get_request_response(data, "List", "Invoice")
 
@@ -209,55 +209,58 @@ class BillCom(object):
         if "id" in customer1.keys():
             if customer1["id"] == customer2["id"]:
                 return True
-        if "id" not in customer1.keys() and \
-        customer2['email']:
+        if "id" not in customer1.keys() and customer2['email']:
             if customer1['email'].lower() == customer2['email'].lower():
                 return True
         return False
 
     def create_customer(self, customer_name, customer_email, **kwargs):
-            """
-            `Args:`
-                customer_name: str
-                    The name of the customer
-                customer_email: str
-                    The customer's email
-            `Keyword Args:`
-                **kwargs:
-                    Any other fields to store about the customer.
+        """
+        `Args:`
+            customer_name: str
+                The name of the customer
+            customer_email: str
+                The customer's email
+        `Keyword Args:`
+            **kwargs:
+                Any other fields to store about the customer.
 
-            `Returns:`
-                A dictionary of the customer's information including an id.
-                If the customer already exists, this function will not
-                create a new id and instead use the existing id.
-            """
-            customer = {"name": customer_name,
-                        "email": customer_email,
-                        **locals()['kwargs']}
-            # check if customer already exists
-            customer_list = self.get_customer_list()
-            for existing_customer in customer_list:
-                if self.check_customer(customer, existing_customer):
-                    return existing_customer
-            # customer doesn't exist, create
-            data = {
-                "obj": customer
-            }
-            return self.get_request_response(data, "Create", "Customer")
+        `Returns:`
+            A dictionary of the customer's information including an id.
+            If the customer already exists, this function will not
+            create a new id and instead use the existing id.
+        """
+        customer = {"name": customer_name,
+                    "email": customer_email,
+                    **locals()['kwargs']}
+        # check if customer already exists
+        customer_list = self.get_customer_list()
+        for existing_customer in customer_list:
+            if self.check_customer(customer, existing_customer):
+                return existing_customer
+        # customer doesn't exist, create
+        data = {
+            "obj": customer
+        }
+        return self.get_request_response(data, "Create", "Customer")
 
-    def create_invoice(self, customer_id, invoice_number, invoice_date, due_date, invoice_line_items, **kwargs):
+    def create_invoice(self, customer_id, invoice_number, invoice_date,
+                       due_date, invoice_line_items, **kwargs):
         """
         `Args:`
             customer_id: str
                 The customer's id
             invoice_number: str
-                The invoice number. Every invoice must have a distinct invoice number.
+                The invoice number. Every invoice must have a distinct
+                invoice number.
             invoice_date: str
-                The invoice date. This can be the date the invoice was generated of any other relevant date.
+                The invoice date. This can be the date the invoice was
+                generated of any other relevant date.
             due_date: str
                 The date on which the invoice is due.
             invoice_line_items: list
-                A list of dicts, one for each line item in the invoice. The only required field is "quantity".
+                A list of dicts, one for each line item in the invoice.
+                The only required field is "quantity".
             **kwargs:
                 Any other invoice details to pass.
 
@@ -274,11 +277,12 @@ class BillCom(object):
                     "dueDate": due_date,
                     "invoiceLineItems": invoice_line_items,
                     **locals()['kwargs']
-            }
+                    }
         }
         return self.get_request_response(data, "Create", "Invoice")
 
-    def send_invoice(self, invoice_id, from_user_id, to_email_addresses, message_subject, message_body, **kwargs):
+    def send_invoice(self, invoice_id, from_user_id, to_email_addresses,
+                     message_subject, message_body, **kwargs):
         """
         `Args:`
             invoice_id: str

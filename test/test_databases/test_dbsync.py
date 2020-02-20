@@ -7,9 +7,6 @@ _dir = os.path.dirname(__file__)
 
 TEMP_SCHEMA = 'parsons_test'
 
-os.environ["PGUSER"] = 'justinburchard'
-os.environ["PGPASS"] = 'justinburchard'
-os.environ["PGHOST"] = 'localhost'
 
 # These tests interact directly with the Postgres database. In order to run, set the
 # env to LIVE_TEST='TRUE'.

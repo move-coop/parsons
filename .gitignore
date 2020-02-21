@@ -112,3 +112,6 @@ doctrees/
 .buildinfo
 
 .DS_Store
+
+bill_com_credentials.*
+*.ipynb

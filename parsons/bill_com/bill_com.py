@@ -234,6 +234,7 @@ class BillCom(object):
         customer = {"name": customer_name,
                     "email": customer_email,
                     **kwargs}
+
         # check if customer already exists
         customer_list = self.get_customer_list()
         for existing_customer in customer_list:

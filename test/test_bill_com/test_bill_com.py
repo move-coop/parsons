@@ -3,7 +3,6 @@ import requests_mock
 import json
 from parsons import Table
 from test.utils import assert_matching_tables
-from parsons.bill_com.bill_com import BillCom
 
 
 class TestBillCom(unittest.TestCase):

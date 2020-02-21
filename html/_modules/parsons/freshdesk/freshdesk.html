@@ -298,7 +298,7 @@
                   <span class="s1">&#39;phone&#39;</span><span class="p">:</span> <span class="n">phone</span><span class="p">,</span>
                   <span class="s1">&#39;company_id&#39;</span><span class="p">:</span> <span class="n">company_id</span><span class="p">,</span>
                   <span class="s1">&#39;state&#39;</span><span class="p">:</span> <span class="n">state</span><span class="p">,</span>
-                  <span class="s1">&#39;updated_since&#39;</span><span class="p">:</span> <span class="n">updated_since</span><span class="p">}</span>
+                  <span class="s1">&#39;_updated_since&#39;</span><span class="p">:</span> <span class="n">updated_since</span><span class="p">}</span>
 
         <span class="n">tbl</span> <span class="o">=</span> <span class="n">Table</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">get_request</span><span class="p">(</span><span class="s1">&#39;contacts&#39;</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="n">params</span><span class="p">))</span>
         <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Found </span><span class="si">{tbl.num_rows}</span><span class="s1"> contacts.&#39;</span><span class="p">)</span>

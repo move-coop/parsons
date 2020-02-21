@@ -104,7 +104,7 @@ class Freshdesk():
         return self.transform_table(tbl, expand_custom_fields)
 
     def get_contacts(self, email=None, mobile=None, phone=None, company_id=None,
-                     state=None, _updated_since=None, expand_custom_fields=None):
+                     state=None, updated_since=None, expand_custom_fields=None):
         """
         Get contacts.
 
@@ -124,7 +124,7 @@ class Freshdesk():
                   'phone': phone,
                   'company_id': company_id,
                   'state': state,
-                  '_updated_since': _updated_since}
+                  '_updated_since': updated_since}
 
         tbl = Table(self.get_request('contacts', params=params))
         logger.info(f'Found {tbl.num_rows} contacts.')

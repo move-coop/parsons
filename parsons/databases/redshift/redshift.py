@@ -740,6 +740,6 @@ class Redshift(RedshiftCreateTable, RedshiftCopyTable, RedshiftTableUtilities, R
 
 
 class RedshiftTable(BaseTable):
-    # Postgres table object.
+    # Redshift table object.
 
     pass

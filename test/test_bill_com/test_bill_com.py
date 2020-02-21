@@ -144,7 +144,7 @@ class TestBillCom(unittest.TestCase):
                                                                            'taxable': False,
                                                                            'taxCode': 'Non'}]}]}
 
-        self.fake_invoice_read_json = self.fake_invoice_read_json = \
+        self.fake_invoice_read_json = \
             {'response_status': 0,
              'response_message': 'Success',
              'response_data':

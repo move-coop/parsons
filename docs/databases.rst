@@ -36,6 +36,7 @@ Examples
 ========
 
 **Full Sync Of Tables**
+
 Copy all data from a source table to a destination table. 
 
 .. code-block:: python
@@ -49,6 +50,7 @@ Copy all data from a source table to a destination table.
    db_sync.table_sync_full('parsons.source_data', 'parsons.destination_data')
 
 **Incremental Sync of Tables**
+
 Copy just new data in the table. Utilize this method for tables with
 distinct primary keys.
 

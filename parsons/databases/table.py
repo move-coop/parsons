@@ -41,7 +41,7 @@ class BaseTable:
 
         sql = f"""
                SELECT
-               COUNT(DISTINCT {primary_key}) - COUNT(*)
+               COUNT(*) - COUNT(DISTINCT {primary_key})
                FROM {self.table};
                """
 
@@ -82,7 +82,7 @@ class BaseTable:
 
         return self.db.query(sql)
 
-    def get_new_rows_count(self, primary_key_col, max_value):
+    def get_new_rows_count(self, primary_key_col, start_value):
         """
         Get a count of rows that have a greater primary key value
         than the one provided.
@@ -92,12 +92,12 @@ class BaseTable:
                SELECT
                COUNT(*)
                FROM {self.table}
-               WHERE {primary_key_col} > {max_value};
+               WHERE {primary_key_col} > {start_value};
                """
 
         return self.db.query(sql).first
 
-    def get_new_rows(self, primary_key, max_value, offset=0, chunk_size=None):
+    def get_new_rows(self, primary_key, start_value, offset=0, chunk_size=None):
         """
         Get rows that have a greater primary key value than the one
         provided.
@@ -107,7 +107,7 @@ class BaseTable:
                SELECT
                *
                FROM {self.table}
-               WHERE {primary_key} > {max_value}
+               WHERE {primary_key} > {start_value}
                OFFSET {offset}
                """
 

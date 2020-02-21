@@ -5,7 +5,7 @@ logger = logging.getLogger(__name__)
 
 class DBSync:
     """
-    Sync tables between databases. Works with Postgres and Redshift databases.
+    Sync tables between databases. Works with ``Postgres`` databases.
 
     `Args:`
         source_db: Database connection object
@@ -14,12 +14,12 @@ class DBSync:
             A database object.
         chunk_size: int
             The number of rows per transaction copy when syncing a table. The
-            default value is 500,000 rows.
+            default value is 100,000 rows.
     `Returns:`
         A DBSync object.
     """
 
-    def __init__(self, source_db, destination_db, chunk_size=500000):
+    def __init__(self, source_db, destination_db, chunk_size=100000):
 
         self.source_db = source_db
         self.dest_db = destination_db
@@ -56,8 +56,8 @@ class DBSync:
             if if_exists == 'drop':
                 destination_tbl.drop()
             elif if_exists == 'truncate':
-                destination_tbl.truncate()
                 self._check_column_match(source_tbl, destination_tbl)
+                destination_tbl.truncate()
             else:
                 raise ValueError('Invalid if_exists argument. Must be drop or truncate.')
 
@@ -142,7 +142,7 @@ class DBSync:
 
                 # Get a chunk
                 rows = source_tbl.get_new_rows(primary_key=primary_key,
-                                               max_value=dest_max_pk,
+                                               start_value=dest_max_pk,
                                                offset=copied_rows,
                                                chunk_size=self.chunk_size)
 

@@ -5,7 +5,7 @@ logger = logging.getLogger(__name__)
 
 class DBSync:
     """
-    Sync tables between databases. Works with ``Postgres`` databases.
+    Sync tables between databases. Works with ``Postgres`` and ``Redshift`` databases.
 
     `Args:`
         source_db: Database connection object

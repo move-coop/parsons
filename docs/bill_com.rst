@@ -15,13 +15,13 @@ Quick Start
 	bc = BillCom(USERNAME, PASSWORD, ORG_ID, DEV_KEY, ENDPOINT_URL)
 
 	# List all Customers currently in the system
-	all_contacts = bc.getCustomerList()
+	all_contacts = bc.get_customer_list()
 
 	# Create a new customer
 	customer_data = {
 	    "contactFirstName": "Contact First Name",
 	}
-	bc.createCustomer('Customer Name', 'customer.email@fakeemail.com', customer_data)
+	bc.create_customer('Customer Name', 'customer.email@fakeemail.com', customer_data)
 
 ***
 API

@@ -81,8 +81,7 @@ class DBSync:
 
         logger.info(f'{source_table} synced: {copied_rows} total rows copied.')
 
-        if copied_rows > 0:
-            self._row_count_verify(source_tbl, destination_tbl)
+        self._row_count_verify(source_tbl, destination_tbl)
 
     def table_sync_incremental(self, source_table, destination_table, primary_key,
                                distinct_check=True, **kwargs):

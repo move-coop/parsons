@@ -61,7 +61,12 @@ class DBSync:
             else:
                 raise ValueError('Invalid if_exists argument. Must be drop or truncate.')
 
-        # Copy rows in chunks
+        # If the source table contains 0 rows, do not attempt to copy the table.
+        if source_tbl.num_rows == 0:
+            logger.info('Source table contains 0 rows')
+            return None
+
+        # Copy rows in chunks.
         copied_rows = 0
         while copied_rows < source_tbl.num_rows:
 
@@ -112,6 +117,11 @@ class DBSync:
         # full sync instead.
         if not destination_tbl.exists:
             self.table_sync_full(source_table, destination_table)
+
+        # If the source table contains 0 rows, do not attempt to copy the table.
+        if source_tbl.num_rows == 0:
+            logger.info('Source table contains 0 rows')
+            return None
 
         # Check that the source table primary key is distinct
         if distinct_check and not source_tbl.distinct_primary_key(primary_key):

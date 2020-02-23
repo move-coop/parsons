@@ -63,6 +63,17 @@ class TestPostgresDBSync(unittest.TestCase):
         destination = self.pg.query(f"SELECT * FROM {self.temp_schema}.destination")
         assert_matching_tables(source, destination)
 
+    def test_table_sync_full_empty_table(self):
+        # Test a full sync of a table when the source table is empty.
+
+        # Empty the source table
+        self.pg.query(f"TRUNCATE {self.temp_schema}.source")
+
+        # Attempt to sync.
+        self.db_sync.table_sync_full(f'{self.temp_schema}.source',
+                                      f'{self.temp_schema}.destination')
+
+
     def test_table_sync_full_chunk(self):
         # Test chunking in full sync.
 
@@ -87,7 +98,7 @@ class TestPostgresDBSync(unittest.TestCase):
         count2 = self.pg.query(f"SELECT * FROM {self.temp_schema}.destination")
         assert_matching_tables(count1, count2)
 
-    def test_table_sync_full_chunk(self):
+    def test_table_sync_incremental_chunk(self):
         # Test chunking of incremental sync.
 
         self.db_sync.chunk_size = 10
@@ -101,7 +112,6 @@ class TestPostgresDBSync(unittest.TestCase):
         count2 = self.pg.query(f"SELECT * FROM {self.temp_schema}.destination")
         assert_matching_tables(count1, count2)
 
-
     def test_table_sync_incremental_create_destination_table(self):
         # Test that an incremental sync works if the destination table does not exist.
         
@@ -112,3 +122,14 @@ class TestPostgresDBSync(unittest.TestCase):
         count1 = self.pg.query(f"SELECT * FROM {self.temp_schema}.source")
         count2 = self.pg.query(f"SELECT * FROM {self.temp_schema}.destination")
         assert_matching_tables(count1, count2)
+
+    def test_table_sync_incremental_empty_table(self):
+        # Test an incremental sync of a table when the source table is empty.
+
+        # Empty the source table
+        self.pg.query(f"TRUNCATE {self.temp_schema}.source")
+
+        # Attempt to sync.
+        self.db_sync.table_sync_incremental(f'{self.temp_schema}.source',
+                                            f'{self.temp_schema}.destination',
+                                            'pk')

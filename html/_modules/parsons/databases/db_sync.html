@@ -236,7 +236,12 @@
             <span class="k">else</span><span class="p">:</span>
                 <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;Invalid if_exists argument. Must be drop or truncate.&#39;</span><span class="p">)</span>
 
-        <span class="c1"># Copy rows in chunks</span>
+        <span class="c1"># If the source table contains 0 rows, do not attempt to copy the table.</span>
+        <span class="k">if</span> <span class="n">source_tbl</span><span class="o">.</span><span class="n">num_rows</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s1">&#39;Source table contains 0 rows&#39;</span><span class="p">)</span>
+            <span class="k">return</span> <span class="kc">None</span>
+
+        <span class="c1"># Copy rows in chunks.</span>
         <span class="n">copied_rows</span> <span class="o">=</span> <span class="mi">0</span>
         <span class="k">while</span> <span class="n">copied_rows</span> <span class="o">&lt;</span> <span class="n">source_tbl</span><span class="o">.</span><span class="n">num_rows</span><span class="p">:</span>
 
@@ -287,6 +292,11 @@
         <span class="c1"># full sync instead.</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="n">destination_tbl</span><span class="o">.</span><span class="n">exists</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">table_sync_full</span><span class="p">(</span><span class="n">source_table</span><span class="p">,</span> <span class="n">destination_table</span><span class="p">)</span>
+
+        <span class="c1"># If the source table contains 0 rows, do not attempt to copy the table.</span>
+        <span class="k">if</span> <span class="n">source_tbl</span><span class="o">.</span><span class="n">num_rows</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s1">&#39;Source table contains 0 rows&#39;</span><span class="p">)</span>
+            <span class="k">return</span> <span class="kc">None</span>
 
         <span class="c1"># Check that the source table primary key is distinct</span>
         <span class="k">if</span> <span class="n">distinct_check</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">source_tbl</span><span class="o">.</span><span class="n">distinct_primary_key</span><span class="p">(</span><span class="n">primary_key</span><span class="p">):</span>

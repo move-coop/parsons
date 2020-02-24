@@ -1,6 +1,8 @@
 import unittest
 import requests_mock
 import json
+from parsons import Table
+from test.utils import assert_matching_tables
 from parsons.bill_com.bill_com import BillCom
 
 
@@ -187,36 +189,36 @@ class TestBillCom(unittest.TestCase):
     def test_get_user_list(self, m):
         m.post(self.api_url + 'List/User.json',
                text=json.dumps(self.fake_user_list))
-        self.assertAlmostEqual(self.bc.get_user_list(),
-                               self.fake_user_list['response_data'])
+        assert_matching_tables(self.bc.get_user_list(),
+                               Table(self.fake_user_list['response_data']))
 
     @requests_mock.Mocker()
     def test_get_customer_list(self, m):
         m.post(self.api_url + 'List/Customer.json',
                text=json.dumps(self.fake_customer_list))
-        self.assertAlmostEqual(self.bc.get_customer_list(),
-                               self.fake_customer_list['response_data'])
+        assert_matching_tables(self.bc.get_customer_list(),
+                               Table(self.fake_customer_list['response_data']))
 
     @requests_mock.Mocker()
     def test_get_invoice_list(self, m):
         m.post(self.api_url + 'List/Invoice.json',
                text=json.dumps(self.fake_invoice_list))
-        self.assertAlmostEqual(self.bc.get_invoice_list(),
-                               self.fake_invoice_list['response_data'])
+        assert_matching_tables(self.bc.get_invoice_list(),
+                               Table(self.fake_invoice_list['response_data']))
 
     @requests_mock.Mocker()
     def test_read_customer(self, m):
         m.post(self.api_url + 'Crud/Read/Customer.json',
                text=json.dumps(self.fake_customer_read_json))
-        self.assertAlmostEqual(self.bc.read_customer('fake_customer_id'),
-                               self.fake_customer_read_json['response_data'])
+        self.assertEqual(self.bc.read_customer('fake_customer_id'),
+                         self.fake_customer_read_json['response_data'])
 
     @requests_mock.Mocker()
     def test_read_invoice(self, m):
         m.post(self.api_url + 'Crud/Read/Invoice.json',
                text=json.dumps(self.fake_invoice_read_json))
-        self.assertAlmostEqual(self.bc.read_invoice('fake_invoice_id'),
-                               self.fake_invoice_read_json['response_data'])
+        self.assertEqual(self.bc.read_invoice('fake_invoice_id'),
+                         self.fake_invoice_read_json['response_data'])
 
     def test_check_customer(self):
         self.assertTrue(self.bc.check_customer({'id': 'fake_customer_id'},
@@ -231,13 +233,13 @@ class TestBillCom(unittest.TestCase):
                                                  'email': 'fake_email2@fake_email.com'}))
 
     @requests_mock.Mocker()
-    def test_create_customer(self, m):
+    def test_get_or_create_customer(self, m):
         m.post(self.api_url + 'List/Customer.json',
                text=json.dumps(self.fake_customer_list))
         m.post(self.api_url + 'Crud/Create/Customer.json',
                text=json.dumps(self.fake_customer_read_json))
-        self.assertEqual(self.bc.create_customer('fake_customer_name',
-                                                 self.fake_customer_email),
+        self.assertEqual(self.bc.get_or_create_customer('fake_customer_name',
+                                                        self.fake_customer_email),
                          self.fake_customer_read_json['response_data'])
 
     @requests_mock.Mocker()

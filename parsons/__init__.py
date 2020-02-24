@@ -37,6 +37,7 @@ if not os.environ.get('PARSONS_SKIP_IMPORT_ALL'):
     from parsons.salesforce.salesforce import Salesforce
     from parsons.databases.postgres.postgres import Postgres
     from parsons.freshdesk.freshdesk import Freshdesk
+    from parsons.bill_com.bill_com import BillCom
 
     __all__ = [
         'VAN',
@@ -67,7 +68,8 @@ if not os.environ.get('PARSONS_SKIP_IMPORT_ALL'):
         'Twilio',
         'Salesforce',
         'Postgres',
-        'Freshdesk'
+        'Freshdesk',
+        'BillCom'
     ]
 
 # Define the default logging config for Parsons and its submodules. For now the

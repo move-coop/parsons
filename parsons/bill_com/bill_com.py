@@ -1,5 +1,6 @@
 import requests
 import json
+from parsons import Table
 
 
 class BillCom(object):
@@ -111,14 +112,14 @@ class BillCom(object):
                 Any other fields to pass
 
         `Returns:`
-            A list of dictionaries of user information for every user from start_user to max_user.
+            A Parsons Table of user information for every user from start_user to max_user.
         """
         data = {
            "start": start_user,
            "max": max_user,
-           **locals()['kwargs']
+           **kwargs
         }
-        return self.get_request_response(data, "List", "User")
+        return Table(self.get_request_response(data, "List", "User"))
 
     def get_customer_list(self, start_customer=1, max_customer=999, **kwargs):
         """
@@ -131,15 +132,15 @@ class BillCom(object):
                 Any other fields to pass
 
         `Returns:`
-            A list of dictionaries of customer information for
-            every user from start_customer to max_customer.
+            A Parsons Table of customer information for every user from start_customer
+            to max_customer.
         """
         data = {
            "start": start_customer,
            "max": max_customer,
-           **locals()['kwargs']
+           **kwargs
         }
-        return self.get_request_response(data, "List", "Customer")
+        return Table(self.get_request_response(data, "List", "Customer"))
 
     def get_invoice_list(self, start_invoice=1, max_invoice=999, **kwargs):
         """
@@ -152,15 +153,15 @@ class BillCom(object):
                 Any other fields to pass
 
         `Returns:`
-            A list of dictionaries of invoice information for
-            every invoice from start_invoice to max_invoice.
+            A list of dictionaries of invoice information for every invoice from start_invoice
+            to max_invoice.
         """
         data = {
            "start": start_invoice,
            "max": max_invoice,
-           **locals()['kwargs']
+           **kwargs
         }
-        return self.get_request_response(data, "List", "Invoice")
+        return Table(self.get_request_response(data, "List", "Invoice"))
 
     def read_customer(self, customer_id):
         """
@@ -214,7 +215,7 @@ class BillCom(object):
                 return True
         return False
 
-    def create_customer(self, customer_name, customer_email, **kwargs):
+    def get_or_create_customer(self, customer_name, customer_email, **kwargs):
         """
         `Args:`
             customer_name: str
@@ -232,7 +233,7 @@ class BillCom(object):
         """
         customer = {"name": customer_name,
                     "email": customer_email,
-                    **locals()['kwargs']}
+                    **kwargs}
         # check if customer already exists
         customer_list = self.get_customer_list()
         for existing_customer in customer_list:
@@ -276,7 +277,7 @@ class BillCom(object):
                     "invoiceDate": invoice_date,
                     "dueDate": due_date,
                     "invoiceLineItems": invoice_line_items,
-                    **locals()['kwargs']
+                    **kwargs
                     }
         }
         return self.get_request_response(data, "Create", "Invoice")
@@ -307,7 +308,7 @@ class BillCom(object):
             "fromUserId": from_user_id,
             "toEmailAddresses": to_email_addresses,
             "subject": message_subject,
-            **locals()['kwargs']
+            **kwargs
           },
           "content": {
             "body": message_body

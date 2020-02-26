@@ -84,11 +84,11 @@ Loading a score is a multi-step process. Once a score is set to approved, loadin
    tbl = Table.from_csv('winning_scores.csv')
 
    # Specify the score id slot and the column name for each score.
-   config = [{'id': score_id, 'column': 'winning_model'}]
+   config = [{'score_id': score_id, 'score_column': 'winning_model'}]
 
    # If you have multiple models in the same file, you can load them all at the same time.
    # In fact, VAN recommends that you do so to reduce their server loads.
-   config = [{'id': 5555, 'column': 'score1'}, {'id': 5556, 'column': 'score2'}]
+   config = [{'score_id': 5555, 'score_column': 'score1'}, {'score_id': 5556, 'score_column': 'score2'}]
 
    # The score file must posted to the internet. This configuration uses S3 to do so. In this
    # example, your S3 keys are stored as environmental variables. If not, you can pass them
@@ -102,7 +102,7 @@ Loading a score is a multi-step process. Once a score is set to approved, loadin
    from parsons import VAN
 
    van = VAN(db='MyVoters') # API key stored as an environmental variable
-   config = [{'id': 3421, 'column': 'winning_model'}]
+   config = [{'score_id': 3421, 'score_column': 'winning_model'}]
 
    # Note that auto_approve is set to False. This means that you need to manually approve
    # the job once it is loaded.

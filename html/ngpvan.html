@@ -281,11 +281,11 @@ documentation for all functions.</p>
 <span class="n">tbl</span> <span class="o">=</span> <span class="n">Table</span><span class="o">.</span><span class="n">from_csv</span><span class="p">(</span><span class="s1">&#39;winning_scores.csv&#39;</span><span class="p">)</span>
 
 <span class="c1"># Specify the score id slot and the column name for each score.</span>
-<span class="n">config</span> <span class="o">=</span> <span class="p">[{</span><span class="s1">&#39;id&#39;</span><span class="p">:</span> <span class="n">score_id</span><span class="p">,</span> <span class="s1">&#39;column&#39;</span><span class="p">:</span> <span class="s1">&#39;winning_model&#39;</span><span class="p">}]</span>
+<span class="n">config</span> <span class="o">=</span> <span class="p">[{</span><span class="s1">&#39;score_id&#39;</span><span class="p">:</span> <span class="n">score_id</span><span class="p">,</span> <span class="s1">&#39;score_column&#39;</span><span class="p">:</span> <span class="s1">&#39;winning_model&#39;</span><span class="p">}]</span>
 
 <span class="c1"># If you have multiple models in the same file, you can load them all at the same time.</span>
 <span class="c1"># In fact, VAN recommends that you do so to reduce their server loads.</span>
-<span class="n">config</span> <span class="o">=</span> <span class="p">[{</span><span class="s1">&#39;id&#39;</span><span class="p">:</span> <span class="mi">5555</span><span class="p">,</span> <span class="s1">&#39;column&#39;</span><span class="p">:</span> <span class="s1">&#39;score1&#39;</span><span class="p">},</span> <span class="p">{</span><span class="s1">&#39;id&#39;</span><span class="p">:</span> <span class="mi">5556</span><span class="p">,</span> <span class="s1">&#39;column&#39;</span><span class="p">:</span> <span class="s1">&#39;score2&#39;</span><span class="p">}]</span>
+<span class="n">config</span> <span class="o">=</span> <span class="p">[{</span><span class="s1">&#39;score_id&#39;</span><span class="p">:</span> <span class="mi">5555</span><span class="p">,</span> <span class="s1">&#39;score_column&#39;</span><span class="p">:</span> <span class="s1">&#39;score1&#39;</span><span class="p">},</span> <span class="p">{</span><span class="s1">&#39;score_id&#39;</span><span class="p">:</span> <span class="mi">5556</span><span class="p">,</span> <span class="s1">&#39;score_column&#39;</span><span class="p">:</span> <span class="s1">&#39;score2&#39;</span><span class="p">}]</span>
 
 <span class="c1"># The score file must posted to the internet. This configuration uses S3 to do so. In this</span>
 <span class="c1"># example, your S3 keys are stored as environmental variables. If not, you can pass them</span>
@@ -297,7 +297,7 @@ documentation for all functions.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">parsons</span> <span class="kn">import</span> <span class="n">VAN</span>
 
 <span class="n">van</span> <span class="o">=</span> <span class="n">VAN</span><span class="p">(</span><span class="n">db</span><span class="o">=</span><span class="s1">&#39;MyVoters&#39;</span><span class="p">)</span> <span class="c1"># API key stored as an environmental variable</span>
-<span class="n">config</span> <span class="o">=</span> <span class="p">[{</span><span class="s1">&#39;id&#39;</span><span class="p">:</span> <span class="mi">3421</span><span class="p">,</span> <span class="s1">&#39;column&#39;</span><span class="p">:</span> <span class="s1">&#39;winning_model&#39;</span><span class="p">}]</span>
+<span class="n">config</span> <span class="o">=</span> <span class="p">[{</span><span class="s1">&#39;score_id&#39;</span><span class="p">:</span> <span class="mi">3421</span><span class="p">,</span> <span class="s1">&#39;score_column&#39;</span><span class="p">:</span> <span class="s1">&#39;winning_model&#39;</span><span class="p">}]</span>
 
 <span class="c1"># Note that auto_approve is set to False. This means that you need to manually approve</span>
 <span class="c1"># the job once it is loaded.</span>

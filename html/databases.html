@@ -198,7 +198,7 @@
 <dt id="parsons.Postgres">
 <em class="property">class </em><code class="descclassname">parsons.</code><code class="descname">Postgres</code><span class="sig-paren">(</span><em>username=None</em>, <em>password=None</em>, <em>host=None</em>, <em>db=None</em>, <em>port=5432</em>, <em>timeout=10</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/databases/postgres/postgres.html#Postgres"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.Postgres" title="Permalink to this definition">¶</a></dt>
 <dd><p>A Postgres class to connect to database. Credentials can be passed from a <code class="docutils literal notranslate"><span class="pre">.pgpass</span></code> file
-stored in your home directory, environmental variables or passed arguments.</p>
+stored in your home directory or with environmental variables.</p>
 <dl class="docutils">
 <dt>Args:</dt>
 <dd><dl class="first last docutils">
@@ -212,8 +212,6 @@ stored in your home directory, environmental variables or passed arguments.</p>
 <dd>Required if env variable <code class="docutils literal notranslate"><span class="pre">PGDATABASE</span></code> not populated</dd>
 <dt>port: int</dt>
 <dd>Required if env variable <code class="docutils literal notranslate"><span class="pre">PGPORT</span></code> not populated.</dd>
-<dt>pg_pass: str</dt>
-<dd>The path to your pg pass file</dd>
 <dt>timeout: int</dt>
 <dd>Seconds to timeout if connection not established.</dd>
 </dl>

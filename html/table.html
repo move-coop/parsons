@@ -229,23 +229,27 @@
 <td>A Redshift Database</td>
 <td>Write a table to a Redshift database</td>
 </tr>
-<tr class="row-even"><td><code class="docutils literal notranslate"><span class="pre">.to_civis()</span></code></td>
+<tr class="row-even"><td><code class="docutils literal notranslate"><span class="pre">.to_postgres()</span></code></td>
+<td>A Postgres Database</td>
+<td>Write a table to a Postgres database</td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal notranslate"><span class="pre">.to_civis()</span></code></td>
 <td>Civis Redshift Database</td>
 <td>Write a table to Civis platform database</td>
 </tr>
-<tr class="row-odd"><td><code class="docutils literal notranslate"><span class="pre">.to_petl()</span></code></td>
+<tr class="row-even"><td><code class="docutils literal notranslate"><span class="pre">.to_petl()</span></code></td>
 <td>Petl table object</td>
 <td>Convert a table a Petl table object</td>
 </tr>
-<tr class="row-even"><td><code class="docutils literal notranslate"><span class="pre">.to_json()</span></code></td>
+<tr class="row-odd"><td><code class="docutils literal notranslate"><span class="pre">.to_json()</span></code></td>
 <td>JSON file</td>
 <td>Write a table to a local JSON file</td>
 </tr>
-<tr class="row-odd"><td><code class="docutils literal notranslate"><span class="pre">.to_html()</span></code></td>
+<tr class="row-even"><td><code class="docutils literal notranslate"><span class="pre">.to_html()</span></code></td>
 <td>HTML formatted table</td>
 <td>Write a table to a local html file</td>
 </tr>
-<tr class="row-even"><td><code class="docutils literal notranslate"><span class="pre">.to_dataframe()</span></code></td>
+<tr class="row-odd"><td><code class="docutils literal notranslate"><span class="pre">.to_dataframe()</span></code></td>
 <td>Pandas Dataframe <a class="footnote-reference" href="#id3" id="id2">[1]</a></td>
 <td>Return a Pandas dataframe</td>
 </tr>
@@ -288,13 +292,17 @@
 </tr>
 <tr class="row-odd"><td><code class="docutils literal notranslate"><span class="pre">.from_redshift()</span></code></td>
 <td>Redshift table</td>
-<td>Loads a Redshift table into a Table</td>
+<td>Loads a Redshift query into a Table</td>
 </tr>
-<tr class="row-even"><td><code class="docutils literal notranslate"><span class="pre">.from_dataframe()</span></code></td>
+<tr class="row-even"><td><code class="docutils literal notranslate"><span class="pre">.from_postgres()</span></code></td>
+<td>Postgres table</td>
+<td>Loads a Postgres query into a Table</td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal notranslate"><span class="pre">.from_dataframe()</span></code></td>
 <td>Pandas Dataframe <a class="footnote-reference" href="#id5" id="id4">[2]</a></td>
 <td>Load a Parsons table from a Pandas Dataframe</td>
 </tr>
-<tr class="row-odd"><td><code class="docutils literal notranslate"><span class="pre">.from_s3_csv()</span></code></td>
+<tr class="row-even"><td><code class="docutils literal notranslate"><span class="pre">.from_s3_csv()</span></code></td>
 <td>S3 CSV</td>
 <td>Load a Parsons table from a file on S3</td>
 </tr>
@@ -744,6 +752,8 @@ AWS S3 credentials or store them as environmental variables.</p>
 <dl class="docutils">
 <dt>Args:</dt>
 <dd><dl class="first last docutils">
+<dt>table_name: str</dt>
+<dd>The table name and schema (<code class="docutils literal notranslate"><span class="pre">my_schema.my_table</span></code>) to point the file.</dd>
 <dt>username: str</dt>
 <dd>Required if env variable <code class="docutils literal notranslate"><span class="pre">REDSHIFT_USERNAME</span></code> not populated</dd>
 <dt>password: str</dt>
@@ -754,6 +764,34 @@ AWS S3 credentials or store them as environmental variables.</p>
 <dd>Required if env variable <code class="docutils literal notranslate"><span class="pre">REDSHIFT_DB</span></code> not populated</dd>
 <dt>port: int</dt>
 <dd>Required if env variable <code class="docutils literal notranslate"><span class="pre">REDSHIFT_PORT</span></code> not populated. Port 5439 is typical.</dd>
+<dt>**copy_args: kwargs</dt>
+<dd>See <code class="xref py py-func docutils literal notranslate"><span class="pre">copy`()</span></code> for options.</dd>
+</dl>
+</dd>
+<dt>Returns:</dt>
+<dd><code class="docutils literal notranslate"><span class="pre">None</span></code></dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="parsons.etl.tofrom.ToFrom.to_postgres">
+<code class="descname">to_postgres</code><span class="sig-paren">(</span><em>table_name</em>, <em>username=None</em>, <em>password=None</em>, <em>host=None</em>, <em>db=None</em>, <em>port=None</em>, <em>**copy_args</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/etl/tofrom.html#ToFrom.to_postgres"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.etl.tofrom.ToFrom.to_postgres" title="Permalink to this definition">¶</a></dt>
+<dd><p>Write a table to a Postgres database.</p>
+<dl class="docutils">
+<dt>Args:</dt>
+<dd><dl class="first last docutils">
+<dt>table_name: str</dt>
+<dd>The table name and schema (<code class="docutils literal notranslate"><span class="pre">my_schema.my_table</span></code>) to point the file.</dd>
+<dt>username: str</dt>
+<dd>Required if env variable <code class="docutils literal notranslate"><span class="pre">PGUSER</span></code> not populated</dd>
+<dt>password: str</dt>
+<dd>Required if env variable <code class="docutils literal notranslate"><span class="pre">PGPASSWORD</span></code> not populated</dd>
+<dt>host: str</dt>
+<dd>Required if env variable <code class="docutils literal notranslate"><span class="pre">PGHOST</span></code> not populated</dd>
+<dt>db: str</dt>
+<dd>Required if env variable <code class="docutils literal notranslate"><span class="pre">PGDATABASE</span></code> not populated</dd>
+<dt>port: int</dt>
+<dd>Required if env variable <code class="docutils literal notranslate"><span class="pre">PGPORT</span></code> not populated.</dd>
 <dt>**copy_args: kwargs</dt>
 <dd>See <code class="xref py py-func docutils literal notranslate"><span class="pre">copy`()</span></code> for options.</dd>
 </dl>
@@ -899,13 +937,13 @@ JSON file.</dd>
 
 <dl class="classmethod">
 <dt id="parsons.etl.tofrom.ToFrom.from_redshift">
-<em class="property">classmethod </em><code class="descname">from_redshift</code><span class="sig-paren">(</span><em>query</em>, <em>username=None</em>, <em>password=None</em>, <em>host=None</em>, <em>db=None</em>, <em>port=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/etl/tofrom.html#ToFrom.from_redshift"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.etl.tofrom.ToFrom.from_redshift" title="Permalink to this definition">¶</a></dt>
+<em class="property">classmethod </em><code class="descname">from_redshift</code><span class="sig-paren">(</span><em>sql</em>, <em>username=None</em>, <em>password=None</em>, <em>host=None</em>, <em>db=None</em>, <em>port=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/etl/tofrom.html#ToFrom.from_redshift"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.etl.tofrom.ToFrom.from_redshift" title="Permalink to this definition">¶</a></dt>
 <dd><p>Create a <code class="docutils literal notranslate"><span class="pre">parsons</span> <span class="pre">table</span></code> from a Redshift query.</p>
 <p>To pull an entire Redshift table, use a query like <code class="docutils literal notranslate"><span class="pre">SELECT</span> <span class="pre">*</span> <span class="pre">FROM</span> <span class="pre">tablename</span></code>.</p>
 <dl class="docutils">
 <dt><cite>Args:</cite></dt>
 <dd><dl class="first last docutils">
-<dt>query: str</dt>
+<dt>sql: str</dt>
 <dd>A valid SQL statement</dd>
 <dt>username: str</dt>
 <dd>Required if env variable <code class="docutils literal notranslate"><span class="pre">REDSHIFT_USERNAME</span></code> not populated</dd>
@@ -923,6 +961,29 @@ JSON file.</dd>
 <dd><dl class="first last docutils">
 <dt>Parsons Table</dt>
 <dd>See <a class="reference internal" href="#parsons-table"><span class="std std-ref">Parsons Table</span></a> for output options.</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="classmethod">
+<dt id="parsons.etl.tofrom.ToFrom.from_postgres">
+<em class="property">classmethod </em><code class="descname">from_postgres</code><span class="sig-paren">(</span><em>sql</em>, <em>username=None</em>, <em>password=None</em>, <em>host=None</em>, <em>db=None</em>, <em>port=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/etl/tofrom.html#ToFrom.from_postgres"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.etl.tofrom.ToFrom.from_postgres" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="docutils">
+<dt>Args:</dt>
+<dd><dl class="first last docutils">
+<dt>sql: str</dt>
+<dd>A valid SQL statement</dd>
+<dt>username: str</dt>
+<dd>Required if env variable <code class="docutils literal notranslate"><span class="pre">PGUSER</span></code> not populated</dd>
+<dt>password: str</dt>
+<dd>Required if env variable <code class="docutils literal notranslate"><span class="pre">PGPASSWORD</span></code> not populated</dd>
+<dt>host: str</dt>
+<dd>Required if env variable <code class="docutils literal notranslate"><span class="pre">PGHOST</span></code> not populated</dd>
+<dt>db: str</dt>
+<dd>Required if env variable <code class="docutils literal notranslate"><span class="pre">PGDATABASE</span></code> not populated</dd>
+<dt>port: int</dt>
+<dd>Required if env variable <code class="docutils literal notranslate"><span class="pre">PGPORT</span></code> not populated.</dd>
 </dl>
 </dd>
 </dl>

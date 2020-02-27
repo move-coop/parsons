@@ -576,6 +576,8 @@
 <span class="sd">        AWS S3 credentials or store them as environmental variables.</span>
 
 <span class="sd">        Args:</span>
+<span class="sd">            table_name: str</span>
+<span class="sd">                The table name and schema (``my_schema.my_table``) to point the file.</span>
 <span class="sd">            username: str</span>
 <span class="sd">                Required if env variable ``REDSHIFT_USERNAME`` not populated</span>
 <span class="sd">            password: str</span>
@@ -594,9 +596,37 @@
 <span class="sd">        &quot;&quot;&quot;</span>  <span class="c1"># noqa: W605</span>
 
         <span class="kn">from</span> <span class="nn">parsons.databases.redshift</span> <span class="kn">import</span> <span class="n">Redshift</span>
-        <span class="n">rs</span> <span class="o">=</span> <span class="n">Redshift</span><span class="p">(</span>
-            <span class="n">username</span><span class="o">=</span><span class="n">username</span><span class="p">,</span> <span class="n">password</span><span class="o">=</span><span class="n">password</span><span class="p">,</span> <span class="n">host</span><span class="o">=</span><span class="n">host</span><span class="p">,</span> <span class="n">db</span><span class="o">=</span><span class="n">db</span><span class="p">,</span> <span class="n">port</span><span class="o">=</span><span class="n">port</span><span class="p">)</span>
+        <span class="n">rs</span> <span class="o">=</span> <span class="n">Redshift</span><span class="p">(</span><span class="n">username</span><span class="o">=</span><span class="n">username</span><span class="p">,</span> <span class="n">password</span><span class="o">=</span><span class="n">password</span><span class="p">,</span> <span class="n">host</span><span class="o">=</span><span class="n">host</span><span class="p">,</span> <span class="n">db</span><span class="o">=</span><span class="n">db</span><span class="p">,</span> <span class="n">port</span><span class="o">=</span><span class="n">port</span><span class="p">)</span>
         <span class="n">rs</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">table_name</span><span class="p">,</span> <span class="o">**</span><span class="n">copy_args</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="ToFrom.to_postgres"><a class="viewcode-back" href="../../../table.html#parsons.etl.tofrom.ToFrom.to_postgres">[docs]</a>    <span class="k">def</span> <span class="nf">to_postgres</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">table_name</span><span class="p">,</span> <span class="n">username</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">password</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">host</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                    <span class="n">db</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">port</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">copy_args</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Write a table to a Postgres database.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            table_name: str</span>
+<span class="sd">                The table name and schema (``my_schema.my_table``) to point the file.</span>
+<span class="sd">            username: str</span>
+<span class="sd">                Required if env variable ``PGUSER`` not populated</span>
+<span class="sd">            password: str</span>
+<span class="sd">                Required if env variable ``PGPASSWORD`` not populated</span>
+<span class="sd">            host: str</span>
+<span class="sd">                Required if env variable ``PGHOST`` not populated</span>
+<span class="sd">            db: str</span>
+<span class="sd">                Required if env variable ``PGDATABASE`` not populated</span>
+<span class="sd">            port: int</span>
+<span class="sd">                Required if env variable ``PGPORT`` not populated.</span>
+<span class="sd">            \**copy_args: kwargs</span>
+<span class="sd">                See :func:`~parsons.databases.Postgres.copy`` for options.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            ``None``</span>
+<span class="sd">        &quot;&quot;&quot;</span>  <span class="c1"># noqa: W605</span>
+
+        <span class="kn">from</span> <span class="nn">parsons.databases.postgres</span> <span class="kn">import</span> <span class="n">Postgres</span>
+        <span class="n">pg</span> <span class="o">=</span> <span class="n">Postgres</span><span class="p">(</span><span class="n">username</span><span class="o">=</span><span class="n">username</span><span class="p">,</span> <span class="n">password</span><span class="o">=</span><span class="n">password</span><span class="p">,</span> <span class="n">host</span><span class="o">=</span><span class="n">host</span><span class="p">,</span> <span class="n">db</span><span class="o">=</span><span class="n">db</span><span class="p">,</span> <span class="n">port</span><span class="o">=</span><span class="n">port</span><span class="p">)</span>
+        <span class="n">pg</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">table_name</span><span class="p">,</span> <span class="o">**</span><span class="n">copy_args</span><span class="p">)</span></div>
 
     <span class="k">def</span> <span class="nf">to_petl</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 
@@ -743,7 +773,7 @@
             <span class="k">return</span> <span class="bp">cls</span><span class="p">(</span><span class="n">petl</span><span class="o">.</span><span class="n">fromjson</span><span class="p">(</span><span class="n">local_path</span><span class="p">,</span> <span class="n">header</span><span class="o">=</span><span class="n">header</span><span class="p">))</span></div>
 
 <div class="viewcode-block" id="ToFrom.from_redshift"><a class="viewcode-back" href="../../../table.html#parsons.etl.tofrom.ToFrom.from_redshift">[docs]</a>    <span class="nd">@classmethod</span>
-    <span class="k">def</span> <span class="nf">from_redshift</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">query</span><span class="p">,</span> <span class="n">username</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">password</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">host</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="k">def</span> <span class="nf">from_redshift</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">sql</span><span class="p">,</span> <span class="n">username</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">password</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">host</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
                       <span class="n">db</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">port</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Create a ``parsons table`` from a Redshift query.</span>
@@ -751,7 +781,7 @@
 <span class="sd">        To pull an entire Redshift table, use a query like ``SELECT * FROM tablename``.</span>
 
 <span class="sd">        `Args:`</span>
-<span class="sd">            query: str</span>
+<span class="sd">            sql: str</span>
 <span class="sd">                A valid SQL statement</span>
 <span class="sd">            username: str</span>
 <span class="sd">                Required if env variable ``REDSHIFT_USERNAME`` not populated</span>
@@ -771,7 +801,29 @@
 
         <span class="kn">from</span> <span class="nn">parsons.databases.redshift</span> <span class="kn">import</span> <span class="n">Redshift</span>
         <span class="n">rs</span> <span class="o">=</span> <span class="n">Redshift</span><span class="p">(</span><span class="n">username</span><span class="o">=</span><span class="n">username</span><span class="p">,</span> <span class="n">password</span><span class="o">=</span><span class="n">password</span><span class="p">,</span> <span class="n">host</span><span class="o">=</span><span class="n">host</span><span class="p">,</span> <span class="n">db</span><span class="o">=</span><span class="n">db</span><span class="p">,</span> <span class="n">port</span><span class="o">=</span><span class="n">port</span><span class="p">)</span>
-        <span class="k">return</span> <span class="n">rs</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="n">query</span><span class="p">)</span></div>
+        <span class="k">return</span> <span class="n">rs</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="n">sql</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="ToFrom.from_postgres"><a class="viewcode-back" href="../../../table.html#parsons.etl.tofrom.ToFrom.from_postgres">[docs]</a>    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">from_postgres</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">sql</span><span class="p">,</span> <span class="n">username</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">password</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">host</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">db</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">port</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Args:</span>
+<span class="sd">            sql: str</span>
+<span class="sd">                A valid SQL statement</span>
+<span class="sd">            username: str</span>
+<span class="sd">                Required if env variable ``PGUSER`` not populated</span>
+<span class="sd">            password: str</span>
+<span class="sd">                Required if env variable ``PGPASSWORD`` not populated</span>
+<span class="sd">            host: str</span>
+<span class="sd">                Required if env variable ``PGHOST`` not populated</span>
+<span class="sd">            db: str</span>
+<span class="sd">                Required if env variable ``PGDATABASE`` not populated</span>
+<span class="sd">            port: int</span>
+<span class="sd">                Required if env variable ``PGPORT`` not populated.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="kn">from</span> <span class="nn">parsons.databases.postgres</span> <span class="kn">import</span> <span class="n">Postgres</span>
+        <span class="n">pg</span> <span class="o">=</span> <span class="n">Postgres</span><span class="p">(</span><span class="n">username</span><span class="o">=</span><span class="n">username</span><span class="p">,</span> <span class="n">password</span><span class="o">=</span><span class="n">password</span><span class="p">,</span> <span class="n">host</span><span class="o">=</span><span class="n">host</span><span class="p">,</span> <span class="n">db</span><span class="o">=</span><span class="n">db</span><span class="p">,</span> <span class="n">port</span><span class="o">=</span><span class="n">port</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">pg</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="n">sql</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="ToFrom.from_s3_csv"><a class="viewcode-back" href="../../../table.html#parsons.etl.tofrom.ToFrom.from_s3_csv">[docs]</a>    <span class="nd">@classmethod</span>
     <span class="k">def</span> <span class="nf">from_s3_csv</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">bucket</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="n">aws_access_key_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">aws_secret_access_key</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>

@@ -401,6 +401,8 @@ class ToFrom(object):
         AWS S3 credentials or store them as environmental variables.
 
         Args:
+            table_name: str
+                The table name and schema (``my_schema.my_table``) to point the file.
             username: str
                 Required if env variable ``REDSHIFT_USERNAME`` not populated
             password: str
@@ -428,6 +430,8 @@ class ToFrom(object):
         Write a table to a Postgres database.
 
         Args:
+            table_name: str
+                The table name and schema (``my_schema.my_table``) to point the file.
             username: str
                 Required if env variable ``PGUSER`` not populated
             password: str
@@ -438,8 +442,6 @@ class ToFrom(object):
                 Required if env variable ``PGDATABASE`` not populated
             port: int
                 Required if env variable ``PGPORT`` not populated.
-            pg_pass: str
-                The path to your pg pass file
             \**copy_args: kwargs
                 See :func:`~parsons.databases.Postgres.copy`` for options.
 
@@ -642,8 +644,6 @@ class ToFrom(object):
                 Required if env variable ``PGDATABASE`` not populated
             port: int
                 Required if env variable ``PGPORT`` not populated.
-            pg_pass: str
-                The path to your pg pass file
         """
 
         from parsons.databases.postgres import Postgres

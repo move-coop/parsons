@@ -344,7 +344,7 @@ class Redshift(RedshiftCreateTable, RedshiftCopyTable, RedshiftTableUtilities, R
              sortkey=None, padding=None, statupdate=False, compupdate=True, acceptanydate=True,
              emptyasnull=True, blanksasnull=True, nullas=None, acceptinvchars=True,
              dateformat='auto', timeformat='auto', varchar_max=None, truncatecolumns=False,
-             columntypes=None, specifycols=None, alter_table=True,
+             columntypes=None, specifycols=None, alter_table=False,
              aws_access_key_id=None, aws_secret_access_key=None):
         """
         Copy a :ref:`parsons-table` to Redshift.
@@ -411,7 +411,8 @@ class Redshift(RedshiftCreateTable, RedshiftCopyTable, RedshiftTableUtilities, R
                 column and that column name is among the source table's columns.
             alter_table: boolean
                 Will check if the target table varchar widths are wide enough to copy in the 
-                table data. If not, will attempt to alter the table to make it wide enough.
+                table data. If not, will attempt to alter the table to make it wide enough. This
+                will not work with tables that have dependent views.
             aws_access_key_id:
                 An AWS access key granted to the bucket where the file is located. Not required
                 if keys are stored as environmental variables.

@@ -10,7 +10,7 @@ logger = logging.getLogger(__name__)
 class Postgres(PostgresCore):
     """
     A Postgres class to connect to database. Credentials can be passed from a ``.pgpass`` file
-    stored in your home directory, environmental variables or passed arguments.
+    stored in your home directory or with environmental variables.
 
     Args:
         username: str
@@ -23,8 +23,6 @@ class Postgres(PostgresCore):
             Required if env variable ``PGDATABASE`` not populated
         port: int
             Required if env variable ``PGPORT`` not populated.
-        pg_pass: str
-            The path to your pg pass file
         timeout: int
             Seconds to timeout if connection not established.
     """

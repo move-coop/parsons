@@ -172,15 +172,11 @@ class TestRedshift(unittest.TestCase):
         # Scrub the keys
         sql = re.sub(r'id=.+;', '*id=HIDDEN*;', re.sub(r"key=.+'", "key=*HIDDEN*'", sql))
 
-        print(sql)
-
         expected_options = ['statupdate', 'compupdate', 'ignoreheader 1', 'acceptanydate',
                             "dateformat 'auto'", "timeformat 'auto'", "csv delimiter ','",
                             "copy test_schema.test(a, b, c) \nfrom 's3://buck/file.csv'",
                             "'aws_access_key_*id=HIDDEN*;aws_secret_access_key=*HIDDEN*'",
                             'emptyasnull', 'blanksasnull', 'acceptinvchars']
-        for o in expected_options:
-            print(o, sql.find(o))
 
         # Check that all of the expected options are there:
         [self.assertNotEqual(sql.find(o), -1) for o in expected_options]
@@ -408,9 +404,6 @@ class TestRedshiftDB(unittest.TestCase):
                'max_varchar', 'sortkey1_enc', 'sortkey_num', 'size', 'pct_used', 'empty',
                'unsorted', 'stats_off', 'tbl_rows', 'skew_sortkey1', 'skew_rows', 'estimated_visible_rows',
                'risk_event', 'vacuum_sort_benefit']
-
-        print (tbls_list)
-        print (exp)
 
         # Having some issues testing that the filter is working correctly, as it
         # takes a little bit of time for a table to show in this table and is beating

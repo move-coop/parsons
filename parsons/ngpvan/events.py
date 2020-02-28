@@ -52,9 +52,11 @@ class Events(object):
                   'startingAfter': starting_after,
                   'startingBefore': starting_before,
                   'districtFieldValue': district_field,
-                  'top': 50,
+                  '$top': 50,
                   '$expand': expand_fields
                   }
+
+        params = {k: v for k, v in params.items() if v is not None}
 
         tbl = Table(self.connection.get_request('events', params=params))
         logger.info(f'Found {tbl.num_rows} events.')

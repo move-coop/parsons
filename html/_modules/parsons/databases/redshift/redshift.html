@@ -785,8 +785,8 @@
 <span class="sd">                A Parsons table object</span>
 <span class="sd">            target_table: str</span>
 <span class="sd">                The schema and table name to upsert</span>
-<span class="sd">            primary_key: str</span>
-<span class="sd">                The primary key column of the target table</span>
+<span class="sd">            primary_key: str or list</span>
+<span class="sd">                The primary key column(s) of the target table</span>
 <span class="sd">            vacuum: boolean</span>
 <span class="sd">                Re-sorts rows and reclaims space in the specified table. You must be a table owner</span>
 <span class="sd">                or super user to effectively vacuum a table, however the method will not fail</span>
@@ -800,9 +800,25 @@
         <span class="c1"># Generate a temp table like &quot;table_tmp_20200210_1230_14212&quot;</span>
         <span class="n">staging_tbl</span> <span class="o">=</span> <span class="s1">&#39;</span><span class="si">{}</span><span class="s1">_stg_</span><span class="si">{}</span><span class="s1">_</span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">target_table</span><span class="p">,</span> <span class="n">date_stamp</span><span class="p">,</span> <span class="n">noise</span><span class="p">)</span>
 
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">primary_key</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+            <span class="n">primary_keys</span> <span class="o">=</span> <span class="p">[</span><span class="n">primary_key</span><span class="p">]</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">primary_keys</span> <span class="o">=</span> <span class="n">primary_key</span>
+
         <span class="k">if</span> <span class="n">distinct_check</span><span class="p">:</span>
-            <span class="n">sql</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;SELECT COUNT(*)-COUNT(DISTINCT </span><span class="si">{primary_key}</span><span class="s1">) C FROM </span><span class="si">{target_table}</span><span class="s1">;&#39;</span>
-            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="n">sql</span><span class="p">)[</span><span class="mi">0</span><span class="p">][</span><span class="s1">&#39;c&#39;</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">primary_keys_statement</span> <span class="o">=</span> <span class="s1">&#39;, &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">primary_keys</span><span class="p">)</span>
+            <span class="n">diff</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;&#39;&#39;</span>
+<span class="s1">                select (</span>
+<span class="s1">                    select count(*)</span>
+<span class="s1">                    from </span><span class="si">{target_table}</span><span class="s1"></span>
+<span class="s1">                ) - (</span>
+<span class="s1">                    SELECT COUNT(*) from (</span>
+<span class="s1">                        select distinct </span><span class="si">{primary_keys_statement}</span><span class="s1"></span>
+<span class="s1">                        from </span><span class="si">{target_table}</span><span class="s1"></span>
+<span class="s1">                    )</span>
+<span class="s1">                ) as total_count</span>
+<span class="s1">            &#39;&#39;&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">first</span>
+            <span class="k">if</span> <span class="n">diff</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
                 <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;Primary key column contains duplicate values.&#39;</span><span class="p">)</span>
 
         <span class="k">with</span> <span class="bp">self</span><span class="o">.</span><span class="n">connection</span><span class="p">()</span> <span class="k">as</span> <span class="n">connection</span><span class="p">:</span>
@@ -813,13 +829,20 @@
                 <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Building staging table: </span><span class="si">{staging_tbl}</span><span class="s1">&#39;</span><span class="p">)</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="n">table_obj</span><span class="p">,</span> <span class="n">staging_tbl</span><span class="p">)</span>
 
+                <span class="n">staging_table_name</span> <span class="o">=</span> <span class="n">staging_tbl</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;.&#39;</span><span class="p">)[</span><span class="mi">1</span><span class="p">]</span>
+                <span class="n">target_table_name</span> <span class="o">=</span> <span class="n">target_table</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;.&#39;</span><span class="p">)[</span><span class="mi">1</span><span class="p">]</span>
+
                 <span class="c1"># Delete rows</span>
-                <span class="n">staging_primary_key</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;{staging_tbl.split(&#39;.&#39;)[1]}.</span><span class="si">{primary_key}</span><span class="s2">&quot;</span>
-                <span class="n">target_primary_key</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;{target_table.split(&#39;.&#39;)[1]}.</span><span class="si">{primary_key}</span><span class="s2">&quot;</span>
+                <span class="n">comparisons</span> <span class="o">=</span> <span class="p">[</span>
+                    <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{staging_table_name}</span><span class="s1">.</span><span class="si">{primary_key}</span><span class="s1"> = </span><span class="si">{target_table_name}</span><span class="s1">.</span><span class="si">{primary_key}</span><span class="s1">&#39;</span>
+                    <span class="k">for</span> <span class="n">primary_key</span> <span class="ow">in</span> <span class="n">primary_keys</span>
+                <span class="p">]</span>
+                <span class="n">where_clause</span> <span class="o">=</span> <span class="s1">&#39; and &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">comparisons</span><span class="p">)</span>
+
                 <span class="n">sql</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;&quot;&quot;</span>
 <span class="s2">                       DELETE FROM </span><span class="si">{target_table}</span><span class="s2"></span>
 <span class="s2">                       USING </span><span class="si">{staging_tbl}</span><span class="s2"></span>
-<span class="s2">                       WHERE </span><span class="si">{staging_primary_key}</span><span class="s2"> = </span><span class="si">{target_primary_key}</span><span class="s2"></span>
+<span class="s2">                       WHERE </span><span class="si">{where_clause}</span><span class="s2"></span>
 <span class="s2">                       &quot;&quot;&quot;</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">query_with_connection</span><span class="p">(</span><span class="n">sql</span><span class="p">,</span> <span class="n">connection</span><span class="p">,</span> <span class="n">commit</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
                 <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Target rows deleted from </span><span class="si">{target_table}</span><span class="s1">.&#39;</span><span class="p">)</span>

@@ -579,8 +579,8 @@ it does not exist natively in Redshift.</p>
 <dd>A Parsons table object</dd>
 <dt>target_table: str</dt>
 <dd>The schema and table name to upsert</dd>
-<dt>primary_key: str</dt>
-<dd>The primary key column of the target table</dd>
+<dt>primary_key: str or list</dt>
+<dd>The primary key column(s) of the target table</dd>
 <dt>vacuum: boolean</dt>
 <dd>Re-sorts rows and reclaims space in the specified table. You must be a table owner
 or super user to effectively vacuum a table, however the method will not fail

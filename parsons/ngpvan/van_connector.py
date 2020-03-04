@@ -73,7 +73,7 @@ class VANConnector(object):
         data = self.api.data_parse(r)
 
         # Paginate
-        while self.api.next_page_check_url(r):
+        while isinstance(r, dict) and self.api.next_page_check_url(r):
             r = self.api.get_request(r[self.pagination_key], **kwargs)
             data.extend(self.api.data_parse(r))
 

@@ -268,9 +268,6 @@ class APIConnector(object):
             boolean
         """
 
-        # To Do: Some response jsons are enclosed in a list. Need to deal with unpacking and/or
-        # not assuming that it is going to be a dict.
-
         if self.pagination_key and self.pagination_key in resp.keys():
             if resp[self.pagination_key]:
                 return True

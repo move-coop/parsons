@@ -52,7 +52,7 @@ class Events(object):
                   'startingAfter': starting_after,
                   'startingBefore': starting_before,
                   'districtFieldValue': district_field,
-                  'top': 50,
+                  '$top': 50,
                   '$expand': expand_fields
                   }
 

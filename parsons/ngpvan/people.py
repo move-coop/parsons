@@ -11,7 +11,8 @@ class People(object):
         self.connection = van_connection
 
     def find_person(self, first_name=None, last_name=None, date_of_birth=None, email=None,
-                    phone=None, street_number=None, street_name=None, zip=None, match_map=None):
+                    phone=None, phone_type=None, street_number=None, street_name=None, zip=None,
+                    match_map=None):
         """
         Find a person record.
 
@@ -59,7 +60,7 @@ class People(object):
         logger.info(f'Finding {first_name} {last_name}.')
 
         return self._people_search(first_name, last_name, date_of_birth, email, phone,
-                                   street_number, street_name, zip, match_map)
+                                   phone_type, street_number, street_name, zip, match_map)
 
     def upsert_person(self, first_name=None, last_name=None, date_of_birth=None, email=None,
                       phone=None, phone_type=None, street_number=None, street_name=None, zip=None,
@@ -118,7 +119,7 @@ class People(object):
                        phone=None, phone_type='H', street_number=None, street_name=None,
                        zip=None, match_map=None, create=False):
         # Internal method to hit the people find/create endpoints
-
+        logger.info(match_map)
         # Ensure that the minimum combination of fields were passed
         self._valid_search(first_name, last_name, email, phone, date_of_birth, street_number,
                            street_name, zip, match_map)
@@ -143,7 +144,7 @@ class People(object):
         url = 'people/find'
         if create:
             url = url + 'orCreate'
-
+        logger.info(f'json: {json}')
         return self.connection.post_request(url, json=json)
 
     def _valid_search(self, first_name, last_name, email, phone, dob, street_number,

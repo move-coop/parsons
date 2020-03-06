@@ -146,17 +146,16 @@ class People(object):
 
         url = 'people/'
 
-        id = None
         if 'vanid' in [k.lower() for k in json]:
             id = {k.lower(): v for k, v in match_map.items()}['vanid']
 
             if create:
-                url += id
+                url += str(id)
             else:
                 return self.get_person(id)
 
-        if id is None:
-            
+        else:
+
             json_flat = json_format.flatten_json(json)
             url += 'find'
 

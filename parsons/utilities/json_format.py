@@ -27,6 +27,7 @@ def remove_empty_keys(dirty_dict):
 
     return clean_dict
 
+
 def flatten_json(json):
     """
     Flatten nested json to return a dict without nested values. Lists without nested values will

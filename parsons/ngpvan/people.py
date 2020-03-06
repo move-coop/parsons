@@ -124,12 +124,6 @@ class People(object):
         if street_name and street_number:
             addressLine1 = f'{street_number} {street_name}'
 
-        simples = {k: v for k, v in locals().items() if k != 'match_map' and k != 'self'}
-        match_flat = json_format.flatten_json(match_map) if match_map else {}
-        logger.info({**simples, **match_flat})
-        # Ensure that the minimum combination of fields were passed, match_map overrides
-        self._valid_search(**{**simples, **match_flat})
-
         # Check to see if a match map has been provided
         if not match_map:
             json = {"firstName": first_name, "lastName": last_name}
@@ -150,10 +144,27 @@ class People(object):
         else:
             json = match_map
 
-        # Determine correct url
-        url = 'people/find'
-        if create:
-            url = url + 'orCreate'
+        url = 'people/'
+
+        id = None
+        if 'vanid' in [k.lower() for k in json]:
+            id = {k.lower(): v for k, v in match_map.items()}['vanid']
+
+            if create:
+                url += id
+            else:
+                return self.get_person(id)
+
+        if id is None:
+            
+            json_flat = json_format.flatten_json(json)
+            url += 'find'
+
+            if create:
+                url += 'orCreate'
+            else:
+                # Ensure that the minimum combination of fields were passed, match_map overrides
+                self._valid_search(**json_flat)
 
         return self.connection.post_request(url, json=json)
 

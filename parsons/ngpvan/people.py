@@ -124,12 +124,11 @@ class People(object):
         if street_name and street_number:
             addressLine1 = f'{street_number} {street_name}'
 
-        match_flat = json_format.flatten_json(match_map)
-
+        simples = {k: v for k, v in locals().items() if k != 'match_map' and k != 'self'}
+        match_flat = json_format.flatten_json(match_map) if match_map else {}
+        logger.info({**simples, **match_flat})
         # Ensure that the minimum combination of fields were passed, match_map overrides
-        self._valid_search(firstName=first_name, lastName=last_name, email=email,
-                           phoneNumber=phone, dateOfBirth=date_of_birth, addressLine1=addressLine1,
-                           zipOrPostalCode=zip, **match_flat)
+        self._valid_search(**{**simples, **match_flat})
 
         # Check to see if a match map has been provided
         if not match_map:
@@ -158,9 +157,9 @@ class People(object):
 
         return self.connection.post_request(url, json=json)
 
-    def _valid_search(self, firstName, lastName, email, phoneNumber, dateOfBirth, addressLine1,
-                      zipOrPostalCode):
-        # Internal method to check if a search is valid
+    def _valid_search(self, firstName=None, lastName=None, email=None, phoneNumber=None,
+                      dateOfBirth=None, addressLine1=None, zipOrPostalCode=None, **kwargs):
+        # Internal method to check if a search is valid, kwargs are ignored
 
         if (None in [firstName, lastName, email] and
             None in [firstName, lastName, phoneNumber] and

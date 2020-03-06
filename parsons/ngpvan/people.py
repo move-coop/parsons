@@ -119,7 +119,7 @@ class People(object):
                        phone=None, phone_type='H', street_number=None, street_name=None,
                        zip=None, match_map=None, create=False):
         # Internal method to hit the people find/create endpoints
-        logger.info(match_map)
+
         # Ensure that the minimum combination of fields were passed
         self._valid_search(first_name, last_name, email, phone, date_of_birth, street_number,
                            street_name, zip, match_map)
@@ -136,7 +136,10 @@ class People(object):
             if date_of_birth:
                 json['dateOfBirth'] = date_of_birth
             if zip:
-                json['addresses'] = [{'zipOrPostalCode': zip}]
+                json['addresses'] = [{
+                    'zipOrPostalCode': zip,
+                    'addressLine1': f'{street_number} {street_name}'
+                }]
         else:
             json = match_map
 
@@ -144,7 +147,7 @@ class People(object):
         url = 'people/find'
         if create:
             url = url + 'orCreate'
-        logger.info(f'json: {json}')
+
         return self.connection.post_request(url, json=json)
 
     def _valid_search(self, first_name, last_name, email, phone, dob, street_number,

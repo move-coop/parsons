@@ -120,9 +120,16 @@ class People(object):
                        zip=None, match_map=None, create=False):
         # Internal method to hit the people find/create endpoints
 
-        # Ensure that the minimum combination of fields were passed
-        self._valid_search(first_name, last_name, email, phone, date_of_birth, street_number,
-                           street_name, zip, match_map)
+        addressLine1 = None
+        if street_name and street_number:
+            addressLine1 = f'{street_number} {street_name}'
+
+        match_flat = json_format.flatten_json(match_map)
+
+        # Ensure that the minimum combination of fields were passed, match_map overrides
+        self._valid_search(firstName=first_name, lastName=last_name, email=email,
+                           phoneNumber=phone, dateOfBirth=date_of_birth, addressLine1=addressLine1,
+                           zipOrPostalCode=zip, **match_flat)
 
         # Check to see if a match map has been provided
         if not match_map:
@@ -135,11 +142,12 @@ class People(object):
                 json['phones'] = [{'phoneNumber': phone, 'phoneType': phone_type}]
             if date_of_birth:
                 json['dateOfBirth'] = date_of_birth
-            if zip:
-                json['addresses'] = [{
-                    'zipOrPostalCode': zip,
-                    'addressLine1': f'{street_number} {street_name}'
-                }]
+            if zip or addressLine1:
+                json['addresses'] = [{}]
+                if zip:
+                    json['addresses'][0]['zipOrPostalCode'] = zip
+                if addressLine1:
+                    json['addresses'][0]['addressLine1'] = addressLine1
         else:
             json = match_map
 
@@ -150,14 +158,14 @@ class People(object):
 
         return self.connection.post_request(url, json=json)
 
-    def _valid_search(self, first_name, last_name, email, phone, dob, street_number,
-                      street_name, zip, match_map):
+    def _valid_search(self, firstName, lastName, email, phoneNumber, dateOfBirth, addressLine1,
+                      zipOrPostalCode):
         # Internal method to check if a search is valid
 
-        if (None in [first_name, last_name, email] and
-            None in [first_name, last_name, phone] and
-            None in [first_name, last_name, zip, dob] and
-            None in [first_name, last_name, street_number, street_name, zip] and
+        if (None in [firstName, lastName, email] and
+            None in [firstName, lastName, phoneNumber] and
+            None in [firstName, lastName, zipOrPostalCode, dateOfBirth] and
+            None in [firstName, lastName, addressLine1, zipOrPostalCode] and
                 None in [email]):
 
             raise ValueError("""

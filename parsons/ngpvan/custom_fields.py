@@ -44,9 +44,14 @@ class CustomFields():
 
         tbl = self.get_custom_fields()
 
+        # Some custom fields do no have associated values. If this is the case then
+        # we should return an empty Table, but with the expected columns.
         if tbl.get_column_types('availableValues') == ['NoneType']:
             logger.info(f'Found 0 custom field values.')
-            return Table([{'customFieldId': None, 'name': None, 'parentValueId': None}])
+            return Table([{'customFieldId': None,
+                           'id': None,
+                           'name': None,
+                           'parentValueId': None}])
 
         else:
             logger.info(f'Found {tbl.num_rows} custom field values.')

@@ -215,40 +215,16 @@ People
 .. autoclass:: parsons.ngpvan.van.People
    :inherited-members:
 
-===========
-Bulk Import
-===========
-.. autoclass:: parsons.ngpvan.van.BulkImport
-   :inherited-members:
-
 ==============
 Activist Codes
 ==============
 .. autoclass:: parsons.ngpvan.van.ActivistCodes
    :inherited-members:
 
-================
-Survey Questions
-================
-.. autoclass:: parsons.ngpvan.van.SurveyQuestions
-   :inherited-members:
-
-======
-Events
-======
-.. autoclass:: parsons.ngpvan.van.Events
-   :inherited-members:
-
-=========
-Locations
-=========
-.. autoclass:: parsons.ngpvan.van.Locations
-   :inherited-members:
-
-=======
-Signups
-=======
-.. autoclass:: parsons.ngpvan.van.Signups
+=================
+Canvass Responses
+=================
+.. autoclass:: parsons.ngpvan.van.CanvassResponses
    :inherited-members:
 
 ================
@@ -263,26 +239,28 @@ Codes
 .. autoclass:: parsons.ngpvan.van.Codes
    :inherited-members:
 
-=================
-Canvass Responses
-=================
-.. autoclass:: parsons.ngpvan.van.CanvassResponses
+=============
+Custom Fields
+=============
+.. autoclass:: parsons.ngpvan.van.Codes
    :inherited-members:
 
-================
-Supporter Groups
-================
-.. autoclass:: parsons.ngpvan.van.SupporterGroups
+======
+Events
+======
+.. autoclass:: parsons.ngpvan.van.Events
    :inherited-members:
 
 ===========
-Saved Lists
+Export Jobs
 ===========
-.. note::
-   A saved list must be shared with the user associated with your API key to
-   be listed.
+.. autoclass:: parsons.ngpvan.van.ExportJobs
+   :inherited-members:
 
-.. autoclass:: parsons.ngpvan.van.SavedLists
+=================
+File Loading Jobs
+=================
+.. autoclass:: parsons.ngpvan.van.FileLoadingJobs
    :inherited-members:
 
 =======
@@ -295,10 +273,20 @@ Folders
 .. autoclass:: parsons.ngpvan.van.Folders
    :inherited-members:
 
+=========
+Locations
+=========
+.. autoclass:: parsons.ngpvan.van.Locations
+   :inherited-members:
+
 ===========
-Export Jobs
+Saved Lists
 ===========
-.. autoclass:: parsons.ngpvan.van.ExportJobs
+.. note::
+   A saved list must be shared with the user associated with your API key to
+   be listed.
+
+.. autoclass:: parsons.ngpvan.van.SavedLists
    :inherited-members:
 
 ======
@@ -318,8 +306,20 @@ a score slot.
 .. autoclass:: parsons.ngpvan.van.Scores
    :inherited-members:
 
-=================
-File Loading Jobs
-=================
-.. autoclass:: parsons.ngpvan.van.FileLoadingJobs
+=======
+Signups
+=======
+.. autoclass:: parsons.ngpvan.van.Signups
+   :inherited-members:
+
+================
+Supporter Groups
+================
+.. autoclass:: parsons.ngpvan.van.SupporterGroups
+   :inherited-members:
+
+================
+Survey Questions
+================
+.. autoclass:: parsons.ngpvan.van.SurveyQuestions
    :inherited-members:

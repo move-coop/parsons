@@ -83,6 +83,7 @@ class APIConnector(object):
         r = self.request(url, 'GET', params=params)
         self.validate_response(r)
         logger.debug(r.json())
+        print (r.json())
 
         return r.json()
 

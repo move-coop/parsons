@@ -10,29 +10,47 @@ class CustomFields():
 
         self.connection = van_connection
 
-    def get_custom_fields(self):
+    def get_custom_fields(self, field_type='contacts'):
         """
         Get custom fields.
 
         `Args:`
-            name : str
-                Filter by name of code.
-            supported_entities: str
-                Filter by supported entities.
-            parent_code_id: str
-                Filter by parent code id.
-            code_type: str
-                Filter by code type.
+            field_type : str
+                Filter by custom field group type. Must be one of ``contacts`` or
+                ``contributions``.
         `Returns:`
             Parsons Table
                 See :ref:`parsons-table` for output options.
         """
 
-        params = {}
+        params = {'customFieldsGroupType': field_type.capitalize()}
 
         tbl = Table(self.connection.get_request('customFields', params=params))
         logger.info(f'Found {tbl.num_rows} custom fields.')
         return tbl
+
+    def get_custom_fields_values(self, field_type='contacts'):
+        """
+        Get custom field values as a long table.
+
+        `Args:`
+            field_type : str
+                Filter by custom field group type. Must be one of ``contacts`` or
+                ``contributions``.
+        `Returns:`
+            Parsons Table
+                See :ref:`parsons-table` for output options.
+        """
+
+        tbl = self.get_custom_fields()
+
+        if tbl.get_column_types('availableValues') == ['NoneType']:
+            logger.info(f'Found 0 custom field values.')
+            return Table([{'customFieldId': None, 'name': None, 'parentValueId': None}])
+
+        else:
+            logger.info(f'Found {tbl.num_rows} custom field values.')
+            return tbl.long_table('customFieldId', 'availableValues', prepend=False)
 
     def get_custom_field(self, custom_field_id):
         """
@@ -45,10 +63,6 @@ class CustomFields():
             A json.
         """
 
-        url = self.connection.uri + f'customFields/{custom_field_id}'
-
-        r = self.connection.request(url)
-        logger.debug(r)
+        r = self.connection.get_request(f'customFields/{custom_field_id}')
         logger.info(f'Found custom field {custom_field_id}.')
-
         return r

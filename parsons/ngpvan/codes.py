@@ -53,12 +53,9 @@ class Codes(object):
                 See :ref:`parsons-table` for output options.
         """
 
-        url = self.connection.uri + 'codes/{}'.format(code_id)
-
-        c = self.connection.request(url)
+        c = self.connection.request(f'codes/{code_id}')
         logger.debug(c)
         logger.info(f'Found code {code_id}.')
-
         return c
 
     def get_code_types(self):

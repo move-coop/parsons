@@ -305,7 +305,7 @@
 <span class="sd">        &quot;&quot;&quot;</span>
 
         <span class="n">resp</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">at</span><span class="o">.</span><span class="n">batch_insert</span><span class="p">(</span><span class="n">table</span><span class="p">)</span>
-        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{table.num_rows}</span><span class="s1"> records inserted.&#39;</span><span class="p">)</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">table</span><span class="o">.</span><span class="n">num_rows</span><span class="si">}</span><span class="s1"> records inserted.&#39;</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">resp</span></div>
 
 <div class="viewcode-block" id="Airtable.update_record"><a class="viewcode-back" href="../../../airtable.html#parsons.Airtable.update_record">[docs]</a>    <span class="k">def</span> <span class="nf">update_record</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">record_id</span><span class="p">,</span> <span class="n">fields</span><span class="p">,</span> <span class="n">typecast</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
@@ -325,7 +325,7 @@
 <span class="sd">        &quot;&quot;&quot;</span>
 
         <span class="n">resp</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">at</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">record_id</span><span class="p">,</span> <span class="n">fields</span><span class="p">,</span> <span class="n">typecast</span><span class="o">=</span><span class="n">typecast</span><span class="p">)</span>
-        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{record_id}</span><span class="s1"> updated&#39;</span><span class="p">)</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">record_id</span><span class="si">}</span><span class="s1"> updated&#39;</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">resp</span></div></div>
 </pre></div>
 

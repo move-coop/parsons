@@ -257,7 +257,7 @@
         <span class="n">tmp_gcs_bucket</span> <span class="o">=</span> <span class="n">check_env</span><span class="o">.</span><span class="n">check</span><span class="p">(</span><span class="s1">&#39;GCS_TEMP_BUCKET&#39;</span><span class="p">,</span> <span class="n">tmp_gcs_bucket</span><span class="p">)</span>
 
         <span class="k">if</span> <span class="n">if_exists</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;fail&#39;</span><span class="p">,</span> <span class="s1">&#39;truncate&#39;</span><span class="p">,</span> <span class="s1">&#39;append&#39;</span><span class="p">,</span> <span class="s1">&#39;drop&#39;</span><span class="p">]:</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Unexpected value for if_exists: </span><span class="si">{if_exists}</span><span class="s1">, must be one of &#39;</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Unexpected value for if_exists: </span><span class="si">{</span><span class="n">if_exists</span><span class="si">}</span><span class="s1">, must be one of &#39;</span>
                              <span class="s1">&#39;&quot;append&quot;, &quot;drop&quot;, &quot;truncate&quot;, or &quot;fail&quot;&#39;</span><span class="p">)</span>
 
         <span class="n">table_exists</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">table_exists</span><span class="p">(</span><span class="n">dataset_name</span><span class="p">,</span> <span class="n">table_name</span><span class="p">)</span>
@@ -284,7 +284,7 @@
                 <span class="n">job_config</span><span class="o">.</span><span class="n">write_disposition</span> <span class="o">=</span> <span class="n">bigquery</span><span class="o">.</span><span class="n">WriteDisposition</span><span class="o">.</span><span class="n">WRITE_TRUNCATE</span>
 
         <span class="n">gcs_client</span> <span class="o">=</span> <span class="n">gcs_client</span> <span class="ow">or</span> <span class="n">GoogleCloudStorage</span><span class="p">()</span>
-        <span class="n">temp_blob_name</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;{uuid.uuid4()}.csv&#39;</span>
+        <span class="n">temp_blob_name</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">uuid</span><span class="o">.</span><span class="n">uuid4</span><span class="p">()</span><span class="si">}</span><span class="s1">.csv&#39;</span>
         <span class="n">temp_blob_uri</span> <span class="o">=</span> <span class="n">gcs_client</span><span class="o">.</span><span class="n">upload_table</span><span class="p">(</span><span class="n">table_obj</span><span class="p">,</span> <span class="n">tmp_gcs_bucket</span><span class="p">,</span> <span class="n">temp_blob_name</span><span class="p">)</span>
 
         <span class="c1"># load CSV from Cloud Storage into BigQuery</span>

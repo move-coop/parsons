@@ -106,21 +106,21 @@
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#api">API</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#people">People</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#bulk-import">Bulk Import</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#activist-codes">Activist Codes</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#survey-questions">Survey Questions</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#events">Events</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#locations">Locations</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#signups">Signups</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#canvass-responses">Canvass Responses</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#changed-entities">Changed Entities</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#codes">Codes</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#canvass-responses">Canvass Responses</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#supporter-groups">Supporter Groups</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#saved-lists">Saved Lists</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#folders">Folders</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#custom-fields">Custom Fields</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#events">Events</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#export-jobs">Export Jobs</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#scores">Scores</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#file-loading-jobs">File Loading Jobs</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#folders">Folders</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#locations">Locations</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#saved-lists">Saved Lists</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#scores">Scores</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#signups">Signups</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#supporter-groups">Supporter Groups</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#survey-questions">Survey Questions</a></li>
 </ul>
 </li>
 </ul>
@@ -691,30 +691,6 @@ such as <code class="docutils literal notranslate"><span class="pre">dwid</span>
 </dd></dl>
 
 </div>
-<div class="section" id="bulk-import">
-<h3>Bulk Import<a class="headerlink" href="#bulk-import" title="Permalink to this headline">¶</a></h3>
-<dl class="class">
-<dt id="parsons.ngpvan.van.BulkImport">
-<em class="property">class </em><code class="descclassname">parsons.ngpvan.van.</code><code class="descname">BulkImport</code><a class="reference internal" href="_modules/parsons/ngpvan/bulk_import.html#BulkImport"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.ngpvan.van.BulkImport" title="Permalink to this definition">¶</a></dt>
-<dd><dl class="method">
-<dt id="parsons.ngpvan.van.BulkImport.get_bulk_import_resources">
-<code class="descname">get_bulk_import_resources</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/ngpvan/bulk_import.html#BulkImport.get_bulk_import_resources"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.ngpvan.van.BulkImport.get_bulk_import_resources" title="Permalink to this definition">¶</a></dt>
-<dd><p>Get bulk import resources that available to the user. These define
-the types of bulk imports that you can run. These might include
-<code class="docutils literal notranslate"><span class="pre">Contacts</span></code>, <code class="docutils literal notranslate"><span class="pre">ActivistCodes</span></code>, <code class="docutils literal notranslate"><span class="pre">ContactsActivistCodes</span></code> and others.</p>
-<dl class="docutils">
-<dt><cite>Returns:</cite></dt>
-<dd><dl class="first last docutils">
-<dt>list</dt>
-<dd>A list of resources.</dd>
-</dl>
-</dd>
-</dl>
-</dd></dl>
-
-</dd></dl>
-
-</div>
 <div class="section" id="activist-codes">
 <h3>Activist Codes<a class="headerlink" href="#activist-codes" title="Permalink to this headline">¶</a></h3>
 <dl class="class">
@@ -803,269 +779,15 @@ such as <code class="docutils literal notranslate"><span class="pre">dwid</span>
 </dd></dl>
 
 </div>
-<div class="section" id="survey-questions">
-<h3>Survey Questions<a class="headerlink" href="#survey-questions" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="canvass-responses">
+<h3>Canvass Responses<a class="headerlink" href="#canvass-responses" title="Permalink to this headline">¶</a></h3>
 <dl class="class">
-<dt id="parsons.ngpvan.van.SurveyQuestions">
-<em class="property">class </em><code class="descclassname">parsons.ngpvan.van.</code><code class="descname">SurveyQuestions</code><span class="sig-paren">(</span><em>van_connection</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/ngpvan/survey_questions.html#SurveyQuestions"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.ngpvan.van.SurveyQuestions" title="Permalink to this definition">¶</a></dt>
+<dt id="parsons.ngpvan.van.CanvassResponses">
+<em class="property">class </em><code class="descclassname">parsons.ngpvan.van.</code><code class="descname">CanvassResponses</code><span class="sig-paren">(</span><em>van_connection</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/ngpvan/canvass_responses.html#CanvassResponses"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.ngpvan.van.CanvassResponses" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="method">
-<dt id="parsons.ngpvan.van.SurveyQuestions.get_survey_questions">
-<code class="descname">get_survey_questions</code><span class="sig-paren">(</span><em>statuses=['Active'], name=None, sq_type=None, question=None, cycle=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/ngpvan/survey_questions.html#SurveyQuestions.get_survey_questions"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.ngpvan.van.SurveyQuestions.get_survey_questions" title="Permalink to this definition">¶</a></dt>
-<dd><p>Get survey questions.</p>
-<dl class="docutils">
-<dt><cite>Args:</cite></dt>
-<dd><dl class="first last docutils">
-<dt>statuses: list</dt>
-<dd>Filter to a list of statuses of survey questions. One or more of <code class="docutils literal notranslate"><span class="pre">Active</span></code>,
-<code class="docutils literal notranslate"><span class="pre">Archived</span></code>, and <code class="docutils literal notranslate"><span class="pre">Inactive</span></code>.</dd>
-<dt>name: str</dt>
-<dd>Filter to survey questions with names begin with the input.</dd>
-<dt>type: str</dt>
-<dd>Filter to survey questions of a given type.</dd>
-<dt>question: str</dt>
-<dd>Filter to survey questions with script questions that contain the given input.</dd>
-<dt>cycle: str</dt>
-<dd>Filter to survey suestions with the given cycle. A year in the format “YYYY”.</dd>
-</dl>
-</dd>
-<dt><cite>Returns:</cite></dt>
-<dd><dl class="first last docutils">
-<dt>Parsons Table</dt>
-<dd>See <a class="reference internal" href="table.html#parsons-table"><span class="std std-ref">Parsons Table</span></a> for output options.</dd>
-</dl>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="method">
-<dt id="parsons.ngpvan.van.SurveyQuestions.get_survey_question">
-<code class="descname">get_survey_question</code><span class="sig-paren">(</span><em>survey_question_id</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/ngpvan/survey_questions.html#SurveyQuestions.get_survey_question"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.ngpvan.van.SurveyQuestions.get_survey_question" title="Permalink to this definition">¶</a></dt>
-<dd><p>Get a survey question.</p>
-<dl class="docutils">
-<dt><cite>Args:</cite></dt>
-<dd><dl class="first last docutils">
-<dt>survey_question_id: int</dt>
-<dd>The survey question id.</dd>
-</dl>
-</dd>
-<dt><cite>Returns:</cite></dt>
-<dd><dl class="first last docutils">
-<dt>Parsons Table</dt>
-<dd>See <a class="reference internal" href="table.html#parsons-table"><span class="std std-ref">Parsons Table</span></a> for output options.</dd>
-</dl>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="method">
-<dt id="parsons.ngpvan.van.SurveyQuestions.apply_survey_response">
-<code class="descname">apply_survey_response</code><span class="sig-paren">(</span><em>id</em>, <em>survey_question_id</em>, <em>survey_response_id</em>, <em>id_type='vanid'</em>, <em>result_code_id=None</em>, <em>contact_type_id=None</em>, <em>input_type_id=None</em>, <em>date_canvassed=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/ngpvan/survey_questions.html#SurveyQuestions.apply_survey_response"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.ngpvan.van.SurveyQuestions.apply_survey_response" title="Permalink to this definition">¶</a></dt>
-<dd><p>Apply a single survey response to a person.</p>
-<dl class="docutils">
-<dt><cite>Args:</cite></dt>
-<dd><dl class="first last docutils">
-<dt>id: str</dt>
-<dd>A valid person id</dd>
-<dt>survey_question_id: int</dt>
-<dd>A valid survey question id</dd>
-<dt>survey_response_id: int</dt>
-<dd>A valid survey response id</dd>
-<dt>id_type: str</dt>
-<dd>A known person identifier type available on this VAN instance
-such as <code class="docutils literal notranslate"><span class="pre">dwid</span></code></dd>
-<dt>result_code_id <span class="classifier-delimiter">:</span> <span class="classifier">int</span></dt>
-<dd><cite>Optional</cite>; Specifies the result code of the response. If
-not included,responses must be specified. Conversely, if
-responses are specified, result_code_id must be null. Valid ids
-can be found by using the <code class="xref py py-meth docutils literal notranslate"><span class="pre">get_canvass_responses_result_codes()</span></code></dd>
-<dt>contact_type_id <span class="classifier-delimiter">:</span> <span class="classifier">int</span></dt>
-<dd><cite>Optional</cite>; A valid contact type id</dd>
-<dt>input_type_id <span class="classifier-delimiter">:</span> <span class="classifier">int</span></dt>
-<dd><cite>Optional</cite>; Defaults to 11 (API Input)</dd>
-<dt>date_canvassed <span class="classifier-delimiter">:</span> <span class="classifier">str</span></dt>
-<dd><cite>Optional</cite>; ISO 8601 formatted date. Defaults to todays date</dd>
-</dl>
-</dd>
-</dl>
-</dd></dl>
-
-</dd></dl>
-
-</div>
-<div class="section" id="events">
-<h3>Events<a class="headerlink" href="#events" title="Permalink to this headline">¶</a></h3>
-<dl class="class">
-<dt id="parsons.ngpvan.van.Events">
-<em class="property">class </em><code class="descclassname">parsons.ngpvan.van.</code><code class="descname">Events</code><span class="sig-paren">(</span><em>van_connection</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/ngpvan/events.html#Events"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.ngpvan.van.Events" title="Permalink to this definition">¶</a></dt>
-<dd><dl class="method">
-<dt id="parsons.ngpvan.van.Events.get_events">
-<code class="descname">get_events</code><span class="sig-paren">(</span><em>code_ids=None, event_type_ids=None, rep_event_id=None, starting_after=None, starting_before=None, district_field=None, expand_fields=['locations', 'codes', 'shifts', 'roles', 'notes', 'financialProgram', 'ticketCategories', 'onlineForms']</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/ngpvan/events.html#Events.get_events"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.ngpvan.van.Events.get_events" title="Permalink to this definition">¶</a></dt>
-<dd><p>Get events.</p>
-<dl class="docutils">
-<dt><cite>Args:</cite></dt>
-<dd><dl class="first last docutils">
-<dt>code_ids: str</dt>
-<dd>Filter by code id.</dd>
-<dt>event_type_ids: str</dt>
-<dd>Filter by event_type_ids.</dd>
-<dt>rep_event_id: str</dt>
-<dd>Filters to recurring events that are recurrences the passed event id.</dd>
-<dt>starting_after: str</dt>
-<dd>Events beginning after <code class="docutils literal notranslate"><span class="pre">iso8601</span></code> formatted date.</dd>
-<dt>starting_before: str</dt>
-<dd>Events beginning before <code class="docutils literal notranslate"><span class="pre">iso8601</span></code> formatted date.</dd>
-<dt>district_field: str</dt>
-<dd>Filter by district field.</dd>
-<dt>expand_fields: list</dt>
-<dd>A list of fields for which to include data. If a field is omitted,
-<code class="docutils literal notranslate"><span class="pre">None</span></code> will be returned for that field. Can be <code class="docutils literal notranslate"><span class="pre">locations</span></code>, <code class="docutils literal notranslate"><span class="pre">codes</span></code>,
-<code class="docutils literal notranslate"><span class="pre">shifts</span></code>,``roles``, <code class="docutils literal notranslate"><span class="pre">notes</span></code>, <code class="docutils literal notranslate"><span class="pre">financialProgram</span></code>, <code class="docutils literal notranslate"><span class="pre">ticketCategories</span></code>,
-<code class="docutils literal notranslate"><span class="pre">onlineForms</span></code>.</dd>
-</dl>
-</dd>
-<dt><cite>Returns:</cite></dt>
-<dd><dl class="first last docutils">
-<dt>Parsons Table</dt>
-<dd>See <a class="reference internal" href="table.html#parsons-table"><span class="std std-ref">Parsons Table</span></a> for output options.</dd>
-</dl>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="method">
-<dt id="parsons.ngpvan.van.Events.get_event">
-<code class="descname">get_event</code><span class="sig-paren">(</span><em>event_id, expand_fields=['locations', 'codes', 'shifts', 'roles', 'notes', 'financialProgram', 'ticketCategories', 'voterRegistrationBatches']</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/ngpvan/events.html#Events.get_event"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.ngpvan.van.Events.get_event" title="Permalink to this definition">¶</a></dt>
-<dd><p>Get an event.</p>
-<dl class="docutils">
-<dt><cite>Args:</cite></dt>
-<dd><dl class="first last docutils">
-<dt>event_id: int</dt>
-<dd>The event id.</dd>
-<dt>expand_fields: list</dt>
-<dd>A list of fields for which to include data. If a field is omitted,
-<code class="docutils literal notranslate"><span class="pre">None</span></code> will be returned for that field. Can be <code class="docutils literal notranslate"><span class="pre">locations</span></code>,
-<code class="docutils literal notranslate"><span class="pre">codes</span></code>, <code class="docutils literal notranslate"><span class="pre">shifts</span></code>, <code class="docutils literal notranslate"><span class="pre">roles</span></code>, <code class="docutils literal notranslate"><span class="pre">notes</span></code>, <code class="docutils literal notranslate"><span class="pre">financialProgram</span></code>,
-<code class="docutils literal notranslate"><span class="pre">ticketCategories</span></code>, <a href="#id2"><span class="problematic" id="id3">``</span></a>voterRegistrationBatches`.`</dd>
-</dl>
-</dd>
-<dt><cite>Returns:</cite></dt>
-<dd><dl class="first last docutils">
-<dt>Parsons Table</dt>
-<dd>See <a class="reference internal" href="table.html#parsons-table"><span class="std std-ref">Parsons Table</span></a> for output options.</dd>
-</dl>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="method">
-<dt id="parsons.ngpvan.van.Events.create_event">
-<code class="descname">create_event</code><span class="sig-paren">(</span><em>name</em>, <em>short_name</em>, <em>start_date</em>, <em>end_date</em>, <em>event_type_id</em>, <em>roles</em>, <em>shifts=None</em>, <em>description=None</em>, <em>editable=False</em>, <em>publicly_viewable=False</em>, <em>location_ids=None</em>, <em>code_ids=None</em>, <em>notes=None</em>, <em>district_field_value=None</em>, <em>voter_registration_batches=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/ngpvan/events.html#Events.create_event"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.ngpvan.van.Events.create_event" title="Permalink to this definition">¶</a></dt>
-<dd><p>Create an event</p>
-<dl class="docutils">
-<dt><cite>Args:</cite></dt>
-<dd><dl class="first last docutils">
-<dt>name: str</dt>
-<dd>A name for this event, no longer than 500 characters.</dd>
-<dt>short_name: str</dt>
-<dd>A shorter name for this event, no longer than 12 characters.</dd>
-<dt>start_date: str</dt>
-<dd>The start date and time for this event.</dd>
-<dt>end_date: str</dt>
-<dd>The end date and time for this event that is after <code class="docutils literal notranslate"><span class="pre">start_date</span></code></dd>
-<dt>event_type_id: int</dt>
-<dd>A valid event type id.</dd>
-<dt>roles: list</dt>
-<dd>A list of valid role ids that correspond the with the event type.</dd>
-<dt>shifts:</dt>
-<dd><p class="first">A list of dicts with shifts formatted as:</p>
-<div class="last highlight-python notranslate"><div class="highlight"><pre><span></span><span class="p">[</span>
-    <span class="p">{</span>
-     <span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="s1">&#39;Shift 1&#39;</span><span class="p">,</span>
-     <span class="s1">&#39;start_time&#39;</span><span class="p">:</span> <span class="s1">&#39;12-31-2018T12:00:00&#39;</span><span class="p">,</span>
-     <span class="s1">&#39;end_time&#39;</span><span class="p">:</span> <span class="s1">&#39;12-31-2018T13:00:00&#39;</span>
-    <span class="p">}</span>
-    <span class="p">{</span>
-     <span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="s1">&#39;Shift 2&#39;</span><span class="p">,</span>
-     <span class="s1">&#39;start_time&#39;</span><span class="p">:</span> <span class="s1">&#39;12-31-2018T13:00:00&#39;</span><span class="p">,</span>
-     <span class="s1">&#39;end_time&#39;</span><span class="p">:</span> <span class="s1">&#39;12-31-2018T14:00:00&#39;</span>
-    <span class="p">}</span>
-<span class="p">]</span>
-</pre></div>
-</div>
-</dd>
-<dt>description: str</dt>
-<dd>An optional description for this Event, no longer than 500 characters.</dd>
-<dt>editable: boolean</dt>
-<dd>If <code class="docutils literal notranslate"><span class="pre">True</span></code>, prevents modification of this event by any users other than the
-user associated the API key. Setting this to true effectively makes
-the event read-only in the VAN interface.</dd>
-<dt>publicly_viewable: boolean</dt>
-<dd>Used by NGP VAN’s website platform to indicate whether this event can be
-viewed publicly.</dd>
-<dt>location_ids: list</dt>
-<dd>A list of location_ids where the event is taking place</dd>
-<dt>code_ids: list</dt>
-<dd>A list of codes that are applied to this event for organizational purposes. Note
-that at most one source code and any number of tags, may be applied to an event.</dd>
-<dt>notes: list</dt>
-<dd>A list of notes</dd>
-</dl>
-</dd>
-<dt><cite>Returns:</cite></dt>
-<dd><dl class="first last docutils">
-<dt>int</dt>
-<dd>The event code.</dd>
-</dl>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="method">
-<dt id="parsons.ngpvan.van.Events.delete_event">
-<code class="descname">delete_event</code><span class="sig-paren">(</span><em>event_id</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/ngpvan/events.html#Events.delete_event"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.ngpvan.van.Events.delete_event" title="Permalink to this definition">¶</a></dt>
-<dd><p>Delete an event.</p>
-<dl class="docutils">
-<dt><cite>Args:</cite></dt>
-<dd><dl class="first last docutils">
-<dt>event_id: int</dt>
-<dd>The event id.</dd>
-</dl>
-</dd>
-<dt><cite>Returns:</cite></dt>
-<dd><code class="docutils literal notranslate"><span class="pre">None</span></code></dd>
-</dl>
-</dd></dl>
-
-<dl class="method">
-<dt id="parsons.ngpvan.van.Events.add_event_shift">
-<code class="descname">add_event_shift</code><span class="sig-paren">(</span><em>event_id</em>, <em>shift_name</em>, <em>start_time</em>, <em>end_time</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/ngpvan/events.html#Events.add_event_shift"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.ngpvan.van.Events.add_event_shift" title="Permalink to this definition">¶</a></dt>
-<dd><p>Add shifts to an event</p>
-<dl class="docutils">
-<dt><cite>Args:</cite></dt>
-<dd><dl class="first last docutils">
-<dt>event_id: int</dt>
-<dd>The event id.</dd>
-<dt>shift_name: str</dt>
-<dd>The name of the shift</dd>
-<dt>start_time: str</dt>
-<dd>The start time for the shift (<code class="docutils literal notranslate"><span class="pre">iso8601</span></code> formatted date).</dd>
-<dt>end_time: str</dt>
-<dd>The end time of the shift (<code class="docutils literal notranslate"><span class="pre">iso8601</span></code> formatted date).</dd>
-</dl>
-</dd>
-<dt><cite>Returns:</cite></dt>
-<dd><dl class="first last docutils">
-<dt>int</dt>
-<dd>The shift id.</dd>
-</dl>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="method">
-<dt id="parsons.ngpvan.van.Events.get_event_types">
-<code class="descname">get_event_types</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/ngpvan/events.html#Events.get_event_types"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.ngpvan.van.Events.get_event_types" title="Permalink to this definition">¶</a></dt>
-<dd><p>Get event types.</p>
+<dt id="parsons.ngpvan.van.CanvassResponses.get_canvass_responses_contact_types">
+<code class="descname">get_canvass_responses_contact_types</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/ngpvan/canvass_responses.html#CanvassResponses.get_canvass_responses_contact_types"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.ngpvan.van.CanvassResponses.get_canvass_responses_contact_types" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get canvass response contact types.</p>
 <dl class="docutils">
 <dt><cite>Returns:</cite></dt>
 <dd><dl class="first last docutils">
@@ -1076,25 +798,11 @@ that at most one source code and any number of tags, may be applied to an event.
 </dl>
 </dd></dl>
 
-</dd></dl>
-
-</div>
-<div class="section" id="locations">
-<h3>Locations<a class="headerlink" href="#locations" title="Permalink to this headline">¶</a></h3>
-<dl class="class">
-<dt id="parsons.ngpvan.van.Locations">
-<em class="property">class </em><code class="descclassname">parsons.ngpvan.van.</code><code class="descname">Locations</code><span class="sig-paren">(</span><em>van_connection</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/ngpvan/locations.html#Locations"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.ngpvan.van.Locations" title="Permalink to this definition">¶</a></dt>
-<dd><dl class="method">
-<dt id="parsons.ngpvan.van.Locations.get_locations">
-<code class="descname">get_locations</code><span class="sig-paren">(</span><em>name=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/ngpvan/locations.html#Locations.get_locations"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.ngpvan.van.Locations.get_locations" title="Permalink to this definition">¶</a></dt>
-<dd><p>Get locations.</p>
+<dl class="method">
+<dt id="parsons.ngpvan.van.CanvassResponses.get_canvass_responses_input_types">
+<code class="descname">get_canvass_responses_input_types</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/ngpvan/canvass_responses.html#CanvassResponses.get_canvass_responses_input_types"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.ngpvan.van.CanvassResponses.get_canvass_responses_input_types" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get canvass response input types.</p>
 <dl class="docutils">
-<dt><cite>Args:</cite></dt>
-<dd><dl class="first last docutils">
-<dt>name: str</dt>
-<dd>Filter locations by name.</dd>
-</dl>
-</dd>
 <dt><cite>Returns:</cite></dt>
 <dd><dl class="first last docutils">
 <dt>Parsons Table</dt>
@@ -1105,227 +813,16 @@ that at most one source code and any number of tags, may be applied to an event.
 </dd></dl>
 
 <dl class="method">
-<dt id="parsons.ngpvan.van.Locations.get_location">
-<code class="descname">get_location</code><span class="sig-paren">(</span><em>location_id</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/ngpvan/locations.html#Locations.get_location"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.ngpvan.van.Locations.get_location" title="Permalink to this definition">¶</a></dt>
-<dd><p>Get a location.</p>
+<dt id="parsons.ngpvan.van.CanvassResponses.get_canvass_responses_result_codes">
+<code class="descname">get_canvass_responses_result_codes</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/ngpvan/canvass_responses.html#CanvassResponses.get_canvass_responses_result_codes"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.ngpvan.van.CanvassResponses.get_canvass_responses_result_codes" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get canvass response result codes.</p>
 <dl class="docutils">
-<dt><cite>Args:</cite></dt>
-<dd><dl class="first last docutils">
-<dt>location_id: int</dt>
-<dd>The location id.</dd>
-</dl>
-</dd>
-<dt><cite>Returns:</cite></dt>
-<dd>dict</dd>
-</dl>
-</dd></dl>
-
-<dl class="method">
-<dt id="parsons.ngpvan.van.Locations.create_location">
-<code class="descname">create_location</code><span class="sig-paren">(</span><em>name</em>, <em>address_line1=None</em>, <em>address_line2=None</em>, <em>city=None</em>, <em>state=None</em>, <em>zip_code=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/ngpvan/locations.html#Locations.create_location"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.ngpvan.van.Locations.create_location" title="Permalink to this definition">¶</a></dt>
-<dd><p>Find or create a location. If location already exists, will return location id.</p>
-<dl class="docutils">
-<dt><cite>Args:</cite></dt>
-<dd><dl class="first last docutils">
-<dt>name: str</dt>
-<dd>A name for this location, no longer than 50 characters.</dd>
-<dt>address_line1: str</dt>
-<dd>First line of a street address.</dd>
-<dt>address_line2: str</dt>
-<dd>Second line of a street address.</dd>
-<dt>city: str</dt>
-<dd>City or town name.</dd>
-<dt>state: str</dt>
-<dd>Two or three character state or province code (e.g., MN, ON, NSW, etc.).</dd>
-<dt>zip_code: str</dt>
-<dd>ZIP, ZIP+4, Postal Code, Post code, etc.</dd>
-<dt><cite>Returns:</cite></dt>
-<dd><dl class="first last docutils">
-<dt>int</dt>
-<dd>A location id.</dd>
-</dl>
-</dd>
-</dl>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="method">
-<dt id="parsons.ngpvan.van.Locations.delete_location">
-<code class="descname">delete_location</code><span class="sig-paren">(</span><em>location_id</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/ngpvan/locations.html#Locations.delete_location"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.ngpvan.van.Locations.delete_location" title="Permalink to this definition">¶</a></dt>
-<dd><p>Delete a location.</p>
-<dl class="docutils">
-<dt><cite>Args:</cite></dt>
-<dd><dl class="first last docutils">
-<dt>location_id: int</dt>
-<dd>The location id</dd>
-</dl>
-</dd>
-<dt><cite>Returns:</cite></dt>
-<dd><code class="docutils literal notranslate"><span class="pre">None</span></code></dd>
-</dl>
-</dd></dl>
-
-</dd></dl>
-
-</div>
-<div class="section" id="signups">
-<h3>Signups<a class="headerlink" href="#signups" title="Permalink to this headline">¶</a></h3>
-<dl class="class">
-<dt id="parsons.ngpvan.van.Signups">
-<em class="property">class </em><code class="descclassname">parsons.ngpvan.van.</code><code class="descname">Signups</code><span class="sig-paren">(</span><em>van_connection</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/ngpvan/signups.html#Signups"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.ngpvan.van.Signups" title="Permalink to this definition">¶</a></dt>
-<dd><dl class="method">
-<dt id="parsons.ngpvan.van.Signups.get_signups_statuses">
-<code class="descname">get_signups_statuses</code><span class="sig-paren">(</span><em>event_id=None</em>, <em>event_type_id=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/ngpvan/signups.html#Signups.get_signups_statuses"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.ngpvan.van.Signups.get_signups_statuses" title="Permalink to this definition">¶</a></dt>
-<dd><p>Get a list of valid signup statuses for a given event type
-or event. You must pass one of <code class="docutils literal notranslate"><span class="pre">event_id</span></code> or <code class="docutils literal notranslate"><span class="pre">event_type_id</span></code>
-but not both.</p>
-<dl class="docutils">
-<dt><cite>Args:</cite></dt>
-<dd><dl class="first last docutils">
-<dt>event_id: int</dt>
-<dd>A valid event id.</dd>
-<dt>event_type_id: int</dt>
-<dd>A valid event type id.</dd>
-</dl>
-</dd>
 <dt><cite>Returns:</cite></dt>
 <dd><dl class="first last docutils">
 <dt>Parsons Table</dt>
 <dd>See <a class="reference internal" href="table.html#parsons-table"><span class="std std-ref">Parsons Table</span></a> for output options.</dd>
 </dl>
 </dd>
-</dl>
-</dd></dl>
-
-<dl class="method">
-<dt id="parsons.ngpvan.van.Signups.get_person_signups">
-<code class="descname">get_person_signups</code><span class="sig-paren">(</span><em>vanid</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/ngpvan/signups.html#Signups.get_person_signups"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.ngpvan.van.Signups.get_person_signups" title="Permalink to this definition">¶</a></dt>
-<dd><p>Get the signup history of a person.</p>
-<dl class="docutils">
-<dt><cite>Args:</cite></dt>
-<dd><dl class="first last docutils">
-<dt>vanid: int</dt>
-<dd>A valid vanid associated with a person.</dd>
-</dl>
-</dd>
-<dt><cite>Returns:</cite></dt>
-<dd><dl class="first last docutils">
-<dt>Parsons Table</dt>
-<dd>See <a class="reference internal" href="table.html#parsons-table"><span class="std std-ref">Parsons Table</span></a> for output options.</dd>
-</dl>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="method">
-<dt id="parsons.ngpvan.van.Signups.get_event_signups">
-<code class="descname">get_event_signups</code><span class="sig-paren">(</span><em>event_id</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/ngpvan/signups.html#Signups.get_event_signups"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.ngpvan.van.Signups.get_event_signups" title="Permalink to this definition">¶</a></dt>
-<dd><p>Get the signup history of an event.</p>
-<dl class="docutils">
-<dt><cite>Args:</cite></dt>
-<dd><dl class="first last docutils">
-<dt>event_id: int</dt>
-<dd>A valid event_id associated with an event</dd>
-</dl>
-</dd>
-<dt><cite>Returns:</cite></dt>
-<dd><dl class="first last docutils">
-<dt>Parsons Table</dt>
-<dd>See <a class="reference internal" href="table.html#parsons-table"><span class="std std-ref">Parsons Table</span></a> for output options.</dd>
-</dl>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="method">
-<dt id="parsons.ngpvan.van.Signups.get_signup">
-<code class="descname">get_signup</code><span class="sig-paren">(</span><em>event_signup_id</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/ngpvan/signups.html#Signups.get_signup"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.ngpvan.van.Signups.get_signup" title="Permalink to this definition">¶</a></dt>
-<dd><p>Get a single signup object.</p>
-<dl class="docutils">
-<dt><cite>Args:</cite></dt>
-<dd><dl class="first last docutils">
-<dt>event_signup_id: int</dt>
-<dd>A valid event_signup_id associated with a signup.</dd>
-</dl>
-</dd>
-<dt><cite>Returns:</cite></dt>
-<dd><dl class="first last docutils">
-<dt>Parsons Table</dt>
-<dd>See <a class="reference internal" href="table.html#parsons-table"><span class="std std-ref">Parsons Table</span></a> for output options.</dd>
-</dl>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="method">
-<dt id="parsons.ngpvan.van.Signups.create_signup">
-<code class="descname">create_signup</code><span class="sig-paren">(</span><em>vanid</em>, <em>event_id</em>, <em>shift_id</em>, <em>role_id</em>, <em>status_id</em>, <em>location_id</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/ngpvan/signups.html#Signups.create_signup"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.ngpvan.van.Signups.create_signup" title="Permalink to this definition">¶</a></dt>
-<dd><p>Create a new signup for an event.</p>
-<dl class="docutils">
-<dt><cite>Args:</cite></dt>
-<dd><dl class="first last docutils">
-<dt>vanid: int</dt>
-<dd>A valid vanid of the person to signup for the event.</dd>
-<dt>event_id: int</dt>
-<dd>A valid event_id to associate the person with the event</dd>
-<dt>shift_id:</dt>
-<dd>A shift_id, associated with the event to assign the person</dd>
-<dt>role_id:</dt>
-<dd>A role_id, associated with the event to assign the person</dd>
-<dt>status_id:</dt>
-<dd>A status_id of the person</dd>
-<dt>location_id:</dt>
-<dd>A location_id for the event</dd>
-</dl>
-</dd>
-<dt><cite>Returns:</cite></dt>
-<dd><dl class="first last docutils">
-<dt>Int</dt>
-<dd>The event signup id</dd>
-</dl>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="method">
-<dt id="parsons.ngpvan.van.Signups.update_signup">
-<code class="descname">update_signup</code><span class="sig-paren">(</span><em>event_signup_id</em>, <em>shift_id=None</em>, <em>role_id=None</em>, <em>status_id=None</em>, <em>location_id=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/ngpvan/signups.html#Signups.update_signup"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.ngpvan.van.Signups.update_signup" title="Permalink to this definition">¶</a></dt>
-<dd><p>Update a signup object. All of the kwargs will update the values associated
-with them.</p>
-<dl class="docutils">
-<dt><cite>Args:</cite></dt>
-<dd><dl class="first last docutils">
-<dt>event_signup_id: int</dt>
-<dd>A valid event signup id</dd>
-<dt>shift_id: int</dt>
-<dd>The shift_id to update</dd>
-<dt>role_id: int</dt>
-<dd>The role_id to update</dd>
-<dt>status_id: int</dt>
-<dd>The status_id to update</dd>
-<dt>location_id: int</dt>
-<dd>The location_id to update</dd>
-</dl>
-</dd>
-<dt><cite>Returns:</cite></dt>
-<dd><code class="docutils literal notranslate"><span class="pre">None</span></code></dd>
-</dl>
-</dd></dl>
-
-<dl class="method">
-<dt id="parsons.ngpvan.van.Signups.delete_signup">
-<code class="descname">delete_signup</code><span class="sig-paren">(</span><em>event_signup_id</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/ngpvan/signups.html#Signups.delete_signup"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.ngpvan.van.Signups.delete_signup" title="Permalink to this definition">¶</a></dt>
-<dd><p>Delete a signup object</p>
-<dl class="docutils">
-<dt><cite>Args:</cite></dt>
-<dd><dl class="first last docutils">
-<dt>event_signup_id: int</dt>
-<dd>A valid event signup id</dd>
-</dl>
-</dd>
-<dt><cite>Returns:</cite></dt>
-<dd><code class="docutils literal notranslate"><span class="pre">None</span></code></dd>
 </dl>
 </dd></dl>
 
@@ -1542,16 +1039,23 @@ code. You can find supported entities with the <code class="xref py py-meth docu
 </dd></dl>
 
 </div>
-<div class="section" id="canvass-responses">
-<h3>Canvass Responses<a class="headerlink" href="#canvass-responses" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="custom-fields">
+<h3>Custom Fields<a class="headerlink" href="#custom-fields" title="Permalink to this headline">¶</a></h3>
 <dl class="class">
-<dt id="parsons.ngpvan.van.CanvassResponses">
-<em class="property">class </em><code class="descclassname">parsons.ngpvan.van.</code><code class="descname">CanvassResponses</code><span class="sig-paren">(</span><em>van_connection</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/ngpvan/canvass_responses.html#CanvassResponses"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.ngpvan.van.CanvassResponses" title="Permalink to this definition">¶</a></dt>
+<dt id="parsons.ngpvan.van.CustomFields">
+<em class="property">class </em><code class="descclassname">parsons.ngpvan.van.</code><code class="descname">CustomFields</code><span class="sig-paren">(</span><em>van_connection</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/ngpvan/custom_fields.html#CustomFields"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.ngpvan.van.CustomFields" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="method">
-<dt id="parsons.ngpvan.van.CanvassResponses.get_canvass_responses_contact_types">
-<code class="descname">get_canvass_responses_contact_types</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/ngpvan/canvass_responses.html#CanvassResponses.get_canvass_responses_contact_types"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.ngpvan.van.CanvassResponses.get_canvass_responses_contact_types" title="Permalink to this definition">¶</a></dt>
-<dd><p>Get canvass response contact types.</p>
+<dt id="parsons.ngpvan.van.CustomFields.get_custom_fields">
+<code class="descname">get_custom_fields</code><span class="sig-paren">(</span><em>field_type='contacts'</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/ngpvan/custom_fields.html#CustomFields.get_custom_fields"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.ngpvan.van.CustomFields.get_custom_fields" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get custom fields.</p>
 <dl class="docutils">
+<dt><cite>Args:</cite></dt>
+<dd><dl class="first last docutils">
+<dt>field_type <span class="classifier-delimiter">:</span> <span class="classifier">str</span></dt>
+<dd>Filter by custom field group type. Must be one of <code class="docutils literal notranslate"><span class="pre">contacts</span></code> or
+<code class="docutils literal notranslate"><span class="pre">contributions</span></code>.</dd>
+</dl>
+</dd>
 <dt><cite>Returns:</cite></dt>
 <dd><dl class="first last docutils">
 <dt>Parsons Table</dt>
@@ -1562,10 +1066,17 @@ code. You can find supported entities with the <code class="xref py py-meth docu
 </dd></dl>
 
 <dl class="method">
-<dt id="parsons.ngpvan.van.CanvassResponses.get_canvass_responses_input_types">
-<code class="descname">get_canvass_responses_input_types</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/ngpvan/canvass_responses.html#CanvassResponses.get_canvass_responses_input_types"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.ngpvan.van.CanvassResponses.get_canvass_responses_input_types" title="Permalink to this definition">¶</a></dt>
-<dd><p>Get canvass response input types.</p>
+<dt id="parsons.ngpvan.van.CustomFields.get_custom_fields_values">
+<code class="descname">get_custom_fields_values</code><span class="sig-paren">(</span><em>field_type='contacts'</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/ngpvan/custom_fields.html#CustomFields.get_custom_fields_values"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.ngpvan.van.CustomFields.get_custom_fields_values" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get custom field values as a long table.</p>
 <dl class="docutils">
+<dt><cite>Args:</cite></dt>
+<dd><dl class="first last docutils">
+<dt>field_type <span class="classifier-delimiter">:</span> <span class="classifier">str</span></dt>
+<dd>Filter by custom field group type. Must be one of <code class="docutils literal notranslate"><span class="pre">contacts</span></code> or
+<code class="docutils literal notranslate"><span class="pre">contributions</span></code>.</dd>
+</dl>
+</dd>
 <dt><cite>Returns:</cite></dt>
 <dd><dl class="first last docutils">
 <dt>Parsons Table</dt>
@@ -1576,9 +1087,198 @@ code. You can find supported entities with the <code class="xref py py-meth docu
 </dd></dl>
 
 <dl class="method">
-<dt id="parsons.ngpvan.van.CanvassResponses.get_canvass_responses_result_codes">
-<code class="descname">get_canvass_responses_result_codes</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/ngpvan/canvass_responses.html#CanvassResponses.get_canvass_responses_result_codes"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.ngpvan.van.CanvassResponses.get_canvass_responses_result_codes" title="Permalink to this definition">¶</a></dt>
-<dd><p>Get canvass response result codes.</p>
+<dt id="parsons.ngpvan.van.CustomFields.get_custom_field">
+<code class="descname">get_custom_field</code><span class="sig-paren">(</span><em>custom_field_id</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/ngpvan/custom_fields.html#CustomFields.get_custom_field"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.ngpvan.van.CustomFields.get_custom_field" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get a custom field.</p>
+<dl class="docutils">
+<dt><cite>Args:</cite></dt>
+<dd><dl class="first last docutils">
+<dt>custom_field_id: int</dt>
+<dd>A valid custom field id.</dd>
+</dl>
+</dd>
+<dt><cite>Returns:</cite></dt>
+<dd>A json.</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="events">
+<h3>Events<a class="headerlink" href="#events" title="Permalink to this headline">¶</a></h3>
+<dl class="class">
+<dt id="parsons.ngpvan.van.Events">
+<em class="property">class </em><code class="descclassname">parsons.ngpvan.van.</code><code class="descname">Events</code><span class="sig-paren">(</span><em>van_connection</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/ngpvan/events.html#Events"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.ngpvan.van.Events" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="method">
+<dt id="parsons.ngpvan.van.Events.get_events">
+<code class="descname">get_events</code><span class="sig-paren">(</span><em>code_ids=None, event_type_ids=None, rep_event_id=None, starting_after=None, starting_before=None, district_field=None, expand_fields=['locations', 'codes', 'shifts', 'roles', 'notes', 'financialProgram', 'ticketCategories', 'onlineForms']</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/ngpvan/events.html#Events.get_events"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.ngpvan.van.Events.get_events" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get events.</p>
+<dl class="docutils">
+<dt><cite>Args:</cite></dt>
+<dd><dl class="first last docutils">
+<dt>code_ids: str</dt>
+<dd>Filter by code id.</dd>
+<dt>event_type_ids: str</dt>
+<dd>Filter by event_type_ids.</dd>
+<dt>rep_event_id: str</dt>
+<dd>Filters to recurring events that are recurrences the passed event id.</dd>
+<dt>starting_after: str</dt>
+<dd>Events beginning after <code class="docutils literal notranslate"><span class="pre">iso8601</span></code> formatted date.</dd>
+<dt>starting_before: str</dt>
+<dd>Events beginning before <code class="docutils literal notranslate"><span class="pre">iso8601</span></code> formatted date.</dd>
+<dt>district_field: str</dt>
+<dd>Filter by district field.</dd>
+<dt>expand_fields: list</dt>
+<dd>A list of fields for which to include data. If a field is omitted,
+<code class="docutils literal notranslate"><span class="pre">None</span></code> will be returned for that field. Can be <code class="docutils literal notranslate"><span class="pre">locations</span></code>, <code class="docutils literal notranslate"><span class="pre">codes</span></code>,
+<code class="docutils literal notranslate"><span class="pre">shifts</span></code>,``roles``, <code class="docutils literal notranslate"><span class="pre">notes</span></code>, <code class="docutils literal notranslate"><span class="pre">financialProgram</span></code>, <code class="docutils literal notranslate"><span class="pre">ticketCategories</span></code>,
+<code class="docutils literal notranslate"><span class="pre">onlineForms</span></code>.</dd>
+</dl>
+</dd>
+<dt><cite>Returns:</cite></dt>
+<dd><dl class="first last docutils">
+<dt>Parsons Table</dt>
+<dd>See <a class="reference internal" href="table.html#parsons-table"><span class="std std-ref">Parsons Table</span></a> for output options.</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="parsons.ngpvan.van.Events.get_event">
+<code class="descname">get_event</code><span class="sig-paren">(</span><em>event_id, expand_fields=['locations', 'codes', 'shifts', 'roles', 'notes', 'financialProgram', 'ticketCategories', 'voterRegistrationBatches']</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/ngpvan/events.html#Events.get_event"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.ngpvan.van.Events.get_event" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get an event.</p>
+<dl class="docutils">
+<dt><cite>Args:</cite></dt>
+<dd><dl class="first last docutils">
+<dt>event_id: int</dt>
+<dd>The event id.</dd>
+<dt>expand_fields: list</dt>
+<dd>A list of fields for which to include data. If a field is omitted,
+<code class="docutils literal notranslate"><span class="pre">None</span></code> will be returned for that field. Can be <code class="docutils literal notranslate"><span class="pre">locations</span></code>,
+<code class="docutils literal notranslate"><span class="pre">codes</span></code>, <code class="docutils literal notranslate"><span class="pre">shifts</span></code>, <code class="docutils literal notranslate"><span class="pre">roles</span></code>, <code class="docutils literal notranslate"><span class="pre">notes</span></code>, <code class="docutils literal notranslate"><span class="pre">financialProgram</span></code>,
+<code class="docutils literal notranslate"><span class="pre">ticketCategories</span></code>, <a href="#id2"><span class="problematic" id="id3">``</span></a>voterRegistrationBatches`.`</dd>
+</dl>
+</dd>
+<dt><cite>Returns:</cite></dt>
+<dd><dl class="first last docutils">
+<dt>Parsons Table</dt>
+<dd>See <a class="reference internal" href="table.html#parsons-table"><span class="std std-ref">Parsons Table</span></a> for output options.</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="parsons.ngpvan.van.Events.create_event">
+<code class="descname">create_event</code><span class="sig-paren">(</span><em>name</em>, <em>short_name</em>, <em>start_date</em>, <em>end_date</em>, <em>event_type_id</em>, <em>roles</em>, <em>shifts=None</em>, <em>description=None</em>, <em>editable=False</em>, <em>publicly_viewable=False</em>, <em>location_ids=None</em>, <em>code_ids=None</em>, <em>notes=None</em>, <em>district_field_value=None</em>, <em>voter_registration_batches=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/ngpvan/events.html#Events.create_event"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.ngpvan.van.Events.create_event" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create an event</p>
+<dl class="docutils">
+<dt><cite>Args:</cite></dt>
+<dd><dl class="first last docutils">
+<dt>name: str</dt>
+<dd>A name for this event, no longer than 500 characters.</dd>
+<dt>short_name: str</dt>
+<dd>A shorter name for this event, no longer than 12 characters.</dd>
+<dt>start_date: str</dt>
+<dd>The start date and time for this event.</dd>
+<dt>end_date: str</dt>
+<dd>The end date and time for this event that is after <code class="docutils literal notranslate"><span class="pre">start_date</span></code></dd>
+<dt>event_type_id: int</dt>
+<dd>A valid event type id.</dd>
+<dt>roles: list</dt>
+<dd>A list of valid role ids that correspond the with the event type.</dd>
+<dt>shifts:</dt>
+<dd><p class="first">A list of dicts with shifts formatted as:</p>
+<div class="last highlight-python notranslate"><div class="highlight"><pre><span></span><span class="p">[</span>
+    <span class="p">{</span>
+     <span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="s1">&#39;Shift 1&#39;</span><span class="p">,</span>
+     <span class="s1">&#39;start_time&#39;</span><span class="p">:</span> <span class="s1">&#39;12-31-2018T12:00:00&#39;</span><span class="p">,</span>
+     <span class="s1">&#39;end_time&#39;</span><span class="p">:</span> <span class="s1">&#39;12-31-2018T13:00:00&#39;</span>
+    <span class="p">}</span>
+    <span class="p">{</span>
+     <span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="s1">&#39;Shift 2&#39;</span><span class="p">,</span>
+     <span class="s1">&#39;start_time&#39;</span><span class="p">:</span> <span class="s1">&#39;12-31-2018T13:00:00&#39;</span><span class="p">,</span>
+     <span class="s1">&#39;end_time&#39;</span><span class="p">:</span> <span class="s1">&#39;12-31-2018T14:00:00&#39;</span>
+    <span class="p">}</span>
+<span class="p">]</span>
+</pre></div>
+</div>
+</dd>
+<dt>description: str</dt>
+<dd>An optional description for this Event, no longer than 500 characters.</dd>
+<dt>editable: boolean</dt>
+<dd>If <code class="docutils literal notranslate"><span class="pre">True</span></code>, prevents modification of this event by any users other than the
+user associated the API key. Setting this to true effectively makes
+the event read-only in the VAN interface.</dd>
+<dt>publicly_viewable: boolean</dt>
+<dd>Used by NGP VAN’s website platform to indicate whether this event can be
+viewed publicly.</dd>
+<dt>location_ids: list</dt>
+<dd>A list of location_ids where the event is taking place</dd>
+<dt>code_ids: list</dt>
+<dd>A list of codes that are applied to this event for organizational purposes. Note
+that at most one source code and any number of tags, may be applied to an event.</dd>
+<dt>notes: list</dt>
+<dd>A list of notes</dd>
+</dl>
+</dd>
+<dt><cite>Returns:</cite></dt>
+<dd><dl class="first last docutils">
+<dt>int</dt>
+<dd>The event code.</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="parsons.ngpvan.van.Events.delete_event">
+<code class="descname">delete_event</code><span class="sig-paren">(</span><em>event_id</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/ngpvan/events.html#Events.delete_event"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.ngpvan.van.Events.delete_event" title="Permalink to this definition">¶</a></dt>
+<dd><p>Delete an event.</p>
+<dl class="docutils">
+<dt><cite>Args:</cite></dt>
+<dd><dl class="first last docutils">
+<dt>event_id: int</dt>
+<dd>The event id.</dd>
+</dl>
+</dd>
+<dt><cite>Returns:</cite></dt>
+<dd><code class="docutils literal notranslate"><span class="pre">None</span></code></dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="parsons.ngpvan.van.Events.add_event_shift">
+<code class="descname">add_event_shift</code><span class="sig-paren">(</span><em>event_id</em>, <em>shift_name</em>, <em>start_time</em>, <em>end_time</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/ngpvan/events.html#Events.add_event_shift"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.ngpvan.van.Events.add_event_shift" title="Permalink to this definition">¶</a></dt>
+<dd><p>Add shifts to an event</p>
+<dl class="docutils">
+<dt><cite>Args:</cite></dt>
+<dd><dl class="first last docutils">
+<dt>event_id: int</dt>
+<dd>The event id.</dd>
+<dt>shift_name: str</dt>
+<dd>The name of the shift</dd>
+<dt>start_time: str</dt>
+<dd>The start time for the shift (<code class="docutils literal notranslate"><span class="pre">iso8601</span></code> formatted date).</dd>
+<dt>end_time: str</dt>
+<dd>The end time of the shift (<code class="docutils literal notranslate"><span class="pre">iso8601</span></code> formatted date).</dd>
+</dl>
+</dd>
+<dt><cite>Returns:</cite></dt>
+<dd><dl class="first last docutils">
+<dt>int</dt>
+<dd>The shift id.</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="parsons.ngpvan.van.Events.get_event_types">
+<code class="descname">get_event_types</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/ngpvan/events.html#Events.get_event_types"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.ngpvan.van.Events.get_event_types" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get event types.</p>
 <dl class="docutils">
 <dt><cite>Returns:</cite></dt>
 <dd><dl class="first last docutils">
@@ -1592,15 +1292,15 @@ code. You can find supported entities with the <code class="xref py py-meth docu
 </dd></dl>
 
 </div>
-<div class="section" id="supporter-groups">
-<h3>Supporter Groups<a class="headerlink" href="#supporter-groups" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="export-jobs">
+<h3>Export Jobs<a class="headerlink" href="#export-jobs" title="Permalink to this headline">¶</a></h3>
 <dl class="class">
-<dt id="parsons.ngpvan.van.SupporterGroups">
-<em class="property">class </em><code class="descclassname">parsons.ngpvan.van.</code><code class="descname">SupporterGroups</code><span class="sig-paren">(</span><em>van_connection</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/ngpvan/supporter_groups.html#SupporterGroups"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.ngpvan.van.SupporterGroups" title="Permalink to this definition">¶</a></dt>
+<dt id="parsons.ngpvan.van.ExportJobs">
+<em class="property">class </em><code class="descclassname">parsons.ngpvan.van.</code><code class="descname">ExportJobs</code><span class="sig-paren">(</span><em>van_connection</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/ngpvan/saved_lists.html#ExportJobs"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.ngpvan.van.ExportJobs" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="method">
-<dt id="parsons.ngpvan.van.SupporterGroups.get_supporter_groups">
-<code class="descname">get_supporter_groups</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/ngpvan/supporter_groups.html#SupporterGroups.get_supporter_groups"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.ngpvan.van.SupporterGroups.get_supporter_groups" title="Permalink to this definition">¶</a></dt>
-<dd><p>Get supporter groups.</p>
+<dt id="parsons.ngpvan.van.ExportJobs.get_export_job_types">
+<code class="descname">get_export_job_types</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/ngpvan/saved_lists.html#ExportJobs.get_export_job_types"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.ngpvan.van.ExportJobs.get_export_job_types" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get export job types</p>
 <dl class="docutils">
 <dt><cite>Returns:</cite></dt>
 <dd><dl class="first last docutils">
@@ -1612,14 +1312,235 @@ code. You can find supported entities with the <code class="xref py py-meth docu
 </dd></dl>
 
 <dl class="method">
-<dt id="parsons.ngpvan.van.SupporterGroups.get_supporter_group">
-<code class="descname">get_supporter_group</code><span class="sig-paren">(</span><em>supporter_group_id</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/ngpvan/supporter_groups.html#SupporterGroups.get_supporter_group"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.ngpvan.van.SupporterGroups.get_supporter_group" title="Permalink to this definition">¶</a></dt>
-<dd><p>Get a supporter group.</p>
+<dt id="parsons.ngpvan.van.ExportJobs.export_job_create">
+<code class="descname">export_job_create</code><span class="sig-paren">(</span><em>list_id</em>, <em>export_type=4</em>, <em>webhookUrl='https://www.nothing.com'</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/ngpvan/saved_lists.html#ExportJobs.export_job_create"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.ngpvan.van.ExportJobs.export_job_create" title="Permalink to this definition">¶</a></dt>
+<dd><p>Creates an export job</p>
+<p>Currently, this is only used for exporting saved lists. It is
+recommended that you use the <code class="xref py py-meth docutils literal notranslate"><span class="pre">saved_list_download()</span></code> method
+instead.</p>
 <dl class="docutils">
 <dt><cite>Args:</cite></dt>
 <dd><dl class="first last docutils">
-<dt>supporter_group_id: int</dt>
-<dd>The supporter group id.</dd>
+<dt>list_id: int</dt>
+<dd>This is where you should input the list id</dd>
+<dt>export_type: int</dt>
+<dd>The export type id, which defines the columns to export</dd>
+<dt>webhookUrl:</dt>
+<dd>A webhook to include to notify as to the status of the export</dd>
+</dl>
+</dd>
+<dt><cite>Returns:</cite></dt>
+<dd><dl class="first last docutils">
+<dt>dict</dt>
+<dd>The export job object</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="parsons.ngpvan.van.ExportJobs.get_export_job">
+<code class="descname">get_export_job</code><span class="sig-paren">(</span><em>export_job_id</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/ngpvan/saved_lists.html#ExportJobs.get_export_job"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.ngpvan.van.ExportJobs.get_export_job" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get an export job.</p>
+<dl class="docutils">
+<dt><cite>Args:</cite></dt>
+<dd><dl class="first last docutils">
+<dt>export_job_id: int</dt>
+<dd>The xxport job id.</dd>
+</dl>
+</dd>
+<dt><cite>Returns:</cite></dt>
+<dd><dl class="first last docutils">
+<dt>Parsons Table</dt>
+<dd>See <a class="reference internal" href="table.html#parsons-table"><span class="std std-ref">Parsons Table</span></a> for output options.</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="file-loading-jobs">
+<h3>File Loading Jobs<a class="headerlink" href="#file-loading-jobs" title="Permalink to this headline">¶</a></h3>
+<dl class="class">
+<dt id="parsons.ngpvan.van.FileLoadingJobs">
+<em class="property">class </em><code class="descclassname">parsons.ngpvan.van.</code><code class="descname">FileLoadingJobs</code><span class="sig-paren">(</span><em>van_connection</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/ngpvan/scores.html#FileLoadingJobs"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.ngpvan.van.FileLoadingJobs" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="method">
+<dt id="parsons.ngpvan.van.FileLoadingJobs.create_file_load">
+<code class="descname">create_file_load</code><span class="sig-paren">(</span><em>file_name</em>, <em>file_url</em>, <em>columns</em>, <em>id_column</em>, <em>id_type</em>, <em>score_id</em>, <em>score_column</em>, <em>delimiter='csv'</em>, <em>header=True</em>, <em>quotes=True</em>, <em>description=None</em>, <em>email=None</em>, <em>auto_average=None</em>, <em>auto_tolerance=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/ngpvan/scores.html#FileLoadingJobs.create_file_load"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.ngpvan.van.FileLoadingJobs.create_file_load" title="Permalink to this definition">¶</a></dt>
+<dd><div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<div class="last deprecated">
+<p><span class="versionmodified">Deprecated since version 0.7: </span>Use <code class="xref py py-func docutils literal notranslate"><span class="pre">parsons.VAN.upload_scores()</span></code> instead.</p>
+</div>
+</div>
+<p>Loads a file. Only used for loading scores at this time. Scores must be
+compressed using <cite>zip</cite>.</p>
+<dl class="docutils">
+<dt><cite>Args:</cite></dt>
+<dd><dl class="first last docutils">
+<dt>file_name: str</dt>
+<dd>The name of the file contained in the zip file.</dd>
+<dt>file_url: str</dt>
+<dd>The url path to directly download the file. Can also be a path to an FTP site.</dd>
+<dt>columns: list</dt>
+<dd>A list of column names contained in the file.</dd>
+<dt>id_column: str</dt>
+<dd>The column name of the id column in the file.</dd>
+<dt>id_type: str</dt>
+<dd>A valid primary key, such as <cite>VANID</cite> or <cite>DWID</cite>. Varies by VAN instance.</dd>
+<dt>score_id: int</dt>
+<dd>The score slot id</dd>
+<dt>score_column: str</dt>
+<dd>The column holding the score</dd>
+<dt>delimiter: str</dt>
+<dd>The file delimiter used.</dd>
+<dt>email: str</dt>
+<dd>A valid email address in which file loading status will be sent.</dd>
+<dt>auto_average: float</dt>
+<dd>The average of scores to be loaded.</dd>
+<dt>auto_tolerance: float</dt>
+<dd>The fault tolerance of the VAN calculated average compared to the <code class="docutils literal notranslate"><span class="pre">auto_average</span></code>.
+The tolerance must be less than 10% of the difference between the maximum and
+minimum possible acceptable values of the score.</dd>
+</dl>
+</dd>
+<dt><cite>Returns:</cite></dt>
+<dd><dl class="first last docutils">
+<dt>dict</dt>
+<dd>The file load id</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="parsons.ngpvan.van.FileLoadingJobs.create_file_load_multi">
+<code class="descname">create_file_load_multi</code><span class="sig-paren">(</span><em>file_name</em>, <em>file_url</em>, <em>columns</em>, <em>id_column</em>, <em>id_type</em>, <em>score_map</em>, <em>delimiter='csv'</em>, <em>header=True</em>, <em>quotes=True</em>, <em>description=None</em>, <em>email=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/ngpvan/scores.html#FileLoadingJobs.create_file_load_multi"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.ngpvan.van.FileLoadingJobs.create_file_load_multi" title="Permalink to this definition">¶</a></dt>
+<dd><div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<div class="last deprecated">
+<p><span class="versionmodified">Deprecated since version 0.7: </span>Use <code class="xref py py-func docutils literal notranslate"><span class="pre">parsons.VAN.upload_scores()</span></code> instead.</p>
+</div>
+</div>
+<p>An iteration of the <code class="xref py py-meth docutils literal notranslate"><span class="pre">file_load()</span></code> method that allows you to load multiple scores
+at the same time.</p>
+<dl class="docutils">
+<dt><cite>Args:</cite></dt>
+<dd><dl class="first last docutils">
+<dt>file_name <span class="classifier-delimiter">:</span> <span class="classifier">str</span></dt>
+<dd>The name of the file contained in the zip file.</dd>
+<dt>file_url <span class="classifier-delimiter">:</span> <span class="classifier">str</span></dt>
+<dd>The url path to directly download the file. Can also be a path to an FTP site.</dd>
+<dt>columns: list</dt>
+<dd>A list of column names contained in the file.</dd>
+<dt>id_column <span class="classifier-delimiter">:</span> <span class="classifier">str</span></dt>
+<dd>The column name of the id column in the file.</dd>
+<dt>id_type <span class="classifier-delimiter">:</span> <span class="classifier">str</span></dt>
+<dd>A valid primary key, such as <cite>VANID</cite> or <cite>DWID</cite>. Varies by VAN instance.</dd>
+<dt>score_map <span class="classifier-delimiter">:</span> <span class="classifier">list</span></dt>
+<dd><p class="first">A list of dicts that adheres to the following syntax</p>
+<div class="last highlight-python notranslate"><div class="highlight"><pre><span></span><span class="p">[{</span><span class="s1">&#39;score_id&#39;</span> <span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+  <span class="s1">&#39;score_column&#39;</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+  <span class="s1">&#39;auto_average&#39;</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+  <span class="s1">&#39;auto_tolerance&#39;</span><span class="p">:</span> <span class="nb">float</span> <span class="p">}]</span>
+</pre></div>
+</div>
+</dd>
+<dt>email: str</dt>
+<dd>A valid email address in which file loading status will be sent.</dd>
+</dl>
+</dd>
+<dt><cite>Returns:</cite></dt>
+<dd>The file load job id</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="folders">
+<h3>Folders<a class="headerlink" href="#folders" title="Permalink to this headline">¶</a></h3>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">A folder must be shared with the user associated with your API key to
+be listed.</p>
+</div>
+<dl class="class">
+<dt id="parsons.ngpvan.van.Folders">
+<em class="property">class </em><code class="descclassname">parsons.ngpvan.van.</code><code class="descname">Folders</code><span class="sig-paren">(</span><em>van_connection</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/ngpvan/saved_lists.html#Folders"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.ngpvan.van.Folders" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="method">
+<dt id="parsons.ngpvan.van.Folders.get_folders">
+<code class="descname">get_folders</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/ngpvan/saved_lists.html#Folders.get_folders"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.ngpvan.van.Folders.get_folders" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get all folders owned or shared with the API user.</p>
+<dl class="docutils">
+<dt><cite>Returns:</cite></dt>
+<dd><dl class="first last docutils">
+<dt>Parsons Table</dt>
+<dd>See <a class="reference internal" href="table.html#parsons-table"><span class="std std-ref">Parsons Table</span></a> for output options.</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="parsons.ngpvan.van.Folders.get_folder">
+<code class="descname">get_folder</code><span class="sig-paren">(</span><em>folder_id</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/ngpvan/saved_lists.html#Folders.get_folder"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.ngpvan.van.Folders.get_folder" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get a folder owned by or shared with the API user.</p>
+<dl class="docutils">
+<dt><cite>Args:</cite></dt>
+<dd><dl class="first last docutils">
+<dt>folder_id: int</dt>
+<dd>The folder id.</dd>
+</dl>
+</dd>
+<dt><cite>Returns:</cite></dt>
+<dd><dl class="first last docutils">
+<dt>Parsons Table</dt>
+<dd>See <a class="reference internal" href="table.html#parsons-table"><span class="std std-ref">Parsons Table</span></a> for output options.</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="locations">
+<h3>Locations<a class="headerlink" href="#locations" title="Permalink to this headline">¶</a></h3>
+<dl class="class">
+<dt id="parsons.ngpvan.van.Locations">
+<em class="property">class </em><code class="descclassname">parsons.ngpvan.van.</code><code class="descname">Locations</code><span class="sig-paren">(</span><em>van_connection</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/ngpvan/locations.html#Locations"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.ngpvan.van.Locations" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="method">
+<dt id="parsons.ngpvan.van.Locations.get_locations">
+<code class="descname">get_locations</code><span class="sig-paren">(</span><em>name=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/ngpvan/locations.html#Locations.get_locations"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.ngpvan.van.Locations.get_locations" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get locations.</p>
+<dl class="docutils">
+<dt><cite>Args:</cite></dt>
+<dd><dl class="first last docutils">
+<dt>name: str</dt>
+<dd>Filter locations by name.</dd>
+</dl>
+</dd>
+<dt><cite>Returns:</cite></dt>
+<dd><dl class="first last docutils">
+<dt>Parsons Table</dt>
+<dd>See <a class="reference internal" href="table.html#parsons-table"><span class="std std-ref">Parsons Table</span></a> for output options.</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="parsons.ngpvan.van.Locations.get_location">
+<code class="descname">get_location</code><span class="sig-paren">(</span><em>location_id</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/ngpvan/locations.html#Locations.get_location"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.ngpvan.van.Locations.get_location" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get a location.</p>
+<dl class="docutils">
+<dt><cite>Args:</cite></dt>
+<dd><dl class="first last docutils">
+<dt>location_id: int</dt>
+<dd>The location id.</dd>
 </dl>
 </dd>
 <dt><cite>Returns:</cite></dt>
@@ -1628,69 +1549,44 @@ code. You can find supported entities with the <code class="xref py py-meth docu
 </dd></dl>
 
 <dl class="method">
-<dt id="parsons.ngpvan.van.SupporterGroups.create_supporter_group">
-<code class="descname">create_supporter_group</code><span class="sig-paren">(</span><em>name</em>, <em>description</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/ngpvan/supporter_groups.html#SupporterGroups.create_supporter_group"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.ngpvan.van.SupporterGroups.create_supporter_group" title="Permalink to this definition">¶</a></dt>
-<dd><p>Create a new supporter group.</p>
+<dt id="parsons.ngpvan.van.Locations.create_location">
+<code class="descname">create_location</code><span class="sig-paren">(</span><em>name</em>, <em>address_line1=None</em>, <em>address_line2=None</em>, <em>city=None</em>, <em>state=None</em>, <em>zip_code=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/ngpvan/locations.html#Locations.create_location"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.ngpvan.van.Locations.create_location" title="Permalink to this definition">¶</a></dt>
+<dd><p>Find or create a location. If location already exists, will return location id.</p>
 <dl class="docutils">
 <dt><cite>Args:</cite></dt>
 <dd><dl class="first last docutils">
 <dt>name: str</dt>
-<dd>The name of the supporter group. 100 character limit</dd>
-<dt>description: str</dt>
-<dd>Optional; A description of the supporter group. 200 character limit.</dd>
-</dl>
-</dd>
-<dt><cite>Returns</cite></dt>
-<dd>Parsons Table with the newly createed supporter group id, name
-and description</dd>
-</dl>
-</dd></dl>
-
-<dl class="method">
-<dt id="parsons.ngpvan.van.SupporterGroups.delete_supporter_group">
-<code class="descname">delete_supporter_group</code><span class="sig-paren">(</span><em>supporter_group_id</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/ngpvan/supporter_groups.html#SupporterGroups.delete_supporter_group"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.ngpvan.van.SupporterGroups.delete_supporter_group" title="Permalink to this definition">¶</a></dt>
-<dd><p>Delete a supporter group.</p>
-<dl class="docutils">
-<dt><cite>Args:</cite></dt>
-<dd><dl class="first last docutils">
-<dt>supporter_group_id: int</dt>
-<dd>The supporter group id</dd>
-</dl>
-</dd>
+<dd>A name for this location, no longer than 50 characters.</dd>
+<dt>address_line1: str</dt>
+<dd>First line of a street address.</dd>
+<dt>address_line2: str</dt>
+<dd>Second line of a street address.</dd>
+<dt>city: str</dt>
+<dd>City or town name.</dd>
+<dt>state: str</dt>
+<dd>Two or three character state or province code (e.g., MN, ON, NSW, etc.).</dd>
+<dt>zip_code: str</dt>
+<dd>ZIP, ZIP+4, Postal Code, Post code, etc.</dd>
 <dt><cite>Returns:</cite></dt>
-<dd><code class="docutils literal notranslate"><span class="pre">None</span></code></dd>
-</dl>
-</dd></dl>
-
-<dl class="method">
-<dt id="parsons.ngpvan.van.SupporterGroups.add_person_supporter_group">
-<code class="descname">add_person_supporter_group</code><span class="sig-paren">(</span><em>supporter_group_id</em>, <em>vanid</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/ngpvan/supporter_groups.html#SupporterGroups.add_person_supporter_group"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.ngpvan.van.SupporterGroups.add_person_supporter_group" title="Permalink to this definition">¶</a></dt>
-<dd><p>Add a person to a supporter group</p>
-<dl class="docutils">
-<dt><cite>Args:</cite></dt>
 <dd><dl class="first last docutils">
-<dt>supporter_group_id: int</dt>
-<dd>The supporter group id</dd>
-<dt>vanid: int</dt>
-<dd>The vanid of the person to apply</dd>
+<dt>int</dt>
+<dd>A location id.</dd>
 </dl>
 </dd>
-<dt><cite>Returns:</cite></dt>
-<dd><code class="docutils literal notranslate"><span class="pre">None</span></code></dd>
+</dl>
+</dd>
 </dl>
 </dd></dl>
 
 <dl class="method">
-<dt id="parsons.ngpvan.van.SupporterGroups.delete_person_supporter_group">
-<code class="descname">delete_person_supporter_group</code><span class="sig-paren">(</span><em>supporter_group_id</em>, <em>vanid</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/ngpvan/supporter_groups.html#SupporterGroups.delete_person_supporter_group"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.ngpvan.van.SupporterGroups.delete_person_supporter_group" title="Permalink to this definition">¶</a></dt>
-<dd><p>Remove a person from a supporter group</p>
+<dt id="parsons.ngpvan.van.Locations.delete_location">
+<code class="descname">delete_location</code><span class="sig-paren">(</span><em>location_id</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/ngpvan/locations.html#Locations.delete_location"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.ngpvan.van.Locations.delete_location" title="Permalink to this definition">¶</a></dt>
+<dd><p>Delete a location.</p>
 <dl class="docutils">
 <dt><cite>Args:</cite></dt>
 <dd><dl class="first last docutils">
-<dt>supporter_group_id: int</dt>
-<dd>The supporter group id</dd>
-<dt>vanid: int</dt>
-<dd>The vanid of the person to remove</dd>
+<dt>location_id: int</dt>
+<dd>The location id</dd>
 </dl>
 </dd>
 <dt><cite>Returns:</cite></dt>
@@ -1806,122 +1702,6 @@ instance of VAN.</dd>
 <dt>dict</dt>
 <dd>Upload results information included the number of matched and saved
 records in your list.</dd>
-</dl>
-</dd>
-</dl>
-</dd></dl>
-
-</dd></dl>
-
-</div>
-<div class="section" id="folders">
-<h3>Folders<a class="headerlink" href="#folders" title="Permalink to this headline">¶</a></h3>
-<div class="admonition note">
-<p class="first admonition-title">Note</p>
-<p class="last">A folder must be shared with the user associated with your API key to
-be listed.</p>
-</div>
-<dl class="class">
-<dt id="parsons.ngpvan.van.Folders">
-<em class="property">class </em><code class="descclassname">parsons.ngpvan.van.</code><code class="descname">Folders</code><span class="sig-paren">(</span><em>van_connection</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/ngpvan/saved_lists.html#Folders"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.ngpvan.van.Folders" title="Permalink to this definition">¶</a></dt>
-<dd><dl class="method">
-<dt id="parsons.ngpvan.van.Folders.get_folders">
-<code class="descname">get_folders</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/ngpvan/saved_lists.html#Folders.get_folders"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.ngpvan.van.Folders.get_folders" title="Permalink to this definition">¶</a></dt>
-<dd><p>Get all folders owned or shared with the API user.</p>
-<dl class="docutils">
-<dt><cite>Returns:</cite></dt>
-<dd><dl class="first last docutils">
-<dt>Parsons Table</dt>
-<dd>See <a class="reference internal" href="table.html#parsons-table"><span class="std std-ref">Parsons Table</span></a> for output options.</dd>
-</dl>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="method">
-<dt id="parsons.ngpvan.van.Folders.get_folder">
-<code class="descname">get_folder</code><span class="sig-paren">(</span><em>folder_id</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/ngpvan/saved_lists.html#Folders.get_folder"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.ngpvan.van.Folders.get_folder" title="Permalink to this definition">¶</a></dt>
-<dd><p>Get a folder owned by or shared with the API user.</p>
-<dl class="docutils">
-<dt><cite>Args:</cite></dt>
-<dd><dl class="first last docutils">
-<dt>folder_id: int</dt>
-<dd>The folder id.</dd>
-</dl>
-</dd>
-<dt><cite>Returns:</cite></dt>
-<dd><dl class="first last docutils">
-<dt>Parsons Table</dt>
-<dd>See <a class="reference internal" href="table.html#parsons-table"><span class="std std-ref">Parsons Table</span></a> for output options.</dd>
-</dl>
-</dd>
-</dl>
-</dd></dl>
-
-</dd></dl>
-
-</div>
-<div class="section" id="export-jobs">
-<h3>Export Jobs<a class="headerlink" href="#export-jobs" title="Permalink to this headline">¶</a></h3>
-<dl class="class">
-<dt id="parsons.ngpvan.van.ExportJobs">
-<em class="property">class </em><code class="descclassname">parsons.ngpvan.van.</code><code class="descname">ExportJobs</code><span class="sig-paren">(</span><em>van_connection</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/ngpvan/saved_lists.html#ExportJobs"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.ngpvan.van.ExportJobs" title="Permalink to this definition">¶</a></dt>
-<dd><dl class="method">
-<dt id="parsons.ngpvan.van.ExportJobs.get_export_job_types">
-<code class="descname">get_export_job_types</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/ngpvan/saved_lists.html#ExportJobs.get_export_job_types"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.ngpvan.van.ExportJobs.get_export_job_types" title="Permalink to this definition">¶</a></dt>
-<dd><p>Get export job types</p>
-<dl class="docutils">
-<dt><cite>Returns:</cite></dt>
-<dd><dl class="first last docutils">
-<dt>Parsons Table</dt>
-<dd>See <a class="reference internal" href="table.html#parsons-table"><span class="std std-ref">Parsons Table</span></a> for output options.</dd>
-</dl>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="method">
-<dt id="parsons.ngpvan.van.ExportJobs.export_job_create">
-<code class="descname">export_job_create</code><span class="sig-paren">(</span><em>list_id</em>, <em>export_type=4</em>, <em>webhookUrl='https://www.nothing.com'</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/ngpvan/saved_lists.html#ExportJobs.export_job_create"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.ngpvan.van.ExportJobs.export_job_create" title="Permalink to this definition">¶</a></dt>
-<dd><p>Creates an export job</p>
-<p>Currently, this is only used for exporting saved lists. It is
-recommended that you use the <code class="xref py py-meth docutils literal notranslate"><span class="pre">saved_list_download()</span></code> method
-instead.</p>
-<dl class="docutils">
-<dt><cite>Args:</cite></dt>
-<dd><dl class="first last docutils">
-<dt>list_id: int</dt>
-<dd>This is where you should input the list id</dd>
-<dt>export_type: int</dt>
-<dd>The export type id, which defines the columns to export</dd>
-<dt>webhookUrl:</dt>
-<dd>A webhook to include to notify as to the status of the export</dd>
-</dl>
-</dd>
-<dt><cite>Returns:</cite></dt>
-<dd><dl class="first last docutils">
-<dt>dict</dt>
-<dd>The export job object</dd>
-</dl>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="method">
-<dt id="parsons.ngpvan.van.ExportJobs.get_export_job">
-<code class="descname">get_export_job</code><span class="sig-paren">(</span><em>export_job_id</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/ngpvan/saved_lists.html#ExportJobs.get_export_job"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.ngpvan.van.ExportJobs.get_export_job" title="Permalink to this definition">¶</a></dt>
-<dd><p>Get an export job.</p>
-<dl class="docutils">
-<dt><cite>Args:</cite></dt>
-<dd><dl class="first last docutils">
-<dt>export_job_id: int</dt>
-<dd>The xxport job id.</dd>
-</dl>
-</dd>
-<dt><cite>Returns:</cite></dt>
-<dd><dl class="first last docutils">
-<dt>Parsons Table</dt>
-<dd>See <a class="reference internal" href="table.html#parsons-table"><span class="std std-ref">Parsons Table</span></a> for output options.</dd>
 </dl>
 </dd>
 </dl>
@@ -2112,99 +1892,361 @@ on their servers.</td></tr>
 </dd></dl>
 
 </div>
-<div class="section" id="file-loading-jobs">
-<h3>File Loading Jobs<a class="headerlink" href="#file-loading-jobs" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="signups">
+<h3>Signups<a class="headerlink" href="#signups" title="Permalink to this headline">¶</a></h3>
 <dl class="class">
-<dt id="parsons.ngpvan.van.FileLoadingJobs">
-<em class="property">class </em><code class="descclassname">parsons.ngpvan.van.</code><code class="descname">FileLoadingJobs</code><span class="sig-paren">(</span><em>van_connection</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/ngpvan/scores.html#FileLoadingJobs"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.ngpvan.van.FileLoadingJobs" title="Permalink to this definition">¶</a></dt>
+<dt id="parsons.ngpvan.van.Signups">
+<em class="property">class </em><code class="descclassname">parsons.ngpvan.van.</code><code class="descname">Signups</code><span class="sig-paren">(</span><em>van_connection</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/ngpvan/signups.html#Signups"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.ngpvan.van.Signups" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="method">
-<dt id="parsons.ngpvan.van.FileLoadingJobs.create_file_load">
-<code class="descname">create_file_load</code><span class="sig-paren">(</span><em>file_name</em>, <em>file_url</em>, <em>columns</em>, <em>id_column</em>, <em>id_type</em>, <em>score_id</em>, <em>score_column</em>, <em>delimiter='csv'</em>, <em>header=True</em>, <em>quotes=True</em>, <em>description=None</em>, <em>email=None</em>, <em>auto_average=None</em>, <em>auto_tolerance=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/ngpvan/scores.html#FileLoadingJobs.create_file_load"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.ngpvan.van.FileLoadingJobs.create_file_load" title="Permalink to this definition">¶</a></dt>
-<dd><div class="admonition warning">
-<p class="first admonition-title">Warning</p>
-<div class="last deprecated">
-<p><span class="versionmodified">Deprecated since version 0.7: </span>Use <code class="xref py py-func docutils literal notranslate"><span class="pre">parsons.VAN.upload_scores()</span></code> instead.</p>
-</div>
-</div>
-<p>Loads a file. Only used for loading scores at this time. Scores must be
-compressed using <cite>zip</cite>.</p>
+<dt id="parsons.ngpvan.van.Signups.get_signups_statuses">
+<code class="descname">get_signups_statuses</code><span class="sig-paren">(</span><em>event_id=None</em>, <em>event_type_id=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/ngpvan/signups.html#Signups.get_signups_statuses"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.ngpvan.van.Signups.get_signups_statuses" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get a list of valid signup statuses for a given event type
+or event. You must pass one of <code class="docutils literal notranslate"><span class="pre">event_id</span></code> or <code class="docutils literal notranslate"><span class="pre">event_type_id</span></code>
+but not both.</p>
 <dl class="docutils">
 <dt><cite>Args:</cite></dt>
 <dd><dl class="first last docutils">
-<dt>file_name: str</dt>
-<dd>The name of the file contained in the zip file.</dd>
-<dt>file_url: str</dt>
-<dd>The url path to directly download the file. Can also be a path to an FTP site.</dd>
-<dt>columns: list</dt>
-<dd>A list of column names contained in the file.</dd>
-<dt>id_column: str</dt>
-<dd>The column name of the id column in the file.</dd>
-<dt>id_type: str</dt>
-<dd>A valid primary key, such as <cite>VANID</cite> or <cite>DWID</cite>. Varies by VAN instance.</dd>
-<dt>score_id: int</dt>
-<dd>The score slot id</dd>
-<dt>score_column: str</dt>
-<dd>The column holding the score</dd>
-<dt>delimiter: str</dt>
-<dd>The file delimiter used.</dd>
-<dt>email: str</dt>
-<dd>A valid email address in which file loading status will be sent.</dd>
-<dt>auto_average: float</dt>
-<dd>The average of scores to be loaded.</dd>
-<dt>auto_tolerance: float</dt>
-<dd>The fault tolerance of the VAN calculated average compared to the <code class="docutils literal notranslate"><span class="pre">auto_average</span></code>.
-The tolerance must be less than 10% of the difference between the maximum and
-minimum possible acceptable values of the score.</dd>
+<dt>event_id: int</dt>
+<dd>A valid event id.</dd>
+<dt>event_type_id: int</dt>
+<dd>A valid event type id.</dd>
 </dl>
 </dd>
 <dt><cite>Returns:</cite></dt>
 <dd><dl class="first last docutils">
-<dt>dict</dt>
-<dd>The file load id</dd>
+<dt>Parsons Table</dt>
+<dd>See <a class="reference internal" href="table.html#parsons-table"><span class="std std-ref">Parsons Table</span></a> for output options.</dd>
 </dl>
 </dd>
 </dl>
 </dd></dl>
 
 <dl class="method">
-<dt id="parsons.ngpvan.van.FileLoadingJobs.create_file_load_multi">
-<code class="descname">create_file_load_multi</code><span class="sig-paren">(</span><em>file_name</em>, <em>file_url</em>, <em>columns</em>, <em>id_column</em>, <em>id_type</em>, <em>score_map</em>, <em>delimiter='csv'</em>, <em>header=True</em>, <em>quotes=True</em>, <em>description=None</em>, <em>email=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/ngpvan/scores.html#FileLoadingJobs.create_file_load_multi"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.ngpvan.van.FileLoadingJobs.create_file_load_multi" title="Permalink to this definition">¶</a></dt>
-<dd><div class="admonition warning">
-<p class="first admonition-title">Warning</p>
-<div class="last deprecated">
-<p><span class="versionmodified">Deprecated since version 0.7: </span>Use <code class="xref py py-func docutils literal notranslate"><span class="pre">parsons.VAN.upload_scores()</span></code> instead.</p>
-</div>
-</div>
-<p>An iteration of the <code class="xref py py-meth docutils literal notranslate"><span class="pre">file_load()</span></code> method that allows you to load multiple scores
-at the same time.</p>
+<dt id="parsons.ngpvan.van.Signups.get_person_signups">
+<code class="descname">get_person_signups</code><span class="sig-paren">(</span><em>vanid</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/ngpvan/signups.html#Signups.get_person_signups"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.ngpvan.van.Signups.get_person_signups" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the signup history of a person.</p>
 <dl class="docutils">
 <dt><cite>Args:</cite></dt>
 <dd><dl class="first last docutils">
-<dt>file_name <span class="classifier-delimiter">:</span> <span class="classifier">str</span></dt>
-<dd>The name of the file contained in the zip file.</dd>
-<dt>file_url <span class="classifier-delimiter">:</span> <span class="classifier">str</span></dt>
-<dd>The url path to directly download the file. Can also be a path to an FTP site.</dd>
-<dt>columns: list</dt>
-<dd>A list of column names contained in the file.</dd>
-<dt>id_column <span class="classifier-delimiter">:</span> <span class="classifier">str</span></dt>
-<dd>The column name of the id column in the file.</dd>
-<dt>id_type <span class="classifier-delimiter">:</span> <span class="classifier">str</span></dt>
-<dd>A valid primary key, such as <cite>VANID</cite> or <cite>DWID</cite>. Varies by VAN instance.</dd>
-<dt>score_map <span class="classifier-delimiter">:</span> <span class="classifier">list</span></dt>
-<dd><p class="first">A list of dicts that adheres to the following syntax</p>
-<div class="last highlight-python notranslate"><div class="highlight"><pre><span></span><span class="p">[{</span><span class="s1">&#39;score_id&#39;</span> <span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
-  <span class="s1">&#39;score_column&#39;</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
-  <span class="s1">&#39;auto_average&#39;</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
-  <span class="s1">&#39;auto_tolerance&#39;</span><span class="p">:</span> <span class="nb">float</span> <span class="p">}]</span>
-</pre></div>
-</div>
-</dd>
-<dt>email: str</dt>
-<dd>A valid email address in which file loading status will be sent.</dd>
+<dt>vanid: int</dt>
+<dd>A valid vanid associated with a person.</dd>
 </dl>
 </dd>
 <dt><cite>Returns:</cite></dt>
-<dd>The file load job id</dd>
+<dd><dl class="first last docutils">
+<dt>Parsons Table</dt>
+<dd>See <a class="reference internal" href="table.html#parsons-table"><span class="std std-ref">Parsons Table</span></a> for output options.</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="parsons.ngpvan.van.Signups.get_event_signups">
+<code class="descname">get_event_signups</code><span class="sig-paren">(</span><em>event_id</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/ngpvan/signups.html#Signups.get_event_signups"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.ngpvan.van.Signups.get_event_signups" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the signup history of an event.</p>
+<dl class="docutils">
+<dt><cite>Args:</cite></dt>
+<dd><dl class="first last docutils">
+<dt>event_id: int</dt>
+<dd>A valid event_id associated with an event</dd>
+</dl>
+</dd>
+<dt><cite>Returns:</cite></dt>
+<dd><dl class="first last docutils">
+<dt>Parsons Table</dt>
+<dd>See <a class="reference internal" href="table.html#parsons-table"><span class="std std-ref">Parsons Table</span></a> for output options.</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="parsons.ngpvan.van.Signups.get_signup">
+<code class="descname">get_signup</code><span class="sig-paren">(</span><em>event_signup_id</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/ngpvan/signups.html#Signups.get_signup"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.ngpvan.van.Signups.get_signup" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get a single signup object.</p>
+<dl class="docutils">
+<dt><cite>Args:</cite></dt>
+<dd><dl class="first last docutils">
+<dt>event_signup_id: int</dt>
+<dd>A valid event_signup_id associated with a signup.</dd>
+</dl>
+</dd>
+<dt><cite>Returns:</cite></dt>
+<dd><dl class="first last docutils">
+<dt>Parsons Table</dt>
+<dd>See <a class="reference internal" href="table.html#parsons-table"><span class="std std-ref">Parsons Table</span></a> for output options.</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="parsons.ngpvan.van.Signups.create_signup">
+<code class="descname">create_signup</code><span class="sig-paren">(</span><em>vanid</em>, <em>event_id</em>, <em>shift_id</em>, <em>role_id</em>, <em>status_id</em>, <em>location_id</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/ngpvan/signups.html#Signups.create_signup"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.ngpvan.van.Signups.create_signup" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create a new signup for an event.</p>
+<dl class="docutils">
+<dt><cite>Args:</cite></dt>
+<dd><dl class="first last docutils">
+<dt>vanid: int</dt>
+<dd>A valid vanid of the person to signup for the event.</dd>
+<dt>event_id: int</dt>
+<dd>A valid event_id to associate the person with the event</dd>
+<dt>shift_id:</dt>
+<dd>A shift_id, associated with the event to assign the person</dd>
+<dt>role_id:</dt>
+<dd>A role_id, associated with the event to assign the person</dd>
+<dt>status_id:</dt>
+<dd>A status_id of the person</dd>
+<dt>location_id:</dt>
+<dd>A location_id for the event</dd>
+</dl>
+</dd>
+<dt><cite>Returns:</cite></dt>
+<dd><dl class="first last docutils">
+<dt>Int</dt>
+<dd>The event signup id</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="parsons.ngpvan.van.Signups.update_signup">
+<code class="descname">update_signup</code><span class="sig-paren">(</span><em>event_signup_id</em>, <em>shift_id=None</em>, <em>role_id=None</em>, <em>status_id=None</em>, <em>location_id=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/ngpvan/signups.html#Signups.update_signup"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.ngpvan.van.Signups.update_signup" title="Permalink to this definition">¶</a></dt>
+<dd><p>Update a signup object. All of the kwargs will update the values associated
+with them.</p>
+<dl class="docutils">
+<dt><cite>Args:</cite></dt>
+<dd><dl class="first last docutils">
+<dt>event_signup_id: int</dt>
+<dd>A valid event signup id</dd>
+<dt>shift_id: int</dt>
+<dd>The shift_id to update</dd>
+<dt>role_id: int</dt>
+<dd>The role_id to update</dd>
+<dt>status_id: int</dt>
+<dd>The status_id to update</dd>
+<dt>location_id: int</dt>
+<dd>The location_id to update</dd>
+</dl>
+</dd>
+<dt><cite>Returns:</cite></dt>
+<dd><code class="docutils literal notranslate"><span class="pre">None</span></code></dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="parsons.ngpvan.van.Signups.delete_signup">
+<code class="descname">delete_signup</code><span class="sig-paren">(</span><em>event_signup_id</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/ngpvan/signups.html#Signups.delete_signup"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.ngpvan.van.Signups.delete_signup" title="Permalink to this definition">¶</a></dt>
+<dd><p>Delete a signup object</p>
+<dl class="docutils">
+<dt><cite>Args:</cite></dt>
+<dd><dl class="first last docutils">
+<dt>event_signup_id: int</dt>
+<dd>A valid event signup id</dd>
+</dl>
+</dd>
+<dt><cite>Returns:</cite></dt>
+<dd><code class="docutils literal notranslate"><span class="pre">None</span></code></dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="supporter-groups">
+<h3>Supporter Groups<a class="headerlink" href="#supporter-groups" title="Permalink to this headline">¶</a></h3>
+<dl class="class">
+<dt id="parsons.ngpvan.van.SupporterGroups">
+<em class="property">class </em><code class="descclassname">parsons.ngpvan.van.</code><code class="descname">SupporterGroups</code><span class="sig-paren">(</span><em>van_connection</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/ngpvan/supporter_groups.html#SupporterGroups"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.ngpvan.van.SupporterGroups" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="method">
+<dt id="parsons.ngpvan.van.SupporterGroups.get_supporter_groups">
+<code class="descname">get_supporter_groups</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/ngpvan/supporter_groups.html#SupporterGroups.get_supporter_groups"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.ngpvan.van.SupporterGroups.get_supporter_groups" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get supporter groups.</p>
+<dl class="docutils">
+<dt><cite>Returns:</cite></dt>
+<dd><dl class="first last docutils">
+<dt>Parsons Table</dt>
+<dd>See <a class="reference internal" href="table.html#parsons-table"><span class="std std-ref">Parsons Table</span></a> for output options.</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="parsons.ngpvan.van.SupporterGroups.get_supporter_group">
+<code class="descname">get_supporter_group</code><span class="sig-paren">(</span><em>supporter_group_id</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/ngpvan/supporter_groups.html#SupporterGroups.get_supporter_group"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.ngpvan.van.SupporterGroups.get_supporter_group" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get a supporter group.</p>
+<dl class="docutils">
+<dt><cite>Args:</cite></dt>
+<dd><dl class="first last docutils">
+<dt>supporter_group_id: int</dt>
+<dd>The supporter group id.</dd>
+</dl>
+</dd>
+<dt><cite>Returns:</cite></dt>
+<dd>dict</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="parsons.ngpvan.van.SupporterGroups.create_supporter_group">
+<code class="descname">create_supporter_group</code><span class="sig-paren">(</span><em>name</em>, <em>description</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/ngpvan/supporter_groups.html#SupporterGroups.create_supporter_group"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.ngpvan.van.SupporterGroups.create_supporter_group" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create a new supporter group.</p>
+<dl class="docutils">
+<dt><cite>Args:</cite></dt>
+<dd><dl class="first last docutils">
+<dt>name: str</dt>
+<dd>The name of the supporter group. 100 character limit</dd>
+<dt>description: str</dt>
+<dd>Optional; A description of the supporter group. 200 character limit.</dd>
+</dl>
+</dd>
+<dt><cite>Returns</cite></dt>
+<dd>Parsons Table with the newly createed supporter group id, name
+and description</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="parsons.ngpvan.van.SupporterGroups.delete_supporter_group">
+<code class="descname">delete_supporter_group</code><span class="sig-paren">(</span><em>supporter_group_id</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/ngpvan/supporter_groups.html#SupporterGroups.delete_supporter_group"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.ngpvan.van.SupporterGroups.delete_supporter_group" title="Permalink to this definition">¶</a></dt>
+<dd><p>Delete a supporter group.</p>
+<dl class="docutils">
+<dt><cite>Args:</cite></dt>
+<dd><dl class="first last docutils">
+<dt>supporter_group_id: int</dt>
+<dd>The supporter group id</dd>
+</dl>
+</dd>
+<dt><cite>Returns:</cite></dt>
+<dd><code class="docutils literal notranslate"><span class="pre">None</span></code></dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="parsons.ngpvan.van.SupporterGroups.add_person_supporter_group">
+<code class="descname">add_person_supporter_group</code><span class="sig-paren">(</span><em>supporter_group_id</em>, <em>vanid</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/ngpvan/supporter_groups.html#SupporterGroups.add_person_supporter_group"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.ngpvan.van.SupporterGroups.add_person_supporter_group" title="Permalink to this definition">¶</a></dt>
+<dd><p>Add a person to a supporter group</p>
+<dl class="docutils">
+<dt><cite>Args:</cite></dt>
+<dd><dl class="first last docutils">
+<dt>supporter_group_id: int</dt>
+<dd>The supporter group id</dd>
+<dt>vanid: int</dt>
+<dd>The vanid of the person to apply</dd>
+</dl>
+</dd>
+<dt><cite>Returns:</cite></dt>
+<dd><code class="docutils literal notranslate"><span class="pre">None</span></code></dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="parsons.ngpvan.van.SupporterGroups.delete_person_supporter_group">
+<code class="descname">delete_person_supporter_group</code><span class="sig-paren">(</span><em>supporter_group_id</em>, <em>vanid</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/ngpvan/supporter_groups.html#SupporterGroups.delete_person_supporter_group"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.ngpvan.van.SupporterGroups.delete_person_supporter_group" title="Permalink to this definition">¶</a></dt>
+<dd><p>Remove a person from a supporter group</p>
+<dl class="docutils">
+<dt><cite>Args:</cite></dt>
+<dd><dl class="first last docutils">
+<dt>supporter_group_id: int</dt>
+<dd>The supporter group id</dd>
+<dt>vanid: int</dt>
+<dd>The vanid of the person to remove</dd>
+</dl>
+</dd>
+<dt><cite>Returns:</cite></dt>
+<dd><code class="docutils literal notranslate"><span class="pre">None</span></code></dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="survey-questions">
+<h3>Survey Questions<a class="headerlink" href="#survey-questions" title="Permalink to this headline">¶</a></h3>
+<dl class="class">
+<dt id="parsons.ngpvan.van.SurveyQuestions">
+<em class="property">class </em><code class="descclassname">parsons.ngpvan.van.</code><code class="descname">SurveyQuestions</code><span class="sig-paren">(</span><em>van_connection</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/ngpvan/survey_questions.html#SurveyQuestions"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.ngpvan.van.SurveyQuestions" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="method">
+<dt id="parsons.ngpvan.van.SurveyQuestions.get_survey_questions">
+<code class="descname">get_survey_questions</code><span class="sig-paren">(</span><em>statuses=['Active'], name=None, sq_type=None, question=None, cycle=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/ngpvan/survey_questions.html#SurveyQuestions.get_survey_questions"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.ngpvan.van.SurveyQuestions.get_survey_questions" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get survey questions.</p>
+<dl class="docutils">
+<dt><cite>Args:</cite></dt>
+<dd><dl class="first last docutils">
+<dt>statuses: list</dt>
+<dd>Filter to a list of statuses of survey questions. One or more of <code class="docutils literal notranslate"><span class="pre">Active</span></code>,
+<code class="docutils literal notranslate"><span class="pre">Archived</span></code>, and <code class="docutils literal notranslate"><span class="pre">Inactive</span></code>.</dd>
+<dt>name: str</dt>
+<dd>Filter to survey questions with names begin with the input.</dd>
+<dt>type: str</dt>
+<dd>Filter to survey questions of a given type.</dd>
+<dt>question: str</dt>
+<dd>Filter to survey questions with script questions that contain the given input.</dd>
+<dt>cycle: str</dt>
+<dd>Filter to survey suestions with the given cycle. A year in the format “YYYY”.</dd>
+</dl>
+</dd>
+<dt><cite>Returns:</cite></dt>
+<dd><dl class="first last docutils">
+<dt>Parsons Table</dt>
+<dd>See <a class="reference internal" href="table.html#parsons-table"><span class="std std-ref">Parsons Table</span></a> for output options.</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="parsons.ngpvan.van.SurveyQuestions.get_survey_question">
+<code class="descname">get_survey_question</code><span class="sig-paren">(</span><em>survey_question_id</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/ngpvan/survey_questions.html#SurveyQuestions.get_survey_question"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.ngpvan.van.SurveyQuestions.get_survey_question" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get a survey question.</p>
+<dl class="docutils">
+<dt><cite>Args:</cite></dt>
+<dd><dl class="first last docutils">
+<dt>survey_question_id: int</dt>
+<dd>The survey question id.</dd>
+</dl>
+</dd>
+<dt><cite>Returns:</cite></dt>
+<dd><dl class="first last docutils">
+<dt>Parsons Table</dt>
+<dd>See <a class="reference internal" href="table.html#parsons-table"><span class="std std-ref">Parsons Table</span></a> for output options.</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="parsons.ngpvan.van.SurveyQuestions.apply_survey_response">
+<code class="descname">apply_survey_response</code><span class="sig-paren">(</span><em>id</em>, <em>survey_question_id</em>, <em>survey_response_id</em>, <em>id_type='vanid'</em>, <em>result_code_id=None</em>, <em>contact_type_id=None</em>, <em>input_type_id=None</em>, <em>date_canvassed=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/ngpvan/survey_questions.html#SurveyQuestions.apply_survey_response"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.ngpvan.van.SurveyQuestions.apply_survey_response" title="Permalink to this definition">¶</a></dt>
+<dd><p>Apply a single survey response to a person.</p>
+<dl class="docutils">
+<dt><cite>Args:</cite></dt>
+<dd><dl class="first last docutils">
+<dt>id: str</dt>
+<dd>A valid person id</dd>
+<dt>survey_question_id: int</dt>
+<dd>A valid survey question id</dd>
+<dt>survey_response_id: int</dt>
+<dd>A valid survey response id</dd>
+<dt>id_type: str</dt>
+<dd>A known person identifier type available on this VAN instance
+such as <code class="docutils literal notranslate"><span class="pre">dwid</span></code></dd>
+<dt>result_code_id <span class="classifier-delimiter">:</span> <span class="classifier">int</span></dt>
+<dd><cite>Optional</cite>; Specifies the result code of the response. If
+not included,responses must be specified. Conversely, if
+responses are specified, result_code_id must be null. Valid ids
+can be found by using the <code class="xref py py-meth docutils literal notranslate"><span class="pre">get_canvass_responses_result_codes()</span></code></dd>
+<dt>contact_type_id <span class="classifier-delimiter">:</span> <span class="classifier">int</span></dt>
+<dd><cite>Optional</cite>; A valid contact type id</dd>
+<dt>input_type_id <span class="classifier-delimiter">:</span> <span class="classifier">int</span></dt>
+<dd><cite>Optional</cite>; Defaults to 11 (API Input)</dd>
+<dt>date_canvassed <span class="classifier-delimiter">:</span> <span class="classifier">str</span></dt>
+<dd><cite>Optional</cite>; ISO 8601 formatted date. Defaults to todays date</dd>
+</dl>
+</dd>
 </dl>
 </dd></dl>
 

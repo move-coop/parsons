@@ -290,7 +290,7 @@
 <span class="sd">        &quot;&quot;&quot;</span>
 
         <span class="n">keys_dict</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
-        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Fetching keys in </span><span class="si">{bucket}</span><span class="s1"> bucket&#39;</span><span class="p">)</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Fetching keys in </span><span class="si">{</span><span class="n">bucket</span><span class="si">}</span><span class="s1"> bucket&#39;</span><span class="p">)</span>
 
         <span class="n">continuation_token</span> <span class="o">=</span> <span class="kc">None</span>
 
@@ -333,7 +333,7 @@
             <span class="k">else</span><span class="p">:</span>
                 <span class="k">break</span>
 
-        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Retrieved {len(keys_dict)} keys&#39;</span><span class="p">)</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Retrieved </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">keys_dict</span><span class="p">)</span><span class="si">}</span><span class="s1"> keys&#39;</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">keys_dict</span></div>
 
 <div class="viewcode-block" id="S3.key_exists"><a class="viewcode-back" href="../../../s3.html#parsons.S3.key_exists">[docs]</a>    <span class="k">def</span> <span class="nf">key_exists</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">bucket</span><span class="p">,</span> <span class="n">key</span><span class="p">):</span>
@@ -353,10 +353,10 @@
         <span class="n">key_count</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">list_keys</span><span class="p">(</span><span class="n">bucket</span><span class="p">,</span> <span class="n">prefix</span><span class="o">=</span><span class="n">key</span><span class="p">))</span>
 
         <span class="k">if</span> <span class="n">key_count</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
-            <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Found </span><span class="si">{key}</span><span class="s1"> in </span><span class="si">{bucket}</span><span class="s1">.&#39;</span><span class="p">)</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Found </span><span class="si">{</span><span class="n">key</span><span class="si">}</span><span class="s1"> in </span><span class="si">{</span><span class="n">bucket</span><span class="si">}</span><span class="s1">.&#39;</span><span class="p">)</span>
             <span class="k">return</span> <span class="kc">True</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Did not find </span><span class="si">{key}</span><span class="s1"> in </span><span class="si">{bucket}</span><span class="s1">.&#39;</span><span class="p">)</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Did not find </span><span class="si">{</span><span class="n">key</span><span class="si">}</span><span class="s1"> in </span><span class="si">{</span><span class="n">bucket</span><span class="si">}</span><span class="s1">.&#39;</span><span class="p">)</span>
             <span class="k">return</span> <span class="kc">False</span></div>
 
 <div class="viewcode-block" id="S3.create_bucket"><a class="viewcode-back" href="../../../s3.html#parsons.S3.create_bucket">[docs]</a>    <span class="k">def</span> <span class="nf">create_bucket</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">bucket</span><span class="p">):</span>
@@ -547,7 +547,7 @@
                 <span class="n">object_acl</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">s3</span><span class="o">.</span><span class="n">ObjectAcl</span><span class="p">(</span><span class="n">destination_bucket</span><span class="p">,</span> <span class="n">destination_key</span><span class="p">)</span>
                 <span class="n">object_acl</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="n">ACL</span><span class="o">=</span><span class="s1">&#39;public-read&#39;</span><span class="p">)</span>
 
-        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Finished syncing {len(key_list)} keys&#39;</span><span class="p">)</span></div></div>
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Finished syncing </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">key_list</span><span class="p">)</span><span class="si">}</span><span class="s1"> keys&#39;</span><span class="p">)</span></div></div>
 </pre></div>
 
            </div>

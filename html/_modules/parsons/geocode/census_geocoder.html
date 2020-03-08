@@ -273,7 +273,7 @@
 <span class="sd">            A Parsons table</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
-        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Geocoding </span><span class="si">{table.num_rows}</span><span class="s1"> records.&#39;</span><span class="p">)</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Geocoding </span><span class="si">{</span><span class="n">table</span><span class="o">.</span><span class="n">num_rows</span><span class="si">}</span><span class="s1"> records.&#39;</span><span class="p">)</span>
         <span class="n">chunked_tables</span> <span class="o">=</span> <span class="n">table</span><span class="o">.</span><span class="n">chunk</span><span class="p">(</span><span class="n">BATCH_SIZE</span><span class="p">)</span>
         <span class="n">batch_count</span> <span class="o">=</span> <span class="mi">1</span>
         <span class="n">records_processed</span> <span class="o">=</span> <span class="mi">0</span>
@@ -282,7 +282,7 @@
         <span class="k">for</span> <span class="n">tbl</span> <span class="ow">in</span> <span class="n">chunked_tables</span><span class="p">:</span>
             <span class="n">geocoded_tbl</span><span class="o">.</span><span class="n">concat</span><span class="p">(</span><span class="n">Table</span><span class="p">(</span><span class="n">petl</span><span class="o">.</span><span class="n">fromdicts</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">cg</span><span class="o">.</span><span class="n">addressbatch</span><span class="p">(</span><span class="n">tbl</span><span class="p">))))</span>
             <span class="n">records_processed</span> <span class="o">+=</span> <span class="n">tbl</span><span class="o">.</span><span class="n">num_rows</span>
-            <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{records_processed}</span><span class="s1"> of </span><span class="si">{table.num_rows}</span><span class="s1"> records processed.&#39;</span><span class="p">)</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">records_processed</span><span class="si">}</span><span class="s1"> of </span><span class="si">{</span><span class="n">table</span><span class="o">.</span><span class="n">num_rows</span><span class="si">}</span><span class="s1"> records processed.&#39;</span><span class="p">)</span>
             <span class="n">batch_count</span> <span class="o">+=</span> <span class="mi">1</span>
 
         <span class="k">return</span> <span class="n">geocoded_tbl</span></div>

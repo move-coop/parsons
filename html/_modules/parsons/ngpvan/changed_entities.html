@@ -196,7 +196,7 @@
 <span class="sd">        &quot;&quot;&quot;</span>
 
         <span class="n">r</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">connection</span><span class="o">.</span><span class="n">get_request</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;changedEntityExportJobs/resources&#39;</span><span class="p">)</span>
-        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Found {len(r)} changed entity resources.&#39;</span><span class="p">)</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Found </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">r</span><span class="p">)</span><span class="si">}</span><span class="s1"> changed entity resources.&#39;</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">r</span></div>
 
 <div class="viewcode-block" id="ChangedEntities.get_changed_entity_resource_fields"><a class="viewcode-back" href="../../../ngpvan.html#parsons.ngpvan.van.ChangedEntities.get_changed_entity_resource_fields">[docs]</a>    <span class="k">def</span> <span class="nf">get_changed_entity_resource_fields</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">resource_type</span><span class="p">):</span>
@@ -210,8 +210,8 @@
 <span class="sd">                See :ref:`parsons-table` for output options.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
-        <span class="n">tbl</span> <span class="o">=</span> <span class="n">Table</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">connection</span><span class="o">.</span><span class="n">get_request</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;changedEntityExportJobs/fields/</span><span class="si">{resource_type}</span><span class="s1">&#39;</span><span class="p">))</span>
-        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Found </span><span class="si">{tbl.num_rows}</span><span class="s1"> fields for </span><span class="si">{resource_type}</span><span class="s1">.&#39;</span><span class="p">)</span>
+        <span class="n">tbl</span> <span class="o">=</span> <span class="n">Table</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">connection</span><span class="o">.</span><span class="n">get_request</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;changedEntityExportJobs/fields/</span><span class="si">{</span><span class="n">resource_type</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">))</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Found </span><span class="si">{</span><span class="n">tbl</span><span class="o">.</span><span class="n">num_rows</span><span class="si">}</span><span class="s1"> fields for </span><span class="si">{</span><span class="n">resource_type</span><span class="si">}</span><span class="s1">.&#39;</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">tbl</span></div></div>
 </pre></div>
 

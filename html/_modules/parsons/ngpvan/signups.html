@@ -214,7 +214,7 @@
             <span class="n">params</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;eventTypeId&#39;</span><span class="p">:</span> <span class="n">event_type_id</span><span class="p">}</span>
 
         <span class="n">tbl</span> <span class="o">=</span> <span class="n">Table</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">connection</span><span class="o">.</span><span class="n">get_request</span><span class="p">(</span><span class="s1">&#39;signups/statuses&#39;</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="n">params</span><span class="p">))</span>
-        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Found </span><span class="si">{tbl.num_rows}</span><span class="s1"> signups.&#39;</span><span class="p">)</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Found </span><span class="si">{</span><span class="n">tbl</span><span class="o">.</span><span class="n">num_rows</span><span class="si">}</span><span class="s1"> signups.&#39;</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">tbl</span></div>
 
 <div class="viewcode-block" id="Signups.get_person_signups"><a class="viewcode-back" href="../../../ngpvan.html#parsons.ngpvan.van.Signups.get_person_signups">[docs]</a>    <span class="k">def</span> <span class="nf">get_person_signups</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">vanid</span><span class="p">):</span>
@@ -230,7 +230,7 @@
 <span class="sd">        &quot;&quot;&quot;</span>
 
         <span class="n">tbl</span> <span class="o">=</span> <span class="n">Table</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">connection</span><span class="o">.</span><span class="n">get_request</span><span class="p">(</span><span class="s1">&#39;signups&#39;</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;vanID&#39;</span><span class="p">:</span> <span class="n">vanid</span><span class="p">}))</span>
-        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Found </span><span class="si">{tbl.num_rows}</span><span class="s1"> signups for </span><span class="si">{vanid}</span><span class="s1">.&#39;</span><span class="p">)</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Found </span><span class="si">{</span><span class="n">tbl</span><span class="o">.</span><span class="n">num_rows</span><span class="si">}</span><span class="s1"> signups for </span><span class="si">{</span><span class="n">vanid</span><span class="si">}</span><span class="s1">.&#39;</span><span class="p">)</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_unpack_signups</span><span class="p">(</span><span class="n">tbl</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="Signups.get_event_signups"><a class="viewcode-back" href="../../../ngpvan.html#parsons.ngpvan.van.Signups.get_event_signups">[docs]</a>    <span class="k">def</span> <span class="nf">get_event_signups</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">event_id</span><span class="p">):</span>
@@ -246,7 +246,7 @@
 <span class="sd">        &quot;&quot;&quot;</span>
 
         <span class="n">tbl</span> <span class="o">=</span> <span class="n">Table</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">connection</span><span class="o">.</span><span class="n">get_request</span><span class="p">(</span><span class="s1">&#39;signups&#39;</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;eventId&#39;</span><span class="p">:</span> <span class="n">event_id</span><span class="p">}))</span>
-        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Found </span><span class="si">{tbl.num_rows}</span><span class="s1"> signups for event </span><span class="si">{event_id}</span><span class="s1">.&#39;</span><span class="p">)</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Found </span><span class="si">{</span><span class="n">tbl</span><span class="o">.</span><span class="n">num_rows</span><span class="si">}</span><span class="s1"> signups for event </span><span class="si">{</span><span class="n">event_id</span><span class="si">}</span><span class="s1">.&#39;</span><span class="p">)</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_unpack_signups</span><span class="p">(</span><span class="n">tbl</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="Signups.get_signup"><a class="viewcode-back" href="../../../ngpvan.html#parsons.ngpvan.van.Signups.get_signup">[docs]</a>    <span class="k">def</span> <span class="nf">get_signup</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">event_signup_id</span><span class="p">):</span>
@@ -261,8 +261,8 @@
 <span class="sd">                See :ref:`parsons-table` for output options.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
-        <span class="n">r</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">connection</span><span class="o">.</span><span class="n">get_request</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;signups/</span><span class="si">{event_signup_id}</span><span class="s1">&#39;</span><span class="p">)</span>
-        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Found sign up </span><span class="si">{event_signup_id}</span><span class="s1">.&#39;</span><span class="p">)</span>
+        <span class="n">r</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">connection</span><span class="o">.</span><span class="n">get_request</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;signups/</span><span class="si">{</span><span class="n">event_signup_id</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Found sign up </span><span class="si">{</span><span class="n">event_signup_id</span><span class="si">}</span><span class="s1">.&#39;</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">r</span></div>
 
 <div class="viewcode-block" id="Signups.create_signup"><a class="viewcode-back" href="../../../ngpvan.html#parsons.ngpvan.van.Signups.create_signup">[docs]</a>    <span class="k">def</span> <span class="nf">create_signup</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">vanid</span><span class="p">,</span> <span class="n">event_id</span><span class="p">,</span> <span class="n">shift_id</span><span class="p">,</span> <span class="n">role_id</span><span class="p">,</span> <span class="n">status_id</span><span class="p">,</span> <span class="n">location_id</span><span class="p">):</span>
@@ -321,7 +321,7 @@
 <span class="sd">        &quot;&quot;&quot;</span>
 
         <span class="c1">#  Get the signup object</span>
-        <span class="n">signup</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">connection</span><span class="o">.</span><span class="n">get_request</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;signups/</span><span class="si">{event_signup_id}</span><span class="s1">&#39;</span><span class="p">)</span>
+        <span class="n">signup</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">connection</span><span class="o">.</span><span class="n">get_request</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;signups/</span><span class="si">{</span><span class="n">event_signup_id</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
 
         <span class="c1"># Update the signup object</span>
         <span class="k">if</span> <span class="n">shift_id</span><span class="p">:</span>
@@ -333,7 +333,7 @@
         <span class="k">if</span> <span class="n">location_id</span><span class="p">:</span>
             <span class="n">signup</span><span class="p">[</span><span class="s1">&#39;location&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;locationId&#39;</span><span class="p">:</span> <span class="n">location_id</span><span class="p">}</span>
 
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">connection</span><span class="o">.</span><span class="n">put_request</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;signups/</span><span class="si">{event_signup_id}</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">json</span><span class="o">=</span><span class="n">signup</span><span class="p">)</span></div>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">connection</span><span class="o">.</span><span class="n">put_request</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;signups/</span><span class="si">{</span><span class="n">event_signup_id</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">json</span><span class="o">=</span><span class="n">signup</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="Signups.delete_signup"><a class="viewcode-back" href="../../../ngpvan.html#parsons.ngpvan.van.Signups.delete_signup">[docs]</a>    <span class="k">def</span> <span class="nf">delete_signup</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">event_signup_id</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
@@ -346,8 +346,8 @@
 <span class="sd">            ``None``</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
-        <span class="n">r</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">connection</span><span class="o">.</span><span class="n">delete_request</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;signups/</span><span class="si">{event_signup_id}</span><span class="s1">&#39;</span><span class="p">)</span>
-        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Signup </span><span class="si">{event_signup_id}</span><span class="s1"> deleted.&#39;</span><span class="p">)</span>
+        <span class="n">r</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">connection</span><span class="o">.</span><span class="n">delete_request</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;signups/</span><span class="si">{</span><span class="n">event_signup_id</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Signup </span><span class="si">{</span><span class="n">event_signup_id</span><span class="si">}</span><span class="s1"> deleted.&#39;</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">r</span></div>
 
     <span class="k">def</span> <span class="nf">_unpack_signups</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">table</span><span class="p">):</span>

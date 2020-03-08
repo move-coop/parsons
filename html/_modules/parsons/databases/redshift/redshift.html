@@ -340,7 +340,7 @@
 
         <span class="k">with</span> <span class="bp">self</span><span class="o">.</span><span class="n">cursor</span><span class="p">(</span><span class="n">connection</span><span class="p">)</span> <span class="k">as</span> <span class="n">cursor</span><span class="p">:</span>
 
-            <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;SQL Query: </span><span class="si">{sql}</span><span class="s1">&#39;</span><span class="p">)</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;SQL Query: </span><span class="si">{</span><span class="n">sql</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
             <span class="n">cursor</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="n">sql</span><span class="p">,</span> <span class="n">parameters</span><span class="p">)</span>
 
             <span class="k">if</span> <span class="n">commit</span><span class="p">:</span>
@@ -369,14 +369,14 @@
                         <span class="k">if</span> <span class="ow">not</span> <span class="n">batch</span><span class="p">:</span>
                             <span class="k">break</span>
 
-                        <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Fetched {len(batch)} rows.&#39;</span><span class="p">)</span>
+                        <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Fetched </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">batch</span><span class="p">)</span><span class="si">}</span><span class="s1"> rows.&#39;</span><span class="p">)</span>
                         <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">batch</span><span class="p">:</span>
                             <span class="n">pickle</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">row</span><span class="p">),</span> <span class="n">f</span><span class="p">)</span>
 
                 <span class="c1"># Load a Table from the file</span>
                 <span class="n">final_tbl</span> <span class="o">=</span> <span class="n">Table</span><span class="p">(</span><span class="n">petl</span><span class="o">.</span><span class="n">frompickle</span><span class="p">(</span><span class="n">temp_file</span><span class="p">))</span>
 
-                <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Query returned </span><span class="si">{final_tbl.num_rows}</span><span class="s1"> rows.&#39;</span><span class="p">)</span>
+                <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Query returned </span><span class="si">{</span><span class="n">final_tbl</span><span class="o">.</span><span class="n">num_rows</span><span class="si">}</span><span class="s1"> rows.&#39;</span><span class="p">)</span>
                 <span class="k">return</span> <span class="n">final_tbl</span>
 
     <span class="k">def</span> <span class="nf">copy_s3</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">table_name</span><span class="p">,</span> <span class="n">bucket</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="n">manifest</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">data_type</span><span class="o">=</span><span class="s1">&#39;csv&#39;</span><span class="p">,</span>
@@ -496,7 +496,7 @@
                                             <span class="n">columntypes</span><span class="o">=</span><span class="n">columntypes</span><span class="p">)</span>
 
                 <span class="bp">self</span><span class="o">.</span><span class="n">query_with_connection</span><span class="p">(</span><span class="n">sql</span><span class="p">,</span> <span class="n">connection</span><span class="p">,</span> <span class="n">commit</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
-                <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{table_name}</span><span class="s1"> created.&#39;</span><span class="p">)</span>
+                <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">table_name</span><span class="si">}</span><span class="s1"> created.&#39;</span><span class="p">)</span>
 
             <span class="c1"># Copy the table</span>
             <span class="n">copy_sql</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">copy_statement</span><span class="p">(</span><span class="n">table_name</span><span class="p">,</span> <span class="n">bucket</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="n">manifest</span><span class="o">=</span><span class="n">manifest</span><span class="p">,</span>
@@ -513,7 +513,7 @@
                                            <span class="n">dateformat</span><span class="o">=</span><span class="n">dateformat</span><span class="p">,</span> <span class="n">timeformat</span><span class="o">=</span><span class="n">timeformat</span><span class="p">)</span>
 
             <span class="bp">self</span><span class="o">.</span><span class="n">query_with_connection</span><span class="p">(</span><span class="n">copy_sql</span><span class="p">,</span> <span class="n">connection</span><span class="p">,</span> <span class="n">commit</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
-            <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Data copied to </span><span class="si">{table_name}</span><span class="s1">.&#39;</span><span class="p">)</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Data copied to </span><span class="si">{</span><span class="n">table_name</span><span class="si">}</span><span class="s1">.&#39;</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">copy</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">table_obj</span><span class="p">,</span> <span class="n">table_name</span><span class="p">,</span> <span class="n">if_exists</span><span class="o">=</span><span class="s1">&#39;fail&#39;</span><span class="p">,</span> <span class="n">max_errors</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">distkey</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
              <span class="n">sortkey</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">padding</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">statupdate</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">compupdate</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">acceptanydate</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
@@ -678,29 +678,29 @@
 <span class="sd">        &quot;&quot;&quot;</span>  <span class="c1"># NOQA W605</span>
 
         <span class="n">statement</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;&quot;&quot;</span>
-<span class="s2">                     UNLOAD (&#39;</span><span class="si">{sql}</span><span class="s2">&#39;) to &#39;s3://</span><span class="si">{bucket}</span><span class="s2">/</span><span class="si">{key_prefix}</span><span class="s2">&#39; </span><span class="se">\n</span><span class="s2"></span>
-<span class="s2">                     {self.get_creds(aws_access_key_id, aws_secret_access_key)} </span><span class="se">\n</span><span class="s2"></span>
-<span class="s2">                     PARALLEL </span><span class="si">{parallel}</span><span class="s2"> </span><span class="se">\n</span><span class="s2"></span>
-<span class="s2">                     MAXFILESIZE </span><span class="si">{max_file_size}</span><span class="s2"></span>
+<span class="s2">                     UNLOAD (&#39;</span><span class="si">{</span><span class="n">sql</span><span class="si">}</span><span class="s2">&#39;) to &#39;s3://</span><span class="si">{</span><span class="n">bucket</span><span class="si">}</span><span class="s2">/</span><span class="si">{</span><span class="n">key_prefix</span><span class="si">}</span><span class="s2">&#39; </span><span class="se">\n</span><span class="s2"></span>
+<span class="s2">                     </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">get_creds</span><span class="p">(</span><span class="n">aws_access_key_id</span><span class="p">,</span> <span class="n">aws_secret_access_key</span><span class="p">)</span><span class="si">}</span><span class="s2"> </span><span class="se">\n</span><span class="s2"></span>
+<span class="s2">                     PARALLEL </span><span class="si">{</span><span class="n">parallel</span><span class="si">}</span><span class="s2"> </span><span class="se">\n</span><span class="s2"></span>
+<span class="s2">                     MAXFILESIZE </span><span class="si">{</span><span class="n">max_file_size</span><span class="si">}</span><span class="s2"></span>
 <span class="s2">                     &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="n">manifest</span><span class="p">:</span>
             <span class="n">statement</span> <span class="o">+=</span> <span class="s2">&quot;MANIFEST </span><span class="se">\n</span><span class="s2">&quot;</span>
         <span class="k">if</span> <span class="n">header</span><span class="p">:</span>
             <span class="n">statement</span> <span class="o">+=</span> <span class="s2">&quot;HEADER </span><span class="se">\n</span><span class="s2">&quot;</span>
         <span class="k">if</span> <span class="n">compression</span><span class="p">:</span>
-            <span class="n">statement</span> <span class="o">+=</span> <span class="sa">f</span><span class="s2">&quot;{compression.upper()} </span><span class="se">\n</span><span class="s2">&quot;</span>
+            <span class="n">statement</span> <span class="o">+=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">compression</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span><span class="si">}</span><span class="s2"> </span><span class="se">\n</span><span class="s2">&quot;</span>
         <span class="k">if</span> <span class="n">add_quotes</span><span class="p">:</span>
             <span class="n">statement</span> <span class="o">+=</span> <span class="s2">&quot;ADDQUOTES </span><span class="se">\n</span><span class="s2">&quot;</span>
         <span class="k">if</span> <span class="n">null_as</span><span class="p">:</span>
-            <span class="n">statement</span> <span class="o">+=</span> <span class="sa">f</span><span class="s2">&quot;NULL </span><span class="si">{null_as}</span><span class="s2"> </span><span class="se">\n</span><span class="s2">&quot;</span>
+            <span class="n">statement</span> <span class="o">+=</span> <span class="sa">f</span><span class="s2">&quot;NULL </span><span class="si">{</span><span class="n">null_as</span><span class="si">}</span><span class="s2"> </span><span class="se">\n</span><span class="s2">&quot;</span>
         <span class="k">if</span> <span class="n">escape</span><span class="p">:</span>
             <span class="n">statement</span> <span class="o">+=</span> <span class="s2">&quot;ESCAPE </span><span class="se">\n</span><span class="s2">&quot;</span>
         <span class="k">if</span> <span class="n">allow_overwrite</span><span class="p">:</span>
             <span class="n">statement</span> <span class="o">+=</span> <span class="s2">&quot;ALLOWOVERWRITE&quot;</span>
         <span class="k">if</span> <span class="n">aws_region</span><span class="p">:</span>
-            <span class="n">statement</span> <span class="o">+=</span> <span class="sa">f</span><span class="s2">&quot;REGION </span><span class="si">{aws_region}</span><span class="s2">&quot;</span>
+            <span class="n">statement</span> <span class="o">+=</span> <span class="sa">f</span><span class="s2">&quot;REGION </span><span class="si">{</span><span class="n">aws_region</span><span class="si">}</span><span class="s2">&quot;</span>
 
-        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Unloading data to s3://</span><span class="si">{bucket}</span><span class="s1">/</span><span class="si">{key_prefix}</span><span class="s1">&#39;</span><span class="p">)</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Unloading data to s3://</span><span class="si">{</span><span class="n">bucket</span><span class="si">}</span><span class="s1">/</span><span class="si">{</span><span class="n">key_prefix</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
         <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="n">statement</span><span class="p">)</span>
 
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="n">statement</span><span class="p">)</span>
@@ -770,7 +770,7 @@
             <span class="c1"># Upload the file to S3</span>
             <span class="n">s3</span><span class="o">.</span><span class="n">put_file</span><span class="p">(</span><span class="n">manifest_bucket</span><span class="p">,</span> <span class="n">manifest_key</span><span class="p">,</span> <span class="n">manifest_path</span><span class="p">)</span>
 
-            <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Manifest saved to s3://</span><span class="si">{manifest_bucket}</span><span class="s1">/</span><span class="si">{manifest_key}</span><span class="s1">&#39;</span><span class="p">)</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Manifest saved to s3://</span><span class="si">{</span><span class="n">manifest_bucket</span><span class="si">}</span><span class="s1">/</span><span class="si">{</span><span class="n">manifest_key</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
 
         <span class="k">return</span> <span class="n">manifest</span>
 
@@ -795,7 +795,7 @@
 <span class="sd">                Check if the primary key column is distinct. Raise error if not.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
-        <span class="n">noise</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;{random.randrange(0, 10000):04}&#39;</span><span class="p">[:</span><span class="mi">4</span><span class="p">]</span>
+        <span class="n">noise</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">random</span><span class="o">.</span><span class="n">randrange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">10000</span><span class="p">)</span><span class="si">:</span><span class="s1">04</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">[:</span><span class="mi">4</span><span class="p">]</span>
         <span class="n">date_stamp</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s1">&#39;%Y%m</span><span class="si">%d</span><span class="s1">_%H%M&#39;</span><span class="p">)</span>
         <span class="c1"># Generate a temp table like &quot;table_tmp_20200210_1230_14212&quot;</span>
         <span class="n">staging_tbl</span> <span class="o">=</span> <span class="s1">&#39;</span><span class="si">{}</span><span class="s1">_stg_</span><span class="si">{}</span><span class="s1">_</span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">target_table</span><span class="p">,</span> <span class="n">date_stamp</span><span class="p">,</span> <span class="n">noise</span><span class="p">)</span>
@@ -810,11 +810,11 @@
             <span class="n">diff</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;&#39;&#39;</span>
 <span class="s1">                select (</span>
 <span class="s1">                    select count(*)</span>
-<span class="s1">                    from </span><span class="si">{target_table}</span><span class="s1"></span>
+<span class="s1">                    from </span><span class="si">{</span><span class="n">target_table</span><span class="si">}</span><span class="s1"></span>
 <span class="s1">                ) - (</span>
 <span class="s1">                    SELECT COUNT(*) from (</span>
-<span class="s1">                        select distinct </span><span class="si">{primary_keys_statement}</span><span class="s1"></span>
-<span class="s1">                        from </span><span class="si">{target_table}</span><span class="s1"></span>
+<span class="s1">                        select distinct </span><span class="si">{</span><span class="n">primary_keys_statement</span><span class="si">}</span><span class="s1"></span>
+<span class="s1">                        from </span><span class="si">{</span><span class="n">target_table</span><span class="si">}</span><span class="s1"></span>
 <span class="s1">                    )</span>
 <span class="s1">                ) as total_count</span>
 <span class="s1">            &#39;&#39;&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">first</span>
@@ -826,7 +826,7 @@
             <span class="k">try</span><span class="p">:</span>
 
                 <span class="c1"># Copy to a staging table</span>
-                <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Building staging table: </span><span class="si">{staging_tbl}</span><span class="s1">&#39;</span><span class="p">)</span>
+                <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Building staging table: </span><span class="si">{</span><span class="n">staging_tbl</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="n">table_obj</span><span class="p">,</span> <span class="n">staging_tbl</span><span class="p">)</span>
 
                 <span class="n">staging_table_name</span> <span class="o">=</span> <span class="n">staging_tbl</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;.&#39;</span><span class="p">)[</span><span class="mi">1</span><span class="p">]</span>
@@ -834,44 +834,44 @@
 
                 <span class="c1"># Delete rows</span>
                 <span class="n">comparisons</span> <span class="o">=</span> <span class="p">[</span>
-                    <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{staging_table_name}</span><span class="s1">.</span><span class="si">{primary_key}</span><span class="s1"> = </span><span class="si">{target_table_name}</span><span class="s1">.</span><span class="si">{primary_key}</span><span class="s1">&#39;</span>
+                    <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">staging_table_name</span><span class="si">}</span><span class="s1">.</span><span class="si">{</span><span class="n">primary_key</span><span class="si">}</span><span class="s1"> = </span><span class="si">{</span><span class="n">target_table_name</span><span class="si">}</span><span class="s1">.</span><span class="si">{</span><span class="n">primary_key</span><span class="si">}</span><span class="s1">&#39;</span>
                     <span class="k">for</span> <span class="n">primary_key</span> <span class="ow">in</span> <span class="n">primary_keys</span>
                 <span class="p">]</span>
                 <span class="n">where_clause</span> <span class="o">=</span> <span class="s1">&#39; and &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">comparisons</span><span class="p">)</span>
 
                 <span class="n">sql</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;&quot;&quot;</span>
-<span class="s2">                       DELETE FROM </span><span class="si">{target_table}</span><span class="s2"></span>
-<span class="s2">                       USING </span><span class="si">{staging_tbl}</span><span class="s2"></span>
-<span class="s2">                       WHERE </span><span class="si">{where_clause}</span><span class="s2"></span>
+<span class="s2">                       DELETE FROM </span><span class="si">{</span><span class="n">target_table</span><span class="si">}</span><span class="s2"></span>
+<span class="s2">                       USING </span><span class="si">{</span><span class="n">staging_tbl</span><span class="si">}</span><span class="s2"></span>
+<span class="s2">                       WHERE </span><span class="si">{</span><span class="n">where_clause</span><span class="si">}</span><span class="s2"></span>
 <span class="s2">                       &quot;&quot;&quot;</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">query_with_connection</span><span class="p">(</span><span class="n">sql</span><span class="p">,</span> <span class="n">connection</span><span class="p">,</span> <span class="n">commit</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
-                <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Target rows deleted from </span><span class="si">{target_table}</span><span class="s1">.&#39;</span><span class="p">)</span>
+                <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Target rows deleted from </span><span class="si">{</span><span class="n">target_table</span><span class="si">}</span><span class="s1">.&#39;</span><span class="p">)</span>
 
                 <span class="c1"># Insert rows</span>
                 <span class="c1"># ALTER TABLE APPEND would be more efficient, but you can&#39;t run it in a</span>
                 <span class="c1"># transaction block. It&#39;s worth the performance hit to not commit until the</span>
                 <span class="c1"># end.</span>
                 <span class="n">sql</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;&quot;&quot;</span>
-<span class="s2">                       INSERT INTO </span><span class="si">{target_table}</span><span class="s2"></span>
-<span class="s2">                       SELECT * FROM </span><span class="si">{staging_tbl}</span><span class="s2">;</span>
+<span class="s2">                       INSERT INTO </span><span class="si">{</span><span class="n">target_table</span><span class="si">}</span><span class="s2"></span>
+<span class="s2">                       SELECT * FROM </span><span class="si">{</span><span class="n">staging_tbl</span><span class="si">}</span><span class="s2">;</span>
 <span class="s2">                       &quot;&quot;&quot;</span>
 
                 <span class="bp">self</span><span class="o">.</span><span class="n">query_with_connection</span><span class="p">(</span><span class="n">sql</span><span class="p">,</span> <span class="n">connection</span><span class="p">,</span> <span class="n">commit</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
-                <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Target rows inserted to </span><span class="si">{target_table}</span><span class="s1">&#39;</span><span class="p">)</span>
+                <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Target rows inserted to </span><span class="si">{</span><span class="n">target_table</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
 
             <span class="k">finally</span><span class="p">:</span>
 
                 <span class="c1"># Drop the staging table</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">query_with_connection</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;DROP TABLE IF EXISTS </span><span class="si">{staging_tbl}</span><span class="s2">;&quot;</span><span class="p">,</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">query_with_connection</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;DROP TABLE IF EXISTS </span><span class="si">{</span><span class="n">staging_tbl</span><span class="si">}</span><span class="s2">;&quot;</span><span class="p">,</span>
                                            <span class="n">connection</span><span class="p">,</span> <span class="n">commit</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
-                <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{staging_tbl}</span><span class="s1"> staging table dropped.&#39;</span><span class="p">)</span>
+                <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">staging_tbl</span><span class="si">}</span><span class="s1"> staging table dropped.&#39;</span><span class="p">)</span>
 
         <span class="c1"># Vacuum table. You must commit when running this type of transaction.</span>
         <span class="k">if</span> <span class="n">vacuum</span><span class="p">:</span>
             <span class="k">with</span> <span class="bp">self</span><span class="o">.</span><span class="n">connection</span><span class="p">()</span> <span class="k">as</span> <span class="n">connection</span><span class="p">:</span>
                 <span class="n">connection</span><span class="o">.</span><span class="n">set_session</span><span class="p">(</span><span class="n">autocommit</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">query_with_connection</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;VACUUM </span><span class="si">{target_table}</span><span class="s1">;&#39;</span><span class="p">,</span> <span class="n">connection</span><span class="p">)</span>
-                <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{target_table}</span><span class="s1"> vacuumed.&#39;</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">query_with_connection</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;VACUUM </span><span class="si">{</span><span class="n">target_table</span><span class="si">}</span><span class="s1">;&#39;</span><span class="p">,</span> <span class="n">connection</span><span class="p">)</span>
+                <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">target_table</span><span class="si">}</span><span class="s1"> vacuumed.&#39;</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">alter_varchar_column_widths</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tbl</span><span class="p">,</span> <span class="n">table_name</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
@@ -904,7 +904,7 @@
         <span class="c1"># their width.</span>
         <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="nb">set</span><span class="p">(</span><span class="n">rc</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span><span class="o">.</span><span class="n">intersection</span><span class="p">(</span><span class="nb">set</span><span class="p">(</span><span class="n">pc</span><span class="o">.</span><span class="n">keys</span><span class="p">())):</span>
             <span class="k">if</span> <span class="n">rc</span><span class="p">[</span><span class="n">c</span><span class="p">]</span> <span class="o">&lt;</span> <span class="n">pc</span><span class="p">[</span><span class="n">c</span><span class="p">]:</span>
-                <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{c}</span><span class="s1"> not wide enough. Expanding column width.&#39;</span><span class="p">)</span>
+                <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">c</span><span class="si">}</span><span class="s1"> not wide enough. Expanding column width.&#39;</span><span class="p">)</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">alter_table_column_type</span><span class="p">(</span><span class="n">table_name</span><span class="p">,</span> <span class="n">c</span><span class="p">,</span> <span class="s1">&#39;varchar&#39;</span><span class="p">,</span> <span class="n">varchar_width</span><span class="o">=</span><span class="n">pc</span><span class="p">[</span><span class="n">c</span><span class="p">])</span>
 
     <span class="k">def</span> <span class="nf">alter_table_column_type</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">table_name</span><span class="p">,</span> <span class="n">column_name</span><span class="p">,</span> <span class="n">data_type</span><span class="p">,</span> <span class="n">varchar_width</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
@@ -921,15 +921,15 @@
 <span class="sd">            The new width of the column if of type varchar.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
-        <span class="n">sql</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;ALTER TABLE </span><span class="si">{table_name}</span><span class="s2"> ALTER COLUMN </span><span class="si">{column_name}</span><span class="s2"> TYPE </span><span class="si">{data_type}</span><span class="s2">&quot;</span>
+        <span class="n">sql</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;ALTER TABLE </span><span class="si">{</span><span class="n">table_name</span><span class="si">}</span><span class="s2"> ALTER COLUMN </span><span class="si">{</span><span class="n">column_name</span><span class="si">}</span><span class="s2"> TYPE </span><span class="si">{</span><span class="n">data_type</span><span class="si">}</span><span class="s2">&quot;</span>
 
         <span class="k">if</span> <span class="n">varchar_width</span><span class="p">:</span>
-            <span class="n">sql</span> <span class="o">+=</span> <span class="sa">f</span><span class="s2">&quot;(</span><span class="si">{varchar_width}</span><span class="s2">)&quot;</span>
+            <span class="n">sql</span> <span class="o">+=</span> <span class="sa">f</span><span class="s2">&quot;(</span><span class="si">{</span><span class="n">varchar_width</span><span class="si">}</span><span class="s2">)&quot;</span>
 
         <span class="k">with</span> <span class="bp">self</span><span class="o">.</span><span class="n">connection</span><span class="p">()</span> <span class="k">as</span> <span class="n">connection</span><span class="p">:</span>
             <span class="n">connection</span><span class="o">.</span><span class="n">set_session</span><span class="p">(</span><span class="n">autocommit</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">query_with_connection</span><span class="p">(</span><span class="n">sql</span><span class="p">,</span> <span class="n">connection</span><span class="p">)</span>
-            <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Altered </span><span class="si">{table_name}</span><span class="s1"> </span><span class="si">{column_name}</span><span class="s1">.&#39;</span><span class="p">)</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Altered </span><span class="si">{</span><span class="n">table_name</span><span class="si">}</span><span class="s1"> </span><span class="si">{</span><span class="n">column_name</span><span class="si">}</span><span class="s1">.&#39;</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">table</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">table_name</span><span class="p">):</span>
         <span class="c1"># Return a Redshift table object</span>

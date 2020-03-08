@@ -231,7 +231,7 @@
 <span class="sd">            A person dict</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
-        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Finding </span><span class="si">{first_name}</span><span class="s1"> </span><span class="si">{last_name}</span><span class="s1">.&#39;</span><span class="p">)</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Finding </span><span class="si">{</span><span class="n">first_name</span><span class="si">}</span><span class="s1"> </span><span class="si">{</span><span class="n">last_name</span><span class="si">}</span><span class="s1">.&#39;</span><span class="p">)</span>
 
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_people_search</span><span class="p">(</span><span class="n">first_name</span><span class="p">,</span> <span class="n">last_name</span><span class="p">,</span> <span class="n">date_of_birth</span><span class="p">,</span> <span class="n">email</span><span class="p">,</span> <span class="n">phone</span><span class="p">,</span>
                                    <span class="n">street_number</span><span class="p">,</span> <span class="n">street_name</span><span class="p">,</span> <span class="nb">zip</span><span class="p">,</span> <span class="n">match_map</span><span class="p">)</span></div>
@@ -373,13 +373,13 @@
 
         <span class="c1"># Change end point based on id type</span>
         <span class="k">if</span> <span class="n">id_type</span> <span class="o">==</span> <span class="s1">&#39;vanid&#39;</span><span class="p">:</span>
-            <span class="n">url</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;people/</span><span class="si">{id}</span><span class="s1">&#39;</span>
+            <span class="n">url</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;people/</span><span class="si">{</span><span class="nb">id</span><span class="si">}</span><span class="s1">&#39;</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="n">url</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;people/</span><span class="si">{id_type}</span><span class="s1">:</span><span class="si">{id}</span><span class="s1">&#39;</span>
+            <span class="n">url</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;people/</span><span class="si">{</span><span class="n">id_type</span><span class="si">}</span><span class="s1">:</span><span class="si">{</span><span class="nb">id</span><span class="si">}</span><span class="s1">&#39;</span>
 
         <span class="n">expand_fields</span> <span class="o">=</span> <span class="s1">&#39;,&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="n">json_format</span><span class="o">.</span><span class="n">arg_format</span><span class="p">(</span><span class="n">f</span><span class="p">)</span> <span class="k">for</span> <span class="n">f</span> <span class="ow">in</span> <span class="n">expand_fields</span><span class="p">])</span>
 
-        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Getting person with </span><span class="si">{id_type}</span><span class="s1"> of </span><span class="si">{id}</span><span class="s1">&#39;</span><span class="p">)</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Getting person with </span><span class="si">{</span><span class="n">id_type</span><span class="si">}</span><span class="s1"> of </span><span class="si">{</span><span class="nb">id</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">connection</span><span class="o">.</span><span class="n">get_request</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;$expand&#39;</span><span class="p">:</span> <span class="n">expand_fields</span><span class="p">})</span></div>
 
 <div class="viewcode-block" id="People.apply_canvass_result"><a class="viewcode-back" href="../../../ngpvan.html#parsons.ngpvan.van.People.apply_canvass_result">[docs]</a>    <span class="k">def</span> <span class="nf">apply_canvass_result</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">id</span><span class="p">,</span> <span class="n">result_code_id</span><span class="p">,</span> <span class="n">id_type</span><span class="o">=</span><span class="s1">&#39;vanid&#39;</span><span class="p">,</span> <span class="n">contact_type_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
@@ -407,7 +407,7 @@
 <span class="sd">            ``None``</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
-        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Applying result code </span><span class="si">{result_code_id}</span><span class="s1"> to </span><span class="si">{id_type}</span><span class="s1"> </span><span class="si">{id}</span><span class="s1">.&#39;</span><span class="p">)</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Applying result code </span><span class="si">{</span><span class="n">result_code_id</span><span class="si">}</span><span class="s1"> to </span><span class="si">{</span><span class="n">id_type</span><span class="si">}</span><span class="s1"> </span><span class="si">{</span><span class="nb">id</span><span class="si">}</span><span class="s1">.&#39;</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">apply_response</span><span class="p">(</span><span class="nb">id</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="n">id_type</span><span class="o">=</span><span class="n">id_type</span><span class="p">,</span> <span class="n">contact_type_id</span><span class="o">=</span><span class="n">contact_type_id</span><span class="p">,</span>
                             <span class="n">input_type_id</span><span class="o">=</span><span class="n">input_type_id</span><span class="p">,</span> <span class="n">date_canvassed</span><span class="o">=</span><span class="n">date_canvassed</span><span class="p">,</span>
                             <span class="n">result_code_id</span><span class="o">=</span><span class="n">result_code_id</span><span class="p">)</span></div>
@@ -498,9 +498,9 @@
 
         <span class="c1"># Set url based on id_type</span>
         <span class="k">if</span> <span class="n">id_type</span> <span class="o">==</span> <span class="s1">&#39;vanid&#39;</span><span class="p">:</span>
-            <span class="n">url</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;people/</span><span class="si">{id}</span><span class="s2">/canvassResponses&quot;</span>
+            <span class="n">url</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;people/</span><span class="si">{</span><span class="nb">id</span><span class="si">}</span><span class="s2">/canvassResponses&quot;</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="n">url</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;people/</span><span class="si">{id_type}</span><span class="s2">:</span><span class="si">{id}</span><span class="s2">/canvassResponses&quot;</span>
+            <span class="n">url</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;people/</span><span class="si">{</span><span class="n">id_type</span><span class="si">}</span><span class="s2">:</span><span class="si">{</span><span class="nb">id</span><span class="si">}</span><span class="s2">/canvassResponses&quot;</span>
 
         <span class="n">json</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;canvassContext&quot;</span><span class="p">:</span> <span class="p">{</span>
             <span class="s2">&quot;contactTypeId&quot;</span><span class="p">:</span> <span class="n">contact_type_id</span><span class="p">,</span>
@@ -541,7 +541,7 @@
         <span class="n">json</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;relationshipId&#39;</span><span class="p">:</span> <span class="n">relationship_id</span><span class="p">,</span>
                 <span class="s1">&#39;vanId&#39;</span><span class="p">:</span> <span class="n">vanid_2</span><span class="p">}</span>
 
-        <span class="bp">self</span><span class="o">.</span><span class="n">connection</span><span class="o">.</span><span class="n">post_request</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;people/</span><span class="si">{vanid_1}</span><span class="s2">/relationships&quot;</span><span class="p">,</span> <span class="n">json</span><span class="o">=</span><span class="n">json</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">connection</span><span class="o">.</span><span class="n">post_request</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;people/</span><span class="si">{</span><span class="n">vanid_1</span><span class="si">}</span><span class="s2">/relationships&quot;</span><span class="p">,</span> <span class="n">json</span><span class="o">=</span><span class="n">json</span><span class="p">)</span>
         <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s1">&#39;Relationship </span><span class="si">{vanid_1}</span><span class="s1"> to </span><span class="si">{vanid_2}</span><span class="s1"> created.&#39;</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="People.apply_person_code"><a class="viewcode-back" href="../../../ngpvan.html#parsons.ngpvan.van.People.apply_person_code">[docs]</a>    <span class="k">def</span> <span class="nf">apply_person_code</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">id</span><span class="p">,</span> <span class="n">code_id</span><span class="p">,</span> <span class="n">id_type</span><span class="o">=</span><span class="s1">&#39;vanid&#39;</span><span class="p">):</span>
@@ -562,14 +562,14 @@
 
         <span class="c1"># Set url based on id_type</span>
         <span class="k">if</span> <span class="n">id_type</span> <span class="o">==</span> <span class="s1">&#39;vanid&#39;</span><span class="p">:</span>
-            <span class="n">url</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;people/</span><span class="si">{id}</span><span class="s2">/codes&quot;</span>
+            <span class="n">url</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;people/</span><span class="si">{</span><span class="nb">id</span><span class="si">}</span><span class="s2">/codes&quot;</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="n">url</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;people/</span><span class="si">{id_type}</span><span class="s2">:</span><span class="si">{id}</span><span class="s2">/codes&quot;</span>
+            <span class="n">url</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;people/</span><span class="si">{</span><span class="n">id_type</span><span class="si">}</span><span class="s2">:</span><span class="si">{</span><span class="nb">id</span><span class="si">}</span><span class="s2">/codes&quot;</span>
 
         <span class="n">json</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;codeId&quot;</span><span class="p">:</span> <span class="n">code_id</span><span class="p">}</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">connection</span><span class="o">.</span><span class="n">post_request</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">json</span><span class="o">=</span><span class="n">json</span><span class="p">)</span>
-        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Code </span><span class="si">{code_id}</span><span class="s1"> applied to person id </span><span class="si">{id}</span><span class="s1">.&#39;</span><span class="p">)</span></div></div>
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Code </span><span class="si">{</span><span class="n">code_id</span><span class="si">}</span><span class="s1"> applied to person id </span><span class="si">{</span><span class="nb">id</span><span class="si">}</span><span class="s1">.&#39;</span><span class="p">)</span></div></div>
 </pre></div>
 
            </div>

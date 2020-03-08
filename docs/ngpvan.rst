@@ -242,7 +242,7 @@ Codes
 =============
 Custom Fields
 =============
-.. autoclass:: parsons.ngpvan.van.Codes
+.. autoclass:: parsons.ngpvan.van.CustomFields
    :inherited-members:
 
 ======

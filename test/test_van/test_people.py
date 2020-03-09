@@ -23,7 +23,28 @@ class TestNGPVAN(unittest.TestCase):
 
         self.assertEqual(person, find_people_response)
 
+    @requests_mock.Mocker()
+    def test_find_person_json(self, m):
+
+        json = {
+            "firstName": "Bob",
+            "lastName": "Smith",
+            "phones": [{
+                "phoneNumber": 4142020792
+            }]
+        }
+
+        m.post(self.van.connection.uri + 'people/find', json=find_people_response, status_code=200)
+
+        person = self.van.find_person_json(match_map=json)
+
+        self.assertEqual(person, find_people_response)
+
     def test_upsert_person(self):
+
+        pass
+
+    def test_upsert_person_json(self):
 
         pass
 

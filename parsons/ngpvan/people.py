@@ -43,7 +43,7 @@ class People(object):
             zip: str
                 5 digit zip code
         `Returns:`
-            A person dict
+            A person dict object
         """
 
         logger.info(f'Finding {first_name} {last_name}.')
@@ -83,7 +83,7 @@ class People(object):
                 A dictionary of values to match against.
             fields: The fields to return. Leave as default for all available fields
         `Returns:`
-            A person dict
+            A person dict object
         """
 
         logger.info(f'Finding a match for json details.')
@@ -94,7 +94,8 @@ class People(object):
                       date_of_birth=None, email=None, phone=None, phone_type=None,
                       street_number=None, street_name=None, zip=None):
         """
-        Update a person record based on a provided ID.
+        Update a person record based on a provided ID. All other arguments provided will be
+        updated on the record.
 
         .. warning::
             This method can only be run on MyMembers, EveryAction, MyCampaign databases.

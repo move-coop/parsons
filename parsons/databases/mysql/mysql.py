@@ -6,6 +6,7 @@ from contextlib import contextmanager
 from parsons.utilities import files
 import pickle
 import logging
+import os
 
 # Max number of rows that we query at a time, so we can avoid loading huge
 # data sets into memory.
@@ -30,8 +31,6 @@ class MySQL():
             Required if env variable ``MYSQL_DB`` not populated
         port: int
             Can be set by env variable ``MYSQL_PORT`` or argument.
-        timeout: int
-            Seconds to timeout if connection not established.
     """
 
     def __init__(self, host=None, username=None, password=None, db=None, port=3306):
@@ -39,6 +38,7 @@ class MySQL():
         self.username = check_env.check('MYSQL_USERNAME', username)
         self.password = check_env.check('MYSQL_PASSWORD', password)
         self.host = check_env.check('MYSQL_HOST', host)
+        # self.db = None
         self.db = check_env.check('MYSQL_DB', db)
         self.port = port or os.environ.get('MYSQL_PORT')
 
@@ -76,7 +76,7 @@ class MySQL():
 
     @contextmanager
     def cursor(self, connection):
-        cur = connection.cursor(buffered=True, dictionary=True)
+        cur = connection.cursor(buffered=True)
 
         try:
             yield cur
@@ -145,12 +145,20 @@ class MySQL():
             Parsons Table
                 See :ref:`parsons-table` for output options.
         """
-
         with self.cursor(connection) as cursor:
-            cursor.execute(sql)
+
+            # The python connector can only execute a single sql statement, so we will
+            # break up each statement and execute them separately.
+            for s in sql.strip().split(';'):
+                if len(s) != 0:
+                    logger.debug(f'SQL Query: {sql}')
+                    cursor.execute(s, parameters)
+
+            if commit:
+                connection.commit()
 
             # If the SQL query provides no response, then return None
-            if cursor.rowcount in [0, -1]:
+            if not cursor.description:
                 logger.debug('Query returned 0 rows')
                 return None
 
@@ -162,17 +170,16 @@ class MySQL():
 
                 with open(temp_file, 'wb') as f:
                     # Grab the header
-                    header = [i[0] for i in cursor.description]
-                    pickle.dump(header, f)
+                    pickle.dump(cursor.column_names, f)
 
                     while True:
                         batch = cursor.fetchmany(QUERY_BATCH_SIZE)
-                        if not batch:
+                        if len(batch) == 0:
                             break
 
                         logger.debug(f'Fetched {len(batch)} rows.')
                         for row in batch:
-                            pickle.dump(list(row), f)
+                            pickle.dump(row, f)
 
                 # Load a Table from the file
                 final_tbl = Table(petl.frompickle(temp_file))

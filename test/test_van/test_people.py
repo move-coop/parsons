@@ -36,7 +36,7 @@ class TestNGPVAN(unittest.TestCase):
 
         m.post(self.van.connection.uri + 'people/find', json=find_people_response, status_code=200)
 
-        person = self.van.find_person_json(match_map=json)
+        person = self.van.find_person_json(match_json=json)
 
         self.assertEqual(person, find_people_response)
 
@@ -45,6 +45,14 @@ class TestNGPVAN(unittest.TestCase):
         pass
 
     def test_upsert_person_json(self):
+
+        pass
+
+    def test_update_person(self):
+
+        pass
+
+    def test_update_person_json(self):
 
         pass
 

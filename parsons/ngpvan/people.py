@@ -284,9 +284,10 @@ class People(object):
         if id:
 
             if create:
-                url += str(id)
+                id_type = '' if id_type in ('vanid', None) else f"{id_type}:"
+                url += id_type + str(id)
             else:
-                return self.get_person(id)
+                return self.get_person(id, id_type=id_type)
 
         else:
             url += 'find'
@@ -351,14 +352,14 @@ class People(object):
         """
 
         # Change end point based on id type
-        if id_type == 'vanid':
-            url = f'people/{id}'
-        else:
-            url = f'people/{id_type}:{id}'
+        url = 'people/'
+
+        id_type = '' if id_type in ('vanid', None) else f"{id_type}:"
+        url += id_type + str(id)
 
         expand_fields = ','.join([json_format.arg_format(f) for f in expand_fields])
 
-        logger.info(f'Getting person with {id_type} of {id}')
+        logger.info(f'Getting person with {id_type} of {id} at url {url}')
         return self.connection.get_request(url, params={'$expand': expand_fields})
 
     def apply_canvass_result(self, id, result_code_id, id_type='vanid', contact_type_id=None,

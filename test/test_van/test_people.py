@@ -23,7 +23,36 @@ class TestNGPVAN(unittest.TestCase):
 
         self.assertEqual(person, find_people_response)
 
+    @requests_mock.Mocker()
+    def test_find_person_json(self, m):
+
+        json = {
+            "firstName": "Bob",
+            "lastName": "Smith",
+            "phones": [{
+                "phoneNumber": 4142020792
+            }]
+        }
+
+        m.post(self.van.connection.uri + 'people/find', json=find_people_response, status_code=200)
+
+        person = self.van.find_person_json(match_json=json)
+
+        self.assertEqual(person, find_people_response)
+
     def test_upsert_person(self):
+
+        pass
+
+    def test_upsert_person_json(self):
+
+        pass
+
+    def test_update_person(self):
+
+        pass
+
+    def test_update_person_json(self):
 
         pass
 
@@ -36,27 +65,27 @@ class TestNGPVAN(unittest.TestCase):
 
         # Fails with FN / LN Only
         self.assertRaises(ValueError, self.van._valid_search, 'Barack',
-                          'Obama', None, None, None, None, None, None, None)
+                          'Obama', None, None, None, None, None)
 
         # Fails with only Zip
         self.assertRaises(ValueError, self.van._valid_search, 'Barack',
-                          'Obama', None, None, None, None, None, 60622, None)
+                          'Obama', None, None, None, None, 60622)
 
         # Fails with no street number
         self.assertRaises(ValueError, self.van._valid_search, 'Barack',
-                          'Obama', None, None, None, None, 'Pennsylvania Ave', None, None)
+                          'Obama', None, None, None, 'Pennsylvania Ave', None)
 
         # Successful with FN/LN/Email
         self.van._valid_search('Barack', 'Obama', 'barack@email.com', None, None, None,
-                               None, None, None)
+                               None)
 
         # Successful with FN/LN/DOB/ZIP
-        self.van._valid_search('Barack', 'Obama', 'barack@email.com', None, None, '2000-01-01',
-                               None, 20009, None)
+        self.van._valid_search('Barack', 'Obama', 'barack@email.com', None, '2000-01-01',
+                               None, 20009)
 
         # Successful with FN/LN/Phone
         self.van._valid_search('Barack', 'Obama', None, 2024291000, None, None,
-                               None, None, None)
+                               None)
 
     @requests_mock.Mocker()
     def test_get_person(self, m):

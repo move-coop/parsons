@@ -11,8 +11,7 @@ class People(object):
         self.connection = van_connection
 
     def find_person(self, first_name=None, last_name=None, date_of_birth=None, email=None,
-                    phone=None, phone_type=None, street_number=None, street_name=None, zip=None,
-                    match_map=None):
+                    phone=None, phone_type=None, street_number=None, street_name=None, zip=None):
         """
         Find a person record.
 
@@ -25,12 +24,6 @@ class People(object):
             - first_name, last_name, zip5, date_of_birth
             - first_name, last_name, street_number, street_name, zip5
             - email_address
-
-        .. note::
-            The arguments that can be passed are a selection of the possible values that
-            can be used in a search. A full list of possible values can be found
-            `here <https://developers.ngpvan.com/van-api#match-candidates>`_. To use these
-            values, pass in a dictionary using the match_map argument.
 
         `Args:`
             first_name: str
@@ -49,6 +42,34 @@ class People(object):
                 Street Name
             zip: str
                 5 digit zip code
+        `Returns:`
+            A person dict
+        """
+
+        logger.info(f'Finding {first_name} {last_name}.')
+
+        return self._people_search(first_name, last_name, date_of_birth, email, phone,
+                                   phone_type, street_number, street_name, zip)
+
+    def find_person_json(self, match_map):
+        """
+        Find a person record based on json data.
+
+        .. note::
+            Person find must include the following minimum combinations to conduct
+            a search.
+
+            - first_name, last_name, email
+            - first_name, last_name, phone
+            - first_name, last_name, zip5, date_of_birth
+            - first_name, last_name, street_number, street_name, zip5
+            - email_address
+
+        .. note::
+            A full list of possible values for the json, and its structure can be found
+            `here <https://developers.ngpvan.com/van-api#match-candidates>`_.
+
+        `Args:`
             match_map: dict
                 A dictionary of values to match against. Will override all
                 other arguments if provided.
@@ -57,14 +78,12 @@ class People(object):
             A person dict
         """
 
-        logger.info(f'Finding {first_name} {last_name}.')
+        logger.info(f'Finding a match for json details.')
 
-        return self._people_search(first_name, last_name, date_of_birth, email, phone,
-                                   phone_type, street_number, street_name, zip, match_map)
+        return self._people_search(match_map=match_map)
 
     def upsert_person(self, first_name=None, last_name=None, date_of_birth=None, email=None,
-                      phone=None, phone_type=None, street_number=None, street_name=None, zip=None,
-                      match_map=None):
+                      phone=None, phone_type=None, street_number=None, street_name=None, zip=None):
         """
         Create or update a person record.
 
@@ -75,12 +94,6 @@ class People(object):
             - first_name, last_name, zip5, date_of_birth
             - first_name, last_name, street_number, street_name, zip5
             - email_address
-
-        .. note::
-            The arguments that can be passed are a selection of the possible values that
-            can be used in a search. A full list of possible values can be found
-            `here <https://developers.ngpvan.com/van-api#match-candidates>`_. To use these
-            values, pass in a dictionary using the match_map argument.
 
         .. warning::
             This method can only be run on MyMembers, EveryAction, MyCampaign databases.
@@ -105,6 +118,34 @@ class People(object):
                 Street Name
             zip: str
                 5 digit zip code
+        `Returns:`
+            A person dict
+        """
+
+        return self._people_search(first_name, last_name, date_of_birth, email, phone, phone_type,
+                                   street_number, street_name, zip, create=True)
+
+    def upsert_person_json(self, match_map):
+        """
+        Create or update a person record.
+
+        .. note::
+            Person find must include the following minimum combinations.
+            - first_name, last_name, email
+            - first_name, last_name, phone
+            - first_name, last_name, zip5, date_of_birth
+            - first_name, last_name, street_number, street_name, zip5
+            - email_address
+
+        .. note::
+            A full list of possible values for the json, and its structure can be found
+            `here <https://developers.ngpvan.com/van-api#match-candidates>`_. `vanId` can
+            be passed to ensure the correct record is updated.
+
+        .. warning::
+            This method can only be run on MyMembers, EveryAction, MyCampaign databases.
+
+        `Args:`
             match_map: dict
                 A dictionary of values to match against. Will override all
                 other arguments if provided.
@@ -112,8 +153,7 @@ class People(object):
             A person dict
         """
 
-        return self._people_search(first_name, last_name, date_of_birth, email, phone, phone_type,
-                                   street_number, street_name, zip, match_map, create=True)
+        return self._people_search(match_map=match_map, create=True)
 
     def _people_search(self, first_name=None, last_name=None, date_of_birth=None, email=None,
                        phone=None, phone_type='H', street_number=None, street_name=None,

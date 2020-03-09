@@ -38,6 +38,7 @@ if not os.environ.get('PARSONS_SKIP_IMPORT_ALL'):
     from parsons.databases.postgres.postgres import Postgres
     from parsons.freshdesk.freshdesk import Freshdesk
     from parsons.bill_com.bill_com import BillCom
+    from parsons.newmode.newmode import Newmode
 
     __all__ = [
         'VAN',
@@ -69,7 +70,8 @@ if not os.environ.get('PARSONS_SKIP_IMPORT_ALL'):
         'Salesforce',
         'Postgres',
         'Freshdesk',
-        'BillCom'
+        'BillCom',
+        'Newmode'
     ]
 
 # Define the default logging config for Parsons and its submodules. For now the

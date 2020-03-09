@@ -61,6 +61,26 @@ class Newmode:
             logging.warning("Empty tool returned")
             return []
 
+   """
+    Lookup targets for a given tool
+    `Args:`
+        tool_id:
+            The tool to lookup targets.
+        search:
+            The search criteria. It could be:
+            - Empty: If empty, return custom targets associated to the tool.
+            - Postal code: Return targets matched by postal code.
+            - Lat/Long: Latitude and Longitude pair separated by '::'.
+              Ex. 45.451596::-73.59912099999997. It will return targets
+              matched for those coordinates.
+            - Address: In format thoroughfare::locality::administrative_area::country
+              It will return targets matched by the given address.
+            - Search term: For your csv tools, this will return targets
+              matched by given valid search term.
+    `Returns:`
+        Targets information.
+    """
+
     def lookupTargets(self, tool_id, search=None):
         targets = self.client.lookupTargets(tool_id, search)
         if (targets):

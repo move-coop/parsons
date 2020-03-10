@@ -26,3 +26,25 @@ def remove_empty_keys(dirty_dict):
             clean_dict[k] = v
 
     return clean_dict
+
+
+def flatten_json(json):
+    """
+    Flatten nested json to return a dict without nested values. Lists without nested values will
+    be ignored, and lists of dicts will only return the first key value pair for each key. Useful
+    for passing nested json to validation methods.
+    """
+    out = {}
+
+    def flatten(x, name=''):
+        if type(x) is dict:
+            for k, v in x.items():
+                flatten(v, k)
+        elif type(x) is list:
+            for a in x:
+                flatten(a)
+        elif name != '' and name not in out:
+            out[name] = x
+
+    flatten(json)
+    return out

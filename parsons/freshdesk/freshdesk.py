@@ -124,7 +124,7 @@ class Freshdesk():
                   'phone': phone,
                   'company_id': company_id,
                   'state': state,
-                  'updated_since': updated_since}
+                  '_updated_since': updated_since}
 
         tbl = Table(self.get_request('contacts', params=params))
         logger.info(f'Found {tbl.num_rows} contacts.')

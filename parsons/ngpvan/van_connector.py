@@ -26,8 +26,10 @@ class VANConnector(object):
         self.uri = URI
         self.db = db
         self.auth_name = auth_name
+        self.pagination_key = 'nextPageLink'
         self.auth = (self.auth_name, self.api_key + '|' + str(self.db_code))
-        self.api = APIConnector(self.uri, auth=self.auth, data_key='items')
+        self.api = APIConnector(self.uri, auth=self.auth, data_key='items',
+                                pagination_key=self.pagination_key)
 
         # We will not create the SOAP client unless we need to as this triggers checking for
         # valid credentials. As not all API keys are provisioned for SOAP, this keeps it from
@@ -71,7 +73,7 @@ class VANConnector(object):
         data = self.api.data_parse(r)
 
         # Paginate
-        while self.api.next_page_check_url(r):
+        while isinstance(r, dict) and self.api.next_page_check_url(r):
             r = self.api.get_request(r[self.pagination_key], **kwargs)
             data.extend(self.api.data_parse(r))
 

@@ -84,11 +84,11 @@ Loading a score is a multi-step process. Once a score is set to approved, loadin
    tbl = Table.from_csv('winning_scores.csv')
 
    # Specify the score id slot and the column name for each score.
-   config = [{'id': score_id, 'column': 'winning_model'}]
+   config = [{'score_id': score_id, 'score_column': 'winning_model'}]
 
    # If you have multiple models in the same file, you can load them all at the same time.
    # In fact, VAN recommends that you do so to reduce their server loads.
-   config = [{'id': 5555, 'column': 'score1'}, {'id': 5556, 'column': 'score2'}]
+   config = [{'score_id': 5555, 'score_column': 'score1'}, {'score_id': 5556, 'score_column': 'score2'}]
 
    # The score file must posted to the internet. This configuration uses S3 to do so. In this
    # example, your S3 keys are stored as environmental variables. If not, you can pass them
@@ -102,7 +102,7 @@ Loading a score is a multi-step process. Once a score is set to approved, loadin
    from parsons import VAN
 
    van = VAN(db='MyVoters') # API key stored as an environmental variable
-   config = [{'id': 3421, 'column': 'winning_model'}]
+   config = [{'score_id': 3421, 'score_column': 'winning_model'}]
 
    # Note that auto_approve is set to False. This means that you need to manually approve
    # the job once it is loaded.
@@ -215,40 +215,16 @@ People
 .. autoclass:: parsons.ngpvan.van.People
    :inherited-members:
 
-===========
-Bulk Import
-===========
-.. autoclass:: parsons.ngpvan.van.BulkImport
-   :inherited-members:
-
 ==============
 Activist Codes
 ==============
 .. autoclass:: parsons.ngpvan.van.ActivistCodes
    :inherited-members:
 
-================
-Survey Questions
-================
-.. autoclass:: parsons.ngpvan.van.SurveyQuestions
-   :inherited-members:
-
-======
-Events
-======
-.. autoclass:: parsons.ngpvan.van.Events
-   :inherited-members:
-
-=========
-Locations
-=========
-.. autoclass:: parsons.ngpvan.van.Locations
-   :inherited-members:
-
-=======
-Signups
-=======
-.. autoclass:: parsons.ngpvan.van.Signups
+=================
+Canvass Responses
+=================
+.. autoclass:: parsons.ngpvan.van.CanvassResponses
    :inherited-members:
 
 ================
@@ -263,26 +239,28 @@ Codes
 .. autoclass:: parsons.ngpvan.van.Codes
    :inherited-members:
 
-=================
-Canvass Responses
-=================
-.. autoclass:: parsons.ngpvan.van.CanvassResponses
+=============
+Custom Fields
+=============
+.. autoclass:: parsons.ngpvan.van.CustomFields
    :inherited-members:
 
-================
-Supporter Groups
-================
-.. autoclass:: parsons.ngpvan.van.SupporterGroups
+======
+Events
+======
+.. autoclass:: parsons.ngpvan.van.Events
    :inherited-members:
 
 ===========
-Saved Lists
+Export Jobs
 ===========
-.. note::
-   A saved list must be shared with the user associated with your API key to
-   be listed.
+.. autoclass:: parsons.ngpvan.van.ExportJobs
+   :inherited-members:
 
-.. autoclass:: parsons.ngpvan.van.SavedLists
+=================
+File Loading Jobs
+=================
+.. autoclass:: parsons.ngpvan.van.FileLoadingJobs
    :inherited-members:
 
 =======
@@ -295,10 +273,20 @@ Folders
 .. autoclass:: parsons.ngpvan.van.Folders
    :inherited-members:
 
+=========
+Locations
+=========
+.. autoclass:: parsons.ngpvan.van.Locations
+   :inherited-members:
+
 ===========
-Export Jobs
+Saved Lists
 ===========
-.. autoclass:: parsons.ngpvan.van.ExportJobs
+.. note::
+   A saved list must be shared with the user associated with your API key to
+   be listed.
+
+.. autoclass:: parsons.ngpvan.van.SavedLists
    :inherited-members:
 
 ======
@@ -318,8 +306,20 @@ a score slot.
 .. autoclass:: parsons.ngpvan.van.Scores
    :inherited-members:
 
-=================
-File Loading Jobs
-=================
-.. autoclass:: parsons.ngpvan.van.FileLoadingJobs
+=======
+Signups
+=======
+.. autoclass:: parsons.ngpvan.van.Signups
+   :inherited-members:
+
+================
+Supporter Groups
+================
+.. autoclass:: parsons.ngpvan.van.SupporterGroups
+   :inherited-members:
+
+================
+Survey Questions
+================
+.. autoclass:: parsons.ngpvan.van.SurveyQuestions
    :inherited-members:

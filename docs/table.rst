@@ -33,6 +33,9 @@ From Parsons Table
     * - ``.to_redshift()``
       - A Redshift Database
       - Write a table to a Redshift database
+    * - ``.to_postgres()``
+      - A Postgres Database
+      - Write a table to a Postgres database
     * - ``.to_civis()``
       - Civis Redshift Database
       - Write a table to Civis platform database
@@ -75,7 +78,10 @@ Create Parsons Table object using the following methods.
       - Loads lists organized as columns in Table
     * - ``.from_redshift()``
       - Redshift table
-      - Loads a Redshift table into a Table
+      - Loads a Redshift query into a Table
+    * - ``.from_postgres()``
+      - Postgres table
+      - Loads a Postgres query into a Table
     * - ``.from_dataframe()``
       - Pandas Dataframe [2]_
       - Load a Parsons table from a Pandas Dataframe

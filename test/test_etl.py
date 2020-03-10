@@ -6,6 +6,9 @@ import shutil
 from test.utils import assert_matching_tables
 from parsons.utilities import zip_archive
 
+# Notes :
+# - The `Table.to_postgres()` test is housed in the Postgres tests
+# - The `Table.from_postgres()` test is housed in the Postgres test
 
 class TestParsonsTable(unittest.TestCase):
 

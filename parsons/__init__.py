@@ -2,6 +2,7 @@ import os
 import logging
 
 # Provide shortcuts to importing Parsons submodules
+
 # If you want to be more targeted in your imports, you can set the PARSONS_SKIP_IMPORT_ALL
 # environment variable and import classes directly from the Python module where they
 # are defined.
@@ -11,6 +12,7 @@ if not os.environ.get('PARSONS_SKIP_IMPORT_ALL'):
     from parsons.targetsmart.targetsmart_api import TargetSmartAPI
     from parsons.targetsmart.targetsmart_automation import TargetSmartAutomation
     from parsons.databases.redshift.redshift import Redshift
+    from parsons.databases.db_sync import DBSync
     from parsons.aws.s3 import S3
     from parsons.civis.civisclient import CivisClient
     from parsons.etl.table import Table
@@ -35,6 +37,7 @@ if not os.environ.get('PARSONS_SKIP_IMPORT_ALL'):
     from parsons.salesforce.salesforce import Salesforce
     from parsons.databases.postgres.postgres import Postgres
     from parsons.freshdesk.freshdesk import Freshdesk
+    from parsons.bill_com.bill_com import BillCom
 
     __all__ = [
         'VAN',
@@ -43,6 +46,7 @@ if not os.environ.get('PARSONS_SKIP_IMPORT_ALL'):
         'Redshift',
         'S3',
         'CivisClient',
+        'DBSync',
         'Table',
         'Gmail',
         'GoogleCivic',
@@ -64,7 +68,8 @@ if not os.environ.get('PARSONS_SKIP_IMPORT_ALL'):
         'Twilio',
         'Salesforce',
         'Postgres',
-        'Freshdesk'
+        'Freshdesk',
+        'BillCom'
     ]
 
 # Define the default logging config for Parsons and its submodules. For now the

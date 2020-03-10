@@ -3,6 +3,7 @@ from parsons.databases.redshift.rs_copy_table import RedshiftCopyTable
 from parsons.databases.redshift.rs_create_table import RedshiftCreateTable
 from parsons.databases.redshift.rs_table_utilities import RedshiftTableUtilities
 from parsons.databases.redshift.rs_schema import RedshiftSchema
+from parsons.databases.table import BaseTable
 from parsons.utilities import files
 import psycopg2
 import psycopg2.extras
@@ -13,6 +14,7 @@ import pickle
 import petl
 from contextlib import contextmanager
 import datetime
+import random
 
 # Max number of rows that we query at a time, so we can avoid loading huge
 # data sets into memory.
@@ -60,9 +62,7 @@ class Redshift(RedshiftCreateTable, RedshiftCopyTable, RedshiftTableUtilities, R
             raise error
 
         self.timeout = timeout
-        # Petl needs this to create tables
-        self.dialect = 'postgresql'
-
+        self.dialect = 'redshift'
         self.s3_temp_bucket = s3_temp_bucket or os.environ.get('S3_TEMP_BUCKET')
 
     @contextmanager
@@ -610,8 +610,8 @@ class Redshift(RedshiftCreateTable, RedshiftCopyTable, RedshiftTableUtilities, R
                 A Parsons table object
             target_table: str
                 The schema and table name to upsert
-            primary_key: str
-                The primary key column of the target table
+            primary_key: str or list
+                The primary key column(s) of the target table
             vacuum: boolean
                 Re-sorts rows and reclaims space in the specified table. You must be a table owner
                 or super user to effectively vacuum a table, however the method will not fail
@@ -620,11 +620,30 @@ class Redshift(RedshiftCreateTable, RedshiftCopyTable, RedshiftTableUtilities, R
                 Check if the primary key column is distinct. Raise error if not.
         """
 
-        staging_tbl = '{}_{}'.format(target_table, datetime.datetime.now().strftime('%Y%m%d_%M%S'))
+        noise = f'{random.randrange(0, 10000):04}'[:4]
+        date_stamp = datetime.datetime.now().strftime('%Y%m%d_%H%M')
+        # Generate a temp table like "table_tmp_20200210_1230_14212"
+        staging_tbl = '{}_stg_{}_{}'.format(target_table, date_stamp, noise)
+
+        if isinstance(primary_key, str):
+            primary_keys = [primary_key]
+        else:
+            primary_keys = primary_key
 
         if distinct_check:
-            sql = f'SELECT COUNT(*)-COUNT(DISTINCT {primary_key}) C FROM {target_table};'
-            if self.query(sql)[0]['c'] > 0:
+            primary_keys_statement = ', '.join(primary_keys)
+            diff = self.query(f'''
+                select (
+                    select count(*)
+                    from {target_table}
+                ) - (
+                    SELECT COUNT(*) from (
+                        select distinct {primary_keys_statement}
+                        from {target_table}
+                    )
+                ) as total_count
+            ''').first
+            if diff > 0:
                 raise ValueError('Primary key column contains duplicate values.')
 
         with self.connection() as connection:
@@ -635,13 +654,20 @@ class Redshift(RedshiftCreateTable, RedshiftCopyTable, RedshiftTableUtilities, R
                 logger.info(f'Building staging table: {staging_tbl}')
                 self.copy(table_obj, staging_tbl)
 
+                staging_table_name = staging_tbl.split('.')[1]
+                target_table_name = target_table.split('.')[1]
+
                 # Delete rows
-                staging_primary_key = f"{staging_tbl.split('.')[1]}.{primary_key}"
-                target_primary_key = f"{target_table.split('.')[1]}.{primary_key}"
+                comparisons = [
+                    f'{staging_table_name}.{primary_key} = {target_table_name}.{primary_key}'
+                    for primary_key in primary_keys
+                ]
+                where_clause = ' and '.join(comparisons)
+
                 sql = f"""
                        DELETE FROM {target_table}
                        USING {staging_tbl}
-                       WHERE {staging_primary_key} = {target_primary_key}
+                       WHERE {where_clause}
                        """
                 self.query_with_connection(sql, connection, commit=False)
                 logger.info(f'Target rows deleted from {target_table}.')
@@ -729,3 +755,14 @@ class Redshift(RedshiftCreateTable, RedshiftCopyTable, RedshiftTableUtilities, R
             connection.set_session(autocommit=True)
             self.query_with_connection(sql, connection)
             logger.info(f'Altered {table_name} {column_name}.')
+
+    def table(self, table_name):
+        # Return a Redshift table object
+
+        return RedshiftTable(self, table_name)
+
+
+class RedshiftTable(BaseTable):
+    # Redshift table object.
+
+    pass

@@ -61,7 +61,7 @@ class Newmode:
             logging.warning("Empty tool returned")
             return []
 
-   """
+    """
     Lookup targets for a given tool
     `Args:`
         tool_id:

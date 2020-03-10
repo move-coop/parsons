@@ -8,7 +8,7 @@ logger = logging.getLogger(__name__)
 
 class Newmode:
     """
-    `Args:`
+    Args:
         api_user: str
             The Newmode api user. Not required if ``NEWMODE_API_USER`` env variable is
             passed.
@@ -18,7 +18,7 @@ class Newmode:
         api_version: str
             The Newmode api version. Defaults to "v1.0" or the value of ``NEWMODE_API_VERSION``
             env variable.
-    `Returns`:
+    Returns:
         Newmode class
     """
 
@@ -63,7 +63,7 @@ class Newmode:
 
     """
     Lookup targets for a given tool
-    `Args:`
+    Args:
         tool_id:
             The tool to lookup targets.
         search:
@@ -77,7 +77,7 @@ class Newmode:
               It will return targets matched by the given address.
             - Search term: For your csv tools, this will return targets
               matched by given valid search term.
-    `Returns:`
+    Returns:
         Targets information.
     """
 

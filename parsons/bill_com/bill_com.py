@@ -101,6 +101,33 @@ class BillCom(object):
         """
         return self.post_request(data, action, object_name)[field]
 
+    def paginate_list(self, response, data, object_name):
+        """
+        Internal method to paginate through and concatenate results of lists larger than max
+        `Args:`
+            response: list of dicts
+                Data from an initial list call
+            data: dict
+                Start, max, and kwargs from initial list call
+            object_name: str
+                Name of the object being listed
+        """
+
+        r_table = Table(r)
+        max_ct = data['max']
+
+        # Flag to simulate do-while
+        first_run = True
+
+        while first_run or len(r) == max_ct:
+            first_run = False
+            data['start'] += max_ct
+            data['max'] += max_ct
+            r = self.get_request_response(data, "List", object_name)
+            r_table.concat(Table(r))
+
+        return r_table
+
     def get_user_list(self, start_user=0, max_user=999, **kwargs):
         """
         `Args:`
@@ -119,9 +146,12 @@ class BillCom(object):
            "max": max_user,
            **kwargs
         }
-        return Table(self.get_request_response(data, "List", "User"))
 
-    def get_customer_list(self, start_customer=1, max_customer=999, **kwargs):
+        r = self.get_request_response(data, "List", "User")
+
+        return paginate_list(self, r, data, "User")
+
+    def get_customer_list(self, start_customer=0, max_customer=999, **kwargs):
         """
         `Args:`
             start_customer: int
@@ -140,9 +170,12 @@ class BillCom(object):
            "max": max_customer,
            **kwargs
         }
-        return Table(self.get_request_response(data, "List", "Customer"))
 
-    def get_invoice_list(self, start_invoice=1, max_invoice=999, **kwargs):
+        r = self.get_request_response(data, "List", "Customer")
+
+        return paginate_list(self, r, data, "Customer")
+
+    def get_invoice_list(self, start_invoice=0, max_invoice=999, **kwargs):
         """
         `Args:`
             start_invoice: int
@@ -161,7 +194,10 @@ class BillCom(object):
            "max": max_invoice,
            **kwargs
         }
-        return Table(self.get_request_response(data, "List", "Invoice"))
+
+        r = self.get_request_response(data, "List", "Invoice")
+
+        return paginate_list(self, r, data, "Invoice")
 
     def read_customer(self, customer_id):
         """

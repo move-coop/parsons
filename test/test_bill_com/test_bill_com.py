@@ -174,6 +174,48 @@ class TestBillCom(unittest.TestCase):
         self.assertEqual(self.bc.post_request(data, 'Read', 'Customer'),
                          self.fake_customer_read_json)
 
+    def paginate_callback(self, request, context):
+        # Internal method for simulating pagination
+
+        remainder = {"Listme": [
+                    {"dict": 2, "col": "C"},
+                    {"dict": 3, "col": "D"},
+                    {"dict": 4, "col": "E"}
+                ]}
+
+        pdict = json.loads(request.text)
+        start = pdict['start']
+        max_ct = pdict['max']
+        end = start + max_ct
+
+        return remainder[start: end]
+
+    @requests_mock.Mocker()
+    def test_paginate_list(self, m):
+
+        r = [
+            {"dict": 0, "col": "A"},
+            {"dict": 1, "col": "B"}
+        ]
+
+        overflow = [
+            {"dict": 2, "col": "C"},
+            {"dict": 3, "col": "D"},
+            {"dict": 4, "col": "E"}
+                ]
+
+        r_table = Table(r).concat(Table(overflow))
+
+        data = {
+            'start': 0,
+            'max': 2
+        }
+
+        object_name = "Listme"
+
+        m.post(self.api_url + f'List/{object_name}.json', json=self.paginate_callback)
+        assert_matching_tables(self.bc.paginate_list(r, data, object_name), r_table)
+
     @requests_mock.Mocker()
     def test_get_request_response(self, m):
         data = {

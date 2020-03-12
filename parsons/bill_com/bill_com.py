@@ -119,12 +119,12 @@ class BillCom(object):
         # Flag to simulate do-while
         first_run = True
 
-        while first_run or len(r) == max_ct:
+        while first_run or len(response) == max_ct:
             first_run = False
             data['start'] += max_ct
             data['max'] += max_ct
-            r = self.get_request_response(data, "List", object_name)
-            r_table.concat(Table(r))
+            response = self.get_request_response(data, "List", object_name)
+            r_table.concat(Table(response))
 
         return r_table
 

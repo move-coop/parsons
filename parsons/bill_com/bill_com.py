@@ -113,7 +113,7 @@ class BillCom(object):
                 Name of the object being listed
         """
 
-        r_table = Table(r)
+        r_table = Table(response)
         max_ct = data['max']
 
         # Flag to simulate do-while
@@ -149,7 +149,7 @@ class BillCom(object):
 
         r = self.get_request_response(data, "List", "User")
 
-        return paginate_list(self, r, data, "User")
+        return self.paginate_list(r, data, "User")
 
     def get_customer_list(self, start_customer=0, max_customer=999, **kwargs):
         """
@@ -173,7 +173,7 @@ class BillCom(object):
 
         r = self.get_request_response(data, "List", "Customer")
 
-        return paginate_list(self, r, data, "Customer")
+        return self.paginate_list(r, data, "Customer")
 
     def get_invoice_list(self, start_invoice=0, max_invoice=999, **kwargs):
         """
@@ -197,7 +197,7 @@ class BillCom(object):
 
         r = self.get_request_response(data, "List", "Invoice")
 
-        return paginate_list(self, r, data, "Invoice")
+        return self.paginate_list(r, data, "Invoice")
 
     def read_customer(self, customer_id):
         """

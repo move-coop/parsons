@@ -1,7 +1,8 @@
 import unittest
 import requests_mock
 import json
-from parsons import Table
+from urllib.parse import unquote
+from parsons import Table, BillCom
 from test.utils import assert_matching_tables
 
 
@@ -177,18 +178,21 @@ class TestBillCom(unittest.TestCase):
     def paginate_callback(self, request, context):
         # Internal method for simulating pagination
 
-        remainder = {"Listme": [
-                    {"dict": 2, "col": "C"},
-                    {"dict": 3, "col": "D"},
-                    {"dict": 4, "col": "E"}
-                ]}
+        remainder = [
+            {"dict": 2, "col": "C"},
+            {"dict": 3, "col": "D"},
+            {"dict": 4, "col": "E"}
+                ]
 
-        pdict = json.loads(request.text)
-        start = pdict['start']
-        max_ct = pdict['max']
+        params = request.text.split('&')
+        data_param = unquote([x for x in params if 'data=' in x][0])
+        data_json = json.loads(data_param.replace('+', '').split('=')[1])
+
+        start = data_json['start']
+        max_ct = data_json['max']
         end = start + max_ct
 
-        return remainder[start: end]
+        return {"response_data": remainder[start: end]}
 
     @requests_mock.Mocker()
     def test_paginate_list(self, m):
@@ -204,7 +208,9 @@ class TestBillCom(unittest.TestCase):
             {"dict": 4, "col": "E"}
                 ]
 
-        r_table = Table(r).concat(Table(overflow))
+        r_table = Table()
+        r_table.concat(Table(r))
+        r_table.concat(Table(overflow))
 
         data = {
             'start': 0,

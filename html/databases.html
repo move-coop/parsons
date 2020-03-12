@@ -87,6 +87,7 @@
 <li class="toctree-l1"><a class="reference internal" href="crowdtangle.html">CrowdTangle</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Databases</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#google-bigquery">Google BigQuery</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#mysql">MySQL</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#postgres">Postgres</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#redshift">Redshift</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#database-sync">Database Sync</a><ul>
@@ -192,6 +193,115 @@
 <h2>Google BigQuery<a class="headerlink" href="#google-bigquery" title="Permalink to this headline">¶</a></h2>
 <p>See <a class="reference internal" href="google_cloud.html"><span class="doc">Google Cloud</span></a> for documentation.</p>
 </div>
+<div class="section" id="mysql">
+<h2>MySQL<a class="headerlink" href="#mysql" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="parsons.MySQL">
+<em class="property">class </em><code class="descclassname">parsons.</code><code class="descname">MySQL</code><span class="sig-paren">(</span><em>host=None</em>, <em>username=None</em>, <em>password=None</em>, <em>db=None</em>, <em>port=3306</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/databases/mysql/mysql.html#MySQL"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.MySQL" title="Permalink to this definition">¶</a></dt>
+<dd><p>Connect to a MySQL database.</p>
+<dl class="docutils">
+<dt><cite>Args:</cite></dt>
+<dd><dl class="first last docutils">
+<dt>username: str</dt>
+<dd>Required if env variable <code class="docutils literal notranslate"><span class="pre">MYSQL_USERNAME</span></code> not populated</dd>
+<dt>password: str</dt>
+<dd>Required if env variable <code class="docutils literal notranslate"><span class="pre">MYSQL_PASSWORD</span></code> not populated</dd>
+<dt>host: str</dt>
+<dd>Required if env variable <code class="docutils literal notranslate"><span class="pre">MYSQL_HOST</span></code> not populated</dd>
+<dt>db: str</dt>
+<dd>Required if env variable <code class="docutils literal notranslate"><span class="pre">MYSQL_DB</span></code> not populated</dd>
+<dt>port: int</dt>
+<dd>Can be set by env variable <code class="docutils literal notranslate"><span class="pre">MYSQL_PORT</span></code> or argument.</dd>
+</dl>
+</dd>
+</dl>
+<dl class="method">
+<dt id="parsons.MySQL.connection">
+<code class="descname">connection</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/databases/mysql/mysql.html#MySQL.connection"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.MySQL.connection" title="Permalink to this definition">¶</a></dt>
+<dd><p>Generate a MySQL connection. The connection is set up as a python “context manager”, so
+it will be closed automatically (and all queries committed) when the connection goes out
+of scope.</p>
+<p>When using the connection, make sure to put it in a <code class="docutils literal notranslate"><span class="pre">with</span></code> block (necessary for
+any context manager):
+<code class="docutils literal notranslate"><span class="pre">with</span> <span class="pre">mysql.connection()</span> <span class="pre">as</span> <span class="pre">conn:</span></code></p>
+<dl class="docutils">
+<dt><cite>Returns:</cite></dt>
+<dd>MySQL <cite>connection</cite> object</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="parsons.MySQL.query">
+<code class="descname">query</code><span class="sig-paren">(</span><em>sql</em>, <em>parameters=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/databases/mysql/mysql.html#MySQL.query"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.MySQL.query" title="Permalink to this definition">¶</a></dt>
+<dd><p>Execute a query against the database. Will return <a href="#id1"><span class="problematic" id="id2">``</span></a>None``if the query returns zero rows.</p>
+<p>To include python variables in your query, it is recommended to pass them as parameters,
+following the <a class="reference external" href="https://security.openstack.org/guidelines/dg_parameterize-database-queries.html">mysql style</a>.
+Using the <code class="docutils literal notranslate"><span class="pre">parameters</span></code> argument ensures that values are escaped properly, and avoids SQL
+injection attacks.</p>
+<p><strong>Parameter Examples</strong></p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Note that the name contains a quote, which could break your query if not escaped</span>
+<span class="c1"># properly.</span>
+<span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;Beatrice O&#39;Brady&quot;</span>
+<span class="n">sql</span> <span class="o">=</span> <span class="s2">&quot;SELECT * FROM my_table WHERE name = </span><span class="si">%s</span><span class="s2">&quot;</span>
+<span class="n">mysql</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="n">sql</span><span class="p">,</span> <span class="n">parameters</span><span class="o">=</span><span class="p">[</span><span class="n">name</span><span class="p">])</span>
+</pre></div>
+</div>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">names</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;Allen Smith&quot;</span><span class="p">,</span> <span class="s2">&quot;Beatrice O&#39;Brady&quot;</span><span class="p">,</span> <span class="s2">&quot;Cathy Thompson&quot;</span><span class="p">]</span>
+<span class="n">placeholders</span> <span class="o">=</span> <span class="s1">&#39;, &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s1">&#39;</span><span class="si">%s</span><span class="s1">&#39;</span> <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">names</span><span class="p">)</span>
+<span class="n">sql</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;SELECT * FROM my_table WHERE name IN (</span><span class="si">{</span><span class="n">placeholders</span><span class="si">}</span><span class="s2">)&quot;</span>
+<span class="n">mysql</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="n">sql</span><span class="p">,</span> <span class="n">parameters</span><span class="o">=</span><span class="n">names</span><span class="p">)</span>
+</pre></div>
+</div>
+<dl class="docutils">
+<dt><cite>Args:</cite></dt>
+<dd><dl class="first last docutils">
+<dt>sql: str</dt>
+<dd>A valid SQL statement</dd>
+<dt>parameters: list</dt>
+<dd>A list of python variables to be converted into SQL values in your query</dd>
+</dl>
+</dd>
+<dt><cite>Returns:</cite></dt>
+<dd><dl class="first last docutils">
+<dt>Parsons Table</dt>
+<dd>See <a class="reference internal" href="table.html#parsons-table"><span class="std std-ref">Parsons Table</span></a> for output options.</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="parsons.MySQL.query_with_connection">
+<code class="descname">query_with_connection</code><span class="sig-paren">(</span><em>sql</em>, <em>connection</em>, <em>parameters=None</em>, <em>commit=True</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/databases/mysql/mysql.html#MySQL.query_with_connection"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.MySQL.query_with_connection" title="Permalink to this definition">¶</a></dt>
+<dd><p>Execute a query against the database, with an existing connection. Useful for batching
+queries together. Will return <code class="docutils literal notranslate"><span class="pre">None</span></code> if the query returns zero rows.</p>
+<dl class="docutils">
+<dt><cite>Args:</cite></dt>
+<dd><dl class="first last docutils">
+<dt>sql: str</dt>
+<dd>A valid SQL statement</dd>
+<dt>connection: obj</dt>
+<dd>A connection object obtained from <code class="docutils literal notranslate"><span class="pre">mysql.connection()</span></code></dd>
+<dt>parameters: list</dt>
+<dd>A list of python variables to be converted into SQL values in your query</dd>
+<dt>commit: boolean</dt>
+<dd>Whether to commit the transaction immediately. If <code class="docutils literal notranslate"><span class="pre">False</span></code> the transaction will
+be committed when the connection goes out of scope and is closed (or you can
+commit manually with <code class="docutils literal notranslate"><span class="pre">connection.commit()</span></code>).</dd>
+</dl>
+</dd>
+<dt><cite>Returns:</cite></dt>
+<dd><dl class="first last docutils">
+<dt>Parsons Table</dt>
+<dd>See <a class="reference internal" href="table.html#parsons-table"><span class="std std-ref">Parsons Table</span></a> for output options.</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</div>
 <div class="section" id="postgres">
 <h2>Postgres<a class="headerlink" href="#postgres" title="Permalink to this headline">¶</a></h2>
 <dl class="class">
@@ -250,7 +360,7 @@ any context manager):
 <dl class="method">
 <dt id="parsons.Postgres.query">
 <code class="descname">query</code><span class="sig-paren">(</span><em>sql</em>, <em>parameters=None</em><span class="sig-paren">)</span><a class="headerlink" href="#parsons.Postgres.query" title="Permalink to this definition">¶</a></dt>
-<dd><p>Execute a query against the database. Will return <a href="#id1"><span class="problematic" id="id2">``</span></a>None``if the query returns zero rows.</p>
+<dd><p>Execute a query against the database. Will return <a href="#id3"><span class="problematic" id="id4">``</span></a>None``if the query returns zero rows.</p>
 <p>To include python variables in your query, it is recommended to pass them as parameters,
 following the <a class="reference external" href="http://initd.org/psycopg/docs/usage.html#passing-parameters-to-sql-queries">psycopg style</a>.
 Using the <code class="docutils literal notranslate"><span class="pre">parameters</span></code> argument ensures that values are escaped properly, and avoids SQL
@@ -415,7 +525,7 @@ wipe all data from the destination table.</p>
 <dt>if_exists: str</dt>
 <dd>If destination table exists either <code class="docutils literal notranslate"><span class="pre">drop</span></code> or <code class="docutils literal notranslate"><span class="pre">truncate</span></code>. Truncate is
 useful when there are dependent views associated with the table.</dd>
-<dt><a href="#id3"><span class="problematic" id="id4">**</span></a>kwargs: args</dt>
+<dt><a href="#id5"><span class="problematic" id="id6">**</span></a>kwargs: args</dt>
 <dd>Optional copy arguments for destination database.</dd>
 </dl>
 </dd>
@@ -445,7 +555,7 @@ destination table.</dd>
 <dt>distinct_check: bool</dt>
 <dd>Check that the source table primary key is distinct prior to running the
 sync. If it is not, an error will be raised.</dd>
-<dt><a href="#id5"><span class="problematic" id="id6">**</span></a>kwargs: args</dt>
+<dt><a href="#id7"><span class="problematic" id="id8">**</span></a>kwargs: args</dt>
 <dd>Optional copy arguments for destination database.</dd>
 </dl>
 </dd>

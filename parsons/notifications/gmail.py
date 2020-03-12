@@ -170,7 +170,8 @@ class Gmail(object):
             message.attach(html)
 
         for f in files:
-            content_type, encoding = mimetypes.guess_type(f)
+            filename = getattr(f, 'name', os.path.basename(f))
+            content_type, encoding = mimetypes.guess_type(filename)
             logger.debug(
                 f"(File: {f}, Content-type: {content_type}, "
                 f"Encoding: {encoding})")
@@ -179,42 +180,39 @@ class Gmail(object):
                 content_type = 'application/octet-stream'
 
             main_type, sub_type = content_type.split('/', 1)
+            file_bytes = b''
+            if isinstance(f, io.StringIO):
+                file_bytes = f.getvalue().encode()
+            elif isinstance(f, io.BytesIO):
+                file_bytes = f.getvalue()
+            else:
+                fp = open(f, 'rb')
+                file_bytes = fp.read()
+                fp.close()
 
             if main_type == 'text':
                 logger.info("Added a text file.")
-                fp = open(f, 'rb')
-                msg = MIMEText(fp.read(), _subtype=sub_type, _charset='utf-8')
-                fp.close()
+                msg = MIMEText(file_bytes, _subtype=sub_type, _charset='utf-8')
 
             elif main_type == 'image':
                 logger.info("Added an image file.")
-                fp = open(f, 'rb')
-                msg = MIMEImage(fp.read(), _subtype=sub_type)
-                filename = os.path.basename(f)
+                msg = MIMEImage(file_bytes, _subtype=sub_type)
                 msg.add_header('Content-ID', f'<{filename}>')
-                fp.close()
 
             elif main_type == 'audio':
                 logger.info("Added an audio file.")
-                fp = open(f, 'rb')
-                msg = MIMEAudio(fp.read(), _subtype=sub_type)
-                fp.close()
+                msg = MIMEAudio(file_bytes, _subtype=sub_type)
 
             elif main_type == 'application':
                 logger.info("Added an application file.")
-                fp = open(f, 'rb')
-                msg = MIMEApplication(fp.read(), _subtype=sub_type)
-                fp.close()
+                msg = MIMEApplication(file_bytes, _subtype=sub_type)
 
             else:
                 logger.info("Added an unknown-type file.")
-                fp = open(f, 'rb')
                 msg = MIMEBase(main_type, sub_type)
-                msg.set_payload(fp.read())
+                msg.set_payload(file_bytes)
                 encode_base64(msg)
-                fp.close()
 
-            filename = os.path.basename(f)
             msg.add_header(
                 'Content-Disposition', 'attachment', filename=filename)
             message.attach(msg)

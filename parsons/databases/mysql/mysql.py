@@ -38,7 +38,6 @@ class MySQL():
         self.username = check_env.check('MYSQL_USERNAME', username)
         self.password = check_env.check('MYSQL_PASSWORD', password)
         self.host = check_env.check('MYSQL_HOST', host)
-        # self.db = None
         self.db = check_env.check('MYSQL_DB', db)
         self.port = port or os.environ.get('MYSQL_PORT')
 

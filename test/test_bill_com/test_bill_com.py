@@ -160,7 +160,7 @@ class TestBillCom(unittest.TestCase):
 
     def test_get_payload(self):
         fake_json = {'fake_key': 'fake_data'}
-        payload = self.bc.get_payload(fake_json)
+        payload = self.bc._get_payload(fake_json)
         self.assertEqual(payload, {'devKey': self.bc.dev_key,
                                    'sessionId': self.bc.session_id,
                                    'data': json.dumps(fake_json)})
@@ -172,7 +172,7 @@ class TestBillCom(unittest.TestCase):
         }
         m.post(self.api_url + 'Crud/Read/Customer.json',
                text=json.dumps(self.fake_customer_read_json))
-        self.assertEqual(self.bc.post_request(data, 'Read', 'Customer'),
+        self.assertEqual(self.bc._post_request(data, 'Read', 'Customer'),
                          self.fake_customer_read_json)
 
     def paginate_callback(self, request, context):
@@ -220,7 +220,7 @@ class TestBillCom(unittest.TestCase):
         object_name = "Listme"
 
         m.post(self.api_url + f'List/{object_name}.json', json=self.paginate_callback)
-        assert_matching_tables(self.bc.paginate_list(r, data, object_name), r_table)
+        assert_matching_tables(self.bc._paginate_list(r, data, object_name), r_table)
 
     @requests_mock.Mocker()
     def test_get_request_response(self, m):
@@ -229,7 +229,7 @@ class TestBillCom(unittest.TestCase):
         }
         m.post(self.api_url + 'Crud/Read/Customer.json',
                text=json.dumps(self.fake_customer_read_json))
-        self.assertEqual(self.bc.get_request_response(data, 'Read', 'Customer', 'response_data'),
+        self.assertEqual(self.bc._get_request_response(data, 'Read', 'Customer', 'response_data'),
                          self.fake_customer_read_json['response_data'])
 
     @requests_mock.Mocker()

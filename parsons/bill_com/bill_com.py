@@ -99,9 +99,14 @@ class BillCom(object):
         `Returns:`
             A dictionary containing the choosen field from the JSON response from the post request.
         """
-        return self._post_request(data, action, object_name)[field]
+        r = self._post_request(data, action, object_name)[field]
 
-    def _paginate_list(self, response, data, object_name):
+        if action == "List":
+            return self._paginate_list(r, data, object_name)
+
+        return r
+
+    def _paginate_list(self, response, data, object_name, field="response_data"):
         """
         Internal method to paginate through and concatenate results of lists larger than max
         `Args:`
@@ -123,7 +128,7 @@ class BillCom(object):
             first_run = False
             data['start'] += max_ct
             data['max'] += max_ct
-            response = self._get_request_response(data, "List", object_name)
+            response = self._post_request(data, "List", object_name)[field]
             r_table.concat(Table(response))
 
         return r_table
@@ -147,9 +152,7 @@ class BillCom(object):
            **kwargs
         }
 
-        r = self._get_request_response(data, "List", "User")
-
-        return self._paginate_list(r, data, "User")
+        return self._get_request_response(data, "List", "User")
 
     def get_customer_list(self, start_customer=0, max_customer=999, **kwargs):
         """
@@ -171,9 +174,7 @@ class BillCom(object):
            **kwargs
         }
 
-        r = self._get_request_response(data, "List", "Customer")
-
-        return self._paginate_list(r, data, "Customer")
+        return self._get_request_response(data, "List", "Customer")
 
     def get_invoice_list(self, start_invoice=0, max_invoice=999, **kwargs):
         """
@@ -195,9 +196,7 @@ class BillCom(object):
            **kwargs
         }
 
-        r = self._get_request_response(data, "List", "Invoice")
-
-        return self._paginate_list(r, data, "Invoice")
+        return self._get_request_response(data, "List", "Invoice")
 
     def read_customer(self, customer_id):
         """

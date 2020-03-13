@@ -596,6 +596,83 @@ in the <a class="reference external" href="https://roboticdogs.actionkit.com/doc
 </dl>
 </dd></dl>
 
+<dl class="method">
+<dt id="parsons.ActionKit.bulk_upload_csv">
+<code class="descname">bulk_upload_csv</code><span class="sig-paren">(</span><em>csv_file</em>, <em>import_page</em>, <em>autocreate_user_fields=0</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/action_kit/action_kit.html#ActionKit.bulk_upload_csv"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.ActionKit.bulk_upload_csv" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bulk upload a csv file of new users or user updates.
+If you are uploading a table object, use bulk_upload_table instead.
+See <a href="#id4"><span class="problematic" id="id5">`</span></a>ActionKit User Upload Documentation</p>
+<blockquote>
+<div>&lt;<a class="reference external" href="https://roboticdogs.actionkit.com/docs/manual/api/rest/uploads.html">https://roboticdogs.actionkit.com/docs/manual/api/rest/uploads.html</a>&gt;`</div></blockquote>
+<p>Be careful that blank values in columns will overwrite existing data.</p>
+<p>If you get a 500 error, try sending a much smaller file (say, one row),
+which is more likely to return the proper 400 with a useful error message</p>
+<dl class="docutils">
+<dt><cite>Args:</cite></dt>
+<dd><dl class="first last docutils">
+<dt>import_page: str</dt>
+<dd>The page to post the action. The page short name.</dd>
+<dt>csv_file: str or buffer</dt>
+<dd>The csv (optionally zip’d) file path or a file buffer object
+A user_id or email column is required.
+ActionKit rejects files that are larger than 128M</dd>
+<dt>autocreate_user_fields: bool</dt>
+<dd>When True columns starting with “<a href="#id10"><span class="problematic" id="id11">user_</span></a>” will be uploaded as user fields.
+See the <cite>autocreate_user_fields documentation
+&lt;https://roboticdogs.actionkit.com/docs/manual/api/rest/uploads.html#create-a-multipart-post-request&gt;</cite></dd>
+</dl>
+</dd>
+<dt><cite>Returns</cite>:</dt>
+<dd><dl class="first last docutils">
+<dt>dict</dt>
+<dd>success: whether upload was successful
+progress_url: an API URL to get progress on upload processing
+res: requests http response object</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="parsons.ActionKit.bulk_upload_table">
+<code class="descname">bulk_upload_table</code><span class="sig-paren">(</span><em>table</em>, <em>import_page</em>, <em>autocreate_user_fields=0</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/action_kit/action_kit.html#ActionKit.bulk_upload_table"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.ActionKit.bulk_upload_table" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bulk upload a table of new users or user updates.
+See <a href="#id6"><span class="problematic" id="id7">`</span></a>ActionKit User Upload Documentation</p>
+<blockquote>
+<div>&lt;<a class="reference external" href="https://roboticdogs.actionkit.com/docs/manual/api/rest/uploads.html">https://roboticdogs.actionkit.com/docs/manual/api/rest/uploads.html</a>&gt;`</div></blockquote>
+<p>Be careful that blank values in columns will overwrite existing data.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">If you get a 500 error, try sending a much smaller file (say, one row),
+which is more likely to return the proper 400 with a useful error message</p>
+</div>
+<dl class="docutils">
+<dt><cite>Args:</cite></dt>
+<dd><dl class="first last docutils">
+<dt>import_page: str</dt>
+<dd>The page to post the action. The page short name.</dd>
+<dt>table: Table Class</dt>
+<dd>A Table of user data to bulk upload
+A user_id or email column is required.</dd>
+<dt>autocreate_user_fields: bool</dt>
+<dd><p class="first">When True columns starting with “<a href="#id12"><span class="problematic" id="id13">user_</span></a>” will be uploaded as user fields.
+See the <a href="#id8"><span class="problematic" id="id9">`</span></a>autocreate_user_fields documentation</p>
+<blockquote class="last">
+<div>&lt;<a class="reference external" href="https://roboticdogs.actionkit.com/docs/manual/api/rest/uploads.html#create-a-multipart-post-request">https://roboticdogs.actionkit.com/docs/manual/api/rest/uploads.html#create-a-multipart-post-request</a>&gt;`</div></blockquote>
+</dd>
+</dl>
+</dd>
+<dt><cite>Returns</cite>:</dt>
+<dd><dl class="first last docutils">
+<dt>dict</dt>
+<dd>success: whether upload was successful
+progress_url: an API URL to get progress on upload processing
+res: requests http response object</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
 </dd></dl>
 
 </div>

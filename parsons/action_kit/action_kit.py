@@ -1,5 +1,3 @@
-import csv
-from io import StringIO
 import json
 import logging
 import requests
@@ -481,13 +479,13 @@ class ActionKit(object):
             import_page: str
                 The page to post the action. The page short name.
             csv_file: str or buffer
-                The csv file path or a file buffer object
+                The csv (optionally zip'd) file path or a file buffer object
                 A user_id or email column is required.
-                ActionKit rejects files that are larger than 128M, however you can pass a zip'd file here.
+                ActionKit rejects files that are larger than 128M
             autocreate_user_fields: bool
-                When True columns starting with "user_" will be uploaded as user fields.
-                See the `autocreate_user_fields documentation
-                  <https://roboticdogs.actionkit.com/docs/manual/api/rest/uploads.html#create-a-multipart-post-request>`
+              When True columns starting with "user_" will be uploaded as user fields.
+              See the `autocreate_user_fields documentation
+              <https://roboticdogs.actionkit.com/docs/manual/api/rest/uploads.html#create-a-multipart-post-request>`
         `Returns`:
             dict
                 success: whether upload was successful

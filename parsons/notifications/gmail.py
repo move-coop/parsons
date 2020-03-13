@@ -13,6 +13,7 @@ from httplib2 import Http
 from oauth2client import file, client, tools
 from validate_email import validate_email
 import base64
+import io
 import logging
 import mimetypes
 import os

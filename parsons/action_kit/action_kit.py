@@ -466,7 +466,7 @@ class ActionKit(object):
                                return_full_json=True,
                                **kwargs)
 
-    def bulk_upload_csv(self, import_page=None, csv_file=None, autocreate_user_fields=0):
+    def bulk_upload_csv(self, csv_file, import_page, autocreate_user_fields=0):
         """
         Bulk upload a csv file of new users or user updates.
         If you are uploading a table object, use bulk_upload_table instead.
@@ -493,9 +493,6 @@ class ActionKit(object):
                 progress_url: an API URL to get progress on upload processing
                 res: requests http response object
         """
-        import_page = check_env.check('ACTION_KIT_IMPORTPAGE', import_page)
-        if csv_file is None:
-            csv_file = check_env.check('ACTION_KIT_CSVFILE', csv_file)
 
         # self.conn defaults to JSON, but this has to be form/multi-part....
         upload_client = self._conn({'accepts': 'application/json'})
@@ -512,15 +509,16 @@ class ActionKit(object):
               'progress_url': res.headers.get('Location')}
         return rv
 
-    def bulk_upload_table(self, import_page, table, autocreate_user_fields=0):
+    def bulk_upload_table(self, table, import_page, autocreate_user_fields=0):
         """
         Bulk upload a table of new users or user updates.
         See `ActionKit User Upload Documentation
              <https://roboticdogs.actionkit.com/docs/manual/api/rest/uploads.html>`
         Be careful that blank values in columns will overwrite existing data.
 
-        If you get a 500 error, try sending a much smaller file (say, one row),
-        which is more likely to return the proper 400 with a useful error message
+        .. note::
+            If you get a 500 error, try sending a much smaller file (say, one row),
+            which is more likely to return the proper 400 with a useful error message
 
         `Args:`
             import_page: str
@@ -543,5 +541,5 @@ class ActionKit(object):
         outcsv = csv.writer(csv_file)
         for row in table.table:
             outcsv.writerow(row)
-        return self.bulk_upload_csv(import_page, StringIO(csv_file.getvalue()),
+        return self.bulk_upload_csv(StringIO(csv_file.getvalue()), import_page,
                                     autocreate_user_fields=autocreate_user_fields)

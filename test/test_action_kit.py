@@ -278,8 +278,8 @@ class TestActionKit(unittest.TestCase):
         type(resp_mock.post()).status_code = mock.PropertyMock(return_value=201)
         self.actionkit._conn = lambda self: resp_mock
         self.actionkit.bulk_upload_table(
-            'fake_page',
-            Table([('user_id', 'user_customfield1'), (5, 'yes')]))
+            Table([('user_id', 'user_customfield1'), (5, 'yes')]),
+            'fake_page')
         self.assertEqual(resp_mock.post.call_count, 2)
         name, args, kwargs = resp_mock.method_calls[1]
         self.assertEqual(kwargs['data'], {'page': 'fake_page', 'autocreate_user_fields': 0})

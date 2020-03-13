@@ -27,7 +27,9 @@
   <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
   <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <link rel="index" title="Index" href="genindex.html" />
-    <link rel="search" title="Search" href="search.html" /> 
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Civis" href="civis.html" />
+    <link rel="prev" title="Airtable" href="airtable.html" /> 
 
   
   <script src="_static/js/modernizr.min.js"></script>
@@ -77,9 +79,14 @@
             
             
               <p class="caption"><span class="caption-text">Integrations</span></p>
-<ul>
+<ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="action_kit.html">ActionKit</a></li>
 <li class="toctree-l1"><a class="reference internal" href="airtable.html">Airtable</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Bill.com</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#quick-start">Quick Start</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#api">API</a></li>
+</ul>
+</li>
 <li class="toctree-l1"><a class="reference internal" href="civis.html">Civis</a></li>
 <li class="toctree-l1"><a class="reference internal" href="copper.html">Copper</a></li>
 <li class="toctree-l1"><a class="reference internal" href="crowdtangle.html">CrowdTangle</a></li>
@@ -217,70 +224,6 @@ see <a class="reference external" href="https://developer.bill.com/hc/en-us/cate
 </dd>
 </dl>
 <dl class="method">
-<dt id="parsons.BillCom.get_payload">
-<code class="descname">get_payload</code><span class="sig-paren">(</span><em>data</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/bill_com/bill_com.html#BillCom.get_payload"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.BillCom.get_payload" title="Permalink to this definition">¶</a></dt>
-<dd><dl class="docutils">
-<dt><cite>Args:</cite></dt>
-<dd><dl class="first last docutils">
-<dt>data: dict</dt>
-<dd>A dictionary containing the payload to be sent in the request.
-The dev_key and sessionId should not be included as they are
-dealt with separately.</dd>
-</dl>
-</dd>
-<dt><cite>Returns:</cite></dt>
-<dd>A dictionary of the payload to be sent in the request with the
-dev_key and sessionId added.</dd>
-</dl>
-</dd></dl>
-
-<dl class="method">
-<dt id="parsons.BillCom.post_request">
-<code class="descname">post_request</code><span class="sig-paren">(</span><em>data</em>, <em>action</em>, <em>object_name</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/bill_com/bill_com.html#BillCom.post_request"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.BillCom.post_request" title="Permalink to this definition">¶</a></dt>
-<dd><dl class="docutils">
-<dt><cite>Args:</cite></dt>
-<dd><dl class="first last docutils">
-<dt>data: dict</dt>
-<dd>A dictionary containing the payload to be sent in the request.
-The dev_key and sessionId should not be included as they are
-dealt with separately.</dd>
-<dt>action: str</dt>
-<dd>The action to be taken on the given object.
-Possible values are “List”, “Read”, “Create”, and “Send”.</dd>
-<dt>object_name: str</dt>
-<dd>The id of the object. Possible values are “User”, “Customer”, and “Invoice”.</dd>
-</dl>
-</dd>
-<dt><cite>Returns:</cite></dt>
-<dd>A dictionary containing the JSON response from the post request.</dd>
-</dl>
-</dd></dl>
-
-<dl class="method">
-<dt id="parsons.BillCom.get_request_response">
-<code class="descname">get_request_response</code><span class="sig-paren">(</span><em>data</em>, <em>action</em>, <em>object_name</em>, <em>field='response_data'</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/bill_com/bill_com.html#BillCom.get_request_response"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.BillCom.get_request_response" title="Permalink to this definition">¶</a></dt>
-<dd><dl class="docutils">
-<dt><cite>Args:</cite></dt>
-<dd><dl class="first last docutils">
-<dt>data: dict</dt>
-<dd>A dictionary containing the payload to be sent in the request.
-The dev_key and sessionId should not be included as they are
-dealt with separately.</dd>
-<dt>action: str</dt>
-<dd>The action to be taken on the given object.
-Possible values are “List”, “Read”, “Create”, and “Send”.</dd>
-<dt>object_name: str</dt>
-<dd>The id of the object. Possible values are “User”, “Customer”, and “Invoice”.</dd>
-<dt>field: str</dt>
-<dd>The JSON field where the response data is stored. Defaults to “response_data”.</dd>
-</dl>
-</dd>
-<dt><cite>Returns:</cite></dt>
-<dd>A dictionary containing the choosen field from the JSON response from the post request.</dd>
-</dl>
-</dd></dl>
-
-<dl class="method">
 <dt id="parsons.BillCom.get_user_list">
 <code class="descname">get_user_list</code><span class="sig-paren">(</span><em>start_user=0</em>, <em>max_user=999</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/bill_com/bill_com.html#BillCom.get_user_list"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.BillCom.get_user_list" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="docutils">
@@ -301,7 +244,7 @@ Possible values are “List”, “Read”, “Create”, and “Send”.</dd>
 
 <dl class="method">
 <dt id="parsons.BillCom.get_customer_list">
-<code class="descname">get_customer_list</code><span class="sig-paren">(</span><em>start_customer=1</em>, <em>max_customer=999</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/bill_com/bill_com.html#BillCom.get_customer_list"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.BillCom.get_customer_list" title="Permalink to this definition">¶</a></dt>
+<code class="descname">get_customer_list</code><span class="sig-paren">(</span><em>start_customer=0</em>, <em>max_customer=999</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/bill_com/bill_com.html#BillCom.get_customer_list"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.BillCom.get_customer_list" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="docutils">
 <dt><cite>Args:</cite></dt>
 <dd><dl class="first last docutils">
@@ -321,7 +264,7 @@ to max_customer.</dd>
 
 <dl class="method">
 <dt id="parsons.BillCom.get_invoice_list">
-<code class="descname">get_invoice_list</code><span class="sig-paren">(</span><em>start_invoice=1</em>, <em>max_invoice=999</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/bill_com/bill_com.html#BillCom.get_invoice_list"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.BillCom.get_invoice_list" title="Permalink to this definition">¶</a></dt>
+<code class="descname">get_invoice_list</code><span class="sig-paren">(</span><em>start_invoice=0</em>, <em>max_invoice=999</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/bill_com/bill_com.html#BillCom.get_invoice_list"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.BillCom.get_invoice_list" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="docutils">
 <dt><cite>Args:</cite></dt>
 <dd><dl class="first last docutils">
@@ -481,6 +424,15 @@ The only required field is “quantity”.</dd>
            
           </div>
           <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="civis.html" class="btn btn-neutral float-right" title="Civis" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="airtable.html" class="btn btn-neutral" title="Airtable" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
   
 
   <hr/>

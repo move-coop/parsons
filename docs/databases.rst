@@ -7,6 +7,13 @@ Google BigQuery
 
 See :doc:`google_cloud` for documentation.
 
+*****
+MySQL
+*****
+
+.. autoclass:: parsons.MySQL
+   :inherited-members:
+
 ********
 Postgres
 ********

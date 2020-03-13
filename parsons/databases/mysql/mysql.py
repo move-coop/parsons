@@ -7,6 +7,7 @@ from parsons.utilities import files
 import pickle
 import logging
 import os
+from parsons.databases.table import BaseTable
 
 # Max number of rows that we query at a time, so we can avoid loading huge
 # data sets into memory.
@@ -185,3 +186,16 @@ class MySQL():
 
                 logger.debug(f'Query returned {final_tbl.num_rows} rows.')
                 return final_tbl
+
+    def table_exists(self, table_name):
+
+        if self.query(f"SHOW TABLES LIKE '{table_name}'").first == table_name:
+            return True
+        else:
+            return False
+
+
+class MySQLTable(BaseTable):
+    # MySQL table object.
+
+    pass

@@ -22,6 +22,9 @@ class ActionKit(object):
             env variable set.
     """
 
+    _default_headers = {'content-type': 'application/json',
+                        'accepts': 'application/json'}
+
     def __init__(self, domain=None, username=None, password=None):
 
         self.domain = check_env.check('ACTION_KIT_DOMAIN', domain)
@@ -29,14 +32,11 @@ class ActionKit(object):
         self.password = check_env.check('ACTION_KIT_PASSWORD', password)
         self.conn = self._conn()
 
-    def _conn(self):
+    def _conn(self, default_headers=_default_headers):
 
         client = requests.Session()
         client.auth = (self.username, self.password)
-        client.headers.update({
-            'content-type': 'application/json',
-            'accepts': 'application/json'
-        })
+        client.headers.update(default_headers)
         return client
 
     def _base_endpoint(self, endpoint, entity_id=None):
@@ -463,3 +463,79 @@ class ActionKit(object):
                                page=page,
                                return_full_json=True,
                                **kwargs)
+
+    def bulk_upload_csv(self, csv_file, import_page, autocreate_user_fields=0):
+        """
+        Bulk upload a csv file of new users or user updates.
+        If you are uploading a table object, use bulk_upload_table instead.
+        See `ActionKit User Upload Documentation
+             <https://roboticdogs.actionkit.com/docs/manual/api/rest/uploads.html>`
+        Be careful that blank values in columns will overwrite existing data.
+
+        If you get a 500 error, try sending a much smaller file (say, one row),
+        which is more likely to return the proper 400 with a useful error message
+
+        `Args:`
+            import_page: str
+                The page to post the action. The page short name.
+            csv_file: str or buffer
+                The csv (optionally zip'd) file path or a file buffer object
+                A user_id or email column is required.
+                ActionKit rejects files that are larger than 128M
+            autocreate_user_fields: bool
+              When True columns starting with "user_" will be uploaded as user fields.
+              See the `autocreate_user_fields documentation
+              <https://roboticdogs.actionkit.com/docs/manual/api/rest/uploads.html#create-a-multipart-post-request>`
+        `Returns`:
+            dict
+                success: whether upload was successful
+                progress_url: an API URL to get progress on upload processing
+                res: requests http response object
+        """
+
+        # self.conn defaults to JSON, but this has to be form/multi-part....
+        upload_client = self._conn({'accepts': 'application/json'})
+        if isinstance(csv_file, str):
+            csv_file = open(csv_file, 'rb')
+
+        res = upload_client.post(
+            self._base_endpoint('upload'),
+            files={'upload': csv_file},
+            data={'page': import_page,
+                  'autocreate_user_fields': int(autocreate_user_fields)})
+        rv = {'res': res,
+              'success': res.status_code == 201,
+              'progress_url': res.headers.get('Location')}
+        return rv
+
+    def bulk_upload_table(self, table, import_page, autocreate_user_fields=0):
+        """
+        Bulk upload a table of new users or user updates.
+        See `ActionKit User Upload Documentation
+             <https://roboticdogs.actionkit.com/docs/manual/api/rest/uploads.html>`
+        Be careful that blank values in columns will overwrite existing data.
+
+        .. note::
+            If you get a 500 error, try sending a much smaller file (say, one row),
+            which is more likely to return the proper 400 with a useful error message
+
+        `Args:`
+            import_page: str
+                The page to post the action. The page short name.
+            table: Table Class
+                A Table of user data to bulk upload
+                A user_id or email column is required.
+            autocreate_user_fields: bool
+                When True columns starting with "user_" will be uploaded as user fields.
+                See the `autocreate_user_fields documentation
+                  <https://roboticdogs.actionkit.com/docs/manual/api/rest/uploads.html#create-a-multipart-post-request>`
+        `Returns`:
+            dict
+                success: whether upload was successful
+                progress_url: an API URL to get progress on upload processing
+                res: requests http response object
+        """
+        import_page = check_env.check('ACTION_KIT_IMPORTPAGE', import_page)
+        return self.bulk_upload_csv(table.to_csv(temp_file_compression='gzip'),
+                                    import_page,
+                                    autocreate_user_fields=autocreate_user_fields)

@@ -8,6 +8,7 @@ logger = logging.getLogger(__name__)
 
 # There's some irony in this inheriting from Gmail, but life is strange sometimes
 
+
 class SMTP(Gmail):
     """Create a SMTP object, for sending emails.
 
@@ -23,12 +24,11 @@ class SMTP(Gmail):
         tls: bool
             Defaults to True -- pass "0" or "False" to SMTP_TLS to disable
         close_manually: bool
-            When set to True, send_message will not close the connection (so multiple emails can be sent at once)
+            When set to True, send_message will not close the connection
     """
 
     def __init__(self, host=None, port=None, username=None, password=None, tls=None,
                  close_manually=False):
-        
         self.host = check('SMTP_HOST', host)
         self.port = check('SMTP_PORT', port, optional=True) or 587
         self.username = check('SMTP_USER', username)
@@ -44,8 +44,8 @@ class SMTP(Gmail):
             self.conn = smtplib.SMTP(self.host, self.port)
             self.ehlo()
             if self.tls:
-                server.starttls()
-            server.login(self.username, self.password)
+                self.conn.starttls()
+            self.conn.login(self.username, self.password)
         return self.conn
 
     def send_message(self, message, user_id=None):
@@ -60,9 +60,9 @@ class SMTP(Gmail):
             dict of refused To addresses (otherwise None)
         """
         conn = self.get_connection()
-        result = conn.sendmail(msg['From'],
-                               [x.strip() for x in msg['To'].split(',')],
-                               msg.as_string())
+        result = conn.sendmail(message['From'],
+                               [x.strip() for x in message['To'].split(',')],
+                               message.as_string())
         if not self.close_manually:
             conn.quit()
             self.conn = None

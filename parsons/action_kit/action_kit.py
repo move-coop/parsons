@@ -483,6 +483,7 @@ class ActionKit(object):
             csv_file: str or buffer
                 The csv file path or a file buffer object
                 A user_id or email column is required.
+                ActionKit rejects files that are larger than 128M, however you can pass a zip'd file here.
             autocreate_user_fields: bool
                 When True columns starting with "user_" will be uploaded as user fields.
                 See the `autocreate_user_fields documentation
@@ -497,7 +498,7 @@ class ActionKit(object):
         # self.conn defaults to JSON, but this has to be form/multi-part....
         upload_client = self._conn({'accepts': 'application/json'})
         if isinstance(csv_file, str):
-            csv_file = open(csv_file, 'r')
+            csv_file = open(csv_file, 'rb')
 
         res = upload_client.post(
             self._base_endpoint('upload'),
@@ -537,9 +538,6 @@ class ActionKit(object):
                 res: requests http response object
         """
         import_page = check_env.check('ACTION_KIT_IMPORTPAGE', import_page)
-        csv_file = StringIO()
-        outcsv = csv.writer(csv_file)
-        for row in table.table:
-            outcsv.writerow(row)
-        return self.bulk_upload_csv(StringIO(csv_file.getvalue()), import_page,
+        return self.bulk_upload_csv(table.to_csv(temp_file_compression='gzip'),
+                                    import_page,
                                     autocreate_user_fields=autocreate_user_fields)

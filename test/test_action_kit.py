@@ -1,3 +1,4 @@
+import gzip
 import json
 import os
 import unittest
@@ -283,5 +284,6 @@ class TestActionKit(unittest.TestCase):
         self.assertEqual(resp_mock.post.call_count, 2)
         name, args, kwargs = resp_mock.method_calls[1]
         self.assertEqual(kwargs['data'], {'page': 'fake_page', 'autocreate_user_fields': 0})
-        self.assertEqual(kwargs['files']['upload'].getvalue(),
+        upload_data = gzip.open(kwargs['files']['upload']).read()
+        self.assertEqual(upload_data.decode(),
                          'user_id,user_customfield1\r\n5,yes\r\n')

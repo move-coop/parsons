@@ -410,7 +410,7 @@ class Redshift(RedshiftCreateTable, RedshiftCopyTable, RedshiftTableUtilities, R
                 target table. This will also fail if the target table has an `IDENTITY`
                 column and that column name is among the source table's columns.
             alter_table: boolean
-                Will check if the target table varchar widths are wide enough to copy in the 
+                Will check if the target table varchar widths are wide enough to copy in the
                 table data. If not, will attempt to alter the table to make it wide enough. This
                 will not work with tables that have dependent views.
             aws_access_key_id:

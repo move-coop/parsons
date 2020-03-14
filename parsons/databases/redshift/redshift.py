@@ -470,7 +470,7 @@ class Redshift(RedshiftCreateTable, RedshiftCopyTable, RedshiftTableUtilities, R
                              'emptyasnull': emptyasnull,
                              'acceptinvchars': acceptinvchars,
                              'truncatecolumns': truncatecolumns,
-                             'specifycols': specifycols,
+                             'specifycols': cols,
                              'aws_access_key_id': aws_access_key_id,
                              'aws_secret_access_key': aws_secret_access_key,
                              'compression': 'gzip'}

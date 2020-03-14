@@ -104,8 +104,27 @@ class TestMySQL(unittest.TestCase):
 
     def test_get_rows(self):
 
-        pass
+        data = [['name', 'user_name', 'id'],
+                ['me', 'myuser', '1'],
+                ['you', 'hey', '2'],
+                ['you', 'hey', '3']]
+        tbl = Table(data)
+
+        assert_matching_tables(self.tbl.get_rows(), tbl)
 
     def test_get_new_rows(self):
 
-        pass
+        data = [['name', 'user_name', 'id'],
+                ['you', 'hey', '2'],
+                ['you', 'hey', '3']]
+        tbl = Table(data)
+
+        # Basic
+        assert_matching_tables(self.tbl.get_new_rows('id', 1), tbl) 
+
+        # Chunking
+        assert_matching_tables(self.tbl.get_new_rows('id', 1, chunk_size=1), tbl)
+
+    def test_get_new_rows_count(self):
+
+        self.assertEqual(self.tbl.get_new_rows_count('id', 1), 2) 

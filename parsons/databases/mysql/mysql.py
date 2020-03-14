@@ -212,3 +212,23 @@ class MySQLTable(BaseTable):
             sql += f" ,{offset}"
 
         return self.db.query(sql)
+
+    def get_new_rows(self, primary_key, cutoff_value, offset=0, chunk_size=None):
+        """
+        Get rows that have a greater primary key value than the one
+        provided.
+
+        It will select every value greater than the provided value.
+        """
+
+        sql = f"""
+               SELECT
+               *
+               FROM {self.table}
+               WHERE {primary_key} > {cutoff_value}
+               """
+
+        if chunk_size:
+            sql += f" LIMIT {chunk_size}, {offset};"
+
+        return self.db.query(sql)

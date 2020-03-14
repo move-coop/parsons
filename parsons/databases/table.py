@@ -109,7 +109,7 @@ class BaseTable:
                SELECT
                *
                FROM {self.table}
-               WHERE {primary_key} > {start_value}
+               WHERE {primary_key} > {cutoff_value}
                OFFSET {offset}
                """
 

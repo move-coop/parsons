@@ -307,7 +307,7 @@
 <span class="sd">            Table Class</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">query_id</span> <span class="o">=</span> <span class="n">check</span><span class="p">(</span><span class="s1">&#39;REDASH_QUERY_ID&#39;</span><span class="p">,</span> <span class="n">query_id</span><span class="p">)</span>
-        <span class="n">query_api_key</span> <span class="o">=</span> <span class="n">check</span><span class="p">(</span><span class="s1">&#39;REDASH_QUERY_API_KEY&#39;</span><span class="p">,</span> <span class="n">query_id</span><span class="p">)</span>
+        <span class="n">query_api_key</span> <span class="o">=</span> <span class="n">check</span><span class="p">(</span><span class="s1">&#39;REDASH_QUERY_API_KEY&#39;</span><span class="p">,</span> <span class="n">query_api_key</span><span class="p">,</span> <span class="n">optional</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
         <span class="n">params</span> <span class="o">=</span> <span class="p">{}</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">user_api_key</span> <span class="ow">and</span> <span class="n">query_api_key</span><span class="p">:</span>
             <span class="n">params</span><span class="p">[</span><span class="s1">&#39;api_key&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">query_api_key</span>

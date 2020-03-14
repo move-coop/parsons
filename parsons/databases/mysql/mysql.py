@@ -198,4 +198,17 @@ class MySQL():
 class MySQLTable(BaseTable):
     # MySQL table object.
 
-    pass
+    def get_rows(self, offset=0, chunk_size=None):
+        """
+        Get rows from a table.
+        """
+
+        sql = f"SELECT * FROM {self.table}"
+
+        if chunk_size:
+            sql += f" LIMIT {chunk_size}"
+
+        if offset:
+            sql += f" ,{offset}"
+
+        return self.db.query(sql)

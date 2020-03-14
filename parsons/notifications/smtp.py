@@ -55,10 +55,19 @@ class SMTP(SendMail):
         `Returns:`
             dict of refused To addresses (otherwise None)
         """
-        conn = self.get_connection()
-        result = conn.sendmail(message['From'],
-                               [x.strip() for x in message['To'].split(',')],
-                               message.as_string())
+        self.log.info("Sending a message...")
+        try:
+            conn = self.get_connection()
+            result = conn.sendmail(message['From'],
+                                   [x.strip() for x in message['To'].split(',')],
+                                   message.as_string())
+        except Exception:
+            self.log.exception(
+                'An error occurred: while attempting to send a message.')
+            raise
+
+        if result:
+            self.log.warning("Message failed to send to some recipients: " + str(result))
         if not self.close_manually:
             conn.quit()
             self.conn = None

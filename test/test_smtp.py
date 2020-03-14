@@ -12,6 +12,8 @@ class FakeConnection(object):
 
     def sendmail(self, sender, to, message_body):
         self.result_obj.result = (sender, to, message_body)
+        if 'willfail@example.com' in to:
+            return {"willfail@example.com": (550, "User unknown")}
 
     def quit(self):
         self.result_obj.quit_ran = True
@@ -92,3 +94,11 @@ class TestSMTP(unittest.TestCase):
         self.assertEqual(base64.b64decode(found_gif[0]),
                          bytes_file_content)
         self.assertTrue(self.quit_ran)
+
+    def test_send_message_partial_fail(self):
+        simple_msg = self.smtp.create_message_simple(
+            'foo@example.com',
+            'recipient1@example.com, willfail@example.com',
+            'Simple subject', 'Fake body')
+        send_result = self.smtp.send_message(simple_msg)
+        self.assertEqual(send_result,  {"willfail@example.com": (550, "User unknown")})

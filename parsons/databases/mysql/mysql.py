@@ -185,3 +185,70 @@ class MySQL():
 
                 logger.debug(f'Query returned {final_tbl.num_rows} rows.')
                 return final_tbl
+
+    def copy(self, tbl, if_exists='fail'):
+        """
+        Copy a :ref:`parsons-table` to the database.
+
+        tbl: parsons.Table
+            A Parsons table object
+        table_name: str
+            The destination schema and table (e.g. ``my_schema.my_table``)
+        if_exists: str
+            If the table already exists, either ``fail``, ``append``, ``drop``
+            or ``truncate`` the table.
+        """
+
+        with self.connection() as connection:
+
+            # Create table if not exists
+            if self._create_table_precheck(connection, table_name, if_exists):
+                sql = self.create_statement(tbl, table_name)
+                self.query_with_connection(sql, connection, commit=False)
+                logger.info(f'{table_name} created.')
+
+            # Copy data into DB
+            sql = f"LOAD DATA LOCAL INFILE '{tbl.to_csv()}' INTO TABLE products;"
+            self.query(sql, commit=False)
+
+    def _create_table_precheck(self, connection, table_name, if_exists):
+        """
+        Helper to determine what to do when you need a table that may already exist.
+
+        `Args:`
+            connection: obj
+                A connection object obtained from ``redshift.connection()``
+            table_name: str
+                The table to check
+            if_exists: str
+                If the table already exists, either ``fail``, ``append``, ``drop``,
+                or ``truncate`` the table.
+        `Returns:`
+            bool
+                True if the table needs to be created, False otherwise.
+        """
+
+        if if_exists not in ['fail', 'truncate', 'append', 'drop']:
+            raise ValueError("Invalid value for `if_exists` argument")
+
+        # If the table exists, evaluate the if_exists argument for next steps.
+        if self.table_exists_with_connection(table_name, connection):
+
+            if if_exists == 'fail':
+                raise ValueError('Table already exists.')
+
+            if if_exists == 'truncate':
+                truncate_sql = f"TRUNCATE TABLE {table_name};"
+                logger.info(f"Truncating {table_name}.")
+                self.query_with_connection(truncate_sql, connection, commit=False)
+
+            if if_exists == 'drop':
+                logger.info(f"Dropping {table_name}.")
+                drop_sql = f"DROP TABLE {table_name};"
+                self.query_with_connection(drop_sql, connection, commit=False)
+                return True
+
+            return False
+
+        else:
+            return True

@@ -1,10 +1,10 @@
-import logging
 import smtplib
 
 from parsons.notifications.gmail import Gmail
 from parsons.utilities.check_env import check
 
 # There's some irony in this inheriting from Gmail, but life is strange sometimes
+
 
 class SMTP(Gmail):
     """Create a SMTP object, for sending emails.

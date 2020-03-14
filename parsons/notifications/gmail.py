@@ -69,6 +69,14 @@ class Gmail(object):
         # BUG-1
         # self.service = build('gmail', 'v1', http=self.creds.authorize(http))
 
+    def _prepare_message(self, message, message_type):
+        msg = {'raw': base64.urlsafe_b64encode(message.as_bytes()).decode()}
+
+        logger.debug(msg)
+        logger.info(f"Encoded {message_type} sucessfully created.")
+
+        return msg
+
     def create_message_simple(self, sender, to, subject, message_text):
         """Create a text-only message for an email.
 
@@ -82,8 +90,7 @@ class Gmail(object):
             message_text: str
                 The text of the email message.
         `Returns:`
-            dict
-                An object containing a base64url encoded email object.
+            An object passable to send_message to send
         """
         logger.info("Creating a simple message...")
 
@@ -92,12 +99,7 @@ class Gmail(object):
         message['from'] = sender
         message['subject'] = subject
 
-        msg = {'raw': base64.urlsafe_b64encode(message.as_bytes()).decode()}
-
-        logger.debug(msg)
-        logger.info("Encoded simple message sucessfully created.")
-
-        return msg
+        return self._prepare_message(message, 'simple message')
 
     def create_message_html(self, sender, to, subject, message_text,
                             message_html):
@@ -115,8 +117,7 @@ class Gmail(object):
             message_html: str
                 The html formatted text of the email message.
         `Returns:`
-            dict
-                An object containing a base64url encoded email object.
+            An object passable to send_message to send
         """
         logger.info("Creating an html message...")
 
@@ -128,12 +129,7 @@ class Gmail(object):
             message.attach(MIMEText(message_text, 'plain'))
         message.attach(MIMEText(message_html, 'html'))
 
-        msg = {'raw': base64.urlsafe_b64encode(message.as_bytes()).decode()}
-
-        logger.debug(msg)
-        logger.info("Encoded html message sucessfully created.")
-
-        return msg
+        return self._prepare_message(message, 'html message')
 
     def create_message_attachments(self, sender, to, subject, message_text,
                                    files, message_html=None):
@@ -153,9 +149,9 @@ class Gmail(object):
             message_html: str
                 Optional; The html formatted text of the email message.
         `Returns:`
-            dict
-                An object containing a base64url encoded email object.
+            An object passable to send_message to send
         """
+        import pdb; pdb.set_trace()
         logger.info("Creating a message with attachments...")
 
         message = MIMEMultipart('alternative')
@@ -218,12 +214,7 @@ class Gmail(object):
                 'Content-Disposition', 'attachment', filename=filename)
             message.attach(msg)
 
-        m = {'raw': base64.urlsafe_b64encode(message.as_bytes()).decode()}
-
-        logger.debug(m)
-        logger.info("Encoded message with attachments sucessfully created.")
-
-        return m
+        return self._prepare_message(message, 'message with attachments')
 
     def _validate_email_string(self, str):
         logger.debug(f"Validating email {str}...")
@@ -243,6 +234,7 @@ class Gmail(object):
         `Args:`
             message: dict
                 Message to be sent as a base64url encode object.
+                i.e. the objects created by the create_* instance methods
             user_id: str
                 Optional; User's email address. Defaults to the special value
                 "me" which is used to indicate the authenticated user.
@@ -290,7 +282,7 @@ class Gmail(object):
                 The path to the file(s) to be attached.
 
         `Returns:`
-            An object containing a base64url encoded email object.
+            None
         """
         logger.info("Preparing to send and email...")
 

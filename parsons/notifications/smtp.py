@@ -4,10 +4,7 @@ import smtplib
 from parsons.notifications.gmail import Gmail
 from parsons.utilities.check_env import check
 
-logger = logging.getLogger(__name__)
-
 # There's some irony in this inheriting from Gmail, but life is strange sometimes
-
 
 class SMTP(Gmail):
     """Create a SMTP object, for sending emails.
@@ -26,7 +23,6 @@ class SMTP(Gmail):
         close_manually: bool
             When set to True, send_message will not close the connection
     """
-
     def __init__(self, host=None, port=None, username=None, password=None, tls=None,
                  close_manually=False):
         self.host = check('SMTP_HOST', host)
@@ -36,24 +32,26 @@ class SMTP(Gmail):
         self.tls = not (check('SMTP_TLS', tls, optional=True) in ('false', 'False', '0', False))
         self.close_manually = close_manually
 
-        self.log = logger
         self.conn = None
 
     def get_connection(self):
         if self.conn is None:
             self.conn = smtplib.SMTP(self.host, self.port)
-            self.ehlo()
+            self.conn.ehlo()
             if self.tls:
                 self.conn.starttls()
             self.conn.login(self.username, self.password)
         return self.conn
 
+    def _prepare_message(self, message, message_type):
+        return message
+
     def send_message(self, message, user_id=None):
         """Send an email message.
 
         `Args:`
-            message: dict
-                Message to be sent as a base64url encode object.
+            message: `MIME object <https://docs.python.org/2/library/email.mime.html>`
+                i.e. the objects created by the create_* instance methods
             user_id: NA
                 Allows compatibility with Gmail notifier.
         `Returns:`

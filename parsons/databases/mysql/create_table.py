@@ -6,8 +6,11 @@ logger = logging.getLogger(__name__)
 
 """
 To do:
-	- Look at is valid integer
-	- Add column name validate
+	- Look at is valid integer - Do we need?
+	- Add column name validate - TEST!
+	- Check if a view exists.
+	- Header should be false, set delimiter, quotes, etc.
+	- Column name convert - Empty column names?
 """
 
 class MySQLCreateTable():
@@ -101,7 +104,13 @@ class MySQLCreateTable():
 
         return table_map
 
-    def create_statement(self, table_name, table_map):
+    def create_statement(self, tbl, table_name):
+
+        # Validate and rename column names if needed
+        tbl.table = petl.setheader(tbl.table, self.column_name_validate(tbl.columns))
+
+        # Generate the table map
+        table_map = self.evaluate_table(tbl)
 
         # Generate the column syntax
         column_syntax = []
@@ -113,3 +122,24 @@ class MySQLCreateTable():
 
         # Generate full statement
         return f"CREATE TABLE {table_name} ( \n {','.join(column_syntax)});"
+
+    def column_name_convert(self, column_name, index):
+
+        # Strip whitespace
+        column_name = column_name.strip()
+
+        # Replace spaces with underscores
+        column_name = column_name.replace(' ', '_')
+
+        # If name is integer, prepend with "x_"
+        if column_name.isdigit():
+           column_name = f"x_{column_name}"
+
+        # If column name is longer than 64 characters, truncate.
+        if len(column_name) > 64:
+                column_name = column_name[:63]
+
+        # If column name is empty...
+
+
+        return column_name

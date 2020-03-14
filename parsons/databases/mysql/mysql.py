@@ -218,7 +218,7 @@ class MySQL():
 
         `Args:`
             connection: obj
-                A connection object obtained from ``redshift.connection()``
+                A connection object obtained from ``mysql.connection()``
             table_name: str
                 The table to check
             if_exists: str
@@ -228,33 +228,45 @@ class MySQL():
             bool
                 True if the table needs to be created, False otherwise.
         """
+        tbl = Table(connection, table_name)
 
         if if_exists not in ['fail', 'truncate', 'append', 'drop']:
             raise ValueError("Invalid value for `if_exists` argument")
 
         # If the table exists, evaluate the if_exists argument for next steps.
-        if self.table_exists_with_connection(table_name, connection):
+        # if self.table_exists_with_connection(table_name, connection):
+        if tbl.exists():
 
             if if_exists == 'fail':
                 raise ValueError('Table already exists.')
 
             if if_exists == 'truncate':
-                truncate_sql = f"TRUNCATE TABLE {table_name};"
-                logger.info(f"Truncating {table_name}.")
                 self.query_with_connection(truncate_sql, connection, commit=False)
+                logger.info(f"{table_name} truncated.")
+                return False
 
             if if_exists == 'drop':
-                logger.info(f"Dropping {table_name}.")
-                drop_sql = f"DROP TABLE {table_name};"
                 self.query_with_connection(drop_sql, connection, commit=False)
+                logger.info(f"{table_name} dropped.")
                 return True
-
-            return False
 
         else:
             return True
 
     def table_exists(self, table_name):
+        """
+        Check if a table or view exists in the database.
+
+        `Args:`
+            table_name: str
+                The table name
+            view: boolean
+                Check to see if a view exists by the same name
+
+        `Returns:`
+            boolean
+                ``True`` if the table exists and ``False`` if it does not.
+        """
 
         if self.query(f"SHOW TABLES LIKE '{table_name}'").first == table_name:
             return True

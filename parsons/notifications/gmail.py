@@ -151,7 +151,6 @@ class Gmail(object):
         `Returns:`
             An object passable to send_message to send
         """
-        import pdb; pdb.set_trace()
         logger.info("Creating a message with attachments...")
 
         message = MIMEMultipart('alternative')
@@ -167,7 +166,19 @@ class Gmail(object):
             message.attach(html)
 
         for f in files:
-            filename = getattr(f, 'name', os.path.basename(f))
+            filename = getattr(f, 'name', 'file')
+            file_bytes = b''
+
+            if isinstance(f, io.StringIO):
+                file_bytes = f.getvalue().encode()
+            elif isinstance(f, io.BytesIO):
+                file_bytes = f.getvalue()
+            else:
+                filename = os.path.basename(f)
+                fp = open(f, 'rb')
+                file_bytes = fp.read()
+                fp.close()
+
             content_type, encoding = mimetypes.guess_type(filename)
             logger.debug(
                 f"(File: {f}, Content-type: {content_type}, "
@@ -177,15 +188,6 @@ class Gmail(object):
                 content_type = 'application/octet-stream'
 
             main_type, sub_type = content_type.split('/', 1)
-            file_bytes = b''
-            if isinstance(f, io.StringIO):
-                file_bytes = f.getvalue().encode()
-            elif isinstance(f, io.BytesIO):
-                file_bytes = f.getvalue()
-            else:
-                fp = open(f, 'rb')
-                file_bytes = fp.read()
-                fp.close()
 
             if main_type == 'text':
                 logger.info("Added a text file.")

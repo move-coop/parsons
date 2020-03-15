@@ -192,6 +192,11 @@ class MySQL(MySQLCreateTable):
         """
         Copy a :ref:`parsons-table` to the database.
 
+        .. note::
+            This method utilizes extended inserts rather `LOAD DATA INFILE` since
+            many MySQL Database configurations do not allow data files to be
+            loaded. It results in a minor performance hit compared to `LOAD DATA`.
+
         tbl: parsons.Table
             A Parsons table object
         table_name: str
@@ -216,7 +221,7 @@ class MySQL(MySQLCreateTable):
                 logger.info(f'Table {table_name} created.')
 
             # Chunk tables in batches of 1K rows, though this can be tuned and
-            # optimized.
+            # optimized further.
             for t in tbl.chunk(chunk_size):
                 sql = self._insert_statement(t, table_name)
                 self.query_with_connection(sql, connection, commit=False)

@@ -12,7 +12,9 @@ class MySQLCreateTable():
         pass
 
     def data_type(self, val, current_type):
-        # Determine the MySQL data type of a given value
+        # Evaluate the MySQL data type of a given value. Then return
+        # the data type of the value, while also weighing what the 
+        # current type is.
 
         # Stop if the current type is already a varchar
         if current_type == 'varchar':
@@ -70,7 +72,7 @@ class MySQLCreateTable():
         return True
 
     def evaluate_column(self, column_rows):
-        # Generate column data types
+        # Generate MySQL data types and widths for a column.
 
         col_width = 0
         col_type = None
@@ -92,6 +94,8 @@ class MySQLCreateTable():
         return col_type, col_width
 
     def evaluate_table(self, tbl):
+    	# Generate a dict of MySQL column types and widths for all columns
+    	# in a table.
 
         table_map = []
 
@@ -103,6 +107,7 @@ class MySQLCreateTable():
         return table_map
 
     def create_statement(self, tbl, table_name):
+    	# Generate create statement SQL for a given Parsons table.
 
         # Validate and rename column names if needed
         tbl.table = petl.setheader(tbl.table, self.columns_convert(tbl.columns))
@@ -122,6 +127,7 @@ class MySQLCreateTable():
         return f"CREATE TABLE {table_name} ( \n {','.join(column_syntax)});"
 
     def columns_convert(self, columns):
+    	# Update column values to conform with MySQL requirements for columns.
 
         updated_columns = []
 

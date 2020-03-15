@@ -8,6 +8,7 @@ import pickle
 import logging
 import os
 from parsons.databases.table import BaseTable
+from parsons.databases.mysql.create_table import MySQLCreateTable
 
 # Max number of rows that we query at a time, so we can avoid loading huge
 # data sets into memory.
@@ -17,7 +18,7 @@ QUERY_BATCH_SIZE = 100000
 logger = logging.getLogger(__name__)
 
 
-class MySQL():
+class MySQL(MySQLCreateTable):
     """
     Connect to a MySQL database.
 
@@ -187,7 +188,7 @@ class MySQL():
                 logger.debug(f'Query returned {final_tbl.num_rows} rows.')
                 return final_tbl
 
-    def copy(self, tbl, if_exists='fail'):
+    def copy(self, tbl, table_name, if_exists='fail', chunk_size=1000):
         """
         Copy a :ref:`parsons-table` to the database.
 
@@ -206,11 +207,26 @@ class MySQL():
             if self._create_table_precheck(connection, table_name, if_exists):
                 sql = self.create_statement(tbl, table_name)
                 self.query_with_connection(sql, connection, commit=False)
-                logger.info(f'{table_name} created.')
+                logger.info(f'Table {table_name} created.')
 
-            # Copy data into DB
-            sql = f"LOAD DATA LOCAL INFILE '{tbl.to_csv()}' INTO TABLE products;"
-            self.query(sql, commit=False)
+            for t in tbl.chunk(chunk_size):
+                sql = self._insert_statement(t, table_name)                
+                self.query_with_connection(sql, connection, commit=False)
+
+    def _insert_statement(self, tbl, table_name):
+        """
+        Convert the table data into a string for bulk importing.
+        """
+        
+        values = [str(row) for row in tbl.data]
+
+        # Create full insert statement
+        sql = f"""INSERT INTO {table_name}
+                  ({','.join(tbl.columns)})
+                  VALUES
+                  {",".join(values)};"""
+
+        return sql
 
     def _create_table_precheck(self, connection, table_name, if_exists):
         """
@@ -228,25 +244,26 @@ class MySQL():
             bool
                 True if the table needs to be created, False otherwise.
         """
-        tbl = Table(connection, table_name)
+        tbl = MySQLTable(connection, table_name)
 
         if if_exists not in ['fail', 'truncate', 'append', 'drop']:
             raise ValueError("Invalid value for `if_exists` argument")
 
         # If the table exists, evaluate the if_exists argument for next steps.
-        # if self.table_exists_with_connection(table_name, connection):
-        if tbl.exists():
+        if self.table_exists(table_name):
 
             if if_exists == 'fail':
                 raise ValueError('Table already exists.')
 
             if if_exists == 'truncate':
-                self.query_with_connection(truncate_sql, connection, commit=False)
+                sql = f"TRUNCATE TABLE {table_name}"
+                self.query_with_connection(sql, connection, commit=False)
                 logger.info(f"{table_name} truncated.")
                 return False
 
             if if_exists == 'drop':
-                self.query_with_connection(drop_sql, connection, commit=False)
+                sql = f"DROP TABLE {table_name}"
+                self.query_with_connection(sql, connection, commit=False)
                 logger.info(f"{table_name} dropped.")
                 return True
 

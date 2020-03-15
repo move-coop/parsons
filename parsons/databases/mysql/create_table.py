@@ -6,11 +6,8 @@ logger = logging.getLogger(__name__)
 
 """
 To do:
-	- Look at is valid integer - Do we need?
-	- Add column name validate - TEST!
 	- Check if a view exists.
-	- Header should be false, set delimiter, quotes, etc.
-	- Column name convert - Empty column names?
+	- Returning a weird decimal object...
 """
 
 class MySQLCreateTable():
@@ -21,6 +18,10 @@ class MySQLCreateTable():
 
     def data_type(self, val, current_type):
         # Determine the MySQL data type of a given value
+
+        # Cut off loop if the current type is already a varchar
+        if current_type == 'varchar':
+            return current_type
 
         try:
             # Convert to string to reevaluate data type
@@ -47,7 +48,7 @@ class MySQLCreateTable():
                 else:
                     return 'bigint'
             if type(t) is float and current_type not in ['varchar']:
-                return 'decimal'
+                return 'float'
         else:
             return 'varchar'
 
@@ -107,7 +108,7 @@ class MySQLCreateTable():
     def create_statement(self, tbl, table_name):
 
         # Validate and rename column names if needed
-        tbl.table = petl.setheader(tbl.table, self.column_name_validate(tbl.columns))
+        tbl.table = petl.setheader(tbl.table, self.columns_convert(tbl.columns))
 
         # Generate the table map
         table_map = self.evaluate_table(tbl)
@@ -123,23 +124,30 @@ class MySQLCreateTable():
         # Generate full statement
         return f"CREATE TABLE {table_name} ( \n {','.join(column_syntax)});"
 
-    def column_name_convert(self, column_name, index):
+    def columns_convert(self, columns):
 
-        # Strip whitespace
-        column_name = column_name.strip()
+        updated_columns = []
 
-        # Replace spaces with underscores
-        column_name = column_name.replace(' ', '_')
+        for idx, col in enumerate(columns):
 
-        # If name is integer, prepend with "x_"
-        if column_name.isdigit():
-           column_name = f"x_{column_name}"
+            # Strip whitespace
+            col = col.strip()
 
-        # If column name is longer than 64 characters, truncate.
-        if len(column_name) > 64:
-                column_name = column_name[:63]
+            # Replace spaces with underscores
+            col = col.replace(' ', '_')
 
-        # If column name is empty...
+            # If name is integer, prepend with "x_"
+            if col.isdigit():
+                col = f"x_{col}"
 
+            # If column name is longer than 64 characters, truncate.
+            if len(col) > 64:
+                col = col[:63]
 
-        return column_name
+            # If column name is empty...
+            if col == "":
+            	col = f"col_{idx}"
+
+            updated_columns.append(col)
+
+        return updated_columns

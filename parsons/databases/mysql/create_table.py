@@ -7,7 +7,6 @@ logger = logging.getLogger(__name__)
 """
 To do:
 	- Check if a view exists.
-	- Returning a weird decimal object...
 """
 
 class MySQLCreateTable():
@@ -19,37 +18,40 @@ class MySQLCreateTable():
     def data_type(self, val, current_type):
         # Determine the MySQL data type of a given value
 
-        # Cut off loop if the current type is already a varchar
+        # Stop if the current type is already a varchar
         if current_type == 'varchar':
             return current_type
 
+        # Convert to string to reevaluate data type
         try:
-            # Convert to string to reevaluate data type
             t = ast.literal_eval(str(val))
         except ValueError:
             return 'varchar'
         except SyntaxError:
             return 'varchar'
 
-        if type(t) in [int, float]:
-            if (type(t) in [int] and current_type not in ['float', 'varchar']):
-                print (type(t))
-                # Make sure that it is a valid integer
-                if not self.is_valid_integer(val):
-                    return 'varchar'
-                # Use smallest possible int type above TINYINT
-                if (-32768 < t < 32767) and current_type not in ['int', 'bigint', 'mediumint']:
-                    return 'smallint'
-                elif (-8388608 < t < 8388607) and current_type not in ['int', 'bigint']:
-                	return 'mediumint'
-                elif (-2147483648 < t < 2147483647) and current_type not in ['bigint']:
-                    return 'int'
-                else:
-                    return 'bigint'
-            if type(t) is float and current_type not in ['varchar']:
-                return 'float'
+        # If a float, then end
+        if type(t) == float:
+            return 'float'
+
+        # If an int and current type is not a float, then determine type of int.
+        if type(t) == int and current_type != 'float':
+            # Make sure that it is a valid integer
+            if not self.is_valid_integer(val):
+                return 'varchar'
+            # Use smallest possible int type above TINYINT
+            if (-32768 < t < 32767) and current_type not in ['int', 'bigint', 'mediumint']:
+                return 'smallint'
+            elif (-8388608 < t < 8388607) and current_type not in ['int', 'bigint']:
+                return 'mediumint'
+            elif (-2147483648 < t < 2147483647) and current_type not in ['bigint']:
+                return 'int'
+            else:
+                return 'bigint'
+
+        # Finally return the current type
         else:
-            return 'varchar'
+            return current_type
 
     def is_valid_integer(self, val):
 

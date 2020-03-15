@@ -131,6 +131,9 @@ class MySQLCreateTable():
 
         for idx, col in enumerate(columns):
 
+            # Lowercase
+            col = col.lower()
+
             # Strip whitespace
             col = col.strip()
 

@@ -203,6 +203,10 @@ class MySQL(MySQLCreateTable):
             The number of rows to insert per query.
         """
 
+        if tbl.num_rows == 0:
+            logger.info('Parsons table is empty. Table will not be created.')
+            return None
+
         with self.connection() as connection:
 
             # Create table if not exists

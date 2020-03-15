@@ -4,10 +4,6 @@ import logging
 
 logger = logging.getLogger(__name__)
 
-"""
-To do:
-	- Check if a view exists.
-"""
 
 class MySQLCreateTable():
 

@@ -33,11 +33,10 @@ class MySQLCreateTable():
 
         if type(t) in [int, float]:
             if (type(t) in [int] and current_type not in ['float', 'varchar']):
-
+                print (type(t))
                 # Make sure that it is a valid integer
                 if not self.is_valid_integer(val):
                     return 'varchar'
-
                 # Use smallest possible int type above TINYINT
                 if (-32768 < t < 32767) and current_type not in ['int', 'bigint', 'mediumint']:
                     return 'smallint'

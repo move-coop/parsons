@@ -199,6 +199,8 @@ class MySQL(MySQLCreateTable):
         if_exists: str
             If the table already exists, either ``fail``, ``append``, ``drop``
             or ``truncate`` the table.
+        chunk_size: int
+            The number of rows to insert per query.
         """
 
         with self.connection() as connection:
@@ -209,22 +211,29 @@ class MySQL(MySQLCreateTable):
                 self.query_with_connection(sql, connection, commit=False)
                 logger.info(f'Table {table_name} created.')
 
+            # Chunk tables in batches of 1K rows, though this can be tuned and
+            # optimized.
             for t in tbl.chunk(chunk_size):
-                sql = self._insert_statement(t, table_name)                
+                sql = self._insert_statement(t, table_name)
                 self.query_with_connection(sql, connection, commit=False)
 
     def _insert_statement(self, tbl, table_name):
         """
         Convert the table data into a string for bulk importing.
         """
-        
-        values = [str(row) for row in tbl.data]
+
+        # Single column tables
+        if len(tbl.columns) == 1:
+            values = [f"({row[0]})" for row in tbl.data]
+
+        # Multi-column tables
+        else:
+            values = [str(row) for row in tbl.data]
 
         # Create full insert statement
         sql = f"""INSERT INTO {table_name}
                   ({','.join(tbl.columns)})
-                  VALUES
-                  {",".join(values)};"""
+                  VALUES {",".join(values)};"""
 
         return sql
 

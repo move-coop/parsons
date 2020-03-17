@@ -72,7 +72,7 @@ class Gmail(SendMail):
 
         try:
             message = (self.service.users().messages()
-                       .send(userId=user_id, body=message).execute())
+                       .send(userId=self.user_id, body=message).execute())
         except errors.HttpError:
             self.log.exception(
                 'An error occurred: while attempting to send a message.')

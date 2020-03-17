@@ -58,7 +58,7 @@ class SendMail(object):
         return message
 
     def _create_message_html(self, sender, to, subject, message_text,
-                            message_html):
+                             message_html):
         """Create an html message for an email.
 
         `Args:`
@@ -88,7 +88,7 @@ class SendMail(object):
         return message
 
     def _create_message_attachments(self, sender, to, subject, message_text,
-                                   files, message_html=None):
+                                    files, message_html=None):
         """Create a message for an email that includes an attachment.
 
         `Args:`

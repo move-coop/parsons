@@ -41,17 +41,12 @@ class SMTP(SendMail):
             self.conn.login(self.username, self.password)
         return self.conn
 
-    def _prepare_message(self, message, message_type):
-        return message
-
-    def send_message(self, message, user_id=None):
+    def _send_message(self, message):
         """Send an email message.
 
         `Args:`
             message: `MIME object <https://docs.python.org/2/library/email.mime.html>`
                 i.e. the objects created by the create_* instance methods
-            user_id: NA
-                Allows compatibility with Gmail notifier.
         `Returns:`
             dict of refused To addresses (otherwise None)
         """

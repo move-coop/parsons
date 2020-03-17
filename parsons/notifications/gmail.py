@@ -16,11 +16,14 @@ class Gmail(SendMail):
             The path to the credentials.json file.
         token_path: str
             The path to the token.json file.
+        user_id: str
+            Optional; Sender email address. Defaults to the special value
+            "me" which is used to indicate the authenticated user.
     """
 
-    def __init__(self, creds_path=None, token_path=None):
+    def __init__(self, creds_path=None, token_path=None, user_id='me'):
 
-        self.user_id = 'me'
+        self.user_id = user_id
 
         if not creds_path:
             raise ValueError("Invalid path to credentials.json.")
@@ -46,32 +49,27 @@ class Gmail(SendMail):
         # BUG-1
         # self.service = build('gmail', 'v1', http=self.creds.authorize(http))
 
-    def _prepare_message(self, message, message_type):
-        msg = {'raw': base64.urlsafe_b64encode(message.as_bytes()).decode()}
+    def _encode_raw_message(self, message):
+        return {'raw': base64.urlsafe_b64encode(message.as_bytes()).decode()}
 
-        self.log.debug(msg)
-        self.log.info(f"Encoded {message_type} sucessfully created.")
-
-        return msg
-
-    def send_message(self, message, user_id=None):
+    def _send_message(self, msg):
         """Send an email message.
 
         `Args:`
             message: dict
                 Message to be sent as a base64url encode object.
                 i.e. the objects created by the create_* instance methods
-            user_id: str
-                Optional; User's email address. Defaults to the special value
-                "me" which is used to indicate the authenticated user.
         `Returns:`
             dict
                 A Users.messages object see `https://developers.google.com/gmail/api/v1/reference/users/messages#resource.` # noqa
                 for more info.
         """
         self.log.info("Sending a message...")
-        if not user_id:
-            user_id = self.user_id
+
+        message = self._encode_raw_message(msg)
+
+        self.log.debug(message)
+
         try:
             message = (self.service.users().messages()
                        .send(userId=user_id, body=message).execute())

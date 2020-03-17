@@ -30,16 +30,10 @@ class SendMail(object):
 
     log = logger
 
-    def send_message(self, message):
+    def _send_message(self, message):
         raise NotImplementedError("send_message is how to send the prepared message")
 
-    def _prepare_message(self, message, message_type):
-        """Convert a email.mime-type object into an object format suitable for your backend to send
-           Consider overriding this, if necessary for your mail-sending backend
-        """
-        return message
-
-    def create_message_simple(self, sender, to, subject, message_text):
+    def _create_message_simple(self, sender, to, subject, message_text):
         """Create a text-only message for an email.
 
         `Args:`
@@ -61,9 +55,9 @@ class SendMail(object):
         message['from'] = sender
         message['subject'] = subject
 
-        return self._prepare_message(message, 'simple message')
+        return message
 
-    def create_message_html(self, sender, to, subject, message_text,
+    def _create_message_html(self, sender, to, subject, message_text,
                             message_html):
         """Create an html message for an email.
 
@@ -91,9 +85,9 @@ class SendMail(object):
             message.attach(MIMEText(message_text, 'plain'))
         message.attach(MIMEText(message_html, 'html'))
 
-        return self._prepare_message(message, 'html message')
+        return message
 
-    def create_message_attachments(self, sender, to, subject, message_text,
+    def _create_message_attachments(self, sender, to, subject, message_text,
                                    files, message_html=None):
         """Create a message for an email that includes an attachment.
 
@@ -178,7 +172,7 @@ class SendMail(object):
                 'Content-Disposition', 'attachment', filename=filename)
             message.attach(msg)
 
-        return self._prepare_message(message, 'message with attachments')
+        return message
 
     def _validate_email_string(self, str):
         self.log.debug(f"Validating email {str}...")
@@ -233,23 +227,23 @@ class SendMail(object):
 
         if not message_html and not files:
             msg_type = 'simple'
-            msg = self.create_message_simple(sender, to, subject, message_text)
+            msg = self._create_message_simple(sender, to, subject, message_text)
 
         elif not files:
             msg_type = 'html'
-            msg = self.create_message_html(
+            msg = self._create_message_html(
                 sender, to, subject, message_text, message_html)
         else:
             msg_type = 'attachments'
             if isinstance(files, str):
                 files = [files]
 
-            msg = self.create_message_attachments(
+            msg = self._create_message_attachments(
                 sender, to, subject, message_text, files, message_html)
 
         self.log.info(f"Sending a(n) {msg_type} email...")
 
-        self.send_message(msg)
+        self._send_message(msg)
 
         self.log.info("Email sent succesfully.")
 

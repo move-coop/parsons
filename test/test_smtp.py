@@ -96,9 +96,9 @@ class TestSMTP(unittest.TestCase):
         self.assertTrue(self.quit_ran)
 
     def test_send_message_partial_fail(self):
-        simple_msg = self.smtp.create_message_simple(
+        simple_msg = self.smtp._create_message_simple(
             'foo@example.com',
             'recipient1@example.com, willfail@example.com',
             'Simple subject', 'Fake body')
-        send_result = self.smtp.send_message(simple_msg)
+        send_result = self.smtp._send_message(simple_msg)
         self.assertEqual(send_result,  {"willfail@example.com": (550, "User unknown")})

@@ -438,7 +438,7 @@ more details.</p>
 <h3>API<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h3>
 <dl class="class">
 <dt id="parsons.Gmail">
-<em class="property">class </em><code class="descclassname">parsons.</code><code class="descname">Gmail</code><span class="sig-paren">(</span><em>creds_path=None</em>, <em>token_path=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/notifications/gmail.html#Gmail"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.Gmail" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="descclassname">parsons.</code><code class="descname">Gmail</code><span class="sig-paren">(</span><em>creds_path=None</em>, <em>token_path=None</em>, <em>user_id='me'</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/notifications/gmail.html#Gmail"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.Gmail" title="Permalink to this definition">¶</a></dt>
 <dd><p>Create a Gmail object, for sending emails.</p>
 <dl class="docutils">
 <dt><cite>Args:</cite></dt>
@@ -447,120 +447,15 @@ more details.</p>
 <dd>The path to the credentials.json file.</dd>
 <dt>token_path: str</dt>
 <dd>The path to the token.json file.</dd>
-</dl>
-</dd>
-</dl>
-<dl class="method">
-<dt id="parsons.Gmail.create_message_simple">
-<code class="descname">create_message_simple</code><span class="sig-paren">(</span><em>sender</em>, <em>to</em>, <em>subject</em>, <em>message_text</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/notifications/gmail.html#Gmail.create_message_simple"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.Gmail.create_message_simple" title="Permalink to this definition">¶</a></dt>
-<dd><p>Create a text-only message for an email.</p>
-<dl class="docutils">
-<dt><cite>Args:</cite></dt>
-<dd><dl class="first last docutils">
-<dt>sender: str</dt>
-<dd>Email address of the sender.</dd>
-<dt>to: str</dt>
-<dd>Email address(es) of the recipient(s).</dd>
-<dt>subject: str</dt>
-<dd>The subject of the email message.</dd>
-<dt>message_text: str</dt>
-<dd>The text of the email message.</dd>
-</dl>
-</dd>
-<dt><cite>Returns:</cite></dt>
-<dd><dl class="first last docutils">
-<dt>dict</dt>
-<dd>An object containing a base64url encoded email object.</dd>
-</dl>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="method">
-<dt id="parsons.Gmail.create_message_html">
-<code class="descname">create_message_html</code><span class="sig-paren">(</span><em>sender</em>, <em>to</em>, <em>subject</em>, <em>message_text</em>, <em>message_html</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/notifications/gmail.html#Gmail.create_message_html"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.Gmail.create_message_html" title="Permalink to this definition">¶</a></dt>
-<dd><p>Create an html message for an email.</p>
-<dl class="docutils">
-<dt><cite>Args:</cite></dt>
-<dd><dl class="first last docutils">
-<dt>sender: str</dt>
-<dd>Email address of the sender.</dd>
-<dt>to: str</dt>
-<dd>Email address(es) of the recipient(s).</dd>
-<dt>subject: str</dt>
-<dd>The subject of the email message.</dd>
-<dt>message_text: str</dt>
-<dd>The text of the email message.</dd>
-<dt>message_html: str</dt>
-<dd>The html formatted text of the email message.</dd>
-</dl>
-</dd>
-<dt><cite>Returns:</cite></dt>
-<dd><dl class="first last docutils">
-<dt>dict</dt>
-<dd>An object containing a base64url encoded email object.</dd>
-</dl>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="method">
-<dt id="parsons.Gmail.create_message_attachments">
-<code class="descname">create_message_attachments</code><span class="sig-paren">(</span><em>sender</em>, <em>to</em>, <em>subject</em>, <em>message_text</em>, <em>files</em>, <em>message_html=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/notifications/gmail.html#Gmail.create_message_attachments"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.Gmail.create_message_attachments" title="Permalink to this definition">¶</a></dt>
-<dd><p>Create a message for an email that includes an attachment.</p>
-<dl class="docutils">
-<dt><cite>Args:</cite></dt>
-<dd><dl class="first last docutils">
-<dt>sender: str</dt>
-<dd>Email address of the sender.</dd>
-<dt>to: str</dt>
-<dd>Email address of the receiver.</dd>
-<dt>subject: str</dt>
-<dd>The subject of the email message.</dd>
-<dt>message_text: str</dt>
-<dd>The text of the email message.</dd>
-<dt>files: list</dt>
-<dd>The path(s) to the file(s) to be attached.</dd>
-<dt>message_html: str</dt>
-<dd>Optional; The html formatted text of the email message.</dd>
-</dl>
-</dd>
-<dt><cite>Returns:</cite></dt>
-<dd><dl class="first last docutils">
-<dt>dict</dt>
-<dd>An object containing a base64url encoded email object.</dd>
-</dl>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="method">
-<dt id="parsons.Gmail.send_message">
-<code class="descname">send_message</code><span class="sig-paren">(</span><em>message</em>, <em>user_id=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/notifications/gmail.html#Gmail.send_message"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.Gmail.send_message" title="Permalink to this definition">¶</a></dt>
-<dd><p>Send an email message.</p>
-<dl class="docutils">
-<dt><cite>Args:</cite></dt>
-<dd><dl class="first last docutils">
-<dt>message: dict</dt>
-<dd>Message to be sent as a base64url encode object.</dd>
 <dt>user_id: str</dt>
-<dd>Optional; User’s email address. Defaults to the special value
+<dd>Optional; Sender email address. Defaults to the special value
 “me” which is used to indicate the authenticated user.</dd>
 </dl>
 </dd>
-<dt><cite>Returns:</cite></dt>
-<dd><dl class="first last docutils">
-<dt>dict</dt>
-<dd>A Users.messages object see <cite>https://developers.google.com/gmail/api/v1/reference/users/messages#resource.</cite> # noqa
-for more info.</dd>
 </dl>
-</dd>
-</dl>
-</dd></dl>
-
 <dl class="method">
 <dt id="parsons.Gmail.send_email">
-<code class="descname">send_email</code><span class="sig-paren">(</span><em>sender</em>, <em>to</em>, <em>subject</em>, <em>message_text</em>, <em>message_html=None</em>, <em>files=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/notifications/gmail.html#Gmail.send_email"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.Gmail.send_email" title="Permalink to this definition">¶</a></dt>
+<code class="descname">send_email</code><span class="sig-paren">(</span><em>sender</em>, <em>to</em>, <em>subject</em>, <em>message_text</em>, <em>message_html=None</em>, <em>files=None</em><span class="sig-paren">)</span><a class="headerlink" href="#parsons.Gmail.send_email" title="Permalink to this definition">¶</a></dt>
 <dd><p>Send an email message.</p>
 <dl class="docutils">
 <dt><cite>Args:</cite></dt>
@@ -583,7 +478,7 @@ email is sent a text-only body.</dd>
 </dl>
 </dd>
 <dt><cite>Returns:</cite></dt>
-<dd>An object containing a base64url encoded email object.</dd>
+<dd>None</dd>
 </dl>
 </dd></dl>
 

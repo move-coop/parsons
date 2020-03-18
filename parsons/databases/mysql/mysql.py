@@ -262,7 +262,6 @@ class MySQL(MySQLCreateTable):
             bool
                 True if the table needs to be created, False otherwise.
         """
-        tbl = MySQLTable(connection, table_name)
 
         if if_exists not in ['fail', 'truncate', 'append', 'drop']:
             raise ValueError("Invalid value for `if_exists` argument")

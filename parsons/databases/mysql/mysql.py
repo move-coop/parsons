@@ -7,6 +7,7 @@ from parsons.utilities import files
 import pickle
 import logging
 import os
+from parsons.databases.table import BaseTable
 
 # Max number of rows that we query at a time, so we can avoid loading huge
 # data sets into memory.
@@ -185,3 +186,49 @@ class MySQL():
 
                 logger.debug(f'Query returned {final_tbl.num_rows} rows.')
                 return final_tbl
+
+    def table_exists(self, table_name):
+
+        if self.query(f"SHOW TABLES LIKE '{table_name}'").first == table_name:
+            return True
+        else:
+            return False
+
+
+class MySQLTable(BaseTable):
+    # MySQL table object.
+
+    def get_rows(self, offset=0, chunk_size=None):
+        """
+        Get rows from a table.
+        """
+
+        sql = f"SELECT * FROM {self.table}"
+
+        if chunk_size:
+            sql += f" LIMIT {chunk_size}"
+
+        if offset:
+            sql += f" ,{offset}"
+
+        return self.db.query(sql)
+
+    def get_new_rows(self, primary_key, cutoff_value, offset=0, chunk_size=None):
+        """
+        Get rows that have a greater primary key value than the one
+        provided.
+
+        It will select every value greater than the provided value.
+        """
+
+        sql = f"""
+               SELECT
+               *
+               FROM {self.table}
+               WHERE {primary_key} > {cutoff_value}
+               """
+
+        if chunk_size:
+            sql += f" LIMIT {chunk_size}, {offset};"
+
+        return self.db.query(sql)

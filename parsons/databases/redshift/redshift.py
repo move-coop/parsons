@@ -430,33 +430,28 @@ class Redshift(RedshiftCreateTable, RedshiftCopyTable, RedshiftTableUtilities, R
         else:
             cols = None
 
-        key = None
-
         with self.connection() as connection:
 
+            # Check to see if the table exists. If it does not or if_exists = drop, then
+            # create the new table.
+            if self._create_table_precheck(connection, table_name, if_exists):
+                sql = self.create_statement(tbl, table_name, padding=padding,
+                                            distkey=distkey, sortkey=sortkey,
+                                            varchar_max=varchar_max,
+                                            columntypes=columntypes)
+                self.query_with_connection(sql, connection, commit=False)
+                logger.info(f'{table_name} created.')
+
+            # If alter_table is True, then alter table if the table column widths
+            # are wider than the existing table.
+            elif alter_table:
+                self.alter_varchar_column_widths(tbl, table_name)
+
+            # Upload the table to S3
+            key = self.temp_s3_copy(tbl, aws_access_key_id=aws_access_key_id,
+                                    aws_secret_access_key=aws_secret_access_key)
+
             try:
-                # Check to see if the table exists. If it does not or if_exists = drop, then
-                # create the new table.
-                if self._create_table_precheck(connection, table_name, if_exists):
-                    sql = self.create_statement(tbl, table_name, padding=padding,
-                                                distkey=distkey, sortkey=sortkey,
-                                                varchar_max=varchar_max,
-                                                columntypes=columntypes)
-                    self.query_with_connection(sql, connection, commit=False)
-                    logger.info(f'{table_name} created.')
-
-                # If alter_table is True, then alter table if the table column widths
-                # are wider than the existing table.
-                elif alter_table:
-                    self.alter_varchar_column_widths(tbl, table_name)
-
-                else:
-                    pass
-
-                # Upload the table to S3
-                key = self.temp_s3_copy(tbl, aws_access_key_id=aws_access_key_id,
-                                        aws_secret_access_key=aws_secret_access_key)
-
                 # Copy to Redshift database.
                 copy_args = {'max_errors': max_errors,
                              'ignoreheader': 1,

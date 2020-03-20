@@ -30,7 +30,9 @@ class MySQLCreateTable():
         if current_type == 'varchar':
             return current_type
 
-        # Convert to string to reevaluate data type
+        # Convert to string to reevaluate data type. If the value is already
+        # a string, is None, or is empty, with raise and error. These should
+        # be considered varchars. 
         try:
             t = ast.literal_eval(str(val))
         except ValueError:

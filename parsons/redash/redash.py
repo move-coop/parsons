@@ -131,7 +131,7 @@ class Redash(object):
             Table Class
         """
         query_id = check('REDASH_QUERY_ID', query_id)
-        query_api_key = check('REDASH_QUERY_API_KEY', query_id)
+        query_api_key = check('REDASH_QUERY_API_KEY', query_api_key, optional=True)
         params = {}
         if not self.user_api_key and query_api_key:
             params['api_key'] = query_api_key

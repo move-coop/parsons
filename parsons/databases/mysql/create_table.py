@@ -4,6 +4,16 @@ import logging
 
 logger = logging.getLogger(__name__)
 
+# The following values are the minimum and maximum values for MySQL int
+# types. https://dev.mysql.com/doc/refman/8.0/en/integer-types.html
+SMALLINT_VALUES = [-32768, 32767]
+MEDIUMINT_VALUES = [-8388608, 8388607]
+INT_VALUES = [-2147483648, 2147483647]
+
+# Additional padding to add on to the maximum column width to account
+# for the addition of future data sets.
+VARCHAR_PAD = .25
+
 
 class MySQLCreateTable():
 
@@ -38,11 +48,11 @@ class MySQLCreateTable():
             if not self.is_valid_integer(val):
                 return 'varchar'
             # Use smallest possible int type above TINYINT
-            if (-32768 < t < 32767) and current_type not in ['int', 'bigint', 'mediumint']:
+            if (SMALLINT_VALUES[0] < t < SMALLINT_VALUES[1]) and current_type not in ['int', 'bigint', 'mediumint']:  # noqa: E501
                 return 'smallint'
-            elif (-8388608 < t < 8388607) and current_type not in ['int', 'bigint']:
+            elif (MEDIUMINT_VALUES[0] < t < MEDIUMINT_VALUES[1]) and current_type not in ['int', 'bigint']:  # noqa: E501
                 return 'mediumint'
-            elif (-2147483648 < t < 2147483647) and current_type not in ['bigint']:
+            elif (INT_VALUES[0] < t < INT_VALUES[1]) and current_type not in ['bigint']:
                 return 'int'
             else:
                 return 'bigint'
@@ -91,7 +101,7 @@ class MySQLCreateTable():
                 if row_width > col_width:
                     col_width = row_width
 
-        return col_type, col_width
+        return col_type, int(col_width + (col_width * VARCHAR_PAD))
 
     def evaluate_table(self, tbl):
         # Generate a dict of MySQL column types and widths for all columns

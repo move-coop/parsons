@@ -163,11 +163,11 @@ class TestMySQL(unittest.TestCase):
     def test_evaluate_table(self):
 
         table_map = [{'name': 'ID', 'type': 'smallint', 'width': 0},
-                     {'name': 'Name', 'type': 'varchar', 'width': 8},
+                     {'name': 'Name', 'type': 'varchar', 'width': 10},
                      {'name': 'Score', 'type': 'float', 'width': 0}]
         self.assertEqual(self.mysql.evaluate_table(self.tbl), table_map)
 
     def test_create_statement(self):
 
-        stmt = "CREATE TABLE test_table ( \n id smallint \n,name varchar(8) \n,score float \n);"
+        stmt = "CREATE TABLE test_table ( \n id smallint \n,name varchar(10) \n,score float \n);"
         self.assertEqual(self.mysql.create_statement(self.tbl, 'test_table'), stmt)

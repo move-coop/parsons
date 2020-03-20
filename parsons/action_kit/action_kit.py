@@ -464,7 +464,7 @@ class ActionKit(object):
                                return_full_json=True,
                                **kwargs)
 
-    def bulk_upload_csv(self, csv_file, import_page, autocreate_user_fields=0):
+    def bulk_upload_csv(self, csv_file, import_page, autocreate_user_fields=0, user_fields_only=0):
         """
         Bulk upload a csv file of new users or user updates.
         If you are uploading a table object, use bulk_upload_table instead.
@@ -486,6 +486,10 @@ class ActionKit(object):
               When True columns starting with "user_" will be uploaded as user fields.
               See the `autocreate_user_fields documentation
               <https://roboticdogs.actionkit.com/docs/manual/api/rest/uploads.html#create-a-multipart-post-request>`
+            user_fields_only: bool
+              When uploading only an email/user_id column and user_ user fields,
+              ActionKit has a fast processing path.
+              This doesn't work, if you upload a zipped csv though.
         `Returns`:
             dict
                 success: whether upload was successful
@@ -502,7 +506,8 @@ class ActionKit(object):
             self._base_endpoint('upload'),
             files={'upload': csv_file},
             data={'page': import_page,
-                  'autocreate_user_fields': int(autocreate_user_fields)})
+                  'autocreate_user_fields': int(autocreate_user_fields),
+                  'user_fields_only': int(user_fields_only)})
         rv = {'res': res,
               'success': res.status_code == 201,
               'progress_url': res.headers.get('Location')}
@@ -536,6 +541,16 @@ class ActionKit(object):
                 res: requests http response object
         """
         import_page = check_env.check('ACTION_KIT_IMPORTPAGE', import_page)
-        return self.bulk_upload_csv(table.to_csv(temp_file_compression='gzip'),
+        compress_maybe = dict()
+        user_fields_only = int(not any([
+            h for h in table.table.header()
+            if h != 'email' and not h.startswith('user_')]))
+        if not user_fields_only or len(table.table) > 1_000_000:
+            # compression disables user_fields_only's fast processing
+            # but we'll disable that if there are so many rows that
+            # memory could be an issue.
+            compress_maybe = dict(temp_file_compression='gzip')
+        return self.bulk_upload_csv(table.to_csv(**compress_maybe),
                                     import_page,
-                                    autocreate_user_fields=autocreate_user_fields)
+                                    autocreate_user_fields=autocreate_user_fields,
+                                    user_fields_only=user_fields_only)

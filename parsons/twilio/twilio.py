@@ -1,6 +1,6 @@
 from twilio.rest import Client
 from parsons.utilities import check_env, json_format
-from parsons import Table
+from parsons.etl import Table
 import logging
 
 

@@ -2,7 +2,7 @@ from requests import request
 import math
 import json
 import time
-from parsons import Table
+from parsons.etl import Table
 from parsons.utilities import check_env
 import logging
 

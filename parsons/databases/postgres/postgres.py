@@ -1,4 +1,5 @@
 from parsons.databases.postgres.postgres_core import PostgresCore
+from parsons.databases.table import BaseTable
 import logging
 import os
 
@@ -9,7 +10,7 @@ logger = logging.getLogger(__name__)
 class Postgres(PostgresCore):
     """
     A Postgres class to connect to database. Credentials can be passed from a ``.pgpass`` file
-    stored in your home directory, environmental variables or passed arguments.
+    stored in your home directory or with environmental variables.
 
     Args:
         username: str
@@ -22,8 +23,6 @@ class Postgres(PostgresCore):
             Required if env variable ``PGDATABASE`` not populated
         port: int
             Required if env variable ``PGPORT`` not populated.
-        pg_pass: str
-            The path to your pg pass file
         timeout: int
             Seconds to timeout if connection not established.
     """
@@ -45,6 +44,7 @@ class Postgres(PostgresCore):
                              'or env variables.')
 
         self.timeout = timeout
+        self.dialect = 'postgres'
 
     def copy(self, tbl, table_name, if_exists='fail'):
         """
@@ -76,3 +76,14 @@ class Postgres(PostgresCore):
             with self.cursor(connection) as cursor:
                 cursor.copy_expert(sql, open(tbl.to_csv(), "r"))
                 logger.info(f'{tbl.num_rows} rows copied to {table_name}.')
+
+    def table(self, table_name):
+        # Return a Postgres table object
+
+        return PostgresTable(self, table_name)
+
+
+class PostgresTable(BaseTable):
+    # Postgres table object.
+
+    pass

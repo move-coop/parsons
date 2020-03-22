@@ -1,7 +1,8 @@
 import unittest
 import os
 from unittest import mock
-from parsons import CensusGeocoder, Table
+from parsons.etl import Table
+from parsons.geocode import CensusGeocoder
 import petl
 from test_responses import *
 from test.utils import assert_matching_tables

@@ -6,6 +6,9 @@ import shutil
 from test.utils import assert_matching_tables
 from parsons.utilities import zip_archive
 
+# Notes :
+# - The `Table.to_postgres()` test is housed in the Postgres tests
+# - The `Table.from_postgres()` test is housed in the Postgres test
 
 class TestParsonsTable(unittest.TestCase):
 
@@ -532,6 +535,36 @@ class TestParsonsTable(unittest.TestCase):
         empty_tbl = Table([[1], [], [3]])
         self.assertIsNone(empty_tbl.first)
 
+    def test_get_item(self):
+        # Test indexing on table
+        
+        # Test a valid column
+        tbl = Table(self.lst)
+        lst = [1, 4, 7, 10, 13]
+        self.assertEqual(tbl['a'], lst)
+
+        # Test a valid row
+        row = {'a': 4, 'b': 5, 'c': 6}
+        self.assertEqual(tbl[1], row)
+
+    def test_column_data(self):
+        # Test that that the data in the column is returned as a list
+
+        # Test a valid column
+        tbl = Table(self.lst)
+        lst = [1, 4, 7, 10, 13]
+        self.assertEqual(tbl.column_data('a'), lst)
+
+        # Test an invalid column
+        self.assertRaises(TypeError, tbl['c'])
+
+    def test_row_data(self):
+
+        # Test a valid column
+        tbl = Table(self.lst)
+        row = {'a': 4, 'b': 5, 'c': 6}
+        self.assertEqual(tbl.row_data(1), row)
+
     def test_stack(self):
         tbl1 = self.tbl
         tbl2 = Table([{'first': 'Mary', 'last': 'Nichols'}])
@@ -676,3 +709,20 @@ class TestParsonsTable(unittest.TestCase):
 
         # Doesn't break for non-strings
         self.assertEqual(tbl.get_column_max_width('b'), 5)
+
+    def test_sort(self):
+
+        # Test basic sort
+        unsorted_tbl = Table([['a', 'b'],[3, 1],[2, 2],[1, 3]])
+        sorted_tbl = unsorted_tbl.sort()
+        self.assertEqual(sorted_tbl[0], {'a': 1, 'b': 3})
+
+        # Test column sort
+        unsorted_tbl = Table([['a', 'b'],[3, 1],[2, 2],[1, 3]])
+        sorted_tbl = unsorted_tbl.sort('b')
+        self.assertEqual(sorted_tbl[0], {'a': 3, 'b': 1})
+
+        # Test reverse sort
+        unsorted_tbl = Table([['a', 'b'],[3, 1],[2, 2],[1, 3]])
+        sorted_tbl = unsorted_tbl.sort(reverse=True)
+        self.assertEqual(sorted_tbl[0], {'a': 3, 'b': 1})

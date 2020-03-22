@@ -1,6 +1,6 @@
 from google.cloud import bigquery
 from google.cloud import exceptions
-from parsons import Table
+from parsons.etl import Table
 from parsons.google.utitities import setup_google_application_credentials
 from parsons.google.google_cloud_storage import GoogleCloudStorage
 from parsons.utilities import check_env
@@ -49,6 +49,8 @@ class GoogleBigQuery:
         # without valid GOOGLE_APPLICATION_CREDENTIALS raises an exception.
         # This attribute will be used to hold the client once we have created it.
         self._client = None
+
+        self.dialect = 'bigquery'
 
     def copy(self, table_obj, dataset_name, table_name, if_exists='fail',
              tmp_gcs_bucket=None, gcs_client=None, job_config=None, **load_kwargs):

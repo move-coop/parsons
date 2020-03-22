@@ -1,7 +1,7 @@
 import unittest
 import requests_mock
 from test.utils import validate_list
-from parsons import Phone2Action
+from parsons.phone2action import Phone2Action
 import os
 
 adv_json = {

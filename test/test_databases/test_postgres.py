@@ -1,4 +1,4 @@
-from parsons import Postgres
+from parsons.databases.postgres import Postgres
 from parsons.etl.table import Table
 from test.utils import assert_matching_tables
 import unittest
@@ -127,7 +127,6 @@ class TestPostgresDB(unittest.TestCase):
     def setUp(self):
 
         self.temp_schema = TEMP_SCHEMA
-
         self.pg = Postgres()
 
         self.tbl = Table([['ID', 'Name'],
@@ -205,6 +204,23 @@ class TestPostgresDB(unittest.TestCase):
 
         # Try to copy the table and ensure that explicit fail works.
         self.assertRaises(ValueError, self.pg.copy, self.tbl, f'{self.temp_schema}.test_copy', if_exists='fail')
+
+    def test_to_postgres(self):
+
+        self.tbl.to_postgres(f'{self.temp_schema}.test_copy')
+        r = self.pg.query(f"select * from {self.temp_schema}.test_copy where name='Jim'")
+        self.assertEqual(r[0]['id'], 1)
+
+    def test_from_postgres(self):
+
+        tbl = Table([['id', 'name'],
+                     [1, 'Jim'],
+                     [2, 'John'],
+                     [3, 'Sarah']])
+
+        self.pg.copy(self.tbl, f'{self.temp_schema}.test_copy', if_exists='drop')
+        out_tbl = self.tbl.from_postgres(f"SELECT * FROM {self.temp_schema}.test_copy")
+        assert_matching_tables(out_tbl, tbl)
 
 if __name__ == "__main__":
     unittest.main()

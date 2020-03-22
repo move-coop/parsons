@@ -1,4 +1,4 @@
-from parsons import Table
+from parsons.etl import Table
 import petl
 import censusgeocode
 import logging

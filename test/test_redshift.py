@@ -308,8 +308,8 @@ class TestRedshiftDB(unittest.TestCase):
 
     def test_upsert(self):
 
-        # Create a target table
-        self.rs.copy(self.tbl, f'{self.temp_schema}.test_copy')
+        # Create a target table when no target table exists
+        self.rs.upsert(self.tbl, f'{self.temp_schema}.test_copy', 'ID')
 
         # Run upsert
         upsert_tbl = Table([['id', 'name'], [1, 'Jane'], [5, 'Bob']])

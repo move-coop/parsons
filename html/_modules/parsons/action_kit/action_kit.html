@@ -640,7 +640,8 @@
                                <span class="n">return_full_json</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
                                <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="ActionKit.bulk_upload_csv"><a class="viewcode-back" href="../../../action_kit.html#parsons.ActionKit.bulk_upload_csv">[docs]</a>    <span class="k">def</span> <span class="nf">bulk_upload_csv</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">csv_file</span><span class="p">,</span> <span class="n">import_page</span><span class="p">,</span> <span class="n">autocreate_user_fields</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
+<div class="viewcode-block" id="ActionKit.bulk_upload_csv"><a class="viewcode-back" href="../../../action_kit.html#parsons.ActionKit.bulk_upload_csv">[docs]</a>    <span class="k">def</span> <span class="nf">bulk_upload_csv</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">csv_file</span><span class="p">,</span> <span class="n">import_page</span><span class="p">,</span>
+                        <span class="n">autocreate_user_fields</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">user_fields_only</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Bulk upload a csv file of new users or user updates.</span>
 <span class="sd">        If you are uploading a table object, use bulk_upload_table instead.</span>
@@ -662,6 +663,10 @@
 <span class="sd">              When True columns starting with &quot;user_&quot; will be uploaded as user fields.</span>
 <span class="sd">              See the `autocreate_user_fields documentation</span>
 <span class="sd">              &lt;https://roboticdogs.actionkit.com/docs/manual/api/rest/uploads.html#create-a-multipart-post-request&gt;`</span>
+<span class="sd">            user_fields_only: bool</span>
+<span class="sd">              When uploading only an email/user_id column and user_ user fields,</span>
+<span class="sd">              ActionKit has a fast processing path.</span>
+<span class="sd">              This doesn&#39;t work, if you upload a zipped csv though.</span>
 <span class="sd">        `Returns`:</span>
 <span class="sd">            dict</span>
 <span class="sd">                success: whether upload was successful</span>
@@ -678,7 +683,8 @@
             <span class="bp">self</span><span class="o">.</span><span class="n">_base_endpoint</span><span class="p">(</span><span class="s1">&#39;upload&#39;</span><span class="p">),</span>
             <span class="n">files</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;upload&#39;</span><span class="p">:</span> <span class="n">csv_file</span><span class="p">},</span>
             <span class="n">data</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;page&#39;</span><span class="p">:</span> <span class="n">import_page</span><span class="p">,</span>
-                  <span class="s1">&#39;autocreate_user_fields&#39;</span><span class="p">:</span> <span class="nb">int</span><span class="p">(</span><span class="n">autocreate_user_fields</span><span class="p">)})</span>
+                  <span class="s1">&#39;autocreate_user_fields&#39;</span><span class="p">:</span> <span class="nb">int</span><span class="p">(</span><span class="n">autocreate_user_fields</span><span class="p">),</span>
+                  <span class="s1">&#39;user_fields_only&#39;</span><span class="p">:</span> <span class="nb">int</span><span class="p">(</span><span class="n">user_fields_only</span><span class="p">)})</span>
         <span class="n">rv</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;res&#39;</span><span class="p">:</span> <span class="n">res</span><span class="p">,</span>
               <span class="s1">&#39;success&#39;</span><span class="p">:</span> <span class="n">res</span><span class="o">.</span><span class="n">status_code</span> <span class="o">==</span> <span class="mi">201</span><span class="p">,</span>
               <span class="s1">&#39;progress_url&#39;</span><span class="p">:</span> <span class="n">res</span><span class="o">.</span><span class="n">headers</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;Location&#39;</span><span class="p">)}</span>
@@ -690,6 +696,8 @@
 <span class="sd">        See `ActionKit User Upload Documentation</span>
 <span class="sd">             &lt;https://roboticdogs.actionkit.com/docs/manual/api/rest/uploads.html&gt;`</span>
 <span class="sd">        Be careful that blank values in columns will overwrite existing data.</span>
+<span class="sd">        Tables with only an identifying column (user_id/email) and user_ user fields</span>
+<span class="sd">        will be fast-processed -- this is useful for setting/updating user fields.</span>
 
 <span class="sd">        .. note::</span>
 <span class="sd">            If you get a 500 error, try sending a much smaller file (say, one row),</span>
@@ -712,9 +720,19 @@
 <span class="sd">                res: requests http response object</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">import_page</span> <span class="o">=</span> <span class="n">check_env</span><span class="o">.</span><span class="n">check</span><span class="p">(</span><span class="s1">&#39;ACTION_KIT_IMPORTPAGE&#39;</span><span class="p">,</span> <span class="n">import_page</span><span class="p">)</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">bulk_upload_csv</span><span class="p">(</span><span class="n">table</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="n">temp_file_compression</span><span class="o">=</span><span class="s1">&#39;gzip&#39;</span><span class="p">),</span>
+        <span class="n">compress_maybe</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
+        <span class="n">user_fields_only</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="ow">not</span> <span class="nb">any</span><span class="p">([</span>
+            <span class="n">h</span> <span class="k">for</span> <span class="n">h</span> <span class="ow">in</span> <span class="n">table</span><span class="o">.</span><span class="n">table</span><span class="o">.</span><span class="n">header</span><span class="p">()</span>
+            <span class="k">if</span> <span class="n">h</span> <span class="o">!=</span> <span class="s1">&#39;email&#39;</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">h</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s1">&#39;user_&#39;</span><span class="p">)]))</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">user_fields_only</span> <span class="ow">or</span> <span class="nb">len</span><span class="p">(</span><span class="n">table</span><span class="o">.</span><span class="n">table</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">1_000_000</span><span class="p">:</span>
+            <span class="c1"># compression disables user_fields_only&#39;s fast processing</span>
+            <span class="c1"># but we&#39;ll disable that if there are so many rows that</span>
+            <span class="c1"># memory could be an issue.</span>
+            <span class="n">compress_maybe</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">temp_file_compression</span><span class="o">=</span><span class="s1">&#39;gzip&#39;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">bulk_upload_csv</span><span class="p">(</span><span class="n">table</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="o">**</span><span class="n">compress_maybe</span><span class="p">),</span>
                                     <span class="n">import_page</span><span class="p">,</span>
-                                    <span class="n">autocreate_user_fields</span><span class="o">=</span><span class="n">autocreate_user_fields</span><span class="p">)</span></div></div>
+                                    <span class="n">autocreate_user_fields</span><span class="o">=</span><span class="n">autocreate_user_fields</span><span class="p">,</span>
+                                    <span class="n">user_fields_only</span><span class="o">=</span><span class="n">user_fields_only</span><span class="p">)</span></div></div>
 </pre></div>
 
            </div>

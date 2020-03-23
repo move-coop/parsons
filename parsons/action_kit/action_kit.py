@@ -464,7 +464,8 @@ class ActionKit(object):
                                return_full_json=True,
                                **kwargs)
 
-    def bulk_upload_csv(self, csv_file, import_page, autocreate_user_fields=0, user_fields_only=0):
+    def bulk_upload_csv(self, csv_file, import_page,
+                        autocreate_user_fields=False, user_fields_only=False):
         """
         Bulk upload a csv file of new users or user updates.
         If you are uploading a table object, use bulk_upload_table instead.
@@ -519,6 +520,8 @@ class ActionKit(object):
         See `ActionKit User Upload Documentation
              <https://roboticdogs.actionkit.com/docs/manual/api/rest/uploads.html>`
         Be careful that blank values in columns will overwrite existing data.
+        Tables with only an identifying column (user_id/email) and user_ user fields
+        will be fast-processed -- this is useful for setting/updating user fields.
 
         .. note::
             If you get a 500 error, try sending a much smaller file (say, one row),

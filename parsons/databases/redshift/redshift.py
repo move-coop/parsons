@@ -721,6 +721,7 @@ class Redshift(RedshiftCreateTable, RedshiftCopyTable, RedshiftTableUtilities, R
                 logger.info(f'Target rows inserted to {target_table}')
             
             except psycopg2.ProgrammingError:
+                self.query_with_connection('ROLLBACK', connection, commit=False)
                 create_statement = f"""
                                     CREATE TABLE {target_table}
                                     (LIKE {staging_tbl});

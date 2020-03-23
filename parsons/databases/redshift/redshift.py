@@ -653,6 +653,12 @@ class Redshift(RedshiftCreateTable, RedshiftCopyTable, RedshiftTableUtilities, R
                 Check if the primary key column is distinct. Raise error if not.
         """
 
+        if not self.table_exists(target_table):
+            logger.info('Target table does not exist. Copying into newly \
+                         created target table.')
+            self.copy(table_obj, target_table)
+            return None
+
         noise = f'{random.randrange(0, 10000):04}'[:4]
         date_stamp = datetime.datetime.now().strftime('%Y%m%d_%H%M')
         # Generate a temp table like "table_tmp_20200210_1230_14212"
@@ -665,20 +671,17 @@ class Redshift(RedshiftCreateTable, RedshiftCopyTable, RedshiftTableUtilities, R
 
         if distinct_check:
             primary_keys_statement = ', '.join(primary_keys)
-            try:
-                diff = self.query(f'''
-                    select (
-                        select count(*)
+            diff = self.query(f'''
+                select (
+                    select count(*)
+                    from {target_table}
+                ) - (
+                    SELECT COUNT(*) from (
+                        select distinct {primary_keys_statement}
                         from {target_table}
-                    ) - (
-                        SELECT COUNT(*) from (
-                            select distinct {primary_keys_statement}
-                            from {target_table}
-                        )
-                    ) as total_count
-                ''').first
-            except psycopg2.ProgrammingError:
-                diff = 0
+                    )
+                ) as total_count
+            ''').first
             if diff > 0:
                 raise ValueError('Primary key column contains duplicate values.')
 
@@ -719,20 +722,6 @@ class Redshift(RedshiftCreateTable, RedshiftCopyTable, RedshiftTableUtilities, R
 
                 self.query_with_connection(sql, connection, commit=False)
                 logger.info(f'Target rows inserted to {target_table}')
-            
-            except psycopg2.ProgrammingError:
-                self.query_with_connection('ROLLBACK', connection, commit=False)
-                create_statement = f"""
-                                    CREATE TABLE {target_table}
-                                    (LIKE {staging_tbl});
-                                    """
-                insert_statement = f"""
-                                    INSERT INTO {target_table}
-                                    SELECT * FROM {staging_tbl};
-                                    """
-                self.query_with_connection(create_statement, connection, commit=False)
-                self.query_with_connection(insert_statement, connection, commit=False)
-                logger.info(f'Target rows inserted into new table {target_table}')
 
             finally:
 

@@ -665,17 +665,20 @@ class Redshift(RedshiftCreateTable, RedshiftCopyTable, RedshiftTableUtilities, R
 
         if distinct_check:
             primary_keys_statement = ', '.join(primary_keys)
-            diff = self.query(f'''
-                select (
-                    select count(*)
-                    from {target_table}
-                ) - (
-                    SELECT COUNT(*) from (
-                        select distinct {primary_keys_statement}
+            try:
+                diff = self.query(f'''
+                    select (
+                        select count(*)
                         from {target_table}
-                    )
-                ) as total_count
-            ''').first
+                    ) - (
+                        SELECT COUNT(*) from (
+                            select distinct {primary_keys_statement}
+                            from {target_table}
+                        )
+                    ) as total_count
+                ''').first
+            except psycopg2.ProgrammingError:
+                diff = 0
             if diff > 0:
                 raise ValueError('Primary key column contains duplicate values.')
 
@@ -716,6 +719,19 @@ class Redshift(RedshiftCreateTable, RedshiftCopyTable, RedshiftTableUtilities, R
 
                 self.query_with_connection(sql, connection, commit=False)
                 logger.info(f'Target rows inserted to {target_table}')
+            
+            except psycopg2.ProgrammingError:
+                create_statement = f"""
+                                    CREATE TABLE {target_table}
+                                    (LIKE {staging_tbl});
+                                    """
+                insert_statement = f"""
+                                    INSERT INTO {target_table}
+                                    SELECT * FROM {staging_tbl};
+                                    """
+                self.query_with_connection(create_statement, connection, commit=False)
+                self.query_with_connection(insert_statement, connection, commit=False)
+                logger.info(f'Target rows inserted into new table {target_table}')
 
             finally:
 

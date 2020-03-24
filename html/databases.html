@@ -300,6 +300,51 @@ commit manually with <code class="docutils literal notranslate"><span class="pre
 </dl>
 </dd></dl>
 
+<dl class="method">
+<dt id="parsons.MySQL.copy">
+<code class="descname">copy</code><span class="sig-paren">(</span><em>tbl</em>, <em>table_name</em>, <em>if_exists='fail'</em>, <em>chunk_size=1000</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/databases/mysql/mysql.html#MySQL.copy"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.MySQL.copy" title="Permalink to this definition">¶</a></dt>
+<dd><p>Copy a <a class="reference internal" href="table.html#parsons-table"><span class="std std-ref">Parsons Table</span></a> to the database.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">This method utilizes extended inserts rather <cite>LOAD DATA INFILE</cite> since
+many MySQL Database configurations do not allow data files to be
+loaded. It results in a minor performance hit compared to <cite>LOAD DATA</cite>.</p>
+</div>
+<dl class="docutils">
+<dt>tbl: parsons.Table</dt>
+<dd>A Parsons table object</dd>
+<dt>table_name: str</dt>
+<dd>The destination schema and table (e.g. <code class="docutils literal notranslate"><span class="pre">my_schema.my_table</span></code>)</dd>
+<dt>if_exists: str</dt>
+<dd>If the table already exists, either <code class="docutils literal notranslate"><span class="pre">fail</span></code>, <code class="docutils literal notranslate"><span class="pre">append</span></code>, <code class="docutils literal notranslate"><span class="pre">drop</span></code>
+or <code class="docutils literal notranslate"><span class="pre">truncate</span></code> the table.</dd>
+<dt>chunk_size: int</dt>
+<dd>The number of rows to insert per query.</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="parsons.MySQL.table_exists">
+<code class="descname">table_exists</code><span class="sig-paren">(</span><em>table_name</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/databases/mysql/mysql.html#MySQL.table_exists"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.MySQL.table_exists" title="Permalink to this definition">¶</a></dt>
+<dd><p>Check if a table or view exists in the database.</p>
+<dl class="docutils">
+<dt><cite>Args:</cite></dt>
+<dd><dl class="first last docutils">
+<dt>table_name: str</dt>
+<dd>The table name</dd>
+<dt>view: boolean</dt>
+<dd>Check to see if a view exists by the same name</dd>
+</dl>
+</dd>
+<dt><cite>Returns:</cite></dt>
+<dd><dl class="first last docutils">
+<dt>boolean</dt>
+<dd><code class="docutils literal notranslate"><span class="pre">True</span></code> if the table exists and <code class="docutils literal notranslate"><span class="pre">False</span></code> if it does not.</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
 </dd></dl>
 
 </div>

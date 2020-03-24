@@ -653,6 +653,12 @@ class Redshift(RedshiftCreateTable, RedshiftCopyTable, RedshiftTableUtilities, R
                 Check if the primary key column is distinct. Raise error if not.
         """
 
+        if not self.table_exists(target_table):
+            logger.info('Target table does not exist. Copying into newly \
+                         created target table.')
+            self.copy(table_obj, target_table)
+            return None
+
         noise = f'{random.randrange(0, 10000):04}'[:4]
         date_stamp = datetime.datetime.now().strftime('%Y%m%d_%H%M')
         # Generate a temp table like "table_tmp_20200210_1230_14212"

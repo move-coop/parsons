@@ -7,7 +7,7 @@ import os
 
 # These tests interact directly with the MySQL database. To run, set env variable "LIVE_TEST=True"
 @unittest.skipIf(not os.environ.get('LIVE_TEST'), 'Skipping because not running live test')
-class TestMySQL(unittest.TestCase):
+class TestMySQLLive(unittest.TestCase):
 
     def setUp(self):
 
@@ -127,4 +127,47 @@ class TestMySQL(unittest.TestCase):
 
     def test_get_new_rows_count(self):
 
-        self.assertEqual(self.tbl.get_new_rows_count('id', 1), 2) 
+        self.assertEqual(self.tbl.get_new_rows_count('id', 1), 2)
+
+
+class TestMySQL(unittest.TestCase):
+
+    def setUp(self):
+
+        self.mysql = MySQL(username='test', password='test', host='test', db='test', port=123)
+
+        self.tbl = Table([['ID', 'Name', 'Score'],
+                          [1, 'Jim', 1.9],
+                          [2, 'John', -0.5],
+                          [3, 'Sarah', .0004]])
+
+    def test_data_type(self):
+
+        # Test smallint
+        self.assertEqual(self.mysql.data_type(1, ''), 'smallint')
+        # Test int
+        self.assertEqual(self.mysql.data_type(32769, ''), 'mediumint')
+        # Test bigint
+        self.assertEqual(self.mysql.data_type(2147483648, ''), 'bigint')
+        # Test varchar that looks like an int
+        self.assertEqual(self.mysql.data_type('00001', ''), 'varchar')
+        # Test a float as a decimal
+        self.assertEqual(self.mysql.data_type(5.001, ''), 'float')
+        # Test varchar
+        self.assertEqual(self.mysql.data_type('word', ''), 'varchar')
+        # Test int with underscore
+        self.assertEqual(self.mysql.data_type('1_2', ''), 'varchar')
+        # Test int with leading zero
+        self.assertEqual(self.mysql.data_type('01', ''), 'varchar')
+
+    def test_evaluate_table(self):
+
+        table_map = [{'name': 'ID', 'type': 'smallint', 'width': 0},
+                     {'name': 'Name', 'type': 'varchar', 'width': 10},
+                     {'name': 'Score', 'type': 'float', 'width': 0}]
+        self.assertEqual(self.mysql.evaluate_table(self.tbl), table_map)
+
+    def test_create_statement(self):
+
+        stmt = "CREATE TABLE test_table ( \n id smallint \n,name varchar(10) \n,score float \n);"
+        self.assertEqual(self.mysql.create_statement(self.tbl, 'test_table'), stmt)

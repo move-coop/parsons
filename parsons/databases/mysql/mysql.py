@@ -8,6 +8,7 @@ import pickle
 import logging
 import os
 from parsons.databases.table import BaseTable
+from parsons.databases.mysql.create_table import MySQLCreateTable
 
 # Max number of rows that we query at a time, so we can avoid loading huge
 # data sets into memory.
@@ -17,7 +18,7 @@ QUERY_BATCH_SIZE = 100000
 logger = logging.getLogger(__name__)
 
 
-class MySQL():
+class MySQL(MySQLCreateTable):
     """
     Connect to a MySQL database.
 
@@ -187,7 +188,119 @@ class MySQL():
                 logger.debug(f'Query returned {final_tbl.num_rows} rows.')
                 return final_tbl
 
+    def copy(self, tbl, table_name, if_exists='fail', chunk_size=1000):
+        """
+        Copy a :ref:`parsons-table` to the database.
+
+        .. note::
+            This method utilizes extended inserts rather `LOAD DATA INFILE` since
+            many MySQL Database configurations do not allow data files to be
+            loaded. It results in a minor performance hit compared to `LOAD DATA`.
+
+        tbl: parsons.Table
+            A Parsons table object
+        table_name: str
+            The destination schema and table (e.g. ``my_schema.my_table``)
+        if_exists: str
+            If the table already exists, either ``fail``, ``append``, ``drop``
+            or ``truncate`` the table.
+        chunk_size: int
+            The number of rows to insert per query.
+        """
+
+        if tbl.num_rows == 0:
+            logger.info('Parsons table is empty. Table will not be created.')
+            return None
+
+        with self.connection() as connection:
+
+            # Create table if not exists
+            if self._create_table_precheck(connection, table_name, if_exists):
+                sql = self.create_statement(tbl, table_name)
+                self.query_with_connection(sql, connection, commit=False)
+                logger.info(f'Table {table_name} created.')
+
+            # Chunk tables in batches of 1K rows, though this can be tuned and
+            # optimized further.
+            for t in tbl.chunk(chunk_size):
+                sql = self._insert_statement(t, table_name)
+                self.query_with_connection(sql, connection, commit=False)
+
+    def _insert_statement(self, tbl, table_name):
+        """
+        Convert the table data into a string for bulk importing.
+        """
+
+        # Single column tables
+        if len(tbl.columns) == 1:
+            values = [f"({row[0]})" for row in tbl.data]
+
+        # Multi-column tables
+        else:
+            values = [str(row) for row in tbl.data]
+
+        # Create full insert statement
+        sql = f"""INSERT INTO {table_name}
+                  ({','.join(tbl.columns)})
+                  VALUES {",".join(values)};"""
+
+        return sql
+
+    def _create_table_precheck(self, connection, table_name, if_exists):
+        """
+        Helper to determine what to do when you need a table that may already exist.
+
+        `Args:`
+            connection: obj
+                A connection object obtained from ``mysql.connection()``
+            table_name: str
+                The table to check
+            if_exists: str
+                If the table already exists, either ``fail``, ``append``, ``drop``,
+                or ``truncate`` the table.
+        `Returns:`
+            bool
+                True if the table needs to be created, False otherwise.
+        """
+
+        if if_exists not in ['fail', 'truncate', 'append', 'drop']:
+            raise ValueError("Invalid value for `if_exists` argument")
+
+        # If the table exists, evaluate the if_exists argument for next steps.
+        if self.table_exists(table_name):
+
+            if if_exists == 'fail':
+                raise ValueError('Table already exists.')
+
+            if if_exists == 'truncate':
+                sql = f"TRUNCATE TABLE {table_name}"
+                self.query_with_connection(sql, connection, commit=False)
+                logger.info(f"{table_name} truncated.")
+                return False
+
+            if if_exists == 'drop':
+                sql = f"DROP TABLE {table_name}"
+                self.query_with_connection(sql, connection, commit=False)
+                logger.info(f"{table_name} dropped.")
+                return True
+
+        else:
+            return True
+
     def table_exists(self, table_name):
+        """
+        Check if a table or view exists in the database.
+
+        `Args:`
+            table_name: str
+                The table name
+            view: boolean
+                Check to see if a view exists by the same name
+
+        `Returns:`
+            boolean
+                ``True`` if the table exists and ``False`` if it does not.
+        """
 
         if self.query(f"SHOW TABLES LIKE '{table_name}'").first == table_name:
             return True

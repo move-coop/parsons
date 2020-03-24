@@ -208,6 +208,9 @@ class RedshiftCreateTable(object):
 
         for idx, c in enumerate(columns):
 
+            # Lowercase
+            c = c.lower()
+
             # Remove spaces. Technically allowed with double quotes
             # but I think that it is bad practice.
             c = c.replace(' ', '')

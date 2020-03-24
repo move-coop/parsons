@@ -11,7 +11,7 @@ from test.utils import validate_list
 
 
 # The name of the schema and will be temporarily created for the tests
-TEMP_SCHEMA = 'parsons_test'
+TEMP_SCHEMA = 'parsons_test2'
 
 # These tests do not interact with the Redshift Database directly, and don't need real credentials
 
@@ -172,15 +172,11 @@ class TestRedshift(unittest.TestCase):
         # Scrub the keys
         sql = re.sub(r'id=.+;', '*id=HIDDEN*;', re.sub(r"key=.+'", "key=*HIDDEN*'", sql))
 
-        print(sql)
-
         expected_options = ['statupdate', 'compupdate', 'ignoreheader 1', 'acceptanydate',
                             "dateformat 'auto'", "timeformat 'auto'", "csv delimiter ','",
                             "copy test_schema.test(a, b, c) \nfrom 's3://buck/file.csv'",
                             "'aws_access_key_*id=HIDDEN*;aws_secret_access_key=*HIDDEN*'",
                             'emptyasnull', 'blanksasnull', 'acceptinvchars']
-        for o in expected_options:
-            print(o, sql.find(o))
 
         # Check that all of the expected options are there:
         [self.assertNotEqual(sql.find(o), -1) for o in expected_options]
@@ -418,9 +414,11 @@ class TestRedshiftDB(unittest.TestCase):
     def test_get_table_stats(self):
 
         tbls_list = self.rs.get_table_stats(schema=self.temp_schema)
+
         exp = ['database', 'schema', 'table_id', 'table', 'encoded', 'diststyle', 'sortkey1',
                'max_varchar', 'sortkey1_enc', 'sortkey_num', 'size', 'pct_used', 'empty',
-               'unsorted', 'stats_off', 'tbl_rows', 'skew_sortkey1', 'skew_rows']
+               'unsorted', 'stats_off', 'tbl_rows', 'skew_sortkey1', 'skew_rows', 'estimated_visible_rows',
+               'risk_event', 'vacuum_sort_benefit']
 
         # Having some issues testing that the filter is working correctly, as it
         # takes a little bit of time for a table to show in this table and is beating
@@ -561,8 +559,8 @@ class TestRedshiftDB(unittest.TestCase):
         # id smallint,name varchar(5)
         expected_cols = {
             'id':   {
-                'data_type': 'smallint', 'max_length': 16,
-                'max_precision': None, 'max_scale': None, 'is_nullable': True},
+                'data_type': 'smallint', 'max_length': None,
+                'max_precision': 16, 'max_scale': 0, 'is_nullable': True},
             'name': {
                 'data_type': 'character varying', 'max_length': 5,
                 'max_precision': None, 'max_scale': None, 'is_nullable': True},
@@ -691,8 +689,11 @@ class TestRedshiftDB(unittest.TestCase):
                             [5, 'John'],
                             [6, 'Joanna']])
 
+        # You can't alter column types if the table has a dependent view
+        self.rs.query(f"DROP VIEW {self.temp_schema}.test_view")
+
         # Base table 'Name' column has a width of 5. This should expand it to 6.
-        self.rs.alter_table_widths(append_tbl, f'{self.temp_schema}.test')
+        self.rs.alter_varchar_column_widths(append_tbl, f'{self.temp_schema}.test')
         self.assertEqual(self.rs.get_columns(self.temp_schema, 'test')['name']['max_length'], 6)
 
 if __name__ == "__main__":

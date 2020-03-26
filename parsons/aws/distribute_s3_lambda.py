@@ -31,6 +31,7 @@ from parsons.aws import distribute_task
 import csv
 import datetime
 from io import TextIOWrapper, BytesIO, StringIO
+import logging
 import sys
 import traceback
 import uuid
@@ -39,6 +40,8 @@ import boto3
 
 from parsons.aws.aws_async import get_func_task_path, import_and_get_task, run as maybe_async_run
 from parsons.etl.table import Table
+
+logger = logging.getLogger(__name__)
 
 EXPIRATION_DURATION = {'days': 1}
 
@@ -119,6 +122,9 @@ def distribute_task_csv(csv_bytes_utf8, func_to_run, bucket,
     # upload data
     # TODO: make storagekey configurable or at least prefix?
     storagekey = str(uuid.uuid4())
+    groupcount = len(group_ranges)
+    logger.debug(f'distribute_task_csv storagekey {storagekey} w/ {groupcount} groups')
+
     response = STORAGES[storage].put(bucket, storagekey, csv_bytes_utf8)
 
     # start processes
@@ -201,6 +207,8 @@ def distribute_task(table, func_to_run, bucket,
 def process_task_portion(bucket, storagekey, rangestart, rangeend, func_name, header,
                          storage='s3', func_kwargs=None, catch=False,
                          func_class_kwargs=None):
+
+    logger.debug(f'process_task_portion func_name {func_name}, storagekey {storagekey}, range {rangestart}-{rangeend}')
     func = import_and_get_task(func_name, func_class_kwargs)
     filedata = STORAGES[storage].get_range(bucket, storagekey, rangestart, rangeend)
 

@@ -73,8 +73,6 @@ class Newmode:
             - Lat/Long: Latitude and Longitude pair separated by '::'.
               Ex. 45.451596::-73.59912099999997. It will return targets
               matched for those coordinates.
-            - Address: In format thoroughfare::locality::administrative_area::country
-              It will return targets matched by the given address.
             - Search term: For your csv tools, this will return targets
               matched by given valid search term.
     Returns:
@@ -104,7 +102,7 @@ class Newmode:
     def runAction(self, tool_id, payload, params = {}):
         action = self.client.runAction(tool_id, payload, params=params)
         if (action):
-            return action.sid
+            return action['sid']
         else:
             logging.warning("Error in response")
             return []

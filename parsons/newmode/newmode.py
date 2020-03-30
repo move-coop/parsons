@@ -102,7 +102,10 @@ class Newmode:
     def runAction(self, tool_id, payload, params = {}):
         action = self.client.runAction(tool_id, payload, params=params)
         if (action):
-            return action['sid']
+            if ('link' in action):
+                return action['link']
+            else:
+                return action['sid']
         else:
             logging.warning("Error in response")
             return []

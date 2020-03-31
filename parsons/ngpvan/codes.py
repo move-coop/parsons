@@ -109,7 +109,6 @@ class Codes(object):
         json = {"parentCodeId": parent_code_id,
                 "name": name,
                 "codeType": code_type,
-                "supportedEntities": se,
                 "description": description}
 
         if supported_entities:

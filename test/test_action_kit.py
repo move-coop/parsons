@@ -1,14 +1,17 @@
-import os
+import gzip
 import json
+import os
 import unittest
 from unittest import mock
 from parsons.action_kit.action_kit import ActionKit
+from parsons.etl.table import Table
 
 ENV_PARAMETERS = {
     'ACTION_KIT_DOMAIN': 'env_domain',
     'ACTION_KIT_USERNAME': 'env_username',
     'ACTION_KIT_PASSWORD': 'env_password'
 }
+
 
 class TestActionKit(unittest.TestCase):
 
@@ -271,4 +274,31 @@ class TestActionKit(unittest.TestCase):
             'https://domain.actionkit.com/rest/v1/action/',
             data=json.dumps({'email': 'bob@bob.com', 'page': 'my_action'}))
 
+    def test_bulk_upload_table(self):
+        resp_mock = mock.MagicMock()
+        type(resp_mock.post()).status_code = mock.PropertyMock(return_value=201)
+        self.actionkit._conn = lambda self: resp_mock
+        self.actionkit.bulk_upload_table(
+            Table([('user_id', 'user_customfield1', 'action_foo'), (5, 'yes', '123 Main St')]),
+            'fake_page')
+        self.assertEqual(resp_mock.post.call_count, 2)
+        name, args, kwargs = resp_mock.method_calls[1]
+        self.assertEqual(kwargs['data'],
+                         {'page': 'fake_page', 'autocreate_user_fields': 0, 'user_fields_only': 0})
+        upload_data = gzip.open(kwargs['files']['upload']).read()
+        self.assertEqual(upload_data.decode(),
+                         'user_id,user_customfield1,action_foo\r\n5,yes,123 Main St\r\n')
 
+    def test_bulk_upload_table_userfields(self):
+        resp_mock = mock.MagicMock()
+        type(resp_mock.post()).status_code = mock.PropertyMock(return_value=201)
+        self.actionkit._conn = lambda self: resp_mock
+        self.actionkit.bulk_upload_table(
+            Table([('user_id', 'user_customfield1'), (5, 'yes')]),
+            'fake_page')
+        self.assertEqual(resp_mock.post.call_count, 2)
+        name, args, kwargs = resp_mock.method_calls[1]
+        self.assertEqual(kwargs['data'],
+                         {'page': 'fake_page', 'autocreate_user_fields': 0, 'user_fields_only': 1})
+        self.assertEqual(kwargs['files']['upload'].read().decode(),
+                         'user_id,user_customfield1\r\n5,yes\r\n')

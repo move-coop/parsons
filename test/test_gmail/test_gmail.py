@@ -71,8 +71,9 @@ class TestGmail(unittest.TestCase):
         subject = "This is a test email"
         message_text = "The is the message text of the email"
 
-        raw = self.gmail.create_message_simple(
+        msg = self.gmail._create_message_simple(
             sender, to, subject, message_text)
+        raw = self.gmail._encode_raw_message(msg)
 
         decoded = email.message_from_bytes(
             base64.urlsafe_b64decode(bytes(raw['raw'], 'utf-8')))
@@ -102,8 +103,9 @@ class TestGmail(unittest.TestCase):
         message_text = "The is the message text of the email"
         message_html = "<p>This is the html message part of the email</p>"
 
-        raw = self.gmail.create_message_html(
+        msg = self.gmail._create_message_html(
             sender, to, subject, message_text, message_html)
+        raw = self.gmail._encode_raw_message(msg)
 
         decoded = email.message_from_bytes(
             base64.urlsafe_b64decode(bytes(raw['raw'], 'utf-8')))
@@ -145,8 +147,9 @@ class TestGmail(unittest.TestCase):
         subject = "This is a test html email"
         message_html = "<p>This is the html message part of the email</p>"
 
-        raw = self.gmail.create_message_html(
+        msg = self.gmail._create_message_html(
             sender, to, subject, '', message_html)
+        raw = self.gmail._encode_raw_message(msg)
 
         decoded = email.message_from_bytes(
             base64.urlsafe_b64decode(bytes(raw['raw'], 'utf-8')))
@@ -190,9 +193,10 @@ class TestGmail(unittest.TestCase):
                         "with attachments</p>")
         attachments = [f'{_dir}/assets/loremipsum.txt']
 
-        raw = self.gmail.create_message_attachments(
+        msg = self.gmail._create_message_attachments(
             sender, to, subject, message_text, attachments,
             message_html=message_html)
+        raw = self.gmail._encode_raw_message(msg)
 
         decoded = email.message_from_bytes(
             base64.urlsafe_b64decode(bytes(raw['raw'], 'utf-8')))
@@ -243,9 +247,10 @@ class TestGmail(unittest.TestCase):
                         "with attachments</p>")
         attachments = [f'{_dir}/assets/loremipsum.jpeg']
 
-        raw = self.gmail.create_message_attachments(
+        msg = self.gmail._create_message_attachments(
             sender, to, subject, message_text, attachments,
             message_html=message_html)
+        raw = self.gmail._encode_raw_message(msg)
 
         decoded = email.message_from_bytes(
             base64.urlsafe_b64decode(bytes(raw['raw'], 'utf-8')))
@@ -298,9 +303,10 @@ class TestGmail(unittest.TestCase):
                         "with attachments</p>")
         attachments = [f'{_dir}/assets/loremipsum.m4a']
 
-        raw = self.gmail.create_message_attachments(
+        msg = self.gmail._create_message_attachments(
             sender, to, subject, message_text, attachments,
             message_html=message_html)
+        raw = self.gmail._encode_raw_message(msg)
 
         decoded = email.message_from_bytes(
             base64.urlsafe_b64decode(bytes(raw['raw'], 'utf-8')))
@@ -351,9 +357,10 @@ class TestGmail(unittest.TestCase):
                         "with attachments</p>")
         attachments = [f'{_dir}/assets/loremipsum.mp3']
 
-        raw = self.gmail.create_message_attachments(
+        msg = self.gmail._create_message_attachments(
             sender, to, subject, message_text, attachments,
             message_html=message_html)
+        raw = self.gmail._encode_raw_message(msg)
 
         decoded = email.message_from_bytes(
             base64.urlsafe_b64decode(bytes(raw['raw'], 'utf-8')))
@@ -404,9 +411,10 @@ class TestGmail(unittest.TestCase):
                         "with attachments</p>")
         attachments = [f'{_dir}/assets/loremipsum.mp4']
 
-        raw = self.gmail.create_message_attachments(
+        msg = self.gmail._create_message_attachments(
             sender, to, subject, message_text, attachments,
             message_html=message_html)
+        raw = self.gmail._encode_raw_message(msg)
 
         decoded = email.message_from_bytes(
             base64.urlsafe_b64decode(bytes(raw['raw'], 'utf-8')))
@@ -457,9 +465,11 @@ class TestGmail(unittest.TestCase):
                         "with attachments</p>")
         attachments = [f'{_dir}/assets/loremipsum.pdf']
 
-        raw = self.gmail.create_message_attachments(
+        msg = self.gmail._create_message_attachments(
             sender, to, subject, message_text, attachments,
             message_html=message_html)
+
+        raw = self.gmail._encode_raw_message(msg)
 
         decoded = email.message_from_bytes(
             base64.urlsafe_b64decode(bytes(raw['raw'], 'utf-8')))

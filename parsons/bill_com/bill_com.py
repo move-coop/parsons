@@ -35,7 +35,7 @@ class BillCom(object):
         self.api_url = api_url
         self.session_id = response.json()['response_data']['sessionId']
 
-    def get_payload(self, data):
+    def _get_payload(self, data):
         """
         `Args:`
             data: dict
@@ -51,7 +51,7 @@ class BillCom(object):
                 "sessionId": self.session_id,
                 "data": json.dumps(data)}
 
-    def post_request(self, data, action, object_name):
+    def _post_request(self, data, action, object_name):
         """
         `Args:`
             data: dict
@@ -77,11 +77,11 @@ class BillCom(object):
             url = "%s%s%s.json" % (self.api_url, action, object_name)
         else:
             url = "%s%s/%s.json" % (self.api_url, action, object_name)
-        payload = self.get_payload(data)
+        payload = self._get_payload(data)
         response = requests.post(url=url, data=payload, headers=self.headers)
         return response.json()
 
-    def get_request_response(self, data, action, object_name, field="response_data"):
+    def _get_request_response(self, data, action, object_name, field="response_data"):
         """
         `Args:`
             data: dict
@@ -99,7 +99,38 @@ class BillCom(object):
         `Returns:`
             A dictionary containing the choosen field from the JSON response from the post request.
         """
-        return self.post_request(data, action, object_name)[field]
+        r = self._post_request(data, action, object_name)[field]
+
+        if action == "List":
+            return self._paginate_list(r, data, object_name)
+
+        return r
+
+    def _paginate_list(self, response, data, object_name, field="response_data"):
+        """
+        Internal method to paginate through and concatenate results of lists larger than max
+        `Args:`
+            response: list of dicts
+                Data from an initial list call
+            data: dict
+                Start, max, and kwargs from initial list call
+            object_name: str
+                Name of the object being listed
+        """
+
+        r_table = Table(response)
+        max_ct = data['max']
+
+        # Flag to simulate do-while
+        first_run = True
+
+        while first_run or len(response) == max_ct:
+            first_run = False
+            data['start'] += max_ct
+            response = self._post_request(data, "List", object_name)[field]
+            r_table.concat(Table(response))
+
+        return r_table
 
     def get_user_list(self, start_user=0, max_user=999, **kwargs):
         """
@@ -119,9 +150,10 @@ class BillCom(object):
            "max": max_user,
            **kwargs
         }
-        return Table(self.get_request_response(data, "List", "User"))
 
-    def get_customer_list(self, start_customer=1, max_customer=999, **kwargs):
+        return self._get_request_response(data, "List", "User")
+
+    def get_customer_list(self, start_customer=0, max_customer=999, **kwargs):
         """
         `Args:`
             start_customer: int
@@ -140,9 +172,10 @@ class BillCom(object):
            "max": max_customer,
            **kwargs
         }
-        return Table(self.get_request_response(data, "List", "Customer"))
 
-    def get_invoice_list(self, start_invoice=1, max_invoice=999, **kwargs):
+        return self._get_request_response(data, "List", "Customer")
+
+    def get_invoice_list(self, start_invoice=0, max_invoice=999, **kwargs):
         """
         `Args:`
             start_invoice: int
@@ -161,7 +194,8 @@ class BillCom(object):
            "max": max_invoice,
            **kwargs
         }
-        return Table(self.get_request_response(data, "List", "Invoice"))
+
+        return self._get_request_response(data, "List", "Invoice")
 
     def read_customer(self, customer_id):
         """
@@ -175,7 +209,7 @@ class BillCom(object):
         data = {
             'id': customer_id
         }
-        return self.get_request_response(data, "Read", "Customer")
+        return self._get_request_response(data, "Read", "Customer")
 
     def read_invoice(self, invoice_id):
         """
@@ -189,7 +223,7 @@ class BillCom(object):
         data = {
            "id": invoice_id
         }
-        return self.get_request_response(data, "Read", "Invoice")
+        return self._get_request_response(data, "Read", "Invoice")
 
     def check_customer(self, customer1, customer2):
         """
@@ -234,6 +268,7 @@ class BillCom(object):
         customer = {"name": customer_name,
                     "email": customer_email,
                     **kwargs}
+
         # check if customer already exists
         customer_list = self.get_customer_list()
         for existing_customer in customer_list:
@@ -243,7 +278,7 @@ class BillCom(object):
         data = {
             "obj": customer
         }
-        return self.get_request_response(data, "Create", "Customer")
+        return self._get_request_response(data, "Create", "Customer")
 
     def create_invoice(self, customer_id, invoice_number, invoice_date,
                        due_date, invoice_line_items, **kwargs):
@@ -280,7 +315,7 @@ class BillCom(object):
                     **kwargs
                     }
         }
-        return self.get_request_response(data, "Create", "Invoice")
+        return self._get_request_response(data, "Create", "Invoice")
 
     def send_invoice(self, invoice_id, from_user_id, to_email_addresses,
                      message_subject, message_body, **kwargs):
@@ -314,4 +349,4 @@ class BillCom(object):
             "body": message_body
           }
         }
-        return self.get_request_response(data, "Send", "Invoice")
+        return self._get_request_response(data, "Send", "Invoice")

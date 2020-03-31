@@ -97,17 +97,19 @@ class BaseTable:
 
         return self.db.query(sql).first
 
-    def get_new_rows(self, primary_key, start_value, offset=0, chunk_size=None):
+    def get_new_rows(self, primary_key, cutoff_value, offset=0, chunk_size=None):
         """
         Get rows that have a greater primary key value than the one
         provided.
+
+        It will select every value greater than the provided value.
         """
 
         sql = f"""
                SELECT
                *
                FROM {self.table}
-               WHERE {primary_key} > {start_value}
+               WHERE {primary_key} > {cutoff_value}
                OFFSET {offset}
                """
 

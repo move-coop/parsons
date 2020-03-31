@@ -106,17 +106,19 @@ class Codes(object):
                     ]
         """
 
+        json = {"parentCodeId": parent_code_id,
+                "name": name,
+                "codeType": code_type,
+                "supportedEntities": se,
+                "description": description}
+
         if supported_entities:
 
             se = [{'name': s['name'],
                    'isSearchable': s['is_searchable'],
                    'is_applicable': s['is_applicable']} for s in supported_entities]
 
-        json = {"parentCodeId": parent_code_id,
-                "name": name,
-                "codeType": code_type,
-                "supportedEntities": se,
-                "description": description}
+            json['supportedEntities'] = se
 
         r = self.connection.post_request('codes', json=json)
         logger.info(f'Code {r} created.')

@@ -1,5 +1,5 @@
 from Newmode import Client
-from parsons.utilities import check_env, json_format
+from parsons.utilities import check_env
 from parsons.etl import Table
 import logging
 
@@ -27,11 +27,10 @@ class Newmode:
         self.api_user = check_env.check('NEWMODE_API_USER', api_user)
         self.api_password = check_env.check('NEWMODE_API_PASSWORD', api_password)
 
-        if (api_version == None):
+        if (api_version is None):
             api_version = "v1.0"
 
         self.api_version = check_env.check('NEWMODE_API_VERSION', api_version)
-
 
         self.client = Client(api_user, api_password, api_version)
 
@@ -45,7 +44,7 @@ class Newmode:
 
         return table
 
-    def getTools(self, params = {}):
+    def getTools(self, params={}):
         tools = self.client.getTools(params=params)
         if (tools):
             return self.convertToTable(tools)
@@ -53,7 +52,7 @@ class Newmode:
             logging.warning("Empty tools returned")
             return []
 
-    def getTool(self, tool_id, params = {}):
+    def getTool(self, tool_id, params={}):
         tool = self.client.getTool(tool_id, params=params)
         if (tool):
             return self.convertToTable(tool)
@@ -79,7 +78,7 @@ class Newmode:
         Targets information.
     """
 
-    def lookupTargets(self, tool_id, search=None, params = {}):
+    def lookupTargets(self, tool_id, search=None, params={}):
         targets = self.client.lookupTargets(tool_id, search, params=params)
         if (targets):
             data = []
@@ -91,7 +90,7 @@ class Newmode:
             logging.warning("Empty targets returned")
             return []
 
-    def getAction(self, tool_id, params = {}):
+    def getAction(self, tool_id, params={}):
         action = self.client.getAction(tool_id, params=params)
         if (action):
             return self.convertToTable(action)
@@ -99,7 +98,7 @@ class Newmode:
             logging.warning("Empty action returned")
             return []
 
-    def runAction(self, tool_id, payload, params = {}):
+    def runAction(self, tool_id, payload, params={}):
         action = self.client.runAction(tool_id, payload, params=params)
         if (action):
             if ('link' in action):
@@ -110,7 +109,7 @@ class Newmode:
             logging.warning("Error in response")
             return []
 
-    def getTarget(self, target_id, params = {}):
+    def getTarget(self, target_id, params={}):
         target = self.client.getTarget(target_id, params=params)
         if (target):
             return self.convertToTable(target)
@@ -118,7 +117,7 @@ class Newmode:
             logging.warning("Empty target returned")
             return []
 
-    def getCampaigns(self, params = {}):
+    def getCampaigns(self, params={}):
         campaigns = self.client.getCampaigns(params=params)
         if (campaigns):
             return self.convertToTable(campaigns)
@@ -126,7 +125,7 @@ class Newmode:
             logging.warning("Empty campaigns returned")
             return []
 
-    def getCampaign(self, campaign_id, params = {}):
+    def getCampaign(self, campaign_id, params={}):
         campaign = self.client.getCampaign(campaign_id, params=params)
         if (campaign):
             return self.convertToTable(campaign)
@@ -134,7 +133,7 @@ class Newmode:
             logging.warning("Empty campaign returned")
             return []
 
-    def getOrganizations(self, params = {}):
+    def getOrganizations(self, params={}):
         organizations = self.client.getOrganizations(params=params)
         if (organizations):
             return self.convertToTable(organizations)
@@ -142,7 +141,7 @@ class Newmode:
             logging.warning("Empty organizations returned")
             return []
 
-    def getOrganization(self, organization_id, params = {}):
+    def getOrganization(self, organization_id, params={}):
         organization = self.client.getOrganization(organization_id, params=params)
         if (organization):
             return self.convertToTable(organization)
@@ -150,7 +149,7 @@ class Newmode:
             logging.warning("Empty organization returned")
             return []
 
-    def getServices(self, params = {}):
+    def getServices(self, params={}):
         services = self.client.getServices(params=params)
         if (services):
             return self.convertToTable(services)
@@ -158,7 +157,7 @@ class Newmode:
             logging.warning("Empty services returned")
             return []
 
-    def getService(self, service_id, params = {}):
+    def getService(self, service_id, params={}):
         service = self.client.getService(service_id, params=params)
         if (service):
             return self.convertToTable(service)
@@ -166,7 +165,7 @@ class Newmode:
             logging.warning("Empty service returned")
             return []
 
-    def getOutreaches(self, tool_id, params = {}):
+    def getOutreaches(self, tool_id, params={}):
         outreaches = self.client.getOutreaches(tool_id, params=params)
         if (outreaches):
             return self.convertToTable(outreaches)
@@ -174,7 +173,7 @@ class Newmode:
             logging.warning("Empty outreaches returned")
             return []
 
-    def getOutreach(self, outreach_id, params = {}):
+    def getOutreach(self, outreach_id, params={}):
         outreach = self.client.getOutreach(outreach_id, params=params)
         if (outreach):
             return self.convertToTable(outreach)

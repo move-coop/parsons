@@ -117,4 +117,6 @@ class RedshiftCopyTable(object):
         return key
 
     def temp_s3_delete(self, key):
-        self.s3.remove_file(self.s3_temp_bucket, key)
+
+        if key:
+            self.s3.remove_file(self.s3_temp_bucket, key)

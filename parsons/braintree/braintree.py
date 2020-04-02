@@ -188,7 +188,7 @@ class Braintree(object):
         # Iterating on collection.items triggers web requests in batches of 50 records
         # Disputes query api doesn't return the ids -- we can't do anything but iterate
         if not collection.is_success:
-            raise ParsonsBraintreeError("Braintree dispute query failed")  # TODO: give more info
+            raise ParsonsBraintreeError(f"Braintree dispute query failed: {collection.message}")
         return Table([
             self._dispute_header()
         ] + [self._dispute_to_row(r) for r in collection.disputes.items])

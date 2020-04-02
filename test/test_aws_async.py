@@ -73,7 +73,7 @@ class TestAsync(unittest.TestCase):
                         fake_table_process,
                         'foo',  # bucket
                         group_count=5,
-                        storage='test',
+                        storage='local',
                         func_kwargs={'x': 1, 'y': [2, 3]})
         self.assertEqual(count, 2)
         assert_matching_tables(
@@ -86,7 +86,7 @@ class TestAsync(unittest.TestCase):
                         FakeRunner.foobar,
                         'foo',  # bucket
                         group_count=5,
-                        storage='test',
+                        storage='local',
                         func_class=FakeRunner,
                         func_class_kwargs={'init1': 'initx'},
                         func_kwargs={'a': 1, 'x': 2, 'y': 3})
@@ -104,7 +104,7 @@ class TestAsync(unittest.TestCase):
                         FakeRunner.foobar,
                         'foo',  # bucket
                         group_count=5,
-                        storage='test',
+                        storage='local',
                         func_class=FakeRunner,
                         func_class_kwargs={'init1': 'initx'},
                         catch=True,

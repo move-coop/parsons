@@ -212,6 +212,21 @@ class S3(object):
 
         self.client.create_bucket(Bucket=bucket)
 
+    def _put_object(self, bucket, key, object_bytes, **kwargs):
+        return self.client.put_object(Bucket=bucket, Key=key, Body=object_bytes, **kwargs)
+
+    def _get_range(self, bucket, key, rangestart, rangeend):
+        """
+        Gets an explicit byte-range of an S3 file
+        """
+        # bytes is INCLUSIVE for the rangeend parameter, unlike python
+        # so e.g. while python returns 2 bytes for data[2:4]
+        # Range: bytes=2-4 will return 3!! So we subtract 1
+        response = self.client.get_object(
+            Bucket=bucket, Key=key,
+            Range='bytes={}-{}'.format(rangestart, rangeend - 1))
+        return response['Body'].read()
+
     def put_file(self, bucket, key, local_path, acl='bucket-owner-full-control', **kwargs):
         """
         Uploads an object to an S3 bucket

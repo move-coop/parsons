@@ -1,70 +1,17 @@
-"""
-This library addresses the issue of trying to process a large number of items with some action
-in an AWS Lambda instance, if the current maximum (15min) Lambda duration is not sufficient.
-
-It does this by first copying the data to S3 and then dispatching multiple
-Lambda invocations to process different ranges of the csv -- only loading in the data range
-required.
-
-At time of writing (Fall 2019):
-* Web API calls from Lambda often process about 2/second ~> maximum of 15*60*2 = 1800 max records
-* SQS messages are sent around 1600/minute ~> maximum of 15*1600 = 24000 max records processed
-* Lambda uploads to an S3 bucket (in the same region) are around 8M/second, suggesting if
-  each 'row' of data is around 512 bytes then the same 24K items can be send in less than 2 seconds
-  which suggests = 10million max records processed
-                   ^^^^^^^^^ (This is better)
-
-TODO: rework this or remove it
-With a Table and a function to process them, we want to divide up the table and distribute the rows.
-The function's signature must take a Table as its first argument, e.g.
-   `def foo_processor(table, arg1=None, arg2=None)`
-Then:
-```
-from parsons.aws import distribute_task
-
-...
-    distribute_task(list_data_to_process, foo_processor, s3bucket_name,
-                    func_kwargs={'arg1': 'jsonabledata'....})
-```
-"""
-
 import csv
-import datetime
 from io import TextIOWrapper, BytesIO, StringIO
 import sys
 import traceback
-import uuid
-
-import boto3
+import time
 
 from parsons.aws.aws_async import get_func_task_path, import_and_get_task, run as maybe_async_run
+from parsons.aws.s3 import S3
 from parsons.etl.table import Table
+from parsons.utilities.check_env import check
 
-EXPIRATION_DURATION = {'days': 1}
 
-
-class S3Storage:
-
-    def __init__(self):
-        self.s3 = boto3.client('s3')
-
-    def put(self, bucket, key, data):
-        # TODO: make EXPIRATION_DURATION configurable
-        return self.s3.put_object(
-            Bucket=bucket,
-            Key=key,
-            Body=data,
-            Expires=datetime.datetime.now() + datetime.timedelta(**EXPIRATION_DURATION))
-
-    def get_range(self, bucket, key, rangestart, rangeend):
-        get_args = {'Bucket': bucket, 'Key': key}
-        if rangestart:
-            # bytes is INCLUSIVE for the rangeend parameter, unlike python
-            # so e.g. while python returns 2 bytes for data[2:4]
-            # Range: bytes=2-4 will return 3!! So we subtract 1
-            get_args['Range'] = 'bytes={}-{}'.format(rangestart, rangeend - 1)
-        response = self.s3.get_object(**get_args)
-        return response['Body'].read()
+class DistributeTaskException(Exception):
+    pass
 
 
 class TestStorage:
@@ -72,17 +19,15 @@ class TestStorage:
     def __init__(self):
         self.data = {}
 
-    def put(self, bucket, key, data):
+    def _put_object(self, bucket, key, data):
         self.data[key] = data
 
-    def get_range(self, bucket, key, rangestart, rangeend):
+    def _get_range(self, bucket, key, rangestart, rangeend):
         return self.data[key][rangestart:rangeend]
 
 
-STORAGES = {
-    's3': S3Storage(),
-    'test': TestStorage()
-}
+FAKE_STORAGE = TestStorage()
+S3_TEMP_KEY_PREFIX = "Parsons_DistributeTask"
 
 
 def distribute_task_csv(csv_bytes_utf8, func_to_run, bucket,
@@ -98,6 +43,7 @@ def distribute_task_csv(csv_bytes_utf8, func_to_run, bucket,
     first argument is bytes of a csv encoded into utf8.
     This function is used by distribute_task() which you should use instead.
     """
+    global FAKE_STORAGE
     func_name = get_func_task_path(func_to_run, func_class)
     row_chunks = csv_bytes_utf8.split(b'\n')
     cursor = 0
@@ -117,9 +63,13 @@ def distribute_task_csv(csv_bytes_utf8, func_to_run, bucket,
         group_ranges.append((row_ranges[grpstep][0], row_ranges[end][1]))
 
     # upload data
-    # TODO: make storagekey configurable or at least prefix?
-    storagekey = str(uuid.uuid4())
-    response = STORAGES[storage].put(bucket, storagekey, csv_bytes_utf8)
+    filename = hash(time.time())
+    storagekey = f"{S3_TEMP_KEY_PREFIX}/{filename}.csv"
+    response = None
+    if storage == 's3':
+        response = S3()._put_object(bucket, storagekey, csv_bytes_utf8)
+    else:
+        response = FAKE_STORAGE._put_object(bucket, storagekey, csv_bytes_utf8)
 
     # start processes
     results = [
@@ -133,7 +83,8 @@ def distribute_task_csv(csv_bytes_utf8, func_to_run, bucket,
             'put_response': response}
 
 
-def distribute_task(table, func_to_run, bucket,
+def distribute_task(table, func_to_run,
+                    bucket=None,
                     func_kwargs=None,
                     func_class=None,
                     func_class_kwargs=None,
@@ -142,19 +93,52 @@ def distribute_task(table, func_to_run, bucket,
                     storage='s3'):
     """
     Distribute processing rows in a table across multiple AWS Lambda invocations.
-    TODO: document WHY we would use this
-    TODO: check_env for defaults, including for bucket
-    TODO: document env variables and how/why one runs this
-    TODO: document needing to include parsons.aws.event_command in Lambda handler
+
+    If you are running the processing of a table inside AWS Lambda, then you
+    are limited by how many rows can be processed within the Lambda's time limit
+    (at time-of-writing, maximum 15min).
+
+    Based on experience and some napkin math, with
+    the same data that would allow 1000 rows to be processed inside a single
+    AWS Lambda instance, this method allows 10 MILLION rows to be processed.
+
+    Rather than converting the table to SQS
+    or other options, the fastest way is to upload the table to S3, and then
+    invoke multiple Lambda sub-invocations, each of which can be sent a
+    byte-range of the data in the S3 CSV file for which to process.
+
+    Using this method requires some setup. You have three tasks:
+    1. Define the function to process rows, the first argument, must take
+       your table's data (though only a subset of rows will be passed)
+       (e.g. `def task_for_distribution(table, **kwargs):`)
+    2. Where you would have run `task_for_distribution(my_table, **kwargs)`
+       instead call `distribute_task(my_table, task_for_distribution, func_kwargs=kwargs)
+       (either setting env var S3_TEMP_BUCKET or passing a bucket= parameter)
+    3. Setup your Lambda handler to include this code:
+       ```
+       from parsons.aws import event_command
+
+       def handler(event, context):
+
+           ## ADD THESE TWO LINES TO TOP OF HANDLER:
+           if event_command(event, context):
+               return
+       ```
+       (or run through `Zappa <https://github.com/Miserlou/Zappa>`)
+
+    To test locally, include the argument `storage="local"` which will test
+    the distribute_task function, but run the task sequentially and in local memory.
 
     `Args:`
-        table: Table
-           The bucket name
+        table: Parsons Table
+           Table of data you wish to distribute processing across Lambda invocations
+           of `func_to_run` argument.
         func_to_run: function
            The function you want to run whose
            first argument will be a subset of table
         bucket: str
            The bucket name to use for s3 upload to process the whole table
+           Not required if you set environment variable ``S3_TEMP_BUCKET``
         func_kwargs: dict
            If the function has other arguments to pass along with `table`
            then provide them as a dict here. They must all be JSON-able.
@@ -178,11 +162,16 @@ def distribute_task(table, func_to_run, bucket,
            own function might fail causing repeats.
         group_count: int
            Set this to how many rows to process with each Lambda invocation (Default: 100)
+        storage: str
+           Debugging option: Defaults to "s3". To test distribution locally without s3,
+           set to "local".
     `Returns:`
         Debug information -- do not rely on the output, as it will change
         depending on how this method is invoked.
     """
-
+    if storage not in ('s3', 'local'):
+        raise DistributeTaskException(f'storage argument must be s3 or local')
+    bucket = check('S3_TEMP_BUCKET', bucket)
     csvdata = StringIO()
     outcsv = csv.writer(csvdata)
     outcsv.writerows(table.table.data())
@@ -201,8 +190,12 @@ def distribute_task(table, func_to_run, bucket,
 def process_task_portion(bucket, storagekey, rangestart, rangeend, func_name, header,
                          storage='s3', func_kwargs=None, catch=False,
                          func_class_kwargs=None):
+    global FAKE_STORAGE
     func = import_and_get_task(func_name, func_class_kwargs)
-    filedata = STORAGES[storage].get_range(bucket, storagekey, rangestart, rangeend)
+    if storage == 's3':
+        filedata = S3()._get_range(bucket, storagekey, rangestart, rangeend)
+    else:
+        filedata = FAKE_STORAGE._get_range(bucket, storagekey, rangestart, rangeend)
 
     lines = list(csv.reader(TextIOWrapper(BytesIO(filedata), encoding='utf-8-sig')))
     table = Table([header] + lines)
@@ -222,14 +215,3 @@ def process_task_portion(bucket, storagekey, rangestart, rangeend, func_name, he
                     'storagekey': storagekey}
     else:
         func(table, **func_kwargs)
-
-
-def test():
-    """Small test function to test local methods"""
-    a = [(a, a+1, a+2) for a in range(21)]
-    a[0:0] = [['a', 'b', 'c']]  # header
-    csvdata = StringIO()
-    outcsv = csv.writer(csvdata)
-    outcsv.writerows(a)
-    distribute_task_csv(csvdata.getvalue().encode(), print, 'x',
-                        group_count=5, storage='test', func_kwargs={'foo': 'bar'})

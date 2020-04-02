@@ -6,8 +6,10 @@ from parsons.etl.table import Table
 from parsons.utilities.check_env import check as check_env
 
 logger = logging.getLogger(__name__)
-# logger.info()
-# logger.debug()
+
+
+class ParsonsBraintreeError(Exception):
+    pass
 
 
 class Braintree(object):
@@ -186,7 +188,7 @@ class Braintree(object):
         # Iterating on collection.items triggers web requests in batches of 50 records
         # Disputes query api doesn't return the ids -- we can't do anything but iterate
         if not collection.is_success:
-            raise Exception("Braintree dispute query failed")  # TODO: give more info
+            raise ParsonsBraintreeError("Braintree dispute query failed")  # TODO: give more info
         return Table([
             self._dispute_header()
         ] + [self._dispute_to_row(r) for r in collection.disputes.items])
@@ -299,7 +301,7 @@ class Braintree(object):
             collection_query = self._get_query_objects(query_type, **default_query)
 
         if not collection_query:
-            raise Exception(
+            raise ParsonsBraintreeError(
                 "You must pass some query parameters: "
                 "query_dict, start_date with end_date, or query_list")
 
@@ -327,12 +329,12 @@ class Braintree(object):
                 for qual, vals in filters.items():  # likely only one, but fine
                     queryobj_qualfunc = getattr(queryobj, qual, None)
                     if not queryobj_qualfunc:
-                        raise Exception("oh no, that's not a braintree parameter")
+                        raise ParsonsBraintreeError("oh no, that's not a braintree parameter")
                     if not isinstance(vals, list):
                         vals = [vals]
                     queries.append(queryobj_qualfunc(*vals))
             else:
-                raise Exception("oh no, that's not a braintree parameter")
+                raise ParsonsBraintreeError("oh no, that's not a braintree parameter")
         return queries
 
     def _create_collection(self, ids, queries):

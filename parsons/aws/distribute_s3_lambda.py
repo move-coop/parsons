@@ -1,5 +1,6 @@
 import csv
 from io import TextIOWrapper, BytesIO, StringIO
+import logging
 import sys
 import traceback
 import time
@@ -8,6 +9,8 @@ from parsons.aws.aws_async import get_func_task_path, import_and_get_task, run a
 from parsons.aws.s3 import S3
 from parsons.etl.table import Table
 from parsons.utilities.check_env import check
+
+logger = logging.getLogger(__name__)
 
 
 class DistributeTaskException(Exception):
@@ -65,6 +68,9 @@ def distribute_task_csv(csv_bytes_utf8, func_to_run, bucket,
     # upload data
     filename = hash(time.time())
     storagekey = f"{S3_TEMP_KEY_PREFIX}/{filename}.csv"
+    groupcount = len(group_ranges)
+    logger.debug(f'distribute_task_csv storagekey {storagekey} w/ {groupcount} groups')
+
     response = None
     if storage == 's3':
         response = S3()._put_object(bucket, storagekey, csv_bytes_utf8)
@@ -191,6 +197,8 @@ def process_task_portion(bucket, storagekey, rangestart, rangeend, func_name, he
                          storage='s3', func_kwargs=None, catch=False,
                          func_class_kwargs=None):
     global FAKE_STORAGE
+
+    logger.debug(f'process_task_portion func_name {func_name}, storagekey {storagekey}, byterange {rangestart}-{rangeend}')
     func = import_and_get_task(func_name, func_class_kwargs)
     if storage == 's3':
         filedata = S3()._get_range(bucket, storagekey, rangestart, rangeend)

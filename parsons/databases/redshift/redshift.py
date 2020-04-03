@@ -691,6 +691,10 @@ class Redshift(RedshiftCreateTable, RedshiftCopyTable, RedshiftTableUtilities, R
 
                 # Copy to a staging table
                 logger.info(f'Building staging table: {staging_tbl}')
+
+                sql = f'CREATE TABLE {staging_tbl} (LIKE {target_table})'
+                self.query_with_connection(sql, connection, commit=False)
+
                 self.copy(table_obj, staging_tbl)
 
                 staging_table_name = staging_tbl.split('.')[1]

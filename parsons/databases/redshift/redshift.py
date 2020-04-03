@@ -431,11 +431,6 @@ class Redshift(RedshiftCreateTable, RedshiftCopyTable, RedshiftTableUtilities, R
                 Will check if the target table varchar widths are wide enough to copy in the
                 table data. If not, will attempt to alter the table to make it wide enough. This
                 will not work with tables that have dependent views.
-            template_table: str
-                Instead of specifying columns, columntypes, and/or inference, if there
-                is a pre-existing table that has the same columns/types, then use the template_table
-                table name as the schema for the new table.
-                Unless you set specifycols=False explicitly, a template_table will set it to True
             aws_access_key_id:
                 An AWS access key granted to the bucket where the file is located. Not required
                 if keys are stored as environmental variables.
@@ -446,6 +441,14 @@ class Redshift(RedshiftCreateTable, RedshiftCopyTable, RedshiftTableUtilities, R
                 An AWS IAM Role ARN string; an alternative credential for the COPY command
                 from Redshift to S3. The IAM role must have been assigned to the Redshift
                 instance and have access to the S3 bucket.
+            cleanup_s3_file: boolean
+                The s3 upload is removed by default on cleanup. You can set to False for debugging.
+            template_table: str
+                Instead of specifying columns, columntypes, and/or inference, if there
+                is a pre-existing table that has the same columns/types, then use the template_table
+                table name as the schema for the new table.
+                Unless you set specifycols=False explicitly, a template_table will set it to True
+
         `Returns`
             Parsons Table or ``None``
                 See :ref:`parsons-table` for output options.

@@ -3,7 +3,7 @@ from test.utils import assert_matching_tables
 
 from parsons.etl.table import Table
 from parsons.aws.aws_async import import_and_get_task, get_func_task_path
-from parsons.aws.distribute_s3_lambda import distribute_task
+from parsons.aws.lambda_distribute import distribute_task
 
 
 def fake_func(arg1, arg2, kwarg1=None, kwarg2=56):

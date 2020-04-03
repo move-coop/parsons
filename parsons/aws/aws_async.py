@@ -59,7 +59,7 @@ def run(func, args=[], kwargs={}, service='lambda', capture_response=False,
         func_class=None, func_class_init_kwargs=None, **task_kwargs):
     lambda_function_name = (remote_aws_lambda_function_name
                             or os.environ.get('AWS_LAMBDA_FUNCTION_NAME'))
-    if not lambda_function_name:
+    if not lambda_function_name or lambda_function_name == 'FORCE_LOCAL':
         # We are neither running in Lambda environment, nor given one to invoke
         # so let's run it synchronously -- so code can be compatible both in-and-out of Lambda
         func(*args, **kwargs)

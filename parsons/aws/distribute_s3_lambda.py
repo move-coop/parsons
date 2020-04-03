@@ -82,7 +82,11 @@ def distribute_task_csv(csv_bytes_utf8, func_to_run, bucket,
         maybe_async_run(
             process_task_portion,
             [bucket, storagekey, grp[0], grp[1], func_name, header,
-             storage, func_kwargs, catch, func_class_kwargs])
+             storage, func_kwargs, catch, func_class_kwargs],
+            # if we are using local storage, then it must be run locally, as well
+            # (good for testing/debugging)
+            remote_aws_lambda_function_name='FORCE_LOCAL' if storage == 'local' else None
+        )
         for grp in group_ranges]
     return {'DEBUG_ONLY': 'results may vary depending on context/platform',
             'results': results,
@@ -198,7 +202,8 @@ def process_task_portion(bucket, storagekey, rangestart, rangeend, func_name, he
                          func_class_kwargs=None):
     global FAKE_STORAGE
 
-    logger.debug(f'process_task_portion func_name {func_name}, storagekey {storagekey}, byterange {rangestart}-{rangeend}')
+    logger.debug(f'process_task_portion func_name {func_name}, '
+                 f'storagekey {storagekey}, byterange {rangestart}-{rangeend}')
     func = import_and_get_task(func_name, func_class_kwargs)
     if storage == 's3':
         filedata = S3()._get_range(bucket, storagekey, rangestart, rangeend)

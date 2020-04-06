@@ -88,6 +88,38 @@ class TestNewmode(unittest.TestCase):
             'name': 'Organization 1'
         }
 
+        self.nm.client.getServices.return_value = [
+            {
+                'id': 1,
+                'title': 'Service 1'
+            },
+            {
+                'id': 2,
+                'title': 'Service 2'
+            },
+        ]
+
+        self.nm.client.getService.return_value = {
+            'id': 1,
+            'name': 'Service 1'
+        }
+
+        self.nm.client.getOutreaches.return_value = [
+            {
+                'id': 1,
+                'title': 'Outreach 1'
+            },
+            {
+                'id': 2,
+                'title': 'Outreach 2'
+            },
+        ]
+
+        self.nm.client.getOutreach.return_value = {
+            'id': 1,
+            'name': 'Outreach 1'
+        }
+
     def test_get_tools(self):
         args = {}
         response = self.nm.get_tools(args)
@@ -152,3 +184,28 @@ class TestNewmode(unittest.TestCase):
         response = self.nm.get_organization(id)
         self.nm.client.getOrganization.assert_called_with(id, params={})
         self.assertEqual(response[0]['name'], 'Organization 1')
+
+    def test_get_services(self):
+        args = {}
+        response = self.nm.get_services(args)
+        self.nm.client.getServices.assert_called_with(params=args)
+        self.assertEqual(response[0]['title'], 'Service 1')
+
+    def test_get_service(self):
+        id = 1
+        response = self.nm.get_service(id)
+        self.nm.client.getService.assert_called_with(id, params={})
+        self.assertEqual(response[0]['name'], 'Service 1')
+
+    def test_get_outreaches(self):
+        id = 1
+        args = {}
+        response = self.nm.get_outreaches(id, args)
+        self.nm.client.getOutreaches.assert_called_with(id, params=args)
+        self.assertEqual(response[0]['title'], 'Outreach 1')
+
+    def test_get_outreach(self):
+        id = 1
+        response = self.nm.get_outreach(id)
+        self.nm.client.getOutreach.assert_called_with(id, params={})
+        self.assertEqual(response[0]['name'], 'Outreach 1')

@@ -223,7 +223,7 @@ options.</p>
 <p>Redshift core methods focus on input, output and querying of the database.</p>
 <dl class="class">
 <dt id="parsons.Redshift">
-<em class="property">class </em><code class="descclassname">parsons.</code><code class="descname">Redshift</code><span class="sig-paren">(</span><em>username=None</em>, <em>password=None</em>, <em>host=None</em>, <em>db=None</em>, <em>port=None</em>, <em>timeout=10</em>, <em>s3_temp_bucket=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/databases/redshift/redshift.html#Redshift"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.Redshift" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="descclassname">parsons.</code><code class="descname">Redshift</code><span class="sig-paren">(</span><em>username=None</em>, <em>password=None</em>, <em>host=None</em>, <em>db=None</em>, <em>port=None</em>, <em>timeout=10</em>, <em>s3_temp_bucket=None</em>, <em>aws_access_key_id=None</em>, <em>aws_secret_access_key=None</em>, <em>iam_role=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/databases/redshift/redshift.html#Redshift"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.Redshift" title="Permalink to this definition">¶</a></dt>
 <dd><p>A Redshift class to connect to database.</p>
 <dl class="docutils">
 <dt>Args:</dt>
@@ -244,6 +244,17 @@ options.</p>
 <dd>Name of the S3 bucket that will be used for storing data during bulk transfers.
 Required if you intend to perform bulk data transfers (eg. the copy_s3 method),
 and env variable <code class="docutils literal notranslate"><span class="pre">S3_TEMP_BUCKET</span></code> is not populated.</dd>
+<dt>aws_access_key_id: str</dt>
+<dd>The default AWS access key id for copying data from S3 into Redshift
+when running copy/upsert/etc methods.
+This will default to environment variable AWS_ACCESS_KEY_ID.</dd>
+<dt>aws_secret_access_key: str</dt>
+<dd>The default AWS secret access key for copying data from S3 into Redshift
+when running copy/upsert/etc methods.
+This will default to environment variable AWS_SECRET_ACCESS_KEY.</dd>
+<dt>iam_role: str</dt>
+<dd>AWS IAM Role ARN string – an optional, different way for credentials to
+be provided in the Redshift copy command that does not require an access key.</dd>
 </dl>
 </dd>
 </dl>
@@ -337,7 +348,7 @@ commit manually with <code class="docutils literal notranslate"><span class="pre
 
 <dl class="function">
 <dt id="parsons.Redshift.copy">
-<code class="descclassname">parsons.Redshift.</code><code class="descname">copy</code><span class="sig-paren">(</span><em>self</em>, <em>tbl</em>, <em>table_name</em>, <em>if_exists='fail'</em>, <em>max_errors=0</em>, <em>distkey=None</em>, <em>sortkey=None</em>, <em>padding=None</em>, <em>statupdate=False</em>, <em>compupdate=True</em>, <em>acceptanydate=True</em>, <em>emptyasnull=True</em>, <em>blanksasnull=True</em>, <em>nullas=None</em>, <em>acceptinvchars=True</em>, <em>dateformat='auto'</em>, <em>timeformat='auto'</em>, <em>varchar_max=None</em>, <em>truncatecolumns=False</em>, <em>columntypes=None</em>, <em>specifycols=None</em>, <em>alter_table=False</em>, <em>aws_access_key_id=None</em>, <em>aws_secret_access_key=None</em><span class="sig-paren">)</span><a class="headerlink" href="#parsons.Redshift.copy" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">parsons.Redshift.</code><code class="descname">copy</code><span class="sig-paren">(</span><em>self</em>, <em>tbl</em>, <em>table_name</em>, <em>if_exists='fail'</em>, <em>max_errors=0</em>, <em>distkey=None</em>, <em>sortkey=None</em>, <em>padding=None</em>, <em>statupdate=False</em>, <em>compupdate=True</em>, <em>acceptanydate=True</em>, <em>emptyasnull=True</em>, <em>blanksasnull=True</em>, <em>nullas=None</em>, <em>acceptinvchars=True</em>, <em>dateformat='auto'</em>, <em>timeformat='auto'</em>, <em>varchar_max=None</em>, <em>truncatecolumns=False</em>, <em>columntypes=None</em>, <em>specifycols=None</em>, <em>alter_table=False</em>, <em>aws_access_key_id=None</em>, <em>aws_secret_access_key=None</em>, <em>iam_role=None</em>, <em>cleanup_s3_file=True</em>, <em>template_table=None</em><span class="sig-paren">)</span><a class="headerlink" href="#parsons.Redshift.copy" title="Permalink to this definition">¶</a></dt>
 <dd><p>Copy a <a class="reference internal" href="table.html#parsons-table"><span class="std std-ref">Parsons Table</span></a> to Redshift.</p>
 <dl class="docutils">
 <dt><cite>Args:</cite></dt>
@@ -411,6 +422,17 @@ if keys are stored as environmental variables.</dd>
 <dt>aws_secret_access_key:</dt>
 <dd>An AWS secret access key granted to the bucket where the file is located. Not
 required if keys are stored as environmental variables.</dd>
+<dt>iam_role: str</dt>
+<dd>An AWS IAM Role ARN string; an alternative credential for the COPY command
+from Redshift to S3. The IAM role must have been assigned to the Redshift
+instance and have access to the S3 bucket.</dd>
+<dt>cleanup_s3_file: boolean</dt>
+<dd>The s3 upload is removed by default on cleanup. You can set to False for debugging.</dd>
+<dt>template_table: str</dt>
+<dd>Instead of specifying columns, columntypes, and/or inference, if there
+is a pre-existing table that has the same columns/types, then use the template_table
+table name as the schema for the new table.
+Unless you set specifycols=False explicitly, a template_table will set it to True</dd>
 </dl>
 </dd>
 <dt><cite>Returns</cite></dt>
@@ -573,7 +595,7 @@ required if keys are stored as environmental variables.</dd>
 
 <dl class="function">
 <dt id="parsons.Redshift.upsert">
-<code class="descclassname">parsons.Redshift.</code><code class="descname">upsert</code><span class="sig-paren">(</span><em>self</em>, <em>table_obj</em>, <em>target_table</em>, <em>primary_key</em>, <em>vacuum=True</em>, <em>distinct_check=True</em><span class="sig-paren">)</span><a class="headerlink" href="#parsons.Redshift.upsert" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">parsons.Redshift.</code><code class="descname">upsert</code><span class="sig-paren">(</span><em>self</em>, <em>table_obj</em>, <em>target_table</em>, <em>primary_key</em>, <em>vacuum=True</em>, <em>distinct_check=True</em>, <em>cleanup_temp_table=True</em>, <em>**copy_args</em><span class="sig-paren">)</span><a class="headerlink" href="#parsons.Redshift.upsert" title="Permalink to this definition">¶</a></dt>
 <dd><p>Preform an upsert on an existing table. An upsert is a function in which records
 in a table are updated and inserted at the same time. Unlike other SQL databases,
 it does not exist natively in Redshift.</p>
@@ -592,6 +614,10 @@ or super user to effectively vacuum a table, however the method will not fail
 if you lack these priviledges.</dd>
 <dt>distinct_check: boolean</dt>
 <dd>Check if the primary key column is distinct. Raise error if not.</dd>
+<dt>cleanup_temp_table: boolean</dt>
+<dd>A temp table is dropped by default on cleanup. You can set to False for debugging.</dd>
+<dt>**copy_args: kwargs</dt>
+<dd>See <code class="xref py py-func docutils literal notranslate"><span class="pre">copy`()</span></code> for options.</dd>
 </dl>
 </dd>
 </dl>

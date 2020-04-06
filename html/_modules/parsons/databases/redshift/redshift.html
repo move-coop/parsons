@@ -221,10 +221,22 @@
 <span class="sd">            Name of the S3 bucket that will be used for storing data during bulk transfers.</span>
 <span class="sd">            Required if you intend to perform bulk data transfers (eg. the copy_s3 method),</span>
 <span class="sd">            and env variable ``S3_TEMP_BUCKET`` is not populated.</span>
+<span class="sd">        aws_access_key_id: str</span>
+<span class="sd">            The default AWS access key id for copying data from S3 into Redshift</span>
+<span class="sd">            when running copy/upsert/etc methods.</span>
+<span class="sd">            This will default to environment variable AWS_ACCESS_KEY_ID.</span>
+<span class="sd">        aws_secret_access_key: str</span>
+<span class="sd">            The default AWS secret access key for copying data from S3 into Redshift</span>
+<span class="sd">            when running copy/upsert/etc methods.</span>
+<span class="sd">            This will default to environment variable AWS_SECRET_ACCESS_KEY.</span>
+<span class="sd">        iam_role: str</span>
+<span class="sd">            AWS IAM Role ARN string -- an optional, different way for credentials to</span>
+<span class="sd">            be provided in the Redshift copy command that does not require an access key.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">username</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">password</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">host</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">db</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">port</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-                 <span class="n">timeout</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">s3_temp_bucket</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+                 <span class="n">timeout</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">s3_temp_bucket</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                 <span class="n">aws_access_key_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">aws_secret_access_key</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">iam_role</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
 
         <span class="k">try</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">username</span> <span class="o">=</span> <span class="n">username</span> <span class="ow">or</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s1">&#39;REDSHIFT_USERNAME&#39;</span><span class="p">]</span>
@@ -240,6 +252,11 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">timeout</span> <span class="o">=</span> <span class="n">timeout</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">dialect</span> <span class="o">=</span> <span class="s1">&#39;redshift&#39;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">s3_temp_bucket</span> <span class="o">=</span> <span class="n">s3_temp_bucket</span> <span class="ow">or</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;S3_TEMP_BUCKET&#39;</span><span class="p">)</span>
+        <span class="c1"># We don&#39;t check/load the environment variables for aws_* here</span>
+        <span class="c1"># because the logic in S3() and rs_copy_table.py does already.</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">aws_access_key_id</span> <span class="o">=</span> <span class="n">aws_access_key_id</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">aws_secret_access_key</span> <span class="o">=</span> <span class="n">aws_secret_access_key</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">iam_role</span> <span class="o">=</span> <span class="n">iam_role</span>
 
     <span class="nd">@contextmanager</span>
     <span class="k">def</span> <span class="nf">connection</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
@@ -521,7 +538,8 @@
              <span class="n">emptyasnull</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">blanksasnull</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">nullas</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">acceptinvchars</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
              <span class="n">dateformat</span><span class="o">=</span><span class="s1">&#39;auto&#39;</span><span class="p">,</span> <span class="n">timeformat</span><span class="o">=</span><span class="s1">&#39;auto&#39;</span><span class="p">,</span> <span class="n">varchar_max</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">truncatecolumns</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
              <span class="n">columntypes</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">specifycols</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">alter_table</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
-             <span class="n">aws_access_key_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">aws_secret_access_key</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+             <span class="n">aws_access_key_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">aws_secret_access_key</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">iam_role</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+             <span class="n">cleanup_s3_file</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">template_table</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Copy a :ref:`parsons-table` to Redshift.</span>
 
@@ -595,13 +613,25 @@
 <span class="sd">            aws_secret_access_key:</span>
 <span class="sd">                An AWS secret access key granted to the bucket where the file is located. Not</span>
 <span class="sd">                required if keys are stored as environmental variables.</span>
+<span class="sd">            iam_role: str</span>
+<span class="sd">                An AWS IAM Role ARN string; an alternative credential for the COPY command</span>
+<span class="sd">                from Redshift to S3. The IAM role must have been assigned to the Redshift</span>
+<span class="sd">                instance and have access to the S3 bucket.</span>
+<span class="sd">            cleanup_s3_file: boolean</span>
+<span class="sd">                The s3 upload is removed by default on cleanup. You can set to False for debugging.</span>
+<span class="sd">            template_table: str</span>
+<span class="sd">                Instead of specifying columns, columntypes, and/or inference, if there</span>
+<span class="sd">                is a pre-existing table that has the same columns/types, then use the template_table</span>
+<span class="sd">                table name as the schema for the new table.</span>
+<span class="sd">                Unless you set specifycols=False explicitly, a template_table will set it to True</span>
+
 <span class="sd">        `Returns`</span>
 <span class="sd">            Parsons Table or ``None``</span>
 <span class="sd">                See :ref:`parsons-table` for output options.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
         <span class="c1"># Specify the columns for a copy statement.</span>
-        <span class="k">if</span> <span class="n">specifycols</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">specifycols</span> <span class="ow">or</span> <span class="p">(</span><span class="n">specifycols</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">template_table</span><span class="p">):</span>
             <span class="n">cols</span> <span class="o">=</span> <span class="n">tbl</span><span class="o">.</span><span class="n">columns</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="n">cols</span> <span class="o">=</span> <span class="kc">None</span>
@@ -611,10 +641,14 @@
             <span class="c1"># Check to see if the table exists. If it does not or if_exists = drop, then</span>
             <span class="c1"># create the new table.</span>
             <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_create_table_precheck</span><span class="p">(</span><span class="n">connection</span><span class="p">,</span> <span class="n">table_name</span><span class="p">,</span> <span class="n">if_exists</span><span class="p">):</span>
-                <span class="n">sql</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">create_statement</span><span class="p">(</span><span class="n">tbl</span><span class="p">,</span> <span class="n">table_name</span><span class="p">,</span> <span class="n">padding</span><span class="o">=</span><span class="n">padding</span><span class="p">,</span>
-                                            <span class="n">distkey</span><span class="o">=</span><span class="n">distkey</span><span class="p">,</span> <span class="n">sortkey</span><span class="o">=</span><span class="n">sortkey</span><span class="p">,</span>
-                                            <span class="n">varchar_max</span><span class="o">=</span><span class="n">varchar_max</span><span class="p">,</span>
-                                            <span class="n">columntypes</span><span class="o">=</span><span class="n">columntypes</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">template_table</span><span class="p">:</span>
+                    <span class="c1"># Copy the schema with AS, but 1=0 copies no rows</span>
+                    <span class="n">sql</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;CREATE TABLE </span><span class="si">{</span><span class="n">table_name</span><span class="si">}</span><span class="s2"> AS SELECT * FROM </span><span class="si">{</span><span class="n">template_table</span><span class="si">}</span><span class="s2"> WHERE 1=0&quot;</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">sql</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">create_statement</span><span class="p">(</span><span class="n">tbl</span><span class="p">,</span> <span class="n">table_name</span><span class="p">,</span> <span class="n">padding</span><span class="o">=</span><span class="n">padding</span><span class="p">,</span>
+                                                <span class="n">distkey</span><span class="o">=</span><span class="n">distkey</span><span class="p">,</span> <span class="n">sortkey</span><span class="o">=</span><span class="n">sortkey</span><span class="p">,</span>
+                                                <span class="n">varchar_max</span><span class="o">=</span><span class="n">varchar_max</span><span class="p">,</span>
+                                                <span class="n">columntypes</span><span class="o">=</span><span class="n">columntypes</span><span class="p">)</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">query_with_connection</span><span class="p">(</span><span class="n">sql</span><span class="p">,</span> <span class="n">connection</span><span class="p">,</span> <span class="n">commit</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
                 <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">table_name</span><span class="si">}</span><span class="s1"> created.&#39;</span><span class="p">)</span>
 
@@ -648,12 +682,14 @@
 
                 <span class="c1"># Copy from S3 to Redshift</span>
                 <span class="n">sql</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">copy_statement</span><span class="p">(</span><span class="n">table_name</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">s3_temp_bucket</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="o">**</span><span class="n">copy_args</span><span class="p">)</span>
+                <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Copy SQL command: </span><span class="si">{</span><span class="n">sql</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">query_with_connection</span><span class="p">(</span><span class="n">sql</span><span class="p">,</span> <span class="n">connection</span><span class="p">,</span> <span class="n">commit</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+
                 <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Data copied to </span><span class="si">{</span><span class="n">table_name</span><span class="si">}</span><span class="s1">.&#39;</span><span class="p">)</span>
 
             <span class="c1"># Clean up the S3 bucket.</span>
             <span class="k">finally</span><span class="p">:</span>
-                <span class="k">if</span> <span class="n">key</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">key</span> <span class="ow">and</span> <span class="n">cleanup_s3_file</span><span class="p">:</span>
                     <span class="bp">self</span><span class="o">.</span><span class="n">temp_s3_delete</span><span class="p">(</span><span class="n">key</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">unload</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sql</span><span class="p">,</span> <span class="n">bucket</span><span class="p">,</span> <span class="n">key_prefix</span><span class="p">,</span> <span class="n">manifest</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">header</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">compression</span><span class="o">=</span><span class="s1">&#39;gzip&#39;</span><span class="p">,</span>
@@ -808,7 +844,8 @@
 
         <span class="k">return</span> <span class="n">manifest</span>
 
-    <span class="k">def</span> <span class="nf">upsert</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">table_obj</span><span class="p">,</span> <span class="n">target_table</span><span class="p">,</span> <span class="n">primary_key</span><span class="p">,</span> <span class="n">vacuum</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">distinct_check</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">upsert</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">table_obj</span><span class="p">,</span> <span class="n">target_table</span><span class="p">,</span> <span class="n">primary_key</span><span class="p">,</span> <span class="n">vacuum</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">distinct_check</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+               <span class="n">cleanup_temp_table</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="o">**</span><span class="n">copy_args</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Preform an upsert on an existing table. An upsert is a function in which records</span>
 <span class="sd">        in a table are updated and inserted at the same time. Unlike other SQL databases,</span>
@@ -827,7 +864,11 @@
 <span class="sd">                if you lack these priviledges.</span>
 <span class="sd">            distinct_check: boolean</span>
 <span class="sd">                Check if the primary key column is distinct. Raise error if not.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">            cleanup_temp_table: boolean</span>
+<span class="sd">                A temp table is dropped by default on cleanup. You can set to False for debugging.</span>
+<span class="sd">            \**copy_args: kwargs</span>
+<span class="sd">                See :func:`~parsons.databases.Redshift.copy`` for options.</span>
+<span class="sd">        &quot;&quot;&quot;</span>  <span class="c1"># noqa: W605</span>
 
         <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">table_exists</span><span class="p">(</span><span class="n">target_table</span><span class="p">):</span>
             <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s1">&#39;Target table does not exist. Copying into newly </span><span class="se">\</span>
@@ -864,10 +905,11 @@
         <span class="k">with</span> <span class="bp">self</span><span class="o">.</span><span class="n">connection</span><span class="p">()</span> <span class="k">as</span> <span class="n">connection</span><span class="p">:</span>
 
             <span class="k">try</span><span class="p">:</span>
-
                 <span class="c1"># Copy to a staging table</span>
                 <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Building staging table: </span><span class="si">{</span><span class="n">staging_tbl</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="n">table_obj</span><span class="p">,</span> <span class="n">staging_tbl</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="n">table_obj</span><span class="p">,</span> <span class="n">staging_tbl</span><span class="p">,</span>
+                          <span class="n">template_table</span><span class="o">=</span><span class="n">target_table</span><span class="p">,</span>
+                          <span class="o">**</span><span class="n">copy_args</span><span class="p">)</span>
 
                 <span class="n">staging_table_name</span> <span class="o">=</span> <span class="n">staging_tbl</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;.&#39;</span><span class="p">)[</span><span class="mi">1</span><span class="p">]</span>
                 <span class="n">target_table_name</span> <span class="o">=</span> <span class="n">target_table</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;.&#39;</span><span class="p">)[</span><span class="mi">1</span><span class="p">]</span>
@@ -900,11 +942,11 @@
                 <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Target rows inserted to </span><span class="si">{</span><span class="n">target_table</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
 
             <span class="k">finally</span><span class="p">:</span>
-
-                <span class="c1"># Drop the staging table</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">query_with_connection</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;DROP TABLE IF EXISTS </span><span class="si">{</span><span class="n">staging_tbl</span><span class="si">}</span><span class="s2">;&quot;</span><span class="p">,</span>
-                                           <span class="n">connection</span><span class="p">,</span> <span class="n">commit</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
-                <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">staging_tbl</span><span class="si">}</span><span class="s1"> staging table dropped.&#39;</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">cleanup_temp_table</span><span class="p">:</span>
+                    <span class="c1"># Drop the staging table</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">query_with_connection</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;DROP TABLE IF EXISTS </span><span class="si">{</span><span class="n">staging_tbl</span><span class="si">}</span><span class="s2">;&quot;</span><span class="p">,</span>
+                                               <span class="n">connection</span><span class="p">,</span> <span class="n">commit</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+                    <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">staging_tbl</span><span class="si">}</span><span class="s1"> staging table dropped.&#39;</span><span class="p">)</span>
 
         <span class="c1"># Vacuum table. You must commit when running this type of transaction.</span>
         <span class="k">if</span> <span class="n">vacuum</span><span class="p">:</span>

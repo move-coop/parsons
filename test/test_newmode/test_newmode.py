@@ -51,6 +51,27 @@ class TestNewmode(unittest.TestCase):
             'sid': 1
         }
 
+        self.nm.client.getTarget.return_value = {
+            'id': 1,
+            'full_name': 'John Doe'
+        }
+
+        self.nm.client.getCampaigns.return_value = [
+            {
+                'id': 1,
+                'title': 'Campaign 1'
+            },
+            {
+                'id': 2,
+                'title': 'Campaign 2'
+            },
+        ]
+
+        self.nm.client.getCampaign.return_value = {
+            'id': 1,
+            'name': 'Campaign 1'
+        }
+
     def test_get_tools(self):
         args = {}
         response = self.nm.get_tools(args)
@@ -84,3 +105,22 @@ class TestNewmode(unittest.TestCase):
         response = self.nm.run_action(id, payload)
         self.nm.client.runAction.assert_called_with(id, payload, params={})
         self.assertEqual(response, 1)
+
+    def test_get_target(self):
+        id = 'TESTMODE-aasfff'
+        response = self.nm.get_target(id)
+        self.nm.client.getTarget.assert_called_with(id, params={})
+        self.assertEqual(response[0]['id'], 1)
+        self.assertEqual(response[0]['full_name'], 'John Doe')
+
+    def test_get_campaigns(self):
+        args = {}
+        response = self.nm.get_campaigns(args)
+        self.nm.client.getCampaigns.assert_called_with(params=args)
+        self.assertEqual(response[0]['title'], 'Campaign 1')
+
+    def test_get_campaign(self):
+        id = 1
+        response = self.nm.get_campaign(id)
+        self.nm.client.getCampaign.assert_called_with(id, params={})
+        self.assertEqual(response[0]['name'], 'Campaign 1')

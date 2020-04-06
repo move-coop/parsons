@@ -466,8 +466,8 @@ class Redshift(RedshiftCreateTable, RedshiftCopyTable, RedshiftTableUtilities, R
             # create the new table.
             if self._create_table_precheck(connection, table_name, if_exists):
                 if template_table:
-                    # Copy the schema with AS, but 1=0 copies no rows
-                    sql = f"CREATE TABLE {table_name} AS SELECT * FROM {template_table} WHERE 1=0"
+                    # Copy the schema from the template table
+                    sql = f'CREATE TABLE {table_name} (LIKE {template_table})'
                 else:
                     sql = self.create_statement(tbl, table_name, padding=padding,
                                                 distkey=distkey, sortkey=sortkey,

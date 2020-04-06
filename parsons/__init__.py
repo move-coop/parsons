@@ -72,7 +72,7 @@ if not os.environ.get('PARSONS_SKIP_IMPORT_ALL'):
         'Postgres',
         'Freshdesk',
         'BillCom',
-        'Newmode'
+        'Newmode',
         'MySQL'
     ]
 

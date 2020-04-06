@@ -339,6 +339,16 @@ class TestRedshiftDB(unittest.TestCase):
         self.assertRaises(ValueError, self.rs.upsert, upsert_tbl, f'{self.temp_schema}.test_copy',
                           ['ID', 'name'])
 
+        # Run upsert with nonmatching datatypes
+        upsert_tbl = Table([['id', 'name'], [3, 600], [6, 99999999999999999999999999999999999999999]])
+        self.rs.upsert(upsert_tbl, f'{self.temp_schema}.test_copy', 'ID')
+
+        # Make sure our table looks like we expect
+        expected_tbl = Table([['id', 'name'],
+                              [2, 'John'], [3, '600'], [5, 'Bob'], [1, 'Jim'], [1, 'Jane'], [6, '99999999999999999999999999999999999999999']])
+        updated_tbl = self.rs.query(f'select * from {self.temp_schema}.test_copy order by id;')
+        assert_matching_tables(expected_tbl, updated_tbl)
+
     def test_unload(self):
 
         # Copy a table to Redshift

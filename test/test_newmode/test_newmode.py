@@ -72,6 +72,22 @@ class TestNewmode(unittest.TestCase):
             'name': 'Campaign 1'
         }
 
+        self.nm.client.getOrganizations.return_value = [
+            {
+                'id': 1,
+                'title': 'Organization 1'
+            },
+            {
+                'id': 2,
+                'title': 'Organization 2'
+            },
+        ]
+
+        self.nm.client.getOrganization.return_value = {
+            'id': 1,
+            'name': 'Organization 1'
+        }
+
     def test_get_tools(self):
         args = {}
         response = self.nm.get_tools(args)
@@ -124,3 +140,15 @@ class TestNewmode(unittest.TestCase):
         response = self.nm.get_campaign(id)
         self.nm.client.getCampaign.assert_called_with(id, params={})
         self.assertEqual(response[0]['name'], 'Campaign 1')
+
+    def test_get_organizations(self):
+        args = {}
+        response = self.nm.get_organizations(args)
+        self.nm.client.getOrganizations.assert_called_with(params=args)
+        self.assertEqual(response[0]['title'], 'Organization 1')
+
+    def test_get_organization(self):
+        id = 1
+        response = self.nm.get_organization(id)
+        self.nm.client.getOrganization.assert_called_with(id, params={})
+        self.assertEqual(response[0]['name'], 'Organization 1')

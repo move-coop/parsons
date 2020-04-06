@@ -21,41 +21,58 @@ class Newmode:
     Returns:
         Newmode class
     """
-
     def __init__(self, api_user=None, api_password=None, api_version=None):
 
         self.api_user = check_env.check('NEWMODE_API_USER', api_user)
         self.api_password = check_env.check('NEWMODE_API_PASSWORD', api_password)
 
-        if (api_version is None):
+        if api_version is None:
             api_version = "v1.0"
 
         self.api_version = check_env.check('NEWMODE_API_VERSION', api_version)
 
         self.client = Client(api_user, api_password, api_version)
 
-    def convertToTable(self, data):
+    def convert_to_table(self, data):
         # Internal method to create a Parsons table from a data element.
         table = None
-        if (type(data) is list):
+        if type(data) is list:
             table = Table(data)
         else:
             table = Table([data])
 
         return table
 
-    def getTools(self, params={}):
+    """
+    Get existing tools.
+    Args:
+        params:
+            Extra parameters sent to New/Mode library.
+    Returns:
+        Tools information as table.
+    """
+    def get_tools(self, params={}):
         tools = self.client.getTools(params=params)
-        if (tools):
-            return self.convertToTable(tools)
+        if tools:
+            return self.convert_to_table(tools)
         else:
             logging.warning("Empty tools returned")
             return []
 
-    def getTool(self, tool_id, params={}):
+    """
+    Get specific tool.
+    Args:
+        tool_id:
+            The id of the tool to return.
+        params:
+            Extra parameters sent to New/Mode library.
+    Returns:
+        Tools information as table.
+    """
+    def get_tool(self, tool_id, params={}):
         tool = self.client.getTool(tool_id, params=params)
-        if (tool):
-            return self.convertToTable(tool)
+        if tool:
+            return self.convert_to_table(tool)
         else:
             logging.warning("Empty tool returned")
             return []
@@ -75,33 +92,55 @@ class Newmode:
             - Search term: For your csv tools, this will return targets
               matched by given valid search term.
     Returns:
-        Targets information.
+        Targets information as table.
     """
-
-    def lookupTargets(self, tool_id, search=None, params={}):
+    def lookup_targets(self, tool_id, search=None, params={}):
         targets = self.client.lookupTargets(tool_id, search, params=params)
-        if (targets):
+        if targets:
             data = []
             for key in targets:
-                if (key != '_links'):
+                if key != '_links':
                     data.append(targets[key])
-            return self.convertToTable(data)
+            return self.convert_to_table(data)
         else:
             logging.warning("Empty targets returned")
             return []
 
-    def getAction(self, tool_id, params={}):
+    """
+    Get the action information for a given tool.
+    Args:
+        tool_id:
+            The id of the tool to return.
+        params:
+            Extra parameters sent to New/Mode library.
+    Returns:
+        Tool action information as table.
+    """
+    def get_action(self, tool_id, params={}):
         action = self.client.getAction(tool_id, params=params)
-        if (action):
-            return self.convertToTable(action)
+        if action:
+            return self.convert_to_table(action)
         else:
             logging.warning("Empty action returned")
             return []
 
-    def runAction(self, tool_id, payload, params={}):
+    """
+    Run specific action with given payload.
+    Args:
+        tool_id:
+            The id of the tool to run.
+        payload:
+            Payload data used to run the action. Structure will depend
+            on the stuff returned by get_action.
+        params:
+            Extra parameters sent to New/Mode library.
+    Returns:
+        Action link (if otl) or sid.
+    """
+    def run_action(self, tool_id, payload, params={}):
         action = self.client.runAction(tool_id, payload, params=params)
-        if (action):
-            if ('link' in action):
+        if action:
+            if 'link' in action:
                 return action['link']
             else:
                 return action['sid']
@@ -109,74 +148,158 @@ class Newmode:
             logging.warning("Error in response")
             return []
 
-    def getTarget(self, target_id, params={}):
+    """
+    Get specific target.
+    Args:
+        target_id:
+            The id of the target to return.
+        params:
+            Extra parameters sent to New/Mode library.
+    Returns:
+        Target information as table.
+    """
+    def get_target(self, target_id, params={}):
         target = self.client.getTarget(target_id, params=params)
-        if (target):
-            return self.convertToTable(target)
+        if target:
+            return self.convert_to_table(target)
         else:
             logging.warning("Empty target returned")
             return []
 
-    def getCampaigns(self, params={}):
+    """
+    Get existing campaigns.
+    Args:
+        params:
+            Extra parameters sent to New/Mode library.
+    Returns:
+        Campaigns information as table.
+    """
+    def get_campaigns(self, params={}):
         campaigns = self.client.getCampaigns(params=params)
-        if (campaigns):
-            return self.convertToTable(campaigns)
+        if campaigns:
+            return self.convert_to_table(campaigns)
         else:
             logging.warning("Empty campaigns returned")
             return []
 
-    def getCampaign(self, campaign_id, params={}):
+    """
+    Get specific campaign.
+    Args:
+        campaign_id:
+            The id of the campaign to return.
+        params:
+            Extra parameters sent to New/Mode library.
+    Returns:
+        Campaign information as table.
+    """
+    def get_campaign(self, campaign_id, params={}):
         campaign = self.client.getCampaign(campaign_id, params=params)
-        if (campaign):
-            return self.convertToTable(campaign)
+        if campaign:
+            return self.convert_to_table(campaign)
         else:
             logging.warning("Empty campaign returned")
             return []
 
-    def getOrganizations(self, params={}):
+    """
+    Get existing organizations.
+    Args:
+        params:
+            Extra parameters sent to New/Mode library.
+    Returns:
+        Organizations information as table.
+    """
+    def get_organizations(self, params={}):
         organizations = self.client.getOrganizations(params=params)
-        if (organizations):
-            return self.convertToTable(organizations)
+        if organizations:
+            return self.convert_to_table(organizations)
         else:
             logging.warning("Empty organizations returned")
             return []
 
-    def getOrganization(self, organization_id, params={}):
+    """
+    Get specific organization.
+    Args:
+        organization_id:
+            The id of the organization to return.
+        params:
+            Extra parameters sent to New/Mode library.
+    Returns:
+        Organization information as table.
+    """
+    def get_organization(self, organization_id, params={}):
         organization = self.client.getOrganization(organization_id, params=params)
-        if (organization):
-            return self.convertToTable(organization)
+        if organization:
+            return self.convert_to_table(organization)
         else:
             logging.warning("Empty organization returned")
             return []
 
-    def getServices(self, params={}):
+    """
+    Get existing services.
+    Args:
+        params:
+            Extra parameters sent to New/Mode library.
+    Returns:
+        Services information as table.
+    """
+    def get_services(self, params={}):
         services = self.client.getServices(params=params)
-        if (services):
-            return self.convertToTable(services)
+        if services:
+            return self.convert_to_table(services)
         else:
             logging.warning("Empty services returned")
             return []
 
-    def getService(self, service_id, params={}):
+    """
+    Get specific service.
+    Args:
+        service_id:
+            The id of the service to return.
+        params:
+            Extra parameters sent to New/Mode library.
+    Returns:
+        Service information as table.
+    """
+    def get_service(self, service_id, params={}):
         service = self.client.getService(service_id, params=params)
-        if (service):
-            return self.convertToTable(service)
+        if service:
+            return self.convert_to_table(service)
         else:
             logging.warning("Empty service returned")
             return []
 
-    def getOutreaches(self, tool_id, params={}):
+    """
+    Get existing outreaches for a given tool.
+    Args:
+        tool_id:
+            Tool to return outreaches.
+        params:
+            Extra parameters sent to New/Mode library.
+    Returns:
+        Outreaches information as table.
+    """
+    def get_outreaches(self, tool_id, params={}):
         outreaches = self.client.getOutreaches(tool_id, params=params)
-        if (outreaches):
-            return self.convertToTable(outreaches)
+        if outreaches:
+            return self.convert_to_table(outreaches)
         else:
             logging.warning("Empty outreaches returned")
             return []
 
-    def getOutreach(self, outreach_id, params={}):
+    """
+    Get specific outreach.
+    Args:
+        outreach_id:
+            The id of the outreach to return.
+        params:
+            Extra parameters sent to New/Mode library.
+    Returns:
+        Outreach information as table.
+    """
+    def get_outreach(self, outreach_id, params={}):
         outreach = self.client.getOutreach(outreach_id, params=params)
-        if (outreach):
-            return self.convertToTable(outreach)
+        if outreach:
+            return self.convert_to_table(outreach)
         else:
             logging.warning("Empty outreach returned")
             return []

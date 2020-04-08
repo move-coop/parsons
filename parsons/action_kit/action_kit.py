@@ -560,7 +560,7 @@ class ActionKit(object):
         results = []
         for tbl in upload_tables:
             user_fields_only = int(not any([
-                h for h in tbl.table.header()
+                h for h in tbl.columns
                 if h != 'email' and not h.startswith('user_')]))
             results.append(self.bulk_upload_csv(tbl.to_csv(),
                                                 import_page,
@@ -573,9 +573,8 @@ class ActionKit(object):
 
     def _split_tables_no_empties(self, table):
         table_groups = {}
-        headers = table.table.header()
         for row in table:
-            blanks = tuple(k for k in headers
+            blanks = tuple(k for k in table.columns
                            if row.get(k) in (None, ''))
             grp = table_groups.setdefault(blanks, [])
             grp.append(row)

@@ -40,7 +40,7 @@ class Salesforce:
 
         self._client = None
 
-    def describe(self, object):
+    def describe_object(self, object):
         """
         `Args:`
             object: str

@@ -229,6 +229,38 @@ Not required if <code class="docutils literal notranslate"><span class="pre">SAL
 <dd>Salesforce class</dd>
 </dl>
 <dl class="method">
+<dt id="parsons.Salesforce.describe_object">
+<code class="descname">describe_object</code><span class="sig-paren">(</span><em>object</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/salesforce/salesforce.html#Salesforce.describe_object"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.Salesforce.describe_object" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="docutils">
+<dt><cite>Args:</cite></dt>
+<dd><dl class="first last docutils">
+<dt>object: str</dt>
+<dd>The API name of the type of record to describe. Note that custom object names end
+in <cite>__c</cite></dd>
+</dl>
+</dd>
+<dt><cite>Returns:</cite></dt>
+<dd>Ordered Dict of all the object’s meta data in Salesforce</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="parsons.Salesforce.describe_fields">
+<code class="descname">describe_fields</code><span class="sig-paren">(</span><em>object</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/salesforce/salesforce.html#Salesforce.describe_fields"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.Salesforce.describe_fields" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="docutils">
+<dt><cite>Args:</cite></dt>
+<dd><dl class="first last docutils">
+<dt>object: str</dt>
+<dd>The API name of the type of record on whose fields you want data. Note that custom
+object names end in <cite>__c</cite></dd>
+</dl>
+</dd>
+<dt><cite>Returns:</cite></dt>
+<dd>Dict of all the object’s field meta data in Salesforce</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
 <dt id="parsons.Salesforce.query">
 <code class="descname">query</code><span class="sig-paren">(</span><em>soql</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/salesforce/salesforce.html#Salesforce.query"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.Salesforce.query" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="docutils">
@@ -252,7 +284,7 @@ For reference, see <a href="#id2"><span class="problematic" id="id3">`Salesforce
 <dt><cite>Args:</cite></dt>
 <dd><dl class="first last docutils">
 <dt>object: str</dt>
-<dd>The API name of the type of records to insert. Note that custom object names end
+<dd>The API name of the type of record to insert. Note that custom object names end
 in <cite>__c</cite></dd>
 <dt>data_table: obj</dt>
 <dd>A Parsons Table with data for inserting records. Column names must match object
@@ -277,7 +309,7 @@ names end in <cite>__c</cite>.</dd>
 <dt><cite>Args:</cite></dt>
 <dd><dl class="first last docutils">
 <dt>object: str</dt>
-<dd>The API name of the type of records to update. Note that custom object names end
+<dd>The API name of the type of record to update. Note that custom object names end
 in <cite>__c</cite></dd>
 <dt>data_table: obj</dt>
 <dd>A Parsons Table with data for updating records. Must contain one column named
@@ -302,7 +334,7 @@ not match. Note that custom field names end in <cite>__c</cite>.</dd>
 <dt><cite>Args:</cite></dt>
 <dd><dl class="first last docutils">
 <dt>object: str</dt>
-<dd>The API name of the type of records to upsert. Note that custom object names end
+<dd>The API name of the type of record to upsert. Note that custom object names end
 in <cite>__c</cite></dd>
 <dt>data_table: obj</dt>
 <dd>A Parsons Table with data for upserting records. Column names must match object
@@ -330,7 +362,7 @@ records are new/inserted.</dd>
 <dt><cite>Args:</cite></dt>
 <dd><dl class="first last docutils">
 <dt>object: str</dt>
-<dd>The API name of the type of records to delete. Note that custom object names end
+<dd>The API name of the type of record to delete. Note that custom object names end
 in <cite>__c</cite></dd>
 <dt>id_table: obj</dt>
 <dd>A Parsons Table of record IDs to delete. Note that ‘Id’ is the default Salesforce

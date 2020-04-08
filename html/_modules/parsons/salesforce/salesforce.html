@@ -178,6 +178,7 @@
 <span class="kn">from</span> <span class="nn">parsons.utilities</span> <span class="kn">import</span> <span class="n">check_env</span>
 <span class="kn">from</span> <span class="nn">parsons.etl</span> <span class="kn">import</span> <span class="n">Table</span>
 <span class="kn">import</span> <span class="nn">logging</span>
+<span class="kn">import</span> <span class="nn">json</span>
 
 <span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
 
@@ -215,6 +216,30 @@
 
         <span class="bp">self</span><span class="o">.</span><span class="n">_client</span> <span class="o">=</span> <span class="kc">None</span>
 
+<div class="viewcode-block" id="Salesforce.describe_object"><a class="viewcode-back" href="../../../salesforce.html#parsons.Salesforce.describe_object">[docs]</a>    <span class="k">def</span> <span class="nf">describe_object</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">object</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        `Args:`</span>
+<span class="sd">            object: str</span>
+<span class="sd">                The API name of the type of record to describe. Note that custom object names end</span>
+<span class="sd">                in `__c`</span>
+<span class="sd">        `Returns:`</span>
+<span class="sd">            Ordered Dict of all the object&#39;s meta data in Salesforce</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">return</span> <span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="p">,</span> <span class="nb">object</span><span class="p">)</span><span class="o">.</span><span class="n">describe</span><span class="p">()</span></div>
+
+<div class="viewcode-block" id="Salesforce.describe_fields"><a class="viewcode-back" href="../../../salesforce.html#parsons.Salesforce.describe_fields">[docs]</a>    <span class="k">def</span> <span class="nf">describe_fields</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">object</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        `Args:`</span>
+<span class="sd">            object: str</span>
+<span class="sd">                The API name of the type of record on whose fields you want data. Note that custom</span>
+<span class="sd">                object names end in `__c`</span>
+<span class="sd">        `Returns:`</span>
+<span class="sd">            Dict of all the object&#39;s field meta data in Salesforce</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">return</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="p">,</span> <span class="nb">object</span><span class="p">)</span><span class="o">.</span><span class="n">describe</span><span class="p">()[</span><span class="s1">&#39;fields&#39;</span><span class="p">]))</span></div>
+
 <div class="viewcode-block" id="Salesforce.query"><a class="viewcode-back" href="../../../salesforce.html#parsons.Salesforce.query">[docs]</a>    <span class="k">def</span> <span class="nf">query</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">soql</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        `Args:`</span>
@@ -235,7 +260,7 @@
 
 <span class="sd">        `Args:`</span>
 <span class="sd">            object: str</span>
-<span class="sd">                The API name of the type of records to insert. Note that custom object names end</span>
+<span class="sd">                The API name of the type of record to insert. Note that custom object names end</span>
 <span class="sd">                in `__c`</span>
 <span class="sd">            data_table: obj</span>
 <span class="sd">                A Parsons Table with data for inserting records. Column names must match object</span>
@@ -262,7 +287,7 @@
 
 <span class="sd">        `Args:`</span>
 <span class="sd">            object: str</span>
-<span class="sd">                The API name of the type of records to update. Note that custom object names end</span>
+<span class="sd">                The API name of the type of record to update. Note that custom object names end</span>
 <span class="sd">                in `__c`</span>
 <span class="sd">            data_table: obj</span>
 <span class="sd">                A Parsons Table with data for updating records. Must contain one column named</span>
@@ -289,7 +314,7 @@
 
 <span class="sd">        `Args:`</span>
 <span class="sd">            object: str</span>
-<span class="sd">                The API name of the type of records to upsert. Note that custom object names end</span>
+<span class="sd">                The API name of the type of record to upsert. Note that custom object names end</span>
 <span class="sd">                in `__c`</span>
 <span class="sd">            data_table: obj</span>
 <span class="sd">                A Parsons Table with data for upserting records. Column names must match object</span>
@@ -319,7 +344,7 @@
 
 <span class="sd">        `Args:`</span>
 <span class="sd">            object: str</span>
-<span class="sd">                The API name of the type of records to delete. Note that custom object names end</span>
+<span class="sd">                The API name of the type of record to delete. Note that custom object names end</span>
 <span class="sd">                in `__c`</span>
 <span class="sd">            id_table: obj</span>
 <span class="sd">                A Parsons Table of record IDs to delete. Note that &#39;Id&#39; is the default Salesforce</span>

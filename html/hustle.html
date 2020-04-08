@@ -455,34 +455,6 @@ value as the value.</dd>
 <code class="descname">create_leads</code><span class="sig-paren">(</span><em>table</em>, <em>group_id=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/hustle/hustle.html#Hustle.create_leads"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.Hustle.create_leads" title="Permalink to this definition">¶</a></dt>
 <dd><p>Create multiple leads. All unrecognized fields will be passed as custom fields. Column
 names must map to the following names.</p>
-<table border="1" class="colwidths-given docutils">
-<colgroup>
-<col width="20%" />
-<col width="80%" />
-</colgroup>
-<thead valign="bottom">
-<tr class="row-odd"><th class="head">Column Name</th>
-<th class="head">Valid Column Names</th>
-</tr>
-</thead>
-<tbody valign="top">
-<tr class="row-even"><td>first_name</td>
-<td><code class="docutils literal notranslate"><span class="pre">first_name</span></code>, <code class="docutils literal notranslate"><span class="pre">first</span></code>, <code class="docutils literal notranslate"><span class="pre">fn</span></code>, <code class="docutils literal notranslate"><span class="pre">firstname</span></code></td>
-</tr>
-<tr class="row-odd"><td>last_name</td>
-<td><code class="docutils literal notranslate"><span class="pre">last_name</span></code>, <code class="docutils literal notranslate"><span class="pre">last</span></code>, <code class="docutils literal notranslate"><span class="pre">ln</span></code>, <code class="docutils literal notranslate"><span class="pre">lastname</span></code></td>
-</tr>
-<tr class="row-even"><td>phone_number</td>
-<td><code class="docutils literal notranslate"><span class="pre">phone_number</span></code>, <code class="docutils literal notranslate"><span class="pre">phone</span></code>, <code class="docutils literal notranslate"><span class="pre">cell</span></code>, <code class="docutils literal notranslate"><span class="pre">phonenumber</span></code></td>
-</tr>
-<tr class="row-odd"><td>email</td>
-<td><code class="docutils literal notranslate"><span class="pre">email</span></code>, <code class="docutils literal notranslate"><span class="pre">email_address</span></code>, <code class="docutils literal notranslate"><span class="pre">emailaddress</span></code></td>
-</tr>
-<tr class="row-even"><td>follow_up</td>
-<td><code class="docutils literal notranslate"><span class="pre">follow_up</span></code>, <code class="docutils literal notranslate"><span class="pre">followup</span></code></td>
-</tr>
-</tbody>
-</table>
 <dl class="docutils">
 <dt><cite>Args:</cite></dt>
 <dd><dl class="first last docutils">
@@ -494,7 +466,7 @@ value.</dd>
 </dl>
 </dd>
 <dt><cite>Returns:</cite></dt>
-<dd><code class="docutils literal notranslate"><span class="pre">None</span></code></dd>
+<dd>A table of created ids with associated lead id.</dd>
 </dl>
 </dd></dl>
 

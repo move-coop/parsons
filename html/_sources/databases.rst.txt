@@ -35,6 +35,7 @@ Database Sync
 Sync tables between two databases with just a few lines of code. Currently supported
 database types are:
 
+* MySQL
 * Postgres
 * Redshift
 

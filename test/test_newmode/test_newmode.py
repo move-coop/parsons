@@ -130,7 +130,7 @@ class TestNewmode(unittest.TestCase):
         id = 1
         response = self.nm.get_tool(id)
         self.nm.client.getTool.assert_called_with(id, params={})
-        self.assertEqual(response[0]['name'], 'Tool 1')
+        self.assertEqual(response['name'], 'Tool 1')
 
     def test_lookup_targets(self):
         id = 1
@@ -142,7 +142,7 @@ class TestNewmode(unittest.TestCase):
         id = 1
         response = self.nm.get_action(id)
         self.nm.client.getAction.assert_called_with(id, params={})
-        self.assertEqual(response[0]['required_fields'][0]['key'], 'first_name')
+        self.assertEqual(response['required_fields'][0]['key'], 'first_name')
 
     def test_run_action(self):
         id = 1
@@ -158,8 +158,8 @@ class TestNewmode(unittest.TestCase):
         id = 'TESTMODE-aasfff'
         response = self.nm.get_target(id)
         self.nm.client.getTarget.assert_called_with(id, params={})
-        self.assertEqual(response[0]['id'], 1)
-        self.assertEqual(response[0]['full_name'], 'John Doe')
+        self.assertEqual(response['id'], 1)
+        self.assertEqual(response['full_name'], 'John Doe')
 
     def test_get_campaigns(self):
         args = {}
@@ -171,7 +171,7 @@ class TestNewmode(unittest.TestCase):
         id = 1
         response = self.nm.get_campaign(id)
         self.nm.client.getCampaign.assert_called_with(id, params={})
-        self.assertEqual(response[0]['name'], 'Campaign 1')
+        self.assertEqual(response['name'], 'Campaign 1')
 
     def test_get_organizations(self):
         args = {}
@@ -183,7 +183,7 @@ class TestNewmode(unittest.TestCase):
         id = 1
         response = self.nm.get_organization(id)
         self.nm.client.getOrganization.assert_called_with(id, params={})
-        self.assertEqual(response[0]['name'], 'Organization 1')
+        self.assertEqual(response['name'], 'Organization 1')
 
     def test_get_services(self):
         args = {}
@@ -195,7 +195,7 @@ class TestNewmode(unittest.TestCase):
         id = 1
         response = self.nm.get_service(id)
         self.nm.client.getService.assert_called_with(id, params={})
-        self.assertEqual(response[0]['name'], 'Service 1')
+        self.assertEqual(response['name'], 'Service 1')
 
     def test_get_outreaches(self):
         id = 1
@@ -208,4 +208,4 @@ class TestNewmode(unittest.TestCase):
         id = 1
         response = self.nm.get_outreach(id)
         self.nm.client.getOutreach.assert_called_with(id, params={})
-        self.assertEqual(response[0]['name'], 'Outreach 1')
+        self.assertEqual(response['name'], 'Outreach 1')

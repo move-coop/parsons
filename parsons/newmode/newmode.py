@@ -67,15 +67,15 @@ class Newmode:
         params:
             Extra parameters sent to New/Mode library.
     Returns:
-        Tools information as table.
+        Tool information.
     """
     def get_tool(self, tool_id, params={}):
         tool = self.client.getTool(tool_id, params=params)
         if tool:
-            return self.convert_to_table(tool)
+            return tool
         else:
             logging.warning("Empty tool returned")
-            return []
+            return None
 
     """
     Lookup targets for a given tool
@@ -114,15 +114,15 @@ class Newmode:
         params:
             Extra parameters sent to New/Mode library.
     Returns:
-        Tool action information as table.
+        Tool action information.
     """
     def get_action(self, tool_id, params={}):
         action = self.client.getAction(tool_id, params=params)
         if action:
-            return self.convert_to_table(action)
+            return action
         else:
             logging.warning("Empty action returned")
-            return []
+            return None
 
     """
     Run specific action with given payload.
@@ -146,7 +146,7 @@ class Newmode:
                 return action['sid']
         else:
             logging.warning("Error in response")
-            return []
+            return None
 
     """
     Get specific target.
@@ -156,15 +156,15 @@ class Newmode:
         params:
             Extra parameters sent to New/Mode library.
     Returns:
-        Target information as table.
+        Target information.
     """
     def get_target(self, target_id, params={}):
         target = self.client.getTarget(target_id, params=params)
         if target:
-            return self.convert_to_table(target)
+            return target
         else:
             logging.warning("Empty target returned")
-            return []
+            return None
 
     """
     Get existing campaigns.
@@ -190,15 +190,15 @@ class Newmode:
         params:
             Extra parameters sent to New/Mode library.
     Returns:
-        Campaign information as table.
+        Campaign information.
     """
     def get_campaign(self, campaign_id, params={}):
         campaign = self.client.getCampaign(campaign_id, params=params)
         if campaign:
-            return self.convert_to_table(campaign)
+            return campaign
         else:
             logging.warning("Empty campaign returned")
-            return []
+            return None
 
     """
     Get existing organizations.
@@ -224,15 +224,15 @@ class Newmode:
         params:
             Extra parameters sent to New/Mode library.
     Returns:
-        Organization information as table.
+        Organization information.
     """
     def get_organization(self, organization_id, params={}):
         organization = self.client.getOrganization(organization_id, params=params)
         if organization:
-            return self.convert_to_table(organization)
+            return organization
         else:
             logging.warning("Empty organization returned")
-            return []
+            return None
 
     """
     Get existing services.
@@ -258,15 +258,15 @@ class Newmode:
         params:
             Extra parameters sent to New/Mode library.
     Returns:
-        Service information as table.
+        Service information.
     """
     def get_service(self, service_id, params={}):
         service = self.client.getService(service_id, params=params)
         if service:
-            return self.convert_to_table(service)
+            return service
         else:
             logging.warning("Empty service returned")
-            return []
+            return None
 
     """
     Get existing outreaches for a given tool.
@@ -294,12 +294,12 @@ class Newmode:
         params:
             Extra parameters sent to New/Mode library.
     Returns:
-        Outreach information as table.
+        Outreach information.
     """
     def get_outreach(self, outreach_id, params={}):
         outreach = self.client.getOutreach(outreach_id, params=params)
         if outreach:
-            return self.convert_to_table(outreach)
+            return outreach
         else:
             logging.warning("Empty outreach returned")
-            return []
+            return None

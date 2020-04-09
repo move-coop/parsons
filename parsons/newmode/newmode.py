@@ -57,7 +57,7 @@ class Newmode:
             return self.convert_to_table(tools)
         else:
             logging.warning("Empty tools returned")
-            return []
+            return self.convert_to_table([])
 
     """
     Get specific tool.
@@ -104,7 +104,7 @@ class Newmode:
             return self.convert_to_table(data)
         else:
             logging.warning("Empty targets returned")
-            return []
+            return self.convert_to_table([])
 
     """
     Get the action information for a given tool.
@@ -180,7 +180,7 @@ class Newmode:
             return self.convert_to_table(campaigns)
         else:
             logging.warning("Empty campaigns returned")
-            return []
+            return self.convert_to_table([])
 
     """
     Get specific campaign.
@@ -214,7 +214,7 @@ class Newmode:
             return self.convert_to_table(organizations)
         else:
             logging.warning("Empty organizations returned")
-            return []
+            return self.convert_to_table([])
 
     """
     Get specific organization.
@@ -248,7 +248,7 @@ class Newmode:
             return self.convert_to_table(services)
         else:
             logging.warning("Empty services returned")
-            return []
+            return self.convert_to_table([])
 
     """
     Get specific service.
@@ -284,7 +284,7 @@ class Newmode:
             return self.convert_to_table(outreaches)
         else:
             logging.warning("Empty outreaches returned")
-            return []
+            return self.convert_to_table([])
 
     """
     Get specific outreach.

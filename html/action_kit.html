@@ -639,7 +639,7 @@ res: requests http response object</dd>
 
 <dl class="method">
 <dt id="parsons.ActionKit.bulk_upload_table">
-<code class="descname">bulk_upload_table</code><span class="sig-paren">(</span><em>table</em>, <em>import_page</em>, <em>autocreate_user_fields=0</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/action_kit/action_kit.html#ActionKit.bulk_upload_table"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.ActionKit.bulk_upload_table" title="Permalink to this definition">¶</a></dt>
+<code class="descname">bulk_upload_table</code><span class="sig-paren">(</span><em>table</em>, <em>import_page</em>, <em>autocreate_user_fields=0</em>, <em>no_overwrite_on_empty=False</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/action_kit/action_kit.html#ActionKit.bulk_upload_table"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.ActionKit.bulk_upload_table" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bulk upload a table of new users or user updates.
 See <a href="#id6"><span class="problematic" id="id7">`</span></a>ActionKit User Upload Documentation</p>
 <blockquote>
@@ -666,14 +666,23 @@ See the <a href="#id8"><span class="problematic" id="id9">`</span></a>autocreate
 <blockquote class="last">
 <div>&lt;<a class="reference external" href="https://roboticdogs.actionkit.com/docs/manual/api/rest/uploads.html#create-a-multipart-post-request">https://roboticdogs.actionkit.com/docs/manual/api/rest/uploads.html#create-a-multipart-post-request</a>&gt;`</div></blockquote>
 </dd>
+<dt>no_overwrite_on_empty: bool</dt>
+<dd>When uploading user data, ActionKit will, by default, take a blank value
+and overwrite existing data for that user.
+This can be undesirable, if the goal is to only send updates.
+Setting this to True will divide up the table into multiple upload
+batches, changing the columns uploaded based on permutations of
+empty columns.</dd>
 </dl>
 </dd>
 <dt><cite>Returns</cite>:</dt>
 <dd><dl class="first last docutils">
 <dt>dict</dt>
-<dd>success: whether upload was successful
-progress_url: an API URL to get progress on upload processing
-res: requests http response object</dd>
+<dd><p class="first">success: bool – whether upload was successful (individual rows may not have been)
+results: [dict] – This is a list of the full results.</p>
+<blockquote class="last">
+<div>progress_url and res for any results</div></blockquote>
+</dd>
 </dl>
 </dd>
 </dl>

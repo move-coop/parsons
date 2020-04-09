@@ -177,6 +177,8 @@
 <span></span><span class="kn">import</span> <span class="nn">json</span>
 <span class="kn">import</span> <span class="nn">logging</span>
 <span class="kn">import</span> <span class="nn">requests</span>
+
+<span class="kn">from</span> <span class="nn">parsons.etl.table</span> <span class="kn">import</span> <span class="n">Table</span>
 <span class="kn">from</span> <span class="nn">parsons.utilities</span> <span class="kn">import</span> <span class="n">check_env</span>
 
 <span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
@@ -690,7 +692,8 @@
               <span class="s1">&#39;progress_url&#39;</span><span class="p">:</span> <span class="n">res</span><span class="o">.</span><span class="n">headers</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;Location&#39;</span><span class="p">)}</span>
         <span class="k">return</span> <span class="n">rv</span></div>
 
-<div class="viewcode-block" id="ActionKit.bulk_upload_table"><a class="viewcode-back" href="../../../action_kit.html#parsons.ActionKit.bulk_upload_table">[docs]</a>    <span class="k">def</span> <span class="nf">bulk_upload_table</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">table</span><span class="p">,</span> <span class="n">import_page</span><span class="p">,</span> <span class="n">autocreate_user_fields</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
+<div class="viewcode-block" id="ActionKit.bulk_upload_table"><a class="viewcode-back" href="../../../action_kit.html#parsons.ActionKit.bulk_upload_table">[docs]</a>    <span class="k">def</span> <span class="nf">bulk_upload_table</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">table</span><span class="p">,</span> <span class="n">import_page</span><span class="p">,</span> <span class="n">autocreate_user_fields</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
+                          <span class="n">no_overwrite_on_empty</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Bulk upload a table of new users or user updates.</span>
 <span class="sd">        See `ActionKit User Upload Documentation</span>
@@ -713,26 +716,51 @@
 <span class="sd">                When True columns starting with &quot;user_&quot; will be uploaded as user fields.</span>
 <span class="sd">                See the `autocreate_user_fields documentation</span>
 <span class="sd">                  &lt;https://roboticdogs.actionkit.com/docs/manual/api/rest/uploads.html#create-a-multipart-post-request&gt;`</span>
+<span class="sd">            no_overwrite_on_empty: bool</span>
+<span class="sd">                When uploading user data, ActionKit will, by default, take a blank value</span>
+<span class="sd">                and overwrite existing data for that user.</span>
+<span class="sd">                This can be undesirable, if the goal is to only send updates.</span>
+<span class="sd">                Setting this to True will divide up the table into multiple upload</span>
+<span class="sd">                batches, changing the columns uploaded based on permutations of</span>
+<span class="sd">                empty columns.</span>
 <span class="sd">        `Returns`:</span>
 <span class="sd">            dict</span>
-<span class="sd">                success: whether upload was successful</span>
-<span class="sd">                progress_url: an API URL to get progress on upload processing</span>
-<span class="sd">                res: requests http response object</span>
+<span class="sd">                success: bool -- whether upload was successful (individual rows may not have been)</span>
+<span class="sd">                results: [dict] -- This is a list of the full results.</span>
+<span class="sd">                         progress_url and res for any results</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">import_page</span> <span class="o">=</span> <span class="n">check_env</span><span class="o">.</span><span class="n">check</span><span class="p">(</span><span class="s1">&#39;ACTION_KIT_IMPORTPAGE&#39;</span><span class="p">,</span> <span class="n">import_page</span><span class="p">)</span>
-        <span class="n">compress_maybe</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
-        <span class="n">user_fields_only</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="ow">not</span> <span class="nb">any</span><span class="p">([</span>
-            <span class="n">h</span> <span class="k">for</span> <span class="n">h</span> <span class="ow">in</span> <span class="n">table</span><span class="o">.</span><span class="n">table</span><span class="o">.</span><span class="n">header</span><span class="p">()</span>
-            <span class="k">if</span> <span class="n">h</span> <span class="o">!=</span> <span class="s1">&#39;email&#39;</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">h</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s1">&#39;user_&#39;</span><span class="p">)]))</span>
-        <span class="k">if</span> <span class="ow">not</span> <span class="n">user_fields_only</span> <span class="ow">or</span> <span class="nb">len</span><span class="p">(</span><span class="n">table</span><span class="o">.</span><span class="n">table</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">1_000_000</span><span class="p">:</span>
-            <span class="c1"># compression disables user_fields_only&#39;s fast processing</span>
-            <span class="c1"># but we&#39;ll disable that if there are so many rows that</span>
-            <span class="c1"># memory could be an issue.</span>
-            <span class="n">compress_maybe</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">temp_file_compression</span><span class="o">=</span><span class="s1">&#39;gzip&#39;</span><span class="p">)</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">bulk_upload_csv</span><span class="p">(</span><span class="n">table</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="o">**</span><span class="n">compress_maybe</span><span class="p">),</span>
-                                    <span class="n">import_page</span><span class="p">,</span>
-                                    <span class="n">autocreate_user_fields</span><span class="o">=</span><span class="n">autocreate_user_fields</span><span class="p">,</span>
-                                    <span class="n">user_fields_only</span><span class="o">=</span><span class="n">user_fields_only</span><span class="p">)</span></div></div>
+        <span class="n">upload_tables</span> <span class="o">=</span> <span class="p">[</span><span class="n">table</span><span class="p">]</span>
+        <span class="k">if</span> <span class="n">no_overwrite_on_empty</span><span class="p">:</span>
+            <span class="n">upload_tables</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_split_tables_no_empties</span><span class="p">(</span><span class="n">table</span><span class="p">)</span>
+        <span class="n">results</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">tbl</span> <span class="ow">in</span> <span class="n">upload_tables</span><span class="p">:</span>
+            <span class="n">user_fields_only</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="ow">not</span> <span class="nb">any</span><span class="p">([</span>
+                <span class="n">h</span> <span class="k">for</span> <span class="n">h</span> <span class="ow">in</span> <span class="n">tbl</span><span class="o">.</span><span class="n">columns</span>
+                <span class="k">if</span> <span class="n">h</span> <span class="o">!=</span> <span class="s1">&#39;email&#39;</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">h</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s1">&#39;user_&#39;</span><span class="p">)]))</span>
+            <span class="n">results</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">bulk_upload_csv</span><span class="p">(</span><span class="n">tbl</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(),</span>
+                                                <span class="n">import_page</span><span class="p">,</span>
+                                                <span class="n">autocreate_user_fields</span><span class="o">=</span><span class="n">autocreate_user_fields</span><span class="p">,</span>
+                                                <span class="n">user_fields_only</span><span class="o">=</span><span class="n">user_fields_only</span><span class="p">))</span>
+        <span class="k">return</span> <span class="p">{</span>
+            <span class="s1">&#39;success&#39;</span><span class="p">:</span> <span class="nb">all</span><span class="p">([</span><span class="n">r</span><span class="p">[</span><span class="s1">&#39;success&#39;</span><span class="p">]</span> <span class="k">for</span> <span class="n">r</span> <span class="ow">in</span> <span class="n">results</span><span class="p">]),</span>
+            <span class="s1">&#39;results&#39;</span><span class="p">:</span> <span class="n">results</span>
+        <span class="p">}</span></div>
+
+    <span class="k">def</span> <span class="nf">_split_tables_no_empties</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">table</span><span class="p">):</span>
+        <span class="n">table_groups</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">table</span><span class="p">:</span>
+            <span class="n">blanks</span> <span class="o">=</span> <span class="nb">tuple</span><span class="p">(</span><span class="n">k</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">table</span><span class="o">.</span><span class="n">columns</span>
+                           <span class="k">if</span> <span class="n">row</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">k</span><span class="p">)</span> <span class="ow">in</span> <span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">))</span>
+            <span class="n">grp</span> <span class="o">=</span> <span class="n">table_groups</span><span class="o">.</span><span class="n">setdefault</span><span class="p">(</span><span class="n">blanks</span><span class="p">,</span> <span class="p">[])</span>
+            <span class="n">grp</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">row</span><span class="p">)</span>
+        <span class="n">results</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">blanks</span><span class="p">,</span> <span class="n">subset</span> <span class="ow">in</span> <span class="n">table_groups</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="n">subset_table</span> <span class="o">=</span> <span class="n">Table</span><span class="p">(</span><span class="n">subset</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">blanks</span><span class="p">:</span>
+                <span class="n">subset_table</span><span class="o">.</span><span class="n">table</span> <span class="o">=</span> <span class="n">subset_table</span><span class="o">.</span><span class="n">table</span><span class="o">.</span><span class="n">cutout</span><span class="p">(</span><span class="o">*</span><span class="n">blanks</span><span class="p">)</span>
+            <span class="n">results</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">subset_table</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">results</span></div>
 </pre></div>
 
            </div>

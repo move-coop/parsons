@@ -92,6 +92,7 @@
 <li class="toctree-l1"><a class="reference internal" href="google_cloud.html">Google Cloud</a></li>
 <li class="toctree-l1"><a class="reference internal" href="hustle.html">Hustle</a></li>
 <li class="toctree-l1"><a class="reference internal" href="mobilize_america.html">Mobilize America</a></li>
+<li class="toctree-l1"><a class="reference internal" href="newmode.html">New/Mode</a></li>
 <li class="toctree-l1"><a class="reference internal" href="ngpvan.html">VAN</a></li>
 <li class="toctree-l1"><a class="reference internal" href="p2a.html">Phone2Action</a></li>
 <li class="toctree-l1"><a class="reference internal" href="redash.html">Redash</a></li>
@@ -190,6 +191,7 @@
  | <a href="#K"><strong>K</strong></a>
  | <a href="#L"><strong>L</strong></a>
  | <a href="#M"><strong>M</strong></a>
+ | <a href="#N"><strong>N</strong></a>
  | <a href="#O"><strong>O</strong></a>
  | <a href="#P"><strong>P</strong></a>
  | <a href="#Q"><strong>Q</strong></a>
@@ -513,6 +515,8 @@
 </li>
       <li><a href="twilio.html#parsons.Twilio.get_accounts">get_accounts() (parsons.Twilio method)</a>
 </li>
+      <li><a href="newmode.html#parsons.Newmode.get_action">get_action() (parsons.Newmode method)</a>
+</li>
       <li><a href="ngpvan.html#parsons.ngpvan.van.ActivistCodes.get_activist_code">get_activist_code() (parsons.ngpvan.van.ActivistCodes method)</a>
 </li>
       <li><a href="ngpvan.html#parsons.ngpvan.van.ActivistCodes.get_activist_codes">get_activist_codes() (parsons.ngpvan.van.ActivistCodes method)</a>
@@ -540,11 +544,19 @@
       <li><a href="redash.html#parsons.redash.Redash.get_cached_query_results">get_cached_query_results() (parsons.redash.Redash method)</a>
 </li>
       <li><a href="action_kit.html#parsons.ActionKit.get_campaign">get_campaign() (parsons.ActionKit method)</a>
+
+      <ul>
+        <li><a href="newmode.html#parsons.Newmode.get_campaign">(parsons.Newmode method)</a>
 </li>
+      </ul></li>
       <li><a href="action_kit.html#parsons.ActionKit.get_campaign_fields">get_campaign_fields() (parsons.ActionKit method)</a>
 </li>
-      <li><a href="p2a.html#parsons.Phone2Action.get_campaigns">get_campaigns() (parsons.Phone2Action method)</a>
+      <li><a href="newmode.html#parsons.Newmode.get_campaigns">get_campaigns() (parsons.Newmode method)</a>
+
+      <ul>
+        <li><a href="p2a.html#parsons.Phone2Action.get_campaigns">(parsons.Phone2Action method)</a>
 </li>
+      </ul></li>
       <li><a href="ngpvan.html#parsons.ngpvan.van.CanvassResponses.get_canvass_responses_contact_types">get_canvass_responses_contact_types() (parsons.ngpvan.van.CanvassResponses method)</a>
 </li>
       <li><a href="ngpvan.html#parsons.ngpvan.van.CanvassResponses.get_canvass_responses_input_types">get_canvass_responses_input_types() (parsons.ngpvan.van.CanvassResponses method)</a>
@@ -643,14 +655,14 @@
 </li>
       <li><a href="ngpvan.html#parsons.ngpvan.van.Folders.get_folder">get_folder() (parsons.ngpvan.van.Folders method)</a>
 </li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="ngpvan.html#parsons.ngpvan.van.Folders.get_folders">get_folders() (parsons.ngpvan.van.Folders method)</a>
 </li>
       <li><a href="redash.html#parsons.redash.Redash.get_fresh_query_results">get_fresh_query_results() (parsons.redash.Redash method)</a>
 </li>
       <li><a href="hustle.html#parsons.Hustle.get_group">get_group() (parsons.Hustle method)</a>
 </li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="hustle.html#parsons.Hustle.get_groups">get_groups() (parsons.Hustle method)</a>
 </li>
       <li><a href="bill_com.html#parsons.BillCom.get_invoice_list">get_invoice_list() (parsons.BillCom method)</a>
@@ -682,13 +694,23 @@
       <li><a href="bill_com.html#parsons.BillCom.get_or_create_customer">get_or_create_customer() (parsons.BillCom method)</a>
 </li>
       <li><a href="hustle.html#parsons.Hustle.get_organization">get_organization() (parsons.Hustle method)</a>
+
+      <ul>
+        <li><a href="newmode.html#parsons.Newmode.get_organization">(parsons.Newmode method)</a>
 </li>
+      </ul></li>
       <li><a href="hustle.html#parsons.Hustle.get_organizations">get_organizations() (parsons.Hustle method)</a>
 
       <ul>
         <li><a href="mobilize_america.html#parsons.MobilizeAmerica.get_organizations">(parsons.MobilizeAmerica method)</a>
 </li>
+        <li><a href="newmode.html#parsons.Newmode.get_organizations">(parsons.Newmode method)</a>
+</li>
       </ul></li>
+      <li><a href="newmode.html#parsons.Newmode.get_outreach">get_outreach() (parsons.Newmode method)</a>
+</li>
+      <li><a href="newmode.html#parsons.Newmode.get_outreaches">get_outreaches() (parsons.Newmode method)</a>
+</li>
       <li><a href="action_kit.html#parsons.ActionKit.get_page_followup">get_page_followup() (parsons.ActionKit method)</a>
 </li>
       <li><a href="action_kit.html#parsons.ActionKit.get_page_followup_fields">get_page_followup_fields() (parsons.ActionKit method)</a>
@@ -729,6 +751,10 @@
 </li>
       <li><a href="ngpvan.html#parsons.ngpvan.van.Scores.get_scores">get_scores() (parsons.ngpvan.van.Scores method)</a>
 </li>
+      <li><a href="newmode.html#parsons.Newmode.get_service">get_service() (parsons.Newmode method)</a>
+</li>
+      <li><a href="newmode.html#parsons.Newmode.get_services">get_services() (parsons.Newmode method)</a>
+</li>
       <li><a href="google_sheets.html#parsons.GoogleSheets.get_sheet_index_with_title">get_sheet_index_with_title() (parsons.GoogleSheets method)</a>
 </li>
       <li><a href="ngpvan.html#parsons.ngpvan.van.Signups.get_signup">get_signup() (parsons.ngpvan.van.Signups method)</a>
@@ -755,7 +781,13 @@
 </li>
       <li><a href="hustle.html#parsons.Hustle.get_tags">get_tags() (parsons.Hustle method)</a>
 </li>
+      <li><a href="newmode.html#parsons.Newmode.get_target">get_target() (parsons.Newmode method)</a>
+</li>
       <li><a href="freshdesk.html#parsons.Freshdesk.get_tickets">get_tickets() (parsons.Freshdesk method)</a>
+</li>
+      <li><a href="newmode.html#parsons.Newmode.get_tool">get_tool() (parsons.Newmode method)</a>
+</li>
+      <li><a href="newmode.html#parsons.Newmode.get_tools">get_tools() (parsons.Newmode method)</a>
 </li>
       <li><a href="s3.html#parsons.S3.get_url">get_url() (parsons.S3 method)</a>
 </li>
@@ -847,6 +879,8 @@
 </li>
       <li><a href="table.html#parsons.etl.etl.ETL.long_table">long_table() (parsons.etl.etl.ETL method)</a>, <a href="table.html#parsons.etl.etl.ETL.long_table">[1]</a>
 </li>
+      <li><a href="newmode.html#parsons.Newmode.lookup_targets">lookup_targets() (parsons.Newmode method)</a>
+</li>
   </ul></td>
 </tr></table>
 
@@ -872,6 +906,14 @@
       <li><a href="redshift.html#parsons.databases.redshift.redshift.RedshiftTableUtilities.move_table">move_table() (parsons.databases.redshift.redshift.RedshiftTableUtilities method)</a>
 </li>
       <li><a href="databases.html#parsons.MySQL">MySQL (class in parsons)</a>
+</li>
+  </ul></td>
+</tr></table>
+
+<h2 id="N">N</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="newmode.html#parsons.Newmode">Newmode (class in parsons)</a>
 </li>
   </ul></td>
 </tr></table>
@@ -982,6 +1024,8 @@
       <li><a href="table.html#parsons.etl.etl.ETL.rename_column">rename_column() (parsons.etl.etl.ETL method)</a>, <a href="table.html#parsons.etl.etl.ETL.rename_column">[1]</a>
 </li>
       <li><a href="redshift.html#parsons.databases.redshift.redshift.RedshiftTableUtilities.rename_table">rename_table() (parsons.databases.redshift.redshift.RedshiftTableUtilities method)</a>
+</li>
+      <li><a href="newmode.html#parsons.Newmode.run_action">run_action() (parsons.Newmode method)</a>
 </li>
   </ul></td>
 </tr></table>

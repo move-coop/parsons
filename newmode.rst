@@ -7,6 +7,10 @@ that organizations, campaigns and causes use to win on the issues.
 Most methods and functions in Parsons return a ``Table``, which is a 2D list-like object. Read
 more in Table documentation.
 
+.. warning::
+	Use of the Newmode class requires optional installation of NewMode package by 
+	running ``pip install newmode``.
+
 ***********
 Quick Start
 ***********

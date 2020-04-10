@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>parsons.notifications.slack &mdash; Parsons 0.5 documentation</title>
+  <title>parsons.notifications.slack &mdash; Parsons 0.1 documentation</title>
   
 
   
@@ -79,34 +79,18 @@
               <p class="caption"><span class="caption-text">Integrations</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../../action_kit.html">ActionKit</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../airtable.html">Airtable</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../bill_com.html">Bill.com</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../civis.html">Civis</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../copper.html">Copper</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../crowdtangle.html">CrowdTangle</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../databases.html">Databases</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../facebook_ads.html">FacebookAds</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../freshdesk.html">Freshdesk</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../google_sheets.html">GoogleSheets</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../google_cloud.html">Google Cloud</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../hustle.html">Hustle</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../mobile_commons.html">Mobile Commons</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../mobilize_america.html">Mobilize America</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../newmode.html">New/Mode</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../ngpvan.html">VAN</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../p2a.html">Phone2Action</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../redash.html">Redash</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../redshift.html">Redshift</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../s3.html">S3</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../salesforce.html">Salesforce</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../sftp.html">SFTP</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../ts.html">TargetSmart</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../twilio.html">Twilio</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../turbovote.html">TurboVote</a></li>
-</ul>
-<p class="caption"><span class="caption-text">Enhancements</span></p>
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="../../../google_civic.html">Google Civic</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../census_geocoder.html">US Census Geocoder</a></li>
 </ul>
 <p class="caption"><span class="caption-text">Framework</span></p>
 <ul>
@@ -175,15 +159,14 @@
            <div itemprop="articleBody">
             
   <h1>Source code for parsons.notifications.slack</h1><div class="highlight"><pre>
-<span></span><span class="kn">from</span> <span class="nn">parsons.etl</span> <span class="kn">import</span> <span class="n">Table</span>
-<span class="kn">from</span> <span class="nn">slackclient</span> <span class="kn">import</span> <span class="n">SlackClient</span>
-<span class="kn">from</span> <span class="nn">slackclient.exceptions</span> <span class="kn">import</span> <span class="n">SlackClientError</span>
+<span></span><span class="kn">from</span> <span class="nn">parsons</span> <span class="k">import</span> <span class="n">Table</span>
+<span class="kn">from</span> <span class="nn">slackclient</span> <span class="k">import</span> <span class="n">SlackClient</span>
 <span class="kn">import</span> <span class="nn">os</span>
 
 
 <div class="viewcode-block" id="Slack"><a class="viewcode-back" href="../../../notifications.html#parsons.Slack">[docs]</a><span class="k">class</span> <span class="nc">Slack</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
 
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">api_key</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">api_key</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
 
         <span class="k">if</span> <span class="n">api_key</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
 
@@ -284,9 +267,6 @@
         <span class="n">resp</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">api_call</span><span class="p">(</span>
             <span class="s2">&quot;chat.postMessage&quot;</span><span class="p">,</span> <span class="n">channel</span><span class="o">=</span><span class="n">channel</span><span class="p">,</span> <span class="n">text</span><span class="o">=</span><span class="n">text</span><span class="p">,</span> <span class="n">as_user</span><span class="o">=</span><span class="n">as_user</span><span class="p">)</span>
 
-        <span class="k">if</span> <span class="ow">not</span> <span class="n">resp</span><span class="p">[</span><span class="s1">&#39;ok&#39;</span><span class="p">]:</span>
-            <span class="k">raise</span> <span class="n">SlackClientError</span><span class="p">(</span><span class="n">resp</span><span class="p">[</span><span class="s1">&#39;error&#39;</span><span class="p">])</span>
-
         <span class="k">return</span> <span class="n">resp</span></div>
 
 <div class="viewcode-block" id="Slack.upload_file"><a class="viewcode-back" href="../../../notifications.html#parsons.Slack.upload_file">[docs]</a>    <span class="k">def</span> <span class="nf">upload_file</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">channels</span><span class="p">,</span> <span class="n">filename</span><span class="p">,</span> <span class="n">filetype</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
@@ -322,9 +302,6 @@
                 <span class="n">filetype</span><span class="o">=</span><span class="n">filetype</span><span class="p">,</span> <span class="n">initial_comment</span><span class="o">=</span><span class="n">initial_comment</span><span class="p">,</span>
                 <span class="n">title</span><span class="o">=</span><span class="n">title</span><span class="p">)</span>
 
-        <span class="k">if</span> <span class="ow">not</span> <span class="n">resp</span><span class="p">[</span><span class="s1">&#39;ok&#39;</span><span class="p">]:</span>
-            <span class="k">raise</span> <span class="n">SlackClientError</span><span class="p">(</span><span class="n">resp</span><span class="p">[</span><span class="s1">&#39;error&#39;</span><span class="p">])</span>
-
         <span class="k">return</span> <span class="n">resp</span></div>
 
     <span class="k">def</span> <span class="nf">_paginate_request</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">endpoint</span><span class="p">,</span> <span class="n">collection</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
@@ -336,16 +313,13 @@
         <span class="n">next_page</span> <span class="o">=</span> <span class="kc">True</span>
         <span class="n">cursor</span> <span class="o">=</span> <span class="kc">None</span>
         <span class="k">while</span> <span class="n">next_page</span><span class="p">:</span>
-            <span class="n">resp</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">api_call</span><span class="p">(</span>
+            <span class="n">users</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">api_call</span><span class="p">(</span>
                 <span class="n">endpoint</span><span class="p">,</span> <span class="n">cursor</span><span class="o">=</span><span class="n">cursor</span><span class="p">,</span> <span class="n">limit</span><span class="o">=</span><span class="n">LIMIT</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
 
-            <span class="k">if</span> <span class="ow">not</span> <span class="n">resp</span><span class="p">[</span><span class="s1">&#39;ok&#39;</span><span class="p">]:</span>
-                <span class="k">raise</span> <span class="n">SlackClientError</span><span class="p">(</span><span class="n">resp</span><span class="p">[</span><span class="s1">&#39;error&#39;</span><span class="p">])</span>
+            <span class="n">items</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">users</span><span class="p">[</span><span class="n">collection</span><span class="p">])</span>
 
-            <span class="n">items</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">resp</span><span class="p">[</span><span class="n">collection</span><span class="p">])</span>
-
-            <span class="k">if</span> <span class="n">resp</span><span class="p">[</span><span class="s2">&quot;response_metadata&quot;</span><span class="p">][</span><span class="s2">&quot;next_cursor&quot;</span><span class="p">]:</span>
-                <span class="n">cursor</span> <span class="o">=</span> <span class="n">resp</span><span class="p">[</span><span class="s2">&quot;response_metadata&quot;</span><span class="p">][</span><span class="s2">&quot;next_cursor&quot;</span><span class="p">]</span>
+            <span class="k">if</span> <span class="n">users</span><span class="p">[</span><span class="s2">&quot;response_metadata&quot;</span><span class="p">][</span><span class="s2">&quot;next_cursor&quot;</span><span class="p">]:</span>
+                <span class="n">cursor</span> <span class="o">=</span> <span class="n">users</span><span class="p">[</span><span class="s2">&quot;response_metadata&quot;</span><span class="p">][</span><span class="s2">&quot;next_cursor&quot;</span><span class="p">]</span>
             <span class="k">else</span><span class="p">:</span>
                 <span class="n">next_page</span> <span class="o">=</span> <span class="kc">False</span>
 

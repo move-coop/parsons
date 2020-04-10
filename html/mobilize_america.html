@@ -201,6 +201,223 @@ or private.</dd>
 </div>
 <div class="section" id="id2">
 <h2>API<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="parsons.MobilizeAmerica">
+<em class="property">class </em><code class="descclassname">parsons.</code><code class="descname">MobilizeAmerica</code><span class="sig-paren">(</span><em>api_key=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/mobilize_america/ma.html#MobilizeAmerica"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.MobilizeAmerica" title="Permalink to this definition">¶</a></dt>
+<dd><p>Instantiate MobilizeAmerica Class</p>
+<dl class="docutils">
+<dt>api_key: str</dt>
+<dd>An api key issued by Mobilize America. This is required to access some private methods.</dd>
+<dt><cite>Returns:</cite></dt>
+<dd>MobilizeAmerica Class</dd>
+</dl>
+<dl class="method">
+<dt id="parsons.MobilizeAmerica.get_organizations">
+<code class="descname">get_organizations</code><span class="sig-paren">(</span><em>updated_since=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/mobilize_america/ma.html#MobilizeAmerica.get_organizations"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.MobilizeAmerica.get_organizations" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return all active organizations on the platform.</p>
+<dl class="docutils">
+<dt><cite>Args:</cite></dt>
+<dd><dl class="first last docutils">
+<dt>updated_since: str</dt>
+<dd>Filter to organizations updated since given date (ISO Date)</dd>
+</dl>
+</dd>
+<dt><cite>Returns</cite></dt>
+<dd><dl class="first last docutils">
+<dt>Parsons Table</dt>
+<dd>See <a class="reference internal" href="table.html#parsons-table"><span class="std std-ref">Parsons Table</span></a> for output options.</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="parsons.MobilizeAmerica.get_events">
+<code class="descname">get_events</code><span class="sig-paren">(</span><em>organization_id=None</em>, <em>updated_since=None</em>, <em>timeslot_start=None</em>, <em>timeslot_end=None</em>, <em>timeslots_table=False</em>, <em>max_timeslots=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/mobilize_america/ma.html#MobilizeAmerica.get_events"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.MobilizeAmerica.get_events" title="Permalink to this definition">¶</a></dt>
+<dd><p>Fetch all public events on the platform.</p>
+<dl class="docutils">
+<dt><cite>Args:</cite></dt>
+<dd><dl class="first last docutils">
+<dt>organization_id: list or int</dt>
+<dd>Filter events by a single or multiple organization ids</dd>
+<dt>updated_since: str</dt>
+<dd>Filter to events updated since given date (ISO Date)</dd>
+<dt>timeslot_start: str</dt>
+<dd>Filter by a timeslot start of events using <code class="docutils literal notranslate"><span class="pre">&gt;</span></code>,``&gt;=``,``&lt;<code class="docutils literal notranslate"><span class="pre">,``&lt;=</span></code>
+operators and ISO date (ex. <code class="docutils literal notranslate"><span class="pre">&lt;=2018-12-13</span> <span class="pre">05:00:00PM</span></code>)</dd>
+<dt>timeslot_end: str</dt>
+<dd>Filter by a timeslot end of events using <code class="docutils literal notranslate"><span class="pre">&gt;</span></code>,``&gt;=``,``&lt;<code class="docutils literal notranslate"><span class="pre">,``&lt;=</span></code>
+operators and ISO date (ex. <code class="docutils literal notranslate"><span class="pre">&lt;=2018-12-13</span> <span class="pre">05:00:00PM</span></code>)</dd>
+<dt>timeslot_table: boolean</dt>
+<dd>Return timeslots as a separate long table. Useful for extracting
+to databases.</dd>
+<dt>max_timeslots: int</dt>
+<dd><p class="first">If not returning a timeslot table, will unpack time slots. If do not
+set this kwarg, it will add a column for each time slot. The argument
+limits the number of columns and discards any additional timeslots
+after that.</p>
+<p>For example: If there are 20 timeslots associated with your event,
+and you set the max time slots to 5, it will only return the first 5
+time slots as <code class="docutils literal notranslate"><span class="pre">time_slot_0</span></code>, <code class="docutils literal notranslate"><span class="pre">time_slot_1</span></code> etc.</p>
+<p class="last">This is helpful in situations where you have a regular sync
+running and want to ensure that the column headers remain static.</p>
+</dd>
+</dl>
+</dd>
+<dt><cite>Returns</cite></dt>
+<dd><dl class="first last docutils">
+<dt>Parsons Table or dict or Parsons Tables</dt>
+<dd>See <a class="reference internal" href="table.html#parsons-table"><span class="std std-ref">Parsons Table</span></a> for output options.</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="parsons.MobilizeAmerica.get_events_organization">
+<code class="descname">get_events_organization</code><span class="sig-paren">(</span><em>organization_id=None</em>, <em>updated_since=None</em>, <em>timeslot_start=None</em>, <em>timeslot_end=None</em>, <em>timeslots_table=False</em>, <em>max_timeslots=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/mobilize_america/ma.html#MobilizeAmerica.get_events_organization"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.MobilizeAmerica.get_events_organization" title="Permalink to this definition">¶</a></dt>
+<dd><p>Fetch all public events for an organization. This includes both events owned
+by the organization (as indicated by the organization field on the event object)
+and events of other organizations promoted by this specified organization.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">API Key Required</p>
+</div>
+<dl class="docutils">
+<dt><cite>Args:</cite></dt>
+<dd><dl class="first last docutils">
+<dt>organization_id: list or int</dt>
+<dd>Filter events by a single or multiple organization ids</dd>
+<dt>updated_since: str</dt>
+<dd>Filter to events updated since given date (ISO Date)</dd>
+<dt>timeslot_start: str</dt>
+<dd>Filter by a timeslot start of events using <code class="docutils literal notranslate"><span class="pre">&gt;</span></code>,``&gt;=``,``&lt;<code class="docutils literal notranslate"><span class="pre">,``&lt;=</span></code>
+operators and ISO date (ex. <code class="docutils literal notranslate"><span class="pre">&lt;=2018-12-13</span> <span class="pre">05:00:00PM</span></code>)</dd>
+<dt>timeslot_end: str</dt>
+<dd>Filter by a timeslot end of events using <code class="docutils literal notranslate"><span class="pre">&gt;</span></code>,``&gt;=``,``&lt;<code class="docutils literal notranslate"><span class="pre">,``&lt;=</span></code>
+operators and ISO date (ex. <code class="docutils literal notranslate"><span class="pre">&lt;=2018-12-13</span> <span class="pre">05:00:00PM</span></code>)</dd>
+<dt>timeslot_table: boolean</dt>
+<dd>Return timeslots as a separate long table. Useful for extracting
+to databases.</dd>
+<dt>zipcode: str</dt>
+<dd>Filter by a Events’ Locations’ postal code. If present, returns Events
+sorted by distance from zipcode. If present, virtual events will not be returned.</dd>
+<dt>max_dist: str</dt>
+<dd>Filter Events’ Locations’ distance from provided zipcode.</dd>
+<dt>visibility: str</dt>
+<dd>Either <cite>PUBLIC</cite> or <cite>PRIVATE</cite>. Private events only return if user is authenticated;
+if <cite>visibility=PRIVATE</cite> and user doesn’t have permission, no events returned.</dd>
+<dt>exclude_full: bool</dt>
+<dd>If <cite>exclude_full=true</cite>, filter out full Timeslots (and Events if all of an Event’s
+Timeslots are full)</dd>
+<dt>is_virtual: bool</dt>
+<dd><cite>is_virtual=false</cite> will return only in-person events, while <cite>is_virtual=true</cite> will
+return only virtual events. If excluded, return virtual and in-person events. Note
+that providing a zipcode also implies <cite>is_virtual=false</cite>.</dd>
+<dt>event_types:enum</dt>
+<dd>The type of the event, one of: <cite>CANVASS</cite>, <cite>PHONE_BANK</cite>, <cite>TEXT_BANK</cite>, <cite>MEETING</cite>,
+<cite>COMMUNITY</cite>, <cite>FUNDRAISER</cite>, <cite>MEET_GREET</cite>, <cite>HOUSE_PARTY</cite>, <cite>VOTER_REG</cite>, <cite>TRAINING</cite>,
+<cite>FRIEND_TO_FRIEND_OUTREACH</cite>, <cite>DEBATE_WATCH_PARTY</cite>, <cite>ADVOCACY_CALL</cite>, <cite>OTHER</cite>.
+This list may expand in the future.</dd>
+<dt>max_timeslots: int</dt>
+<dd><p class="first">If not returning a timeslot table, will unpack time slots. If do not
+set this arg, it will add a column for each time slot. The argument
+limits the number of columns and discards any additional timeslots
+after that.</p>
+<p>For example: If there are 20 timeslots associated with your event,
+and you set the max time slots to 5, it will only return the first 5
+time slots as <code class="docutils literal notranslate"><span class="pre">time_slot_0</span></code>, <code class="docutils literal notranslate"><span class="pre">time_slot_1</span></code> etc.</p>
+<p class="last">This is helpful in situations where you have a regular sync
+running and want to ensure that the column headers remain static.</p>
+</dd>
+</dl>
+</dd>
+<dt><cite>Returns</cite></dt>
+<dd><dl class="first last docutils">
+<dt>Parsons Table or dict or Parsons Tables</dt>
+<dd>See <a class="reference internal" href="table.html#parsons-table"><span class="std std-ref">Parsons Table</span></a> for output options.</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="parsons.MobilizeAmerica.get_events_deleted">
+<code class="descname">get_events_deleted</code><span class="sig-paren">(</span><em>organization_id=None</em>, <em>updated_since=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/mobilize_america/ma.html#MobilizeAmerica.get_events_deleted"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.MobilizeAmerica.get_events_deleted" title="Permalink to this definition">¶</a></dt>
+<dd><p>Fetch deleted public events on the platform.</p>
+<dl class="docutils">
+<dt><cite>Args:</cite></dt>
+<dd><dl class="first last docutils">
+<dt>organization_id: list or int</dt>
+<dd>Filter events by a single or multiple organization ids</dd>
+<dt>updated_since: str</dt>
+<dd>Filter to events updated since given date (ISO Date)</dd>
+</dl>
+</dd>
+<dt><cite>Returns</cite></dt>
+<dd><dl class="first last docutils">
+<dt>Parsons Table</dt>
+<dd>See <a class="reference internal" href="table.html#parsons-table"><span class="std std-ref">Parsons Table</span></a> for output options.</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="parsons.MobilizeAmerica.get_people">
+<code class="descname">get_people</code><span class="sig-paren">(</span><em>organization_id=None</em>, <em>updated_since=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/mobilize_america/ma.html#MobilizeAmerica.get_people"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.MobilizeAmerica.get_people" title="Permalink to this definition">¶</a></dt>
+<dd><p>Fetch all people (volunteers) who are affiliated with the organization.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">API Key Required</p>
+</div>
+<dl class="docutils">
+<dt><cite>Args:</cite></dt>
+<dd><dl class="first last docutils">
+<dt>organization_id: list of int</dt>
+<dd>Filter events by a single or multiple organization ids</dd>
+<dt>updated_since: str</dt>
+<dd>Filter to events updated since given date (ISO Date)</dd>
+</dl>
+</dd>
+<dt><cite>Returns</cite></dt>
+<dd><dl class="first last docutils">
+<dt>Parsons Table</dt>
+<dd>See <a class="reference internal" href="table.html#parsons-table"><span class="std std-ref">Parsons Table</span></a> for output options.</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="parsons.MobilizeAmerica.get_attendances">
+<code class="descname">get_attendances</code><span class="sig-paren">(</span><em>organization_id=None</em>, <em>updated_since=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/mobilize_america/ma.html#MobilizeAmerica.get_attendances"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.MobilizeAmerica.get_attendances" title="Permalink to this definition">¶</a></dt>
+<dd><p>Fetch all attendances which were either promoted by the organization or
+were for events owned by the organization.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">API Key Required</p>
+</div>
+<dl class="docutils">
+<dt><cite>Args:</cite></dt>
+<dd><dl class="first last docutils">
+<dt>organization_id: list of int</dt>
+<dd>Filter events by a single or multiple organization ids</dd>
+<dt>updated_since: str</dt>
+<dd>Filter to events updated since given date (ISO Date)</dd>
+</dl>
+</dd>
+<dt><cite>Returns</cite></dt>
+<dd><dl class="first last docutils">
+<dt>Parsons Table</dt>
+<dd>See <a class="reference internal" href="table.html#parsons-table"><span class="std std-ref">Parsons Table</span></a> for output options.</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
 </div>
 </div>
 

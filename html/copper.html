@@ -204,6 +204,212 @@
 </div>
 <div class="section" id="api">
 <h2>API<a class="headerlink" href="#api" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="parsons.Copper">
+<em class="property">class </em><code class="descclassname">parsons.</code><code class="descname">Copper</code><span class="sig-paren">(</span><em>user_email=None</em>, <em>api_key=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/copper/copper.html#Copper"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.Copper" title="Permalink to this definition">¶</a></dt>
+<dd><p>Instantiate Copper Class</p>
+<dl class="docutils">
+<dt><cite>Args:</cite></dt>
+<dd><dl class="first last docutils">
+<dt>user_email:</dt>
+<dd>The email of the API user for Copper. Not required if <code class="docutils literal notranslate"><span class="pre">COPPER_USER_EMAIL</span></code>
+env variable set.</dd>
+<dt>api_key:</dt>
+<dd>The Copper provided application key. Not required if <code class="docutils literal notranslate"><span class="pre">COPPER_API_KEY</span></code>
+env. variable set.</dd>
+</dl>
+</dd>
+<dt><cite>Returns:</cite></dt>
+<dd>Copper Class</dd>
+</dl>
+<dl class="method">
+<dt id="parsons.Copper.get_people">
+<code class="descname">get_people</code><span class="sig-paren">(</span><em>filters=None</em>, <em>tidy=False</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/copper/copper.html#Copper.get_people"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.Copper.get_people" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get people</p>
+<dl class="docutils">
+<dt><cite>Args:</cite></dt>
+<dd><dl class="first last docutils">
+<dt><cite>filters: dict</cite></dt>
+<dd>Optional; pass additional parameters to filter the records returned.
+See <a class="reference external" href="https://developer.copper.com/?version=latest#9c15869b-c894-4fa2-9346-d65a6602c129">Copper documentation</a> for choices</dd>
+<dt><cite>tidy: boolean or int</cite></dt>
+<dd>Optional; unpack list and dict columns as additional rows instead of columns
+If <cite>True</cite>: creates new table out of unpacked rows
+If ‘int’: adds rows to original table if max rows per key &lt;= given number
+(so <cite>tidy=0</cite> guarantees new table)</dd>
+</dl>
+</dd>
+<dt><cite>Returns:</cite></dt>
+<dd><dl class="first last docutils">
+<dt>List of dicts of Parsons Tables:</dt>
+<dd><ul class="first last simple">
+<li>people</li>
+<li>people_emails</li>
+<li>people_phone_numbers</li>
+<li>people_custom_fields</li>
+<li>people_socials</li>
+<li>people_websites</li>
+</ul>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="parsons.Copper.get_companies">
+<code class="descname">get_companies</code><span class="sig-paren">(</span><em>filters=None</em>, <em>tidy=False</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/copper/copper.html#Copper.get_companies"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.Copper.get_companies" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get companies</p>
+<dl class="docutils">
+<dt><cite>Args:</cite></dt>
+<dd><dl class="first last docutils">
+<dt><cite>filters: dict</cite></dt>
+<dd>Optional; pass additional parameters to filter the records returned.
+See <a class="reference external" href="https://developer.copper.com/?version=latest#0b4f267f-3180-4041-861c-13f3cf17bcf9">Copper documentation</a> for choices</dd>
+<dt><cite>tidy: boolean or int</cite></dt>
+<dd>Optional; unpack list and dict columns as additional rows instead of columns
+If <cite>True</cite>: creates new table out of unpacked rows
+If ‘int’: adds rows to original table if max rows per key &lt;= given number
+(so <cite>tidy=0</cite> guarantees new table)</dd>
+</dl>
+</dd>
+<dt><cite>Returns:</cite></dt>
+<dd><dl class="first last docutils">
+<dt>List of dicts of Parsons Tables:</dt>
+<dd><ul class="first last simple">
+<li>companies</li>
+<li>companies_phone_numbers</li>
+<li>companies_custom_fields</li>
+<li>companies_socials</li>
+<li>companies_websites</li>
+</ul>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="parsons.Copper.get_activities">
+<code class="descname">get_activities</code><span class="sig-paren">(</span><em>filters=None</em>, <em>tidy=False</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/copper/copper.html#Copper.get_activities"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.Copper.get_activities" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get activities</p>
+<dl class="docutils">
+<dt><cite>Args:</cite></dt>
+<dd><dl class="first last docutils">
+<dt><cite>filters: dict</cite></dt>
+<dd>Optional; pass additional parameters to filter the records returned.
+See <a class="reference external" href="https://developer.copper.com/?version=latest#d2e6ddd8-6699-4ff3-87e3-1febb0410dc9">Copper documentation</a> for choices
+Optional; unpack list and dict columns as additional rows instead of columns
+If <cite>True</cite>: creates new table out of unpacked rows
+If ‘int’: adds rows to original table if max rows per key &lt;= given number
+(so <cite>tidy=0</cite> guarantees new table)</dd>
+</dl>
+</dd>
+<dt><cite>Returns:</cite></dt>
+<dd><dl class="first last docutils">
+<dt>List of dicts of Parsons Tables:</dt>
+<dd><ul class="first last simple">
+<li>activities</li>
+</ul>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="parsons.Copper.get_opportunities">
+<code class="descname">get_opportunities</code><span class="sig-paren">(</span><em>filters=None</em>, <em>tidy=False</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/copper/copper.html#Copper.get_opportunities"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.Copper.get_opportunities" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get opportunities (i.e. donations)</p>
+<dl class="docutils">
+<dt><cite>Args:</cite></dt>
+<dd><dl class="first last docutils">
+<dt><cite>filters: dict</cite></dt>
+<dd>Optional; pass additional parameters to filter the records returned.
+See <a class="reference external" href="https://developer.copper.com/?version=latest#5bb8adc1-137f-46bf-aa86-7df037840e57">Copper documentation</a> for choices
+Optional; unpack list and dict columns as additional rows instead of columns
+If <cite>True</cite>: creates new table out of unpacked rows
+If ‘int’: adds rows to original table if max rows per key &lt;= given number
+(so <cite>tidy=0</cite> guarantees new table)</dd>
+</dl>
+</dd>
+<dt><cite>Returns:</cite></dt>
+<dd><dl class="first last docutils">
+<dt>List of dicts of Parsons Tables:</dt>
+<dd><ul class="first last simple">
+<li>opportunities</li>
+<li>opportunities_custom_fields</li>
+</ul>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="parsons.Copper.get_custom_fields">
+<code class="descname">get_custom_fields</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/copper/copper.html#Copper.get_custom_fields"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.Copper.get_custom_fields" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get custom fields</p>
+<dl class="docutils">
+<dt><cite>Args:</cite></dt>
+<dd><cite>filters: dict</cite>
+Optional; pass additional parameters to filter the records returned.
+See <a class="reference external" href="https://developer.copper.com/?version=latest#bf389290-0c19-46a7-85bf-f5e6884fa4e1">Copper documentation</a> for choices</dd>
+<dt><cite>Returns:</cite></dt>
+<dd><dl class="first last docutils">
+<dt>List of dicts of Parsons Tables:</dt>
+<dd><ul class="first last simple">
+<li>custom_fields</li>
+<li>custom_fields_available</li>
+<li>custom_fields_options</li>
+</ul>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="parsons.Copper.get_activity_types">
+<code class="descname">get_activity_types</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/copper/copper.html#Copper.get_activity_types"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.Copper.get_activity_types" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get activity types</p>
+<dl class="docutils">
+<dt><cite>Args:</cite></dt>
+<dd><cite>filters: dict</cite>
+Optional; pass additional parameters to filter the records returned.
+See <a class="reference external" href="https://developer.copper.com/?version=latest#6bd339f1-f0de-48b4-8c34-5a5e245e036f">Copper documentation</a> for choices</dd>
+<dt><cite>Returns:</cite></dt>
+<dd><dl class="first last docutils">
+<dt>List of dicts of Parsons Tables:</dt>
+<dd><ul class="first last simple">
+<li>activitiy_types</li>
+</ul>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="parsons.Copper.get_contact_types">
+<code class="descname">get_contact_types</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/copper/copper.html#Copper.get_contact_types"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.Copper.get_contact_types" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get contact types</p>
+<dl class="docutils">
+<dt><cite>Args:</cite></dt>
+<dd><cite>filters: dict</cite>
+Optional; pass additional parameters to filter the records returned.
+See <a class="reference external" href="https://developer.copper.com/?version=latest#8b6e6ed8-c594-4eed-a2af-586aa2100f09">Copper documentation</a> for choices</dd>
+<dt><cite>Returns:</cite></dt>
+<dd><dl class="first last docutils">
+<dt>Parsons Table</dt>
+<dd>See <a class="reference internal" href="table.html#parsons-table"><span class="std std-ref">Parsons Table</span></a> for output options.</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
 </div>
 </div>
 

@@ -181,6 +181,114 @@
   <div class="section" id="redash">
 <h1>Redash<a class="headerlink" href="#redash" title="Permalink to this headline">¶</a></h1>
 <p>The Redash class allows you to interact with a Redash server to refresh queries and get query results.</p>
+<dl class="class">
+<dt id="parsons.redash.Redash">
+<em class="property">class </em><code class="descclassname">parsons.redash.</code><code class="descname">Redash</code><span class="sig-paren">(</span><em>base_url=None</em>, <em>user_api_key=None</em>, <em>pause_time=3</em>, <em>timeout=0</em>, <em>verify=True</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/redash/redash.html#Redash"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.redash.Redash" title="Permalink to this definition">¶</a></dt>
+<dd><p>Instantiate Redash Class</p>
+<dl class="docutils">
+<dt><cite>Args:</cite></dt>
+<dd><dl class="first last docutils">
+<dt>base_url: str</dt>
+<dd>The base url for your redash instance (excluding the final /)</dd>
+<dt>user_api_key: str</dt>
+<dd>The user API key found in the User’s profile screen</dd>
+<dt>pause_time int</dt>
+<dd>Specify time between polling for refreshed queries (Defaults to 3 seconds)</dd>
+<dt>verify: bool</dt>
+<dd>For https requests, should the certificate be verified (Defaults to True)</dd>
+</dl>
+</dd>
+<dt><cite>Returns:</cite></dt>
+<dd>Redash Class</dd>
+</dl>
+<dl class="method">
+<dt id="parsons.redash.Redash.get_fresh_query_results">
+<code class="descname">get_fresh_query_results</code><span class="sig-paren">(</span><em>query_id=None</em>, <em>params=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/redash/redash.html#Redash.get_fresh_query_results"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.redash.Redash.get_fresh_query_results" title="Permalink to this definition">¶</a></dt>
+<dd><p>Make a fresh query result and get back the CSV http response object back
+with the CSV string in result.content</p>
+<dl class="docutils">
+<dt><cite>Args:</cite></dt>
+<dd><dl class="first last docutils">
+<dt>query_id: str or int</dt>
+<dd>The query id of the query</dd>
+<dt>params: dict</dt>
+<dd>If there are values for the redash query parameters
+(described <a class="reference external" href="https://redash.io/help/user-guide/querying/query-parameters">https://redash.io/help/user-guide/querying/query-parameters</a>
+e.g. “{{datelimit}}” in the query),
+then this is a dict that will pass the parameters in the POST.
+We add the “<a href="#id1"><span class="problematic" id="id2">p_</span></a>” prefix for parameters, so if your query had ?p_datelimit=….
+in the url, you should just set ‘datelimit’ in params here.
+If you set this with REDASH_QUERY_PARAMS environment variable instead of passing
+the values, then you must include the “<a href="#id3"><span class="problematic" id="id4">p_</span></a>” prefixes and it should be a single
+url-encoded string as you would see it in the URL bar.</dd>
+</dl>
+</dd>
+<dt><cite>Returns:</cite></dt>
+<dd>Table Class</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="parsons.redash.Redash.get_cached_query_results">
+<code class="descname">get_cached_query_results</code><span class="sig-paren">(</span><em>query_id=None</em>, <em>query_api_key=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/redash/redash.html#Redash.get_cached_query_results"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.redash.Redash.get_cached_query_results" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the results from a cached query result and get back the CSV http response object back
+with the CSV string in result.content</p>
+<dl class="docutils">
+<dt><cite>Args:</cite></dt>
+<dd><dl class="first last docutils">
+<dt>query_id: str or int</dt>
+<dd>The query id of the query</dd>
+<dt>query_api_key: str</dt>
+<dd>If you did not supply a user_api_key on the Redash object, then you can
+supply a query_api_key to get cached results back anonymously.</dd>
+</dl>
+</dd>
+<dt><cite>Returns:</cite></dt>
+<dd>Table Class</dd>
+</dl>
+</dd></dl>
+
+<dl class="classmethod">
+<dt id="parsons.redash.Redash.load_to_table">
+<em class="property">classmethod </em><code class="descname">load_to_table</code><span class="sig-paren">(</span><em>refresh=True</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/redash/redash.html#Redash.load_to_table"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.redash.Redash.load_to_table" title="Permalink to this definition">¶</a></dt>
+<dd><p>Fast classmethod so you can get the data all at once:
+tabledata = Redash.load_to_table(base_url=’<a class="reference external" href="https://example.com">https://example.com</a>’, user_api_key=’abc123’,</p>
+<blockquote>
+<div>query_id=1001, params={‘datelimit’: ‘2020-01-01’})</div></blockquote>
+<p>This instantiates the class and makes the appropriate query type (refresh or cached)
+based on which arguments are supplied.</p>
+<dl class="docutils">
+<dt><cite>Args:</cite></dt>
+<dd><dl class="first last docutils">
+<dt>base_url: str</dt>
+<dd>The base url for your redash instance (excluding the final /)</dd>
+<dt>query_id: str or int</dt>
+<dd>The query id of the query</dd>
+<dt>user_api_key: str</dt>
+<dd>The user API key found in the User’s profile screen required for refresh queries</dd>
+<dt>query_api_key: str</dt>
+<dd>If you did not supply a user_api_key on the Redash object, then you can
+supply a query_api_key to get cached results back anonymously.</dd>
+<dt>pause_time int</dt>
+<dd>Specify time between polling for refreshed queries (Defaults to 3 seconds)</dd>
+<dt>verify: bool</dt>
+<dd>For https requests, should the certificate be verified (Defaults to True)</dd>
+<dt>refresh: bool</dt>
+<dd>Refresh results or cached. (Defaults to True unless a query_api_key IS supplied)</dd>
+<dt>params: dict</dt>
+<dd>For refresh queries, if there are parameters in the query,
+then this is a dict that will pass the parameters in the POST.
+We add the “<a href="#id5"><span class="problematic" id="id6">p_</span></a>” prefix for parameters, so if your query had ?p_datelimit=….
+in the url, you should just set ‘datelimit’ in params here.</dd>
+</dl>
+</dd>
+<dt><cite>Returns:</cite></dt>
+<dd>Table Class</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
 </div>
 
 

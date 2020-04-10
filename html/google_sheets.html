@@ -191,6 +191,193 @@
 </div>
 <div class="section" id="api">
 <h2>API<a class="headerlink" href="#api" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="parsons.GoogleSheets">
+<em class="property">class </em><code class="descclassname">parsons.</code><code class="descname">GoogleSheets</code><span class="sig-paren">(</span><em>google_keyfile_dict=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/google/google_sheets.html#GoogleSheets"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.GoogleSheets" title="Permalink to this definition">¶</a></dt>
+<dd><p>A connector for Google Sheets, handling data import and export.</p>
+<dl class="docutils">
+<dt><cite>Args:</cite></dt>
+<dd><dl class="first last docutils">
+<dt>google_keyfile_dict: dict</dt>
+<dd>A dictionary of Google Drive API credentials, parsed from JSON provided
+by the Google Developer Console. Required if env variable
+<code class="docutils literal notranslate"><span class="pre">GOOGLE_DRIVE_CREDENTIALS</span></code> is not populated.</dd>
+</dl>
+</dd>
+</dl>
+<dl class="method">
+<dt id="parsons.GoogleSheets.get_sheet_index_with_title">
+<code class="descname">get_sheet_index_with_title</code><span class="sig-paren">(</span><em>spreadsheet_id</em>, <em>title</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/google/google_sheets.html#GoogleSheets.get_sheet_index_with_title"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.GoogleSheets.get_sheet_index_with_title" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the first sheet in a Google spreadsheet with the given title.</p>
+<dl class="docutils">
+<dt><cite>Args:</cite></dt>
+<dd><dl class="first last docutils">
+<dt>spreadsheet_id: str</dt>
+<dd>The ID of the spreadsheet (Tip: Get this from the spreadsheet URL)</dd>
+<dt>title: str</dt>
+<dd>The sheet title</dd>
+</dl>
+</dd>
+<dt><cite>Returns:</cite></dt>
+<dd><dl class="first last docutils">
+<dt>str</dt>
+<dd>The sheet index</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="parsons.GoogleSheets.read_sheet">
+<code class="descname">read_sheet</code><span class="sig-paren">(</span><em>spreadsheet_id</em>, <em>sheet_index=0</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/google/google_sheets.html#GoogleSheets.read_sheet"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.GoogleSheets.read_sheet" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create a <code class="docutils literal notranslate"><span class="pre">`parsons</span> <span class="pre">table`</span></code> from a sheet in a Google spreadsheet, given the sheet index.</p>
+<dl class="docutils">
+<dt><cite>Args:</cite></dt>
+<dd><dl class="first last docutils">
+<dt>spreadsheet_id: str</dt>
+<dd>The ID of the spreadsheet (Tip: Get this from the spreadsheet URL)</dd>
+<dt>sheet_index: int (optional)</dt>
+<dd>The index of the desired worksheet</dd>
+</dl>
+</dd>
+<dt><cite>Returns:</cite></dt>
+<dd><dl class="first last docutils">
+<dt>Parsons Table</dt>
+<dd>See <a class="reference internal" href="table.html#parsons-table"><span class="std std-ref">Parsons Table</span></a> for output options.</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="parsons.GoogleSheets.read_sheet_with_title">
+<code class="descname">read_sheet_with_title</code><span class="sig-paren">(</span><em>spreadsheet_id</em>, <em>title</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/google/google_sheets.html#GoogleSheets.read_sheet_with_title"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.GoogleSheets.read_sheet_with_title" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create a <code class="docutils literal notranslate"><span class="pre">`parsons</span> <span class="pre">table`</span></code> from a sheet in Google spreadsheet, given the sheet title.</p>
+<dl class="docutils">
+<dt><cite>Args:</cite></dt>
+<dd><dl class="first last docutils">
+<dt>spreadsheet_id: str</dt>
+<dd>The ID of the spreadsheet (Tip: Get this from the spreadsheet URL)</dd>
+<dt>title: str</dt>
+<dd>The sheet title</dd>
+</dl>
+</dd>
+<dt><cite>Returns:</cite></dt>
+<dd><dl class="first last docutils">
+<dt>Parsons Table</dt>
+<dd>See <a class="reference internal" href="table.html#parsons-table"><span class="std std-ref">Parsons Table</span></a> for output options.</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="parsons.GoogleSheets.create_spreadsheet">
+<code class="descname">create_spreadsheet</code><span class="sig-paren">(</span><em>title</em>, <em>editor_email=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/google/google_sheets.html#GoogleSheets.create_spreadsheet"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.GoogleSheets.create_spreadsheet" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create a Google spreadsheet from a Parsons table. Optionally shares the new doc with
+the given email address.</p>
+<dl class="docutils">
+<dt><cite>Args:</cite></dt>
+<dd><dl class="first last docutils">
+<dt>title: str</dt>
+<dd>The human-readable title of the new spreadsheet</dd>
+<dt>editor_email: str (optional)</dt>
+<dd>Email address which should be given permissions on this spreadsheet</dd>
+</dl>
+</dd>
+<dt><cite>Returns:</cite></dt>
+<dd><dl class="first last docutils">
+<dt>str</dt>
+<dd>The spreadsheet ID</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="parsons.GoogleSheets.delete_spreadsheet">
+<code class="descname">delete_spreadsheet</code><span class="sig-paren">(</span><em>spreadsheet_id</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/google/google_sheets.html#GoogleSheets.delete_spreadsheet"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.GoogleSheets.delete_spreadsheet" title="Permalink to this definition">¶</a></dt>
+<dd><p>Deletes a Google spreadsheet.</p>
+<dl class="docutils">
+<dt><cite>Args:</cite></dt>
+<dd><dl class="first last docutils">
+<dt>spreadsheet_id: str</dt>
+<dd>The ID of the spreadsheet (Tip: Get this from the spreadsheet URL)</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="parsons.GoogleSheets.add_sheet">
+<code class="descname">add_sheet</code><span class="sig-paren">(</span><em>spreadsheet_id</em>, <em>title=None</em>, <em>rows=100</em>, <em>cols=25</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/google/google_sheets.html#GoogleSheets.add_sheet"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.GoogleSheets.add_sheet" title="Permalink to this definition">¶</a></dt>
+<dd><p>Adds a sheet to a Google spreadsheet.</p>
+<dl class="docutils">
+<dt><cite>Args:</cite></dt>
+<dd><dl class="first last docutils">
+<dt>spreadsheet_id: str</dt>
+<dd>The ID of the spreadsheet (Tip: Get this from the spreadsheet URL)</dd>
+<dt>rows: int</dt>
+<dd>Number of rows</dd>
+<dt>cols</dt>
+<dd>Number of cols</dd>
+</dl>
+</dd>
+<dt><cite>Returns:</cite></dt>
+<dd><dl class="first last docutils">
+<dt>str</dt>
+<dd>The sheet index</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="parsons.GoogleSheets.append_to_sheet">
+<code class="descname">append_to_sheet</code><span class="sig-paren">(</span><em>spreadsheet_id</em>, <em>table</em>, <em>sheet_index=0</em>, <em>user_entered_value=False</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/google/google_sheets.html#GoogleSheets.append_to_sheet"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.GoogleSheets.append_to_sheet" title="Permalink to this definition">¶</a></dt>
+<dd><p>Append data from a Parsons table to a Google sheet. Note that the table’s columns are
+ignored, as we’ll be keeping whatever header row already exists in the Google sheet.</p>
+<dl class="docutils">
+<dt><cite>Args:</cite></dt>
+<dd><dl class="first last docutils">
+<dt>spreadsheet_id: str</dt>
+<dd>The ID of the spreadsheet (Tip: Get this from the spreadsheet URL)</dd>
+<dt>table: obj</dt>
+<dd>Parsons table</dd>
+<dt>sheet_index: int (optional)</dt>
+<dd>The index of the desired worksheet</dd>
+<dt>user_entered_value: bool (optional)</dt>
+<dd>If True, will submit cell values as entered (required for entering formulas).
+Otherwise, values will be entered as strings or numbers only.</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="parsons.GoogleSheets.overwrite_sheet">
+<code class="descname">overwrite_sheet</code><span class="sig-paren">(</span><em>spreadsheet_id</em>, <em>table</em>, <em>sheet_index=0</em>, <em>user_entered_value=False</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/google/google_sheets.html#GoogleSheets.overwrite_sheet"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.GoogleSheets.overwrite_sheet" title="Permalink to this definition">¶</a></dt>
+<dd><p>Replace the data in a Google sheet with a Parsons table, using the table’s columns as the
+first row.</p>
+<dl class="docutils">
+<dt><cite>Args:</cite></dt>
+<dd><dl class="first last docutils">
+<dt>spreadsheet_id: str</dt>
+<dd>The ID of the spreadsheet (Tip: Get this from the spreadsheet URL)</dd>
+<dt>table: obj</dt>
+<dd>Parsons table</dd>
+<dt>sheet_index: int (optional)</dt>
+<dd>The index of the desired worksheet</dd>
+<dt>user_entered_value: bool (optional)</dt>
+<dd>If True, will submit cell values as entered (required for entering formulas).
+Otherwise, values will be entered as strings or numbers only.</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
 </div>
 </div>
 

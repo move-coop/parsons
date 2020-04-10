@@ -181,6 +181,45 @@
   <div class="section" id="turbovote">
 <h1>TurboVote<a class="headerlink" href="#turbovote" title="Permalink to this headline">¶</a></h1>
 <p><a class="reference external" href="https://turbovote.org/">TurboVote</a> is an online registration tool used by progressive organizations.</p>
+<dl class="class">
+<dt id="parsons.turbovote.turbovote.TurboVote">
+<em class="property">class </em><code class="descclassname">parsons.turbovote.turbovote.</code><code class="descname">TurboVote</code><span class="sig-paren">(</span><em>username=None</em>, <em>password=None</em>, <em>subdomain=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/turbovote/turbovote.html#TurboVote"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.turbovote.turbovote.TurboVote" title="Permalink to this definition">¶</a></dt>
+<dd><p>Initialize Turbovote class</p>
+<dl class="docutils">
+<dt><cite>Args:</cite></dt>
+<dd><dl class="first last docutils">
+<dt>username: str</dt>
+<dd>A valid turbovote username. Not required if <code class="docutils literal notranslate"><span class="pre">TURBOVOTE_USERNAME</span></code>
+env variable set.</dd>
+<dt>password: str</dt>
+<dd>A valid turbovote password. Not required if <code class="docutils literal notranslate"><span class="pre">TURBOVOTE_PASSWORD</span></code>
+env variable set</dd>
+<dt>subdomain: str</dt>
+<dd>Your turbovote subdomain (i.e. <code class="docutils literal notranslate"><span class="pre">https://MYORG.turbovote.org</span></code>). Not
+required if <code class="docutils literal notranslate"><span class="pre">TURBOVOTE_SUBDOMAIN</span></code> env variable set.</dd>
+<dt>uri: str</dt>
+<dd>Base turbovote API url</dd>
+</dl>
+</dd>
+<dt><cite>Returns:</cite></dt>
+<dd>class</dd>
+</dl>
+<dl class="method">
+<dt id="parsons.turbovote.turbovote.TurboVote.get_users">
+<code class="descname">get_users</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/turbovote/turbovote.html#TurboVote.get_users"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.turbovote.turbovote.TurboVote.get_users" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get users.</p>
+<dl class="docutils">
+<dt><cite>Returns:</cite></dt>
+<dd><dl class="first last docutils">
+<dt>Parsons Table</dt>
+<dd>See <a class="reference internal" href="table.html#parsons-table"><span class="std std-ref">Parsons Table</span></a> for output options.</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
 </div>
 
 

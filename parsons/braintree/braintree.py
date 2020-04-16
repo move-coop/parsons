@@ -28,6 +28,9 @@ class Braintree(object):
         timeout: int
             Optionally change the timeout from default of 200 seconds.
             Can also be passed with env var ``BRAINTREE_TIMEOUT``.
+        production: bool
+            Defaults to True.  If you are testing in a Sandbox,
+            set this to False.
     `Returns:`
         Braintree class
     """
@@ -144,7 +147,7 @@ class Braintree(object):
                 merchant_id=merchant_id,
                 public_key=public_key,
                 private_key=private_key,
-                timeout=200))
+                timeout=timeout))
 
     def get_disputes(self,
                      start_date=None, end_date=None,
@@ -156,22 +159,27 @@ class Braintree(object):
         together for a date range, or pass a query_list or query_dict argument.
 
         `Args:`
-            start_date: datetime or str
-                Start date of the dispute range. Requires `end_date` arg.
-            end_date: datetime or str
-                End date of the dispute range. Requires `start_date` arg.
+            start_date: date or str
+                Start date of the dispute range. Requires `end_date` arg. e.g. '2020-11-03'
+            end_date: date or str
+                End date of the dispute range. Requires `start_date` arg. e.g. '2020-11-03'
             query_list: list of braintree.DisputeSearch
                 You can use the `braintree.DisputeSearch
-                <https://developers.braintreepayments.com/reference/request/dispute/search/python>`
+                <https://developers.braintreepayments.com/reference/request/dispute/search/python>`_
                 to create a manual list of query parameters.
             query_dict: jsonable-dict
                 query_dict is basically the same as query_list, except instead of using their API
                 objects, you can pass it in pure dictionary form.
                 Some examples:
-                    The start_date/end_date arguments are the same as
-                      `{"effective_date": {"between": [start_date, end_date]}}`
-                    `{"merchant_account_id": {"in_list": [123, 456]}}`
-                    `{created_at: {"greater_than_or_equal": "2020-03-10"}}`
+                    .. highlight:: python
+                    .. code-block:: python
+
+                      # The start_date/end_date arguments are the same as
+                      {"effective_date": {"between": [start_date, end_date]}}
+                      # some other examples
+                      {"merchant_account_id": {"in_list": [123, 456]}}
+                      {"created_at": {"greater_than_or_equal": "2020-03-10"}}
+
         `Returns:`
             Table Class
         """
@@ -206,22 +214,28 @@ class Braintree(object):
         for a date range, or pass a query_list or query_dict argument.
 
         `Args:`
-            disbursement_start_date: datetime or str
+            disbursement_start_date: date or str
                 Start date of the disbursement range. Requires `disbursement_end_date` arg.
-            disbursement_end_date: datetime or str
+                e.g. '2020-11-03'
+            disbursement_end_date: date or str
                 End date of the disbursement range. Requires `disbursement_start_date` arg.
-            query_list: list of braintree.DisputeSearch
-                You can use the `braintree.DisputeSearch
-                <https://developers.braintreepayments.com/reference/request/dispute/search/python>`
-               to create a manual list of query parameters.
+                e.g. '2020-11-03'
+            query_list: list of braintree.TransactionSearch
+                You can use the `braintree.TransactionSearch
+                <https://developers.braintreepayments.com/reference/request/transaction/search/python>`_
+                to create a manual list of query parameters.
             query_dict: jsonable-dict
                 query_dict is basically the same as query_list, except instead of using their API
                 objects, you can pass it in pure dictionary form.
                 Some examples:
-                    The disbursement_start_date/dibursement_end_date arguments are the same as
-                      `{"disbursement_date": {"between": [start_date, end_date]}}`
-                    `{"merchant_account_id": {"in_list": [123, 456]}}`
-                    `{created_at: {"greater_than_or_equal": "2020-03-10"}}`
+                    .. highlight:: python
+                    .. code-block:: python
+
+                      # The disbursement_start_date/disbursement_end_date arguments are the same as
+                      {"disbursement_date": {"between": [start_date, end_date]}}
+                      # some other examples
+                      {"merchant_account_id": {"in_list": [123, 456]}}
+                      {"created_at": {"greater_than_or_equal": "2020-03-10"}}
             just_ids: bool
                 While querying a list of transaction ids is a single, fast query to Braintree's API,
                 getting all data for each transaction is force-paginated at 50-records per request.

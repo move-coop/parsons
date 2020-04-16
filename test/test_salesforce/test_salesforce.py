@@ -31,6 +31,15 @@ class TestSalesforce(unittest.TestCase):
             'success': True, 'created': False, 'id': '1234567890AaBbC', 'errors': []
         }]
 
+    def test_describe(self):
+
+        pass
+
+    def test_describe_fields(self):
+
+        # TO DO: test this with requests mock instead?
+        pass
+
     def test_query(self):
 
         fake_soql = 'FAKESOQL'

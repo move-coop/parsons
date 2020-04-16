@@ -45,10 +45,22 @@ class Redshift(RedshiftCreateTable, RedshiftCopyTable, RedshiftTableUtilities, R
             Name of the S3 bucket that will be used for storing data during bulk transfers.
             Required if you intend to perform bulk data transfers (eg. the copy_s3 method),
             and env variable ``S3_TEMP_BUCKET`` is not populated.
+        aws_access_key_id: str
+            The default AWS access key id for copying data from S3 into Redshift
+            when running copy/upsert/etc methods.
+            This will default to environment variable AWS_ACCESS_KEY_ID.
+        aws_secret_access_key: str
+            The default AWS secret access key for copying data from S3 into Redshift
+            when running copy/upsert/etc methods.
+            This will default to environment variable AWS_SECRET_ACCESS_KEY.
+        iam_role: str
+            AWS IAM Role ARN string -- an optional, different way for credentials to
+            be provided in the Redshift copy command that does not require an access key.
     """
 
     def __init__(self, username=None, password=None, host=None, db=None, port=None,
-                 timeout=10, s3_temp_bucket=None):
+                 timeout=10, s3_temp_bucket=None,
+                 aws_access_key_id=None, aws_secret_access_key=None, iam_role=None):
 
         try:
             self.username = username or os.environ['REDSHIFT_USERNAME']
@@ -64,6 +76,11 @@ class Redshift(RedshiftCreateTable, RedshiftCopyTable, RedshiftTableUtilities, R
         self.timeout = timeout
         self.dialect = 'redshift'
         self.s3_temp_bucket = s3_temp_bucket or os.environ.get('S3_TEMP_BUCKET')
+        # We don't check/load the environment variables for aws_* here
+        # because the logic in S3() and rs_copy_table.py does already.
+        self.aws_access_key_id = aws_access_key_id
+        self.aws_secret_access_key = aws_secret_access_key
+        self.iam_role = iam_role
 
     @contextmanager
     def connection(self):
@@ -345,7 +362,8 @@ class Redshift(RedshiftCreateTable, RedshiftCopyTable, RedshiftTableUtilities, R
              emptyasnull=True, blanksasnull=True, nullas=None, acceptinvchars=True,
              dateformat='auto', timeformat='auto', varchar_max=None, truncatecolumns=False,
              columntypes=None, specifycols=None, alter_table=False,
-             aws_access_key_id=None, aws_secret_access_key=None):
+             aws_access_key_id=None, aws_secret_access_key=None, iam_role=None,
+             cleanup_s3_file=True, template_table=None):
         """
         Copy a :ref:`parsons-table` to Redshift.
 
@@ -419,13 +437,25 @@ class Redshift(RedshiftCreateTable, RedshiftCopyTable, RedshiftTableUtilities, R
             aws_secret_access_key:
                 An AWS secret access key granted to the bucket where the file is located. Not
                 required if keys are stored as environmental variables.
+            iam_role: str
+                An AWS IAM Role ARN string; an alternative credential for the COPY command
+                from Redshift to S3. The IAM role must have been assigned to the Redshift
+                instance and have access to the S3 bucket.
+            cleanup_s3_file: boolean
+                The s3 upload is removed by default on cleanup. You can set to False for debugging.
+            template_table: str
+                Instead of specifying columns, columntypes, and/or inference, if there
+                is a pre-existing table that has the same columns/types, then use the template_table
+                table name as the schema for the new table.
+                Unless you set specifycols=False explicitly, a template_table will set it to True
+
         `Returns`
             Parsons Table or ``None``
                 See :ref:`parsons-table` for output options.
         """
 
         # Specify the columns for a copy statement.
-        if specifycols:
+        if specifycols or (specifycols is None and template_table):
             cols = tbl.columns
         else:
             cols = None
@@ -435,10 +465,14 @@ class Redshift(RedshiftCreateTable, RedshiftCopyTable, RedshiftTableUtilities, R
             # Check to see if the table exists. If it does not or if_exists = drop, then
             # create the new table.
             if self._create_table_precheck(connection, table_name, if_exists):
-                sql = self.create_statement(tbl, table_name, padding=padding,
-                                            distkey=distkey, sortkey=sortkey,
-                                            varchar_max=varchar_max,
-                                            columntypes=columntypes)
+                if template_table:
+                    # Copy the schema from the template table
+                    sql = f'CREATE TABLE {table_name} (LIKE {template_table})'
+                else:
+                    sql = self.create_statement(tbl, table_name, padding=padding,
+                                                distkey=distkey, sortkey=sortkey,
+                                                varchar_max=varchar_max,
+                                                columntypes=columntypes)
                 self.query_with_connection(sql, connection, commit=False)
                 logger.info(f'{table_name} created.')
 
@@ -472,12 +506,14 @@ class Redshift(RedshiftCreateTable, RedshiftCopyTable, RedshiftTableUtilities, R
 
                 # Copy from S3 to Redshift
                 sql = self.copy_statement(table_name, self.s3_temp_bucket, key, **copy_args)
+                logger.debug(f'Copy SQL command: {sql}')
                 self.query_with_connection(sql, connection, commit=False)
+
                 logger.info(f'Data copied to {table_name}.')
 
             # Clean up the S3 bucket.
             finally:
-                if key:
+                if key and cleanup_s3_file:
                     self.temp_s3_delete(key)
 
     def unload(self, sql, bucket, key_prefix, manifest=True, header=True, compression='gzip',
@@ -632,7 +668,8 @@ class Redshift(RedshiftCreateTable, RedshiftCopyTable, RedshiftTableUtilities, R
 
         return manifest
 
-    def upsert(self, table_obj, target_table, primary_key, vacuum=True, distinct_check=True):
+    def upsert(self, table_obj, target_table, primary_key, vacuum=True, distinct_check=True,
+               cleanup_temp_table=True, **copy_args):
         """
         Preform an upsert on an existing table. An upsert is a function in which records
         in a table are updated and inserted at the same time. Unlike other SQL databases,
@@ -651,7 +688,17 @@ class Redshift(RedshiftCreateTable, RedshiftCopyTable, RedshiftTableUtilities, R
                 if you lack these priviledges.
             distinct_check: boolean
                 Check if the primary key column is distinct. Raise error if not.
-        """
+            cleanup_temp_table: boolean
+                A temp table is dropped by default on cleanup. You can set to False for debugging.
+            \**copy_args: kwargs
+                See :func:`~parsons.databases.Redshift.copy`` for options.
+        """  # noqa: W605
+
+        if not self.table_exists(target_table):
+            logger.info('Target table does not exist. Copying into newly \
+                         created target table.')
+            self.copy(table_obj, target_table)
+            return None
 
         noise = f'{random.randrange(0, 10000):04}'[:4]
         date_stamp = datetime.datetime.now().strftime('%Y%m%d_%H%M')
@@ -682,10 +729,11 @@ class Redshift(RedshiftCreateTable, RedshiftCopyTable, RedshiftTableUtilities, R
         with self.connection() as connection:
 
             try:
-
                 # Copy to a staging table
                 logger.info(f'Building staging table: {staging_tbl}')
-                self.copy(table_obj, staging_tbl)
+                self.copy(table_obj, staging_tbl,
+                          template_table=target_table,
+                          **copy_args)
 
                 staging_table_name = staging_tbl.split('.')[1]
                 target_table_name = target_table.split('.')[1]
@@ -718,11 +766,11 @@ class Redshift(RedshiftCreateTable, RedshiftCopyTable, RedshiftTableUtilities, R
                 logger.info(f'Target rows inserted to {target_table}')
 
             finally:
-
-                # Drop the staging table
-                self.query_with_connection(f"DROP TABLE IF EXISTS {staging_tbl};",
-                                           connection, commit=False)
-                logger.info(f'{staging_tbl} staging table dropped.')
+                if cleanup_temp_table:
+                    # Drop the staging table
+                    self.query_with_connection(f"DROP TABLE IF EXISTS {staging_tbl};",
+                                               connection, commit=False)
+                    logger.info(f'{staging_tbl} staging table dropped.')
 
         # Vacuum table. You must commit when running this type of transaction.
         if vacuum:

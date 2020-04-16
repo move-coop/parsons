@@ -1,10 +1,11 @@
-import gzip
 import json
 import os
 import unittest
 from unittest import mock
 from parsons.action_kit.action_kit import ActionKit
 from parsons.etl.table import Table
+
+from test.utils import assert_matching_tables
 
 ENV_PARAMETERS = {
     'ACTION_KIT_DOMAIN': 'env_domain',
@@ -285,7 +286,7 @@ class TestActionKit(unittest.TestCase):
         name, args, kwargs = resp_mock.method_calls[1]
         self.assertEqual(kwargs['data'],
                          {'page': 'fake_page', 'autocreate_user_fields': 0, 'user_fields_only': 0})
-        upload_data = gzip.open(kwargs['files']['upload']).read()
+        upload_data = kwargs['files']['upload'].read()
         self.assertEqual(upload_data.decode(),
                          'user_id,user_customfield1,action_foo\r\n5,yes,123 Main St\r\n')
 
@@ -302,3 +303,15 @@ class TestActionKit(unittest.TestCase):
                          {'page': 'fake_page', 'autocreate_user_fields': 0, 'user_fields_only': 1})
         self.assertEqual(kwargs['files']['upload'].read().decode(),
                          'user_id,user_customfield1\r\n5,yes\r\n')
+
+    def test_table_split(self):
+        test1 = Table([('x', 'y', 'z'), ('a', 'b', ''), ('1', '', '3'), ('4', '', '6')])
+        tables = self.actionkit._split_tables_no_empties(test1)
+        self.assertEqual(len(tables), 2)
+        assert_matching_tables(tables[0], Table([('x', 'y'), ('a', 'b')]))
+        assert_matching_tables(tables[1], Table([('x', 'z'), ('1', '3'), ('4', '6')]))
+
+        test2 = Table([('x', 'y', 'z'), ('a', 'b', 'c'), ('1', '2', '3'), ('4', '5', '6')])
+        tables2 = self.actionkit._split_tables_no_empties(test2)
+        self.assertEqual(len(tables2), 1)
+        assert_matching_tables(tables2[0], test2)

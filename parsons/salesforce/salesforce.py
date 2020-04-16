@@ -2,6 +2,7 @@ from simple_salesforce import Salesforce as _Salesforce
 from parsons.utilities import check_env
 from parsons.etl import Table
 import logging
+import json
 
 logger = logging.getLogger(__name__)
 
@@ -39,6 +40,30 @@ class Salesforce:
 
         self._client = None
 
+    def describe_object(self, object):
+        """
+        `Args:`
+            object: str
+                The API name of the type of record to describe. Note that custom object names end
+                in `__c`
+        `Returns:`
+            Ordered Dict of all the object's meta data in Salesforce
+        """
+
+        return getattr(self.client, object).describe()
+
+    def describe_fields(self, object):
+        """
+        `Args:`
+            object: str
+                The API name of the type of record on whose fields you want data. Note that custom
+                object names end in `__c`
+        `Returns:`
+            Dict of all the object's field meta data in Salesforce
+        """
+
+        return json.loads(json.dumps(getattr(self.client, object).describe()['fields']))
+
     def query(self, soql):
         """
         `Args:`
@@ -59,7 +84,7 @@ class Salesforce:
 
         `Args:`
             object: str
-                The API name of the type of records to insert. Note that custom object names end
+                The API name of the type of record to insert. Note that custom object names end
                 in `__c`
             data_table: obj
                 A Parsons Table with data for inserting records. Column names must match object
@@ -86,7 +111,7 @@ class Salesforce:
 
         `Args:`
             object: str
-                The API name of the type of records to update. Note that custom object names end
+                The API name of the type of record to update. Note that custom object names end
                 in `__c`
             data_table: obj
                 A Parsons Table with data for updating records. Must contain one column named
@@ -113,7 +138,7 @@ class Salesforce:
 
         `Args:`
             object: str
-                The API name of the type of records to upsert. Note that custom object names end
+                The API name of the type of record to upsert. Note that custom object names end
                 in `__c`
             data_table: obj
                 A Parsons Table with data for upserting records. Column names must match object
@@ -143,7 +168,7 @@ class Salesforce:
 
         `Args:`
             object: str
-                The API name of the type of records to delete. Note that custom object names end
+                The API name of the type of record to delete. Note that custom object names end
                 in `__c`
             id_table: obj
                 A Parsons Table of record IDs to delete. Note that 'Id' is the default Salesforce

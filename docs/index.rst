@@ -179,6 +179,7 @@ Indices and tables
    google_cloud
    hustle
    mobilize_america
+   newmode
    ngpvan
    p2a
    redash

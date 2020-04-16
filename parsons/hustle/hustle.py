@@ -373,7 +373,8 @@ class Hustle(object):
             * - last_name
               - ``last_name``, ``last``, ``ln``, ``lastname``
             * - phone_number
-              - ``phone_number``, ``phone``, ``cell``, ``phonenumber``
+               - ``phone_number``, ``phone``, ``cell``, ``phonenumber``, ``cell_phone``
+                ``cellphone``
             * - email
               - ``email``, ``email_address``, ``emailaddress``
             * - follow_up
@@ -386,13 +387,15 @@ class Hustle(object):
                 The group id to assign the leads. If ``None``, must be passed as a column
                 value.
         `Returns:`
-            ``None``
+            A table of created ids with associated lead id.
         """
 
         table.map_columns(LEAD_COLUMN_MAP)
 
         arg_list = ['first_name', 'last_name', 'email', 'phone_number', 'follow_up',
                     'tag_id', 'group_id']
+
+        created_leads = []
 
         for row in table:
 
@@ -415,9 +418,10 @@ class Hustle(object):
             if group_id:
                 lead['group_id'] == group_id
 
-            self.create_lead(**lead)
+            created_leads.append(self.create_lead(**lead))
 
         logger.info(f"Created {table.num_rows} leads.")
+        return Table(created_leads)
 
     def update_lead(self, lead_id, first_name=None, last_name=None, email=None,
                     global_opt_out=None, notes=None, follow_up=None, tag_ids=None):

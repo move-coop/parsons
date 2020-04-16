@@ -22,11 +22,36 @@ class TestStorage:
     def __init__(self):
         self.data = {}
 
-    def _put_object(self, bucket, key, data):
-        self.data[key] = data
+    def put_object(self, bucket, key, object_bytes):
+        self.data[key] = object_bytes
 
-    def _get_range(self, bucket, key, rangestart, rangeend):
+    def get_range(self, bucket, key, rangestart, rangeend):
         return self.data[key][rangestart:rangeend]
+
+
+class S3Storage:
+    """
+    These methods are pretty specialized, so we keep them
+    inside this file rather than s3.py
+    """
+
+    def __init__(self):
+        self.s3 = S3()
+
+    def put_object(self, bucket, key, object_bytes, **kwargs):
+        return self.s3.client.put_object(Bucket=bucket, Key=key, Body=object_bytes, **kwargs)
+
+    def get_range(self, bucket, key, rangestart, rangeend):
+        """
+        Gets an explicit byte-range of an S3 file
+        """
+        # bytes is INCLUSIVE for the rangeend parameter, unlike python
+        # so e.g. while python returns 2 bytes for data[2:4]
+        # Range: bytes=2-4 will return 3!! So we subtract 1
+        response = self.s3.client.get_object(
+            Bucket=bucket, Key=key,
+            Range='bytes={}-{}'.format(rangestart, rangeend - 1))
+        return response['Body'].read()
 
 
 FAKE_STORAGE = TestStorage()
@@ -73,9 +98,9 @@ def distribute_task_csv(csv_bytes_utf8, func_to_run, bucket,
 
     response = None
     if storage == 's3':
-        response = S3()._put_object(bucket, storagekey, csv_bytes_utf8)
+        response = S3Storage().put_object(bucket, storagekey, csv_bytes_utf8)
     else:
-        response = FAKE_STORAGE._put_object(bucket, storagekey, csv_bytes_utf8)
+        response = FAKE_STORAGE.put_object(bucket, storagekey, csv_bytes_utf8)
 
     # start processes
     results = [
@@ -118,26 +143,41 @@ def distribute_task(table, func_to_run,
     byte-range of the data in the S3 CSV file for which to process.
 
     Using this method requires some setup. You have three tasks:
+
     1. Define the function to process rows, the first argument, must take
        your table's data (though only a subset of rows will be passed)
        (e.g. `def task_for_distribution(table, **kwargs):`)
     2. Where you would have run `task_for_distribution(my_table, **kwargs)`
        instead call `distribute_task(my_table, task_for_distribution, func_kwargs=kwargs)
        (either setting env var S3_TEMP_BUCKET or passing a bucket= parameter)
-    3. Setup your Lambda handler to include this code:
-       ```
-       from parsons.aws import event_command
-
-       def handler(event, context):
-
-           ## ADD THESE TWO LINES TO TOP OF HANDLER:
-           if event_command(event, context):
-               return
-       ```
-       (or run through `Zappa <https://github.com/Miserlou/Zappa>`)
+    3. Setup your Lambda handler to include :py:meth:`parsons.aws.event_command`
+       (or run and deploy your lambda with `Zappa <https://github.com/Miserlou/Zappa>`_)
 
     To test locally, include the argument `storage="local"` which will test
     the distribute_task function, but run the task sequentially and in local memory.
+
+    A minimalistic example Lambda handler might look something like this:
+
+    .. code-block:: python
+       :emphasize-lines: 5,6
+
+       from parsons.aws import event_command, distribute_task
+
+       def process_table(table, foo, bar=None):
+           for row in table:
+               do_sloooooow_thing(row, foo, bar)
+
+       def handler(event, context):
+           ## ADD THESE TWO LINES TO TOP OF HANDLER:
+           if event_command(event, context):
+               return
+           table = FakeDatasource.load_to_table(username='123', password='abc')
+           # table is so big that running
+           #   process_table(table, foo=789, bar='baz') would timeout
+           # so instead we:
+           distribute_task(table, process_table,
+                           bucket='my-temp-s3-bucket',
+                           func_kwargs={'foo': 789, 'bar': 'baz'})
 
     `Args:`
         table: Parsons Table
@@ -206,9 +246,9 @@ def process_task_portion(bucket, storagekey, rangestart, rangeend, func_name, he
                  f'storagekey {storagekey}, byterange {rangestart}-{rangeend}')
     func = import_and_get_task(func_name, func_class_kwargs)
     if storage == 's3':
-        filedata = S3()._get_range(bucket, storagekey, rangestart, rangeend)
+        filedata = S3Storage().get_range(bucket, storagekey, rangestart, rangeend)
     else:
-        filedata = FAKE_STORAGE._get_range(bucket, storagekey, rangestart, rangeend)
+        filedata = FAKE_STORAGE.get_range(bucket, storagekey, rangestart, rangeend)
 
     lines = list(csv.reader(TextIOWrapper(BytesIO(filedata), encoding='utf-8-sig')))
     table = Table([header] + lines)

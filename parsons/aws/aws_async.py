@@ -31,12 +31,15 @@ def event_command(event, context):
     to enable distributed tasks
     In your lambda handler:
 
-    from parsons.aws import event_command
+    .. code-block:: python
+       :emphasize-lines: 5,6
 
-    def handler(event, context):
-        ## ADD THESE TWO LINES TO TOP OF HANDLER:
-        if event_command(event, context):
-            return
+       from parsons.aws import event_command
+
+       def handler(event, context):
+           ## ADD THESE TWO LINES TO TOP OF HANDLER:
+           if event_command(event, context):
+               return
 
     The rest of this library is compatible with zappa.async library.
     If you have deployed your app with `Zappa <https://github.com/Miserlou/Zappa>`,

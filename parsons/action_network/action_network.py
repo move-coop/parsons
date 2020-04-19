@@ -1,6 +1,7 @@
 import requests
 import json
 from time import time
+from parsons import Table
 
 class ActionNetwork(object):
     """
@@ -16,7 +17,7 @@ class ActionNetwork(object):
             "OSDI-API-Token": api_token
         }
         self.api_url = api_url
-    def get_entry_list(self, object_name, limit=10, timeout=60):
+    def _get_entry_list(self, object_name, limit=10, timeout=60):
         """
         `Args:`
             object_name: str
@@ -26,7 +27,7 @@ class ActionNetwork(object):
             timeout:
                 Seconds before request is forced to timeout. Implemented to ensur no infinite loops.
         `Returns:`
-            A list of JSONs of entries stored in Action Network. For example, when querying
+            A Parsons table of entries stored in Action Network. For example, when querying
             'people' returns of list of all people and their properties.
         """
         count = 0
@@ -41,16 +42,16 @@ class ActionNetwork(object):
             page = page + 1
             response_list = response.json()['_embedded']['osdi:%s' % object_name]
             if not response_list:
-                return return_list
+                return Table(return_list)
             return_list.extend(response_list)
             count = count + len(response_list)
             if limit:
                 if count >= limit:
-                    return return_list[0:limit]
+                    return Table(return_list[0:limit])
             if time() - t0 > timeout:
                 print("Request timed out. Returning results so far.")
-                return return_list
-    def get_entry(self, object_name, object_id):
+                return Table(return_list)
+    def _get_entry(self, object_name, object_id):
         """
         `Args:`
             object_name: str
@@ -63,7 +64,7 @@ class ActionNetwork(object):
         """
         response = requests.get(url="%s/%s/%s" % (self.api_url, object_name, object_id), headers=self.headers)
         return response.json()
-    def add_entry(self, object_name, data, verbose=False):
+    def _add_entry(self, object_name, data, verbose=False):
         """
         `Args:`
             object_name: str
@@ -89,7 +90,7 @@ class ActionNetwork(object):
         `Returns:`
             A list of JSONs of people stored in Action Network.
         """
-        self.get_entry_list(self, "people", limit, timeout)
+        self._get_entry_list(self, "people", limit, timeout)
     def get_person(self, object_id):
         """
         `Args:`
@@ -99,7 +100,7 @@ class ActionNetwork(object):
             A  JSON of the entry. If the entry doesn't exist, Action Network returns
             "{'error': 'Couldn't find <object_name> with id = <id>'}"
         """
-        self.get_entry("people", object_id)
+        self._get_entry("people", object_id)
     def add_person(email_address, tags=[], verbose=False, **kwargs):
         data = {
             "person" : {
@@ -108,4 +109,4 @@ class ActionNetwork(object):
               },
               "add_tags": tags
             }
-        self.add_entry(people, data, verbose)
+        self._add_entry(people, data, verbose)

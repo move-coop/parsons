@@ -1,0 +1,391 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Braintree &mdash; Parsons 0.5 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Civis" href="civis.html" />
+    <link rel="prev" title="Bill.com" href="bill_com.html" /> 
+
+  
+  <script src="_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="index.html" class="icon icon-home"> Parsons
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Integrations</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="action_kit.html">ActionKit</a></li>
+<li class="toctree-l1"><a class="reference internal" href="airtable.html">Airtable</a></li>
+<li class="toctree-l1"><a class="reference internal" href="bill_com.html">Bill.com</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Braintree</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#quick-start">Quick Start</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#api">API</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="civis.html">Civis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="copper.html">Copper</a></li>
+<li class="toctree-l1"><a class="reference internal" href="crowdtangle.html">CrowdTangle</a></li>
+<li class="toctree-l1"><a class="reference internal" href="databases.html">Databases</a></li>
+<li class="toctree-l1"><a class="reference internal" href="facebook_ads.html">FacebookAds</a></li>
+<li class="toctree-l1"><a class="reference internal" href="freshdesk.html">Freshdesk</a></li>
+<li class="toctree-l1"><a class="reference internal" href="google_sheets.html">GoogleSheets</a></li>
+<li class="toctree-l1"><a class="reference internal" href="google_cloud.html">Google Cloud</a></li>
+<li class="toctree-l1"><a class="reference internal" href="hustle.html">Hustle</a></li>
+<li class="toctree-l1"><a class="reference internal" href="mobilize_america.html">Mobilize America</a></li>
+<li class="toctree-l1"><a class="reference internal" href="newmode.html">New/Mode</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ngpvan.html">VAN</a></li>
+<li class="toctree-l1"><a class="reference internal" href="p2a.html">Phone2Action</a></li>
+<li class="toctree-l1"><a class="reference internal" href="redash.html">Redash</a></li>
+<li class="toctree-l1"><a class="reference internal" href="redshift.html">Redshift</a></li>
+<li class="toctree-l1"><a class="reference internal" href="s3.html">S3</a></li>
+<li class="toctree-l1"><a class="reference internal" href="salesforce.html">Salesforce</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sftp.html">SFTP</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ts.html">TargetSmart</a></li>
+<li class="toctree-l1"><a class="reference internal" href="twilio.html">Twilio</a></li>
+<li class="toctree-l1"><a class="reference internal" href="turbovote.html">TurboVote</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Enhancements</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="google_civic.html">Google Civic</a></li>
+<li class="toctree-l1"><a class="reference internal" href="census_geocoder.html">US Census Geocoder</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Framework</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="table.html">Parsons Table</a></li>
+<li class="toctree-l1"><a class="reference internal" href="notifications.html">Notifications</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">Parsons</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html">Docs</a> &raquo;</li>
+        
+      <li>Braintree</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="_sources/braintree.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="braintree">
+<h1>Braintree<a class="headerlink" href="#braintree" title="Permalink to this headline">¶</a></h1>
+<p><a class="reference external" href="https://www.braintreepayments.com">Braintree</a> is an online payment processor often integrated in other
+third-party donation platforms like ActionKit, etc.  Even if much data is accessible through those other
+platforms things like credit card disputes and disbursement (to your bank account!) timing may only be
+available directly through Braintree.  While much of the
+<a class="reference external" href="https://developers.braintreepayments.com/">Braintree API</a> is about processing payments, this
+integration into Parsons focuses on the record searching aspects.</p>
+<div class="section" id="quick-start">
+<h2>Quick Start<a class="headerlink" href="#quick-start" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">parsons</span> <span class="kn">import</span> <span class="n">Braintree</span>
+
+<span class="n">brains</span> <span class="o">=</span> <span class="n">Braintree</span><span class="p">()</span>
+
+<span class="c1"># Get disputes from a single day</span>
+<span class="n">disputes</span> <span class="o">=</span> <span class="n">brains</span><span class="o">.</span><span class="n">get_disputes</span><span class="p">(</span><span class="s1">&#39;2020-01-01&#39;</span><span class="p">,</span> <span class="s1">&#39;2020-01-02&#39;</span><span class="p">)</span>
+
+<span class="c1"># Get disbursements from a single day</span>
+<span class="n">disbursements</span> <span class="o">=</span> <span class="n">brains</span><span class="o">.</span><span class="n">get_transactions</span><span class="p">(</span>
+   <span class="n">disbursement_start_date</span><span class="o">=</span><span class="s1">&#39;2020-01-01&#39;</span><span class="p">,</span>
+   <span class="n">disbursement_end_date</span><span class="o">=</span><span class="s1">&#39;2020-01-02&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="api">
+<h2>API<a class="headerlink" href="#api" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="parsons.braintree.Braintree">
+<em class="property">class </em><code class="descclassname">parsons.braintree.</code><code class="descname">Braintree</code><span class="sig-paren">(</span><em>merchant_id=None</em>, <em>public_key=None</em>, <em>private_key=None</em>, <em>timeout=None</em>, <em>production=True</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/braintree/braintree.html#Braintree"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.braintree.Braintree" title="Permalink to this definition">¶</a></dt>
+<dd><p>Braintree is a payment processor.
+<cite>Args:</cite></p>
+<blockquote>
+<div><dl class="docutils">
+<dt>merchant_id: str</dt>
+<dd>Braintree merchant id – probably a 16-char alphanumeric.
+Not required if <code class="docutils literal notranslate"><span class="pre">BRAINTREE_MERCHANT_ID</span></code> env variable is set.</dd>
+<dt>public_key: str</dt>
+<dd>Braintree public key – probably a (different) 16-char alphanumeric.
+Not required if <code class="docutils literal notranslate"><span class="pre">BRAINTREE_PUBLIC_KEY</span></code> env variable is set.</dd>
+<dt>private_key: str</dt>
+<dd>Braintree private key – probably a 32-char alphanumeric.
+Not required if <code class="docutils literal notranslate"><span class="pre">BRAINTREE_PRIVATE_KEY</span></code> env variable is set.</dd>
+<dt>timeout: int</dt>
+<dd>Optionally change the timeout from default of 200 seconds.
+Can also be passed with env var <code class="docutils literal notranslate"><span class="pre">BRAINTREE_TIMEOUT</span></code>.</dd>
+<dt>production: bool</dt>
+<dd>Defaults to True.  If you are testing in a Sandbox,
+set this to False.</dd>
+</dl>
+</div></blockquote>
+<dl class="docutils">
+<dt><cite>Returns:</cite></dt>
+<dd>Braintree class</dd>
+</dl>
+<dl class="method">
+<dt id="parsons.braintree.Braintree.get_disputes">
+<code class="descname">get_disputes</code><span class="sig-paren">(</span><em>start_date=None</em>, <em>end_date=None</em>, <em>query_list=None</em>, <em>query_dict=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/braintree/braintree.html#Braintree.get_disputes"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.braintree.Braintree.get_disputes" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get a table of disputes based on query parameters.
+There are three ways to pass query arguments: Pass a start_date and end_date
+together for a date range, or pass a query_list or query_dict argument.</p>
+<dl class="docutils">
+<dt><cite>Args:</cite></dt>
+<dd><dl class="first last docutils">
+<dt>start_date: date or str</dt>
+<dd>Start date of the dispute range. Requires <cite>end_date</cite> arg. e.g. ‘2020-11-03’</dd>
+<dt>end_date: date or str</dt>
+<dd>End date of the dispute range. Requires <cite>start_date</cite> arg. e.g. ‘2020-11-03’</dd>
+<dt>query_list: list of braintree.DisputeSearch</dt>
+<dd>You can use the <a class="reference external" href="https://developers.braintreepayments.com/reference/request/dispute/search/python">braintree.DisputeSearch</a>
+to create a manual list of query parameters.</dd>
+<dt>query_dict: jsonable-dict</dt>
+<dd><p class="first">query_dict is basically the same as query_list, except instead of using their API
+objects, you can pass it in pure dictionary form.
+Some examples:</p>
+<blockquote class="last">
+<div><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># The start_date/end_date arguments are the same as</span>
+<span class="p">{</span><span class="s2">&quot;effective_date&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;between&quot;</span><span class="p">:</span> <span class="p">[</span><span class="n">start_date</span><span class="p">,</span> <span class="n">end_date</span><span class="p">]}}</span>
+<span class="c1"># some other examples</span>
+<span class="p">{</span><span class="s2">&quot;merchant_account_id&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;in_list&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mi">123</span><span class="p">,</span> <span class="mi">456</span><span class="p">]}}</span>
+<span class="p">{</span><span class="s2">&quot;created_at&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;greater_than_or_equal&quot;</span><span class="p">:</span> <span class="s2">&quot;2020-03-10&quot;</span><span class="p">}}</span>
+</pre></div>
+</div>
+</div></blockquote>
+</dd>
+</dl>
+</dd>
+<dt><cite>Returns:</cite></dt>
+<dd>Table Class</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="parsons.braintree.Braintree.get_transactions">
+<code class="descname">get_transactions</code><span class="sig-paren">(</span><em>table_of_ids=None</em>, <em>disbursement_start_date=None</em>, <em>disbursement_end_date=None</em>, <em>query_list=None</em>, <em>query_dict=None</em>, <em>just_ids=False</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/braintree/braintree.html#Braintree.get_transactions"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.braintree.Braintree.get_transactions" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get a table of transactions based on query parameters.
+There are three ways to pass query arguments:
+Pass a disbursement_start_date and disbursement_end_date together
+for a date range, or pass a query_list or query_dict argument.</p>
+<dl class="docutils">
+<dt><cite>Args:</cite></dt>
+<dd><dl class="first last docutils">
+<dt>disbursement_start_date: date or str</dt>
+<dd>Start date of the disbursement range. Requires <cite>disbursement_end_date</cite> arg.
+e.g. ‘2020-11-03’</dd>
+<dt>disbursement_end_date: date or str</dt>
+<dd>End date of the disbursement range. Requires <cite>disbursement_start_date</cite> arg.
+e.g. ‘2020-11-03’</dd>
+<dt>query_list: list of braintree.TransactionSearch</dt>
+<dd>You can use the <a class="reference external" href="https://developers.braintreepayments.com/reference/request/transaction/search/python">braintree.TransactionSearch</a>
+to create a manual list of query parameters.</dd>
+<dt>query_dict: jsonable-dict</dt>
+<dd><p class="first">query_dict is basically the same as query_list, except instead of using their API
+objects, you can pass it in pure dictionary form.
+Some examples:</p>
+<blockquote class="last">
+<div><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># The disbursement_start_date/disbursement_end_date arguments are the same as</span>
+<span class="p">{</span><span class="s2">&quot;disbursement_date&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;between&quot;</span><span class="p">:</span> <span class="p">[</span><span class="n">start_date</span><span class="p">,</span> <span class="n">end_date</span><span class="p">]}}</span>
+<span class="c1"># some other examples</span>
+<span class="p">{</span><span class="s2">&quot;merchant_account_id&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;in_list&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mi">123</span><span class="p">,</span> <span class="mi">456</span><span class="p">]}}</span>
+<span class="p">{</span><span class="s2">&quot;created_at&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;greater_than_or_equal&quot;</span><span class="p">:</span> <span class="s2">&quot;2020-03-10&quot;</span><span class="p">}}</span>
+</pre></div>
+</div>
+</div></blockquote>
+</dd>
+<dt>just_ids: bool</dt>
+<dd>While querying a list of transaction ids is a single, fast query to Braintree’s API,
+getting all data for each transaction is force-paginated at 50-records per request.
+If you just need a count or the list of ids, then set <cite>just_ids=True</cite> and
+it will return a single column with <cite>id</cite> instead of all table columns.</dd>
+<dt>table_of_ids: Table with an <cite>id</cite> column – i.e. a table returned from <cite>just_ids=True</cite></dt>
+<dd>Subsequently, after calling this with <cite>just_ids</cite>, you can prune/alter the ids table
+and then pass the table back to get the full data.
+These are somewhat-niche use-cases, but occasionally crucial
+when a search result returns 1000s of ids.</dd>
+</dl>
+</dd>
+<dt><cite>Returns:</cite></dt>
+<dd>Table Class</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="civis.html" class="btn btn-neutral float-right" title="Civis" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="bill_com.html" class="btn btn-neutral" title="Bill.com" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2019, The Movement Cooperative
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script type="text/javascript" src="_static/jquery.js"></script>
+        <script type="text/javascript" src="_static/underscore.js"></script>
+        <script type="text/javascript" src="_static/doctools.js"></script>
+        <script type="text/javascript" src="_static/language_data.js"></script>
+    
+
+  
+
+  <script type="text/javascript" src="_static/js/theme.js"></script>
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

@@ -702,13 +702,20 @@ class TestParsonsTable(unittest.TestCase):
 
     def test_get_column_max_with(self):
 
-        tbl = Table([['a', 'b'], ['wide_text', False], ['text', 2]])
+        tbl = Table([
+            ['a', 'b', 'c'],
+            ['wide_text', False, 'slightly longer text'],
+            ['text', 2, 'byte_text🏽‍⚕️✊🏽🤩']
+        ])
 
         # Basic test
         self.assertEqual(tbl.get_column_max_width('a'), 9)
 
         # Doesn't break for non-strings
         self.assertEqual(tbl.get_column_max_width('b'), 5)
+
+        # Evaluates based on byte length rather than char length 
+        self.assertEqual(tbl.get_column_max_width('c'), 33)
 
     def test_sort(self):
 

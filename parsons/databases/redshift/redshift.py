@@ -731,6 +731,13 @@ class Redshift(RedshiftCreateTable, RedshiftCopyTable, RedshiftTableUtilities, R
             try:
                 # Copy to a staging table
                 logger.info(f'Building staging table: {staging_tbl}')
+                if 'compupdate' not in copy_args:
+                    # Especially with a lot of columns, compupdate=True can
+                    # cause a lot of processing/analysis by Redshift before upload.
+                    # Since this is a temporary table, setting compression for each
+                    # column is not impactful barely impactful
+                    # https://docs.aws.amazon.com/redshift/latest/dg/c_Loading_tables_auto_compress.html
+                    copy_args = dict(copy_args, compupdate=False)
                 self.copy(table_obj, staging_tbl,
                           template_table=target_table,
                           **copy_args)

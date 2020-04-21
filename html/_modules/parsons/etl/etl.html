@@ -333,8 +333,8 @@
 
         <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">petl</span><span class="o">.</span><span class="n">values</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">table</span><span class="p">,</span> <span class="n">column</span><span class="p">):</span>
 
-            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">v</span><span class="p">))</span> <span class="o">&gt;</span> <span class="n">max_width</span><span class="p">:</span>
-                <span class="n">max_width</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">v</span><span class="p">))</span>
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">v</span><span class="p">)</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s1">&#39;utf-8&#39;</span><span class="p">))</span> <span class="o">&gt;</span> <span class="n">max_width</span><span class="p">:</span>
+                <span class="n">max_width</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">v</span><span class="p">)</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s1">&#39;utf-8&#39;</span><span class="p">))</span>
 
         <span class="k">return</span> <span class="n">max_width</span></div>
 

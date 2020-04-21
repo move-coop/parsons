@@ -910,6 +910,13 @@
             <span class="k">try</span><span class="p">:</span>
                 <span class="c1"># Copy to a staging table</span>
                 <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Building staging table: </span><span class="si">{</span><span class="n">staging_tbl</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+                <span class="k">if</span> <span class="s1">&#39;compupdate&#39;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">copy_args</span><span class="p">:</span>
+                    <span class="c1"># Especially with a lot of columns, compupdate=True can</span>
+                    <span class="c1"># cause a lot of processing/analysis by Redshift before upload.</span>
+                    <span class="c1"># Since this is a temporary table, setting compression for each</span>
+                    <span class="c1"># column is not impactful barely impactful</span>
+                    <span class="c1"># https://docs.aws.amazon.com/redshift/latest/dg/c_Loading_tables_auto_compress.html</span>
+                    <span class="n">copy_args</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">copy_args</span><span class="p">,</span> <span class="n">compupdate</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="n">table_obj</span><span class="p">,</span> <span class="n">staging_tbl</span><span class="p">,</span>
                           <span class="n">template_table</span><span class="o">=</span><span class="n">target_table</span><span class="p">,</span>
                           <span class="o">**</span><span class="n">copy_args</span><span class="p">)</span>

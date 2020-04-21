@@ -154,8 +154,8 @@ class ETL(object):
 
         for v in petl.values(self.table, column):
 
-            if len(str(v)) > max_width:
-                max_width = len(str(v))
+            if len(str(v).encode('utf-8')) > max_width:
+                max_width = len(str(v).encode('utf-8'))
 
         return max_width
 

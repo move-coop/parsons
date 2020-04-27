@@ -40,6 +40,7 @@ if not os.environ.get('PARSONS_SKIP_IMPORT_ALL'):
     from parsons.bill_com.bill_com import BillCom
     from parsons.newmode.newmode import Newmode
     from parsons.databases.mysql.mysql import MySQL
+    from parsons.rockthevote.rtv import RockTheVote
 
     __all__ = [
         'VAN',
@@ -73,7 +74,8 @@ if not os.environ.get('PARSONS_SKIP_IMPORT_ALL'):
         'Freshdesk',
         'BillCom',
         'Newmode',
-        'MySQL'
+        'MySQL',
+        'RockTheVote',
     ]
 
 # Define the default logging config for Parsons and its submodules. For now the

@@ -537,7 +537,7 @@ class TestParsonsTable(unittest.TestCase):
 
     def test_get_item(self):
         # Test indexing on table
-        
+
         # Test a valid column
         tbl = Table(self.lst)
         lst = [1, 4, 7, 10, 13]
@@ -714,7 +714,7 @@ class TestParsonsTable(unittest.TestCase):
         # Doesn't break for non-strings
         self.assertEqual(tbl.get_column_max_width('b'), 5)
 
-        # Evaluates based on byte length rather than char length 
+        # Evaluates based on byte length rather than char length
         self.assertEqual(tbl.get_column_max_width('c'), 33)
 
     def test_sort(self):
@@ -733,3 +733,17 @@ class TestParsonsTable(unittest.TestCase):
         unsorted_tbl = Table([['a', 'b'],[3, 1],[2, 2],[1, 3]])
         sorted_tbl = unsorted_tbl.sort(reverse=True)
         self.assertEqual(sorted_tbl[0], {'a': 3, 'b': 1})
+
+    def test_set_header(self):
+
+        # Rename columns
+        tbl = Table([['one', 'two'], [1, 2], [3, 4]])
+        new_tbl = tbl.set_header(['oneone', 'twotwo'])
+
+        self.assertEqual(new_tbl[0], {'oneone': 1, 'twotwo': 2})
+
+        # Change number of columns
+        tbl = Table([['one', 'two'], [1, 2], [3, 4]])
+        new_tbl = tbl.set_header(['one'])
+
+        self.assertEqual(new_tbl[0], {'one': 1})

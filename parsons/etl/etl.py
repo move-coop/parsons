@@ -935,3 +935,16 @@ class ETL(object):
         self.table = petl.sort(self.table, key=columns, reverse=reverse)
 
         return self
+
+    def set_header(self, new_header):
+        """
+        Replace the header row of the table.
+
+        `Args:`
+            new_header: list
+                List of new header column names
+        `Returns:`
+            `Parsons Table` and also updates self
+        """
+        self.table = petl.setheader(self.table, new_header)
+        return self

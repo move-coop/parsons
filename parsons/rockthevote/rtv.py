@@ -5,6 +5,8 @@ import re
 import requests
 import time
 
+from dateutil.parser import parse as parse_date
+
 from parsons import Table
 from parsons.utilities import check_env
 from parsons.utilities.api_connector import APIConnector
@@ -54,9 +56,9 @@ class RockTheVote:
         Create a new registration report.
 
         `Args:`
-            before: datetime.datetime
+            before: str
                 Date before which to return registrations for
-            since: datetime.datetime
+            since: str
                 Date for filtering registrations
         `Returns:`
             int
@@ -70,9 +72,11 @@ class RockTheVote:
         }
 
         if since:
-            report_parameters['since'] = since.strftime(DATETIME_FORMAT)
+            since_date = parse_date(since)
+            report_parameters['since'] = since_date.strftime(DATETIME_FORMAT)
         if before:
-            report_parameters['before'] = before.strftime(DATETIME_FORMAT)
+            before_date = parse_date(before)
+            report_parameters['before'] = before_date.strftime(DATETIME_FORMAT)
 
         # The report parameters get passed into the request as JSON in the body
         # of the request.
@@ -163,8 +167,6 @@ class RockTheVote:
         # Check to make sure the call got a valid response
         if download_response.status_code == requests.codes.ok:
             report_data = download_response.text
-            with open('/tmp/rtv.csv', 'w') as fh:
-                fh.write(report_data)
 
             # Load the report data into a Parsons Table
             table = Table.from_csv_string(report_data)
@@ -193,9 +195,9 @@ class RockTheVote:
         timeout is reached.
 
         `Args:`
-            before: datetime.datetime
+            before: str
                 Date before which to return registrations for
-            since: datetime.datetime
+            since: str
                 Date for filtering registrations
             poll_interval_seconds: int
                 If blocking, how long to pause between attempts to check if the report is done

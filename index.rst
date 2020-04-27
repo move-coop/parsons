@@ -185,6 +185,7 @@ Indices and tables
    p2a
    redash
    redshift
+   rockthevote
    s3
    salesforce
    sftp

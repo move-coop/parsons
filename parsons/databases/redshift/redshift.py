@@ -101,16 +101,20 @@ class Redshift(RedshiftCreateTable, RedshiftCopyTable, RedshiftTableUtilities, R
         conn = psycopg2.connect(user=self.username, password=self.password,
                                 host=self.host, dbname=self.db, port=self.port,
                                 connect_timeout=self.timeout)
-        yield conn
+        try:
+            yield conn
 
-        conn.commit()
-        conn.close()
+            conn.commit()
+        finally:
+            conn.close()
 
     @contextmanager
     def cursor(self, connection):
         cur = connection.cursor(cursor_factory=psycopg2.extras.DictCursor)
-        yield cur
-        cur.close()
+        try:
+            yield cur
+        finally:
+            cur.close()
 
     def query(self, sql, parameters=None):
         """

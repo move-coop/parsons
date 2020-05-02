@@ -307,6 +307,11 @@ class MySQL(MySQLCreateTable):
         else:
             return False
 
+    def table(self, table_name):
+        # Return a MySQL table object
+
+        return MySQLTable(self, table_name)
+
 
 class MySQLTable(BaseTable):
     # MySQL table object.

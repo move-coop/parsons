@@ -35,6 +35,7 @@ Database Sync
 Sync tables between two databases with just a few lines of code. Currently supported
 database types are:
 
+* Google BigQuery
 * MySQL
 * Postgres
 * Redshift
@@ -45,7 +46,7 @@ Examples
 
 **Full Sync Of Tables**
 
-Copy all data from a source table to a destination table. 
+Copy all data from a source table to a destination table.
 
 .. code-block:: python
 

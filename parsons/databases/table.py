@@ -25,14 +25,14 @@ class BaseTable:
         Get the number of rows in the table.
         """
 
-        return self.db.query(f"SELECT COUNT(*) FROM {self.table};").first
+        return self.db.query(f"SELECT COUNT(*) FROM {self.table}").first
 
     def max_primary_key(self, primary_key):
         """
         Get the maximum primary key in the table.
         """
 
-        return self.db.query(f"SELECT MAX({primary_key}) FROM {self.table};").first
+        return self.db.query(f"SELECT MAX({primary_key}) FROM {self.table}").first
 
     def distinct_primary_key(self, primary_key):
         """
@@ -42,7 +42,7 @@ class BaseTable:
         sql = f"""
                SELECT
                COUNT(*) - COUNT(DISTINCT {primary_key})
-               FROM {self.table};
+               FROM {self.table}
                """
 
         if self.db.query(sql).first > 0:
@@ -57,7 +57,7 @@ class BaseTable:
         """
 
         if not self._columns:
-            sql = f"SELECT * FROM {self.table} LIMIT 1;"
+            sql = f"SELECT * FROM {self.table} LIMIT 1"
             self._columns = self.db.query(sql).columns
 
         return self._columns
@@ -75,10 +75,12 @@ class BaseTable:
         Get rows from a table.
         """
 
-        sql = f"SELECT * FROM {self.table} OFFSET {offset}"
+        sql = f"SELECT * FROM {self.table}"
 
         if chunk_size:
-            sql += f" LIMIT {chunk_size};"
+            sql += f" LIMIT {chunk_size}"
+
+        sql += " OFFSET {offset}"
 
         return self.db.query(sql)
 
@@ -92,10 +94,10 @@ class BaseTable:
                SELECT
                COUNT(*)
                FROM {self.table}
-               WHERE {primary_key_col} > {start_value};
+               WHERE {primary_key_col} > %s
                """
 
-        return self.db.query(sql).first
+        return self.db.query(sql, [start_value]).first
 
     def get_new_rows(self, primary_key, cutoff_value, offset=0, chunk_size=None):
         """
@@ -105,18 +107,26 @@ class BaseTable:
         It will select every value greater than the provided value.
         """
 
+        if cutoff_value is not None:
+            where_clause = f'where {primary_key} > %s'
+            parameters = [cutoff_value]
+        else:
+            where_clause = ''
+            parameters = []
+
         sql = f"""
                SELECT
                *
                FROM {self.table}
-               WHERE {primary_key} > {cutoff_value}
-               OFFSET {offset}
+               {where_clause}
                """
 
         if chunk_size:
-            sql += f" LIMIT {chunk_size};"
+            sql += f" LIMIT {chunk_size}"
 
-        return self.db.query(sql)
+        sql += f" OFFSET {offset}"
+
+        return self.db.query(sql, parameters)
 
     def drop(self, cascade=False):
         """
@@ -125,7 +135,7 @@ class BaseTable:
 
         sql = f'DROP TABLE {self.table}'
         if cascade:
-            sql += ' CASCADE;'
+            sql += ' CASCADE'
 
         self.db.query(sql)
         logger.info(f'{self.table} dropped.')
@@ -135,5 +145,5 @@ class BaseTable:
         Truncate the table.
         """
 
-        self.db.query(f'TRUNCATE TABLE {self.table};')
+        self.db.query(f'TRUNCATE TABLE {self.table}')
         logger.info(f'{self.table} truncated.')

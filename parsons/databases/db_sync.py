@@ -132,36 +132,43 @@ class DBSync:
         source_max_pk = source_tbl.max_primary_key(primary_key)
         dest_max_pk = destination_tbl.max_primary_key(primary_key)
 
-        # Check for a mismatch in row counts.
-        if dest_max_pk > source_max_pk:
+        # Check for a mismatch in row counts; if dest_max_pk is None, or destination is empty
+        # and we don't have to worry about this check.
+        if dest_max_pk is not None and dest_max_pk > source_max_pk:
             raise ValueError('Destination DB primary key greater than source DB primary key.')
 
         # Do not copied if row counts are equal.
         elif dest_max_pk == source_max_pk:
             logger.info('Tables are in sync.')
             return None
-            # Question: Should I check that the row counts match too?
 
         else:
             # Get count of rows to be copied.
-            new_row_count = source_tbl.get_new_rows_count(primary_key, dest_max_pk)
+            if dest_max_pk is not None:
+                new_row_count = source_tbl.get_new_rows_count(primary_key, dest_max_pk)
+            else:
+                new_row_count = source_tbl.num_rows
+
             logger.info(f'Found {new_row_count} new rows in source table.')
 
-            # Copy rows in chunks.
             copied_rows = 0
-            while copied_rows < new_row_count:
-
+            # Copy rows in chunks.
+            while True:
                 # Get a chunk
                 rows = source_tbl.get_new_rows(primary_key=primary_key,
-                                               start_value=dest_max_pk,
+                                               cutoff_value=dest_max_pk,
                                                offset=copied_rows,
                                                chunk_size=self.chunk_size)
+
+                row_count = rows.num_rows if rows else 0
+                if row_count == 0:
+                    break
 
                 # Copy the chunk
                 self.dest_db.copy(rows, destination_table, if_exists='append', **kwargs)
 
                 # Update the counter
-                copied_rows += rows.num_rows
+                copied_rows += row_count
 
         self._row_count_verify(source_tbl, destination_tbl)
 

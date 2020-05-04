@@ -7,16 +7,6 @@ from parsons.google.google_bigquery import GoogleBigQuery
 from parsons.etl import Table
 
 
-# Test class to fake the RowIterator interface for BigQuery job results
-class FakeResults:
-    def __init__(self, data):
-        self.data = data
-        self.total_rows = len(data)
-
-    def __iter__(self):
-        return iter(self.data)
-
-
 class TestGoogleBigQuery(unittest.TestCase):
     def setUp(self):
         os.environ['GOOGLE_APPLICATION_CREDENTIALS'] = 'foo'
@@ -58,7 +48,7 @@ class TestGoogleBigQuery(unittest.TestCase):
         bq = self._build_mock_client_for_copying(table_exists=False)
 
         # call the method being tested
-        bq.copy(tbl, 'dataset', 'table', tmp_gcs_bucket=self.tmp_gcs_bucket,
+        bq.copy(tbl, 'dataset.table', tmp_gcs_bucket=self.tmp_gcs_bucket,
                 gcs_client=gcs_client)
 
         # check that the method did the right things
@@ -88,7 +78,7 @@ class TestGoogleBigQuery(unittest.TestCase):
         bq = self._build_mock_client_for_copying()
 
         # call the method being tested
-        bq.copy(self.default_table, 'dataset', 'table', tmp_gcs_bucket=self.tmp_gcs_bucket,
+        bq.copy(self.default_table, 'dataset.table', tmp_gcs_bucket=self.tmp_gcs_bucket,
                 if_exists='truncate', gcs_client=gcs_client)
 
         # check that the method did the right things
@@ -106,7 +96,7 @@ class TestGoogleBigQuery(unittest.TestCase):
         bq = self._build_mock_client_for_copying()
 
         # call the method being tested
-        bq.copy(self.default_table, 'dataset', 'table', tmp_gcs_bucket=self.tmp_gcs_bucket,
+        bq.copy(self.default_table, 'dataset.table', tmp_gcs_bucket=self.tmp_gcs_bucket,
                 if_exists='append', gcs_client=gcs_client)
 
         # check that the method did the right things
@@ -124,7 +114,7 @@ class TestGoogleBigQuery(unittest.TestCase):
 
         # call the method being tested
         with self.assertRaises(Exception):
-            bq.copy(self.default_table, 'dataset', 'table', tmp_gcs_bucket=self.tmp_gcs_bucket,
+            bq.copy(self.default_table, 'dataset.table', tmp_gcs_bucket=self.tmp_gcs_bucket,
                     gcs_client=self._build_mock_cloud_storage_client())
 
     def test_copy__if_exists_drop(self):
@@ -133,7 +123,7 @@ class TestGoogleBigQuery(unittest.TestCase):
         bq = self._build_mock_client_for_copying()
 
         # call the method being tested
-        bq.copy(self.default_table, 'dataset', 'table', tmp_gcs_bucket=self.tmp_gcs_bucket,
+        bq.copy(self.default_table, 'dataset.table', tmp_gcs_bucket=self.tmp_gcs_bucket,
                 if_exists='drop', gcs_client=gcs_client)
 
         # check that we tried to delete the table
@@ -150,20 +140,29 @@ class TestGoogleBigQuery(unittest.TestCase):
 
         # call the method being tested
         with self.assertRaises(ValueError):
-            bq.copy(self.default_table, 'dataset', 'table', tmp_gcs_bucket=self.tmp_gcs_bucket,
+            bq.copy(self.default_table, 'dataset.table', tmp_gcs_bucket=self.tmp_gcs_bucket,
                     if_exists='foo', gcs_client=gcs_client)
 
     def _build_mock_client_for_querying(self, results):
-        # Create a mock that will play the role of the query job
-        query_job = mock.MagicMock()
-        query_job.result.return_value = FakeResults(results)
+        # Create a mock that will play the role of the cursor
+        cursor = mock.MagicMock()
+        cursor.execute.return_value = None
+        cursor.fetchmany.side_effect = [results, []]
+
+        # Create a mock that will play the role of the connection
+        connection = mock.MagicMock()
+        connection.cursor.return_value = cursor
+
+        # Create a mock that will play the role of the Google BigQuery dbapi module
+        dbapi = mock.MagicMock()
+        dbapi.connect.return_value = connection
 
         # Create a mock that will play the role of our GoogleBigQuery client
         client = mock.MagicMock()
-        client.query.return_value = query_job
 
         bq = GoogleBigQuery()
         bq._client = client
+        bq._dbapi = dbapi
         return bq
 
     def _build_mock_client_for_copying(self, table_exists=True):

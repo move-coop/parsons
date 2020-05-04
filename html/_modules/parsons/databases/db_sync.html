@@ -312,36 +312,43 @@
         <span class="n">source_max_pk</span> <span class="o">=</span> <span class="n">source_tbl</span><span class="o">.</span><span class="n">max_primary_key</span><span class="p">(</span><span class="n">primary_key</span><span class="p">)</span>
         <span class="n">dest_max_pk</span> <span class="o">=</span> <span class="n">destination_tbl</span><span class="o">.</span><span class="n">max_primary_key</span><span class="p">(</span><span class="n">primary_key</span><span class="p">)</span>
 
-        <span class="c1"># Check for a mismatch in row counts.</span>
-        <span class="k">if</span> <span class="n">dest_max_pk</span> <span class="o">&gt;</span> <span class="n">source_max_pk</span><span class="p">:</span>
+        <span class="c1"># Check for a mismatch in row counts; if dest_max_pk is None, or destination is empty</span>
+        <span class="c1"># and we don&#39;t have to worry about this check.</span>
+        <span class="k">if</span> <span class="n">dest_max_pk</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">dest_max_pk</span> <span class="o">&gt;</span> <span class="n">source_max_pk</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;Destination DB primary key greater than source DB primary key.&#39;</span><span class="p">)</span>
 
         <span class="c1"># Do not copied if row counts are equal.</span>
         <span class="k">elif</span> <span class="n">dest_max_pk</span> <span class="o">==</span> <span class="n">source_max_pk</span><span class="p">:</span>
             <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s1">&#39;Tables are in sync.&#39;</span><span class="p">)</span>
             <span class="k">return</span> <span class="kc">None</span>
-            <span class="c1"># Question: Should I check that the row counts match too?</span>
 
         <span class="k">else</span><span class="p">:</span>
             <span class="c1"># Get count of rows to be copied.</span>
-            <span class="n">new_row_count</span> <span class="o">=</span> <span class="n">source_tbl</span><span class="o">.</span><span class="n">get_new_rows_count</span><span class="p">(</span><span class="n">primary_key</span><span class="p">,</span> <span class="n">dest_max_pk</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">dest_max_pk</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">new_row_count</span> <span class="o">=</span> <span class="n">source_tbl</span><span class="o">.</span><span class="n">get_new_rows_count</span><span class="p">(</span><span class="n">primary_key</span><span class="p">,</span> <span class="n">dest_max_pk</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">new_row_count</span> <span class="o">=</span> <span class="n">source_tbl</span><span class="o">.</span><span class="n">num_rows</span>
+
             <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Found </span><span class="si">{</span><span class="n">new_row_count</span><span class="si">}</span><span class="s1"> new rows in source table.&#39;</span><span class="p">)</span>
 
-            <span class="c1"># Copy rows in chunks.</span>
             <span class="n">copied_rows</span> <span class="o">=</span> <span class="mi">0</span>
-            <span class="k">while</span> <span class="n">copied_rows</span> <span class="o">&lt;</span> <span class="n">new_row_count</span><span class="p">:</span>
-
+            <span class="c1"># Copy rows in chunks.</span>
+            <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
                 <span class="c1"># Get a chunk</span>
                 <span class="n">rows</span> <span class="o">=</span> <span class="n">source_tbl</span><span class="o">.</span><span class="n">get_new_rows</span><span class="p">(</span><span class="n">primary_key</span><span class="o">=</span><span class="n">primary_key</span><span class="p">,</span>
-                                               <span class="n">start_value</span><span class="o">=</span><span class="n">dest_max_pk</span><span class="p">,</span>
+                                               <span class="n">cutoff_value</span><span class="o">=</span><span class="n">dest_max_pk</span><span class="p">,</span>
                                                <span class="n">offset</span><span class="o">=</span><span class="n">copied_rows</span><span class="p">,</span>
                                                <span class="n">chunk_size</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">chunk_size</span><span class="p">)</span>
+
+                <span class="n">row_count</span> <span class="o">=</span> <span class="n">rows</span><span class="o">.</span><span class="n">num_rows</span> <span class="k">if</span> <span class="n">rows</span> <span class="k">else</span> <span class="mi">0</span>
+                <span class="k">if</span> <span class="n">row_count</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+                    <span class="k">break</span>
 
                 <span class="c1"># Copy the chunk</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">dest_db</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="n">rows</span><span class="p">,</span> <span class="n">destination_table</span><span class="p">,</span> <span class="n">if_exists</span><span class="o">=</span><span class="s1">&#39;append&#39;</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
 
                 <span class="c1"># Update the counter</span>
-                <span class="n">copied_rows</span> <span class="o">+=</span> <span class="n">rows</span><span class="o">.</span><span class="n">num_rows</span>
+                <span class="n">copied_rows</span> <span class="o">+=</span> <span class="n">row_count</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">_row_count_verify</span><span class="p">(</span><span class="n">source_tbl</span><span class="p">,</span> <span class="n">destination_tbl</span><span class="p">)</span>
 

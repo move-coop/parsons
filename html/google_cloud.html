@@ -485,15 +485,13 @@ if <code class="docutils literal notranslate"><span class="pre">GOOGLE_APPLICATI
 </dl>
 <dl class="method">
 <dt id="parsons.GoogleBigQuery.copy">
-<code class="descname">copy</code><span class="sig-paren">(</span><em>table_obj</em>, <em>dataset_name</em>, <em>table_name</em>, <em>if_exists='fail'</em>, <em>tmp_gcs_bucket=None</em>, <em>gcs_client=None</em>, <em>job_config=None</em>, <em>**load_kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/google/google_bigquery.html#GoogleBigQuery.copy"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.GoogleBigQuery.copy" title="Permalink to this definition">¶</a></dt>
+<code class="descname">copy</code><span class="sig-paren">(</span><em>table_obj</em>, <em>table_name</em>, <em>if_exists='fail'</em>, <em>tmp_gcs_bucket=None</em>, <em>gcs_client=None</em>, <em>job_config=None</em>, <em>**load_kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/google/google_bigquery.html#GoogleBigQuery.copy"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.GoogleBigQuery.copy" title="Permalink to this definition">¶</a></dt>
 <dd><p>Copy a <a class="reference internal" href="table.html#parsons-table"><span class="std std-ref">Parsons Table</span></a> into Google BigQuery via Google Cloud Storage.</p>
 <dl class="docutils">
 <dt><cite>Args:</cite></dt>
 <dd><dl class="first last docutils">
 <dt>table_obj: obj</dt>
 <dd>The Parsons Table to copy into BigQuery.</dd>
-<dt>dataset_name: str</dt>
-<dd>The dataset name to load the data into.</dd>
 <dt>table_name: str</dt>
 <dd>The table name to load the data into.</dd>
 <dt>if_exists: str</dt>
@@ -517,13 +515,11 @@ client.</dd>
 
 <dl class="method">
 <dt id="parsons.GoogleBigQuery.delete_table">
-<code class="descname">delete_table</code><span class="sig-paren">(</span><em>dataset_name</em>, <em>table_name</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/google/google_bigquery.html#GoogleBigQuery.delete_table"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.GoogleBigQuery.delete_table" title="Permalink to this definition">¶</a></dt>
+<code class="descname">delete_table</code><span class="sig-paren">(</span><em>table_name</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/google/google_bigquery.html#GoogleBigQuery.delete_table"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.GoogleBigQuery.delete_table" title="Permalink to this definition">¶</a></dt>
 <dd><p>Delete a BigQuery table.</p>
 <dl class="docutils">
 <dt><cite>Args:</cite></dt>
 <dd><dl class="first last docutils">
-<dt>dataset_name: str</dt>
-<dd>The name of the dataset that the table lives in.</dd>
 <dt>table_name: str</dt>
 <dd>The name of the table to delete.</dd>
 </dl>
@@ -533,13 +529,32 @@ client.</dd>
 
 <dl class="method">
 <dt id="parsons.GoogleBigQuery.query">
-<code class="descname">query</code><span class="sig-paren">(</span><em>sql</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/google/google_bigquery.html#GoogleBigQuery.query"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.GoogleBigQuery.query" title="Permalink to this definition">¶</a></dt>
+<code class="descname">query</code><span class="sig-paren">(</span><em>sql</em>, <em>parameters=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/google/google_bigquery.html#GoogleBigQuery.query"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.GoogleBigQuery.query" title="Permalink to this definition">¶</a></dt>
 <dd><p>Run a BigQuery query and return the results as a Parsons table.</p>
+<p>To include python variables in your query, it is recommended to pass them as parameters,
+following the BigQuery style where parameters are prefixed with <cite>&#64;`s.
+Using the ``parameters`</cite> argument ensures that values are escaped properly, and avoids SQL
+injection attacks.</p>
+<p><strong>Parameter Examples</strong></p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span>
+</pre></div>
+</div>
+<p>name = “Beatrice O’Brady”
+sql = ‘SELECT * FROM my_table WHERE name = %s’
+rs.query(sql, parameters=[name])</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span>
+</pre></div>
+</div>
+<p>name = “Beatrice O’Brady”
+sql = “SELECT * FROM my_table WHERE name = %(name)s”
+rs.query(sql, parameters={‘name’: name})</p>
 <dl class="docutils">
 <dt><cite>Args:</cite></dt>
 <dd><dl class="first last docutils">
 <dt>sql: str</dt>
 <dd>A valid BigTable statement</dd>
+<dt>parameters: dict</dt>
+<dd>A dictionary of query parameters for BigQuery.</dd>
 </dl>
 </dd>
 <dt><cite>Returns:</cite></dt>
@@ -553,13 +568,11 @@ client.</dd>
 
 <dl class="method">
 <dt id="parsons.GoogleBigQuery.table_exists">
-<code class="descname">table_exists</code><span class="sig-paren">(</span><em>dataset_name</em>, <em>table_name</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/google/google_bigquery.html#GoogleBigQuery.table_exists"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.GoogleBigQuery.table_exists" title="Permalink to this definition">¶</a></dt>
+<code class="descname">table_exists</code><span class="sig-paren">(</span><em>table_name</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/google/google_bigquery.html#GoogleBigQuery.table_exists"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.GoogleBigQuery.table_exists" title="Permalink to this definition">¶</a></dt>
 <dd><p>Check whether or not the Google BigQuery table exists in the specified dataset.</p>
 <dl class="docutils">
 <dt><cite>Args:</cite></dt>
 <dd><dl class="first last docutils">
-<dt>dataset_name: str</dt>
-<dd>The name of the BigQuery dataset to check in</dd>
 <dt>table_name: str</dt>
 <dd>The name of the BigQuery table to check for</dd>
 </dl>

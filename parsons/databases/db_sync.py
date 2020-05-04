@@ -132,8 +132,9 @@ class DBSync:
         source_max_pk = source_tbl.max_primary_key(primary_key)
         dest_max_pk = destination_tbl.max_primary_key(primary_key)
 
-        # Check for a mismatch in row counts.
-        if dest_max_pk and dest_max_pk > source_max_pk:
+        # Check for a mismatch in row counts; if dest_max_pk is None, or destination is empty
+        # and we don't have to worry about this check.
+        if dest_max_pk is not None and dest_max_pk > source_max_pk:
             raise ValueError('Destination DB primary key greater than source DB primary key.')
 
         # Do not copied if row counts are equal.

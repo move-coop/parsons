@@ -1,7 +1,7 @@
 Action Network
 ==========
 
-`Action Network <https://www.https://actionnetwork.org/.com>`_ is an online tool for storing information
+`Action Network <https://actionnetwork.org/>`_ is an online tool for storing information
 about and organizing volunteers and donors. For more information, see `Action Network developer docs <https://actionnetwork.org/docs>`_
 
 ***********

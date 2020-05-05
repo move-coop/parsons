@@ -180,15 +180,17 @@
   <h1>Source code for parsons.google.google_sheets</h1><div class="highlight"><pre>
 <span></span><span class="kn">import</span> <span class="nn">os</span>
 <span class="kn">import</span> <span class="nn">json</span>
+<span class="kn">import</span> <span class="nn">logging</span>
+
+<span class="kn">from</span> <span class="nn">parsons.etl.table</span> <span class="kn">import</span> <span class="n">Table</span>
+
 <span class="kn">import</span> <span class="nn">gspread</span>
 <span class="kn">from</span> <span class="nn">oauth2client.service_account</span> <span class="kn">import</span> <span class="n">ServiceAccountCredentials</span>
-<span class="kn">from</span> <span class="nn">parsons.etl.table</span> <span class="kn">import</span> <span class="n">Table</span>
-<span class="kn">import</span> <span class="nn">logging</span>
 
 <span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
 
 
-<div class="viewcode-block" id="GoogleSheets"><a class="viewcode-back" href="../../../google_sheets.html#parsons.GoogleSheets">[docs]</a><span class="k">class</span> <span class="nc">GoogleSheets</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+<div class="viewcode-block" id="GoogleSheets"><a class="viewcode-back" href="../../../google_sheets.html#parsons.GoogleSheets">[docs]</a><span class="k">class</span> <span class="nc">GoogleSheets</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    A connector for Google Sheets, handling data import and export.</span>
 
@@ -250,13 +252,13 @@
 
 <div class="viewcode-block" id="GoogleSheets.read_sheet"><a class="viewcode-back" href="../../../google_sheets.html#parsons.GoogleSheets.read_sheet">[docs]</a>    <span class="k">def</span> <span class="nf">read_sheet</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">spreadsheet_id</span><span class="p">,</span> <span class="n">sheet_index</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Create a ```parsons table``` from a sheet in a Google spreadsheet, given the sheet index.</span>
+<span class="sd">        Create a ``parsons table`` from a sheet in a Google spreadsheet, given the sheet index.</span>
 
 <span class="sd">        `Args:`</span>
 <span class="sd">            spreadsheet_id: str</span>
 <span class="sd">                The ID of the spreadsheet (Tip: Get this from the spreadsheet URL)</span>
 <span class="sd">            sheet_index: int (optional)</span>
-<span class="sd">                The index of the desired worksheet</span>
+<span class="sd">                The index of the desired worksheet (Index begins at 0).</span>
 
 <span class="sd">        `Returns:`</span>
 <span class="sd">            Parsons Table</span>
@@ -264,7 +266,7 @@
 <span class="sd">        &quot;&quot;&quot;</span>
 
         <span class="n">sheet</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_sheet</span><span class="p">(</span><span class="n">spreadsheet_id</span><span class="p">,</span> <span class="n">sheet_index</span><span class="p">)</span>
-        <span class="n">records</span> <span class="o">=</span> <span class="n">sheet</span><span class="o">.</span><span class="n">get_all_records</span><span class="p">()</span>
+        <span class="n">records</span> <span class="o">=</span> <span class="n">sheet</span><span class="o">.</span><span class="n">get_all_values</span><span class="p">()</span>
 
         <span class="k">return</span> <span class="n">Table</span><span class="p">(</span><span class="n">records</span><span class="p">)</span></div>
 
@@ -368,6 +370,10 @@
         <span class="c1"># TODO Figure out a way to do a batch append without having to read the whole sheet first.</span>
         <span class="c1"># Maybe use gspread&#39;s low-level batch_update().</span>
         <span class="n">existing_table</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">read_sheet</span><span class="p">(</span><span class="n">spreadsheet_id</span><span class="p">,</span> <span class="n">sheet_index</span><span class="p">)</span>
+
+        <span class="c1"># If the existing sheet is blank, then just overwrite the table.</span>
+        <span class="k">if</span> <span class="n">existing_table</span><span class="o">.</span><span class="n">num_rows</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">overwrite_sheet</span><span class="p">(</span><span class="n">spreadsheet_id</span><span class="p">,</span> <span class="n">table</span><span class="p">,</span> <span class="n">sheet_index</span><span class="p">,</span> <span class="n">user_entered_value</span><span class="p">)</span>
 
         <span class="n">cells</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="k">for</span> <span class="n">row_num</span><span class="p">,</span> <span class="n">row</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">table</span><span class="o">.</span><span class="n">data</span><span class="p">):</span>

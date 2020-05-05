@@ -61,7 +61,8 @@ class Redash(object):
             job = response_json.get(
                 'job',
                 {'status': 'Error NO JOB IN RESPONSE: {}'.format(json.dumps(response_json))})
-            logger.debug('poll', poll_url, query_id, job['status'], job.get('error'))
+            logger.debug("poll url:%s id:%s status:%s err:%s",
+                         poll_url, query_id, job['status'], job.get('error'))
             time.sleep(self.pause)
 
         if job['status'] == 3:  # 3 = completed

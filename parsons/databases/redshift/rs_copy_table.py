@@ -10,6 +10,10 @@ S3_TEMP_KEY_PREFIX = "Parsons_RedshiftCopyTable"
 
 class RedshiftCopyTable(object):
 
+    aws_access_key_id = None
+    aws_secret_access_key = None
+    iam_role = None
+
     def __init__(self):
 
         pass
@@ -76,8 +80,17 @@ class RedshiftCopyTable(object):
     def get_creds(self, aws_access_key_id, aws_secret_access_key):
 
         if aws_access_key_id and aws_secret_access_key:
-
+            # When we have credentials, then we don't need to set them again
             pass
+
+        elif self.iam_role:
+            # bail early, since the bottom is specifically formatted with creds
+            return f"credentials 'aws_iam_role={self.iam_role}'\n"
+
+        elif self.aws_access_key_id and self.aws_secret_access_key:
+
+            aws_access_key_id = self.aws_access_key_id
+            aws_secret_access_key = self.aws_secret_access_key
 
         elif 'AWS_ACCESS_KEY_ID' in os.environ and 'AWS_SECRET_ACCESS_KEY' in os.environ:
 

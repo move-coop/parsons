@@ -167,7 +167,9 @@ Indices and tables
 
    action_kit
    airtable
+   aws
    bill_com
+   braintree
    civis
    copper
    crowdtangle
@@ -178,10 +180,12 @@ Indices and tables
    google_cloud
    hustle
    mobilize_america
+   newmode
    ngpvan
    p2a
    redash
    redshift
+   rockthevote
    s3
    salesforce
    sftp

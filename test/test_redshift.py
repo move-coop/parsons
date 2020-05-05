@@ -308,8 +308,8 @@ class TestRedshiftDB(unittest.TestCase):
 
     def test_upsert(self):
 
-        # Create a target table
-        self.rs.copy(self.tbl, f'{self.temp_schema}.test_copy')
+        # Create a target table when no target table exists
+        self.rs.upsert(self.tbl, f'{self.temp_schema}.test_copy', 'ID')
 
         # Run upsert
         upsert_tbl = Table([['id', 'name'], [1, 'Jane'], [5, 'Bob']])
@@ -338,6 +338,20 @@ class TestRedshiftDB(unittest.TestCase):
         self.rs.query(f"INSERT INTO {self.temp_schema}.test_copy VALUES (1, 'Jim')")
         self.assertRaises(ValueError, self.rs.upsert, upsert_tbl, f'{self.temp_schema}.test_copy',
                           ['ID', 'name'])
+
+        self.rs.query(f'truncate table {self.temp_schema}.test_copy')
+
+        # Run upsert with nonmatching datatypes
+        upsert_tbl = Table([['id', 'name'], [3, 600],
+                            [6, 9999]])
+        self.rs.upsert(upsert_tbl, f'{self.temp_schema}.test_copy', 'ID')
+
+        # Make sure our table looks like we expect
+        expected_tbl = Table([['id', 'name'],
+                              [3, '600'],
+                              [6, '9999']])
+        updated_tbl = self.rs.query(f'select * from {self.temp_schema}.test_copy order by id;')
+        assert_matching_tables(expected_tbl, updated_tbl)
 
     def test_unload(self):
 

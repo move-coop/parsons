@@ -12,7 +12,7 @@ class TestGoogleSheets(unittest.TestCase):
 
     def setUp(self):
 
-        self.google_sheets = GoogleSheets(key)
+        self.google_sheets = GoogleSheets()
 
         self.spreadsheet_id = self.google_sheets.create_spreadsheet('Parsons Test')
         self.test_table = Table([

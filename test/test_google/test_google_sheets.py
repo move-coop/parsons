@@ -83,21 +83,28 @@ class TestGoogleSheets(unittest.TestCase):
         for i in range(append_table.num_rows):
             self.assertEqual(append_table.data[i], result_table.data[orig_row_count+i])
 
+        # Test that we can append to an empty sheet
+        self.google_sheets.add_sheet(self.spreadsheet_id, 'Sheet3')
+        self.google_sheets.append_to_sheet(self.spreadsheet_id, append_table)
+
     def test_append_user_entered_to_spreadsheet(self):
         # Testing whether we can insert formulas with user_entered_value
+
+        self.google_sheets.add_sheet(self.spreadsheet_id, 'Sheet3')
+
         append_table = Table([
             {'col1': 3, 'col2': 9, 'col3': '=A2*B2'},
             {'col1': 'Buda', 'col2': 'Pest', 'col3': '=A3&LOWER(B3)'},
         ])
-        self.google_sheets.append_to_sheet(self.spreadsheet_id, append_table,
+        self.google_sheets.append_to_sheet(self.spreadsheet_id, append_table, 2,
             user_entered_value=True)
-        result_table = self.google_sheets.read_sheet(self.spreadsheet_id)
+        result_table = self.google_sheets.read_sheet(self.spreadsheet_id, 2)
 
         # Get the values from col3 which has fomulas
         formula_vals = [row['col3'] for row in result_table]
 
         # Test that the value is what's expected from each formula
-        self.assertEqual(formula_vals[0], 27)
+        self.assertEqual(formula_vals[0], '27')
         self.assertEqual(formula_vals[1], 'Budapest')
 
     def test_overwrite_spreadsheet(self):

@@ -1,14 +1,16 @@
 import os
 import json
+import logging
+
+from parsons.etl.table import Table
+
 import gspread
 from oauth2client.service_account import ServiceAccountCredentials
-from parsons.etl.table import Table
-import logging
 
 logger = logging.getLogger(__name__)
 
 
-class GoogleSheets(object):
+class GoogleSheets:
     """
     A connector for Google Sheets, handling data import and export.
 
@@ -70,13 +72,13 @@ class GoogleSheets(object):
 
     def read_sheet(self, spreadsheet_id, sheet_index=0):
         """
-        Create a ```parsons table``` from a sheet in a Google spreadsheet, given the sheet index.
+        Create a ``parsons table`` from a sheet in a Google spreadsheet, given the sheet index.
 
         `Args:`
             spreadsheet_id: str
                 The ID of the spreadsheet (Tip: Get this from the spreadsheet URL)
             sheet_index: int (optional)
-                The index of the desired worksheet
+                The index of the desired worksheet (Index begins at 0).
 
         `Returns:`
             Parsons Table
@@ -84,7 +86,7 @@ class GoogleSheets(object):
         """
 
         sheet = self._get_sheet(spreadsheet_id, sheet_index)
-        records = sheet.get_all_records()
+        records = sheet.get_all_values()
 
         return Table(records)
 
@@ -188,6 +190,10 @@ class GoogleSheets(object):
         # TODO Figure out a way to do a batch append without having to read the whole sheet first.
         # Maybe use gspread's low-level batch_update().
         existing_table = self.read_sheet(spreadsheet_id, sheet_index)
+
+        # If the existing sheet is blank, then just overwrite the table.
+        if existing_table.num_rows == 0:
+            return self.overwrite_sheet(spreadsheet_id, table, sheet_index, user_entered_value)
 
         cells = []
         for row_num, row in enumerate(table.data):

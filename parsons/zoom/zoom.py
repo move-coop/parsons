@@ -68,7 +68,7 @@ class Zoom:
         else:
             while r['page_number'] < r['page_count']:
                 params['page_number'] = int(r['page_number']) + 1
-                r = self.client.get_request(endpoint, params=params, **kwargs)
+                r = self.client.get_request(ZOOM_URI + endpoint, params=params, **kwargs)
                 data.extend(self.client.data_parse(r))
             return Table(data)
 

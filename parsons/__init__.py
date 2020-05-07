@@ -2,6 +2,7 @@ import os
 import logging
 
 # Provide shortcuts to importing Parsons submodules
+
 # If you want to be more targeted in your imports, you can set the PARSONS_SKIP_IMPORT_ALL
 # environment variable and import classes directly from the Python module where they
 # are defined.
@@ -40,6 +41,7 @@ if not os.environ.get('PARSONS_SKIP_IMPORT_ALL'):
     from parsons.newmode.newmode import Newmode
     from parsons.databases.mysql.mysql import MySQL
     from parsons.rockthevote.rtv import RockTheVote
+    from parsons.zoom.zoom import Zoom
 
     __all__ = [
         'VAN',

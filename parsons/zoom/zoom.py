@@ -15,7 +15,7 @@ ZOOM_URI = 'https://api.zoom.us/v2/'
 # - Add to docs
 
 
-class Zoom():
+class Zoom:
     """
     Instantiate the Zoom class.
 
@@ -35,7 +35,8 @@ class Zoom():
         self.client = APIConnector(ZOOM_URI)
 
     def refresh_header_token(self):
-        # Generate a token that is valid for 30 seconds and update header
+        # Generate a token that is valid for 30 seconds and update header. Full documentation
+        # on JWT generation using Zoom API: https://marketplace.zoom.us/docs/guides/auth/jwt
 
         header = {"alg": "HS256", "typ": "JWT"}
         payload = {"iss": self.api_key, "exp": int(datetime.datetime.now().timestamp() + 30)}
@@ -43,9 +44,12 @@ class Zoom():
         self.client.headers = {'authorization': f"Bearer {token}", 'content-type': "application/json"}
 
     def get_request(self, endpoint, data_key, params=None, **kwargs):
-        # Internal Get request method.
+        # Internal GET request method.
+
+        # SET MAXIMUM PAGE SIZE TO 300
 
         self.refresh_header_token()
+        print (endpoint)
         r = self.client.get_request(endpoint, params=params, **kwargs)
         self.client.data_key = data_key
         data = self.client.data_parse(r)
@@ -53,13 +57,20 @@ class Zoom():
         if not params:
             params = {}
 
-        # Paginate
-        while r['page_number'] < r['page_count']:
-            params['page_number'] = int(r['page_number']) + 1
-            r = self.client.get_request(endpoint, params=params, **kwargs)
-            data = self.api.data_parse(r)
+        # Return a dict or table if only one item.
+        if 'page_number' not in r.keys():
+            if isinstance(data, dict):
+                return data
+            if isinstance(data, list):
+                return Table(data)
 
-        return Table(data)
+        # Else iterate through the pages and return a Table
+        else:
+            while r['page_number'] < r['page_count']:
+                params['page_number'] = int(r['page_number']) + 1
+                r = self.client.get_request(endpoint, params=params, **kwargs)
+                data.extend(self.client.data_parse(r))
+            return Table(data)
 
     def get_users(self, status='active', role_id=None):
         """
@@ -72,7 +83,8 @@ class Zoom():
             role_id: str
                 Filter by the user role.
         `Returns:`
-            A parsons Table.
+            Parsons Table
+                See :ref:`parsons-table` for output options.
         """
 
         if status not in ['active', 'inactive', 'pending']:
@@ -85,48 +97,66 @@ class Zoom():
         logger.info(f'Retrieved {tbl.num_rows} users.')
         return tbl
 
-    def get_webinars(self, user_id):
+    def get_meetings(self, user_id, meeting_type='scheduled'):
         """
-        Get webinars.
+        Get meetings scheduled by a user.
 
         `Args:`
             user_id: str
-                A user id
+                A user id or email address of the meeting host.
+            meeting_type: str
+
+                .. list-table::
+                    :widths: 25 50
+                    :header-rows: 1
+
+                    * - Type
+                      - Notes
+                    * - ``scheduled``
+                      - This includes all valid past meetings, live meetings and upcoming
+                        scheduled meetings. It is the equivalent to the combined list of
+                        "Previous Meetings" and "Upcoming Meetings" displayed in the user's
+                        Meetings page.
+                    * - ``live``
+                      - All the ongoing meetings.
+                    * - ``upcoming``
+                      - All upcoming meetings including live meetings.
         `Returns:`
-            A parsons Table.
+            Parsons Table
+                See :ref:`parsons-table` for output options.
         """
 
-        tbl = self.get_request(f'users/{user_id}/webinars', 'webinars')
-        logger.info(f'Retrieved {tbl.num_rows} webinars.')
+        tbl = self.get_request(f'users/{user_id}/meetings', 'meetings')
+        logger.info(f'Retrieved {tbl.num_rows} meetings.')
         return tbl
 
-    def get_webinar_participants(self, webinar_id):
+    def get_past_meeting(self, meeting_uuid):
         """
-        Get a webinar participant report.
+        Get metadata regarding a past meeting.
 
         `Args:`
-            webinar_id: str
-                A webinar id
+            meeting_uuid: str
+                The meeting uuid
         `Returns:`
-            A parsons Table.
+            dict
         """
 
-        raw = self.get_request(f'/report/webinars/{webinar_id}/participants', 'reports')
-        participants_raw = json.loads(raw.text)
-        # Create empty list of participant dictionaries which we will turn into a Parsons table
-        final_list = []
-        # Accounting for webinars that got cancelled, had no participants, or otherwise raise error code
-        if 'code' in participants_raw:
-            logger.info('Could not find any participants for this webinar.')
-        else:
-            participant_list = participants_raw['participants']
-            final_list.extend(participant_list)
+        tbl = self.get_request(f'past_meetings/{meeting_uuid}', None)
+        logger.info(f'Retrieved meeting {meeting_uuid}.')
+        return tbl
 
-        # Creating the parsons Table
-        if len(final_list) > 0:
-            participant_table = Table(final_list)
-            logger.info(f'Retrieved {participant_table.num_rows} participants.')
+    def get_past_meeting_participants(self, meeting_id):
+        """
+        Get past meeting participants
 
-        return participant_table
+        `Args:`
+            meeting_id:
+                The meeting id
+        `Returns:`
+            Parsons Table
+                See :ref:`parsons-table` for output options.
+        """
 
-        pass
+        tbl = self.get_request(f'/report/meetings/{meeting_id}/participants', 'participants')
+        logger.info(f'Retrieved {tbl.num_rows} participants.')
+        return tbl

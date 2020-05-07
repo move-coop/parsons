@@ -5,7 +5,24 @@ Zoom
 Overview
 ********
 
-Zoom is a video conferencing platform.
+`Zoom <https://twilio.com>`_ is a video conferencing platform.
+
+***********
+Quick Start
+***********
+
+**Get Meeting Participants**
+
+.. code-block:: python
+
+  from parsons import Zoom
+  zoom = Zoom()
+
+  # Get a table of host's meeting uuids via their email or user id.
+  mtgs_tbl = zoom.get_meetings(bob@bob.com) 
+
+  # Get the list of participants in a past meeting
+  par_tbl = zoom.get_past_meeting_participants('asdf123ads')
 
 ********
 Zoom API

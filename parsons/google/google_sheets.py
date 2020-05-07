@@ -111,7 +111,7 @@ class GoogleSheets:
     def share_spreadsheet(self, spreadsheet_id, sharee, share_type='user', role='reader',
                           notify=True, notify_message=None, with_link=False):
         """
-        Share a spreadsheet with a user.
+        Share a spreadsheet with a user, group of users, domain and/or the public.
 
         `Args:`
             spreadsheet_id: str

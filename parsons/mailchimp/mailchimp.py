@@ -35,8 +35,18 @@ class Mailchimp():
         return data
 
     def transform_table(self, tbl, fields_to_expand=None):
-        # Internal method to transform a table prior to returning
+        """
+        Unpacks selected dictionaries within a Parsons table into separate
+        columns, returning a version of the table with those new columns added.
 
+        `Args:`
+            fields_to_expand: list of column names as strings
+                A list of columns within the table containing dictionaries
+                that the user wishes to expand.
+
+        `Returns:`
+            Table Class
+        """
         tbl.sort()
         if fields_to_expand:
             [tbl.unpack_dict(x, prepend=False) for x in fields_to_expand]
@@ -48,7 +58,50 @@ class Mailchimp():
                   since_date_created=None, before_campaign_last_sent=None,
                   since_campaign_last_sent=None, email=None, sort_field=None,
                   sort_dir=None):
+        """
+        Get a table of lists under the account based on query parameters. Note
+        that argument descriptions here are sourced from Mailchimp's official
+        API documentation.
 
+        `Args:`
+            fields: list of fields as strings
+                A comma-separated list of fields to return. Reference
+                parameters of sub-objects with dot notation.
+            exclude_fields: list of fields as strings
+                A comma-separated list of fields to exclude. Reference
+                parameters of sub-objects with dot notation.
+            count: int
+                The number of records to return. Default value is 10. Maximum
+                value is 1000.
+            offset: int
+                The number of records from a collection to skip. Iterating over
+                large collections with this parameter can be slow. Default
+                value is 0.
+            before_date_created: string
+                Restrict response to lists created before the set date. We
+                recommend ISO 8601 time format: 2015-10-21T15:41:36+00:00.
+            since_date_created: string
+                Restrict results to lists created after the set date. We
+                recommend ISO 8601 time format: 2015-10-21T15:41:36+00:00.
+            before_campaign_last_sent: string
+                Restrict results to lists created before the last campaign send
+                date. We recommend ISO 8601 time format:
+                2015-10-21T15:41:36+00:00.
+            since_campaign_last_sent: string
+                Restrict results to lists created after the last campaign send
+                date. We recommend ISO 8601 time format:
+                2015-10-21T15:41:36+00:00.
+            email: string
+                Restrict results to lists that include a specific subscriber's
+                email address.
+            sort_field: string, can only be 'date_created' or None
+                Returns files sorted by the specified field.
+            sort_dir: string, can only be 'ASC', 'DESC', or None
+                Determines the order direction for sorted results.
+
+        `Returns:`
+            Table Class
+        """
         params = {'fields': fields,
                   'exclude_fields': exclude_fields,
                   'count': count,
@@ -75,7 +128,59 @@ class Mailchimp():
                       before_create_time=None, since_create_time=None,
                       list_id=None, folder_id=None, member_id=None,
                       sort_field=None, sort_dir=None):
+        """
+        Get a table of campaigns under the account based on query parameters.
+        Note that argument descriptions here are sourced from Mailchimp's
+        official API documentation.
 
+        `Args:`
+            fields: list of fields as strings
+                A comma-separated list of fields to return. Reference
+                parameters of sub-objects with dot notation.
+            exclude_fields: list of fields as strings
+                A comma-separated list of fields to exclude. Reference
+                parameters of sub-objects with dot notation.
+            count: int
+                The number of records to return. Default value is 10. Maximum
+                value is 1000.
+            offset: int
+                The number of records from a collection to skip. Iterating over
+                large collections with this parameter can be slow. Default
+                value is 0.
+            type: string, can only be 'regular', 'plaintext', 'absplit', 'rss',
+            'variate', or None
+                The campaign type.
+            status: string, can only be 'save', 'paused', 'schedule',
+            'sending', 'sent', or None
+                The status of the campaign.
+            before_send_time: string
+                Restrict the response to campaigns sent before the set time. We
+                recommend ISO 8601 time format: 2015-10-21T15:41:36+00:00.
+            since_send_time: string
+                Restrict the response to campaigns sent after the set time. We
+                recommend ISO 8601 time format: 2015-10-21T15:41:36+00:00.
+            before_create_time: string
+                Restrict the response to campaigns created before the set time.
+                We recommend ISO 8601 time format: 2015-10-21T15:41:36+00:00.
+            since_create_time: string
+                Restrict the response to campaigns created after the set time.
+                We recommend ISO 8601 time format: 2015-10-21T15:41:36+00:00.
+            list_id: string
+                The unique id for the list.
+            folder_id: string
+                The unique folder id.
+            member_id: string
+                Retrieve campaigns sent to a particular list member. Member ID
+                is The MD5 hash of the lowercase version of the list member’s
+                email address.
+            sort_field: string, can only be 'create_time', 'send_time', or None
+                Returns files sorted by the specified field.
+            sort_dir: string, can only be 'ASC', 'DESC', or None
+                Determines the order direction for sorted results.
+
+        `Returns:`
+            Table Class
+        """
         params = {'fields': fields,
                   'exclude_fields': exclude_fields,
                   'count': count,

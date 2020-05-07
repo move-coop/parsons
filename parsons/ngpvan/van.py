@@ -13,13 +13,14 @@ from parsons.ngpvan.signups import Signups
 from parsons.ngpvan.locations import Locations
 from parsons.ngpvan.bulk_import import BulkImport
 from parsons.ngpvan.changed_entities import ChangedEntities
+from parsons.ngpvan.custom_fields import CustomFields
 
 logger = logging.getLogger(__name__)
 
 
 class VAN(People, Events, SavedLists, Folders, ExportJobs, ActivistCodes, CanvassResponses,
           SurveyQuestions, Codes, Scores, FileLoadingJobs, SupporterGroups, Signups, Locations,
-          BulkImport, ChangedEntities):
+          BulkImport, ChangedEntities, CustomFields):
     """
     Returns the VAN class
 

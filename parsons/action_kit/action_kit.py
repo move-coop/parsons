@@ -1,6 +1,8 @@
 import json
 import logging
 import requests
+
+from parsons.etl.table import Table
 from parsons.utilities import check_env
 
 logger = logging.getLogger(__name__)
@@ -22,6 +24,9 @@ class ActionKit(object):
             env variable set.
     """
 
+    _default_headers = {'content-type': 'application/json',
+                        'accepts': 'application/json'}
+
     def __init__(self, domain=None, username=None, password=None):
 
         self.domain = check_env.check('ACTION_KIT_DOMAIN', domain)
@@ -29,14 +34,11 @@ class ActionKit(object):
         self.password = check_env.check('ACTION_KIT_PASSWORD', password)
         self.conn = self._conn()
 
-    def _conn(self):
+    def _conn(self, default_headers=_default_headers):
 
         client = requests.Session()
         client.auth = (self.username, self.password)
-        client.headers.update({
-            'content-type': 'application/json',
-            'accepts': 'application/json'
-        })
+        client.headers.update(default_headers)
         return client
 
     def _base_endpoint(self, endpoint, entity_id=None):
@@ -463,3 +465,123 @@ class ActionKit(object):
                                page=page,
                                return_full_json=True,
                                **kwargs)
+
+    def bulk_upload_csv(self, csv_file, import_page,
+                        autocreate_user_fields=False, user_fields_only=False):
+        """
+        Bulk upload a csv file of new users or user updates.
+        If you are uploading a table object, use bulk_upload_table instead.
+        See `ActionKit User Upload Documentation
+             <https://roboticdogs.actionkit.com/docs/manual/api/rest/uploads.html>`
+        Be careful that blank values in columns will overwrite existing data.
+
+        If you get a 500 error, try sending a much smaller file (say, one row),
+        which is more likely to return the proper 400 with a useful error message
+
+        `Args:`
+            import_page: str
+                The page to post the action. The page short name.
+            csv_file: str or buffer
+                The csv (optionally zip'd) file path or a file buffer object
+                A user_id or email column is required.
+                ActionKit rejects files that are larger than 128M
+            autocreate_user_fields: bool
+              When True columns starting with "user_" will be uploaded as user fields.
+              See the `autocreate_user_fields documentation
+              <https://roboticdogs.actionkit.com/docs/manual/api/rest/uploads.html#create-a-multipart-post-request>`
+            user_fields_only: bool
+              When uploading only an email/user_id column and user_ user fields,
+              ActionKit has a fast processing path.
+              This doesn't work, if you upload a zipped csv though.
+        `Returns`:
+            dict
+                success: whether upload was successful
+                progress_url: an API URL to get progress on upload processing
+                res: requests http response object
+        """
+
+        # self.conn defaults to JSON, but this has to be form/multi-part....
+        upload_client = self._conn({'accepts': 'application/json'})
+        if isinstance(csv_file, str):
+            csv_file = open(csv_file, 'rb')
+
+        res = upload_client.post(
+            self._base_endpoint('upload'),
+            files={'upload': csv_file},
+            data={'page': import_page,
+                  'autocreate_user_fields': int(autocreate_user_fields),
+                  'user_fields_only': int(user_fields_only)})
+        rv = {'res': res,
+              'success': res.status_code == 201,
+              'progress_url': res.headers.get('Location')}
+        return rv
+
+    def bulk_upload_table(self, table, import_page, autocreate_user_fields=0,
+                          no_overwrite_on_empty=False):
+        """
+        Bulk upload a table of new users or user updates.
+        See `ActionKit User Upload Documentation
+             <https://roboticdogs.actionkit.com/docs/manual/api/rest/uploads.html>`
+        Be careful that blank values in columns will overwrite existing data.
+        Tables with only an identifying column (user_id/email) and user_ user fields
+        will be fast-processed -- this is useful for setting/updating user fields.
+
+        .. note::
+            If you get a 500 error, try sending a much smaller file (say, one row),
+            which is more likely to return the proper 400 with a useful error message
+
+        `Args:`
+            import_page: str
+                The page to post the action. The page short name.
+            table: Table Class
+                A Table of user data to bulk upload
+                A user_id or email column is required.
+            autocreate_user_fields: bool
+                When True columns starting with "user_" will be uploaded as user fields.
+                See the `autocreate_user_fields documentation
+                  <https://roboticdogs.actionkit.com/docs/manual/api/rest/uploads.html#create-a-multipart-post-request>`
+            no_overwrite_on_empty: bool
+                When uploading user data, ActionKit will, by default, take a blank value
+                and overwrite existing data for that user.
+                This can be undesirable, if the goal is to only send updates.
+                Setting this to True will divide up the table into multiple upload
+                batches, changing the columns uploaded based on permutations of
+                empty columns.
+        `Returns`:
+            dict
+                success: bool -- whether upload was successful (individual rows may not have been)
+                results: [dict] -- This is a list of the full results.
+                         progress_url and res for any results
+        """
+        import_page = check_env.check('ACTION_KIT_IMPORTPAGE', import_page)
+        upload_tables = [table]
+        if no_overwrite_on_empty:
+            upload_tables = self._split_tables_no_empties(table)
+        results = []
+        for tbl in upload_tables:
+            user_fields_only = int(not any([
+                h for h in tbl.columns
+                if h != 'email' and not h.startswith('user_')]))
+            results.append(self.bulk_upload_csv(tbl.to_csv(),
+                                                import_page,
+                                                autocreate_user_fields=autocreate_user_fields,
+                                                user_fields_only=user_fields_only))
+        return {
+            'success': all([r['success'] for r in results]),
+            'results': results
+        }
+
+    def _split_tables_no_empties(self, table):
+        table_groups = {}
+        for row in table:
+            blanks = tuple(k for k in table.columns
+                           if row.get(k) in (None, ''))
+            grp = table_groups.setdefault(blanks, [])
+            grp.append(row)
+        results = []
+        for blanks, subset in table_groups.items():
+            subset_table = Table(subset)
+            if blanks:
+                subset_table.table = subset_table.table.cutout(*blanks)
+            results.append(subset_table)
+        return results

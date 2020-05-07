@@ -1,6 +1,6 @@
 from twilio.rest import Client
 from parsons.utilities import check_env, json_format
-from parsons import Table
+from parsons.etl import Table
 import logging
 
 
@@ -78,7 +78,7 @@ class Twilio:
 
         `Args:`
             category: str
-                Filter to a specfic type of usage category. The list of possibilities can be found
+                Filter to a specific type of usage category. The list of possibilities can be found
                 `here <https://www.twilio.com/docs/usage/api/usage-record?code-sample=code-last-months-usage-for-all-usage-categories-4&code-language=Python&code-sdk-version=5.x#usage-all-categories>`_.
             start_date: str
                 Filter to usage from a specific start date (ex. ``2019-01-01``).

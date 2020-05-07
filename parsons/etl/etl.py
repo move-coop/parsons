@@ -154,8 +154,8 @@ class ETL(object):
 
         for v in petl.values(self.table, column):
 
-            if len(str(v)) > max_width:
-                max_width = len(str(v))
+            if len(str(v).encode('utf-8')) > max_width:
+                max_width = len(str(v).encode('utf-8'))
 
         return max_width
 
@@ -168,10 +168,16 @@ class ETL(object):
             `Parsons Table` and also updates self
         """
 
+        # If we don't have any rows, don't bother trying to convert things
+        if self.num_rows == 0:
+            return self
+
         cols = self.get_columns_type_stats()
 
         for col in cols:
-            if len(col['type']) > 1 or col['type'][0] != 'str':
+            # If there's more than one type (or no types), convert to str
+            # Also if there is one type and it's not str, convert to str
+            if len(col['type']) != 1 or col['type'][0] != 'str':
                 self.convert_column(col['name'], str)
 
         return self
@@ -728,7 +734,7 @@ class ETL(object):
             List of Parsons tables
         """
 
-        from parsons import Table  # Just trying to avoid recursive imports.
+        from parsons.etl import Table
         return [Table(petl.rowslice(self.table, i, i+rows)) for i in range(0, self.num_rows, rows)]
 
     @staticmethod
@@ -771,7 +777,7 @@ class ETL(object):
             `Parsons Table` and also updates self
         """
 
-        from parsons import Table  # Just trying to avoid recursive imports.
+        from parsons.etl import Table  # Just trying to avoid recursive imports.
 
         normalize_fn = Table.get_normalized_column_name if fuzzy_match else (lambda s: s)
 
@@ -910,4 +916,35 @@ class ETL(object):
             presorted=presorted,
             **kwargs)
 
+        return self
+
+    def sort(self, columns=None, reverse=False):
+        """
+        Sort the rows a table.
+
+        `Args:`
+            sort_columns: list or str
+                Sort by a single column or a list of column. If ``None`` then
+                will sort columns from left to right.
+            reverse: boolean
+                Sort rows in reverse order.
+        `Returns:`
+            `Parsons Table` and also updates self
+        """
+
+        self.table = petl.sort(self.table, key=columns, reverse=reverse)
+
+        return self
+
+    def set_header(self, new_header):
+        """
+        Replace the header row of the table.
+
+        `Args:`
+            new_header: list
+                List of new header column names
+        `Returns:`
+            `Parsons Table` and also updates self
+        """
+        self.table = petl.setheader(self.table, new_header)
         return self

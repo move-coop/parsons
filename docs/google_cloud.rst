@@ -21,6 +21,5 @@ Google BigQuery is a cloud data warehouse solution. Data is stored in tables, an
 BigQuery uses datasets as top level containers for tables, and datasets are themselves contained within
 Google Cloud projects.
 
-
 .. autoclass:: parsons.GoogleBigQuery
    :inherited-members:

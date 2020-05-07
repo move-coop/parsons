@@ -53,12 +53,9 @@ class Codes(object):
                 See :ref:`parsons-table` for output options.
         """
 
-        url = self.connection.uri + 'codes/{}'.format(code_id)
-
-        c = self.connection.request(url)
+        c = self.connection.request(f'codes/{code_id}')
         logger.debug(c)
         logger.info(f'Found code {code_id}.')
-
         return c
 
     def get_code_types(self):
@@ -109,17 +106,18 @@ class Codes(object):
                     ]
         """
 
+        json = {"parentCodeId": parent_code_id,
+                "name": name,
+                "codeType": code_type,
+                "description": description}
+
         if supported_entities:
 
             se = [{'name': s['name'],
                    'isSearchable': s['is_searchable'],
                    'is_applicable': s['is_applicable']} for s in supported_entities]
 
-        json = {"parentCodeId": parent_code_id,
-                "name": name,
-                "codeType": code_type,
-                "supportedEntities": se,
-                "description": description}
+            json['supportedEntities'] = se
 
         r = self.connection.post_request('codes', json=json)
         logger.info(f'Code {r} created.')

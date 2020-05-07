@@ -179,6 +179,7 @@ Indices and tables
    google_sheets
    google_cloud
    hustle
+   mailchimp
    mobilize_america
    newmode
    ngpvan

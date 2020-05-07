@@ -109,7 +109,7 @@ class GoogleSheets:
         return self.read_sheet(spreadsheet_id, index)
 
     def share_spreadsheet(self, spreadsheet_id, sharee, share_type='user', role='reader',
-                    notify=True, notify_message=None, with_link=False):
+                          notify=True, notify_message=None, with_link=False):
         """
         Share a spreadsheet with a user.
 

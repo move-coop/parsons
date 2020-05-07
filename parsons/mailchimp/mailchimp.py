@@ -130,8 +130,7 @@ class Mailchimp():
                   'since_last_campaign': since_last_campaign,
                   'unsubscribed_since': unsubscribed_since}
 
-        response = self.get_request('lists/' + list_id + '/members',
-                                    params=params)
+        response = self.get_request(f'lists/{list_id}/members', params=params)
         tbl = Table(response['members'])
         logger.info(f'Found {tbl.num_rows} members.')
         if tbl.num_rows > 0:
@@ -149,8 +148,7 @@ class Mailchimp():
                   'offset': offset,
                   'since': since}
 
-        response = self.get_request('reports/' + campaign_id +
-                                    '/email-activity',
+        response = self.get_request(f'reports/{campaign_id}/email-activity',
                                     params=params)
         tbl = Table(response['emails'])
         if tbl.num_rows > 0:
@@ -166,7 +164,7 @@ class Mailchimp():
                   'count': count,
                   'offset': offset}
 
-        response = self.get_request('reports/' + campaign_id + '/unsubscribed',
+        response = self.get_request(f'reports/{campaign_id}/unsubscribed',
                                     params=params)
         tbl = Table(response['unsubscribes'])
         logger.info(f'Found {tbl.num_rows} unsubscribes for {campaign_id}.')

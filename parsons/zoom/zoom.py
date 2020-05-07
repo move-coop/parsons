@@ -10,10 +10,6 @@ logger = logging.getLogger(__name__)
 
 ZOOM_URI = 'https://api.zoom.us/v2/'
 
-# To Do:
-# - Add unittests
-# - Add to docs
-
 
 class Zoom:
     """

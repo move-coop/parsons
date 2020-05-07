@@ -50,7 +50,7 @@ class Zoom:
 
         self.refresh_header_token()
         print (endpoint)
-        r = self.client.get_request(endpoint, params=params, **kwargs)
+        r = self.client.get_request(ZOOM_URI + endpoint, params=params, **kwargs)
         self.client.data_key = data_key
         data = self.client.data_parse(r)
 

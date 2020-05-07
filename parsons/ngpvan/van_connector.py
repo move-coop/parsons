@@ -67,7 +67,7 @@ class VANConnector(object):
 
     def get_request(self, endpoint, **kwargs):
 
-        r = self.api.get_request(endpoint, **kwargs)
+        r = self.api.get_request(self.uri + endpoint, **kwargs)
         data = self.api.data_parse(r)
 
         # Paginate
@@ -79,16 +79,16 @@ class VANConnector(object):
 
     def post_request(self, endpoint, **kwargs):
 
-        return self.api.post_request(endpoint, **kwargs)
+        return self.api.post_request(self.uri + endpoint, **kwargs)
 
     def delete_request(self, endpoint, **kwargs):
 
-        return self.api.delete_request(endpoint, **kwargs)
+        return self.api.delete_request(self.uri + endpoint, **kwargs)
 
     def patch_request(self, endpoint, **kwargs):
 
-        return self.api.patch_request(endpoint, **kwargs)
+        return self.api.patch_request(self.uri + endpoint, **kwargs)
 
     def put_request(self, endpoint, **kwargs):
 
-        return self.api.put_request(endpoint, **kwargs)
+        return self.api.put_request(self.uri + endpoint, **kwargs)

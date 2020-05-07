@@ -1,6 +1,7 @@
 import logging
 import re
 from parsons.etl import Table
+from parsons.utilities import check_env
 from parsons.utilities.api_connector import APIConnector
 
 logger = logging.getLogger(__name__)
@@ -18,8 +19,8 @@ class Mailchimp():
         Mailchimp Class
     """
 
-    def __init__(self, api_key):
-        self.api_key = api_key
+    def __init__(self, api_key=None):
+        self.api_key = check_env.check('MAILCHIMP_API_KEY', api_key) 
         self.domain = re.findall("(?<=-).+$", self.api_key)[0]
         self.uri = f'https://{self.domain}.api.mailchimp.com/3.0/'
         self.client = APIConnector(self.uri, auth=('x', self.api_key))

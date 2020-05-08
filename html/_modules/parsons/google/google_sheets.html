@@ -288,6 +288,50 @@
         <span class="n">index</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_sheet_index_with_title</span><span class="p">(</span><span class="n">spreadsheet_id</span><span class="p">,</span> <span class="n">title</span><span class="p">)</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">read_sheet</span><span class="p">(</span><span class="n">spreadsheet_id</span><span class="p">,</span> <span class="n">index</span><span class="p">)</span></div>
 
+<div class="viewcode-block" id="GoogleSheets.share_spreadsheet"><a class="viewcode-back" href="../../../google_sheets.html#parsons.GoogleSheets.share_spreadsheet">[docs]</a>    <span class="k">def</span> <span class="nf">share_spreadsheet</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">spreadsheet_id</span><span class="p">,</span> <span class="n">sharee</span><span class="p">,</span> <span class="n">share_type</span><span class="o">=</span><span class="s1">&#39;user&#39;</span><span class="p">,</span> <span class="n">role</span><span class="o">=</span><span class="s1">&#39;reader&#39;</span><span class="p">,</span>
+                          <span class="n">notify</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">notify_message</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">with_link</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Share a spreadsheet with a user, group of users, domain and/or the public.</span>
+
+<span class="sd">        `Args:`</span>
+<span class="sd">            spreadsheet_id: str</span>
+<span class="sd">                The ID of the spreadsheet (Tip: Get this from the spreadsheet URL)</span>
+<span class="sd">            sharee: str</span>
+<span class="sd">                User or group e-mail address, domain name to share the spreadsheet</span>
+<span class="sd">                with. To share publicly, set sharee value to ``None``.</span>
+<span class="sd">            share_type: str</span>
+<span class="sd">                The sharee type. Allowed values are: ``user``, ``group``, ``domain``,</span>
+<span class="sd">                ``anyone``.</span>
+<span class="sd">            role: str</span>
+<span class="sd">                The primary role for this user. Allowed values are: ``owner``,</span>
+<span class="sd">                ``writer``, ``reader``.</span>
+<span class="sd">            notify: boolean</span>
+<span class="sd">                Whether to send an email to the target user/domain.</span>
+<span class="sd">            email_message: str</span>
+<span class="sd">                The email to be sent if notify kwarg set to True.</span>
+<span class="sd">            with_link: boolean</span>
+<span class="sd">                Whether a link is required for this permission.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">spreadsheet</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">gspread_client</span><span class="o">.</span><span class="n">open_by_key</span><span class="p">(</span><span class="n">spreadsheet_id</span><span class="p">)</span>
+        <span class="n">spreadsheet</span><span class="o">.</span><span class="n">share</span><span class="p">(</span><span class="n">sharee</span><span class="p">,</span> <span class="n">share_type</span><span class="p">,</span> <span class="n">role</span><span class="p">,</span> <span class="n">notify</span><span class="o">=</span><span class="n">notify</span><span class="p">,</span>
+                          <span class="n">email_message</span><span class="o">=</span><span class="n">notify_message</span><span class="p">,</span> <span class="n">with_link</span><span class="o">=</span><span class="n">with_link</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="GoogleSheets.get_spreadsheet_permissions"><a class="viewcode-back" href="../../../google_sheets.html#parsons.GoogleSheets.get_spreadsheet_permissions">[docs]</a>    <span class="k">def</span> <span class="nf">get_spreadsheet_permissions</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">spreadsheet_id</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        List the permissioned users and groups for a spreadsheet.</span>
+
+<span class="sd">        `Args:`</span>
+<span class="sd">            spreadsheet_id: str</span>
+<span class="sd">                The ID of the spreadsheet (Tip: Get this from the spreadsheet URL)</span>
+<span class="sd">        `Returns:`</span>
+<span class="sd">            Parsons Table</span>
+<span class="sd">                See :ref:`parsons-table` for output options.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">spreadsheet</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">gspread_client</span><span class="o">.</span><span class="n">open_by_key</span><span class="p">(</span><span class="n">spreadsheet_id</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">Table</span><span class="p">(</span><span class="n">spreadsheet</span><span class="o">.</span><span class="n">list_permissions</span><span class="p">())</span></div>
+
 <div class="viewcode-block" id="GoogleSheets.create_spreadsheet"><a class="viewcode-back" href="../../../google_sheets.html#parsons.GoogleSheets.create_spreadsheet">[docs]</a>    <span class="k">def</span> <span class="nf">create_spreadsheet</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">title</span><span class="p">,</span> <span class="n">editor_email</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Create a Google spreadsheet from a Parsons table. Optionally shares the new doc with</span>

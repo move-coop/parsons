@@ -275,6 +275,55 @@ by the Google Developer Console. Required if env variable
 </dd></dl>
 
 <dl class="method">
+<dt id="parsons.GoogleSheets.share_spreadsheet">
+<code class="descname">share_spreadsheet</code><span class="sig-paren">(</span><em>spreadsheet_id</em>, <em>sharee</em>, <em>share_type='user'</em>, <em>role='reader'</em>, <em>notify=True</em>, <em>notify_message=None</em>, <em>with_link=False</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/google/google_sheets.html#GoogleSheets.share_spreadsheet"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.GoogleSheets.share_spreadsheet" title="Permalink to this definition">¶</a></dt>
+<dd><p>Share a spreadsheet with a user, group of users, domain and/or the public.</p>
+<dl class="docutils">
+<dt><cite>Args:</cite></dt>
+<dd><dl class="first last docutils">
+<dt>spreadsheet_id: str</dt>
+<dd>The ID of the spreadsheet (Tip: Get this from the spreadsheet URL)</dd>
+<dt>sharee: str</dt>
+<dd>User or group e-mail address, domain name to share the spreadsheet
+with. To share publicly, set sharee value to <code class="docutils literal notranslate"><span class="pre">None</span></code>.</dd>
+<dt>share_type: str</dt>
+<dd>The sharee type. Allowed values are: <code class="docutils literal notranslate"><span class="pre">user</span></code>, <code class="docutils literal notranslate"><span class="pre">group</span></code>, <code class="docutils literal notranslate"><span class="pre">domain</span></code>,
+<code class="docutils literal notranslate"><span class="pre">anyone</span></code>.</dd>
+<dt>role: str</dt>
+<dd>The primary role for this user. Allowed values are: <code class="docutils literal notranslate"><span class="pre">owner</span></code>,
+<code class="docutils literal notranslate"><span class="pre">writer</span></code>, <code class="docutils literal notranslate"><span class="pre">reader</span></code>.</dd>
+<dt>notify: boolean</dt>
+<dd>Whether to send an email to the target user/domain.</dd>
+<dt>email_message: str</dt>
+<dd>The email to be sent if notify kwarg set to True.</dd>
+<dt>with_link: boolean</dt>
+<dd>Whether a link is required for this permission.</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="parsons.GoogleSheets.get_spreadsheet_permissions">
+<code class="descname">get_spreadsheet_permissions</code><span class="sig-paren">(</span><em>spreadsheet_id</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/google/google_sheets.html#GoogleSheets.get_spreadsheet_permissions"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.GoogleSheets.get_spreadsheet_permissions" title="Permalink to this definition">¶</a></dt>
+<dd><p>List the permissioned users and groups for a spreadsheet.</p>
+<dl class="docutils">
+<dt><cite>Args:</cite></dt>
+<dd><dl class="first last docutils">
+<dt>spreadsheet_id: str</dt>
+<dd>The ID of the spreadsheet (Tip: Get this from the spreadsheet URL)</dd>
+</dl>
+</dd>
+<dt><cite>Returns:</cite></dt>
+<dd><dl class="first last docutils">
+<dt>Parsons Table</dt>
+<dd>See <a class="reference internal" href="table.html#parsons-table"><span class="std std-ref">Parsons Table</span></a> for output options.</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
 <dt id="parsons.GoogleSheets.create_spreadsheet">
 <code class="descname">create_spreadsheet</code><span class="sig-paren">(</span><em>title</em>, <em>editor_email=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/google/google_sheets.html#GoogleSheets.create_spreadsheet"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.GoogleSheets.create_spreadsheet" title="Permalink to this definition">¶</a></dt>
 <dd><p>Create a Google spreadsheet from a Parsons table. Optionally shares the new doc with

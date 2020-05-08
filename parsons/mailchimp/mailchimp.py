@@ -245,7 +245,7 @@ class Mailchimp():
                 timeframe. We recommend ISO 8601 time format:
                 2015-10-21T15:41:36+00:00.
             before_timestamp_opt: string
-                Restrict results to subscribers who opted-in before the set 
+                Restrict results to subscribers who opted-in before the set
                 timeframe. We recommend ISO 8601 time format:
                 2015-10-21T15:41:36+00:00.
             since_last_changed: string

@@ -64,10 +64,10 @@ class Mailchimp():
         API documentation.
 
         `Args:`
-            fields: list of fields as strings
+            fields: list of strings
                 A comma-separated list of fields to return. Reference
                 parameters of sub-objects with dot notation.
-            exclude_fields: list of fields as strings
+            exclude_fields: list of strings
                 A comma-separated list of fields to exclude. Reference
                 parameters of sub-objects with dot notation.
             count: int
@@ -134,10 +134,10 @@ class Mailchimp():
         official API documentation.
 
         `Args:`
-            fields: list of fields as strings
+            fields: list of strings
                 A comma-separated list of fields to return. Reference
                 parameters of sub-objects with dot notation.
-            exclude_fields: list of fields as strings
+            exclude_fields: list of strings
                 A comma-separated list of fields to exclude. Reference
                 parameters of sub-objects with dot notation.
             count: int
@@ -214,7 +214,86 @@ class Mailchimp():
                     interest_ids=None, interest_match=None, sort_field=None,
                     sort_dir=None, since_last_campaign=None,
                     unsubscribed_since=None):
+        """
+        Get a table of members in a list based on query parameters. Note that
+        argument descriptions here are sourced from Mailchimp's official API
+        documentation.
 
+        `Args:`
+            list_id: string
+                The unique ID of the list to fetch members from.
+            fields: list of strings
+                A comma-separated list of fields to return. Reference
+                parameters of sub-objects with dot notation.
+            exclude_fields: list of fields as strings
+                A comma-separated list of fields to exclude. Reference
+                parameters of sub-objects with dot notation.
+            count: int
+                The number of records to return. Default value is 10. Maximum
+                value is 1000.
+            offset: int
+                The number of records from a collection to skip. Iterating over
+                large collections with this parameter can be slow. Default
+                value is 0.
+            email_type: string
+                The email type.
+            status: string, can only be 'subscribed', 'unsubscribed',
+            'cleaned', 'pending', 'transactional', 'archived', or None
+                The subscriber's status.
+            since_timestamp_opt: string
+                Restrict results to subscribers who opted-in after the set
+                timeframe. We recommend ISO 8601 time format:
+                2015-10-21T15:41:36+00:00.
+            before_timestamp_opt: string
+                Restrict results to subscribers who opted-in before the set 
+                timeframe. We recommend ISO 8601 time format:
+                2015-10-21T15:41:36+00:00.
+            since_last_changed: string
+                Restrict results to subscribers whose information changed after
+                the set timeframe. We recommend ISO 8601 time format:
+                2015-10-21T15:41:36+00:00.
+            before_last_changed: string
+                Restrict results to subscribers whose information changed
+                before the set timeframe. We recommend ISO 8601 time format:
+                2015-10-21T15:41:36+00:00.
+            unique_email_id: string
+                A unique identifier for the email address across all Mailchimp
+                lists. This parameter can be found in any links with Ecommerce
+                Tracking enabled.
+            vip_only: boolean
+                A filter to return only the list's VIP members. Passing true
+                will restrict results to VIP list members, passing false will
+                return all list members.
+            interest_category_id: string
+                The unique id for the interest category.
+            interest_ids: list of strings
+                Used to filter list members by interests. Must be accompanied
+                by interest_category_id and interest_match. The value must be a
+                comma separated list of interest ids present for any supplied
+                interest categories.
+            interest_match: string, can only be 'any', 'all', 'none', or None
+                Used to filter list members by interests. Must be accompanied
+                by interest_category_id and interest_ids. "any" will match a
+                member with any of the interest supplied, "all" will only match
+                members with every interest supplied, and "none" will match
+                members without any of the interest supplied.
+            sort_field: string, can only be 'timestamp_opt',
+            'timestamp_signup', 'last_changed', or None
+                Returns files sorted by the specified field.
+            sort_dir: string, can only be 'ASC', 'DESC', or None
+                Determines the order direction for sorted results.
+            since_last_campaign: string
+                Filter subscribers by those
+                subscribed/unsubscribed/pending/cleaned since last email
+                campaign send. Member status is required to use this filter.
+            unsubscribed_since: string
+                Filter subscribers by those unsubscribed since a specific date.
+                Using any status other than unsubscribed with this filter will
+                result in an error.
+
+        `Returns:`
+            Table Class
+        """
         params = {'fields': fields,
                   'exclude_fields': exclude_fields,
                   'count': count,
@@ -246,7 +325,35 @@ class Mailchimp():
     def get_campaign_emails(self, campaign_id, fields=None,
                             exclude_fields=None, count=None, offset=None,
                             since=None):
+        """
+        Get a table of individual emails from a campaign based on query
+        parameters. Note that argument descriptions here are sourced from
+        Mailchimp's official API documentation.
 
+        `Args:`
+            campaign_id: string
+                The unique ID of the campaign to fetch emails from.
+            fields: list of strings
+                A comma-separated list of fields to return. Reference
+                parameters of sub-objects with dot notation.
+            exclude_fields: list of strings
+                A comma-separated list of fields to exclude. Reference
+                parameters of sub-objects with dot notation.
+            count: int
+                The number of records to return. Default value is 10. Maximum
+                value is 1000.
+            offset: int
+                The number of records from a collection to skip. Iterating over
+                large collections with this parameter can be slow. Default
+                value is 0.
+            since: string
+                Restrict results to email activity events that occur after a
+                specific time. We recommend ISO 8601 time format:
+                2015-10-21T15:41:36+00:00.
+
+        `Returns:`
+            Table Class
+        """
         params = {'fields': fields,
                   'exclude_fields': exclude_fields,
                   'count': count,
@@ -263,7 +370,31 @@ class Mailchimp():
 
     def get_unsubscribes(self, campaign_id, fields=None,
                          exclude_fields=None, count=None, offset=None):
+        """
+        Get a table of unsubscribes associated with a campaign based on query
+        parameters. Note that argument descriptions here are sourced from
+        Mailchimp's official API documentation.
 
+        `Args:`
+            campaign_id: string
+                The unique ID of the campaign to fetch unsubscribes from.
+            fields: list of strings
+                A comma-separated list of fields to return. Reference
+                parameters of sub-objects with dot notation.
+            exclude_fields: list of strings
+                A comma-separated list of fields to exclude. Reference
+                parameters of sub-objects with dot notation.
+            count: int
+                The number of records to return. Default value is 10. Maximum
+                value is 1000.
+            offset: int
+                The number of records from a collection to skip. Iterating over
+                large collections with this parameter can be slow. Default
+                value is 0.
+
+        `Returns:`
+            Table Class
+        """
         params = {'fields': fields,
                   'exclude_fields': exclude_fields,
                   'count': count,

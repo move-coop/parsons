@@ -209,30 +209,30 @@ class TestActionNetwork(unittest.TestCase):
                          '_links': {'self': {'href': f"action_network:{self.fake_tag_id_1}"}}}
 
     @requests_mock.Mocker()
+    def test_get_page(self, m):
+        m.get(f"{self.api_url}/people?page=2&per_page=2", text=json.dumps(self.fake_people_list_2))
+        self.assertEqual(self.an._get_page('people', 2, 2), self.fake_people_list_2)    
+
+    @requests_mock.Mocker()
     def test_get_entry_list(self, m):
-        m.get(f"{self.api_url}/people", text=json.dumps(self.fake_people_list_1))
-        m.get(f"{self.api_url}/people?page=2", text=json.dumps(self.fake_people_list_2))
-        m.get(f"{self.api_url}/people?page=3", text=json.dumps({'_embedded':{"osdi:people":[]}}))
+        m.get(f"{self.api_url}/people?page=1&per_page=25", text=json.dumps(self.fake_people_list_1))
+        m.get(f"{self.api_url}/people?page=2&per_page=25", text=json.dumps(self.fake_people_list_2))
+        m.get(f"{self.api_url}/people?page=3&per_page=25", text=json.dumps({'_embedded':{"osdi:people":[]}}))
         assert_matching_tables(self.an._get_entry_list('people'),
                                Table(self.fake_people_list))
 
     @requests_mock.Mocker()
-    def test_get_people_list(self, m):
-        m.get(f"{self.api_url}/people", text=json.dumps(self.fake_people_list_1))
-        m.get(f"{self.api_url}/people?page=2", text=json.dumps(self.fake_people_list_2))
-        m.get(f"{self.api_url}/people?page=3", text=json.dumps({'_embedded':{"osdi:people":[]}}))
-        assert_matching_tables(self.an.get_people_list(), Table(self.fake_people_list))
+    def test_get_people(self, m):
+        m.get(f"{self.api_url}/people?page=1&per_page=25", text=json.dumps(self.fake_people_list_1))
+        m.get(f"{self.api_url}/people?page=2&per_page=25", text=json.dumps(self.fake_people_list_2))
+        m.get(f"{self.api_url}/people?page=3&per_page=25", text=json.dumps({'_embedded':{"osdi:people":[]}}))
+        assert_matching_tables(self.an.get_people(), Table(self.fake_people_list))
 
     @requests_mock.Mocker()
-    def test_get_tag_list(self, m):
-        m.get(f"{self.api_url}/tags", text=json.dumps(self.fake_tag_list))
-        m.get(f"{self.api_url}/tags?page=2", text=json.dumps({'_embedded':{"osdi:tags":[]}}))
-        assert_matching_tables(self.an.get_tag_list(), Table(self.fake_tag_list['_embedded']['osdi:tags']))
-
-    @requests_mock.Mocker()
-    def test_get_entry(self, m):
-        m.get(f"{self.api_url}/people/{self.fake_person_id_1}", text=json.dumps(self.fake_person))
-        self.assertEqual(self.an._get_entry('people', self.fake_person_id_1), self.fake_person)
+    def test_get_tags(self, m):
+        m.get(f"{self.api_url}/tags?page=1&per_page=25", text=json.dumps(self.fake_tag_list))
+        m.get(f"{self.api_url}/tags?page=2&per_page=25", text=json.dumps({'_embedded':{"osdi:tags":[]}}))
+        assert_matching_tables(self.an.get_tags(), Table(self.fake_tag_list['_embedded']['osdi:tags']))
 
     @requests_mock.Mocker()
     def test_get_person(self, m):
@@ -243,21 +243,12 @@ class TestActionNetwork(unittest.TestCase):
     def test_get_tag(self, m):
         m.get(f"{self.api_url}/tags/{self.fake_tag_id_1}", text=json.dumps(self.fake_tag))
         self.assertEqual(self.an.get_tag(self.fake_tag_id_1), self.fake_tag)
-    
-    @requests_mock.Mocker()
-    def test_update_entry(self, m):
-        m.put(f"{self.api_url}/people/{self.fake_person_id_1}", \
-              text=json.dumps(self.updated_fake_person))
-        self.assertEqual(self.an._update_entry('people', self.fake_person_id_1,
-                                              {'given_name': 'Flake',
-                                               'family_name': 'McFlakerson'}), \
-                         self.updated_fake_person)
-    
+
     @requests_mock.Mocker()
     def test_update_person(self, m):
         m.put(f"{self.api_url}/people/{self.fake_person_id_1}", \
               text=json.dumps(self.updated_fake_person))
         self.assertEqual(self.an.update_person(self.fake_person_id_1,
-                                              {'given_name': 'Flake',
-                                               'family_name': 'McFlakerson'}), \
+                                               given_name = 'Flake',
+                                               family_name = 'McFlakerson'), \
                          self.updated_fake_person)

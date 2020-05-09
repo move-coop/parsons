@@ -1,6 +1,6 @@
 import json
-from time import time
 from parsons import Table
+from parsons.utilities import check_env
 from parsons.utilities.api_connector import APIConnector
 import logging
 
@@ -15,25 +15,28 @@ class ActionNetwork(object):
         api_url:
             The end point url
     """
-    def __init__(self, api_token, api_url="https://actionnetwork.org/api/v2/"):
+    def __init__(self, api_token=None, api_url=None):
+        self.api_token = check_env.check('AN_API_TOKEN', api_token)
         self.headers = {
             "Content-Type": "application/json",
-            "OSDI-API-Token": api_token
+            "OSDI-API-Token": self.api_token
         }
-        self.api_url = api_url
+        self.api_url = check_env.check('AN_API_URL', api_url)
         self.api = APIConnector(self.api_url, headers=self.headers)
 
-    def _get_entry_list(self, object_name, limit=10, timeout=60):
+    def _get_page(self, object_name, page, per_page=25):
+        if per_page > 25:
+            per_page = 25
+            logger.info("Action Network's API will not return more than 25 entries per page. \
+            Changing per_page parameter to 25.")
+        return self.api.get_request(url=f"{self.api_url}/{object_name}?page={page}&per_page={per_page}")
+    def _get_entry_list(self, object_name, limit=None, per_page=25):
         # returns a list of entries for a given object, such as people, tags, or actions
         count = 0
         page = 1
-        t0 = time()
         return_list = []
         while True:
-            if page == 1:
-                response = self.api.get_request(url=f"{self.api_url}/{object_name}")
-            else:
-                response = self.api.get_request(url=f"{self.api_url}/{object_name}?page={page}")
+            response = self._get_page(object_name, page, per_page)
             page = page + 1
             response_list = response['_embedded'][f"osdi:{object_name}"]
             if not response_list:
@@ -43,58 +46,33 @@ class ActionNetwork(object):
             if limit:
                 if count >= limit:
                     return Table(return_list[0:limit])
-            if time() - t0 > timeout:
-                logger.info("Request timed out. Returning results so far.")
-                return Table(return_list)
 
-    def _get_entry(self, object_name, object_id):
-        # returns a specific entry by object name and id
-        return self.api.get_request(url=f"{self.api_url}/{object_name}/{object_id}")
-
-    def _add_entry(self, object_name, data, silent=False):
-        # adds an entry to action network
-        response = self.api.post_request(url=f"{self.api_url}/{object_name}", data=json.dumps(data))
-        if not silent:
-            identifiers = response['identifiers']
-            entry_id = [entry_id.split(':')[1]
-                        for entry_id in identifiers if 'action_network:' in entry_id][0]
-            logger.info(f"Entry {entry_id} successfully added to {object_name}")
-
-    def _update_entry(self, object_name, entry_id, data, silent=False):
-        # updates fields for a given entry
-        # only the fields to be updated need to be included
-        response = self.api.put_request(url=f"{self.api_url}/{object_name}/{entry_id}",
-                                        json=json.dumps(data), success_codes=[204, 201, 200])
-        if not silent:
-            logger.info(f"{object_name.capitalize()} entry {entry_id} successfully updated")
-        return response
-
-    def get_people_list(self, limit=10, timeout=60):
+    def get_people(self, limit=None, per_page=25, page=None):
         """
         `Args:`
             limit:
                 The number of entries to return. When None, returns all entries.
-            timeout:
-                Seconds before request is forced to timeout. Implemented to ensur no infinite loops.
         `Returns:`
             A list of JSONs of people stored in Action Network.
         """
-        return self._get_entry_list("people", limit, timeout)
+        if page:
+            self._get_page("people", page, per_page)
+        return self._get_entry_list("people", limit, per_page)
 
-    def get_person(self, object_id):
+    def get_person(self, person_id):
         """
         `Args:`
-            object_id:
+            person_id:
                 Id of the person.
         `Returns:`
             A  JSON of the entry. If the entry doesn't exist, Action Network returns
-            "{'error': 'Couldn't find <object_name> with id = <id>'}"
+            "{'error': 'Couldn't find person with id = <id>'}"
         """
-        return self._get_entry("people", object_id)
+        return self.api.get_request(url=f"{self.api_url}/people/{person_id}")
 
     def add_person(self, email_address, given_name=None, family_name=None, tags=[],
                    languages_spoken=[], postal_addresses=[],
-                   silent=False, **kwargs):
+                   **kwargs):
         """
         `Args:`
             email_address:
@@ -122,8 +100,6 @@ class ActionNetwork(object):
                 Optional field. A list of dictionaries.
                 For details, see Action Network's documentation:
                 https://actionnetwork.org/docs/v2/people#put
-            silent:
-                If true, prints to the person's Action Network id when added successfully
             **kwargs:
                 Any additional fields to store about the person. Action Network allows
                 any custom field.
@@ -151,9 +127,14 @@ class ActionNetwork(object):
               },
             "add_tags": tags
         }
-        self._add_entry("people", data, silent)
+        response = self.api.post_request(url=f"{self.api_url}/people", data=json.dumps(data))
+        identifiers = response['identifiers']
+        person_id = [entry_id.split(':')[1]
+                    for entry_id in identifiers if 'action_network:' in entry_id][0]
+        logger.info(f"Entry {entry_id} successfully added to people.")
+        return response
 
-    def update_person(self, entry_id, silent=False, **kwargs):
+    def update_person(self, entry_id, **kwargs):
         """
         `Args:`
             entry_id:
@@ -186,48 +167,52 @@ class ActionNetwork(object):
                         Optional field. A list of dictionaries.
                         For details, see Action Network's documentation:
                         https://actionnetwork.org/docs/v2/people#put
-                    silent:
-                        If true, prints to the person's Action Network id when added successfully
                     custom_fields:
                         A dictionary of any other fields to store about the person.
         Updates a person's data in Action Network
         """
         data = {**kwargs}
-        return self._update_entry("people", entry_id, data, silent)
+        response = self.api.put_request(url=f"{self.api_url}/people/{entry_id}",
+                                        json=json.dumps(data), success_codes=[204, 201, 200])
+        logger.info(f"Person {entry_id} successfully updated")
+        return response
 
-    def get_tag_list(self, limit=10, timeout=60):
+    def get_tags(self, limit=None, per_page=25, page=None):
         """
         `Args:`
             limit:
                 The number of entries to return. When None, returns all entries.
-            timeout:
-                Seconds before request is forced to timeout. Implemented to ensur no infinite loops.
         `Returns:`
             A list of JSONs of tags in Action Network.
         """
-        return self._get_entry_list("tags", limit, timeout)
+        if page:
+            self.get_page("tags", page, per_page)
+        return self._get_entry_list("tags", limit, per_page)
 
-    def get_tag(self, object_id):
+    def get_tag(self, tag_id):
         """
         `Args:`
-            object_id:
+            tag_id:
                 Id of the tag.
         `Returns:`
             A  JSON of the entry. If the entry doesn't exist, Action Network returns
-            "{'error': 'Couldn't find <object_name> with id = <id>'}"
+            "{'error': 'Couldn't find tag with id = <id>'}"
         """
-        return self._get_entry("tags", object_id)
+        return self.api.get_request(url=f"{self.api_url}/tags/{tag_id}")
 
-    def add_tag(self, name, silent=False):
+    def add_tag(self, name):
         """
         `Args:`
             name:
                 The tag's name. This is the ONLY editable field
-            silent:
-                If true, prints to the person's Action Network id when added successfully
         Adds a tag to Action Network. Once created, tags CANNOT be edited or deleted.
         """
         data = {
             "name": name
         }
-        return self._add_entry("tags", data, silent)
+        response = self.api.post_request(url=f"{self.api_url}/tags", data=json.dumps(data))
+        identifiers = response['identifiers']
+        person_id = [entry_id.split(':')[1]
+                    for entry_id in identifiers if 'action_network:' in entry_id][0]
+        logger.info(f"Tag {entry_id} successfully added to tags.")
+        return response

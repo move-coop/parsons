@@ -4,7 +4,6 @@ from parsons import Table
 import logging
 import jwt
 import datetime
-import json
 
 logger = logging.getLogger(__name__)
 
@@ -34,18 +33,17 @@ class Zoom:
         # Generate a token that is valid for 30 seconds and update header. Full documentation
         # on JWT generation using Zoom API: https://marketplace.zoom.us/docs/guides/auth/jwt
 
-        header = {"alg": "HS256", "typ": "JWT"}
         payload = {"iss": self.api_key, "exp": int(datetime.datetime.now().timestamp() + 30)}
         token = jwt.encode(payload, self.api_secret, algorithm='HS256').decode("utf-8")
-        self.client.headers = {'authorization': f"Bearer {token}", 'content-type': "application/json"}
+        self.client.headers = {'authorization': f"Bearer {token}",
+                               'content-type': "application/json"}
 
     def get_request(self, endpoint, data_key, params=None, **kwargs):
         # Internal GET request method.
 
-        # SET MAXIMUM PAGE SIZE TO 300
+        # To Do: Consider increasing default page size.
 
         self.refresh_header_token()
-        print (endpoint)
         r = self.client.get_request(ZOOM_URI + endpoint, params=params, **kwargs)
         self.client.data_key = data_key
         data = self.client.data_parse(r)

@@ -29,7 +29,9 @@ class ActionNetwork(object):
             per_page = 25
             logger.info("Action Network's API will not return more than 25 entries per page. \
             Changing per_page parameter to 25.")
-        return self.api.get_request(url=f"{self.api_url}/{object_name}?page={page}&per_page={per_page}")
+        page_url = f"{self.api_url}/{object_name}?page={page}&per_page={per_page}"
+        return self.api.get_request(url=page_url)
+
     def _get_entry_list(self, object_name, limit=None, per_page=25):
         # returns a list of entries for a given object, such as people, tags, or actions
         count = 0
@@ -130,8 +132,8 @@ class ActionNetwork(object):
         response = self.api.post_request(url=f"{self.api_url}/people", data=json.dumps(data))
         identifiers = response['identifiers']
         person_id = [entry_id.split(':')[1]
-                    for entry_id in identifiers if 'action_network:' in entry_id][0]
-        logger.info(f"Entry {entry_id} successfully added to people.")
+                     for entry_id in identifiers if 'action_network:' in entry_id][0]
+        logger.info(f"Entry {person_id} successfully added to people.")
         return response
 
     def update_person(self, entry_id, **kwargs):
@@ -213,6 +215,6 @@ class ActionNetwork(object):
         response = self.api.post_request(url=f"{self.api_url}/tags", data=json.dumps(data))
         identifiers = response['identifiers']
         person_id = [entry_id.split(':')[1]
-                    for entry_id in identifiers if 'action_network:' in entry_id][0]
-        logger.info(f"Tag {entry_id} successfully added to tags.")
+                     for entry_id in identifiers if 'action_network:' in entry_id][0]
+        logger.info(f"Tag {person_id} successfully added to tags.")
         return response

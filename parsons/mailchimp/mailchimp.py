@@ -34,25 +34,6 @@ class Mailchimp():
 
         return data
 
-    def transform_table(self, tbl, fields_to_expand=None):
-        """
-        Unpacks selected dictionaries within a Parsons table into separate
-        columns, returning a version of the table with those new columns added.
-
-        `Args:`
-            fields_to_expand: list of column names as strings
-                A list of columns within the table containing dictionaries
-                that the user wishes to expand.
-
-        `Returns:`
-            Table Class
-        """
-        tbl.sort()
-        if fields_to_expand:
-            [tbl.unpack_dict(x, prepend=False) for x in fields_to_expand]
-
-        return tbl
-
     def get_lists(self, fields=None, exclude_fields=None,
                   count=None, offset=None, before_date_created=None,
                   since_date_created=None, before_campaign_last_sent=None,

@@ -235,11 +235,11 @@
 
     <span class="k">def</span> <span class="nf">transform_table</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tbl</span><span class="p">,</span> <span class="n">expand_custom_fields</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="c1"># Internal method to transform a table prior to returning</span>
-
-        <span class="n">tbl</span><span class="o">.</span><span class="n">move_column</span><span class="p">(</span><span class="s1">&#39;id&#39;</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
-        <span class="n">tbl</span><span class="o">.</span><span class="n">sort</span><span class="p">()</span>
-        <span class="k">if</span> <span class="n">expand_custom_fields</span><span class="p">:</span>
-            <span class="n">tbl</span><span class="o">.</span><span class="n">unpack_dict</span><span class="p">(</span><span class="s1">&#39;custom_fields&#39;</span><span class="p">,</span> <span class="n">prepend</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">tbl</span><span class="o">.</span><span class="n">num_rows</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">tbl</span><span class="o">.</span><span class="n">move_column</span><span class="p">(</span><span class="s1">&#39;id&#39;</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+            <span class="n">tbl</span><span class="o">.</span><span class="n">sort</span><span class="p">()</span>
+            <span class="k">if</span> <span class="n">expand_custom_fields</span><span class="p">:</span>
+                <span class="n">tbl</span><span class="o">.</span><span class="n">unpack_dict</span><span class="p">(</span><span class="s1">&#39;custom_fields&#39;</span><span class="p">,</span> <span class="n">prepend</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
 
         <span class="k">return</span> <span class="n">tbl</span>
 

@@ -14,13 +14,15 @@ from parsons.ngpvan.locations import Locations
 from parsons.ngpvan.bulk_import import BulkImport
 from parsons.ngpvan.changed_entities import ChangedEntities
 from parsons.ngpvan.custom_fields import CustomFields
+from parsons.ngpvan.targets import Targets
+from parsons.ngpvan.target_export import TargetExport
 
 logger = logging.getLogger(__name__)
 
 
 class VAN(People, Events, SavedLists, Folders, ExportJobs, ActivistCodes, CanvassResponses,
           SurveyQuestions, Codes, Scores, FileLoadingJobs, SupporterGroups, Signups, Locations,
-          BulkImport, ChangedEntities, CustomFields):
+          BulkImport, ChangedEntities, CustomFields, Targets, TargetExport):
     """
     Returns the VAN class
 

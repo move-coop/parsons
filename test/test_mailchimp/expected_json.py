@@ -131,95 +131,128 @@ test_campaigns = {
 			"_links": []
 		}]}
 
-test_agent = [{
-  'available': False,
-  'occasional': True,
-  'id': 47020956237,
-  'signature': '<div dir="ltr"><p><br></p>\n</div>',
-  'ticket_scope': 1,
-  'created_at': '2020-01-17T15:07:01Z',
-  'updated_at': '2020-02-05T00:58:37Z',
-  'available_since': None,
-  'type': 'support_agent',
-  'contact': {
-    'active': True,
-    'email': 'person@email.org',
-    'job_title': None,
-    'language': 'en',
-    'last_login_at': '2020-01-24T22:49:52Z',
-    'mobile': None,
-    'name': 'Alissa',
-    'phone': None,
-    'time_zone': 'Bogota',
-    'created_at': '2020-01-17T15:07:00Z',
-    'updated_at': '2020-01-24T22:49:52Z'
-  }
-}]
+test_lists = {
+	"lists": [
+		{
+			"id": "zyx",
+			"web_id": 98765,
+			"name": "Support Our Candidate List 1",
+			"contact": {
+				"company": "Support Our Candidate",
+				"address1": "123 Main Street",
+				"address2": "",
+				"city": "Townsville",
+				"state": "OH",
+				"zip": "43358",
+				"country": "US",
+				"phone": ""
+			},
+			"permission_reminder": "You are receiving this email because you signed up at an event, while being canvassed, or on our website.",
+			"use_archive_bar": true,
+			"campaign_defaults": {
+				"from_name": "Our Candidate",
+				"from_email": "our_candidate@example.com",
+				"subject": "",
+				"language": "en"
+			},
+			"notify_on_subscribe": "",
+			"notify_on_unsubscribe": "",
+			"date_created": "2019-03-25T22:55:44+00:00",
+			"list_rating": 3,
+			"email_type_option": False,
+			"subscribe_url_short": "http://example.com/sample-subscribe_url_2",
+			"subscribe_url_long": "https://mailchi.mp/zyx/sample-subscribe-url-2",
+      "beamer_address": "us00-sample-2@inbound.mailchimp.com",
+			"visibility": "pub",
+			"double_optin": False,
+			"has_welcome": True,
+			"marketing_permissions": False,
+			"modules": [],
+			"stats": {
+				"member_count": 140,
+				"unsubscribe_count": 8,
+				"cleaned_count": 16,
+				"member_count_since_send": 0,
+				"unsubscribe_count_since_send": 1,
+				"cleaned_count_since_send": 0,
+				"campaign_count": 21,
+				"campaign_last_sent": "2020-01-06T01:54:32+00:00",
+				"merge_field_count": 5,
+				"avg_sub_rate": 0,
+				"avg_unsub_rate": 1,
+				"target_sub_rate": 3,
+				"open_rate": 38.40236686390532,
+				"click_rate": 4.016786570743405,
+				"last_sub_date": "2019-09-24T01:07:56+00:00",
+				"last_unsub_date": "2020-01-06T01:55:02+00:00"
+			},
+			"_links": []
+		},
+    {
+			"id": "xvu",
+			"web_id": 43210,
+			"name": "Support Our Candidate List 2",
+			"contact": {
+				"company": "Support Our Candidate",
+				"address1": "123 Main Street",
+				"address2": "",
+				"city": "Townsville",
+				"state": "OH",
+				"zip": "43358",
+				"country": "US",
+				"phone": ""
+			},
+			"permission_reminder": "You are receiving this email because you signed up at an event, while being canvassed, or on our website.",
+			"use_archive_bar": true,
+			"campaign_defaults": {
+				"from_name": "Our Candidate",
+				"from_email": "our_candidate@example.com",
+				"subject": "",
+				"language": "en"
+			},
+			"notify_on_subscribe": "",
+			"notify_on_unsubscribe": "",
+			"date_created": "2018-09-15T22:15:21+00:00",
+			"list_rating": 3,
+			"email_type_option": False,
+			"subscribe_url_short": "http://example.com/sample-subscribe_url_1",
+			"subscribe_url_long": "https://mailchi.mp/zyx/sample-subscribe-url-1",
+      "beamer_address": "us00-sample-1@inbound.mailchimp.com",
+			"visibility": "pub",
+			"double_optin": False,
+			"has_welcome": True,
+			"marketing_permissions": False,
+			"modules": [],
+			"stats": {
+				"member_count": 73,
+				"unsubscribe_count": 3,
+				"cleaned_count": 7,
+				"member_count_since_send": 1,
+				"unsubscribe_count_since_send": 1,
+				"cleaned_count_since_send": 0,
+				"campaign_count": 13,
+				"campaign_last_sent": "2020-01-03T14:38:11+00:00",
+				"merge_field_count": 5,
+				"avg_sub_rate": 0,
+				"avg_unsub_rate": 1,
+				"target_sub_rate": 3,
+				"open_rate": 64.19236186394533,
+				"click_rate": 3.746759370417411,
+				"last_sub_date": "2020-01-01T00:19:46+00:00",
+				"last_unsub_date": "2019-12-23T11:44:31+00:00"
+			},
+			"_links": []
+		},
+	],
+	"total_items": 1,
+	"constraints": {
+		"may_create": False,
+		"max_instances": 1,
+		"current_total_instances": 1
+	},
+	"_links": []
+}
 
-test_ticket = [{
-  'cc_emails': ['person@email.org', 'person2@email.org'],
-  'fwd_emails': [],
-  'reply_cc_emails': ['person@email.org', 'person2@email.org'],
-  'ticket_cc_emails': ['person@email.org', 'person2@email.org'],
-  'fr_escalated': False,
-  'spam': False,
-  'email_config_id': None,
-  'group_id': 47000643034,
-  'priority': 1,
-  'requester_id': 47021937449,
-  'responder_id': 47017224681,
-  'source': 3,
-  'company_id': 47000491688,
-  'status': 5,
-  'subject': 'My thing is broken.',
-  'association_type': None,
-  'to_emails': None,
-  'product_id': None,
-  'id': 84,
-  'type': 'Support Request 1',
-  'due_by': '2020-02-19T22:00:00Z',
-  'fr_due_by': '2020-02-06T17:00:00Z',
-  'is_escalated': False,
-  'custom_fields': {},
-  'created_at': '2020-02-05T22:17:41Z',
-  'updated_at': '2020-02-06T02:07:37Z',
-  'associated_tickets_count': None,
-  'tags': []
-}]
+test_members = {}
 
-test_company = [{
-  'id': 47000491701,
-  'name': 'Big Org',
-  'description': None,
-  'note': None,
-  'domains': [],
-  'created_at': '2020-01-09T20:43:09Z',
-  'updated_at': '2020-01-09T20:43:09Z',
-  'custom_fields': {},
-  'health_score': None,
-  'account_tier': 'Tier 2',
-  'renewal_date': '2020-12-31T00:00:00Z',
-  'industry': None
-}]
-
-test_contact = [{
-  'active': False,
-  'address': None,
-  'company_id': 47000491686,
-  'description': None,
-  'email': 'person@email.org',
-  'id': 47021299020,
-  'job_title': None,
-  'language': 'en',
-  'mobile': None,
-  'name': 'Percy Person',
-  'phone': 'N/A',
-  'time_zone': 'Bogota',
-  'twitter_id': None,
-  'custom_fields': {},
-  'facebook_id': None,
-  'created_at': '2020-01-27T16:44:34Z',
-  'updated_at': '2020-01-27T16:44:34Z',
-  'unique_external_id': None
-}]
-
+test_unsubscribes = {}

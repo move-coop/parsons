@@ -11,11 +11,11 @@ test_campaigns = {
 			"emails_sent": 145,
 			"send_time": "2019-10-18T14:15:00+00:00",
 			"content_type": "template",
-			"needs_block_refresh": false,
-			"resendable": true,
+			"needs_block_refresh": False,
+			"resendable": True,
 			"recipients": {
 				"list_id": "zyx",
-				"list_is_active": true,
+				"list_is_active": True,
 				"list_name": "Support Our Candidate List 1",
 				"segment_text": "",
 				"recipient_count": 145
@@ -26,24 +26,24 @@ test_campaigns = {
 				"title": "Sample Campaign Donation Ask",
 				"from_name": "Our Candidate",
 				"reply_to": "our_candidate@example.com",
-				"use_conversation": false,
+				"use_conversation": False,
 				"to_name": "*|FNAME|* *|LNAME|*",
 				"folder_id": "",
-				"authenticate": true,
-				"auto_footer": false,
-				"inline_css": false,
-				"auto_tweet": false,
-				"fb_comments": true,
-				"timewarp": false,
+				"authenticate": True,
+				"auto_footer": False,
+				"inline_css": False,
+				"auto_tweet": False,
+				"fb_comments": True,
+				"timewarp": False,
 				"template_id": 12345,
-				"drag_and_drop": true
+				"drag_and_drop": True
 			},
 			"tracking": {
-				"opens": true,
-				"html_clicks": true,
-				"text_clicks": false,
-				"goal_tracking": false,
-				"ecomm360": false,
+				"opens": True,
+				"html_clicks": True,
+				"text_clicks": False,
+				"goal_tracking": False,
+				"ecomm360": False,
 				"google_analytics": "",
 				"clicktale": ""
 			},
@@ -61,7 +61,7 @@ test_campaigns = {
 				}
 			},
 			"delivery_status": {
-				"enabled": false
+				"enabled": False
 			},
 			"_links": []
 		},
@@ -76,11 +76,11 @@ test_campaigns = {
 			"emails_sent": 87,
 			"send_time": "2019-05-29T21:18:15+00:00",
 			"content_type": "template",
-			"needs_block_refresh": false,
-			"resendable": true,
+			"needs_block_refresh": False,
+			"resendable": True,
 			"recipients": {
 				"list_id": "wvu",
-				"list_is_active": true,
+				"list_is_active": True,
 				"list_name": "Support Our Candidate List 2",
 				"segment_text": "",
 				"recipient_count": 87
@@ -91,24 +91,24 @@ test_campaigns = {
 				"title": "Sample Campaign 2 Donation Ask",
 				"from_name": "Our Candidate",
 				"reply_to": "our_candidate@example.com",
-				"use_conversation": false,
+				"use_conversation": False,
 				"to_name": "*|FNAME|* *|LNAME|*",
 				"folder_id": "",
-				"authenticate": true,
-				"auto_footer": false,
-				"inline_css": false,
-				"auto_tweet": false,
-				"fb_comments": true,
-				"timewarp": false,
+				"authenticate": True,
+				"auto_footer": False,
+				"inline_css": False,
+				"auto_tweet": False,
+				"fb_comments": True,
+				"timewarp": False,
 				"template_id": 67890,
-				"drag_and_drop": true
+				"drag_and_drop": True
 			},
 			"tracking": {
-				"opens": true,
-				"html_clicks": true,
-				"text_clicks": false,
-				"goal_tracking": false,
-				"ecomm360": false,
+				"opens": True,
+				"html_clicks": True,
+				"text_clicks": False,
+				"goal_tracking": False,
+				"ecomm360": False,
 				"google_analytics": "",
 				"clicktale": ""
 			},
@@ -126,10 +126,10 @@ test_campaigns = {
 				}
 			},
 			"delivery_status": {
-				"enabled": false
+				"enabled": False
 			},
 			"_links": []
-		}}
+		}]}
 
 test_agent = [{
   'available': False,

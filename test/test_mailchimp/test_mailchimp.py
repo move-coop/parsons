@@ -4,7 +4,7 @@ import requests_mock
 from test.utils import assert_matching_tables
 from test.test_mailchimp import expected_json
 
-API_KEY = 'mykey'
+API_KEY = 'mykey-us00'
 
 class TestMailchimp(unittest.TestCase):
 

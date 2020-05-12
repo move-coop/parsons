@@ -148,7 +148,7 @@ test_lists = {
 				"phone": ""
 			},
 			"permission_reminder": "You are receiving this email because you signed up at an event, while being canvassed, or on our website.",
-			"use_archive_bar": true,
+			"use_archive_bar": True,
 			"campaign_defaults": {
 				"from_name": "Our Candidate",
 				"from_email": "our_candidate@example.com",
@@ -203,7 +203,7 @@ test_lists = {
 				"phone": ""
 			},
 			"permission_reminder": "You are receiving this email because you signed up at an event, while being canvassed, or on our website.",
-			"use_archive_bar": true,
+			"use_archive_bar": True,
 			"campaign_defaults": {
 				"from_name": "Our Candidate",
 				"from_email": "our_candidate@example.com",

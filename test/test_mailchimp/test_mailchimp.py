@@ -15,27 +15,27 @@ class TestMailchimp(unittest.TestCase):
     @requests_mock.Mocker()
     def test_get_campaigns(self, m):
 
-    	# Test that agents are returned correctly.
+    	# Test that campaigns are returned correctly.
         m.get(self.mc.uri + 'campaigns', json=expected_json.test_campaigns)
         tbl = self.mc.get_campaigns()
 
     @requests_mock.Mocker()
     def test_get_lists(self, m):
 
-        # Test that tickets are returned correctly.
-        m.get(self.mc.uri + 'lists', json=expected_json.test_ticket)
+        # Test that lists are returned correctly.
+        m.get(self.mc.uri + 'lists', json=expected_json.test_lists)
         tbl = self.mc.get_lists() 
 
     @requests_mock.Mocker()
     def test_get_members(self, m):
 
-        # Test that tickets are returned correctly.
+        # Test that list members are returned correctly.
         m.get(self.mc.uri + 'list/zyx/members', json=expected_json.test_members)
         tbl = self.mc.get_members(list_id='zyx') 
 
     @requests_mock.Mocker()
     def test_get_unsubscribes(self, m):
 
-        # Test that tickets are returned correctly.
+        # Test that campaign unsubscribes are returned correctly.
         m.get(self.mc.uri + 'reports/abc/unsubscribes', json=expected_json.test_unsubscribes)
         tbl = self.mc.get_unsubscribes(campaign_id='abc') 

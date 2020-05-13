@@ -375,7 +375,7 @@ test_unsubscribes = {
       "_links": []
     }
   ],
-  "campaign_id": "abc,
+  "campaign_id": "abc",
   "total_items": 1,
   "_links": []
 }

@@ -7,6 +7,31 @@ from test.utils import validate_list
 
 os.environ['VAN_API_KEY'] = 'SOME_KEY'
 
+EVENT_JSON = {"eventId": 1062,
+                "startDate": "2010-05-25T11:00:00-05:00",
+                "codes": "null",
+                "endDate": "2010-05-25T15:00:00-05:00",
+                "name": "Sample",
+                "roles": "null",
+                "isOnlyEditableByCreatingUser": "true",
+                "ticketCategories": "null",
+                "eventType": {
+                         "eventTypeId": 29166,
+                         "name": "Confirmation Calls"
+                },
+                "notes": "null",
+                "districtFieldValue": "null",
+                "locations": "null",
+                "shifts": "null",
+                "voterRegistrationBatches": "null",
+                "createdDate": "2010-05-25T11:55:00Z",
+                "financialProgram": "null",
+                "shortName": "Sample",
+                "isPubliclyViewable": "null",
+                "isActive": "true",
+                "description": "This is a sample",
+                "locations": 
+                }
 
 class TestNGPVAN(unittest.TestCase):
 
@@ -78,36 +103,8 @@ class TestNGPVAN(unittest.TestCase):
     @requests_mock.Mocker()
     def test_get_event(self, m):
 
-        event_id = 1062
-
-        json = {"eventId": 1062,
-                "startDate": "2010-05-25T11:00:00-05:00",
-                "codes": "null",
-                "endDate": "2010-05-25T15:00:00-05:00",
-                "name": "Sample",
-                "roles": "null",
-                "isOnlyEditableByCreatingUser": "true",
-                "ticketCategories": "null",
-                "eventType": {
-                         "eventTypeId": 29166,
-                         "name": "Confirmation Calls"
-                },
-                "notes": "null",
-                "districtFieldValue": "null",
-                "locations": "null",
-                "shifts": "null",
-                "voterRegistrationBatches": "null",
-                "createdDate": "2010-05-25T11:55:00Z",
-                "financialProgram": "null",
-                "shortName": "Sample",
-                "isPubliclyViewable": "null",
-                "isActive": "true",
-                "description": "This is a sample"
-                }
-
-        m.get(self.van.connection.uri + 'events/{}'.format(event_id), json=json)
-
-        self.assertEqual(json, self.van.get_event(event_id))
+        m.get(self.van.connection.uri + 'events/1062', json=EVENT_JSON)
+        self.assertEqual(EVENT_JSON, self.van.get_event(1062))
 
     @requests_mock.Mocker()
     def test_create_event(self, m):
@@ -124,14 +121,16 @@ class TestNGPVAN(unittest.TestCase):
     @requests_mock.Mocker()
     def test_update_event(self, m):
 
-        m.patch(self.van.connection.uri + 'events', json=None, status_code=204)
-        self.van.update_event(750026832, name='Updated Name')
+        m.get(self.van.connection.uri + 'events/1062', json=EVENT_JSON)
+        m.put(self.van.connection.uri + 'events/1062', json=None, status_code=204)
+        self.van.update_event(1062, name='Updated Name')
 
     @requests_mock.Mocker()
     def test_add_event_location(self, m):
 
+        m.get(self.van.connection.uri + 'events/1062', json=EVENT_JSON)
         m.patch(self.van.connection.uri + 'events', json=None, status_code=204)
-        self.van.update_event(750026832, 34)
+        self.van.add_event_location(1062, 34)
 
     @requests_mock.Mocker()
     def test_get_event_types(self, m):

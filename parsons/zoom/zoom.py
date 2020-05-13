@@ -129,8 +129,8 @@ class Zoom:
         Get metadata regarding a past meeting.
 
         `Args:`
-            meeting_uuid: str
-                The meeting uuid
+            meeting_id: str
+                The meeting id
         `Returns:`
             dict
         """

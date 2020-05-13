@@ -42,6 +42,7 @@ if not os.environ.get('PARSONS_SKIP_IMPORT_ALL'):
     from parsons.databases.mysql.mysql import MySQL
     from parsons.rockthevote.rtv import RockTheVote
     from parsons.zoom.zoom import Zoom
+    from parsons.action_network.action_network import ActionNetwork
 
     __all__ = [
         'VAN',
@@ -77,8 +78,9 @@ if not os.environ.get('PARSONS_SKIP_IMPORT_ALL'):
         'Newmode',
         'MySQL',
         'RockTheVote',
-        'Zoom'
-    ]
+        'Zoom',
+        'ActionNetwork'
+        ]
 
 # Define the default logging config for Parsons and its submodules. For now the
 # logger gets a StreamHandler by default. At some point a NullHandler may be more

@@ -121,3 +121,9 @@ class TestGoogleSheets(unittest.TestCase):
         for i in range(new_table.num_rows):
             self.assertEqual(new_table.data[i], result_table.data[i])
 
+    def test_share_spreadsheet(self):
+        # Teat that sharing of spreadsheet works as intended.
+
+        self.google_sheets.share_spreadsheet(self.spreadsheet_id, 'bob@bob.com', role='reader', notify=True)
+        permissions = self.google_sheets.get_spreadsheet_permissions(self.spreadsheet_id)
+        self.assertIn('bob@bob.com',permissions['emailAddress'])

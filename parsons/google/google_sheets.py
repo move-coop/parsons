@@ -108,6 +108,50 @@ class GoogleSheets:
         index = self.get_sheet_index_with_title(spreadsheet_id, title)
         return self.read_sheet(spreadsheet_id, index)
 
+    def share_spreadsheet(self, spreadsheet_id, sharee, share_type='user', role='reader',
+                          notify=True, notify_message=None, with_link=False):
+        """
+        Share a spreadsheet with a user, group of users, domain and/or the public.
+
+        `Args:`
+            spreadsheet_id: str
+                The ID of the spreadsheet (Tip: Get this from the spreadsheet URL)
+            sharee: str
+                User or group e-mail address, domain name to share the spreadsheet
+                with. To share publicly, set sharee value to ``None``.
+            share_type: str
+                The sharee type. Allowed values are: ``user``, ``group``, ``domain``,
+                ``anyone``.
+            role: str
+                The primary role for this user. Allowed values are: ``owner``,
+                ``writer``, ``reader``.
+            notify: boolean
+                Whether to send an email to the target user/domain.
+            email_message: str
+                The email to be sent if notify kwarg set to True.
+            with_link: boolean
+                Whether a link is required for this permission.
+        """
+
+        spreadsheet = self.gspread_client.open_by_key(spreadsheet_id)
+        spreadsheet.share(sharee, share_type, role, notify=notify,
+                          email_message=notify_message, with_link=with_link)
+
+    def get_spreadsheet_permissions(self, spreadsheet_id):
+        """
+        List the permissioned users and groups for a spreadsheet.
+
+        `Args:`
+            spreadsheet_id: str
+                The ID of the spreadsheet (Tip: Get this from the spreadsheet URL)
+        `Returns:`
+            Parsons Table
+                See :ref:`parsons-table` for output options.
+        """
+
+        spreadsheet = self.gspread_client.open_by_key(spreadsheet_id)
+        return Table(spreadsheet.list_permissions())
+
     def create_spreadsheet(self, title, editor_email=None):
         """
         Create a Google spreadsheet from a Parsons table. Optionally shares the new doc with

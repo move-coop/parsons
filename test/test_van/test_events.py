@@ -122,6 +122,18 @@ class TestNGPVAN(unittest.TestCase):
         self.assertEqual(r, 750000984)
 
     @requests_mock.Mocker()
+    def test_update_event(self, m):
+
+        m.patch(self.van.connection.uri + 'events', json=None, status_code=204)
+        self.van.update_event(750026832, name='Updated Name')
+
+    @requests_mock.Mocker()
+    def test_add_event_location(self, m):
+
+        m.patch(self.van.connection.uri + 'events', json=None, status_code=204)
+        self.van.update_event(750026832, 34)
+
+    @requests_mock.Mocker()
     def test_get_event_types(self, m):
 
         json = [{'eventTypeId': 296199,

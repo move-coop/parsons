@@ -105,8 +105,9 @@ class Events(object):
             The end date and time for this event that is after ``start_date``
         event_type_id: int
             A valid event type id.
-        roles: list
-            A list of valid role ids that correspond the with the event type.
+        roles: int or list
+            A list of valid role ids that correspond the with the event type or a single
+            role id.
         shifts:
             A list of dicts with shifts formatted as:
 
@@ -147,6 +148,9 @@ class Events(object):
           The event code.
     """
 
+    if isinstance(roles, int):
+      roles = [roles]
+
     if shifts is None:
       shifts = [{'name': 'Default Shift',
                  'startTime': start_date,
@@ -182,9 +186,8 @@ class Events(object):
     return r
 
   def update_event(self, event_id, name=None, short_name=None, start_date=None, end_date=None,
-                   event_type_id=None, roles=None, shifts=None, description=None, editable=None,
-                   publicly_viewable=None, location_ids=None, code_ids=None, notes=None,
-                   district_field_value=None, voter_registration_batches=None):
+                   event_type_id=None, roles=None, shifts=None, description=None, location_ids=None, 
+                   code_ids=None, notes=None):
     """
     Update an event
 
@@ -224,13 +227,6 @@ class Events(object):
 
         description: str
             An optional description for this Event, no longer than 500 characters.
-        editable: boolean
-            If ``True``, prevents modification of this event by any users other than the
-            user associated the API key. Setting this to true effectively makes
-            the event read-only in the VAN interface.
-        publicly_viewable: boolean
-            Used by NGP VAN’s website platform to indicate whether this event can be
-            viewed publicly.
         location_ids: list
             A list of location_ids where the event is taking place. This will overwrite all
             existing location ids rather than append.
@@ -238,18 +234,12 @@ class Events(object):
             A list of codes that are applied to this event for organizational purposes. Note
             that at most one source code and any number of tags, may be applied to an event. 
             This will overwrite all existing code ids rather than append.
-        notes: list
-            A list of notes
     `Returns:`
         int
           The event code.
     `Returns:`
         ``None``
     """
-
-    # To Do:
-    # Fix the editable field piece. Doesn't seem to be working.
-    # Fix the publicly viewable, not working.
 
     # The VAN API requires all properties must be specified otherwise it is assumed
     # they should be removed or set to null. Therefore, we first request the existing
@@ -260,8 +250,7 @@ class Events(object):
 
     # Populate non-null values
     fields = {'name': name, 'shortName': short_name, 'startDate': start_date,
-              'endDate': end_date, 'isOnlyEditableByCreatingUser': editable,
-              'isPubliclyViewable': publicly_viewable, 'notes': notes}
+              'endDate': end_date}
 
     for k, v in fields.items():
       if v:
@@ -283,6 +272,31 @@ class Events(object):
                           'endTime': s['end_time']} for s in shifts]
 
     r = self.connection.put_request(f'events/{event_id}', json=event)
+    logger.info(f'Updated event {event_id}.')
+    return r
+
+  def add_event_location(self, event_id, location_id):
+    """
+    Add locations to an existings event.
+
+    `Args:`
+        event_id: int
+          The event id.
+        location_id: int or list
+          A location id or list of location ids
+
+    `Returns:`
+      None
+    """
+
+    if isinstance(location_id, int):
+      location_id = [location_id]
+
+    event = self.get_event(event_id)
+    event['locations'].extend([{'locationId': l} for l in location_id])
+    print (event['locations'])
+    r = self.connection.put_request(f'events/{event_id}', json=event)
+    logger.info(f'Event {event_id} locations updated.')
 
   def delete_event(self, event_id):
     """

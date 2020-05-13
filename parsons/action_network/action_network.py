@@ -25,6 +25,7 @@ class ActionNetwork(object):
         self.api = APIConnector(self.api_url, headers=self.headers)
 
     def _get_page(self, object_name, page, per_page=25):
+        # returns data from one page of results
         if per_page > 25:
             per_page = 25
             logger.info("Action Network's API will not return more than 25 entries per page. \
@@ -54,6 +55,10 @@ class ActionNetwork(object):
         `Args:`
             limit:
                 The number of entries to return. When None, returns all entries.
+            per_page
+                The number of entries per page to return. 25 maximum.
+            page
+                Which page of results to return
         `Returns:`
             A list of JSONs of people stored in Action Network.
         """
@@ -184,6 +189,10 @@ class ActionNetwork(object):
         `Args:`
             limit:
                 The number of entries to return. When None, returns all entries.
+            per_page
+                The number of entries per page to return. 25 maximum.
+            page
+                Which page of results to return
         `Returns:`
             A list of JSONs of tags in Action Network.
         """

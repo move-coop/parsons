@@ -77,6 +77,7 @@ if not os.environ.get('PARSONS_SKIP_IMPORT_ALL'):
         'Newmode',
         'MySQL',
         'RockTheVote',
+        'Mailchimp',
     ]
 
 # Define the default logging config for Parsons and its submodules. For now the

@@ -41,6 +41,7 @@ if not os.environ.get('PARSONS_SKIP_IMPORT_ALL'):
     from parsons.newmode.newmode import Newmode
     from parsons.databases.mysql.mysql import MySQL
     from parsons.rockthevote.rtv import RockTheVote
+    from parsons.action_network.action_network import ActionNetwork
 
     __all__ = [
         'VAN',
@@ -76,6 +77,7 @@ if not os.environ.get('PARSONS_SKIP_IMPORT_ALL'):
         'Newmode',
         'MySQL',
         'RockTheVote',
+        'ActionNetwork',
     ]
 
 # Define the default logging config for Parsons and its submodules. For now the

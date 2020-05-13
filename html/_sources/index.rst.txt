@@ -192,6 +192,7 @@ Indices and tables
    ts
    twilio
    turbovote
+   zoom
 
 .. toctree::
    :maxdepth: 1

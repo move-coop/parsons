@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Google Civic &mdash; Parsons 0.5 documentation</title>
+  <title>Zoom &mdash; Parsons 0.5 documentation</title>
   
 
   
@@ -28,8 +28,8 @@
   <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="US Census Geocoder" href="census_geocoder.html" />
-    <link rel="prev" title="Zoom" href="zoom.html" /> 
+    <link rel="next" title="Google Civic" href="google_civic.html" />
+    <link rel="prev" title="TurboVote" href="turbovote.html" /> 
 
   
   <script src="_static/js/modernizr.min.js"></script>
@@ -79,7 +79,7 @@
             
             
               <p class="caption"><span class="caption-text">Integrations</span></p>
-<ul>
+<ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="action_kit.html">ActionKit</a></li>
 <li class="toctree-l1"><a class="reference internal" href="airtable.html">Airtable</a></li>
 <li class="toctree-l1"><a class="reference internal" href="aws.html">Amazon AWS</a></li>
@@ -107,15 +107,16 @@
 <li class="toctree-l1"><a class="reference internal" href="ts.html">TargetSmart</a></li>
 <li class="toctree-l1"><a class="reference internal" href="twilio.html">Twilio</a></li>
 <li class="toctree-l1"><a class="reference internal" href="turbovote.html">TurboVote</a></li>
-<li class="toctree-l1"><a class="reference internal" href="zoom.html">Zoom</a></li>
-</ul>
-<p class="caption"><span class="caption-text">Enhancements</span></p>
-<ul class="current">
-<li class="toctree-l1 current"><a class="current reference internal" href="#">Google Civic</a><ul>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Zoom</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#overview">Overview</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#api">API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#quick-start">Quick Start</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#zoom-api">Zoom API</a></li>
 </ul>
 </li>
+</ul>
+<p class="caption"><span class="caption-text">Enhancements</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="google_civic.html">Google Civic</a></li>
 <li class="toctree-l1"><a class="reference internal" href="census_geocoder.html">US Census Geocoder</a></li>
 </ul>
 <p class="caption"><span class="caption-text">Framework</span></p>
@@ -167,13 +168,13 @@
     
       <li><a href="index.html">Docs</a> &raquo;</li>
         
-      <li>Google Civic</li>
+      <li>Zoom</li>
     
     
       <li class="wy-breadcrumbs-aside">
         
             
-            <a href="_sources/google_civic.rst.txt" rel="nofollow"> View page source</a>
+            <a href="_sources/zoom.rst.txt" rel="nofollow"> View page source</a>
           
         
       </li>
@@ -186,58 +187,56 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <div class="section" id="google-civic">
-<h1>Google Civic<a class="headerlink" href="#google-civic" title="Permalink to this headline">¶</a></h1>
+  <div class="section" id="zoom">
+<h1>Zoom<a class="headerlink" href="#zoom" title="Permalink to this headline">¶</a></h1>
 <div class="section" id="overview">
 <h2>Overview<a class="headerlink" href="#overview" title="Permalink to this headline">¶</a></h2>
-<p>Google Civic is an API which provides helpful information about elections. In order to access Google Civic you must
-create a Google Developer Key in their <a class="reference external" href="https://console.developers.google.com/apis/">API console</a>. In order to
-use Google Civic, you must enable this specific end point.</p>
-<p>The Google Civic API utilizes the <a class="reference external" href="https://www.votinginfoproject.org/">Voting Information Project</a> to collect
-key civic information such as personalized ballots and polling location information.</p>
+<p><a class="reference external" href="https://twilio.com">Zoom</a> is a video conferencing platform.</p>
 </div>
-<div class="section" id="api">
-<h2>API<a class="headerlink" href="#api" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="quick-start">
+<h2>Quick Start<a class="headerlink" href="#quick-start" title="Permalink to this headline">¶</a></h2>
+<p><strong>Get Meeting Participants</strong></p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">parsons</span> <span class="kn">import</span> <span class="n">Zoom</span>
+<span class="n">zoom</span> <span class="o">=</span> <span class="n">Zoom</span><span class="p">()</span>
+
+<span class="c1"># Get a table of host&#39;s meeting&#39;s via their email or user id.</span>
+<span class="n">mtgs_tbl</span> <span class="o">=</span> <span class="n">zoom</span><span class="o">.</span><span class="n">get_meetings</span><span class="p">(</span><span class="n">bob</span><span class="nd">@bob</span><span class="o">.</span><span class="n">com</span><span class="p">)</span>
+
+<span class="c1"># Get the list of participants in a past meeting</span>
+<span class="n">par_tbl</span> <span class="o">=</span> <span class="n">zoom</span><span class="o">.</span><span class="n">get_past_meeting_participants</span><span class="p">(</span><span class="s1">&#39;asdf123ads&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="zoom-api">
+<h2>Zoom API<a class="headerlink" href="#zoom-api" title="Permalink to this headline">¶</a></h2>
 <dl class="class">
-<dt id="parsons.GoogleCivic">
-<em class="property">class </em><code class="descclassname">parsons.</code><code class="descname">GoogleCivic</code><span class="sig-paren">(</span><em>api_key=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/google/google_civic.html#GoogleCivic"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.GoogleCivic" title="Permalink to this definition">¶</a></dt>
-<dd><dl class="docutils">
-<dt><cite>Args:</cite></dt>
-<dd><dl class="first last docutils">
-<dt>api_key <span class="classifier-delimiter">:</span> <span class="classifier">str</span></dt>
-<dd>A valid Google api key. Not required if <code class="docutils literal notranslate"><span class="pre">GOOGLE_CIVIC_API_KEY</span></code>
-env variable set.</dd>
-</dl>
-</dd>
-<dt><cite>Returns:</cite></dt>
-<dd>class</dd>
-</dl>
-<dl class="method">
-<dt id="parsons.GoogleCivic.get_elections">
-<code class="descname">get_elections</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/google/google_civic.html#GoogleCivic.get_elections"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.GoogleCivic.get_elections" title="Permalink to this definition">¶</a></dt>
-<dd><p>Get a collection of information about elections and voter information.</p>
-<dl class="docutils">
-<dt><cite>Returns:</cite></dt>
-<dd><dl class="first last docutils">
-<dt>Parsons Table</dt>
-<dd>See <a class="reference internal" href="table.html#parsons-table"><span class="std std-ref">Parsons Table</span></a> for output options.</dd>
-</dl>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="method">
-<dt id="parsons.GoogleCivic.get_polling_location">
-<code class="descname">get_polling_location</code><span class="sig-paren">(</span><em>election_id</em>, <em>address</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/google/google_civic.html#GoogleCivic.get_polling_location"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.GoogleCivic.get_polling_location" title="Permalink to this definition">¶</a></dt>
-<dd><p>Get polling location information for a given address.</p>
+<dt id="parsons.Zoom">
+<em class="property">class </em><code class="descclassname">parsons.</code><code class="descname">Zoom</code><span class="sig-paren">(</span><em>api_key=None</em>, <em>api_secret=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/zoom/zoom.html#Zoom"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.Zoom" title="Permalink to this definition">¶</a></dt>
+<dd><p>Instantiate the Zoom class.</p>
 <dl class="docutils">
 <dt><cite>Args:</cite></dt>
 <dd><dl class="first last docutils">
-<dt>election_id: int</dt>
-<dd>A valid election id. Election ids can be found by running the
-<a class="reference internal" href="#parsons.GoogleCivic.get_elections" title="parsons.GoogleCivic.get_elections"><code class="xref py py-meth docutils literal notranslate"><span class="pre">get_elections()</span></code></a> method.</dd>
-<dt>address: str</dt>
-<dd>A valid US address in a single string.</dd>
+<dt>api_key: str</dt>
+<dd>A valid Zoom api key. Not required if <code class="docutils literal notranslate"><span class="pre">ZOOM_API_KEY</span></code> env
+variable set.</dd>
+<dt>api_secret:</dt>
+<dd>A valid Zoom api secret. Not required if <code class="docutils literal notranslate"><span class="pre">ZOOM_API_SECRET</span></code> env
+variable set.</dd>
+</dl>
+</dd>
+</dl>
+<dl class="method">
+<dt id="parsons.Zoom.get_users">
+<code class="descname">get_users</code><span class="sig-paren">(</span><em>status='active'</em>, <em>role_id=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/zoom/zoom.html#Zoom.get_users"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.Zoom.get_users" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get users.</p>
+<dl class="docutils">
+<dt><cite>Args:</cite></dt>
+<dd><dl class="first last docutils">
+<dt>status: str</dt>
+<dd>Filter by the user status. Must be one of following: <code class="docutils literal notranslate"><span class="pre">active</span></code>,
+<code class="docutils literal notranslate"><span class="pre">inactive</span></code>, or <code class="docutils literal notranslate"><span class="pre">pending</span></code>.</dd>
+<dt>role_id: str</dt>
+<dd>Filter by the user role.</dd>
 </dl>
 </dd>
 <dt><cite>Returns:</cite></dt>
@@ -250,19 +249,78 @@ env variable set.</dd>
 </dd></dl>
 
 <dl class="method">
-<dt id="parsons.GoogleCivic.get_polling_locations">
-<code class="descname">get_polling_locations</code><span class="sig-paren">(</span><em>election_id</em>, <em>table</em>, <em>address_field='address'</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/google/google_civic.html#GoogleCivic.get_polling_locations"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.GoogleCivic.get_polling_locations" title="Permalink to this definition">¶</a></dt>
-<dd><p>Get polling location information for a table of addresses.</p>
+<dt id="parsons.Zoom.get_meetings">
+<code class="descname">get_meetings</code><span class="sig-paren">(</span><em>user_id</em>, <em>meeting_type='scheduled'</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/zoom/zoom.html#Zoom.get_meetings"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.Zoom.get_meetings" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get meetings scheduled by a user.</p>
+<dl class="docutils">
+<dt><cite>Args:</cite></dt>
+<dd><dl class="first docutils">
+<dt>user_id: str</dt>
+<dd>A user id or email address of the meeting host.</dd>
+</dl>
+<p>meeting_type: str</p>
+<blockquote class="last">
+<div><table border="1" class="colwidths-given docutils">
+<colgroup>
+<col width="33%" />
+<col width="67%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Type</th>
+<th class="head">Notes</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td><code class="docutils literal notranslate"><span class="pre">scheduled</span></code></td>
+<td>This includes all valid past meetings, live meetings and upcoming
+scheduled meetings. It is the equivalent to the combined list of
+“Previous Meetings” and “Upcoming Meetings” displayed in the user’s
+Meetings page.</td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal notranslate"><span class="pre">live</span></code></td>
+<td>All the ongoing meetings.</td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal notranslate"><span class="pre">upcoming</span></code></td>
+<td>All upcoming meetings including live meetings.</td>
+</tr>
+</tbody>
+</table>
+</div></blockquote>
+</dd>
+<dt><cite>Returns:</cite></dt>
+<dd><dl class="first last docutils">
+<dt>Parsons Table</dt>
+<dd>See <a class="reference internal" href="table.html#parsons-table"><span class="std std-ref">Parsons Table</span></a> for output options.</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="parsons.Zoom.get_past_meeting">
+<code class="descname">get_past_meeting</code><span class="sig-paren">(</span><em>meeting_uuid</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/zoom/zoom.html#Zoom.get_past_meeting"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.Zoom.get_past_meeting" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get metadata regarding a past meeting.</p>
 <dl class="docutils">
 <dt><cite>Args:</cite></dt>
 <dd><dl class="first last docutils">
-<dt>election_id: int</dt>
-<dd>A valid election id. Election ids can be found by running the
-<a class="reference internal" href="#parsons.GoogleCivic.get_elections" title="parsons.GoogleCivic.get_elections"><code class="xref py py-meth docutils literal notranslate"><span class="pre">get_elections()</span></code></a> method.</dd>
-<dt>address: str</dt>
-<dd>A valid US address in a single string.</dd>
-<dt>address_field: str</dt>
-<dd>The name of the column where the address is stored.</dd>
+<dt>meeting_id: str</dt>
+<dd>The meeting id</dd>
+</dl>
+</dd>
+<dt><cite>Returns:</cite></dt>
+<dd>dict</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="parsons.Zoom.get_past_meeting_participants">
+<code class="descname">get_past_meeting_participants</code><span class="sig-paren">(</span><em>meeting_id</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/zoom/zoom.html#Zoom.get_past_meeting_participants"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.Zoom.get_past_meeting_participants" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get past meeting participants</p>
+<dl class="docutils">
+<dt><cite>Args:</cite></dt>
+<dd><dl class="first last docutils">
+<dt>meeting_id:</dt>
+<dd>The meeting id</dd>
 </dl>
 </dd>
 <dt><cite>Returns:</cite></dt>
@@ -287,10 +345,10 @@ env variable set.</dd>
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="census_geocoder.html" class="btn btn-neutral float-right" title="US Census Geocoder" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="google_civic.html" class="btn btn-neutral float-right" title="Google Civic" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="zoom.html" class="btn btn-neutral" title="Zoom" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="turbovote.html" class="btn btn-neutral" title="TurboVote" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   

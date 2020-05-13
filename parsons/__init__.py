@@ -41,6 +41,7 @@ if not os.environ.get('PARSONS_SKIP_IMPORT_ALL'):
     from parsons.newmode.newmode import Newmode
     from parsons.databases.mysql.mysql import MySQL
     from parsons.rockthevote.rtv import RockTheVote
+    from parsons.mailchimp.mailchimp import Mailchimp
 
     __all__ = [
         'VAN',

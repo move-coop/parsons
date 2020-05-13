@@ -101,7 +101,7 @@ class Mailchimp():
         if tbl.num_rows > 0:
             return tbl
         else:
-            return None
+            return Table()
 
     def get_campaigns(self, fields=None, exclude_fields=None,
                       count=None, offset=None, type=None, status=None,
@@ -184,7 +184,7 @@ class Mailchimp():
         if tbl.num_rows > 0:
             return tbl
         else:
-            return None
+            return Table()
 
     def get_members(self, list_id, fields=None,
                     exclude_fields=None, count=None, offset=None,
@@ -301,7 +301,7 @@ class Mailchimp():
         if tbl.num_rows > 0:
             return tbl
         else:
-            return None
+            return Table()
 
     def get_campaign_emails(self, campaign_id, fields=None,
                             exclude_fields=None, count=None, offset=None,
@@ -347,7 +347,7 @@ class Mailchimp():
         if tbl.num_rows > 0:
             return tbl
         else:
-            return None
+            return Table()
 
     def get_unsubscribes(self, campaign_id, fields=None,
                          exclude_fields=None, count=None, offset=None):
@@ -388,4 +388,4 @@ class Mailchimp():
         if tbl.num_rows > 0:
             return tbl
         else:
-            return None
+            return Table()

@@ -253,6 +253,105 @@ test_lists = {
 	"_links": []
 }
 
-test_members = {}
+test_members = {
+  "members": [
+    {
+      "id": "9eb69db8d0371811aa18803a1ae21584",
+      "email_address": "member_1@example.com",
+      "unique_email_id": "c82a25d939",
+      "web_id": 24816326,
+      "email_type": "html",
+      "status": "subscribed",
+      "merge_fields": {
+        "FNAME": "Member",
+        "LNAME": "One",
+        "ADDRESS": {
+          "addr1": "",
+          "addr2": "",
+          "city": "",
+          "state": "",
+          "zip": "",
+          "country": "US"
+        },
+        "PHONE": "",
+        "BIRTHDAY": ""
+      },
+      "stats": {
+        "avg_open_rate": 0.3571,
+        "avg_click_rate": 0
+      },
+      "ip_signup": "",
+      "timestamp_signup": "",
+      "ip_opt": "174.59.50.35",
+      "timestamp_opt": "2019-03-25T22:55:44+00:00",
+      "member_rating": 4,
+      "last_changed": "2019-03-25T22:55:44+00:00",
+      "language": "en",
+      "vip": False,
+      "email_client": "Gmail",
+      "location": {
+        "latitude": 40.0293,
+        "longitude": -76.2656,
+        "gmtoff": 0,
+        "dstoff": 0,
+        "country_code": "US",
+        "timezone": "717/223"
+      },
+      "source": "Unknown",
+      "tags_count": 0,
+      "tags": [],
+      "list_id": "67fdf4b1f4",
+      "_links": []
+    },
+    {
+      "id": "4f315641dbad7b74acc0f4a5d3741ac6",
+      "email_address": "member_2@example.com",
+      "unique_email_id": "8d308d69d3",
+      "web_id": 12233445,
+      "email_type": "html",
+      "status": "subscribed",
+      "merge_fields": {
+        "FNAME": "Member",
+        "LNAME": "Two",
+        "ADDRESS": "",
+        "PHONE": "",
+        "BIRTHDAY": ""
+      },
+      "stats": {
+        "avg_open_rate": 0.5,
+        "avg_click_rate": 0
+      },
+      "ip_signup": "",
+      "timestamp_signup": "",
+      "ip_opt": "174.59.50.35",
+      "timestamp_opt": "2019-03-25T23:04:46+00:00",
+      "member_rating": 4,
+      "last_changed": "2019-03-25T23:04:46+00:00",
+      "language": "",
+      "vip": False,
+      "email_client": "iPhone",
+      "location": {
+        "latitude": 40.0459,
+        "longitude": -76.3542,
+        "gmtoff": 0,
+        "dstoff": 0,
+        "country_code": "US",
+        "timezone": "717/223"
+      },
+      "source": "Import",
+      "tags_count": 2,
+      "tags": [
+        {
+          "id": 17493,
+          "name": "canvass"
+        },
+        {
+          "id": 17497,
+          "name": "canvass-03-17-2019"
+        }
+      ],
+      "list_id": "67fdf4b1f4",
+      "_links": []
+    }]}
 
 test_unsubscribes = {}

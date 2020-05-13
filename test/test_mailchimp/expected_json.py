@@ -354,4 +354,28 @@ test_members = {
       "_links": []
     }]}
 
-test_unsubscribes = {}
+test_unsubscribes = {
+  "unsubscribes": [
+    {
+      "email_id": "e542e5cd7b414e5ff8409ff57cf154be",
+      "email_address": "unsubscribe_1@exmaple.com",
+      "merge_fields": {
+        "FNAME": "Unsubscriber",
+        "LNAME": "One",
+        "ADDRESS": "",
+        "PHONE": "5558754307",
+        "BIRTHDAY": ""
+      },
+      "vip": False,
+      "timestamp": "2019-12-09T21:18:06+00:00",
+      "reason": "None given",
+      "campaign_id": "abc",
+      "list_id": "zyx",
+      "list_is_active": True,
+      "_links": []
+    }
+  ],
+  "campaign_id": "abc"",
+  "total_items": 1,
+  "_links": []
+}

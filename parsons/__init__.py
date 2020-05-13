@@ -42,6 +42,7 @@ if not os.environ.get('PARSONS_SKIP_IMPORT_ALL'):
     from parsons.databases.mysql.mysql import MySQL
     from parsons.rockthevote.rtv import RockTheVote
     from parsons.mailchimp.mailchimp import Mailchimp
+    from parsons.zoom.zoom import Zoom
     from parsons.action_network.action_network import ActionNetwork
 
     __all__ = [
@@ -79,6 +80,7 @@ if not os.environ.get('PARSONS_SKIP_IMPORT_ALL'):
         'MySQL',
         'RockTheVote',
         'Mailchimp',
+        'Zoom',
         'ActionNetwork',
     ]
 

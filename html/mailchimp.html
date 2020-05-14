@@ -1,0 +1,565 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Mailchimp &mdash; Parsons 0.5 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Mobilize America" href="mobilize_america.html" />
+    <link rel="prev" title="Hustle" href="hustle.html" /> 
+
+  
+  <script src="_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="index.html" class="icon icon-home"> Parsons
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Integrations</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="action_kit.html">ActionKit</a></li>
+<li class="toctree-l1"><a class="reference internal" href="airtable.html">Airtable</a></li>
+<li class="toctree-l1"><a class="reference internal" href="aws.html">Amazon AWS</a></li>
+<li class="toctree-l1"><a class="reference internal" href="bill_com.html">Bill.com</a></li>
+<li class="toctree-l1"><a class="reference internal" href="braintree.html">Braintree</a></li>
+<li class="toctree-l1"><a class="reference internal" href="civis.html">Civis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="copper.html">Copper</a></li>
+<li class="toctree-l1"><a class="reference internal" href="crowdtangle.html">CrowdTangle</a></li>
+<li class="toctree-l1"><a class="reference internal" href="databases.html">Databases</a></li>
+<li class="toctree-l1"><a class="reference internal" href="facebook_ads.html">FacebookAds</a></li>
+<li class="toctree-l1"><a class="reference internal" href="freshdesk.html">Freshdesk</a></li>
+<li class="toctree-l1"><a class="reference internal" href="google_sheets.html">GoogleSheets</a></li>
+<li class="toctree-l1"><a class="reference internal" href="google_cloud.html">Google Cloud</a></li>
+<li class="toctree-l1"><a class="reference internal" href="hustle.html">Hustle</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Mailchimp</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#quick-start">Quick Start</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#api">API</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="mobilize_america.html">Mobilize America</a></li>
+<li class="toctree-l1"><a class="reference internal" href="newmode.html">New/Mode</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ngpvan.html">VAN</a></li>
+<li class="toctree-l1"><a class="reference internal" href="p2a.html">Phone2Action</a></li>
+<li class="toctree-l1"><a class="reference internal" href="redash.html">Redash</a></li>
+<li class="toctree-l1"><a class="reference internal" href="redshift.html">Redshift</a></li>
+<li class="toctree-l1"><a class="reference internal" href="rockthevote.html">Rock the Vote</a></li>
+<li class="toctree-l1"><a class="reference internal" href="s3.html">S3</a></li>
+<li class="toctree-l1"><a class="reference internal" href="salesforce.html">Salesforce</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sftp.html">SFTP</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ts.html">TargetSmart</a></li>
+<li class="toctree-l1"><a class="reference internal" href="twilio.html">Twilio</a></li>
+<li class="toctree-l1"><a class="reference internal" href="turbovote.html">TurboVote</a></li>
+<li class="toctree-l1"><a class="reference internal" href="zoom.html">Zoom</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Enhancements</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="google_civic.html">Google Civic</a></li>
+<li class="toctree-l1"><a class="reference internal" href="census_geocoder.html">US Census Geocoder</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Framework</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="table.html">Parsons Table</a></li>
+<li class="toctree-l1"><a class="reference internal" href="notifications.html">Notifications</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">Parsons</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html">Docs</a> &raquo;</li>
+        
+      <li>Mailchimp</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="_sources/mailchimp.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="mailchimp">
+<h1>Mailchimp<a class="headerlink" href="#mailchimp" title="Permalink to this headline">¶</a></h1>
+<p><a class="reference external" href="https://www.mailchimp.com">Mailchimp</a> is a platform used for creating and sending mass emails.
+<a class="reference external" href="https://developers.braintreepayments.com/">The Mailchimp API</a> allows users to interact with data from existing
+email campaigns under their account and to configure further campaigns; this Parsons integration focuses on accessing
+information about previous email campaigns and the recipients of those campaigns.</p>
+<div class="section" id="quick-start">
+<h2>Quick Start<a class="headerlink" href="#quick-start" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">parsons</span> <span class="kn">import</span> <span class="n">Mailchimp</span>
+
+<span class="n">mc</span> <span class="o">=</span> <span class="n">Mailchimp</span><span class="p">()</span>
+
+<span class="c1"># Get all recipient lists under a Mailchimp account</span>
+<span class="n">lists</span> <span class="o">=</span> <span class="n">mc</span><span class="o">.</span><span class="n">get_lists</span><span class="p">()</span>
+
+<span class="c1"># Get campaigns sent since the beginning of 2020</span>
+<span class="n">recent_campaigns</span> <span class="o">=</span> <span class="n">mc</span><span class="o">.</span><span class="n">get_campaigns</span><span class="p">(</span><span class="n">since_send_time</span><span class="o">=</span><span class="s1">&#39;2020-01-01T00:00:00Z&#39;</span><span class="p">)</span>
+
+<span class="c1"># Get all unsubscribes from a campaign</span>
+<span class="n">unsubscribes</span> <span class="o">=</span> <span class="n">mc</span><span class="o">.</span><span class="n">get_unsubscribes</span><span class="p">(</span><span class="s1">&#39;dd693a3e74&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="api">
+<h2>API<a class="headerlink" href="#api" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="parsons.mailchimp.Mailchimp">
+<em class="property">class </em><code class="descclassname">parsons.mailchimp.</code><code class="descname">Mailchimp</code><span class="sig-paren">(</span><em>api_key=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/mailchimp/mailchimp.html#Mailchimp"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.mailchimp.Mailchimp" title="Permalink to this definition">¶</a></dt>
+<dd><p>Instantiate Mailchimp Class</p>
+<dl class="docutils">
+<dt><cite>Args:</cite></dt>
+<dd><dl class="first last docutils">
+<dt>api_key:</dt>
+<dd>The Mailchimp-provided application key. Not required if
+<code class="docutils literal notranslate"><span class="pre">MAILCHIMP_API_KEY</span></code> env variable set.</dd>
+</dl>
+</dd>
+<dt><cite>Returns:</cite></dt>
+<dd>Mailchimp Class</dd>
+</dl>
+<dl class="method">
+<dt id="parsons.mailchimp.Mailchimp.get_lists">
+<code class="descname">get_lists</code><span class="sig-paren">(</span><em>fields=None</em>, <em>exclude_fields=None</em>, <em>count=None</em>, <em>offset=None</em>, <em>before_date_created=None</em>, <em>since_date_created=None</em>, <em>before_campaign_last_sent=None</em>, <em>since_campaign_last_sent=None</em>, <em>email=None</em>, <em>sort_field=None</em>, <em>sort_dir=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/mailchimp/mailchimp.html#Mailchimp.get_lists"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.mailchimp.Mailchimp.get_lists" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get a table of lists under the account based on query parameters. Note
+that argument descriptions here are sourced from Mailchimp’s official
+API documentation.</p>
+<dl class="docutils">
+<dt><cite>Args:</cite></dt>
+<dd><dl class="first last docutils">
+<dt>fields: list of strings</dt>
+<dd>A comma-separated list of fields to return. Reference
+parameters of sub-objects with dot notation.</dd>
+<dt>exclude_fields: list of strings</dt>
+<dd>A comma-separated list of fields to exclude. Reference
+parameters of sub-objects with dot notation.</dd>
+<dt>count: int</dt>
+<dd>The number of records to return. Default value is 10. Maximum
+value is 1000.</dd>
+<dt>offset: int</dt>
+<dd>The number of records from a collection to skip. Iterating over
+large collections with this parameter can be slow. Default
+value is 0.</dd>
+<dt>before_date_created: string</dt>
+<dd>Restrict response to lists created before the set date. We
+recommend ISO 8601 time format: 2015-10-21T15:41:36+00:00.</dd>
+<dt>since_date_created: string</dt>
+<dd>Restrict results to lists created after the set date. We
+recommend ISO 8601 time format: 2015-10-21T15:41:36+00:00.</dd>
+<dt>before_campaign_last_sent: string</dt>
+<dd>Restrict results to lists created before the last campaign send
+date. We recommend ISO 8601 time format:
+2015-10-21T15:41:36+00:00.</dd>
+<dt>since_campaign_last_sent: string</dt>
+<dd>Restrict results to lists created after the last campaign send
+date. We recommend ISO 8601 time format:
+2015-10-21T15:41:36+00:00.</dd>
+<dt>email: string</dt>
+<dd>Restrict results to lists that include a specific subscriber’s
+email address.</dd>
+<dt>sort_field: string, can only be ‘date_created’ or None</dt>
+<dd>Returns files sorted by the specified field.</dd>
+<dt>sort_dir: string, can only be ‘ASC’, ‘DESC’, or None</dt>
+<dd>Determines the order direction for sorted results.</dd>
+</dl>
+</dd>
+<dt><cite>Returns:</cite></dt>
+<dd>Table Class</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="parsons.mailchimp.Mailchimp.get_campaigns">
+<code class="descname">get_campaigns</code><span class="sig-paren">(</span><em>fields=None</em>, <em>exclude_fields=None</em>, <em>count=None</em>, <em>offset=None</em>, <em>type=None</em>, <em>status=None</em>, <em>before_send_time=None</em>, <em>since_send_time=None</em>, <em>before_create_time=None</em>, <em>since_create_time=None</em>, <em>list_id=None</em>, <em>folder_id=None</em>, <em>member_id=None</em>, <em>sort_field=None</em>, <em>sort_dir=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/mailchimp/mailchimp.html#Mailchimp.get_campaigns"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.mailchimp.Mailchimp.get_campaigns" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get a table of campaigns under the account based on query parameters.
+Note that argument descriptions here are sourced from Mailchimp’s
+official API documentation.</p>
+<dl class="docutils">
+<dt><cite>Args:</cite></dt>
+<dd><dl class="first docutils">
+<dt>fields: list of strings</dt>
+<dd>A comma-separated list of fields to return. Reference
+parameters of sub-objects with dot notation.</dd>
+<dt>exclude_fields: list of strings</dt>
+<dd>A comma-separated list of fields to exclude. Reference
+parameters of sub-objects with dot notation.</dd>
+<dt>count: int</dt>
+<dd>The number of records to return. Default value is 10. Maximum
+value is 1000.</dd>
+<dt>offset: int</dt>
+<dd>The number of records from a collection to skip. Iterating over
+large collections with this parameter can be slow. Default
+value is 0.</dd>
+</dl>
+<p>type: string, can only be ‘regular’, ‘plaintext’, ‘absplit’, ‘rss’,
+‘variate’, or None</p>
+<blockquote>
+<div>The campaign type.</div></blockquote>
+<p>status: string, can only be ‘save’, ‘paused’, ‘schedule’,
+‘sending’, ‘sent’, or None</p>
+<blockquote>
+<div>The status of the campaign.</div></blockquote>
+<dl class="last docutils">
+<dt>before_send_time: string</dt>
+<dd>Restrict the response to campaigns sent before the set time. We
+recommend ISO 8601 time format: 2015-10-21T15:41:36+00:00.</dd>
+<dt>since_send_time: string</dt>
+<dd>Restrict the response to campaigns sent after the set time. We
+recommend ISO 8601 time format: 2015-10-21T15:41:36+00:00.</dd>
+<dt>before_create_time: string</dt>
+<dd>Restrict the response to campaigns created before the set time.
+We recommend ISO 8601 time format: 2015-10-21T15:41:36+00:00.</dd>
+<dt>since_create_time: string</dt>
+<dd>Restrict the response to campaigns created after the set time.
+We recommend ISO 8601 time format: 2015-10-21T15:41:36+00:00.</dd>
+<dt>list_id: string</dt>
+<dd>The unique id for the list.</dd>
+<dt>folder_id: string</dt>
+<dd>The unique folder id.</dd>
+<dt>member_id: string</dt>
+<dd>Retrieve campaigns sent to a particular list member. Member ID
+is The MD5 hash of the lowercase version of the list member’s
+email address.</dd>
+<dt>sort_field: string, can only be ‘create_time’, ‘send_time’, or None</dt>
+<dd>Returns files sorted by the specified field.</dd>
+<dt>sort_dir: string, can only be ‘ASC’, ‘DESC’, or None</dt>
+<dd>Determines the order direction for sorted results.</dd>
+</dl>
+</dd>
+<dt><cite>Returns:</cite></dt>
+<dd>Table Class</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="parsons.mailchimp.Mailchimp.get_members">
+<code class="descname">get_members</code><span class="sig-paren">(</span><em>list_id</em>, <em>fields=None</em>, <em>exclude_fields=None</em>, <em>count=None</em>, <em>offset=None</em>, <em>email_type=None</em>, <em>status=None</em>, <em>since_timestamp_opt=None</em>, <em>before_timestamp_opt=None</em>, <em>since_last_changed=None</em>, <em>before_last_changed=None</em>, <em>unique_email_id=None</em>, <em>vip_only=False</em>, <em>interest_category_id=None</em>, <em>interest_ids=None</em>, <em>interest_match=None</em>, <em>sort_field=None</em>, <em>sort_dir=None</em>, <em>since_last_campaign=None</em>, <em>unsubscribed_since=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/mailchimp/mailchimp.html#Mailchimp.get_members"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.mailchimp.Mailchimp.get_members" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get a table of members in a list based on query parameters. Note that
+argument descriptions here are sourced from Mailchimp’s official API
+documentation.</p>
+<dl class="docutils">
+<dt><cite>Args:</cite></dt>
+<dd><dl class="first docutils">
+<dt>list_id: string</dt>
+<dd>The unique ID of the list to fetch members from.</dd>
+<dt>fields: list of strings</dt>
+<dd>A comma-separated list of fields to return. Reference
+parameters of sub-objects with dot notation.</dd>
+<dt>exclude_fields: list of fields as strings</dt>
+<dd>A comma-separated list of fields to exclude. Reference
+parameters of sub-objects with dot notation.</dd>
+<dt>count: int</dt>
+<dd>The number of records to return. Default value is 10. Maximum
+value is 1000.</dd>
+<dt>offset: int</dt>
+<dd>The number of records from a collection to skip. Iterating over
+large collections with this parameter can be slow. Default
+value is 0.</dd>
+<dt>email_type: string</dt>
+<dd>The email type.</dd>
+</dl>
+<p>status: string, can only be ‘subscribed’, ‘unsubscribed’,
+‘cleaned’, ‘pending’, ‘transactional’, ‘archived’, or None</p>
+<blockquote>
+<div>The subscriber’s status.</div></blockquote>
+<dl class="docutils">
+<dt>since_timestamp_opt: string</dt>
+<dd>Restrict results to subscribers who opted-in after the set
+timeframe. We recommend ISO 8601 time format:
+2015-10-21T15:41:36+00:00.</dd>
+<dt>before_timestamp_opt: string</dt>
+<dd>Restrict results to subscribers who opted-in before the set
+timeframe. We recommend ISO 8601 time format:
+2015-10-21T15:41:36+00:00.</dd>
+<dt>since_last_changed: string</dt>
+<dd>Restrict results to subscribers whose information changed after
+the set timeframe. We recommend ISO 8601 time format:
+2015-10-21T15:41:36+00:00.</dd>
+<dt>before_last_changed: string</dt>
+<dd>Restrict results to subscribers whose information changed
+before the set timeframe. We recommend ISO 8601 time format:
+2015-10-21T15:41:36+00:00.</dd>
+<dt>unique_email_id: string</dt>
+<dd>A unique identifier for the email address across all Mailchimp
+lists. This parameter can be found in any links with Ecommerce
+Tracking enabled.</dd>
+<dt>vip_only: boolean</dt>
+<dd>A filter to return only the list’s VIP members. Passing true
+will restrict results to VIP list members, passing false will
+return all list members.</dd>
+<dt>interest_category_id: string</dt>
+<dd>The unique id for the interest category.</dd>
+<dt>interest_ids: list of strings</dt>
+<dd>Used to filter list members by interests. Must be accompanied
+by interest_category_id and interest_match. The value must be a
+comma separated list of interest ids present for any supplied
+interest categories.</dd>
+<dt>interest_match: string, can only be ‘any’, ‘all’, ‘none’, or None</dt>
+<dd>Used to filter list members by interests. Must be accompanied
+by interest_category_id and interest_ids. “any” will match a
+member with any of the interest supplied, “all” will only match
+members with every interest supplied, and “none” will match
+members without any of the interest supplied.</dd>
+</dl>
+<p>sort_field: string, can only be ‘timestamp_opt’,
+‘timestamp_signup’, ‘last_changed’, or None</p>
+<blockquote>
+<div>Returns files sorted by the specified field.</div></blockquote>
+<dl class="last docutils">
+<dt>sort_dir: string, can only be ‘ASC’, ‘DESC’, or None</dt>
+<dd>Determines the order direction for sorted results.</dd>
+<dt>since_last_campaign: string</dt>
+<dd>Filter subscribers by those
+subscribed/unsubscribed/pending/cleaned since last email
+campaign send. Member status is required to use this filter.</dd>
+<dt>unsubscribed_since: string</dt>
+<dd>Filter subscribers by those unsubscribed since a specific date.
+Using any status other than unsubscribed with this filter will
+result in an error.</dd>
+</dl>
+</dd>
+<dt><cite>Returns:</cite></dt>
+<dd>Table Class</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="parsons.mailchimp.Mailchimp.get_campaign_emails">
+<code class="descname">get_campaign_emails</code><span class="sig-paren">(</span><em>campaign_id</em>, <em>fields=None</em>, <em>exclude_fields=None</em>, <em>count=None</em>, <em>offset=None</em>, <em>since=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/mailchimp/mailchimp.html#Mailchimp.get_campaign_emails"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.mailchimp.Mailchimp.get_campaign_emails" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get a table of individual emails from a campaign based on query
+parameters. Note that argument descriptions here are sourced from
+Mailchimp’s official API documentation.</p>
+<dl class="docutils">
+<dt><cite>Args:</cite></dt>
+<dd><dl class="first last docutils">
+<dt>campaign_id: string</dt>
+<dd>The unique ID of the campaign to fetch emails from.</dd>
+<dt>fields: list of strings</dt>
+<dd>A comma-separated list of fields to return. Reference
+parameters of sub-objects with dot notation.</dd>
+<dt>exclude_fields: list of strings</dt>
+<dd>A comma-separated list of fields to exclude. Reference
+parameters of sub-objects with dot notation.</dd>
+<dt>count: int</dt>
+<dd>The number of records to return. Default value is 10. Maximum
+value is 1000.</dd>
+<dt>offset: int</dt>
+<dd>The number of records from a collection to skip. Iterating over
+large collections with this parameter can be slow. Default
+value is 0.</dd>
+<dt>since: string</dt>
+<dd>Restrict results to email activity events that occur after a
+specific time. We recommend ISO 8601 time format:
+2015-10-21T15:41:36+00:00.</dd>
+</dl>
+</dd>
+<dt><cite>Returns:</cite></dt>
+<dd>Table Class</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="parsons.mailchimp.Mailchimp.get_unsubscribes">
+<code class="descname">get_unsubscribes</code><span class="sig-paren">(</span><em>campaign_id</em>, <em>fields=None</em>, <em>exclude_fields=None</em>, <em>count=None</em>, <em>offset=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/mailchimp/mailchimp.html#Mailchimp.get_unsubscribes"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.mailchimp.Mailchimp.get_unsubscribes" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get a table of unsubscribes associated with a campaign based on query
+parameters. Note that argument descriptions here are sourced from
+Mailchimp’s official API documentation.</p>
+<dl class="docutils">
+<dt><cite>Args:</cite></dt>
+<dd><dl class="first last docutils">
+<dt>campaign_id: string</dt>
+<dd>The unique ID of the campaign to fetch unsubscribes from.</dd>
+<dt>fields: list of strings</dt>
+<dd>A comma-separated list of fields to return. Reference
+parameters of sub-objects with dot notation.</dd>
+<dt>exclude_fields: list of strings</dt>
+<dd>A comma-separated list of fields to exclude. Reference
+parameters of sub-objects with dot notation.</dd>
+<dt>count: int</dt>
+<dd>The number of records to return. Default value is 10. Maximum
+value is 1000.</dd>
+<dt>offset: int</dt>
+<dd>The number of records from a collection to skip. Iterating over
+large collections with this parameter can be slow. Default
+value is 0.</dd>
+</dl>
+</dd>
+<dt><cite>Returns:</cite></dt>
+<dd>Table Class</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="mobilize_america.html" class="btn btn-neutral float-right" title="Mobilize America" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="hustle.html" class="btn btn-neutral" title="Hustle" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2019, The Movement Cooperative
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script type="text/javascript" src="_static/jquery.js"></script>
+        <script type="text/javascript" src="_static/underscore.js"></script>
+        <script type="text/javascript" src="_static/doctools.js"></script>
+        <script type="text/javascript" src="_static/language_data.js"></script>
+    
+
+  
+
+  <script type="text/javascript" src="_static/js/theme.js"></script>
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

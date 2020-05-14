@@ -166,6 +166,7 @@ Indices and tables
    :name: integrations
 
    action_kit
+   action_network
    airtable
    aws
    bill_com

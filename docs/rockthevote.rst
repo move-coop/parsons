@@ -1,6 +1,10 @@
 Rock the Vote
 =============
 
+********
+Overview
+********
+
 `Rock the Vote <https://www.rockthevote.org/>`_ is an online registration tool.
 
 The Parsons Connector makes use of Rock the Vote's Rocky API. In order to authenticate with the
@@ -51,6 +55,10 @@ data.
    # Do some other stuff here
 
    registrants = rtv.get_registration_report(report_id)
+
+***
+API
+***
 
 .. autoclass :: parsons.rockthevote.rtv.RockTheVote
    :inherited-members:

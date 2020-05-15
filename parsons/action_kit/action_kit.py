@@ -471,8 +471,7 @@ class ActionKit(object):
         """
         Bulk upload a csv file of new users or user updates.
         If you are uploading a table object, use bulk_upload_table instead.
-        See `ActionKit User Upload Documentation
-             <https://roboticdogs.actionkit.com/docs/manual/api/rest/uploads.html>`
+        See `ActionKit User Upload Documentation <https://roboticdogs.actionkit.com/docs/manual/api/rest/uploads.html>`_
         Be careful that blank values in columns will overwrite existing data.
 
         If you get a 500 error, try sending a much smaller file (say, one row),
@@ -488,7 +487,7 @@ class ActionKit(object):
             autocreate_user_fields: bool
               When True columns starting with "user_" will be uploaded as user fields.
               See the `autocreate_user_fields documentation
-              <https://roboticdogs.actionkit.com/docs/manual/api/rest/uploads.html#create-a-multipart-post-request>`
+              <https://roboticdogs.actionkit.com/docs/manual/api/rest/uploads.html#create-a-multipart-post-request>`_.
             user_fields_only: bool
               When uploading only an email/user_id column and user_ user fields,
               ActionKit has a fast processing path.
@@ -520,9 +519,9 @@ class ActionKit(object):
                           no_overwrite_on_empty=False):
         """
         Bulk upload a table of new users or user updates.
-        See `ActionKit User Upload Documentation
-             <https://roboticdogs.actionkit.com/docs/manual/api/rest/uploads.html>`
+        See `ActionKit User Upload Documentation <https://roboticdogs.actionkit.com/docs/manual/api/rest/uploads.html>`_
         Be careful that blank values in columns will overwrite existing data.
+        
         Tables with only an identifying column (user_id/email) and user_ user fields
         will be fast-processed -- this is useful for setting/updating user fields.
 
@@ -538,8 +537,8 @@ class ActionKit(object):
                 A user_id or email column is required.
             autocreate_user_fields: bool
                 When True columns starting with "user_" will be uploaded as user fields.
-                See the `autocreate_user_fields documentation
-                  <https://roboticdogs.actionkit.com/docs/manual/api/rest/uploads.html#create-a-multipart-post-request>`
+                `ActionKit <https://actionkit.com/>`_.
+                See the autocreate_user_fields `documentation <https://roboticdogs.actionkit.com/docs/manual/api/rest/uploads.html#create-a-multipart-post-request>`_.
             no_overwrite_on_empty: bool
                 When uploading user data, ActionKit will, by default, take a blank value
                 and overwrite existing data for that user.

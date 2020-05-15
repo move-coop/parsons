@@ -5,7 +5,7 @@ Databases
 Google BigQuery
 ***************
 
-See :doc:`google_cloud` for documentation.
+See :doc:`google` for documentation.
 
 *****
 MySQL
@@ -26,7 +26,7 @@ Postgres
 Redshift
 ********
 
-See :doc:`redshift` section for documentation.
+See :doc:`aws` section for documentation.
 
 *************
 Database Sync

@@ -122,15 +122,15 @@ class Slack(object):
         return resp
 
     def upload_file(self, channels, filename, filetype=None,
-                    initial_comment=None, title=None):
+                    initial_comment=None, title=None, is_binary=False):
         """
         Upload a file to Slack channel(s).
 
         `Args:`
             channels: list
-                List of channel names or IDs where the file will be shared.
+                The list of channel names or IDs where the file will be shared.
             filename: str
-                Name of the file to be uploaded.
+                The path to the file to be uploaded.
             filetype: str
                 A file type identifier. If None, type will be inferred base on
                 file extension. This is used to determine what fields are
@@ -141,6 +141,9 @@ class Slack(object):
                 The text of the message to send along with the file.
             title: str
                 Title of the file to be uploaded.
+            is_binary: bool
+                If True, open this file in binary mode. This is needed if
+                uploading binary files. Defaults to False.
         `Returns:`
             `dict`:
                 A response json
@@ -148,7 +151,8 @@ class Slack(object):
         if filetype is None and '.' in filename:
             filetype = filename.split('.')[-1]
 
-        with open(filename) as file_content:
+        mode = 'rb' if is_binary else 'r'
+        with open(filename, mode) as file_content:
             resp = self.client.api_call(
                 "files.upload", channels=channels, file=file_content,
                 filetype=filetype, initial_comment=initial_comment,

@@ -1,7 +1,8 @@
-from parsons.etl import Table
+from parsons import Table
 from slackclient import SlackClient
 from slackclient.exceptions import SlackClientError
 import os
+import time
 
 
 class Slack(object):
@@ -108,6 +109,14 @@ class Slack(object):
             "chat.postMessage", channel=channel, text=text, as_user=as_user)
 
         if not resp['ok']:
+
+            if resp['error'] == 'ratelimited':
+                time.sleep(int(resp['headers']['Retry-After']))
+
+                resp = self.client.api_call(
+                    "chat.postMessage",
+                    channel=channel, text=text, as_user=as_user)
+
             raise SlackClientError(resp['error'])
 
         return resp
@@ -145,8 +154,17 @@ class Slack(object):
                 filetype=filetype, initial_comment=initial_comment,
                 title=title)
 
-        if not resp['ok']:
-            raise SlackClientError(resp['error'])
+            if not resp['ok']:
+
+                if resp['error'] == 'ratelimited':
+                    time.sleep(int(resp['headers']['Retry-After']))
+
+                    resp = self.client.api_call(
+                        "files.upload", channels=channels, file=file_content,
+                        filetype=filetype, initial_comment=initial_comment,
+                        title=title)
+
+                raise SlackClientError(resp['error'])
 
         return resp
 
@@ -163,6 +181,11 @@ class Slack(object):
                 endpoint, cursor=cursor, limit=LIMIT, **kwargs)
 
             if not resp['ok']:
+
+                if resp['error'] == 'ratelimited':
+                    time.sleep(int(resp['headers']['Retry-After']))
+                    continue
+
                 raise SlackClientError(resp['error'])
 
             items.extend(resp[collection])
@@ -173,3 +196,12 @@ class Slack(object):
                 next_page = False
 
         return Table(items)
+
+    def _check_response(self, resp):
+        if not resp['ok']:
+
+            if resp['error'] == 'ratelimited':
+                time.sleep(int(resp['headers']['Retry-After']))
+                return
+
+            raise SlackClientError(resp['error'])

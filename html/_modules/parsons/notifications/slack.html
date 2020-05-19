@@ -181,10 +181,11 @@
            <div itemprop="articleBody">
             
   <h1>Source code for parsons.notifications.slack</h1><div class="highlight"><pre>
-<span></span><span class="kn">from</span> <span class="nn">parsons.etl</span> <span class="kn">import</span> <span class="n">Table</span>
+<span></span><span class="kn">from</span> <span class="nn">parsons</span> <span class="kn">import</span> <span class="n">Table</span>
 <span class="kn">from</span> <span class="nn">slackclient</span> <span class="kn">import</span> <span class="n">SlackClient</span>
 <span class="kn">from</span> <span class="nn">slackclient.exceptions</span> <span class="kn">import</span> <span class="n">SlackClientError</span>
 <span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">time</span>
 
 
 <div class="viewcode-block" id="Slack"><a class="viewcode-back" href="../../../notifications.html#parsons.Slack">[docs]</a><span class="k">class</span> <span class="nc">Slack</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
@@ -291,20 +292,28 @@
             <span class="s2">&quot;chat.postMessage&quot;</span><span class="p">,</span> <span class="n">channel</span><span class="o">=</span><span class="n">channel</span><span class="p">,</span> <span class="n">text</span><span class="o">=</span><span class="n">text</span><span class="p">,</span> <span class="n">as_user</span><span class="o">=</span><span class="n">as_user</span><span class="p">)</span>
 
         <span class="k">if</span> <span class="ow">not</span> <span class="n">resp</span><span class="p">[</span><span class="s1">&#39;ok&#39;</span><span class="p">]:</span>
+
+            <span class="k">if</span> <span class="n">resp</span><span class="p">[</span><span class="s1">&#39;error&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;ratelimited&#39;</span><span class="p">:</span>
+                <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">resp</span><span class="p">[</span><span class="s1">&#39;headers&#39;</span><span class="p">][</span><span class="s1">&#39;Retry-After&#39;</span><span class="p">]))</span>
+
+                <span class="n">resp</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">api_call</span><span class="p">(</span>
+                    <span class="s2">&quot;chat.postMessage&quot;</span><span class="p">,</span>
+                    <span class="n">channel</span><span class="o">=</span><span class="n">channel</span><span class="p">,</span> <span class="n">text</span><span class="o">=</span><span class="n">text</span><span class="p">,</span> <span class="n">as_user</span><span class="o">=</span><span class="n">as_user</span><span class="p">)</span>
+
             <span class="k">raise</span> <span class="n">SlackClientError</span><span class="p">(</span><span class="n">resp</span><span class="p">[</span><span class="s1">&#39;error&#39;</span><span class="p">])</span>
 
         <span class="k">return</span> <span class="n">resp</span></div>
 
 <div class="viewcode-block" id="Slack.upload_file"><a class="viewcode-back" href="../../../notifications.html#parsons.Slack.upload_file">[docs]</a>    <span class="k">def</span> <span class="nf">upload_file</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">channels</span><span class="p">,</span> <span class="n">filename</span><span class="p">,</span> <span class="n">filetype</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-                    <span class="n">initial_comment</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+                    <span class="n">initial_comment</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">is_binary</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Upload a file to Slack channel(s).</span>
 
 <span class="sd">        `Args:`</span>
 <span class="sd">            channels: list</span>
-<span class="sd">                List of channel names or IDs where the file will be shared.</span>
+<span class="sd">                The list of channel names or IDs where the file will be shared.</span>
 <span class="sd">            filename: str</span>
-<span class="sd">                Name of the file to be uploaded.</span>
+<span class="sd">                The path to the file to be uploaded.</span>
 <span class="sd">            filetype: str</span>
 <span class="sd">                A file type identifier. If None, type will be inferred base on</span>
 <span class="sd">                file extension. This is used to determine what fields are</span>
@@ -315,6 +324,9 @@
 <span class="sd">                The text of the message to send along with the file.</span>
 <span class="sd">            title: str</span>
 <span class="sd">                Title of the file to be uploaded.</span>
+<span class="sd">            is_binary: bool</span>
+<span class="sd">                If True, open this file in binary mode. This is needed if</span>
+<span class="sd">                uploading binary files. Defaults to False.</span>
 <span class="sd">        `Returns:`</span>
 <span class="sd">            `dict`:</span>
 <span class="sd">                A response json</span>
@@ -322,14 +334,24 @@
         <span class="k">if</span> <span class="n">filetype</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">and</span> <span class="s1">&#39;.&#39;</span> <span class="ow">in</span> <span class="n">filename</span><span class="p">:</span>
             <span class="n">filetype</span> <span class="o">=</span> <span class="n">filename</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;.&#39;</span><span class="p">)[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
 
-        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span> <span class="k">as</span> <span class="n">file_content</span><span class="p">:</span>
+        <span class="n">mode</span> <span class="o">=</span> <span class="s1">&#39;rb&#39;</span> <span class="k">if</span> <span class="n">is_binary</span> <span class="k">else</span> <span class="s1">&#39;r&#39;</span>
+        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="n">mode</span><span class="p">)</span> <span class="k">as</span> <span class="n">file_content</span><span class="p">:</span>
             <span class="n">resp</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">api_call</span><span class="p">(</span>
                 <span class="s2">&quot;files.upload&quot;</span><span class="p">,</span> <span class="n">channels</span><span class="o">=</span><span class="n">channels</span><span class="p">,</span> <span class="n">file</span><span class="o">=</span><span class="n">file_content</span><span class="p">,</span>
                 <span class="n">filetype</span><span class="o">=</span><span class="n">filetype</span><span class="p">,</span> <span class="n">initial_comment</span><span class="o">=</span><span class="n">initial_comment</span><span class="p">,</span>
                 <span class="n">title</span><span class="o">=</span><span class="n">title</span><span class="p">)</span>
 
-        <span class="k">if</span> <span class="ow">not</span> <span class="n">resp</span><span class="p">[</span><span class="s1">&#39;ok&#39;</span><span class="p">]:</span>
-            <span class="k">raise</span> <span class="n">SlackClientError</span><span class="p">(</span><span class="n">resp</span><span class="p">[</span><span class="s1">&#39;error&#39;</span><span class="p">])</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">resp</span><span class="p">[</span><span class="s1">&#39;ok&#39;</span><span class="p">]:</span>
+
+                <span class="k">if</span> <span class="n">resp</span><span class="p">[</span><span class="s1">&#39;error&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;ratelimited&#39;</span><span class="p">:</span>
+                    <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">resp</span><span class="p">[</span><span class="s1">&#39;headers&#39;</span><span class="p">][</span><span class="s1">&#39;Retry-After&#39;</span><span class="p">]))</span>
+
+                    <span class="n">resp</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">api_call</span><span class="p">(</span>
+                        <span class="s2">&quot;files.upload&quot;</span><span class="p">,</span> <span class="n">channels</span><span class="o">=</span><span class="n">channels</span><span class="p">,</span> <span class="n">file</span><span class="o">=</span><span class="n">file_content</span><span class="p">,</span>
+                        <span class="n">filetype</span><span class="o">=</span><span class="n">filetype</span><span class="p">,</span> <span class="n">initial_comment</span><span class="o">=</span><span class="n">initial_comment</span><span class="p">,</span>
+                        <span class="n">title</span><span class="o">=</span><span class="n">title</span><span class="p">)</span>
+
+                <span class="k">raise</span> <span class="n">SlackClientError</span><span class="p">(</span><span class="n">resp</span><span class="p">[</span><span class="s1">&#39;error&#39;</span><span class="p">])</span>
 
         <span class="k">return</span> <span class="n">resp</span></div>
 
@@ -346,6 +368,11 @@
                 <span class="n">endpoint</span><span class="p">,</span> <span class="n">cursor</span><span class="o">=</span><span class="n">cursor</span><span class="p">,</span> <span class="n">limit</span><span class="o">=</span><span class="n">LIMIT</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
 
             <span class="k">if</span> <span class="ow">not</span> <span class="n">resp</span><span class="p">[</span><span class="s1">&#39;ok&#39;</span><span class="p">]:</span>
+
+                <span class="k">if</span> <span class="n">resp</span><span class="p">[</span><span class="s1">&#39;error&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;ratelimited&#39;</span><span class="p">:</span>
+                    <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">resp</span><span class="p">[</span><span class="s1">&#39;headers&#39;</span><span class="p">][</span><span class="s1">&#39;Retry-After&#39;</span><span class="p">]))</span>
+                    <span class="k">continue</span>
+
                 <span class="k">raise</span> <span class="n">SlackClientError</span><span class="p">(</span><span class="n">resp</span><span class="p">[</span><span class="s1">&#39;error&#39;</span><span class="p">])</span>
 
             <span class="n">items</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">resp</span><span class="p">[</span><span class="n">collection</span><span class="p">])</span>

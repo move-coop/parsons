@@ -339,15 +339,15 @@ more information about Slack authorship.</dd>
 
 <dl class="method">
 <dt id="parsons.Slack.upload_file">
-<code class="descname">upload_file</code><span class="sig-paren">(</span><em>channels</em>, <em>filename</em>, <em>filetype=None</em>, <em>initial_comment=None</em>, <em>title=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/notifications/slack.html#Slack.upload_file"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.Slack.upload_file" title="Permalink to this definition">¶</a></dt>
+<code class="descname">upload_file</code><span class="sig-paren">(</span><em>channels</em>, <em>filename</em>, <em>filetype=None</em>, <em>initial_comment=None</em>, <em>title=None</em>, <em>is_binary=False</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/notifications/slack.html#Slack.upload_file"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.Slack.upload_file" title="Permalink to this definition">¶</a></dt>
 <dd><p>Upload a file to Slack channel(s).</p>
 <dl class="docutils">
 <dt><cite>Args:</cite></dt>
 <dd><dl class="first last docutils">
 <dt>channels: list</dt>
-<dd>List of channel names or IDs where the file will be shared.</dd>
+<dd>The list of channel names or IDs where the file will be shared.</dd>
 <dt>filename: str</dt>
-<dd>Name of the file to be uploaded.</dd>
+<dd>The path to the file to be uploaded.</dd>
 <dt>filetype: str</dt>
 <dd>A file type identifier. If None, type will be inferred base on
 file extension. This is used to determine what fields are
@@ -358,6 +358,9 @@ file object.</dd>
 <dd>The text of the message to send along with the file.</dd>
 <dt>title: str</dt>
 <dd>Title of the file to be uploaded.</dd>
+<dt>is_binary: bool</dt>
+<dd>If True, open this file in binary mode. This is needed if
+uploading binary files. Defaults to False.</dd>
 </dl>
 </dd>
 <dt><cite>Returns:</cite></dt>

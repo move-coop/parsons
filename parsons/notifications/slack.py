@@ -200,12 +200,3 @@ class Slack(object):
                 next_page = False
 
         return Table(items)
-
-    def _check_response(self, resp):
-        if not resp['ok']:
-
-            if resp['error'] == 'ratelimited':
-                time.sleep(int(resp['headers']['Retry-After']))
-                return
-
-            raise SlackClientError(resp['error'])

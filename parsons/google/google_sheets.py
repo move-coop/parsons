@@ -99,7 +99,7 @@ class GoogleSheets:
 
         worksheet = self._get_worksheet(spreadsheet_id, worksheet)
         tbl = Table(worksheet.get_all_values())
-        logger.info('Retrieved worksheet with {tbl.num_rows} rows.')
+        logger.info(f'Retrieved worksheet with {tbl.num_rows} rows.')
         return tbl
 
     def share_spreadsheet(self, spreadsheet_id, sharee, share_type='user', role='reader',
@@ -211,7 +211,7 @@ class GoogleSheets:
         logger.info('Created worksheet.')
         return (sheet_count-1)
 
-    def append_to_sheet(self, spreadsheet_id, table, worksheet=0, user_entered_value=False):
+    def append_to_sheet(self, spreadsheet_id, table, worksheet=0, user_entered_value=False, **kwargs):
         """
         Append data from a Parsons table to a Google sheet. Note that the table's columns are
         ignored, as we'll be keeping whatever header row already exists in the Google sheet.
@@ -228,6 +228,13 @@ class GoogleSheets:
                 If True, will submit cell values as entered (required for entering formulas).
                 Otherwise, values will be entered as strings or numbers only.
         """
+
+        # This is in here to ensure backwards compatibility with previous versions of Parsons.
+        try:
+            worksheet = kwargs['sheet_index']
+            logger.warning('Argument deprecated. Use worksheet instead.')
+        except:
+            pass
 
         sheet = self._get_worksheet(spreadsheet_id, worksheet)
 
@@ -253,6 +260,7 @@ class GoogleSheets:
 
         # Update the data in one batch
         sheet.update_cells(cells, value_input_option=value_input_option)
+        logger.info(f'Appended {table.num_rows} rows to worksheet.')
 
     def overwrite_sheet(self, spreadsheet_id, table, worksheet=0, user_entered_value=False):
         """
@@ -271,6 +279,13 @@ class GoogleSheets:
                 If True, will submit cell values as entered (required for entering formulas).
                 Otherwise, values will be entered as strings or numbers only.
         """
+
+        # This is in here to ensure backwards compatibility with previous versions of Parsons.
+        try:
+            worksheet = kwargs['sheet_index']
+            logger.warning('Argument deprecated. Use worksheet instead.')
+        except:
+            pass
 
         sheet = self._get_worksheet(spreadsheet_id, worksheet)
         sheet.clear()

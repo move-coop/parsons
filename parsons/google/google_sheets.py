@@ -90,8 +90,8 @@ class GoogleSheets:
             spreadsheet_id: str
                 The ID of the spreadsheet (Tip: Get this from the spreadsheet URL)
             worksheet: str or int
-                The index or the title of the worksheet. Defaults to first
-                sheet in the index.
+                The index or the title of the worksheet. The index begins with
+                0.
         `Returns:`
             Parsons Table
                 See :ref:`parsons-table` for output options.
@@ -221,9 +221,9 @@ class GoogleSheets:
                 The ID of the spreadsheet (Tip: Get this from the spreadsheet URL)
             table: obj
                 Parsons table
-            worksheet: str or int 
-                The index or the title of the worksheet. Defaults to first
-                sheet in the index.
+            worksheet: str or int
+                The index or the title of the worksheet. The index begins with
+                0.
             user_entered_value: bool (optional)
                 If True, will submit cell values as entered (required for entering formulas).
                 Otherwise, values will be entered as strings or numbers only.
@@ -264,9 +264,9 @@ class GoogleSheets:
                 The ID of the spreadsheet (Tip: Get this from the spreadsheet URL)
             table: obj
                 Parsons table
-            worksheet: str or int 
-                The index or the title of the worksheet. Defaults to first
-                sheet in the index.
+            worksheet: str or int
+                The index or the title of the worksheet. The index begins with
+                0.
             user_entered_value: bool (optional)
                 If True, will submit cell values as entered (required for entering formulas).
                 Otherwise, values will be entered as strings or numbers only.
@@ -302,7 +302,7 @@ class GoogleSheets:
         # Deprecated method v0.14 of Parsons.
 
         logger.warning('Deprecated method. Use get_worksheet() instead.')
-        return self._get_worksheet(spreadsheet_id, title)
+        return self.get_worksheet(spreadsheet_id, title)
 
     def get_sheet_index_with_title(self, spreadsheet_id, title):
         # Deprecated method v0.14 of Parsons.

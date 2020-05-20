@@ -497,7 +497,7 @@ class ActionKit(object):
                 success: whether upload was successful
                 progress_url: an API URL to get progress on upload processing
                 res: requests http response object
-        """
+        """ # noqa: E501,E261
 
         # self.conn defaults to JSON, but this has to be form/multi-part....
         upload_client = self._conn({'accepts': 'application/json'})
@@ -521,7 +521,7 @@ class ActionKit(object):
         Bulk upload a table of new users or user updates.
         See `ActionKit User Upload Documentation <https://roboticdogs.actionkit.com/docs/manual/api/rest/uploads.html>`_
         Be careful that blank values in columns will overwrite existing data.
-        
+
         Tables with only an identifying column (user_id/email) and user_ user fields
         will be fast-processed -- this is useful for setting/updating user fields.
 
@@ -551,7 +551,8 @@ class ActionKit(object):
                 success: bool -- whether upload was successful (individual rows may not have been)
                 results: [dict] -- This is a list of the full results.
                          progress_url and res for any results
-        """
+        """ # noqa: E501,E261
+
         import_page = check_env.check('ACTION_KIT_IMPORTPAGE', import_page)
         upload_tables = [table]
         if no_overwrite_on_empty:

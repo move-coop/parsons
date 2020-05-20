@@ -46,19 +46,31 @@ class GoogleSheets:
             )
         self.gspread_client = gspread.authorize(credentials)
 
-    def _get_sheet(self, spreadsheet_id, sheet_index=0):
-        return self.gspread_client.open_by_key(spreadsheet_id).get_worksheet(sheet_index)
+    def _get_worksheet(self, spreadsheet_id, worksheet=0):
+        # Internal method to retrieve a worksheet object.
 
-    def get_sheet_index_with_title(self, spreadsheet_id, title):
+        # Check if the worksheet is an integer, if so find the sheet by index
+        if isinstance(worksheet, int):
+            return self.gspread_client.open_by_key(spreadsheet_id).get_worksheet(worksheet)
+        
+        # If not, then retrieve it by the title
+        else:
+            sheets = self.gspread_client.open_by_key(spreadsheet_id).worksheets()
+            for index, sheet in enumerate(sheets):
+                if sheet.title == worksheet:
+                    return self.gspread_client.open_by_key(spreadsheet_id).get_worksheet(worksheet)
+                raise ValueError(f"Couldn't find sheet with title {worksheet}")
+
+    def get_worksheet_index(self, spreadsheet_id, title):
         """
-        Get the first sheet in a Google spreadsheet with the given title.
+        Get the first sheet in a Google spreadsheet with the given title. The
+        title is case sensitive and the index begins with 0.
 
         `Args:`
             spreadsheet_id: str
                 The ID of the spreadsheet (Tip: Get this from the spreadsheet URL)
             title: str
                 The sheet title
-
         `Returns:`
             str
                 The sheet index
@@ -70,43 +82,25 @@ class GoogleSheets:
                 return index
         raise ValueError(f"Couldn't find sheet with title {title}")
 
-    def read_sheet(self, spreadsheet_id, sheet_index=0):
+    def get_worksheet(self, spreadsheet_id, worksheet=0):
         """
         Create a ``parsons table`` from a sheet in a Google spreadsheet, given the sheet index.
 
         `Args:`
             spreadsheet_id: str
                 The ID of the spreadsheet (Tip: Get this from the spreadsheet URL)
-            sheet_index: int (optional)
-                The index of the desired worksheet (Index begins at 0).
-
+            worksheet: str or int
+                The index or the title of the worksheet. Defaults to first
+                sheet in the index.
         `Returns:`
             Parsons Table
                 See :ref:`parsons-table` for output options.
         """
 
-        sheet = self._get_sheet(spreadsheet_id, sheet_index)
-        records = sheet.get_all_values()
-
-        return Table(records)
-
-    def read_sheet_with_title(self, spreadsheet_id, title):
-        """
-        Create a ```parsons table``` from a sheet in Google spreadsheet, given the sheet title.
-
-        `Args:`
-            spreadsheet_id: str
-                The ID of the spreadsheet (Tip: Get this from the spreadsheet URL)
-            title: str
-                The sheet title
-
-        `Returns:`
-            Parsons Table
-                See :ref:`parsons-table` for output options.
-        """
-
-        index = self.get_sheet_index_with_title(spreadsheet_id, title)
-        return self.read_sheet(spreadsheet_id, index)
+        worksheet = self._get_worksheet(spreadsheet_id, worksheet)
+        tbl = Table(worksheet.get_all_values())
+        logger.info('Retrieved worksheet with {tbl.num_rows} rows.')
+        return tbl
 
     def share_spreadsheet(self, spreadsheet_id, sharee, share_type='user', role='reader',
                           notify=True, notify_message=None, with_link=False):
@@ -136,6 +130,7 @@ class GoogleSheets:
         spreadsheet = self.gspread_client.open_by_key(spreadsheet_id)
         spreadsheet.share(sharee, share_type, role, notify=notify,
                           email_message=notify_message, with_link=with_link)
+        logger.info(f'Shared spreadsheet {spreadsheet_id}.')
 
     def get_spreadsheet_permissions(self, spreadsheet_id):
         """
@@ -150,7 +145,9 @@ class GoogleSheets:
         """
 
         spreadsheet = self.gspread_client.open_by_key(spreadsheet_id)
-        return Table(spreadsheet.list_permissions())
+        tbl = Table(spreadsheet.list_permissions())
+        logger.info(f'Retrieved permissions for {spreadsheet_id} spreadsheet.')
+        return tbl
 
     def create_spreadsheet(self, title, editor_email=None):
         """
@@ -178,6 +175,7 @@ class GoogleSheets:
                 role='writer',
             )
 
+        logger.info(f'Created spreadsheet {spreadsheet.id}')
         return spreadsheet.id
 
     def delete_spreadsheet(self, spreadsheet_id):
@@ -189,6 +187,7 @@ class GoogleSheets:
                 The ID of the spreadsheet (Tip: Get this from the spreadsheet URL)
         """
         self.gspread_client.del_spreadsheet(spreadsheet_id)
+        logger.info(f'Deleted spreadsheet {spreadsheet_id}')
 
     def add_sheet(self, spreadsheet_id, title=None, rows=100, cols=25):
         """
@@ -209,9 +208,10 @@ class GoogleSheets:
         spreadsheet = self.gspread_client.open_by_key(spreadsheet_id)
         spreadsheet.add_worksheet(title, rows, cols)
         sheet_count = len(spreadsheet.worksheets())
+        logger.info('Created worksheet.')
         return (sheet_count-1)
 
-    def append_to_sheet(self, spreadsheet_id, table, sheet_index=0, user_entered_value=False):
+    def append_to_sheet(self, spreadsheet_id, table, worksheet=0, user_entered_value=False):
         """
         Append data from a Parsons table to a Google sheet. Note that the table's columns are
         ignored, as we'll be keeping whatever header row already exists in the Google sheet.
@@ -221,23 +221,24 @@ class GoogleSheets:
                 The ID of the spreadsheet (Tip: Get this from the spreadsheet URL)
             table: obj
                 Parsons table
-            sheet_index: int (optional)
-                The index of the desired worksheet
+            worksheet: str or int 
+                The index or the title of the worksheet. Defaults to first
+                sheet in the index.
             user_entered_value: bool (optional)
                 If True, will submit cell values as entered (required for entering formulas).
                 Otherwise, values will be entered as strings or numbers only.
         """
 
-        sheet = self._get_sheet(spreadsheet_id, sheet_index)
+        sheet = self._get_worksheet(spreadsheet_id, worksheet)
 
         # Grab the existing data, so we can figure out where to start adding new data as a batch.
         # TODO Figure out a way to do a batch append without having to read the whole sheet first.
         # Maybe use gspread's low-level batch_update().
-        existing_table = self.read_sheet(spreadsheet_id, sheet_index)
+        existing_table = self.get_worksheet(spreadsheet_id, worksheet)
 
         # If the existing sheet is blank, then just overwrite the table.
         if existing_table.num_rows == 0:
-            return self.overwrite_sheet(spreadsheet_id, table, sheet_index, user_entered_value)
+            return self.overwrite_sheet(spreadsheet_id, table, worksheet, user_entered_value)
 
         cells = []
         for row_num, row in enumerate(table.data):
@@ -253,7 +254,7 @@ class GoogleSheets:
         # Update the data in one batch
         sheet.update_cells(cells, value_input_option=value_input_option)
 
-    def overwrite_sheet(self, spreadsheet_id, table, sheet_index=0, user_entered_value=False):
+    def overwrite_sheet(self, spreadsheet_id, table, worksheet=0, user_entered_value=False):
         """
         Replace the data in a Google sheet with a Parsons table, using the table's columns as the
         first row.
@@ -263,14 +264,15 @@ class GoogleSheets:
                 The ID of the spreadsheet (Tip: Get this from the spreadsheet URL)
             table: obj
                 Parsons table
-            sheet_index: int (optional)
-                The index of the desired worksheet
+            worksheet: str or int 
+                The index or the title of the worksheet. Defaults to first
+                sheet in the index.
             user_entered_value: bool (optional)
                 If True, will submit cell values as entered (required for entering formulas).
                 Otherwise, values will be entered as strings or numbers only.
         """
 
-        sheet = self._get_sheet(spreadsheet_id, sheet_index)
+        sheet = self._get_worksheet(spreadsheet_id, worksheet)
         sheet.clear()
 
         value_input_option = 'RAW'
@@ -288,3 +290,22 @@ class GoogleSheets:
 
         # Update the data in one batch
         sheet.update_cells(cells, value_input_option=value_input_option)
+        logger.info('Overwrote worksheet.')
+
+    def read_sheet(self, spreadsheet_id, sheet_index=0):
+        # Deprecated method v0.14 of Parsons.
+
+        logger.warning('Deprecated method. Use get_worksheet() instead.')
+        return self.get_worksheet(spreadsheet_id, sheet_index)
+
+    def read_sheet_with_title(self, spreadsheet_id, title):
+        # Deprecated method v0.14 of Parsons.
+
+        logger.warning('Deprecated method. Use get_worksheet() instead.')
+        return self._get_worksheet(spreadsheet_id, title)
+
+    def get_sheet_index_with_title(self, spreadsheet_id, title):
+        # Deprecated method v0.14 of Parsons.
+
+        logger.warning('Deprecated method. Use get_worksheet_index_with_title() instead.')
+        return self.get_worksheet_index_with_title(spreadsheet_id, title)

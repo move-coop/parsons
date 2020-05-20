@@ -14,7 +14,7 @@ class TestGoogleSheets(unittest.TestCase):
 
         self.google_sheets = GoogleSheets()
 
-        self.spreadsheet_id = self.google_sheets.create_spreadsheet('Parsons Test')
+        self.spreadsheet_id = self.google_sheets.create_spreadsheet('parsons_test_01')
         self.test_table = Table([
             {'first': 'Bob', 'last': 'Smith'},
             {'first': 'Sue', 'last': 'Doe'},
@@ -29,10 +29,19 @@ class TestGoogleSheets(unittest.TestCase):
         ])
         self.google_sheets.overwrite_sheet(self.spreadsheet_id, self.second_test_table, 1)
 
+
     def tearDown(self):
-        self.google_sheets.delete_spreadsheet(self.spreadsheet_id)
+        # self.google_sheets.delete_spreadsheet(self.spreadsheet_id)
+        pass
+
+    def test_read_worksheet(self):
+        # This is the spreadsheet called "Legislators 2017 (Test sheet for Parsons)"
+        table = self.google_sheets.get_worksheet('1Y_pZxz-8JZ9QBdq1pXuIk2js_VXeymOUoZhUp1JVEg8')
+        self.assertEqual(541, table.num_rows)
 
     def test_read_sheet(self):
+        # Deprecated in Parsons v0.14
+
         # This is the spreadsheet called "Legislators 2017 (Test sheet for Parsons)"
         table = self.google_sheets.read_sheet('1Y_pZxz-8JZ9QBdq1pXuIk2js_VXeymOUoZhUp1JVEg8')
         self.assertEqual(541, table.num_rows)
@@ -58,8 +67,8 @@ class TestGoogleSheets(unittest.TestCase):
             self.google_sheets.get_sheet_index_with_title, self.spreadsheet_id, 'abc123'
             )
 
-    def test_read_sheet_with_title(self):
-        table = self.google_sheets.read_sheet_with_title(self.spreadsheet_id, self.second_sheet_title)
+    def test_read_worksheet_with_title(self):
+        table = self.google_sheets.get_worksheet(self.spreadsheet_id, self.second_sheet_title)
         self.assertEqual(self.second_test_table.columns, table.columns)
 
     def test_append_to_spreadsheet(self):
@@ -122,7 +131,7 @@ class TestGoogleSheets(unittest.TestCase):
             self.assertEqual(new_table.data[i], result_table.data[i])
 
     def test_share_spreadsheet(self):
-        # Teat that sharing of spreadsheet works as intended.
+        # Test that sharing of spreadsheet works as intended.
 
         self.google_sheets.share_spreadsheet(self.spreadsheet_id, 'bob@bob.com', role='reader', notify=True)
         permissions = self.google_sheets.get_spreadsheet_permissions(self.spreadsheet_id)

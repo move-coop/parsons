@@ -262,7 +262,8 @@ class GoogleSheets:
         sheet.update_cells(cells, value_input_option=value_input_option)
         logger.info(f'Appended {table.num_rows} rows to worksheet.')
 
-    def overwrite_sheet(self, spreadsheet_id, table, worksheet=0, user_entered_value=False):
+    def overwrite_sheet(self, spreadsheet_id, table, worksheet=0, user_entered_value=False, 
+                        **kwargs):
         """
         Replace the data in a Google sheet with a Parsons table, using the table's columns as the
         first row.

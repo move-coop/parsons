@@ -81,7 +81,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../../../action_kit.html">ActionKit</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../action_network.html">Action Network</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../airtable.html">Airtable</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../aws.html">Amazon AWS</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../aws.html">Amazon Web Services</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../bill_com.html">Bill.com</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../braintree.html">Braintree</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../civis.html">Civis</a></li>
@@ -90,18 +90,15 @@
 <li class="toctree-l1"><a class="reference internal" href="../../../databases.html">Databases</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../facebook_ads.html">FacebookAds</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../freshdesk.html">Freshdesk</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../google_sheets.html">GoogleSheets</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../google_cloud.html">Google Cloud</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../google.html">Google</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../hustle.html">Hustle</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../mailchimp.html">Mailchimp</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../mobilize_america.html">Mobilize America</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../newmode.html">New/Mode</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../ngpvan.html">VAN</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../ngpvan.html">NGPVAN</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../p2a.html">Phone2Action</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../redash.html">Redash</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../redshift.html">Redshift</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../rockthevote.html">Rock the Vote</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../s3.html">S3</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../salesforce.html">Salesforce</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../sftp.html">SFTP</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../ts.html">TargetSmart</a></li>
@@ -111,7 +108,6 @@
 </ul>
 <p class="caption"><span class="caption-text">Enhancements</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../../../google_civic.html">Google Civic</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../census_geocoder.html">US Census Geocoder</a></li>
 </ul>
 <p class="caption"><span class="caption-text">Framework</span></p>
@@ -654,8 +650,7 @@
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Bulk upload a csv file of new users or user updates.</span>
 <span class="sd">        If you are uploading a table object, use bulk_upload_table instead.</span>
-<span class="sd">        See `ActionKit User Upload Documentation</span>
-<span class="sd">             &lt;https://roboticdogs.actionkit.com/docs/manual/api/rest/uploads.html&gt;`</span>
+<span class="sd">        See `ActionKit User Upload Documentation &lt;https://roboticdogs.actionkit.com/docs/manual/api/rest/uploads.html&gt;`_</span>
 <span class="sd">        Be careful that blank values in columns will overwrite existing data.</span>
 
 <span class="sd">        If you get a 500 error, try sending a much smaller file (say, one row),</span>
@@ -671,7 +666,7 @@
 <span class="sd">            autocreate_user_fields: bool</span>
 <span class="sd">              When True columns starting with &quot;user_&quot; will be uploaded as user fields.</span>
 <span class="sd">              See the `autocreate_user_fields documentation</span>
-<span class="sd">              &lt;https://roboticdogs.actionkit.com/docs/manual/api/rest/uploads.html#create-a-multipart-post-request&gt;`</span>
+<span class="sd">              &lt;https://roboticdogs.actionkit.com/docs/manual/api/rest/uploads.html#create-a-multipart-post-request&gt;`_.</span>
 <span class="sd">            user_fields_only: bool</span>
 <span class="sd">              When uploading only an email/user_id column and user_ user fields,</span>
 <span class="sd">              ActionKit has a fast processing path.</span>
@@ -681,7 +676,7 @@
 <span class="sd">                success: whether upload was successful</span>
 <span class="sd">                progress_url: an API URL to get progress on upload processing</span>
 <span class="sd">                res: requests http response object</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        &quot;&quot;&quot;</span> <span class="c1"># noqa: E501,E261</span>
 
         <span class="c1"># self.conn defaults to JSON, but this has to be form/multi-part....</span>
         <span class="n">upload_client</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_conn</span><span class="p">({</span><span class="s1">&#39;accepts&#39;</span><span class="p">:</span> <span class="s1">&#39;application/json&#39;</span><span class="p">})</span>
@@ -703,9 +698,9 @@
                           <span class="n">no_overwrite_on_empty</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Bulk upload a table of new users or user updates.</span>
-<span class="sd">        See `ActionKit User Upload Documentation</span>
-<span class="sd">             &lt;https://roboticdogs.actionkit.com/docs/manual/api/rest/uploads.html&gt;`</span>
+<span class="sd">        See `ActionKit User Upload Documentation &lt;https://roboticdogs.actionkit.com/docs/manual/api/rest/uploads.html&gt;`_</span>
 <span class="sd">        Be careful that blank values in columns will overwrite existing data.</span>
+
 <span class="sd">        Tables with only an identifying column (user_id/email) and user_ user fields</span>
 <span class="sd">        will be fast-processed -- this is useful for setting/updating user fields.</span>
 
@@ -721,8 +716,8 @@
 <span class="sd">                A user_id or email column is required.</span>
 <span class="sd">            autocreate_user_fields: bool</span>
 <span class="sd">                When True columns starting with &quot;user_&quot; will be uploaded as user fields.</span>
-<span class="sd">                See the `autocreate_user_fields documentation</span>
-<span class="sd">                  &lt;https://roboticdogs.actionkit.com/docs/manual/api/rest/uploads.html#create-a-multipart-post-request&gt;`</span>
+<span class="sd">                `ActionKit &lt;https://actionkit.com/&gt;`_.</span>
+<span class="sd">                See the autocreate_user_fields `documentation &lt;https://roboticdogs.actionkit.com/docs/manual/api/rest/uploads.html#create-a-multipart-post-request&gt;`_.</span>
 <span class="sd">            no_overwrite_on_empty: bool</span>
 <span class="sd">                When uploading user data, ActionKit will, by default, take a blank value</span>
 <span class="sd">                and overwrite existing data for that user.</span>
@@ -735,7 +730,8 @@
 <span class="sd">                success: bool -- whether upload was successful (individual rows may not have been)</span>
 <span class="sd">                results: [dict] -- This is a list of the full results.</span>
 <span class="sd">                         progress_url and res for any results</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        &quot;&quot;&quot;</span> <span class="c1"># noqa: E501,E261</span>
+
         <span class="n">import_page</span> <span class="o">=</span> <span class="n">check_env</span><span class="o">.</span><span class="n">check</span><span class="p">(</span><span class="s1">&#39;ACTION_KIT_IMPORTPAGE&#39;</span><span class="p">,</span> <span class="n">import_page</span><span class="p">)</span>
         <span class="n">upload_tables</span> <span class="o">=</span> <span class="p">[</span><span class="n">table</span><span class="p">]</span>
         <span class="k">if</span> <span class="n">no_overwrite_on_empty</span><span class="p">:</span>

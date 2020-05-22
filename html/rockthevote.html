@@ -28,8 +28,8 @@
   <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="S3" href="s3.html" />
-    <link rel="prev" title="Redshift" href="redshift.html" /> 
+    <link rel="next" title="Salesforce" href="salesforce.html" />
+    <link rel="prev" title="Redash" href="redash.html" /> 
 
   
   <script src="_static/js/modernizr.min.js"></script>
@@ -83,7 +83,7 @@
 <li class="toctree-l1"><a class="reference internal" href="action_kit.html">ActionKit</a></li>
 <li class="toctree-l1"><a class="reference internal" href="action_network.html">Action Network</a></li>
 <li class="toctree-l1"><a class="reference internal" href="airtable.html">Airtable</a></li>
-<li class="toctree-l1"><a class="reference internal" href="aws.html">Amazon AWS</a></li>
+<li class="toctree-l1"><a class="reference internal" href="aws.html">Amazon Web Services</a></li>
 <li class="toctree-l1"><a class="reference internal" href="bill_com.html">Bill.com</a></li>
 <li class="toctree-l1"><a class="reference internal" href="braintree.html">Braintree</a></li>
 <li class="toctree-l1"><a class="reference internal" href="civis.html">Civis</a></li>
@@ -92,21 +92,20 @@
 <li class="toctree-l1"><a class="reference internal" href="databases.html">Databases</a></li>
 <li class="toctree-l1"><a class="reference internal" href="facebook_ads.html">FacebookAds</a></li>
 <li class="toctree-l1"><a class="reference internal" href="freshdesk.html">Freshdesk</a></li>
-<li class="toctree-l1"><a class="reference internal" href="google_sheets.html">GoogleSheets</a></li>
-<li class="toctree-l1"><a class="reference internal" href="google_cloud.html">Google Cloud</a></li>
+<li class="toctree-l1"><a class="reference internal" href="google.html">Google</a></li>
 <li class="toctree-l1"><a class="reference internal" href="hustle.html">Hustle</a></li>
 <li class="toctree-l1"><a class="reference internal" href="mailchimp.html">Mailchimp</a></li>
 <li class="toctree-l1"><a class="reference internal" href="mobilize_america.html">Mobilize America</a></li>
 <li class="toctree-l1"><a class="reference internal" href="newmode.html">New/Mode</a></li>
-<li class="toctree-l1"><a class="reference internal" href="ngpvan.html">VAN</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ngpvan.html">NGPVAN</a></li>
 <li class="toctree-l1"><a class="reference internal" href="p2a.html">Phone2Action</a></li>
 <li class="toctree-l1"><a class="reference internal" href="redash.html">Redash</a></li>
-<li class="toctree-l1"><a class="reference internal" href="redshift.html">Redshift</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Rock the Vote</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#overview">Overview</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#quickstart">QuickStart</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#api">API</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="s3.html">S3</a></li>
 <li class="toctree-l1"><a class="reference internal" href="salesforce.html">Salesforce</a></li>
 <li class="toctree-l1"><a class="reference internal" href="sftp.html">SFTP</a></li>
 <li class="toctree-l1"><a class="reference internal" href="ts.html">TargetSmart</a></li>
@@ -116,7 +115,6 @@
 </ul>
 <p class="caption"><span class="caption-text">Enhancements</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="google_civic.html">Google Civic</a></li>
 <li class="toctree-l1"><a class="reference internal" href="census_geocoder.html">US Census Geocoder</a></li>
 </ul>
 <p class="caption"><span class="caption-text">Framework</span></p>
@@ -189,10 +187,13 @@
             
   <div class="section" id="rock-the-vote">
 <h1>Rock the Vote<a class="headerlink" href="#rock-the-vote" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="overview">
+<h2>Overview<a class="headerlink" href="#overview" title="Permalink to this headline">¶</a></h2>
 <p><a class="reference external" href="https://www.rockthevote.org/">Rock the Vote</a> is an online registration tool.</p>
 <p>The Parsons Connector makes use of Rock the Vote’s Rocky API. In order to authenticate with the
 API, users will need to specify the ID and the API key of the RTV partner organization for the
 data.</p>
+</div>
 <div class="section" id="quickstart">
 <h2>QuickStart<a class="headerlink" href="#quickstart" title="Permalink to this headline">¶</a></h2>
 <p>To use the RockTheVote class you can either store the partner ID and API key as an
@@ -230,6 +231,9 @@ data.</p>
 <span class="n">registrants</span> <span class="o">=</span> <span class="n">rtv</span><span class="o">.</span><span class="n">get_registration_report</span><span class="p">(</span><span class="n">report_id</span><span class="p">)</span>
 </pre></div>
 </div>
+</div>
+<div class="section" id="api">
+<h2>API<a class="headerlink" href="#api" title="Permalink to this headline">¶</a></h2>
 <dl class="class">
 <dt id="parsons.rockthevote.rtv.RockTheVote">
 <em class="property">class </em><code class="descclassname">parsons.rockthevote.rtv.</code><code class="descname">RockTheVote</code><span class="sig-paren">(</span><em>partner_id=None</em>, <em>partner_api_key=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/rockthevote/rtv.html#RockTheVote"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.rockthevote.rtv.RockTheVote" title="Permalink to this definition">¶</a></dt>
@@ -334,10 +338,10 @@ timeout is reached.</p>
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="s3.html" class="btn btn-neutral float-right" title="S3" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="salesforce.html" class="btn btn-neutral float-right" title="Salesforce" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="redshift.html" class="btn btn-neutral" title="Redshift" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="redash.html" class="btn btn-neutral" title="Redash" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   

@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>GoogleSheets &mdash; Parsons 0.5 documentation</title>
+  <title>GoogleSheets &mdash; Parsons 0.1 documentation</title>
   
 
   
@@ -28,8 +28,8 @@
   <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="Google Cloud" href="google_cloud.html" />
-    <link rel="prev" title="Freshdesk" href="freshdesk.html" /> 
+    <link rel="next" title="Mobile Commons" href="mobile_commons.html" />
+    <link rel="prev" title="FacebookAds" href="facebook_ads.html" /> 
 
   
   <script src="_static/js/modernizr.min.js"></script>
@@ -81,44 +81,18 @@
               <p class="caption"><span class="caption-text">Integrations</span></p>
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="action_kit.html">ActionKit</a></li>
-<li class="toctree-l1"><a class="reference internal" href="action_network.html">Action Network</a></li>
-<li class="toctree-l1"><a class="reference internal" href="airtable.html">Airtable</a></li>
-<li class="toctree-l1"><a class="reference internal" href="aws.html">Amazon AWS</a></li>
-<li class="toctree-l1"><a class="reference internal" href="bill_com.html">Bill.com</a></li>
-<li class="toctree-l1"><a class="reference internal" href="braintree.html">Braintree</a></li>
 <li class="toctree-l1"><a class="reference internal" href="civis.html">Civis</a></li>
-<li class="toctree-l1"><a class="reference internal" href="copper.html">Copper</a></li>
-<li class="toctree-l1"><a class="reference internal" href="crowdtangle.html">CrowdTangle</a></li>
-<li class="toctree-l1"><a class="reference internal" href="databases.html">Databases</a></li>
 <li class="toctree-l1"><a class="reference internal" href="facebook_ads.html">FacebookAds</a></li>
-<li class="toctree-l1"><a class="reference internal" href="freshdesk.html">Freshdesk</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="#">GoogleSheets</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#overview">Overview</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#api">API</a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="google_cloud.html">Google Cloud</a></li>
-<li class="toctree-l1"><a class="reference internal" href="hustle.html">Hustle</a></li>
-<li class="toctree-l1"><a class="reference internal" href="mailchimp.html">Mailchimp</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">GoogleSheets</a></li>
+<li class="toctree-l1"><a class="reference internal" href="mobile_commons.html">Mobile Commons</a></li>
 <li class="toctree-l1"><a class="reference internal" href="mobilize_america.html">Mobilize America</a></li>
-<li class="toctree-l1"><a class="reference internal" href="newmode.html">New/Mode</a></li>
 <li class="toctree-l1"><a class="reference internal" href="ngpvan.html">VAN</a></li>
 <li class="toctree-l1"><a class="reference internal" href="p2a.html">Phone2Action</a></li>
-<li class="toctree-l1"><a class="reference internal" href="redash.html">Redash</a></li>
 <li class="toctree-l1"><a class="reference internal" href="redshift.html">Redshift</a></li>
-<li class="toctree-l1"><a class="reference internal" href="rockthevote.html">Rock the Vote</a></li>
 <li class="toctree-l1"><a class="reference internal" href="s3.html">S3</a></li>
-<li class="toctree-l1"><a class="reference internal" href="salesforce.html">Salesforce</a></li>
 <li class="toctree-l1"><a class="reference internal" href="sftp.html">SFTP</a></li>
 <li class="toctree-l1"><a class="reference internal" href="ts.html">TargetSmart</a></li>
-<li class="toctree-l1"><a class="reference internal" href="twilio.html">Twilio</a></li>
 <li class="toctree-l1"><a class="reference internal" href="turbovote.html">TurboVote</a></li>
-<li class="toctree-l1"><a class="reference internal" href="zoom.html">Zoom</a></li>
-</ul>
-<p class="caption"><span class="caption-text">Enhancements</span></p>
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="google_civic.html">Google Civic</a></li>
-<li class="toctree-l1"><a class="reference internal" href="census_geocoder.html">US Census Geocoder</a></li>
 </ul>
 <p class="caption"><span class="caption-text">Framework</span></p>
 <ul>
@@ -190,30 +164,14 @@
             
   <div class="section" id="googlesheets">
 <h1>GoogleSheets<a class="headerlink" href="#googlesheets" title="Permalink to this headline">¶</a></h1>
-<div class="section" id="overview">
-<h2>Overview<a class="headerlink" href="#overview" title="Permalink to this headline">¶</a></h2>
 <p>The GoogleSheets class allows you to interact with a Google Drive spreadsheet.</p>
 <p>In order to instantiate the class, you must pass Google Drive credentials as a dictionary, or store the credentials as a JSON string in the <code class="docutils literal notranslate"><span class="pre">GOOGLE_DRIVE_CREDENTIALS</span></code> environment variable. Typically you’ll get the credentials from the Google Developer Console (look for the “Google Drive API”).</p>
-</div>
-<div class="section" id="api">
-<h2>API<a class="headerlink" href="#api" title="Permalink to this headline">¶</a></h2>
 <dl class="class">
 <dt id="parsons.GoogleSheets">
-<em class="property">class </em><code class="descclassname">parsons.</code><code class="descname">GoogleSheets</code><span class="sig-paren">(</span><em>google_keyfile_dict=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/google/google_sheets.html#GoogleSheets"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.GoogleSheets" title="Permalink to this definition">¶</a></dt>
-<dd><p>A connector for Google Sheets, handling data import and export.</p>
-<dl class="docutils">
-<dt><cite>Args:</cite></dt>
-<dd><dl class="first last docutils">
-<dt>google_keyfile_dict: dict</dt>
-<dd>A dictionary of Google Drive API credentials, parsed from JSON provided
-by the Google Developer Console. Required if env variable
-<code class="docutils literal notranslate"><span class="pre">GOOGLE_DRIVE_CREDENTIALS</span></code> is not populated.</dd>
-</dl>
-</dd>
-</dl>
-<dl class="method">
+<em class="property">class </em><code class="descclassname">parsons.</code><code class="descname">GoogleSheets</code><span class="sig-paren">(</span><em>google_keyfile_dict=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/databases/google_sheets.html#GoogleSheets"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.GoogleSheets" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="method">
 <dt id="parsons.GoogleSheets.get_sheet_index_with_title">
-<code class="descname">get_sheet_index_with_title</code><span class="sig-paren">(</span><em>spreadsheet_id</em>, <em>title</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/google/google_sheets.html#GoogleSheets.get_sheet_index_with_title"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.GoogleSheets.get_sheet_index_with_title" title="Permalink to this definition">¶</a></dt>
+<code class="descname">get_sheet_index_with_title</code><span class="sig-paren">(</span><em>spreadsheet_id</em>, <em>title</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/databases/google_sheets.html#GoogleSheets.get_sheet_index_with_title"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.GoogleSheets.get_sheet_index_with_title" title="Permalink to this definition">¶</a></dt>
 <dd><p>Get the first sheet in a Google spreadsheet with the given title.</p>
 <dl class="docutils">
 <dt><cite>Args:</cite></dt>
@@ -235,15 +193,15 @@ by the Google Developer Console. Required if env variable
 
 <dl class="method">
 <dt id="parsons.GoogleSheets.read_sheet">
-<code class="descname">read_sheet</code><span class="sig-paren">(</span><em>spreadsheet_id</em>, <em>sheet_index=0</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/google/google_sheets.html#GoogleSheets.read_sheet"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.GoogleSheets.read_sheet" title="Permalink to this definition">¶</a></dt>
-<dd><p>Create a <code class="docutils literal notranslate"><span class="pre">parsons</span> <span class="pre">table</span></code> from a sheet in a Google spreadsheet, given the sheet index.</p>
+<code class="descname">read_sheet</code><span class="sig-paren">(</span><em>spreadsheet_id</em>, <em>sheet_index=0</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/databases/google_sheets.html#GoogleSheets.read_sheet"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.GoogleSheets.read_sheet" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create a <code class="docutils literal notranslate"><span class="pre">`parsons</span> <span class="pre">table`</span></code> from a sheet in a Google spreadsheet, given the sheet index.</p>
 <dl class="docutils">
 <dt><cite>Args:</cite></dt>
 <dd><dl class="first last docutils">
 <dt>spreadsheet_id: str</dt>
 <dd>The ID of the spreadsheet (Tip: Get this from the spreadsheet URL)</dd>
 <dt>sheet_index: int (optional)</dt>
-<dd>The index of the desired worksheet (Index begins at 0).</dd>
+<dd>The index of the desired worksheet</dd>
 </dl>
 </dd>
 <dt><cite>Returns:</cite></dt>
@@ -257,7 +215,7 @@ by the Google Developer Console. Required if env variable
 
 <dl class="method">
 <dt id="parsons.GoogleSheets.read_sheet_with_title">
-<code class="descname">read_sheet_with_title</code><span class="sig-paren">(</span><em>spreadsheet_id</em>, <em>title</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/google/google_sheets.html#GoogleSheets.read_sheet_with_title"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.GoogleSheets.read_sheet_with_title" title="Permalink to this definition">¶</a></dt>
+<code class="descname">read_sheet_with_title</code><span class="sig-paren">(</span><em>spreadsheet_id</em>, <em>title</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/databases/google_sheets.html#GoogleSheets.read_sheet_with_title"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.GoogleSheets.read_sheet_with_title" title="Permalink to this definition">¶</a></dt>
 <dd><p>Create a <code class="docutils literal notranslate"><span class="pre">`parsons</span> <span class="pre">table`</span></code> from a sheet in Google spreadsheet, given the sheet title.</p>
 <dl class="docutils">
 <dt><cite>Args:</cite></dt>
@@ -278,57 +236,8 @@ by the Google Developer Console. Required if env variable
 </dd></dl>
 
 <dl class="method">
-<dt id="parsons.GoogleSheets.share_spreadsheet">
-<code class="descname">share_spreadsheet</code><span class="sig-paren">(</span><em>spreadsheet_id</em>, <em>sharee</em>, <em>share_type='user'</em>, <em>role='reader'</em>, <em>notify=True</em>, <em>notify_message=None</em>, <em>with_link=False</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/google/google_sheets.html#GoogleSheets.share_spreadsheet"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.GoogleSheets.share_spreadsheet" title="Permalink to this definition">¶</a></dt>
-<dd><p>Share a spreadsheet with a user, group of users, domain and/or the public.</p>
-<dl class="docutils">
-<dt><cite>Args:</cite></dt>
-<dd><dl class="first last docutils">
-<dt>spreadsheet_id: str</dt>
-<dd>The ID of the spreadsheet (Tip: Get this from the spreadsheet URL)</dd>
-<dt>sharee: str</dt>
-<dd>User or group e-mail address, domain name to share the spreadsheet
-with. To share publicly, set sharee value to <code class="docutils literal notranslate"><span class="pre">None</span></code>.</dd>
-<dt>share_type: str</dt>
-<dd>The sharee type. Allowed values are: <code class="docutils literal notranslate"><span class="pre">user</span></code>, <code class="docutils literal notranslate"><span class="pre">group</span></code>, <code class="docutils literal notranslate"><span class="pre">domain</span></code>,
-<code class="docutils literal notranslate"><span class="pre">anyone</span></code>.</dd>
-<dt>role: str</dt>
-<dd>The primary role for this user. Allowed values are: <code class="docutils literal notranslate"><span class="pre">owner</span></code>,
-<code class="docutils literal notranslate"><span class="pre">writer</span></code>, <code class="docutils literal notranslate"><span class="pre">reader</span></code>.</dd>
-<dt>notify: boolean</dt>
-<dd>Whether to send an email to the target user/domain.</dd>
-<dt>email_message: str</dt>
-<dd>The email to be sent if notify kwarg set to True.</dd>
-<dt>with_link: boolean</dt>
-<dd>Whether a link is required for this permission.</dd>
-</dl>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="method">
-<dt id="parsons.GoogleSheets.get_spreadsheet_permissions">
-<code class="descname">get_spreadsheet_permissions</code><span class="sig-paren">(</span><em>spreadsheet_id</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/google/google_sheets.html#GoogleSheets.get_spreadsheet_permissions"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.GoogleSheets.get_spreadsheet_permissions" title="Permalink to this definition">¶</a></dt>
-<dd><p>List the permissioned users and groups for a spreadsheet.</p>
-<dl class="docutils">
-<dt><cite>Args:</cite></dt>
-<dd><dl class="first last docutils">
-<dt>spreadsheet_id: str</dt>
-<dd>The ID of the spreadsheet (Tip: Get this from the spreadsheet URL)</dd>
-</dl>
-</dd>
-<dt><cite>Returns:</cite></dt>
-<dd><dl class="first last docutils">
-<dt>Parsons Table</dt>
-<dd>See <a class="reference internal" href="table.html#parsons-table"><span class="std std-ref">Parsons Table</span></a> for output options.</dd>
-</dl>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="method">
 <dt id="parsons.GoogleSheets.create_spreadsheet">
-<code class="descname">create_spreadsheet</code><span class="sig-paren">(</span><em>title</em>, <em>editor_email=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/google/google_sheets.html#GoogleSheets.create_spreadsheet"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.GoogleSheets.create_spreadsheet" title="Permalink to this definition">¶</a></dt>
+<code class="descname">create_spreadsheet</code><span class="sig-paren">(</span><em>title</em>, <em>editor_email=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/databases/google_sheets.html#GoogleSheets.create_spreadsheet"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.GoogleSheets.create_spreadsheet" title="Permalink to this definition">¶</a></dt>
 <dd><p>Create a Google spreadsheet from a Parsons table. Optionally shares the new doc with
 the given email address.</p>
 <dl class="docutils">
@@ -351,7 +260,7 @@ the given email address.</p>
 
 <dl class="method">
 <dt id="parsons.GoogleSheets.delete_spreadsheet">
-<code class="descname">delete_spreadsheet</code><span class="sig-paren">(</span><em>spreadsheet_id</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/google/google_sheets.html#GoogleSheets.delete_spreadsheet"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.GoogleSheets.delete_spreadsheet" title="Permalink to this definition">¶</a></dt>
+<code class="descname">delete_spreadsheet</code><span class="sig-paren">(</span><em>spreadsheet_id</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/databases/google_sheets.html#GoogleSheets.delete_spreadsheet"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.GoogleSheets.delete_spreadsheet" title="Permalink to this definition">¶</a></dt>
 <dd><p>Deletes a Google spreadsheet.</p>
 <dl class="docutils">
 <dt><cite>Args:</cite></dt>
@@ -365,7 +274,7 @@ the given email address.</p>
 
 <dl class="method">
 <dt id="parsons.GoogleSheets.add_sheet">
-<code class="descname">add_sheet</code><span class="sig-paren">(</span><em>spreadsheet_id</em>, <em>title=None</em>, <em>rows=100</em>, <em>cols=25</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/google/google_sheets.html#GoogleSheets.add_sheet"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.GoogleSheets.add_sheet" title="Permalink to this definition">¶</a></dt>
+<code class="descname">add_sheet</code><span class="sig-paren">(</span><em>spreadsheet_id</em>, <em>title=None</em>, <em>rows=100</em>, <em>cols=25</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/databases/google_sheets.html#GoogleSheets.add_sheet"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.GoogleSheets.add_sheet" title="Permalink to this definition">¶</a></dt>
 <dd><p>Adds a sheet to a Google spreadsheet.</p>
 <dl class="docutils">
 <dt><cite>Args:</cite></dt>
@@ -389,7 +298,7 @@ the given email address.</p>
 
 <dl class="method">
 <dt id="parsons.GoogleSheets.append_to_sheet">
-<code class="descname">append_to_sheet</code><span class="sig-paren">(</span><em>spreadsheet_id</em>, <em>table</em>, <em>sheet_index=0</em>, <em>user_entered_value=False</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/google/google_sheets.html#GoogleSheets.append_to_sheet"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.GoogleSheets.append_to_sheet" title="Permalink to this definition">¶</a></dt>
+<code class="descname">append_to_sheet</code><span class="sig-paren">(</span><em>spreadsheet_id</em>, <em>table</em>, <em>sheet_index=0</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/databases/google_sheets.html#GoogleSheets.append_to_sheet"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.GoogleSheets.append_to_sheet" title="Permalink to this definition">¶</a></dt>
 <dd><p>Append data from a Parsons table to a Google sheet. Note that the table’s columns are
 ignored, as we’ll be keeping whatever header row already exists in the Google sheet.</p>
 <dl class="docutils">
@@ -401,9 +310,6 @@ ignored, as we’ll be keeping whatever header row already exists in the Google 
 <dd>Parsons table</dd>
 <dt>sheet_index: int (optional)</dt>
 <dd>The index of the desired worksheet</dd>
-<dt>user_entered_value: bool (optional)</dt>
-<dd>If True, will submit cell values as entered (required for entering formulas).
-Otherwise, values will be entered as strings or numbers only.</dd>
 </dl>
 </dd>
 </dl>
@@ -411,7 +317,7 @@ Otherwise, values will be entered as strings or numbers only.</dd>
 
 <dl class="method">
 <dt id="parsons.GoogleSheets.overwrite_sheet">
-<code class="descname">overwrite_sheet</code><span class="sig-paren">(</span><em>spreadsheet_id</em>, <em>table</em>, <em>sheet_index=0</em>, <em>user_entered_value=False</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/google/google_sheets.html#GoogleSheets.overwrite_sheet"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.GoogleSheets.overwrite_sheet" title="Permalink to this definition">¶</a></dt>
+<code class="descname">overwrite_sheet</code><span class="sig-paren">(</span><em>spreadsheet_id</em>, <em>table</em>, <em>sheet_index=0</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/databases/google_sheets.html#GoogleSheets.overwrite_sheet"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.GoogleSheets.overwrite_sheet" title="Permalink to this definition">¶</a></dt>
 <dd><p>Replace the data in a Google sheet with a Parsons table, using the table’s columns as the
 first row.</p>
 <dl class="docutils">
@@ -423,9 +329,6 @@ first row.</p>
 <dd>Parsons table</dd>
 <dt>sheet_index: int (optional)</dt>
 <dd>The index of the desired worksheet</dd>
-<dt>user_entered_value: bool (optional)</dt>
-<dd>If True, will submit cell values as entered (required for entering formulas).
-Otherwise, values will be entered as strings or numbers only.</dd>
 </dl>
 </dd>
 </dl>
@@ -433,7 +336,6 @@ Otherwise, values will be entered as strings or numbers only.</dd>
 
 </dd></dl>
 
-</div>
 </div>
 
 
@@ -444,10 +346,10 @@ Otherwise, values will be entered as strings or numbers only.</dd>
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="google_cloud.html" class="btn btn-neutral float-right" title="Google Cloud" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="mobile_commons.html" class="btn btn-neutral float-right" title="Mobile Commons" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="freshdesk.html" class="btn btn-neutral" title="Freshdesk" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="facebook_ads.html" class="btn btn-neutral" title="FacebookAds" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   

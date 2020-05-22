@@ -81,7 +81,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../../../action_kit.html">ActionKit</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../action_network.html">Action Network</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../airtable.html">Airtable</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../aws.html">Amazon AWS</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../aws.html">Amazon Web Services</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../bill_com.html">Bill.com</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../braintree.html">Braintree</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../civis.html">Civis</a></li>
@@ -90,18 +90,15 @@
 <li class="toctree-l1"><a class="reference internal" href="../../../databases.html">Databases</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../facebook_ads.html">FacebookAds</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../freshdesk.html">Freshdesk</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../google_sheets.html">GoogleSheets</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../google_cloud.html">Google Cloud</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../google.html">Google</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../hustle.html">Hustle</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../mailchimp.html">Mailchimp</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../mobilize_america.html">Mobilize America</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../newmode.html">New/Mode</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../ngpvan.html">VAN</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../ngpvan.html">NGPVAN</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../p2a.html">Phone2Action</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../redash.html">Redash</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../redshift.html">Redshift</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../rockthevote.html">Rock the Vote</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../s3.html">S3</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../salesforce.html">Salesforce</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../sftp.html">SFTP</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../ts.html">TargetSmart</a></li>
@@ -111,7 +108,6 @@
 </ul>
 <p class="caption"><span class="caption-text">Enhancements</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../../../google_civic.html">Google Civic</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../census_geocoder.html">US Census Geocoder</a></li>
 </ul>
 <p class="caption"><span class="caption-text">Framework</span></p>
@@ -188,7 +184,7 @@
 <span class="n">URI</span> <span class="o">=</span> <span class="s1">&#39;https://www.googleapis.com/civicinfo/v2/&#39;</span>
 
 
-<div class="viewcode-block" id="GoogleCivic"><a class="viewcode-back" href="../../../google_civic.html#parsons.GoogleCivic">[docs]</a><span class="k">class</span> <span class="nc">GoogleCivic</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+<div class="viewcode-block" id="GoogleCivic"><a class="viewcode-back" href="../../../google.html#parsons.GoogleCivic">[docs]</a><span class="k">class</span> <span class="nc">GoogleCivic</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    `Args:`</span>
 <span class="sd">        api_key : str</span>
@@ -215,7 +211,7 @@
 
         <span class="k">return</span> <span class="n">r</span><span class="o">.</span><span class="n">json</span><span class="p">()</span>
 
-<div class="viewcode-block" id="GoogleCivic.get_elections"><a class="viewcode-back" href="../../../google_civic.html#parsons.GoogleCivic.get_elections">[docs]</a>    <span class="k">def</span> <span class="nf">get_elections</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="GoogleCivic.get_elections"><a class="viewcode-back" href="../../../google.html#parsons.GoogleCivic.get_elections">[docs]</a>    <span class="k">def</span> <span class="nf">get_elections</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Get a collection of information about elections and voter information.</span>
 
@@ -238,7 +234,7 @@
 
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">request</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">args</span><span class="o">=</span><span class="n">args</span><span class="p">)</span>
 
-<div class="viewcode-block" id="GoogleCivic.get_polling_location"><a class="viewcode-back" href="../../../google_civic.html#parsons.GoogleCivic.get_polling_location">[docs]</a>    <span class="k">def</span> <span class="nf">get_polling_location</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">election_id</span><span class="p">,</span> <span class="n">address</span><span class="p">):</span>
+<div class="viewcode-block" id="GoogleCivic.get_polling_location"><a class="viewcode-back" href="../../../google.html#parsons.GoogleCivic.get_polling_location">[docs]</a>    <span class="k">def</span> <span class="nf">get_polling_location</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">election_id</span><span class="p">,</span> <span class="n">address</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Get polling location information for a given address.</span>
 
@@ -257,7 +253,7 @@
 
         <span class="k">return</span> <span class="n">r</span><span class="p">[</span><span class="s1">&#39;pollingLocations&#39;</span><span class="p">]</span></div>
 
-<div class="viewcode-block" id="GoogleCivic.get_polling_locations"><a class="viewcode-back" href="../../../google_civic.html#parsons.GoogleCivic.get_polling_locations">[docs]</a>    <span class="k">def</span> <span class="nf">get_polling_locations</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">election_id</span><span class="p">,</span> <span class="n">table</span><span class="p">,</span> <span class="n">address_field</span><span class="o">=</span><span class="s1">&#39;address&#39;</span><span class="p">):</span>
+<div class="viewcode-block" id="GoogleCivic.get_polling_locations"><a class="viewcode-back" href="../../../google.html#parsons.GoogleCivic.get_polling_locations">[docs]</a>    <span class="k">def</span> <span class="nf">get_polling_locations</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">election_id</span><span class="p">,</span> <span class="n">table</span><span class="p">,</span> <span class="n">address_field</span><span class="o">=</span><span class="s1">&#39;address&#39;</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Get polling location information for a table of addresses.</span>
 

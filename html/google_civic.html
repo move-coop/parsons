@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Google Civic &mdash; Parsons 0.5 documentation</title>
+  <title>Google Civic &mdash; Parsons 0.1 documentation</title>
   
 
   
@@ -27,9 +27,7 @@
   <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
   <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <link rel="index" title="Index" href="genindex.html" />
-    <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="US Census Geocoder" href="census_geocoder.html" />
-    <link rel="prev" title="Zoom" href="zoom.html" /> 
+    <link rel="search" title="Search" href="search.html" /> 
 
   
   <script src="_static/js/modernizr.min.js"></script>
@@ -81,44 +79,18 @@
               <p class="caption"><span class="caption-text">Integrations</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="action_kit.html">ActionKit</a></li>
-<li class="toctree-l1"><a class="reference internal" href="action_network.html">Action Network</a></li>
-<li class="toctree-l1"><a class="reference internal" href="airtable.html">Airtable</a></li>
-<li class="toctree-l1"><a class="reference internal" href="aws.html">Amazon AWS</a></li>
-<li class="toctree-l1"><a class="reference internal" href="bill_com.html">Bill.com</a></li>
-<li class="toctree-l1"><a class="reference internal" href="braintree.html">Braintree</a></li>
 <li class="toctree-l1"><a class="reference internal" href="civis.html">Civis</a></li>
-<li class="toctree-l1"><a class="reference internal" href="copper.html">Copper</a></li>
-<li class="toctree-l1"><a class="reference internal" href="crowdtangle.html">CrowdTangle</a></li>
-<li class="toctree-l1"><a class="reference internal" href="databases.html">Databases</a></li>
 <li class="toctree-l1"><a class="reference internal" href="facebook_ads.html">FacebookAds</a></li>
-<li class="toctree-l1"><a class="reference internal" href="freshdesk.html">Freshdesk</a></li>
 <li class="toctree-l1"><a class="reference internal" href="google_sheets.html">GoogleSheets</a></li>
-<li class="toctree-l1"><a class="reference internal" href="google_cloud.html">Google Cloud</a></li>
-<li class="toctree-l1"><a class="reference internal" href="hustle.html">Hustle</a></li>
-<li class="toctree-l1"><a class="reference internal" href="mailchimp.html">Mailchimp</a></li>
+<li class="toctree-l1"><a class="reference internal" href="mobile_commons.html">Mobile Commons</a></li>
 <li class="toctree-l1"><a class="reference internal" href="mobilize_america.html">Mobilize America</a></li>
-<li class="toctree-l1"><a class="reference internal" href="newmode.html">New/Mode</a></li>
 <li class="toctree-l1"><a class="reference internal" href="ngpvan.html">VAN</a></li>
 <li class="toctree-l1"><a class="reference internal" href="p2a.html">Phone2Action</a></li>
-<li class="toctree-l1"><a class="reference internal" href="redash.html">Redash</a></li>
 <li class="toctree-l1"><a class="reference internal" href="redshift.html">Redshift</a></li>
-<li class="toctree-l1"><a class="reference internal" href="rockthevote.html">Rock the Vote</a></li>
 <li class="toctree-l1"><a class="reference internal" href="s3.html">S3</a></li>
-<li class="toctree-l1"><a class="reference internal" href="salesforce.html">Salesforce</a></li>
 <li class="toctree-l1"><a class="reference internal" href="sftp.html">SFTP</a></li>
 <li class="toctree-l1"><a class="reference internal" href="ts.html">TargetSmart</a></li>
-<li class="toctree-l1"><a class="reference internal" href="twilio.html">Twilio</a></li>
 <li class="toctree-l1"><a class="reference internal" href="turbovote.html">TurboVote</a></li>
-<li class="toctree-l1"><a class="reference internal" href="zoom.html">Zoom</a></li>
-</ul>
-<p class="caption"><span class="caption-text">Enhancements</span></p>
-<ul class="current">
-<li class="toctree-l1 current"><a class="current reference internal" href="#">Google Civic</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#overview">Overview</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#api">API</a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="census_geocoder.html">US Census Geocoder</a></li>
 </ul>
 <p class="caption"><span class="caption-text">Framework</span></p>
 <ul>
@@ -190,87 +162,50 @@
             
   <div class="section" id="google-civic">
 <h1>Google Civic<a class="headerlink" href="#google-civic" title="Permalink to this headline">¶</a></h1>
-<div class="section" id="overview">
-<h2>Overview<a class="headerlink" href="#overview" title="Permalink to this headline">¶</a></h2>
-<p>Google Civic is an API which provides helpful information about elections. In order to access Google Civic you must
-create a Google Developer Key in their <a class="reference external" href="https://console.developers.google.com/apis/">API console</a>. In order to
-use Google Civic, you must enable this specific end point.</p>
-<p>The Google Civic API utilizes the <a class="reference external" href="https://www.votinginfoproject.org/">Voting Information Project</a> to collect
-key civic information such as personalized ballots and polling location information.</p>
-</div>
-<div class="section" id="api">
-<h2>API<a class="headerlink" href="#api" title="Permalink to this headline">¶</a></h2>
 <dl class="class">
 <dt id="parsons.GoogleCivic">
-<em class="property">class </em><code class="descclassname">parsons.</code><code class="descname">GoogleCivic</code><span class="sig-paren">(</span><em>api_key=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/google/google_civic.html#GoogleCivic"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.GoogleCivic" title="Permalink to this definition">¶</a></dt>
-<dd><dl class="docutils">
-<dt><cite>Args:</cite></dt>
-<dd><dl class="first last docutils">
-<dt>api_key <span class="classifier-delimiter">:</span> <span class="classifier">str</span></dt>
-<dd>A valid Google api key. Not required if <code class="docutils literal notranslate"><span class="pre">GOOGLE_CIVIC_API_KEY</span></code>
-env variable set.</dd>
-</dl>
-</dd>
-<dt><cite>Returns:</cite></dt>
-<dd>class</dd>
-</dl>
-<dl class="method">
-<dt id="parsons.GoogleCivic.get_elections">
-<code class="descname">get_elections</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/google/google_civic.html#GoogleCivic.get_elections"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.GoogleCivic.get_elections" title="Permalink to this definition">¶</a></dt>
-<dd><p>Get a collection of information about elections and voter information.</p>
+<em class="property">class </em><code class="descclassname">parsons.</code><code class="descname">GoogleCivic</code><span class="sig-paren">(</span><em>api_key=None</em>, <em>uri='https://www.googleapis.com/civicinfo/v2/'</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/google_civic/google_civic.html#GoogleCivic"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.GoogleCivic" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="method">
+<dt id="parsons.GoogleCivic.elections">
+<code class="descname">elections</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/google_civic/google_civic.html#GoogleCivic.elections"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.GoogleCivic.elections" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns a collection of information about elections and voter information.</p>
 <dl class="docutils">
 <dt><cite>Returns:</cite></dt>
 <dd><dl class="first last docutils">
-<dt>Parsons Table</dt>
-<dd>See <a class="reference internal" href="table.html#parsons-table"><span class="std std-ref">Parsons Table</span></a> for output options.</dd>
+<dt>Table</dt>
+<dd>Table of information about elections</dd>
 </dl>
 </dd>
 </dl>
 </dd></dl>
 
 <dl class="method">
-<dt id="parsons.GoogleCivic.get_polling_location">
-<code class="descname">get_polling_location</code><span class="sig-paren">(</span><em>election_id</em>, <em>address</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/google/google_civic.html#GoogleCivic.get_polling_location"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.GoogleCivic.get_polling_location" title="Permalink to this definition">¶</a></dt>
-<dd><p>Get polling location information for a given address.</p>
+<dt id="parsons.GoogleCivic.voter_info">
+<code class="descname">voter_info</code><span class="sig-paren">(</span><em>election_id</em>, <em>address</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/google_civic/google_civic.html#GoogleCivic.voter_info"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.GoogleCivic.voter_info" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns up information relevant to a voter based on the voter’s
+registered address. The returned information may include:</p>
+<blockquote>
+<div><ul class="simple">
+<li>Polling places (including early polling sites) for a given
+residential street address</li>
+<li>Contest and candidate information</li>
+<li>Election official information</li>
+</ul>
+</div></blockquote>
 <dl class="docutils">
 <dt><cite>Args:</cite></dt>
 <dd><dl class="first last docutils">
-<dt>election_id: int</dt>
-<dd>A valid election id. Election ids can be found by running the
-<a class="reference internal" href="#parsons.GoogleCivic.get_elections" title="parsons.GoogleCivic.get_elections"><code class="xref py py-meth docutils literal notranslate"><span class="pre">get_elections()</span></code></a> method.</dd>
+<dt>election_id <span class="classifier-delimiter">:</span> <span class="classifier">int</span></dt>
+<dd>The relevant election_id call with the elections method</dd>
 <dt>address: str</dt>
-<dd>A valid US address in a single string.</dd>
+<dd>An address to lookup. String is forgiving as Google will parse
+it.</dd>
 </dl>
 </dd>
 <dt><cite>Returns:</cite></dt>
 <dd><dl class="first last docutils">
-<dt>Parsons Table</dt>
-<dd>See <a class="reference internal" href="table.html#parsons-table"><span class="std std-ref">Parsons Table</span></a> for output options.</dd>
-</dl>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="method">
-<dt id="parsons.GoogleCivic.get_polling_locations">
-<code class="descname">get_polling_locations</code><span class="sig-paren">(</span><em>election_id</em>, <em>table</em>, <em>address_field='address'</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/google/google_civic.html#GoogleCivic.get_polling_locations"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.GoogleCivic.get_polling_locations" title="Permalink to this definition">¶</a></dt>
-<dd><p>Get polling location information for a table of addresses.</p>
-<dl class="docutils">
-<dt><cite>Args:</cite></dt>
-<dd><dl class="first last docutils">
-<dt>election_id: int</dt>
-<dd>A valid election id. Election ids can be found by running the
-<a class="reference internal" href="#parsons.GoogleCivic.get_elections" title="parsons.GoogleCivic.get_elections"><code class="xref py py-meth docutils literal notranslate"><span class="pre">get_elections()</span></code></a> method.</dd>
-<dt>address: str</dt>
-<dd>A valid US address in a single string.</dd>
-<dt>address_field: str</dt>
-<dd>The name of the column where the address is stored.</dd>
-</dl>
-</dd>
-<dt><cite>Returns:</cite></dt>
-<dd><dl class="first last docutils">
-<dt>Parsons Table</dt>
-<dd>See <a class="reference internal" href="table.html#parsons-table"><span class="std std-ref">Parsons Table</span></a> for output options.</dd>
+<dt>Table</dt>
+<dd>Table containing polling locations, candidates, election info</dd>
 </dl>
 </dd>
 </dl>
@@ -278,7 +213,6 @@ env variable set.</dd>
 
 </dd></dl>
 
-</div>
 </div>
 
 
@@ -286,15 +220,6 @@ env variable set.</dd>
            
           </div>
           <footer>
-  
-    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
-      
-        <a href="census_geocoder.html" class="btn btn-neutral float-right" title="US Census Geocoder" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
-      
-      
-        <a href="zoom.html" class="btn btn-neutral" title="Zoom" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
-      
-    </div>
   
 
   <hr/>

@@ -5,7 +5,7 @@ Zoom
 Overview
 ********
 
-`Zoom <https://twilio.com>`_ is a video conferencing platform.
+`Zoom <https://zoom.us>`_ is a video conferencing platform.
 
 ***********
 Quick Start
@@ -24,9 +24,9 @@ Quick Start
   # Get the list of participants in a past meeting
   par_tbl = zoom.get_past_meeting_participants('asdf123ads')
 
-********
-Zoom API
-********
+***
+API
+***
 
 .. autoclass :: parsons.Zoom
    :inherited-members:

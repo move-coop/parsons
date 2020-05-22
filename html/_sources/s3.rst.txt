@@ -1,16 +1,14 @@
 S3
 ===
 
-********
-Overview
-********
-
 The S3 class heavily reliant on the ``boto3`` python package. It includes a suite of common methods that are commonly
 used with S3.
 
-***
-API
-***
+In order to instantiate the class you must pass valid kwargs, or have a aws config file stored locally, or store the following
+environmental variables:
+
+* ``'AWS_ACCESS_KEY_ID'``
+* ``'AWS_SECRET_ACCESS_KEY'``
 
 .. autoclass :: parsons.S3
    :inherited-members:

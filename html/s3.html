@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>S3 &mdash; Parsons 0.5 documentation</title>
+  <title>S3 &mdash; Parsons 0.1 documentation</title>
   
 
   
@@ -28,8 +28,8 @@
   <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="Salesforce" href="salesforce.html" />
-    <link rel="prev" title="Rock the Vote" href="rockthevote.html" /> 
+    <link rel="next" title="SFTP" href="sftp.html" />
+    <link rel="prev" title="Redshift" href="redshift.html" /> 
 
   
   <script src="_static/js/modernizr.min.js"></script>
@@ -81,44 +81,18 @@
               <p class="caption"><span class="caption-text">Integrations</span></p>
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="action_kit.html">ActionKit</a></li>
-<li class="toctree-l1"><a class="reference internal" href="action_network.html">Action Network</a></li>
-<li class="toctree-l1"><a class="reference internal" href="airtable.html">Airtable</a></li>
-<li class="toctree-l1"><a class="reference internal" href="aws.html">Amazon AWS</a></li>
-<li class="toctree-l1"><a class="reference internal" href="bill_com.html">Bill.com</a></li>
-<li class="toctree-l1"><a class="reference internal" href="braintree.html">Braintree</a></li>
 <li class="toctree-l1"><a class="reference internal" href="civis.html">Civis</a></li>
-<li class="toctree-l1"><a class="reference internal" href="copper.html">Copper</a></li>
-<li class="toctree-l1"><a class="reference internal" href="crowdtangle.html">CrowdTangle</a></li>
-<li class="toctree-l1"><a class="reference internal" href="databases.html">Databases</a></li>
 <li class="toctree-l1"><a class="reference internal" href="facebook_ads.html">FacebookAds</a></li>
-<li class="toctree-l1"><a class="reference internal" href="freshdesk.html">Freshdesk</a></li>
 <li class="toctree-l1"><a class="reference internal" href="google_sheets.html">GoogleSheets</a></li>
-<li class="toctree-l1"><a class="reference internal" href="google_cloud.html">Google Cloud</a></li>
-<li class="toctree-l1"><a class="reference internal" href="hustle.html">Hustle</a></li>
-<li class="toctree-l1"><a class="reference internal" href="mailchimp.html">Mailchimp</a></li>
+<li class="toctree-l1"><a class="reference internal" href="mobile_commons.html">Mobile Commons</a></li>
 <li class="toctree-l1"><a class="reference internal" href="mobilize_america.html">Mobilize America</a></li>
-<li class="toctree-l1"><a class="reference internal" href="newmode.html">New/Mode</a></li>
 <li class="toctree-l1"><a class="reference internal" href="ngpvan.html">VAN</a></li>
 <li class="toctree-l1"><a class="reference internal" href="p2a.html">Phone2Action</a></li>
-<li class="toctree-l1"><a class="reference internal" href="redash.html">Redash</a></li>
 <li class="toctree-l1"><a class="reference internal" href="redshift.html">Redshift</a></li>
-<li class="toctree-l1"><a class="reference internal" href="rockthevote.html">Rock the Vote</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="#">S3</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#overview">Overview</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#api">API</a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="salesforce.html">Salesforce</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">S3</a></li>
 <li class="toctree-l1"><a class="reference internal" href="sftp.html">SFTP</a></li>
 <li class="toctree-l1"><a class="reference internal" href="ts.html">TargetSmart</a></li>
-<li class="toctree-l1"><a class="reference internal" href="twilio.html">Twilio</a></li>
 <li class="toctree-l1"><a class="reference internal" href="turbovote.html">TurboVote</a></li>
-<li class="toctree-l1"><a class="reference internal" href="zoom.html">Zoom</a></li>
-</ul>
-<p class="caption"><span class="caption-text">Enhancements</span></p>
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="google_civic.html">Google Civic</a></li>
-<li class="toctree-l1"><a class="reference internal" href="census_geocoder.html">US Census Geocoder</a></li>
 </ul>
 <p class="caption"><span class="caption-text">Framework</span></p>
 <ul>
@@ -190,31 +164,19 @@
             
   <div class="section" id="s3">
 <h1>S3<a class="headerlink" href="#s3" title="Permalink to this headline">¶</a></h1>
-<div class="section" id="overview">
-<h2>Overview<a class="headerlink" href="#overview" title="Permalink to this headline">¶</a></h2>
 <p>The S3 class heavily reliant on the <code class="docutils literal notranslate"><span class="pre">boto3</span></code> python package. It includes a suite of common methods that are commonly
 used with S3.</p>
-</div>
-<div class="section" id="api">
-<h2>API<a class="headerlink" href="#api" title="Permalink to this headline">¶</a></h2>
+<p>In order to instantiate the class you must pass valid kwargs, or have a aws config file stored locally, or store the following
+environmental variables:</p>
+<ul class="simple">
+<li><code class="docutils literal notranslate"><span class="pre">'AWS_ACCESS_KEY_ID'</span></code></li>
+<li><code class="docutils literal notranslate"><span class="pre">'AWS_SECRET_ACCESS_KEY'</span></code></li>
+</ul>
 <dl class="class">
 <dt id="parsons.S3">
 <em class="property">class </em><code class="descclassname">parsons.</code><code class="descname">S3</code><span class="sig-paren">(</span><em>aws_access_key_id=None</em>, <em>aws_secret_access_key=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/aws/s3.html#S3"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.S3" title="Permalink to this definition">¶</a></dt>
-<dd><p>Instantiate the S3 class.</p>
-<dl class="docutils">
-<dt><cite>Args:</cite></dt>
-<dd><dl class="first last docutils">
-<dt>aws_access_key_id: str</dt>
-<dd>The AWS access key id. Not required if the <code class="docutils literal notranslate"><span class="pre">AWS_ACCESS_KEY_ID</span></code> env variable
-is set.</dd>
-<dt>aws_secret_access_key: str</dt>
-<dd>The AWS secret access key. Not required if the <code class="docutils literal notranslate"><span class="pre">AWS_SECRET_ACCESS_KEY</span></code> env
-variable is set.</dd>
-</dl>
-</dd>
-<dt><cite>Returns:</cite></dt>
-<dd>S3 class.</dd>
-</dl>
+<dd><p>Instatiate by passing <code class="docutils literal notranslate"><span class="pre">aws_access_key_id</span></code> and <code class="docutils literal notranslate"><span class="pre">aws_secret_access_key</span></code>
+or enviromental variables <code class="docutils literal notranslate"><span class="pre">AWS_ACCESS_KEY_ID</span></code> and <code class="docutils literal notranslate"><span class="pre">AWS_SECRET_ACCESS_KEY</span></code>.</p>
 <dl class="attribute">
 <dt id="parsons.S3.s3">
 <code class="descname">s3</code><em class="property"> = None</em><a class="headerlink" href="#parsons.S3.s3" title="Permalink to this definition">¶</a></dt>
@@ -259,7 +221,7 @@ variable is set.</dd>
 
 <dl class="method">
 <dt id="parsons.S3.list_keys">
-<code class="descname">list_keys</code><span class="sig-paren">(</span><em>bucket</em>, <em>prefix=None</em>, <em>suffix=None</em>, <em>regex=None</em>, <em>date_modified_before=None</em>, <em>date_modified_after=None</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/aws/s3.html#S3.list_keys"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.S3.list_keys" title="Permalink to this definition">¶</a></dt>
+<code class="descname">list_keys</code><span class="sig-paren">(</span><em>bucket</em>, <em>prefix=None</em>, <em>suffix=None</em>, <em>regex=None</em>, <em>date_modified_before=None</em>, <em>date_modified_after=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/aws/s3.html#S3.list_keys"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.S3.list_keys" title="Permalink to this definition">¶</a></dt>
 <dd><p>List the keys in a bucket, along with extra info about each one.</p>
 <dl class="docutils">
 <dt><cite>Args:</cite></dt>
@@ -276,9 +238,6 @@ variable is set.</dd>
 <dd>Limits the response to keys with date modified before</dd>
 <dt>date_modified_after: datetime.datetime</dt>
 <dd>Limits the response to keys with date modified after</dd>
-<dt>kwargs:</dt>
-<dd>Additional arguments for the S3 API call. See <a class="reference external" href="https://boto3.amazonaws.com/v1/documentation/api/latest/reference/services/s3.html#S3.Client.list_objects_v2">AWS ListObjectsV2 documentation</a>
-for more info.</dd>
 </dl>
 </dd>
 <dt><cite>Returns:</cite></dt>
@@ -316,23 +275,15 @@ for more info.</dd>
 <dl class="method">
 <dt id="parsons.S3.create_bucket">
 <code class="descname">create_bucket</code><span class="sig-paren">(</span><em>bucket</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/aws/s3.html#S3.create_bucket"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.S3.create_bucket" title="Permalink to this definition">¶</a></dt>
-<dd><p>Create an s3 bucket.</p>
-<div class="admonition warning">
-<p class="first admonition-title">Warning</p>
-<p class="last">S3 has a limit on the number of buckets you can create in an AWS account, and
+<dd><p>Create an s3 bucket.
+WARNING - S3 has a limit on the number of buckets you can create in an AWS account, and
 that limit is fairly low (typically 100). If you are creating buckets frequently,
 you may be mis-using S3, and should consider using the same bucket for multiple tasks.
 There is no limit on the number of objects in a bucket.
-See <a class="reference external" href="https://docs.aws.amazon.com/AmazonS3/latest/dev/BucketRestrictions.html">AWS bucket restrictions</a> for more
-info.</p>
-</div>
-<div class="admonition warning">
-<p class="first admonition-title">Warning</p>
-<p class="last">S3 bucket names are <em>globally</em> unique. So when creating a new bucket,
-the name can’t collide with any existing bucket names. If the provided name does
-collide, you’ll see errors like <cite>IllegalLocationConstraintException</cite> or
-<cite>BucketAlreadyExists</cite>.</p>
-</div>
+See <a class="reference external" href="https://docs.aws.amazon.com/AmazonS3/latest/dev/BucketRestrictions.html">AWS bucket restrictions</a> for more info.</p>
+<p>Also be aware that S3 bucket names are <em>globally</em> unique. So when creating a new bucket,
+the name can’t collide with any existing bucket names. If the provided name does collide,
+you’ll see errors like <cite>IllegalLocationConstraintException</cite> or <cite>BucketAlreadyExists</cite>.</p>
 <dl class="docutils">
 <dt><cite>Args:</cite></dt>
 <dd><dl class="first last docutils">
@@ -388,7 +339,7 @@ info.</dd>
 
 <dl class="method">
 <dt id="parsons.S3.get_file">
-<code class="descname">get_file</code><span class="sig-paren">(</span><em>bucket</em>, <em>key</em>, <em>local_path=None</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/aws/s3.html#S3.get_file"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.S3.get_file" title="Permalink to this definition">¶</a></dt>
+<code class="descname">get_file</code><span class="sig-paren">(</span><em>bucket</em>, <em>key</em>, <em>local_path=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/aws/s3.html#S3.get_file"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.S3.get_file" title="Permalink to this definition">¶</a></dt>
 <dd><p>Download an object from S3 to a local file</p>
 <dl class="docutils">
 <dt><cite>Args:</cite></dt>
@@ -401,9 +352,6 @@ when the script is done running.</dd>
 <dd>The bucket name</dd>
 <dt>key: str</dt>
 <dd>The object key</dd>
-<dt>kwargs:</dt>
-<dd>Additional arguments for the S3 API call. See <a class="reference external" href="https://boto3.amazonaws.com/v1/documentation/api/latest/reference/services/s3.html#S3.Client.download_file">AWS download_file documentation</a>
-for more info.</dd>
 </dl>
 </dd>
 <dt><cite>Returns:</cite></dt>
@@ -441,7 +389,7 @@ for more info.</dd>
 
 <dl class="method">
 <dt id="parsons.S3.transfer_bucket">
-<code class="descname">transfer_bucket</code><span class="sig-paren">(</span><em>origin_bucket</em>, <em>origin_key</em>, <em>destination_bucket</em>, <em>destination_key=None</em>, <em>suffix=None</em>, <em>regex=None</em>, <em>date_modified_before=None</em>, <em>date_modified_after=None</em>, <em>public_read=False</em>, <em>remove_original=False</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/aws/s3.html#S3.transfer_bucket"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.S3.transfer_bucket" title="Permalink to this definition">¶</a></dt>
+<code class="descname">transfer_bucket</code><span class="sig-paren">(</span><em>origin_bucket</em>, <em>origin_key</em>, <em>destination_bucket</em>, <em>destination_key=None</em>, <em>suffix=None</em>, <em>regex=None</em>, <em>date_modified_before=None</em>, <em>date_modified_after=None</em>, <em>public_read=True</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/aws/s3.html#S3.transfer_bucket"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.S3.transfer_bucket" title="Permalink to this definition">¶</a></dt>
 <dd><p>Transfer files between s3 buckets
 <cite>Args:</cite></p>
 <blockquote>
@@ -465,11 +413,6 @@ to new prefix</dd>
 <dd>Limits the response to keys with date modified after</dd>
 <dt>public_read: bool</dt>
 <dd>If the keys should be set to <cite>public-read</cite></dd>
-<dt>remove_original: bool</dt>
-<dd>If the original keys should be removed after transfer</dd>
-<dt>kwargs:</dt>
-<dd>Additional arguments for the S3 API call. See <a class="reference external" href="https://boto3.amazonaws.com/v1/documentation/api/latest/reference/services/s3.html#S3.Client.copy">AWS download_file documentation</a>
-for more info.</dd>
 </dl>
 </div></blockquote>
 <dl class="docutils">
@@ -481,7 +424,6 @@ for more info.</dd>
 </dd></dl>
 
 </div>
-</div>
 
 
            </div>
@@ -491,10 +433,10 @@ for more info.</dd>
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="salesforce.html" class="btn btn-neutral float-right" title="Salesforce" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="sftp.html" class="btn btn-neutral float-right" title="SFTP" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="rockthevote.html" class="btn btn-neutral" title="Rock the Vote" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="redshift.html" class="btn btn-neutral" title="Redshift" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   

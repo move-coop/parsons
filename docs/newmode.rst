@@ -2,7 +2,7 @@ New/Mode
 ==========
 
 `New/Mode <https://www.newmode.net/>`_ is the multi-channel advocacy & civic engagement platform
-that organizations, campaigns and causes use to win on the issues.
+for organizations and campaigns.
 
 Most methods and functions in Parsons return a ``Table``, which is a 2D list-like object. Read
 more in Table documentation.

@@ -177,8 +177,7 @@ Indices and tables
    databases
    facebook_ads
    freshdesk
-   google_sheets
-   google_cloud
+   google
    hustle
    mailchimp
    mobilize_america
@@ -186,9 +185,7 @@ Indices and tables
    ngpvan
    p2a
    redash
-   redshift
    rockthevote
-   s3
    salesforce
    sftp
    ts

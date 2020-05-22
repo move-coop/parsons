@@ -73,7 +73,7 @@ class ActionNetwork(object):
                 Id of the person.
         `Returns:`
             A  JSON of the entry. If the entry doesn't exist, Action Network returns
-            "{'error': 'Couldn't find person with id = <id>'}"
+            ``{'error': 'Couldn't find person with id = <id>'}``.
         """
         return self.api.get_request(url=f"{self.api_url}/people/{person_id}")
 

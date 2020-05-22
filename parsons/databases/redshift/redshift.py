@@ -482,7 +482,7 @@ class Redshift(RedshiftCreateTable, RedshiftCopyTable, RedshiftTableUtilities, R
 
             # If alter_table is True, then alter table if the table column widths
             # are wider than the existing table.
-            elif alter_table:
+            if alter_table:
                 self.alter_varchar_column_widths(tbl, table_name)
 
             # Upload the table to S3

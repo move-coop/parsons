@@ -1,0 +1,465 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>PDI &mdash; Parsons 0.5 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" /> 
+
+  
+  <script src="_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="index.html" class="icon icon-home"> Parsons
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Integrations</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="action_kit.html">ActionKit</a></li>
+<li class="toctree-l1"><a class="reference internal" href="action_network.html">Action Network</a></li>
+<li class="toctree-l1"><a class="reference internal" href="airtable.html">Airtable</a></li>
+<li class="toctree-l1"><a class="reference internal" href="aws.html">Amazon AWS</a></li>
+<li class="toctree-l1"><a class="reference internal" href="bill_com.html">Bill.com</a></li>
+<li class="toctree-l1"><a class="reference internal" href="braintree.html">Braintree</a></li>
+<li class="toctree-l1"><a class="reference internal" href="civis.html">Civis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="copper.html">Copper</a></li>
+<li class="toctree-l1"><a class="reference internal" href="crowdtangle.html">CrowdTangle</a></li>
+<li class="toctree-l1"><a class="reference internal" href="databases.html">Databases</a></li>
+<li class="toctree-l1"><a class="reference internal" href="facebook_ads.html">FacebookAds</a></li>
+<li class="toctree-l1"><a class="reference internal" href="freshdesk.html">Freshdesk</a></li>
+<li class="toctree-l1"><a class="reference internal" href="google_sheets.html">GoogleSheets</a></li>
+<li class="toctree-l1"><a class="reference internal" href="google_cloud.html">Google Cloud</a></li>
+<li class="toctree-l1"><a class="reference internal" href="hustle.html">Hustle</a></li>
+<li class="toctree-l1"><a class="reference internal" href="mailchimp.html">Mailchimp</a></li>
+<li class="toctree-l1"><a class="reference internal" href="mobilize_america.html">Mobilize America</a></li>
+<li class="toctree-l1"><a class="reference internal" href="newmode.html">New/Mode</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ngpvan.html">VAN</a></li>
+<li class="toctree-l1"><a class="reference internal" href="p2a.html">Phone2Action</a></li>
+<li class="toctree-l1"><a class="reference internal" href="redash.html">Redash</a></li>
+<li class="toctree-l1"><a class="reference internal" href="redshift.html">Redshift</a></li>
+<li class="toctree-l1"><a class="reference internal" href="rockthevote.html">Rock the Vote</a></li>
+<li class="toctree-l1"><a class="reference internal" href="s3.html">S3</a></li>
+<li class="toctree-l1"><a class="reference internal" href="salesforce.html">Salesforce</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sftp.html">SFTP</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ts.html">TargetSmart</a></li>
+<li class="toctree-l1"><a class="reference internal" href="twilio.html">Twilio</a></li>
+<li class="toctree-l1"><a class="reference internal" href="turbovote.html">TurboVote</a></li>
+<li class="toctree-l1"><a class="reference internal" href="zoom.html">Zoom</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Enhancements</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="google_civic.html">Google Civic</a></li>
+<li class="toctree-l1"><a class="reference internal" href="census_geocoder.html">US Census Geocoder</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Framework</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="table.html">Parsons Table</a></li>
+<li class="toctree-l1"><a class="reference internal" href="notifications.html">Notifications</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">Parsons</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html">Docs</a> &raquo;</li>
+        
+      <li>PDI</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="_sources/pdi.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="pdi">
+<h1>PDI<a class="headerlink" href="#pdi" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="overview">
+<h2>Overview<a class="headerlink" href="#overview" title="Permalink to this headline">¶</a></h2>
+<p><a class="reference external" href="https://api.bluevote.com/docs/index#">PDI is a political data provider that is primarily active in California.
+`The PDI class allows you to interact with an `PDI’s API</a> .</p>
+<p>In order to instantiate the class you must pass valid kwargs or store the following
+environmental variables:</p>
+<ul class="simple">
+<li><code class="docutils literal notranslate"><span class="pre">'PDI_USERNAME'</span></code></li>
+<li><code class="docutils literal notranslate"><span class="pre">'PDI_PASSWORD'</span></code></li>
+<li><code class="docutils literal notranslate"><span class="pre">'PDI_API_TOKEN'</span></code></li>
+</ul>
+</div>
+<div class="section" id="quickstart">
+<h2>Quickstart<a class="headerlink" href="#quickstart" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">parsons</span> <span class="kn">import</span> <span class="n">PDI</span>
+
+<span class="n">pdi</span> <span class="o">=</span> <span class="n">PDI</span><span class="p">()</span>
+
+<span class="c1">#Get all contacts (flag IDs) available from PDI</span>
+<span class="n">pdi</span><span class="o">.</span><span class="n">get_flag_ids</span><span class="p">()</span>
+
+<span class="c1">#Get all flags since the beginning of 2020</span>
+<span class="n">pdi</span><span class="o">.</span><span class="n">get_flags</span><span class="p">(</span><span class="n">start_date</span><span class="o">=</span><span class="s1">&#39;2020-01-01&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="pdi-class">
+<h2>PDI Class<a class="headerlink" href="#pdi-class" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="parsons.PDI">
+<em class="property">class </em><code class="descclassname">parsons.</code><code class="descname">PDI</code><span class="sig-paren">(</span><em>username=None</em>, <em>password=None</em>, <em>api_token=None</em>, <em>qa_url=False</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/pdi/pdi.html#PDI"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.PDI" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="method">
+<dt id="parsons.PDI.create_flag_id">
+<code class="descname">create_flag_id</code><span class="sig-paren">(</span><em>flag_id</em>, <em>is_default</em>, <em>flag_description=None</em>, <em>compile=None</em><span class="sig-paren">)</span><a class="headerlink" href="#parsons.PDI.create_flag_id" title="Permalink to this definition">¶</a></dt>
+<dd><p>Save a new flag id.</p>
+<dl class="docutils">
+<dt><cite>Args:</cite></dt>
+<dd><dl class="first last docutils">
+<dt>flag_id: str</dt>
+<dd>The flag id type. One of: “AMM”, “BNH”, “BNM”, “DEAD”, “DNC”,
+“DNR”, “ENDR”, “GTD”, “HH”, “L2VT”, “LBO”, “LM”, “LO”, “LS”,
+“LSD”, “LSR”, “MAYBE”, “MOV”, “NAH”, “NO”, “REF”, “SO”, “SS”,
+“SUP”, “U”, “UL2VT”, “VL2VT”, “VOL”, “VTD”.</dd>
+<dt>is_default: bool</dt>
+<dd>The default.</dd>
+<dt>flag_description: str</dt>
+<dd>(Optional) The flag id description.</dd>
+<dt>compile: str</dt>
+<dd>(Optional) The compile.</dd>
+</dl>
+</dd>
+<dt><cite>Returns:</cite></dt>
+<dd><dl class="first last docutils">
+<dt>str</dt>
+<dd>The identifier for the new flag id.</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="parsons.PDI.delete_flag_id">
+<code class="descname">delete_flag_id</code><span class="sig-paren">(</span><em>id</em><span class="sig-paren">)</span><a class="headerlink" href="#parsons.PDI.delete_flag_id" title="Permalink to this definition">¶</a></dt>
+<dd><p>Delete a flag id.</p>
+<p>NOTE: The function returns True (even if the id doesn’t exist) unless
+there is an error.</p>
+<dl class="docutils">
+<dt><cite>Args:</cite></dt>
+<dd><dl class="first last docutils">
+<dt>id: str</dt>
+<dd>The flag id identifier.</dd>
+</dl>
+</dd>
+<dt><cite>Returns:</cite></dt>
+<dd><dl class="first last docutils">
+<dt>bool</dt>
+<dd>True if the operation is successful.</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="parsons.PDI.get_acquisition_types">
+<code class="descname">get_acquisition_types</code><span class="sig-paren">(</span><em>limit=None</em><span class="sig-paren">)</span><a class="headerlink" href="#parsons.PDI.get_acquisition_types" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get a list of Acquisition Types.</p>
+<dl class="docutils">
+<dt><cite>Args:</cite></dt>
+<dd><dl class="first last docutils">
+<dt>limit: int</dt>
+<dd>Specify limit to return.</dd>
+</dl>
+</dd>
+<dt><cite>Returns:</cite></dt>
+<dd><dl class="first last docutils">
+<dt>parsons.Table</dt>
+<dd>A Parsons table of all the data.</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="parsons.PDI.get_flag_id">
+<code class="descname">get_flag_id</code><span class="sig-paren">(</span><em>id</em><span class="sig-paren">)</span><a class="headerlink" href="#parsons.PDI.get_flag_id" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get a specified flag id.</p>
+<dl class="docutils">
+<dt><cite>Args:</cite></dt>
+<dd><dl class="first last docutils">
+<dt>id: str</dt>
+<dd>The flag id identifier.</dd>
+</dl>
+</dd>
+<dt><cite>Returns:</cite></dt>
+<dd><dl class="first last docutils">
+<dt>dict</dt>
+<dd>FlagID object.</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="parsons.PDI.get_flag_ids">
+<code class="descname">get_flag_ids</code><span class="sig-paren">(</span><em>limit=None</em><span class="sig-paren">)</span><a class="headerlink" href="#parsons.PDI.get_flag_ids" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get a list of flag ids.</p>
+<dl class="docutils">
+<dt><cite>Args:</cite></dt>
+<dd><dl class="first last docutils">
+<dt>limit: int</dt>
+<dd>Specify limit to return.</dd>
+</dl>
+</dd>
+<dt><cite>Returns:</cite></dt>
+<dd><dl class="first last docutils">
+<dt>parsons.Table</dt>
+<dd>A Parsons table of all the data.</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="parsons.PDI.get_flags">
+<code class="descname">get_flags</code><span class="sig-paren">(</span><em>start_date</em>, <em>end_date</em>, <em>limit=None</em><span class="sig-paren">)</span><a class="headerlink" href="#parsons.PDI.get_flags" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get a list of flags.</p>
+<dl class="docutils">
+<dt><cite>Args:</cite></dt>
+<dd><dl class="first last docutils">
+<dt>start_date: str</dt>
+<dd>A start date formatted like yyyy-MM-dd.</dd>
+<dt>end_date: str</dt>
+<dd>An end date formatted like yyyy-MM-dd.</dd>
+<dt>limit: int</dt>
+<dd>Specify limit to return.</dd>
+</dl>
+</dd>
+<dt><cite>Returns:</cite></dt>
+<dd><dl class="first last docutils">
+<dt>parsons.Table</dt>
+<dd>A Parsons table of all the data.</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="parsons.PDI.get_questions">
+<code class="descname">get_questions</code><span class="sig-paren">(</span><em>limit=None</em><span class="sig-paren">)</span><a class="headerlink" href="#parsons.PDI.get_questions" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get a list of Questions.</p>
+<dl class="docutils">
+<dt><cite>Args:</cite></dt>
+<dd><dl class="first last docutils">
+<dt>limit: int</dt>
+<dd>Specify limit to return.</dd>
+</dl>
+</dd>
+<dt><cite>Returns:</cite></dt>
+<dd><dl class="first last docutils">
+<dt>parsons.Table</dt>
+<dd>A Parsons table of all the data.</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="parsons.PDI.get_universes">
+<code class="descname">get_universes</code><span class="sig-paren">(</span><em>limit=None</em><span class="sig-paren">)</span><a class="headerlink" href="#parsons.PDI.get_universes" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get a list of Universes.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="parsons.PDI.update_flag_id">
+<code class="descname">update_flag_id</code><span class="sig-paren">(</span><em>id</em>, <em>flag_id</em>, <em>is_default</em>, <em>flag_description=None</em>, <em>compile=None</em><span class="sig-paren">)</span><a class="headerlink" href="#parsons.PDI.update_flag_id" title="Permalink to this definition">¶</a></dt>
+<dd><p>Update a flag id.</p>
+<dl class="docutils">
+<dt><cite>Args:</cite></dt>
+<dd><dl class="first last docutils">
+<dt>id: str</dt>
+<dd>The flag id identifier.</dd>
+<dt>flag_id: str</dt>
+<dd>The flag id type. One of: “AMM”, “BNH”, “BNM”, “DEAD”, “DNC”,
+“DNR”, “ENDR”, “GTD”, “HH”, “L2VT”, “LBO”, “LM”, “LO”, “LS”,
+“LSD”, “LSR”, “MAYBE”, “MOV”, “NAH”, “NO”, “REF”, “SO”, “SS”,
+“SUP”, “U”, “UL2VT”, “VL2VT”, “VOL”, “VTD”.</dd>
+<dt>is_default: bool</dt>
+<dd>The default.</dd>
+<dt>flag_description: str</dt>
+<dd>(Optional) The flag id description.</dd>
+<dt>compile: str</dt>
+<dd>(Optional) The compile.</dd>
+</dl>
+</dd>
+<dt><cite>Returns:</cite></dt>
+<dd><dl class="first last docutils">
+<dt>str</dt>
+<dd>The identifier for the udpated flag id.</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2019, The Movement Cooperative
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script type="text/javascript" src="_static/jquery.js"></script>
+        <script type="text/javascript" src="_static/underscore.js"></script>
+        <script type="text/javascript" src="_static/doctools.js"></script>
+        <script type="text/javascript" src="_static/language_data.js"></script>
+    
+
+  
+
+  <script type="text/javascript" src="_static/js/theme.js"></script>
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

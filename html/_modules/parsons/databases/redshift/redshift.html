@@ -665,7 +665,7 @@
 
             <span class="c1"># If alter_table is True, then alter table if the table column widths</span>
             <span class="c1"># are wider than the existing table.</span>
-            <span class="k">elif</span> <span class="n">alter_table</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">alter_table</span><span class="p">:</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">alter_varchar_column_widths</span><span class="p">(</span><span class="n">tbl</span><span class="p">,</span> <span class="n">table_name</span><span class="p">)</span>
 
             <span class="c1"># Upload the table to S3</span>

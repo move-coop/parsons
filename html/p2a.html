@@ -204,8 +204,10 @@ env variable set.</dd>
 </dl>
 <dl class="method">
 <dt id="parsons.Phone2Action.get_advocates">
-<code class="descname">get_advocates</code><span class="sig-paren">(</span><em>state=None</em>, <em>campaign_id=None</em>, <em>updated_since=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/phone2action/p2a.html#Phone2Action.get_advocates"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.Phone2Action.get_advocates" title="Permalink to this definition">¶</a></dt>
+<code class="descname">get_advocates</code><span class="sig-paren">(</span><em>state=None</em>, <em>campaign_id=None</em>, <em>updated_since=None</em>, <em>page=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/phone2action/p2a.html#Phone2Action.get_advocates"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.Phone2Action.get_advocates" title="Permalink to this definition">¶</a></dt>
 <dd><p>Return advocates (person records).</p>
+<p>If no page is specified, the method will automatically paginate through the available
+advocates.</p>
 <dl class="docutils">
 <dt><cite>Args:</cite></dt>
 <dd><dl class="first last docutils">
@@ -217,6 +219,9 @@ or territory e.g., “CA” “NY” or “DC”</dd>
 <dt>updated_since: str</dt>
 <dd>Fetch all advocates updated since UTC date time provided
 using (ex. ‘2014-01-05 23:59:43’)</dd>
+<dt>page: int</dt>
+<dd>Page number of data to fetch; if this is specified, call will only return one
+page.</dd>
 </dl>
 </dd>
 <dt><cite>Returns:</cite></dt>

@@ -119,6 +119,7 @@ def compression_type_for_path(path):
 
     return None
 
+
 def valid_table_suffix(path):
     # Checks if the suffix is valid for conversions to a Parsons table.
 

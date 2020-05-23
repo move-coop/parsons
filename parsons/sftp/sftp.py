@@ -137,6 +137,9 @@ class SFTP(object):
                 See :ref:`parsons-table` for output options.
         """
 
+        if not files.valid_table_suffix(remote_path):
+            raise ValueError('File type cannot be converted to a Parsons table.')
+
         return Table.from_csv(self.get_file(remote_path))
 
     def put_file(self, local_path, remote_path):

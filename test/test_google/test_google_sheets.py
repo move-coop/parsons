@@ -5,6 +5,7 @@ import os
 
 from parsons.google.google_sheets import GoogleSheets
 from parsons.etl.table import Table
+from test.utils import assert_matching_tables
 
 
 @unittest.skipIf(not os.environ.get('LIVE_TEST'), 'Skipping because not running live test')
@@ -21,14 +22,13 @@ class TestGoogleSheets(unittest.TestCase):
         ])
         self.google_sheets.overwrite_sheet(self.spreadsheet_id, self.test_table)
 
-        self.second_sheet_title = "2nd sheet"
+        self.second_sheet_title = "2nd"
         self.google_sheets.add_sheet(self.spreadsheet_id, self.second_sheet_title)
         self.second_test_table = Table([
             {'city': 'San Francisco', 'state': 'SF'},
             {'city': 'Chicago', 'state': 'IL'},
         ])
         self.google_sheets.overwrite_sheet(self.spreadsheet_id, self.second_test_table, 1)
-
 
     def tearDown(self):
         # self.google_sheets.delete_spreadsheet(self.spreadsheet_id)
@@ -46,7 +46,7 @@ class TestGoogleSheets(unittest.TestCase):
         table = self.google_sheets.read_sheet('1Y_pZxz-8JZ9QBdq1pXuIk2js_VXeymOUoZhUp1JVEg8')
         self.assertEqual(541, table.num_rows)
 
-    def test_read_nonexistent_sheet(self):
+    def test_read_nonexistent_worksheet(self):
         self.assertRaises(gspread.exceptions.APIError, self.google_sheets.read_sheet, 'abc123')
 
     def test_create_spreadsheet(self):
@@ -56,15 +56,13 @@ class TestGoogleSheets(unittest.TestCase):
     def test_add_sheet(self):
         # Sheet added as part of setUp
         # Also tests get_sheet_index_with_title
-        idx = self.google_sheets.get_sheet_index_with_title(
-            self.spreadsheet_id, self.second_sheet_title
-            )
+        idx = self.google_sheets.get_worksheet_index(self.spreadsheet_id, self.second_sheet_title)
         self.assertEqual(1, idx)
 
     def test_get_sheet_index_with_bogus_title(self):
         self.assertRaises(
             ValueError,
-            self.google_sheets.get_sheet_index_with_title, self.spreadsheet_id, 'abc123'
+            self.google_sheets.get_worksheet_index, self.spreadsheet_id, 'abc123'
             )
 
     def test_read_worksheet_with_title(self):
@@ -72,6 +70,7 @@ class TestGoogleSheets(unittest.TestCase):
         self.assertEqual(self.second_test_table.columns, table.columns)
 
     def test_append_to_spreadsheet(self):
+        # BROKEN TEST!
         append_table = Table([
             {'first': 'Jim', 'last': 'Mitchell'},
             {'first': 'Lucy', 'last': 'Simpson'},
@@ -117,6 +116,7 @@ class TestGoogleSheets(unittest.TestCase):
         self.assertEqual(formula_vals[1], 'Budapest')
 
     def test_overwrite_spreadsheet(self):
+        # BROKEN TEST!
         new_table = Table([
             {'city': 'San Francisco', 'state': 'CA'},
             {'city': 'Miami', 'state': 'FL'},
@@ -125,10 +125,7 @@ class TestGoogleSheets(unittest.TestCase):
         self.google_sheets.overwrite_sheet(self.spreadsheet_id, new_table)
         result_table = self.google_sheets.read_sheet(self.spreadsheet_id)
 
-        self.assertEqual(new_table.columns, result_table.columns)
-        self.assertEqual(new_table.num_rows, result_table.num_rows)
-        for i in range(new_table.num_rows):
-            self.assertEqual(new_table.data[i], result_table.data[i])
+        assert_matching_tables(new_table, result_table)
 
     def test_share_spreadsheet(self):
         # Test that sharing of spreadsheet works as intended.

@@ -52,14 +52,27 @@ class GoogleSheets:
         # Check if the worksheet is an integer, if so find the sheet by index
         if isinstance(worksheet, int):
             return self.gspread_client.open_by_key(spreadsheet_id).get_worksheet(worksheet)
-        
-        # If not, then retrieve it by the title
+
+        elif isinstance(worksheet, str):
+            idx = self.list_worksheets(spreadsheet_id).index(worksheet)
+            return self.gspread_client.open_by_key(spreadsheet_id).get_worksheet(idx)
+
         else:
-            sheets = self.gspread_client.open_by_key(spreadsheet_id).worksheets()
-            for index, sheet in enumerate(sheets):
-                if sheet.title == worksheet:
-                    return self.gspread_client.open_by_key(spreadsheet_id).get_worksheet(worksheet)
-                raise ValueError(f"Couldn't find sheet with title {worksheet}")
+            raise ValueError(f"Couldn't find worksheet index or title {worksheet}")
+
+    def list_worksheets(self, spreadsheet_id):
+        """
+        Return a list of worksheets in the spreadsheet.
+
+        `Args:`
+            spreadsheet_id: str
+                The ID of the spreadsheet (Tip: Get this from the spreadsheet URL)
+        `Returns:`
+            list
+                A List of worksheets order by their index
+        """
+        worksheets = self.gspread_client.open_by_key(spreadsheet_id).worksheets()
+        return [w.title for w in worksheets]
 
     def get_worksheet_index(self, spreadsheet_id, title):
         """
@@ -211,7 +224,8 @@ class GoogleSheets:
         logger.info('Created worksheet.')
         return (sheet_count-1)
 
-    def append_to_sheet(self, spreadsheet_id, table, worksheet=0, user_entered_value=False, **kwargs):
+    def append_to_sheet(self, spreadsheet_id, table, worksheet=0, user_entered_value=False,
+                        **kwargs):
         """
         Append data from a Parsons table to a Google sheet. Note that the table's columns are
         ignored, as we'll be keeping whatever header row already exists in the Google sheet.
@@ -233,7 +247,7 @@ class GoogleSheets:
         try:
             worksheet = kwargs['sheet_index']
             logger.warning('Argument deprecated. Use worksheet instead.')
-        except:
+        except:  # noqa: E722
             pass
 
         sheet = self._get_worksheet(spreadsheet_id, worksheet)
@@ -262,7 +276,7 @@ class GoogleSheets:
         sheet.update_cells(cells, value_input_option=value_input_option)
         logger.info(f'Appended {table.num_rows} rows to worksheet.')
 
-    def overwrite_sheet(self, spreadsheet_id, table, worksheet=0, user_entered_value=False, 
+    def overwrite_sheet(self, spreadsheet_id, table, worksheet=0, user_entered_value=False,
                         **kwargs):
         """
         Replace the data in a Google sheet with a Parsons table, using the table's columns as the
@@ -285,7 +299,7 @@ class GoogleSheets:
         try:
             worksheet = kwargs['sheet_index']
             logger.warning('Argument deprecated. Use worksheet instead.')
-        except:
+        except:  # noqa: E722
             pass
 
         sheet = self._get_worksheet(spreadsheet_id, worksheet)

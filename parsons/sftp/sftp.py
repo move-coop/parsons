@@ -40,9 +40,27 @@ class SFTP(object):
         self.port = port
 
     @contextmanager
-    def _create_connection(self):
-        # Internal method to create a connection and close when it's out of scope.
-        # Make sure to use this in a ``with`` block, since it's a context manager.
+    def create_connection(self):
+        """
+        Create an SFTP connection. You can then utilize this in a ``with`` block
+        and it will close the connection when it is out of scope. You should use
+        this when you wish to batch multiple methods using a single connection.
+
+        .. code-block:: python
+
+            import SFTP
+
+            sftp = SFTP()
+            connection = sftp.connection()
+
+            with conn as connection:
+                sftp.make_directory('my_dir', connection=conn)
+                sftp.put_file('my_csv.csv', connection=conn)
+
+        Returns:
+            SFTP Connection object
+        """
+
         transport = paramiko.Transport((self.host, self.port))
         pkey = None
         if self.rsa_private_key_file:
@@ -55,47 +73,60 @@ class SFTP(object):
         conn.close()
         transport.close()
 
-    def list_directory(self, remote_path='.'):
+    def list_directory(self, remote_path='.', connection=None):
         """
         List the contents of a directory
 
         `Args:`
             remote_path: str
                 The remote path of the directory
+            connection: obj
+                An SFTP connection object
         `Returns:`
             list
         """
 
-        with self._create_connection() as conn:
-            file_list = conn.listdir(path=remote_path)
+        if connection:
+            return connection.listdir(path=remote_path)
+        else:
+            with self.create_connection() as connection:
+                return connection.listdir(path=remote_path)
 
-        return file_list
-
-    def make_directory(self, remote_path):
+    def make_directory(self, remote_path, connection=None):
         """
         Makes a new directory on the SFTP server
 
         `Args:`
             remote_path: str
                 The remote path of the directory
+            connection: obj
+                An SFTP connection object
         """
 
-        with self._create_connection() as conn:
-            conn.mkdir(remote_path)
+        if connection:
+            connection.mkdir(remote_path)
+        else:
+            with self.create_connection() as connection:
+                connection.mkdir(remote_path)
 
-    def remove_directory(self, remote_path):
+    def remove_directory(self, remote_path, connection=None):
         """
         Remove a directory from the SFTP server
 
         `Args:`
             remote_path: str
                 The remote path of the directory
+            connection: obj
+                An SFTP connection object
         """
 
-        with self._create_connection() as conn:
-            conn.rmdir(remote_path)
+        if connection:
+            connection.rmdir(remote_path)
+        else:
+            with self.create_connection() as connection:
+                connection.rmdir(remote_path)
 
-    def get_file(self, remote_path, local_path=None):
+    def get_file(self, remote_path, local_path=None, connection=None):
         """
         Download a file from the SFTP server
 
@@ -106,7 +137,8 @@ class SFTP(object):
                 The local path where the file will be downloaded. If not specified, a temporary
                 file will be created and returned, and that file will be removed automatically
                 when the script is done running.
-
+            connection: obj
+                An SFTP connection object
         `Returns:`
             str
                 The path of the local file
@@ -115,12 +147,14 @@ class SFTP(object):
         if not local_path:
             local_path = files.create_temp_file_for_path(remote_path)
 
-        with self._create_connection() as conn:
-            conn.get(remote_path, local_path)
+        if connection:
+            connection.get(remote_path, local_path)
+        with self.create_connection() as connection:
+            connection.get(remote_path, local_path)
 
         return local_path
 
-    def put_file(self, local_path, remote_path):
+    def put_file(self, local_path, remote_path, connection=None):
         """
         Put a file on the SFTP server
         `Args:`
@@ -128,35 +162,49 @@ class SFTP(object):
                 The local path of the source file
             remote_path: str
                 The remote path of the new file
+            connection: obj
+                An SFTP connection object
         """
-        with self._create_connection() as conn:
-            conn.put(local_path, remote_path)
+        if connection:
+            connection.put(local_path, remote_path)
+        with self.create_connection() as connection:
+            connection.put(local_path, remote_path)
 
-    def remove_file(self, remote_path):
+    def remove_file(self, remote_path, connection=None):
         """
         Delete a file on the SFTP server
 
         `Args:`
             remote_path: str
                 The remote path of the file
+            connection: obj
+                An SFTP connection object
         """
 
-        with self._create_connection() as conn:
-            conn.remove(remote_path)
+        if connection:
+            connection.remove(remote_path)
+        with self.create_connection() as connection:
+            connection.remove(remote_path)
 
-    def get_file_size(self, remote_path):
+    def get_file_size(self, remote_path, connection=None):
         """
-        Get the size of a file in MB on the SFTP Server
+        Get the size of a file in MB on the SFTP server. The file is
+        not downloaded locally.
 
         `Args:`
             remote_path: str
                 The remote path of the file
+            connection: obj
+                An SFTP connection object
         `Returns:`
             int
                 The file size in MB.
         """
 
-        with self._create_connection() as conn:
-            size = conn.file(remote_path, 'r')._get_size()
+        if connection:
+            size = connection.file(remote_path, 'r')._get_size()
+        else:
+            with self.create_connection() as connection:
+                size = connection.file(remote_path, 'r')._get_size()
 
         return size / 1024

@@ -116,7 +116,6 @@ class TestGoogleSheets(unittest.TestCase):
         self.assertEqual(formula_vals[1], 'Budapest')
 
     def test_overwrite_spreadsheet(self):
-        # BROKEN TEST!
         new_table = Table([
             {'city': 'San Francisco', 'state': 'CA'},
             {'city': 'Miami', 'state': 'FL'},

@@ -3,6 +3,7 @@ import requests_mock
 from test.utils import validate_list
 from parsons.phone2action import Phone2Action
 import os
+import copy
 
 adv_json = {
     "data": [
@@ -172,6 +173,19 @@ class TestP2A(unittest.TestCase):
 
         fields_exp = ['advocate_id', 'fields']
         self.assertTrue(validate_list(fields_exp, self.p2a.get_advocates()['fields']))
+
+    @requests_mock.Mocker()
+    def test_get_advocates(self, m):
+
+        response = copy.deepcopy(adv_json)
+        # Make it look like there's more data
+        response['pagination']['count'] = 100
+
+        m.get(self.p2a.uri + 'advocates?page=1', json=adv_json)
+        m.get(self.p2a.uri + 'advocates?page=2', exc=Exception('Should only call once'))
+
+        results = self.p2a.get_advocates(page=1)
+        self.assertTrue(len(results), 1)
 
     @requests_mock.Mocker()
     def test_get_campaigns(self, m):

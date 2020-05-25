@@ -275,7 +275,7 @@
                 <span class="s1">&#39;updatedSince&#39;</span><span class="p">:</span> <span class="n">updated_since</span><span class="p">}</span>
 
         <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s1">&#39;Retrieving advocates...&#39;</span><span class="p">)</span>
-        <span class="n">json</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_paginate_request</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">args</span><span class="o">=</span><span class="n">args</span><span class="p">)</span>
+        <span class="n">json</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_paginate_request</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">args</span><span class="o">=</span><span class="n">args</span><span class="p">,</span> <span class="n">page</span><span class="o">=</span><span class="n">page</span><span class="p">)</span>
 
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_advocates_tables</span><span class="p">(</span><span class="n">Table</span><span class="p">(</span><span class="n">json</span><span class="p">))</span></div>
 

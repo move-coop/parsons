@@ -179,7 +179,9 @@
   <h1>Source code for parsons.sftp.sftp</h1><div class="highlight"><pre>
 <span></span><span class="kn">from</span> <span class="nn">contextlib</span> <span class="kn">import</span> <span class="n">contextmanager</span>
 <span class="kn">import</span> <span class="nn">paramiko</span>
+
 <span class="kn">from</span> <span class="nn">parsons.utilities</span> <span class="kn">import</span> <span class="n">files</span>
+<span class="kn">from</span> <span class="nn">parsons.etl</span> <span class="kn">import</span> <span class="n">Table</span>
 
 
 <div class="viewcode-block" id="SFTP"><a class="viewcode-back" href="../../../sftp.html#parsons.SFTP">[docs]</a><span class="k">class</span> <span class="nc">SFTP</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
@@ -298,6 +300,26 @@
             <span class="n">conn</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">remote_path</span><span class="p">,</span> <span class="n">local_path</span><span class="p">)</span>
 
         <span class="k">return</span> <span class="n">local_path</span></div>
+
+<div class="viewcode-block" id="SFTP.get_table"><a class="viewcode-back" href="../../../sftp.html#parsons.SFTP.get_table">[docs]</a>    <span class="k">def</span> <span class="nf">get_table</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">remote_path</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Download a csv from the server and convert into a Parsons table.</span>
+
+<span class="sd">        The file may be compressed with gzip, or zip, but may not contain</span>
+<span class="sd">        multiple files in the archive.</span>
+
+<span class="sd">        `Args:`</span>
+<span class="sd">            remote_path: str</span>
+<span class="sd">                The remote path of the file to download</span>
+<span class="sd">        `Returns:`</span>
+<span class="sd">            Parsons Table</span>
+<span class="sd">                See :ref:`parsons-table` for output options.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">files</span><span class="o">.</span><span class="n">valid_table_suffix</span><span class="p">(</span><span class="n">remote_path</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;File type cannot be converted to a Parsons table.&#39;</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">Table</span><span class="o">.</span><span class="n">from_csv</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">get_file</span><span class="p">(</span><span class="n">remote_path</span><span class="p">))</span></div>
 
 <div class="viewcode-block" id="SFTP.put_file"><a class="viewcode-back" href="../../../sftp.html#parsons.SFTP.put_file">[docs]</a>    <span class="k">def</span> <span class="nf">put_file</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">local_path</span><span class="p">,</span> <span class="n">remote_path</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>

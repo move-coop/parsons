@@ -276,6 +276,28 @@ when the script is done running.</dd>
 </dd></dl>
 
 <dl class="method">
+<dt id="parsons.SFTP.get_table">
+<code class="descname">get_table</code><span class="sig-paren">(</span><em>remote_path</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/sftp/sftp.html#SFTP.get_table"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.SFTP.get_table" title="Permalink to this definition">¶</a></dt>
+<dd><p>Download a csv from the server and convert into a Parsons table.</p>
+<p>The file may be compressed with gzip, or zip, but may not contain
+multiple files in the archive.</p>
+<dl class="docutils">
+<dt><cite>Args:</cite></dt>
+<dd><dl class="first last docutils">
+<dt>remote_path: str</dt>
+<dd>The remote path of the file to download</dd>
+</dl>
+</dd>
+<dt><cite>Returns:</cite></dt>
+<dd><dl class="first last docutils">
+<dt>Parsons Table</dt>
+<dd>See <a class="reference internal" href="table.html#parsons-table"><span class="std std-ref">Parsons Table</span></a> for output options.</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
 <dt id="parsons.SFTP.put_file">
 <code class="descname">put_file</code><span class="sig-paren">(</span><em>local_path</em>, <em>remote_path</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/sftp/sftp.html#SFTP.put_file"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.SFTP.put_file" title="Permalink to this definition">¶</a></dt>
 <dd><p>Put a file on the SFTP server

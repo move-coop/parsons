@@ -99,6 +99,10 @@ def is_zip_path(path):
     return (path[-4:] == '.zip')
 
 
+def is_csv_path(path):
+    return (path[-3:] == '.csv')
+
+
 def suffix_for_compression_type(compression):
     if compression == 'gzip':
         return '.gz'
@@ -114,6 +118,15 @@ def compression_type_for_path(path):
         return 'zip'
 
     return None
+
+
+def valid_table_suffix(path):
+    # Checks if the suffix is valid for conversions to a Parsons table.
+
+    if is_csv_path(path) or is_gzip_path(path) or is_zip_path(path):
+        return True
+    else:
+        return False
 
 
 def read_file(path):

@@ -96,7 +96,7 @@ class Phone2Action(object):
                 'updatedSince': updated_since}
 
         logger.info('Retrieving advocates...')
-        json = self._paginate_request(url, args=args)
+        json = self._paginate_request(url, args=args, page=page)
 
         return self._advocates_tables(Table(json))
 

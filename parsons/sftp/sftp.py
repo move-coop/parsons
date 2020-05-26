@@ -1,6 +1,8 @@
 from contextlib import contextmanager
 import paramiko
+
 from parsons.utilities import files
+from parsons.etl import Table
 
 
 class SFTP(object):
@@ -153,6 +155,26 @@ class SFTP(object):
             connection.get(remote_path, local_path)
 
         return local_path
+
+    def get_table(self, remote_path):
+        """
+        Download a csv from the server and convert into a Parsons table.
+
+        The file may be compressed with gzip, or zip, but may not contain
+        multiple files in the archive.
+
+        `Args:`
+            remote_path: str
+                The remote path of the file to download
+        `Returns:`
+            Parsons Table
+                See :ref:`parsons-table` for output options.
+        """
+
+        if not files.valid_table_suffix(remote_path):
+            raise ValueError('File type cannot be converted to a Parsons table.')
+
+        return Table.from_csv(self.get_file(remote_path))
 
     def put_file(self, local_path, remote_path, connection=None):
         """

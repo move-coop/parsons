@@ -27,7 +27,9 @@
   <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
   <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <link rel="index" title="Index" href="genindex.html" />
-    <link rel="search" title="Search" href="search.html" /> 
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Phone2Action" href="p2a.html" />
+    <link rel="prev" title="NGPVAN" href="ngpvan.html" /> 
 
   
   <script src="_static/js/modernizr.min.js"></script>
@@ -77,7 +79,7 @@
             
             
               <p class="caption"><span class="caption-text">Integrations</span></p>
-<ul>
+<ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="action_kit.html">ActionKit</a></li>
 <li class="toctree-l1"><a class="reference internal" href="action_network.html">Action Network</a></li>
 <li class="toctree-l1"><a class="reference internal" href="airtable.html">Airtable</a></li>
@@ -96,6 +98,12 @@
 <li class="toctree-l1"><a class="reference internal" href="mobilize_america.html">Mobilize America</a></li>
 <li class="toctree-l1"><a class="reference internal" href="newmode.html">New/Mode</a></li>
 <li class="toctree-l1"><a class="reference internal" href="ngpvan.html">NGPVAN</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">PDI</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#overview">Overview</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#quickstart">Quickstart</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#pdi-class">PDI Class</a></li>
+</ul>
+</li>
 <li class="toctree-l1"><a class="reference internal" href="p2a.html">Phone2Action</a></li>
 <li class="toctree-l1"><a class="reference internal" href="redash.html">Redash</a></li>
 <li class="toctree-l1"><a class="reference internal" href="rockthevote.html">Rock the Vote</a></li>
@@ -370,6 +378,20 @@ there is an error.</p>
 <dt id="parsons.PDI.get_universes">
 <code class="descname">get_universes</code><span class="sig-paren">(</span><em>limit=None</em><span class="sig-paren">)</span><a class="headerlink" href="#parsons.PDI.get_universes" title="Permalink to this definition">¶</a></dt>
 <dd><p>Get a list of Universes.</p>
+<dl class="docutils">
+<dt><cite>Args:</cite></dt>
+<dd><dl class="first last docutils">
+<dt>limit: int</dt>
+<dd>The number of universes to return.</dd>
+</dl>
+</dd>
+<dt><cite>Returns:</cite></dt>
+<dd><dl class="first last docutils">
+<dt>parsons.Table</dt>
+<dd>A Parsons table of all the data.</dd>
+</dl>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="method">
@@ -413,6 +435,15 @@ there is an error.</p>
            
           </div>
           <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="p2a.html" class="btn btn-neutral float-right" title="Phone2Action" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="ngpvan.html" class="btn btn-neutral" title="NGPVAN" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
   
 
   <hr/>

@@ -183,6 +183,7 @@ Indices and tables
    mobilize_america
    newmode
    ngpvan
+   pdi
    p2a
    redash
    rockthevote

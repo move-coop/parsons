@@ -156,7 +156,7 @@ class SFTP(object):
 
         return local_path
 
-    def get_table(self, remote_path):
+    def get_table(self, remote_path, connection=None):
         """
         Download a csv from the server and convert into a Parsons table.
 
@@ -166,6 +166,8 @@ class SFTP(object):
         `Args:`
             remote_path: str
                 The remote path of the file to download
+            connection: obj
+                An SFTP connection object
         `Returns:`
             Parsons Table
                 See :ref:`parsons-table` for output options.
@@ -174,7 +176,7 @@ class SFTP(object):
         if not files.valid_table_suffix(remote_path):
             raise ValueError('File type cannot be converted to a Parsons table.')
 
-        return Table.from_csv(self.get_file(remote_path))
+        return Table.from_csv(self.get_file(remote_path, connection=connection))
 
     def put_file(self, local_path, remote_path, connection=None):
         """

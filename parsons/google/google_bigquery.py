@@ -185,7 +185,7 @@ class GoogleBigQuery:
         Run a BigQuery query and return the results as a Parsons table.
 
         To include python variables in your query, it is recommended to pass them as parameters,
-        following the BigQuery style where parameters are prefixed with `@`s.
+        following the BigQuery style where parameters are prefixed with `%`s.
         Using the ``parameters`` argument ensures that values are escaped properly, and avoids SQL
         injection attacks.
 

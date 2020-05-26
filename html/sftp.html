@@ -209,14 +209,38 @@ to authenticate stfp connection</dd>
 <dd>SFTP Class</dd>
 </dl>
 <dl class="method">
+<dt id="parsons.SFTP.create_connection">
+<code class="descname">create_connection</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/sftp/sftp.html#SFTP.create_connection"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.SFTP.create_connection" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create an SFTP connection. You can then utilize this in a <code class="docutils literal notranslate"><span class="pre">with</span></code> block
+and it will close the connection when it is out of scope. You should use
+this when you wish to batch multiple methods using a single connection.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">SFTP</span>
+
+<span class="n">sftp</span> <span class="o">=</span> <span class="n">SFTP</span><span class="p">()</span>
+<span class="n">connection</span> <span class="o">=</span> <span class="n">sftp</span><span class="o">.</span><span class="n">connection</span><span class="p">()</span>
+
+<span class="k">with</span> <span class="n">conn</span> <span class="k">as</span> <span class="n">connection</span><span class="p">:</span>
+    <span class="n">sftp</span><span class="o">.</span><span class="n">make_directory</span><span class="p">(</span><span class="s1">&#39;my_dir&#39;</span><span class="p">,</span> <span class="n">connection</span><span class="o">=</span><span class="n">conn</span><span class="p">)</span>
+    <span class="n">sftp</span><span class="o">.</span><span class="n">put_file</span><span class="p">(</span><span class="s1">&#39;my_csv.csv&#39;</span><span class="p">,</span> <span class="n">connection</span><span class="o">=</span><span class="n">conn</span><span class="p">)</span>
+</pre></div>
+</div>
+<dl class="docutils">
+<dt>Returns:</dt>
+<dd>SFTP Connection object</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
 <dt id="parsons.SFTP.list_directory">
-<code class="descname">list_directory</code><span class="sig-paren">(</span><em>remote_path='.'</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/sftp/sftp.html#SFTP.list_directory"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.SFTP.list_directory" title="Permalink to this definition">¶</a></dt>
+<code class="descname">list_directory</code><span class="sig-paren">(</span><em>remote_path='.'</em>, <em>connection=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/sftp/sftp.html#SFTP.list_directory"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.SFTP.list_directory" title="Permalink to this definition">¶</a></dt>
 <dd><p>List the contents of a directory</p>
 <dl class="docutils">
 <dt><cite>Args:</cite></dt>
 <dd><dl class="first last docutils">
 <dt>remote_path: str</dt>
 <dd>The remote path of the directory</dd>
+<dt>connection: obj</dt>
+<dd>An SFTP connection object</dd>
 </dl>
 </dd>
 <dt><cite>Returns:</cite></dt>
@@ -226,13 +250,15 @@ to authenticate stfp connection</dd>
 
 <dl class="method">
 <dt id="parsons.SFTP.make_directory">
-<code class="descname">make_directory</code><span class="sig-paren">(</span><em>remote_path</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/sftp/sftp.html#SFTP.make_directory"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.SFTP.make_directory" title="Permalink to this definition">¶</a></dt>
+<code class="descname">make_directory</code><span class="sig-paren">(</span><em>remote_path</em>, <em>connection=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/sftp/sftp.html#SFTP.make_directory"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.SFTP.make_directory" title="Permalink to this definition">¶</a></dt>
 <dd><p>Makes a new directory on the SFTP server</p>
 <dl class="docutils">
 <dt><cite>Args:</cite></dt>
 <dd><dl class="first last docutils">
 <dt>remote_path: str</dt>
 <dd>The remote path of the directory</dd>
+<dt>connection: obj</dt>
+<dd>An SFTP connection object</dd>
 </dl>
 </dd>
 </dl>
@@ -240,13 +266,15 @@ to authenticate stfp connection</dd>
 
 <dl class="method">
 <dt id="parsons.SFTP.remove_directory">
-<code class="descname">remove_directory</code><span class="sig-paren">(</span><em>remote_path</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/sftp/sftp.html#SFTP.remove_directory"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.SFTP.remove_directory" title="Permalink to this definition">¶</a></dt>
+<code class="descname">remove_directory</code><span class="sig-paren">(</span><em>remote_path</em>, <em>connection=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/sftp/sftp.html#SFTP.remove_directory"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.SFTP.remove_directory" title="Permalink to this definition">¶</a></dt>
 <dd><p>Remove a directory from the SFTP server</p>
 <dl class="docutils">
 <dt><cite>Args:</cite></dt>
 <dd><dl class="first last docutils">
 <dt>remote_path: str</dt>
 <dd>The remote path of the directory</dd>
+<dt>connection: obj</dt>
+<dd>An SFTP connection object</dd>
 </dl>
 </dd>
 </dl>
@@ -254,7 +282,7 @@ to authenticate stfp connection</dd>
 
 <dl class="method">
 <dt id="parsons.SFTP.get_file">
-<code class="descname">get_file</code><span class="sig-paren">(</span><em>remote_path</em>, <em>local_path=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/sftp/sftp.html#SFTP.get_file"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.SFTP.get_file" title="Permalink to this definition">¶</a></dt>
+<code class="descname">get_file</code><span class="sig-paren">(</span><em>remote_path</em>, <em>local_path=None</em>, <em>connection=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/sftp/sftp.html#SFTP.get_file"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.SFTP.get_file" title="Permalink to this definition">¶</a></dt>
 <dd><p>Download a file from the SFTP server</p>
 <dl class="docutils">
 <dt><cite>Args:</cite></dt>
@@ -265,6 +293,8 @@ to authenticate stfp connection</dd>
 <dd>The local path where the file will be downloaded. If not specified, a temporary
 file will be created and returned, and that file will be removed automatically
 when the script is done running.</dd>
+<dt>connection: obj</dt>
+<dd>An SFTP connection object</dd>
 </dl>
 </dd>
 <dt><cite>Returns:</cite></dt>
@@ -278,7 +308,7 @@ when the script is done running.</dd>
 
 <dl class="method">
 <dt id="parsons.SFTP.get_table">
-<code class="descname">get_table</code><span class="sig-paren">(</span><em>remote_path</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/sftp/sftp.html#SFTP.get_table"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.SFTP.get_table" title="Permalink to this definition">¶</a></dt>
+<code class="descname">get_table</code><span class="sig-paren">(</span><em>remote_path</em>, <em>connection=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/sftp/sftp.html#SFTP.get_table"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.SFTP.get_table" title="Permalink to this definition">¶</a></dt>
 <dd><p>Download a csv from the server and convert into a Parsons table.</p>
 <p>The file may be compressed with gzip, or zip, but may not contain
 multiple files in the archive.</p>
@@ -287,6 +317,8 @@ multiple files in the archive.</p>
 <dd><dl class="first last docutils">
 <dt>remote_path: str</dt>
 <dd>The remote path of the file to download</dd>
+<dt>connection: obj</dt>
+<dd>An SFTP connection object</dd>
 </dl>
 </dd>
 <dt><cite>Returns:</cite></dt>
@@ -300,7 +332,7 @@ multiple files in the archive.</p>
 
 <dl class="method">
 <dt id="parsons.SFTP.put_file">
-<code class="descname">put_file</code><span class="sig-paren">(</span><em>local_path</em>, <em>remote_path</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/sftp/sftp.html#SFTP.put_file"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.SFTP.put_file" title="Permalink to this definition">¶</a></dt>
+<code class="descname">put_file</code><span class="sig-paren">(</span><em>local_path</em>, <em>remote_path</em>, <em>connection=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/sftp/sftp.html#SFTP.put_file"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.SFTP.put_file" title="Permalink to this definition">¶</a></dt>
 <dd><p>Put a file on the SFTP server
 <cite>Args:</cite></p>
 <blockquote>
@@ -309,19 +341,23 @@ multiple files in the archive.</p>
 <dd>The local path of the source file</dd>
 <dt>remote_path: str</dt>
 <dd>The remote path of the new file</dd>
+<dt>connection: obj</dt>
+<dd>An SFTP connection object</dd>
 </dl>
 </div></blockquote>
 </dd></dl>
 
 <dl class="method">
 <dt id="parsons.SFTP.remove_file">
-<code class="descname">remove_file</code><span class="sig-paren">(</span><em>remote_path</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/sftp/sftp.html#SFTP.remove_file"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.SFTP.remove_file" title="Permalink to this definition">¶</a></dt>
+<code class="descname">remove_file</code><span class="sig-paren">(</span><em>remote_path</em>, <em>connection=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/sftp/sftp.html#SFTP.remove_file"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.SFTP.remove_file" title="Permalink to this definition">¶</a></dt>
 <dd><p>Delete a file on the SFTP server</p>
 <dl class="docutils">
 <dt><cite>Args:</cite></dt>
 <dd><dl class="first last docutils">
 <dt>remote_path: str</dt>
 <dd>The remote path of the file</dd>
+<dt>connection: obj</dt>
+<dd>An SFTP connection object</dd>
 </dl>
 </dd>
 </dl>
@@ -329,13 +365,16 @@ multiple files in the archive.</p>
 
 <dl class="method">
 <dt id="parsons.SFTP.get_file_size">
-<code class="descname">get_file_size</code><span class="sig-paren">(</span><em>remote_path</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/sftp/sftp.html#SFTP.get_file_size"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.SFTP.get_file_size" title="Permalink to this definition">¶</a></dt>
-<dd><p>Get the size of a file in MB on the SFTP Server</p>
+<code class="descname">get_file_size</code><span class="sig-paren">(</span><em>remote_path</em>, <em>connection=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/sftp/sftp.html#SFTP.get_file_size"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.SFTP.get_file_size" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the size of a file in MB on the SFTP server. The file is
+not downloaded locally.</p>
 <dl class="docutils">
 <dt><cite>Args:</cite></dt>
 <dd><dl class="first last docutils">
 <dt>remote_path: str</dt>
 <dd>The remote path of the file</dd>
+<dt>connection: obj</dt>
+<dd>An SFTP connection object</dd>
 </dl>
 </dd>
 <dt><cite>Returns:</cite></dt>

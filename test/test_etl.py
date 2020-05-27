@@ -78,6 +78,13 @@ class TestParsonsTable(unittest.TestCase):
 
         assert_matching_tables(self.tbl, tbl_materialized)
 
+    def test_materialize_to_file(self):
+        # Simple test that materializing doesn't change the table
+        tbl_materialized = Table(self.lst_dicts)
+        tbl_materialized.materialize_to_file()
+
+        assert_matching_tables(self.tbl, tbl_materialized)
+
     def test_empty_column(self):
         # Test that returns True on an empty column and False on a populated one.
 

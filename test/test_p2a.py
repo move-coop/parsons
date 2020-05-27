@@ -175,7 +175,7 @@ class TestP2A(unittest.TestCase):
         self.assertTrue(validate_list(fields_exp, self.p2a.get_advocates()['fields']))
 
     @requests_mock.Mocker()
-    def test_get_advocates(self, m):
+    def test_get_advocates__by_page(self, m):
 
         response = copy.deepcopy(adv_json)
         # Make it look like there's more data
@@ -185,7 +185,20 @@ class TestP2A(unittest.TestCase):
         m.get(self.p2a.uri + 'advocates?page=2', exc=Exception('Should only call once'))
 
         results = self.p2a.get_advocates(page=1)
-        self.assertTrue(len(results), 1)
+        self.assertTrue(results['advocates'].num_rows, 1)
+
+    @requests_mock.Mocker()
+    def test_get_advocates__empty(self, m):
+
+        response = copy.deepcopy(adv_json)
+        response['data'] = []
+        # Make it look like there's more data
+        response['pagination']['count'] = 0
+
+        m.get(self.p2a.uri + 'advocates', json=adv_json)
+
+        results = self.p2a.get_advocates()
+        self.assertTrue(results['advocates'].num_rows, 0)
 
     @requests_mock.Mocker()
     def test_get_campaigns(self, m):

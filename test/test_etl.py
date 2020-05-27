@@ -747,3 +747,10 @@ class TestParsonsTable(unittest.TestCase):
         new_tbl = tbl.set_header(['one'])
 
         self.assertEqual(new_tbl[0], {'one': 1})
+
+    def test_bool(self):
+        empty = Table()
+        not_empty = Table([{'one': 1, 'two': 2}])
+
+        self.assertEqual(not empty, True)
+        self.assertEqual(not not_empty, False)

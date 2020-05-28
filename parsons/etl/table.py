@@ -80,6 +80,10 @@ class Table(ETL, ToFrom):
 
             raise TypeError('You must pass a string or an index as a value.')
 
+    def __bool__(self):
+
+        return self.num_rows > 0
+
     def _repr_html_(self):
         """
         Leverage Petl functionality to display well formatted tables in Jupyter Notebook.

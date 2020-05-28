@@ -103,7 +103,18 @@ class Phone2Action(object):
     def _advocates_tables(self, tbl):
         # Convert the advocates nested table into multiple tables
 
-        tbls = {}
+        tbls = {
+            'advocates': tbl,
+            'emails': Table(),
+            'phones': Table(),
+            'memberships': Table(),
+            'tags': Table(),
+            'ids': Table(),
+            'fields': Table(),
+        }
+
+        if not tbl:
+            return tbls
 
         logger.info(f'Retrieved {tbl.num_rows} advocates...')
 
@@ -114,11 +125,9 @@ class Phone2Action(object):
             tbl.unpack_dict(c)
 
         # Unpack all of the arrays
-        for c in ['emails', 'phones', 'memberships', 'tags', 'ids', 'fields']:
+        child_tables = [child for child in tbls.keys() if child != 'advocates']
+        for c in child_tables:
             tbls[c] = tbl.long_table(['id'], c, key_rename={'id': 'advocate_id'})
-
-        # Add to tbls list
-        tbls['advocates'] = tbl
 
         return tbls
 

@@ -283,7 +283,18 @@
     <span class="k">def</span> <span class="nf">_advocates_tables</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tbl</span><span class="p">):</span>
         <span class="c1"># Convert the advocates nested table into multiple tables</span>
 
-        <span class="n">tbls</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="n">tbls</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s1">&#39;advocates&#39;</span><span class="p">:</span> <span class="n">tbl</span><span class="p">,</span>
+            <span class="s1">&#39;emails&#39;</span><span class="p">:</span> <span class="n">Table</span><span class="p">(),</span>
+            <span class="s1">&#39;phones&#39;</span><span class="p">:</span> <span class="n">Table</span><span class="p">(),</span>
+            <span class="s1">&#39;memberships&#39;</span><span class="p">:</span> <span class="n">Table</span><span class="p">(),</span>
+            <span class="s1">&#39;tags&#39;</span><span class="p">:</span> <span class="n">Table</span><span class="p">(),</span>
+            <span class="s1">&#39;ids&#39;</span><span class="p">:</span> <span class="n">Table</span><span class="p">(),</span>
+            <span class="s1">&#39;fields&#39;</span><span class="p">:</span> <span class="n">Table</span><span class="p">(),</span>
+        <span class="p">}</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">tbl</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">tbls</span>
 
         <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Retrieved </span><span class="si">{</span><span class="n">tbl</span><span class="o">.</span><span class="n">num_rows</span><span class="si">}</span><span class="s1"> advocates...&#39;</span><span class="p">)</span>
 
@@ -294,11 +305,9 @@
             <span class="n">tbl</span><span class="o">.</span><span class="n">unpack_dict</span><span class="p">(</span><span class="n">c</span><span class="p">)</span>
 
         <span class="c1"># Unpack all of the arrays</span>
-        <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;emails&#39;</span><span class="p">,</span> <span class="s1">&#39;phones&#39;</span><span class="p">,</span> <span class="s1">&#39;memberships&#39;</span><span class="p">,</span> <span class="s1">&#39;tags&#39;</span><span class="p">,</span> <span class="s1">&#39;ids&#39;</span><span class="p">,</span> <span class="s1">&#39;fields&#39;</span><span class="p">]:</span>
+        <span class="n">child_tables</span> <span class="o">=</span> <span class="p">[</span><span class="n">child</span> <span class="k">for</span> <span class="n">child</span> <span class="ow">in</span> <span class="n">tbls</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span> <span class="k">if</span> <span class="n">child</span> <span class="o">!=</span> <span class="s1">&#39;advocates&#39;</span><span class="p">]</span>
+        <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">child_tables</span><span class="p">:</span>
             <span class="n">tbls</span><span class="p">[</span><span class="n">c</span><span class="p">]</span> <span class="o">=</span> <span class="n">tbl</span><span class="o">.</span><span class="n">long_table</span><span class="p">([</span><span class="s1">&#39;id&#39;</span><span class="p">],</span> <span class="n">c</span><span class="p">,</span> <span class="n">key_rename</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;id&#39;</span><span class="p">:</span> <span class="s1">&#39;advocate_id&#39;</span><span class="p">})</span>
-
-        <span class="c1"># Add to tbls list</span>
-        <span class="n">tbls</span><span class="p">[</span><span class="s1">&#39;advocates&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">tbl</span>
 
         <span class="k">return</span> <span class="n">tbls</span>
 

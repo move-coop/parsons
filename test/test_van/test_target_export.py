@@ -20,8 +20,8 @@ class TestTargetExport(unittest.TestCase):
     @requests_mock.Mocker()
     def test_create_target_export(self, m):
 
-        export_job_id = 1234
-        target_id = 15723
+        export_job_id = '{"exportJobId": "455961790"}'
+        target_id = 12827
 
         m.post(self.van.connection.uri + 'targetExportJobs', json=export_job_id, status_code=204)
 
@@ -34,23 +34,29 @@ class TestTargetExport(unittest.TestCase):
     @requests_mock.Mocker()
     def test_get_target_export(self, m):
 
-        # Create response
-        json = {u'targetId': 15723, 
-                u'file':
-                [{u'downloadUrl': u'https://www.example.com/some-unique-file-name.csv',
-                  u'dateExpired': u'2020-04-07T09:45:51.4954493-04:00',
-                  u'recordCount': 8}],
-                u'webhookUrl': u'https://webhook.example.org/completedExportJobs',
-                u'exportJobId': 1234,
-                u'jobStatus': "Complete"}
+        export_job_id = 455961790
 
-        m.get(self.van.connection.uri + 'targetExportJobs', json=json)
+        # Create response
+        json = [{"targetId": 12827, 
+                "file": 
+                    {
+                    "downloadUrl": "https://ngpvan.blob.core.windows.net/target-export-files/TargetExport_455961790_1_2020-05-26T20:03:44.0530355-04:00.csv",
+                    "dateExpired": "null",
+                    "recordCount": 1016883
+                    }
+                ,
+                "webhookUrl": "null",
+                "exportJobId": 455961790,
+                "jobStatus": "Complete"}]
+
+        m.get(self.van.connection.uri + f'targetExportJobs/{export_job_id}', json=json)
 
         # Expected Structure
-        expected = ['targetId', 'file', 'downloadUrl', 'dateExpired',
-                    'recordCount', 'webhookUrl', 'exportJobId', 'jobStatus']
+        # expected = ['targetId', 'file', 'downloadUrl', 'dateExpired',
+        #             'recordCount', 'webhookUrl', 'exportJobId', 'jobStatus']
+        # Use shortened expected structure for table columns 
+        expected = ['targetId', 'file', 'webhookUrl', 'exportJobId', 'jobStatus']
 
-        export_job_id = 1234
 
         # Assert response is expected structure
         self.assertTrue(validate_list(expected, self.van.get_target_export(export_job_id)))

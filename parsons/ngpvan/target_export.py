@@ -14,15 +14,15 @@ class TargetExport(object):
         self.connection = van_connection
 
     def get_target_export(self, export_job_id):
-    	 """
-         Get specific target export job id's status
+        """
+        Get specific target export job id's status.
 
         `Returns:`
             Parsons Table
                 See :ref:`parsons-table` for output options.
         """
 
-        tbl = Table(self.connection.get_request(f'/targetExportJobs/{export_job_id}'))
+        tbl = Table(self.connection.get_request(f'targetExportJobs/{export_job_id}'))
         logger.info(f'Found target export {export_job_id}.')
         return tbl
 
@@ -36,14 +36,13 @@ class TargetExport(object):
                 The target id the export job is creating for.
         `Returns:`
             dict
-                The target export ID
+                The target export job ID
         """
-
-        target_export = {'targetId': target_id, 
-                        'webhookUrl': webhook_url
+        target_export = {
+                        'target_id' : target_id
                         }
 
-        r = self.connection.post_request(f'targetExportJobs/', json=target_export)
+        r = self.connection.post_request(f'targetExportJobs', json=target_export)
         logger.info(f'Created new target export job for {target_id}.')
         return r
 

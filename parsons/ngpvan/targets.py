@@ -14,7 +14,7 @@ class Targets(object):
         self.connection = van_connection
 
     def get_targets(self):
-    	 """
+        """
         Get targets.
 
         `Returns:`

@@ -43,3 +43,4 @@ class TargetExport(object):
         r = self.connection.post_request(f'targetExportJobs', json=target_export)
         logger.info(f'Created new target export job for {target_id}.')
         return r
+        

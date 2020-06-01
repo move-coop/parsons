@@ -40,3 +40,4 @@ class Targets(object):
         r = self.connection.get_request(f'targets/{target_id}')
         logger.info(f'Found target {target_id}.')
         return r
+        

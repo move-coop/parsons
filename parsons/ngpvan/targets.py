@@ -1,7 +1,6 @@
 """NGPVAN Target Endpoints"""
 
 from parsons.etl.table import Table
-from parsons.ngpvan.utilities import action_parse
 import logging
 
 logger = logging.getLogger(__name__)
@@ -26,7 +25,6 @@ class Targets(object):
         logger.info(f'Found {tbl.num_rows} targets.')
         return tbl
 
-
     def get_target(self, target_id):
         """
         Get a single target.
@@ -42,4 +40,3 @@ class Targets(object):
         r = self.connection.get_request(f'targets/{target_id}')
         logger.info(f'Found target {target_id}.')
         return r
-

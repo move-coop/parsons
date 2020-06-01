@@ -1,7 +1,6 @@
 """NGPVAN Target Endpoints"""
 
 from parsons.etl.table import Table
-from parsons.ngpvan.utilities import action_parse
 import logging
 
 logger = logging.getLogger(__name__)
@@ -26,7 +25,6 @@ class TargetExport(object):
         logger.info(f'Found target export {export_job_id}.')
         return tbl
 
-
     def create_target_export(self, target_id, webhook_url=None):
         """
         Create new target export job
@@ -39,10 +37,9 @@ class TargetExport(object):
                 The target export job ID
         """
         target_export = {
-                        'target_id' : target_id
+                        'target_id': target_id
                         }
 
         r = self.connection.post_request(f'targetExportJobs', json=target_export)
         logger.info(f'Created new target export job for {target_id}.')
         return r
-

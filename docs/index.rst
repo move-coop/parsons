@@ -166,6 +166,7 @@ Indices and tables
    :name: integrations
 
    action_kit
+   action_network
    airtable
    aws
    bill_com
@@ -176,22 +177,22 @@ Indices and tables
    databases
    facebook_ads
    freshdesk
-   google_sheets
-   google_cloud
+   google
    hustle
+   mailchimp
    mobilize_america
    newmode
    ngpvan
+   pdi
    p2a
    redash
-   redshift
    rockthevote
-   s3
    salesforce
    sftp
    ts
    twilio
    turbovote
+   zoom
 
 .. toctree::
    :maxdepth: 1

@@ -1,7 +1,8 @@
-from parsons.etl import Table
+from parsons import Table
 from slackclient import SlackClient
 from slackclient.exceptions import SlackClientError
 import os
+import time
 
 
 class Slack(object):
@@ -108,20 +109,28 @@ class Slack(object):
             "chat.postMessage", channel=channel, text=text, as_user=as_user)
 
         if not resp['ok']:
+
+            if resp['error'] == 'ratelimited':
+                time.sleep(int(resp['headers']['Retry-After']))
+
+                resp = self.client.api_call(
+                    "chat.postMessage",
+                    channel=channel, text=text, as_user=as_user)
+
             raise SlackClientError(resp['error'])
 
         return resp
 
     def upload_file(self, channels, filename, filetype=None,
-                    initial_comment=None, title=None):
+                    initial_comment=None, title=None, is_binary=False):
         """
         Upload a file to Slack channel(s).
 
         `Args:`
             channels: list
-                List of channel names or IDs where the file will be shared.
+                The list of channel names or IDs where the file will be shared.
             filename: str
-                Name of the file to be uploaded.
+                The path to the file to be uploaded.
             filetype: str
                 A file type identifier. If None, type will be inferred base on
                 file extension. This is used to determine what fields are
@@ -132,6 +141,9 @@ class Slack(object):
                 The text of the message to send along with the file.
             title: str
                 Title of the file to be uploaded.
+            is_binary: bool
+                If True, open this file in binary mode. This is needed if
+                uploading binary files. Defaults to False.
         `Returns:`
             `dict`:
                 A response json
@@ -139,14 +151,24 @@ class Slack(object):
         if filetype is None and '.' in filename:
             filetype = filename.split('.')[-1]
 
-        with open(filename) as file_content:
+        mode = 'rb' if is_binary else 'r'
+        with open(filename, mode) as file_content:
             resp = self.client.api_call(
                 "files.upload", channels=channels, file=file_content,
                 filetype=filetype, initial_comment=initial_comment,
                 title=title)
 
-        if not resp['ok']:
-            raise SlackClientError(resp['error'])
+            if not resp['ok']:
+
+                if resp['error'] == 'ratelimited':
+                    time.sleep(int(resp['headers']['Retry-After']))
+
+                    resp = self.client.api_call(
+                        "files.upload", channels=channels, file=file_content,
+                        filetype=filetype, initial_comment=initial_comment,
+                        title=title)
+
+                raise SlackClientError(resp['error'])
 
         return resp
 
@@ -163,6 +185,11 @@ class Slack(object):
                 endpoint, cursor=cursor, limit=LIMIT, **kwargs)
 
             if not resp['ok']:
+
+                if resp['error'] == 'ratelimited':
+                    time.sleep(int(resp['headers']['Retry-After']))
+                    continue
+
                 raise SlackClientError(resp['error'])
 
             items.extend(resp[collection])

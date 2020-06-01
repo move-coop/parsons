@@ -3,6 +3,7 @@ import requests_mock
 from test.utils import validate_list
 from parsons.phone2action import Phone2Action
 import os
+import copy
 
 adv_json = {
     "data": [
@@ -20,16 +21,8 @@ adv_json = {
                 "register-to-vote-38511",
                 "registered-to-vote-for-2018-38511",
             ],
-            "created_at": {
-                "date": "2017-05-23 23:36:04.000000",
-                "timezone_type": 3,
-                "timezone": "UTC"
-            },
-            "updated_at": {
-                "date": "2018-12-17 21:55:24.000000",
-                "timezone_type": 3,
-                "timezone": "UTC"
-            },
+            "created_at": "2017-05-23 23:36:04.000000",
+            "updated_at": "2018-12-17 21:55:24.000000",
             "address": {
                 "street1": "25255 Maine Ave",
                 "street2": "",
@@ -54,22 +47,14 @@ adv_json = {
                     "campaignid": 25373,
                     "name": "20171121 Businesses for Responsible Tax Reform - Contact Congress",
                     "source": None,
-                    "created_at": {
-                        "date": "2017-11-21 23:28:30.000000",
-                        "timezone_type": 3,
-                        "timezone": "UTC"
-                    }
+                    "created_at": "2017-11-21 23:28:30.000000",
                 },
                 {
                     "id": 20025582,
                     "campaignid": 32641,
                     "name": "20180524 March for America",
                     "source": None,
-                    "created_at": {
-                        "date": "2018-05-24 21:09:49.000000",
-                        "timezone_type": 3,
-                        "timezone": "UTC"
-                    }
+                    "created_at": "2018-05-24 21:09:49.000000",
                 }
             ],
             "fields": [],
@@ -161,9 +146,7 @@ class TestP2A(unittest.TestCase):
 
         adv_exp = ['id', 'prefix', 'firstname', 'middlename',
                    'lastname', 'suffix', 'notes', 'stage', 'connections',
-                   'created_at_date', 'created_at_timezone',
-                   'created_at_timezone_type', 'updated_at_date',
-                   'updated_at_timezone', 'updated_at_timezone_type',
+                   'created_at', 'updated_at',
                    'address_city', 'address_county', 'address_latitude',
                    'address_longitude', 'address_state', 'address_street1',
                    'address_street2', 'address_zip4', 'address_zip5',
@@ -190,6 +173,32 @@ class TestP2A(unittest.TestCase):
 
         fields_exp = ['advocate_id', 'fields']
         self.assertTrue(validate_list(fields_exp, self.p2a.get_advocates()['fields']))
+
+    @requests_mock.Mocker()
+    def test_get_advocates__by_page(self, m):
+
+        response = copy.deepcopy(adv_json)
+        # Make it look like there's more data
+        response['pagination']['count'] = 100
+
+        m.get(self.p2a.uri + 'advocates?page=1', json=adv_json)
+        m.get(self.p2a.uri + 'advocates?page=2', exc=Exception('Should only call once'))
+
+        results = self.p2a.get_advocates(page=1)
+        self.assertTrue(results['advocates'].num_rows, 1)
+
+    @requests_mock.Mocker()
+    def test_get_advocates__empty(self, m):
+
+        response = copy.deepcopy(adv_json)
+        response['data'] = []
+        # Make it look like there's more data
+        response['pagination']['count'] = 0
+
+        m.get(self.p2a.uri + 'advocates', json=adv_json)
+
+        results = self.p2a.get_advocates()
+        self.assertTrue(results['advocates'].num_rows, 0)
 
     @requests_mock.Mocker()
     def test_get_campaigns(self, m):

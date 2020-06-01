@@ -10,7 +10,7 @@ Quick Start
 
 .. code-block:: python
 	
-	from parsons import BillCom, Table
+	from parsons import BillCom
 
 	bc = BillCom(USERNAME, PASSWORD, ORG_ID, DEV_KEY, ENDPOINT_URL)
 

@@ -38,12 +38,18 @@ class Phone2Action(object):
         r.raise_for_status()
         return r
 
-    def _paginate_request(self, url, args=None):
+    def _paginate_request(self, url, args=None, page=None):
         # Internal pagination method
+
+        if page is not None:
+            args['page'] = page
 
         r = self._request(url, args=args)
 
         json = r.json()['data']
+
+        if page is not None:
+            return json
 
         # If count of items is less than the total allowed per page, paginate
         while r.json()['pagination']['count'] == r.json()['pagination']['per_page']:
@@ -53,9 +59,12 @@ class Phone2Action(object):
 
         return json
 
-    def get_advocates(self, state=None, campaign_id=None, updated_since=None):
+    def get_advocates(self, state=None, campaign_id=None, updated_since=None, page=None):
         """
         Return advocates (person records).
+
+        If no page is specified, the method will automatically paginate through the available
+        advocates.
 
         `Args:`
             state: str
@@ -66,6 +75,9 @@ class Phone2Action(object):
             updated_since: str
                 Fetch all advocates updated since UTC date time provided
                 using (ex. '2014-01-05 23:59:43')
+            page: int
+                Page number of data to fetch; if this is specified, call will only return one
+                page.
         `Returns:`
             A dict of parsons tables:
                 * emails
@@ -84,27 +96,38 @@ class Phone2Action(object):
                 'updatedSince': updated_since}
 
         logger.info('Retrieving advocates...')
-        json = self._paginate_request(url, args=args)
+        json = self._paginate_request(url, args=args, page=page)
 
         return self._advocates_tables(Table(json))
 
     def _advocates_tables(self, tbl):
         # Convert the advocates nested table into multiple tables
 
-        tbls = {}
+        tbls = {
+            'advocates': tbl,
+            'emails': Table(),
+            'phones': Table(),
+            'memberships': Table(),
+            'tags': Table(),
+            'ids': Table(),
+            'fields': Table(),
+        }
+
+        if not tbl:
+            return tbls
 
         logger.info(f'Retrieved {tbl.num_rows} advocates...')
 
         # Unpack all of the single objects
-        for c in ['created_at', 'updated_at', 'address', 'districts']:
+        # The Phone2Action API docs says that created_at and updated_at are dictionaries, but
+        # the data returned from the server is a ISO8601 timestamp. - EHS, 05/21/2020
+        for c in ['address', 'districts']:
             tbl.unpack_dict(c)
 
         # Unpack all of the arrays
-        for c in ['emails', 'phones', 'memberships', 'tags', 'ids', 'fields']:
+        child_tables = [child for child in tbls.keys() if child != 'advocates']
+        for c in child_tables:
             tbls[c] = tbl.long_table(['id'], c, key_rename={'id': 'advocate_id'})
-
-        # Add to tbls list
-        tbls['advocates'] = tbl
 
         return tbls
 

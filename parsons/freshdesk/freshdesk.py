@@ -55,11 +55,11 @@ class Freshdesk():
 
     def transform_table(self, tbl, expand_custom_fields=None):
         # Internal method to transform a table prior to returning
-
-        tbl.move_column('id', 0)
-        tbl.sort()
-        if expand_custom_fields:
-            tbl.unpack_dict('custom_fields', prepend=False)
+        if tbl.num_rows > 0:
+            tbl.move_column('id', 0)
+            tbl.sort()
+            if expand_custom_fields:
+                tbl.unpack_dict('custom_fields', prepend=False)
 
         return tbl
 

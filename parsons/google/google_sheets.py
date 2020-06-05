@@ -55,7 +55,10 @@ class GoogleSheets:
 
         elif isinstance(worksheet, str):
             idx = self.list_worksheets(spreadsheet_id).index(worksheet)
-            return self.gspread_client.open_by_key(spreadsheet_id).get_worksheet(idx)
+            try:
+                return self.gspread_client.open_by_key(spreadsheet_id).get_worksheet(idx)
+            except:  # noqa: E722
+                raise ValueError(f"Couldn't find worksheet {worksheet}")
 
         else:
             raise ValueError(f"Couldn't find worksheet index or title {worksheet}")
@@ -244,11 +247,9 @@ class GoogleSheets:
         """
 
         # This is in here to ensure backwards compatibility with previous versions of Parsons.
-        try:
+        if 'sheet_index' in kwargs:
             worksheet = kwargs['sheet_index']
             logger.warning('Argument deprecated. Use worksheet instead.')
-        except:  # noqa: E722
-            pass
 
         sheet = self._get_worksheet(spreadsheet_id, worksheet)
 
@@ -296,11 +297,9 @@ class GoogleSheets:
         """
 
         # This is in here to ensure backwards compatibility with previous versions of Parsons.
-        try:
+        if 'sheet_index' in kwargs:
             worksheet = kwargs['sheet_index']
             logger.warning('Argument deprecated. Use worksheet instead.')
-        except:  # noqa: E722
-            pass
 
         sheet = self._get_worksheet(spreadsheet_id, worksheet)
         sheet.clear()
@@ -337,5 +336,5 @@ class GoogleSheets:
     def get_sheet_index_with_title(self, spreadsheet_id, title):
         # Deprecated method v0.14 of Parsons.
 
-        logger.warning('Deprecated method. Use get_worksheet_index_with_title() instead.')
-        return self.get_worksheet_index_with_title(spreadsheet_id, title)
+        logger.warning('Deprecated method. Use get_worksheet_index   instead.')
+        return self.get_worksheet_index(spreadsheet_id, title)

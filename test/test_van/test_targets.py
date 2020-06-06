@@ -2,11 +2,15 @@ import unittest
 import os
 import requests_mock
 from parsons.ngpvan import VAN
+from parsons.etl.table import Table
 from test.utils import validate_list, assert_matching_tables
 
 os.environ['VAN_API_KEY'] = 'SOME_KEY'
 
 class TestTargets(unittest.TestCase):
+
+    mock_data = mock_data = '12827,Volunteer Recruitment Tiers,Tier,109957740\n12827,Volunteer Recruitment Tiers,Tier,109957754'
+    mock_result = Table([('12827', 'Volunteer Recruitment Tiers', 'Tier', '109957740'), ('12827', 'Volunteer Recruitment Tiers', 'Tier', '109957754')])
 
     def setUp(self):
 
@@ -84,29 +88,43 @@ class TestTargets(unittest.TestCase):
     @requests_mock.Mocker()
     def test_get_target_export(self, m):
 
-        export_job_id = 455961790
+        # mock_data = mock_data = '12827,Volunteer Recruitment Tiers,Tier,109957740\n12827,Volunteer Recruitment Tiers,Tier,109957754'
+        # mock_result = Table([('12827', 'Volunteer Recruitment Tiers', 'Tier', '109957740'), ('12827', 'Volunteer Recruitment Tiers', 'Tier', '109957754')])
 
-        # Create response
-        json = [{"targetId": 12827, 
+        # # Create response
+        # json = [{"targetId": 12827, 
+        #         "file": 
+        #             {
+        #             "downloadUrl": "https://ngpvan.blob.core.windows.net/target-export-files/TargetExport_455961790.csv",
+        #             "dateExpired": "null",
+        #             "recordCount": 1016883
+        #             }
+        #         ,
+        #         "webhookUrl": "null",
+        #         "exportJobId": 455961790,
+        #         "jobStatus": "Complete"}]
+
+        # m.post(self.van.connection.uri + 'targetExportJobs', json=export_job_id, status_code=204)
+
+
+
+        export_job_id = '{"exportJobId": "455961790"}'
+
+        m.post(self.van.connection.uri + 'targetExportJobs', json=export_job_id, status_code=204)
+        m.get(self.van.connection.uri + f'targetExportJobs/455961790', 
+          json=[{"targetId": 12827,
                 "file": 
                     {
-                    "downloadUrl": "https://ngpvan.blob.core.windows.net/target-export-files/TargetExport_455961790_1_2020-05-26T20:03:44.0530355-04:00.csv",
+                    "downloadUrl": "https://ngpvan.blob.core.windows.net/target-export-files/TargetExport_455961790.csv",
                     "dateExpired": "null",
                     "recordCount": 1016883
                     }
                 ,
                 "webhookUrl": "null",
                 "exportJobId": 455961790,
-                "jobStatus": "Complete"}]
+                "jobStatus": "Complete"}])
 
-        m.get(self.van.connection.uri + f'targetExportJobs/{export_job_id}', json=json)
+        m.get(f'https://ngpvan.blob.core.windows.net/target-export-files/TargetExport_455961790.csv', text=self.mock_data)
 
-        # Expected Structure
-        # expected = ['targetId', 'file', 'downloadUrl', 'dateExpired',
-        #             'recordCount', 'webhookUrl', 'exportJobId', 'jobStatus']
-        # Use shortened expected structure for table columns 
-        expected = ['targetId', 'file', 'webhookUrl', 'exportJobId', 'jobStatus']
-
-
-        # Assert response is expected structure
-        self.assertTrue(validate_list(expected, self.van.get_target_export(export_job_id)))
+        assert_matching_tables(self.van.get_target_export(export_job_id),
+                               self.mock_result)

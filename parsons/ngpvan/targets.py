@@ -3,6 +3,7 @@
 from parsons.etl.table import Table
 import logging
 import json
+import requests
 
 logger = logging.getLogger(__name__)
 
@@ -59,13 +60,12 @@ class Targets(object):
 
         response = self.connection.get_request(f'targetExportJobs/{export_job_id}')
         json_string = json.dumps(response)
-        # print(json_string)
-        # print(type(json_string))
-        job_status=json_string['jobStatus']
-        print(job_status)
+        json_obj = json.loads(json_string)
+        job_status=json_obj[0]['jobStatus']
         if job_status=='Complete':
-            csv = response.json()['file']['downloadUrl']
-            response_csv=response = self.session.get(csv)
+            csv = json_obj[0]['file']['downloadUrl']
+            response_csv=requests.get(csv)
+            print(response_csv)
             return Table.from_csv_string(response_csv.text)
         elif job_status=='Pending' or job_status=='InProcess':
             logger.info(f'Target export job is pending or in process for {export_job_id}.')

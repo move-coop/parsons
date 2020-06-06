@@ -88,9 +88,6 @@ class TestTargets(unittest.TestCase):
     @requests_mock.Mocker()
     def test_get_target_export(self, m):
 
-        # mock_data = mock_data = '12827,Volunteer Recruitment Tiers,Tier,109957740\n12827,Volunteer Recruitment Tiers,Tier,109957754'
-        # mock_result = Table([('12827', 'Volunteer Recruitment Tiers', 'Tier', '109957740'), ('12827', 'Volunteer Recruitment Tiers', 'Tier', '109957754')])
-
         # # Create response
         # json = [{"targetId": 12827, 
         #         "file": 
@@ -106,13 +103,8 @@ class TestTargets(unittest.TestCase):
 
         # m.post(self.van.connection.uri + 'targetExportJobs', json=export_job_id, status_code=204)
 
-
-
-        export_job_id = '{"exportJobId": "455961790"}'
-
-        m.post(self.van.connection.uri + 'targetExportJobs', json=export_job_id, status_code=204)
-        m.get(self.van.connection.uri + f'targetExportJobs/455961790', 
-          json=[{"targetId": 12827,
+        export_job_id = 455961790
+        json=[{"targetId": 12827,
                 "file": 
                     {
                     "downloadUrl": "https://ngpvan.blob.core.windows.net/target-export-files/TargetExport_455961790.csv",
@@ -122,9 +114,12 @@ class TestTargets(unittest.TestCase):
                 ,
                 "webhookUrl": "null",
                 "exportJobId": 455961790,
-                "jobStatus": "Complete"}])
+                "jobStatus": "Complete"}]
+        download_url='https://ngpvan.blob.core.windows.net/target-export-files/TargetExport_455961790.csv'
 
-        m.get(f'https://ngpvan.blob.core.windows.net/target-export-files/TargetExport_455961790.csv', text=self.mock_data)
-
+        m.post(self.van.connection.uri + 'targetExportJobs', json=export_job_id, status_code=204)
+        m.get(self.van.connection.uri + f'targetExportJobs/455961790', 
+          json=json)
+        m.get(download_url, text=self.mock_data)
         assert_matching_tables(self.van.get_target_export(export_job_id),
                                self.mock_result)

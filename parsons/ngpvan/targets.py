@@ -7,9 +7,9 @@ import requests
 
 logger = logging.getLogger(__name__)
 
+
 class TargetsFailed(Exception):
     pass
-
 
 class Targets(object):
 
@@ -61,17 +61,16 @@ class Targets(object):
         response = self.connection.get_request(f'targetExportJobs/{export_job_id}')
         json_string = json.dumps(response)
         json_obj = json.loads(json_string)
-        job_status=json_obj[0]['jobStatus']
-        if job_status=='Complete':
+        job_status = json_obj[0]['jobStatus']
+        if job_status == 'Complete':
             csv = json_obj[0]['file']['downloadUrl']
-            response_csv=requests.get(csv)
+            response_csv = requests.get(csv)
             print(response_csv)
             return Table.from_csv_string(response_csv.text)
-        elif job_status=='Pending' or job_status=='InProcess':
+        elif job_status == 'Pending' or job_status == 'InProcess':
             logger.info(f'Target export job is pending or in process for {export_job_id}.')
         else:
             raise TargetsFailed(f'Target export failed for {export_job_id}')
-
 
         # tbl = Table(self.connection.get_request(f'targetExportJobs/{export_job_id}'))
         # logger.info(f'Found target export {export_job_id}.')

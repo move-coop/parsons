@@ -748,9 +748,30 @@ by the Google Developer Console. Required if env variable
 </dd>
 </dl>
 <dl class="method">
-<dt id="parsons.GoogleSheets.get_sheet_index_with_title">
-<code class="descname">get_sheet_index_with_title</code><span class="sig-paren">(</span><em>spreadsheet_id</em>, <em>title</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/google/google_sheets.html#GoogleSheets.get_sheet_index_with_title"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.GoogleSheets.get_sheet_index_with_title" title="Permalink to this definition">¶</a></dt>
-<dd><p>Get the first sheet in a Google spreadsheet with the given title.</p>
+<dt id="parsons.GoogleSheets.list_worksheets">
+<code class="descname">list_worksheets</code><span class="sig-paren">(</span><em>spreadsheet_id</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/google/google_sheets.html#GoogleSheets.list_worksheets"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.GoogleSheets.list_worksheets" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return a list of worksheets in the spreadsheet.</p>
+<dl class="docutils">
+<dt><cite>Args:</cite></dt>
+<dd><dl class="first last docutils">
+<dt>spreadsheet_id: str</dt>
+<dd>The ID of the spreadsheet (Tip: Get this from the spreadsheet URL)</dd>
+</dl>
+</dd>
+<dt><cite>Returns:</cite></dt>
+<dd><dl class="first last docutils">
+<dt>list</dt>
+<dd>A List of worksheets order by their index</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="parsons.GoogleSheets.get_worksheet_index">
+<code class="descname">get_worksheet_index</code><span class="sig-paren">(</span><em>spreadsheet_id</em>, <em>title</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/google/google_sheets.html#GoogleSheets.get_worksheet_index"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.GoogleSheets.get_worksheet_index" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the first sheet in a Google spreadsheet with the given title. The
+title is case sensitive and the index begins with 0.</p>
 <dl class="docutils">
 <dt><cite>Args:</cite></dt>
 <dd><dl class="first last docutils">
@@ -770,38 +791,17 @@ by the Google Developer Console. Required if env variable
 </dd></dl>
 
 <dl class="method">
-<dt id="parsons.GoogleSheets.read_sheet">
-<code class="descname">read_sheet</code><span class="sig-paren">(</span><em>spreadsheet_id</em>, <em>sheet_index=0</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/google/google_sheets.html#GoogleSheets.read_sheet"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.GoogleSheets.read_sheet" title="Permalink to this definition">¶</a></dt>
+<dt id="parsons.GoogleSheets.get_worksheet">
+<code class="descname">get_worksheet</code><span class="sig-paren">(</span><em>spreadsheet_id</em>, <em>worksheet=0</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/google/google_sheets.html#GoogleSheets.get_worksheet"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.GoogleSheets.get_worksheet" title="Permalink to this definition">¶</a></dt>
 <dd><p>Create a <code class="docutils literal notranslate"><span class="pre">parsons</span> <span class="pre">table</span></code> from a sheet in a Google spreadsheet, given the sheet index.</p>
 <dl class="docutils">
 <dt><cite>Args:</cite></dt>
 <dd><dl class="first last docutils">
 <dt>spreadsheet_id: str</dt>
 <dd>The ID of the spreadsheet (Tip: Get this from the spreadsheet URL)</dd>
-<dt>sheet_index: int (optional)</dt>
-<dd>The index of the desired worksheet (Index begins at 0).</dd>
-</dl>
-</dd>
-<dt><cite>Returns:</cite></dt>
-<dd><dl class="first last docutils">
-<dt>Parsons Table</dt>
-<dd>See <a class="reference internal" href="table.html#parsons-table"><span class="std std-ref">Parsons Table</span></a> for output options.</dd>
-</dl>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="method">
-<dt id="parsons.GoogleSheets.read_sheet_with_title">
-<code class="descname">read_sheet_with_title</code><span class="sig-paren">(</span><em>spreadsheet_id</em>, <em>title</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/google/google_sheets.html#GoogleSheets.read_sheet_with_title"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.GoogleSheets.read_sheet_with_title" title="Permalink to this definition">¶</a></dt>
-<dd><p>Create a <code class="docutils literal notranslate"><span class="pre">`parsons</span> <span class="pre">table`</span></code> from a sheet in Google spreadsheet, given the sheet title.</p>
-<dl class="docutils">
-<dt><cite>Args:</cite></dt>
-<dd><dl class="first last docutils">
-<dt>spreadsheet_id: str</dt>
-<dd>The ID of the spreadsheet (Tip: Get this from the spreadsheet URL)</dd>
-<dt>title: str</dt>
-<dd>The sheet title</dd>
+<dt>worksheet: str or int</dt>
+<dd>The index or the title of the worksheet. The index begins with
+0.</dd>
 </dl>
 </dd>
 <dt><cite>Returns:</cite></dt>
@@ -925,7 +925,7 @@ the given email address.</p>
 
 <dl class="method">
 <dt id="parsons.GoogleSheets.append_to_sheet">
-<code class="descname">append_to_sheet</code><span class="sig-paren">(</span><em>spreadsheet_id</em>, <em>table</em>, <em>sheet_index=0</em>, <em>user_entered_value=False</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/google/google_sheets.html#GoogleSheets.append_to_sheet"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.GoogleSheets.append_to_sheet" title="Permalink to this definition">¶</a></dt>
+<code class="descname">append_to_sheet</code><span class="sig-paren">(</span><em>spreadsheet_id</em>, <em>table</em>, <em>worksheet=0</em>, <em>user_entered_value=False</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/google/google_sheets.html#GoogleSheets.append_to_sheet"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.GoogleSheets.append_to_sheet" title="Permalink to this definition">¶</a></dt>
 <dd><p>Append data from a Parsons table to a Google sheet. Note that the table’s columns are
 ignored, as we’ll be keeping whatever header row already exists in the Google sheet.</p>
 <dl class="docutils">
@@ -935,8 +935,9 @@ ignored, as we’ll be keeping whatever header row already exists in the Google 
 <dd>The ID of the spreadsheet (Tip: Get this from the spreadsheet URL)</dd>
 <dt>table: obj</dt>
 <dd>Parsons table</dd>
-<dt>sheet_index: int (optional)</dt>
-<dd>The index of the desired worksheet</dd>
+<dt>worksheet: str or int</dt>
+<dd>The index or the title of the worksheet. The index begins with
+0.</dd>
 <dt>user_entered_value: bool (optional)</dt>
 <dd>If True, will submit cell values as entered (required for entering formulas).
 Otherwise, values will be entered as strings or numbers only.</dd>
@@ -947,7 +948,7 @@ Otherwise, values will be entered as strings or numbers only.</dd>
 
 <dl class="method">
 <dt id="parsons.GoogleSheets.overwrite_sheet">
-<code class="descname">overwrite_sheet</code><span class="sig-paren">(</span><em>spreadsheet_id</em>, <em>table</em>, <em>sheet_index=0</em>, <em>user_entered_value=False</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/google/google_sheets.html#GoogleSheets.overwrite_sheet"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.GoogleSheets.overwrite_sheet" title="Permalink to this definition">¶</a></dt>
+<code class="descname">overwrite_sheet</code><span class="sig-paren">(</span><em>spreadsheet_id</em>, <em>table</em>, <em>worksheet=0</em>, <em>user_entered_value=False</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/google/google_sheets.html#GoogleSheets.overwrite_sheet"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.GoogleSheets.overwrite_sheet" title="Permalink to this definition">¶</a></dt>
 <dd><p>Replace the data in a Google sheet with a Parsons table, using the table’s columns as the
 first row.</p>
 <dl class="docutils">
@@ -957,8 +958,9 @@ first row.</p>
 <dd>The ID of the spreadsheet (Tip: Get this from the spreadsheet URL)</dd>
 <dt>table: obj</dt>
 <dd>Parsons table</dd>
-<dt>sheet_index: int (optional)</dt>
-<dd>The index of the desired worksheet</dd>
+<dt>worksheet: str or int</dt>
+<dd>The index or the title of the worksheet. The index begins with
+0.</dd>
 <dt>user_entered_value: bool (optional)</dt>
 <dd>If True, will submit cell values as entered (required for entering formulas).
 Otherwise, values will be entered as strings or numbers only.</dd>

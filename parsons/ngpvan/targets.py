@@ -73,11 +73,6 @@ class Targets(object):
         else:
             raise TargetsFailed(f'Target export failed for {export_job_id}')
 
-        # tbl = Table(self.connection.get_request(f'targetExportJobs/{export_job_id}'))
-        # logger.info(f'Found target export {export_job_id}.')
-        # tbl
-        # return tbl
-
     def create_target_export(self, target_id, webhook_url=None):
         """
         Create new target export job

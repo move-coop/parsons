@@ -88,21 +88,6 @@ class TestTargets(unittest.TestCase):
     @requests_mock.Mocker()
     def test_get_target_export(self, m):
 
-        # # Create response
-        # json = [{"targetId": 12827, 
-        #         "file": 
-        #             {
-        #             "downloadUrl": "https://ngpvan.blob.core.windows.net/target-export-files/TargetExport_455961790.csv",
-        #             "dateExpired": "null",
-        #             "recordCount": 1016883
-        #             }
-        #         ,
-        #         "webhookUrl": "null",
-        #         "exportJobId": 455961790,
-        #         "jobStatus": "Complete"}]
-
-        # m.post(self.van.connection.uri + 'targetExportJobs', json=export_job_id, status_code=204)
-
         export_job_id = 455961790
         json=[{"targetId": 12827,
                 "file": 

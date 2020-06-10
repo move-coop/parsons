@@ -704,7 +704,7 @@ class Redshift(RedshiftCreateTable, RedshiftCopyTable, RedshiftTableUtilities, R
             self.copy(table_obj, target_table)
             return None
 
-        # Make target table column width line up with incoming table, if needed
+        # Make target table column widths match incoming table, if necessary
         self.alter_varchar_column_widths(table_obj, target_table)
 
         noise = f'{random.randrange(0, 10000):04}'[:4]

@@ -291,7 +291,8 @@ class ToFrom(object):
         return list(petl.dicts(self.table))
 
     def to_sftp_csv(self, remote_path, host, username, password, port=22, encoding=None,
-                    compression=None, errors='strict', write_header=True, **csvargs):
+                    compression=None, errors='strict', write_header=True,
+                    rsa_private_key_file=None, **csvargs):
         """
         Writes the table to a CSV file on a remote SFTP server
 
@@ -313,12 +314,16 @@ class ToFrom(object):
                 Raise an Error if encountered
             write_header: boolean
                 Include header in output
+            rsa_private_key_file str
+                Absolute path to a private RSA key used
+                to authenticate stfp connection
             \**csvargs: kwargs
                 ``csv_writer`` optional arguments
         """  # noqa: W605
 
-        from parsons import SFTP
-        sftp = SFTP(host, username, password, port)
+        from parsons.sftp import SFTP
+
+        sftp = SFTP(host, username, password, port, rsa_private_key_file)
 
         compression = files.compression_type_for_path(remote_path)
 
@@ -329,8 +334,8 @@ class ToFrom(object):
 
     def to_s3_csv(self, bucket, key, aws_access_key_id=None,
                   aws_secret_access_key=None, compression=None, encoding=None,
-                  errors='strict', write_header=True, public_url=False,
-                  public_url_expires=3600, **csvargs):
+                  errors='strict', write_header=True, acl='bucket-owner-full-control',
+                  public_url=False, public_url_expires=3600, **csvargs):
         """
         Writes the table to an s3 object as a CSV
 
@@ -358,6 +363,8 @@ class ToFrom(object):
                 Create a public link to the file
             public_url_expire: 3600
                 The time, in seconds, until the url expires if ``public_url`` set to ``True``.
+            acl: str
+                The S3 permissions on the file
             \**csvargs: kwargs
                 ``csv_writer`` optional arguments
         `Returns:`
@@ -377,10 +384,10 @@ class ToFrom(object):
                                  **csvargs)
 
         # Put the file on S3
-        from parsons import S3
+        from parsons.aws import S3
         self.s3 = S3(aws_access_key_id=aws_access_key_id,
                      aws_secret_access_key=aws_secret_access_key)
-        self.s3.put_file(bucket, key, local_path)
+        self.s3.put_file(bucket, key, local_path, acl=acl)
 
         if public_url:
             return self.s3.get_url(bucket, key, expires_in=public_url_expires)
@@ -394,6 +401,8 @@ class ToFrom(object):
         AWS S3 credentials or store them as environmental variables.
 
         Args:
+            table_name: str
+                The table name and schema (``my_schema.my_table``) to point the file.
             username: str
                 Required if env variable ``REDSHIFT_USERNAME`` not populated
             password: str
@@ -411,10 +420,38 @@ class ToFrom(object):
             ``None``
         """  # noqa: W605
 
-        from parsons import Redshift
-        rs = Redshift(
-            username=username, password=password, host=host, db=db, port=port)
+        from parsons.databases.redshift import Redshift
+        rs = Redshift(username=username, password=password, host=host, db=db, port=port)
         rs.copy(self, table_name, **copy_args)
+
+    def to_postgres(self, table_name, username=None, password=None, host=None,
+                    db=None, port=None, **copy_args):
+        """
+        Write a table to a Postgres database.
+
+        Args:
+            table_name: str
+                The table name and schema (``my_schema.my_table``) to point the file.
+            username: str
+                Required if env variable ``PGUSER`` not populated
+            password: str
+                Required if env variable ``PGPASSWORD`` not populated
+            host: str
+                Required if env variable ``PGHOST`` not populated
+            db: str
+                Required if env variable ``PGDATABASE`` not populated
+            port: int
+                Required if env variable ``PGPORT`` not populated.
+            \**copy_args: kwargs
+                See :func:`~parsons.databases.Postgres.copy`` for options.
+
+        Returns:
+            ``None``
+        """  # noqa: W605
+
+        from parsons.databases.postgres import Postgres
+        pg = Postgres(username=username, password=password, host=host, db=db, port=port)
+        pg.copy(self, table_name, **copy_args)
 
     def to_petl(self):
 
@@ -561,7 +598,7 @@ class ToFrom(object):
             return cls(petl.fromjson(local_path, header=header))
 
     @classmethod
-    def from_redshift(cls, query, username=None, password=None, host=None,
+    def from_redshift(cls, sql, username=None, password=None, host=None,
                       db=None, port=None):
         """
         Create a ``parsons table`` from a Redshift query.
@@ -569,7 +606,7 @@ class ToFrom(object):
         To pull an entire Redshift table, use a query like ``SELECT * FROM tablename``.
 
         `Args:`
-            query: str
+            sql: str
                 A valid SQL statement
             username: str
                 Required if env variable ``REDSHIFT_USERNAME`` not populated
@@ -587,9 +624,31 @@ class ToFrom(object):
                 See :ref:`parsons-table` for output options.
         """
 
-        from parsons import Redshift
+        from parsons.databases.redshift import Redshift
         rs = Redshift(username=username, password=password, host=host, db=db, port=port)
-        return rs.query(query)
+        return rs.query(sql)
+
+    @classmethod
+    def from_postgres(cls, sql, username=None, password=None, host=None, db=None, port=None):
+        """
+        Args:
+            sql: str
+                A valid SQL statement
+            username: str
+                Required if env variable ``PGUSER`` not populated
+            password: str
+                Required if env variable ``PGPASSWORD`` not populated
+            host: str
+                Required if env variable ``PGHOST`` not populated
+            db: str
+                Required if env variable ``PGDATABASE`` not populated
+            port: int
+                Required if env variable ``PGPORT`` not populated.
+        """
+
+        from parsons.databases.postgres import Postgres
+        pg = Postgres(username=username, password=password, host=host, db=db, port=port)
+        return pg.query(sql)
 
     @classmethod
     def from_s3_csv(cls, bucket, key, aws_access_key_id=None, aws_secret_access_key=None,
@@ -612,7 +671,7 @@ class ToFrom(object):
             `parsons.Table` object
         """  # noqa: W605
 
-        from parsons import S3
+        from parsons.aws import S3
         s3 = S3(aws_access_key_id, aws_secret_access_key)
         file_obj = s3.get_file(bucket, key)
 

@@ -33,6 +33,9 @@ From Parsons Table
     * - ``.to_redshift()``
       - A Redshift Database
       - Write a table to a Redshift database
+    * - ``.to_postgres()``
+      - A Postgres Database
+      - Write a table to a Postgres database
     * - ``.to_civis()``
       - Civis Redshift Database
       - Write a table to Civis platform database
@@ -75,7 +78,10 @@ Create Parsons Table object using the following methods.
       - Loads lists organized as columns in Table
     * - ``.from_redshift()``
       - Redshift table
-      - Loads a Redshift table into a Table
+      - Loads a Redshift query into a Table
+    * - ``.from_postgres()``
+      - Postgres table
+      - Loads a Postgres query into a Table
     * - ``.from_dataframe()``
       - Pandas Dataframe [2]_
       - Load a Parsons table from a Pandas Dataframe
@@ -116,6 +122,26 @@ Parsons Table Attributes
       - The actual data (rows) of the table, as a list of tuples (without field names)
     * - ``.first``
       - The first value in the table. Use for database queries where a single value is returned.
+
+======================
+Parsons Table Indexing
+======================
+
+To access rows and columns of data within a Parsons table, you can index on them. To access a column
+pass in the column name as a string (e.g. ``tbl['a']``) and to access a row, pass in the row index as
+an integer (e.g. ``tbl[1]``). 
+
+.. code-block:: python
+
+    tbl = Table([{'a': 1, 'b': 2}, {'a': 3, 'b': 4}])
+
+    # Return a column as a list
+    tbl['a']
+    >> [1, 3] 
+
+    # Return a row as a dict
+    tbl[1]
+    >> {'a': 3, 'b': 4}
 
 A note on indexing and iterating over a table's data:
 If you need to iterate over the data, make sure to use the python iterator syntax, so any data transformations can be applied efficiently. An example:
@@ -195,16 +221,19 @@ Basic Pipelines
     van.events().to_s3_csv('my-van-bucket','myevents.csv')
 
 
-*****************
-To & From Methods
-*****************
+*************
+To & From API
+*************
 .. autoclass:: parsons.etl.tofrom.ToFrom
    :inherited-members:
 
-***
-ETL
-***
+*******
+ETL API
+*******
 The following methods allow you to manipulate the Parsons table data.
+
+.. autoclass:: parsons.etl.etl.ETL
+   :inherited-members:
 
 .. autoclass:: parsons.etl.etl.ETL
    :inherited-members:

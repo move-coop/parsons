@@ -1,0 +1,340 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<credit-card-transactions type="collection">
+  <current-page-number type="integer">1</current-page-number>
+  <page-size type="integer">50</page-size>
+  <total-items type="integer">2</total-items>
+<transaction>
+  <id>1234abcd</id>
+  <status>settled</status>
+  <type>sale</type>
+  <currency-iso-code>USD</currency-iso-code>
+  <amount>150.00</amount>
+  <merchant-account-id>ExampleOrg_instant</merchant-account-id>
+  <sub-merchant-account-id nil="true"/>
+  <master-merchant-account-id nil="true"/>
+  <order-id nil="true"/>
+  <created-at type="datetime">2019-12-27T22:54:56Z</created-at>
+  <updated-at type="datetime">2019-12-28T00:03:04Z</updated-at>
+  <customer>
+    <id>98765432</id>
+    <first-name>John</first-name>
+    <last-name>Garcia</last-name>
+    <company nil="true"/>
+    <email>john.garcia@example.com</email>
+    <website nil="true"/>
+    <phone nil="true"/>
+    <fax nil="true"/>
+    <global-id>j3lk4j34j34jk3j4kj</global-id>
+  </customer>
+  <billing>
+    <id>9h</id>
+    <first-name>John</first-name>
+    <last-name>Garcia</last-name>
+    <company nil="true"/>
+    <street-address>123 Main St.</street-address>
+    <extended-address nil="true"/>
+    <locality>Los Angeles</locality>
+    <region>CA</region>
+    <postal-code>90343</postal-code>
+    <country-name>United States of America</country-name>
+    <country-code-alpha2>US</country-code-alpha2>
+    <country-code-alpha3>USA</country-code-alpha3>
+    <country-code-numeric>840</country-code-numeric>
+  </billing>
+  <refund-id nil="true"/>
+  <refund-ids type="array"/>
+  <refunded-transaction-id nil="true"/>
+  <partial-settlement-transaction-ids type="array"/>
+  <authorized-transaction-id nil="true"/>
+  <settlement-batch-id>2019-12-27_ExampleOrg_instant_87df98sd</settlement-batch-id>
+  <shipping>
+    <id nil="true"/>
+    <first-name nil="true"/>
+    <last-name nil="true"/>
+    <company nil="true"/>
+    <street-address nil="true"/>
+    <extended-address nil="true"/>
+    <locality nil="true"/>
+    <region nil="true"/>
+    <postal-code nil="true"/>
+    <country-name nil="true"/>
+    <country-code-alpha2 nil="true"/>
+    <country-code-alpha3 nil="true"/>
+    <country-code-numeric nil="true"/>
+  </shipping>
+  <custom-fields/>
+  <avs-error-response-code nil="true"/>
+  <avs-postal-code-response-code>M</avs-postal-code-response-code>
+  <avs-street-address-response-code>N</avs-street-address-response-code>
+  <cvv-response-code>I</cvv-response-code>
+  <gateway-rejection-reason nil="true"/>
+  <processor-authorization-code>03717Z</processor-authorization-code>
+  <processor-response-code>1000</processor-response-code>
+  <processor-response-text>Approved</processor-response-text>
+  <additional-processor-response nil="true"/>
+  <voice-referral-number nil="true"/>
+  <purchase-order-number nil="true"/>
+  <tax-amount nil="true"/>
+  <tax-exempt type="boolean">false</tax-exempt>
+  <credit-card>
+    <token>1234abc</token>
+    <bin>789234</bin>
+    <last-4>6789</last-4>
+    <card-type>MasterCard</card-type>
+    <expiration-month>02</expiration-month>
+    <expiration-year>2021</expiration-year>
+    <customer-location>US</customer-location>
+    <cardholder-name nil="true"/>
+    <image-url>https://assets.braintreegateway.com/payment_method_logo/mastercard.png?environment=production</image-url>
+    <prepaid>No</prepaid>
+    <healthcare>No</healthcare>
+    <debit>No</debit>
+    <durbin-regulated>No</durbin-regulated>
+    <commercial>No</commercial>
+    <payroll>No</payroll>
+    <issuing-bank>MR MONEYBAGS</issuing-bank>
+    <country-of-issuance>USA</country-of-issuance>
+    <product-id>MWE</product-id>
+    <global-id>k2j3k4j34k3j43k34j3</global-id>
+    <account-type nil="true"/>
+    <unique-number-identifier>abc87348374937483def3948394</unique-number-identifier>
+    <venmo-sdk type="boolean">false</venmo-sdk>
+  </credit-card>
+  <status-history type="array">
+    <status-event>
+      <timestamp type="datetime">2019-12-27T22:54:57Z</timestamp>
+      <status>authorized</status>
+      <amount>150.00</amount>
+      <user>user_123</user>
+      <transaction-source>api</transaction-source>
+    </status-event>
+    <status-event>
+      <timestamp type="datetime">2019-12-27T22:54:57Z</timestamp>
+      <status>submitted_for_settlement</status>
+      <amount>150.00</amount>
+      <user>user_123</user>
+      <transaction-source>api</transaction-source>
+    </status-event>
+    <status-event>
+      <timestamp type="datetime">2019-12-28T00:03:04Z</timestamp>
+      <status>settled</status>
+      <amount>150.00</amount>
+      <transaction-source></transaction-source>
+    </status-event>
+  </status-history>
+  <plan-id nil="true"/>
+  <subscription-id nil="true"/>
+  <subscription>
+    <billing-period-end-date nil="true"/>
+    <billing-period-start-date nil="true"/>
+  </subscription>
+  <add-ons type="array"/>
+  <discounts type="array"/>
+  <descriptor>
+    <name nil="true"/>
+    <phone nil="true"/>
+    <url nil="true"/>
+  </descriptor>
+  <recurring type="boolean">false</recurring>
+  <channel nil="true"/>
+  <service-fee-amount nil="true"/>
+  <escrow-status nil="true"/>
+  <disbursement-details>
+    <disbursement-date type="date">2019-12-30</disbursement-date>
+    <settlement-amount>150.00</settlement-amount>
+    <settlement-currency-iso-code>USD</settlement-currency-iso-code>
+    <settlement-currency-exchange-rate>1</settlement-currency-exchange-rate>
+    <funds-held type="boolean">false</funds-held>
+    <success type="boolean">true</success>
+  </disbursement-details>
+  <disputes type="array"/>
+  <authorization-adjustments type="array"/>
+  <payment-instrument-type>credit_card</payment-instrument-type>
+  <processor-settlement-response-code>4000</processor-settlement-response-code>
+  <processor-settlement-response-text>Confirmed</processor-settlement-response-text>
+  <network-response-code>00</network-response-code>
+  <network-response-text>Approved or completed successfully</network-response-text>
+  <three-d-secure-info nil="true"/>
+  <ships-from-postal-code nil="true"/>
+  <shipping-amount nil="true"/>
+  <discount-amount nil="true"/>
+  <network-transaction-id nil="true"/>
+  <processor-response-type>approved</processor-response-type>
+  <authorization-expires-at type="datetime">2020-01-03T22:54:57Z</authorization-expires-at>
+  <refund-global-ids type="array"/>
+  <partial-settlement-transaction-global-ids type="array"/>
+  <refunded-transaction-global-id nil="true"/>
+  <authorized-transaction-global-id nil="true"/>
+  <global-id>2k3j4k3jl4jk3j43k4j</global-id>
+  <retry-ids type="array"/>
+  <retried-transaction-id nil="true"/>
+  <retrieval-reference-number nil="true"/>
+</transaction>
+<transaction>
+  <id>0987asdf</id>
+  <status>settled</status>
+  <type>sale</type>
+  <currency-iso-code>USD</currency-iso-code>
+  <amount>5.00</amount>
+  <merchant-account-id>ExampleOrg_instant</merchant-account-id>
+  <sub-merchant-account-id nil="true"/>
+  <master-merchant-account-id nil="true"/>
+  <order-id nil="true"/>
+  <created-at type="datetime">2019-12-27T22:54:28Z</created-at>
+  <updated-at type="datetime">2019-12-28T00:47:41Z</updated-at>
+  <customer>
+    <id>892734394</id>
+    <first-name>Another</first-name>
+    <last-name>Fakename</last-name>
+    <company nil="true"/>
+    <email>fakename@example.com</email>
+    <website nil="true"/>
+    <phone nil="true"/>
+    <fax nil="true"/>
+    <global-id>ADSFAJDSFDF23434</global-id>
+  </customer>
+  <billing>
+    <id>83</id>
+    <first-name>Another</first-name>
+    <last-name>Fakename</last-name>
+    <company nil="true"/>
+    <street-address>1234 Fake Way</street-address>
+    <extended-address nil="true"/>
+    <locality>Fakecity</locality>
+    <region>NY</region>
+    <postal-code>10202</postal-code>
+    <country-name>United States of America</country-name>
+    <country-code-alpha2>US</country-code-alpha2>
+    <country-code-alpha3>USA</country-code-alpha3>
+    <country-code-numeric>840</country-code-numeric>
+  </billing>
+  <refund-id nil="true"/>
+  <refund-ids type="array"/>
+  <refunded-transaction-id nil="true"/>
+  <partial-settlement-transaction-ids type="array"/>
+  <authorized-transaction-id nil="true"/>
+  <settlement-batch-id>2019-12-27_ExampleOrg_instant_3j4hj34</settlement-batch-id>
+  <shipping>
+    <id nil="true"/>
+    <first-name nil="true"/>
+    <last-name nil="true"/>
+    <company nil="true"/>
+    <street-address nil="true"/>
+    <extended-address nil="true"/>
+    <locality nil="true"/>
+    <region nil="true"/>
+    <postal-code nil="true"/>
+    <country-name nil="true"/>
+    <country-code-alpha2 nil="true"/>
+    <country-code-alpha3 nil="true"/>
+    <country-code-numeric nil="true"/>
+  </shipping>
+  <custom-fields/>
+  <avs-error-response-code nil="true"/>
+  <avs-postal-code-response-code>M</avs-postal-code-response-code>
+  <avs-street-address-response-code>M</avs-street-address-response-code>
+  <cvv-response-code>I</cvv-response-code>
+  <gateway-rejection-reason nil="true"/>
+  <processor-authorization-code>064469</processor-authorization-code>
+  <processor-response-code>1000</processor-response-code>
+  <processor-response-text>Approved</processor-response-text>
+  <additional-processor-response nil="true"/>
+  <voice-referral-number nil="true"/>
+  <purchase-order-number nil="true"/>
+  <tax-amount nil="true"/>
+  <tax-exempt type="boolean">false</tax-exempt>
+  <credit-card>
+    <token>lkj4353</token>
+    <bin>123456</bin>
+    <last-4>6789</last-4>
+    <card-type>Visa</card-type>
+    <expiration-month>03</expiration-month>
+    <expiration-year>2021</expiration-year>
+    <customer-location>US</customer-location>
+    <cardholder-name nil="true"/>
+    <image-url>https://assets.braintreegateway.com/payment_method_logo/visa.png?environment=production</image-url>
+    <prepaid>No</prepaid>
+    <healthcare>No</healthcare>
+    <debit>Yes</debit>
+    <durbin-regulated>No</durbin-regulated>
+    <commercial>Unknown</commercial>
+    <payroll>No</payroll>
+    <issuing-bank>Get Bailouts Whenever We Can</issuing-bank>
+    <country-of-issuance>USA</country-of-issuance>
+    <product-id>F</product-id>
+    <global-id>k2j3lk4j3lk4j3k4j3j3k4k3j4</global-id>
+    <account-type nil="true"/>
+    <unique-number-identifier>k3j4k3jk4j34jk3jk43434</unique-number-identifier>
+    <venmo-sdk type="boolean">false</venmo-sdk>
+  </credit-card>
+  <status-history type="array">
+    <status-event>
+      <timestamp type="datetime">2019-12-27T22:54:28Z</timestamp>
+      <status>authorized</status>
+      <amount>5.00</amount>
+      <user>user_123</user>
+      <transaction-source>api</transaction-source>
+    </status-event>
+    <status-event>
+      <timestamp type="datetime">2019-12-27T22:54:28Z</timestamp>
+      <status>submitted_for_settlement</status>
+      <amount>5.00</amount>
+      <user>user_123</user>
+      <transaction-source>api</transaction-source>
+    </status-event>
+    <status-event>
+      <timestamp type="datetime">2019-12-28T00:47:41Z</timestamp>
+      <status>settled</status>
+      <amount>5.00</amount>
+      <transaction-source></transaction-source>
+    </status-event>
+  </status-history>
+  <plan-id nil="true"/>
+  <subscription-id nil="true"/>
+  <subscription>
+    <billing-period-end-date nil="true"/>
+    <billing-period-start-date nil="true"/>
+  </subscription>
+  <add-ons type="array"/>
+  <discounts type="array"/>
+  <descriptor>
+    <name nil="true"/>
+    <phone nil="true"/>
+    <url nil="true"/>
+  </descriptor>
+  <recurring type="boolean">false</recurring>
+  <channel nil="true"/>
+  <service-fee-amount nil="true"/>
+  <escrow-status nil="true"/>
+  <disbursement-details>
+    <disbursement-date type="date">2019-12-30</disbursement-date>
+    <settlement-amount>5.00</settlement-amount>
+    <settlement-currency-iso-code>USD</settlement-currency-iso-code>
+    <settlement-currency-exchange-rate>1</settlement-currency-exchange-rate>
+    <funds-held type="boolean">false</funds-held>
+    <success type="boolean">true</success>
+  </disbursement-details>
+  <disputes type="array"/>
+  <authorization-adjustments type="array"/>
+  <payment-instrument-type>credit_card</payment-instrument-type>
+  <processor-settlement-response-code>4000</processor-settlement-response-code>
+  <processor-settlement-response-text>Confirmed</processor-settlement-response-text>
+  <network-response-code>00</network-response-code>
+  <network-response-text>Successful approval/completion or V.I.P. PIN verification is successful</network-response-text>
+  <three-d-secure-info nil="true"/>
+  <ships-from-postal-code nil="true"/>
+  <shipping-amount nil="true"/>
+  <discount-amount nil="true"/>
+  <network-transaction-id>9876542123456789</network-transaction-id>
+  <processor-response-type>approved</processor-response-type>
+  <authorization-expires-at type="datetime">2020-01-03T22:54:28Z</authorization-expires-at>
+  <refund-global-ids type="array"/>
+  <partial-settlement-transaction-global-ids type="array"/>
+  <refunded-transaction-global-id nil="true"/>
+  <authorized-transaction-global-id nil="true"/>
+  <global-id>ASDFJSDHFJsjdfhsjdfh234</global-id>
+  <retry-ids type="array"/>
+  <retried-transaction-id nil="true"/>
+  <retrieval-reference-number nil="true"/>
+</transaction>
+</credit-card-transactions>

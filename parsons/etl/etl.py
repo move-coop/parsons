@@ -139,6 +139,26 @@ class ETL(object):
 
         return self
 
+    def get_column_max_width(self, column):
+        """
+        Return the maximum width of the column.
+
+        `Args:`
+            column: str
+                The column name.
+        `Returns:`
+            int
+        """
+
+        max_width = 0
+
+        for v in petl.values(self.table, column):
+
+            if len(str(v).encode('utf-8')) > max_width:
+                max_width = len(str(v).encode('utf-8'))
+
+        return max_width
+
     def convert_columns_to_str(self):
         """
         Convenience function to convert all non-string or mixed columns in a
@@ -148,10 +168,16 @@ class ETL(object):
             `Parsons Table` and also updates self
         """
 
+        # If we don't have any rows, don't bother trying to convert things
+        if self.num_rows == 0:
+            return self
+
         cols = self.get_columns_type_stats()
 
         for col in cols:
-            if len(col['type']) > 1 or col['type'][0] != 'str':
+            # If there's more than one type (or no types), convert to str
+            # Also if there is one type and it's not str, convert to str
+            if len(col['type']) != 1 or col['type'][0] != 'str':
                 self.convert_column(col['name'], str)
 
         return self
@@ -588,7 +614,9 @@ class ETL(object):
         filters.
 
         Example filters:
+
         .. code-block:: python
+
             tbl = Table([['foo', 'bar', 'baz'],
                          ['c', 4, 9.3],
                          ['a', 2, 88.2],
@@ -706,7 +734,7 @@ class ETL(object):
             List of Parsons tables
         """
 
-        from parsons import Table  # Just trying to avoid recursive imports.
+        from parsons.etl import Table
         return [Table(petl.rowslice(self.table, i, i+rows)) for i in range(0, self.num_rows, rows)]
 
     @staticmethod
@@ -749,7 +777,7 @@ class ETL(object):
             `Parsons Table` and also updates self
         """
 
-        from parsons import Table  # Just trying to avoid recursive imports.
+        from parsons.etl import Table  # Just trying to avoid recursive imports.
 
         normalize_fn = Table.get_normalized_column_name if fuzzy_match else (lambda s: s)
 
@@ -816,7 +844,7 @@ class ETL(object):
         """
         Group rows by a column or columns, then reduce the groups to a single row.
 
-        Based on the `rowreduce` petl function - https://petl.readthedocs.io/en/stable/transform.html#petl.transform.reductions.rowreduce # noqa
+        Based on the `rowreduce petl function <https://petl.readthedocs.io/en/stable/transform.html#petl.transform.reductions.rowreduce>`_.
 
         For example, the output from the query to get a table's definition is
         returned as one component per row. The `reduce_rows` method can be used
@@ -878,7 +906,7 @@ class ETL(object):
         `Returns:`
             `Parsons Table` and also updates self
 
-        """
+        """ # noqa: E501,E261
 
         self.table = petl.rowreduce(
             self.table,
@@ -888,4 +916,35 @@ class ETL(object):
             presorted=presorted,
             **kwargs)
 
+        return self
+
+    def sort(self, columns=None, reverse=False):
+        """
+        Sort the rows a table.
+
+        `Args:`
+            sort_columns: list or str
+                Sort by a single column or a list of column. If ``None`` then
+                will sort columns from left to right.
+            reverse: boolean
+                Sort rows in reverse order.
+        `Returns:`
+            `Parsons Table` and also updates self
+        """
+
+        self.table = petl.sort(self.table, key=columns, reverse=reverse)
+
+        return self
+
+    def set_header(self, new_header):
+        """
+        Replace the header row of the table.
+
+        `Args:`
+            new_header: list
+                List of new header column names
+        `Returns:`
+            `Parsons Table` and also updates self
+        """
+        self.table = petl.setheader(self.table, new_header)
         return self

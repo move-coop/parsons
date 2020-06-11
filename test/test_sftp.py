@@ -1,6 +1,7 @@
 import pytest
 import os
-from parsons import SFTP, Table
+from parsons.etl import Table
+from parsons.sftp import SFTP
 from parsons.utilities import files
 from test.utils import mark_live_test, assert_matching_tables
 from test.fixtures import simple_table, simple_csv_path, simple_compressed_csv_path
@@ -72,6 +73,12 @@ def test_get_file(live_sftp, simple_table):
     local_path = files.create_temp_file()
     live_sftp.get_file(REMOTE_CSV_PATH, local_path=local_path)
     assert_file_matches_table(local_path, simple_table)
+
+@mark_live_test
+def test_get_table(live_sftp, simple_table):
+    local_path = files.create_temp_file()
+    tbl = live_sftp.get_table(REMOTE_CSV_PATH)
+    assert_matching_tables(tbl, simple_table)
 
 @mark_live_test
 def test_get_temp_file(live_sftp, simple_table):

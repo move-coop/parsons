@@ -1,5 +1,5 @@
 from airtable import Airtable as AT
-from parsons import Table
+from parsons.etl import Table
 from parsons.utilities import check_env
 import logging
 
@@ -76,7 +76,7 @@ class Airtable(object):
                 sign -.
 
                 Example usage:
-                ``airtable.get(sort=['ColumnA', '-ColumnB'])``
+                ``airtable.get_records(sort=['ColumnA', '-ColumnB'])``
 
         `Returns:`
             Parsons Table
@@ -84,11 +84,16 @@ class Airtable(object):
         """
 
         # Raises an error if sort is None type. Thus, only adding if populated.
-        kwargs = {'fields': fields, 'max_records': max_records, 'formula': formula}
+        kwargs = {'fields': fields, 'max_records': max_records, 'view': view, 'formula': formula}
         if sort:
             kwargs['sort'] = sort
 
         tbl = Table(self.at.get_all(**kwargs))
+
+        # If the results are empty, then return an empty table.
+        if 'fields' not in tbl.columns:
+            return Table([[]])
+
         return tbl.unpack_dict(column='fields', prepend=False)
 
     def insert_record(self, row):

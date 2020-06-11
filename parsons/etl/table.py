@@ -1,6 +1,8 @@
 from parsons.etl.etl import ETL
 from parsons.etl.tofrom import ToFrom
+from parsons.utilities import files
 import petl
+import pickle
 import logging
 
 
@@ -66,17 +68,28 @@ class Table(ETL, ToFrom):
 
     def __getitem__(self, index):
 
-        self._index_count += 1
-        if self._index_count >= DIRECT_INDEX_WARNING_COUNT:
-            logger.warning("""
-                You have indexed directly into this Table multiple times. This can be inefficient,
-                as data transformations you've made will be computed _each time_ you index into the
-                Table. If you are accessing many rows of data, consider switching to this style of
-                iteration, which is much more efficient:
-                `for row in table:`
-                """)
+        if isinstance(index, int):
 
-        return petl.dicts(self.table)[index]
+            return self.row_data(index)
+
+        elif isinstance(index, str):
+
+            return self.column_data(index)
+
+        else:
+
+            raise TypeError('You must pass a string or an index as a value.')
+
+    def __bool__(self):
+
+        return self.num_rows > 0
+
+    def _repr_html_(self):
+        """
+        Leverage Petl functionality to display well formatted tables in Jupyter Notebook.
+        """
+
+        return self.table._repr_html_()
 
     @property
     def num_rows(self):
@@ -118,6 +131,48 @@ class Table(ETL, ToFrom):
         except IndexError:
             return None
 
+    def row_data(self, row_index):
+        """
+        Returns a row in table
+
+        `Args:`
+            row_index: int
+        `Returns:`
+            dict
+                A dictionary of the row with the column as the key and the cell
+                as the value.
+        """
+
+        self._index_count += 1
+        if self._index_count >= DIRECT_INDEX_WARNING_COUNT:
+            logger.warning("""
+                You have indexed directly into this Table multiple times. This can be inefficient,
+                as data transformations you've made will be computed _each time_ you index into the
+                Table. If you are accessing many rows of data, consider switching to this style of
+                iteration, which is much more efficient:
+                `for row in table:`
+                """)
+
+        return petl.dicts(self.table)[row_index]
+
+    def column_data(self, column_name):
+        """
+        Returns the data in the column as a list.
+
+        `Args:`
+            column_name: str
+                The name of the column
+        `Returns`:
+            list
+                A list of data in the column.
+        """
+
+        if column_name in self.columns:
+            return list(self.table[column_name])
+
+        else:
+            raise ValueError('Column name not found.')
+
     def materialize(self):
         """
         "Materializes" a Table, meaning all data is loaded into memory and all pending
@@ -128,6 +183,34 @@ class Table(ETL, ToFrom):
         """
 
         self.table = petl.wrap(petl.tupleoftuples(self.table))
+
+    def materialize_to_file(self, file_path=None):
+        """
+        "Materializes" a Table, meaning all pending transformations are applied.
+
+        Unlike the original materialize function, this method does not bring the data into memory,
+        but instead loads the data into a local temp file.
+
+        This method updates the current table in place.
+
+        `Args:`
+            file_path: str
+                The path to the file to materialize the table to; if not specified, a temp file
+                will be created.
+        """
+
+        # Load the data in batches, and "pickle" the rows to a temp file.
+        # (We pickle rather than writing to, say, a CSV, so that we maintain
+        # all the type information for each field.)
+
+        file_path = file_path or files.create_temp_file()
+
+        with open(file_path, 'wb') as handle:
+            for row in self.table:
+                pickle.dump(list(row), handle)
+
+        # Load a Table from the file
+        self.table = petl.frompickle(file_path)
 
     def is_valid_table(self):
         """

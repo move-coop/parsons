@@ -11,7 +11,7 @@ class People(object):
         self.connection = van_connection
 
     def find_person(self, first_name=None, last_name=None, date_of_birth=None, email=None,
-                    phone=None, street_number=None, street_name=None, zip=None, match_map=None):
+                    phone=None, phone_type=None, street_number=None, street_name=None, zip=None):
         """
         Find a person record.
 
@@ -24,12 +24,6 @@ class People(object):
             - first_name, last_name, zip5, date_of_birth
             - first_name, last_name, street_number, street_name, zip5
             - email_address
-
-        .. note::
-            The arguments that can be passed are a selection of the possible values that
-            can be used in a search. A full list of possible values can be found
-            `here <https://developers.ngpvan.com/van-api#match-candidates>`_. To use these
-            values, pass in a dictionary using the match_map argument.
 
         `Args:`
             first_name: str
@@ -48,26 +42,31 @@ class People(object):
                 Street Name
             zip: str
                 5 digit zip code
-            match_map: dict
-                A dictionary of values to match against. Will override all
-                other arguments if provided.
-            fields: The fields to return. Leave as default for all available fields
         `Returns:`
-            A person dict
+            A person dict object
         """
 
         logger.info(f'Finding {first_name} {last_name}.')
 
-        return self._people_search(first_name, last_name, date_of_birth, email, phone,
-                                   street_number, street_name, zip, match_map)
+        return self._people_search(
+            first_name=first_name,
+            last_name=last_name,
+            date_of_birth=date_of_birth,
+            email=email,
+            phone=phone,
+            phone_type=phone_type,
+            street_number=street_number,
+            street_name=street_name,
+            zip=zip
+        )
 
-    def upsert_person(self, first_name=None, last_name=None, date_of_birth=None, email=None,
-                      phone=None, street_number=None, street_name=None, zip=None, match_map=None):
+    def find_person_json(self, match_json):
         """
-        Create or update a person record.
+        Find a person record based on json data.
 
         .. note::
-            Person find must include the following minimum combinations.
+            Person find must include the following minimum combinations to conduct
+            a search.
 
             - first_name, last_name, email
             - first_name, last_name, phone
@@ -76,10 +75,109 @@ class People(object):
             - email_address
 
         .. note::
-            The arguments that can be passed are a selection of the possible values that
-            can be used in a search. A full list of possible values can be found
-            `here <https://developers.ngpvan.com/van-api#match-candidates>`_. To use these
-            values, pass in a dictionary using the match_map argument.
+            A full list of possible values for the json, and its structure can be found
+            `here <https://developers.ngpvan.com/van-api#match-candidates>`_.
+
+        `Args:`
+            match_json: dict
+                A dictionary of values to match against.
+            fields: The fields to return. Leave as default for all available fields
+        `Returns:`
+            A person dict object
+        """
+
+        logger.info(f'Finding a match for json details.')
+
+        return self._people_search(match_json=match_json)
+
+    def update_person(self, id=None, id_type='vanid', first_name=None, last_name=None,
+                      date_of_birth=None, email=None, phone=None, phone_type=None,
+                      street_number=None, street_name=None, zip=None):
+        """
+        Update a person record based on a provided ID. All other arguments provided will be
+        updated on the record.
+
+        .. warning::
+            This method can only be run on MyMembers, EveryAction, MyCampaign databases.
+
+        `Args:`
+            id: str
+                A valid id
+            id_type: str
+                A known person identifier type available on this VAN instance.
+                Defaults to ``vanid``.
+            first_name: str
+                The person's first name
+            last_name: str
+                The person's last name
+            dob: str
+                ISO 8601 formatted date of birth (e.g. ``1981-02-01``)
+            email: str
+                The person's email address
+            phone: str
+                Phone number of any type (Work, Cell, Home)
+            phone_type: str
+                One of 'H' for home phone, 'W' for work phone, 'C' for cell, 'M' for
+                main phone or 'F' for fax line. Defaults to home phone.
+            street_number: str
+                Street Number
+            street_name: str
+                Street Name
+            zip: str
+                5 digit zip code
+        `Returns:`
+            A person dict
+        """
+
+        return self._people_search(
+            id=id,
+            id_type=id_type,
+            first_name=first_name,
+            last_name=last_name,
+            date_of_birth=date_of_birth,
+            email=email,
+            phone=phone,
+            phone_type=phone_type,
+            street_number=street_number,
+            street_name=street_name,
+            zip=zip,
+            create=True
+        )
+
+    def update_person_json(self, id, id_type='vanid', match_json=None):
+        """
+        Update a person record based on a provided ID within the match_json dict.
+
+        .. note::
+            A full list of possible values for the json, and its structure can be found
+            `here <https://developers.ngpvan.com/van-api#match-candidates>`_.
+
+        `Args:`
+            id: str
+                A valid id
+            id_type: str
+                A known person identifier type available on this VAN instance.
+                Defaults to ``vanid``.
+            match_json: dict
+                A dictionary of values to match against and save.
+        `Returns:`
+            A person dict
+        """
+
+        return self._people_search(id=id, id_type=id_type, match_json=match_json, create=True)
+
+    def upsert_person(self, first_name=None, last_name=None, date_of_birth=None, email=None,
+                      phone=None, phone_type=None, street_number=None, street_name=None, zip=None):
+        """
+        Create or update a person record.
+
+        .. note::
+            Person find must include the following minimum combinations.
+            - first_name, last_name, email
+            - first_name, last_name, phone
+            - first_name, last_name, zip5, date_of_birth
+            - first_name, last_name, street_number, street_name, zip5
+            - email_address
 
         .. warning::
             This method can only be run on MyMembers, EveryAction, MyCampaign databases.
@@ -95,62 +193,123 @@ class People(object):
                 The person's email address
             phone: str
                 Phone number of any type (Work, Cell, Home)
+            phone_type: str
+                One of 'H' for home phone, 'W' for work phone, 'C' for cell, 'M' for
+                main phone or 'F' for fax line. Defaults to home phone.
             street_number: str
                 Street Number
             street_name: str
                 Street Name
             zip: str
                 5 digit zip code
-            match_map: dict
-                A dictionary of values to match against. Will override all
-                other arguments if provided.
         `Returns:`
             A person dict
         """
 
-        return self._people_search(first_name, last_name, date_of_birth, email, phone,
-                                   street_number, street_name, zip, match_map, create=True)
+        return self._people_search(
+            first_name=first_name,
+            last_name=last_name,
+            date_of_birth=date_of_birth,
+            email=email,
+            phone=phone,
+            phone_type=phone_type,
+            street_number=street_number,
+            street_name=street_name,
+            zip=zip,
+            create=True
+        )
 
-    def _people_search(self, first_name=None, last_name=None, date_of_birth=None, email=None,
-                       phone=None, street_number=None, street_name=None, zip=None, match_map=None,
+    def upsert_person_json(self, match_json):
+        """
+        Create or update a person record.
+
+        .. note::
+            Person find must include the following minimum combinations.
+            - first_name, last_name, email
+            - first_name, last_name, phone
+            - first_name, last_name, zip5, date_of_birth
+            - first_name, last_name, street_number, street_name, zip5
+            - email_address
+
+        .. note::
+            A full list of possible values for the json, and its structure can be found
+            `here <https://developers.ngpvan.com/van-api#match-candidates>`_. `vanId` can
+            be passed to ensure the correct record is updated.
+
+        .. warning::
+            This method can only be run on MyMembers, EveryAction, MyCampaign databases.
+
+        `Args:`
+            match_json: dict
+                A dictionary of values to match against and save.
+        `Returns:`
+            A person dict
+        """
+
+        return self._people_search(match_json=match_json, create=True)
+
+    def _people_search(self, id=None, id_type=None, first_name=None, last_name=None,
+                       date_of_birth=None, email=None, phone=None, phone_type='H',
+                       street_number=None, street_name=None, zip=None, match_json=None,
                        create=False):
         # Internal method to hit the people find/create endpoints
 
-        # Ensure that the minimum combination of fields were passed
-        self._valid_search(first_name, last_name, email, phone, date_of_birth, street_number,
-                           street_name, zip, match_map)
+        addressLine1 = None
+        if street_name and street_number:
+            addressLine1 = f'{street_number} {street_name}'
 
         # Check to see if a match map has been provided
-        if not match_map:
+        if not match_json:
             json = {"firstName": first_name, "lastName": last_name}
 
             # Will fail if empty dicts are provided, hence needed to add if exist
             if email:
                 json['emails'] = [{'email': email}]
             if phone:  # To Do: Strip out non-integers from phone
-                json['phones'] = [{'phoneNumber': phone}]
+                json['phones'] = [{'phoneNumber': phone, 'phoneType': phone_type}]
             if date_of_birth:
                 json['dateOfBirth'] = date_of_birth
-            if zip:
-                json['addresses'] = [{'zipOrPostalCode': zip}]
+            if zip or addressLine1:
+                json['addresses'] = [{}]
+                if zip:
+                    json['addresses'][0]['zipOrPostalCode'] = zip
+                if addressLine1:
+                    json['addresses'][0]['addressLine1'] = addressLine1
         else:
-            json = match_map
+            json = match_json
+            if 'vanId' in match_json:
+                id = match_json['vanId']
 
-        # Determine correct url
-        url = 'people/find'
-        if create:
-            url = url + 'orCreate'
+        url = 'people/'
+
+        if id:
+
+            if create:
+                id_type = '' if id_type in ('vanid', None) else f"{id_type}:"
+                url += id_type + str(id)
+            else:
+                return self.get_person(id, id_type=id_type)
+
+        else:
+            url += 'find'
+
+            if create:
+                url += 'OrCreate'
+            else:
+                # Ensure that the minimum combination of fields were passed
+                json_flat = json_format.flatten_json(json)
+                self._valid_search(**json_flat)
 
         return self.connection.post_request(url, json=json)
 
-    def _valid_search(self, first_name, last_name, email, phone, dob, street_number,
-                      street_name, zip, match_map):
-        # Internal method to check if a search is valid
+    def _valid_search(self, firstName=None, lastName=None, email=None, phoneNumber=None,
+                      dateOfBirth=None, addressLine1=None, zipOrPostalCode=None, **kwargs):
+        # Internal method to check if a search is valid, kwargs are ignored
 
-        if (None in [first_name, last_name, email] and
-            None in [first_name, last_name, phone] and
-            None in [first_name, last_name, zip, dob] and
-            None in [first_name, last_name, street_number, street_name, zip] and
+        if (None in [firstName, lastName, email] and
+            None in [firstName, lastName, phoneNumber] and
+            None in [firstName, lastName, zipOrPostalCode, dateOfBirth] and
+            None in [firstName, lastName, addressLine1, zipOrPostalCode] and
                 None in [email]):
 
             raise ValueError("""
@@ -170,7 +329,7 @@ class People(object):
                    'codes', 'custom_fields', 'external_ids', 'preferences',
                    'recorded_addresses', 'reported_demographics', 'suppressions',
                    'cases', 'custom_properties', 'districts', 'election_records',
-                   'membership_statuses', 'notes', 'organization_roles', 'scores',
+                   'membership_statuses', 'notes', 'organization_roles',
                    'disclosure_field_values']):
         """
         Returns a single person record using their VANID or external id.
@@ -180,7 +339,7 @@ class People(object):
                 A valid id
             id_type: str
                 A known person identifier type available on this VAN instance
-                such as ``dwid``
+                such as ``dwid``. Defaults to ``vanid``.
             expand_fields: list
                 A list of fields for which to include data. If a field is omitted,
                 ``None`` will be returned for that field. Can be ``contribution_history``,
@@ -194,14 +353,14 @@ class People(object):
         """
 
         # Change end point based on id type
-        if id_type == 'vanid':
-            url = f'people/{id}'
-        else:
-            url = f'people/{id_type}:{id}'
+        url = 'people/'
+
+        id_type = '' if id_type in ('vanid', None) else f"{id_type}:"
+        url += id_type + str(id)
 
         expand_fields = ','.join([json_format.arg_format(f) for f in expand_fields])
 
-        logger.info(f'Getting person with {id_type} of {id}')
+        logger.info(f'Getting person with {id_type} of {id} at url {url}')
         return self.connection.get_request(url, params={'$expand': expand_fields})
 
     def apply_canvass_result(self, id, result_code_id, id_type='vanid', contact_type_id=None,
@@ -365,3 +524,30 @@ class People(object):
 
         self.connection.post_request(f"people/{vanid_1}/relationships", json=json)
         logger.info('Relationship {vanid_1} to {vanid_2} created.')
+
+    def apply_person_code(self, id, code_id, id_type='vanid'):
+        """
+        Apply a code to a person.
+
+        `Args:`
+            id: str
+                A valid person id.
+            code_id: int
+                A valid code id.
+            id_type: str
+                A known person identifier type available on this VAN instance
+                such as ``dwid``
+        `Returns:`
+            ``None``
+        """
+
+        # Set url based on id_type
+        if id_type == 'vanid':
+            url = f"people/{id}/codes"
+        else:
+            url = f"people/{id_type}:{id}/codes"
+
+        json = {"codeId": code_id}
+
+        self.connection.post_request(url, json=json)
+        logger.info(f'Code {code_id} applied to person id {id}.')

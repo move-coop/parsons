@@ -1,6 +1,6 @@
 import unittest
 import os
-from parsons import CivisClient
+from parsons.civis import CivisClient
 from parsons.etl.table import Table
 
 # from . import scratch_creds

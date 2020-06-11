@@ -1,7 +1,7 @@
 import unittest
 import os
 import requests_mock
-from parsons import MobilizeAmerica
+from parsons.mobilize_america import MobilizeAmerica
 from test.utils import validate_list
 
 
@@ -15,10 +15,6 @@ class TestMobilizeAmerica(unittest.TestCase):
 
         pass
 
-    """
-    # Does not work locally due to some UTC issues, but works on CircleCI. Commenting
-    # out for the time being.
-
     def test_time_parse(self):
 
         # Test that Unix conversion works correctly
@@ -26,7 +22,6 @@ class TestMobilizeAmerica(unittest.TestCase):
 
         # Test that it throws an error when you put in an invalid filter
         self.assertRaises(ValueError, self.ma._time_parse, '=2018-12-01')
-    """
 
     @requests_mock.Mocker()
     def test_get_organizations(self, m):

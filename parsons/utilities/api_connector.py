@@ -81,12 +81,12 @@ class APIConnector(object):
         """
 
         r = self.request(url, 'GET', params=params)
-
         self.validate_response(r)
+        logger.debug(r.json())
 
         return r.json()
 
-    def post_request(self, url, params=None, data=None, json=None, success_codes=[204, 201]):
+    def post_request(self, url, params=None, data=None, json=None, success_codes=[200, 204, 201]):
         """
         Make a POST request.
 
@@ -267,9 +267,6 @@ class APIConnector(object):
         `Returns:
             boolean
         """
-
-        # To Do: Some response jsons are enclosed in a list. Need to deal with unpacking and/or
-        # not assuming that it is going to be a dict.
 
         if self.pagination_key and self.pagination_key in resp.keys():
             if resp[self.pagination_key]:

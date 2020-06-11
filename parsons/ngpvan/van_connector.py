@@ -1,3 +1,4 @@
+from suds.client import Client
 import logging
 from parsons.utilities import check_env
 from parsons.utilities.api_connector import APIConnector
@@ -5,6 +6,7 @@ from parsons.utilities.api_connector import APIConnector
 logger = logging.getLogger(__name__)
 
 URI = 'https://api.securevan.com/v4/'
+SOAP_URI = 'https://api.securevan.com/Services/V3/ListService.asmx?WSDL'
 
 
 class VANConnector(object):
@@ -24,8 +26,46 @@ class VANConnector(object):
         self.uri = URI
         self.db = db
         self.auth_name = auth_name
+        self.pagination_key = 'nextPageLink'
         self.auth = (self.auth_name, self.api_key + '|' + str(self.db_code))
-        self.api = APIConnector(self.uri, auth=self.auth, data_key='items')
+        self.api = APIConnector(self.uri, auth=self.auth, data_key='items',
+                                pagination_key=self.pagination_key)
+
+        # We will not create the SOAP client unless we need to as this triggers checking for
+        # valid credentials. As not all API keys are provisioned for SOAP, this keeps it from
+        # raising a permission exception when creating the class.
+        self._soap_client = None
+
+    @property
+    def api_key_profile(self):
+        """
+        Returns the API key profile with includes permissions and other metadata.
+        """
+
+        return self.get_request('apiKeyProfiles')[0]
+
+    @property
+    def soap_client(self):
+
+        if not self._soap_client:
+
+            # Create the SOAP client
+            soap_auth = {'Header': {'DatabaseMode': self.soap_client_db(), 'APIKey': self.api_key}}
+            self._soap_client = Client(SOAP_URI, soapheaders=soap_auth)
+
+        return self._soap_client
+
+    def soap_client_db(self):
+        """
+        Parse the REST database name to the accepted SOAP format
+        """
+
+        if self.db == 'MyVoters':
+            return 'MyVoterFile'
+        if self.db == 'EveryAction':
+            return 'MyCampaign'
+        else:
+            return self.db
 
     def get_request(self, endpoint, **kwargs):
 
@@ -33,7 +73,7 @@ class VANConnector(object):
         data = self.api.data_parse(r)
 
         # Paginate
-        while self.api.next_page_check_url(r):
+        while isinstance(r, dict) and self.api.next_page_check_url(r):
             r = self.api.get_request(r[self.pagination_key], **kwargs)
             data.extend(self.api.data_parse(r))
 

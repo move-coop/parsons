@@ -8,18 +8,18 @@ from parsons.utilities import date_convert
 from parsons.utilities import files
 from parsons.utilities import check_env
 from parsons.utilities import json_format
+from test.conftest import xfail_value_error
 
 
-"""
-# Does not work locally due to some UTC issues, but works on CircleCI. Commenting
-# out for the time being.
-
-class TestDateConvert(unittest.TestCase):
-
-    def test_date_convert(self):
-
-        self.assertEqual(date_convert.iso_to_unix('2018-12-13'), 1544659200)
-"""
+@pytest.mark.parametrize(
+    ["date", "exp_ts"],
+    [pytest.param("2018-12-13", 1544659200),
+     pytest.param("2018-12-13T00:00:00-08:00", 1544688000),
+     pytest.param("", None),
+     pytest.param("2018-12-13 PST", None, marks=[xfail_value_error]),
+     ])
+def test_date_convert(date, exp_ts):
+    assert date_convert.iso_to_unix(date) == exp_ts
 
 #
 # File utility tests (pytest-style)
@@ -110,4 +110,3 @@ class TestCheckEnv(unittest.TestCase):
         """Test check env raises error"""
         with self.assertRaises(KeyError) as context:
             check_env.check('PARAM', None)
-

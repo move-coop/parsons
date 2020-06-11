@@ -1,4 +1,3 @@
-
 """
 This utility method is a generalizable method for moving files to an
 online file storage class. It is used by methods that require access

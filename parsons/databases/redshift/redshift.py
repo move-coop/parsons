@@ -704,6 +704,9 @@ class Redshift(RedshiftCreateTable, RedshiftCopyTable, RedshiftTableUtilities, R
             self.copy(table_obj, target_table)
             return None
 
+        # Make target table column widths match incoming table, if necessary
+        self.alter_varchar_column_widths(table_obj, target_table)
+
         noise = f'{random.randrange(0, 10000):04}'[:4]
         date_stamp = datetime.datetime.now().strftime('%Y%m%d_%H%M')
         # Generate a temp table like "table_tmp_20200210_1230_14212"

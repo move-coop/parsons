@@ -8,7 +8,7 @@ A Python package that provides a simple interface to a variety of utilities and 
 
 Parsons offers simplified interactions with these services and tools, including a growing number of CRMs, organizing tools, cloud compute service providers, as well as tools to easily trasform data in transit.
 
-This project is maintained by [The Movement Cooperative](https://movementcooperative.org/) and is named after [Lucy Parsons](https://en.wikipedia.org/wiki/Lucy_Parsons). The Movement Cooperative is a member led organization focused on providing data, tools, and strategic support for the progressive community.
+This project is maintained by [The Movement Cooperative](https://movementcooperative.org/) and is named after [Lucy Parsons](https://en.wikipedia.org/wiki/Lucy_Parsons). The Movement Cooperative is a member-led organization focused on providing data, tools, and strategic support for the progressive community.
 
 Parsons is only compatible with Python 3.6/7
 
@@ -16,7 +16,7 @@ Parsons is only compatible with Python 3.6/7
 Usage of Parsons is governed by the [TMC Parsons License](https://github.com/move-coop/parsons/blob/master/LICENSE.md), which allows for unlimited non-commercial usage, provided that individuals and organizations adhere to our broad values statement. 
 
 ### Documentation
-The gain a full understanding of all of the features of Parsons, please review the Parsons [documentation](https://move-coop.github.io/parsons/html/index.html).
+To gain a full understanding of all of the features of Parsons, please review the Parsons [documentation](https://move-coop.github.io/parsons/html/index.html).
 
 
 ### Installation

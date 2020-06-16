@@ -18,7 +18,6 @@ Usage of Parsons is governed by the [TMC Parsons License](https://github.com/mov
 ### Documentation
 To gain a full understanding of all of the features of Parsons, please review the Parsons [documentation](https://move-coop.github.io/parsons/html/index.html).
 
-
 ### Installation
 
 

@@ -66,7 +66,6 @@ class Targets(object):
         if job_status == 'Complete':
             csv = json_obj[0]['file']['downloadUrl']
             response_csv = requests.get(csv)
-            print(response_csv)
             return Table.from_csv_string(response_csv.text)
         elif job_status == 'Pending' or job_status == 'InProcess':
             logger.info(f'Target export job is pending or in process for {export_job_id}.')

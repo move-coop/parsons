@@ -321,6 +321,55 @@ class GoogleSheets:
         sheet.update_cells(cells, value_input_option=value_input_option)
         logger.info('Overwrote worksheet.')
 
+    def format_worksheet(self, spreadsheet_id, range, cell_format, worksheet=0):
+        """
+        Format the cells of a worksheet.
+
+        `Args:`
+            spreadsheet_id: str
+                The ID of the spreadsheet (Tip: Get this from the spreadsheet URL)
+            range: str
+                The cell range to format. E.g. ``"A2"`` or ``"A2:B100"``
+            cell_format: dict
+                The formatting to apply to the range. Full options are specified in
+                the GoogleSheets `API documentation <https://developers.google.com/sheets/api/reference/rest/v4/spreadsheets/cells#cellformat>`_.
+            worksheet: str or int
+                The index or the title of the worksheet. The index begins with
+                0.
+
+        **Examples**
+
+        .. code-block:: python
+
+            # Set 'A4' cell's text format to bold
+            gs.format_worksheet(sheet_id, "A4", {"textFormat": {"bold": True}}, worksheet=0)
+
+            # Color the background of 'A2:B2' cell range yellow,
+            # change horizontal alignment, text color and font size
+            gs.format_worksheet.format(sheet_id, "A2:B2", {
+                "backgroundColor": {
+                    "red": 0.0,
+                    "green": 0.0,
+                    "blue": 0.0
+                    },
+                "horizontalAlignment": "CENTER",
+                "textFormat": {
+                    "foregroundColor": {
+                        "red": 1.0,
+                        "green": 1.0,
+                        "blue": 0.0
+                        },
+                        "fontSize": 12,
+                        "bold": True
+                        }
+                    }, worksheet=0)
+
+        """ # noqa: E501,E261
+
+        ws = self._get_worksheet(spreadsheet_id, worksheet)
+        ws.format(range, cell_format)
+        logger.info('Formatted worksheet')
+
     def read_sheet(self, spreadsheet_id, sheet_index=0):
         # Deprecated method v0.14 of Parsons.
 

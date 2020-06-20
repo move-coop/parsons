@@ -321,7 +321,7 @@ class GoogleSheets:
         sheet.update_cells(cells, value_input_option=value_input_option)
         logger.info('Overwrote worksheet.')
 
-    def format_worksheet(self, spreadsheet_id, range, cell_format, worksheet=0):
+    def format_cells(self, spreadsheet_id, range, cell_format, worksheet=0):
         """
         Format the cells of a worksheet.
 
@@ -342,11 +342,11 @@ class GoogleSheets:
         .. code-block:: python
 
             # Set 'A4' cell's text format to bold
-            gs.format_worksheet(sheet_id, "A4", {"textFormat": {"bold": True}}, worksheet=0)
+            gs.format_cells(sheet_id, "A4", {"textFormat": {"bold": True}}, worksheet=0)
 
             # Color the background of 'A2:B2' cell range yellow,
             # change horizontal alignment, text color and font size
-            gs.format_worksheet.format(sheet_id, "A2:B2", {
+            gs.format_cells.format(sheet_id, "A2:B2", {
                 "backgroundColor": {
                     "red": 0.0,
                     "green": 0.0,

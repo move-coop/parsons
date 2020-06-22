@@ -501,6 +501,55 @@
         <span class="n">sheet</span><span class="o">.</span><span class="n">update_cells</span><span class="p">(</span><span class="n">cells</span><span class="p">,</span> <span class="n">value_input_option</span><span class="o">=</span><span class="n">value_input_option</span><span class="p">)</span>
         <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s1">&#39;Overwrote worksheet.&#39;</span><span class="p">)</span></div>
 
+<div class="viewcode-block" id="GoogleSheets.format_cells"><a class="viewcode-back" href="../../../google.html#parsons.GoogleSheets.format_cells">[docs]</a>    <span class="k">def</span> <span class="nf">format_cells</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">spreadsheet_id</span><span class="p">,</span> <span class="nb">range</span><span class="p">,</span> <span class="n">cell_format</span><span class="p">,</span> <span class="n">worksheet</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Format the cells of a worksheet.</span>
+
+<span class="sd">        `Args:`</span>
+<span class="sd">            spreadsheet_id: str</span>
+<span class="sd">                The ID of the spreadsheet (Tip: Get this from the spreadsheet URL)</span>
+<span class="sd">            range: str</span>
+<span class="sd">                The cell range to format. E.g. ``&quot;A2&quot;`` or ``&quot;A2:B100&quot;``</span>
+<span class="sd">            cell_format: dict</span>
+<span class="sd">                The formatting to apply to the range. Full options are specified in</span>
+<span class="sd">                the GoogleSheets `API documentation &lt;https://developers.google.com/sheets/api/reference/rest/v4/spreadsheets/cells#cellformat&gt;`_.</span>
+<span class="sd">            worksheet: str or int</span>
+<span class="sd">                The index or the title of the worksheet. The index begins with</span>
+<span class="sd">                0.</span>
+
+<span class="sd">        **Examples**</span>
+
+<span class="sd">        .. code-block:: python</span>
+
+<span class="sd">            # Set &#39;A4&#39; cell&#39;s text format to bold</span>
+<span class="sd">            gs.format_cells(sheet_id, &quot;A4&quot;, {&quot;textFormat&quot;: {&quot;bold&quot;: True}}, worksheet=0)</span>
+
+<span class="sd">            # Color the background of &#39;A2:B2&#39; cell range yellow,</span>
+<span class="sd">            # change horizontal alignment, text color and font size</span>
+<span class="sd">            gs.format_cells.format(sheet_id, &quot;A2:B2&quot;, {</span>
+<span class="sd">                &quot;backgroundColor&quot;: {</span>
+<span class="sd">                    &quot;red&quot;: 0.0,</span>
+<span class="sd">                    &quot;green&quot;: 0.0,</span>
+<span class="sd">                    &quot;blue&quot;: 0.0</span>
+<span class="sd">                    },</span>
+<span class="sd">                &quot;horizontalAlignment&quot;: &quot;CENTER&quot;,</span>
+<span class="sd">                &quot;textFormat&quot;: {</span>
+<span class="sd">                    &quot;foregroundColor&quot;: {</span>
+<span class="sd">                        &quot;red&quot;: 1.0,</span>
+<span class="sd">                        &quot;green&quot;: 1.0,</span>
+<span class="sd">                        &quot;blue&quot;: 0.0</span>
+<span class="sd">                        },</span>
+<span class="sd">                        &quot;fontSize&quot;: 12,</span>
+<span class="sd">                        &quot;bold&quot;: True</span>
+<span class="sd">                        }</span>
+<span class="sd">                    }, worksheet=0)</span>
+
+<span class="sd">        &quot;&quot;&quot;</span> <span class="c1"># noqa: E501,E261</span>
+
+        <span class="n">ws</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_worksheet</span><span class="p">(</span><span class="n">spreadsheet_id</span><span class="p">,</span> <span class="n">worksheet</span><span class="p">)</span>
+        <span class="n">ws</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="nb">range</span><span class="p">,</span> <span class="n">cell_format</span><span class="p">)</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s1">&#39;Formatted worksheet&#39;</span><span class="p">)</span></div>
+
     <span class="k">def</span> <span class="nf">read_sheet</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">spreadsheet_id</span><span class="p">,</span> <span class="n">sheet_index</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
         <span class="c1"># Deprecated method v0.14 of Parsons.</span>
 

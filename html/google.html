@@ -969,6 +969,53 @@ Otherwise, values will be entered as strings or numbers only.</dd>
 </dl>
 </dd></dl>
 
+<dl class="method">
+<dt id="parsons.GoogleSheets.format_cells">
+<code class="descname">format_cells</code><span class="sig-paren">(</span><em>spreadsheet_id</em>, <em>range</em>, <em>cell_format</em>, <em>worksheet=0</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/google/google_sheets.html#GoogleSheets.format_cells"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.GoogleSheets.format_cells" title="Permalink to this definition">¶</a></dt>
+<dd><p>Format the cells of a worksheet.</p>
+<dl class="docutils">
+<dt><cite>Args:</cite></dt>
+<dd><dl class="first last docutils">
+<dt>spreadsheet_id: str</dt>
+<dd>The ID of the spreadsheet (Tip: Get this from the spreadsheet URL)</dd>
+<dt>range: str</dt>
+<dd>The cell range to format. E.g. <code class="docutils literal notranslate"><span class="pre">&quot;A2&quot;</span></code> or <code class="docutils literal notranslate"><span class="pre">&quot;A2:B100&quot;</span></code></dd>
+<dt>cell_format: dict</dt>
+<dd>The formatting to apply to the range. Full options are specified in
+the GoogleSheets <a class="reference external" href="https://developers.google.com/sheets/api/reference/rest/v4/spreadsheets/cells#cellformat">API documentation</a>.</dd>
+<dt>worksheet: str or int</dt>
+<dd>The index or the title of the worksheet. The index begins with
+0.</dd>
+</dl>
+</dd>
+</dl>
+<p><strong>Examples</strong></p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Set &#39;A4&#39; cell&#39;s text format to bold</span>
+<span class="n">gs</span><span class="o">.</span><span class="n">format_cells</span><span class="p">(</span><span class="n">sheet_id</span><span class="p">,</span> <span class="s2">&quot;A4&quot;</span><span class="p">,</span> <span class="p">{</span><span class="s2">&quot;textFormat&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;bold&quot;</span><span class="p">:</span> <span class="kc">True</span><span class="p">}},</span> <span class="n">worksheet</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+
+<span class="c1"># Color the background of &#39;A2:B2&#39; cell range yellow,</span>
+<span class="c1"># change horizontal alignment, text color and font size</span>
+<span class="n">gs</span><span class="o">.</span><span class="n">format_cells</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">sheet_id</span><span class="p">,</span> <span class="s2">&quot;A2:B2&quot;</span><span class="p">,</span> <span class="p">{</span>
+    <span class="s2">&quot;backgroundColor&quot;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s2">&quot;red&quot;</span><span class="p">:</span> <span class="mf">0.0</span><span class="p">,</span>
+        <span class="s2">&quot;green&quot;</span><span class="p">:</span> <span class="mf">0.0</span><span class="p">,</span>
+        <span class="s2">&quot;blue&quot;</span><span class="p">:</span> <span class="mf">0.0</span>
+        <span class="p">},</span>
+    <span class="s2">&quot;horizontalAlignment&quot;</span><span class="p">:</span> <span class="s2">&quot;CENTER&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;textFormat&quot;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s2">&quot;foregroundColor&quot;</span><span class="p">:</span> <span class="p">{</span>
+            <span class="s2">&quot;red&quot;</span><span class="p">:</span> <span class="mf">1.0</span><span class="p">,</span>
+            <span class="s2">&quot;green&quot;</span><span class="p">:</span> <span class="mf">1.0</span><span class="p">,</span>
+            <span class="s2">&quot;blue&quot;</span><span class="p">:</span> <span class="mf">0.0</span>
+            <span class="p">},</span>
+            <span class="s2">&quot;fontSize&quot;</span><span class="p">:</span> <span class="mi">12</span><span class="p">,</span>
+            <span class="s2">&quot;bold&quot;</span><span class="p">:</span> <span class="kc">True</span>
+            <span class="p">}</span>
+        <span class="p">},</span> <span class="n">worksheet</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd></dl>
+
 </dd></dl>
 
 </div>

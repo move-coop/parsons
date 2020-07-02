@@ -1,0 +1,511 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>How to Build a Connector &mdash; Parsons 0.5 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="prev" title="Contributing to Parsons" href="contributing.html" /> 
+
+  
+  <script src="_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="index.html" class="icon icon-home"> Parsons
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Integrations</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="action_kit.html">ActionKit</a></li>
+<li class="toctree-l1"><a class="reference internal" href="action_network.html">Action Network</a></li>
+<li class="toctree-l1"><a class="reference internal" href="airtable.html">Airtable</a></li>
+<li class="toctree-l1"><a class="reference internal" href="aws.html">Amazon Web Services</a></li>
+<li class="toctree-l1"><a class="reference internal" href="bill_com.html">Bill.com</a></li>
+<li class="toctree-l1"><a class="reference internal" href="braintree.html">Braintree</a></li>
+<li class="toctree-l1"><a class="reference internal" href="civis.html">Civis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="copper.html">Copper</a></li>
+<li class="toctree-l1"><a class="reference internal" href="crowdtangle.html">CrowdTangle</a></li>
+<li class="toctree-l1"><a class="reference internal" href="databases.html">Databases</a></li>
+<li class="toctree-l1"><a class="reference internal" href="facebook_ads.html">FacebookAds</a></li>
+<li class="toctree-l1"><a class="reference internal" href="freshdesk.html">Freshdesk</a></li>
+<li class="toctree-l1"><a class="reference internal" href="google.html">Google</a></li>
+<li class="toctree-l1"><a class="reference internal" href="hustle.html">Hustle</a></li>
+<li class="toctree-l1"><a class="reference internal" href="mailchimp.html">Mailchimp</a></li>
+<li class="toctree-l1"><a class="reference internal" href="mobilize_america.html">Mobilize America</a></li>
+<li class="toctree-l1"><a class="reference internal" href="newmode.html">New/Mode</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ngpvan.html">NGPVAN</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pdi.html">PDI</a></li>
+<li class="toctree-l1"><a class="reference internal" href="p2a.html">Phone2Action</a></li>
+<li class="toctree-l1"><a class="reference internal" href="redash.html">Redash</a></li>
+<li class="toctree-l1"><a class="reference internal" href="rockthevote.html">Rock the Vote</a></li>
+<li class="toctree-l1"><a class="reference internal" href="salesforce.html">Salesforce</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sftp.html">SFTP</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ts.html">TargetSmart</a></li>
+<li class="toctree-l1"><a class="reference internal" href="twilio.html">Twilio</a></li>
+<li class="toctree-l1"><a class="reference internal" href="turbovote.html">TurboVote</a></li>
+<li class="toctree-l1"><a class="reference internal" href="zoom.html">Zoom</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Enhancements</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="census_geocoder.html">US Census Geocoder</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Framework</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="table.html">Parsons Table</a></li>
+<li class="toctree-l1"><a class="reference internal" href="notifications.html">Notifications</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Contributor Documentation</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="contributing.html">Contributing to Parsons</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">How to Build a Connector</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#getting-started">Getting Started</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#patterns">Patterns</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#class-initialization">Class initialization</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#your-connectors-methods">Your connector’s methods</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#finishing-up">Finishing up</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#testing-locally">Testing locally</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#adding-automated-tests">Adding automated tests</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#adding-documentation">Adding documentation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#final-steps">Final steps</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">Parsons</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html">Docs</a> &raquo;</li>
+        
+      <li>How to Build a Connector</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="_sources/build_a_connector.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="how-to-build-a-connector">
+<h1>How to Build a Connector<a class="headerlink" href="#how-to-build-a-connector" title="Permalink to this headline">¶</a></h1>
+<p>Connector classes are at the heart of the Parsons project.  When we want to add a new service for users to connect to with Parsons, we build a new Connector class for that service.</p>
+<p>The documentation contains <a class="reference external" href="https://move-coop.github.io/parsons/html/index.html#integrations">a complete list</a> of existing connectors.  Requests for new connectors are made and discussed in <a class="reference external" href="https://github.com/move-coop/parsons/issues?q=is%3Aissue+is%3Aopen+label%3A%22new+connector%22">our issue tracker</a>.  Before starting to build a new connector, check to see if there’s any discussion about it in the tracker.  Ideally, you’ll have a good sense of what you and/or other users want the connector to do before you start trying to build it.  Remember, you can always reach out to the community and ask for advice!</p>
+<p>When you’re ready to get started, make sure you have Parsons installed and that the tests run successfully.</p>
+<div class="section" id="getting-started">
+<h2>Getting Started<a class="headerlink" href="#getting-started" title="Permalink to this headline">¶</a></h2>
+<p>The first thing you’ll need to do is create a new folder for your connector.  This folder should have the same name as the module (file) within the folder, and the same name as the connector class.  For example, the airtable connector is in the “airtable” folder, and the hustle connector is in the “hustle” folder.</p>
+<p>Inside the folder, create two files.  The first should be named __init__.py and should be empty.  The second will have the same name as your folder - this is the file which will have your connector’s code.  For example, in the airtable folder this file is called airtable.py and in the hustle folder it’s called hustle.py.</p>
+<p>The directory should look like this:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">yourconnectorname</span><span class="o">/</span>
+<span class="fm">__init__</span><span class="o">.</span><span class="n">py</span>
+    <span class="n">yourconnectorname</span><span class="o">.</span><span class="n">py</span>
+</pre></div>
+</div>
+<p>Once this is done, open the yourconnectorname.py file.  At the top of the file, add the following code to enable logging for our connector:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">logging</span>
+
+
+<span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>You’ll also want to create the Connector class itself:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span>class YourConnectorName(object):
+    “””`Args:`”””
+
+    def __init__(self, api_key=None):
+        pass
+</pre></div>
+</div>
+<p>The text enclosed in triple quotes “”” “”” is called a DocString, and is used to provide information about the class.  Typically, it includes the arguments accepted by the __init__ method of the class.</p>
+<p>The __init__ method defines how the class is instantiated.  For instance, if you want to get an instance of the Connector class by writing <cite>connector = YourConnectorName(table_name, api_key)</cite> you’d have to add a table_name argument to go with the api_key argument.  Your connector’s init statement will probably require a different set of arguments than we’ve written here, but this makes for a good start.</p>
+<p>In our Parsons connector classes, the __init__ method should handle authentication.  That is, when we initialize our Connector, we should give it credentials so that it can connect to the third-party service.  Then we won’t have to worry about authenticating in the other methods.  How exactly you authenticate to the service will depend on the service, but it typically involves getting an api_key or access_token, and it almost always involves creating an account on the service.</p>
+<p>(Users of your connector class will need to know how to authenticate too!  Take notes of where you signed up for an account and how you got the api key, access token, etc so you can include it in the documentation for your connector.)</p>
+<p>We like to give users two different options for getting api keys and other authentication to the connector - passing them as arguments to the __init__ method, and storing them as environmental variables.  Use the Parsons utility checkenv to allow for either possibility with code that looks like this:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span>import logging
+from parsons.utilities import check_env
+
+logger = logging.getLogger(__name__)
+
+
+class YourConnectorName(object):
+    “””`Args:`”””
+
+    def __init__(self, api_key=None):
+        self.api_key = check_env.check(&#39;YOURCONNECTORNAME_API_KEY&#39;, api_key)
+</pre></div>
+</div>
+<p>This code looks in the environmental variables for the api key and, if it doesn’t find it, uses the api_key passed in.</p>
+<p>Most connectors make extensive use of existing client/providers.  Most likely, your next step will be to instantiate one of those existing clients using the authentication data, and add it to the class.  You can see an example of this in the <a class="reference external" href="https://github.com/move-coop/parsons/blob/master/parsons/airtable/airtable.py#L22">Airtable Connector</a>.</p>
+</div>
+<div class="section" id="patterns">
+<h2>Patterns<a class="headerlink" href="#patterns" title="Permalink to this headline">¶</a></h2>
+<p>Parsons has a number of patterns that should be used when developing a connector to ensure that connectors look alike, which makes them easier to use and modify. Not all patterns apply to all connectors, but when reviewing pull requests, the maintainers will be looking to see if you adhere to the patterns described in this document.</p>
+<p>In the sections below, we will attempt to enumerate the established patterns. We will use the <cite>parsons.mailchimp.mailchimp.Mailchimp</cite> connector as an example of how to implement the patterns.</p>
+<div class="section" id="class-initialization">
+<h3>Class initialization<a class="headerlink" href="#class-initialization" title="Permalink to this headline">¶</a></h3>
+<p><strong>Allow configuration of a connector with environment variables as well as arguments passed to the class initializer.</strong> Make use of <cite>parsons.utilities.check_env.check</cite> function to check that the value was provided either as an argument to the initializer, or in the environment.</p>
+<p><strong>When calling into a web API, use the `parsons.utilities.APIConnector` class.</strong> The <cite>APIConnector</cite> class has a number of methods for making web requests, and using the <cite>APIConnector</cite> helps enforce consistency across connectors. The <cite>APIConnector</cite> is a wrapper around the Python <cite>requests</cite> library.</p>
+<p>Mailchimp example:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">parsons.utilities</span> <span class="kn">import</span> <span class="n">check_env</span>
+<span class="kn">from</span> <span class="nn">parsons.utilities.api_connector</span> <span class="kn">import</span> <span class="n">APIConnector</span>
+
+
+<span class="k">class</span> <span class="nc">Mailchimp</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Instantiate Mailchimp Class</span>
+
+<span class="sd">    `Args:`</span>
+<span class="sd">        api_key:</span>
+<span class="sd">            The Mailchimp-provided application key. Not required if</span>
+<span class="sd">            ``MAILCHIMP_API_KEY`` env variable set.</span>
+<span class="sd">    `Returns:`</span>
+<span class="sd">        Mailchimp Class</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">api_key</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">api_key</span> <span class="o">=</span> <span class="n">check_env</span><span class="o">.</span><span class="n">check</span><span class="p">(</span><span class="s1">&#39;MAILCHIMP_API_KEY&#39;</span><span class="p">,</span> <span class="n">api_key</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">domain</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">findall</span><span class="p">(</span><span class="s2">&quot;(?&lt;=-).+$&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">api_key</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">uri</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;https://</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">domain</span><span class="si">}</span><span class="s1">.api.mailchimp.com/3.0/&#39;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">client</span> <span class="o">=</span> <span class="n">APIConnector</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">uri</span><span class="p">,</span> <span class="n">auth</span><span class="o">=</span><span class="p">(</span><span class="s1">&#39;x&#39;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">api_key</span><span class="p">))</span>
+</pre></div>
+</div>
+<p>In the <cite>__init__</cite> method above, the Mailchimp class takes one argument: <cite>api_key</cite>. The argument has a default value of <cite>None</cite>, which allows for a user to initialize the connector without any arguments (ie <cite>Mailchimp()</cite>. If no value is passed for <cite>api_key</cite> as an argument to the <cite>__init__</cite> method, then the <cite>check_env.check</cite> function will attempt to retrieve the value from the <cite>MAILCHIMP_API_KEY</cite> environment variable. If the value is neither passed in as argument nor in the environment, the <cite>check_env.check</cite> method will raise a <cite>KeyError</cite> exception.</p>
+<p>In the last line of the code snippet above, the <cite>Mailchimp</cite> class creates an <cite>APIConnector</cite> class, providing the root URL for the API (<cite>self.uri</cite>). The Mailchimp API accepts basic authentication as an authentication mechanism, so the <cite>Mailchimp</cite> connector is able to pass the <cite>api_key</cite> to the <cite>APIConnector</cite> via the <cite>auth</cite> keyword argument. If the API for your connector does not support basic authentication, you may need to implement your own authentication (e.g. via request headers).</p>
+</div>
+<div class="section" id="your-connectors-methods">
+<h3>Your connector’s methods<a class="headerlink" href="#your-connectors-methods" title="Permalink to this headline">¶</a></h3>
+<p><strong>The methods of your connector should generally mirror the endpoints of the API.</strong> Every API is different, but the connector should generally look like the API it is connecting to. Methods of your connector should reference the resources the API is using (e.g. “people”, “members”, “events”).</p>
+<p>The following lists rules for naming common endpoints:</p>
+<ul class="simple">
+<li>GET - single record - <em>get_&lt;resource&gt;</em> (e.g. get_event, get_person)</li>
+<li>GET - multiple records - <em>get_&lt;resource&gt;s</em> (e.g. get_members, get_people)</li>
+<li>POST - single record - <em>create_&lt;resource&gt;</em> (e.g. create_person, create_tag)</li>
+<li>PUT - single record - <em>update_&lt;resource&gt;</em> (e.g. update_person, update_event)</li>
+<li>DELETE - single record - <em>delete_&lt;resource&gt;</em> (e.g. delete_member)</li>
+</ul>
+<p><strong>A method’s arguments should mirror the parameters of the API endpoint it is calling.</strong> Optional parameters should be optional in your method signature (i.e. default to <cite>None</cite>).</p>
+<p><strong>Use Python docstrings to document every public method of your class.</strong> The docstrings for your public methods are used to automatically generate documentation for your connector. Having this documentation for every method makes it easier for users to pick up your connector.</p>
+<p><strong>Methods returning multiple values should return a Parsons Table.</strong> If the list of results is empty, return an empty Parsons <cite>Table</cite> (not <cite>None</cite>). Methods returning a single value should just return the value. If the API could not find the value (eg, the ID provided for a resource was not found), return a <cite>None</cite> value from the method.</p>
+<p>Mailchimp example:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Mailchimp</span><span class="p">():</span>
+
+    <span class="k">def</span> <span class="nf">get_lists</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fields</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">exclude_fields</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                <span class="n">count</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">offset</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">before_date_created</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                <span class="n">since_date_created</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">before_campaign_last_sent</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                <span class="n">since_campaign_last_sent</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">email</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">sort_field</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                <span class="n">sort_dir</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Get a table of lists under the account based on query parameters. Note</span>
+<span class="sd">        that argument descriptions here are sourced from Mailchimp&#39;s official</span>
+<span class="sd">        API documentation.</span>
+
+<span class="sd">        `Args:`</span>
+<span class="sd">            fields: list of strings</span>
+<span class="sd">                A comma-separated list of fields to return. Reference</span>
+<span class="sd">                parameters of sub-objects with dot notation.</span>
+<span class="sd">            exclude_fields: list of strings</span>
+<span class="sd">                A comma-separated list of fields to exclude. Reference</span>
+<span class="sd">                parameters of sub-objects with dot notation.</span>
+<span class="sd">            count: int</span>
+<span class="sd">                The number of records to return. Default value is 10. Maximum</span>
+<span class="sd">                value is 1000.</span>
+<span class="sd">            offset: int</span>
+<span class="sd">                The number of records from a collection to skip. Iterating over</span>
+<span class="sd">                large collections with this parameter can be slow. Default</span>
+<span class="sd">                value is 0.</span>
+<span class="sd">            before_date_created: string</span>
+<span class="sd">                Restrict response to lists created before the set date. We</span>
+<span class="sd">                recommend ISO 8601 time format: 2015-10-21T15:41:36+00:00.</span>
+<span class="sd">            since_date_created: string</span>
+<span class="sd">                Restrict results to lists created after the set date. We</span>
+<span class="sd">                recommend ISO 8601 time format: 2015-10-21T15:41:36+00:00.</span>
+<span class="sd">            before_campaign_last_sent: string</span>
+<span class="sd">                Restrict results to lists created before the last campaign send</span>
+<span class="sd">                date. We recommend ISO 8601 time format:</span>
+<span class="sd">                2015-10-21T15:41:36+00:00.</span>
+<span class="sd">            since_campaign_last_sent: string</span>
+<span class="sd">                Restrict results to lists created after the last campaign send</span>
+<span class="sd">                date. We recommend ISO 8601 time format:</span>
+<span class="sd">                2015-10-21T15:41:36+00:00.</span>
+<span class="sd">            email: string</span>
+<span class="sd">                Restrict results to lists that include a specific subscriber&#39;s</span>
+<span class="sd">                email address.</span>
+<span class="sd">            sort_field: string, can only be &#39;date_created&#39; or None</span>
+<span class="sd">                Returns files sorted by the specified field.</span>
+<span class="sd">            sort_dir: string, can only be &#39;ASC&#39;, &#39;DESC&#39;, or None</span>
+<span class="sd">                Determines the order direction for sorted results.</span>
+
+<span class="sd">        `Returns:`</span>
+<span class="sd">            Table Class</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">params</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;fields&#39;</span><span class="p">:</span> <span class="n">fields</span><span class="p">,</span>
+                <span class="s1">&#39;exclude_fields&#39;</span><span class="p">:</span> <span class="n">exclude_fields</span><span class="p">,</span>
+                <span class="s1">&#39;count&#39;</span><span class="p">:</span> <span class="n">count</span><span class="p">,</span>
+                <span class="s1">&#39;offset&#39;</span><span class="p">:</span> <span class="n">offset</span><span class="p">,</span>
+                <span class="s1">&#39;before_date_created&#39;</span><span class="p">:</span> <span class="n">before_date_created</span><span class="p">,</span>
+                <span class="s1">&#39;since_date_created&#39;</span><span class="p">:</span> <span class="n">since_date_created</span><span class="p">,</span>
+                <span class="s1">&#39;before_campaign_last_sent&#39;</span><span class="p">:</span> <span class="n">before_campaign_last_sent</span><span class="p">,</span>
+                <span class="s1">&#39;since_campaign_last_sent&#39;</span><span class="p">:</span> <span class="n">since_campaign_last_sent</span><span class="p">,</span>
+                <span class="s1">&#39;email&#39;</span><span class="p">:</span> <span class="n">email</span><span class="p">,</span>
+                <span class="s1">&#39;sort_field&#39;</span><span class="p">:</span> <span class="n">sort_field</span><span class="p">,</span>
+                <span class="s1">&#39;sort_dir&#39;</span><span class="p">:</span> <span class="n">sort_dir</span><span class="p">}</span>
+
+        <span class="n">response</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_request</span><span class="p">(</span><span class="s1">&#39;lists&#39;</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="n">params</span><span class="p">)</span>
+        <span class="n">tbl</span> <span class="o">=</span> <span class="n">Table</span><span class="p">(</span><span class="n">response</span><span class="p">[</span><span class="s1">&#39;lists&#39;</span><span class="p">])</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Found </span><span class="si">{</span><span class="n">tbl</span><span class="o">.</span><span class="n">num_rows</span><span class="si">}</span><span class="s1"> lists.&#39;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">tbl</span><span class="o">.</span><span class="n">num_rows</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">tbl</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">Table</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>The <cite>get_lists</cite> method corresponds to the <a class="reference external" href="https://mailchimp.com/developer/reference/lists/#get_/lists">GET /lists</a> endpoint on the Mailchimp API. The method has a number of arguments (all optional), all of which are described in the docstring. The arguments are then mapped to the name of the endpoints’ parameters, and passed to the <cite>APIConnector</cite>’s <cite>get_request</cite> method.</p>
+<p>The method can return more than one record, so the results of the call to the API are wrapped in a Parsons <cite>Table</cite>. If there are no results from the call, an empty table is returned.</p>
+</div>
+</div>
+<div class="section" id="finishing-up">
+<h2>Finishing up<a class="headerlink" href="#finishing-up" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="testing-locally">
+<h3>Testing locally<a class="headerlink" href="#testing-locally" title="Permalink to this headline">¶</a></h3>
+<p>In order to test locally, you will need to install the version of Parsons that you have been working on. To do that, you will need to install in “editable” mode, which allows you to import your local Parsons code instead of the released code.</p>
+<p>To install Parsons in “editable” mode, run the following, where <cite>&lt;parsons-path&gt;</cite> is the path to the root of the Parsons repository on your local machine.</p>
+<p><code class="docutils literal notranslate"><span class="pre">`bash</span>
+<span class="pre">pip</span> <span class="pre">install</span> <span class="pre">-e</span> <span class="pre">&lt;parsons-path&gt;</span>
+<span class="pre">`</span></code></p>
+</div>
+<div class="section" id="adding-automated-tests">
+<h3>Adding automated tests<a class="headerlink" href="#adding-automated-tests" title="Permalink to this headline">¶</a></h3>
+<blockquote>
+<div><ul class="simple">
+<li>Add a folder <em>test_yourconnectorname</em> in parsons/test for your connector</li>
+<li>Add a file <em>test_yourconnectorname.py</em> to the <em>test_yourconnectorname</em> folder</li>
+<li>Use the code below as a starting point for your tests</li>
+<li>Add one <a class="reference external" href="https://en.wikipedia.org/wiki/Happy_path">“Happy Path”</a> test per public method of your connector</li>
+<li>When possible mock out any external integrations, otherwise mark your test using the</li>
+</ul>
+</div></blockquote>
+<p><a href="#id1"><span class="problematic" id="id2">``</span></a><a href="#id3"><span class="problematic" id="id4">`</span></a>python
+from parsons.yourconnector.yourconnector import YourConnector
+import unittest
+import requests_mock</p>
+<p>class TestYourConnector(unittest.TestCase):</p>
+<blockquote>
+<div><p>def setUp(self):</p>
+<blockquote>
+<div># add any setup code here to run before each test
+pass</div></blockquote>
+<p>def tearDown(self):</p>
+<blockquote>
+<div># add any teardown code here to run after each test
+pass</div></blockquote>
+<p>&#64;requests_mock.Mocker()
+def test_get_things(self, m):</p>
+<blockquote>
+<div><p># Test that campaigns are returned correctly.
+m.get(‘<a class="reference external" href="http://yourconnector.com/v1/things">http://yourconnector.com/v1/things</a>’, json=[])
+yc = YourConnector()
+tbl = yc.get_things()</p>
+<p>self.assertEqual(tbl.num_rows, 0)</p>
+</div></blockquote>
+</div></blockquote>
+<p><a href="#id5"><span class="problematic" id="id6">``</span></a><a href="#id7"><span class="problematic" id="id8">`</span></a></p>
+</div>
+<div class="section" id="adding-documentation">
+<h3>Adding documentation<a class="headerlink" href="#adding-documentation" title="Permalink to this headline">¶</a></h3>
+<blockquote>
+<div><ul class="simple">
+<li>Add <em>yourconnectorname.rst</em> to the parsons/docs folder.</li>
+<li>Use the parsons/docs/_template.rst file as a guide for the documentation for your connector.</li>
+<li>Add a reference to your connector’s doc file to the parsons/docs/index.rst</li>
+<li>You just need to add the filename without the .rst extension (ie <em>yourconnector</em>)</li>
+<li>Be sure to add <em>yourconnector</em> in alphabetical order</li>
+</ul>
+</div></blockquote>
+</div>
+<div class="section" id="final-steps">
+<h3>Final steps<a class="headerlink" href="#final-steps" title="Permalink to this headline">¶</a></h3>
+<blockquote>
+<div><ul class="simple">
+<li>Add any new dependencies to the parsons/requirements.txt file</li>
+<li>Run the entire suite of Parsons unit tests using the <cite>pytest -rf test</cite> command</li>
+<li>Run the linter against Parsons using <cite>flake8 –max-line-length=100 parsons</cite></li>
+<li>Double-check that you have committed all of your code changes to your branch, and that you have pushed your branch to your fork</li>
+<li>Open a pull request against the move-coop/parsons repository</li>
+</ul>
+</div></blockquote>
+</div>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+      
+        <a href="contributing.html" class="btn btn-neutral" title="Contributing to Parsons" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2019, The Movement Cooperative
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script type="text/javascript" src="_static/jquery.js"></script>
+        <script type="text/javascript" src="_static/underscore.js"></script>
+        <script type="text/javascript" src="_static/doctools.js"></script>
+        <script type="text/javascript" src="_static/language_data.js"></script>
+    
+
+  
+
+  <script type="text/javascript" src="_static/js/theme.js"></script>
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

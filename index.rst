@@ -199,7 +199,6 @@ Indices and tables
    :caption: Enhancements
    :name: enhancements
 
-   google_civic
    census_geocoder
 
 .. toctree::
@@ -209,3 +208,11 @@ Indices and tables
 
    table
    notifications
+
+.. toctree::
+   :maxdepth: 1
+   :caption: Contributor Documentation
+   :name: contrib_docs
+
+   contributing
+   build_a_connector

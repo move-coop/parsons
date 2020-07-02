@@ -115,3 +115,6 @@ doctrees/
 
 bill_com_credentials.*
 *.ipynb
+
+docs/html
+docs/dirhtml

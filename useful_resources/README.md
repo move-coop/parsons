@@ -14,10 +14,8 @@ Text that appears like this `pwd` (appears surrounded by \` in the raw markdown)
 
 * [Terminal Setup](./computer_setup/terminal_app_setup.md) - Create a bash
   profile and customize how your terminal looks.
-* [Python 3 Setup](./computer_setup/python_setup.md) - Install Python 3 on your
+* [Python 3 Setup](./computer_setup/python3_setup.md) - Install Python 3 on your
   computer
-* [Local Development Setup](./computer_setup/local_dev_setup.md) - Download and
-  install common packages that we use.
 
 
 ## Tools

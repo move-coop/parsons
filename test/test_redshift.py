@@ -353,6 +353,18 @@ class TestRedshiftDB(unittest.TestCase):
         updated_tbl = self.rs.query(f'select * from {self.temp_schema}.test_copy order by id;')
         assert_matching_tables(expected_tbl, updated_tbl)
 
+        # Run upsert requiring column resize
+        upsert_tbl = Table([['id', 'name'], [7, 'this name is very long']])
+        self.rs.upsert(upsert_tbl, f'{self.temp_schema}.test_copy', 'ID')
+
+        # Make sure our table looks like we expect
+        expected_tbl = Table([['id', 'name'],
+                              [3, '600'],
+                              [6, '9999'],
+                              [7, 'this name is very long']])
+        updated_tbl = self.rs.query(f'select * from {self.temp_schema}.test_copy order by id;')
+        assert_matching_tables(expected_tbl, updated_tbl)
+
     def test_unload(self):
 
         # Copy a table to Redshift

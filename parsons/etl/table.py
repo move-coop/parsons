@@ -1,6 +1,8 @@
 from parsons.etl.etl import ETL
 from parsons.etl.tofrom import ToFrom
+from parsons.utilities import files
 import petl
+import pickle
 import logging
 
 
@@ -77,6 +79,10 @@ class Table(ETL, ToFrom):
         else:
 
             raise TypeError('You must pass a string or an index as a value.')
+
+    def __bool__(self):
+
+        return self.num_rows > 0
 
     def _repr_html_(self):
         """
@@ -177,6 +183,34 @@ class Table(ETL, ToFrom):
         """
 
         self.table = petl.wrap(petl.tupleoftuples(self.table))
+
+    def materialize_to_file(self, file_path=None):
+        """
+        "Materializes" a Table, meaning all pending transformations are applied.
+
+        Unlike the original materialize function, this method does not bring the data into memory,
+        but instead loads the data into a local temp file.
+
+        This method updates the current table in place.
+
+        `Args:`
+            file_path: str
+                The path to the file to materialize the table to; if not specified, a temp file
+                will be created.
+        """
+
+        # Load the data in batches, and "pickle" the rows to a temp file.
+        # (We pickle rather than writing to, say, a CSV, so that we maintain
+        # all the type information for each field.)
+
+        file_path = file_path or files.create_temp_file()
+
+        with open(file_path, 'wb') as handle:
+            for row in self.table:
+                pickle.dump(list(row), handle)
+
+        # Load a Table from the file
+        self.table = petl.frompickle(file_path)
 
     def is_valid_table(self):
         """

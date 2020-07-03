@@ -82,7 +82,6 @@ class RockTheVote:
         # of the request.
         response = self.client.request(report_url, 'post', json=report_parameters)
         if response.status_code != requests.codes.ok:
-            print(response.text)
             raise RTVFailure("Couldn't create RTV registrations report")
 
         response_json = response.json()

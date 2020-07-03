@@ -62,7 +62,8 @@ class Targets(object):
         response = self.connection.get_request(f'targetExportJobs/{export_job_id}')
         json_string = json.dumps(response)
         json_obj = json.loads(json_string)
-        job_status = json_obj['jobStatus']
+        for i in json_obj:
+            job_status = i['jobStatus']
         if job_status == 'Complete':
             csv = json_obj['file']['downloadUrl']
             response_csv = requests.get(csv)

@@ -29,6 +29,7 @@ newmode==0.1.6
 mysql-connector-python==8.0.18
 braintree==4.0.0
 python-dateutil==2.8.1
+azure-storage-blob==12.3.2
 
 # Testing Requirements
 requests-mock==1.5.2

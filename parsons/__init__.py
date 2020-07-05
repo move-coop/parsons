@@ -45,6 +45,7 @@ if not os.environ.get('PARSONS_SKIP_IMPORT_ALL'):
     from parsons.zoom.zoom import Zoom
     from parsons.action_network.action_network import ActionNetwork
     from parsons.pdi.pdi import PDI
+    from parsons.azure.azure_blob_storage import AzureBlobStorage
 
     __all__ = [
         'VAN',
@@ -84,6 +85,7 @@ if not os.environ.get('PARSONS_SKIP_IMPORT_ALL'):
         'Zoom',
         'ActionNetwork',
         'PDI',
+        'AzureBlobStorage',
     ]
 
 # Define the default logging config for Parsons and its submodules. For now the

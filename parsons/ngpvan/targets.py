@@ -60,8 +60,9 @@ class Targets(object):
         """
 
         response = self.connection.get_request(f'targetExportJobs/{export_job_id}')
-        json_string = json.dumps(response)
-        json_obj = json.loads(json_string)
+        json_obj = json.loads(response)
+        # json_string = json.dumps(response)
+        # json_obj = json.loads(json_string)
         for i,j in json_obj.items():
             if i =='jobStatus':
                 job_status=j

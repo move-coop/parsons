@@ -62,11 +62,13 @@ class Targets(object):
         response = self.connection.get_request(f'targetExportJobs/{export_job_id}')
         json_string = json.dumps(response)
         json_obj = json.loads(json_string)
-        job_status = json_obj[0]['jobStatus']
+        for i in json_obj:
+            job_status = i['jobStatus']
         if job_status == 'Complete':
-            csv = json_obj[0]['file']['downloadUrl']
-            response_csv = requests.get(csv)
-            return Table.from_csv_string(response_csv.text)
+            for j in json_obj:
+                csv = j['file']['downloadUrl']
+                response_csv = requests.get(csv)
+                return Table.from_csv_string(response_csv.text)
         elif job_status == 'Pending' or job_status == 'InProcess':
             logger.info(f'Target export job is pending or in process for {export_job_id}.')
         else:
@@ -84,7 +86,7 @@ class Targets(object):
                 The target export job ID
         """
         target_export = {
-                        'target_id': target_id
+                        'targetId': target_id
                         }
 
         r = self.connection.post_request(f'targetExportJobs', json=target_export)

@@ -35,11 +35,11 @@ class AzureBlobStorage(object):
 
     def __init__(self, account_name=None, credential=None, account_domain='blob.core.windows.net',
                  account_url=None):
-        self.account_name = check_env.check('AZURE_ACCOUNT_NAME', account_name)
-        self.credential = check_env.check('AZURE_CREDENTIAL', credential)
-        self.account_domain = check_env.check('AZURE_ACCOUNT_DOMAIN', account_domain)
         self.account_url = os.getenv('AZURE_ACCOUNT_URL', account_url)
+        self.credential = check_env.check('AZURE_CREDENTIAL', credential)
         if not self.account_url:
+            self.account_name = check_env.check('AZURE_ACCOUNT_NAME', account_name)
+            self.account_domain = check_env.check('AZURE_ACCOUNT_DOMAIN', account_domain)
             self.account_url = f'https://{self.account_name}.{self.account_domain}/'
         else:
             if not self.account_url.startswith('http'):

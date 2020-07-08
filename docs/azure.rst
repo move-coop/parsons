@@ -1,5 +1,5 @@
 Azure
-======
+=====
 
 ************
 Blob Storage
@@ -12,6 +12,11 @@ Azure Blob Storage is a cloud file storage system. It uses storage accounts to o
 "buckets" for other storage providers) in which to store arbitrary files referred to as blobs.
 
 This connector currently only implements block blobs and not page or append blobs.
+
+You'll need credentials for an Azure Blob Storage storage account to use this connector. The ``azure-storage-blob``
+library is used for this connector, and `examples of how to create and use multiple types of credentials
+<https://github.com/Azure/azure-sdk-for-python/tree/master/sdk/storage/azure-storage-blob#types-of-credentials>`_
+are included in the documentation.
 
 ==========
 Quickstart

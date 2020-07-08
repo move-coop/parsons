@@ -108,7 +108,7 @@ class Slack(object):
                 A response json
         """
         resp = self.client.api_call(
-            "chat.postMessage", channel=channel, text=text, 
+            "chat.postMessage", channel=channel, text=text,
             as_user=as_user, thread_ts=parent_message_id)
 
         if not resp['ok']:

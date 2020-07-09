@@ -115,6 +115,10 @@ class RedshiftCopyTable(object):
                             "Must be specified as env vars or kwargs"
                             ))
 
+        # Coalesce S3 Key arguments
+        aws_access_key_id = aws_access_key_id or self.aws_access_key_id
+        aws_secret_access_key = aws_secret_access_key or self.aws_secret_access_key
+
         self.s3 = S3(aws_access_key_id=aws_access_key_id,
                      aws_secret_access_key=aws_secret_access_key)
 

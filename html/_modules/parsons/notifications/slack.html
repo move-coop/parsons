@@ -272,7 +272,7 @@
 
         <span class="k">return</span> <span class="n">tbl</span></div>
 
-<div class="viewcode-block" id="Slack.message_channel"><a class="viewcode-back" href="../../../notifications.html#parsons.Slack.message_channel">[docs]</a>    <span class="k">def</span> <span class="nf">message_channel</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">channel</span><span class="p">,</span> <span class="n">text</span><span class="p">,</span> <span class="n">as_user</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+<div class="viewcode-block" id="Slack.message_channel"><a class="viewcode-back" href="../../../notifications.html#parsons.Slack.message_channel">[docs]</a>    <span class="k">def</span> <span class="nf">message_channel</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">channel</span><span class="p">,</span> <span class="n">text</span><span class="p">,</span> <span class="n">as_user</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">parent_message_id</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Send a message to a Slack channel</span>
 
@@ -287,12 +287,15 @@
 <span class="sd">                instead of as a bot. Defaults to false. See</span>
 <span class="sd">                https://api.slack.com/methods/chat.postMessage#authorship for</span>
 <span class="sd">                more information about Slack authorship.</span>
+<span class="sd">            parent_message_id: str</span>
+<span class="sd">                The `ts` value of the parent message. If used, this will thread the message.</span>
 <span class="sd">        `Returns:`</span>
 <span class="sd">            `dict`:</span>
 <span class="sd">                A response json</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">resp</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">api_call</span><span class="p">(</span>
-            <span class="s2">&quot;chat.postMessage&quot;</span><span class="p">,</span> <span class="n">channel</span><span class="o">=</span><span class="n">channel</span><span class="p">,</span> <span class="n">text</span><span class="o">=</span><span class="n">text</span><span class="p">,</span> <span class="n">as_user</span><span class="o">=</span><span class="n">as_user</span><span class="p">)</span>
+            <span class="s2">&quot;chat.postMessage&quot;</span><span class="p">,</span> <span class="n">channel</span><span class="o">=</span><span class="n">channel</span><span class="p">,</span> <span class="n">text</span><span class="o">=</span><span class="n">text</span><span class="p">,</span>
+            <span class="n">as_user</span><span class="o">=</span><span class="n">as_user</span><span class="p">,</span> <span class="n">thread_ts</span><span class="o">=</span><span class="n">parent_message_id</span><span class="p">)</span>
 
         <span class="k">if</span> <span class="ow">not</span> <span class="n">resp</span><span class="p">[</span><span class="s1">&#39;ok&#39;</span><span class="p">]:</span>
 

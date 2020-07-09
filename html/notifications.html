@@ -315,7 +315,7 @@ available fields. <cite>Notes:</cite> nested fields are unpacked.</dd>
 
 <dl class="method">
 <dt id="parsons.Slack.message_channel">
-<code class="descname">message_channel</code><span class="sig-paren">(</span><em>channel</em>, <em>text</em>, <em>as_user=False</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/notifications/slack.html#Slack.message_channel"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.Slack.message_channel" title="Permalink to this definition">¶</a></dt>
+<code class="descname">message_channel</code><span class="sig-paren">(</span><em>channel</em>, <em>text</em>, <em>as_user=False</em>, <em>parent_message_id=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/notifications/slack.html#Slack.message_channel"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.Slack.message_channel" title="Permalink to this definition">¶</a></dt>
 <dd><p>Send a message to a Slack channel</p>
 <dl class="docutils">
 <dt><cite>Args:</cite></dt>
@@ -330,6 +330,8 @@ an <cite>im</cite> (aka 1-1 message).</dd>
 instead of as a bot. Defaults to false. See
 <a class="reference external" href="https://api.slack.com/methods/chat.postMessage#authorship">https://api.slack.com/methods/chat.postMessage#authorship</a> for
 more information about Slack authorship.</dd>
+<dt>parent_message_id: str</dt>
+<dd>The <cite>ts</cite> value of the parent message. If used, this will thread the message.</dd>
 </dl>
 </dd>
 <dt><cite>Returns:</cite></dt>

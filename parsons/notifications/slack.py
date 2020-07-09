@@ -86,7 +86,7 @@ class Slack(object):
 
         return tbl
 
-    def message_channel(self, channel, text, as_user=False):
+    def message_channel(self, channel, text, as_user=False, parent_message_id=None):
         """
         Send a message to a Slack channel
 
@@ -101,12 +101,15 @@ class Slack(object):
                 instead of as a bot. Defaults to false. See
                 https://api.slack.com/methods/chat.postMessage#authorship for
                 more information about Slack authorship.
+            parent_message_id: str
+                The `ts` value of the parent message. If used, this will thread the message.
         `Returns:`
             `dict`:
                 A response json
         """
         resp = self.client.api_call(
-            "chat.postMessage", channel=channel, text=text, as_user=as_user)
+            "chat.postMessage", channel=channel, text=text,
+            as_user=as_user, thread_ts=parent_message_id)
 
         if not resp['ok']:
 

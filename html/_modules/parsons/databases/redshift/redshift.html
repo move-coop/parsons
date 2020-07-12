@@ -951,7 +951,7 @@
 <span class="s2">                       WHERE </span><span class="si">{</span><span class="n">where_clause</span><span class="si">}</span><span class="s2"></span>
 <span class="s2">                       &quot;&quot;&quot;</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">query_with_connection</span><span class="p">(</span><span class="n">sql</span><span class="p">,</span> <span class="n">connection</span><span class="p">,</span> <span class="n">commit</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
-                <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Target rows deleted from </span><span class="si">{</span><span class="n">target_table</span><span class="si">}</span><span class="s1">.&#39;</span><span class="p">)</span>
+                <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Target rows deleted from </span><span class="si">{</span><span class="n">target_table</span><span class="si">}</span><span class="s1">.&#39;</span><span class="p">)</span>
 
                 <span class="c1"># Insert rows</span>
                 <span class="c1"># ALTER TABLE APPEND would be more efficient, but you can&#39;t run it in a</span>

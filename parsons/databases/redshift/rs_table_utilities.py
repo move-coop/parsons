@@ -49,10 +49,10 @@ class RedshiftTableUtilities(object):
 
         # If in either, return boolean
         if result >= 1:
-            logger.info(f'{table_name[0]}.{table_name[1]} exists.')
+            logger.debug(f'{table_name[0]}.{table_name[1]} exists.')
             return True
         else:
-            logger.info(f'{table_name[0]}.{table_name[1]} does NOT exist.')
+            logger.debug(f'{table_name[0]}.{table_name[1]} does NOT exist.')
             return False
 
     def get_row_count(self, table_name):
@@ -170,7 +170,7 @@ class RedshiftTableUtilities(object):
 
         else:
             if exists and if_exists == 'drop':
-                logger.info(f"Table {table_name} exist, will drop...")
+                logger.debug(f"Table {table_name} exist, will drop...")
                 drop_sql = f"drop table {table_name};\n"
                 self.query_with_connection(drop_sql, connection, commit=False)
 

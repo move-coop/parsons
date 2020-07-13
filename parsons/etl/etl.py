@@ -252,11 +252,18 @@ class ETL(object):
             >> {{first_name: 'Jane', last_name: 'Doe', 'date_of_birth': '1908-01-01'}}
         """
 
-        for c in self.columns:
-            for k, v in column_map.items():
-                for i in v:
-                    if c == i:
-                        self.rename_column(c, k)
+        #for c in self.columns:
+        for k, v in column_map.items():
+            coalesce_list = v
+            for i in coalesce_list:
+                if i not in self.columns:
+                    coalesce_list.remove(i)
+
+            if k in self.columns:
+                self.rename_column(k,f'{k}_temp')
+                coalesce_list.appendd(f'{k}_temp')
+
+            self.coalesce_columns(k, coalesce_list, remove_source_columns=True)
 
         return self
 

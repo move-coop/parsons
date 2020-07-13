@@ -338,11 +338,11 @@
 <span class="sd">        &quot;&quot;&quot;</span>
 
         <span class="n">container_client</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_container</span><span class="p">(</span><span class="n">container_name</span><span class="p">)</span>
-        <span class="n">blob_names</span> <span class="o">=</span> <span class="p">[</span>
-            <span class="n">blob</span><span class="o">.</span><span class="n">name</span> <span class="k">for</span> <span class="n">blob</span> <span class="ow">in</span> <span class="n">container_client</span><span class="o">.</span><span class="n">list_blobs</span><span class="p">(</span><span class="n">name_starts_with</span><span class="o">=</span><span class="n">name_starts_with</span><span class="p">)</span>
+        <span class="n">blobs</span> <span class="o">=</span> <span class="p">[</span>
+            <span class="n">blob</span> <span class="k">for</span> <span class="n">blob</span> <span class="ow">in</span> <span class="n">container_client</span><span class="o">.</span><span class="n">list_blobs</span><span class="p">(</span><span class="n">name_starts_with</span><span class="o">=</span><span class="n">name_starts_with</span><span class="p">)</span>
         <span class="p">]</span>
-        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Found </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">blob_names</span><span class="p">)</span><span class="si">}</span><span class="s1"> blobs in </span><span class="si">{</span><span class="n">container_name</span><span class="si">}</span><span class="s1"> container.&#39;</span><span class="p">)</span>
-        <span class="k">return</span> <span class="n">blob_names</span></div>
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Found </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">blobs</span><span class="p">)</span><span class="si">}</span><span class="s1"> blobs in </span><span class="si">{</span><span class="n">container_name</span><span class="si">}</span><span class="s1"> container.&#39;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">blobs</span></div>
 
 <div class="viewcode-block" id="AzureBlobStorage.blob_exists"><a class="viewcode-back" href="../../../azure.html#parsons.AzureBlobStorage.blob_exists">[docs]</a>    <span class="k">def</span> <span class="nf">blob_exists</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">container_name</span><span class="p">,</span> <span class="n">blob_name</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>

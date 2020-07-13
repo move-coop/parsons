@@ -2,12 +2,13 @@ import os
 
 import adal
 
+
 class AzureAccountAccess(object):
     """
     Instantiate AzureAccountAccess Class for a given Azure storage account.
     This class is not yet fully built out, and will later have an __init__
     function added.
-        
+
     `Returns:`
         `AzureAccountAccess`
     """

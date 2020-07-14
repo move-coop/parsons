@@ -333,6 +333,10 @@ class ETL(object):
                 set to column name.
         """
 
+        # If we don't have any rows, don't bother trying to unpack
+        if self.num_rows == 0:
+            return self
+
         if prepend:
             if prepend_value is None:
                 prepend_value = column

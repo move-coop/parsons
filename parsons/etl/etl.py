@@ -253,17 +253,19 @@ class ETL(object):
         """
 
         #for c in self.columns:
-        for k, v in column_map.items():
-            coalesce_list = v
-            for i in coalesce_list:
-                if i not in self.columns:
+        for key, value in column_map.items():
+            coalesce_list = value
+            # if the column in the mapping dict isn't actually in the table, remove it from the list of columns to coalesce
+            for item in coalesce_list:
+                if item not in self.columns:
                     coalesce_list.remove(i)
+            # if the key from the mapping dict already exists in the table, rename it so it can be coalesced with other possible columns
+            if key in self.columns:
+                self.rename_column(key,f'{key}_temp')
+                coalesce_list.insert(0,f'{key}_temp')
 
-            if k in self.columns:
-                self.rename_column(k,f'{k}_temp')
-                coalesce_list.append(f'{k}_temp')
-
-            self.coalesce_columns(k, coalesce_list, remove_source_columns=True)
+            # coalesce columns
+            self.coalesce_columns(key, coalesce_list, remove_source_columns=True)
 
         return self
 

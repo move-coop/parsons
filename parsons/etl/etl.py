@@ -232,6 +232,36 @@ class ETL(object):
         `Args:`
             column_map: dict
                 A dictionary of columns and possible values that map to it
+        `Returns:`
+            `Parsons Table` and also updates self
+        .. code-block:: python
+            tbl = [{fn: 'Jane'},
+                   {lastname: 'Doe'},
+                   {dob: '1980-01-01'}]
+            column_map = {first_name: ['fn', 'first', 'firstname'],
+                          last_name: ['ln', 'last', 'lastname'],
+                          date_of_birth: ['dob', 'birthday']}
+            tbl.map_columns(column_map)
+            print (tbl)
+            >> {{first_name: 'Jane', last_name: 'Doe', 'date_of_birth': '1908-01-01'}}
+        """
+
+        for c in self.columns:
+            for k, v in column_map.items():
+                for i in v:
+                    if c == i:
+                        self.rename_column(c, k)
+
+        return self
+
+    def map_and_coalesce_columns(self, column_map):
+        """
+        Standardizes column names based on multiple possible values. This method
+        is helpful when your input table might have multiple and unknown column
+        names.
+        `Args:`
+            column_map: dict
+                A dictionary of columns and possible values that map to it
 
         `Returns:`
             `Parsons Table` and also updates self
@@ -258,7 +288,7 @@ class ETL(object):
             # if the column in the mapping dict isn't actually in the table, remove it from the list of columns to coalesce
             for item in coalesce_list:
                 if item not in self.columns:
-                    coalesce_list.remove(i)
+                    coalesce_list.remove(item)
             # if the key from the mapping dict already exists in the table, rename it so it can be coalesced with other possible columns
             if key in self.columns:
                 self.rename_column(key,f'{key}_temp')

@@ -23,7 +23,7 @@ If you would like to contribute to Parsons, please review the issues in the repo
 
 One important way to contribute to the Parsons project is to submit sample code that provides recipes and patterns for how to use the Parsons library.
 
-We have a folder called `sample_code/` in the root of the repository. If you have scripts that incorporate Parsons, we encourage you to create a Pull Request adding them there!
+We have a folder called `useful_resources/` in the root of the repository. If you have scripts that incorporate Parsons, we encourage you to create a Pull Request adding them there!
 
 ### Coding Conventions
 
@@ -57,6 +57,16 @@ From the root of the parsons repository, use the run the following command:
 
 ```bash
 > pip install -r requirements.txt
+```
+
+#### Virtual Environments
+
+If required dependencies conflict with packages or modules you need for other projects, you can create and use a [virtual environment](https://docs.python.org/3/library/venv.html).
+
+```
+python -m venv .venv       # Creates a virtual environment in the .venv folder 
+source .venv/bin/activate  # Activate in Unix or MacOS
+.venv/Scripts/activate.bat # Activate in Windows 
 ```
 
 #### Unit Tests

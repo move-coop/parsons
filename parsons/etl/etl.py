@@ -261,7 +261,7 @@ class ETL(object):
 
             if k in self.columns:
                 self.rename_column(k,f'{k}_temp')
-                coalesce_list.appendd(f'{k}_temp')
+                coalesce_list.append(f'{k}_temp')
 
             self.coalesce_columns(k, coalesce_list, remove_source_columns=True)
 

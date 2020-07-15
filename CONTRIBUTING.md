@@ -110,6 +110,8 @@ The following is a list of best practices to consider when writing code for the 
 
 * Inline comments explaining complex codes and methods are appreciated.
 
+If you are building a new connector or extending an existing connector, there are more best practices in the [How to Build a Connector](https://move-coop.github.io/parsons/html/build_a_connector.html) documentation. 
+
 ## Documentation
 
 Parsons documentation is built using the Python Sphinx tool. Sphinx uses the `docs/*.rst` files in the repository to create the documentation.

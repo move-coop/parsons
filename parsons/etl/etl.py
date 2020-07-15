@@ -286,7 +286,6 @@ class ETL(object):
             >> {{first_name: 'Jane', last_name: 'Doe', 'date_of_birth': '1908-01-01'}}
         """
 
-        #for c in self.columns:
         for key, value in column_map.items():
             coalesce_list = value
             # if the column in the mapping dict isn't actually in the table,
@@ -297,8 +296,8 @@ class ETL(object):
             # if the key from the mapping dict already exists in the table,
             # rename it so it can be coalesced with other possible columns
             if key in self.columns:
-                self.rename_column(key,f'{key}_temp')
-                coalesce_list.insert(0,f'{key}_temp')
+                self.rename_column(key, f'{key}_temp')
+                coalesce_list.insert(0, f'{key}_temp')
 
             # coalesce columns
             self.coalesce_columns(key, coalesce_list, remove_source_columns=True)

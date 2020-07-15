@@ -338,6 +338,22 @@
         <span class="n">resp</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">conn</span><span class="o">.</span><span class="n">patch</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_base_endpoint</span><span class="p">(</span><span class="s1">&#39;user&#39;</span><span class="p">,</span> <span class="n">user_id</span><span class="p">),</span> <span class="n">data</span><span class="o">=</span><span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">kwargs</span><span class="p">))</span>
         <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">resp</span><span class="o">.</span><span class="n">status_code</span><span class="si">}</span><span class="s1">: </span><span class="si">{</span><span class="n">user_id</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span></div>
 
+<div class="viewcode-block" id="ActionKit.update_event"><a class="viewcode-back" href="../../../action_kit.html#parsons.ActionKit.update_event">[docs]</a>    <span class="k">def</span> <span class="nf">update_event</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">event_id</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Update an event.</span>
+
+<span class="sd">        `Args:`</span>
+<span class="sd">            event_id: int</span>
+<span class="sd">                The event id of the event to update</span>
+<span class="sd">            event_dict: dict</span>
+<span class="sd">                A dictionary of fields to update for the event.</span>
+<span class="sd">        `Returns:`</span>
+<span class="sd">            ``None``</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">resp</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">conn</span><span class="o">.</span><span class="n">patch</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_base_endpoint</span><span class="p">(</span><span class="s1">&#39;event&#39;</span><span class="p">,</span> <span class="n">event_id</span><span class="p">),</span> <span class="n">data</span><span class="o">=</span><span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">kwargs</span><span class="p">))</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">resp</span><span class="o">.</span><span class="n">status_code</span><span class="si">}</span><span class="s1">: </span><span class="si">{</span><span class="n">event_id</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span></div>
+
 <div class="viewcode-block" id="ActionKit.delete_user"><a class="viewcode-back" href="../../../action_kit.html#parsons.ActionKit.delete_user">[docs]</a>    <span class="k">def</span> <span class="nf">delete_user</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">user_id</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Delete a user.</span>
@@ -577,6 +593,23 @@
                                <span class="n">page</span><span class="o">=</span><span class="sa">f</span><span class="s1">&#39;/rest/v1/page/</span><span class="si">{</span><span class="n">page_id</span><span class="si">}</span><span class="s1">/&#39;</span><span class="p">,</span>
                                <span class="n">thank_you_text</span><span class="o">=</span><span class="n">thank_you_text</span><span class="p">,</span>
                                <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="ActionKit.update_event_signup"><a class="viewcode-back" href="../../../action_kit.html#parsons.ActionKit.update_event_signup">[docs]</a>    <span class="k">def</span> <span class="nf">update_event_signup</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">event_signup_id</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Update an event signup.</span>
+
+<span class="sd">        `Args:`</span>
+<span class="sd">            event_signup_id: int</span>
+<span class="sd">                The id of the event signup to update</span>
+<span class="sd">            event_signup_dict: dict</span>
+<span class="sd">                A dictionary of fields to update for the event signup.</span>
+<span class="sd">        `Returns:`</span>
+<span class="sd">            ``None``</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">resp</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">conn</span><span class="o">.</span><span class="n">patch</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_base_endpoint</span><span class="p">(</span><span class="s1">&#39;eventsignup&#39;</span><span class="p">,</span> <span class="n">event_signup_id</span><span class="p">),</span>
+                               <span class="n">data</span><span class="o">=</span><span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">kwargs</span><span class="p">))</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">resp</span><span class="o">.</span><span class="n">status_code</span><span class="si">}</span><span class="s1">: </span><span class="si">{</span><span class="n">event_signup_id</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="ActionKit.get_page_followup"><a class="viewcode-back" href="../../../action_kit.html#parsons.ActionKit.get_page_followup">[docs]</a>    <span class="k">def</span> <span class="nf">get_page_followup</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">page_followup_id</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>

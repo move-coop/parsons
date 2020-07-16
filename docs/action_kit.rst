@@ -32,7 +32,7 @@ domain, username, and password as arguments:
    from parsons import VAN
 
    # First approach: Specify DB type and pass API credentials via environmental variables
-   ak = ActionKit(db='MyVoters')
+   ak = ActionKit()
 
    # Second approach: Pass API credentials as arguments
    ak = ActionKit(domain='myorg.actionkit.com', username='my_name', password='1234')

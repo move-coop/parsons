@@ -10,7 +10,7 @@ logger = logging.getLogger(__name__)
 
 class ActionKit(object):
     """
-    Instatiate the ActionKit class
+    Instantiate the ActionKit class
 
     `Args:`
         domain: str
@@ -20,7 +20,7 @@ class ActionKit(object):
             The authorized ActionKit username. Not required if ``ACTION_KIT_USERNAME`` env
             variable set.
         password: str
-            The authorized ActionKit user password. Not required if ``ACTION_KIT_USERNAME``
+            The authorized ActionKit user password. Not required if ``ACTION_KIT_PASSWORD``
             env variable set.
     """
 

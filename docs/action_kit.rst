@@ -31,7 +31,7 @@ domain, username, and password as arguments:
 
    from parsons import VAN
 
-   # First approach: Specify DB type and pass API credentials via environmental variables
+   # First approach: Use API credentials via environmental variables
    ak = ActionKit()
 
    # Second approach: Pass API credentials as arguments

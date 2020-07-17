@@ -128,7 +128,7 @@ class ActionKit(object):
             email: str
                 Email for the user
             **kwargs:
-                Optional arguments and fields that can sent. A full list can be found
+                Optional arguments and fields to pass to the client. A full list can be found
                 in the `ActionKit API Documentation <https://roboticdogs.actionkit.com/docs/\
                 manual/api/rest/actionprocessing.html>`_.
         `Returns:`
@@ -146,7 +146,7 @@ class ActionKit(object):
             user_id: int
                 The user id of the person to update
             **kwargs:
-                Optional arguments and fields that can sent. A full list can be found
+                Optional arguments and fields to pass to the client. A full list can be found
                 in the `ActionKit API Documentation <https://roboticdogs.actionkit.com/docs/\
                 manual/api/rest/actionprocessing.html>`_.
         `Returns:`
@@ -164,7 +164,7 @@ class ActionKit(object):
             event_id: int
                 The event id of the event to update
             **kwargs:
-                Optional arguments and fields that can sent. A full list can be found
+                Optional arguments and fields to pass to the client. A full list can be found
                 in the `ActionKit API Documentation <https://roboticdogs.actionkit.com/docs/\
                 manual/api/rest/actionprocessing.html>`_.
         `Returns:`
@@ -222,7 +222,7 @@ class ActionKit(object):
             name: str
                 The name of the campaign to create
             **kwargs:
-                Optional arguments and fields that can sent. A full list can be found
+                Optional arguments and fields to pass to the client. A full list can be found
                 in the `ActionKit API Documentation <https://roboticdogs.actionkit.com/docs/\
                 manual/api/rest/actionprocessing.html>`_.
         `Returns`:
@@ -270,7 +270,7 @@ class ActionKit(object):
             title: str
                 The title of the page to create
             **kwargs:
-                Optional arguments and fields that can sent. A full list can be found
+                Optional arguments and fields to pass to the client. A full list can be found
                 in the `ActionKit API Documentation <https://roboticdogs.actionkit.com/docs/\
                 manual/api/rest/actionprocessing.html>`_.
         `Returns`:
@@ -320,7 +320,7 @@ class ActionKit(object):
             thank_you_text: str
                 Free form thank you text
             **kwargs:
-                Optional arguments and fields that can sent. A full list can be found
+                Optional arguments and fields to pass to the client. A full list can be found
                 in the `ActionKit API Documentation <https://roboticdogs.actionkit.com/docs/\
                 manual/api/rest/actionprocessing.html>`_.
         `Returns:`
@@ -371,7 +371,7 @@ class ActionKit(object):
             title: str
                 The title of the page to create
             **kwargs:
-                Optional arguments and fields that can sent. A full list can be found
+                Optional arguments and fields to pass to the client. A full list can be found
                 in the `ActionKit API Documentation <https://roboticdogs.actionkit.com/docs/\
                 manual/api/rest/actionprocessing.html>`_.
         `Returns`:
@@ -421,7 +421,7 @@ class ActionKit(object):
             thank_you_text: str
                 Free form thank you text
             **kwargs:
-                Optional arguments and fields that can sent. A full list can be found
+                Optional arguments and fields to pass to the client. A full list can be found
                 in the `ActionKit API Documentation <https://roboticdogs.actionkit.com/docs/\
                 manual/api/rest/actionprocessing.html>`_.
         `Returns:`
@@ -444,7 +444,7 @@ class ActionKit(object):
             event_signup_dict: dict
                 A dictionary of fields to update for the event signup.
             **kwargs:
-                Optional arguments and fields that can sent. A full list can be found
+                Optional arguments and fields to pass to the client. A full list can be found
                 in the `ActionKit API Documentation <https://roboticdogs.actionkit.com/docs/\
                 manual/api/rest/actionprocessing.html>`_.
         `Returns:`
@@ -491,7 +491,7 @@ class ActionKit(object):
             url: str
                 URL of the folloup page
             **kwargs:
-                Optional arguments and fields that can sent. A full list can be found
+                Optional arguments and fields to pass to the client. A full list can be found
                 in the `ActionKit API Documentation <https://roboticdogs.actionkit.com/docs/\
                 manual/api/rest/actionprocessing.html>`_.
         `Returns`:
@@ -516,7 +516,7 @@ class ActionKit(object):
             ak_id:
                 The action kit id of the record.
             **kwargs:
-                Optional arguments and fields that can sent. A full list can be found
+                Optional arguments and fields to pass to the client. A full list can be found
                 in the `ActionKit API Documentation <https://roboticdogs.actionkit.com/docs/\
                 manual/api/rest/actionprocessing.html>`_.
         `Returns`:

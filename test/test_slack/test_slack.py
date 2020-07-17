@@ -93,7 +93,8 @@ class TestSlack(unittest.TestCase):
 
         self.assertIsInstance(tbl, Table)
 
-        expected_columns = ["id", "name", "deleted", "profile_email", "profile_real_name_normalized"]
+        expected_columns = ["id", "name", "deleted", "profile_email",
+                            "profile_real_name_normalized"]
         self.assertListEqual(tbl.columns, expected_columns)
         self.assertEqual(tbl.num_rows, 2)
 
@@ -162,6 +163,16 @@ class TestSlack(unittest.TestCase):
             SlackClientError,
             self.slack.message_channel,
             "FakeChannel", "Here's a message for you")
+
+    @requests_mock.Mocker(case_sensitive=True)
+    def test_message(self, m):
+        webhook = "https://hooks.slack.com/services/T1234/B1234/D12322"
+        m.post(webhook, json={"ok": True})
+        Slack.message("#foobar", "this is a message", webhook)
+        self.assertEqual(m._adapter.last_request.json(),
+                         {"text": "this is a message",
+                          "channel": "#foobar"})
+        self.assertEqual(m._adapter.last_request.path, "/services/T1234/B1234/D12322")
 
     @requests_mock.Mocker()
     def test_file_upload(self, m):

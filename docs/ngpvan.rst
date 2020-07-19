@@ -110,7 +110,7 @@ Loading a score is a multi-step process. Once a score is set to approved, loadin
                               bucket='tmc-fake', auto_approve=False)
 
    # Approve the job
-   van.score_update_status(job_id,'approved')
+   van.update_score_status(job_id,'approved')
 
 ===========================
 People: Add Survey Response
@@ -322,4 +322,10 @@ Supporter Groups
 Survey Questions
 ================
 .. autoclass:: parsons.ngpvan.van.SurveyQuestions
+   :inherited-members:
+
+=======
+Targets
+=======
+.. autoclass:: parsons.ngpvan.van.Targets
    :inherited-members:

@@ -6,7 +6,7 @@ Overview
 ********
 
 `ActionKit <https://actionkit.com/>`_ is a platform for advocacy, fundraising, and
-get-out-the-vote. This parsons integration with the
+get-out-the-vote. This Parsons integration with the
 `ActionKit REST API <https://roboticdogs.actionkit.com/docs/manual/api/rest/overview.html>`_
 supports fetching, creating, and updating records of campaigns, events, and users.
 Bulk upload of new users and user updates is also supported.
@@ -23,8 +23,8 @@ Quickstart
 **********
 
 To instantiate the ActionKit class, you can either store your ActionKit API
-domain, username, and password as environmental variables (ACTION_KIT_DOMAIN,
-ACTION_KIT_USERNAME, and ACTION_KIT_PASSWORD, respectively) or pass in your
+domain, username, and password as environmental variables (``ACTION_KIT_DOMAIN``,
+``ACTION_KIT_USERNAME``, and ``ACTION_KIT_PASSWORD``, respectively) or pass in your
 domain, username, and password as arguments:
 
 .. code-block:: python

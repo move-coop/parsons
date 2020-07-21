@@ -54,8 +54,10 @@ sphinx-rtd-theme==0.4.2
 
 Then to generate all of the html locally, do the following:
 
+```
 > cd docs
 > make html
+```
 
 ### Testing your Changes
 

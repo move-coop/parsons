@@ -10,7 +10,7 @@ logger = logging.getLogger(__name__)
 
 class ActionKit(object):
     """
-    Instatiate the ActionKit class
+    Instantiate the ActionKit class
 
     `Args:`
         domain: str
@@ -20,7 +20,7 @@ class ActionKit(object):
             The authorized ActionKit username. Not required if ``ACTION_KIT_USERNAME`` env
             variable set.
         password: str
-            The authorized ActionKit user password. Not required if ``ACTION_KIT_USERNAME``
+            The authorized ActionKit user password. Not required if ``ACTION_KIT_PASSWORD``
             env variable set.
     """
 
@@ -127,8 +127,10 @@ class ActionKit(object):
         `Args:`
             email: str
                 Email for the user
-            user_dict: dict
-                Optional; Additional user fields
+            **kwargs:
+                Optional arguments and fields to pass to the client. A full list can be found
+                in the `ActionKit API Documentation <https://roboticdogs.actionkit.com/docs/\
+                manual/api/rest/actionprocessing.html>`_.
         `Returns:`
             User json object
         """
@@ -143,8 +145,10 @@ class ActionKit(object):
         `Args:`
             user_id: int
                 The user id of the person to update
-            user_dict: dict
-                A dictionary of fields to update for the user.
+            **kwargs:
+                Optional arguments and fields to pass to the client. A full list can be found
+                in the `ActionKit API Documentation <https://roboticdogs.actionkit.com/docs/\
+                manual/api/rest/actionprocessing.html>`_.
         `Returns:`
             ``None``
         """
@@ -159,8 +163,10 @@ class ActionKit(object):
         `Args:`
             event_id: int
                 The event id of the event to update
-            event_dict: dict
-                A dictionary of fields to update for the event.
+            **kwargs:
+                Optional arguments and fields to pass to the client. A full list can be found
+                in the `ActionKit API Documentation <https://roboticdogs.actionkit.com/docs/\
+                manual/api/rest/actionprocessing.html>`_.
         `Returns:`
             ``None``
         """
@@ -215,6 +221,10 @@ class ActionKit(object):
         `Args:`
             name: str
                 The name of the campaign to create
+            **kwargs:
+                Optional arguments and fields to pass to the client. A full list can be found
+                in the `ActionKit API Documentation <https://roboticdogs.actionkit.com/docs/\
+                manual/api/rest/actionprocessing.html>`_.
         `Returns`:
             API location of new resource
         """
@@ -259,6 +269,10 @@ class ActionKit(object):
                 The name of the page to create
             title: str
                 The title of the page to create
+            **kwargs:
+                Optional arguments and fields to pass to the client. A full list can be found
+                in the `ActionKit API Documentation <https://roboticdogs.actionkit.com/docs/\
+                manual/api/rest/actionprocessing.html>`_.
         `Returns`:
             API location of new resource
         """
@@ -305,6 +319,10 @@ class ActionKit(object):
                 The page to associate the form with
             thank_you_text: str
                 Free form thank you text
+            **kwargs:
+                Optional arguments and fields to pass to the client. A full list can be found
+                in the `ActionKit API Documentation <https://roboticdogs.actionkit.com/docs/\
+                manual/api/rest/actionprocessing.html>`_.
         `Returns:`
             API location of new resource
         """
@@ -352,6 +370,10 @@ class ActionKit(object):
                 The name of the page to create
             title: str
                 The title of the page to create
+            **kwargs:
+                Optional arguments and fields to pass to the client. A full list can be found
+                in the `ActionKit API Documentation <https://roboticdogs.actionkit.com/docs/\
+                manual/api/rest/actionprocessing.html>`_.
         `Returns`:
             API location of new resource
         """
@@ -398,6 +420,10 @@ class ActionKit(object):
                 The page to associate the form with
             thank_you_text: str
                 Free form thank you text
+            **kwargs:
+                Optional arguments and fields to pass to the client. A full list can be found
+                in the `ActionKit API Documentation <https://roboticdogs.actionkit.com/docs/\
+                manual/api/rest/actionprocessing.html>`_.
         `Returns:`
             API location of new resource
         """
@@ -417,6 +443,10 @@ class ActionKit(object):
                 The id of the event signup to update
             event_signup_dict: dict
                 A dictionary of fields to update for the event signup.
+            **kwargs:
+                Optional arguments and fields to pass to the client. A full list can be found
+                in the `ActionKit API Documentation <https://roboticdogs.actionkit.com/docs/\
+                manual/api/rest/actionprocessing.html>`_.
         `Returns:`
             ``None``
         """
@@ -460,6 +490,10 @@ class ActionKit(object):
                 The signup page to associate the followup page with
             url: str
                 URL of the folloup page
+            **kwargs:
+                Optional arguments and fields to pass to the client. A full list can be found
+                in the `ActionKit API Documentation <https://roboticdogs.actionkit.com/docs/\
+                manual/api/rest/actionprocessing.html>`_.
         `Returns`:
             API location of new resource
         """
@@ -482,8 +516,9 @@ class ActionKit(object):
             ak_id:
                 The action kit id of the record.
             **kwargs:
-                Optional arguments and fields that can sent. A full list can be found
-                in the `ActionKit API Documentation <https://roboticdogs.actionkit.com/docs/manual/api/rest/actionprocessing.html>`_.
+                Optional arguments and fields to pass to the client. A full list can be found
+                in the `ActionKit API Documentation <https://roboticdogs.actionkit.com/docs/\
+                manual/api/rest/actionprocessing.html>`_.
         `Returns`:
             dict
                 The response json

@@ -44,18 +44,14 @@ To set up your development environment:
 
 Now it's time to make your changes. We suggest taking a quick look at our [coding conventions](#coding-conventions) - it'll make the review process easier down the line. In addition to any code changes, make sure to update the documentation and the unit tests if necessary. Not sure if your changes require test or documentation updates? Just ask in Slack or through a comment on the relevant issue.  When you're done, make sure to run the [unit tests](#unit-tests) and the [linter](#linting) again.
 
-<<<<<<< HEAD
-* Capitalize Parsons
-
 ### Documentation
 
 Parsons documentation is built using the Python Sphinx tool, which uses the `docs/*.rst` files in the repository to create the documentation. If you are adding a new connector, you will need to add a reference to the connector to one of the .rst files. Please use the existing documentation as an example.
 
-To create docs internally you need two packages:
+To create docs internally you need additional packages you can install with:
 
 ```
-Sphinx==1.8.3
-sphinx-rtd-theme==0.4.2
+pip install -r docs/requirements.txt
 ```
 
 Then to generate all of the html locally, do the following:
@@ -64,11 +60,6 @@ Then to generate all of the html locally, do the following:
 > cd docs
 > make html
 ```
-=======
-Finally, you'll want to [submit a pull request](#submitting-a-pull-request). And that's it!
-
-#### Virtual Environments
->>>>>>> upstream/master
 
 If required dependencies conflict with packages or modules you need for other projects, you can create and use a [virtual environment](https://docs.python.org/3/library/venv.html).
 
@@ -141,6 +132,8 @@ The following is a list of best practices to consider when writing code for the 
 * You should avoid abbreviations for method names and variable names where possible.
 
 * Inline comments explaining complex codes and methods are appreciated.
+
+* Capitalize Parsons
 
 If you are building a new connector or extending an existing connector, there are more best practices in the [How to Build a Connector](https://move-coop.github.io/parsons/html/build_a_connector.html) documentation. 
 

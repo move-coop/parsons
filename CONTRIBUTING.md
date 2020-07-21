@@ -50,7 +50,7 @@ Parsons documentation is built using the Python Sphinx tool, which uses the `doc
 To create docs internally you need two packages:
 
 ```
-gi
+Sphinx==1.8.3
 sphinx-rtd-theme==0.4.2
 ```
 

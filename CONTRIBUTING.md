@@ -43,7 +43,19 @@ The following is a list of best practices to consider when writing code for the 
 
 ### Documentation
 
-Parsons documentation is built using the Python Sphinx tool. Sphinx uses the `docs/*.rst` files in the repository to create the documentation. If you are adding a new connector, you will need to add a reference to the connector to one of the .rst files. Please use the existing documentation as an example.
+Parsons documentation is built using the Python Sphinx tool, which uses the `docs/*.rst` files in the repository to create the documentation. If you are adding a new connector, you will need to add a reference to the connector to one of the .rst files. Please use the existing documentation as an example.
+
+To create docs internally you need two packages:
+
+```
+Sphinx==1.8.3
+sphinx-rtd-theme==0.4.2
+```
+
+Then to generate all of the html locally, do the following:
+
+> cd docs
+> make html
 
 ### Testing your Changes
 

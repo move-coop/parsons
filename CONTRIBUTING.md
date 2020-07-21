@@ -41,6 +41,8 @@ The following is a list of best practices to consider when writing code for the 
 
 * Inline comments explaining complex codes and methods are appreciated.
 
+* Capitalize Parsons
+
 ### Documentation
 
 Parsons documentation is built using the Python Sphinx tool, which uses the `docs/*.rst` files in the repository to create the documentation. If you are adding a new connector, you will need to add a reference to the connector to one of the .rst files. Please use the existing documentation as an example.
@@ -48,7 +50,7 @@ Parsons documentation is built using the Python Sphinx tool, which uses the `doc
 To create docs internally you need two packages:
 
 ```
-Sphinx==1.8.3
+gi
 sphinx-rtd-theme==0.4.2
 ```
 

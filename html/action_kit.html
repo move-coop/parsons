@@ -196,14 +196,49 @@
 <h1>ActionKit<a class="headerlink" href="#actionkit" title="Permalink to this headline">¶</a></h1>
 <div class="section" id="overview">
 <h2>Overview<a class="headerlink" href="#overview" title="Permalink to this headline">¶</a></h2>
-<p>The ActionKit class allows you to interact with an <a class="reference external" href="https://actionkit.com/">ActionKit</a>.</p>
+<p><a class="reference external" href="https://actionkit.com/">ActionKit</a> is a platform for advocacy, fundraising, and
+get-out-the-vote. This Parsons integration with the
+<a class="reference external" href="https://roboticdogs.actionkit.com/docs/manual/api/rest/overview.html">ActionKit REST API</a>
+supports fetching, creating, and updating records of campaigns, events, and users.
+Bulk upload of new users and user updates is also supported.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<dl class="last docutils">
+<dt>Authentication</dt>
+<dd>ActionKit requires <a class="reference external" href="https://en.wikipedia.org/wiki/Basic_access_authentication">HTTP Basic Auth</a>.
+Clients with an ActionKit account can obtain the domain, username, and password needed
+to access the ActionKit API. See the <a class="reference external" href="https://roboticdogs.actionkit.com/docs/manual/api/rest/overview.html#authentication">ActionKit REST API Authentication</a>
+documentation for more information on obtaining ActionKit API credentials.</dd>
+</dl>
+</div>
 </div>
 <div class="section" id="quickstart">
 <h2>Quickstart<a class="headerlink" href="#quickstart" title="Permalink to this headline">¶</a></h2>
-<p><strong>Retrieve a User</strong></p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">parsons</span> <span class="kn">import</span> <span class="n">ActionKit</span>
+<p>To instantiate the ActionKit class, you can either store your ActionKit API
+domain, username, and password as environmental variables (<code class="docutils literal notranslate"><span class="pre">ACTION_KIT_DOMAIN</span></code>,
+<code class="docutils literal notranslate"><span class="pre">ACTION_KIT_USERNAME</span></code>, and <code class="docutils literal notranslate"><span class="pre">ACTION_KIT_PASSWORD</span></code>, respectively) or pass in your
+domain, username, and password as arguments:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">parsons</span> <span class="kn">import</span> <span class="n">VAN</span>
+
+<span class="c1"># First approach: Use API credentials via environmental variables</span>
 <span class="n">ak</span> <span class="o">=</span> <span class="n">ActionKit</span><span class="p">()</span>
-<span class="n">user_data</span> <span class="o">=</span> <span class="n">ak</span><span class="o">.</span><span class="n">get_user</span><span class="p">(</span><span class="mi">123</span><span class="p">)</span>
+
+<span class="c1"># Second approach: Pass API credentials as arguments</span>
+<span class="n">ak</span> <span class="o">=</span> <span class="n">ActionKit</span><span class="p">(</span><span class="n">domain</span><span class="o">=</span><span class="s1">&#39;myorg.actionkit.com&#39;</span><span class="p">,</span> <span class="n">username</span><span class="o">=</span><span class="s1">&#39;my_name&#39;</span><span class="p">,</span> <span class="n">password</span><span class="o">=</span><span class="s1">&#39;1234&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>You can then call various endpoints:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Create a new user</span>
+<span class="n">ak</span><span class="o">.</span><span class="n">create_user</span><span class="p">(</span><span class="n">email</span><span class="o">=</span><span class="s1">&#39;john@email&#39;</span><span class="p">,</span> <span class="n">first_name</span><span class="o">=</span><span class="s1">&#39;John&#39;</span><span class="p">,</span> <span class="n">last_name</span><span class="o">=</span><span class="s1">&#39;Smith&#39;</span><span class="p">,</span> <span class="n">city</span><span class="o">=</span><span class="s1">&#39;Boston&#39;</span><span class="p">)</span>
+
+<span class="c1"># Fetch user fields</span>
+<span class="n">user_fields</span> <span class="o">=</span> <span class="n">ak</span><span class="o">.</span><span class="n">get_user</span><span class="p">(</span><span class="n">user_id</span><span class="o">=</span><span class="s1">&#39;123&#39;</span><span class="p">)</span>
+
+<span class="c1"># Update user fields</span>
+<span class="n">ak</span><span class="o">.</span><span class="n">update_user</span><span class="p">(</span><span class="n">user_id</span><span class="o">=</span><span class="s1">&#39;123&#39;</span><span class="p">,</span> <span class="n">city</span><span class="o">=</span><span class="s1">&#39;New York&#39;</span><span class="p">)</span>
+
+<span class="c1"># Delete uer</span>
+<span class="n">ak</span><span class="o">.</span><span class="n">delete_user</span><span class="p">(</span><span class="n">user_id</span><span class="o">=</span><span class="s1">&#39;123&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -212,7 +247,7 @@
 <dl class="class">
 <dt id="parsons.ActionKit">
 <em class="property">class </em><code class="descclassname">parsons.</code><code class="descname">ActionKit</code><span class="sig-paren">(</span><em>domain=None</em>, <em>username=None</em>, <em>password=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/action_kit/action_kit.html#ActionKit"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.ActionKit" title="Permalink to this definition">¶</a></dt>
-<dd><p>Instatiate the ActionKit class</p>
+<dd><p>Instantiate the ActionKit class</p>
 <dl class="docutils">
 <dt><cite>Args:</cite></dt>
 <dd><dl class="first last docutils">
@@ -223,7 +258,7 @@
 <dd>The authorized ActionKit username. Not required if <code class="docutils literal notranslate"><span class="pre">ACTION_KIT_USERNAME</span></code> env
 variable set.</dd>
 <dt>password: str</dt>
-<dd>The authorized ActionKit user password. Not required if <code class="docutils literal notranslate"><span class="pre">ACTION_KIT_USERNAME</span></code>
+<dd>The authorized ActionKit user password. Not required if <code class="docutils literal notranslate"><span class="pre">ACTION_KIT_PASSWORD</span></code>
 env variable set.</dd>
 </dl>
 </dd>
@@ -264,8 +299,9 @@ env variable set.</dd>
 <dd><dl class="first last docutils">
 <dt>email: str</dt>
 <dd>Email for the user</dd>
-<dt>user_dict: dict</dt>
-<dd>Optional; Additional user fields</dd>
+<dt><a href="#id2"><span class="problematic" id="id3">**</span></a>kwargs:</dt>
+<dd>Optional arguments and fields to pass to the client. A full list can be found
+in the <a class="reference external" href="https://roboticdogs.actionkit.com/docs/manual/api/rest/actionprocessing.html">ActionKit API Documentation</a>.</dd>
 </dl>
 </dd>
 <dt><cite>Returns:</cite></dt>
@@ -282,8 +318,9 @@ env variable set.</dd>
 <dd><dl class="first last docutils">
 <dt>user_id: int</dt>
 <dd>The user id of the person to update</dd>
-<dt>user_dict: dict</dt>
-<dd>A dictionary of fields to update for the user.</dd>
+<dt><a href="#id4"><span class="problematic" id="id5">**</span></a>kwargs:</dt>
+<dd>Optional arguments and fields to pass to the client. A full list can be found
+in the <a class="reference external" href="https://roboticdogs.actionkit.com/docs/manual/api/rest/actionprocessing.html">ActionKit API Documentation</a>.</dd>
 </dl>
 </dd>
 <dt><cite>Returns:</cite></dt>
@@ -300,8 +337,9 @@ env variable set.</dd>
 <dd><dl class="first last docutils">
 <dt>event_id: int</dt>
 <dd>The event id of the event to update</dd>
-<dt>event_dict: dict</dt>
-<dd>A dictionary of fields to update for the event.</dd>
+<dt><a href="#id7"><span class="problematic" id="id8">**</span></a>kwargs:</dt>
+<dd>Optional arguments and fields to pass to the client. A full list can be found
+in the <a class="reference external" href="https://roboticdogs.actionkit.com/docs/manual/api/rest/actionprocessing.html">ActionKit API Documentation</a>.</dd>
 </dl>
 </dd>
 <dt><cite>Returns:</cite></dt>
@@ -361,6 +399,9 @@ env variable set.</dd>
 <dd><dl class="first last docutils">
 <dt>name: str</dt>
 <dd>The name of the campaign to create</dd>
+<dt><a href="#id10"><span class="problematic" id="id11">**</span></a>kwargs:</dt>
+<dd>Optional arguments and fields to pass to the client. A full list can be found
+in the <a class="reference external" href="https://roboticdogs.actionkit.com/docs/manual/api/rest/actionprocessing.html">ActionKit API Documentation</a>.</dd>
 </dl>
 </dd>
 <dt><cite>Returns</cite>:</dt>
@@ -408,6 +449,9 @@ env variable set.</dd>
 <dd>The name of the page to create</dd>
 <dt>title: str</dt>
 <dd>The title of the page to create</dd>
+<dt><a href="#id13"><span class="problematic" id="id14">**</span></a>kwargs:</dt>
+<dd>Optional arguments and fields to pass to the client. A full list can be found
+in the <a class="reference external" href="https://roboticdogs.actionkit.com/docs/manual/api/rest/actionprocessing.html">ActionKit API Documentation</a>.</dd>
 </dl>
 </dd>
 <dt><cite>Returns</cite>:</dt>
@@ -453,6 +497,9 @@ env variable set.</dd>
 <dd>The page to associate the form with</dd>
 <dt>thank_you_text: str</dt>
 <dd>Free form thank you text</dd>
+<dt><a href="#id16"><span class="problematic" id="id17">**</span></a>kwargs:</dt>
+<dd>Optional arguments and fields to pass to the client. A full list can be found
+in the <a class="reference external" href="https://roboticdogs.actionkit.com/docs/manual/api/rest/actionprocessing.html">ActionKit API Documentation</a>.</dd>
 </dl>
 </dd>
 <dt><cite>Returns:</cite></dt>
@@ -500,6 +547,9 @@ env variable set.</dd>
 <dd>The name of the page to create</dd>
 <dt>title: str</dt>
 <dd>The title of the page to create</dd>
+<dt><a href="#id19"><span class="problematic" id="id20">**</span></a>kwargs:</dt>
+<dd>Optional arguments and fields to pass to the client. A full list can be found
+in the <a class="reference external" href="https://roboticdogs.actionkit.com/docs/manual/api/rest/actionprocessing.html">ActionKit API Documentation</a>.</dd>
 </dl>
 </dd>
 <dt><cite>Returns</cite>:</dt>
@@ -545,6 +595,9 @@ env variable set.</dd>
 <dd>The page to associate the form with</dd>
 <dt>thank_you_text: str</dt>
 <dd>Free form thank you text</dd>
+<dt><a href="#id22"><span class="problematic" id="id23">**</span></a>kwargs:</dt>
+<dd>Optional arguments and fields to pass to the client. A full list can be found
+in the <a class="reference external" href="https://roboticdogs.actionkit.com/docs/manual/api/rest/actionprocessing.html">ActionKit API Documentation</a>.</dd>
 </dl>
 </dd>
 <dt><cite>Returns:</cite></dt>
@@ -563,6 +616,9 @@ env variable set.</dd>
 <dd>The id of the event signup to update</dd>
 <dt>event_signup_dict: dict</dt>
 <dd>A dictionary of fields to update for the event signup.</dd>
+<dt><a href="#id25"><span class="problematic" id="id26">**</span></a>kwargs:</dt>
+<dd>Optional arguments and fields to pass to the client. A full list can be found
+in the <a class="reference external" href="https://roboticdogs.actionkit.com/docs/manual/api/rest/actionprocessing.html">ActionKit API Documentation</a>.</dd>
 </dl>
 </dd>
 <dt><cite>Returns:</cite></dt>
@@ -608,6 +664,9 @@ env variable set.</dd>
 <dd>The signup page to associate the followup page with</dd>
 <dt>url: str</dt>
 <dd>URL of the folloup page</dd>
+<dt><a href="#id28"><span class="problematic" id="id29">**</span></a>kwargs:</dt>
+<dd>Optional arguments and fields to pass to the client. A full list can be found
+in the <a class="reference external" href="https://roboticdogs.actionkit.com/docs/manual/api/rest/actionprocessing.html">ActionKit API Documentation</a>.</dd>
 </dl>
 </dd>
 <dt><cite>Returns</cite>:</dt>
@@ -628,8 +687,8 @@ env variable set.</dd>
 <dd>The email address of the user to post the action.</dd>
 <dt>ak_id:</dt>
 <dd>The action kit id of the record.</dd>
-<dt><a href="#id2"><span class="problematic" id="id3">**</span></a>kwargs:</dt>
-<dd>Optional arguments and fields that can sent. A full list can be found
+<dt><a href="#id31"><span class="problematic" id="id32">**</span></a>kwargs:</dt>
+<dd>Optional arguments and fields to pass to the client. A full list can be found
 in the <a class="reference external" href="https://roboticdogs.actionkit.com/docs/manual/api/rest/actionprocessing.html">ActionKit API Documentation</a>.</dd>
 </dl>
 </dd>
@@ -661,10 +720,10 @@ which is more likely to return the proper 400 with a useful error message</p>
 A user_id or email column is required.
 ActionKit rejects files that are larger than 128M</dd>
 <dt>autocreate_user_fields: bool</dt>
-<dd>When True columns starting with “<a href="#id6"><span class="problematic" id="id7">user_</span></a>” will be uploaded as user fields.
+<dd>When True columns starting with “<a href="#id36"><span class="problematic" id="id37">user_</span></a>” will be uploaded as user fields.
 See the <a class="reference external" href="https://roboticdogs.actionkit.com/docs/manual/api/rest/uploads.html#create-a-multipart-post-request">autocreate_user_fields documentation</a>.</dd>
 <dt>user_fields_only: bool</dt>
-<dd>When uploading only an email/user_id column and <a href="#id8"><span class="problematic" id="id9">user_</span></a> user fields,
+<dd>When uploading only an email/user_id column and <a href="#id38"><span class="problematic" id="id39">user_</span></a> user fields,
 ActionKit has a fast processing path.
 This doesn’t work, if you upload a zipped csv though.</dd>
 </dl>
@@ -686,7 +745,7 @@ res: requests http response object</dd>
 <dd><p>Bulk upload a table of new users or user updates.
 See <a class="reference external" href="https://roboticdogs.actionkit.com/docs/manual/api/rest/uploads.html">ActionKit User Upload Documentation</a>
 Be careful that blank values in columns will overwrite existing data.</p>
-<p>Tables with only an identifying column (user_id/email) and <a href="#id10"><span class="problematic" id="id11">user_</span></a> user fields
+<p>Tables with only an identifying column (user_id/email) and <a href="#id40"><span class="problematic" id="id41">user_</span></a> user fields
 will be fast-processed – this is useful for setting/updating user fields.</p>
 <div class="admonition note">
 <p class="first admonition-title">Note</p>
@@ -702,7 +761,7 @@ which is more likely to return the proper 400 with a useful error message</p>
 <dd>A Table of user data to bulk upload
 A user_id or email column is required.</dd>
 <dt>autocreate_user_fields: bool</dt>
-<dd>When True columns starting with “<a href="#id12"><span class="problematic" id="id13">user_</span></a>” will be uploaded as user fields.
+<dd>When True columns starting with “<a href="#id42"><span class="problematic" id="id43">user_</span></a>” will be uploaded as user fields.
 <a class="reference external" href="https://actionkit.com/">ActionKit</a>.
 See the autocreate_user_fields <a class="reference external" href="https://roboticdogs.actionkit.com/docs/manual/api/rest/uploads.html#create-a-multipart-post-request">documentation</a>.</dd>
 <dt>no_overwrite_on_empty: bool</dt>

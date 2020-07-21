@@ -196,7 +196,7 @@
 
 <div class="viewcode-block" id="ActionKit"><a class="viewcode-back" href="../../../action_kit.html#parsons.ActionKit">[docs]</a><span class="k">class</span> <span class="nc">ActionKit</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Instatiate the ActionKit class</span>
+<span class="sd">    Instantiate the ActionKit class</span>
 
 <span class="sd">    `Args:`</span>
 <span class="sd">        domain: str</span>
@@ -206,7 +206,7 @@
 <span class="sd">            The authorized ActionKit username. Not required if ``ACTION_KIT_USERNAME`` env</span>
 <span class="sd">            variable set.</span>
 <span class="sd">        password: str</span>
-<span class="sd">            The authorized ActionKit user password. Not required if ``ACTION_KIT_USERNAME``</span>
+<span class="sd">            The authorized ActionKit user password. Not required if ``ACTION_KIT_PASSWORD``</span>
 <span class="sd">            env variable set.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
@@ -313,8 +313,10 @@
 <span class="sd">        `Args:`</span>
 <span class="sd">            email: str</span>
 <span class="sd">                Email for the user</span>
-<span class="sd">            user_dict: dict</span>
-<span class="sd">                Optional; Additional user fields</span>
+<span class="sd">            **kwargs:</span>
+<span class="sd">                Optional arguments and fields to pass to the client. A full list can be found</span>
+<span class="sd">                in the `ActionKit API Documentation &lt;https://roboticdogs.actionkit.com/docs/\</span>
+<span class="sd">                manual/api/rest/actionprocessing.html&gt;`_.</span>
 <span class="sd">        `Returns:`</span>
 <span class="sd">            User json object</span>
 <span class="sd">        &quot;&quot;&quot;</span>
@@ -329,8 +331,10 @@
 <span class="sd">        `Args:`</span>
 <span class="sd">            user_id: int</span>
 <span class="sd">                The user id of the person to update</span>
-<span class="sd">            user_dict: dict</span>
-<span class="sd">                A dictionary of fields to update for the user.</span>
+<span class="sd">            **kwargs:</span>
+<span class="sd">                Optional arguments and fields to pass to the client. A full list can be found</span>
+<span class="sd">                in the `ActionKit API Documentation &lt;https://roboticdogs.actionkit.com/docs/\</span>
+<span class="sd">                manual/api/rest/actionprocessing.html&gt;`_.</span>
 <span class="sd">        `Returns:`</span>
 <span class="sd">            ``None``</span>
 <span class="sd">        &quot;&quot;&quot;</span>
@@ -345,8 +349,10 @@
 <span class="sd">        `Args:`</span>
 <span class="sd">            event_id: int</span>
 <span class="sd">                The event id of the event to update</span>
-<span class="sd">            event_dict: dict</span>
-<span class="sd">                A dictionary of fields to update for the event.</span>
+<span class="sd">            **kwargs:</span>
+<span class="sd">                Optional arguments and fields to pass to the client. A full list can be found</span>
+<span class="sd">                in the `ActionKit API Documentation &lt;https://roboticdogs.actionkit.com/docs/\</span>
+<span class="sd">                manual/api/rest/actionprocessing.html&gt;`_.</span>
 <span class="sd">        `Returns:`</span>
 <span class="sd">            ``None``</span>
 <span class="sd">        &quot;&quot;&quot;</span>
@@ -401,6 +407,10 @@
 <span class="sd">        `Args:`</span>
 <span class="sd">            name: str</span>
 <span class="sd">                The name of the campaign to create</span>
+<span class="sd">            **kwargs:</span>
+<span class="sd">                Optional arguments and fields to pass to the client. A full list can be found</span>
+<span class="sd">                in the `ActionKit API Documentation &lt;https://roboticdogs.actionkit.com/docs/\</span>
+<span class="sd">                manual/api/rest/actionprocessing.html&gt;`_.</span>
 <span class="sd">        `Returns`:</span>
 <span class="sd">            API location of new resource</span>
 <span class="sd">        &quot;&quot;&quot;</span>
@@ -445,6 +455,10 @@
 <span class="sd">                The name of the page to create</span>
 <span class="sd">            title: str</span>
 <span class="sd">                The title of the page to create</span>
+<span class="sd">            **kwargs:</span>
+<span class="sd">                Optional arguments and fields to pass to the client. A full list can be found</span>
+<span class="sd">                in the `ActionKit API Documentation &lt;https://roboticdogs.actionkit.com/docs/\</span>
+<span class="sd">                manual/api/rest/actionprocessing.html&gt;`_.</span>
 <span class="sd">        `Returns`:</span>
 <span class="sd">            API location of new resource</span>
 <span class="sd">        &quot;&quot;&quot;</span>
@@ -491,6 +505,10 @@
 <span class="sd">                The page to associate the form with</span>
 <span class="sd">            thank_you_text: str</span>
 <span class="sd">                Free form thank you text</span>
+<span class="sd">            **kwargs:</span>
+<span class="sd">                Optional arguments and fields to pass to the client. A full list can be found</span>
+<span class="sd">                in the `ActionKit API Documentation &lt;https://roboticdogs.actionkit.com/docs/\</span>
+<span class="sd">                manual/api/rest/actionprocessing.html&gt;`_.</span>
 <span class="sd">        `Returns:`</span>
 <span class="sd">            API location of new resource</span>
 <span class="sd">        &quot;&quot;&quot;</span>
@@ -538,6 +556,10 @@
 <span class="sd">                The name of the page to create</span>
 <span class="sd">            title: str</span>
 <span class="sd">                The title of the page to create</span>
+<span class="sd">            **kwargs:</span>
+<span class="sd">                Optional arguments and fields to pass to the client. A full list can be found</span>
+<span class="sd">                in the `ActionKit API Documentation &lt;https://roboticdogs.actionkit.com/docs/\</span>
+<span class="sd">                manual/api/rest/actionprocessing.html&gt;`_.</span>
 <span class="sd">        `Returns`:</span>
 <span class="sd">            API location of new resource</span>
 <span class="sd">        &quot;&quot;&quot;</span>
@@ -584,6 +606,10 @@
 <span class="sd">                The page to associate the form with</span>
 <span class="sd">            thank_you_text: str</span>
 <span class="sd">                Free form thank you text</span>
+<span class="sd">            **kwargs:</span>
+<span class="sd">                Optional arguments and fields to pass to the client. A full list can be found</span>
+<span class="sd">                in the `ActionKit API Documentation &lt;https://roboticdogs.actionkit.com/docs/\</span>
+<span class="sd">                manual/api/rest/actionprocessing.html&gt;`_.</span>
 <span class="sd">        `Returns:`</span>
 <span class="sd">            API location of new resource</span>
 <span class="sd">        &quot;&quot;&quot;</span>
@@ -603,6 +629,10 @@
 <span class="sd">                The id of the event signup to update</span>
 <span class="sd">            event_signup_dict: dict</span>
 <span class="sd">                A dictionary of fields to update for the event signup.</span>
+<span class="sd">            **kwargs:</span>
+<span class="sd">                Optional arguments and fields to pass to the client. A full list can be found</span>
+<span class="sd">                in the `ActionKit API Documentation &lt;https://roboticdogs.actionkit.com/docs/\</span>
+<span class="sd">                manual/api/rest/actionprocessing.html&gt;`_.</span>
 <span class="sd">        `Returns:`</span>
 <span class="sd">            ``None``</span>
 <span class="sd">        &quot;&quot;&quot;</span>
@@ -646,6 +676,10 @@
 <span class="sd">                The signup page to associate the followup page with</span>
 <span class="sd">            url: str</span>
 <span class="sd">                URL of the folloup page</span>
+<span class="sd">            **kwargs:</span>
+<span class="sd">                Optional arguments and fields to pass to the client. A full list can be found</span>
+<span class="sd">                in the `ActionKit API Documentation &lt;https://roboticdogs.actionkit.com/docs/\</span>
+<span class="sd">                manual/api/rest/actionprocessing.html&gt;`_.</span>
 <span class="sd">        `Returns`:</span>
 <span class="sd">            API location of new resource</span>
 <span class="sd">        &quot;&quot;&quot;</span>
@@ -668,8 +702,9 @@
 <span class="sd">            ak_id:</span>
 <span class="sd">                The action kit id of the record.</span>
 <span class="sd">            **kwargs:</span>
-<span class="sd">                Optional arguments and fields that can sent. A full list can be found</span>
-<span class="sd">                in the `ActionKit API Documentation &lt;https://roboticdogs.actionkit.com/docs/manual/api/rest/actionprocessing.html&gt;`_.</span>
+<span class="sd">                Optional arguments and fields to pass to the client. A full list can be found</span>
+<span class="sd">                in the `ActionKit API Documentation &lt;https://roboticdogs.actionkit.com/docs/\</span>
+<span class="sd">                manual/api/rest/actionprocessing.html&gt;`_.</span>
 <span class="sd">        `Returns`:</span>
 <span class="sd">            dict</span>
 <span class="sd">                The response json</span>

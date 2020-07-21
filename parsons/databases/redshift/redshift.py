@@ -765,7 +765,7 @@ class Redshift(RedshiftCreateTable, RedshiftCopyTable, RedshiftTableUtilities, R
                        WHERE {where_clause}
                        """
                 self.query_with_connection(sql, connection, commit=False)
-                logger.info(f'Target rows deleted from {target_table}.')
+                logger.debug(f'Target rows deleted from {target_table}.')
 
                 # Insert rows
                 # ALTER TABLE APPEND would be more efficient, but you can't run it in a

@@ -152,6 +152,22 @@ class ActionKit(object):
         resp = self.conn.patch(self._base_endpoint('user', user_id), data=json.dumps(kwargs))
         logger.info(f'{resp.status_code}: {user_id}')
 
+    def update_event(self, event_id, **kwargs):
+        """
+        Update an event.
+
+        `Args:`
+            event_id: int
+                The event id of the event to update
+            event_dict: dict
+                A dictionary of fields to update for the event.
+        `Returns:`
+            ``None``
+        """
+
+        resp = self.conn.patch(self._base_endpoint('event', event_id), data=json.dumps(kwargs))
+        logger.info(f'{resp.status_code}: {event_id}')
+
     def delete_user(self, user_id):
         """
         Delete a user.
@@ -391,6 +407,23 @@ class ActionKit(object):
                                page=f'/rest/v1/page/{page_id}/',
                                thank_you_text=thank_you_text,
                                **kwargs)
+
+    def update_event_signup(self, event_signup_id, **kwargs):
+        """
+        Update an event signup.
+
+        `Args:`
+            event_signup_id: int
+                The id of the event signup to update
+            event_signup_dict: dict
+                A dictionary of fields to update for the event signup.
+        `Returns:`
+            ``None``
+        """
+
+        resp = self.conn.patch(self._base_endpoint('eventsignup', event_signup_id),
+                               data=json.dumps(kwargs))
+        logger.info(f'{resp.status_code}: {event_signup_id}')
 
     def get_page_followup(self, page_followup_id):
         """

@@ -86,6 +86,19 @@ class TestActionKit(unittest.TestCase):
             data=json.dumps({'last_name': 'new name'})
         )
 
+    def test_update_event(self):
+        # Test update event
+
+        # Mock resp and status code
+        resp_mock = mock.MagicMock()
+        type(resp_mock.patch()).status_code = mock.PropertyMock(return_value=202)
+        self.actionkit.conn = resp_mock
+        self.actionkit.update_event(123, is_approved='test')
+        self.actionkit.conn.patch.assert_called_with(
+            'https://domain.actionkit.com/rest/v1/event/123/',
+            data=json.dumps({'is_approved': 'test'})
+        )
+
     def test_delete_user(self):
         # Test delete user
 
@@ -233,6 +246,19 @@ class TestActionKit(unittest.TestCase):
                 'page': '/rest/v1/page/123/',
                 'thank_you_text': 'thank you'
             })
+        )
+
+    def test_update_event_signup(self):
+        # Test update event signup
+
+        # Mock resp and status code
+        resp_mock = mock.MagicMock()
+        type(resp_mock.patch()).status_code = mock.PropertyMock(return_value=202)
+        self.actionkit.conn = resp_mock
+        self.actionkit.update_event_signup(123, email='test')
+        self.actionkit.conn.patch.assert_called_with(
+            'https://domain.actionkit.com/rest/v1/eventsignup/123/',
+            data=json.dumps({'email': 'test'})
         )
 
     def test_get_page_followup(self):

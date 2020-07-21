@@ -169,6 +169,7 @@ Indices and tables
    action_network
    airtable
    aws
+   azure
    bill_com
    braintree
    civis

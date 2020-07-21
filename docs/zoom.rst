@@ -18,7 +18,7 @@ Quick Start
   from parsons import Zoom
   zoom = Zoom()
 
-  # Get a table of host's meeting's via their email or user id.
+  # Get a table of host's meetings via their email or user id.
   mtgs_tbl = zoom.get_meetings(bob@bob.com) 
 
   # Get the list of participants in a past meeting

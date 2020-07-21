@@ -115,7 +115,7 @@ class S3(object):
         """
 
         keys_dict = dict()
-        logger.info(f'Fetching keys in {bucket} bucket')
+        logger.debug(f'Fetching keys in {bucket} bucket')
 
         continuation_token = None
 
@@ -158,7 +158,7 @@ class S3(object):
             else:
                 break
 
-        logger.info(f'Retrieved {len(keys_dict)} keys')
+        logger.debug(f'Retrieved {len(keys_dict)} keys')
         return keys_dict
 
     def key_exists(self, bucket, key):
@@ -178,10 +178,10 @@ class S3(object):
         key_count = len(self.list_keys(bucket, prefix=key))
 
         if key_count > 0:
-            logger.info(f'Found {key} in {bucket}.')
+            logger.debug(f'Found {key} in {bucket}.')
             return True
         else:
-            logger.info(f'Did not find {key} in {bucket}.')
+            logger.debug(f'Did not find {key} in {bucket}.')
             return False
 
     def create_bucket(self, bucket):

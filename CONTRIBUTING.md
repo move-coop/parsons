@@ -51,7 +51,7 @@ Finally, you'll want to [submit a pull request](#submitting-a-pull-request). And
 If required dependencies conflict with packages or modules you need for other projects, you can create and use a [virtual environment](https://docs.python.org/3/library/venv.html).
 
 ```
-python -m venv .venv       # Creates a virtual environment in the .venv folder 
+python3 -m venv .venv       # Creates a virtual environment in the .venv folder 
 source .venv/bin/activate  # Activate in Unix or MacOS
 .venv/Scripts/activate.bat # Activate in Windows 
 ```

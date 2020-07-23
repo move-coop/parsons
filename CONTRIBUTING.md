@@ -44,16 +44,6 @@ To set up your development environment:
 
 Now it's time to make your changes. We suggest taking a quick look at our [coding conventions](#coding-conventions) - it'll make the review process easier down the line. In addition to any code changes, make sure to update the documentation and the unit tests if necessary. Not sure if your changes require test or documentation updates? Just ask in Slack or through a comment on the relevant issue.  When you're done, make sure to run the [unit tests](#unit-tests) and the [linter](#linting) again.
 
-#### Installing Dependencies
-
-Before running or testing your code changes, be sure to install all of the required Python libraries that Parsons depends on.
-
-From the root of the parsons repository, use the run the following command:
-
-```bash
-> pip install -r requirements.txt
-```
-
 #### Virtual Environments
 
 If required dependencies conflict with packages or modules you need for other projects, you can create and use a [virtual environment](https://docs.python.org/3/library/venv.html).
@@ -62,6 +52,16 @@ If required dependencies conflict with packages or modules you need for other pr
 python -m venv .venv       # Creates a virtual environment in the .venv folder 
 source .venv/bin/activate  # Activate in Unix or MacOS
 .venv/Scripts/activate.bat # Activate in Windows 
+```
+
+#### Installing Dependencies
+
+Before running or testing your code changes, be sure to install all of the required Python libraries that Parsons depends on.
+
+From the root of the parsons repository, use the run the following command:
+
+```bash
+> pip install -r requirements.txt
 ```
 
 #### Unit Tests

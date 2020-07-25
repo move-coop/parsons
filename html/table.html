@@ -1243,7 +1243,30 @@ names.
 <dt><cite>Returns:</cite></dt>
 <dd><cite>Parsons Table</cite> and also updates self</dd>
 </dl>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">tbl</span> <span class="o">=</span> <span class="p">[{</span><span class="n">fn</span><span class="p">:</span> <span class="s1">&#39;Jane&#39;</span><span class="p">},</span>
+</dd></dl>
+
+<dl class="method">
+<dt id="parsons.etl.etl.ETL.map_and_coalesce_columns">
+<code class="descname">map_and_coalesce_columns</code><span class="sig-paren">(</span><em>column_map</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/etl/etl.html#ETL.map_and_coalesce_columns"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.etl.etl.ETL.map_and_coalesce_columns" title="Permalink to this definition">¶</a></dt>
+<dd><p>Coalesces columns based on multiple possible values. The columns in the map
+do not need to be in your table, so you can create a map with all possibilities.
+The coalesce will occur in the order that the columns are listed, unless the
+destination column name already exists in the table, in which case that
+value will be preferenced. This method is helpful when your input table might
+have multiple and unknown column names.
+<cite>Args:</cite></p>
+<blockquote>
+<div><dl class="docutils">
+<dt>column_map: dict</dt>
+<dd>A dictionary of columns and possible values that map to it</dd>
+</dl>
+</div></blockquote>
+<dl class="docutils">
+<dt><cite>Returns:</cite></dt>
+<dd><cite>Parsons Table</cite> and also updates self</dd>
+</dl>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">tbl</span> <span class="o">=</span> <span class="p">[{</span><span class="n">first</span><span class="p">:</span> <span class="kc">None</span><span class="p">},</span>
+       <span class="p">{</span><span class="n">fn</span><span class="p">:</span> <span class="s1">&#39;Jane&#39;</span><span class="p">},</span>
        <span class="p">{</span><span class="n">lastname</span><span class="p">:</span> <span class="s1">&#39;Doe&#39;</span><span class="p">},</span>
        <span class="p">{</span><span class="n">dob</span><span class="p">:</span> <span class="s1">&#39;1980-01-01&#39;</span><span class="p">}]</span>
 
@@ -1251,7 +1274,7 @@ names.
               <span class="n">last_name</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;ln&#39;</span><span class="p">,</span> <span class="s1">&#39;last&#39;</span><span class="p">,</span> <span class="s1">&#39;lastname&#39;</span><span class="p">],</span>
               <span class="n">date_of_birth</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;dob&#39;</span><span class="p">,</span> <span class="s1">&#39;birthday&#39;</span><span class="p">]}</span>
 
-<span class="n">tbl</span><span class="o">.</span><span class="n">map_columns</span><span class="p">(</span><span class="n">column_map</span><span class="p">)</span>
+<span class="n">tbl</span><span class="o">.</span><span class="n">map_and_coalesce_columns</span><span class="p">(</span><span class="n">column_map</span><span class="p">)</span>
 
 <span class="nb">print</span> <span class="p">(</span><span class="n">tbl</span><span class="p">)</span>
 <span class="o">&gt;&gt;</span> <span class="p">{{</span><span class="n">first_name</span><span class="p">:</span> <span class="s1">&#39;Jane&#39;</span><span class="p">,</span> <span class="n">last_name</span><span class="p">:</span> <span class="s1">&#39;Doe&#39;</span><span class="p">,</span> <span class="s1">&#39;date_of_birth&#39;</span><span class="p">:</span> <span class="s1">&#39;1908-01-01&#39;</span><span class="p">}}</span>
@@ -1945,7 +1968,30 @@ names.
 <dt><cite>Returns:</cite></dt>
 <dd><cite>Parsons Table</cite> and also updates self</dd>
 </dl>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">tbl</span> <span class="o">=</span> <span class="p">[{</span><span class="n">fn</span><span class="p">:</span> <span class="s1">&#39;Jane&#39;</span><span class="p">},</span>
+</dd></dl>
+
+<dl class="method">
+<dt>
+<code class="descname">map_and_coalesce_columns</code><span class="sig-paren">(</span><em>column_map</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/etl/etl.html#ETL.map_and_coalesce_columns"><span class="viewcode-link">[source]</span></a></dt>
+<dd><p>Coalesces columns based on multiple possible values. The columns in the map
+do not need to be in your table, so you can create a map with all possibilities.
+The coalesce will occur in the order that the columns are listed, unless the
+destination column name already exists in the table, in which case that
+value will be preferenced. This method is helpful when your input table might
+have multiple and unknown column names.
+<cite>Args:</cite></p>
+<blockquote>
+<div><dl class="docutils">
+<dt>column_map: dict</dt>
+<dd>A dictionary of columns and possible values that map to it</dd>
+</dl>
+</div></blockquote>
+<dl class="docutils">
+<dt><cite>Returns:</cite></dt>
+<dd><cite>Parsons Table</cite> and also updates self</dd>
+</dl>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">tbl</span> <span class="o">=</span> <span class="p">[{</span><span class="n">first</span><span class="p">:</span> <span class="kc">None</span><span class="p">},</span>
+       <span class="p">{</span><span class="n">fn</span><span class="p">:</span> <span class="s1">&#39;Jane&#39;</span><span class="p">},</span>
        <span class="p">{</span><span class="n">lastname</span><span class="p">:</span> <span class="s1">&#39;Doe&#39;</span><span class="p">},</span>
        <span class="p">{</span><span class="n">dob</span><span class="p">:</span> <span class="s1">&#39;1980-01-01&#39;</span><span class="p">}]</span>
 
@@ -1953,7 +1999,7 @@ names.
               <span class="n">last_name</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;ln&#39;</span><span class="p">,</span> <span class="s1">&#39;last&#39;</span><span class="p">,</span> <span class="s1">&#39;lastname&#39;</span><span class="p">],</span>
               <span class="n">date_of_birth</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;dob&#39;</span><span class="p">,</span> <span class="s1">&#39;birthday&#39;</span><span class="p">]}</span>
 
-<span class="n">tbl</span><span class="o">.</span><span class="n">map_columns</span><span class="p">(</span><span class="n">column_map</span><span class="p">)</span>
+<span class="n">tbl</span><span class="o">.</span><span class="n">map_and_coalesce_columns</span><span class="p">(</span><span class="n">column_map</span><span class="p">)</span>
 
 <span class="nb">print</span> <span class="p">(</span><span class="n">tbl</span><span class="p">)</span>
 <span class="o">&gt;&gt;</span> <span class="p">{{</span><span class="n">first_name</span><span class="p">:</span> <span class="s1">&#39;Jane&#39;</span><span class="p">,</span> <span class="n">last_name</span><span class="p">:</span> <span class="s1">&#39;Doe&#39;</span><span class="p">,</span> <span class="s1">&#39;date_of_birth&#39;</span><span class="p">:</span> <span class="s1">&#39;1908-01-01&#39;</span><span class="p">}}</span>

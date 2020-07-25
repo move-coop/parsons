@@ -418,22 +418,16 @@
 <span class="sd">        `Args:`</span>
 <span class="sd">            column_map: dict</span>
 <span class="sd">                A dictionary of columns and possible values that map to it</span>
-
 <span class="sd">        `Returns:`</span>
 <span class="sd">            `Parsons Table` and also updates self</span>
-
 <span class="sd">        .. code-block:: python</span>
-
 <span class="sd">            tbl = [{fn: &#39;Jane&#39;},</span>
 <span class="sd">                   {lastname: &#39;Doe&#39;},</span>
 <span class="sd">                   {dob: &#39;1980-01-01&#39;}]</span>
-
 <span class="sd">            column_map = {first_name: [&#39;fn&#39;, &#39;first&#39;, &#39;firstname&#39;],</span>
 <span class="sd">                          last_name: [&#39;ln&#39;, &#39;last&#39;, &#39;lastname&#39;],</span>
 <span class="sd">                          date_of_birth: [&#39;dob&#39;, &#39;birthday&#39;]}</span>
-
 <span class="sd">            tbl.map_columns(column_map)</span>
-
 <span class="sd">            print (tbl)</span>
 <span class="sd">            &gt;&gt; {{first_name: &#39;Jane&#39;, last_name: &#39;Doe&#39;, &#39;date_of_birth&#39;: &#39;1908-01-01&#39;}}</span>
 <span class="sd">        &quot;&quot;&quot;</span>
@@ -443,6 +437,56 @@
                 <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">v</span><span class="p">:</span>
                     <span class="k">if</span> <span class="n">c</span> <span class="o">==</span> <span class="n">i</span><span class="p">:</span>
                         <span class="bp">self</span><span class="o">.</span><span class="n">rename_column</span><span class="p">(</span><span class="n">c</span><span class="p">,</span> <span class="n">k</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="bp">self</span></div>
+
+<div class="viewcode-block" id="ETL.map_and_coalesce_columns"><a class="viewcode-back" href="../../../table.html#parsons.etl.etl.ETL.map_and_coalesce_columns">[docs]</a>    <span class="k">def</span> <span class="nf">map_and_coalesce_columns</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">column_map</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Coalesces columns based on multiple possible values. The columns in the map</span>
+<span class="sd">        do not need to be in your table, so you can create a map with all possibilities.</span>
+<span class="sd">        The coalesce will occur in the order that the columns are listed, unless the</span>
+<span class="sd">        destination column name already exists in the table, in which case that</span>
+<span class="sd">        value will be preferenced. This method is helpful when your input table might</span>
+<span class="sd">        have multiple and unknown column names.</span>
+<span class="sd">        `Args:`</span>
+<span class="sd">            column_map: dict</span>
+<span class="sd">                A dictionary of columns and possible values that map to it</span>
+
+<span class="sd">        `Returns:`</span>
+<span class="sd">            `Parsons Table` and also updates self</span>
+
+<span class="sd">        .. code-block:: python</span>
+
+<span class="sd">            tbl = [{first: None},</span>
+<span class="sd">                   {fn: &#39;Jane&#39;},</span>
+<span class="sd">                   {lastname: &#39;Doe&#39;},</span>
+<span class="sd">                   {dob: &#39;1980-01-01&#39;}]</span>
+
+<span class="sd">            column_map = {first_name: [&#39;fn&#39;, &#39;first&#39;, &#39;firstname&#39;],</span>
+<span class="sd">                          last_name: [&#39;ln&#39;, &#39;last&#39;, &#39;lastname&#39;],</span>
+<span class="sd">                          date_of_birth: [&#39;dob&#39;, &#39;birthday&#39;]}</span>
+
+<span class="sd">            tbl.map_and_coalesce_columns(column_map)</span>
+
+<span class="sd">            print (tbl)</span>
+<span class="sd">            &gt;&gt; {{first_name: &#39;Jane&#39;, last_name: &#39;Doe&#39;, &#39;date_of_birth&#39;: &#39;1908-01-01&#39;}}</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">column_map</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="n">coalesce_list</span> <span class="o">=</span> <span class="n">value</span>
+            <span class="c1"># if the column in the mapping dict isn&#39;t actually in the table,</span>
+            <span class="c1"># remove it from the list of columns to coalesce</span>
+            <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">coalesce_list</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">item</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">columns</span><span class="p">:</span>
+                    <span class="n">coalesce_list</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">item</span><span class="p">)</span>
+            <span class="c1"># if the key from the mapping dict already exists in the table,</span>
+            <span class="c1"># rename it so it can be coalesced with other possible columns</span>
+            <span class="k">if</span> <span class="n">key</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">columns</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">rename_column</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">key</span><span class="si">}</span><span class="s1">_temp&#39;</span><span class="p">)</span>
+                <span class="n">coalesce_list</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">key</span><span class="si">}</span><span class="s1">_temp&#39;</span><span class="p">)</span>
+
+            <span class="c1"># coalesce columns</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">coalesce_columns</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">coalesce_list</span><span class="p">,</span> <span class="n">remove_source_columns</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 
         <span class="k">return</span> <span class="bp">self</span></div>
 

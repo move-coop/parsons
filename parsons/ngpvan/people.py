@@ -363,7 +363,7 @@ class People(object):
         # Removing the fields that are not returned in MyVoters
         NOT_IN_MYVOTERS = ['codes', 'contribution_history', 'organization_roles']
 
-        if self.connection.db == 0:
+        if self.connection.db_code == 0:
             expand_fields = [v for v in expand_fields if v not in NOT_IN_MYVOTERS]
 
         logger.info(f'Getting person with {id_type} of {id} at url {url}')

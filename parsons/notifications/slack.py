@@ -92,9 +92,9 @@ class Slack(object):
         return tbl
 
     @classmethod
-    def message(cls, channel, text, webhook=None, api_key=None, parent_message_id=None):
+    def message(cls, channel, text, webhook=None, parent_message_id=None):
         """
-        Send a message to a Slack channel with a webhook falling back to using an api_key.
+        Send a message to a Slack channel with a webhook instead of an api_key.
         You might not have the full-access API key but still want to notify a channel
         `Args:`
             channel: str
@@ -105,15 +105,10 @@ class Slack(object):
             webhook: str
                 If you have a webhook url instead of an api_key
                 Looks like: https://hooks.slack.com/services/Txxxxxxx/Bxxxxxx/Dxxxxxxx
-            api_key: str
-                Same as the api_key passed to the object
             parent_message_id: str
                 The `ts` value of the parent message. If used, this will thread the message.
         """
         webhook = check('SLACK_API_WEBHOOK', webhook, optional=True)
-        if not webhook:
-            return cls(api_key=api_key).message_channel(
-                channel, text, parent_message_id=parent_message_id)
         payload = {'channel': channel, 'text': text}
         if parent_message_id:
             payload['thread_ts'] = parent_message_id

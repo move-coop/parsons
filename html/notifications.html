@@ -313,6 +313,28 @@ available fields. <cite>Notes:</cite> nested fields are unpacked.</dd>
 </dl>
 </dd></dl>
 
+<dl class="classmethod">
+<dt id="parsons.Slack.message">
+<em class="property">classmethod </em><code class="descname">message</code><span class="sig-paren">(</span><em>channel</em>, <em>text</em>, <em>webhook=None</em>, <em>parent_message_id=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/notifications/slack.html#Slack.message"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.Slack.message" title="Permalink to this definition">¶</a></dt>
+<dd><p>Send a message to a Slack channel with a webhook instead of an api_key.
+You might not have the full-access API key but still want to notify a channel
+<cite>Args:</cite></p>
+<blockquote>
+<div><dl class="docutils">
+<dt>channel: str</dt>
+<dd>The name or id of a <cite>public_channel</cite>, a <cite>private_channel</cite>, or
+an <cite>im</cite> (aka 1-1 message).</dd>
+<dt>text: str</dt>
+<dd>Text of the message to send.</dd>
+<dt>webhook: str</dt>
+<dd>If you have a webhook url instead of an api_key
+Looks like: <a class="reference external" href="https://hooks.slack.com/services/Txxxxxxx/Bxxxxxx/Dxxxxxxx">https://hooks.slack.com/services/Txxxxxxx/Bxxxxxx/Dxxxxxxx</a></dd>
+<dt>parent_message_id: str</dt>
+<dd>The <cite>ts</cite> value of the parent message. If used, this will thread the message.</dd>
+</dl>
+</div></blockquote>
+</dd></dl>
+
 <dl class="method">
 <dt id="parsons.Slack.message_channel">
 <code class="descname">message_channel</code><span class="sig-paren">(</span><em>channel</em>, <em>text</em>, <em>as_user=False</em>, <em>parent_message_id=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/notifications/slack.html#Slack.message_channel"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.Slack.message_channel" title="Permalink to this definition">¶</a></dt>

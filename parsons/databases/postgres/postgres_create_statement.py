@@ -238,6 +238,10 @@ class PostgresCreateStatement(object):
                 logger.info(f'Column {c[:10]}... too long. Truncating column name.')
                 c = c[:120]
 
+            # Check for duplicate column names and add index if a dupe is found.
+            if c in clean_columns:
+                c = f'{c}_{idx}'
+
             clean_columns.append(c)
 
         return clean_columns

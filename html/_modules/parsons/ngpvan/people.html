@@ -546,6 +546,12 @@
 
         <span class="n">expand_fields</span> <span class="o">=</span> <span class="s1">&#39;,&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="n">json_format</span><span class="o">.</span><span class="n">arg_format</span><span class="p">(</span><span class="n">f</span><span class="p">)</span> <span class="k">for</span> <span class="n">f</span> <span class="ow">in</span> <span class="n">expand_fields</span><span class="p">])</span>
 
+        <span class="c1"># Removing the fields that are not returned in MyVoters</span>
+        <span class="n">NOT_IN_MYVOTERS</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;codes&#39;</span><span class="p">,</span> <span class="s1">&#39;contribution_history&#39;</span><span class="p">,</span> <span class="s1">&#39;organization_roles&#39;</span><span class="p">]</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">connection</span><span class="o">.</span><span class="n">db_code</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">expand_fields</span> <span class="o">=</span> <span class="p">[</span><span class="n">v</span> <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">expand_fields</span> <span class="k">if</span> <span class="n">v</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">NOT_IN_MYVOTERS</span><span class="p">]</span>
+
         <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Getting person with </span><span class="si">{</span><span class="n">id_type</span><span class="si">}</span><span class="s1"> of </span><span class="si">{</span><span class="nb">id</span><span class="si">}</span><span class="s1"> at url </span><span class="si">{</span><span class="n">url</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">connection</span><span class="o">.</span><span class="n">get_request</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;$expand&#39;</span><span class="p">:</span> <span class="n">expand_fields</span><span class="p">})</span></div>
 

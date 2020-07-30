@@ -1,9 +1,12 @@
 GitHub
 ======
 
-`GitHub <https://github.com>`_ is an online tool for software collaboration. If you have a GitHub account you
-can use your normal username and password to authenticate with the API or you can use `a personal access token
-<https://docs.github.com/en/github/authenticating-to-github/creating-a-personal-access-token>`_.
+`GitHub <https://github.com>`_ is an online tool for software collaboration.
+
+.. note::
+   API Credentials
+      - If you have a GitHub account you can use your normal username and password to authenticate with the API.
+      - You can also use `a personal access token <https://docs.github.com/en/github/authenticating-to-github/creating-a-personal-access-token>`_.
 
 **********
 Quickstart

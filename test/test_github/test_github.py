@@ -1,10 +1,12 @@
 import os
 import unittest
+from unittest.mock import patch
 
 import requests_mock
+from github.GithubException import UnknownObjectException
 
 from parsons.etl.table import Table
-from parsons.github.github import GitHub
+from parsons.github.github import GitHub, ParsonsGitHubError
 
 _dir = os.path.dirname(__file__)
 
@@ -14,9 +16,12 @@ class TestGitHub(unittest.TestCase):
     def setUp(self):
         self.github = GitHub(access_token='token')
 
-    def test_client(self):
-        with self.assertRaises(KeyError):
-            GitHub(None)
+    @requests_mock.Mocker()
+    def test_wrap_github_404(self, m):
+        with patch("github.Github.get_repo") as get_repo_mock:
+            get_repo_mock.side_effect = UnknownObjectException("", "")
+            with self.assertRaises(ParsonsGitHubError):
+                self.github.get_repo("octocat/Hello-World")
 
     @requests_mock.Mocker()
     def test_get_repo(self, m):

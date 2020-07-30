@@ -1,7 +1,9 @@
 import logging
+from functools import partial, wraps
 
 import requests
 from github import Github as PyGithub
+from github.GithubException import UnknownObjectException
 
 from parsons.etl.table import Table
 from parsons.utilities import check_env, files
@@ -9,11 +11,50 @@ from parsons.utilities import check_env, files
 logger = logging.getLogger(__name__)
 
 
+def _wrap_method(decorator, method):
+    def _wrapper(self, *args, **kwargs):
+        bound_method = partial(method.__get__(self, type(self)))
+        return decorator(bound_method)(*args, **kwargs)
+    return _wrapper
+
+
+def decorate_methods(decorator):
+    # Based on Django's django.utils.decorators.method_decorator
+    def decorate(cls):
+        for method in dir(cls):
+            # Don't decorate dunder methods
+            if method.startswith("__"):
+                continue
+            cls_method = getattr(cls, method)
+            if callable(cls_method):
+                setattr(cls, method, _wrap_method(decorator, cls_method))
+        return cls
+    return decorate
+
+
+def wrap_github_404(func):
+    @wraps(func)
+    def _wrapped_func(*args, **kwargs):
+        try:
+            return (func)(*args, **kwargs)
+        except UnknownObjectException:
+            raise ParsonsGitHubError(
+                "Couldn't find the object you referenced, maybe you need to log in?"
+            )
+    return _wrapped_func
+
+
+class ParsonsGitHubError(Exception):
+    pass
+
+
+@decorate_methods(wrap_github_404)
 class GitHub(object):
     """Creates a GitHub class for accessing the GitHub API.
 
     Uses ``parsons.utilities.check_env`` to load credentials from environment variables if not
-    supplied, and requires either an access token or a username and password.
+    supplied. Supports either a username and password or an access token for authentication. The
+    client also supports unauthenticated access.
 
     Args:
         username: Optional[str]
@@ -38,36 +79,34 @@ class GitHub(object):
         elif self.access_token:
             self.client = PyGithub(self.access_token)
         else:
-            raise KeyError(
-                'username, password or access_token must be supplied to use the GitHub connector'
-            )
+            self.client = PyGithub()
 
-    def _as_table(self, paginated_list, page, page_size):
-        """Converts a single page in a paginated list into a Parsons ``Table``. Uses the
-        ``_rawData`` property of each item instead of calling ``raw_data`` to avoid making a
-        separate request for each item in a page for types that PyGithub doesn't consider complete.
+    def _as_table(self, paginated_list, page=None, page_size=100):
+        """Converts a paginated list into a Parsons ``Table``. Uses the ``_rawData`` property of
+        each item instead of calling ``raw_data`` to avoid making a separate request for each item
+        in a page for types that PyGithub doesn't consider complete.
 
         Args:
             paginated_list: ``pygithub.PaginatedList.PaginatedList``
                 PyGithub paginated list
-            page: int
-                Page number to load
+            page: Optional[int]
+                Page number to load. Defaults to None. If not specified, all results are returned.
             page_size: int
-                Page size
+                Page size. Defaults to 100. Ignored if ``page`` is not set.
 
         Returns:
             ``Table``
                 Table object created from the raw data of the list
         """
 
-        page_start = (page - 1) * page_size
-        page_end = page_start + page_size
+        if page is not None:
+            page_start = (page - 1) * page_size
+            page_end = page_start + page_size
+            list_pages = paginated_list[page_start:page_end]
+        else:
+            list_pages = paginated_list
 
-        return Table([
-            list_item._rawData
-            for list_item
-            in paginated_list[page_start:page_end]]
-        )
+        return Table([list_item._rawData for list_item in list_pages])
 
     def get_user(self, username):
         """Loads a GitHub user by username
@@ -111,16 +150,16 @@ class GitHub(object):
 
         return self.client.get_repo(repo_name).raw_data
 
-    def list_user_repos(self, username, page=1, page_size=25):
+    def list_user_repos(self, username, page=None, page_size=100):
         """List user repos with pagination, returning a ``Table``
 
         Args:
             username: str
                 GitHub username
-            page: int
-                Page number. Defaults to 1
+            page: Optional[int]
+                Page number. All results are returned if not set.
             page_size: int
-                Page size. Defaults to 25.
+                Page size. Defaults to 100.
 
         Returns:
             ``Table``
@@ -129,18 +168,20 @@ class GitHub(object):
 
         logger.info(f'Listing page {page} of repos for user {username}')
 
-        return self._as_table(self.client.get_user(username).get_repos(), page, page_size)
+        return self._as_table(
+            self.client.get_user(username).get_repos(), page=page, page_size=page_size
+        )
 
-    def list_organization_repos(self, organization_name, page=1, page_size=25):
+    def list_organization_repos(self, organization_name, page=None, page_size=100):
         """List organization repos with pagination, returning a ``Table``
 
         Args:
             organization_name: str
                 GitHub organization name
-            page: int
-                Page number. Defaults to 1.
+            page: Optional[int]
+                Page number. All results are returned if not set.
             page_size: int
-                Page size. Defaults to 25.
+                Page size. Defaults to 100.
 
         Returns:
             ``Table``
@@ -150,7 +191,9 @@ class GitHub(object):
         logger.info(f'Listing page {page} of repos for organization {organization_name}')
 
         return self._as_table(
-            self.client.get_organization(organization_name).get_repos(), page, page_size
+            self.client.get_organization(organization_name).get_repos(),
+            page=page,
+            page_size=page_size,
         )
 
     def get_issue(self, repo_name, issue_number):
@@ -170,8 +213,8 @@ class GitHub(object):
         return self.client.get_repo(repo_name).get_issue(number=issue_number).raw_data
 
     def list_repo_issues(self, repo_name, state="open", assignee=None, creator=None, mentioned=None,
-                         labels=[], sort="created", direction="desc", since=None, page=1,
-                         page_size=25):
+                         labels=[], sort="created", direction="desc", since=None, page=None,
+                         page_size=100):
         """List issues for a given repo
 
         Args:
@@ -194,10 +237,10 @@ class GitHub(object):
                 Direction to sort. One of "asc", "desc". Defaults to "desc".
             since: Optional[Union[datetime.datetime, datetime.date]]
                 Timestamp to pull issues since. Defaults to None.
-            page: int
-                Page number. Defaults to 1.
+            page: Optional[int]
+                Page number. All results are returned if not set.
             page_size: int
-                Page size. Defaults to 25.
+                Page size. Defaults to 100.
 
         Returns:
             ``Table``
@@ -219,7 +262,9 @@ class GitHub(object):
             kwargs_dict["since"] = f'{since.isoformat()[:19]}Z'
 
         return self._as_table(
-            self.client.get_repo(repo_name).get_issues(**kwargs_dict), page, page_size
+            self.client.get_repo(repo_name).get_issues(**kwargs_dict),
+            page=page,
+            page_size=page_size,
         )
 
     def get_pull_request(self, repo_name, pull_request_number):
@@ -239,7 +284,7 @@ class GitHub(object):
         return self.client.get_repo(repo_name).get_pull(pull_request_number).raw_data
 
     def list_repo_pull_requests(self, repo_name, state="open", base=None, sort="created",
-                                direction="desc", page=1, page_size=25):
+                                direction="desc", page=None, page_size=100):
         """Lists pull requests for a given repo
 
         Args:
@@ -254,10 +299,10 @@ class GitHub(object):
                 "created".
             direction: str
                 Direction to sort by. Defaults to "desc".
-            page: int
-                Page number. Defaults to 1.
+            page: Optional[int]
+                Page number. All results are returned if not set.
             page_size: int
-                Page size. Defaults to 25.
+                Page size. Defaults to 100.
 
         Returns:
             ``Table``
@@ -270,18 +315,20 @@ class GitHub(object):
         if base:
             kwargs_dict["base"] = base
 
-        self._as_table(self.client.get_repo(repo_name).get_pulls(**kwargs_dict), page, page_size)
+        self._as_table(
+            self.client.get_repo(repo_name).get_pulls(**kwargs_dict), page=page, page_size=page_size
+        )
 
-    def list_repo_contributors(self, repo_name, page=1, page_size=25):
+    def list_repo_contributors(self, repo_name, page=None, page_size=100):
         """Lists contributors for a given repo
 
         Args:
             repo_name: str
                 Full repo name (account/name)
-            page: int
-                Page number. Defaults to 1.
+            page: Optional[int]
+                Page number. All results are returned if not set.
             page_size: int
-                Page size. Defaults to 25.
+                Page size. Defaults to 100.
 
         Returns:
             ``Table``
@@ -290,7 +337,9 @@ class GitHub(object):
 
         logger.info(f'Listing page {page} of contributors for repo {repo_name}')
 
-        return self._as_table(self.client.get_repo(repo_name).get_contributors(), page, page_size)
+        return self._as_table(
+            self.client.get_repo(repo_name).get_contributors(), page=page, page_size=page_size
+        )
 
     def download_file(self, repo_name, path, branch=None, local_path=None):
         """Download a file from a repo by path and branch. Defaults to the repo's default branch if

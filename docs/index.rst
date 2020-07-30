@@ -178,6 +178,7 @@ Indices and tables
    databases
    facebook_ads
    freshdesk
+   github
    google
    hustle
    mailchimp

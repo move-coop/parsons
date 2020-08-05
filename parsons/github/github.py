@@ -1,6 +1,7 @@
 import logging
 from functools import partial, wraps
 
+import petl
 import requests
 from github import Github as PyGithub
 from github.GithubException import UnknownObjectException
@@ -349,6 +350,9 @@ class GitHub(object):
         to 1MB from a repo directly, and the process for downloading larger files through the API is
         much more involved.
 
+        Because download_url does not go through the API, it does not support username / password
+        authentication, and requires a token to authenticate.
+
         Args:
             repo_name: str
                 Full repo name (account/name)
@@ -365,7 +369,7 @@ class GitHub(object):
         """
 
         if not local_path:
-            local_path = files.create_temp_file_for_path('TEMPFILEGITHUB')
+            local_path = files.create_temp_file_for_path(path)
 
         repo = self.client.get_repo(repo_name)
         if branch is None:
@@ -373,10 +377,47 @@ class GitHub(object):
 
         logger.info(f'Downloading {path} from {repo_name}, branch {branch} to {local_path}')
 
-        res = requests.get(f'https://raw.githubusercontent.com/{repo_name}/{branch}/{path}')
+        headers = None
+        if self.access_token:
+            headers = {
+                'Authorization': f'token {self.access_token}',
+            }
+
+        res = requests.get(f'https://raw.githubusercontent.com/{repo_name}/{branch}/{path}',
+                           headers=headers)
+
+        if res.status_code == 404:
+            raise UnknownObjectException(status=404, data=res.content)
+        elif res.status_code != 200:
+            raise ParsonsGitHubError(
+                f'Error downloading {path} from repo {repo_name}: {res.content}')
+
         with open(local_path, 'wb') as f:
             f.write(res.content)
 
         logger.info(f'Downloaded {path} to {local_path}')
 
         return local_path
+
+    def download_table(self, repo_name, path, branch=None, local_path=None, delimiter=','):
+        """Download a CSV file from a repo by path and branch as a Parsons Table.
+
+        Args:
+            repo_name: str
+                Full repo name (account/name)
+            path: str
+                Path from the repo base directory
+            branch: Optional[str]
+                Branch to download file from. Defaults to repo default branch
+            local_path: Optional[str]
+                Local file path to download file to. Will create a temp file if not supplied.
+            delimiter: Optional[str]
+                The CSV delimiter to use to parse the data. Defaults to ','
+
+        Returns:
+            Table
+                Table built with the CSV data
+        """
+        downloaded_file = self.download_file(repo_name, path, branch, local_path)
+
+        return Table(petl.fromcsv(downloaded_file, delimiter=delimiter))

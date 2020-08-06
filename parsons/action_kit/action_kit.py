@@ -572,16 +572,20 @@ class ActionKit(object):
         if isinstance(csv_file, str):
             csv_file = open(csv_file, 'rb')
 
-        res = upload_client.post(
-            self._base_endpoint('upload'),
-            files={'upload': csv_file},
-            data={'page': import_page,
-                  'autocreate_user_fields': int(autocreate_user_fields),
-                  'user_fields_only': int(user_fields_only)})
-        rv = {'res': res,
-              'success': res.status_code == 201,
-              'progress_url': res.headers.get('Location')}
-        return rv
+        url = self._base_endpoint('upload')
+        files = {'upload': csv_file}
+        data = {
+            'page': import_page,
+            'autocreate_user_fields': int(autocreate_user_fields),
+            'user_fields_only': int(user_fields_only),
+        }
+        with upload_client.post(url, files=files, data=data) as res:
+            rv = {
+                'res': res,
+                'success': res.status_code == 201,
+                'progress_url': res.headers.get('Location')
+            }
+            return rv
 
     def bulk_upload_table(self, table, import_page, autocreate_user_fields=0,
                           no_overwrite_on_empty=False):

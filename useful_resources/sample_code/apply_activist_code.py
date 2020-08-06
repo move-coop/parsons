@@ -1,22 +1,40 @@
+### METADATA
+
+# Connectors: Redshift, VAN
+# Description: Gets activist codes stored in redshift and applies to users in Van
+
+
+### CONFIGURATION
+
+# Set the configuration variables below or set environmental variables of the same name and leave these
+# with empty strings.  We recommend using environmental variables if possible.
+
+config_vars = {
+    # Redshift  (note: this assumes a Civis Platform parameter called "REDSHIFT")
+    "REDSHIFT_PORT": "",
+    "REDSHIFT_DB": "",
+    "REDSHIFT_HOST": "",
+    "REDSHIFT_CREDENTIAL_USERNAME": "",
+    "REDSHIFT_CREDENTIAL_PASSWORD": "",
+    # Van  (note: below, we'll be dynamically reading API keys from multiline Civis credential)
+    "VAN_PASSWORD": "",
+    "VAN_DB_NAME": ""   #  FIXME: script had 'MyVoters' - is this a universal default?
+}
+
+
+### CODE
+
 from parsons import Table, Redshift, VAN
 import logging
 import os
 
-# Redshift setup - this assumes a Civis Platform parameter called "REDSHIFT"
+# Setup
 
-set_env_var(os.environ['REDSHIFT_PORT'])
-set_env_var(os.environ['REDSHIFT_DB'])
-set_env_var(os.environ['REDSHIFT_HOST'])
-set_env_var(os.environ['REDSHIFT_CREDENTIAL_USERNAME'])
-set_env_var(os.environ['REDSHIFT_CREDENTIAL_PASSWORD'])
-rs = Redshift()
+for name, value in config_vars.items():    # sets variables if provided in this script
+    if value.strip() != "":
+        os.environ[name] = value
 
-# AWS setup - this assumes a Civis Platform parameter called "AWS"
-
-set_env_var('S3_TEMP_BUCKET', 'parsons-tmc')
-set_env_var('AWS_ACCESS_KEY_ID', os.environ['AWS_ACCESS_KEY_ID'])
-set_env_var('AWS_SECRET_ACCESS_KEY', os.environ['AWS_SECRET_ACCESS_KEY'])
-s3 = S3()
+rs = Redshift()   # just create Redshift() - VAN connector is created dynamically below
 
 # Logging
 
@@ -30,7 +48,7 @@ logger.setLevel('INFO')
 # Create dictionary of VAN states and API keys from multiline Civis credential
 
 myv_states = {x.split(",")[0]: x.split(",")[1] for x in os.environ['VAN_PASSWORD'].split("\r\n")}
-myv_keys = {k: VAN(api_key=v, db='MyVoters') for k,v in myv_states.items()}
+myv_keys = {k: VAN(api_key=v, db=os.environ['VAN_DB_NAME']) for k,v in myv_states.items()}
 
 # Create simple set of states for insertion into SQL
 states = "','".join([s for s in myv_keys])

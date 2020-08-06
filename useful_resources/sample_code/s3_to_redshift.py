@@ -1,21 +1,41 @@
-import os
-import logging
+### METADATA
+
+# Connectors: Redshift, S3
+# Description: Moves files from S3 to Reshift
+
+
+### CONFIGURATION
+
+# Set the configuration variables below or set environmental variables of the same name and leave these
+# with empty strings.  We recommend using environmental variables if possible.
+
+config_vars = {
+    # Redshift  (note: this assumes a Civis Platform parameter called "REDSHIFT")
+    "REDSHIFT_PORT": "",
+    "REDSHIFT_DB": "",
+    "REDSHIFT_HOST": "",
+    "REDSHIFT_CREDENTIAL_USERNAME": "",
+    "REDSHIFT_CREDENTIAL_PASSWORD": "",
+    # S3  (note: this assumes a Civis Platform parameter called "AWS")
+    "S3_TEMP_BUCKET": "",
+    "AWS_ACCESS_KEY_ID": "",
+    "AWS_SECRET_ACCESS_KEY": "",
+    "BUCKET": ""    # FIXME: how does this differ from S3_TEMP_BUCKET?
+}
+
+
+### CODE
+
+import os, logging
 from parsons import Redshift, S3, utilities
 
-# Redshift setup - this assumes a Civis Platform parameter called "REDSHIFT"
+# Setup
 
-set_env_var(os.environ['REDSHIFT_PORT'])
-set_env_var(os.environ['REDSHIFT_DB'])
-set_env_var(os.environ['REDSHIFT_HOST'])
-set_env_var(os.environ['REDSHIFT_CREDENTIAL_USERNAME'])
-set_env_var(os.environ['REDSHIFT_CREDENTIAL_PASSWORD'])
+for name, value in config_vars.items():    # sets variables if provided in this script
+    if value.strip() != "":
+        os.environ[name] = value
+
 rs = Redshift()
-
-# AWS setup - this assumes a Civis Platform parameter called "AWS"
-
-set_env_var('S3_TEMP_BUCKET', 'parsons-tmc')
-set_env_var('AWS_ACCESS_KEY_ID', os.environ['AWS_ACCESS_KEY_ID'])
-set_env_var('AWS_SECRET_ACCESS_KEY', os.environ['AWS_SECRET_ACCESS_KEY'])
 s3 = S3()
 
 # Logging
@@ -27,10 +47,9 @@ _handler.setFormatter(_formatter)
 logger.addHandler(_handler)
 logger.setLevel('INFO')
 
+# Code
 
 bucket = os.environ['BUCKET']
-schema = os.environ['SCHEMA']
-
 keys = s3.list_keys(bucket)
 files = keys.keys()
 

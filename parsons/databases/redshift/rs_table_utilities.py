@@ -1,4 +1,5 @@
 import logging
+import pkgutil
 
 logger = logging.getLogger(__name__)
 
@@ -601,9 +602,13 @@ class RedshiftTableUtilities(object):
         conditions_str = ' and '.join(conditions)
         where_clause = f"where {conditions_str}" if conditions_str else ''
 
+        ddl_query = pkgutil.get_data(
+            __name__, "queries/v_generate_tbl_ddl.sql").decode()
         sql_get_ddl = f"""
             select *
-            from admin.v_generate_tbl_ddl
+            from (
+                {ddl_query}
+            )
             {where_clause}
         """
         ddl_table = self.query(sql_get_ddl)
@@ -674,9 +679,13 @@ class RedshiftTableUtilities(object):
         conditions_str = ' and '.join(conditions)
         where_clause = f"where {conditions_str}" if conditions_str else ''
 
+        ddl_query = pkgutil.get_data(
+            __name__, "queries/v_generate_view_ddl.sql").decode()
         sql_get_ddl = f"""
             select schemaname || '.' || viewname as viewname, ddl
-            from admin.v_generate_view_ddl g
+            from (
+                {ddl_query}
+            )
             {where_clause}
         """
         ddl_view = self.query(sql_get_ddl)

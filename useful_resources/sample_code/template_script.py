@@ -21,8 +21,8 @@ config_vars = {
 
 ### CODE
 
-import os, logging                 # //To Script Writer//: import any other packages your script uses
-from parsons import utilities      # //To Script Writer//: import any connectors your script uses
+import os                                # //To Script Writer//: import any other packages your script uses
+from parsons import utilities, logger    # //To Script Writer//: import any connectors your script uses
 
 # Setup
 
@@ -32,14 +32,4 @@ for name, value in config_vars.items():    # if variables specified above, sets 
 
 # //To Script Writer// : instantiate connectors here, eg: rs = Redshift().
 
-# Logging
-
-logger = logging.getLogger(__name__)
-_handler = logging.StreamHandler()
-_formatter = logging.Formatter('%(levelname)s %(message)s')
-_handler.setFormatter(_formatter)
-logger.addHandler(_handler)
-logger.setLevel('INFO')
-
 # Code
-

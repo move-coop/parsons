@@ -520,7 +520,7 @@ class Redshift(RedshiftCreateTable, RedshiftCopyTable, RedshiftTableUtilities, R
                 if key and cleanup_s3_file:
                     self.temp_s3_delete(key)
 
-    def unload(self, sql, bucket, key_prefix, manifest=True, header=True, compression='gzip',
+    def unload(self, sql, bucket, key_prefix, manifest=True, header=True, delimiter='|' compression='gzip',
                add_quotes=True, null_as=None, escape=True, allow_overwrite=True,
                parallel=True, max_file_size='6.2 GB', aws_region=None,
                aws_access_key_id=None, aws_secret_access_key=None):
@@ -540,6 +540,8 @@ class Redshift(RedshiftCreateTable, RedshiftCopyTable, RedshiftTableUtilities, R
             that are created by the UNLOAD process.
         header: boolean
             Adds a header line containing column names at the top of each output file.
+        delimiter: str
+            Specificies the character used to separate fields. Defaults to '|'.
         compression: str
             One of ``gzip``, ``bzip2`` or ``None``. Unloads data to one or more compressed
             files per slice. Each resulting file is appended with a ``.gz`` or ``.bz2`` extension.
@@ -575,6 +577,11 @@ class Redshift(RedshiftCreateTable, RedshiftCopyTable, RedshiftTableUtilities, R
             required if keys are stored as environmental variables.
         """  # NOQA W605
 
+        # The sql query is provided between single quotes, therefore single
+        # quotes within the actual query must be escaped.
+        # https://docs.aws.amazon.com/redshift/latest/dg/r_UNLOAD.html#unload-parameters
+        sql = sql.replace("'", "''")
+
         statement = f"""
                      UNLOAD ('{sql}') to 's3://{bucket}/{key_prefix}' \n
                      {self.get_creds(aws_access_key_id, aws_secret_access_key)} \n
@@ -585,6 +592,8 @@ class Redshift(RedshiftCreateTable, RedshiftCopyTable, RedshiftTableUtilities, R
             statement += "MANIFEST \n"
         if header:
             statement += "HEADER \n"
+        if delimiter:
+            statement += f"DELIMITER as {delimiter}"
         if compression:
             statement += f"{compression.upper()} \n"
         if add_quotes:

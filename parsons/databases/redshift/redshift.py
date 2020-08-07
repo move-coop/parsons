@@ -603,9 +603,9 @@ class Redshift(RedshiftCreateTable, RedshiftCopyTable, RedshiftTableUtilities, R
         if escape:
             statement += "ESCAPE \n"
         if allow_overwrite:
-            statement += "ALLOWOVERWRITE"
+            statement += "ALLOWOVERWRITE \n"
         if aws_region:
-            statement += f"REGION {aws_region}"
+            statement += f"REGION {aws_region} \n"
 
         logger.info(f'Unloading data to s3://{bucket}/{key_prefix}')
         logger.debug(statement)

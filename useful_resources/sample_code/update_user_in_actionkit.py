@@ -2,6 +2,7 @@
 
 # Connectors: Redshift, ActionKit
 # Description: Adds a voterbase_id (the Targetsmart ID) to users in ActionKit
+# Parsons Version: unknown
 
 
 ### CONFIGURATION
@@ -10,13 +11,13 @@
 # with empty strings.  We recommend using environmental variables if possible.
 
 config_vars = {
-    # Redshift  (note: this assumes a Civis Platform parameter called "REDSHIFT")
+    # Redshift
     "REDSHIFT_PORT": "",
     "REDSHIFT_DB": "",
     "REDSHIFT_HOST": "",
     "REDSHIFT_CREDENTIAL_USERNAME": "",
     "REDSHIFT_CREDENTIAL_PASSWORD": "",
-    # ActionKit  (note: this assumes a Civis Platform Customo Credential parameter called "AK")
+    # ActionKit 
     "AK_USERNAME": "",
     "AK_PASSWORD": "",
     "AK_DOMAIN": ""
@@ -24,10 +25,8 @@ config_vars = {
 
 ### CODE
 
-# Civis Container Link: https://platform.civisanalytics.com/spa/#/scripts/containers/33553735
-
-import sys, os, datetime, logging
-from parsons import Redshift, Table, ActionKit
+import sys, os, datetime
+from parsons import Redshift, Table, ActionKit, logger
 
 # Setup
 
@@ -37,15 +36,6 @@ for name, value in config_vars.items():    # sets variables if provided in this 
 
 rs = Redshift()
 ak = ActionKit()
-
-# Logging
-
-logger = logging.getLogger(__name__)
-_handler = logging.StreamHandler()
-_formatter = logging.Formatter('%(levelname)s %(message)s')
-_handler.setFormatter(_formatter)
-logger.addHandler(_handler)
-logger.setLevel('INFO')
 
 # This example involves adding a voterbase_id (the Targetsmart ID) to a user in ActionKit
 
@@ -76,7 +66,7 @@ if source_data.num_rows > 0:
             loaded.append([row['id'], row['voterbase_id'],timestamp])
 
     logger.info("Done with loop! Loading into log table...")
-    Table(loaded).to_redshift(log_table,if_exists='append')
+    Table(loaded).to_redshift(log_table, if_exists='append')
 
 else:
     logger.info(f"No one to update today...")

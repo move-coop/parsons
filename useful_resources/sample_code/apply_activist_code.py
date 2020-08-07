@@ -2,6 +2,7 @@
 
 # Connectors: Redshift, VAN
 # Description: Gets activist codes stored in redshift and applies to users in Van
+# Parsons Version: unknown
 
 
 ### CONFIGURATION
@@ -10,22 +11,22 @@
 # with empty strings.  We recommend using environmental variables if possible.
 
 config_vars = {
-    # Redshift  (note: this assumes a Civis Platform parameter called "REDSHIFT")
+    # Redshift
     "REDSHIFT_PORT": "",
     "REDSHIFT_DB": "",
     "REDSHIFT_HOST": "",
     "REDSHIFT_CREDENTIAL_USERNAME": "",
     "REDSHIFT_CREDENTIAL_PASSWORD": "",
-    # Van  (note: below, we'll be dynamically reading API keys from multiline Civis credential)
+    # Van  
     "VAN_PASSWORD": "",
-    "VAN_DB_NAME": ""   #  FIXME: script had 'MyVoters' - is this a universal default?
+    "VAN_DB_NAME": ""
 }
 
 
 ### CODE
 
 from parsons import Table, Redshift, VAN
-import logging
+from parsons import logger
 import os
 
 # Setup
@@ -35,15 +36,6 @@ for name, value in config_vars.items():    # sets variables if provided in this 
         os.environ[name] = value
 
 rs = Redshift()   # just create Redshift() - VAN connector is created dynamically below
-
-# Logging
-
-logger = logging.getLogger(__name__)
-_handler = logging.StreamHandler()
-_formatter = logging.Formatter('%(levelname)s %(message)s')
-_handler.setFormatter(_formatter)
-logger.addHandler(_handler)
-logger.setLevel('INFO')
 
 # Create dictionary of VAN states and API keys from multiline Civis credential
 

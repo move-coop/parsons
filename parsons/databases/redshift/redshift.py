@@ -520,7 +520,7 @@ class Redshift(RedshiftCreateTable, RedshiftCopyTable, RedshiftTableUtilities, R
                 if key and cleanup_s3_file:
                     self.temp_s3_delete(key)
 
-    def unload(self, sql, bucket, key_prefix, manifest=True, header=True, delimiter='|' compression='gzip',
+    def unload(self, sql, bucket, key_prefix, manifest=True, header=True, delimiter='|', compression='gzip',
                add_quotes=True, null_as=None, escape=True, allow_overwrite=True,
                parallel=True, max_file_size='6.2 GB', aws_region=None,
                aws_access_key_id=None, aws_secret_access_key=None):

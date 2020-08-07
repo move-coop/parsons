@@ -651,8 +651,8 @@ class ToFrom(object):
         return pg.query(sql)
 
     @classmethod
-    def from_s3_csv(cls, bucket, key, aws_access_key_id=None, aws_secret_access_key=None,
-                    **csvargs):
+    def from_s3_csv(cls, bucket, key, from_manifest=False, aws_access_key_id=None,
+                    aws_secret_access_key=None, **csvargs):
         """
         Create a ``parsons table`` from a key in an S3 bucket.
 
@@ -661,6 +661,9 @@ class ToFrom(object):
                 The S3 bucket.
             key: str
                 The S3 key
+            from_manifest: bool
+                If True, treats `key` as a manifest file and loads all urls into a `parsons.Table`.
+                Defaults to False.
             aws_access_key_id: str
                 Required if not included as environmental variable.
             aws_secret_access_key: str
@@ -675,10 +678,26 @@ class ToFrom(object):
         s3 = S3(aws_access_key_id, aws_secret_access_key)
         file_obj = s3.get_file(bucket, key)
 
-        if files.compression_type_for_path(key) == 'zip':
-            file_obj = files.zip_archive.unzip_archive(file_obj)
+        if from_manifest:
+            with open(file_obj) as fd:
+                manifest = json.load(fd)
 
-        return cls(petl.fromcsv(file_obj, **csvargs))
+            s3_files = [x["url"] for x in manifest["entries"]]
+
+        else:
+            s3_files = [file_obj]
+
+        tbls = []
+        for file in s3_files:
+            # TODO handle urls that end with '/', i.e. urls that point to "folders"
+            _, _, bucket_, key_ = files.split("/", 3)
+            file_ = s3.get_file(bucket_, key_)
+            if files.compression_type_for_path(key_) == 'zip':
+                file_ = files.zip_archive.unzip_archive(file_)
+
+            tbls.append(petl.fromcsv(file_, **csvargs))
+
+        return cls(petl.cat(*tbls))
 
     @classmethod
     def from_dataframe(cls, dataframe, include_index=False):

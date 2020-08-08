@@ -980,7 +980,7 @@ required if keys are stored as environmental variables.</dd>
 
 <dl class="function">
 <dt id="parsons.Redshift.unload">
-<code class="descclassname">parsons.Redshift.</code><code class="descname">unload</code><span class="sig-paren">(</span><em>self</em>, <em>sql</em>, <em>bucket</em>, <em>key_prefix</em>, <em>manifest=True</em>, <em>header=True</em>, <em>compression='gzip'</em>, <em>add_quotes=True</em>, <em>null_as=None</em>, <em>escape=True</em>, <em>allow_overwrite=True</em>, <em>parallel=True</em>, <em>max_file_size='6.2 GB'</em>, <em>aws_region=None</em>, <em>aws_access_key_id=None</em>, <em>aws_secret_access_key=None</em><span class="sig-paren">)</span><a class="headerlink" href="#parsons.Redshift.unload" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">parsons.Redshift.</code><code class="descname">unload</code><span class="sig-paren">(</span><em>self</em>, <em>sql</em>, <em>bucket</em>, <em>key_prefix</em>, <em>manifest=True</em>, <em>header=True</em>, <em>delimiter='|'</em>, <em>compression='gzip'</em>, <em>add_quotes=True</em>, <em>null_as=None</em>, <em>escape=True</em>, <em>allow_overwrite=True</em>, <em>parallel=True</em>, <em>max_file_size='6.2 GB'</em>, <em>aws_region=None</em>, <em>aws_access_key_id=None</em>, <em>aws_secret_access_key=None</em><span class="sig-paren">)</span><a class="headerlink" href="#parsons.Redshift.unload" title="Permalink to this definition">¶</a></dt>
 <dd><p>Unload Redshift data to S3 Bucket. This is a more efficient method than running a query
 to export data as it can export in parallel and directly into an S3 bucket. Consider
 using this for exports of 10MM or more rows.</p>
@@ -996,6 +996,8 @@ using this for exports of 10MM or more rows.</p>
 that are created by the UNLOAD process.</dd>
 <dt>header: boolean</dt>
 <dd>Adds a header line containing column names at the top of each output file.</dd>
+<dt>delimiter: str</dt>
+<dd>Specificies the character used to separate fields. Defaults to ‘|’.</dd>
 <dt>compression: str</dt>
 <dd>One of <code class="docutils literal notranslate"><span class="pre">gzip</span></code>, <code class="docutils literal notranslate"><span class="pre">bzip2</span></code> or <code class="docutils literal notranslate"><span class="pre">None</span></code>. Unloads data to one or more compressed
 files per slice. Each resulting file is appended with a <code class="docutils literal notranslate"><span class="pre">.gz</span></code> or <code class="docutils literal notranslate"><span class="pre">.bz2</span></code> extension.</dd>

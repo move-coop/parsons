@@ -707,10 +707,10 @@
                 <span class="k">if</span> <span class="n">key</span> <span class="ow">and</span> <span class="n">cleanup_s3_file</span><span class="p">:</span>
                     <span class="bp">self</span><span class="o">.</span><span class="n">temp_s3_delete</span><span class="p">(</span><span class="n">key</span><span class="p">)</span>
 
-    <span class="k">def</span> <span class="nf">unload</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sql</span><span class="p">,</span> <span class="n">bucket</span><span class="p">,</span> <span class="n">key_prefix</span><span class="p">,</span> <span class="n">manifest</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">header</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">compression</span><span class="o">=</span><span class="s1">&#39;gzip&#39;</span><span class="p">,</span>
-               <span class="n">add_quotes</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">null_as</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">escape</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">allow_overwrite</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
-               <span class="n">parallel</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">max_file_size</span><span class="o">=</span><span class="s1">&#39;6.2 GB&#39;</span><span class="p">,</span> <span class="n">aws_region</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-               <span class="n">aws_access_key_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">aws_secret_access_key</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">unload</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sql</span><span class="p">,</span> <span class="n">bucket</span><span class="p">,</span> <span class="n">key_prefix</span><span class="p">,</span> <span class="n">manifest</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">header</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">delimiter</span><span class="o">=</span><span class="s1">&#39;|&#39;</span><span class="p">,</span>
+               <span class="n">compression</span><span class="o">=</span><span class="s1">&#39;gzip&#39;</span><span class="p">,</span> <span class="n">add_quotes</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">null_as</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">escape</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">allow_overwrite</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+               <span class="n">parallel</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">max_file_size</span><span class="o">=</span><span class="s1">&#39;6.2 GB&#39;</span><span class="p">,</span> <span class="n">aws_region</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">aws_access_key_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+               <span class="n">aws_secret_access_key</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Unload Redshift data to S3 Bucket. This is a more efficient method than running a query</span>
 <span class="sd">        to export data as it can export in parallel and directly into an S3 bucket. Consider</span>
@@ -727,6 +727,8 @@
 <span class="sd">            that are created by the UNLOAD process.</span>
 <span class="sd">        header: boolean</span>
 <span class="sd">            Adds a header line containing column names at the top of each output file.</span>
+<span class="sd">        delimiter: str</span>
+<span class="sd">            Specificies the character used to separate fields. Defaults to &#39;|&#39;.</span>
 <span class="sd">        compression: str</span>
 <span class="sd">            One of ``gzip``, ``bzip2`` or ``None``. Unloads data to one or more compressed</span>
 <span class="sd">            files per slice. Each resulting file is appended with a ``.gz`` or ``.bz2`` extension.</span>
@@ -762,6 +764,11 @@
 <span class="sd">            required if keys are stored as environmental variables.</span>
 <span class="sd">        &quot;&quot;&quot;</span>  <span class="c1"># NOQA W605</span>
 
+        <span class="c1"># The sql query is provided between single quotes, therefore single</span>
+        <span class="c1"># quotes within the actual query must be escaped.</span>
+        <span class="c1"># https://docs.aws.amazon.com/redshift/latest/dg/r_UNLOAD.html#unload-parameters</span>
+        <span class="n">sql</span> <span class="o">=</span> <span class="n">sql</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;&#39;&quot;</span><span class="p">,</span> <span class="s2">&quot;&#39;&#39;&quot;</span><span class="p">)</span>
+
         <span class="n">statement</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;&quot;&quot;</span>
 <span class="s2">                     UNLOAD (&#39;</span><span class="si">{</span><span class="n">sql</span><span class="si">}</span><span class="s2">&#39;) to &#39;s3://</span><span class="si">{</span><span class="n">bucket</span><span class="si">}</span><span class="s2">/</span><span class="si">{</span><span class="n">key_prefix</span><span class="si">}</span><span class="s2">&#39; </span><span class="se">\n</span><span class="s2"></span>
 <span class="s2">                     </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">get_creds</span><span class="p">(</span><span class="n">aws_access_key_id</span><span class="p">,</span> <span class="n">aws_secret_access_key</span><span class="p">)</span><span class="si">}</span><span class="s2"> </span><span class="se">\n</span><span class="s2"></span>
@@ -772,6 +779,8 @@
             <span class="n">statement</span> <span class="o">+=</span> <span class="s2">&quot;MANIFEST </span><span class="se">\n</span><span class="s2">&quot;</span>
         <span class="k">if</span> <span class="n">header</span><span class="p">:</span>
             <span class="n">statement</span> <span class="o">+=</span> <span class="s2">&quot;HEADER </span><span class="se">\n</span><span class="s2">&quot;</span>
+        <span class="k">if</span> <span class="n">delimiter</span><span class="p">:</span>
+            <span class="n">statement</span> <span class="o">+=</span> <span class="sa">f</span><span class="s2">&quot;DELIMITER as </span><span class="si">{</span><span class="n">delimiter</span><span class="si">}</span><span class="s2">&quot;</span>
         <span class="k">if</span> <span class="n">compression</span><span class="p">:</span>
             <span class="n">statement</span> <span class="o">+=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">compression</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span><span class="si">}</span><span class="s2"> </span><span class="se">\n</span><span class="s2">&quot;</span>
         <span class="k">if</span> <span class="n">add_quotes</span><span class="p">:</span>
@@ -781,9 +790,9 @@
         <span class="k">if</span> <span class="n">escape</span><span class="p">:</span>
             <span class="n">statement</span> <span class="o">+=</span> <span class="s2">&quot;ESCAPE </span><span class="se">\n</span><span class="s2">&quot;</span>
         <span class="k">if</span> <span class="n">allow_overwrite</span><span class="p">:</span>
-            <span class="n">statement</span> <span class="o">+=</span> <span class="s2">&quot;ALLOWOVERWRITE&quot;</span>
+            <span class="n">statement</span> <span class="o">+=</span> <span class="s2">&quot;ALLOWOVERWRITE </span><span class="se">\n</span><span class="s2">&quot;</span>
         <span class="k">if</span> <span class="n">aws_region</span><span class="p">:</span>
-            <span class="n">statement</span> <span class="o">+=</span> <span class="sa">f</span><span class="s2">&quot;REGION </span><span class="si">{</span><span class="n">aws_region</span><span class="si">}</span><span class="s2">&quot;</span>
+            <span class="n">statement</span> <span class="o">+=</span> <span class="sa">f</span><span class="s2">&quot;REGION </span><span class="si">{</span><span class="n">aws_region</span><span class="si">}</span><span class="s2"> </span><span class="se">\n</span><span class="s2">&quot;</span>
 
         <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Unloading data to s3://</span><span class="si">{</span><span class="n">bucket</span><span class="si">}</span><span class="s1">/</span><span class="si">{</span><span class="n">key_prefix</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
         <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="n">statement</span><span class="p">)</span>

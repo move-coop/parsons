@@ -12,13 +12,19 @@ additional details and information.
 
 .. note::
    API Keys
-      API Keys are specific to each committee and state, so you might need many. Not all API Keys are provisioned for all endpoints. When requesting API keys, you should specify the endpoints that you need access to. To learn more about
-      your api key run ``VAN.connection.api_key_profile``.
+      - API Keys are specific to each committee and state.
+      - There is a Parsons type API Key that can be requested via the Integrations menu on the main page. 
+      	If you have an issue gaining access to this key, or an admin has questions, please email 
+	<parsons@movementcooperative.org>.
+  
 
 .. warning::
    VANIDs
       VANIDs are unique to each state and instance of the VAN. VANIDs used for the AV VAN **will not** match
       those of the SmartVAN or VoteBuilder.
+   Maintenance & Suppoort
+      VAN/EveryAction is not responsible for support of Parsons. Their support team cannot answer questions
+      about Parsons. Please direct any questions 
 
 .. toctree::
 	:maxdepth: 1

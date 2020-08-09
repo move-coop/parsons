@@ -1,6 +1,8 @@
 Databases
 =========
 
+Parsons offers support for a variety of popular SQL database dialects. The functionality is focused on the ability to query and upload data to SQL databases. Each database class also includes the ability to infer datatypes and data schemas from a Parsons table and automatically create new tables.
+
 ***************
 Google BigQuery
 ***************
@@ -10,6 +12,30 @@ See :doc:`google` for documentation.
 *****
 MySQL
 *****
+
+MySQL is the world's most popular open source database. The Parson's class leverages on the `mysql <https://github.com/farcepest/MySQLdb1>`_ python package.
+
+===========
+Quick Start
+===========
+
+.. code-block:: python
+
+   from parsons import MySQL
+
+   # Instantiate MySQL from environmental variables
+   mysql = MySQL()
+
+   # Instantiate MySQL from passed variables
+   mysql = MySQL(username='me', password='secret', host='mydb.com', db='dev', port=3306)
+
+   # Query database
+   tbl = mysql.query('select * from my_schema.secret_sauce')
+
+   # Copy data to database
+   tbl = Table.from_csv('my_file.csv') # Load from a CSV or other source.
+   mysql.copy(tbl, 'my_schema.winning_formula')
+
 
 .. autoclass:: parsons.MySQL
    :inherited-members:
@@ -40,9 +66,9 @@ database types are:
 * Postgres
 * Redshift
 
-========
-Examples
-========
+===========
+Quick Start
+===========
 
 **Full Sync Of Tables**
 

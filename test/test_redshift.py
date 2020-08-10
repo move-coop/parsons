@@ -27,7 +27,19 @@ class TestRedshift(unittest.TestCase):
                           [2, 'John'],
                           [3, 'Sarah']])
 
+        self.tbl2 = Table([
+            ["c1", "c2", "c3", "c4", "c5", "c6", "c7"],
+            ["a", "", 1, "NA", 1.4, 1, 2],
+            ["b", "", 2, "NA", 1.4, 1, 2],
+            ["c", "", 3.4, "NA", "", "", "a"],
+            ["d", "", 5, "NA", 1.4, 1, 2],
+            ["e", "", 6, "NA", 1.4, 1, 2],
+            ["f", "", 7.8, "NA", 1.4, 1, 2],
+            ["g", "", 9, "NA", 1.4, 1, 2],
+        ])
+
         self.mapping = self.rs.generate_data_types(self.tbl)
+        self.mapping2 = self.rs.generate_data_types(self.tbl2)
 
     def test_split_full_table_name(self):
         schema, table = Redshift.split_full_table_name('some_schema.some_table')
@@ -71,6 +83,10 @@ class TestRedshift(unittest.TestCase):
         self.assertEqual(self.mapping['headers'], ['ID', 'Name'])
         # Test correct data types
         self.assertEqual(self.mapping['type_list'], ['smallint', 'varchar'])
+
+        self.assertEqual(
+            self.mapping2['type_list'],
+            ['varchar', 'varchar', 'decimal', 'varchar', "decimal", "smallint", "varchar"])
         # Test correct lengths
         self.assertEqual(self.mapping['longest'], [1, 5])
 

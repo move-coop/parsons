@@ -31,6 +31,7 @@ API
    :inherited-members:
    :members:
 
+.. _redshift:
 ********
 Redshift
 ********

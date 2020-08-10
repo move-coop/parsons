@@ -20,7 +20,7 @@ To instantiate a class, you can either pass in the API token as an argument or s
 
 .. code-block:: python
 
-   from parsons import VAN
+   from parsons import ActionNetwork
 
    # First approach: Use API credentials via environmental variables
    an = ActionNetwork()

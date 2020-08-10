@@ -208,6 +208,7 @@ Indices and tables
    :caption: Framework
    :name: framework
 
+   dbsync
    table
    notifications
 

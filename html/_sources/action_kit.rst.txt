@@ -29,7 +29,7 @@ domain, username, and password as arguments:
 
 .. code-block:: python
 
-   from parsons import VAN
+   from parsons import ActionKit
 
    # First approach: Use API credentials via environmental variables
    ak = ActionKit()

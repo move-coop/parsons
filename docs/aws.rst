@@ -24,7 +24,7 @@ S3 is Amazon Web Service's object storage service that allows users to store and
 
 .. note::
   Authentication
-    Access to S3 is controlled through AWS Identity and Access Management (IAM) users. Users can be granted granular access to AWS resources, including S3. IAM users are provisioned keys, which are required to access the S3 class. 
+    Access to S3 is controlled through AWS Identity and Access Management (IAM) users in the `AWS Managerment Console <https://aws.amazon.com/console/>`_ . Users can be granted granular access to AWS resources, including S3. IAM users are provisioned keys, which are required to access the S3 class. 
 
 ==========
 QuickStart

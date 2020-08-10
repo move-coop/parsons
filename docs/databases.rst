@@ -9,15 +9,19 @@ Parsons offers support for a variety of popular SQL database dialects. The funct
 
 Similar to other classes in Parsons, the query methods for databases all return :ref:`parsons-table`, which allow them to be easily converted to other data types.
 
+There is also support for synchronization of tables between databases as part of the :doc:`dbsync` framework.
+
 ***************
 Google BigQuery
 ***************
 
 See :doc:`google` for documentation.
 
+
 *****
 MySQL
 *****
+.. _my-sql:
 
 MySQL is the world's most popular open source database. The Parsons class leverages on the `mysql <https://github.com/farcepest/MySQLdb1>`_ python package.
 
@@ -52,6 +56,7 @@ Quick Start
 .. autoclass:: parsons.MySQL
    :inherited-members:
 
+.. _postgres:
 ********
 Postgres
 ********
@@ -98,56 +103,3 @@ Redshift
 
 See :doc:`aws` section for documentation.
 
-*************
-Database Sync
-*************
-
-Allows a user to sync tables between two databases with just a few lines of code. Currently supported
-database types are:
-
-* Google BigQuery
-* MySQL
-* Postgres
-* Redshift
-
-The ``DBSync`` class is not a connector, but rather a class that joins in database classes and moves data seamlessly between them.
-
-===========
-Quick Start
-===========
-
-**Full Sync Of Tables**
-
-Copy all data from a source table to a destination table.
-
-.. code-block:: python
-
-   # Create source and destination database objects
-   source_rs = Redshift()
-   destination_rs = Postgres()
-
-   # Create db sync object and run sync.
-   db_sync = DBSync(source_rs, destination_rs) # Create DBSync Object
-   db_sync.table_sync_full('parsons.source_data', 'parsons.destination_data')
-
-**Incremental Sync of Tables**
-
-Copy just new data in the table. Utilize this method for tables with
-distinct primary keys.
-
-.. code-block:: python
-
-   # Create source and destination database objects
-   source_rs = Postgres()
-   destination_rs = Postgres()
-
-   # Create db sync object and run sync.
-   db_sync = DBSync(source_pg, destination_pg) # Create DBSync Object
-   db_sync.table_sync_incremental('parsons.source_data', 'parsons.destination_data', 'myid')
-
-===
-API
-===
-
-.. autoclass:: parsons.DBSync
-   :inherited-members:

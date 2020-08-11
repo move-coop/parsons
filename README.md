@@ -48,7 +48,7 @@ people_with_cell_phones = dummy_data.select_rows(lambda row: row['is_cell'] == '
 assert people_with_cell_phones.num_rows == 498  # Check that we filtered down to our 498 people
 
 # Extract only the columns we need (first name, last name, phone number)
-people_with_cell_phones = dummy_data.cut('first_name', 'last_name', 'phone_number')
+people_with_cell_phones = people_with_cell_phones.cut('first_name', 'last_name', 'phone_number')
 assert people_with_cell_phones.columns == ['first_name', 'last_name', 'phone_number'] # Check columns
 
 # Output the list to a local CSV file

@@ -415,8 +415,8 @@ class GitHub(object):
                 The CSV delimiter to use to parse the data. Defaults to ','
 
         Returns:
-            Table
-                Table built with the CSV data
+            Parsons Table
+                See :ref:`parsons-table` for output options.
         """
         downloaded_file = self.download_file(repo_name, path, branch, local_path)
 

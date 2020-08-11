@@ -10,7 +10,7 @@ about and organizing volunteers and donors. It is used primarily for digital org
 
 .. note::
   Authentication
-  Only ActionNetwork partners are able to access their API. You can generate your key from the API & Sync page, located in the "Start Organizing" menu, in the right column.
+  	Only ActionNetwork accounts of the partner tier are able to access their API. You can generate your key from the API & Sync page, located in the *Start Organizing* menu, in the right column.
 
 ***********
 Quick Start

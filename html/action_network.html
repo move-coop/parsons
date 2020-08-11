@@ -82,6 +82,7 @@
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="action_kit.html">ActionKit</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Action Network</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#overview">Overview</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#quick-start">Quick Start</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#api">API</a></li>
 </ul>
@@ -195,15 +196,32 @@
             
   <div class="section" id="action-network">
 <h1>Action Network<a class="headerlink" href="#action-network" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="overview">
+<h2>Overview<a class="headerlink" href="#overview" title="Permalink to this headline">¶</a></h2>
 <p><a class="reference external" href="https://actionnetwork.org/">Action Network</a> is an online tool for storing information
-about and organizing volunteers and donors. For more information, see <a class="reference external" href="https://actionnetwork.org/docs">Action Network developer docs</a></p>
+about and organizing volunteers and donors. It is used primarily for digital organizing and event mangement. For more information, see <a class="reference external" href="https://actionnetwork.org/docs">Action Network developer docs</a></p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<dl class="last docutils">
+<dt>Authentication</dt>
+<dd>Only ActionNetwork accounts of the partner tier are able to access their API. You can generate your key from the API &amp; Sync page, located in the <em>Start Organizing</em> menu, in the right column.</dd>
+</dl>
+</div>
+</div>
 <div class="section" id="quick-start">
 <h2>Quick Start<a class="headerlink" href="#quick-start" title="Permalink to this headline">¶</a></h2>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">parsons</span> <span class="kn">import</span> <span class="n">ActionNetwork</span><span class="p">,</span> <span class="n">Table</span>
+<p>To instantiate a class, you can either pass in the API token as an argument or set the <code class="docutils literal notranslate"><span class="pre">AN_API_TOKEN</span></code> environmental variable.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">parsons</span> <span class="kn">import</span> <span class="n">ActionNetwork</span>
 
-<span class="n">an</span> <span class="o">=</span> <span class="n">ActionNetwork</span><span class="p">(</span><span class="n">API_TOKEN</span><span class="p">)</span>
+<span class="c1"># First approach: Use API credentials via environmental variables</span>
+<span class="n">an</span> <span class="o">=</span> <span class="n">ActionNetwork</span><span class="p">()</span>
 
-<span class="c1"># List all people stored in Action Network</span>
+<span class="c1"># Second approach: Pass API credentials as arguments</span>
+<span class="n">an</span> <span class="o">=</span> <span class="n">ActionNetwork</span><span class="p">(</span><span class="n">api_token</span><span class="o">=</span><span class="s1">&#39;MY_API_TOKEN&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>You can then call various endpoints:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># List all people stored in Action Network</span>
 <span class="n">all_contacts</span> <span class="o">=</span> <span class="n">an</span><span class="o">.</span><span class="n">get_people_list</span><span class="p">()</span>
 
 <span class="c1"># Add a person</span>

@@ -92,8 +92,11 @@
 <li class="toctree-l3"><a class="reference internal" href="#overview">Overview</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#quickstart">QuickStart</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#id3">API</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#redshift">Redshift</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#id5">Overview</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id6">Quickstart</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id7">Quickstart</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#core-api">Core API</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#table-and-view-api">Table and View API</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#schema-api">Schema API</a></li>
@@ -666,13 +669,12 @@ for more info.</dd>
 </dd></dl>
 
 </div>
-<p>
-.. _redshift:
-<strong>****</strong>
-Redshift
-<strong>****</strong></p>
+<p>   :members:</p>
+</div>
+<div class="section" id="redshift">
+<h2>Redshift<a class="headerlink" href="#redshift" title="Permalink to this headline">¶</a></h2>
 <div class="section" id="id5">
-<h3>Overview<a class="headerlink" href="#id5" title="Permalink to this headline">¶</a></h3>
+<span id="id6"></span><h3>Overview<a class="headerlink" href="#id5" title="Permalink to this headline">¶</a></h3>
 <p>The Redshift class allows you to interact with an <a class="reference external" href="https://aws.amazon.com/redshift/">Amazon Redshift</a> relational database. The Redshift Connector utilizes the <code class="docutils literal notranslate"><span class="pre">psycopg2</span></code> python package to connect to the database.</p>
 <div class="admonition note">
 <p class="first admonition-title">Note</p>
@@ -686,8 +688,8 @@ Redshift.</dd>
 </dl>
 </div>
 </div>
-<div class="section" id="id6">
-<h3>Quickstart<a class="headerlink" href="#id6" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id7">
+<h3>Quickstart<a class="headerlink" href="#id7" title="Permalink to this headline">¶</a></h3>
 <p><strong>Query the Database</strong></p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">parsons</span> <span class="kn">import</span> <span class="n">Redshift</span>
 <span class="n">rs</span> <span class="o">=</span> <span class="n">Redshift</span><span class="p">()</span>
@@ -1394,7 +1396,7 @@ duplicate rows.</dd>
 <dt><cite>Returns:</cite></dt>
 <dd><p class="first">A dict mapping column name to a dict with extra info. The keys of the dict are ordered
 just like the columns in the table. The extra info is a dict with format
-<a href="#id7"><span class="problematic" id="id8">``</span></a>{‘data_type’: str, ‘max_length’: int or None, ‘max_precision’: int or None,</p>
+<a href="#id8"><span class="problematic" id="id9">``</span></a>{‘data_type’: str, ‘max_length’: int or None, ‘max_precision’: int or None,</p>
 <blockquote class="last">
 <div>‘max_scale’: int or None, ‘is_nullable’: bool}``</div></blockquote>
 </dd>

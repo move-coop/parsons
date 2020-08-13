@@ -241,9 +241,9 @@
 <span class="sd">            import SFTP</span>
 
 <span class="sd">            sftp = SFTP()</span>
-<span class="sd">            connection = sftp.connection()</span>
+<span class="sd">            connection = sftp.create_connection()</span>
 
-<span class="sd">            with conn as connection:</span>
+<span class="sd">            with connection as conn:</span>
 <span class="sd">                sftp.make_directory(&#39;my_dir&#39;, connection=conn)</span>
 <span class="sd">                sftp.put_file(&#39;my_csv.csv&#39;, connection=conn)</span>
 

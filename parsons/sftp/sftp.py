@@ -53,9 +53,9 @@ class SFTP(object):
             import SFTP
 
             sftp = SFTP()
-            connection = sftp.connection()
+            connection = sftp.create_connection()
 
-            with conn as connection:
+            with connection as conn:
                 sftp.make_directory('my_dir', connection=conn)
                 sftp.put_file('my_csv.csv', connection=conn)
 

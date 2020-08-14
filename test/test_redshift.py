@@ -5,8 +5,6 @@ from test.utils import assert_matching_tables
 import unittest
 import os
 import re
-import warnings
-import datetime
 from test.utils import validate_list
 
 
@@ -27,7 +25,19 @@ class TestRedshift(unittest.TestCase):
                           [2, 'John'],
                           [3, 'Sarah']])
 
+        self.tbl2 = Table([
+            ["c1", "c2", "c3", "c4", "c5", "c6", "c7"],
+            ["a", "", 1, "NA", 1.4, 1, 2],
+            ["b", "", 2, "NA", 1.4, 1, 2],
+            ["c", "", 3.4, "NA", "", "", "a"],
+            ["d", "", 5, "NA", 1.4, 1, 2],
+            ["e", "", 6, "NA", 1.4, 1, 2],
+            ["f", "", 7.8, "NA", 1.4, 1, 2],
+            ["g", "", 9, "NA", 1.4, 1, 2],
+        ])
+
         self.mapping = self.rs.generate_data_types(self.tbl)
+        self.mapping2 = self.rs.generate_data_types(self.tbl2)
 
     def test_split_full_table_name(self):
         schema, table = Redshift.split_full_table_name('some_schema.some_table')
@@ -71,6 +81,10 @@ class TestRedshift(unittest.TestCase):
         self.assertEqual(self.mapping['headers'], ['ID', 'Name'])
         # Test correct data types
         self.assertEqual(self.mapping['type_list'], ['smallint', 'varchar'])
+
+        self.assertEqual(
+            self.mapping2['type_list'],
+            ['varchar', 'varchar', 'decimal', 'varchar', "decimal", "smallint", "varchar"])
         # Test correct lengths
         self.assertEqual(self.mapping['longest'], [1, 5])
 
@@ -103,8 +117,8 @@ class TestRedshift(unittest.TestCase):
 
     def test_column_validate(self):
 
-        bad_cols = ['a','a','', 'SELECT', 'asdfjkasjdfklasjdfklajskdfljaskldfjaklsdfjlaksdfjklasjdfklasjdkfljaskldfljkasjdkfasjlkdfjklasdfjklakjsfasjkdfljaslkdfjklasdfjklasjkldfakljsdfjalsdkfjklasjdfklasjdfklasdkljf'] # noqa: E501
-        fixed_cols = ['a','a_1','col_2', 'col_3', 'asdfjkasjdfklasjdfklajskdfljaskldfjaklsdfjlaksdfjklasjdfklasjdkfljaskldfljkasjdkfasjlkdfjklasdfjklakjsfasjkdfljaslkdfjkl'] # noqa: E501
+        bad_cols = ['a', 'a', '', 'SELECT', 'asdfjkasjdfklasjdfklajskdfljaskldfjaklsdfjlaksdfjklasjdfklasjdkfljaskldfljkasjdkfasjlkdfjklasdfjklakjsfasjkdfljaslkdfjklasdfjklasjkldfakljsdfjalsdkfjklasjdfklasjdfklasdkljf']  # noqa: E501
+        fixed_cols = ['a', 'a_1', 'col_2', 'col_3', 'asdfjkasjdfklasjdfklajskdfljaskldfjaklsdfjlaksdfjklasjdfklasjdkfljaskldfljkasjdkfasjlkdfjklasdfjklakjsfasjkdfljaslkdfjkl']  # noqa: E501
         self.assertEqual(self.rs.column_name_validate(bad_cols), fixed_cols)
 
     def test_create_statement(self):
@@ -147,7 +161,8 @@ class TestRedshift(unittest.TestCase):
 
     def test_copy_statement(self):
 
-        sql = self.rs.copy_statement('test_schema.test', 'buck', 'file.csv',
+        sql = self.rs.copy_statement(
+            'test_schema.test', 'buck', 'file.csv',
             aws_access_key_id='abc123', aws_secret_access_key='abc123')
 
         # Scrub the keys
@@ -166,7 +181,8 @@ class TestRedshift(unittest.TestCase):
 
         cols = ['a', 'b', 'c']
 
-        sql = self.rs.copy_statement('test_schema.test', 'buck', 'file.csv',
+        sql = self.rs.copy_statement(
+            'test_schema.test', 'buck', 'file.csv',
             aws_access_key_id='abc123', aws_secret_access_key='abc123', specifycols=cols)
 
         # Scrub the keys
@@ -207,7 +223,7 @@ class TestRedshiftDB(unittest.TestCase):
         other_sql = f"""
                     create table {self.temp_schema}.test (id smallint,name varchar(5));
                     create view {self.temp_schema}.test_view as (select * from {self.temp_schema}.test);
-                    """ # noqa: E501
+                    """  # noqa: E501
 
         self.rs.query(setup_sql)
 
@@ -322,7 +338,8 @@ class TestRedshiftDB(unittest.TestCase):
 
         # Try to run it with a bad primary key
         self.rs.query(f"INSERT INTO {self.temp_schema}.test_copy VALUES (1, 'Jim')")
-        self.assertRaises(ValueError, self.rs.upsert, upsert_tbl, f'{self.temp_schema}.test_copy', 'ID')
+        self.assertRaises(
+            ValueError, self.rs.upsert, upsert_tbl, f'{self.temp_schema}.test_copy', 'ID')
 
         # Now try and upsert using two primary keys
         upsert_tbl = Table([['id', 'name'], [1, 'Jane']])
@@ -414,8 +431,7 @@ class TestRedshiftDB(unittest.TestCase):
         self.assertEqual(len(manifest['entries']), 3)
 
         # Validate that manifest saved to bucket
-        keys = self.s3.list_keys(self.temp_s3_bucket,
-            prefix=f'{self.temp_s3_prefix}test_manifest')
+        keys = self.s3.list_keys(self.temp_s3_bucket, prefix=f'{self.temp_s3_prefix}test_manifest')
         self.assertTrue(manifest_key in keys)
 
     def test_move_table(self):
@@ -425,8 +441,8 @@ class TestRedshiftDB(unittest.TestCase):
         self.assertTrue(self.rs.table_exists(f'{self.temp_schema}.test2'))
 
         # Run the method again, but drop original
-        self.rs.move_table(f'{self.temp_schema}.test2', f'{self.temp_schema}.test3',
-                                drop_source_table=True)
+        self.rs.move_table(
+            f'{self.temp_schema}.test2', f'{self.temp_schema}.test3', drop_source_table=True)
         self.assertFalse(self.rs.table_exists(f'{self.temp_schema}.test2'))
 
     def test_get_tables(self):
@@ -441,10 +457,11 @@ class TestRedshiftDB(unittest.TestCase):
 
         tbls_list = self.rs.get_table_stats(schema=self.temp_schema)
 
-        exp = ['database', 'schema', 'table_id', 'table', 'encoded', 'diststyle', 'sortkey1',
-               'max_varchar', 'sortkey1_enc', 'sortkey_num', 'size', 'pct_used', 'empty',
-               'unsorted', 'stats_off', 'tbl_rows', 'skew_sortkey1', 'skew_rows', 'estimated_visible_rows',
-               'risk_event', 'vacuum_sort_benefit']
+        exp = [
+            'database', 'schema', 'table_id', 'table', 'encoded', 'diststyle', 'sortkey1',
+            'max_varchar', 'sortkey1_enc', 'sortkey_num', 'size', 'pct_used', 'empty',
+            'unsorted', 'stats_off', 'tbl_rows', 'skew_sortkey1', 'skew_rows',
+            'estimated_visible_rows', 'risk_event', 'vacuum_sort_benefit']
 
         # Having some issues testing that the filter is working correctly, as it
         # takes a little bit of time for a table to show in this table and is beating
@@ -461,7 +478,6 @@ class TestRedshiftDB(unittest.TestCase):
                         'test_view',
                         f'SELECT test.id, test.name FROM {self.temp_schema}.test;')
         self.assertEqual(views.data[0], expected_row)
-
 
     def test_get_queries(self):
 
@@ -531,8 +547,8 @@ class TestRedshiftDB(unittest.TestCase):
         self.assertEqual(rows[0]['count'], 3)
 
         # Try with if_exists='fail'
-        self.assertRaises(ValueError,
-            self.rs.populate_table_from_query, query, dest_table, if_exists='fail')
+        self.assertRaises(
+            ValueError, self.rs.populate_table_from_query, query, dest_table, if_exists='fail')
 
     def test_duplicate_table(self):
         # Populate the source table
@@ -721,6 +737,7 @@ class TestRedshiftDB(unittest.TestCase):
         # Base table 'Name' column has a width of 5. This should expand it to 6.
         self.rs.alter_varchar_column_widths(append_tbl, f'{self.temp_schema}.test')
         self.assertEqual(self.rs.get_columns(self.temp_schema, 'test')['name']['max_length'], 6)
+
 
 if __name__ == "__main__":
     unittest.main()

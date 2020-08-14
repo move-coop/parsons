@@ -80,7 +80,8 @@ class RedshiftCreateTable(object):
             return 'varchar'
 
         if type(t) in [int, float]:
-            if (type(t) in [int] and current_type not in ['float', 'varchar']):
+            if (type(t) in [int] and
+                    current_type not in ['decimal', 'varchar']):
 
                 # Make sure that it is a valid integer
                 if not self.is_valid_integer(val):
@@ -93,7 +94,8 @@ class RedshiftCreateTable(object):
                     return 'int'
                 else:
                     return 'bigint'
-            if type(t) is float and current_type not in ['varchar']:
+            if ((type(t) is float or current_type in ['decimal'])
+                    and current_type not in ['varchar']):
                 return 'decimal'
         else:
             return 'varchar'
@@ -133,14 +135,21 @@ class RedshiftCreateTable(object):
         for row in cont:
             for i in range(len(row)):
                 # NA is the csv null value
-                if type_list[i] == 'varchar' or row[i] == 'NA':
+                if type_list[i] == 'varchar' or row[i] in ['NA', '']:
                     pass
                 else:
                     var_type = self.data_type(row[i], type_list[i])
                     type_list[i] = var_type
+
                 # Calculate width
                 if len(str(row[i]).encode('utf-8')) > longest[i]:
                     longest[i] = len(str(row[i]).encode('utf-8'))
+
+        # In L138 'NA' and '' will be skipped
+        # If the entire column is either one of those (or a mix of the two)
+        # the type will be empty.
+        # Fill with a default varchar
+        type_list = [typ or 'varchar' for typ in type_list]
 
         return {'longest': longest,
                 'headers': table.columns,

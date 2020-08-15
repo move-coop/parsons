@@ -34,7 +34,7 @@ class BulkImport(object):
         Get a bulk import job status.
 
         .. note::
-            The job status may not be immediately avaliable for polling job 
+            The job status may not be immediately avaliable for polling job
             once the job is posted.
 
         `Args:`

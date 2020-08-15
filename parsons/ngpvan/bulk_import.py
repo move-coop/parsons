@@ -33,6 +33,10 @@ class BulkImport(object):
         """
         Get a bulk import job status.
 
+        .. note::
+            The job status may not be immediately avaliable for polling job 
+            once the job is posted.
+
         `Args:`
             job_id : int
                 The bulk import job id.

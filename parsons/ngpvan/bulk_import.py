@@ -75,8 +75,7 @@ class BulkImport(object):
 
     def post_bulk_import(self, tbl, url_type, resource_type, mapping_types,
                          description, **url_kwargs):
-        # Internal method to post bulk imports. Specific types of imports call this
-        # internal method.
+        # Internal method to post bulk imports.
 
         # Move to cloud storage
         file_name = str(uuid.uuid1())
@@ -104,7 +103,30 @@ class BulkImport(object):
 
     def bulk_apply_activist_codes(self, tbl, url_type, **url_kwargs):
         """
-        Apply activist codes
+        Bulk apply activist codes.
+
+        The table may include the following columns. The first column
+        must be ``vanid``.
+
+        .. list-table::
+            :widths: 25 25 50
+            :header-rows: 1
+
+            * - Column Name
+              - Required
+              - Description
+            * - ``vanid``
+              - Yes
+              - A valid VANID primary key
+            * - ``activistcodeid``
+              - Yes
+              - A valid activist code id
+            * - ``datecanvassed``
+              - No
+              - An ISO formatted date
+            * - ``contacttypeid``
+              - No
+              - The method of contact.
 
         `Args:`
             table: Parsons table
@@ -120,17 +142,9 @@ class BulkImport(object):
                 The bulk import job id
         """
 
-        self.validate_first_column(tbl, "vanid")
         return self.post_bulk_import(tbl,
                                      url_type,
                                      'ContactsActivistCodes',
                                      [{"name": "ActivistCode"}],
                                      'Activist Code Upload',
                                      **url_kwargs)
-
-    def validate_first_column(self, tbl, required_column):
-        # The first column of a file is restricted based on the ResourceType and MappingType
-        # and must match or be mapped to a specific column name. This method validates it.
-
-        if tbl.columns[0].lower() != required_column:
-            raise ValueError(f"First column name must be {required_column}")

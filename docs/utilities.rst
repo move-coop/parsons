@@ -2,6 +2,7 @@
 Utilities
 *********
 
+.. _cloud-storage:
 =============
 Cloud Storage
 =============
@@ -33,7 +34,14 @@ When you select the ``url_type`` S3, the Parsons table will be converted to a cs
     * - ``bucket``
       - Yes
       - The S3 bucket to post the file
+    * - ``aws_access_key``
+      - No
+      - Required if ``AWS_ACCESS_KEY_ID`` env variable not set.
+    * - ``aws_secret_access_key``
+      - No
+      - Required if ``AWS_SECRET_ACCESS_KEY`` env variable not set.
     * - ``public_url_expires``
       - No
       - Defaults is 60 minutes.
+
 

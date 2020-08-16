@@ -46,6 +46,11 @@ class TestBulkImport(unittest.TestCase):
         self.assertEqual(self.van.get_bulk_import_job(53407), json)
 
     @requests_mock.Mocker()
+    def test_get_bulk_import_job_results(self, m):
+
+    	pass
+
+    @requests_mock.Mocker()
     def test_get_bulk_import_mapping_types(self, m):
 
         m.get(self.van.connection.uri + 'bulkImportMappingTypes', json=mapping_type)
@@ -53,11 +58,16 @@ class TestBulkImport(unittest.TestCase):
         assert_matching_tables(self.van.get_bulk_import_mapping_types(), Table(mapping_type))
 
     @requests_mock.Mocker()
-    def get_bulk_import_mapping_type(self, m):
+    def test_get_bulk_import_mapping_type(self, m):
 
         m.get(self.van.connection.uri + 'bulkImportMappingTypes/ActivistCode', json=mapping_type)
 
         self.assertEqual(self.van.get_bulk_import_mapping_type('ActivistCode'), json)
+
+    @requests_mock.Mocker()
+    def get_bulk_import_mapping_type_fields(self, m):
+
+    	pass
 
     @requests_mock.Mocker()
     def test_post_bulk_import(self, m):

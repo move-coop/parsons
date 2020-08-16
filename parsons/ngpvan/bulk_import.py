@@ -345,6 +345,7 @@ class BulkImport(object):
 
         return mapping_types
 
+
 # This is a column mapper that is used to accept additional column names and provide
 # flexibility for the user.
 COLUMN_MAP = {'MailingAddress': ['address', 'addressline1', 'mailaddress', 'mailaddressline1'],

@@ -118,6 +118,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../../../dbsync.html">Database Sync</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../table.html">Parsons Table</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../notifications.html">Notifications</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../utilities.html">Utilities</a></li>
 </ul>
 <p class="caption"><span class="caption-text">Contributor Documentation</span></p>
 <ul>
@@ -336,7 +337,8 @@
 <span class="sd">                   {&#39;score2_id&#39; : int, score2_column&#39;: str}]</span>
 
 <span class="sd">            url_type: str</span>
-<span class="sd">                The cloud file storage to use to post the file. Currently only ``S3``.</span>
+<span class="sd">                The cloud file storage to use to post the file.</span>
+<span class="sd">                See :ref:`Cloud Storage &lt;cloud-storage&gt;` for more details.</span>
 <span class="sd">            email: str</span>
 <span class="sd">                An email address to send job load status updates.</span>
 <span class="sd">            auto_approve: boolean</span>
@@ -346,9 +348,8 @@
 <span class="sd">                The deviation from the average scores allowed in order to automatically</span>
 <span class="sd">                approve the score. Maximum of .1.</span>
 <span class="sd">            **url_kwargs: kwargs</span>
-<span class="sd">                Arguments to configure your cloud storage url type.</span>
-<span class="sd">                    * S3 requires ``bucket`` argument and, if not stored as env variables</span>
-<span class="sd">                      ``aws_access_key`` and ``aws_secret_access_key``.</span>
+<span class="sd">                Arguments to configure your cloud storage url type. See</span>
+<span class="sd">                :ref:`Cloud Storage &lt;cloud-storage&gt;` for more details.</span>
 <span class="sd">        `Returns:`</span>
 <span class="sd">            int</span>
 <span class="sd">               The score load job id.</span>

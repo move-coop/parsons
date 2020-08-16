@@ -153,6 +153,7 @@
 <li class="toctree-l1"><a class="reference internal" href="dbsync.html">Database Sync</a></li>
 <li class="toctree-l1"><a class="reference internal" href="table.html">Parsons Table</a></li>
 <li class="toctree-l1"><a class="reference internal" href="notifications.html">Notifications</a></li>
+<li class="toctree-l1"><a class="reference internal" href="utilities.html">Utilities</a></li>
 </ul>
 <p class="caption"><span class="caption-text">Contributor Documentation</span></p>
 <ul>
@@ -1991,7 +1992,8 @@ table must contain the primary key (e.g. vanid).</dd>
 </div>
 </dd>
 <dt>url_type: str</dt>
-<dd>The cloud file storage to use to post the file. Currently only <code class="docutils literal notranslate"><span class="pre">S3</span></code>.</dd>
+<dd>The cloud file storage to use to post the file.
+See <a class="reference internal" href="utilities.html#cloud-storage"><span class="std std-ref">Cloud Storage</span></a> for more details.</dd>
 <dt>email: str</dt>
 <dd>An email address to send job load status updates.</dd>
 <dt>auto_approve: boolean</dt>
@@ -2001,15 +2003,8 @@ average values provided, then score will be automatically approved.</dd>
 <dd>The deviation from the average scores allowed in order to automatically
 approve the score. Maximum of .1.</dd>
 <dt><a href="#id8"><span class="problematic" id="id9">**</span></a>url_kwargs: kwargs</dt>
-<dd><dl class="first last docutils">
-<dt>Arguments to configure your cloud storage url type.</dt>
-<dd><ul class="first last simple">
-<li>S3 requires <code class="docutils literal notranslate"><span class="pre">bucket</span></code> argument and, if not stored as env variables
-<code class="docutils literal notranslate"><span class="pre">aws_access_key</span></code> and <code class="docutils literal notranslate"><span class="pre">aws_secret_access_key</span></code>.</li>
-</ul>
-</dd>
-</dl>
-</dd>
+<dd>Arguments to configure your cloud storage url type. See
+<a class="reference internal" href="utilities.html#cloud-storage"><span class="std std-ref">Cloud Storage</span></a> for more details.</dd>
 </dl>
 </dd>
 <dt><cite>Returns:</cite></dt>

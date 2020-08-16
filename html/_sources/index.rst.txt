@@ -211,6 +211,7 @@ Indices and tables
    dbsync
    table
    notifications
+   utilities
 
 .. toctree::
    :maxdepth: 1

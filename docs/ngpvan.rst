@@ -78,6 +78,12 @@ so that the file can be posted. Currently, only S3 is supported.
 
 **Bulk Apply Activist Codes**
 
+In this example we are applying activist codes to a list of contacts. The csv file would
+have the following columns:
+
+  * ``vanid``
+  * ``activistcodeid``
+
 .. code-block:: python
 
    from parsons import VAN, Table
@@ -91,6 +97,39 @@ so that the file can be posted. Currently, only S3 is supported.
    # the bulk import job with all of the valid meta information. The method will 
    # return the job id.
    job_id = van.bulk_apply_activist_codes(tbl, url_type="S3", bucket='my_bucket')
+
+   # The bulk import job is run asynchronously, so you may poll the status of a job.
+   job_status = van.get_bulk_import_job(job_id)
+
+**Bulk Update Contacts**
+
+In this example we are updating contacts with emails and cell phones. The csv file would
+have the following columns:
+
+  * ``vanid``
+  * ``phone``
+  * ``phone_type_id``
+  * ``email``
+  * ``subscriptionstatus``
+
+Note that ``vanid`` must be the first column in your table. For additional fields, see the
+:func:`~parsons.ngpvan.van.BulkImport.bulk_update_contacts` documentation.
+
+If a record contains a null value, it will not be updated.
+
+.. code-block:: python
+
+   from parsons import VAN, Table
+
+   van = VAN(db=EveryAction)
+
+   # Load a table containing the VANID, phones and email addresses
+   tbl = Table.from_csv('hot_leads.csv')   
+
+   # Table will be sent to S3 bucket and a POST request will be made to VAN creating
+   # the bulk import job with all of the valid meta information. The method will 
+   # return the job id.
+   job_id = van.bulk_update_contacts(tbl, url_type="S3", bucket='my_bucket')
 
    # The bulk import job is run asynchronously, so you may poll the status of a job.
    job_status = van.get_bulk_import_job(job_id)

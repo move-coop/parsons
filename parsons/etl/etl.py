@@ -237,6 +237,7 @@ class ETL(object):
                 ignore case, spaces and underscores.
         `Returns:`
             `Parsons Table` and also updates self
+
         .. code-block:: python
             tbl = [{fn: 'Jane'},
                    {lastname: 'Doe'},
@@ -258,7 +259,6 @@ class ETL(object):
 
             for k, v in column_map.items():
                 for i in v:
-                    print (cleaned_col)
                     if cleaned_col == i:
                         self.rename_column(col, k)
 

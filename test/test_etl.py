@@ -702,7 +702,7 @@ class TestParsonsTable(unittest.TestCase):
                       'middle_name': ['mi']}
 
         exact_tbl = Table([['first_name', 'last_name', 'MID'],
-                              ['J', 'B', 'H']])
+                           ['J', 'B', 'H']])
         input_tbl.map_columns(column_map)
         assert_matching_tables(input_tbl, exact_tbl)
 

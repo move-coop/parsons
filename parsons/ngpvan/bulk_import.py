@@ -7,36 +7,6 @@ import uuid
 
 logger = logging.getLogger(__name__)
 
-# This is a column mapper that is used to accept additional column names and provide
-# flexibility for the user.
-
-"""
-To Do:
-    - MailingDisplayAsEntered - Need to figure out valid values
-
-
-"""
-
-COLUMN_MAP = {'MailingAddress': ['address', 'addressline1', 'mailaddress', 'mailaddressline1'],
-              'MailingAddressLine2': ['address2', 'mailaddressline2'],
-              'MailingAddressLine3': ['address3', 'mailaddressline3'],
-              'MailingCity': ['city', 'mailcity'],
-              'MailingZipOrPostal': ['zipcode', 'mailzipcode', 'mailzip', 'zip'],
-              'MailingCountryCode': ['countrycode', 'country', 'mailcountry', 'countrycode'],
-              'MailingDisplayAsEntered': ['maildisplayasentered', 'addressdisplayasentered',
-                                          'displayasentered'],
-              'MailingStateOrProvince': ['mailingstate', 'st', 'state'],
-              'Email': ['email', 'emailaddress'],
-              'EmailTypeId': ['emailtype'],
-              'EmailSubscriptionStatusId': ['emailsubscriptionstatus', 'emailstatus',
-                                            'subscriptionstatus'],
-              'Phone': ['phonenumber', 'cell', 'homephone', 'workphone'],
-              'CountryCode': ['countrycode'],
-              'PhoneTypeID': ['phonetype'],
-              'PhoneOptInStatusID': ['smsoptin', 'phoneoptin', 'optinstatus'],
-              'IsCellStatusID': ['iscell'],
-              'CustomFieldGroupID': ['customfield', 'customfieldid']}
-
 
 class BulkImport(object):
 
@@ -94,7 +64,6 @@ class BulkImport(object):
             Parsons Table
                 See :ref:`parsons-table` for output options.
         """
-
 
         r = self.get_bulk_import_job(job_id)
         logger.info(f"Bulk Import Job Status: {r['status']}")
@@ -375,3 +344,25 @@ class BulkImport(object):
                     mapping_types.append({'name': i[1]})
 
         return mapping_types
+
+# This is a column mapper that is used to accept additional column names and provide
+# flexibility for the user.
+COLUMN_MAP = {'MailingAddress': ['address', 'addressline1', 'mailaddress', 'mailaddressline1'],
+              'MailingAddressLine2': ['address2', 'mailaddressline2'],
+              'MailingAddressLine3': ['address3', 'mailaddressline3'],
+              'MailingCity': ['city', 'mailcity'],
+              'MailingZipOrPostal': ['zipcode', 'mailzipcode', 'mailzip', 'zip'],
+              'MailingCountryCode': ['countrycode', 'country', 'mailcountry', 'countrycode'],
+              'MailingDisplayAsEntered': ['maildisplayasentered', 'addressdisplayasentered',
+                                          'displayasentered'],
+              'MailingStateOrProvince': ['mailingstate', 'st', 'state'],
+              'Email': ['email', 'emailaddress'],
+              'EmailTypeId': ['emailtype'],
+              'EmailSubscriptionStatusId': ['emailsubscriptionstatus', 'emailstatus',
+                                            'subscriptionstatus'],
+              'Phone': ['phonenumber', 'cell', 'homephone', 'workphone'],
+              'CountryCode': ['countrycode'],
+              'PhoneTypeID': ['phonetype'],
+              'PhoneOptInStatusID': ['smsoptin', 'phoneoptin', 'optinstatus'],
+              'IsCellStatusID': ['iscell'],
+              'CustomFieldGroupID': ['customfield', 'customfieldid']}

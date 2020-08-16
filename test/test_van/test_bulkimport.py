@@ -16,10 +16,6 @@ class TestBulkImport(unittest.TestCase):
         self.van = VAN(os.environ['VAN_API_KEY'],
                        db="MyVoters", raise_for_status=False)
 
-    def tearDown(self):
-
-        pass
-
     @requests_mock.Mocker()
     def test_get_bulk_import_resources(self, m):
 
@@ -33,41 +29,64 @@ class TestBulkImport(unittest.TestCase):
     @requests_mock.Mocker()
     def test_get_bulk_import_job(self, m):
 
-        json = {'id': 59,
-                'status': 'InProgress',
-                'resourceType': 'ContactsActivistCodes',
-                'webhookUrl': None,
-                'resultFileSizeLimitKb': 5000,
-                'errors': [],
-                'resultFiles': []}
+        m.get(self.van.connection.uri +
+              'bulkImportJobs/53407', json=bulk_import_job)
 
-        m.get(self.van.connection.uri + 'bulkImportJobs/53407', json=json)
-
-        self.assertEqual(self.van.get_bulk_import_job(53407), json)
+        self.assertEqual(self.van.get_bulk_import_job(53407), bulk_import_job)
 
     @requests_mock.Mocker()
     def test_get_bulk_import_job_results(self, m):
 
-    	pass
+        results_tbl = Table([['BulkUploadDataID', 'ULFileID', 'PrimaryKey', 'PrimaryKeyType', 'MailingAddress_3581'],
+                             ['1', '1983', '101596008', 'VanID', 'Processed']])
+
+        bulk_import_job = {'id': 92,
+                           'status': 'Completed',
+                           'resourceType': 'Contacts',
+                           'webhookUrl': None,
+                           'resultFileSizeLimitKb': 5000,
+                           'errors': [],
+                           'resultFiles': [{
+                               'url': Table.to_csv(results_tbl),
+                               'dateExpired': '2020-09-04T22:07:04.0770295-04:00'
+                           }]
+                           }
+
+        m.get(self.van.connection.uri +
+              'bulkImportJobs/53407', json=bulk_import_job)
+        assert_matching_tables(
+            self.van.get_bulk_import_job_results(53407), results_tbl)
 
     @requests_mock.Mocker()
     def test_get_bulk_import_mapping_types(self, m):
 
-        m.get(self.van.connection.uri + 'bulkImportMappingTypes', json=mapping_type)
+        m.get(self.van.connection.uri +
+              'bulkImportMappingTypes', json=mapping_type)
 
-        assert_matching_tables(self.van.get_bulk_import_mapping_types(), Table(mapping_type))
+        assert_matching_tables(
+            self.van.get_bulk_import_mapping_types(), Table(mapping_type))
 
     @requests_mock.Mocker()
     def test_get_bulk_import_mapping_type(self, m):
 
-        m.get(self.van.connection.uri + 'bulkImportMappingTypes/ActivistCode', json=mapping_type)
+        m.get(self.van.connection.uri +
+              'bulkImportMappingTypes/ActivistCode', json=mapping_type)
 
-        self.assertEqual(self.van.get_bulk_import_mapping_type('ActivistCode'), mapping_type)
+        self.assertEqual(self.van.get_bulk_import_mapping_type(
+            'ActivistCode'), mapping_type)
 
     @requests_mock.Mocker()
     def get_bulk_import_mapping_type_fields(self, m):
 
-    	pass
+        json = [{'name': 'Unsubscribed', 'id': '0', 'parents': None},
+                {'name': 'Not Subscribed', 'id': '1', 'parents': None},
+                {'name': 'Subscribed', 'id': '2', 'parents': None}]
+        m.get(self.van.connection.uri +
+              'bulkImportMappingTypes/Email/EmailSubscriptionStatusId/values')
+
+        r = van.get_bulk_import_mapping_type_fields(
+            'Email', 'EmailSubscriptionStatusId')
+        self.assertEqual()
 
     @requests_mock.Mocker()
     def test_post_bulk_import(self, m):
@@ -76,10 +95,11 @@ class TestBulkImport(unittest.TestCase):
         cloud_storage.post_file = mock.MagicMock()
         cloud_storage.post_file.return_value = 'https://s3.com/my_file.zip'
 
-        tbl = Table([['Vanid', 'ActivistCodeID'],[1234, 345345]])
+        tbl = Table([['Vanid', 'ActivistCodeID'], [1234, 345345]])
 
-        m.post(self.van.connection.uri + 'bulkImportJobs', json={'jobId': 54679})
-        
+        m.post(self.van.connection.uri +
+               'bulkImportJobs', json={'jobId': 54679})
+
         r = self.van.post_bulk_import(tbl,
                                       'S3',
                                       'ContactsActivistCodes',
@@ -96,13 +116,33 @@ class TestBulkImport(unittest.TestCase):
         cloud_storage.post_file = mock.MagicMock()
         cloud_storage.post_file.return_value = 'https://s3.com/my_file.zip'
 
-        tbl = Table([['Vanid', 'ActivistCodeID'],[1234, 345345]])
+        tbl = Table([['Vanid', 'ActivistCodeID'], [1234, 345345]])
 
-        m.post(self.van.connection.uri + 'bulkImportJobs', json={'jobId': 54679})
+        m.post(self.van.connection.uri +
+               'bulkImportJobs', json={'jobId': 54679})
 
-        job_id = self.van.bulk_apply_activist_codes(tbl, url_type="S3", bucket='my-bucket')
+        job_id = self.van.bulk_apply_activist_codes(
+            tbl, url_type="S3", bucket='my-bucket')
 
         self.assertEqual(job_id, 54679)
+
+    @requests_mock.Mocker()
+    def test_bulk_update_contacts(self, m):
+
+        # Mock Cloud Storage
+        cloud_storage.post_file = mock.MagicMock()
+        cloud_storage.post_file.return_value = 'https://s3.com/my_file.zip'
+
+        tbl = Table([['Vanid', 'email'], [1234, 'me@me.com']])
+
+        m.post(self.van.connection.uri +
+               'bulkImportJobs', json={'jobId': 54679})
+
+        job_id = self.van.bulk_update_contacts(
+            tbl, url_type="S3", bucket='my-bucket')
+
+        self.assertEqual(job_id, 54679)
+
 
 mapping_type = {'name': 'ActivistCode',
                 'displayName': 'Apply Activist Code',
@@ -146,3 +186,15 @@ mapping_type = {'name': 'ActivistCode',
                     }]
                 }]
                 }
+
+bulk_import_job = {'id': 92,
+                   'status': 'Completed',
+                   'resourceType': 'Contacts',
+                   'webhookUrl': None,
+                   'resultFileSizeLimitKb': 5000,
+                   'errors': [],
+                   'resultFiles': [{
+                       'url': 'https://ngpvan.com/bulk-import-jobs/f023.csv',
+                       'dateExpired': '2020-09-04T22:07:04.0770295-04:00'
+                   }]
+                   }

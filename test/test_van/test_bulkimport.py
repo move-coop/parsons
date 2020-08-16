@@ -62,7 +62,7 @@ class TestBulkImport(unittest.TestCase):
 
         m.get(self.van.connection.uri + 'bulkImportMappingTypes/ActivistCode', json=mapping_type)
 
-        self.assertEqual(self.van.get_bulk_import_mapping_type('ActivistCode'), json)
+        self.assertEqual(self.van.get_bulk_import_mapping_type('ActivistCode'), mapping_type)
 
     @requests_mock.Mocker()
     def get_bulk_import_mapping_type_fields(self, m):

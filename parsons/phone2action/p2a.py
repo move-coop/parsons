@@ -1,7 +1,8 @@
-import requests
 from requests.auth import HTTPBasicAuth
 from parsons.etl import Table
 from parsons.utilities import check_env
+from parsons.utilities.api_connector import APIConnector
+from parsons.utilities.datetime import date_to_timestamp
 import logging
 
 logger = logging.getLogger(__name__)
@@ -29,14 +30,7 @@ class Phone2Action(object):
         self.app_id = check_env.check('PHONE2ACTION_APP_ID', app_id)
         self.app_key = check_env.check('PHONE2ACTION_APP_KEY', app_key)
         self.auth = HTTPBasicAuth(self.app_id, self.app_key)
-        self.uri = PHONE2ACTION_URI
-
-    def _request(self, url, args=None):
-        # Internal request method
-
-        r = requests.get(url, auth=self.auth, params=args)
-        r.raise_for_status()
-        return r
+        self.client = APIConnector(PHONE2ACTION_URI, auth=self.auth)
 
     def _paginate_request(self, url, args=None, page=None):
         # Internal pagination method
@@ -44,18 +38,18 @@ class Phone2Action(object):
         if page is not None:
             args['page'] = page
 
-        r = self._request(url, args=args)
+        r = self.client.get_request(url, params=args)
 
-        json = r.json()['data']
+        json = r['data']
 
         if page is not None:
             return json
 
         # If count of items is less than the total allowed per page, paginate
-        while r.json()['pagination']['count'] == r.json()['pagination']['per_page']:
+        while r['pagination']['count'] == r['pagination']['per_page']:
 
-            r = self._request(r.json()['pagination']['next_url'], args)
-            json.extend(r.json()['data'])
+            r = self.client.get_request(r['pagination']['next_url'], args)
+            json.extend(r['data'])
 
         return json
 
@@ -89,14 +83,15 @@ class Phone2Action(object):
                 * advocates
         """
 
-        url = self.uri + 'advocates'
+        # Convert the passed in updated_since into a Unix timestamp (which is what the API wants)
+        updated_since = date_to_timestamp(updated_since)
 
         args = {'state': state,
                 'campaignid': campaign_id,
                 'updatedSince': updated_since}
 
         logger.info('Retrieving advocates...')
-        json = self._paginate_request(url, args=args, page=page)
+        json = self._paginate_request('advocates', args=args, page=page)
 
         return self._advocates_tables(Table(json))
 
@@ -152,7 +147,7 @@ class Phone2Action(object):
             Parsons Table
                 See :ref:`parsons-table` for output options.
         """
-        url = self.uri + 'campaigns'
+        url = 'campaigns'
 
         args = {'state': state,
                 'zip': zip,
@@ -160,9 +155,208 @@ class Phone2Action(object):
                 'includePrivate': str(include_private)
                 }
 
-        tbl = Table(self._request(url, args=args).json())
+        tbl = Table(self.client.get_request(url, params=args))
         tbl.unpack_dict('updated_at')
         if include_content:
             tbl.unpack_dict('content')
 
         return tbl
+
+    def create_advocate(self,
+                        campaigns,
+                        firstname=None,
+                        lastname=None,
+                        email=None,
+                        phone=None,
+                        address1=None,
+                        address2=None,
+                        city=None,
+                        state=None,
+                        zip5=None,
+                        sms_optin=None,
+                        email_optin=None,
+                        sms_optout=None,
+                        email_optout=None,
+                        **kwargs):
+        """
+        Create an advocate.
+
+        If you want to opt an advocate into or out of SMS / email campaigns, you must provide
+        the email address or phone number (accordingly).
+
+        The list of arguments only partially covers the fields that can be set on the advocate.
+        For a complete list of fields that can be updated, see the Phone2Action API
+        documentation: https://docs.phone2action.com/#calls-create
+
+        `Args:`
+            campaigns: list
+                The ID(s) of campaigns to add the advocate to
+            firstname: str
+                `Optional`: The first name of the advocate
+            lastname: str
+                `Optional`: The last name of the advocate
+            email: str
+                `Optional`: An email address to add for the advocate. One of ``email`` or ``phone``
+                is required.
+            phone: str
+                `Optional`: An phone # to add for the advocate. One of ``email`` or ``phone`` is
+                required.
+            address1: str
+                `Optional`: The first line of the advocates' address
+            address2: str
+                `Optional`: The second line of the advocates' address
+            city: str
+                `Optional`: The city of the advocates address
+            state: str
+                `Optional`: The state of the advocates address
+            zip5: str
+                `Optional`: The 5 digit Zip code of the advocate
+            sms_optin: boolean
+                `Optional`: Whether to opt the advocate into receiving text messages; an SMS
+                confirmation text message will be sent. You must provide values for the ``phone``
+                and ``campaigns`` arguments.
+            email_optin: boolean
+                `Optional`: Whether to opt the advocate into receiving emails. You must provide
+                values for the ``email`` and ``campaigns`` arguments.
+            sms_optout: boolean
+                `Optional`: Whether to opt the advocate out of receiving text messages. You must
+                provide values for the ``phone`` and ``campaigns`` arguments. Once an advocate is
+                opted out, they cannot be opted back in.
+            email_optout: boolean
+                `Optional`: Whether to opt the advocate out of receiving emails. You must
+                provide values for the ``email`` and ``campaigns`` arguments. Once an advocate is
+                opted out, they cannot be opted back in.
+            **kwargs:
+                Additional fields on the advocate to update
+        """
+
+        # Validate the passed in arguments
+
+        if not email and not phone:
+            raise ValueError(
+                'When creating an advocate, you must provide an email address or a phone number.')
+
+        if (sms_optin or sms_optout) and not phone:
+            raise ValueError(
+                'When opting an advocate in or out of SMS messages, you must specify a valid '
+                'phone and one or more campaigns')
+
+        if (email_optin or email_optout) and not email:
+            raise ValueError(
+                'When opting an advocate in or out of email messages, you must specify a valid '
+                'email address and one or more campaigns')
+
+        # Align our arguments with the expected parameters for the API
+        payload = {
+            'campaigns': campaigns,
+            'email': email,
+            'phone': phone,
+            'firstname': firstname,
+            'lastname': lastname,
+            'address1': address1,
+            'address2': address2,
+            'city': city,
+            'state': state,
+            'zip5': zip5,
+            'smsOptin': 1 if sms_optin else None,
+            'emailOptin': 1 if email_optin else None,
+            'smsOptout': 1 if sms_optout else None,
+            'emailOptout': 1 if email_optout else None,
+        }
+
+        # Clean up any keys that have a "None" value
+        payload = {
+            key: val
+            for key, val in payload.items()
+            if val is not None
+        }
+
+        # Merge in any kwargs
+        payload.update(kwargs)
+
+        # Call into the Phone2Action API
+        self.client.post_request('advocates', data=payload)
+
+    def update_advocate(self,
+                        advocate_id,
+                        campaigns=None,
+                        email=None,
+                        phone=None,
+                        sms_optin=None,
+                        email_optin=None,
+                        sms_optout=None,
+                        email_optout=None,
+                        **kwargs):
+        """
+        Update the fields of an advocate.
+
+        If you want to opt an advocate into or out of SMS / email campaigns, you must provide
+        the email address or phone number along with a list of campaigns.
+
+        The list of arguments only partially covers the fields that can be updated on the advocate.
+        For a complete list of fields that can be updated, see the Phone2Action API
+        documentation: https://docs.phone2action.com/#calls-create
+
+        `Args:`
+            advocate_id: integer
+                The ID of the advocate being updates
+            campaigns: list
+                `Optional`: The ID(s) of campaigns to add the user to
+            email: str
+                `Optional`: An email address to add for the advocate (or to use when opting in/out)
+            phone: str
+                `Optional`: An phone # to add for the advocate (or to use when opting in/out)
+            sms_optin: boolean
+                `Optional`: Whether to opt the advocate into receiving text messages; an SMS
+                confirmation text message will be sent. You must provide values for the ``phone``
+                and ``campaigns`` arguments.
+            email_optin: boolean
+                `Optional`: Whether to opt the advocate into receiving emails. You must provide
+                values for the ``email`` and ``campaigns`` arguments.
+            sms_optout: boolean
+                `Optional`: Whether to opt the advocate out of receiving text messages. You must
+                provide values for the ``phone`` and ``campaigns`` arguments. Once an advocate is
+                opted out, they cannot be opted back in.
+            email_optout: boolean
+                `Optional`: Whether to opt the advocate out of receiving emails. You must
+                provide values for the ``email`` and ``campaigns`` arguments. Once an advocate is
+                opted out, they cannot be opted back in.
+            **kwargs:
+                Additional fields on the advocate to update
+        """
+
+        # Validate the passed in arguments
+        if (sms_optin or sms_optout) and not (phone and campaigns):
+            raise ValueError(
+                'When opting an advocate in or out of SMS messages, you must specify a valid '
+                'phone and one or more campaigns')
+
+        if (email_optin or email_optout) and not (email and campaigns):
+            raise ValueError(
+                'When opting an advocate in or out of email messages, you must specify a valid '
+                'email address and one or more campaigns')
+
+        # Align our arguments with the expected parameters for the API
+        payload = {
+            'advocateid': advocate_id,
+            'campaigns': campaigns,
+            'email': email,
+            'phone': phone,
+            'smsOptin': 1 if sms_optin else None,
+            'emailOptin': 1 if email_optin else None,
+            'smsOptout': 1 if sms_optout else None,
+            'emailOptout': 1 if email_optout else None,
+        }
+
+        # Clean up any keys that have a "None" value
+        payload = {
+            key: val
+            for key, val in payload.items()
+            if val is not None
+        }
+
+        # Merge in any kwargs
+        payload.update(kwargs)
+
+        # Call into the Phone2Action API
+        self.client.post_request('advocates', data=payload)

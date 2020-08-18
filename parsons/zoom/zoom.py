@@ -44,7 +44,7 @@ class Zoom:
         # To Do: Consider increasing default page size.
 
         self.refresh_header_token()
-        r = self.client.get_request(ZOOM_URI + endpoint, params=params, **kwargs)
+        r = self.client.get_request(endpoint, params=params, **kwargs)
         self.client.data_key = data_key
         data = self.client.data_parse(r)
 
@@ -62,7 +62,7 @@ class Zoom:
         else:
             while r['page_number'] < r['page_count']:
                 params['page_number'] = int(r['page_number']) + 1
-                r = self.client.get_request(ZOOM_URI + endpoint, params=params, **kwargs)
+                r = self.client.get_request(endpoint, params=params, **kwargs)
                 data.extend(self.client.data_parse(r))
             return Table(data)
 
@@ -151,6 +151,6 @@ class Zoom:
                 See :ref:`parsons-table` for output options.
         """
 
-        tbl = self.get_request(f'/report/meetings/{meeting_id}/participants', 'participants')
+        tbl = self.get_request(f'report/meetings/{meeting_id}/participants', 'participants')
         logger.info(f'Retrieved {tbl.num_rows} participants.')
         return tbl

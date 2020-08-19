@@ -66,9 +66,9 @@ class Phone2Action(object):
                 or territory e.g., "CA" "NY" or "DC"
             campaign_id: int
                 Filter to specific campaign
-            updated_since: str
-                Fetch all advocates updated since UTC date time provided
-                using (ex. '2014-01-05 23:59:43')
+            updated_since: str or int or datetime
+                Fetch all advocates updated since the date provided; this can be a datetime
+                object, a UNIX timestamp, or a date string (ex. '2014-01-05 23:59:43')
             page: int
                 Page number of data to fetch; if this is specified, call will only return one
                 page.
@@ -147,7 +147,6 @@ class Phone2Action(object):
             Parsons Table
                 See :ref:`parsons-table` for output options.
         """
-        url = 'campaigns'
 
         args = {'state': state,
                 'zip': zip,
@@ -155,7 +154,7 @@ class Phone2Action(object):
                 'includePrivate': str(include_private)
                 }
 
-        tbl = Table(self.client.get_request(url, params=args))
+        tbl = Table(self.client.get_request('campaigns', params=args))
         tbl.unpack_dict('updated_at')
         if include_content:
             tbl.unpack_dict('content')
@@ -164,8 +163,8 @@ class Phone2Action(object):
 
     def create_advocate(self,
                         campaigns,
-                        firstname=None,
-                        lastname=None,
+                        first_name=None,
+                        last_name=None,
                         email=None,
                         phone=None,
                         address1=None,
@@ -185,15 +184,15 @@ class Phone2Action(object):
         the email address or phone number (accordingly).
 
         The list of arguments only partially covers the fields that can be set on the advocate.
-        For a complete list of fields that can be updated, see the Phone2Action API
-        documentation: https://docs.phone2action.com/#calls-create
+        For a complete list of fields that can be updated, see
+        `the Phone2Action API documentation <https://docs.phone2action.com/#calls-create>`_.
 
         `Args:`
             campaigns: list
                 The ID(s) of campaigns to add the advocate to
-            firstname: str
+            first_name: str
                 `Optional`: The first name of the advocate
-            lastname: str
+            last_name: str
                 `Optional`: The last name of the advocate
             email: str
                 `Optional`: An email address to add for the advocate. One of ``email`` or ``phone``
@@ -251,8 +250,8 @@ class Phone2Action(object):
             'campaigns': campaigns,
             'email': email,
             'phone': phone,
-            'firstname': firstname,
-            'lastname': lastname,
+            'firstname': first_name,
+            'lastname': last_name,
             'address1': address1,
             'address2': address2,
             'city': city,
@@ -294,8 +293,8 @@ class Phone2Action(object):
         the email address or phone number along with a list of campaigns.
 
         The list of arguments only partially covers the fields that can be updated on the advocate.
-        For a complete list of fields that can be updated, see the Phone2Action API
-        documentation: https://docs.phone2action.com/#calls-create
+        For a complete list of fields that can be updated, see
+        `the Phone2Action API documentation <https://docs.phone2action.com/#calls-create>`_.
 
         `Args:`
             advocate_id: integer
@@ -346,6 +345,9 @@ class Phone2Action(object):
             'emailOptin': 1 if email_optin else None,
             'smsOptout': 1 if sms_optout else None,
             'emailOptout': 1 if email_optout else None,
+            # remap first_name / last_name to be consistent with updated_advocates
+            'firstname': kwargs.pop('first_name', None),
+            'lastname': kwargs.pop('last_name', None),
         }
 
         # Clean up any keys that have a "None" value

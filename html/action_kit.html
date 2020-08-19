@@ -744,7 +744,7 @@ res: requests http response object</dd>
 
 <dl class="method">
 <dt id="parsons.ActionKit.bulk_upload_table">
-<code class="descname">bulk_upload_table</code><span class="sig-paren">(</span><em>table</em>, <em>import_page</em>, <em>autocreate_user_fields=0</em>, <em>no_overwrite_on_empty=False</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/action_kit/action_kit.html#ActionKit.bulk_upload_table"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.ActionKit.bulk_upload_table" title="Permalink to this definition">¶</a></dt>
+<code class="descname">bulk_upload_table</code><span class="sig-paren">(</span><em>table</em>, <em>import_page</em>, <em>autocreate_user_fields=0</em>, <em>no_overwrite_on_empty=False</em>, <em>set_only_columns=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/action_kit/action_kit.html#ActionKit.bulk_upload_table"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.ActionKit.bulk_upload_table" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bulk upload a table of new users or user updates.
 See <a class="reference external" href="https://roboticdogs.actionkit.com/docs/manual/api/rest/uploads.html">ActionKit User Upload Documentation</a>
 Be careful that blank values in columns will overwrite existing data.</p>
@@ -774,6 +774,9 @@ This can be undesirable, if the goal is to only send updates.
 Setting this to True will divide up the table into multiple upload
 batches, changing the columns uploaded based on permutations of
 empty columns.</dd>
+<dt>set_only_columns: list</dt>
+<dd>This is similar to no_overwrite_on_empty but restricts to a specific set of columns
+which, if blank, should not be overwritten.</dd>
 </dl>
 </dd>
 <dt><cite>Returns</cite>:</dt>
@@ -784,6 +787,33 @@ results: [dict] – This is a list of the full results.</p>
 <blockquote class="last">
 <div>progress_url and res for any results</div></blockquote>
 </dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="parsons.ActionKit.collect_upload_errors">
+<code class="descname">collect_upload_errors</code><span class="sig-paren">(</span><em>result_array</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/action_kit/action_kit.html#ActionKit.collect_upload_errors"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.ActionKit.collect_upload_errors" title="Permalink to this definition">¶</a></dt>
+<dd><p>Collect any upload errors as a list of objects from bulk_upload_table ‘results’ key value.
+This waits for uploads to complete, so it may take some time if you uploaded a large file.
+<cite>Args:</cite></p>
+<blockquote>
+<div><dl class="docutils">
+<dt>result_array: list</dt>
+<dd>After receiving a dict back from bulk_upload_table you may want to see if there
+were any errors in the uploads.  If you call collect_upload_errors(result_array)
+it will iterate across each of the uploads fetching the final result of e.g.
+/rest/v1/uploaderror?upload=123</dd>
+</dl>
+</div></blockquote>
+<dl class="docutils">
+<dt><cite>Returns</cite>:</dt>
+<dd><dl class="first last docutils">
+<dt>[dict]</dt>
+<dd>message: str – error message
+upload: str – upload progress API path e.g. “/rest/v1/upload/123456/”
+id: int – upload error record id (different than upload id)</dd>
 </dl>
 </dd>
 </dl>

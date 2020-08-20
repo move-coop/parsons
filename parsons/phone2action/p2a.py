@@ -191,38 +191,38 @@ class Phone2Action(object):
             campaigns: list
                 The ID(s) of campaigns to add the advocate to
             first_name: str
-                `Optional`: The first name of the advocate
+                `Optional`; The first name of the advocate
             last_name: str
-                `Optional`: The last name of the advocate
+                `Optional`; The last name of the advocate
             email: str
-                `Optional`: An email address to add for the advocate. One of ``email`` or ``phone``
+                `Optional`; An email address to add for the advocate. One of ``email`` or ``phone``
                 is required.
             phone: str
-                `Optional`: An phone # to add for the advocate. One of ``email`` or ``phone`` is
+                `Optional`; An phone # to add for the advocate. One of ``email`` or ``phone`` is
                 required.
             address1: str
-                `Optional`: The first line of the advocates' address
+                `Optional`; The first line of the advocates' address
             address2: str
-                `Optional`: The second line of the advocates' address
+                `Optional`; The second line of the advocates' address
             city: str
-                `Optional`: The city of the advocates address
+                `Optional`; The city of the advocates address
             state: str
-                `Optional`: The state of the advocates address
+                `Optional`; The state of the advocates address
             zip5: str
-                `Optional`: The 5 digit Zip code of the advocate
+                `Optional`; The 5 digit Zip code of the advocate
             sms_optin: boolean
-                `Optional`: Whether to opt the advocate into receiving text messages; an SMS
+                `Optional`; Whether to opt the advocate into receiving text messages; an SMS
                 confirmation text message will be sent. You must provide values for the ``phone``
                 and ``campaigns`` arguments.
             email_optin: boolean
-                `Optional`: Whether to opt the advocate into receiving emails. You must provide
+                `Optional`; Whether to opt the advocate into receiving emails. You must provide
                 values for the ``email`` and ``campaigns`` arguments.
             sms_optout: boolean
-                `Optional`: Whether to opt the advocate out of receiving text messages. You must
+                `Optional`; Whether to opt the advocate out of receiving text messages. You must
                 provide values for the ``phone`` and ``campaigns`` arguments. Once an advocate is
                 opted out, they cannot be opted back in.
             email_optout: boolean
-                `Optional`: Whether to opt the advocate out of receiving emails. You must
+                `Optional`; Whether to opt the advocate out of receiving emails. You must
                 provide values for the ``email`` and ``campaigns`` arguments. Once an advocate is
                 opted out, they cannot be opted back in.
             **kwargs:
@@ -300,24 +300,24 @@ class Phone2Action(object):
             advocate_id: integer
                 The ID of the advocate being updates
             campaigns: list
-                `Optional`: The ID(s) of campaigns to add the user to
+                `Optional`; The ID(s) of campaigns to add the user to
             email: str
-                `Optional`: An email address to add for the advocate (or to use when opting in/out)
+                `Optional`; An email address to add for the advocate (or to use when opting in/out)
             phone: str
-                `Optional`: An phone # to add for the advocate (or to use when opting in/out)
+                `Optional`; An phone # to add for the advocate (or to use when opting in/out)
             sms_optin: boolean
-                `Optional`: Whether to opt the advocate into receiving text messages; an SMS
+                `Optional`; Whether to opt the advocate into receiving text messages; an SMS
                 confirmation text message will be sent. You must provide values for the ``phone``
                 and ``campaigns`` arguments.
             email_optin: boolean
-                `Optional`: Whether to opt the advocate into receiving emails. You must provide
+                `Optional`; Whether to opt the advocate into receiving emails. You must provide
                 values for the ``email`` and ``campaigns`` arguments.
             sms_optout: boolean
-                `Optional`: Whether to opt the advocate out of receiving text messages. You must
+                `Optional`; Whether to opt the advocate out of receiving text messages. You must
                 provide values for the ``phone`` and ``campaigns`` arguments. Once an advocate is
                 opted out, they cannot be opted back in.
             email_optout: boolean
-                `Optional`: Whether to opt the advocate out of receiving emails. You must
+                `Optional`; Whether to opt the advocate out of receiving emails. You must
                 provide values for the ``email`` and ``campaigns`` arguments. Once an advocate is
                 opted out, they cannot be opted back in.
             **kwargs:

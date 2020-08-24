@@ -227,9 +227,15 @@ class Phone2Action(object):
                 opted out, they cannot be opted back in.
             **kwargs:
                 Additional fields on the advocate to update
+        `Returns:`
+            The int ID of the created advocate.
         """
 
         # Validate the passed in arguments
+
+        if not campaigns:
+            raise ValueError(
+                'When creating an advocate, you must specify one or more campaigns.')
 
         if not email and not phone:
             raise ValueError(
@@ -247,7 +253,6 @@ class Phone2Action(object):
 
         # Align our arguments with the expected parameters for the API
         payload = {
-            'campaigns': campaigns,
             'email': email,
             'phone': phone,
             'firstname': first_name,
@@ -273,8 +278,13 @@ class Phone2Action(object):
         # Merge in any kwargs
         payload.update(kwargs)
 
+        # Turn into a list of items so we can append multiple campaigns
+        campaign_keys = [('campaigns[]', val) for val in campaigns]
+        data = [(key, value) for key, value in payload.items()] + campaign_keys
+
         # Call into the Phone2Action API
-        self.client.post_request('advocates', data=payload)
+        response = self.client.post_request('advocates', data=data)
+        return response['advocateid']
 
     def update_advocate(self,
                         advocate_id,
@@ -360,5 +370,10 @@ class Phone2Action(object):
         # Merge in any kwargs
         payload.update(kwargs)
 
+        # Turn into a list of items so we can append multiple campaigns
+        campaigns = campaigns or []
+        campaign_keys = [('campaigns[]', val) for val in campaigns]
+        data = [(key, value) for key, value in payload.items()] + campaign_keys
+
         # Call into the Phone2Action API
-        self.client.post_request('advocates', data=payload)
+        self.client.post_request('advocates', data=data)

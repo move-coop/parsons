@@ -49,7 +49,8 @@ class RockTheVote:
         self.partner_id = check_env.check('RTV_PARTNER_ID', partner_id)
         self.partner_api_key = check_env.check('RTV_PARTNER_API_KEY', partner_api_key)
 
-        self.client = APIConnector('https://vr.rockthevote.com/api/v4', headers=REQUEST_HEADERS)
+        self.client = APIConnector('https://register.rockthevote.com/api/v4/',
+                                   headers=REQUEST_HEADERS)
 
     def create_registration_report(self, before=None, since=None):
         """
@@ -64,7 +65,7 @@ class RockTheVote:
             int
                 The ID of the created report.
         """
-        report_url = f'{self.client.uri}/registrant_reports.json'
+        report_url = f'registrant_reports.json'
         # Create the report for the new data
         report_parameters = {
             'partner_id': self.partner_id,
@@ -121,7 +122,7 @@ class RockTheVote:
             'partner_id': self.partner_id,
             'partner_API_key': self.partner_api_key,
         }
-        status_url = f'{self.client.uri}/registrant_reports/{report_id}'
+        status_url = f'registrant_reports/{report_id}'
         download_url = None
 
         # Let's figure out at what time should we just give up because we waited

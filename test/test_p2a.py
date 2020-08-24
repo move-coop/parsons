@@ -226,7 +226,7 @@ class TestP2A(unittest.TestCase):
     @requests_mock.Mocker()
     def test_create_advocate(self, m):
 
-        m.post(self.p2a.client.uri + 'advocates')
+        m.post(self.p2a.client.uri + 'advocates', json={'advocateid': 1})
 
         # Test arg validation - create requires a phone or an email
         self.assertRaises(ValueError,
@@ -246,11 +246,12 @@ class TestP2A(unittest.TestCase):
                                                            email_optin=True))
 
         # Test a successful call
-        self.p2a.create_advocate(campaigns=[1],
-                                 email='foo@bar.com',
-                                 email_optin=True,
-                                 firstname='Test')
+        advocateid = self.p2a.create_advocate(campaigns=[1],
+                                              email='foo@bar.com',
+                                              email_optin=True,
+                                              firstname='Test')
         self.assertTrue(m.called)
+        self.assertEqual(advocateid, 1)
 
         # Check that the properties were mapped
         data = parse_request_body(m.last_request.text)

@@ -4,6 +4,7 @@ from parsons.utilities import cloud_storage
 
 import logging
 import uuid
+import csv
 
 logger = logging.getLogger(__name__)
 
@@ -79,8 +80,13 @@ class BulkImport(object):
 
         # Move to cloud storage
         file_name = str(uuid.uuid1())
-        url = cloud_storage.post_file(tbl, url_type, file_path=file_name + '.zip', **url_kwargs)
+        url = cloud_storage.post_file(tbl,
+                                      url_type,
+                                      file_path=file_name + '.zip',
+                                      quoting=csv.QUOTE_ALL,
+                                      **url_kwargs)
         logger.info(f'Table uploaded to {url_type}.')
+        print (url)
 
         # Generate request json
         json = {"description": description,
@@ -89,7 +95,7 @@ class BulkImport(object):
                     "columns": [{'name': c} for c in tbl.columns],
                     "fileName": file_name + '.csv',
                     "hasHeader": "True",
-                    "hasQuotes": "False",
+                    "hasQuotes": "True",
                     "sourceUrl": url},
                 "actions": [{"resultFileSizeKbLimit": 5000,
                              "resourceType": resource_type,

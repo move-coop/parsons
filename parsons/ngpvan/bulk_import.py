@@ -86,7 +86,6 @@ class BulkImport(object):
                                       quoting=csv.QUOTE_ALL,
                                       **url_kwargs)
         logger.info(f'Table uploaded to {url_type}.')
-        print (url)
 
         # Generate request json
         json = {"description": description,

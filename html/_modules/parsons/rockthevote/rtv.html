@@ -238,7 +238,8 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">partner_id</span> <span class="o">=</span> <span class="n">check_env</span><span class="o">.</span><span class="n">check</span><span class="p">(</span><span class="s1">&#39;RTV_PARTNER_ID&#39;</span><span class="p">,</span> <span class="n">partner_id</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">partner_api_key</span> <span class="o">=</span> <span class="n">check_env</span><span class="o">.</span><span class="n">check</span><span class="p">(</span><span class="s1">&#39;RTV_PARTNER_API_KEY&#39;</span><span class="p">,</span> <span class="n">partner_api_key</span><span class="p">)</span>
 
-        <span class="bp">self</span><span class="o">.</span><span class="n">client</span> <span class="o">=</span> <span class="n">APIConnector</span><span class="p">(</span><span class="s1">&#39;https://vr.rockthevote.com/api/v4&#39;</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="n">REQUEST_HEADERS</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">client</span> <span class="o">=</span> <span class="n">APIConnector</span><span class="p">(</span><span class="s1">&#39;https://register.rockthevote.com/api/v4/&#39;</span><span class="p">,</span>
+                                   <span class="n">headers</span><span class="o">=</span><span class="n">REQUEST_HEADERS</span><span class="p">)</span>
 
 <div class="viewcode-block" id="RockTheVote.create_registration_report"><a class="viewcode-back" href="../../../rockthevote.html#parsons.rockthevote.rtv.RockTheVote.create_registration_report">[docs]</a>    <span class="k">def</span> <span class="nf">create_registration_report</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">before</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">since</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
@@ -253,7 +254,7 @@
 <span class="sd">            int</span>
 <span class="sd">                The ID of the created report.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">report_url</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">uri</span><span class="si">}</span><span class="s1">/registrant_reports.json&#39;</span>
+        <span class="n">report_url</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;registrant_reports.json&#39;</span>
         <span class="c1"># Create the report for the new data</span>
         <span class="n">report_parameters</span> <span class="o">=</span> <span class="p">{</span>
             <span class="s1">&#39;partner_id&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">partner_id</span><span class="p">,</span>
@@ -310,7 +311,7 @@
             <span class="s1">&#39;partner_id&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">partner_id</span><span class="p">,</span>
             <span class="s1">&#39;partner_API_key&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">partner_api_key</span><span class="p">,</span>
         <span class="p">}</span>
-        <span class="n">status_url</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">uri</span><span class="si">}</span><span class="s1">/registrant_reports/</span><span class="si">{</span><span class="n">report_id</span><span class="si">}</span><span class="s1">&#39;</span>
+        <span class="n">status_url</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;registrant_reports/</span><span class="si">{</span><span class="n">report_id</span><span class="si">}</span><span class="s1">&#39;</span>
         <span class="n">download_url</span> <span class="o">=</span> <span class="kc">None</span>
 
         <span class="c1"># Let&#39;s figure out at what time should we just give up because we waited</span>

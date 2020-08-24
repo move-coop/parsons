@@ -189,7 +189,7 @@
   <h1>Source code for parsons.mobilize_america.ma</h1><div class="highlight"><pre>
 <span></span><span class="kn">from</span> <span class="nn">requests</span> <span class="kn">import</span> <span class="n">request</span> <span class="k">as</span> <span class="n">_request</span>
 <span class="kn">from</span> <span class="nn">parsons.etl.table</span> <span class="kn">import</span> <span class="n">Table</span>
-<span class="kn">from</span> <span class="nn">parsons.utilities.date_convert</span> <span class="kn">import</span> <span class="n">iso_to_unix</span>
+<span class="kn">from</span> <span class="nn">parsons.utilities.datetime</span> <span class="kn">import</span> <span class="n">date_to_timestamp</span>
 <span class="kn">import</span> <span class="nn">petl</span>
 <span class="kn">import</span> <span class="nn">re</span>
 <span class="kn">import</span> <span class="nn">os</span>
@@ -265,7 +265,7 @@
         <span class="k">if</span> <span class="n">time_arg</span><span class="p">:</span>
 
             <span class="n">time</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="s1">&#39;&lt;=|&lt;|&gt;=|&gt;&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="n">time_arg</span><span class="p">)</span>
-            <span class="n">time</span> <span class="o">=</span> <span class="n">iso_to_unix</span><span class="p">(</span><span class="n">time</span><span class="p">)</span>
+            <span class="n">time</span> <span class="o">=</span> <span class="n">date_to_timestamp</span><span class="p">(</span><span class="n">time</span><span class="p">)</span>
             <span class="n">time_filter</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="s1">&#39;&lt;=|&lt;|&gt;=|&gt;&#39;</span><span class="p">,</span> <span class="n">time_arg</span><span class="p">)</span><span class="o">.</span><span class="n">group</span><span class="p">()</span>
 
             <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">trans</span><span class="p">:</span>
@@ -289,7 +289,9 @@
 <span class="sd">        &quot;&quot;&quot;</span>
 
         <span class="k">return</span> <span class="n">Table</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">request_paginate</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">uri</span> <span class="o">+</span> <span class="s1">&#39;organizations&#39;</span><span class="p">,</span>
-                                           <span class="n">args</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;updated_since&#39;</span><span class="p">:</span> <span class="n">iso_to_unix</span><span class="p">(</span><span class="n">updated_since</span><span class="p">)}))</span></div>
+                                           <span class="n">args</span><span class="o">=</span><span class="p">{</span>
+                                               <span class="s1">&#39;updated_since&#39;</span><span class="p">:</span> <span class="n">date_to_timestamp</span><span class="p">(</span><span class="n">updated_since</span><span class="p">)</span>
+                                           <span class="p">}))</span></div>
 
 <div class="viewcode-block" id="MobilizeAmerica.get_events"><a class="viewcode-back" href="../../../mobilize_america.html#parsons.MobilizeAmerica.get_events">[docs]</a>    <span class="k">def</span> <span class="nf">get_events</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">organization_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">updated_since</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">timeslot_start</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
                    <span class="n">timeslot_end</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">timeslots_table</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">max_timeslots</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
@@ -332,7 +334,7 @@
             <span class="n">organization_id</span> <span class="o">=</span> <span class="p">[</span><span class="n">organization_id</span><span class="p">]</span>
 
         <span class="n">args</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;organization_id&#39;</span><span class="p">:</span> <span class="n">organization_id</span><span class="p">,</span>
-                <span class="s1">&#39;updated_since&#39;</span><span class="p">:</span> <span class="n">iso_to_unix</span><span class="p">(</span><span class="n">updated_since</span><span class="p">),</span>
+                <span class="s1">&#39;updated_since&#39;</span><span class="p">:</span> <span class="n">date_to_timestamp</span><span class="p">(</span><span class="n">updated_since</span><span class="p">),</span>
                 <span class="s1">&#39;timeslot_start&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_time_parse</span><span class="p">(</span><span class="n">timeslot_start</span><span class="p">),</span>
                 <span class="s1">&#39;timeslot_end&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_time_parse</span><span class="p">(</span><span class="n">timeslot_end</span><span class="p">)}</span>
 
@@ -425,7 +427,7 @@
             <span class="n">organization_id</span> <span class="o">=</span> <span class="p">[</span><span class="n">organization_id</span><span class="p">]</span>
 
         <span class="n">args</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;organization_id&#39;</span><span class="p">:</span> <span class="n">organization_id</span><span class="p">,</span>
-                <span class="s1">&#39;updated_since&#39;</span><span class="p">:</span> <span class="n">iso_to_unix</span><span class="p">(</span><span class="n">updated_since</span><span class="p">),</span>
+                <span class="s1">&#39;updated_since&#39;</span><span class="p">:</span> <span class="n">date_to_timestamp</span><span class="p">(</span><span class="n">updated_since</span><span class="p">),</span>
                 <span class="s1">&#39;timeslot_start&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_time_parse</span><span class="p">(</span><span class="n">timeslot_start</span><span class="p">),</span>
                 <span class="s1">&#39;timeslot_end&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_time_parse</span><span class="p">(</span><span class="n">timeslot_end</span><span class="p">),</span>
                 <span class="p">}</span>
@@ -471,7 +473,7 @@
             <span class="n">organization_id</span> <span class="o">=</span> <span class="p">[</span><span class="n">organization_id</span><span class="p">]</span>
 
         <span class="n">args</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;organization_id&#39;</span><span class="p">:</span> <span class="n">organization_id</span><span class="p">,</span>
-                <span class="s1">&#39;updated_since&#39;</span><span class="p">:</span> <span class="n">iso_to_unix</span><span class="p">(</span><span class="n">updated_since</span><span class="p">)}</span>
+                <span class="s1">&#39;updated_since&#39;</span><span class="p">:</span> <span class="n">date_to_timestamp</span><span class="p">(</span><span class="n">updated_since</span><span class="p">)}</span>
 
         <span class="k">return</span> <span class="n">Table</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">request_paginate</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">uri</span> <span class="o">+</span> <span class="s1">&#39;events/deleted&#39;</span><span class="p">,</span> <span class="n">args</span><span class="o">=</span><span class="n">args</span><span class="p">))</span></div>
 
@@ -495,7 +497,7 @@
         <span class="n">url</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">uri</span> <span class="o">+</span> <span class="s1">&#39;organizations/&#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">organization_id</span><span class="p">)</span> <span class="o">+</span> <span class="s1">&#39;/people&#39;</span>
 
         <span class="k">return</span> <span class="n">Table</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">request_paginate</span><span class="p">(</span><span class="n">url</span><span class="p">,</span>
-                                           <span class="n">args</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;updated_since&#39;</span><span class="p">:</span> <span class="n">iso_to_unix</span><span class="p">(</span><span class="n">updated_since</span><span class="p">)},</span>
+                                           <span class="n">args</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;updated_since&#39;</span><span class="p">:</span> <span class="n">date_to_timestamp</span><span class="p">(</span><span class="n">updated_since</span><span class="p">)},</span>
                                            <span class="n">auth</span><span class="o">=</span><span class="kc">True</span><span class="p">))</span></div>
 
 <div class="viewcode-block" id="MobilizeAmerica.get_attendances"><a class="viewcode-back" href="../../../mobilize_america.html#parsons.MobilizeAmerica.get_attendances">[docs]</a>    <span class="k">def</span> <span class="nf">get_attendances</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">organization_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">updated_since</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
@@ -519,7 +521,7 @@
         <span class="n">url</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">uri</span> <span class="o">+</span> <span class="s1">&#39;organizations/&#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">organization_id</span><span class="p">)</span> <span class="o">+</span> <span class="s1">&#39;/attendances&#39;</span>
 
         <span class="k">return</span> <span class="n">Table</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">request_paginate</span><span class="p">(</span><span class="n">url</span><span class="p">,</span>
-                                           <span class="n">args</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;updated_since&#39;</span><span class="p">:</span> <span class="n">iso_to_unix</span><span class="p">(</span><span class="n">updated_since</span><span class="p">)},</span>
+                                           <span class="n">args</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;updated_since&#39;</span><span class="p">:</span> <span class="n">date_to_timestamp</span><span class="p">(</span><span class="n">updated_since</span><span class="p">)},</span>
                                            <span class="n">auth</span><span class="o">=</span><span class="kc">True</span><span class="p">))</span></div></div>
 </pre></div>
 

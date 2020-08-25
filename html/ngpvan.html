@@ -105,6 +105,7 @@
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#quickstart">QuickStart</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#common-workflows">Common Workflows</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#bulk-import">Bulk Import</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#scores-loading-and-updating">Scores: Loading and Updating</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#people-add-survey-response">People: Add Survey Response</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#event-creating-and-modifying">Event: Creating and Modifying</a></li>
@@ -114,6 +115,7 @@
 <li class="toctree-l2"><a class="reference internal" href="#api">API</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#people">People</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#activist-codes">Activist Codes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id3">Bulk Import</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#canvass-responses">Canvass Responses</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#changed-entities">Changed Entities</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#codes">Codes</a></li>
@@ -287,11 +289,36 @@ documentation for all functions.</p>
 </div>
 <div class="section" id="common-workflows">
 <h2>Common Workflows<a class="headerlink" href="#common-workflows" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="bulk-import">
+<h3>Bulk Import<a class="headerlink" href="#bulk-import" title="Permalink to this headline">¶</a></h3>
+<p>For some methods, VAN allows you to bulk import multiple records to create or modify them.</p>
+<p>The bulk upload endpoint, requires access to file on the public internet as it runs the upload
+asynchronously. Therefore, in order to bulk import, you must pass in cloud storage credentials
+so that the file can be posted. Currently, only S3 is supported.</p>
+<p><strong>Bulk Apply Activist Codes</strong></p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">parsons</span> <span class="kn">import</span> <span class="n">VAN</span><span class="p">,</span> <span class="n">Table</span>
+
+<span class="n">van</span> <span class="o">=</span> <span class="n">VAN</span><span class="p">(</span><span class="n">db</span><span class="o">=</span><span class="n">EveryAction</span><span class="p">)</span>
+
+<span class="c1"># Load a table containing the VANID, activistcodeid and other options.</span>
+<span class="n">tbl</span> <span class="o">=</span> <span class="n">Table</span><span class="o">.</span><span class="n">from_csv</span><span class="p">(</span><span class="s1">&#39;new_volunteers.csv&#39;</span><span class="p">)</span>
+
+<span class="c1"># Table will be sent to S3 bucket and a POST request will be made to VAN creating</span>
+<span class="c1"># the bulk import job with all of the valid meta information. The method will</span>
+<span class="c1"># return the job id.</span>
+<span class="n">job_id</span> <span class="o">=</span> <span class="n">van</span><span class="o">.</span><span class="n">bulk_apply_activist_codes</span><span class="p">(</span><span class="n">tbl</span><span class="p">,</span> <span class="n">url_type</span><span class="o">=</span><span class="s2">&quot;S3&quot;</span><span class="p">,</span> <span class="n">bucket</span><span class="o">=</span><span class="s1">&#39;my_bucket&#39;</span><span class="p">)</span>
+
+<span class="c1"># The bulk import job is run asynchronously, so you may poll the status of a job.</span>
+<span class="n">job_status</span> <span class="o">=</span> <span class="n">van</span><span class="o">.</span><span class="n">get_bulk_import_job</span><span class="p">(</span><span class="n">job_id</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
 <div class="section" id="scores-loading-and-updating">
 <h3>Scores: Loading and Updating<a class="headerlink" href="#scores-loading-and-updating" title="Permalink to this headline">¶</a></h3>
 <p>Loading a score is a multi-step process. Once a score is set to approved, loading takes place overnight.</p>
 <p><strong>Standard Auto Approve Load</strong></p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">parsons</span> <span class="kn">import</span> <span class="n">VAN</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">parsons</span> <span class="kn">import</span> <span class="n">VAN</span><span class="p">,</span> <span class="n">Table</span>
+
 <span class="n">van</span> <span class="o">=</span> <span class="n">VAN</span><span class="p">(</span><span class="n">db</span><span class="o">=</span><span class="s1">&#39;MyVoters&#39;</span><span class="p">)</span> <span class="c1"># API key stored as an environmental variable</span>
 
 <span class="c1"># If you don&#39;t know the id, you can run van.get_scores() to list the</span>
@@ -919,6 +946,145 @@ such as <code class="docutils literal notranslate"><span class="pre">dwid</span>
 </dd></dl>
 
 </div>
+<div class="section" id="id3">
+<h3>Bulk Import<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h3>
+<dl class="class">
+<dt id="parsons.ngpvan.van.BulkImport">
+<em class="property">class </em><code class="descclassname">parsons.ngpvan.van.</code><code class="descname">BulkImport</code><a class="reference internal" href="_modules/parsons/ngpvan/bulk_import.html#BulkImport"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.ngpvan.van.BulkImport" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="method">
+<dt id="parsons.ngpvan.van.BulkImport.get_bulk_import_resources">
+<code class="descname">get_bulk_import_resources</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/ngpvan/bulk_import.html#BulkImport.get_bulk_import_resources"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.ngpvan.van.BulkImport.get_bulk_import_resources" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get bulk import resources that available to the user. These define
+the types of bulk imports that you can run. These might include
+<code class="docutils literal notranslate"><span class="pre">Contacts</span></code>, <code class="docutils literal notranslate"><span class="pre">ActivistCodes</span></code>, <code class="docutils literal notranslate"><span class="pre">ContactsActivistCodes</span></code> and others.</p>
+<dl class="docutils">
+<dt><cite>Returns:</cite></dt>
+<dd><dl class="first last docutils">
+<dt>list</dt>
+<dd>A list of resources.</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="parsons.ngpvan.van.BulkImport.get_bulk_import_job">
+<code class="descname">get_bulk_import_job</code><span class="sig-paren">(</span><em>job_id</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/ngpvan/bulk_import.html#BulkImport.get_bulk_import_job"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.ngpvan.van.BulkImport.get_bulk_import_job" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get a bulk import job status.</p>
+<dl class="docutils">
+<dt><cite>Args:</cite></dt>
+<dd><dl class="first last docutils">
+<dt>job_id <span class="classifier-delimiter">:</span> <span class="classifier">int</span></dt>
+<dd>The bulk import job id.</dd>
+</dl>
+</dd>
+<dt><cite>Returns:</cite></dt>
+<dd><dl class="first last docutils">
+<dt>dict</dt>
+<dd>The bulk import job</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="parsons.ngpvan.van.BulkImport.get_bulk_import_mapping_types">
+<code class="descname">get_bulk_import_mapping_types</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/ngpvan/bulk_import.html#BulkImport.get_bulk_import_mapping_types"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.ngpvan.van.BulkImport.get_bulk_import_mapping_types" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get bulk import mapping types.</p>
+<dl class="docutils">
+<dt><cite>Returns:</cite></dt>
+<dd><dl class="first last docutils">
+<dt>Parsons Table</dt>
+<dd>See <a class="reference internal" href="table.html#parsons-table"><span class="std std-ref">Parsons Table</span></a> for output options.</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="parsons.ngpvan.van.BulkImport.get_bulk_import_mapping_type">
+<code class="descname">get_bulk_import_mapping_type</code><span class="sig-paren">(</span><em>type_name</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/ngpvan/bulk_import.html#BulkImport.get_bulk_import_mapping_type"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.ngpvan.van.BulkImport.get_bulk_import_mapping_type" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get a single bulk import mapping type.</p>
+<dl class="docutils">
+<dt><cite>Args:</cite></dt>
+<dd>type_name: str</dd>
+<dt><cite>Returns</cite>:</dt>
+<dd><dl class="first last docutils">
+<dt>dict</dt>
+<dd>A mapping type json</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="parsons.ngpvan.van.BulkImport.bulk_apply_activist_codes">
+<code class="descname">bulk_apply_activist_codes</code><span class="sig-paren">(</span><em>tbl</em>, <em>url_type</em>, <em>**url_kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/ngpvan/bulk_import.html#BulkImport.bulk_apply_activist_codes"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.ngpvan.van.BulkImport.bulk_apply_activist_codes" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bulk apply activist codes.</p>
+<p>The table may include the following columns. The first column
+must be <code class="docutils literal notranslate"><span class="pre">vanid</span></code>.</p>
+<table border="1" class="colwidths-given docutils">
+<colgroup>
+<col width="25%" />
+<col width="25%" />
+<col width="50%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Column Name</th>
+<th class="head">Required</th>
+<th class="head">Description</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td><code class="docutils literal notranslate"><span class="pre">vanid</span></code></td>
+<td>Yes</td>
+<td>A valid VANID primary key</td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal notranslate"><span class="pre">activistcodeid</span></code></td>
+<td>Yes</td>
+<td>A valid activist code id</td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal notranslate"><span class="pre">datecanvassed</span></code></td>
+<td>No</td>
+<td>An ISO formatted date</td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal notranslate"><span class="pre">contacttypeid</span></code></td>
+<td>No</td>
+<td>The method of contact.</td>
+</tr>
+</tbody>
+</table>
+<dl class="docutils">
+<dt><cite>Args:</cite></dt>
+<dd><dl class="first last docutils">
+<dt>table: Parsons table</dt>
+<dd>A Parsons table.</dd>
+<dt>url_type: str</dt>
+<dd>The cloud file storage to use to post the file. Currently only <code class="docutils literal notranslate"><span class="pre">S3</span></code>.</dd>
+<dt><a href="#id4"><span class="problematic" id="id5">**</span></a>url_kwargs: kwargs</dt>
+<dd><dl class="first last docutils">
+<dt>Arguments to configure your cloud storage url type.</dt>
+<dd><ul class="first last simple">
+<li>S3 requires <code class="docutils literal notranslate"><span class="pre">bucket</span></code> argument and, if not stored as env variables
+<code class="docutils literal notranslate"><span class="pre">aws_access_key</span></code> and <code class="docutils literal notranslate"><span class="pre">aws_secret_access_key</span></code>.</li>
+</ul>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd>
+<dt><cite>Returns:</cite></dt>
+<dd><dl class="first last docutils">
+<dt>int</dt>
+<dd>The bulk import job id</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</div>
 <div class="section" id="canvass-responses">
 <h3>Canvass Responses<a class="headerlink" href="#canvass-responses" title="Permalink to this headline">¶</a></h3>
 <dl class="class">
@@ -1298,7 +1464,7 @@ code. You can find supported entities with the <code class="xref py py-meth docu
 <dd>A list of fields for which to include data. If a field is omitted,
 <code class="docutils literal notranslate"><span class="pre">None</span></code> will be returned for that field. Can be <code class="docutils literal notranslate"><span class="pre">locations</span></code>,
 <code class="docutils literal notranslate"><span class="pre">codes</span></code>, <code class="docutils literal notranslate"><span class="pre">shifts</span></code>, <code class="docutils literal notranslate"><span class="pre">roles</span></code>, <code class="docutils literal notranslate"><span class="pre">notes</span></code>, <code class="docutils literal notranslate"><span class="pre">financialProgram</span></code>,
-<code class="docutils literal notranslate"><span class="pre">ticketCategories</span></code>, <a href="#id3"><span class="problematic" id="id4">``</span></a>voterRegistrationBatches`.`</dd>
+<code class="docutils literal notranslate"><span class="pre">ticketCategories</span></code>, <a href="#id6"><span class="problematic" id="id7">``</span></a>voterRegistrationBatches`.`</dd>
 </dl>
 </dd>
 <dt><cite>Returns:</cite></dt>
@@ -1825,7 +1991,7 @@ must be shared on the target folder.</p>
 instance of VAN.</dd>
 <dt>replace: boolean</dt>
 <dd>Replace saved list if already exists.</dd>
-<dt><a href="#id5"><span class="problematic" id="id6">**</span></a>url_kwargs: kwargs</dt>
+<dt><a href="#id8"><span class="problematic" id="id9">**</span></a>url_kwargs: kwargs</dt>
 <dd><dl class="first last docutils">
 <dt>Arguments to configure your cloud storage url type.</dt>
 <dd><ul class="first last simple">
@@ -1962,7 +2128,7 @@ approve a score loading job.</p>
 <dt id="parsons.ngpvan.van.Scores.upload_scores">
 <code class="descname">upload_scores</code><span class="sig-paren">(</span><em>tbl</em>, <em>config</em>, <em>url_type</em>, <em>id_type='vanid'</em>, <em>email=None</em>, <em>auto_approve=True</em>, <em>approve_tolerance=0.1</em>, <em>**url_kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/ngpvan/scores.html#Scores.upload_scores"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.ngpvan.van.Scores.upload_scores" title="Permalink to this definition">¶</a></dt>
 <dd><p>Upload scores. Use to create or overwrite scores. Multiple score loads
-should be configured in a single call. <a class="footnote-reference" href="#id10" id="id7">[1]</a></p>
+should be configured in a single call. <a class="footnote-reference" href="#id13" id="id10">[1]</a></p>
 <dl class="docutils">
 <dt><cite>Args:</cite></dt>
 <dd><dl class="first last docutils">
@@ -2002,7 +2168,7 @@ average values provided, then score will be automatically approved.</dd>
 <dt>approve_tolderance: float</dt>
 <dd>The deviation from the average scores allowed in order to automatically
 approve the score. Maximum of .1.</dd>
-<dt><a href="#id8"><span class="problematic" id="id9">**</span></a>url_kwargs: kwargs</dt>
+<dt><a href="#id11"><span class="problematic" id="id12">**</span></a>url_kwargs: kwargs</dt>
 <dd>Arguments to configure your cloud storage url type. See
 <a class="reference internal" href="utilities.html#cloud-storage"><span class="std std-ref">Cloud Storage</span></a> for more details.</dd>
 </dl>
@@ -2014,10 +2180,10 @@ approve the score. Maximum of .1.</dd>
 </dl>
 </dd>
 </dl>
-<table class="docutils footnote" frame="void" id="id10" rules="none">
+<table class="docutils footnote" frame="void" id="id13" rules="none">
 <colgroup><col class="label" /><col /></colgroup>
 <tbody valign="top">
-<tr><td class="label"><a class="fn-backref" href="#id7">[1]</a></td><td>NGPVAN asks that you load multiple scores in a single call to reduce the load
+<tr><td class="label"><a class="fn-backref" href="#id10">[1]</a></td><td>NGPVAN asks that you load multiple scores in a single call to reduce the load
 on their servers.</td></tr>
 </tbody>
 </table>

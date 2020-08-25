@@ -1,6 +1,6 @@
 from requests import request as _request
 from parsons.etl.table import Table
-from parsons.utilities.date_convert import iso_to_unix
+from parsons.utilities.datetime import date_to_timestamp
 import petl
 import re
 import os
@@ -76,7 +76,7 @@ class MobilizeAmerica(object):
         if time_arg:
 
             time = re.sub('<=|<|>=|>', '', time_arg)
-            time = iso_to_unix(time)
+            time = date_to_timestamp(time)
             time_filter = re.search('<=|<|>=|>', time_arg).group()
 
             for i in trans:
@@ -100,7 +100,9 @@ class MobilizeAmerica(object):
         """
 
         return Table(self.request_paginate(self.uri + 'organizations',
-                                           args={'updated_since': iso_to_unix(updated_since)}))
+                                           args={
+                                               'updated_since': date_to_timestamp(updated_since)
+                                           }))
 
     def get_events(self, organization_id=None, updated_since=None, timeslot_start=None,
                    timeslot_end=None, timeslots_table=False, max_timeslots=None):
@@ -143,7 +145,7 @@ class MobilizeAmerica(object):
             organization_id = [organization_id]
 
         args = {'organization_id': organization_id,
-                'updated_since': iso_to_unix(updated_since),
+                'updated_since': date_to_timestamp(updated_since),
                 'timeslot_start': self._time_parse(timeslot_start),
                 'timeslot_end': self._time_parse(timeslot_end)}
 
@@ -236,7 +238,7 @@ class MobilizeAmerica(object):
             organization_id = [organization_id]
 
         args = {'organization_id': organization_id,
-                'updated_since': iso_to_unix(updated_since),
+                'updated_since': date_to_timestamp(updated_since),
                 'timeslot_start': self._time_parse(timeslot_start),
                 'timeslot_end': self._time_parse(timeslot_end),
                 }
@@ -282,7 +284,7 @@ class MobilizeAmerica(object):
             organization_id = [organization_id]
 
         args = {'organization_id': organization_id,
-                'updated_since': iso_to_unix(updated_since)}
+                'updated_since': date_to_timestamp(updated_since)}
 
         return Table(self.request_paginate(self.uri + 'events/deleted', args=args))
 
@@ -306,7 +308,7 @@ class MobilizeAmerica(object):
         url = self.uri + 'organizations/' + str(organization_id) + '/people'
 
         return Table(self.request_paginate(url,
-                                           args={'updated_since': iso_to_unix(updated_since)},
+                                           args={'updated_since': date_to_timestamp(updated_since)},
                                            auth=True))
 
     def get_attendances(self, organization_id=None, updated_since=None):
@@ -330,5 +332,5 @@ class MobilizeAmerica(object):
         url = self.uri + 'organizations/' + str(organization_id) + '/attendances'
 
         return Table(self.request_paginate(url,
-                                           args={'updated_since': iso_to_unix(updated_since)},
+                                           args={'updated_since': date_to_timestamp(updated_since)},
                                            auth=True))

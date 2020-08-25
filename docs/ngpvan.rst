@@ -101,6 +101,7 @@ have the following columns:
    # The bulk import job is run asynchronously, so you may poll the status of a job.
    job_status = van.get_bulk_import_job(job_id)
 
+
 **Bulk Update Contacts**
 
 In this example we are updating contacts with emails and cell phones. The csv file would
@@ -133,6 +134,7 @@ If a record contains a null value, it will not be updated.
 
    # The bulk import job is run asynchronously, so you may poll the status of a job.
    job_status = van.get_bulk_import_job(job_id)
+
 
 ============================
 Scores: Loading and Updating

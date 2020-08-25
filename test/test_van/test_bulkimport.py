@@ -185,6 +185,7 @@ mapping_type = {'name': 'ActivistCode',
                         'limitedToParentValues': None
                     }]
                 }]
+
                 }
 
 bulk_import_job = {'id': 92,

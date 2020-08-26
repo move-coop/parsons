@@ -84,6 +84,7 @@
 <li class="toctree-l1"><a class="reference internal" href="action_network.html">Action Network</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Airtable</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#overview">Overview</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#quickstart">QuickStart</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#api">API</a></li>
 </ul>
 </li>
@@ -213,6 +214,34 @@ you must generate an Airtable API Key which can be found in your Airtable <a cla
 </ul>
 </dd>
 </dl>
+</div>
+</div>
+<div class="section" id="quickstart">
+<h2>QuickStart<a class="headerlink" href="#quickstart" title="Permalink to this headline">¶</a></h2>
+<p>To instantiate the Airtable class, you can either store your Airtable API
+<code class="docutils literal notranslate"><span class="pre">AIRTABLE_API_KEY</span></code> as an environmental variable or pass in your api key
+as an argument. You also need to pass in the base key and table name.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">parsons</span> <span class="kn">import</span> <span class="n">Airtable</span>
+
+<span class="c1"># First approach: Use API credentials via environmental variables and pass</span>
+<span class="c1"># the base key and the table as arguments.</span>
+<span class="n">at</span> <span class="o">=</span> <span class="n">Airtable</span><span class="p">(</span><span class="n">base_key</span><span class="p">,</span> <span class="s1">&#39;table01&#39;</span><span class="p">)</span>
+
+<span class="c1"># Second approach: Pass API credentials, base key and table name as arguments.</span>
+<span class="n">at</span> <span class="o">=</span> <span class="n">Airtable</span><span class="p">(</span><span class="n">base_key</span><span class="p">,</span> <span class="s1">&#39;table01&#39;</span><span class="p">,</span> <span class="n">api_key</span><span class="o">=</span><span class="s1">&#39;MYFAKEKEY&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>You can then call various endpoints:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span>    <span class="c1"># Get records from a base</span>
+    <span class="n">at</span><span class="o">.</span><span class="n">get_records</span><span class="p">(</span><span class="n">fields</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;id&#39;</span><span class="p">,</span> <span class="s1">&#39;fn&#39;</span><span class="p">,</span> <span class="s1">&#39;ln&#39;</span><span class="p">])</span>
+
+    <span class="c1"># Get a single record from a base</span>
+    <span class="n">at</span><span class="o">.</span><span class="n">get_record</span><span class="p">(</span><span class="mi">1233</span><span class="p">)</span>
+
+<span class="c1"># Insert records</span>
+<span class="n">tbl</span><span class="o">.</span><span class="n">from_csv</span><span class="p">(</span><span class="s1">&#39;my_new_records&#39;</span><span class="p">)</span>
+<span class="n">at</span><span class="o">.</span><span class="n">insert_records</span><span class="p">(</span><span class="n">tbl</span><span class="p">)</span>
+</pre></div>
 </div>
 </div>
 <div class="section" id="api">

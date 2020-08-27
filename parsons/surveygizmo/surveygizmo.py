@@ -1,8 +1,10 @@
 import logging
 import surveygizmo
+from parsons.etl import Table
 from parsons.utilities import check_env
 
 logger = logging.getLogger(__name__)
+
 
 class SurveyGizmo(object):
     """
@@ -22,10 +24,14 @@ class SurveyGizmo(object):
     """
 
     def __init__(self, api_token, api_token_secret):
-        self.api_token=check_env('SURVEYGIZMO_API_TOKEN', api_token)
-        self.api_token_secret=check_env('SURVEYGIZMO_API_TOKEN_SECRET', api_token_secret)
+        self.api_token = check_env('SURVEYGIZMO_API_TOKEN', api_token)
+        self.api_token_secret = check_env('SURVEYGIZMO_API_TOKEN_SECRET', api_token_secret)
 
-        self.client = surveygizmo.SurveyGizmo(api_version='v5', api_token=self.api_token api_token_secret=self.api_token_secret)
+        self.client = surveygizmo.SurveyGizmo(
+                api_version='v5',
+                api_token=self.api_token,
+                api_token_secret=self.api_token_secret
+                )
 
     def get_surveys(self):
         """

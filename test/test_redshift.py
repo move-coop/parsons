@@ -6,7 +6,7 @@ import unittest
 import os
 import re
 from test.utils import validate_list
-
+from testfixtures import LogCapture
 
 # The name of the schema and will be temporarily created for the tests
 TEMP_SCHEMA = 'parsons_test2'
@@ -321,6 +321,13 @@ class TestRedshiftDB(unittest.TestCase):
 
         # Copy to the same table, to verify that the "drop" flag works.
         self.rs.copy(self.tbl, f'{self.temp_schema}.test_copy', if_exists='drop')
+
+        # Verify that a warning message prints when a DIST/SORT key is omitted
+        with LogCapture() as l:
+            self.rs.copy(self.tbl, f'{self.temp_schema}.test_copy', if_exists='drop', sortkey='Name')
+            desired_log = [log for log in l.records if "optimize your queries" in log.msg][0]
+            self.assertTrue("DIST" in desired_log.msg)
+            self.assertFalse("SORT" in desired_log.msg)
 
     def test_upsert(self):
 

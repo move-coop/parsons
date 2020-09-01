@@ -148,7 +148,8 @@ class Scores(object):
                    {'score2_id' : int, score2_column': str}]
 
             url_type: str
-                The cloud file storage to use to post the file. Currently only ``S3``.
+                The cloud file storage to use to post the file.
+                See :ref:`Cloud Storage <cloud-storage>` for more details.
             email: str
                 An email address to send job load status updates.
             auto_approve: boolean
@@ -158,9 +159,8 @@ class Scores(object):
                 The deviation from the average scores allowed in order to automatically
                 approve the score. Maximum of .1.
             **url_kwargs: kwargs
-                Arguments to configure your cloud storage url type.
-                    * S3 requires ``bucket`` argument and, if not stored as env variables
-                      ``aws_access_key`` and ``aws_secret_access_key``.
+                Arguments to configure your cloud storage url type. See
+                :ref:`Cloud Storage <cloud-storage>` for more details.
         `Returns:`
             int
                The score load job id.

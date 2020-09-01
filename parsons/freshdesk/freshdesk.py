@@ -39,7 +39,7 @@ class Freshdesk():
         if params:
             base_params.update(params)
 
-        r = self.client.request(self.uri + endpoint, 'GET', params=base_params)
+        r = self.client.request(endpoint, 'GET', params=base_params)
         self.client.validate_response(r)
         data = r.json()
 

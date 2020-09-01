@@ -2,9 +2,10 @@ import unittest
 import os
 import pytest
 import shutil
+import datetime
 from unittest import mock
 from parsons.etl.table import Table
-from parsons.utilities import date_convert
+from parsons.utilities.datetime import date_to_timestamp, parse_date
 from parsons.utilities import files
 from parsons.utilities import check_env
 from parsons.utilities import json_format
@@ -18,8 +19,24 @@ from test.conftest import xfail_value_error
      pytest.param("", None),
      pytest.param("2018-12-13 PST", None, marks=[xfail_value_error]),
      ])
-def test_date_convert(date, exp_ts):
-    assert date_convert.iso_to_unix(date) == exp_ts
+def test_date_to_timestamp(date, exp_ts):
+    assert date_to_timestamp(date) == exp_ts
+
+
+def test_parse_date():
+    # Test parsing an ISO8601 string
+    expected = datetime.datetime(year=2020, month=1, day=1, tzinfo=datetime.timezone.utc)
+    parsed = parse_date('2020-01-01T00:00:00.000 UTC')
+    assert parsed == expected, parsed
+
+    # Test parsing a unix timestamp
+    parsed = parse_date(1577836800)
+    assert parsed == expected, parsed
+
+    # Test "parsing" a datetime object
+    parsed = parse_date(expected)
+    assert parsed == expected, parsed
+
 
 #
 # File utility tests (pytest-style)
@@ -29,6 +46,7 @@ def test_date_convert(date, exp_ts):
 def test_create_temp_file_for_path():
     temp_path = files.create_temp_file_for_path('some/file.gz')
     assert temp_path[-3:] == '.gz'
+
 
 def test_close_temp_file():
     temp = files.create_temp_file()
@@ -52,26 +70,30 @@ def test_suffix_for_compression_type():
 
 
 def test_compression_type_for_path():
-    assert files.compression_type_for_path('some/file') == None
-    assert files.compression_type_for_path('some/file.csv') == None
+    assert files.compression_type_for_path('some/file') is None
+    assert files.compression_type_for_path('some/file.csv') is None
     assert files.compression_type_for_path('some/file.csv.gz') == 'gzip'
+
 
 def test_empty_file():
 
     # Create fake files.
     os.mkdir('tmp')
-    with open('tmp/empty.csv', 'w+') as f:
+    with open('tmp/empty.csv', 'w+') as _:
         pass
-    Table([['1'],['a']]).to_csv('tmp/full.csv')
 
-    assert files.has_data('tmp/empty.csv') == False
-    assert files.has_data('tmp/full.csv') == True
+    Table([['1'], ['a']]).to_csv('tmp/full.csv')
+
+    assert not files.has_data('tmp/empty.csv')
+    assert files.has_data('tmp/full.csv')
 
     # Remove fake files and dir
     shutil.rmtree('tmp')
 
+
 def test_json_format():
     assert json_format.arg_format('my_arg') == 'myArg'
+
 
 def test_remove_empty_keys():
 
@@ -85,7 +107,8 @@ def test_remove_empty_keys():
 
     # Assert that a nested empty string is removed
     test_dict = {'a': '', 'b': 2}
-    assert json_format.remove_empty_keys(test_dict) ==  {'b': 2}
+    assert json_format.remove_empty_keys(test_dict) == {'b': 2}
+
 
 class TestCheckEnv(unittest.TestCase):
 
@@ -108,5 +131,5 @@ class TestCheckEnv(unittest.TestCase):
 
     def test_envrionment_error(self):
         """Test check env raises error"""
-        with self.assertRaises(KeyError) as context:
+        with self.assertRaises(KeyError) as _:
             check_env.check('PARAM', None)

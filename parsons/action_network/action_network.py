@@ -30,7 +30,7 @@ class ActionNetwork(object):
             per_page = 25
             logger.info("Action Network's API will not return more than 25 entries per page. \
             Changing per_page parameter to 25.")
-        page_url = f"{self.api_url}/{object_name}?page={page}&per_page={per_page}"
+        page_url = f"{object_name}?page={page}&per_page={per_page}"
         return self.api.get_request(url=page_url)
 
     def _get_entry_list(self, object_name, limit=None, per_page=25):
@@ -75,7 +75,7 @@ class ActionNetwork(object):
             A  JSON of the entry. If the entry doesn't exist, Action Network returns
             ``{'error': 'Couldn't find person with id = <id>'}``.
         """
-        return self.api.get_request(url=f"{self.api_url}/people/{person_id}")
+        return self.api.get_request(url=f"people/{person_id}")
 
     def add_person(self, email_address, given_name=None, family_name=None, tags=[],
                    languages_spoken=[], postal_addresses=[],
@@ -209,7 +209,7 @@ class ActionNetwork(object):
             A  JSON of the entry. If the entry doesn't exist, Action Network returns
             "{'error': 'Couldn't find tag with id = <id>'}"
         """
-        return self.api.get_request(url=f"{self.api_url}/tags/{tag_id}")
+        return self.api.get_request(url=f"tags/{tag_id}")
 
     def add_tag(self, name):
         """

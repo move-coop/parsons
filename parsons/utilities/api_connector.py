@@ -1,6 +1,7 @@
 from requests import request as _request
 from requests.exceptions import HTTPError
 import logging
+import urllib.parse
 from simplejson.errors import JSONDecodeError
 
 logger = logging.getLogger(__name__)
@@ -33,6 +34,10 @@ class APIConnector(object):
 
     def __init__(self, uri, headers=None, auth=None, pagination_key=None, data_key=None):
 
+        # Add a trailing slash if its missing
+        if not uri.endswith('/'):
+            uri = uri + '/'
+
         self.uri = uri
         self.headers = headers
         self.auth = auth
@@ -45,7 +50,9 @@ class APIConnector(object):
 
         `Args:`
             url: str
-                The url request string
+                The url request string; if ``url`` is a relative URL, it will be joined with
+                the ``uri`` of the ``APIConnector`; if ``url`` is an absolute URL, it will
+                be used as is.
             req_type: str
                 The request type. One of GET, POST, PATCH, DELETE, OPTIONS
             json: dict
@@ -63,9 +70,10 @@ class APIConnector(object):
         `Returns:`
             requests response
         """
+        full_url = urllib.parse.urljoin(self.uri, url)
 
-        return _request(req_type, url, headers=self.headers, auth=self.auth, json=json, data=data,
-                        params=params)
+        return _request(req_type, full_url, headers=self.headers, auth=self.auth, json=json,
+                        data=data, params=params)
 
     def get_request(self, url, params=None):
         """

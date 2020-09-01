@@ -1,6 +1,7 @@
 import json
 import logging
 import requests
+import time
 
 from parsons.etl.table import Table
 from parsons.utilities import check_env
@@ -50,11 +51,10 @@ class ActionKit(object):
             return url + f'{entity_id}/'
         return url
 
-    def _base_get(self, endpoint, entity_id=None, exception_message=None):
+    def _base_get(self, endpoint, entity_id=None, exception_message=None, params=None):
         # Make a general get request to ActionKit
 
-        resp = self.conn.get(self._base_endpoint(endpoint, entity_id))
-
+        resp = self.conn.get(self._base_endpoint(endpoint, entity_id), params=params)
         if exception_message and resp.status_code == 404:
             raise Exception(self.parse_error(resp, exception_message))
 
@@ -572,19 +572,25 @@ class ActionKit(object):
         if isinstance(csv_file, str):
             csv_file = open(csv_file, 'rb')
 
-        res = upload_client.post(
-            self._base_endpoint('upload'),
-            files={'upload': csv_file},
-            data={'page': import_page,
-                  'autocreate_user_fields': int(autocreate_user_fields),
-                  'user_fields_only': int(user_fields_only)})
-        rv = {'res': res,
-              'success': res.status_code == 201,
-              'progress_url': res.headers.get('Location')}
-        return rv
+        url = self._base_endpoint('upload')
+        files = {'upload': csv_file}
+        data = {
+            'page': import_page,
+            'autocreate_user_fields': int(autocreate_user_fields),
+            'user_fields_only': int(user_fields_only),
+        }
+        with upload_client.post(url, files=files, data=data) as res:
+            progress_url = res.headers.get('Location')
+            rv = {
+                'res': res,
+                'success': res.status_code == 201,
+                'id': progress_url.split('/')[-2] if progress_url else None,
+                'progress_url': progress_url
+            }
+            return rv
 
     def bulk_upload_table(self, table, import_page, autocreate_user_fields=0,
-                          no_overwrite_on_empty=False):
+                          no_overwrite_on_empty=False, set_only_columns=None):
         """
         Bulk upload a table of new users or user updates.
         See `ActionKit User Upload Documentation <https://roboticdogs.actionkit.com/docs/manual/api/rest/uploads.html>`_
@@ -614,6 +620,9 @@ class ActionKit(object):
                 Setting this to True will divide up the table into multiple upload
                 batches, changing the columns uploaded based on permutations of
                 empty columns.
+            set_only_columns: list
+                This is similar to no_overwrite_on_empty but restricts to a specific set of columns
+                which, if blank, should not be overwritten.
         `Returns`:
             dict
                 success: bool -- whether upload was successful (individual rows may not have been)
@@ -622,9 +631,8 @@ class ActionKit(object):
         """ # noqa: E501,E261
 
         import_page = check_env.check('ACTION_KIT_IMPORTPAGE', import_page)
-        upload_tables = [table]
-        if no_overwrite_on_empty:
-            upload_tables = self._split_tables_no_empties(table)
+        upload_tables = self._split_tables_no_empties(
+            table, no_overwrite_on_empty, set_only_columns)
         results = []
         for tbl in upload_tables:
             user_fields_only = int(not any([
@@ -639,10 +647,15 @@ class ActionKit(object):
             'results': results
         }
 
-    def _split_tables_no_empties(self, table):
+    def _split_tables_no_empties(self, table, no_overwrite_on_empty, set_only_columns):
         table_groups = {}
+        # uploading combo of user_id and email column should be mutually exclusive
+        blank_columns_test = table.columns
+        if not no_overwrite_on_empty:
+            blank_columns_test = (set(['user_id', 'email'] + (set_only_columns or []))
+                                  .intersection(table.columns))
         for row in table:
-            blanks = tuple(k for k in table.columns
+            blanks = tuple(k for k in blank_columns_test
                            if row.get(k) in (None, ''))
             grp = table_groups.setdefault(blanks, [])
             grp.append(row)
@@ -651,5 +664,43 @@ class ActionKit(object):
             subset_table = Table(subset)
             if blanks:
                 subset_table.table = subset_table.table.cutout(*blanks)
+            logger.debug(f'Column Upload Blanks: {blanks}')
+            logger.debug(f'Column Upload Columns: {subset_table.columns}')
+            if not set(['user_id', 'email']).intersection(subset_table.columns):
+                logger.warning(
+                    f'Upload will fail without user_id or email. '
+                    f'Rows: {subset_table.num_rows}, Columns: {subset_table.columns}'
+                )
             results.append(subset_table)
         return results
+
+    def collect_upload_errors(self, result_array):
+        """
+        Collect any upload errors as a list of objects from bulk_upload_table 'results' key value.
+        This waits for uploads to complete, so it may take some time if you uploaded a large file.
+        `Args:`
+            result_array: list
+                After receiving a dict back from bulk_upload_table you may want to see if there
+                were any errors in the uploads.  If you call collect_upload_errors(result_array)
+                it will iterate across each of the uploads fetching the final result of e.g.
+                /rest/v1/uploaderror?upload=123
+        `Returns`:
+            [dict]
+                message: str -- error message
+                upload: str -- upload progress API path e.g. "/rest/v1/upload/123456/"
+                id: int -- upload error record id (different than upload id)
+        """
+        errors = []
+        for res in result_array:
+            upload_id = res.get('id')
+            if upload_id:
+                while True:
+                    upload = self._base_get(endpoint='upload', entity_id=upload_id)
+                    if not upload or upload.get('status') != 'new':
+                        break
+                    else:
+                        time.sleep(1)
+                error_data = self._base_get(endpoint='uploaderror', params={'upload': upload_id})
+                logger.debug(f'error collect result: {error_data}')
+                errors.extend(error_data.get('objects') or [])
+        return errors

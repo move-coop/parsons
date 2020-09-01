@@ -208,8 +208,10 @@ Indices and tables
    :caption: Framework
    :name: framework
 
+   dbsync
    table
    notifications
+   utilities
 
 .. toctree::
    :maxdepth: 1

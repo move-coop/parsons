@@ -100,7 +100,7 @@ def is_zip_path(path):
 
 
 def is_csv_path(path):
-    return (path[-3:] == '.csv')
+    return (path[-4:].lower() == '.csv')
 
 
 def suffix_for_compression_type(compression):

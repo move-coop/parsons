@@ -403,7 +403,7 @@ class RedshiftTableUtilities(object):
             A list of column names.
         """
 
-        first_row = rs.query(f"select * from {schema}.{table_name} limit 1")
+        first_row = self.query(f"select * from {schema}.{table_name} limit 1")
 
         return first_row.columns
 

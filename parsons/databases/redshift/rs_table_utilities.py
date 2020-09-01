@@ -346,7 +346,7 @@ class RedshiftTableUtilities(object):
         """
         Gets the column names (and some other column info) for a table.
 
-        If you just need the column names, run get_columns_list() as it is faster.
+        If you just need the column names, run ``get_columns_list()`` as it is faster.
 
         .. code-block:: python
 
@@ -389,7 +389,7 @@ class RedshiftTableUtilities(object):
             }
             for row in self.query(query)
         }
-                    
+
     def get_columns_list(self, schema, table_name):
         """
         Gets the just the column names for a table.

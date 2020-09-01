@@ -676,21 +676,20 @@ class ToFrom(object):
 
         from parsons.aws import S3
         s3 = S3(aws_access_key_id, aws_secret_access_key)
-        file_obj = s3.get_file(bucket, key)
 
         if from_manifest:
-            with open(file_obj) as fd:
+            with open(s3.get_file(bucket, key)) as fd:
                 manifest = json.load(fd)
 
-            s3_files = [x["url"] for x in manifest["entries"]]
+            s3_keys = [x["url"] for x in manifest["entries"]]
 
         else:
-            s3_files = [file_obj]
+            s3_keys = [f"s3://{bucket}/{key}"]
 
         tbls = []
-        for file in s3_files:
+        for key in s3_keys:
             # TODO handle urls that end with '/', i.e. urls that point to "folders"
-            _, _, bucket_, key_ = files.split("/", 3)
+            _, _, bucket_, key_ = key.split("/", 3)
             file_ = s3.get_file(bucket_, key_)
             if files.compression_type_for_path(key_) == 'zip':
                 file_ = files.zip_archive.unzip_archive(file_)

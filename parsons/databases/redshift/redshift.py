@@ -232,7 +232,7 @@ class Redshift(RedshiftCreateTable, RedshiftCopyTable, RedshiftTableUtilities, R
                 dateformat='auto', timeformat='auto', emptyasnull=True,
                 blanksasnull=True, nullas=None, acceptinvchars=True, truncatecolumns=False,
                 columntypes=None, specifycols=None,
-                aws_access_key_id=None, aws_secret_access_key=None):
+                aws_access_key_id=None, aws_secret_access_key=None, aws_region=None):
         """
         Copy a file from s3 to Redshift.
 
@@ -314,10 +314,16 @@ class Redshift(RedshiftCreateTable, RedshiftCopyTable, RedshiftTableUtilities, R
             aws_secret_access_key:
                 An AWS secret access key granted to the bucket where the file is located. Not
                 required if keys are stored as environmental variables.
+            aws_region:
+                The AWS region where the source S3 bucket lives; if not specified, defaults to
+                the same region as the Redshift cluster. For more information about the region
+                parameter, see the
+                `AWS documentation <https://docs.aws.amazon.com/redshift/latest/dg/copy-parameters-data-source-s3.html#copy-region>`_.
+
         `Returns`
             Parsons Table or ``None``
                 See :ref:`parsons-table` for output options.
-        """
+        """  # noqa: E501
 
         with self.connection() as connection:
 

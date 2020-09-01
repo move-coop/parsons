@@ -24,7 +24,7 @@ class RedshiftCopyTable(object):
                        dateformat='auto', timeformat='auto', emptyasnull=True,
                        blanksasnull=True, nullas=None, acceptinvchars=True, truncatecolumns=False,
                        specifycols=None, aws_access_key_id=None, aws_secret_access_key=None,
-                       compression=None):
+                       compression=None, aws_region=None):
 
         # Source / Destination
         source = f's3://{bucket}/{key}'
@@ -40,6 +40,8 @@ class RedshiftCopyTable(object):
         # Other options
         if manifest:
             sql += "manifest \n"
+        if aws_region:
+            sql += f"region '{aws_region}'\n"
         sql += f"maxerror {max_errors} \n"
         if statupdate:
             sql += "statupdate on\n"

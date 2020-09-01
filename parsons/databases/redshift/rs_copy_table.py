@@ -110,19 +110,12 @@ class RedshiftCopyTable(object):
             aws_access_key_id,
             aws_secret_access_key)
 
-    def temp_s3_copy(self, tbl, aws_access_key_id=None, aws_secret_access_key=None):
+    def temp_s3_copy(self, tbl, s3, aws_access_key_id=None, aws_secret_access_key=None):
 
         if not self.s3_temp_bucket:
             raise KeyError(("Missing S3_TEMP_BUCKET, needed for transferring data to Redshift. "
                             "Must be specified as env vars or kwargs"
                             ))
-
-        # Coalesce S3 Key arguments
-        aws_access_key_id = aws_access_key_id or self.aws_access_key_id
-        aws_secret_access_key = aws_secret_access_key or self.aws_secret_access_key
-
-        self.s3 = S3(aws_access_key_id=aws_access_key_id,
-                     aws_secret_access_key=aws_secret_access_key)
 
         hashed_name = hash(time.time())
         key = f"{S3_TEMP_KEY_PREFIX}/{hashed_name}.csv.gz"
@@ -131,11 +124,11 @@ class RedshiftCopyTable(object):
         # Redshift.
         local_path = tbl.to_csv(temp_file_compression='gzip')
         # Copy table to bucket
-        self.s3.put_file(self.s3_temp_bucket, key, local_path)
+        s3.put_file(self.s3_temp_bucket, key, local_path)
 
         return key
 
-    def temp_s3_delete(self, key):
+    def temp_s3_delete(self, s3, key):
 
         if key:
-            self.s3.remove_file(self.s3_temp_bucket, key)
+            s3.remove_file(self.s3_temp_bucket, key)

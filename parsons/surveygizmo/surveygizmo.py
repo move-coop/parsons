@@ -23,12 +23,13 @@ class SurveyGizmo(object):
         SurveyGizmo Class
     """
 
-    def __init__(self, api_token, api_token_secret):
-        self.api_token = check_env('SURVEYGIZMO_API_TOKEN', api_token)
-        self.api_token_secret = check_env('SURVEYGIZMO_API_TOKEN_SECRET', api_token_secret)
+    def __init__(self, api_token=None, api_token_secret=None, api_version='v5'):
+        self.api_token = check_env.check('SURVEYGIZMO_API_TOKEN', api_token)
+        self.api_token_secret = check_env.check('SURVEYGIZMO_API_TOKEN_SECRET', api_token_secret)
+        self.api_version = check_env.check('SURVEYGIZMO_API_VERSION', api_version)
 
         self.client = surveygizmo.SurveyGizmo(
-                api_version='v5',
+                api_version=self.api_version,
                 api_token=self.api_token,
                 api_token_secret=self.api_token_secret
                 )

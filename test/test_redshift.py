@@ -160,7 +160,7 @@ class TestRedshift(unittest.TestCase):
         sql = self.rs.copy_statement('test_schema.test', 'buck', 'file.csv',
                                      aws_access_key_id='abc123',
                                      aws_secret_access_key='abc123',
-                                     aws_region='us-east-2')
+                                     bucket_region='us-east-2')
 
         # Scrub the keys
         sql = re.sub(r'id=.+;', '*id=HIDDEN*;', re.sub(r"key=.+'", "key=*HIDDEN*'", sql))

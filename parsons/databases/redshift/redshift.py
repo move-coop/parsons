@@ -4,7 +4,6 @@ from parsons.databases.redshift.rs_create_table import RedshiftCreateTable
 from parsons.databases.redshift.rs_table_utilities import RedshiftTableUtilities
 from parsons.databases.redshift.rs_schema import RedshiftSchema
 from parsons.databases.table import BaseTable
-from parsons.aws.s3 import S3
 from parsons.utilities import files
 import psycopg2
 import psycopg2.extras
@@ -233,7 +232,7 @@ class Redshift(RedshiftCreateTable, RedshiftCopyTable, RedshiftTableUtilities, R
                 dateformat='auto', timeformat='auto', emptyasnull=True,
                 blanksasnull=True, nullas=None, acceptinvchars=True, truncatecolumns=False,
                 columntypes=None, specifycols=None,
-                aws_access_key_id=None, aws_secret_access_key=None):
+                aws_access_key_id=None, aws_secret_access_key=None, bucket_region=None):
         """
         Copy a file from s3 to Redshift.
 
@@ -315,19 +314,22 @@ class Redshift(RedshiftCreateTable, RedshiftCopyTable, RedshiftTableUtilities, R
             aws_secret_access_key:
                 An AWS secret access key granted to the bucket where the file is located. Not
                 required if keys are stored as environmental variables.
+            bucket_region: str
+                The AWS region that the bucket is located in. This should be provided if the
+                Redshift cluster is located in a different region from the temp bucket.
 
         `Returns`
             Parsons Table or ``None``
                 See :ref:`parsons-table` for output options.
-        """  # noqa: E501
+        """
 
         with self.connection() as connection:
 
-            # Grab the object from s3
-            s3 = S3(aws_access_key_id=aws_access_key_id,
-                    aws_secret_access_key=aws_secret_access_key)
-
             if self._create_table_precheck(connection, table_name, if_exists):
+                # Grab the object from s3
+                from parsons.aws.s3 import S3
+                s3 = S3(aws_access_key_id=aws_access_key_id,
+                        aws_secret_access_key=aws_secret_access_key)
 
                 local_path = s3.get_file(bucket, key)
 
@@ -358,7 +360,7 @@ class Redshift(RedshiftCreateTable, RedshiftCopyTable, RedshiftTableUtilities, R
                                            truncatecolumns=truncatecolumns,
                                            specifycols=specifycols,
                                            dateformat=dateformat, timeformat=timeformat,
-                                           aws_region=s3.region_name)
+                                           bucket_region=bucket_region)
 
             self.query_with_connection(copy_sql, connection, commit=False)
             logger.info(f'Data copied to {table_name}.')
@@ -369,7 +371,7 @@ class Redshift(RedshiftCreateTable, RedshiftCopyTable, RedshiftTableUtilities, R
              dateformat='auto', timeformat='auto', varchar_max=None, truncatecolumns=False,
              columntypes=None, specifycols=None, alter_table=False,
              aws_access_key_id=None, aws_secret_access_key=None, iam_role=None,
-             cleanup_s3_file=True, template_table=None):
+             cleanup_s3_file=True, template_table=None, temp_bucket_region=None):
         """
         Copy a :ref:`parsons-table` to Redshift.
 
@@ -454,6 +456,10 @@ class Redshift(RedshiftCreateTable, RedshiftCopyTable, RedshiftTableUtilities, R
                 is a pre-existing table that has the same columns/types, then use the template_table
                 table name as the schema for the new table.
                 Unless you set specifycols=False explicitly, a template_table will set it to True
+            temp_bucket_region: str
+                The AWS region that the temp bucket (specified by the TEMP_S3_BUCKET environment
+                variable) is located in. This should be provided if the Redshift cluster is located
+                in a different region from the temp bucket.
 
         `Returns`
             Parsons Table or ``None``
@@ -487,14 +493,8 @@ class Redshift(RedshiftCreateTable, RedshiftCopyTable, RedshiftTableUtilities, R
             if alter_table:
                 self.alter_varchar_column_widths(tbl, table_name)
 
-            aws_access_key_id = aws_access_key_id or self.aws_access_key_id
-            aws_secret_access_key = aws_secret_access_key or self.aws_secret_access_key
-
-            s3 = S3(aws_access_key_id=aws_access_key_id,
-                    aws_secret_access_key=aws_secret_access_key)
-
             # Upload the table to S3
-            key = self.temp_s3_copy(tbl, s3, aws_access_key_id=aws_access_key_id,
+            key = self.temp_s3_copy(tbl, aws_access_key_id=aws_access_key_id,
                                     aws_secret_access_key=aws_secret_access_key)
 
             try:
@@ -515,7 +515,7 @@ class Redshift(RedshiftCreateTable, RedshiftCopyTable, RedshiftTableUtilities, R
                              'aws_access_key_id': aws_access_key_id,
                              'aws_secret_access_key': aws_secret_access_key,
                              'compression': 'gzip',
-                             'aws_region': s3.region_name}
+                             'bucket_region': temp_bucket_region}
 
                 # Copy from S3 to Redshift
                 sql = self.copy_statement(table_name, self.s3_temp_bucket, key, **copy_args)
@@ -527,7 +527,7 @@ class Redshift(RedshiftCreateTable, RedshiftCopyTable, RedshiftTableUtilities, R
             # Clean up the S3 bucket.
             finally:
                 if key and cleanup_s3_file:
-                    self.temp_s3_delete(s3, key)
+                    self.temp_s3_delete(key)
 
     def unload(self, sql, bucket, key_prefix, manifest=True, header=True, delimiter='|',
                compression='gzip', add_quotes=True, null_as=None, escape=True, allow_overwrite=True,
@@ -654,6 +654,7 @@ class Redshift(RedshiftCreateTable, RedshiftCopyTable, RedshiftTableUtilities, R
             ``dict`` of manifest
         """
 
+        from parsons.aws import S3
         s3 = S3(aws_access_key_id=aws_access_key_id,
                 aws_secret_access_key=aws_secret_access_key)
 

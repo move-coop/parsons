@@ -52,16 +52,6 @@ class S3(object):
         self.client = self.s3.meta.client
         """Boto3 API Session client object. Use for more advanced boto3 features."""
 
-    @property
-    def region_name(self):
-        """
-        Get the name of the AWS region for the S3 client.
-
-        `Returns:`
-            str region name
-        """
-        return self.aws.session.region_name
-
     def list_buckets(self):
         """
         List all buckets to which you have access.

@@ -13,6 +13,9 @@ from parsons.utilities.api_connector import APIConnector
 
 logger = logging.getLogger(__name__)
 
+
+VALID_REPORT_TYPES = ["extended"]
+
 DATETIME_FORMAT = '%Y-%m-%d %H:%M:%S UTC'
 """Datetime format for sending date's to the API."""
 
@@ -83,6 +86,8 @@ class RockTheVote:
         }
 
         if report_type:
+            if report_type not in VALID_REPORT_TYPES:
+                raise RTVFailure(f"Invalid report type. Must be one of {VALID_REPORT_TYPES}")
             report_parameters["report_type"] = report_type
         if since:
             since_date = parse_date(since).strftime(DATETIME_FORMAT)

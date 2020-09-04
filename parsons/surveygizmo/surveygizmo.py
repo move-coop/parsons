@@ -19,6 +19,11 @@ class SurveyGizmo(object):
             The SurveyGizmo-provided application token. Not required if
             ``SURVEYGIZMO_API_TOKEN_SECRET`` env variable set.
 
+        api_version:
+            The version of the API that you would like to use. Not required if
+            ``SURVEYGIZMO_API_VERSION`` env variable set.
+            Default v5
+
     `Returns:`
         SurveyGizmo Class
     """

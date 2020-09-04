@@ -58,7 +58,7 @@ class RockTheVote:
             self.client = APIConnector(
                 "https://register.rockthevote.com/api/v4", headers=REQUEST_HEADERS)
 
-    def create_registration_report(self, before=None, since=None, report_type="extended"):
+    def create_registration_report(self, before=None, since=None, report_type=None):
         """
         Create a new registration report.
 

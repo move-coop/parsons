@@ -42,7 +42,7 @@ class RockTheVote:
         partner_api_key: str
             The API Key for the partner
         testing: bool
-            Whether or not to use the staging instance
+            Whether or not to use the staging instance. Defaults to False.
     `Returns`:
         RockTheVote class
     """
@@ -64,11 +64,13 @@ class RockTheVote:
 
         `Args:`
             before: str
-                Date before which to return registrations for
+                Limit to registrations that were started before this date, in
+                ISO format (e.g. 2020-01-01)
             since: str
-                Date for filtering registrations
+                Limit to registrations that were started since this date, in
+                ISO format (e.g. 2020-01-01)
             report_type: str
-                "extended" if requesting an extended report
+                The type of report to create. Currently only accepts "extended".
         `Returns:`
             int
                 The ID of the created report.
@@ -206,18 +208,20 @@ class RockTheVote:
 
         `Args:`
             before: str
-                Date before which to return registrations for
+                Limit to registrations that were started before this date, in
+                ISO format (e.g. 2020-01-01)
             since: str
-                Date for filtering registrations
+                Limit to registrations that were started since this date, in
+                ISO format (e.g. 2020-01-01)
             report_type: str
-                "extended" if requesting an extended report
+                The type of report to run. Currently only accepts "extended".
             poll_interval_seconds: int
                 If blocking, how long to pause between attempts to check if the report is done
             report_timeout_seconds: int
                 If blocking, how long to wait for the report before timing out
         `Returns:`
-            int
-                The ID of the created report.
+            Parsons.Table
+                The table with the report data.
         """
         report_id = self.create_registration_report(before=before, since=since)
         return self.get_registration_report(report_id, block=True,

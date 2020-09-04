@@ -41,18 +41,24 @@ class RockTheVote:
             The RockTheVote partner ID for the RTV account
         partner_api_key: str
             The API Key for the partner
+        testing: bool
+            Whether or not to use the staging instance
     `Returns`:
         RockTheVote class
     """
 
-    def __init__(self, partner_id=None, partner_api_key=None):
+    def __init__(self, partner_id=None, partner_api_key=None, testing=False):
         self.partner_id = check_env.check('RTV_PARTNER_ID', partner_id)
         self.partner_api_key = check_env.check('RTV_PARTNER_API_KEY', partner_api_key)
 
-        self.client = APIConnector('https://register.rockthevote.com/api/v4/',
-                                   headers=REQUEST_HEADERS)
+        if testing:
+            self.client = APIConnector(
+                "https://staging.rocky.rockthevote.com/api/v4", headers=REQUEST_HEADERS)
+        else:
+            self.client = APIConnector(
+                "https://register.rockthevote.com/api/v4", headers=REQUEST_HEADERS)
 
-    def create_registration_report(self, before=None, since=None):
+    def create_registration_report(self, before=None, since=None, report_type="extended"):
         """
         Create a new registration report.
 
@@ -61,6 +67,8 @@ class RockTheVote:
                 Date before which to return registrations for
             since: str
                 Date for filtering registrations
+            report_type: str
+                "extended" if requesting an extended report
         `Returns:`
             int
                 The ID of the created report.
@@ -72,6 +80,8 @@ class RockTheVote:
             'partner_API_key': self.partner_api_key,
         }
 
+        if report_type:
+            report_parameters["report_type"] = report_type
         if since:
             since_date = parse_date(since)
             report_parameters['since'] = since_date.strftime(DATETIME_FORMAT)
@@ -186,8 +196,8 @@ class RockTheVote:
         else:
             raise RTVFailure('Unable to download report data')
 
-    def run_registration_report(self, before=None, since=None, poll_interval_seconds=60,
-                                report_timeout_seconds=3600):
+    def run_registration_report(self, before=None, since=None, report_type=None,
+                                poll_interval_seconds=60, report_timeout_seconds=3600):
         """
         Run a new registration report.
 
@@ -199,6 +209,8 @@ class RockTheVote:
                 Date before which to return registrations for
             since: str
                 Date for filtering registrations
+            report_type: str
+                "extended" if requesting an extended report
             poll_interval_seconds: int
                 If blocking, how long to pause between attempts to check if the report is done
             report_timeout_seconds: int

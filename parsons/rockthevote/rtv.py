@@ -85,6 +85,9 @@ class RockTheVote:
             'partner_API_key': self.partner_api_key,
         }
 
+        # Declare these here so the logging doesn't error out
+        since_date = before_date = None
+
         if report_type:
             if report_type not in VALID_REPORT_TYPES:
                 raise RTVFailure(f"Invalid report type. Must be one of {VALID_REPORT_TYPES}")

@@ -85,14 +85,18 @@ class RockTheVote:
         if report_type:
             report_parameters["report_type"] = report_type
         if since:
-            since_date = parse_date(since)
-            report_parameters['since'] = since_date.strftime(DATETIME_FORMAT)
+            since_date = parse_date(since).strftime(DATETIME_FORMAT)
+            report_parameters['since'] = since_date
         if before:
-            before_date = parse_date(before)
-            report_parameters['before'] = before_date.strftime(DATETIME_FORMAT)
+            before_date = parse_date(before).strftime(DATETIME_FORMAT)
+            report_parameters['before'] = before_date
 
         # The report parameters get passed into the request as JSON in the body
         # of the request.
+        report_str = f"{report_type} report" if report_type else "report"
+        logger.info(
+            f"Creating {report_str} for {self.partner_id} "
+            f"for dates: {since_date} to {before_date}...")
         response = self.client.request(report_url, 'post', json=report_parameters)
         if response.status_code != requests.codes.ok:
             raise RTVFailure("Couldn't create RTV registrations report")
@@ -102,6 +106,7 @@ class RockTheVote:
         # that to be the case
         report_id = response_json.get('report_id')
         if report_id:
+            logger.info(f"Created report with id {report_id}.")
             return report_id
 
         # If the response didn't include the report_id, then we will parse it out of the URL.
@@ -110,6 +115,7 @@ class RockTheVote:
         if url_match:
             report_id = url_match.group(1)
 
+        logger.info(f"Created report with id {report_id}.")
         return report_id
 
     def get_registration_report(self, report_id, block=False, poll_interval_seconds=60,
@@ -130,6 +136,7 @@ class RockTheVote:
             Parsons Table
                 Parsons table with the report data.
         """
+        logger.info(f"Getting report with id {report_id}...")
         credentials = {
             'partner_id': self.partner_id,
             'partner_API_key': self.partner_api_key,
@@ -223,6 +230,10 @@ class RockTheVote:
             Parsons.Table
                 The table with the report data.
         """
+        report_str = f"{report_type} report" if report_type else "report"
+        logger.info(
+            f"Running {report_str} for {self.partner_id} "
+            f"for dates: {since} to {before}...")
         report_id = self.create_registration_report(before=before, since=since)
         return self.get_registration_report(report_id, block=True,
                                             poll_interval_seconds=poll_interval_seconds,

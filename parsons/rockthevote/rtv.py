@@ -239,7 +239,8 @@ class RockTheVote:
         logger.info(
             f"Running {report_str} for {self.partner_id} "
             f"for dates: {since} to {before}...")
-        report_id = self.create_registration_report(before=before, since=since)
+        report_id = self.create_registration_report(
+            before=before, since=since, report_type=report_type)
         return self.get_registration_report(report_id, block=True,
                                             poll_interval_seconds=poll_interval_seconds,
                                             report_timeout_seconds=report_timeout_seconds)

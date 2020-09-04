@@ -840,8 +840,8 @@
         <span class="k">return</span> <span class="n">pg</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="n">sql</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="ToFrom.from_s3_csv"><a class="viewcode-back" href="../../../table.html#parsons.etl.tofrom.ToFrom.from_s3_csv">[docs]</a>    <span class="nd">@classmethod</span>
-    <span class="k">def</span> <span class="nf">from_s3_csv</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">bucket</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="n">aws_access_key_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">aws_secret_access_key</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-                    <span class="o">**</span><span class="n">csvargs</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">from_s3_csv</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">bucket</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="n">from_manifest</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">aws_access_key_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                    <span class="n">aws_secret_access_key</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">csvargs</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Create a ``parsons table`` from a key in an S3 bucket.</span>
 
@@ -850,6 +850,9 @@
 <span class="sd">                The S3 bucket.</span>
 <span class="sd">            key: str</span>
 <span class="sd">                The S3 key</span>
+<span class="sd">            from_manifest: bool</span>
+<span class="sd">                If True, treats `key` as a manifest file and loads all urls into a `parsons.Table`.</span>
+<span class="sd">                Defaults to False.</span>
 <span class="sd">            aws_access_key_id: str</span>
 <span class="sd">                Required if not included as environmental variable.</span>
 <span class="sd">            aws_secret_access_key: str</span>
@@ -862,12 +865,27 @@
 
         <span class="kn">from</span> <span class="nn">parsons.aws</span> <span class="kn">import</span> <span class="n">S3</span>
         <span class="n">s3</span> <span class="o">=</span> <span class="n">S3</span><span class="p">(</span><span class="n">aws_access_key_id</span><span class="p">,</span> <span class="n">aws_secret_access_key</span><span class="p">)</span>
-        <span class="n">file_obj</span> <span class="o">=</span> <span class="n">s3</span><span class="o">.</span><span class="n">get_file</span><span class="p">(</span><span class="n">bucket</span><span class="p">,</span> <span class="n">key</span><span class="p">)</span>
 
-        <span class="k">if</span> <span class="n">files</span><span class="o">.</span><span class="n">compression_type_for_path</span><span class="p">(</span><span class="n">key</span><span class="p">)</span> <span class="o">==</span> <span class="s1">&#39;zip&#39;</span><span class="p">:</span>
-            <span class="n">file_obj</span> <span class="o">=</span> <span class="n">files</span><span class="o">.</span><span class="n">zip_archive</span><span class="o">.</span><span class="n">unzip_archive</span><span class="p">(</span><span class="n">file_obj</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">from_manifest</span><span class="p">:</span>
+            <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">s3</span><span class="o">.</span><span class="n">get_file</span><span class="p">(</span><span class="n">bucket</span><span class="p">,</span> <span class="n">key</span><span class="p">))</span> <span class="k">as</span> <span class="n">fd</span><span class="p">:</span>
+                <span class="n">manifest</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">fd</span><span class="p">)</span>
 
-        <span class="k">return</span> <span class="bp">cls</span><span class="p">(</span><span class="n">petl</span><span class="o">.</span><span class="n">fromcsv</span><span class="p">(</span><span class="n">file_obj</span><span class="p">,</span> <span class="o">**</span><span class="n">csvargs</span><span class="p">))</span></div>
+            <span class="n">s3_keys</span> <span class="o">=</span> <span class="p">[</span><span class="n">x</span><span class="p">[</span><span class="s2">&quot;url&quot;</span><span class="p">]</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">manifest</span><span class="p">[</span><span class="s2">&quot;entries&quot;</span><span class="p">]]</span>
+
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">s3_keys</span> <span class="o">=</span> <span class="p">[</span><span class="sa">f</span><span class="s2">&quot;s3://</span><span class="si">{</span><span class="n">bucket</span><span class="si">}</span><span class="s2">/</span><span class="si">{</span><span class="n">key</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">]</span>
+
+        <span class="n">tbls</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">s3_keys</span><span class="p">:</span>
+            <span class="c1"># TODO handle urls that end with &#39;/&#39;, i.e. urls that point to &quot;folders&quot;</span>
+            <span class="n">_</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">bucket_</span><span class="p">,</span> <span class="n">key_</span> <span class="o">=</span> <span class="n">key</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;/&quot;</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
+            <span class="n">file_</span> <span class="o">=</span> <span class="n">s3</span><span class="o">.</span><span class="n">get_file</span><span class="p">(</span><span class="n">bucket_</span><span class="p">,</span> <span class="n">key_</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">files</span><span class="o">.</span><span class="n">compression_type_for_path</span><span class="p">(</span><span class="n">key_</span><span class="p">)</span> <span class="o">==</span> <span class="s1">&#39;zip&#39;</span><span class="p">:</span>
+                <span class="n">file_</span> <span class="o">=</span> <span class="n">files</span><span class="o">.</span><span class="n">zip_archive</span><span class="o">.</span><span class="n">unzip_archive</span><span class="p">(</span><span class="n">file_</span><span class="p">)</span>
+
+            <span class="n">tbls</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">petl</span><span class="o">.</span><span class="n">fromcsv</span><span class="p">(</span><span class="n">file_</span><span class="p">,</span> <span class="o">**</span><span class="n">csvargs</span><span class="p">))</span>
+
+        <span class="k">return</span> <span class="bp">cls</span><span class="p">(</span><span class="n">petl</span><span class="o">.</span><span class="n">cat</span><span class="p">(</span><span class="o">*</span><span class="n">tbls</span><span class="p">))</span></div>
 
 <div class="viewcode-block" id="ToFrom.from_dataframe"><a class="viewcode-back" href="../../../table.html#parsons.etl.tofrom.ToFrom.from_dataframe">[docs]</a>    <span class="nd">@classmethod</span>
     <span class="k">def</span> <span class="nf">from_dataframe</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">dataframe</span><span class="p">,</span> <span class="n">include_index</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>

@@ -1005,7 +1005,7 @@ JSON file.</dd>
 
 <dl class="classmethod">
 <dt id="parsons.etl.tofrom.ToFrom.from_s3_csv">
-<em class="property">classmethod </em><code class="descname">from_s3_csv</code><span class="sig-paren">(</span><em>bucket</em>, <em>key</em>, <em>aws_access_key_id=None</em>, <em>aws_secret_access_key=None</em>, <em>**csvargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/etl/tofrom.html#ToFrom.from_s3_csv"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.etl.tofrom.ToFrom.from_s3_csv" title="Permalink to this definition">¶</a></dt>
+<em class="property">classmethod </em><code class="descname">from_s3_csv</code><span class="sig-paren">(</span><em>bucket</em>, <em>key</em>, <em>from_manifest=False</em>, <em>aws_access_key_id=None</em>, <em>aws_secret_access_key=None</em>, <em>**csvargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/etl/tofrom.html#ToFrom.from_s3_csv"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.etl.tofrom.ToFrom.from_s3_csv" title="Permalink to this definition">¶</a></dt>
 <dd><p>Create a <code class="docutils literal notranslate"><span class="pre">parsons</span> <span class="pre">table</span></code> from a key in an S3 bucket.</p>
 <dl class="docutils">
 <dt><cite>Args:</cite></dt>
@@ -1014,6 +1014,9 @@ JSON file.</dd>
 <dd>The S3 bucket.</dd>
 <dt>key: str</dt>
 <dd>The S3 key</dd>
+<dt>from_manifest: bool</dt>
+<dd>If True, treats <cite>key</cite> as a manifest file and loads all urls into a <cite>parsons.Table</cite>.
+Defaults to False.</dd>
 <dt>aws_access_key_id: str</dt>
 <dd>Required if not included as environmental variable.</dd>
 <dt>aws_secret_access_key: str</dt>

@@ -4,8 +4,9 @@ from unittest import mock
 from parsons.etl import Table
 from parsons.geocode import CensusGeocoder
 import petl
-from test_responses import *
+from test_responses import geographies_resp, locations_resp, batch_resp, coord_resp
 from test.utils import assert_matching_tables
+
 
 @unittest.skipIf(not os.environ.get('LIVE_TEST'), 'Skipping because not running live test')
 class TestCensusGeocoder(unittest.TestCase):

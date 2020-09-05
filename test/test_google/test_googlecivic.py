@@ -2,7 +2,7 @@ import unittest
 import requests_mock
 from parsons.etl import Table
 from parsons.google.google_civic import GoogleCivic
-from googlecivic_responses import *
+from googlecivic_responses import elections_resp, voterinfo_resp, polling_data
 from test.utils import assert_matching_tables
 
 

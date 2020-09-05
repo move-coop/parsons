@@ -323,9 +323,10 @@ class TestRedshiftDB(unittest.TestCase):
         self.rs.copy(self.tbl, f'{self.temp_schema}.test_copy', if_exists='drop')
 
         # Verify that a warning message prints when a DIST/SORT key is omitted
-        with LogCapture() as l:
-            self.rs.copy(self.tbl, f'{self.temp_schema}.test_copy', if_exists='drop', sortkey='Name')
-            desired_log = [log for log in l.records if "optimize your queries" in log.msg][0]
+        with LogCapture() as lc:
+            self.rs.copy(
+                self.tbl, f'{self.temp_schema}.test_copy', if_exists='drop', sortkey='Name')
+            desired_log = [log for log in lc.records if "optimize your queries" in log.msg][0]
             self.assertTrue("DIST" in desired_log.msg)
             self.assertFalse("SORT" in desired_log.msg)
 

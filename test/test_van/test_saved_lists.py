@@ -4,7 +4,7 @@ import requests_mock
 import unittest.mock as mock
 from parsons.ngpvan.van import VAN
 from parsons.etl.table import Table
-from test.utils import validate_list, assert_matching_tables
+from test.utils import validate_list
 from parsons.utilities import cloud_storage
 
 
@@ -32,7 +32,7 @@ class TestSavedLists(unittest.TestCase):
 
         m.get(self.van.connection.uri + 'savedLists', json=json)
 
-        expected = ['savedListId', 'listCount', 'name', 'doorCount','description']
+        expected = ['savedListId', 'listCount', 'name', 'doorCount', 'description']
 
         self.assertTrue(validate_list(expected, self.van.get_saved_lists()))
 
@@ -50,7 +50,7 @@ class TestSavedLists(unittest.TestCase):
 
         m.get(self.van.connection.uri + f'savedLists/{saved_list_id}', json=json)
 
-        expected = ['savedListId', 'listCount', 'name', 'doorCount', 'description']
+        # expected = ['savedListId', 'listCount', 'name', 'doorCount', 'description']
 
         self.assertEqual(self.van.get_saved_list(saved_list_id), json)
 
@@ -63,8 +63,9 @@ class TestSavedLists(unittest.TestCase):
         self.van.get_folders = mock.MagicMock()
         self.van.get_folders.return_value = [{'folderId': 1}]
 
-        tbl = Table([['VANID'],['1'],['2'],['3']])
-        self.van.upload_saved_list(tbl, 'GOTV List', 1, replace=True, url_type='S3', bucket='tmc-scratch')
+        tbl = Table([['VANID'], ['1'], ['2'], ['3']])
+        self.van.upload_saved_list(
+            tbl, 'GOTV List', 1, replace=True, url_type='S3', bucket='tmc-scratch')
         assert self.van.connection._soap_client.service.CreateAndStoreSavedList.called
 
     @requests_mock.Mocker()
@@ -134,24 +135,24 @@ class TestSavedLists(unittest.TestCase):
 
         m.post(self.van.connection.uri + 'exportJobs', json=json, status_code=201)
 
-        expected = [
-            'status',
-            'errorCode',
-            'exportJobGuid',
-            'activistCodes',
-            'canvassFileRequestId',
-            'dateExpired',
-            'surveyQuestions',
-            'webhookUrl',
-            'downloadUrl',
-            'savedListId',
-            'districtFields',
-            'canvassFileRequestGuid',
-            'customFields',
-            'type',
-            'exportJobId']
+        # expected = [
+        #     'status',
+        #     'errorCode',
+        #     'exportJobGuid',
+        #     'activistCodes',
+        #     'canvassFileRequestId',
+        #     'dateExpired',
+        #     'surveyQuestions',
+        #     'webhookUrl',
+        #     'downloadUrl',
+        #     'savedListId',
+        #     'districtFields',
+        #     'canvassFileRequestGuid',
+        #     'customFields',
+        #     'type',
+        #     'exportJobId']
 
-        self.assertEqual(json,self.van.export_job_create(saved_list_id))
+        self.assertEqual(json, self.van.export_job_create(saved_list_id))
 
     @requests_mock.Mocker()
     def test_get_export_job(self, m):
@@ -174,22 +175,22 @@ class TestSavedLists(unittest.TestCase):
                 "type": 4,
                 "exportJobId": 448}
 
-        expected = [
-            'status',
-            'errorCode',
-            'exportJobGuid',
-            'activistCodes',
-            'canvassFileRequestId',
-            'dateExpired',
-            'surveyQuestions',
-            'webhookUrl',
-            'downloadUrl',
-            'savedListId',
-            'districtFields',
-            'canvassFileRequestGuid',
-            'customFields',
-            'type',
-            'exportJobId']
+        # expected = [
+        #     'status',
+        #     'errorCode',
+        #     'exportJobGuid',
+        #     'activistCodes',
+        #     'canvassFileRequestId',
+        #     'dateExpired',
+        #     'surveyQuestions',
+        #     'webhookUrl',
+        #     'downloadUrl',
+        #     'savedListId',
+        #     'districtFields',
+        #     'canvassFileRequestGuid',
+        #     'customFields',
+        #     'type',
+        #     'exportJobId']
 
         m.get(self.van.connection.uri + f'exportJobs/{export_job_id}', json=json)
 

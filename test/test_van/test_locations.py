@@ -35,6 +35,7 @@ expected_loc = ['locationId', 'name', 'displayName', 'id', 'notes', 'codes', 'ad
                 'displayMode', 'isPreferred', 'preview', 'stateOrProvince', 'streetAddress',
                 'type', 'zipOrPostalCode']
 
+
 class TestLocations(unittest.TestCase):
 
     def setUp(self):

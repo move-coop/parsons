@@ -1,13 +1,14 @@
 from contextlib import contextmanager
-import paramiko
-import os
-import re
 from stat import S_ISDIR, S_ISREG
-from argparse import ArgumentError
-from itertools import chain
+import logging
+import paramiko
+import re
 
-from parsons.utilities import files
+from parsons.utilities import files as file_utilities
 from parsons.etl import Table
+from parsons.sftp.utilities import connect
+
+logger = logging.getLogger(__name__)
 
 
 class SFTP(object):
@@ -152,14 +153,75 @@ class SFTP(object):
         """
 
         if not local_path:
-            local_path = files.create_temp_file_for_path(remote_path)
+            local_path = file_utilities.create_temp_file_for_path(remote_path)
 
         if connection:
             connection.get(remote_path, local_path)
-        with self.create_connection() as connection:
-            connection.get(remote_path, local_path)
+        else:
+            with self.create_connection() as connection:
+                connection.get(remote_path, local_path)
 
         return local_path
+
+    @connect
+    def get_files(self, files_to_download=None, remote=None, connection=None, pattern=None,
+                  local_paths=None):
+        """
+        Download a list of files, either by providing the list explicitly, providing directories
+        that contain files to download, or both.
+
+        `Args:`
+            files_to_download: list
+                A list of full remote paths (can be relative) to files to download
+            remote: str or list
+                A path to a remote directory or a list of paths
+            connection: obj
+                An SFTP connection object
+            pattern: str
+                A regex pattern with which to select file names. Defaults to None, in which case
+                all files will be selected.
+            local_paths: list
+                A list of paths to which to save the selected files. Defaults to None. If it is not
+                the same length as the files to be fetched, temporary files are used instead.
+        `Returns:`
+            list
+                Local paths where the files are saved.
+        """
+
+        if not (files_to_download or remote):
+            raise ValueError("You must provide either `files_to_download`, `remote`, or both, as "
+                             "an argument to `get_files`.")
+
+        if not files_to_download:
+            files_to_download = []
+
+        if remote:
+            try:  # assume `remote` is a str
+                files_to_download.extend(self.list_files(remote, connection, pattern))
+            except TypeError:  # if it's not a str it's a list
+                files_to_download.extend(
+                    f for file_list in [self.list_files(directory, connection, pattern)
+                                        for directory in remote]
+                    for f in file_list
+                )
+
+        if local_paths and len(local_paths) != len(files_to_download):
+            logger.warning("You provided a list of local paths for your files but it was not "
+                           "the same length as the files you are going to download.\nDefaulting to "
+                           "temporary files.")
+            local_paths = []
+
+        if local_paths:
+            return [
+                self.get_file(remote_path, local_path, connection)
+                for local_path, remote_path in zip(local_paths, files_to_download)
+            ]
+
+        else:
+            return [
+                self.get_file(file, local_path=None, connection=connection)
+                for file in files_to_download
+            ]
 
     def get_table(self, remote_path, connection=None):
         """
@@ -239,87 +301,125 @@ class SFTP(object):
         return size / 1024
 
     @staticmethod
-    def _list_contents(remote_path, method, connection, pattern=None):
-        return [
-            remote_path + "/" + entry.filename
-            for entry in connection.listdir_attr(remote_path)
-            if method(entry.mode)
-            and (not pattern or re.match(pattern, remote_path))
-        ]
+    def _list_contents(remote_path, connection, dir_pattern=None, file_pattern=None):
 
+        dirs_to_return = []
+        files_to_return = []
+        dirs_and_files = [(S_ISDIR, dir_pattern, True, dirs_to_return),
+                          (S_ISREG, file_pattern, False, files_to_return)]
+
+        try:
+            for entry in connection.listdir_attr(remote_path):
+                entry_pathname = remote_path + "/" + entry.filename
+                for method, pattern, do_search_full_path, paths in dirs_and_files:
+                    string = entry_pathname if do_search_full_path else entry.filename
+                    if method(entry.st_mode) and (not pattern or re.search(pattern, string)):
+                        paths.append(entry_pathname)
+        except FileNotFoundError:  # This error is raised when a directory is empty
+            pass
+        return dirs_to_return, files_to_return
+
+    @connect
     def list_subdirectories(self, remote_path, connection=None, pattern=None):
-        if not connection:
-            connection = self.create_connection()
-        with connection:
-            return self._list_contents(remote_path, S_ISDIR, connection=connection, pattern=pattern)
+        """
+        List the subdirectories of a directory on the remote server.
 
+        `Args:`
+            remote_path: str
+                The remote directory whose subdirectories will be listed
+            connection: obj
+                An SFTP connection object
+            pattern: str
+                A regex pattern with which to select full directory paths. Defaults to None, in
+                which case all subdirectories will be selected.
+        `Returns:`
+            list
+                The subdirectories in `remote_path`.
+        """
+        return self._list_contents(remote_path, connection, dir_pattern=pattern)[0]
+
+    @connect
     def list_files(self, remote_path, connection=None, pattern=None):
-        if not connection:
-            connection = self.create_connection()
-        with connection:
-            return self._list_contents(remote_path, S_ISREG, connection=connection, pattern=pattern)
+        """
+        List the files in a directory on the remote server.
 
-    def get_files(self, files_to_download=None, remote_path=None, connection=None, pattern=None, local_paths=None):
+        `Args:`
+            remote_path: str
+                The remote directory whose files will be listed
+            connection: obj
+                An SFTP connection object
+            pattern: str
+                A regex pattern with which to select file names. Defaults to None, in which case
+                all files will be selected.
+        `Returns:`
+            list
+                The files in `remote_path`.
+        """
+        return self._list_contents(remote_path, connection, file_pattern=pattern)[1]
 
-        if not files_to_download or remote_path:
-            raise ValueError("You must provide either `files_to_download`, `remote_path`, or both, as an "
-                             "argument to `get_files`.")
 
-        if not connection:
-            connection = self.create_connection()
+    @connect
+    def walk_tree(self, remote_path, connection=None, download=False, dir_pattern=None,
+                  file_pattern=None, max_depth=2):
+        """
+        Recursively walks a directory, fetching all subdirectories and files (as long as
+        they match `dir_pattern` and `file_pattern`, respectively) and the maximum directory
+        depth hasn't been exceeded. Optionally downloads discovered files.
 
-        if not files_to_download:
-            files_to_download =[]
+        `Args:`
+            remote_path: str
+                The top level directory to walk
+            connection: obj
+                An SFTP connection object
+            download: bool
+                Whether to download discovered files
+            dir_pattern: str
+                A regex pattern with which to select directories. Defaults to None, in which case
+                all directories will be selected.
+            file_pattern: str
+                A regex pattern with which to select files. Defaults to None, in which case
+                all files will be selected.
+            max_depth: int
+                A limit on how many directories deep to traverse.  The default, 2, will search the
+                contents of `remote_path` and its subdirectories.
+        `Returns:`
+            tuple
+                A list of directories touched and a list of files.  If the files were downloaded
+                the file list will consist of local paths, if not, remote paths.
+        """
 
-        if remote_path:
-            files_to_download.extend(self.list_files(self, remote_path, connection, pattern))
+        if max_depth > 3:
+            logger.warning("Calling `walk_tree` with `max_depth` {}.  "
+                           "Recursively walking a remote directory will be much slower than a "
+                           "similar operation on a local file system.".format(max_depth))
 
-        if local_paths and len(local_paths) != len(files_to_download):
-            print("You provided a list of local paths for your files but it was not the same length as the files you"
-                  "are going to download. Defaulting to temporary files.")
-            local_paths = []
+        to_return = self._walk_tree(remote_path, connection, download, dir_pattern, file_pattern, max_depth=max_depth)
 
-        if local_paths:
-            local_paths_remote_paths = zip(local_paths, files_to_download)
-            return [
-                self.get_file(remote_path, local_path, connection)
-                for local_path, remote_path in local_paths_remote_paths
-            ]
+        return to_return
 
-        else:
-            return [
-                self.get_file(file, local_path=None, connection=connection)
-                for file in files_to_download
-            ]
+    def _walk_tree(self, remote_path, connection, download=False, dir_pattern=None,
+                   file_pattern=None, depth=0, max_depth=2):
 
-    def match_dirs_and_files(self, remote_path, dir_pattern, connection=None, file_pattern=None, download=False):
+        dir_list = []
+        file_list = []
 
-        if not connection:
-            connection = self.create_connection()
+        depth += 1
 
-        retrieval_method = self.get_files if download else self.list_files
-        subdirectories = self.list_subdirectories(remote_path, connection, dir_pattern)
-        return chain.from_iterable([retrieval_method(d, connection, file_pattern) for d in subdirectories])
+        dirs, files = self._list_contents(remote_path, connection, dir_pattern, file_pattern)
 
-    def walk_tree(self, connection, remote_path, download=False, dir_pattern=None, file_pattern=None, dir_list=None,
-                   file_list=None):
+        if download:
+            self.get_files(files_to_download=files)
 
-        for lst in dir_list, file_list:
-            if not lst:
-                lst = []
+        if depth < max_depth:
+            for directory in dirs:
+                deeper_dirs, deeper_files = self._walk_tree(directory, connection, download, dir_pattern, file_pattern,
+                                                            depth, max_depth)
+                dir_list.extend(deeper_dirs)
+                file_list.extend(deeper_files)
 
-        retrieval_method = self.get_files if download else self.list_files
-
-        new_file_list = retrieval_method(remote_path, connection, file_pattern)
-        new_dir_list = self.list_subdirectories(remote_path, connection, dir_pattern)
-
-        for old, new in [(dir_list, new_dir_list), (file_list, new_file_list)]:
-            old.extend(new)
-
-        for directory in new_dir_list:
-            self._walk_tree(connection, directory, retrieval_method, dir_pattern, file_pattern, file_list)
+        dir_list.extend(dirs)
+        file_list.extend(files)
 
         return dir_list, file_list
-
 
 

@@ -1,5 +1,10 @@
 from contextlib import contextmanager
 import paramiko
+import os
+import re
+from stat import S_ISDIR, S_ISREG
+from argparse import ArgumentError
+from itertools import chain
 
 from parsons.utilities import files
 from parsons.etl import Table
@@ -232,3 +237,89 @@ class SFTP(object):
                 size = connection.file(remote_path, 'r')._get_size()
 
         return size / 1024
+
+    @staticmethod
+    def _list_contents(remote_path, method, connection, pattern=None):
+        return [
+            remote_path + "/" + entry.filename
+            for entry in connection.listdir_attr(remote_path)
+            if method(entry.mode)
+            and (not pattern or re.match(pattern, remote_path))
+        ]
+
+    def list_subdirectories(self, remote_path, connection=None, pattern=None):
+        if not connection:
+            connection = self.create_connection()
+        with connection:
+            return self._list_contents(remote_path, S_ISDIR, connection=connection, pattern=pattern)
+
+    def list_files(self, remote_path, connection=None, pattern=None):
+        if not connection:
+            connection = self.create_connection()
+        with connection:
+            return self._list_contents(remote_path, S_ISREG, connection=connection, pattern=pattern)
+
+    def get_files(self, files_to_download=None, remote_path=None, connection=None, pattern=None, local_paths=None):
+
+        if not files_to_download or remote_path:
+            raise ValueError("You must provide either `files_to_download`, `remote_path`, or both, as an "
+                             "argument to `get_files`.")
+
+        if not connection:
+            connection = self.create_connection()
+
+        if not files_to_download:
+            files_to_download =[]
+
+        if remote_path:
+            files_to_download.extend(self.list_files(self, remote_path, connection, pattern))
+
+        if local_paths and len(local_paths) != len(files_to_download):
+            print("You provided a list of local paths for your files but it was not the same length as the files you"
+                  "are going to download. Defaulting to temporary files.")
+            local_paths = []
+
+        if local_paths:
+            local_paths_remote_paths = zip(local_paths, files_to_download)
+            return [
+                self.get_file(remote_path, local_path, connection)
+                for local_path, remote_path in local_paths_remote_paths
+            ]
+
+        else:
+            return [
+                self.get_file(file, local_path=None, connection=connection)
+                for file in files_to_download
+            ]
+
+    def match_dirs_and_files(self, remote_path, dir_pattern, connection=None, file_pattern=None, download=False):
+
+        if not connection:
+            connection = self.create_connection()
+
+        retrieval_method = self.get_files if download else self.list_files
+        subdirectories = self.list_subdirectories(remote_path, connection, dir_pattern)
+        return chain.from_iterable([retrieval_method(d, connection, file_pattern) for d in subdirectories])
+
+    def walk_tree(self, connection, remote_path, download=False, dir_pattern=None, file_pattern=None, dir_list=None,
+                   file_list=None):
+
+        for lst in dir_list, file_list:
+            if not lst:
+                lst = []
+
+        retrieval_method = self.get_files if download else self.list_files
+
+        new_file_list = retrieval_method(remote_path, connection, file_pattern)
+        new_dir_list = self.list_subdirectories(remote_path, connection, dir_pattern)
+
+        for old, new in [(dir_list, new_dir_list), (file_list, new_file_list)]:
+            old.extend(new)
+
+        for directory in new_dir_list:
+            self._walk_tree(connection, directory, retrieval_method, dir_pattern, file_pattern, file_list)
+
+        return dir_list, file_list
+
+
+

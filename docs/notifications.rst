@@ -19,7 +19,7 @@ information.
 .. note::
    API Tokens
       - Slack API Tokens are required to use this module. To obtain an API
-        Token, `create a Slack App <https://api.slack.com/apps>` associated
+        Token, `create a Slack App <https://api.slack.com/apps>`_ associated
         with the desired Slack workspace. Once you create the app, navigate
         to 'OAuth & Permissions' and add the following OAuth scopes:
 

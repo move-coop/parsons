@@ -739,9 +739,8 @@ class Redshift(RedshiftCreateTable, RedshiftCopyTable, RedshiftTableUtilities, R
     def upsert(self, table_obj, target_table, primary_key, vacuum=True, distinct_check=True,
                cleanup_temp_table=True, alter_table=True, from_s3=False, **copy_args):
         """
-        Preform an upsert on an existing table. An upsert is a function in which records
-        in a table are updated and inserted at the same time. Unlike other SQL databases,
-        it does not exist natively in Redshift.
+        Preform an upsert on an existing table. An upsert is a function in which rows
+        in a table are updated and inserted at the same time.
 
         `Args:`
             table_obj: obj
@@ -771,7 +770,7 @@ class Redshift(RedshiftCreateTable, RedshiftCopyTable, RedshiftTableUtilities, R
         if not self.table_exists(target_table):
             logger.info('Target table does not exist. Copying into newly \
                          created target table.')
-            self.copy(table_obj, target_table)
+            self.copy(table_obj, target_table, distkey=primary_key, sortkey=primary_key)
             return None
 
         if alter_table and table_obj:
@@ -816,6 +815,7 @@ class Redshift(RedshiftCreateTable, RedshiftCopyTable, RedshiftTableUtilities, R
                     # column is not impactful barely impactful
                     # https://docs.aws.amazon.com/redshift/latest/dg/c_Loading_tables_auto_compress.html
                     copy_args = dict(copy_args, compupdate=False)
+
                 if from_s3:
                     if table_obj is not None:
                         raise ValueError(
@@ -829,6 +829,8 @@ class Redshift(RedshiftCreateTable, RedshiftCopyTable, RedshiftTableUtilities, R
                     self.copy(table_obj, staging_tbl,
                               template_table=target_table,
                               alter_table=False,  # We just did our own alter table above
+                              distkey=primary_key,
+                              sortkey=primary_key,
                               **copy_args)
 
                 staging_table_name = staging_tbl.split('.')[1]

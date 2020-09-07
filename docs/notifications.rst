@@ -26,7 +26,7 @@ information.
         `channels:read`, `users:read`, `chat:write`, and `files:write`
 
         You can now install the Slack App, which will produce an API Token.
-        Note that you can change the scopes any time, but you mkust reinstall
+        Note that you can change the scopes any time, but you must reinstall
         the app each time (your API Token will stay the same).
       - Slack has rate limits on all its endpoints.
 

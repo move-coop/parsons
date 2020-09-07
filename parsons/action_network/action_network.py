@@ -77,9 +77,8 @@ class ActionNetwork(object):
         """
         return self.api.get_request(url=f"people/{person_id}")
 
-    def add_person(self, email_address, given_name=None, family_name=None, tags=[],
-                   languages_spoken=[], postal_addresses=[],
-                   **kwargs):
+    def add_person(self, email_address, given_name=None, family_name=None, tags=None,
+                   languages_spoken=None, postal_addresses=None, **kwargs):
         """
         `Args:`
             email_address:
@@ -126,14 +125,19 @@ class ActionNetwork(object):
         data = {
             "person": {
                 "email_addresses": email_addresses_field,
-                "given_name": given_name,
-                "family_name": family_name,
-                "languages_spoken": languages_spoken,
-                "postal_addresses": postal_addresses,
-                "custom_fields": {**kwargs}
               },
-            "add_tags": tags
         }
+        if given_name is not None:
+            data["person"]["given_name"] = given_name
+        if family_name is not None:
+            data["person"]["family_name"] = family_name
+        if languages_spoken is not None:
+            data["person"]["languages_spoken"] = languages_spoken
+        if postal_addresses is not None:
+            data["person"]["postal_address"] = postal_addresses
+        if tags is not None:
+            data["add_tags"] = tags
+        data["person"]["custom_fields"] = {**kwargs}
         response = self.api.post_request(url=f"{self.api_url}/people", data=json.dumps(data))
         identifiers = response['identifiers']
         person_id = [entry_id.split(':')[1]

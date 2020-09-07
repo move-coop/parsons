@@ -222,11 +222,18 @@ information.</p>
 <p class="first admonition-title">Note</p>
 <dl class="last docutils">
 <dt>API Tokens</dt>
-<dd><ul class="first last simple">
-<li>Slack API Tokens are required to use this module. Reference their
-<a class="reference external" href="https://api.slack.com/docs/oauth">Authentication documentation</a> for
-additional information on authentication.</li>
-<li>Slack has rate limits on all its endpoints.</li>
+<dd><ul class="first last">
+<li><p class="first">Slack API Tokens are required to use this module. To obtain an API
+Token, <a class="reference external" href="https://api.slack.com/apps">create a Slack App</a> associated
+with the desired Slack workspace. Once you create the app, navigate
+to ‘OAuth &amp; Permissions’ and add the following OAuth scopes:</p>
+<p><cite>channels:read</cite>, <cite>users:read</cite>, <cite>chat:write</cite>, and <cite>files:write</cite></p>
+<p>You can now install the Slack App, which will produce an API Token.
+Note that you can change the scopes any time, but you must reinstall
+the app each time (your API Token will stay the same).</p>
+</li>
+<li><p class="first">Slack has rate limits on all its endpoints.</p>
+</li>
 </ul>
 </dd>
 </dl>
@@ -236,7 +243,7 @@ additional information on authentication.</li>
 </div>
 <div class="section" id="quickstart">
 <h3>QuickStart<a class="headerlink" href="#quickstart" title="Permalink to this headline">¶</a></h3>
-<p>To call the Slack class you can either store the api key as an environment
+<p>To call the Slack class you can either store the API Token as an environment
 variable <cite>SLACK_API_TOKEN</cite> or pass it in as an argument.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">parsons</span> <span class="kn">import</span> <span class="n">Slack</span>
 

@@ -18,9 +18,16 @@ information.
 
 .. note::
    API Tokens
-      - Slack API Tokens are required to use this module. Reference their
-        `Authentication documentation <https://api.slack.com/docs/oauth>`_ for
-        additional information on authentication.
+      - Slack API Tokens are required to use this module. To obtain an API
+        Token, `create a Slack App <https://api.slack.com/apps>`_ associated
+        with the desired Slack workspace. Once you create the app, navigate
+        to 'OAuth & Permissions' and add the following OAuth scopes:
+
+        `channels:read`, `users:read`, `chat:write`, and `files:write`
+
+        You can now install the Slack App, which will produce an API Token.
+        Note that you can change the scopes any time, but you must reinstall
+        the app each time (your API Token will stay the same).
       - Slack has rate limits on all its endpoints.
 
 .. toctree::
@@ -30,7 +37,7 @@ information.
 QuickStart
 **********
 
-To call the Slack class you can either store the api key as an environment
+To call the Slack class you can either store the API Token as an environment
 variable `SLACK_API_TOKEN` or pass it in as an argument.
 
 .. code-block:: python

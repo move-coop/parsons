@@ -690,9 +690,8 @@ class Redshift(RedshiftCreateTable, RedshiftCopyTable, RedshiftTableUtilities, R
     def upsert(self, table_obj, target_table, primary_key, vacuum=True, distinct_check=True,
                cleanup_temp_table=True, **copy_args):
         """
-        Preform an upsert on an existing table. An upsert is a function in which records
-        in a table are updated and inserted at the same time. Unlike other SQL databases,
-        it does not exist natively in Redshift.
+        Preform an upsert on an existing table. An upsert is a function in which rows
+        in a table are updated and inserted at the same time.
 
         `Args:`
             table_obj: obj
@@ -716,7 +715,7 @@ class Redshift(RedshiftCreateTable, RedshiftCopyTable, RedshiftTableUtilities, R
         if not self.table_exists(target_table):
             logger.info('Target table does not exist. Copying into newly \
                          created target table.')
-            self.copy(table_obj, target_table)
+            self.copy(table_obj, target_table, distkey=primary_key, sortkey=primary_key)
             return None
 
         # Make target table column widths match incoming table, if necessary
@@ -762,6 +761,8 @@ class Redshift(RedshiftCreateTable, RedshiftCopyTable, RedshiftTableUtilities, R
                     copy_args = dict(copy_args, compupdate=False)
                 self.copy(table_obj, staging_tbl,
                           template_table=target_table,
+                          distkey=primary_key,
+                          sortkey=primary_key
                           **copy_args)
 
                 staging_table_name = staging_tbl.split('.')[1]

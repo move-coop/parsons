@@ -102,38 +102,46 @@ have the following columns:
    job_status = van.get_bulk_import_job(job_id)
 
 
-**Bulk Update Contacts**
-
-In this example we are updating contacts with emails and cell phones. The csv file would
+** Bulk Upsert Contacts**
+In this example we are creating and updating emails and addresses. The csv file would
 have the following columns:
 
-  * ``vanid``
-  * ``phone``
-  * ``phone_type_id``
-  * ``email``
-  * ``subscriptionstatus``
+* ``vanid``
+* ``first_name``
+* ``last_name``
+* ``address``
+* ``city``
+* ``state``
+* ``zip``
+* ``email``
 
 Note that ``vanid`` must be the first column in your table. For additional fields, see the
-:func:`~parsons.ngpvan.van.BulkImport.bulk_update_contacts` documentation.
+:func:`~parsons.ngpvan.van.BulkImport.bulk_upsert_contacts` documentation.
 
 If a record contains a null value, it will not be updated.
 
+If the VANID record is null, then a new record will be created.
+
 .. code-block:: python
 
-   from parsons import VAN, Table
+    from parsons import VAN, Table
 
-   van = VAN(db=EveryAction)
+    van = VAN(db=EveryAction)
 
-   # Load a table containing the VANID, phones and email addresses
-   tbl = Table.from_csv('hot_leads.csv')   
+    # Load a table containing VANID and PII columns
+    tbl = Table.from_csv('hot_leads.csv')
 
-   # Table will be sent to S3 bucket and a POST request will be made to VAN creating
-   # the bulk import job with all of the valid meta information. The method will 
-   # return the job id.
-   job_id = van.bulk_update_contacts(tbl, url_type="S3", bucket='my_bucket')
+    # Table will be sent to S3 bucket and a POST request will be made to VAN creating
+    # the bulk import job with all of the valid meta information. The method will 
+    # return the job id.
+    job_id = van.bulk_upsert_contacts(tbl, url_type="S3", bucket='my_bucket')
 
-   # The bulk import job is run asynchronously, so you may poll the status of a job.
-   job_status = van.get_bulk_import_job(job_id)
+    # The bulk import job is run asynchronously, so you may poll the status of a job.
+    job_status = van.get_bulk_import_job(job_id)
+
+    # When the job is complete, get the results of the job. This file will include newly
+    # created vanids.
+    job_results = van.get_bulk_import_job_results(job_id)
 
 
 ============================

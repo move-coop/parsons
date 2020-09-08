@@ -116,7 +116,7 @@ class BulkImport(object):
         return r
 
     def post_bulk_import(self, tbl, url_type, resource_type, mapping_types,
-                         description, **url_kwargs):
+                         description, result_fields=None, **url_kwargs):
         # Internal method to post bulk imports.
 
         # Move to cloud storage
@@ -140,6 +140,7 @@ class BulkImport(object):
                 "actions": [{"resultFileSizeKbLimit": 5000,
                              "resourceType": resource_type,
                              "actionType": "loadMappedFile",
+                             "columnsToIncludeInResultsFile": [{'name': c} for c in result_fields],
                              "mappingTypes": mapping_types}]
                 }
 
@@ -180,9 +181,8 @@ class BulkImport(object):
             url_type: str
                 The cloud file storage to use to post the file. Currently only ``S3``.
             **url_kwargs: kwargs
-                Arguments to configure your cloud storage url type.
-                    * S3 requires ``bucket`` argument and, if not stored as env variables
-                      ``aws_access_key`` and ``aws_secret_access_key``.
+                Arguments to configure your cloud storage url type. See
+                :ref:`Cloud Storage <cloud-storage>` for more details.
         `Returns:`
             int
                 The bulk import job id
@@ -195,10 +195,10 @@ class BulkImport(object):
                                      'Activist Code Upload',
                                      **url_kwargs)
 
-    def bulk_update_contacts(self, tbl, url_type, **url_kwargs):
+    def bulk_upsert_contacts(self, tbl, url_type, result_fields=None, **url_kwargs):
         """
-        Bulk update contact records. Provide a Parsons table of contact data to
-        update records.
+        Bulk create or update contact records. Provide a Parsons table of contact data to
+        create or update records.
 
         .. note::
             **The first column of the table must be VANID**. The other columns can be a
@@ -206,7 +206,7 @@ class BulkImport(object):
             permutations with underscores, spaces and capitalization (e.g. ``phonenumber`` =
             ``Phone_Number``).
 
-        **Mailing Address**
+        ** Table Fields **
 
         .. list-table::
             :widths: 10 10 20
@@ -214,104 +214,86 @@ class BulkImport(object):
 
             * - Column
               - Valid Column Names
-              - Values
-            * - Mailing Address
-              - ``mailingAddress``, ``address``, ``addressline1``, ``mailaddress``,
-                ``mailaddressline1``
+              - Notes
+            * - VANID*
+              - ``vanid``
               -
-            * - Mailing Address Line 2
-              - ``mailingaddressline2``, ``address2``, ``mailaddressline2``
+            * - Voter VAN ID
+              - ``votervanid``
+              - The contact's MyVoters VANID
+            * - External ID
+              - ``externalid``, ``dwid``, ``id``, ``pk``, ``sosid``,
+              - ``voterbaseid``, ``vbvoterbaseid``
+              - An external id to be stored.
+            * - **PII**
               -
-            * - Mailing Address Line 3
-              - ``mailingaddressline3``, ``address3``, ``mailaddressline3``
               -
-            * - Mailing City
-              - ``mailingcity``, ``city``, ``mailcity``
+            * - First Name
+              - ``fn``, ``firstname``, ``last``
               -
-            * - Mailing Zip or Postal
-              - ``mailingziporpostal``, ``zipcode``, ``mailzipcode``, ``mailzip``, ``zip``
+            * - Middle Name
+              - ``mn``, ``middlename``, ``middle``
               -
-            * - Mailing State or Province
-              - ``mailingstateorprovince``, ``mailingstate``, ``st``, ``state``
-              - A valid two digit state or province code (e.g. ``IL``)
-            * - Mailing Country Code*
-              - ``mailingcountrycode``, ``countrycode``, ``country``, ``mailcountry``,
-                ``countrycode``
-              - A valid two digit country code (e.g. ``US``)
-            * - Mailing Display As Entered*
-              - ``maildisplayasentered``, ``addressdisplayasentered``, ``displayasentered``
-              - ``1`` True, ``0`` False
-
-        **Phones**
-
-        .. list-table::
-            :widths: 10 10 20
-            :header-rows: 1
-
-            * - Column
-              - Valid Column Names
-              - Values
-            * - Phone
-              - ``phone``, ``phonenumber``, ``cell``, ``workphone``, ``homephone``
+            * - Last Name
+              - ``ln``, ``lastname``, ``last``
               -
-            * - Phone Type ID*
-              - ``phonetype``, ``phonetypeid``
-              - ``C`` Cell, ``F`` Fax, ``H`` Home, ``M`` Main, ``O`` Office,
-                ``U`` Unknown, ``W`` Work
+            * - Date of Birth
+              - ``dob``, ``dateofbirth`` ``birthdate``
+              - What type of thing does this need?
+            * - Sex
+              - ``sex``, ``gender``
+              -
+            * - **Physical Address**
+              -
+              -
+            * - Address Line 1
+              - ``addressline1``, ``address1``, ``address``
+              -
+            * - Address Line 2
+              - ``addressline2``, ``address2``
+              -
+            * - Address Line 3
+              - ``addressline3``, ``address3``
+              -
+            * - City
+              - ``city``
+              -
+            * - State Or Province
+              - ``state``, ``st``, ``stateorprovince``
+              -
             * - Country Code
-              - ``countrycode``
-              - Two character code (e.g. ``US``)
-            * - Phone OptIn Status ID
-              - ``smsoptin``, ``phoneoptin``, ``optinstatus``
-              - ``1``: Opt-In, ``2``: Unknown, ``3``: Opt-Out
-            * - Email Subscription Status Id
-              - ``emailsubscriptionstatus``, ``emailstatus``, ``subscriptionstatus``
-              - ``0``: Unsubscribed, ``1`` Not Subscribed, ``2`` Subscribed
-
-        **Emails**
-
-        .. list-table::
-            :widths: 10 10 20
-            :header-rows: 1
-
-            * - Column
-              - Valid Column Names
-              - Values
-            * - Email*
+              - ``countrycode``, ``country``
+              - A valid two character country code (e.g. ``US``)
+            * - Display As Entered
+              - ``displayasentered``
+              - Required values are ``Y`` and ``N``. Determines if the address is
+                processed through address correction.
+            * - **Phones**
+              - Cell Phone
+              - ``cellphone``, ``cell``
+            * - Cell Phone Country Code
+              - ``cellcountrycode``, ``cellphonecountrycode``
+              - A valid two digit country code (e.g. ``01``)
+            * - Home Phone
+              - ``homephone``, ``home``, ``phone``
+              -
+            * - Home Phone Country Code
+              - ``homecountrycode``, ``homephonecountrycode``
+              -
+            * - **Email**
               - ``email``, ``emailaddress``
               -
-            * - EmailTypeId
-              - ``emailtypeid``, ``emailtype``
-              - ``1`` Personal, ``2`` Work, ``3`` Other
-            * - EmailSubscriptionStatusId
-              - ``emailsubscriptionstatus``, ``emailstatus``, ``subscriptionstatus``
-              - ``0`` Unsubscribed, ``1`` Not Subscribed, ``2`` Subscribed
-
-        **Custom Fields**
-
-        .. list-table::
-            :widths: 10 10 20
-            :header-rows: 1
-
-            * - Column
-              - Valid Column Names
-              - Values
-            * - Custom Field Group ID*
-              - ``customfieldgroupid``, ``customfield``, ``customfieldid``
-              -
-
-        .. [*] Required field if contact type is selected. For example, phonetypeid is
-               not required if you are not uploading phone numbers.
 
         `Args:`
             table: Parsons table
-                A Parsons table.
+              A Parsons table.
             url_type: str
-                The cloud file storage to use to post the file. Currently only ``S3``.
+              The cloud file storage to use to post the file. Currently only ``S3``.
+            results_fields: list
+              A list of fields to include in the results file.
             **url_kwargs: kwargs
-                Arguments to configure your cloud storage url type.
-                    * S3 requires ``bucket`` argument and, if not stored as env variables
-                      ``aws_access_key`` and ``aws_secret_access_key``.
+                Arguments to configure your cloud storage url type. See
+                :ref:`Cloud Storage <cloud-storage>` for more details.
         `Returns:`
             int
                 The bulk import job id
@@ -322,8 +304,9 @@ class BulkImport(object):
         return self.post_bulk_import(tbl,
                                      url_type,
                                      'Contacts',
-                                     self.create_mapping_types(tbl),
-                                     'Update Contact Records',
+                                     [{'name': 'CreateOrUpdateContact'}],
+                                     'Create Or Update Contact Records',
+                                     result_fields=result_fields,
                                      **url_kwargs)
 
     def create_mapping_types(self, tbl):
@@ -334,7 +317,8 @@ class BulkImport(object):
 
         # If one of the following columns is found in the table, then add
         # that mapping type.
-        mp = [('Email', 'Email'),
+        mp = [('firstname', '')
+              ('Email', 'Email'),
               ('MailingAddress', 'MailingAddress'),
               ('Phone', 'Phones'),
               ('ApplyContactCustomFields', 'CustomFieldGroupId')]
@@ -349,22 +333,21 @@ class BulkImport(object):
 
 # This is a column mapper that is used to accept additional column names and provide
 # flexibility for the user.
-COLUMN_MAP = {'MailingAddress': ['address', 'addressline1', 'mailaddress', 'mailaddressline1'],
-              'MailingAddressLine2': ['address2', 'mailaddressline2'],
-              'MailingAddressLine3': ['address3', 'mailaddressline3'],
-              'MailingCity': ['city', 'mailcity'],
-              'MailingZipOrPostal': ['zipcode', 'mailzipcode', 'mailzip', 'zip'],
-              'MailingCountryCode': ['countrycode', 'country', 'mailcountry', 'countrycode'],
-              'MailingDisplayAsEntered': ['maildisplayasentered', 'addressdisplayasentered',
-                                          'displayasentered'],
-              'MailingStateOrProvince': ['mailingstate', 'st', 'state'],
-              'Email': ['email', 'emailaddress'],
-              'EmailTypeId': ['emailtype'],
-              'EmailSubscriptionStatusId': ['emailsubscriptionstatus', 'emailstatus',
-                                            'subscriptionstatus'],
-              'Phone': ['phonenumber', 'cell', 'homephone', 'workphone'],
-              'CountryCode': ['countrycode'],
-              'PhoneTypeID': ['phonetype'],
-              'PhoneOptInStatusID': ['smsoptin', 'phoneoptin', 'optinstatus'],
-              'IsCellStatusID': ['iscell'],
-              'CustomFieldGroupID': ['customfield', 'customfieldid']}
+
+COLUMN_MAP = {'firstname': ['fn', 'first'],
+              'middlename': ['mn', 'middle'],
+              'lastname': ['ln', 'last'],
+              'dob': ['dateofbirth', 'birthdate'],
+              'sex': ['gender'],
+              'addressline1': ['address', 'addressline1', 'address1'],
+              'addressline2': ['addressline2', 'address2'],
+              'addressline3': ['addressline3', 'address3'],
+              'city': [],
+              'stateorprovince': ['state', 'st'],
+              'countrycode': ['country'],
+              'displayasentered': [],
+              'cellphone': ['cell'],
+              'cellphonecountrycode': ['cellcountrycode'],
+              'phone': ['home', 'homephone'],
+              'phonecountrycode': ['phonecountrycode'],
+              'email': ['email', 'emailaddress']}

@@ -41,12 +41,23 @@ class RedshiftCopyTable(object):
         if manifest:
             sql += "manifest \n"
         sql += f"maxerror {max_errors} \n"
-        if statupdate:
-            sql += "statupdate on\n"
-        if compupdate:
-            sql += "compupdate on \n"
-        else:
-            sql += "compupdate off \n"
+
+        # Redshift has some default behavior when statupdate is left out
+        # vs when it is explicitly set as on or off.
+        if statupdate is not None:
+            if statupdate:
+                sql += "statupdate on\n"
+            else:
+                sql += "statupdate off\n"
+
+        # Redshift has some default behavior when compupdate is left out
+        # vs when it is explicitly set as on or off.
+        if compupdate is not None:
+            if compupdate:
+                sql += "compupdate on\n"
+            else:
+                sql += "compupdate off\n"
+
         if ignoreheader:
             sql += f"ignoreheader {ignoreheader} \n"
         if acceptanydate:

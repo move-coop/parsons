@@ -397,9 +397,12 @@ class Redshift(RedshiftCreateTable, RedshiftCopyTable, RedshiftTableUtilities, R
                 characters.
             statupate: boolean
                 Governs automatic computation and refresh of optimizer statistics at the end
-                of a successful COPY command.
+                of a successful COPY command. If ``True`` explicitly sets ``statupate`` to on, if
+                ``False`` explicitly sets ``statupate`` to off.
             compupdate: boolean
-                Controls whether compression encodings are automatically applied during a COPY.
+                Controls whether compression encodings are automatically applied during a COPY. If
+                ``True`` explicitly sets ``compupdate`` to on, if ``False`` explicitly sets
+                ``compupdate`` to off.
             acceptanydate: boolean
                 Allows any date format, including invalid formats such as 00/00/00 00:00:00, to be
                 loaded without generating an error.

@@ -9,6 +9,7 @@ from parsons.utilities import cloud_storage
 
 os.environ['VAN_API_KEY'] = 'SOME_KEY'
 
+
 class TestBulkImport(unittest.TestCase):
 
     def setUp(self):
@@ -66,10 +67,10 @@ class TestBulkImport(unittest.TestCase):
         cloud_storage.post_file = mock.MagicMock()
         cloud_storage.post_file.return_value = 'https://s3.com/my_file.zip'
 
-        tbl = Table([['Vanid', 'ActivistCodeID'],[1234, 345345]])
+        tbl = Table([['Vanid', 'ActivistCodeID'], [1234, 345345]])
 
         m.post(self.van.connection.uri + 'bulkImportJobs', json={'jobId': 54679})
-        
+
         r = self.van.post_bulk_import(tbl,
                                       'S3',
                                       'ContactsActivistCodes',
@@ -86,7 +87,7 @@ class TestBulkImport(unittest.TestCase):
         cloud_storage.post_file = mock.MagicMock()
         cloud_storage.post_file.return_value = 'https://s3.com/my_file.zip'
 
-        tbl = Table([['Vanid', 'ActivistCodeID'],[1234, 345345]])
+        tbl = Table([['Vanid', 'ActivistCodeID'], [1234, 345345]])
 
         m.post(self.van.connection.uri + 'bulkImportJobs', json={'jobId': 54679})
 
@@ -94,45 +95,51 @@ class TestBulkImport(unittest.TestCase):
 
         self.assertEqual(job_id, 54679)
 
-mapping_type = {'name': 'ActivistCode',
-                'displayName': 'Apply Activist Code',
-                'allowMultipleMode': 'Multiple',
-                'resourceTypes': ['Contacts', 'ContactsActivistCodes'],
-                'fields': [{
-                    'name': 'ActivistCodeID',
-                    'description': 'Activist Code ID',
-                    'hasPredefinedValues': True,
-                    'isRequired': True,
-                    'canBeMappedToColumn': True,
-                    'canBeMappedByName': True,
-                    'parents': None},
-                    {'name': 'CanvassedBy',
-                     'description': 'Recruited By, Must be a Valid User ID',
-                     'hasPredefinedValues': False,
-                     'isRequired': False,
-                     'canBeMappedToColumn': True,
-                     'canBeMappedByName': True,
-                     'parents': None},
-                    {'name': 'DateCanvassed',
-                     'description': 'Contacted When',
-                     'hasPredefinedValues': False,
-                     'isRequired': False,
-                     'canBeMappedToColumn': True,
-                     'canBeMappedByName': True,
-                     'parents': [{
-                         'parentFieldName': 'CanvassedBy',
-                         'limitedToParentValues': None
-                     }]
-                     }, {
-                    'name': 'ContactTypeID',
-                    'description': 'Contacted How',
-                    'hasPredefinedValues': True,
-                    'isRequired': False,
-                    'canBeMappedToColumn': True,
-                    'canBeMappedByName': True,
-                    'parents': [{
-                        'parentFieldName': 'CanvassedBy',
-                        'limitedToParentValues': None
-                    }]
-                }]
-                }
+
+mapping_type = {
+    'name': 'ActivistCode',
+    'displayName': 'Apply Activist Code',
+    'allowMultipleMode': 'Multiple',
+    'resourceTypes': ['Contacts', 'ContactsActivistCodes'],
+    'fields': [
+        {
+            'name': 'ActivistCodeID',
+            'description': 'Activist Code ID',
+            'hasPredefinedValues': True,
+            'isRequired': True,
+            'canBeMappedToColumn': True,
+            'canBeMappedByName': True,
+            'parents': None
+        }, {
+            'name': 'CanvassedBy',
+            'description': 'Recruited By, Must be a Valid User ID',
+            'hasPredefinedValues': False,
+            'isRequired': False,
+            'canBeMappedToColumn': True,
+            'canBeMappedByName': True,
+            'parents': None
+        }, {
+            'name': 'DateCanvassed',
+            'description': 'Contacted When',
+            'hasPredefinedValues': False,
+            'isRequired': False,
+            'canBeMappedToColumn': True,
+            'canBeMappedByName': True,
+            'parents': [{
+                'parentFieldName': 'CanvassedBy',
+                'limitedToParentValues': None
+            }]
+        }, {
+            'name': 'ContactTypeID',
+            'description': 'Contacted How',
+            'hasPredefinedValues': True,
+            'isRequired': False,
+            'canBeMappedToColumn': True,
+            'canBeMappedByName': True,
+            'parents': [{
+                'parentFieldName': 'CanvassedBy',
+                'limitedToParentValues': None
+            }]
+        }
+    ]
+}

@@ -15,6 +15,8 @@ logger = logging.getLogger(__name__)
 
 
 VALID_REPORT_TYPES = ["extended"]
+TESTING_URI = "https://staging.rocky.rockthevote.com/api/v4"
+PRODUCTION_URI = "https://register.rockthevote.com/api/v4"
 
 DATETIME_FORMAT = '%Y-%m-%d %H:%M:%S UTC'
 """Datetime format for sending date's to the API."""
@@ -55,11 +57,9 @@ class RockTheVote:
         self.partner_api_key = check_env.check('RTV_PARTNER_API_KEY', partner_api_key)
 
         if testing:
-            self.client = APIConnector(
-                "https://staging.rocky.rockthevote.com/api/v4", headers=REQUEST_HEADERS)
+            self.client = APIConnector(TESTING_URI, headers=REQUEST_HEADERS)
         else:
-            self.client = APIConnector(
-                "https://register.rockthevote.com/api/v4", headers=REQUEST_HEADERS)
+            self.client = APIConnector(PRODUCTION_URI, headers=REQUEST_HEADERS)
 
     def create_registration_report(self, before=None, since=None, report_type=None):
         """

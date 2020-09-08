@@ -202,6 +202,11 @@
 
 <span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
 
+
+<span class="n">VALID_REPORT_TYPES</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;extended&quot;</span><span class="p">]</span>
+<span class="n">TESTING_URI</span> <span class="o">=</span> <span class="s2">&quot;https://staging.rocky.rockthevote.com/api/v4&quot;</span>
+<span class="n">PRODUCTION_URI</span> <span class="o">=</span> <span class="s2">&quot;https://register.rockthevote.com/api/v4&quot;</span>
+
 <span class="n">DATETIME_FORMAT</span> <span class="o">=</span> <span class="s1">&#39;%Y-%m-</span><span class="si">%d</span><span class="s1"> %H:%M:%S UTC&#39;</span>
 <span class="sd">&quot;&quot;&quot;Datetime format for sending date&#39;s to the API.&quot;&quot;&quot;</span>
 
@@ -230,26 +235,35 @@
 <span class="sd">            The RockTheVote partner ID for the RTV account</span>
 <span class="sd">        partner_api_key: str</span>
 <span class="sd">            The API Key for the partner</span>
+<span class="sd">        testing: bool</span>
+<span class="sd">            Whether or not to use the staging instance. Defaults to False.</span>
 <span class="sd">    `Returns`:</span>
 <span class="sd">        RockTheVote class</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">partner_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">partner_api_key</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">partner_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">partner_api_key</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">testing</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">partner_id</span> <span class="o">=</span> <span class="n">check_env</span><span class="o">.</span><span class="n">check</span><span class="p">(</span><span class="s1">&#39;RTV_PARTNER_ID&#39;</span><span class="p">,</span> <span class="n">partner_id</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">partner_api_key</span> <span class="o">=</span> <span class="n">check_env</span><span class="o">.</span><span class="n">check</span><span class="p">(</span><span class="s1">&#39;RTV_PARTNER_API_KEY&#39;</span><span class="p">,</span> <span class="n">partner_api_key</span><span class="p">)</span>
 
-        <span class="bp">self</span><span class="o">.</span><span class="n">client</span> <span class="o">=</span> <span class="n">APIConnector</span><span class="p">(</span><span class="s1">&#39;https://register.rockthevote.com/api/v4/&#39;</span><span class="p">,</span>
-                                   <span class="n">headers</span><span class="o">=</span><span class="n">REQUEST_HEADERS</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">testing</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">client</span> <span class="o">=</span> <span class="n">APIConnector</span><span class="p">(</span><span class="n">TESTING_URI</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="n">REQUEST_HEADERS</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">client</span> <span class="o">=</span> <span class="n">APIConnector</span><span class="p">(</span><span class="n">PRODUCTION_URI</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="n">REQUEST_HEADERS</span><span class="p">)</span>
 
-<div class="viewcode-block" id="RockTheVote.create_registration_report"><a class="viewcode-back" href="../../../rockthevote.html#parsons.rockthevote.rtv.RockTheVote.create_registration_report">[docs]</a>    <span class="k">def</span> <span class="nf">create_registration_report</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">before</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">since</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<div class="viewcode-block" id="RockTheVote.create_registration_report"><a class="viewcode-back" href="../../../rockthevote.html#parsons.rockthevote.rtv.RockTheVote.create_registration_report">[docs]</a>    <span class="k">def</span> <span class="nf">create_registration_report</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">before</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">since</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">report_type</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Create a new registration report.</span>
 
 <span class="sd">        `Args:`</span>
 <span class="sd">            before: str</span>
-<span class="sd">                Date before which to return registrations for</span>
+<span class="sd">                Limit to registrations that were started before this date, in</span>
+<span class="sd">                ISO format (e.g. 2020-01-01)</span>
 <span class="sd">            since: str</span>
-<span class="sd">                Date for filtering registrations</span>
+<span class="sd">                Limit to registrations that were started since this date, in</span>
+<span class="sd">                ISO format (e.g. 2020-01-01)</span>
+<span class="sd">            report_type: str</span>
+<span class="sd">                The type of report to create. If left as None, it creates the default report. The</span>
+<span class="sd">                ``extended`` report includes additional fields. Currently only accepts ``extended``.</span>
 <span class="sd">        `Returns:`</span>
 <span class="sd">            int</span>
 <span class="sd">                The ID of the created report.</span>
@@ -261,15 +275,26 @@
             <span class="s1">&#39;partner_API_key&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">partner_api_key</span><span class="p">,</span>
         <span class="p">}</span>
 
+        <span class="c1"># Declare these here so the logging doesn&#39;t error out</span>
+        <span class="n">since_date</span> <span class="o">=</span> <span class="n">before_date</span> <span class="o">=</span> <span class="kc">None</span>
+
+        <span class="k">if</span> <span class="n">report_type</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">report_type</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">VALID_REPORT_TYPES</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="n">RTVFailure</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Invalid report type. Must be one of </span><span class="si">{</span><span class="n">VALID_REPORT_TYPES</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="n">report_parameters</span><span class="p">[</span><span class="s2">&quot;report_type&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">report_type</span>
         <span class="k">if</span> <span class="n">since</span><span class="p">:</span>
-            <span class="n">since_date</span> <span class="o">=</span> <span class="n">parse_date</span><span class="p">(</span><span class="n">since</span><span class="p">)</span>
-            <span class="n">report_parameters</span><span class="p">[</span><span class="s1">&#39;since&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">since_date</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="n">DATETIME_FORMAT</span><span class="p">)</span>
+            <span class="n">since_date</span> <span class="o">=</span> <span class="n">parse_date</span><span class="p">(</span><span class="n">since</span><span class="p">)</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="n">DATETIME_FORMAT</span><span class="p">)</span>
+            <span class="n">report_parameters</span><span class="p">[</span><span class="s1">&#39;since&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">since_date</span>
         <span class="k">if</span> <span class="n">before</span><span class="p">:</span>
-            <span class="n">before_date</span> <span class="o">=</span> <span class="n">parse_date</span><span class="p">(</span><span class="n">before</span><span class="p">)</span>
-            <span class="n">report_parameters</span><span class="p">[</span><span class="s1">&#39;before&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">before_date</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="n">DATETIME_FORMAT</span><span class="p">)</span>
+            <span class="n">before_date</span> <span class="o">=</span> <span class="n">parse_date</span><span class="p">(</span><span class="n">before</span><span class="p">)</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="n">DATETIME_FORMAT</span><span class="p">)</span>
+            <span class="n">report_parameters</span><span class="p">[</span><span class="s1">&#39;before&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">before_date</span>
 
         <span class="c1"># The report parameters get passed into the request as JSON in the body</span>
         <span class="c1"># of the request.</span>
+        <span class="n">report_str</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">report_type</span><span class="si">}</span><span class="s2"> report&quot;</span> <span class="k">if</span> <span class="n">report_type</span> <span class="k">else</span> <span class="s2">&quot;report&quot;</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s2">&quot;Creating </span><span class="si">{</span><span class="n">report_str</span><span class="si">}</span><span class="s2"> for </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">partner_id</span><span class="si">}</span><span class="s2"> &quot;</span>
+            <span class="sa">f</span><span class="s2">&quot;for dates: </span><span class="si">{</span><span class="n">since_date</span><span class="si">}</span><span class="s2"> to </span><span class="si">{</span><span class="n">before_date</span><span class="si">}</span><span class="s2">...&quot;</span><span class="p">)</span>
         <span class="n">response</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">request</span><span class="p">(</span><span class="n">report_url</span><span class="p">,</span> <span class="s1">&#39;post&#39;</span><span class="p">,</span> <span class="n">json</span><span class="o">=</span><span class="n">report_parameters</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">response</span><span class="o">.</span><span class="n">status_code</span> <span class="o">!=</span> <span class="n">requests</span><span class="o">.</span><span class="n">codes</span><span class="o">.</span><span class="n">ok</span><span class="p">:</span>
             <span class="k">raise</span> <span class="n">RTVFailure</span><span class="p">(</span><span class="s2">&quot;Couldn&#39;t create RTV registrations report&quot;</span><span class="p">)</span>
@@ -279,6 +304,7 @@
         <span class="c1"># that to be the case</span>
         <span class="n">report_id</span> <span class="o">=</span> <span class="n">response_json</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;report_id&#39;</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">report_id</span><span class="p">:</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Created report with id </span><span class="si">{</span><span class="n">report_id</span><span class="si">}</span><span class="s2">.&quot;</span><span class="p">)</span>
             <span class="k">return</span> <span class="n">report_id</span>
 
         <span class="c1"># If the response didn&#39;t include the report_id, then we will parse it out of the URL.</span>
@@ -287,6 +313,7 @@
         <span class="k">if</span> <span class="n">url_match</span><span class="p">:</span>
             <span class="n">report_id</span> <span class="o">=</span> <span class="n">url_match</span><span class="o">.</span><span class="n">group</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
 
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Created report with id </span><span class="si">{</span><span class="n">report_id</span><span class="si">}</span><span class="s2">.&quot;</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">report_id</span></div>
 
 <div class="viewcode-block" id="RockTheVote.get_registration_report"><a class="viewcode-back" href="../../../rockthevote.html#parsons.rockthevote.rtv.RockTheVote.get_registration_report">[docs]</a>    <span class="k">def</span> <span class="nf">get_registration_report</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">report_id</span><span class="p">,</span> <span class="n">block</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">poll_interval_seconds</span><span class="o">=</span><span class="mi">60</span><span class="p">,</span>
@@ -307,6 +334,7 @@
 <span class="sd">            Parsons Table</span>
 <span class="sd">                Parsons table with the report data.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Getting report with id </span><span class="si">{</span><span class="n">report_id</span><span class="si">}</span><span class="s2">...&quot;</span><span class="p">)</span>
         <span class="n">credentials</span> <span class="o">=</span> <span class="p">{</span>
             <span class="s1">&#39;partner_id&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">partner_id</span><span class="p">,</span>
             <span class="s1">&#39;partner_API_key&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">partner_api_key</span><span class="p">,</span>
@@ -375,8 +403,8 @@
         <span class="k">else</span><span class="p">:</span>
             <span class="k">raise</span> <span class="n">RTVFailure</span><span class="p">(</span><span class="s1">&#39;Unable to download report data&#39;</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="RockTheVote.run_registration_report"><a class="viewcode-back" href="../../../rockthevote.html#parsons.rockthevote.rtv.RockTheVote.run_registration_report">[docs]</a>    <span class="k">def</span> <span class="nf">run_registration_report</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">before</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">since</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">poll_interval_seconds</span><span class="o">=</span><span class="mi">60</span><span class="p">,</span>
-                                <span class="n">report_timeout_seconds</span><span class="o">=</span><span class="mi">3600</span><span class="p">):</span>
+<div class="viewcode-block" id="RockTheVote.run_registration_report"><a class="viewcode-back" href="../../../rockthevote.html#parsons.rockthevote.rtv.RockTheVote.run_registration_report">[docs]</a>    <span class="k">def</span> <span class="nf">run_registration_report</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">before</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">since</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">report_type</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                                <span class="n">poll_interval_seconds</span><span class="o">=</span><span class="mi">60</span><span class="p">,</span> <span class="n">report_timeout_seconds</span><span class="o">=</span><span class="mi">3600</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Run a new registration report.</span>
 
@@ -385,18 +413,28 @@
 
 <span class="sd">        `Args:`</span>
 <span class="sd">            before: str</span>
-<span class="sd">                Date before which to return registrations for</span>
+<span class="sd">                Limit to registrations that were started before this date, in</span>
+<span class="sd">                ISO format (e.g. 2020-01-01)</span>
 <span class="sd">            since: str</span>
-<span class="sd">                Date for filtering registrations</span>
+<span class="sd">                Limit to registrations that were started since this date, in</span>
+<span class="sd">                ISO format (e.g. 2020-01-01)</span>
+<span class="sd">            report_type: str</span>
+<span class="sd">                The type of report to run. If left as None, it runs the default report. The</span>
+<span class="sd">                ``extended`` report includes additional fields. Currently only accepts ``extended``.</span>
 <span class="sd">            poll_interval_seconds: int</span>
 <span class="sd">                If blocking, how long to pause between attempts to check if the report is done</span>
 <span class="sd">            report_timeout_seconds: int</span>
 <span class="sd">                If blocking, how long to wait for the report before timing out</span>
 <span class="sd">        `Returns:`</span>
-<span class="sd">            int</span>
-<span class="sd">                The ID of the created report.</span>
+<span class="sd">            Parsons.Table</span>
+<span class="sd">                The table with the report data.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">report_id</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">create_registration_report</span><span class="p">(</span><span class="n">before</span><span class="o">=</span><span class="n">before</span><span class="p">,</span> <span class="n">since</span><span class="o">=</span><span class="n">since</span><span class="p">)</span>
+        <span class="n">report_str</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">report_type</span><span class="si">}</span><span class="s2"> report&quot;</span> <span class="k">if</span> <span class="n">report_type</span> <span class="k">else</span> <span class="s2">&quot;report&quot;</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s2">&quot;Running </span><span class="si">{</span><span class="n">report_str</span><span class="si">}</span><span class="s2"> for </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">partner_id</span><span class="si">}</span><span class="s2"> &quot;</span>
+            <span class="sa">f</span><span class="s2">&quot;for dates: </span><span class="si">{</span><span class="n">since</span><span class="si">}</span><span class="s2"> to </span><span class="si">{</span><span class="n">before</span><span class="si">}</span><span class="s2">...&quot;</span><span class="p">)</span>
+        <span class="n">report_id</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">create_registration_report</span><span class="p">(</span>
+            <span class="n">before</span><span class="o">=</span><span class="n">before</span><span class="p">,</span> <span class="n">since</span><span class="o">=</span><span class="n">since</span><span class="p">,</span> <span class="n">report_type</span><span class="o">=</span><span class="n">report_type</span><span class="p">)</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_registration_report</span><span class="p">(</span><span class="n">report_id</span><span class="p">,</span> <span class="n">block</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
                                             <span class="n">poll_interval_seconds</span><span class="o">=</span><span class="n">poll_interval_seconds</span><span class="p">,</span>
                                             <span class="n">report_timeout_seconds</span><span class="o">=</span><span class="n">report_timeout_seconds</span><span class="p">)</span></div></div>

@@ -246,7 +246,7 @@ data.</p>
 <h2>API<a class="headerlink" href="#api" title="Permalink to this headline">¶</a></h2>
 <dl class="class">
 <dt id="parsons.rockthevote.rtv.RockTheVote">
-<em class="property">class </em><code class="descclassname">parsons.rockthevote.rtv.</code><code class="descname">RockTheVote</code><span class="sig-paren">(</span><em>partner_id=None</em>, <em>partner_api_key=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/rockthevote/rtv.html#RockTheVote"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.rockthevote.rtv.RockTheVote" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="descclassname">parsons.rockthevote.rtv.</code><code class="descname">RockTheVote</code><span class="sig-paren">(</span><em>partner_id=None</em>, <em>partner_api_key=None</em>, <em>testing=False</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/rockthevote/rtv.html#RockTheVote"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.rockthevote.rtv.RockTheVote" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="docutils">
 <dt><cite>Args:</cite></dt>
 <dd><dl class="first last docutils">
@@ -254,6 +254,8 @@ data.</p>
 <dd>The RockTheVote partner ID for the RTV account</dd>
 <dt>partner_api_key: str</dt>
 <dd>The API Key for the partner</dd>
+<dt>testing: bool</dt>
+<dd>Whether or not to use the staging instance. Defaults to False.</dd>
 </dl>
 </dd>
 <dt><cite>Returns</cite>:</dt>
@@ -261,15 +263,20 @@ data.</p>
 </dl>
 <dl class="method">
 <dt id="parsons.rockthevote.rtv.RockTheVote.create_registration_report">
-<code class="descname">create_registration_report</code><span class="sig-paren">(</span><em>before=None</em>, <em>since=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/rockthevote/rtv.html#RockTheVote.create_registration_report"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.rockthevote.rtv.RockTheVote.create_registration_report" title="Permalink to this definition">¶</a></dt>
+<code class="descname">create_registration_report</code><span class="sig-paren">(</span><em>before=None</em>, <em>since=None</em>, <em>report_type=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/rockthevote/rtv.html#RockTheVote.create_registration_report"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.rockthevote.rtv.RockTheVote.create_registration_report" title="Permalink to this definition">¶</a></dt>
 <dd><p>Create a new registration report.</p>
 <dl class="docutils">
 <dt><cite>Args:</cite></dt>
 <dd><dl class="first last docutils">
 <dt>before: str</dt>
-<dd>Date before which to return registrations for</dd>
+<dd>Limit to registrations that were started before this date, in
+ISO format (e.g. 2020-01-01)</dd>
 <dt>since: str</dt>
-<dd>Date for filtering registrations</dd>
+<dd>Limit to registrations that were started since this date, in
+ISO format (e.g. 2020-01-01)</dd>
+<dt>report_type: str</dt>
+<dd>The type of report to create. If left as None, it creates the default report. The
+<code class="docutils literal notranslate"><span class="pre">extended</span></code> report includes additional fields. Currently only accepts <code class="docutils literal notranslate"><span class="pre">extended</span></code>.</dd>
 </dl>
 </dd>
 <dt><cite>Returns:</cite></dt>
@@ -309,7 +316,7 @@ data.</p>
 
 <dl class="method">
 <dt id="parsons.rockthevote.rtv.RockTheVote.run_registration_report">
-<code class="descname">run_registration_report</code><span class="sig-paren">(</span><em>before=None</em>, <em>since=None</em>, <em>poll_interval_seconds=60</em>, <em>report_timeout_seconds=3600</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/rockthevote/rtv.html#RockTheVote.run_registration_report"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.rockthevote.rtv.RockTheVote.run_registration_report" title="Permalink to this definition">¶</a></dt>
+<code class="descname">run_registration_report</code><span class="sig-paren">(</span><em>before=None</em>, <em>since=None</em>, <em>report_type=None</em>, <em>poll_interval_seconds=60</em>, <em>report_timeout_seconds=3600</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/rockthevote/rtv.html#RockTheVote.run_registration_report"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.rockthevote.rtv.RockTheVote.run_registration_report" title="Permalink to this definition">¶</a></dt>
 <dd><p>Run a new registration report.</p>
 <p>This method will block until the report has finished generating, or until the specified
 timeout is reached.</p>
@@ -317,9 +324,14 @@ timeout is reached.</p>
 <dt><cite>Args:</cite></dt>
 <dd><dl class="first last docutils">
 <dt>before: str</dt>
-<dd>Date before which to return registrations for</dd>
+<dd>Limit to registrations that were started before this date, in
+ISO format (e.g. 2020-01-01)</dd>
 <dt>since: str</dt>
-<dd>Date for filtering registrations</dd>
+<dd>Limit to registrations that were started since this date, in
+ISO format (e.g. 2020-01-01)</dd>
+<dt>report_type: str</dt>
+<dd>The type of report to run. If left as None, it runs the default report. The
+<code class="docutils literal notranslate"><span class="pre">extended</span></code> report includes additional fields. Currently only accepts <code class="docutils literal notranslate"><span class="pre">extended</span></code>.</dd>
 <dt>poll_interval_seconds: int</dt>
 <dd>If blocking, how long to pause between attempts to check if the report is done</dd>
 <dt>report_timeout_seconds: int</dt>
@@ -328,8 +340,8 @@ timeout is reached.</p>
 </dd>
 <dt><cite>Returns:</cite></dt>
 <dd><dl class="first last docutils">
-<dt>int</dt>
-<dd>The ID of the created report.</dd>
+<dt>Parsons.Table</dt>
+<dd>The table with the report data.</dd>
 </dl>
 </dd>
 </dl>

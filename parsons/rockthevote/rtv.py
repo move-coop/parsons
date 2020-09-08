@@ -73,7 +73,8 @@ class RockTheVote:
                 Limit to registrations that were started since this date, in
                 ISO format (e.g. 2020-01-01)
             report_type: str
-                The type of report to create. Currently only accepts "extended".
+                The type of report to create. If left as None, it creates the default report. The
+                ``extended`` report includes additional fields. Currently only accepts ``extended``.
         `Returns:`
             int
                 The ID of the created report.
@@ -229,7 +230,8 @@ class RockTheVote:
                 Limit to registrations that were started since this date, in
                 ISO format (e.g. 2020-01-01)
             report_type: str
-                The type of report to run. Currently only accepts "extended".
+                The type of report to run. If left as None, it runs the default report. The
+                ``extended`` report includes additional fields. Currently only accepts ``extended``.
             poll_interval_seconds: int
                 If blocking, how long to pause between attempts to check if the report is done
             report_timeout_seconds: int

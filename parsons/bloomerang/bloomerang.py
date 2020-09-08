@@ -36,7 +36,8 @@ class Bloomerang(object):
     def __init__(self, api_key=None, client_id=None, client_secret=None):
         self.api_key = check_env.check('BLOOMERANG_API_KEY', api_key, optional=True)
         self.client_id = check_env.check('BLOOMERANG_CLIENT_ID', client_id, optional=True)
-        self.client_secret = check_env.check('BLOOMERANG_CLIENT_SECRET', client_secret, optional=True)
+        self.client_secret = check_env.check('BLOOMERANG_CLIENT_SECRET', client_secret,
+                                             optional=True)
         self.uri = URI
         self.uri_auth = URI_AUTH
         self.conn = self._conn()

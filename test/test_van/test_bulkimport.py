@@ -127,7 +127,7 @@ class TestBulkImport(unittest.TestCase):
         self.assertEqual(job_id, 54679)
 
     @requests_mock.Mocker()
-    def test_bulk_update_contacts(self, m):
+    def test_bulk_upsert_contacts(self, m):
 
         # Mock Cloud Storage
         cloud_storage.post_file = mock.MagicMock()
@@ -138,7 +138,7 @@ class TestBulkImport(unittest.TestCase):
         m.post(self.van.connection.uri +
                'bulkImportJobs', json={'jobId': 54679})
 
-        job_id = self.van.bulk_update_contacts(
+        job_id = self.van.bulk_upsert_contacts(
             tbl, url_type="S3", bucket='my-bucket')
 
         self.assertEqual(job_id, 54679)

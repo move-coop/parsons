@@ -140,9 +140,12 @@ class BulkImport(object):
                 "actions": [{"resultFileSizeKbLimit": 5000,
                              "resourceType": resource_type,
                              "actionType": "loadMappedFile",
-                             "columnsToIncludeInResultsFile": [{'name': c} for c in result_fields],
                              "mappingTypes": mapping_types}]
                 }
+
+        if result_fields:
+            result_fields = [{'name': c} for c in result_fields]
+            json['actions'][0]['columnsToIncludeInResultsFile'] = result_fields
 
         r = self.connection.post_request('bulkImportJobs', json=json)
         logger.info(f"Bulk upload {r['jobId']} created.")
@@ -272,6 +275,7 @@ class BulkImport(object):
               -
             * - Cell Phone
               - ``cellphone``, ``cell``
+              -
             * - Cell Phone Country Code
               - ``cellcountrycode``, ``cellphonecountrycode``
               - A valid two digit country code (e.g. ``01``)
@@ -282,6 +286,9 @@ class BulkImport(object):
               - ``homecountrycode``, ``homephonecountrycode``
               -
             * - **Email**
+              -
+              -
+            * - Email
               - ``email``, ``emailaddress``
               -
 
@@ -351,4 +358,4 @@ COLUMN_MAP = {'firstname': ['fn', 'first'],
               'cellphonecountrycode': ['cellcountrycode'],
               'phone': ['home', 'homephone'],
               'phonecountrycode': ['phonecountrycode'],
-              'email': ['email', 'emailaddress']}
+              'email': ['emailaddress']}

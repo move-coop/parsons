@@ -365,7 +365,7 @@ class Redshift(RedshiftCreateTable, RedshiftCopyTable, RedshiftTableUtilities, R
             logger.info(f'Data copied to {table_name}.')
 
     def copy(self, tbl, table_name, if_exists='fail', max_errors=0, distkey=None,
-             sortkey=None, padding=None, statupdate=False, compupdate=True, acceptanydate=True,
+             sortkey=None, padding=None, statupdate=None, compupdate=None, acceptanydate=True,
              emptyasnull=True, blanksasnull=True, nullas=None, acceptinvchars=True,
              dateformat='auto', timeformat='auto', varchar_max=None, truncatecolumns=False,
              columntypes=None, specifycols=None, alter_table=False,
@@ -398,11 +398,11 @@ class Redshift(RedshiftCreateTable, RedshiftCopyTable, RedshiftTableUtilities, R
             statupate: boolean
                 Governs automatic computation and refresh of optimizer statistics at the end
                 of a successful COPY command. If ``True`` explicitly sets ``statupate`` to on, if
-                ``False`` explicitly sets ``statupate`` to off.
+                ``False`` explicitly sets ``statupate`` to off. Defaults to ``None``.
             compupdate: boolean
                 Controls whether compression encodings are automatically applied during a COPY. If
                 ``True`` explicitly sets ``compupdate`` to on, if ``False`` explicitly sets
-                ``compupdate`` to off.
+                ``compupdate`` to off. Defaults to ``None``.
             acceptanydate: boolean
                 Allows any date format, including invalid formats such as 00/00/00 00:00:00, to be
                 loaded without generating an error.

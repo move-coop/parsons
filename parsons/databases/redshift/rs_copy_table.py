@@ -20,7 +20,7 @@ class RedshiftCopyTable(object):
 
     def copy_statement(self, table_name, bucket, key, manifest=False,
                        data_type='csv', csv_delimiter=',', max_errors=0,
-                       statupdate=True, compupdate=True, ignoreheader=1, acceptanydate=True,
+                       statupdate=None, compupdate=None, ignoreheader=1, acceptanydate=True,
                        dateformat='auto', timeformat='auto', emptyasnull=True,
                        blanksasnull=True, nullas=None, acceptinvchars=True, truncatecolumns=False,
                        specifycols=None, aws_access_key_id=None, aws_secret_access_key=None,

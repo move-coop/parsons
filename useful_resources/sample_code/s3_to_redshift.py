@@ -1,17 +1,17 @@
-### METADATA
+# ### METADATA
 
 # Connectors: Redshift, S3
 # Description: Moves files from S3 to Reshift
 # Parsons Version: unknown
 
 
-### CONFIGURATION
+# ### CONFIGURATION
 
-# Set the configuration variables below or set environmental variables of the same name and leave these
-# with empty strings.  We recommend using environmental variables if possible.
+# Set the configuration variables below or set environmental variables of the same name and leave
+# these with empty strings.  We recommend using environmental variables if possible.
 
 config_vars = {
-    # S3 
+    # S3
     "AWS_ACCESS_KEY_ID": "",
     "AWS_SECRET_ACCESS_KEY": "",
     "BUCKET": "",
@@ -25,10 +25,10 @@ config_vars = {
 }
 
 
-### CODE
+# ### CODE
 
-import os
-from parsons import Redshift, S3, utilities, logger
+import os  # noqa E402
+from parsons import Redshift, S3, utilities, logger  # noqa E402
 
 # Setup
 
@@ -51,10 +51,12 @@ else:
     logger.info(f"Pulling {str(len(files))} files down from s3...")
     for x in files:
         file = s3.get_file(bucket, x)
+        # TODO: Table undeifned, may need to import from parsons?
+        Table = None
         table = Table.from_csv(file, encoding="ISO-8859-1")
         table_name = f"schema.{x.replace('.csv', '')}"
         try:
             table.to_redshift(table_name, if_exists='truncate')
-        except:
+        except Exception:
             table.to_redshift(table_name, if_exists='drop')
         utilities.files.close_temp_file(file)

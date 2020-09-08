@@ -201,29 +201,28 @@ class BulkImport(object):
         create or update records.
 
         .. note::
-            **The first column of the table must be VANID**. The other columns can be a
-            combination of the columns listed below. The valid column names also accept
-            permutations with underscores, spaces and capitalization (e.g. ``phonenumber`` =
-            ``Phone_Number``).
+            * The first column of the table must be VANID. 
+            * The other columns can be a combination of the columns listed below. The valid column names also accept
+              permutations with underscores, spaces and capitalization (e.g. ``phonenumber`` =
+              ``Phone_Number``).
 
-        ** Table Fields **
+        **Table Fields**
 
         .. list-table::
-            :widths: 10 10 20
+            :widths: 500 100 10
             :header-rows: 1
 
             * - Column
               - Valid Column Names
               - Notes
-            * - VANID*
+            * - VANID
               - ``vanid``
               -
             * - Voter VAN ID
               - ``votervanid``
               - The contact's MyVoters VANID
             * - External ID
-              - ``externalid``, ``dwid``, ``id``, ``pk``, ``sosid``,
-              - ``voterbaseid``, ``vbvoterbaseid``
+              - ``externalid``, ``id``, ``pk``, ``voterbaseid``
               - An external id to be stored.
             * - **PII**
               -
@@ -269,7 +268,9 @@ class BulkImport(object):
               - Required values are ``Y`` and ``N``. Determines if the address is
                 processed through address correction.
             * - **Phones**
-              - Cell Phone
+              -
+              -
+            * - Cell Phone
               - ``cellphone``, ``cell``
             * - Cell Phone Country Code
               - ``cellcountrycode``, ``cellphonecountrycode``
@@ -311,7 +312,7 @@ class BulkImport(object):
 
     def create_mapping_types(self, tbl):
         # Internal method to generate the correct mapping types based on
-        # the columns passed in the table.
+        # the columns passed in the table. Not in use yet.
 
         mapping_types = []
 

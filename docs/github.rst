@@ -6,10 +6,10 @@ GitHub
 This ``GitHub`` class uses the `PyGitHub library <https://pygithub.readthedocs.io/en/latest/introduction.html>`_
 to make requests to the `GitHub REST API <https://docs.github.com/en/rest>`_. The class provides methods to:
 
-- get an individual user, organization, repo, issue, or pull request
-- get lists of user or organization repos for a given `username` or `organization_name`
-- get lists of repo issues, pull requests, and contributors for a given `repo_name`
-- download files and tables
+- Get an individual user, organization, repo, issue, or pull request
+- Get lists of user or organization repos for a given ``username`` or ``organization_name``
+- Get lists of repo issues, pull requests, and contributors for a given ``repo_name``
+- Download files and tables
 
 .. note::
    API Credentials

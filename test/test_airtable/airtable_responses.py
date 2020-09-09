@@ -11,8 +11,8 @@ records_response = {"records": [{"id": "recaBMSHTgXREa5ef",
                                 ]}
 
 insert_response = {'id': 'recD4aEaEjQKYZABZ',
-				   'fields': {'Name': 'Another row!'},
-				   'createdTime': '2019-05-13T16:28:18.000Z'}
+                   'fields': {'Name': 'Another row!'},
+                   'createdTime': '2019-05-13T16:28:18.000Z'}
 
 
 insert_responses = [{'id': 'recIYuf51JgbmHCHo',
@@ -21,4 +21,3 @@ insert_responses = [{'id': 'recIYuf51JgbmHCHo',
                     {'id': 'recJMqCfPwFVV5qfc',
                      'fields': {'Name': 'Another row!'},
                      'createdTime': '2019-05-13T16:37:03.000Z'}]
-

@@ -82,7 +82,8 @@ class PostgresCreateStatement(object):
             return 'varchar'
 
         if type(t) in [int, float]:
-            if (type(t) in [int] and current_type not in ['float', 'varchar']):
+            if (type(t) in [int] and
+                    current_type not in ['decimal', 'varchar']):
 
                 # Make sure that it is a valid integer
                 if not self.is_valid_integer(val):
@@ -95,7 +96,8 @@ class PostgresCreateStatement(object):
                     return 'int'
                 else:
                     return 'bigint'
-            if type(t) is float and current_type not in ['varchar']:
+            if ((type(t) is float or current_type in ['decimal'])
+                    and current_type not in ['varchar']):
                 return 'decimal'
         else:
             return 'varchar'
@@ -135,15 +137,22 @@ class PostgresCreateStatement(object):
         for row in cont:
             for i in range(len(row)):
                 # NA is the csv null value
-                if type_list[i] == 'varchar' or row[i] == 'NA':
+                if type_list[i] == 'varchar' or row[i] in ['NA', '']:
                     pass
                 else:
                     var_type = self.data_type(row[i], type_list[i])
                     type_list[i] = var_type
+
                 # Calculate width
                 width = len(str(row[i]).encode('utf-8'))
                 if width > longest[i]:
                     longest[i] = width
+
+        # In L140 'NA' and '' will be skipped
+        # If the entire column is either one of those (or a mix of the two)
+        # the type will be empty.
+        # Fill with a default varchar
+        type_list = [typ or 'varchar' for typ in type_list]
 
         return {'longest': longest,
                 'headers': table.columns,
@@ -237,6 +246,10 @@ class PostgresCreateStatement(object):
             if len(c) > 120:
                 logger.info(f'Column {c[:10]}... too long. Truncating column name.')
                 c = c[:120]
+
+            # Check for duplicate column names and add index if a dupe is found.
+            if c in clean_columns:
+                c = f'{c}_{idx}'
 
             clean_columns.append(c)
 

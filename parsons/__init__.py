@@ -46,6 +46,7 @@ if not os.environ.get('PARSONS_SKIP_IMPORT_ALL'):
     from parsons.action_network.action_network import ActionNetwork
     from parsons.pdi.pdi import PDI
     from parsons.azure.azure_blob_storage import AzureBlobStorage
+    from parsons.github.github import GitHub
 
     __all__ = [
         'VAN',
@@ -86,6 +87,7 @@ if not os.environ.get('PARSONS_SKIP_IMPORT_ALL'):
         'ActionNetwork',
         'PDI',
         'AzureBlobStorage',
+        'GitHub',
     ]
 
 # Define the default logging config for Parsons and its submodules. For now the

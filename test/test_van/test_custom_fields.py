@@ -2,8 +2,7 @@ import unittest
 import os
 import requests_mock
 from parsons.ngpvan.van import VAN
-from test.utils import validate_list, assert_matching_tables
-from requests.exceptions import HTTPError
+from test.utils import assert_matching_tables
 
 
 custom_field = [{

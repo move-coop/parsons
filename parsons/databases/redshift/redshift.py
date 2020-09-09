@@ -319,6 +319,9 @@ class Redshift(RedshiftCreateTable, RedshiftCopyTable, RedshiftTableUtilities, R
                 See :ref:`parsons-table` for output options.
         """
 
+        # Warn the user if they don't provide a DIST key or a SORT key
+        self._log_key_warning(distkey=distkey, sortkey=sortkey, method='copy_s3')
+
         with self.connection() as connection:
 
             if self._create_table_precheck(connection, table_name, if_exists):
@@ -458,6 +461,9 @@ class Redshift(RedshiftCreateTable, RedshiftCopyTable, RedshiftTableUtilities, R
                 See :ref:`parsons-table` for output options.
         """
 
+        # Warn the user if they don't provide a DIST key or a SORT key
+        self._log_key_warning(distkey=distkey, sortkey=sortkey, method='copy')
+
         # Specify the columns for a copy statement.
         if specifycols or (specifycols is None and template_table):
             cols = tbl.columns
@@ -520,10 +526,10 @@ class Redshift(RedshiftCreateTable, RedshiftCopyTable, RedshiftTableUtilities, R
                 if key and cleanup_s3_file:
                     self.temp_s3_delete(key)
 
-    def unload(self, sql, bucket, key_prefix, manifest=True, header=True, compression='gzip',
-               add_quotes=True, null_as=None, escape=True, allow_overwrite=True,
-               parallel=True, max_file_size='6.2 GB', aws_region=None,
-               aws_access_key_id=None, aws_secret_access_key=None):
+    def unload(self, sql, bucket, key_prefix, manifest=True, header=True, delimiter='|',
+               compression='gzip', add_quotes=True, null_as=None, escape=True, allow_overwrite=True,
+               parallel=True, max_file_size='6.2 GB', aws_region=None, aws_access_key_id=None,
+               aws_secret_access_key=None):
         """
         Unload Redshift data to S3 Bucket. This is a more efficient method than running a query
         to export data as it can export in parallel and directly into an S3 bucket. Consider
@@ -540,6 +546,8 @@ class Redshift(RedshiftCreateTable, RedshiftCopyTable, RedshiftTableUtilities, R
             that are created by the UNLOAD process.
         header: boolean
             Adds a header line containing column names at the top of each output file.
+        delimiter: str
+            Specificies the character used to separate fields. Defaults to '|'.
         compression: str
             One of ``gzip``, ``bzip2`` or ``None``. Unloads data to one or more compressed
             files per slice. Each resulting file is appended with a ``.gz`` or ``.bz2`` extension.
@@ -575,6 +583,11 @@ class Redshift(RedshiftCreateTable, RedshiftCopyTable, RedshiftTableUtilities, R
             required if keys are stored as environmental variables.
         """  # NOQA W605
 
+        # The sql query is provided between single quotes, therefore single
+        # quotes within the actual query must be escaped.
+        # https://docs.aws.amazon.com/redshift/latest/dg/r_UNLOAD.html#unload-parameters
+        sql = sql.replace("'", "''")
+
         statement = f"""
                      UNLOAD ('{sql}') to 's3://{bucket}/{key_prefix}' \n
                      {self.get_creds(aws_access_key_id, aws_secret_access_key)} \n
@@ -585,6 +598,8 @@ class Redshift(RedshiftCreateTable, RedshiftCopyTable, RedshiftTableUtilities, R
             statement += "MANIFEST \n"
         if header:
             statement += "HEADER \n"
+        if delimiter:
+            statement += f"DELIMITER as {delimiter}"
         if compression:
             statement += f"{compression.upper()} \n"
         if add_quotes:
@@ -594,9 +609,9 @@ class Redshift(RedshiftCreateTable, RedshiftCopyTable, RedshiftTableUtilities, R
         if escape:
             statement += "ESCAPE \n"
         if allow_overwrite:
-            statement += "ALLOWOVERWRITE"
+            statement += "ALLOWOVERWRITE \n"
         if aws_region:
-            statement += f"REGION {aws_region}"
+            statement += f"REGION {aws_region} \n"
 
         logger.info(f'Unloading data to s3://{bucket}/{key_prefix}')
         logger.debug(statement)
@@ -855,6 +870,29 @@ class Redshift(RedshiftCreateTable, RedshiftCopyTable, RedshiftTableUtilities, R
         # Return a Redshift table object
 
         return RedshiftTable(self, table_name)
+
+    @staticmethod
+    def _log_key_warning(distkey=None, sortkey=None, method=''):
+        # Log a warning message advising the user about DIST and SORT keys
+
+        if distkey and sortkey:
+            return
+
+        keys = [
+            (distkey, "DIST", "https://aws.amazon.com/about-aws/whats-new/2019/08/amazon-redshift-"
+                              "now-recommends-distribution-keys-for-improved-query-performance/"),
+            (sortkey, "SORT", "https://docs.amazonaws.cn/en_us/redshift/latest/dg/c_best-practices-"
+                              "sort-key.html")
+        ]
+        warning = "".join([
+            "You didn't provide a {} key to method `parsons.redshift.Redshift.{}`.\n"
+            "You can learn about best practices here:\n{}.\n".format(
+                keyname, method, keyinfo
+            ) for key, keyname, keyinfo in keys if not key])
+
+        warning += "You may be able to further optimize your queries."
+
+        logger.warning(warning)
 
 
 class RedshiftTable(BaseTable):

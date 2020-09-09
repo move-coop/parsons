@@ -232,22 +232,16 @@ class ETL(object):
         `Args:`
             column_map: dict
                 A dictionary of columns and possible values that map to it
-
         `Returns:`
             `Parsons Table` and also updates self
-
         .. code-block:: python
-
             tbl = [{fn: 'Jane'},
                    {lastname: 'Doe'},
                    {dob: '1980-01-01'}]
-
             column_map = {first_name: ['fn', 'first', 'firstname'],
                           last_name: ['ln', 'last', 'lastname'],
                           date_of_birth: ['dob', 'birthday']}
-
             tbl.map_columns(column_map)
-
             print (tbl)
             >> {{first_name: 'Jane', last_name: 'Doe', 'date_of_birth': '1908-01-01'}}
         """
@@ -257,6 +251,56 @@ class ETL(object):
                 for i in v:
                     if c == i:
                         self.rename_column(c, k)
+
+        return self
+
+    def map_and_coalesce_columns(self, column_map):
+        """
+        Coalesces columns based on multiple possible values. The columns in the map
+        do not need to be in your table, so you can create a map with all possibilities.
+        The coalesce will occur in the order that the columns are listed, unless the
+        destination column name already exists in the table, in which case that
+        value will be preferenced. This method is helpful when your input table might
+        have multiple and unknown column names.
+        `Args:`
+            column_map: dict
+                A dictionary of columns and possible values that map to it
+
+        `Returns:`
+            `Parsons Table` and also updates self
+
+        .. code-block:: python
+
+            tbl = [{first: None},
+                   {fn: 'Jane'},
+                   {lastname: 'Doe'},
+                   {dob: '1980-01-01'}]
+
+            column_map = {first_name: ['fn', 'first', 'firstname'],
+                          last_name: ['ln', 'last', 'lastname'],
+                          date_of_birth: ['dob', 'birthday']}
+
+            tbl.map_and_coalesce_columns(column_map)
+
+            print (tbl)
+            >> {{first_name: 'Jane', last_name: 'Doe', 'date_of_birth': '1908-01-01'}}
+        """
+
+        for key, value in column_map.items():
+            coalesce_list = value
+            # if the column in the mapping dict isn't actually in the table,
+            # remove it from the list of columns to coalesce
+            for item in coalesce_list:
+                if item not in self.columns:
+                    coalesce_list.remove(item)
+            # if the key from the mapping dict already exists in the table,
+            # rename it so it can be coalesced with other possible columns
+            if key in self.columns:
+                self.rename_column(key, f'{key}_temp')
+                coalesce_list.insert(0, f'{key}_temp')
+
+            # coalesce columns
+            self.coalesce_columns(key, coalesce_list, remove_source_columns=True)
 
         return self
 

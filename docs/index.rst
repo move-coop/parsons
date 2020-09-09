@@ -178,6 +178,7 @@ Indices and tables
    databases
    facebook_ads
    freshdesk
+   github
    google
    hustle
    mailchimp
@@ -207,8 +208,10 @@ Indices and tables
    :caption: Framework
    :name: framework
 
+   dbsync
    table
    notifications
+   utilities
 
 .. toctree::
    :maxdepth: 1

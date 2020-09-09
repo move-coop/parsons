@@ -1,5 +1,4 @@
 import unittest
-import warnings
 import os
 
 from parsons.facebook_ads.facebook_ads import FacebookAds
@@ -11,6 +10,7 @@ users_table = Table([
     {"first": "Sue", "middle": "Lucy", "last": "Doe", "phone": None, "cell": "2345678901",
      "vb_voterbase_dob": None},
 ])
+
 
 @unittest.skipIf(not os.environ.get('LIVE_TEST'), 'Skipping because not running live test')
 class TestFacebookAdsIntegration(unittest.TestCase):
@@ -67,11 +67,13 @@ class TestFacebookAdsUtilities(unittest.TestCase):
         self.assertEqual('ST', FacebookAds._get_match_key_for_column('state code'))
         self.assertEqual('ST', FacebookAds._get_match_key_for_column('vb_vf_source_state'))
         self.assertEqual('GEN', FacebookAds._get_match_key_for_column('vb_voterbase_gender'))
-        self.assertEqual('PHONE', FacebookAds._get_match_key_for_column('vb_voterbase_phone_wireless'))
+        self.assertEqual(
+            'PHONE', FacebookAds._get_match_key_for_column('vb_voterbase_phone_wireless'))
         self.assertIsNone(FacebookAds._get_match_key_for_column('invalid'))
 
     def test_get_preprocess_key_for_column(self):
-        self.assertEqual('DOB YYYYMMDD', FacebookAds._get_preprocess_key_for_column('vb_voterbase_dob'))
+        self.assertEqual(
+            'DOB YYYYMMDD', FacebookAds._get_preprocess_key_for_column('vb_voterbase_dob'))
 
     def test_get_match_table_for_users_table(self):
         # This tests basic column matching, as well as the more complex cases like:
@@ -96,7 +98,6 @@ class TestFacebookAdsUtilities(unittest.TestCase):
         self.assertEqual("", row1["DOBM"])
         self.assertEqual("", row1["DOBD"])
 
-
     def test_get_match_schema_and_data(self):
         match_table = Table([
             {"FN": "Bob", "LN": "Smith"},
@@ -106,4 +107,3 @@ class TestFacebookAdsUtilities(unittest.TestCase):
         self.assertEqual(["FN", "LN"], schema)
         self.assertEqual(("Bob", "Smith"), data[0])
         self.assertEqual(("Sue", "Doe"), data[1])
-

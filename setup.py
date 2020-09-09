@@ -11,7 +11,7 @@ def main():
 
     setup(
         name="parsons",
-        version='0.14.0',
+        version='0.15.0',
         author="The Movement Cooperative",
         author_email="info@movementcooperative.org",
         url='https://github.com/movementcoop/parsons',
@@ -22,7 +22,8 @@ def main():
             'Development Status :: 3 - Alpha',
             'Intended Audience :: Developers',
             'Programming Language :: Python :: 3.6',
-            'Programming Language :: Python :: 3.7'
+            'Programming Language :: Python :: 3.7',
+            'Programming Language :: Python :: 3.8'
         ]
     )
 

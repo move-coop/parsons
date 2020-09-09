@@ -199,26 +199,37 @@
 <h1>PDI<a class="headerlink" href="#pdi" title="Permalink to this headline">¶</a></h1>
 <div class="section" id="overview">
 <h2>Overview<a class="headerlink" href="#overview" title="Permalink to this headline">¶</a></h2>
-<p><a class="reference external" href="https://api.bluevote.com/docs/index#">PDI is a political data provider that is primarily active in California.
-`The PDI class allows you to interact with an `PDI’s API</a> .</p>
-<p>In order to instantiate the class you must pass valid kwargs or store the following
-environmental variables:</p>
-<ul class="simple">
-<li><code class="docutils literal notranslate"><span class="pre">'PDI_USERNAME'</span></code></li>
-<li><code class="docutils literal notranslate"><span class="pre">'PDI_PASSWORD'</span></code></li>
-<li><code class="docutils literal notranslate"><span class="pre">'PDI_API_TOKEN'</span></code></li>
-</ul>
+<p>PDI is a political data provider that is primarily active in California. This class
+allows you to interact with the <a class="reference external" href="https://api.bluevote.com/docs/index#">PDI API</a> .</p>
+<p>This Parsons connector provides methods to fetch lists of acquisition types, flag IDs,
+questions, universes, and flags given start and end dates.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<dl class="last docutils">
+<dt>Authentication</dt>
+<dd>A user name, password, and API token are required to instantiate the <code class="docutils literal notranslate"><span class="pre">PDI</span></code> class.
+To obtain log in credentials, request a PDI API account from <code class="docutils literal notranslate"><span class="pre">support&#64;politicaldata.com</span></code>.
+The administrative process usually takes a couple of hours.</dd>
+</dl>
+</div>
 </div>
 <div class="section" id="quickstart">
 <h2>Quickstart<a class="headerlink" href="#quickstart" title="Permalink to this headline">¶</a></h2>
+<p>To instantiate the PDI class, you can either store your PDI API username, password,
+and API token as environmental variables (<code class="docutils literal notranslate"><span class="pre">PDI_USERNAME</span></code>, <code class="docutils literal notranslate"><span class="pre">PDI_PASSWORD</span></code>, and
+<code class="docutils literal notranslate"><span class="pre">PDI_API_TOKEN</span></code>, respectively) or pass them in as arguments:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">parsons</span> <span class="kn">import</span> <span class="n">PDI</span>
 
+<span class="c1"># First approach: Use API credentials via environmental variables</span>
 <span class="n">pdi</span> <span class="o">=</span> <span class="n">PDI</span><span class="p">()</span>
 
-<span class="c1">#Get all contacts (flag IDs) available from PDI</span>
+<span class="c1"># Second approach: Pass API credentials as arguments</span>
+<span class="n">pdi</span> <span class="o">=</span> <span class="n">PDI</span><span class="p">(</span><span class="n">username</span><span class="o">=</span><span class="s1">&#39;my_username&#39;</span><span class="p">,</span> <span class="n">password</span><span class="o">=</span><span class="s1">&#39;my_password&#39;</span><span class="p">,</span> <span class="n">api_token</span><span class="o">=</span><span class="s1">&#39;my_token&#39;</span><span class="p">)</span>
+
+<span class="c1"># Get all contacts (flag IDs) available from PDI</span>
 <span class="n">pdi</span><span class="o">.</span><span class="n">get_flag_ids</span><span class="p">()</span>
 
-<span class="c1">#Get all flags since the beginning of 2020</span>
+<span class="c1"># Get all flags since the beginning of 2020</span>
 <span class="n">pdi</span><span class="o">.</span><span class="n">get_flags</span><span class="p">(</span><span class="n">start_date</span><span class="o">=</span><span class="s1">&#39;2020-01-01&#39;</span><span class="p">)</span>
 </pre></div>
 </div>

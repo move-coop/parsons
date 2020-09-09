@@ -31,13 +31,13 @@ respectively) or pass in your username and password as arguments:
     newmode = Newmode()
 
     # instantiate with API credentials passed as arguments
-	newmode = Newmode(api_user='my_username', api_password='my_password')
+    newmode = Newmode(api_user='my_username', api_password='my_password')
 
     # Get existing tools.
-	tools = newmode.get_tools()
+    tools = newmode.get_tools()
 
-	# Get specific tool.
-	tool = newmode.get_tool(tool_id)
+    # Get specific tool.
+    tool = newmode.get_tool(tool_id)
 
 ***
 API

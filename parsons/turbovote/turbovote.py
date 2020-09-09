@@ -22,8 +22,6 @@ class TurboVote(object):
         subdomain: str
             Your turbovote subdomain (i.e. ``https://MYORG.turbovote.org``). Not
             required if ``TURBOVOTE_SUBDOMAIN`` env variable set.
-        uri: str
-            Base turbovote API url
     `Returns:`
         class
     """

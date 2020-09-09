@@ -159,7 +159,7 @@ class TestRedshift(unittest.TestCase):
                    'aws_secret_access_key=*HIDDEN*\'', s)
         return s
 
-    def test_copy_statement(self):
+    def test_copy_statement_default(self):
 
         sql = self.rs.copy_statement(
             'test_schema.test', 'buck', 'file.csv',
@@ -168,7 +168,7 @@ class TestRedshift(unittest.TestCase):
         # Scrub the keys
         sql = re.sub(r'id=.+;', '*id=HIDDEN*;', re.sub(r"key=.+'", "key=*HIDDEN*'", sql))
 
-        expected_options = ['statupdate', 'compupdate', 'ignoreheader 1', 'acceptanydate',
+        expected_options = ['ignoreheader 1', 'acceptanydate',
                             "dateformat 'auto'", "timeformat 'auto'", "csv delimiter ','",
                             "copy test_schema.test \nfrom 's3://buck/file.csv'",
                             "'aws_access_key_*id=HIDDEN*;aws_secret_access_key=*HIDDEN*'",
@@ -188,7 +188,7 @@ class TestRedshift(unittest.TestCase):
         # Scrub the keys
         sql = re.sub(r'id=.+;', '*id=HIDDEN*;', re.sub(r"key=.+'", "key=*HIDDEN*'", sql))
 
-        expected_options = ['statupdate', 'compupdate', 'ignoreheader 1', 'acceptanydate',
+        expected_options = ['ignoreheader 1', 'acceptanydate',
                             "dateformat 'auto'", "timeformat 'auto'", "csv delimiter ','",
                             "copy test_schema.test(a, b, c) \nfrom 's3://buck/file.csv'",
                             "'aws_access_key_*id=HIDDEN*;aws_secret_access_key=*HIDDEN*'",

@@ -19,10 +19,18 @@ and outreaches. There are also methods for looking up targets and running action
 Quick Start
 ***********
 
+To instantiate the ``Newmode`` class, you can either store your New/Mode username
+and password as environmental variables (``NEWMODE_API_USER`` and ``NEWMODE_API_PASSWORD``,
+respectively) or pass in your username and password as arguments:
+
 .. code-block:: python
 
 	from parsons import Newmode
 
+	# instantiate with API credentials stored as environmental variables
+	newmode = Newmode()
+
+    # instantiate with API credentials passed as arguments
 	newmode = Newmode(api_user='my_username', api_password='my_password')
 
 	# Get existing tools.

@@ -688,7 +688,7 @@ class Redshift(RedshiftCreateTable, RedshiftCopyTable, RedshiftTableUtilities, R
         return manifest
 
     def upsert(self, table_obj, target_table, primary_key, vacuum=True, distinct_check=True,
-               cleanup_temp_table=True, **copy_args):
+               cleanup_temp_table=True, distkey=None, sortkey=None, **copy_args):
         """
         Preform an upsert on an existing table. An upsert is a function in which rows
         in a table are updated and inserted at the same time.
@@ -708,14 +708,23 @@ class Redshift(RedshiftCreateTable, RedshiftCopyTable, RedshiftTableUtilities, R
                 Check if the primary key column is distinct. Raise error if not.
             cleanup_temp_table: boolean
                 A temp table is dropped by default on cleanup. You can set to False for debugging.
+            distkey: str
+                The column name of the distkey. If not provided, will default to ``primary_key``.
+            sortkey: str
+                The column name of the sortkey. If not provided, will default to ``primary_key``.
             \**copy_args: kwargs
                 See :func:`~parsons.databases.Redshift.copy`` for options.
         """  # noqa: W605
 
+        # Set distkey and sortkey to argument or primary key. These keys will be used
+        # for the staging table and, if it does not already exist, the desitination table.
+        distkey = distkey or primary_key
+        sortkey = sortkey or primary_key
+
         if not self.table_exists(target_table):
             logger.info('Target table does not exist. Copying into newly \
                          created target table.')
-            self.copy(table_obj, target_table, distkey=primary_key, sortkey=primary_key)
+            self.copy(table_obj, target_table, distkey=distkey, sortkey=sortkey)
             return None
 
         # Make target table column widths match incoming table, if necessary
@@ -762,7 +771,7 @@ class Redshift(RedshiftCreateTable, RedshiftCopyTable, RedshiftTableUtilities, R
                 self.copy(table_obj, staging_tbl,
                           template_table=target_table,
                           distkey=primary_key,
-                          sortkey=primary_key
+                          sortkey=primary_key,
                           **copy_args)
 
                 staging_table_name = staging_tbl.split('.')[1]

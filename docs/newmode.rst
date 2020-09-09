@@ -25,15 +25,15 @@ respectively) or pass in your username and password as arguments:
 
 .. code-block:: python
 
-	from parsons import Newmode
+    from parsons import Newmode
 
-	# instantiate with API credentials stored as environmental variables
-	newmode = Newmode()
+    # instantiate with API credentials stored as environmental variables
+    newmode = Newmode()
 
     # instantiate with API credentials passed as arguments
 	newmode = Newmode(api_user='my_username', api_password='my_password')
 
-	# Get existing tools.
+    # Get existing tools.
 	tools = newmode.get_tools()
 
 	# Get specific tool.
@@ -43,4 +43,4 @@ respectively) or pass in your username and password as arguments:
 API
 ***
 .. autoclass :: parsons.Newmode
-   :inherited-members:
+:inherited-members:

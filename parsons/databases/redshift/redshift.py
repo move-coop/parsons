@@ -737,7 +737,7 @@ class Redshift(RedshiftCreateTable, RedshiftCopyTable, RedshiftTableUtilities, R
         return manifest
 
     def upsert(self, table_obj, target_table, primary_key, vacuum=True, distinct_check=True,
-               cleanup_temp_table=True, alter_table=True, from_s3=False, **copy_args):
+               cleanup_temp_table=True, alter_table=True, from_s3=False, distkey=None, sortkey=None, **copy_args):
         """
         Preform an upsert on an existing table. An upsert is a function in which rows
         in a table are updated and inserted at the same time.
@@ -763,14 +763,23 @@ class Redshift(RedshiftCreateTable, RedshiftCopyTable, RedshiftTableUtilities, R
                 Instead of specifying a table_obj (set the first argument to None),
                 set this to True and include :func:`~parsons.databases.Redshift.copy_s3` arguments
                 to upsert a pre-existing s3 file into the target_table
+            distkey: str
+                The column name of the distkey. If not provided, will default to ``primary_key``.
+            sortkey: str
+                The column name of the sortkey. If not provided, will default to ``primary_key``.
             \**copy_args: kwargs
                 See :func:`~parsons.databases.Redshift.copy` for options.
         """  # noqa: W605
 
+        # Set distkey and sortkey to argument or primary key. These keys will be used
+        # for the staging table and, if it does not already exist, the desitination table.
+        distkey = distkey or primary_key
+        sortkey = sortkey or primary_key
+
         if not self.table_exists(target_table):
             logger.info('Target table does not exist. Copying into newly \
                          created target table.')
-            self.copy(table_obj, target_table, distkey=primary_key, sortkey=primary_key)
+            self.copy(table_obj, target_table, distkey=distkey, sortkey=sortkey)
             return None
 
         if alter_table and table_obj:

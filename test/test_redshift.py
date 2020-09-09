@@ -117,8 +117,11 @@ class TestRedshift(unittest.TestCase):
 
     def test_column_validate(self):
 
-        bad_cols = ['a', 'a', '', 'SELECT', 'asdfjkasjdfklasjdfklajskdfljaskldfjaklsdfjlaksdfjklasjdfklasjdkfljaskldfljkasjdkfasjlkdfjklasdfjklakjsfasjkdfljaslkdfjklasdfjklasjkldfakljsdfjalsdkfjklasjdfklasjdfklasdkljf']  # noqa: E501
-        fixed_cols = ['a', 'a_1', 'col_2', 'col_3', 'asdfjkasjdfklasjdfklajskdfljaskldfjaklsdfjlaksdfjklasjdfklasjdkfljaskldfljkasjdkfasjlkdfjklasdfjklakjsfasjkdfljaslkdfjkl']  # noqa: E501
+        bad_cols = ['a', 'a', '', 'SELECT', 'asdfjkasjdfklasjdfklajskdfljaskldfjaklsdfjlaksdfjklasj'
+                    'dfklasjdkfljaskldfljkasjdkfasjlkdfjklasdfjklakjsfasjkdfljaslkdfjklasdfjklasjkl'
+                    'dfakljsdfjalsdkfjklasjdfklasjdfklasdkljf']
+        fixed_cols = ['a', 'a_1', 'col_2', 'col_3', 'asdfjkasjdfklasjdfklajskdfljaskldfjaklsdfjlaks'
+                      'dfjklasjdfklasjdkfljaskldfljkasjdkfasjlkdfjklasdfjklakjsfasjkdfljaslkdfjkl']
         self.assertEqual(self.rs.column_name_validate(bad_cols), fixed_cols)
 
     def test_create_statement(self):
@@ -152,18 +155,12 @@ class TestRedshift(unittest.TestCase):
         os.environ['AWS_ACCESS_KEY_ID'] = prior_aws_access_key_id
         os.environ['AWS_SECRET_ACCESS_KEY'] = prior_aws_secret_access_key
 
-    def scrub_copy_tokens(self, s):
-
-        s = re.sub('=.+;', '=*HIDDEN*;', s)
-        s = re.sub('aws_secret_access_key=.+\'',
-                   'aws_secret_access_key=*HIDDEN*\'', s)
-        return s
-
     def test_copy_statement(self):
 
-        sql = self.rs.copy_statement(
-            'test_schema.test', 'buck', 'file.csv',
-            aws_access_key_id='abc123', aws_secret_access_key='abc123')
+        sql = self.rs.copy_statement('test_schema.test', 'buck', 'file.csv',
+                                     aws_access_key_id='abc123',
+                                     aws_secret_access_key='abc123',
+                                     bucket_region='us-east-2')
 
         # Scrub the keys
         sql = re.sub(r'id=.+;', '*id=HIDDEN*;', re.sub(r"key=.+'", "key=*HIDDEN*'", sql))
@@ -172,10 +169,11 @@ class TestRedshift(unittest.TestCase):
                             "dateformat 'auto'", "timeformat 'auto'", "csv delimiter ','",
                             "copy test_schema.test \nfrom 's3://buck/file.csv'",
                             "'aws_access_key_*id=HIDDEN*;aws_secret_access_key=*HIDDEN*'",
-                            'emptyasnull', 'blanksasnull', 'acceptinvchars']
+                            "region 'us-east-2'", 'emptyasnull', 'blanksasnull',
+                            'acceptinvchars']
 
         # Check that all of the expected options are there:
-        [self.assertNotEqual(sql.find(o), -1) for o in expected_options]
+        [self.assertNotEqual(sql.find(o), -1, o) for o in expected_options]
 
     def test_copy_statement_columns(self):
 
@@ -222,8 +220,10 @@ class TestRedshiftDB(unittest.TestCase):
 
         other_sql = f"""
                     create table {self.temp_schema}.test (id smallint,name varchar(5));
-                    create view {self.temp_schema}.test_view as (select * from {self.temp_schema}.test);
-                    """  # noqa: E501
+                    create view {self.temp_schema}.test_view as (
+                        select * from {self.temp_schema}.test
+                    );
+        """
 
         self.rs.query(setup_sql)
 

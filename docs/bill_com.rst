@@ -3,10 +3,10 @@ Bill.com
 
 `Bill.com <https://www.bill.com>`_ is an online billing and invoicing tool. This class contains methods to:
 
-- get lists of customers, users, and invoices
-- read, create, and send invoices
-- read, create, and get customers
-- check whether two customers are the same
+- Get lists of customers, users, and invoices
+- Read, create, and send invoices
+- Read, create, and get customers
+- Check whether two customers are the same
 
 For more information, see `Bill.com developer docs <https://developer.bill.com/hc/en-us/categories/360002253732>`_
 

@@ -29,13 +29,13 @@ environmental variable (``GITHUB_ACCESS_TOKEN``) or as an argument.
 
   from parsons import GitHub
 
-  # authenticate by passing a username and password arguments
+  # Authenticate by passing a username and password arguments
   github = GitHub(username='my_username', password='my_password')
 
-  # authenticate by passing an access token as an argument
+  # Authenticate by passing an access token as an argument
   github = GitHub(access_token='my_access_token')
 
-  # authenticate with environmental variables
+  # Authenticate with environmental variables
   github = GitHub()
 
 With the class instantiated, you can now call various endpoints.

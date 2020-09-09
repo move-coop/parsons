@@ -37,5 +37,5 @@ You can then call the method:
 	tv.get_users()
 
 
-.. autoclass :: parsons.turbovote.turbovote.TurboVote
+.. autoclass :: parsons.TurboVote
    :inherited-members:

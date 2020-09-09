@@ -196,13 +196,32 @@
             
   <div class="section" id="bill-com">
 <h1>Bill.com<a class="headerlink" href="#bill-com" title="Permalink to this headline">¶</a></h1>
-<p><a class="reference external" href="https://www.bill.com">Bill.com</a> is an online billing and invoicing tool. For more information,
-see <a class="reference external" href="https://developer.bill.com/hc/en-us/categories/360002253732">Bill.com developer docs</a></p>
+<p><a class="reference external" href="https://www.bill.com">Bill.com</a> is an online billing and invoicing tool. This class contains methods to:</p>
+<ul class="simple">
+<li>Get lists of customers, users, and invoices</li>
+<li>Read, create, and send invoices</li>
+<li>Read, create, and get customers</li>
+<li>Check whether two customers are the same</li>
+</ul>
+<p>For more information, see <a class="reference external" href="https://developer.bill.com/hc/en-us/categories/360002253732">Bill.com developer docs</a></p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<dl class="last docutils">
+<dt>Authentication</dt>
+<dd>To instantiate the <code class="docutils literal notranslate"><span class="pre">BillCom</span></code> class, you must provide the username and password you used to sign
+up for Bill.com, and the Organization ID and Dev Key you received when API access was granted.</dd>
+</dl>
+</div>
 <div class="section" id="quick-start">
 <h2>Quick Start<a class="headerlink" href="#quick-start" title="Permalink to this headline">¶</a></h2>
+<p>Your Username, Password, Organization ID, and Dev Key must be provided as arguments.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">parsons</span> <span class="kn">import</span> <span class="n">BillCom</span>
 
-<span class="n">bc</span> <span class="o">=</span> <span class="n">BillCom</span><span class="p">(</span><span class="n">USERNAME</span><span class="p">,</span> <span class="n">PASSWORD</span><span class="p">,</span> <span class="n">ORG_ID</span><span class="p">,</span> <span class="n">DEV_KEY</span><span class="p">,</span> <span class="n">ENDPOINT_URL</span><span class="p">)</span>
+<span class="n">bc</span> <span class="o">=</span> <span class="n">BillCom</span><span class="p">(</span><span class="n">username</span><span class="o">=</span><span class="s1">&#39;my_username&#39;</span><span class="p">,</span>
+             <span class="n">password</span><span class="o">=</span><span class="s1">&#39;my_password&#39;</span><span class="p">,</span>
+             <span class="n">org_id</span><span class="o">=</span><span class="s1">&#39;my_org_id&#39;</span><span class="p">,</span>
+             <span class="n">dev_key</span><span class="o">=</span><span class="s1">&#39;my_dev_key&#39;</span><span class="p">,</span>
+             <span class="n">api_url</span><span class="o">=</span><span class="s1">&#39;https://api-sandbox.bill.com/api/v2/&#39;</span><span class="p">)</span>
 
 <span class="c1"># List all Customers currently in the system</span>
 <span class="n">all_contacts</span> <span class="o">=</span> <span class="n">bc</span><span class="o">.</span><span class="n">get_customer_list</span><span class="p">()</span>

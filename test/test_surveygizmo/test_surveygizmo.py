@@ -17,11 +17,14 @@ class TestSurveyGizmo(unittest.TestCase):
         self.surveygizmo._client = mock.MagicMock()
 
     def test_get_surveys_single_page(self):
-        self.surveygizmo._client.api.survey.list.return_value = self._get_surveys_return_single_page()
+        api_return = self._get_surveys_return_single_page()
+        self.surveygizmo._client.api.survey.list.return_value = api_return
 
         actual_surveys = self.surveygizmo.get_surveys()
 
         self.assertEqual(2, actual_surveys.num_rows)
+        for i in range(0, 1):
+            self.assertEqual(api_return["data"][i]["title"], actual_surveys[0]["title"])
 
 
     def _get_surveys_return_single_page(self):

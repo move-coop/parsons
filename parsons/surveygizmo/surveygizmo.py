@@ -33,7 +33,7 @@ class SurveyGizmo(object):
         self.api_token_secret = check_env.check('SURVEYGIZMO_API_TOKEN_SECRET', api_token_secret)
         self.api_version = check_env.check('SURVEYGIZMO_API_VERSION', api_version)
 
-        self.client = surveygizmo.SurveyGizmo(
+        self._client = surveygizmo.SurveyGizmo(
                 api_version=self.api_version,
                 api_token=self.api_token,
                 api_token_secret=self.api_token_secret
@@ -50,11 +50,11 @@ class SurveyGizmo(object):
             Table Class
         """
 
-        r = self.client.api.survey.list()
+        r = self._client.api.survey.list()
         data = r['data']
 
         while r['page'] < r['total_pages']:
-            r = self.client.api.survey.list(page=(r['page']+1))
+            r = self._client.api.survey.list(page=(r['page']+1))
             data.extend(r['data'])
 
         tbl = Table(data).remove_column('links')
@@ -76,13 +76,13 @@ class SurveyGizmo(object):
             Table Class
         """
 
-        r = self.client.api.surveyresponse.list(survey_id)
+        r = self._client.api.surveyresponse.list(survey_id)
         logger.info(f"{survey_id}: {r['total_count']} responses.")
         data = r['data']
 
         if not page:
             while r['page'] < r['total_pages']:
-                r = self.client.api.surveyresponse.list(survey_id, page=(r['page']+1))
+                r = self._client.api.surveyresponse.list(survey_id, page=(r['page']+1))
                 data.extend(r['data'])
                 logger.info(f"{survey_id}: Retrieving {r['page']} of {r['total_count']}.")
 

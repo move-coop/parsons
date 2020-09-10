@@ -199,6 +199,14 @@
   <div class="section" id="github">
 <h1>GitHub<a class="headerlink" href="#github" title="Permalink to this headline">¶</a></h1>
 <p><a class="reference external" href="https://github.com">GitHub</a> is an online tool for software collaboration.</p>
+<p>This <code class="docutils literal notranslate"><span class="pre">GitHub</span></code> class uses the <a class="reference external" href="https://pygithub.readthedocs.io/en/latest/introduction.html">PyGitHub library</a>
+to make requests to the <a class="reference external" href="https://docs.github.com/en/rest">GitHub REST API</a>. The class provides methods to:</p>
+<ul class="simple">
+<li>Get an individual user, organization, repo, issue, or pull request</li>
+<li>Get lists of user or organization repos for a given <code class="docutils literal notranslate"><span class="pre">username</span></code> or <code class="docutils literal notranslate"><span class="pre">organization_name</span></code></li>
+<li>Get lists of repo issues, pull requests, and contributors for a given <code class="docutils literal notranslate"><span class="pre">repo_name</span></code></li>
+<li>Download files and tables</li>
+</ul>
 <div class="admonition note">
 <p class="first admonition-title">Note</p>
 <dl class="last docutils">
@@ -212,28 +220,28 @@
 </div>
 <div class="section" id="quickstart">
 <h2>Quickstart<a class="headerlink" href="#quickstart" title="Permalink to this headline">¶</a></h2>
-<p><strong>Get repo data</strong></p>
+<p>To instantiate the GitHub class using a username and password, you can store your username
+and password as environmental variables (<code class="docutils literal notranslate"><span class="pre">GITHUB_USERNAME</span></code> and <code class="docutils literal notranslate"><span class="pre">GITHUB_PASSWORD</span></code>),
+or pass them in as arguments. Alternatively, you can provide a personal access token as an
+environmental variable (<code class="docutils literal notranslate"><span class="pre">GITHUB_ACCESS_TOKEN</span></code>) or as an argument.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">parsons</span> <span class="kn">import</span> <span class="n">GitHub</span>
 
-<span class="n">github</span> <span class="o">=</span> <span class="n">GitHub</span><span class="p">()</span>
+<span class="c1"># Authenticate by passing a username and password arguments</span>
+<span class="n">github</span> <span class="o">=</span> <span class="n">GitHub</span><span class="p">(</span><span class="n">username</span><span class="o">=</span><span class="s1">&#39;my_username&#39;</span><span class="p">,</span> <span class="n">password</span><span class="o">=</span><span class="s1">&#39;my_password&#39;</span><span class="p">)</span>
 
-<span class="c1"># Get repo by its full name (account/name)</span>
-<span class="n">parsons_repo</span> <span class="o">=</span> <span class="n">github</span><span class="o">.</span><span class="n">get_repo</span><span class="p">(</span><span class="s2">&quot;move-coop/parsons&quot;</span><span class="p">)</span>
+<span class="c1"># Authenticate by passing an access token as an argument</span>
+<span class="n">github</span> <span class="o">=</span> <span class="n">GitHub</span><span class="p">(</span><span class="n">access_token</span><span class="o">=</span><span class="s1">&#39;my_access_token&#39;</span><span class="p">)</span>
+
+<span class="c1"># Authenticate with environmental variables</span>
+<span class="n">github</span> <span class="o">=</span> <span class="n">GitHub</span><span class="p">()</span>
 </pre></div>
 </div>
-<p><strong>Get repo issues in a ``Table``</strong></p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">parsons</span> <span class="kn">import</span> <span class="n">GitHub</span>
-
-<span class="n">github</span> <span class="o">=</span> <span class="n">GitHub</span><span class="p">()</span>
+<p>With the class instantiated, you can now call various endpoints.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Get repo by its full name (account/name)</span>
+<span class="n">parsons_repo</span> <span class="o">=</span> <span class="n">github</span><span class="o">.</span><span class="n">get_repo</span><span class="p">(</span><span class="s2">&quot;move-coop/parsons&quot;</span><span class="p">)</span>
 
 <span class="c1"># Get the first page of a repo&#39;s issues as a Table</span>
 <span class="n">parsons_issues_table</span> <span class="o">=</span> <span class="n">github</span><span class="o">.</span><span class="n">list_repo_issues</span><span class="p">(</span><span class="s2">&quot;move-coop/parsons&quot;</span><span class="p">)</span>
-</pre></div>
-</div>
-<p><strong>Download the contents of a repo file</strong></p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">parsons</span> <span class="kn">import</span> <span class="n">GitHub</span>
-
-<span class="n">github</span> <span class="o">=</span> <span class="n">GitHub</span><span class="p">()</span>
 
 <span class="c1"># Download Parsons README.md to local &quot;/tmp/README.md&quot;</span>
 <span class="n">parsons_readme_path</span> <span class="o">=</span> <span class="n">github</span><span class="o">.</span><span class="n">download_file</span><span class="p">(</span><span class="s2">&quot;move-coop/parsons&quot;</span><span class="p">,</span> <span class="s2">&quot;README.md&quot;</span><span class="p">,</span> <span class="n">local_path</span><span class="o">=</span><span class="s2">&quot;/tmp/README.md&quot;</span><span class="p">)</span>

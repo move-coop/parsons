@@ -26,6 +26,14 @@ class TestSurveyGizmo(unittest.TestCase):
         for i in range(0, 1):
             self.assertEqual(api_return["data"][i]["title"], actual_surveys[0]["title"])
 
+    def test_removes_links_field(self):
+        api_return = self._get_surveys_return_single_page()
+        self.surveygizmo._client.api.survey.list.return_value = api_return
+
+        actual_surveys = self.surveygizmo.get_surveys()
+
+        assert not "links" in actual_surveys.columns
+
 
     def _get_surveys_return_single_page(self):
         return {

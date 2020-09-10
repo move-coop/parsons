@@ -232,7 +232,7 @@ class Redshift(RedshiftCreateTable, RedshiftCopyTable, RedshiftTableUtilities, R
                 dateformat='auto', timeformat='auto', emptyasnull=True,
                 blanksasnull=True, nullas=None, acceptinvchars=True, truncatecolumns=False,
                 columntypes=None, specifycols=None,
-                aws_access_key_id=None, aws_secret_access_key=None):
+                aws_access_key_id=None, aws_secret_access_key=None, bucket_region=None):
         """
         Copy a file from s3 to Redshift.
 
@@ -314,6 +314,10 @@ class Redshift(RedshiftCreateTable, RedshiftCopyTable, RedshiftTableUtilities, R
             aws_secret_access_key:
                 An AWS secret access key granted to the bucket where the file is located. Not
                 required if keys are stored as environmental variables.
+            bucket_region: str
+                The AWS region that the bucket is located in. This should be provided if the
+                Redshift cluster is located in a different region from the temp bucket.
+
         `Returns`
             Parsons Table or ``None``
                 See :ref:`parsons-table` for output options.
@@ -325,7 +329,6 @@ class Redshift(RedshiftCreateTable, RedshiftCopyTable, RedshiftTableUtilities, R
         with self.connection() as connection:
 
             if self._create_table_precheck(connection, table_name, if_exists):
-
                 # Grab the object from s3
                 from parsons.aws.s3 import S3
                 s3 = S3(aws_access_key_id=aws_access_key_id,
@@ -359,7 +362,8 @@ class Redshift(RedshiftCreateTable, RedshiftCopyTable, RedshiftTableUtilities, R
                                            nullas=nullas, acceptinvchars=acceptinvchars,
                                            truncatecolumns=truncatecolumns,
                                            specifycols=specifycols,
-                                           dateformat=dateformat, timeformat=timeformat)
+                                           dateformat=dateformat, timeformat=timeformat,
+                                           bucket_region=bucket_region)
 
             self.query_with_connection(copy_sql, connection, commit=False)
             logger.info(f'Data copied to {table_name}.')
@@ -370,7 +374,7 @@ class Redshift(RedshiftCreateTable, RedshiftCopyTable, RedshiftTableUtilities, R
              dateformat='auto', timeformat='auto', varchar_max=None, truncatecolumns=False,
              columntypes=None, specifycols=None, alter_table=False,
              aws_access_key_id=None, aws_secret_access_key=None, iam_role=None,
-             cleanup_s3_file=True, template_table=None):
+             cleanup_s3_file=True, template_table=None, temp_bucket_region=None):
         """
         Copy a :ref:`parsons-table` to Redshift.
 
@@ -458,6 +462,10 @@ class Redshift(RedshiftCreateTable, RedshiftCopyTable, RedshiftTableUtilities, R
                 is a pre-existing table that has the same columns/types, then use the template_table
                 table name as the schema for the new table.
                 Unless you set specifycols=False explicitly, a template_table will set it to True
+            temp_bucket_region: str
+                The AWS region that the temp bucket (specified by the TEMP_S3_BUCKET environment
+                variable) is located in. This should be provided if the Redshift cluster is located
+                in a different region from the temp bucket.
 
         `Returns`
             Parsons Table or ``None``
@@ -515,7 +523,8 @@ class Redshift(RedshiftCreateTable, RedshiftCopyTable, RedshiftTableUtilities, R
                              'specifycols': cols,
                              'aws_access_key_id': aws_access_key_id,
                              'aws_secret_access_key': aws_secret_access_key,
-                             'compression': 'gzip'}
+                             'compression': 'gzip',
+                             'bucket_region': temp_bucket_region}
 
                 # Copy from S3 to Redshift
                 sql = self.copy_statement(table_name, self.s3_temp_bucket, key, **copy_args)

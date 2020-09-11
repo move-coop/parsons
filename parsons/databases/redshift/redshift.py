@@ -608,7 +608,7 @@ class Redshift(RedshiftCreateTable, RedshiftCopyTable, RedshiftTableUtilities, R
         if header:
             statement += "HEADER \n"
         if delimiter:
-            statement += f"DELIMITER as {delimiter}"
+            statement += f"DELIMITER as {delimiter} \n"
         if compression:
             statement += f"{compression.upper()} \n"
         if add_quotes:

@@ -313,7 +313,7 @@
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Transform values under one or more fields via arbitrary functions, method</span>
 <span class="sd">        invocations or dictionary translations. This leverages the petl ``convert()``</span>
-<span class="sd">        method. Example usage can be found `here` &lt;https://petl.readthedocs.io/en/v0.24/transform.html#petl.convert&gt;`_</span>
+<span class="sd">        method. Example usage can be found `here &lt;https://petl.readthedocs.io/en/v0.24/transform.html#petl.convert&gt;`_.</span>
 
 <span class="sd">        `Args:`</span>
 <span class="sd">            \*column: str</span>
@@ -418,12 +418,15 @@
 <span class="sd">        Standardizes column names based on multiple possible values. This method</span>
 <span class="sd">        is helpful when your input table might have multiple and unknown column</span>
 <span class="sd">        names.</span>
+
 <span class="sd">        `Args:`</span>
 <span class="sd">            column_map: dict</span>
 <span class="sd">                A dictionary of columns and possible values that map to it</span>
 <span class="sd">        `Returns:`</span>
 <span class="sd">            `Parsons Table` and also updates self</span>
+
 <span class="sd">        .. code-block:: python</span>
+
 <span class="sd">            tbl = [{fn: &#39;Jane&#39;},</span>
 <span class="sd">                   {lastname: &#39;Doe&#39;},</span>
 <span class="sd">                   {dob: &#39;1980-01-01&#39;}]</span>

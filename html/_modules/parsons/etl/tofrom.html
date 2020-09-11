@@ -706,6 +706,7 @@
 <span class="sd">            Parsons Table</span>
 <span class="sd">                See :ref:`parsons-table` for output options.</span>
 <span class="sd">        &quot;&quot;&quot;</span>  <span class="c1"># noqa: W605</span>
+
         <span class="n">remote_prefixes</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;http://&quot;</span><span class="p">,</span> <span class="s2">&quot;https://&quot;</span><span class="p">,</span> <span class="s2">&quot;ftp://&quot;</span><span class="p">,</span> <span class="s2">&quot;s3://&quot;</span><span class="p">]</span>
         <span class="k">if</span> <span class="nb">any</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="n">local_path</span><span class="o">.</span><span class="n">startswith</span><span class="p">,</span> <span class="n">remote_prefixes</span><span class="p">)):</span>
             <span class="n">is_remote_file</span> <span class="o">=</span> <span class="kc">True</span>

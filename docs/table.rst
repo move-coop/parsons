@@ -8,7 +8,7 @@ Parsons Table
 Overview
 ********
 
-Most methods and functions in Parsons return a ``Table``, which is a 2D list-like object. (It's similar to a pandas DataFrame, if you are familiar with that). You can call the following methods on the returned object to output it into a variety of formats or storage types. (For a full list of ``Table`` methods, scroll down to the class documentation.)
+Most methods and functions in Parsons return a ``Table``, which is a 2D list-like object similar to a Pandas Dataframe. You can call the following methods on the Table object to output it into a variety of formats or storage types. A full list of ``Table`` methods can be found in the API section.
 
 ===================
 From Parsons Table
@@ -107,6 +107,8 @@ You can also use the Table constructor to create a Table from a python list or p
 ========================
 Parsons Table Attributes
 ========================
+
+Tables have a number of convenience attributes.
 
 .. list-table::
     :widths: 25 50
@@ -302,9 +304,9 @@ To & From API
 .. autoclass:: parsons.etl.tofrom.ToFrom
    :inherited-members:
 
-*******
-ETL API
-*******
+******************
+Transformation API
+******************
 The following methods allow you to manipulate the Parsons table data.
 
 .. autoclass:: parsons.etl.etl.ETL

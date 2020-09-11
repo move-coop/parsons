@@ -229,13 +229,15 @@ class ETL(object):
         Standardizes column names based on multiple possible values. This method
         is helpful when your input table might have multiple and unknown column
         names.
-        
+
         `Args:`
             column_map: dict
                 A dictionary of columns and possible values that map to it
         `Returns:`
             `Parsons Table` and also updates self
+
         .. code-block:: python
+
             tbl = [{fn: 'Jane'},
                    {lastname: 'Doe'},
                    {dob: '1980-01-01'}]

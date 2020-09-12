@@ -720,7 +720,7 @@ class TestParsonsTable(unittest.TestCase):
 
     def test_map_columns_exact(self):
 
-        input_tbl = Table([['fn', 'ln', 'MID'],['J', 'B', 'H']])
+        input_tbl = Table([['fn', 'ln', 'MID'], ['J', 'B', 'H']])
 
         column_map = {'first_name': ['fn', 'first'],
                       'last_name': ['last', 'ln'],
@@ -733,7 +733,7 @@ class TestParsonsTable(unittest.TestCase):
 
     def test_map_columns_fuzzy(self):
 
-        input_tbl = Table([['fn', 'ln', 'Mi_'],['J', 'B', 'H']])
+        input_tbl = Table([['fn', 'ln', 'Mi_'], ['J', 'B', 'H']])
 
         column_map = {'first_name': ['fn', 'first'],
                       'last_name': ['last', 'ln'],

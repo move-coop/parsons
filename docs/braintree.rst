@@ -35,7 +35,7 @@ as arguments:
 
 	from parsons import Braintree
 
-	# First approach: Use API credentials via environmental variables
+    # First approach: Use API credentials via environmental variables
     brains = Braintree()
 
     # Second approach: Pass API credentials as arguments

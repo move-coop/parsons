@@ -9,7 +9,6 @@ from parsons.utilities import cloud_storage
 
 os.environ['VAN_API_KEY'] = 'SOME_KEY'
 
-
 class TestBulkImport(unittest.TestCase):
 
     def setUp(self):
@@ -38,8 +37,7 @@ class TestBulkImport(unittest.TestCase):
     @requests_mock.Mocker()
     def test_get_bulk_import_job_results(self, m):
 
-        results_tbl = Table([['BulkUploadDataID', 'ULFileID', 'PrimaryKey', 'PrimaryKeyType',
-                              'MailingAddress_3581'],
+        results_tbl = Table([['BulkUploadDataID', 'ULFileID', 'PrimaryKey', 'PrimaryKeyType', 'MailingAddress_3581'],
                              ['1', '1983', '101596008', 'VanID', 'Processed']])
 
         bulk_import_job = {'id': 92,
@@ -86,9 +84,9 @@ class TestBulkImport(unittest.TestCase):
         m.get(self.van.connection.uri +
               'bulkImportMappingTypes/Email/EmailSubscriptionStatusId/values')
 
-        r = self.van.get_bulk_import_mapping_type_fields(
+        r = van.get_bulk_import_mapping_type_fields(
             'Email', 'EmailSubscriptionStatusId')
-        self.assertEqual(r, json)
+        self.assertEqual()
 
     @requests_mock.Mocker()
     def test_post_bulk_import(self, m):

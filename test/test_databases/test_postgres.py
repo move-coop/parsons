@@ -3,11 +3,6 @@ from parsons.etl.table import Table
 from test.utils import assert_matching_tables
 import unittest
 import os
-import re
-import warnings
-import datetime
-import shutil
-from test.utils import validate_list
 
 # The name of the schema and will be temporarily created for the tests
 TEMP_SCHEMA = 'parsons_test'
@@ -43,7 +38,7 @@ class TestPostgresCreateStatement(unittest.TestCase):
     def test_connection(self):
 
         # Test connection with kwargs passed
-        arg_pg = Postgres(username='test', password='test', host='test', db='test')
+        Postgres(username='test', password='test', host='test', db='test')
 
         # Test connection with env variables
         os.environ['PGUSER'] = 'user_env'
@@ -119,8 +114,8 @@ class TestPostgresCreateStatement(unittest.TestCase):
 
     def test_column_validate(self):
 
-        bad_cols = ['a','a','', 'SELECT', 'asdfjkasjdfklasjdfklajskdfljaskldfjaklsdfjlaksdfjklasjdfklasjdkfljaskldfljkasjdkfasjlkdfjklasdfjklakjsfasjkdfljaslkdfjklasdfjklasjkldfakljsdfjalsdkfjklasjdfklasjdfklasdkljf'] # noqa: E501
-        fixed_cols = ['a','a_1','col_2', 'col_3', 'asdfjkasjdfklasjdfklajskdfljaskldfjaklsdfjlaksdfjklasjdfklasjdkfljaskldfljkasjdkfasjlkdfjklasdfjklakjsfasjkdfljaslkdfjkl'] # noqa: E501
+        bad_cols = ['a', 'a', '', 'SELECT', 'asdfjkasjdfklasjdfklajskdfljaskldfjaklsdfjlaksdfjklasjdfklasjdkfljaskldfljkasjdkfasjlkdfjklasdfjklakjsfasjkdfljaslkdfjklasdfjklasjkldfakljsdfjalsdkfjklasjdfklasjdfklasdkljf']  # noqa: E501
+        fixed_cols = ['a', 'a_1', 'col_2', 'col_3', 'asdfjkasjdfklasjdfklajskdfljaskldfjaklsdfjlaksdfjklasjdfklasjdkfljaskldfljkasjdkfasjlkdfjklasdfjklakjsfasjkdfljaslkdfjkl']  # noqa: E501
         self.assertEqual(self.pg.column_name_validate(bad_cols), fixed_cols)
 
     def test_create_statement(self):
@@ -135,6 +130,7 @@ class TestPostgresCreateStatement(unittest.TestCase):
         self.assertRaises(ValueError, self.pg.create_statement, empty_table, 'tmc.test')
 
 # These tests interact directly with the Postgres database
+
 
 @unittest.skipIf(not os.environ.get('LIVE_TEST'), 'Skipping because not running live test')
 class TestPostgresDB(unittest.TestCase):
@@ -158,7 +154,7 @@ class TestPostgresDB(unittest.TestCase):
         other_sql = f"""
                     create table {self.temp_schema}.test (id smallint,name varchar(5));
                     create view {self.temp_schema}.test_view as (select * from {self.temp_schema}.test);
-                    """ # noqa: E501
+                    """  # noqa: E501
 
         self.pg.query(setup_sql)
 
@@ -218,7 +214,8 @@ class TestPostgresDB(unittest.TestCase):
         self.assertRaises(ValueError, self.pg.copy, self.tbl, f'{self.temp_schema}.test_copy')
 
         # Try to copy the table and ensure that explicit fail works.
-        self.assertRaises(ValueError, self.pg.copy, self.tbl, f'{self.temp_schema}.test_copy', if_exists='fail')
+        self.assertRaises(
+            ValueError, self.pg.copy, self.tbl, f'{self.temp_schema}.test_copy', if_exists='fail')
 
     def test_to_postgres(self):
 
@@ -236,6 +233,7 @@ class TestPostgresDB(unittest.TestCase):
         self.pg.copy(self.tbl, f'{self.temp_schema}.test_copy', if_exists='drop')
         out_tbl = self.tbl.from_postgres(f"SELECT * FROM {self.temp_schema}.test_copy")
         assert_matching_tables(out_tbl, tbl)
+
 
 if __name__ == "__main__":
     unittest.main()

@@ -276,4 +276,3 @@ agent = {
   'groupId': 'Qqp6o90Si',
   'createdAt': '2018-08-02T14:50:48.519Z'
 }
-

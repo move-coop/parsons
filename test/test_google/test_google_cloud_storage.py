@@ -8,6 +8,7 @@ import os
 TEMP_BUCKET_NAME = 'parsons_test'
 TEMP_FILE_NAME = 'tmp_file_01.txt'
 
+
 @unittest.skipIf(not os.environ.get('LIVE_TEST'), 'Skipping because not running live test')
 class TestGoogleStorageBuckets(unittest.TestCase):
 
@@ -84,7 +85,8 @@ class TestGoogleStorageBuckets(unittest.TestCase):
     def test_get_blob(self):
 
         # Assert that a blob object is returned
-        self.assertIsInstance(self.cloud.get_blob(TEMP_BUCKET_NAME, TEMP_FILE_NAME), storage.blob.Blob)
+        self.assertIsInstance(
+            self.cloud.get_blob(TEMP_BUCKET_NAME, TEMP_FILE_NAME), storage.blob.Blob)
 
     def test_download_blob(self):
 

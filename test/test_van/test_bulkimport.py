@@ -9,6 +9,7 @@ from parsons.utilities import cloud_storage
 
 os.environ['VAN_API_KEY'] = 'SOME_KEY'
 
+
 class TestBulkImport(unittest.TestCase):
 
     def setUp(self):

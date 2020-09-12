@@ -5,11 +5,21 @@ Hustle
 Overview
 ********
 
-Hustle is a peer to peer texting communication platform. The methods are built against the `Hustle v1 API <https://api.hustle.com/docs/>`_.
+Hustle is a peer to peer texting communication platform. This Parsons integration with the
+the `Hustle v1 API <https://api.hustle.com/docs/>`_ provides methods for fetching agents,
+organizations, groups, leads, and tags, as well as creating and updating agents and leads.
 
-* Access to the API is limited to 100 requests per second for endpoints returning resources. When this limit is reached the API will return an error and the request will need to be retried.
+.. notes::
+  Authentication
+    Hustle uses the `OAuth2 client credentials flow <https://www.oauth.com/oauth2-servers/access-tokens/client-credentials/>`_.
+    Clients with a Hustle account can obtain the client ID and client secret needed to request a token which
+    grants to access the Hustle API for 2 hours before expiring.
 
-* Creating an access token is an exception in that it only limits the number of failed attempts to create an access token. After 10 failed attempts to create an access token the ip of the request will be blocked for some period of time, but only for the account in question. Additionally 100 failed attempts in a 24-hour period will result in the requester's ip being blocked.
+    **Warning:** 10 failed attempts to generate an access token will result in a temporary block on your IP address, and
+    100 failed attempts in 24 hour results in a permanent ban.
+
+  API Limits
+    There is a limit of 100 requests per second for endpoints returning resources.
 
 ***********
 Quick Start
@@ -17,9 +27,9 @@ Quick Start
 
 .. code-block:: python
 
-        from parsons import Hustle
-	
-	hustle = Hustle(client_id='MYID', client_secret='MYSECRET')
+    from parsons import Hustle
+
+    hustle = Hustle(client_id='MYID', client_secret='MYSECRET')
 
 	# Export your groups to a csv
 	tbl = hustle.get_groups(organization_id='ORGID')

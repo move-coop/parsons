@@ -3,6 +3,7 @@ import unittest
 import unittest.mock as mock
 from parsons.newmode import Newmode
 
+
 class TestNewmode(unittest.TestCase):
 
     def setUp(self):
@@ -209,4 +210,3 @@ class TestNewmode(unittest.TestCase):
         response = self.nm.get_outreach(id)
         self.nm.client.getOutreach.assert_called_with(id, params={})
         self.assertEqual(response['name'], 'Outreach 1')
-

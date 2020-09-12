@@ -2,7 +2,7 @@ import unittest
 import os
 import requests_mock
 from parsons.ngpvan.van import VAN
-from test.utils import validate_list, assert_matching_tables
+from test.utils import assert_matching_tables
 from requests.exceptions import HTTPError
 
 os.environ['VAN_API_KEY'] = 'SOME_KEY'
@@ -35,7 +35,7 @@ class TestCodes(unittest.TestCase):
                 'nextPageLink': None, 'count': 8}
 
         m.get(self.van.connection.uri + 'codes', json=json)
-        assert_matching_tables(json['items'],self.van.get_codes())
+        assert_matching_tables(json['items'], self.van.get_codes())
 
     @requests_mock.Mocker()
     def test_get_code_types(self, m):

@@ -5,32 +5,41 @@ PDI
 Overview
 ********
 
-`PDI is a political data provider that is primarily active in California.
-`The PDI class allows you to interact with an `PDI's API <https://api.bluevote.com/docs/index#>`_ .
+PDI is a political data provider that is primarily active in California. This class
+allows you to interact with the `PDI API <https://api.bluevote.com/docs/index#>`_ .
 
-In order to instantiate the class you must pass valid kwargs or store the following
-environmental variables:
+This Parsons connector provides methods to fetch lists of acquisition types, flag IDs,
+questions, universes, and flags given start and end dates.
 
-* ``'PDI_USERNAME'``
-* ``'PDI_PASSWORD'``
-* ``'PDI_API_TOKEN'``
-
+.. note::
+  Authentication
+    A user name, password, and API token are required to instantiate the ``PDI`` class.
+    To obtain log in credentials, request a PDI API account from ``support@politicaldata.com``.
+    The administrative process usually takes a couple of hours.
 
 **********
 Quickstart
 **********
 
+To instantiate the PDI class, you can either store your PDI API username, password,
+and API token as environmental variables (``PDI_USERNAME``, ``PDI_PASSWORD``, and
+``PDI_API_TOKEN``, respectively) or pass them in as arguments:
+
 .. code-block:: python
 
-  from parsons import PDI
+   from parsons import PDI
 
-  pdi = PDI()
+   # First approach: Use API credentials via environmental variables
+   pdi = PDI()
 
-  #Get all contacts (flag IDs) available from PDI
-  pdi.get_flag_ids()
+   # Second approach: Pass API credentials as arguments
+   pdi = PDI(username='my_username', password='my_password', api_token='my_token')
 
-  #Get all flags since the beginning of 2020
-  pdi.get_flags(start_date='2020-01-01')
+   # Get all contacts (flag IDs) available from PDI
+   pdi.get_flag_ids()
+
+   # Get all flags since the beginning of 2020
+   pdi.get_flags(start_date='2020-01-01')
 
 **************
 PDI Class

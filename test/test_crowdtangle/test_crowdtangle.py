@@ -35,7 +35,6 @@ class TestCrowdTangle(unittest.TestCase):
     @requests_mock.Mocker()
     def test_get_links(self, m):
 
-
         m.get(self.ct.uri + '/links', json=expected_post)
         post = self.ct.get_links(link='https://nbcnews.to/34stfC2')
         exp_tbl = self.ct.unpack(Table(expected_post['result']['posts']))

@@ -124,7 +124,7 @@ class ETL(object):
         """
         Transform values under one or more fields via arbitrary functions, method
         invocations or dictionary translations. This leverages the petl ``convert()``
-        method. Example usage can be found `here` <https://petl.readthedocs.io/en/v0.24/transform.html#petl.convert>`_
+        method. Example usage can be found `here <https://petl.readthedocs.io/en/v0.24/transform.html#petl.convert>`_.
 
         `Args:`
             \*column: str
@@ -229,6 +229,7 @@ class ETL(object):
         Standardizes column names based on multiple possible values. This method
         is helpful when your input table might have multiple and unknown column
         names.
+
         `Args:`
             column_map: dict
                 A dictionary of columns and possible values that map to it
@@ -239,6 +240,7 @@ class ETL(object):
             `Parsons Table` and also updates self
 
         .. code-block:: python
+
             tbl = [{fn: 'Jane'},
                    {lastname: 'Doe'},
                    {dob: '1980-01-01'}]

@@ -3,27 +3,30 @@ import requests_mock
 from parsons.targetsmart.targetsmart_api import TargetSmartAPI
 from parsons.etl.table import Table
 from test.utils import validate_list
-from test.responses.ts_responses import *
+from test.responses.ts_responses import (
+    address_response, district_point, district_expected, district_zip, zip_expected,
+    phone_response, phone_expected, radius_response)
 
-output_list = [{'vb.tsmart_zip': '60625',
-                'vb.vf_g2014': 'Y',
-                'vb.vf_g2016': 'Y',
-                'vb.tsmart_middle_name': 'H',
-                'ts.tsmart_midterm_general_turnout_score': '85.5',
-                'vb.tsmart_name_suffix': '',
-                'vb.voterbase_gender': 'Male',
-                'vb.tsmart_city': 'CHICAGO',
-                'vb.tsmart_full_address': '908 N MAIN AVE APT 2',
-                'vb.voterbase_phone': '5125705356',
-                'vb.tsmart_partisan_score': '99.6',
-                'vb.tsmart_last_name': 'BLANKS',
-                'vb.voterbase_id': 'IL-12568670',
-                'vb.tsmart_first_name': 'BILLY',
-                'vb.voterid': 'Q8W8R82Z',
-                'vb.voterbase_age': '37',
-                'vb.tsmart_state': 'IL',
-                'vb.voterbase_registration_status': 'Registered'
-                }]
+output_list = [{
+    'vb.tsmart_zip': '60625',
+    'vb.vf_g2014': 'Y',
+    'vb.vf_g2016': 'Y',
+    'vb.tsmart_middle_name': 'H',
+    'ts.tsmart_midterm_general_turnout_score': '85.5',
+    'vb.tsmart_name_suffix': '',
+    'vb.voterbase_gender': 'Male',
+    'vb.tsmart_city': 'CHICAGO',
+    'vb.tsmart_full_address': '908 N MAIN AVE APT 2',
+    'vb.voterbase_phone': '5125705356',
+    'vb.tsmart_partisan_score': '99.6',
+    'vb.tsmart_last_name': 'BLANKS',
+    'vb.voterbase_id': 'IL-12568670',
+    'vb.tsmart_first_name': 'BILLY',
+    'vb.voterid': 'Q8W8R82Z',
+    'vb.voterbase_age': '37',
+    'vb.tsmart_state': 'IL',
+    'vb.voterbase_registration_status': 'Registered'
+}]
 
 
 class TestTargetSmartAPI(unittest.TestCase):
@@ -108,11 +111,11 @@ class TestTargetSmartAPI(unittest.TestCase):
 
     def test_district_args(self):
 
-    	self.assertRaises(ValueError, self.ts.district, search_type='address')
-    	self.assertRaises(ValueError, self.ts.district, search_type='zip', zip4=9)
-    	self.assertRaises(ValueError, self.ts.district, search_type='zip', zip5=0)
-    	self.assertRaises(ValueError, self.ts.district, search_type='point')
-    	self.assertRaises(ValueError, self.ts.district, search_type='zip')
+        self.assertRaises(ValueError, self.ts.district, search_type='address')
+        self.assertRaises(ValueError, self.ts.district, search_type='zip', zip4=9)
+        self.assertRaises(ValueError, self.ts.district, search_type='zip', zip5=0)
+        self.assertRaises(ValueError, self.ts.district, search_type='point')
+        self.assertRaises(ValueError, self.ts.district, search_type='zip')
 
     @requests_mock.Mocker()
     def test_district_point(self, m):
@@ -132,6 +135,7 @@ class TestTargetSmartAPI(unittest.TestCase):
                                       self.ts.district(search_type='zip',
                                                        zip5='60622',
                                                        zip4='7194')))
+
     @requests_mock.Mocker()
     def test_district_address(self, m):
         # Test Address

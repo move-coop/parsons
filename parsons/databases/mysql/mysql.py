@@ -36,6 +36,7 @@ class MySQL(MySQLCreateTable):
     """
 
     def __init__(self, host=None, username=None, password=None, db=None, port=3306):
+        super().__init__()
 
         self.username = check_env.check('MYSQL_USERNAME', username)
         self.password = check_env.check('MYSQL_PASSWORD', password)

@@ -1,87 +1,28 @@
-import ast
+from parsons.databases.database.database import DatabaseCreateStatement
+import parsons.databases.mysql.constants as consts
+
 import petl
 import logging
 
 logger = logging.getLogger(__name__)
 
-# The following values are the minimum and maximum values for MySQL int
-# types. https://dev.mysql.com/doc/refman/8.0/en/integer-types.html
-SMALLINT_VALUES = [-32768, 32767]
-MEDIUMINT_VALUES = [-8388608, 8388607]
-INT_VALUES = [-2147483648, 2147483647]
 
-# Additional padding to add on to the maximum column width to account
-# for the addition of future data sets.
-VARCHAR_PAD = .25
-
-
-class MySQLCreateTable():
+class MySQLCreateTable(DatabaseCreateStatement):
 
     def __init__(self):
+        super().__init__()
 
-        pass
+        self.VARCHAR_PAD = consts.VARCHAR_PAD
+        self.COL_NAME_MAX_LEN = consts.COL_NAME_MAX_LEN
+        self.RESERVED_WORDS = []
 
+    # This is for backwards compatability
     def data_type(self, val, current_type):
-        # Evaluate the MySQL data type of a given value. Then return
-        # the data type of the value, while also weighing what the
-        # current type is.
+        return self.detect_data_type(val, current_type)
 
-        # Stop if the current type is already a varchar
-        if current_type == 'varchar':
-            return current_type
-
-        # Convert to string to reevaluate data type. If the value is already
-        # a string, is None, or is empty, with raise and error. These should
-        # be considered varchars.
-        try:
-            t = ast.literal_eval(str(val))
-        except ValueError:
-            return 'varchar'
-        except SyntaxError:
-            return 'varchar'
-
-        # If a float, then end
-        if type(t) == float:
-            return 'float'
-
-        # If an int and current type is not a float, then determine type of int.
-        if type(t) == int and current_type != 'float':
-            # Make sure that it is a valid integer
-            if not self.is_valid_integer(val):
-                return 'varchar'
-            # Use smallest possible int type above TINYINT
-            if (SMALLINT_VALUES[0] < t < SMALLINT_VALUES[1]) and current_type not in ['int', 'bigint', 'mediumint']:  # noqa: E501
-                return 'smallint'
-            elif (MEDIUMINT_VALUES[0] < t < MEDIUMINT_VALUES[1]) and current_type not in ['int', 'bigint']:  # noqa: E501
-                return 'mediumint'
-            elif (INT_VALUES[0] < t < INT_VALUES[1]) and current_type not in ['bigint']:
-                return 'int'
-            else:
-                return 'bigint'
-
-        # Finally return the current type
-        else:
-            return current_type
-
+    # This is for backwards compatability
     def is_valid_integer(self, val):
-
-        # Valid ints in python can contain an underscore, but Redshift can't. This
-        # checks to see if there is an underscore in the value and turns it into
-        # a varchar if so.
-        try:
-            if '_' in val:
-                return False
-
-        except TypeError:
-            return True
-
-        # If it has a leading zero, we should treat it as a varchar, since it is
-        # probably there for a good reason (e.g. zipcode)
-        if val.isdigit():
-            if val[0] == '0':
-                return False
-
-        return True
+        return self.is_valid_sql_num(val)
 
     def evaluate_column(self, column_rows):
         # Generate MySQL data types and widths for a column.
@@ -103,7 +44,7 @@ class MySQLCreateTable():
                 if row_width > col_width:
                     col_width = row_width
 
-        return col_type, int(col_width + (col_width * VARCHAR_PAD))
+        return col_type, int(col_width + (col_width * self.VARCHAR_PAD))
 
     def evaluate_table(self, tbl):
         # Generate a dict of MySQL column types and widths for all columns
@@ -138,34 +79,7 @@ class MySQLCreateTable():
         # Generate full statement
         return f"CREATE TABLE {table_name} ( \n {','.join(column_syntax)});"
 
+    # This is for backwards compatability
     def columns_convert(self, columns):
-        # Update column values to conform with MySQL requirements for columns.
-
-        updated_columns = []
-
-        for idx, col in enumerate(columns):
-
-            # Lowercase
-            col = col.lower()
-
-            # Strip whitespace
-            col = col.strip()
-
-            # Replace spaces with underscores
-            col = col.replace(' ', '_')
-
-            # If name is integer, prepend with "x_"
-            if col.isdigit():
-                col = f"x_{col}"
-
-            # If column name is longer than 64 characters, truncate.
-            if len(col) > 64:
-                col = col[:63]
-
-            # If column name is empty...
-            if col == "":
-                col = f"col_{idx}"
-
-            updated_columns.append(col)
-
-        return updated_columns
+        return self.format_columns(
+            columns, col_prefix="col_", replace_chars={" ": "_"})

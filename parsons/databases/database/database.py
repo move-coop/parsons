@@ -22,6 +22,21 @@ class DatabaseCreateStatement():
         self.COL_NAME_MAX_LEN = consts.COL_NAME_MAX_LEN
         self.IS_CASE_SENSITIVE = consts.IS_CASE_SENSITIVE
 
+    # This will allow child classes to modify how these columns are handled.
+    def _rename_reserved_word(self, col, index=None):
+        """Return the renamed column.
+
+        `Args`:
+            col: str
+                The column to rename.
+            index: int
+                (Optional) The index of the column.
+        `Returns`:
+            str
+                The rename column.
+        """
+        return f"{col}_"
+
     def get_bigger_int(self, int1, int2):
         """Return the bigger of the two ints.
 
@@ -147,3 +162,53 @@ class DatabaseCreateStatement():
 
         # Need to determine who makes it all the way down here
         return cmp_type
+
+    def format_column(self, col, index=None, replace_chars=None,
+                      col_prefix=None):
+        """Format the column to meet database contraints.
+
+        Formats the columns as follows:
+            1. Coverts to lowercase (if case insensitive)
+            2. Strips leading and trailing whitespace
+            3. Replaces invalid characters
+            4. Renames if in reserved words
+        `Args`:
+            col: str
+                The column to format.
+            index: int
+                (Optional) The index of the column. Used if the column is empty.
+            replace_chars: dict
+                A dictionary of invalid characters and their replacements. If
+                ``None`` uses {" ": "_"}
+            col_prefix: str
+                The prefix to use when the column is empty or starts with an
+                invalid character.
+        `Returns`:
+            str
+                The formatted column.
+        """
+        REPLACE_CHARS = {" ": "_"}
+        replace_chars = replace_chars or REPLACE_CHARS
+
+        if not self.IS_CASE_SENSITIVE:
+            col = col.lower()
+
+        col = col.strip()
+
+        for char, rep_char in replace_chars.items():
+            col = col.replace(char, rep_char)
+
+        # The format for this column passes all other checks
+        if col == "":
+            return f"{col_prefix or '_'}{index or ''}"
+
+        if col.upper() in self.RESERVED_WORDS:
+            col = self._rename_reserved_word(col, index)
+
+        if col[0].isdigit():
+            col = f"x_{col}"
+
+        if len(col) > self.COL_NAME_MAX_LEN:
+            col = col[:self.COL_NAME_MAX_LEN]
+
+        return col

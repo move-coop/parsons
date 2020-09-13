@@ -88,7 +88,26 @@ def test_is_valid_sql_num(dcs, val, is_valid):
      ('word', None, VARCHAR),
      ('1_2', None, VARCHAR),
      ('01', None, VARCHAR),
-
      ))
 def test_detect_data_type(dcs, val, cmp_type, detected_type):
     assert dcs.detect_data_type(val, cmp_type) == detected_type
+
+
+@pytest.mark.parametrize(
+    ("col", "renamed"),
+    (("a", "a"),
+     ("A", "a"),
+     ("", "_"),
+     ("SELECT", "select_"),
+     ("two words", "two_words"),
+     ("   trailing space   ", "trailing_space"),
+     ("1234567890", "x_1234567890"),
+     ("0word", "x_0word"),
+
+     # create a really long column name
+     # len("asdfghjkla" * 13) == 130
+     # len("asdfghjkla" * 10) == 100
+     ("asdfghjkla" * 13, "asdfghjkla" * 10),
+     ))
+def test_default_format_column(dcs, col, renamed):
+    assert dcs.format_column(col) == renamed

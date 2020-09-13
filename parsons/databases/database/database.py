@@ -37,6 +37,20 @@ class DatabaseCreateStatement():
         """
         return f"{col}_"
 
+    def _rename_duped(self, col, index):
+        """Return the renamed column.
+
+        `Args`:
+            col: str
+                The column to rename.
+            index: int
+                (Optional) The index of the column.
+        `Returns`:
+            str
+                The rename column.
+        """
+        return f"{col}_{index}"
+
     def get_bigger_int(self, int1, int2):
         """Return the bigger of the two ints.
 
@@ -212,3 +226,31 @@ class DatabaseCreateStatement():
             col = col[:self.COL_NAME_MAX_LEN]
 
         return col
+
+    def format_columns(self, cols, **kwargs):
+        """Format the columns to meet database contraints.
+
+        This method relies on ``format_column`` to handle most changes. It
+        only handles duplicated columns. Options to ``format_column`` can be
+        passed through kwargs.
+
+        `Args`:
+            cols: list
+                The columns to format.
+            kwargs: dicts
+                Keyword arguements to pass to ``format_column``.
+        `Returns`:
+            list
+                The formatted columns.
+        """
+        formatted_cols = []
+
+        for idx, col in enumerate(cols):
+            formatted_col = self.format_column(col, index=idx)
+
+            if formatted_col in formatted_cols:
+                formatted_col = self._rename_duped(formatted_col, idx)
+
+            formatted_cols.append(formatted_col)
+
+        return formatted_cols

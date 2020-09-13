@@ -111,3 +111,12 @@ def test_detect_data_type(dcs, val, cmp_type, detected_type):
      ))
 def test_default_format_column(dcs, col, renamed):
     assert dcs.format_column(col) == renamed
+
+
+@pytest.mark.parametrize(
+    ("cols", "cols_formatted"),
+    ((["a", "A", "b", "   b   ", "col name", "col_name"],
+      ["a", "a_1", "b", "b_3", "col_name", "col_name_5"]),
+     ))
+def test_default_format_columns(dcs, cols, cols_formatted):
+    assert dcs.format_columns(cols) == cols_formatted

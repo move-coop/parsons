@@ -28,6 +28,7 @@ class Postgres(PostgresCore):
     """
 
     def __init__(self, username=None, password=None, host=None, db=None, port=5432, timeout=10):
+        super().__init__()
 
         self.username = username or os.environ.get('PGUSER')
         self.password = password or os.environ.get('PGPASSWORD')

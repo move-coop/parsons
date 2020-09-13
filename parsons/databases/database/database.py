@@ -246,7 +246,7 @@ class DatabaseCreateStatement():
         formatted_cols = []
 
         for idx, col in enumerate(cols):
-            formatted_col = self.format_column(col, index=idx)
+            formatted_col = self.format_column(col, index=idx, **kwargs)
 
             if formatted_col in formatted_cols:
                 formatted_col = self._rename_duped(formatted_col, idx)

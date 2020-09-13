@@ -1,26 +1,26 @@
-from parsons.databases.database.constants import (
-    INT_TYPES, INT, INT_MIN, INT_MAX, SMALLINT, SMALLINT_MIN, SMALLINT_MAX,
-    MEDIUMINT, MEDIUMINT_MIN, MEDIUMINT_MAX, BIGINT, FLOAT, VARCHAR)
-
+import parsons.databases.database.constants as consts
 import ast
 
 
 class DatabaseCreateStatement():
 
     def __init__(self):
-        self.INT_TYPES = INT_TYPES
-        self.SMALLINT = SMALLINT
-        self.SMALLINT_MIN = SMALLINT_MIN
-        self.SMALLINT_MAX = SMALLINT_MAX
-        self.MEDIUMINT = MEDIUMINT
-        self.MEDIUMINT_MIN = MEDIUMINT_MIN
-        self.MEDIUMINT_MAX = MEDIUMINT_MAX
-        self.INT = INT
-        self.INT_MIN = INT_MIN
-        self.INT_MAX = INT_MAX
-        self.BIGINT = BIGINT
-        self.FLOAT = FLOAT
-        self.VARCHAR = VARCHAR
+        self.INT_TYPES = consts.INT_TYPES
+        self.SMALLINT = consts.SMALLINT
+        self.SMALLINT_MIN = consts.SMALLINT_MIN
+        self.SMALLINT_MAX = consts.SMALLINT_MAX
+        self.MEDIUMINT = consts.MEDIUMINT
+        self.MEDIUMINT_MIN = consts.MEDIUMINT_MIN
+        self.MEDIUMINT_MAX = consts.MEDIUMINT_MAX
+        self.INT = consts.INT
+        self.INT_MIN = consts.INT_MIN
+        self.INT_MAX = consts.INT_MAX
+        self.BIGINT = consts.BIGINT
+        self.FLOAT = consts.FLOAT
+        self.VARCHAR = consts.VARCHAR
+        self.RESERVED_WORDS = consts.RESERVED_WORDS
+        self.COL_NAME_MAX_LEN = consts.COL_NAME_MAX_LEN
+        self.IS_CASE_SENSITIVE = consts.IS_CASE_SENSITIVE
 
     def get_bigger_int(self, int1, int2):
         """Return the bigger of the two ints.

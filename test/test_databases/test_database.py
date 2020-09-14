@@ -83,14 +83,14 @@ def test_is_valid_sql_num(dcs, val, is_valid):
      (2147483648, FLOAT, FLOAT),
      (5.001, None, FLOAT),
      (5.001, "", FLOAT),
-     ('word', "", VARCHAR),
-     ('word', INT, VARCHAR),
-     ('1_2', BIGINT, VARCHAR),
-     ('01', FLOAT, VARCHAR),
-     ('00001', None, VARCHAR),
-     ('word', None, VARCHAR),
-     ('1_2', None, VARCHAR),
-     ('01', None, VARCHAR),
+     ("word", "", VARCHAR),
+     ("word", INT, VARCHAR),
+     ("1_2", BIGINT, VARCHAR),
+     ("01", FLOAT, VARCHAR),
+     ("00001", None, VARCHAR),
+     ("word", None, VARCHAR),
+     ("1_2", None, VARCHAR),
+     ("01", None, VARCHAR),
      ))
 def test_detect_data_type(dcs, val, cmp_type, detected_type):
     assert dcs.detect_data_type(val, cmp_type) == detected_type

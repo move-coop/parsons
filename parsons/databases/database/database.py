@@ -97,7 +97,7 @@ class DatabaseCreateStatement():
         # then it's a valid sql number
         # Also check the first character is not zero
         try:
-            if (float(val) or int(val)) and '_' not in val and val[0] != '0':
+            if (float(val) or int(val)) and "_" not in val and val[0] != "0":
                 return True
             else:
                 return False

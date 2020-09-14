@@ -21,6 +21,7 @@ class DatabaseCreateStatement():
         self.RESERVED_WORDS = consts.RESERVED_WORDS
         self.COL_NAME_MAX_LEN = consts.COL_NAME_MAX_LEN
         self.IS_CASE_SENSITIVE = consts.IS_CASE_SENSITIVE
+        self.REPLACE_CHARS = consts.REPLACE_CHARS
 
     # This will allow child classes to modify how these columns are handled.
     def _rename_reserved_word(self, col, index=None):
@@ -201,8 +202,7 @@ class DatabaseCreateStatement():
             str
                 The formatted column.
         """
-        REPLACE_CHARS = {" ": "_"}
-        replace_chars = replace_chars or REPLACE_CHARS
+        replace_chars = replace_chars or self.REPLACE_CHARS
 
         if not self.IS_CASE_SENSITIVE:
             col = col.lower()

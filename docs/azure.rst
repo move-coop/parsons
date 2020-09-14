@@ -52,30 +52,21 @@ and ``AZURE_ACCOUNT_URL``, respectively) or pass them in as arguments:
 **Create a blob from a file or ``Table``**
 
 .. code-block:: python
-  container_name = 'testcontainer'
-
   # Upload a CSV file from a local file path and set the content type
-  azure_blob.put_blob(container_name, 'test1.csv', './test1.csv', content_type='text/csv')
+  azure_blob.put_blob('blob_name', 'test1.csv', './test1.csv', content_type='text/csv')
 
   # Create a Table and upload it as a JSON blob
   table = Table([{'first': 'Test', 'last': 'Person'}])
-  azure_blob.upload_table(table, container_name, 'test2.json', data_type='json')
+  azure_blob.upload_table(table, 'blob_name', 'test2.json', data_type='json')
 
 **Download a blob**
 
 .. code-block:: python
-
-  from parsons import AzureBlobStorage
-
-  azure_blob = AzureBlobStorage()
-
-  container_name = 'testcontainer'
-
   # Download to a temporary file path
-  temp_file_path = azure_blob.download_blob(container_name, 'test.csv')
+  temp_file_path = azure_blob.download_blob('blob_name', 'test.csv')
 
   # Download to a specific file path
-  azure_blob.download_blob(container_name, 'test.csv', local_path='/tmp/test.csv')
+  azure_blob.download_blob('blob_name', 'test.csv', local_path='/tmp/test.csv')
 
 
 ===

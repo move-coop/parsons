@@ -204,56 +204,30 @@
 <h2>Blob Storage<a class="headerlink" href="#blob-storage" title="Permalink to this headline">¶</a></h2>
 <div class="section" id="overview">
 <h3>Overview<a class="headerlink" href="#overview" title="Permalink to this headline">¶</a></h3>
-<p>Azure Blob Storage is a cloud file storage system. It uses storage accounts to organize containers (similar to
-“buckets” for other storage providers) in which to store arbitrary files referred to as blobs.</p>
-<p>This connector currently only implements block blobs and not page or append blobs.</p>
-<p>You’ll need credentials for an Azure Blob Storage storage account to use this connector. The <code class="docutils literal notranslate"><span class="pre">azure-storage-blob</span></code>
-library is used for this connector, and <a class="reference external" href="https://github.com/Azure/azure-sdk-for-python/tree/master/sdk/storage/azure-storage-blob#types-of-credentials">examples of how to create and use multiple types of credentials</a>
-are included in the documentation.</p>
+<p><a class="reference external" href="https://azure.microsoft.com/en-us/services/storage/blobs/">Azure Blob Storage</a> is a cloud file storage system that
+uses storage accounts to organize containers (similar to “buckets” for other storage providers) in which to store
+arbitrary files referred to as ‘blobs’. This Parsons integration currently only implements
+<a class="reference external" href="https://docs.microsoft.com/en-us/rest/api/storageservices/understanding-block-blobs--append-blobs--and-page-blobs">block blobs, not page or append blobs</a>.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<dl class="last docutils">
+<dt>Authentication</dt>
+<dd>This connector requires authentication credentials for an Azure Blob Storage storage account. The
+<code class="docutils literal notranslate"><span class="pre">azure-storage-blob</span></code> library is used for this connector, and examples of how to create and use
+<a class="reference external" href="https://github.com/Azure/azure-sdk-for-python/tree/master/sdk/storage/azure-storage-blob#types-of-credentials">multiple types of credentials</a>
+are included in the documentation.</dd>
+</dl>
+</div>
 </div>
 <div class="section" id="quickstart">
 <h3>Quickstart<a class="headerlink" href="#quickstart" title="Permalink to this headline">¶</a></h3>
+<p>This class requires a <code class="docutils literal notranslate"><span class="pre">credentials</span></code> argument and <em>either</em> an <code class="docutils literal notranslate"><span class="pre">account_name</span></code> or an <code class="docutils literal notranslate"><span class="pre">account_url</span></code> argument that
+includes the account name. You can store these as environmental variables (<code class="docutils literal notranslate"><span class="pre">AZURE_CREDENTIAL</span></code>, <code class="docutils literal notranslate"><span class="pre">AZURE_ACCOUNT_NAME</span></code>,
+and <code class="docutils literal notranslate"><span class="pre">AZURE_ACCOUNT_URL</span></code>, respectively) or pass them in as arguments:</p>
+<p><strong>Instantiate class</strong></p>
 <p><strong>List containers and blobs</strong></p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">parsons</span> <span class="kn">import</span> <span class="n">AzureBlobStorage</span>
-
-<span class="n">azure_blob</span> <span class="o">=</span> <span class="n">AzureBlobStorage</span><span class="p">()</span>
-
-<span class="c1"># Get all container names for a storage account</span>
-<span class="n">container_names</span> <span class="o">=</span> <span class="n">azure_blob</span><span class="o">.</span><span class="n">list_containers</span><span class="p">()</span>
-
-<span class="c1"># Get all blob names for a storage account and container</span>
-<span class="n">blob_names</span> <span class="o">=</span> <span class="n">azure_blob</span><span class="o">.</span><span class="n">list_blobs</span><span class="p">(</span><span class="n">container_names</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
-</pre></div>
-</div>
 <p><strong>Create a blob from a file or ``Table``</strong></p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">parsons</span> <span class="kn">import</span> <span class="n">AzureBlobStorage</span><span class="p">,</span> <span class="n">Table</span>
-
-<span class="n">azure_blob</span> <span class="o">=</span> <span class="n">AzureBlobStorage</span><span class="p">()</span>
-
-<span class="n">container_name</span> <span class="o">=</span> <span class="s1">&#39;testcontainer&#39;</span>
-
-<span class="c1"># Upload a CSV file from a local file path and set the content type</span>
-<span class="n">azure_blob</span><span class="o">.</span><span class="n">put_blob</span><span class="p">(</span><span class="n">container_name</span><span class="p">,</span> <span class="s1">&#39;test1.csv&#39;</span><span class="p">,</span> <span class="s1">&#39;./test1.csv&#39;</span><span class="p">,</span> <span class="n">content_type</span><span class="o">=</span><span class="s1">&#39;text/csv&#39;</span><span class="p">)</span>
-
-<span class="c1"># Create a Table and upload it as a JSON blob</span>
-<span class="n">table</span> <span class="o">=</span> <span class="n">Table</span><span class="p">([{</span><span class="s1">&#39;first&#39;</span><span class="p">:</span> <span class="s1">&#39;Test&#39;</span><span class="p">,</span> <span class="s1">&#39;last&#39;</span><span class="p">:</span> <span class="s1">&#39;Person&#39;</span><span class="p">}])</span>
-<span class="n">azure_blob</span><span class="o">.</span><span class="n">upload_table</span><span class="p">(</span><span class="n">table</span><span class="p">,</span> <span class="n">container_name</span><span class="p">,</span> <span class="s1">&#39;test2.json&#39;</span><span class="p">,</span> <span class="n">data_type</span><span class="o">=</span><span class="s1">&#39;json&#39;</span><span class="p">)</span>
-</pre></div>
-</div>
 <p><strong>Download a blob</strong></p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">parsons</span> <span class="kn">import</span> <span class="n">AzureBlobStorage</span>
-
-<span class="n">azure_blob</span> <span class="o">=</span> <span class="n">AzureBlobStorage</span><span class="p">()</span>
-
-<span class="n">container_name</span> <span class="o">=</span> <span class="s1">&#39;testcontainer&#39;</span>
-
-<span class="c1"># Download to a temporary file path</span>
-<span class="n">temp_file_path</span> <span class="o">=</span> <span class="n">azure_blob</span><span class="o">.</span><span class="n">download_blob</span><span class="p">(</span><span class="n">container_name</span><span class="p">,</span> <span class="s1">&#39;test.csv&#39;</span><span class="p">)</span>
-
-<span class="c1"># Download to a specific file path</span>
-<span class="n">azure_blob</span><span class="o">.</span><span class="n">download_blob</span><span class="p">(</span><span class="n">container_name</span><span class="p">,</span> <span class="s1">&#39;test.csv&#39;</span><span class="p">,</span> <span class="n">local_path</span><span class="o">=</span><span class="s1">&#39;/tmp/test.csv&#39;</span><span class="p">)</span>
-</pre></div>
-</div>
 </div>
 <div class="section" id="api">
 <h3>API<a class="headerlink" href="#api" title="Permalink to this headline">¶</a></h3>

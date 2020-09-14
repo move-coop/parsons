@@ -6,6 +6,8 @@ import logging
 
 logger = logging.getLogger(__name__)
 
+API_URL = 'https://actionnetwork.org/api/v2'
+
 
 class ActionNetwork(object):
     """
@@ -13,15 +15,14 @@ class ActionNetwork(object):
         api_token: str
             The OSDI API token
         api_url:
-            The end point url
     """
-    def __init__(self, api_token=None, api_url=None):
+    def __init__(self, api_token=None):
         self.api_token = check_env.check('AN_API_TOKEN', api_token)
         self.headers = {
             "Content-Type": "application/json",
             "OSDI-API-Token": self.api_token
         }
-        self.api_url = check_env.check('AN_API_URL', api_url)
+        self.api_url = API_URL
         self.api = APIConnector(self.api_url, headers=self.headers)
 
     def _get_page(self, object_name, page, per_page=25):

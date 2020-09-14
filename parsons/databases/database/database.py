@@ -239,7 +239,7 @@ class DatabaseCreateStatement():
             cols: list
                 The columns to format.
             kwargs: dicts
-                Keyword arguements to pass to ``format_column``.
+                Keyword arguments to pass to ``format_column``.
         `Returns`:
             list
                 The formatted columns.

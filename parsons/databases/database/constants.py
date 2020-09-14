@@ -1,3 +1,4 @@
+# These are reserved words by Redshift and cannot be used as column names.
 RESERVED_WORDS = [
     "AES128", "AES256", "ALL", "ALLOWOVERWRITE", "ANALYSE", "ANALYZE", "AND",
     "ANY", "ARRAY", "AS", "ASC", "AUTHORIZATION", "BACKUP", "BETWEEN", "BINARY",
@@ -26,6 +27,8 @@ RESERVED_WORDS = [
 VARCHAR = "varchar"
 FLOAT = "float"
 
+# The following values are the minimum and maximum values for MySQL int
+# types. https://dev.mysql.com/doc/refman/8.0/en/integer-types.html
 SMALLINT = "smallint"
 SMALLINT_MIN = -32768
 SMALLINT_MAX = 32767

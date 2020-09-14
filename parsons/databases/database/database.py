@@ -178,8 +178,7 @@ class DatabaseCreateStatement():
         # Need to determine who makes it all the way down here
         return cmp_type
 
-    def format_column(self, col, index=None, replace_chars=None,
-                      col_prefix=None):
+    def format_column(self, col, index="", replace_chars=None, col_prefix="_"):
         """Format the column to meet database contraints.
 
         Formats the columns as follows:
@@ -215,7 +214,7 @@ class DatabaseCreateStatement():
 
         # The format for this column passes all other checks
         if col == "":
-            return f"{col_prefix or '_'}{index or ''}"
+            return f"{col_prefix}{index}"
 
         if col.upper() in self.RESERVED_WORDS:
             col = self._rename_reserved_word(col, index)

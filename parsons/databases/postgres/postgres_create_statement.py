@@ -13,6 +13,7 @@ class PostgresCreateStatement(DatabaseCreateStatement):
         super().__init__()
 
         self.COL_NAME_MAX_LEN = consts.COL_NAME_MAX_LEN
+        self.REPLACE_CHARS = consts.REPLACE_CHARS
 
         # Postgres doesn't have a medium int
         self.MEDIUMINT = self.INT
@@ -173,5 +174,4 @@ class PostgresCreateStatement(DatabaseCreateStatement):
 
     # This is for backwards compatability
     def column_name_validate(self, columns):
-        return self.format_columns(
-            columns, col_prefix="col_", replace_chars={" ": ""})
+        return self.format_columns(columns, col_prefix="col_")

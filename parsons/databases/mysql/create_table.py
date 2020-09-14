@@ -81,5 +81,4 @@ class MySQLCreateTable(DatabaseCreateStatement):
 
     # This is for backwards compatability
     def columns_convert(self, columns):
-        return self.format_columns(
-            columns, col_prefix="col_", replace_chars={" ": "_"})
+        return self.format_columns(columns, col_prefix="col_")

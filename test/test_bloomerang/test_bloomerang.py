@@ -6,7 +6,7 @@ from test.utils import assert_matching_tables
 from parsons.bloomerang.bloomerang import Bloomerang
 from parsons.etl import Table
 
-from test.test_bloomerang.test_data import ENV_PARAMETERS, ID, ID_LIST, TEST_DELETE, \
+from test.test_bloomerang.test_data import ENV_PARAMETERS, ID, TEST_DELETE, \
     TEST_CREATE_CONSTITUENT, TEST_GET_CONSTITUENT, TEST_GET_CONSTITUENTS, \
     TEST_CREATE_TRANSACTION, TEST_GET_TRANSACTION, TEST_GET_TRANSACTIONS, \
     TEST_CREATE_INTERACTION, TEST_GET_INTERACTION, TEST_GET_INTERACTIONS
@@ -70,8 +70,8 @@ class TestBloomerang(unittest.TestCase):
 
     @requests_mock.Mocker()
     def test_get_constituents(self, m):
-        m.get(f'{self.bloomerang.uri}constituents?skip=0&take=50&id=1|2|3/', json=TEST_GET_CONSTITUENTS)
-        assert_matching_tables(self.bloomerang.get_constituents(ID_LIST), Table(TEST_GET_CONSTITUENTS['Results']))
+        m.get(f'{self.bloomerang.uri}constituents/?skip=0&take=50', json=TEST_GET_CONSTITUENTS)
+        assert_matching_tables(self.bloomerang.get_constituents(), Table(TEST_GET_CONSTITUENTS['Results']))
 
     @requests_mock.Mocker()
     def test_create_transaction(self, m):
@@ -95,8 +95,8 @@ class TestBloomerang(unittest.TestCase):
 
     @requests_mock.Mocker()
     def test_get_transactions(self, m):
-        m.get(f'{self.bloomerang.uri}transactions?skip=0&take=50&id=1|2|3/', json=TEST_GET_TRANSACTIONS)
-        assert_matching_tables(self.bloomerang.get_transactions(ID_LIST), Table(TEST_GET_TRANSACTIONS['Results']))
+        m.get(f'{self.bloomerang.uri}transactions/?skip=0&take=50', json=TEST_GET_TRANSACTIONS)
+        assert_matching_tables(self.bloomerang.get_transactions(), Table(TEST_GET_TRANSACTIONS['Results']))
 
     @requests_mock.Mocker()
     def test_get_transaction_designation(self, m):
@@ -105,9 +105,8 @@ class TestBloomerang(unittest.TestCase):
 
     @requests_mock.Mocker()
     def test_get_transaction_designations(self, m):
-        m.get(f'{self.bloomerang.uri}transactions/designations?skip=0&take=50&id=1|2|3/', json=TEST_GET_TRANSACTIONS)
-        assert_matching_tables(self.bloomerang.get_transaction_designations(ID_LIST),
-                               Table(TEST_GET_TRANSACTIONS['Results']))
+        m.get(f'{self.bloomerang.uri}transactions/designations/?skip=0&take=50', json=TEST_GET_TRANSACTIONS)
+        assert_matching_tables(self.bloomerang.get_transaction_designations(), Table(TEST_GET_TRANSACTIONS['Results']))
 
     @requests_mock.Mocker()
     def test_create_interaction(self, m):
@@ -131,5 +130,5 @@ class TestBloomerang(unittest.TestCase):
 
     @requests_mock.Mocker()
     def test_get_interactions(self, m):
-        m.get(f'{self.bloomerang.uri}interactions?skip=0&take=50&id=1|2|3/', json=TEST_GET_INTERACTIONS)
-        assert_matching_tables(self.bloomerang.get_interactions(ID_LIST), Table(TEST_GET_INTERACTIONS['Results']))
+        m.get(f'{self.bloomerang.uri}interactions/?skip=0&take=50', json=TEST_GET_INTERACTIONS)
+        assert_matching_tables(self.bloomerang.get_interactions(), Table(TEST_GET_INTERACTIONS['Results']))

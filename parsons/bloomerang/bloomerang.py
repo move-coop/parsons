@@ -55,7 +55,7 @@ class Bloomerang(object):
             self._generate_access_token()
             headers['Authorization'] = f"Bearer {self.access_token}"
         else:
-            logger.warning('Initializing API Connector without authorization credentials.')
+            raise Exception('Missing authorization credentials.')
         return APIConnector(uri=self.uri, headers=headers)
 
     def _generate_authorization_code(self):
@@ -78,6 +78,10 @@ class Bloomerang(object):
             url = url + f'{entity_id}/'
         return url
 
+    @staticmethod
+    def _base_pagination_params(page_number=1, page_size=50):
+        return {'skip': page_size * (page_number - 1), 'take': min(page_size, 50)}
+
     def _base_create(self, endpoint, entity_id=None, **kwargs):
         return self.conn.post_request(url=self._base_endpoint(endpoint, entity_id),
                                       json=json.dumps({**kwargs}))
@@ -86,8 +90,8 @@ class Bloomerang(object):
         return self.conn.put_request(url=self._base_endpoint(endpoint, entity_id),
                                      json=json.dumps({**kwargs}))
 
-    def _base_get(self, endpoint, entity_id=None):
-        return self.conn.get_request(url=self._base_endpoint(endpoint, entity_id))
+    def _base_get(self, endpoint, entity_id=None, params=None):
+        return self.conn.get_request(url=self._base_endpoint(endpoint, entity_id), params=params)
 
     def _base_delete(self, endpoint, entity_id=None):
         return self.conn.delete_request(url=self._base_endpoint(endpoint, entity_id))
@@ -96,7 +100,9 @@ class Bloomerang(object):
         """
         `Args:`
             **kwargs:`
-                Fields to include, e.g., FirstName = 'Rachel'
+                Fields to include, e.g., FirstName = 'Rachel'.
+
+                See the Bloomerang API docs for a full list of `fields <https://bloomerang.co/features/integrations/api/rest-api#/Constituents/post_constituent>`_. # noqa
         """
         return self._base_create('constituent', **kwargs)
 
@@ -106,7 +112,9 @@ class Bloomerang(object):
             constituent_id:
                 Constituent ID to update
             **kwargs:`
-                Fields to update, e.g., FirstName = 'RJ'
+                Fields to update, e.g., FirstName = 'RJ'.
+
+                See the Bloomerang API docs for a full list of `fields <https://bloomerang.co/features/integrations/api/rest-api#/Constituents/put_constituent__id_>`_. # noqa
         """
         return self._base_update('constituent', entity_id=constituent_id, **kwargs)
 
@@ -128,22 +136,27 @@ class Bloomerang(object):
         """
         return self._base_delete('constituent', entity_id=constituent_id)
 
-    def get_constituents(self, constituent_ids):
+    def get_constituents(self, page_number=1, page_size=50):
         """
         `Args:`
-            constituent_ids:
-                A list of Constituent IDs to get fields for
+            page_number:
+                Number of the page to fetch
+            page_size:
+                Number of records per page (maximum allowed is 50)
         `Returns:`
             A Table of the entries.
         """
-        query_params = '?skip=0&take=50&id=' + '|'.join([str(c_id) for c_id in constituent_ids])
-        return Table(self._base_get(f'constituents{query_params}')['Results'])
+        params = self._base_pagination_params(page_number, page_size)
+        response = self._base_get(f'constituents', params=params)
+        return Table(response['Results'])
 
     def create_transaction(self, **kwargs):
         """
         `Args:`
             **kwargs:`
-                Fields to include, e.g., CreditCardType = 'Visa'
+                Fields to include, e.g., CreditCardType = 'Visa'.
+
+                See the Bloomerang API docs for a full list of `fields <https://bloomerang.co/features/integrations/api/rest-api#/Transactions/post_transaction>`_. # noqa
         """
         return self._base_create('transaction', **kwargs)
 
@@ -153,7 +166,9 @@ class Bloomerang(object):
             transaction_id:
                 Transaction ID to update
             **kwargs:`
-                Fields to update, e.g., CreditCardType = 'Visa'
+                Fields to update, e.g., CreditCardType = 'Visa'.
+
+                See the Bloomerang API docs for a full list of `fields <https://bloomerang.co/features/integrations/api/rest-api#/Transactions/put_transaction__id_>`_. # noqa
         """
         return self._base_update('transaction', entity_id=transaction_id, **kwargs)
 
@@ -175,16 +190,19 @@ class Bloomerang(object):
         """
         return self._base_delete('transaction', entity_id=transaction_id)
 
-    def get_transactions(self, transaction_ids):
+    def get_transactions(self, page_number=1, page_size=50):
         """
         `Args:`
-            transaction_ids:
-                A list of Transaction IDs to get records for
+            page_number:
+                Number of the page to fetch
+            page_size:
+                Number of records per page (maximum allowed is 50)
         `Returns:`
             A  JSON of the entry or an error.
         """
-        query_params = '?skip=0&take=50&id=' + '|'.join([str(t_id) for t_id in transaction_ids])
-        return Table(self._base_get(f'transactions{query_params}')['Results'])
+        params = self._base_pagination_params(page_number, page_size)
+        response = self._base_get(f'transactions', params=params)
+        return Table(response['Results'])
 
     def get_transaction_designation(self, designation_id):
         """
@@ -196,22 +214,27 @@ class Bloomerang(object):
         """
         return self._base_get('transaction/designation', entity_id=designation_id)
 
-    def get_transaction_designations(self, designation_ids):
+    def get_transaction_designations(self, page_number=1, page_size=50):
         """
         `Args:`
-            designation_ids:
-                A list of Designation IDs to get records for
+            page_number:
+                Number of the page to fetch
+            page_size:
+                Number of records per page (maximum allowed is 50)
         `Returns:`
             A  JSON of the entry or an error.
         """
-        query_params = '?skip=0&take=50&id=' + '|'.join([str(d_id) for d_id in designation_ids])
-        return Table(self._base_get(f'transactions/designations{query_params}')['Results'])
+        params = self._base_pagination_params(page_number, page_size)
+        response = self._base_get(f'transactions/designations', params=params)
+        return Table(response['Results'])
 
     def create_interaction(self, **kwargs):
         """
         `Args:`
             **kwargs:`
-                Fields to include, e.g., Channel = "Email"
+                Fields to include, e.g., Channel = "Email".
+
+                See the Bloomerang API docs for a full list of `fields <https://bloomerang.co/features/integrations/api/rest-api#/Interactions/post_interaction>`_. # noqa
         """
         return self._base_create('interaction', **kwargs)
 
@@ -221,7 +244,9 @@ class Bloomerang(object):
             interaction_id:
                 Interaction ID to update
             **kwargs:`
-                Fields to update, e.g., EmailAddress = "user@example.com"
+                Fields to update, e.g., EmailAddress = "user@example.com".
+
+                See the Bloomerang API docs for a full list of `fields <https://bloomerang.co/features/integrations/api/rest-api#/Interactions/put_interaction__id_>`_. # noqa
         """
         return self._base_update('interaction', entity_id=interaction_id, **kwargs)
 
@@ -243,13 +268,16 @@ class Bloomerang(object):
         """
         return self._base_delete('interaction', entity_id=interaction_id)
 
-    def get_interactions(self, interaction_ids):
+    def get_interactions(self, page_number=1, page_size=50):
         """
         `Args:`
-            interaction_ids:
-                A list of Interaction IDs to get records for
+            page_number:
+                Number of the page to fetch
+            page_size:
+                Number of records per page (maximum allowed is 50)
         `Returns:`
             A  JSON of the entry or an error.
         """
-        query_params = '?skip=0&take=50&id=' + '|'.join([str(i_id) for i_id in interaction_ids])
-        return Table(self._base_get(f'interactions{query_params}')['Results'])
+        params = self._base_pagination_params(page_number, page_size)
+        response = self._base_get(f'interactions', params=params)
+        return Table(response['Results'])

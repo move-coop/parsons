@@ -6,7 +6,7 @@ Overview
 ********
 
 `Bloomerang <https://bloomerang.co/>`_ is a donor management platform for non-profits.
-The private `Bloomerang REST API <https://roboticdogs.actionkit.com/docs/manual/api/rest/overview.html>`_
+The private `Bloomerang REST API <https://bloomerang.co/features/integrations/api/rest-api>`_
 supports fetching, creating, and updating records of constituents, donations, and interactions.
 
 .. note::

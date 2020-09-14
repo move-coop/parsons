@@ -6,8 +6,6 @@ ENV_PARAMETERS = {
 
 ID = 123
 
-ID_LIST = [1, 2, 3]
-
 TEST_DELETE = {
     "Id": 0,
     "Type": "string",

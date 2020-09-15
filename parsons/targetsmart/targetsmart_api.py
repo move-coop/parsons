@@ -68,10 +68,10 @@ class Person(object):
         return self.connection.request(url, args=args)
 
     def radius_search(self, first_name, last_name, middle_name=None, name_suffix=None,
-                      latitude=None, longitude=None, address=None, address_type='reg',
-                      radius_size=10, radius_unit='miles', max_results=10, gender='a',
-                      age_min=None, age_max=None, composite_score_min=1, composite_score_max=100,
-                      last_name_exact=True, last_name_is_prefix=False, last_name_prefix_length=10):
+                      latitude=None, longitude=None, address=None, radius_size=10,
+                      radius_unit='miles', max_results=10, gender='a', age_min=None, age_max=None,
+                      composite_score_min=1, composite_score_max=100, last_name_exact=True,
+                      last_name_is_prefix=False, last_name_prefix_length=10):
         """
         Search for a person based on a specified radius
 
@@ -269,8 +269,7 @@ class Voter(object):
                                  state=None, street_number=None,
                                  street_name=None, city=None, zip_code=None,
                                  age=None, dob=None, phone=None, email=None,
-                                 unparsed_full_address=None,
-                                 obj_type="dict"):
+                                 unparsed_full_address=None):
         """
         Searches for a registered individual, returns matches.
 

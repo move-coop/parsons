@@ -34,8 +34,7 @@ class TargetSmartAutomation(object):
         self.sftp_password = check_env.check('TS_SFTP_PASSWORD', sftp_password)
         self.sftp = SFTP(self.sftp_host, self.sftp_username, self.sftp_password, self.sftp_port)
 
-    def match(self, table, job_type, job_name=None, emails=None, call_back=None,
-              remove_files=True):
+    def match(self, table, job_type, job_name=None, emails=None, call_back=None, remove_files=True):
         """
         Match a table to TargetSmart using their bulk matching service.
 

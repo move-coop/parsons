@@ -11,21 +11,44 @@ This class provides general methods for processing files instead of individual r
 
 .. note::
   Authentication
-    Log in to `My TargetSmart <https://my.targetsmart.com/>`_ to access API keys. For more information, see the
-    `API documentation <https://docs.targetsmart.com/developers/tsapis/authentication.html>`_.
+    Log in to `My TargetSmart <https://my.targetsmart.com/>`_ to access authentication credentials. You will need an API key
+    to use the ``TargetSmartAPI`` class, and an SFTP username and password to use the ``TargetSmartAutomation`` class.
 
-.. warning:: 
-   Returned fields
-      Returned fields are controlled by the TargetSmart staff. Please contact them if adjustments are needed.
+    For more information, see the `API documentation <https://docs.targetsmart.com/developers/tsapis/authentication.html>`_.
 
-*******
-API 2.0
-*******
+.. warnings::
+  Returned fields
+    Returned fields are controlled by the TargetSmart staff. Please contact them if adjustments are needed.
 
-.. warning:: 
-   Endpoint Access
-      Access to endpoints is individually provisioned. If you encounter errors accessing an endpoint, please contact
-      your TargetSmart account representative to verify that your API key have been provisioned access.
+  Endpoint Access
+    Access to endpoints is individually provisioned. If you encounter errors accessing an endpoint, please contact
+    your TargetSmart account representative to verify that your API key has been provisioned access.
+
+***
+API
+***
+
+To instantiate ``TargetSmartAPI``, you can either store your API Key as the environmental variable
+``TS_API_KEY``, or pass it in as an argument:
+
+.. code-block:: python
+
+   from parsons import TargetSmartAPI
+
+   # First approach: Store API key as an environmental variable
+   ts_api = TargetSmartAPI()
+
+   # Second approach: Pass API key as an argument
+   ts_api = TargetSmartAPI(api_key='my_api_key')
+
+You can then call various endpoints:
+
+.. code-block:: python
+   # Search for a person record using an email address
+   ts_api.data_enhance(search_id='test@email.com', search_id_type='email')
+
+   # Search for district information using an address
+   ts_api.district(search_type='address', address='123 test st, Durham NC 27708')
 
 .. autoclass :: parsons.TargetSmartAPI
    :inherited-members:
@@ -34,11 +57,28 @@ API 2.0
 Automation
 **********
 
-In order to instantiate the class you must pass valid kwargs or store the following
-environmental variables:
+To instantiate ``TargetSmartAutomation``, you can either store your SFTP username and password
+as the environmental variables ``TS_SFTP_USERNAME`` and ``TS_SFTP_PASSWORD``, or pass them in as
+keyword arguments:
 
-* ``'TS_SFTP_USERNAME'``
-* ``'TS_SFTP_PASSWORD'``
+.. code-block:: python
+
+   from parsons import TargetSmartAutomation
+
+   # First approach: Store SFTP username and password as environmental variables
+   ts_auto = TargetSmartAutomation()
+
+   # Second approach: Pass SFTP username and password as arguments
+   ts_auto = TargetSmartAutomation(username='my_sftp_username', password='my_sftp_password')
+
+You can then call various endpoints:
+
+.. code-block:: python
+   # Check the status of a match job
+   ts_auto.match_status(job_name='my_job_name')
+
+   # Remove all files for the match job
+   ts_auto.remove_files(job_name='my_job_name')
 
 .. autoclass :: parsons.TargetSmartAutomation
    :inherited-members:

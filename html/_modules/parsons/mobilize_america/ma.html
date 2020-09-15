@@ -220,9 +220,7 @@
             <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s1">&#39;Mobilize America API Key missing. Calling methods that rely on private&#39;</span>
                         <span class="s1">&#39; endpoints will fail.&#39;</span><span class="p">)</span>
 
-    <span class="k">def</span> <span class="nf">request</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">url</span><span class="p">,</span> <span class="n">req_type</span><span class="o">=</span><span class="s1">&#39;GET&#39;</span><span class="p">,</span> <span class="n">post_data</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">args</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">auth</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
-        <span class="c1"># Internal request method</span>
-
+    <span class="k">def</span> <span class="nf">_request</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">url</span><span class="p">,</span> <span class="n">req_type</span><span class="o">=</span><span class="s1">&#39;GET&#39;</span><span class="p">,</span> <span class="n">post_data</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">args</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">auth</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
         <span class="k">if</span> <span class="n">auth</span><span class="p">:</span>
 
             <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">api_key</span><span class="p">:</span>
@@ -240,16 +238,15 @@
 
         <span class="k">return</span> <span class="n">r</span>
 
-    <span class="k">def</span> <span class="nf">request_paginate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">url</span><span class="p">,</span> <span class="n">req_type</span><span class="o">=</span><span class="s1">&#39;GET&#39;</span><span class="p">,</span> <span class="n">post_data</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">args</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">raw</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
-                         <span class="n">paginate</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">auth</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">_request_paginate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">url</span><span class="p">,</span> <span class="n">req_type</span><span class="o">=</span><span class="s1">&#39;GET&#39;</span><span class="p">,</span> <span class="n">args</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">auth</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
 
-        <span class="n">r</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">request</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">req_type</span><span class="o">=</span><span class="n">req_type</span><span class="p">,</span> <span class="n">args</span><span class="o">=</span><span class="n">args</span><span class="p">,</span> <span class="n">auth</span><span class="o">=</span><span class="n">auth</span><span class="p">)</span>
+        <span class="n">r</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_request</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">req_type</span><span class="o">=</span><span class="n">req_type</span><span class="p">,</span> <span class="n">args</span><span class="o">=</span><span class="n">args</span><span class="p">,</span> <span class="n">auth</span><span class="o">=</span><span class="n">auth</span><span class="p">)</span>
 
         <span class="n">json</span> <span class="o">=</span> <span class="n">r</span><span class="o">.</span><span class="n">json</span><span class="p">()[</span><span class="s1">&#39;data&#39;</span><span class="p">]</span>
 
         <span class="k">while</span> <span class="n">r</span><span class="o">.</span><span class="n">json</span><span class="p">()[</span><span class="s1">&#39;next&#39;</span><span class="p">]:</span>
 
-            <span class="n">r</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">request</span><span class="p">(</span><span class="n">r</span><span class="o">.</span><span class="n">json</span><span class="p">()[</span><span class="s1">&#39;next&#39;</span><span class="p">],</span> <span class="n">req_type</span><span class="o">=</span><span class="n">req_type</span><span class="p">)</span>
+            <span class="n">r</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_request</span><span class="p">(</span><span class="n">r</span><span class="o">.</span><span class="n">json</span><span class="p">()[</span><span class="s1">&#39;next&#39;</span><span class="p">],</span> <span class="n">req_type</span><span class="o">=</span><span class="n">req_type</span><span class="p">)</span>
             <span class="n">json</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">r</span><span class="o">.</span><span class="n">json</span><span class="p">()[</span><span class="s1">&#39;data&#39;</span><span class="p">])</span>
 
         <span class="k">return</span> <span class="n">json</span>
@@ -288,10 +285,10 @@
 <span class="sd">                See :ref:`parsons-table` for output options.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
-        <span class="k">return</span> <span class="n">Table</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">request_paginate</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">uri</span> <span class="o">+</span> <span class="s1">&#39;organizations&#39;</span><span class="p">,</span>
-                                           <span class="n">args</span><span class="o">=</span><span class="p">{</span>
-                                               <span class="s1">&#39;updated_since&#39;</span><span class="p">:</span> <span class="n">date_to_timestamp</span><span class="p">(</span><span class="n">updated_since</span><span class="p">)</span>
-                                           <span class="p">}))</span></div>
+        <span class="k">return</span> <span class="n">Table</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_request_paginate</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">uri</span> <span class="o">+</span> <span class="s1">&#39;organizations&#39;</span><span class="p">,</span>
+                                            <span class="n">args</span><span class="o">=</span><span class="p">{</span>
+                                                <span class="s1">&#39;updated_since&#39;</span><span class="p">:</span> <span class="n">date_to_timestamp</span><span class="p">(</span><span class="n">updated_since</span><span class="p">)</span>
+                                            <span class="p">}))</span></div>
 
 <div class="viewcode-block" id="MobilizeAmerica.get_events"><a class="viewcode-back" href="../../../mobilize_america.html#parsons.MobilizeAmerica.get_events">[docs]</a>    <span class="k">def</span> <span class="nf">get_events</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">organization_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">updated_since</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">timeslot_start</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
                    <span class="n">timeslot_end</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">timeslots_table</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">max_timeslots</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
@@ -338,7 +335,7 @@
                 <span class="s1">&#39;timeslot_start&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_time_parse</span><span class="p">(</span><span class="n">timeslot_start</span><span class="p">),</span>
                 <span class="s1">&#39;timeslot_end&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_time_parse</span><span class="p">(</span><span class="n">timeslot_end</span><span class="p">)}</span>
 
-        <span class="n">tbl</span> <span class="o">=</span> <span class="n">Table</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">request_paginate</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">uri</span> <span class="o">+</span> <span class="s1">&#39;events&#39;</span><span class="p">,</span> <span class="n">args</span><span class="o">=</span><span class="n">args</span><span class="p">))</span>
+        <span class="n">tbl</span> <span class="o">=</span> <span class="n">Table</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_request_paginate</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">uri</span> <span class="o">+</span> <span class="s1">&#39;events&#39;</span><span class="p">,</span> <span class="n">args</span><span class="o">=</span><span class="n">args</span><span class="p">))</span>
 
         <span class="k">if</span> <span class="n">tbl</span><span class="o">.</span><span class="n">num_rows</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
 
@@ -432,7 +429,7 @@
                 <span class="s1">&#39;timeslot_end&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_time_parse</span><span class="p">(</span><span class="n">timeslot_end</span><span class="p">),</span>
                 <span class="p">}</span>
 
-        <span class="n">tbl</span> <span class="o">=</span> <span class="n">Table</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">request_paginate</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">uri</span> <span class="o">+</span> <span class="s1">&#39;events&#39;</span><span class="p">,</span> <span class="n">args</span><span class="o">=</span><span class="n">args</span><span class="p">,</span> <span class="n">auth</span><span class="o">=</span><span class="kc">True</span><span class="p">))</span>
+        <span class="n">tbl</span> <span class="o">=</span> <span class="n">Table</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_request_paginate</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">uri</span> <span class="o">+</span> <span class="s1">&#39;events&#39;</span><span class="p">,</span> <span class="n">args</span><span class="o">=</span><span class="n">args</span><span class="p">,</span> <span class="n">auth</span><span class="o">=</span><span class="kc">True</span><span class="p">))</span>
 
         <span class="k">if</span> <span class="n">tbl</span><span class="o">.</span><span class="n">num_rows</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
 
@@ -475,7 +472,7 @@
         <span class="n">args</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;organization_id&#39;</span><span class="p">:</span> <span class="n">organization_id</span><span class="p">,</span>
                 <span class="s1">&#39;updated_since&#39;</span><span class="p">:</span> <span class="n">date_to_timestamp</span><span class="p">(</span><span class="n">updated_since</span><span class="p">)}</span>
 
-        <span class="k">return</span> <span class="n">Table</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">request_paginate</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">uri</span> <span class="o">+</span> <span class="s1">&#39;events/deleted&#39;</span><span class="p">,</span> <span class="n">args</span><span class="o">=</span><span class="n">args</span><span class="p">))</span></div>
+        <span class="k">return</span> <span class="n">Table</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_request_paginate</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">uri</span> <span class="o">+</span> <span class="s1">&#39;events/deleted&#39;</span><span class="p">,</span> <span class="n">args</span><span class="o">=</span><span class="n">args</span><span class="p">))</span></div>
 
 <div class="viewcode-block" id="MobilizeAmerica.get_people"><a class="viewcode-back" href="../../../mobilize_america.html#parsons.MobilizeAmerica.get_people">[docs]</a>    <span class="k">def</span> <span class="nf">get_people</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">organization_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">updated_since</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
@@ -495,10 +492,8 @@
 <span class="sd">        &quot;&quot;&quot;</span>
 
         <span class="n">url</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">uri</span> <span class="o">+</span> <span class="s1">&#39;organizations/&#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">organization_id</span><span class="p">)</span> <span class="o">+</span> <span class="s1">&#39;/people&#39;</span>
-
-        <span class="k">return</span> <span class="n">Table</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">request_paginate</span><span class="p">(</span><span class="n">url</span><span class="p">,</span>
-                                           <span class="n">args</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;updated_since&#39;</span><span class="p">:</span> <span class="n">date_to_timestamp</span><span class="p">(</span><span class="n">updated_since</span><span class="p">)},</span>
-                                           <span class="n">auth</span><span class="o">=</span><span class="kc">True</span><span class="p">))</span></div>
+        <span class="n">args</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;updated_since&#39;</span><span class="p">:</span> <span class="n">date_to_timestamp</span><span class="p">(</span><span class="n">updated_since</span><span class="p">)}</span>
+        <span class="k">return</span> <span class="n">Table</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_request_paginate</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">args</span><span class="o">=</span><span class="n">args</span><span class="p">,</span> <span class="n">auth</span><span class="o">=</span><span class="kc">True</span><span class="p">))</span></div>
 
 <div class="viewcode-block" id="MobilizeAmerica.get_attendances"><a class="viewcode-back" href="../../../mobilize_america.html#parsons.MobilizeAmerica.get_attendances">[docs]</a>    <span class="k">def</span> <span class="nf">get_attendances</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">organization_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">updated_since</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
@@ -519,10 +514,8 @@
 <span class="sd">        &quot;&quot;&quot;</span>
 
         <span class="n">url</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">uri</span> <span class="o">+</span> <span class="s1">&#39;organizations/&#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">organization_id</span><span class="p">)</span> <span class="o">+</span> <span class="s1">&#39;/attendances&#39;</span>
-
-        <span class="k">return</span> <span class="n">Table</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">request_paginate</span><span class="p">(</span><span class="n">url</span><span class="p">,</span>
-                                           <span class="n">args</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;updated_since&#39;</span><span class="p">:</span> <span class="n">date_to_timestamp</span><span class="p">(</span><span class="n">updated_since</span><span class="p">)},</span>
-                                           <span class="n">auth</span><span class="o">=</span><span class="kc">True</span><span class="p">))</span></div></div>
+        <span class="n">args</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;updated_since&#39;</span><span class="p">:</span> <span class="n">date_to_timestamp</span><span class="p">(</span><span class="n">updated_since</span><span class="p">)}</span>
+        <span class="k">return</span> <span class="n">Table</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_request_paginate</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">args</span><span class="o">=</span><span class="n">args</span><span class="p">,</span> <span class="n">auth</span><span class="o">=</span><span class="kc">True</span><span class="p">))</span></div></div>
 </pre></div>
 
            </div>

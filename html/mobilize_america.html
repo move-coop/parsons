@@ -99,6 +99,7 @@
 <li class="toctree-l1"><a class="reference internal" href="mailchimp.html">Mailchimp</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Mobilize America</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#overview">Overview</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#quickstart">Quickstart</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#id2">API</a></li>
 </ul>
 </li>
@@ -198,18 +199,24 @@
 <h1>Mobilize America<a class="headerlink" href="#mobilize-america" title="Permalink to this headline">¶</a></h1>
 <div class="section" id="overview">
 <h2>Overview<a class="headerlink" href="#overview" title="Permalink to this headline">¶</a></h2>
-<p><a class="reference external" href="https://www.mobilizeamerica.io/">Mobilize America</a> is an activist signup tool used by progressive organizations. This class
-allows you to interact with the tool by leveraging their <a class="reference external" href="https://github.com/mobilizeamerica/">API</a> which is currently
-in alpha development.</p>
+<p><a class="reference external" href="https://www.mobilizeamerica.io/">Mobilize America</a> is an activist signup tool used by progressive organizations.
+This class provides several methods for fetching organizations, people, and events from their
+<a class="reference external" href="https://github.com/mobilizeamerica/api#mobilizeamerica-api">API</a>, which is currently in alpha development.</p>
 <div class="admonition note">
 <p class="first admonition-title">Note</p>
 <dl class="last docutils">
-<dt>Public vs. Private Methods</dt>
-<dd>Some of the methods require API keys to be furnished by Mobilize America while other end points are publicly
-accessible and do not require authentication. Each method contains a note indicating whether it is public
-or private.</dd>
+<dt>Authentication</dt>
+<dd>Some methods in the <code class="docutils literal notranslate"><span class="pre">MobilizeAmerica</span></code> class require an API Key furnished by Mobilize America (private methods),
+while others do not (public methods). Each method in this class contains a note indicating whether it is public
+or private. For more information, see the <a class="reference external" href="https://github.com/mobilizeamerica/api#authentication">API documentation</a>.</dd>
 </dl>
 </div>
+</div>
+<div class="section" id="quickstart">
+<h2>Quickstart<a class="headerlink" href="#quickstart" title="Permalink to this headline">¶</a></h2>
+<p>If you instantiate <code class="docutils literal notranslate"><span class="pre">MobilizeAmerica</span></code> without an API Key, you can only use public methods:</p>
+<p>In order to use private methods, you must provide an API key either by setting the environmental
+variable <code class="docutils literal notranslate"><span class="pre">MOBILIZE_AMERICA_API_KEY</span></code> or by passing an <code class="docutils literal notranslate"><span class="pre">api_key</span></code> argument as shown below:</p>
 </div>
 <div class="section" id="id2">
 <h2>API<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h2>

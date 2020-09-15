@@ -35,7 +35,7 @@ class SFTP(object):
             raise ValueError("Missing the SFTP username")
 
         if not (password or rsa_private_key_file):
-            raise ValueError("Missing password or ssh authentication key")
+            raise ValueError("Missing password or SSH authentication key")
 
         self.password = password
         self.rsa_private_key_file = rsa_private_key_file
@@ -44,20 +44,7 @@ class SFTP(object):
     @contextmanager
     def create_connection(self):
         """
-        Create an SFTP connection. You can then utilize this in a ``with`` block
-        and it will close the connection when it is out of scope. You should use
-        this when you wish to batch multiple methods using a single connection.
-
-        .. code-block:: python
-
-            import SFTP
-
-            sftp = SFTP()
-            connection = sftp.create_connection()
-
-            with connection as conn:
-                sftp.make_directory('my_dir', connection=conn)
-                sftp.put_file('my_csv.csv', connection=conn)
+        Create an SFTP connection.
 
         Returns:
             SFTP Connection object

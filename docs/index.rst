@@ -191,7 +191,7 @@ Indices and tables
    rockthevote
    salesforce
    sftp
-   ts
+   targetsmart
    twilio
    turbovote
    zoom

@@ -71,7 +71,8 @@ class TestBloomerang(unittest.TestCase):
     @requests_mock.Mocker()
     def test_get_constituents(self, m):
         m.get(f'{self.bloomerang.uri}constituents/?skip=0&take=50', json=TEST_GET_CONSTITUENTS)
-        assert_matching_tables(self.bloomerang.get_constituents(), Table(TEST_GET_CONSTITUENTS['Results']))
+        assert_matching_tables(self.bloomerang.get_constituents(),
+                               Table(TEST_GET_CONSTITUENTS['Results']))
 
     @requests_mock.Mocker()
     def test_create_transaction(self, m):
@@ -96,7 +97,8 @@ class TestBloomerang(unittest.TestCase):
     @requests_mock.Mocker()
     def test_get_transactions(self, m):
         m.get(f'{self.bloomerang.uri}transactions/?skip=0&take=50', json=TEST_GET_TRANSACTIONS)
-        assert_matching_tables(self.bloomerang.get_transactions(), Table(TEST_GET_TRANSACTIONS['Results']))
+        assert_matching_tables(self.bloomerang.get_transactions(),
+                               Table(TEST_GET_TRANSACTIONS['Results']))
 
     @requests_mock.Mocker()
     def test_get_transaction_designation(self, m):
@@ -105,8 +107,10 @@ class TestBloomerang(unittest.TestCase):
 
     @requests_mock.Mocker()
     def test_get_transaction_designations(self, m):
-        m.get(f'{self.bloomerang.uri}transactions/designations/?skip=0&take=50', json=TEST_GET_TRANSACTIONS)
-        assert_matching_tables(self.bloomerang.get_transaction_designations(), Table(TEST_GET_TRANSACTIONS['Results']))
+        m.get(f'{self.bloomerang.uri}transactions/designations/?skip=0&take=50',
+              json=TEST_GET_TRANSACTIONS)
+        assert_matching_tables(self.bloomerang.get_transaction_designations(),
+                               Table(TEST_GET_TRANSACTIONS['Results']))
 
     @requests_mock.Mocker()
     def test_create_interaction(self, m):
@@ -131,4 +135,5 @@ class TestBloomerang(unittest.TestCase):
     @requests_mock.Mocker()
     def test_get_interactions(self, m):
         m.get(f'{self.bloomerang.uri}interactions/?skip=0&take=50', json=TEST_GET_INTERACTIONS)
-        assert_matching_tables(self.bloomerang.get_interactions(), Table(TEST_GET_INTERACTIONS['Results']))
+        assert_matching_tables(self.bloomerang.get_interactions(),
+                               Table(TEST_GET_INTERACTIONS['Results']))

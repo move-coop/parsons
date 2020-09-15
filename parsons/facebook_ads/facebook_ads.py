@@ -18,13 +18,7 @@ MAX_FB_AUDIENCE_API_USERS = 10000
 
 class FacebookAds(object):
     """
-    A connector for Facebook Ads, eg. for creating custom audiences.
-
-    This connector is currently a thin wrapper around the FB Business SDK, so some of that
-    SDK is exposed. Eg. You may see exceptions like FacebookRequestError.
-
-    For details of the Facebook Business SDK for Python:
-    https://github.com/facebook/facebook-python-business-sdk
+    Instantiate the FacebookAds class
 
     `Args:`
         app_id: str

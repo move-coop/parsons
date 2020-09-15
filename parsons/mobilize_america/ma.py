@@ -303,10 +303,8 @@ class MobilizeAmerica(object):
         """
 
         url = self.uri + 'organizations/' + str(organization_id) + '/people'
-
-        return Table(self._request_paginate(url,
-                                           args={'updated_since': date_to_timestamp(updated_since)},
-                                           auth=True))
+        args = {'updated_since': date_to_timestamp(updated_since)}
+        return Table(self._request_paginate(url, args=args, auth=True))
 
     def get_attendances(self, organization_id=None, updated_since=None):
         """
@@ -327,7 +325,5 @@ class MobilizeAmerica(object):
         """
 
         url = self.uri + 'organizations/' + str(organization_id) + '/attendances'
-
-        return Table(self._request_paginate(url,
-                                           args={'updated_since': date_to_timestamp(updated_since)},
-                                           auth=True))
+        args = {'updated_since': date_to_timestamp(updated_since)}
+        return Table(self._request_paginate(url, args=args, auth=True))

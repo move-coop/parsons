@@ -2,7 +2,7 @@ TargetSmart
 ============
 
 `TargetSmart <https://targetsmart.com/>`_ provides access to voter and consumer data for the progressive community. Currently,
-there are two TargetSmart services that are supported by two Parsons classes, since each requires separate credentials:
+there are two TargetSmart services that are supported by two Parsons classes, each requiring separate credentials:
 
 1. ``TargetSmartAPI``: `Single record lookup with HTTPS <https://docs.targetsmart.com/developers/tsapis/index.html>`_.
 This class provides methods to support searching for individual people, voters, and district information for a geographic location.

@@ -1,24 +1,16 @@
 import requests
-import os
 import petl
 from parsons.etl.table import Table
+from parsons.utilities import check_env
+
+URI = 'https://api.targetsmart.com/'
 
 
 class TargetSmartConnector(object):
 
-    def __init__(self, api_key=None, uri='https://api.targetsmart.com/'):
-
-        if api_key is None:
-
-            try:
-                api_key = os.environ['TS_API_KEY']
-            except KeyError:
-                raise KeyError('No TargetSmart API key found. Please store'
-                               ' in environment variable or pass as an'
-                               'argument.')
-
-        self.uri = uri
-        self.api_key = api_key
+    def __init__(self, api_key):
+        self.uri = URI
+        self.api_key = check_env.check('TS_API_KEY', api_key)
         self.headers = {'x-api-key': self.api_key}
 
     def request(self, url, args=None, raw=False):

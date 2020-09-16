@@ -2,7 +2,7 @@ SFTP
 ====
 
 The ``SFTP`` class allows you to interact with `SFTP services<https://en.wikipedia.org/wiki/SSH_File_Transfer_Protocol>`_,
-using the  `Paramiko SFTP library <http://docs.paramiko.org/en/2.4/api/sftp.html>`_ under the hood.
+using the  `Paramiko SFTP library <http://docs.paramiko.org/en/2.7/api/sftp.html>`_ under the hood.
 
 The class provides methods to:
 

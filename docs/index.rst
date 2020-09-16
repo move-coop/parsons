@@ -171,6 +171,7 @@ Indices and tables
    aws
    azure
    bill_com
+   bloomerang
    braintree
    civis
    copper

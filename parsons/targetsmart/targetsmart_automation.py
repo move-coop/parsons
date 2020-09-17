@@ -25,7 +25,7 @@ logger = logging.getLogger(__name__)
 
 class TargetSmartAutomation(object):
 
-    def __init__(self, sftp_username, sftp_password):
+    def __init__(self, sftp_username=None, sftp_password=None):
 
         self.sftp_host = TS_STFP_HOST
         self.sftp_port = TS_SFTP_PORT

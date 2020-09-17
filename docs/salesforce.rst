@@ -14,7 +14,8 @@ client for making API calls under the hood.
 .. note::
   Authentication
     ``Salesforce`` requires your Salesforce username and password, as well as a security token
-    which can be acquired or reset in *Settings > My Personal Information > Reset My Security Token*.
+    which can be acquired or reset by logging in to your Salesforce account and navigating to
+    *Settings > My Personal Information > Reset My Security Token*.
 
 ***********
 Quick Start

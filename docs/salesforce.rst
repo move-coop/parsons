@@ -25,10 +25,10 @@ and security token as environmental variables (``SALESFORCE_USERNAME``, ``SALESF
 and ``SALESFORCE_SECURITY_TOKEN``, respectively) or pass them in as arguments:
 
 .. code-block:: python
-	from parsons import Salesforce, Table
+    from parsons import Salesforce, Table
 
     # First approach: Pass API credentials as environmental variables
-	sf = Salesforce()
+    sf = Salesforce()
 
     # Second approach: Pass API credentials as arguments
     sf = Salesforce(username='my@email', password='my_password', security_token='123')
@@ -36,14 +36,14 @@ and ``SALESFORCE_SECURITY_TOKEN``, respectively) or pass them in as arguments:
 You can then call different endpoints:
 
 .. code-block:: python
-	# Get IDs and names for all Contacts
-	all_contacts = sf.query("SELECT Id, firstname, lastname FROM Contact")
+    # Get IDs and names for all Contacts
+    all_contacts = sf.query("SELECT Id, firstname, lastname FROM Contact")
 
-	# Get IDs, names, and email addresses from Contacts with a specific value for a custom field
-	ak_contacts = sf.query("SELECT Id, firstname, lastname, email FROM Contact WHERE digital_source__c == 'AK'")
+    # Get IDs, names, and email addresses from Contacts with a specific value for a custom field
+    ak_contacts = sf.query("SELECT Id, firstname, lastname, email FROM Contact WHERE digital_source__c == 'AK'")
 
-	# Update existing Contacts and create new records based on data in a Parsons Table
-	upsert_results = sf.upsert('Contact', contacts_table, 'id')
+    # Update existing Contacts and create new records based on data in a Parsons Table
+    upsert_results = sf.upsert('Contact', contacts_table, 'id')
 
 ***
 API

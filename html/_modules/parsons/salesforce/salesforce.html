@@ -199,6 +199,8 @@
 
 <div class="viewcode-block" id="Salesforce"><a class="viewcode-back" href="../../../salesforce.html#parsons.Salesforce">[docs]</a><span class="k">class</span> <span class="nc">Salesforce</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Instantiate the Salesforce class</span>
+
 <span class="sd">    `Args:`</span>
 <span class="sd">        username: str</span>
 <span class="sd">            The Salesforce username (usually an email address). Not required if</span>
@@ -211,7 +213,7 @@
 <span class="sd">            Settings &gt; My Personal Information &gt; Reset My Security Token.</span>
 <span class="sd">            Not required if ``SALESFORCE_SECURITY_TOKEN`` env variable is passed.</span>
 <span class="sd">        test_environment: bool</span>
-<span class="sd">            If ``True`` the client will connect to a Saleforce sandbox instance. Not required if</span>
+<span class="sd">            If ``True`` the client will connect to a Salesforce sandbox instance. Not required if</span>
 <span class="sd">            ``SALESFORCE_DOMAIN`` env variable is passed.</span>
 <span class="sd">    `Returns:`</span>
 <span class="sd">        Salesforce class</span>
@@ -259,7 +261,7 @@
 <span class="sd">        `Args:`</span>
 <span class="sd">            soql: str</span>
 <span class="sd">                The desired query in Salesforce SOQL language (SQL with additional limitations).</span>
-<span class="sd">                For reference, see `Salesforce SOQL documentation&lt;https://developer.salesforce.com/docs/atlas.en-us.soql_sosl.meta/soql_sosl/sforce_api_calls_soql.htm&gt;`_.</span>
+<span class="sd">                For reference, see the `Salesforce SOQL documentation &lt;https://developer.salesforce.com/docs/atlas.en-us.soql_sosl.meta/soql_sosl/sforce_api_calls_soql.htm&gt;`_.</span>
 <span class="sd">        `Returns:`</span>
 <span class="sd">            list of dicts with Salesforce data</span>
 <span class="sd">        &quot;&quot;&quot;</span> <span class="c1"># noqa: E501,E261</span>

@@ -197,31 +197,37 @@
             
   <div class="section" id="salesforce">
 <h1>Salesforce<a class="headerlink" href="#salesforce" title="Permalink to this headline">¶</a></h1>
-<p><a class="reference external" href="https://www.salesforce.com">Salesforce</a> is a cloud-based CRM with a huge share of the for-profit
-and apolitical non-profit markets.</p>
+<p><a class="reference external" href="https://www.salesforce.com">Salesforce</a> is a cloud-based CRM (customer relationship management) tool
+with a huge share of the for-profit and apolitical non-profit markets. This Parsons integration with the
+<a class="reference external" href="https://developer.salesforce.com/docs/atlas.en-us.api_rest.meta/api_rest/intro_what_is_rest_api.htm">Salesforce REST API</a>
+provides methods to describe objects and fields, handle records, and submit Salesforce
+<a class="reference external" href="https://developer.salesforce.com/docs/atlas.en-us.soql_sosl.meta/soql_sosl/sforce_api_calls_soql.htm">SOQL queries</a>
+that return a Parsons Table.</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">Salesforce</span></code> class utilizes the <a class="reference external" href="https://simple-salesforce.readthedocs.io/en/latest/">Simple Salesforce</a>
+client for making API calls under the hood.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<dl class="last docutils">
+<dt>Authentication</dt>
+<dd><code class="docutils literal notranslate"><span class="pre">Salesforce</span></code> requires your Salesforce username and password, as well as a security token
+which can be acquired or reset by logging in to your Salesforce account and navigating to
+<em>Settings &gt; My Personal Information &gt; Reset My Security Token</em>.</dd>
+</dl>
+</div>
 <div class="section" id="quick-start">
 <h2>Quick Start<a class="headerlink" href="#quick-start" title="Permalink to this headline">¶</a></h2>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">parsons</span> <span class="kn">import</span> <span class="n">Salesforce</span><span class="p">,</span> <span class="n">Table</span>
-
-<span class="n">sf</span> <span class="o">=</span> <span class="n">Salesforce</span><span class="p">()</span>
-
-<span class="c1"># Get IDs and names for all Contacts</span>
-<span class="n">all_contacts</span> <span class="o">=</span> <span class="n">sf</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="s2">&quot;SELECT Id, firstname, lastname FROM Contact&quot;</span><span class="p">)</span>
-
-<span class="c1"># Get IDs, names, and email addresses from Contacts with a specific value for a custom field</span>
-<span class="n">ak_contacts</span> <span class="o">=</span> <span class="n">sf</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="s2">&quot;SELECT Id, firstname, lastname, email FROM Contact WHERE digital_source__c == &#39;AK&#39;&quot;</span><span class="p">)</span>
-
-<span class="c1"># Update existing Contacts and create new records based on data in a Parsons Table</span>
-<span class="n">upsert_results</span> <span class="o">=</span> <span class="n">sf</span><span class="o">.</span><span class="n">upsert</span><span class="p">(</span><span class="s1">&#39;Contact&#39;</span><span class="p">,</span> <span class="n">contacts_table</span><span class="p">,</span> <span class="s1">&#39;id&#39;</span><span class="p">)</span>
-</pre></div>
-</div>
+<p>To instantiate the <code class="docutils literal notranslate"><span class="pre">Salesforce</span></code> class, you can store your Salesforce username, password,
+and security token as environmental variables (<code class="docutils literal notranslate"><span class="pre">SALESFORCE_USERNAME</span></code>, <code class="docutils literal notranslate"><span class="pre">SALESFORCE_PASSWORD</span></code>,
+and <code class="docutils literal notranslate"><span class="pre">SALESFORCE_SECURITY_TOKEN</span></code>, respectively) or pass them in as arguments:</p>
+<p>You can then call different endpoints:</p>
 </div>
 <div class="section" id="api">
 <h2>API<a class="headerlink" href="#api" title="Permalink to this headline">¶</a></h2>
 <dl class="class">
 <dt id="parsons.Salesforce">
 <em class="property">class </em><code class="descclassname">parsons.</code><code class="descname">Salesforce</code><span class="sig-paren">(</span><em>username=None</em>, <em>password=None</em>, <em>security_token=None</em>, <em>test_environment=False</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/salesforce/salesforce.html#Salesforce"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.Salesforce" title="Permalink to this definition">¶</a></dt>
-<dd><dl class="docutils">
+<dd><p>Instantiate the Salesforce class</p>
+<dl class="docutils">
 <dt><cite>Args:</cite></dt>
 <dd><dl class="first last docutils">
 <dt>username: str</dt>
@@ -235,7 +241,7 @@ passed.</dd>
 Settings &gt; My Personal Information &gt; Reset My Security Token.
 Not required if <code class="docutils literal notranslate"><span class="pre">SALESFORCE_SECURITY_TOKEN</span></code> env variable is passed.</dd>
 <dt>test_environment: bool</dt>
-<dd>If <code class="docutils literal notranslate"><span class="pre">True</span></code> the client will connect to a Saleforce sandbox instance. Not required if
+<dd>If <code class="docutils literal notranslate"><span class="pre">True</span></code> the client will connect to a Salesforce sandbox instance. Not required if
 <code class="docutils literal notranslate"><span class="pre">SALESFORCE_DOMAIN</span></code> env variable is passed.</dd>
 </dl>
 </dd>
@@ -282,7 +288,7 @@ object names end in <cite>__c</cite></dd>
 <dd><dl class="first last docutils">
 <dt>soql: str</dt>
 <dd>The desired query in Salesforce SOQL language (SQL with additional limitations).
-For reference, see <a href="#id2"><span class="problematic" id="id3">`Salesforce SOQL documentation&lt;https://developer.salesforce.com/docs/atlas.en-us.soql_sosl.meta/soql_sosl/sforce_api_calls_soql.htm&gt;`_</span></a>.</dd>
+For reference, see the <a class="reference external" href="https://developer.salesforce.com/docs/atlas.en-us.soql_sosl.meta/soql_sosl/sforce_api_calls_soql.htm">Salesforce SOQL documentation</a>.</dd>
 </dl>
 </dd>
 <dt><cite>Returns:</cite></dt>

@@ -29,7 +29,7 @@ environmental variables (``CIVIS_DATABASE`` and ``CIVIS_API_KEY``) or pass them 
    civis = CivisClient()
 
    # Second approach: Pass API credentials as arguments
-   civis = CivisClient(db='my_db_name', username='my_api_key')
+   civis = CivisClient(db='my_db_name', api_key='my_api_key')
 
    # Execute a Civis query
    civis.query(sql="SELECT * FROM my_table")

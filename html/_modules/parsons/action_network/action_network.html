@@ -196,6 +196,8 @@
 
 <span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
 
+<span class="n">API_URL</span> <span class="o">=</span> <span class="s1">&#39;https://actionnetwork.org/api/v2&#39;</span>
+
 
 <div class="viewcode-block" id="ActionNetwork"><a class="viewcode-back" href="../../../action_network.html#parsons.ActionNetwork">[docs]</a><span class="k">class</span> <span class="nc">ActionNetwork</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
@@ -203,15 +205,14 @@
 <span class="sd">        api_token: str</span>
 <span class="sd">            The OSDI API token</span>
 <span class="sd">        api_url:</span>
-<span class="sd">            The end point url</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">api_token</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">api_url</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">api_token</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">api_token</span> <span class="o">=</span> <span class="n">check_env</span><span class="o">.</span><span class="n">check</span><span class="p">(</span><span class="s1">&#39;AN_API_TOKEN&#39;</span><span class="p">,</span> <span class="n">api_token</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">headers</span> <span class="o">=</span> <span class="p">{</span>
             <span class="s2">&quot;Content-Type&quot;</span><span class="p">:</span> <span class="s2">&quot;application/json&quot;</span><span class="p">,</span>
             <span class="s2">&quot;OSDI-API-Token&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">api_token</span>
         <span class="p">}</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">api_url</span> <span class="o">=</span> <span class="n">check_env</span><span class="o">.</span><span class="n">check</span><span class="p">(</span><span class="s1">&#39;AN_API_URL&#39;</span><span class="p">,</span> <span class="n">api_url</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">api_url</span> <span class="o">=</span> <span class="n">API_URL</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">api</span> <span class="o">=</span> <span class="n">APIConnector</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">api_url</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">headers</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">_get_page</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">object_name</span><span class="p">,</span> <span class="n">page</span><span class="p">,</span> <span class="n">per_page</span><span class="o">=</span><span class="mi">25</span><span class="p">):</span>
@@ -267,9 +268,8 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">api</span><span class="o">.</span><span class="n">get_request</span><span class="p">(</span><span class="n">url</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;people/</span><span class="si">{</span><span class="n">person_id</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="ActionNetwork.add_person"><a class="viewcode-back" href="../../../action_network.html#parsons.ActionNetwork.add_person">[docs]</a>    <span class="k">def</span> <span class="nf">add_person</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">email_address</span><span class="p">,</span> <span class="n">given_name</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">family_name</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">tags</span><span class="o">=</span><span class="p">[],</span>
-                   <span class="n">languages_spoken</span><span class="o">=</span><span class="p">[],</span> <span class="n">postal_addresses</span><span class="o">=</span><span class="p">[],</span>
-                   <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<div class="viewcode-block" id="ActionNetwork.add_person"><a class="viewcode-back" href="../../../action_network.html#parsons.ActionNetwork.add_person">[docs]</a>    <span class="k">def</span> <span class="nf">add_person</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">email_address</span><span class="p">,</span> <span class="n">given_name</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">family_name</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">tags</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                   <span class="n">languages_spoken</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">postal_addresses</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        `Args:`</span>
 <span class="sd">            email_address:</span>
@@ -316,14 +316,19 @@
         <span class="n">data</span> <span class="o">=</span> <span class="p">{</span>
             <span class="s2">&quot;person&quot;</span><span class="p">:</span> <span class="p">{</span>
                 <span class="s2">&quot;email_addresses&quot;</span><span class="p">:</span> <span class="n">email_addresses_field</span><span class="p">,</span>
-                <span class="s2">&quot;given_name&quot;</span><span class="p">:</span> <span class="n">given_name</span><span class="p">,</span>
-                <span class="s2">&quot;family_name&quot;</span><span class="p">:</span> <span class="n">family_name</span><span class="p">,</span>
-                <span class="s2">&quot;languages_spoken&quot;</span><span class="p">:</span> <span class="n">languages_spoken</span><span class="p">,</span>
-                <span class="s2">&quot;postal_addresses&quot;</span><span class="p">:</span> <span class="n">postal_addresses</span><span class="p">,</span>
-                <span class="s2">&quot;custom_fields&quot;</span><span class="p">:</span> <span class="p">{</span><span class="o">**</span><span class="n">kwargs</span><span class="p">}</span>
               <span class="p">},</span>
-            <span class="s2">&quot;add_tags&quot;</span><span class="p">:</span> <span class="n">tags</span>
         <span class="p">}</span>
+        <span class="k">if</span> <span class="n">given_name</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">data</span><span class="p">[</span><span class="s2">&quot;person&quot;</span><span class="p">][</span><span class="s2">&quot;given_name&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">given_name</span>
+        <span class="k">if</span> <span class="n">family_name</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">data</span><span class="p">[</span><span class="s2">&quot;person&quot;</span><span class="p">][</span><span class="s2">&quot;family_name&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">family_name</span>
+        <span class="k">if</span> <span class="n">languages_spoken</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">data</span><span class="p">[</span><span class="s2">&quot;person&quot;</span><span class="p">][</span><span class="s2">&quot;languages_spoken&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">languages_spoken</span>
+        <span class="k">if</span> <span class="n">postal_addresses</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">data</span><span class="p">[</span><span class="s2">&quot;person&quot;</span><span class="p">][</span><span class="s2">&quot;postal_address&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">postal_addresses</span>
+        <span class="k">if</span> <span class="n">tags</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">data</span><span class="p">[</span><span class="s2">&quot;add_tags&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">tags</span>
+        <span class="n">data</span><span class="p">[</span><span class="s2">&quot;person&quot;</span><span class="p">][</span><span class="s2">&quot;custom_fields&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="o">**</span><span class="n">kwargs</span><span class="p">}</span>
         <span class="n">response</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">api</span><span class="o">.</span><span class="n">post_request</span><span class="p">(</span><span class="n">url</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">api_url</span><span class="si">}</span><span class="s2">/people&quot;</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">data</span><span class="p">))</span>
         <span class="n">identifiers</span> <span class="o">=</span> <span class="n">response</span><span class="p">[</span><span class="s1">&#39;identifiers&#39;</span><span class="p">]</span>
         <span class="n">person_id</span> <span class="o">=</span> <span class="p">[</span><span class="n">entry_id</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;:&#39;</span><span class="p">)[</span><span class="mi">1</span><span class="p">]</span>

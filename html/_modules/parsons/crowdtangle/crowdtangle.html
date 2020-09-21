@@ -218,8 +218,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">api_key</span> <span class="o">=</span> <span class="n">check_env</span><span class="o">.</span><span class="n">check</span><span class="p">(</span><span class="s1">&#39;CT_API_KEY&#39;</span><span class="p">,</span> <span class="n">api_key</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">uri</span> <span class="o">=</span> <span class="n">CT_URI</span>
 
-    <span class="k">def</span> <span class="nf">base_request</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">endpoint</span><span class="p">,</span> <span class="n">req_type</span><span class="o">=</span><span class="s1">&#39;GET&#39;</span><span class="p">,</span> <span class="n">args</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-        <span class="c1"># Internal Request Method</span>
+    <span class="k">def</span> <span class="nf">_base_request</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">endpoint</span><span class="p">,</span> <span class="n">req_type</span><span class="o">=</span><span class="s1">&#39;GET&#39;</span><span class="p">,</span> <span class="n">args</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
 
         <span class="n">url</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">uri</span><span class="si">}</span><span class="s1">/</span><span class="si">{</span><span class="n">endpoint</span><span class="si">}</span><span class="s1">&#39;</span>
         <span class="n">base_args</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;token&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">api_key</span><span class="p">,</span>
@@ -246,8 +245,7 @@
 
         <span class="k">return</span> <span class="n">data</span>
 
-    <span class="k">def</span> <span class="nf">base_unpack</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ParsonsTable</span><span class="p">):</span>
-        <span class="c1"># Unpack base request</span>
+    <span class="k">def</span> <span class="nf">_base_unpack</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ParsonsTable</span><span class="p">):</span>
 
         <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;Working to unpack the Parsons Table...&quot;</span><span class="p">)</span>
         <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Starting with </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">ParsonsTable</span><span class="o">.</span><span class="n">columns</span><span class="p">)</span><span class="si">}</span><span class="s1"> columns...&#39;</span><span class="p">)</span>
@@ -266,7 +264,7 @@
         <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;There are now </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">ParsonsTable</span><span class="o">.</span><span class="n">columns</span><span class="p">)</span><span class="si">}</span><span class="s1"> columns...&#39;</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">ParsonsTable</span>
 
-    <span class="k">def</span> <span class="nf">unpack</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ParsonsTable</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">_unpack</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ParsonsTable</span><span class="p">):</span>
 
         <span class="k">if</span> <span class="n">ParsonsTable</span><span class="o">.</span><span class="n">num_rows</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
             <span class="k">return</span> <span class="kc">None</span>
@@ -276,12 +274,12 @@
 
         <span class="k">while</span> <span class="n">second_count</span> <span class="o">&gt;</span> <span class="n">first_count</span><span class="p">:</span>
             <span class="n">first_count</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">ParsonsTable</span><span class="o">.</span><span class="n">columns</span><span class="p">)</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">base_unpack</span><span class="p">(</span><span class="n">ParsonsTable</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_base_unpack</span><span class="p">(</span><span class="n">ParsonsTable</span><span class="p">)</span>
             <span class="n">second_count</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">ParsonsTable</span><span class="o">.</span><span class="n">columns</span><span class="p">)</span>
 
         <span class="k">return</span> <span class="n">ParsonsTable</span>
 
-    <span class="k">def</span> <span class="nf">list_to_string</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">list_arg</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">_list_to_string</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">list_arg</span><span class="p">):</span>
 
         <span class="k">if</span> <span class="n">list_arg</span><span class="p">:</span>
             <span class="k">return</span> <span class="s1">&#39;,&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">list_arg</span><span class="p">)</span>
@@ -291,15 +289,21 @@
 <div class="viewcode-block" id="CrowdTangle.get_posts"><a class="viewcode-back" href="../../../crowdtangle.html#parsons.CrowdTangle.get_posts">[docs]</a>    <span class="k">def</span> <span class="nf">get_posts</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">start_date</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">end_date</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">language</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">list_ids</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
                   <span class="n">min_interations</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">search_term</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">types</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Return advocates (person records).</span>
+<span class="sd">        Return a set of posts for the given parameters.</span>
+
+<span class="sd">        See the `API documentation &lt;https://github.com/CrowdTangle/API/wiki/Posts&gt;`_</span>
+<span class="sd">        for more information.</span>
+
+<span class="sd">        .. warning::</span>
+<span class="sd">          Rate limit is 2 calls / minute.</span>
 
 <span class="sd">        `Args:`</span>
 <span class="sd">            start_date: str</span>
 <span class="sd">                Filter to the earliest date at which a post could be posted.</span>
-<span class="sd">                The time is formatted as UTC (e.g. ``yyyy-mm-ddThh:mm:ss``).</span>
+<span class="sd">                The time is formatted as UTC (e.g. ``yyyy-mm-ddThh:mm:ss`` or ``yyyy-mm-dd``).</span>
 <span class="sd">            end_date: str</span>
 <span class="sd">                Filter to the latest date at which a post could be posted.</span>
-<span class="sd">                The time is formatted as UTC (e.g. ``yyyy-mm-ddThh:mm:ss``).</span>
+<span class="sd">                The time is formatted as UTC (e.g. ``yyyy-mm-ddThh:mm:ss`` or ``yyyy-mm-dd``).</span>
 <span class="sd">            language: str</span>
 <span class="sd">                Filter to 2-character Locale code. Some languages require more</span>
 <span class="sd">                than two characters: Chinese (Simplified) is zh-CN and</span>
@@ -343,28 +347,34 @@
         <span class="n">args</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;startDate&#39;</span><span class="p">:</span> <span class="n">start_date</span><span class="p">,</span>
                 <span class="s1">&#39;endDate&#39;</span><span class="p">:</span> <span class="n">end_date</span><span class="p">,</span>
                 <span class="s1">&#39;language&#39;</span><span class="p">:</span> <span class="n">language</span><span class="p">,</span>
-                <span class="s1">&#39;listIds&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">list_to_string</span><span class="p">(</span><span class="n">list_ids</span><span class="p">),</span>
+                <span class="s1">&#39;listIds&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_list_to_string</span><span class="p">(</span><span class="n">list_ids</span><span class="p">),</span>
                 <span class="s1">&#39;minInteractions&#39;</span><span class="p">:</span> <span class="n">min_interations</span><span class="p">,</span>
                 <span class="s1">&#39;searchTerm&#39;</span><span class="p">:</span> <span class="n">search_term</span><span class="p">,</span>
                 <span class="s1">&#39;types&#39;</span><span class="p">:</span> <span class="n">types</span><span class="p">}</span>
 
         <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Retrieving posts.&quot;</span><span class="p">)</span>
-        <span class="n">pt</span> <span class="o">=</span> <span class="n">Table</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">base_request</span><span class="p">(</span><span class="s1">&#39;posts&#39;</span><span class="p">,</span> <span class="n">args</span><span class="o">=</span><span class="n">args</span><span class="p">))</span>
+        <span class="n">pt</span> <span class="o">=</span> <span class="n">Table</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_base_request</span><span class="p">(</span><span class="s1">&#39;posts&#39;</span><span class="p">,</span> <span class="n">args</span><span class="o">=</span><span class="n">args</span><span class="p">))</span>
         <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Retrieved </span><span class="si">{</span><span class="n">pt</span><span class="o">.</span><span class="n">num_rows</span><span class="si">}</span><span class="s1"> posts.&#39;</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">unpack</span><span class="p">(</span><span class="n">pt</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_unpack</span><span class="p">(</span><span class="n">pt</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">pt</span></div>
 
 <div class="viewcode-block" id="CrowdTangle.get_leaderboard"><a class="viewcode-back" href="../../../crowdtangle.html#parsons.CrowdTangle.get_leaderboard">[docs]</a>    <span class="k">def</span> <span class="nf">get_leaderboard</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">start_date</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">end_date</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">list_ids</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">account_ids</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Return advocates (person records).</span>
+<span class="sd">        Return leaderboard data.</span>
+
+<span class="sd">        See the `API documentation &lt;https://github.com/CrowdTangle/API/wiki/Leaderboard&gt;`_</span>
+<span class="sd">        for more information.</span>
+
+<span class="sd">        .. warning::</span>
+<span class="sd">          Rate limit is 6 calls / minute.</span>
 
 <span class="sd">        `Args:`</span>
 <span class="sd">            start_date: str</span>
 <span class="sd">                Filter to the earliest date at which a post could be posted.</span>
-<span class="sd">                The time is formatted as UTC (e.g. ``yyyy-mm-ddThh:mm:ss``).</span>
+<span class="sd">                The time is formatted as UTC (e.g. ``yyyy-mm-ddThh:mm:ss`` or ``yyyy-mm-dd``).</span>
 <span class="sd">            end_date: str</span>
 <span class="sd">                Filter to the latest date at which a post could be posted.</span>
-<span class="sd">                The time is formatted as UTC (e.g. ``yyyy-mm-ddThh:mm:ss``).</span>
+<span class="sd">                The time is formatted as UTC (e.g. ``yyyy-mm-ddThh:mm:ss`` or ``yyyy-mm-dd``).</span>
 <span class="sd">            list_ids: list</span>
 <span class="sd">                Filter to the ids of lists or saved searches to retrieve.</span>
 <span class="sd">            account_ids: list</span>
@@ -378,28 +388,35 @@
 
         <span class="n">args</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;startDate&#39;</span><span class="p">:</span> <span class="n">start_date</span><span class="p">,</span>
                 <span class="s1">&#39;endDate&#39;</span><span class="p">:</span> <span class="n">end_date</span><span class="p">,</span>
-                <span class="s1">&#39;listIds&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">list_to_string</span><span class="p">(</span><span class="n">list_ids</span><span class="p">),</span>
-                <span class="s1">&#39;accountIds&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">list_to_string</span><span class="p">(</span><span class="n">account_ids</span><span class="p">)}</span>
+                <span class="s1">&#39;listIds&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_list_to_string</span><span class="p">(</span><span class="n">list_ids</span><span class="p">),</span>
+                <span class="s1">&#39;accountIds&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_list_to_string</span><span class="p">(</span><span class="n">account_ids</span><span class="p">)}</span>
 
-        <span class="n">pt</span> <span class="o">=</span> <span class="n">Table</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">base_request</span><span class="p">(</span><span class="s1">&#39;leaderboard&#39;</span><span class="p">,</span> <span class="n">args</span><span class="o">=</span><span class="n">args</span><span class="p">))</span>
+        <span class="n">pt</span> <span class="o">=</span> <span class="n">Table</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_base_request</span><span class="p">(</span><span class="s1">&#39;leaderboard&#39;</span><span class="p">,</span> <span class="n">args</span><span class="o">=</span><span class="n">args</span><span class="p">))</span>
         <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Retrieved </span><span class="si">{</span><span class="n">pt</span><span class="o">.</span><span class="n">num_rows</span><span class="si">}</span><span class="s1"> records from the leaderbooard.&#39;</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">unpack</span><span class="p">(</span><span class="n">pt</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_unpack</span><span class="p">(</span><span class="n">pt</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">pt</span></div>
 
 <div class="viewcode-block" id="CrowdTangle.get_links"><a class="viewcode-back" href="../../../crowdtangle.html#parsons.CrowdTangle.get_links">[docs]</a>    <span class="k">def</span> <span class="nf">get_links</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">link</span><span class="p">,</span> <span class="n">start_date</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">end_date</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">include_summary</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
                   <span class="n">platforms</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Return posts based on a specific link.</span>
+<span class="sd">        Return up to 100 posts based on a specific link. It is strongly recommended to</span>
+<span class="sd">        use the ``start_date`` parameter to limit queries to relevant dates.</span>
+
+<span class="sd">        See the `API documentation &lt;https://github.com/CrowdTangle/API/wiki/Links&gt;`_</span>
+<span class="sd">        for more information.</span>
+
+<span class="sd">        .. warning::</span>
+<span class="sd">          Rate limit is 2 calls / minute.</span>
 
 <span class="sd">        `Args:`</span>
 <span class="sd">            link: str</span>
 <span class="sd">                The link to filter posts to.</span>
 <span class="sd">            start_date: str</span>
 <span class="sd">                Filter to the earliest date at which a post could be posted.</span>
-<span class="sd">                The time is formatted as UTC (e.g. ``yyyy-mm-ddThh:mm:ss``).</span>
+<span class="sd">                The time is formatted as UTC (e.g. ``yyyy-mm-ddThh:mm:ss`` or ``yyyy-mm-dd``).</span>
 <span class="sd">            end_date: str</span>
 <span class="sd">                Filter to the latest date at which a post could be posted.</span>
-<span class="sd">                The time is formatted as UTC (e.g. ``yyyy-mm-ddThh:mm:ss``).</span>
+<span class="sd">                The time is formatted as UTC (e.g. ``yyyy-mm-ddThh:mm:ss`` or ``yyyy-mm-dd``).</span>
 <span class="sd">            include_summary: boolean</span>
 <span class="sd">                Adds a ``summary`` column with account statistics for each platform</span>
 <span class="sd">                that has posted this link. It will look beyond the count</span>
@@ -417,12 +434,12 @@
                 <span class="s1">&#39;startDate&#39;</span><span class="p">:</span> <span class="n">start_date</span><span class="p">,</span>
                 <span class="s1">&#39;endDate&#39;</span><span class="p">:</span> <span class="n">end_date</span><span class="p">,</span>
                 <span class="s1">&#39;includeSummary&#39;</span><span class="p">:</span> <span class="nb">str</span><span class="p">(</span><span class="n">include_summary</span><span class="p">),</span>
-                <span class="s1">&#39;platforms&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">list_to_string</span><span class="p">(</span><span class="n">platforms</span><span class="p">)}</span>
+                <span class="s1">&#39;platforms&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_list_to_string</span><span class="p">(</span><span class="n">platforms</span><span class="p">)}</span>
 
         <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Retrieving posts based on link.&quot;</span><span class="p">)</span>
-        <span class="n">pt</span> <span class="o">=</span> <span class="n">Table</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">base_request</span><span class="p">(</span><span class="s1">&#39;links&#39;</span><span class="p">,</span> <span class="n">args</span><span class="o">=</span><span class="n">args</span><span class="p">))</span>
+        <span class="n">pt</span> <span class="o">=</span> <span class="n">Table</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_base_request</span><span class="p">(</span><span class="s1">&#39;links&#39;</span><span class="p">,</span> <span class="n">args</span><span class="o">=</span><span class="n">args</span><span class="p">))</span>
         <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Retrieved </span><span class="si">{</span><span class="n">pt</span><span class="o">.</span><span class="n">num_rows</span><span class="si">}</span><span class="s1"> links.&#39;</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">unpack</span><span class="p">(</span><span class="n">pt</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_unpack</span><span class="p">(</span><span class="n">pt</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">pt</span></div></div>
 </pre></div>
 

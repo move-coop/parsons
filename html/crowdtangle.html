@@ -92,6 +92,7 @@
 <li class="toctree-l1"><a class="reference internal" href="copper.html">Copper</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">CrowdTangle</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#overview">Overview</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#quickstart">Quickstart</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#api">API</a></li>
 </ul>
 </li>
@@ -199,8 +200,29 @@
 <h1>CrowdTangle<a class="headerlink" href="#crowdtangle" title="Permalink to this headline">¶</a></h1>
 <div class="section" id="overview">
 <h2>Overview<a class="headerlink" href="#overview" title="Permalink to this headline">¶</a></h2>
-<p><a class="reference external" href="https://www.crowdtangle.com/">CrowdTangle</a> is a content monitoring and social monitoring platform. In order
-to access this API, you must have been issued a private API key.</p>
+<p><a class="reference external" href="https://www.crowdtangle.com/">CrowdTangle</a> is a Facebook-owned content monitoring and social monitoring platform.
+This Parsons integration with the <a class="reference external" href="https://github.com/CrowdTangle/API/wiki">CrowdTangle API</a> supports getting posts
+and leaderboard data.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<dl class="last docutils">
+<dt>Authentication</dt>
+<dd>An API Token is required to access the API. Assuming you have access to the CrowdTangle API, you can find the API
+Token in your dashboard under <em>Settings &gt; API Access</em>. Contact your CrowdTangle representative for access.</dd>
+<dt>Rate Limits</dt>
+<dd>The CrowdTangle API has strict rate limits that vary depending on the endpoint. In the <code class="docutils literal notranslate"><span class="pre">CrowdTangle</span></code> class, method
+docstrings indicate the rate limit for the relevant endpoint. For more information on rate limits and best practices
+for meeting them, check the <a class="reference external" href="https://help.crowdtangle.com/en/articles/1189612-crowdtangle-api">API documentation</a>.</dd>
+<dt>Performance</dt>
+<dd>CrowdTangle queries are expensive because they search and score billions of posts. Calls should be made from your
+server and stored in order to avoid making API calls every time someone hits your app server.</dd>
+</dl>
+</div>
+</div>
+<div class="section" id="quickstart">
+<h2>Quickstart<a class="headerlink" href="#quickstart" title="Permalink to this headline">¶</a></h2>
+<p>To instantiate the CrowdTangle class,either store your CrowdTangle API as the environmental variable
+<code class="docutils literal notranslate"><span class="pre">CROWDTANGLE_API_KEY</span></code> or pass it as a keyword argument:</p>
 </div>
 <div class="section" id="api">
 <h2>API<a class="headerlink" href="#api" title="Permalink to this headline">¶</a></h2>
@@ -222,16 +244,22 @@ variable set.</dd>
 <dl class="method">
 <dt id="parsons.CrowdTangle.get_posts">
 <code class="descname">get_posts</code><span class="sig-paren">(</span><em>start_date=None</em>, <em>end_date=None</em>, <em>language=None</em>, <em>list_ids=None</em>, <em>min_interations=None</em>, <em>search_term=None</em>, <em>types=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/crowdtangle/crowdtangle.html#CrowdTangle.get_posts"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.CrowdTangle.get_posts" title="Permalink to this definition">¶</a></dt>
-<dd><p>Return advocates (person records).</p>
+<dd><p>Return a set of posts for the given parameters.</p>
+<p>See the <a class="reference external" href="https://github.com/CrowdTangle/API/wiki/Posts">API documentation</a>
+for more information.</p>
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p class="last">Rate limit is 2 calls / minute.</p>
+</div>
 <dl class="docutils">
 <dt><cite>Args:</cite></dt>
 <dd><dl class="first last docutils">
 <dt>start_date: str</dt>
 <dd>Filter to the earliest date at which a post could be posted.
-The time is formatted as UTC (e.g. <code class="docutils literal notranslate"><span class="pre">yyyy-mm-ddThh:mm:ss</span></code>).</dd>
+The time is formatted as UTC (e.g. <code class="docutils literal notranslate"><span class="pre">yyyy-mm-ddThh:mm:ss</span></code> or <code class="docutils literal notranslate"><span class="pre">yyyy-mm-dd</span></code>).</dd>
 <dt>end_date: str</dt>
 <dd>Filter to the latest date at which a post could be posted.
-The time is formatted as UTC (e.g. <code class="docutils literal notranslate"><span class="pre">yyyy-mm-ddThh:mm:ss</span></code>).</dd>
+The time is formatted as UTC (e.g. <code class="docutils literal notranslate"><span class="pre">yyyy-mm-ddThh:mm:ss</span></code> or <code class="docutils literal notranslate"><span class="pre">yyyy-mm-dd</span></code>).</dd>
 <dt>language: str</dt>
 <dd>Filter to 2-character Locale code. Some languages require more
 than two characters: Chinese (Simplified) is zh-CN and
@@ -279,16 +307,22 @@ that are not <code class="docutils literal notranslate"><span class="pre">native
 <dl class="method">
 <dt id="parsons.CrowdTangle.get_leaderboard">
 <code class="descname">get_leaderboard</code><span class="sig-paren">(</span><em>start_date=None</em>, <em>end_date=None</em>, <em>list_ids=None</em>, <em>account_ids=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/crowdtangle/crowdtangle.html#CrowdTangle.get_leaderboard"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.CrowdTangle.get_leaderboard" title="Permalink to this definition">¶</a></dt>
-<dd><p>Return advocates (person records).</p>
+<dd><p>Return leaderboard data.</p>
+<p>See the <a class="reference external" href="https://github.com/CrowdTangle/API/wiki/Leaderboard">API documentation</a>
+for more information.</p>
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p class="last">Rate limit is 6 calls / minute.</p>
+</div>
 <dl class="docutils">
 <dt><cite>Args:</cite></dt>
 <dd><dl class="first last docutils">
 <dt>start_date: str</dt>
 <dd>Filter to the earliest date at which a post could be posted.
-The time is formatted as UTC (e.g. <code class="docutils literal notranslate"><span class="pre">yyyy-mm-ddThh:mm:ss</span></code>).</dd>
+The time is formatted as UTC (e.g. <code class="docutils literal notranslate"><span class="pre">yyyy-mm-ddThh:mm:ss</span></code> or <code class="docutils literal notranslate"><span class="pre">yyyy-mm-dd</span></code>).</dd>
 <dt>end_date: str</dt>
 <dd>Filter to the latest date at which a post could be posted.
-The time is formatted as UTC (e.g. <code class="docutils literal notranslate"><span class="pre">yyyy-mm-ddThh:mm:ss</span></code>).</dd>
+The time is formatted as UTC (e.g. <code class="docutils literal notranslate"><span class="pre">yyyy-mm-ddThh:mm:ss</span></code> or <code class="docutils literal notranslate"><span class="pre">yyyy-mm-dd</span></code>).</dd>
 <dt>list_ids: list</dt>
 <dd>Filter to the ids of lists or saved searches to retrieve.</dd>
 <dt>account_ids: list</dt>
@@ -309,7 +343,14 @@ This and <code class="docutils literal notranslate"><span class="pre">list_id</s
 <dl class="method">
 <dt id="parsons.CrowdTangle.get_links">
 <code class="descname">get_links</code><span class="sig-paren">(</span><em>link</em>, <em>start_date=None</em>, <em>end_date=None</em>, <em>include_summary=None</em>, <em>platforms=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/crowdtangle/crowdtangle.html#CrowdTangle.get_links"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.CrowdTangle.get_links" title="Permalink to this definition">¶</a></dt>
-<dd><p>Return posts based on a specific link.</p>
+<dd><p>Return up to 100 posts based on a specific link. It is strongly recommended to
+use the <code class="docutils literal notranslate"><span class="pre">start_date</span></code> parameter to limit queries to relevant dates.</p>
+<p>See the <a class="reference external" href="https://github.com/CrowdTangle/API/wiki/Links">API documentation</a>
+for more information.</p>
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p class="last">Rate limit is 2 calls / minute.</p>
+</div>
 <dl class="docutils">
 <dt><cite>Args:</cite></dt>
 <dd><dl class="first last docutils">
@@ -317,10 +358,10 @@ This and <code class="docutils literal notranslate"><span class="pre">list_id</s
 <dd>The link to filter posts to.</dd>
 <dt>start_date: str</dt>
 <dd>Filter to the earliest date at which a post could be posted.
-The time is formatted as UTC (e.g. <code class="docutils literal notranslate"><span class="pre">yyyy-mm-ddThh:mm:ss</span></code>).</dd>
+The time is formatted as UTC (e.g. <code class="docutils literal notranslate"><span class="pre">yyyy-mm-ddThh:mm:ss</span></code> or <code class="docutils literal notranslate"><span class="pre">yyyy-mm-dd</span></code>).</dd>
 <dt>end_date: str</dt>
 <dd>Filter to the latest date at which a post could be posted.
-The time is formatted as UTC (e.g. <code class="docutils literal notranslate"><span class="pre">yyyy-mm-ddThh:mm:ss</span></code>).</dd>
+The time is formatted as UTC (e.g. <code class="docutils literal notranslate"><span class="pre">yyyy-mm-ddThh:mm:ss</span></code> or <code class="docutils literal notranslate"><span class="pre">yyyy-mm-dd</span></code>).</dd>
 <dt>include_summary: boolean</dt>
 <dd>Adds a <code class="docutils literal notranslate"><span class="pre">summary</span></code> column with account statistics for each platform
 that has posted this link. It will look beyond the count

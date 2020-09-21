@@ -44,10 +44,6 @@ class CivisClient(object):
             preview_rows: int, optional
                 The maximum number of rows to return. No more than 100 rows can be
                 returned at once.
-            polling_interval: int or float, optional
-                Number of seconds to wait between checks for query completion.
-            hidden: bool, optional
-                If ``True`` (the default), this job will not appear in the Civis UI.
             wait: boolean
                 If ``True``, will wait for query to finish executing before exiting
                 the method.

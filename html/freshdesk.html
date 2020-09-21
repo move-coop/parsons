@@ -95,6 +95,7 @@
 <li class="toctree-l1"><a class="reference internal" href="facebook_ads.html">FacebookAds</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Freshdesk</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#overview">Overview</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#quickstart">Quickstart</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#api">API</a></li>
 </ul>
 </li>
@@ -199,32 +200,66 @@
 <h1>Freshdesk<a class="headerlink" href="#freshdesk" title="Permalink to this headline">¶</a></h1>
 <div class="section" id="overview">
 <h2>Overview<a class="headerlink" href="#overview" title="Permalink to this headline">¶</a></h2>
-<p><a class="reference external" href="https://freshdesk.com">Freshdesk</a> is an omnichannel customer support platform utilized.</p>
+<p><a class="reference external" href="https://freshdesk.com">Freshdesk</a> is an omnichannel customer support platform.
+This Parsons integration with the <a class="reference external" href="https://developers.freshdesk.com/api/">Freshdesk API</a>
+provides methods to fetch tickets, contacts, companies, and agents. Results are returned
+as Parsons Tables.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<dl class="last docutils">
+<dt>Authentication</dt>
+<dd>To use the <code class="docutils literal notranslate"><span class="pre">Freshdesk</span></code> class, you must provide the subdomain of your Freshdesk account and an API Key,
+which can be found by logging into Freshdesk and following the instructions in the
+<a class="reference external" href="https://support.freshdesk.com/support/solutions/articles/215517-how-to-find-your-api-key">API documentation</a>.</dd>
+<dt>Rate Limits</dt>
+<dd>Rate limits depend on your Freshdesk plan, so be sure to check the API documentation for your
+<a class="reference external" href="https://developers.freshdesk.com/api/#ratelimit">rate limits</a> and follow the
+<a class="reference external" href="https://developers.freshdesk.com/api/#best_practices">best practices guide</a> to avoid exceeding them.</dd>
+</dl>
+</div>
+</div>
+<div class="section" id="quickstart">
+<h2>Quickstart<a class="headerlink" href="#quickstart" title="Permalink to this headline">¶</a></h2>
+<p>To instantiate the Freshdesk class, you can either store your Freshdesk domain and API
+Key as environmental variables (<code class="docutils literal notranslate"><span class="pre">FRESHDESK_DOMAIN</span></code> and <code class="docutils literal notranslate"><span class="pre">FRESHDESK_API_KEY</span></code>, respectively)
+or pass them in as keyword arguments:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">parsons</span> <span class="kn">import</span> <span class="n">Freshdesk</span>
+
+<span class="c1"># First approach: Use environmental variables</span>
+<span class="n">freshdesk</span> <span class="o">=</span> <span class="n">Freshdesk</span><span class="p">()</span>
+
+<span class="c1"># Second approach: Use keyword arguments</span>
+<span class="n">freshdesk</span> <span class="o">=</span> <span class="n">Freshdesk</span><span class="p">(</span><span class="n">domain</span><span class="o">=</span><span class="s1">&#39;my_domain&#39;</span><span class="p">,</span> <span class="n">api_key</span><span class="o">=</span><span class="s1">&#39;my_api_key&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>You can then call various endpoints:</p>
 </div>
 <div class="section" id="api">
 <h2>API<a class="headerlink" href="#api" title="Permalink to this headline">¶</a></h2>
 <dl class="class">
 <dt id="parsons.Freshdesk">
 <em class="property">class </em><code class="descclassname">parsons.</code><code class="descname">Freshdesk</code><span class="sig-paren">(</span><em>domain</em>, <em>api_key</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/freshdesk/freshdesk.html#Freshdesk"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.Freshdesk" title="Permalink to this definition">¶</a></dt>
-<dd><p>Instantiate FreshDesk Class</p>
+<dd><p>Instantiate Freshdesk class</p>
 <dl class="docutils">
 <dt><cite>Args:</cite></dt>
 <dd><dl class="first last docutils">
 <dt>domain:</dt>
-<dd>The subdomain of the FreshDesk account. Not required if <code class="docutils literal notranslate"><span class="pre">FRESHDESK_DOMAIN</span></code>
+<dd>The subdomain of the Freshdesk account. Not required if <code class="docutils literal notranslate"><span class="pre">FRESHDESK_DOMAIN</span></code>
 env variable set.</dd>
 <dt>api_key:</dt>
-<dd>The FreshDesk provided application key. Not required if <code class="docutils literal notranslate"><span class="pre">FRESHDESK_API_KEY</span></code>
+<dd>The Freshdesk provided application key. Not required if <code class="docutils literal notranslate"><span class="pre">FRESHDESK_API_KEY</span></code>
 env variable set.</dd>
 </dl>
 </dd>
 <dt><cite>Returns:</cite></dt>
-<dd>FreshDesk Class</dd>
+<dd>Freshdesk class</dd>
 </dl>
 <dl class="method">
 <dt id="parsons.Freshdesk.get_tickets">
 <code class="descname">get_tickets</code><span class="sig-paren">(</span><em>ticket_type=None</em>, <em>requester_id=None</em>, <em>requester_email=None</em>, <em>company_id=None</em>, <em>updated_since='2016-01-01'</em>, <em>expand_custom_fields=False</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/freshdesk/freshdesk.html#Freshdesk.get_tickets"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.Freshdesk.get_tickets" title="Permalink to this definition">¶</a></dt>
 <dd><p>List tickets.</p>
+<p>See the <cite>API Docs &lt;https://developers.freshdesk.com/api/#list_all_tickets&gt;_</cite>
+for more information.</p>
 <div class="admonition warning">
 <p class="first admonition-title">Warning</p>
 <p class="last">Deleted and Spam tickets are not included. However they can be pulled separately
@@ -232,8 +267,9 @@ by utilizing the <code class="docutils literal notranslate"><span class="pre">ti
 </div>
 <div class="admonition warning">
 <p class="first admonition-title">Warning</p>
-<p class="last">Freshdesk will return a maximum of 9,000 tickets. To access additional tickets,
-utilize the <code class="docutils literal notranslate"><span class="pre">updated_since</span></code> parameter.</p>
+<p class="last">Freshdesk will return a maximum of 9,000 tickets. By default, only tickets created in
+the past 30 days are returned. To access additional tickets, utilize the
+<code class="docutils literal notranslate"><span class="pre">updated_since</span></code> parameter.</p>
 </div>
 <dl class="docutils">
 <dt><cite>Args:</cite></dt>
@@ -247,6 +283,8 @@ utilize the <code class="docutils literal notranslate"><span class="pre">updated
 <dd>Filter by requester email.</dd>
 <dt>company_id: int</dt>
 <dd>Filter by company_id.</dd>
+<dt>updated_since:</dt>
+<dd>Earliest date to include in results.</dd>
 <dt>expand_custom_fields: boolean</dt>
 <dd>Expand nested custom fields to their own columns.</dd>
 </dl>
@@ -264,6 +302,8 @@ utilize the <code class="docutils literal notranslate"><span class="pre">updated
 <dt id="parsons.Freshdesk.get_contacts">
 <code class="descname">get_contacts</code><span class="sig-paren">(</span><em>email=None</em>, <em>mobile=None</em>, <em>phone=None</em>, <em>company_id=None</em>, <em>state=None</em>, <em>updated_since=None</em>, <em>expand_custom_fields=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/freshdesk/freshdesk.html#Freshdesk.get_contacts"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.Freshdesk.get_contacts" title="Permalink to this definition">¶</a></dt>
 <dd><p>Get contacts.</p>
+<p>See the <cite>API Docs &lt;https://developers.freshdesk.com/api/#list_all_contacts&gt;_</cite>
+for more information.</p>
 <dl class="docutils">
 <dt><cite>Args:</cite></dt>
 <dd><dl class="first last docutils">
@@ -273,8 +313,20 @@ utilize the <code class="docutils literal notranslate"><span class="pre">updated
 <dd>Filter by mobile phone number.</dd>
 <dt>phone: str</dt>
 <dd>Filter by phone number.</dd>
+<dt>company_id: int</dt>
+<dd>Filter by company ID.</dd>
+<dt>state: str</dt>
+<dd>Filter by state.</dd>
+<dt>updated_since: str</dt>
+<dd>Earliest date to include in results.</dd>
 <dt>expand_custom_fields: boolean</dt>
 <dd>Expand nested custom fields to their own columns.</dd>
+</dl>
+</dd>
+<dt><cite>Returns:</cite></dt>
+<dd><dl class="first last docutils">
+<dt>Parsons Table</dt>
+<dd>See <a class="reference internal" href="table.html#parsons-table"><span class="std std-ref">Parsons Table</span></a> for output options.</dd>
 </dl>
 </dd>
 </dl>
@@ -284,6 +336,8 @@ utilize the <code class="docutils literal notranslate"><span class="pre">updated
 <dt id="parsons.Freshdesk.get_companies">
 <code class="descname">get_companies</code><span class="sig-paren">(</span><em>expand_custom_fields=False</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/freshdesk/freshdesk.html#Freshdesk.get_companies"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.Freshdesk.get_companies" title="Permalink to this definition">¶</a></dt>
 <dd><p>List companies.</p>
+<p>See the <cite>API Docs &lt;https://developers.freshdesk.com/api/#list_all_companies&gt;_</cite>
+for more information.</p>
 <dl class="docutils">
 <dt><cite>Args:</cite></dt>
 <dd><dl class="first last docutils">
@@ -304,6 +358,8 @@ utilize the <code class="docutils literal notranslate"><span class="pre">updated
 <dt id="parsons.Freshdesk.get_agents">
 <code class="descname">get_agents</code><span class="sig-paren">(</span><em>email=None</em>, <em>mobile=None</em>, <em>phone=None</em>, <em>state=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/freshdesk/freshdesk.html#Freshdesk.get_agents"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.Freshdesk.get_agents" title="Permalink to this definition">¶</a></dt>
 <dd><p>List agents.</p>
+<p>See the <cite>API Docs &lt;https://developers.freshdesk.com/api/#list_all_agents&gt;_</cite>
+for more information.</p>
 <dl class="docutils">
 <dt><cite>Args:</cite></dt>
 <dd><dl class="first last docutils">

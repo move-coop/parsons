@@ -199,19 +199,19 @@
 <span class="n">PAGE_SIZE</span> <span class="o">=</span> <span class="mi">100</span>
 
 
-<div class="viewcode-block" id="Freshdesk"><a class="viewcode-back" href="../../../freshdesk.html#parsons.Freshdesk">[docs]</a><span class="k">class</span> <span class="nc">Freshdesk</span><span class="p">():</span>
+<div class="viewcode-block" id="Freshdesk"><a class="viewcode-back" href="../../../freshdesk.html#parsons.Freshdesk">[docs]</a><span class="k">class</span> <span class="nc">Freshdesk</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Instantiate FreshDesk Class</span>
+<span class="sd">    Instantiate Freshdesk class</span>
 
 <span class="sd">    `Args:`</span>
 <span class="sd">        domain:</span>
-<span class="sd">            The subdomain of the FreshDesk account. Not required if ``FRESHDESK_DOMAIN``</span>
+<span class="sd">            The subdomain of the Freshdesk account. Not required if ``FRESHDESK_DOMAIN``</span>
 <span class="sd">            env variable set.</span>
 <span class="sd">        api_key:</span>
-<span class="sd">            The FreshDesk provided application key. Not required if ``FRESHDESK_API_KEY``</span>
+<span class="sd">            The Freshdesk provided application key. Not required if ``FRESHDESK_API_KEY``</span>
 <span class="sd">            env variable set.</span>
 <span class="sd">    `Returns:`</span>
-<span class="sd">        FreshDesk Class</span>
+<span class="sd">        Freshdesk class</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">domain</span><span class="p">,</span> <span class="n">api_key</span><span class="p">):</span>
@@ -221,9 +221,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">uri</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;https://</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">domain</span><span class="si">}</span><span class="s1">.freshdesk.com/api/v2/&#39;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">client</span> <span class="o">=</span> <span class="n">APIConnector</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">uri</span><span class="p">,</span> <span class="n">auth</span><span class="o">=</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">api_key</span><span class="p">,</span> <span class="s1">&#39;x&#39;</span><span class="p">))</span>
 
-    <span class="k">def</span> <span class="nf">get_request</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">endpoint</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
-        <span class="c1"># Internal method to make a get request.</span>
-
+    <span class="k">def</span> <span class="nf">_get_request</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">endpoint</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="n">base_params</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;per_page&#39;</span><span class="p">:</span> <span class="n">PAGE_SIZE</span><span class="p">}</span>
 
         <span class="k">if</span> <span class="n">params</span><span class="p">:</span>
@@ -243,8 +241,8 @@
 
         <span class="k">return</span> <span class="n">data</span>
 
-    <span class="k">def</span> <span class="nf">transform_table</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tbl</span><span class="p">,</span> <span class="n">expand_custom_fields</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-        <span class="c1"># Internal method to transform a table prior to returning</span>
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">_transform_table</span><span class="p">(</span><span class="n">tbl</span><span class="p">,</span> <span class="n">expand_custom_fields</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="k">if</span> <span class="n">tbl</span><span class="o">.</span><span class="n">num_rows</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
             <span class="n">tbl</span><span class="o">.</span><span class="n">move_column</span><span class="p">(</span><span class="s1">&#39;id&#39;</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
             <span class="n">tbl</span><span class="o">.</span><span class="n">sort</span><span class="p">()</span>
@@ -258,13 +256,17 @@
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        List tickets.</span>
 
+<span class="sd">        See the `API Docs &lt;https://developers.freshdesk.com/api/#list_all_tickets&gt;_`</span>
+<span class="sd">        for more information.</span>
+
 <span class="sd">        .. warning::</span>
 <span class="sd">            Deleted and Spam tickets are not included. However they can be pulled separately</span>
 <span class="sd">            by utilizing the ``ticket_type`` parameter.</span>
 
 <span class="sd">        .. warning::</span>
-<span class="sd">            Freshdesk will return a maximum of 9,000 tickets. To access additional tickets,</span>
-<span class="sd">            utilize the ``updated_since`` parameter.</span>
+<span class="sd">            Freshdesk will return a maximum of 9,000 tickets. By default, only tickets created in</span>
+<span class="sd">            the past 30 days are returned. To access additional tickets, utilize the</span>
+<span class="sd">            ``updated_since`` parameter.</span>
 
 <span class="sd">        `Args:`</span>
 <span class="sd">            ticket_type: str</span>
@@ -276,6 +278,8 @@
 <span class="sd">                Filter by requester email.</span>
 <span class="sd">            company_id: int</span>
 <span class="sd">                Filter by company_id.</span>
+<span class="sd">            updated_since:</span>
+<span class="sd">                Earliest date to include in results.</span>
 <span class="sd">            expand_custom_fields: boolean</span>
 <span class="sd">                Expand nested custom fields to their own columns.</span>
 <span class="sd">        `Returns:`</span>
@@ -289,14 +293,17 @@
                   <span class="s1">&#39;company_id&#39;</span><span class="p">:</span> <span class="n">company_id</span><span class="p">,</span>
                   <span class="s1">&#39;updated_since&#39;</span><span class="p">:</span> <span class="n">updated_since</span><span class="p">}</span>
 
-        <span class="n">tbl</span> <span class="o">=</span> <span class="n">Table</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">get_request</span><span class="p">(</span><span class="s1">&#39;tickets&#39;</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="n">params</span><span class="p">))</span>
+        <span class="n">tbl</span> <span class="o">=</span> <span class="n">Table</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_get_request</span><span class="p">(</span><span class="s1">&#39;tickets&#39;</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="n">params</span><span class="p">))</span>
         <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Found </span><span class="si">{</span><span class="n">tbl</span><span class="o">.</span><span class="n">num_rows</span><span class="si">}</span><span class="s1"> tickets.&#39;</span><span class="p">)</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">transform_table</span><span class="p">(</span><span class="n">tbl</span><span class="p">,</span> <span class="n">expand_custom_fields</span><span class="p">)</span></div>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_transform_table</span><span class="p">(</span><span class="n">tbl</span><span class="p">,</span> <span class="n">expand_custom_fields</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="Freshdesk.get_contacts"><a class="viewcode-back" href="../../../freshdesk.html#parsons.Freshdesk.get_contacts">[docs]</a>    <span class="k">def</span> <span class="nf">get_contacts</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">email</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">mobile</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">phone</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">company_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
                      <span class="n">state</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">updated_since</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">expand_custom_fields</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Get contacts.</span>
+
+<span class="sd">        See the `API Docs &lt;https://developers.freshdesk.com/api/#list_all_contacts&gt;_`</span>
+<span class="sd">        for more information.</span>
 
 <span class="sd">        `Args:`</span>
 <span class="sd">            email: str</span>
@@ -305,8 +312,17 @@
 <span class="sd">                Filter by mobile phone number.</span>
 <span class="sd">            phone: str</span>
 <span class="sd">                Filter by phone number.</span>
+<span class="sd">            company_id: int</span>
+<span class="sd">                Filter by company ID.</span>
+<span class="sd">            state: str</span>
+<span class="sd">                Filter by state.</span>
+<span class="sd">            updated_since: str</span>
+<span class="sd">                Earliest date to include in results.</span>
 <span class="sd">            expand_custom_fields: boolean</span>
 <span class="sd">                Expand nested custom fields to their own columns.</span>
+<span class="sd">        `Returns:`</span>
+<span class="sd">            Parsons Table</span>
+<span class="sd">                See :ref:`parsons-table` for output options.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
         <span class="n">params</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;email&#39;</span><span class="p">:</span> <span class="n">email</span><span class="p">,</span>
@@ -316,13 +332,16 @@
                   <span class="s1">&#39;state&#39;</span><span class="p">:</span> <span class="n">state</span><span class="p">,</span>
                   <span class="s1">&#39;_updated_since&#39;</span><span class="p">:</span> <span class="n">updated_since</span><span class="p">}</span>
 
-        <span class="n">tbl</span> <span class="o">=</span> <span class="n">Table</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">get_request</span><span class="p">(</span><span class="s1">&#39;contacts&#39;</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="n">params</span><span class="p">))</span>
+        <span class="n">tbl</span> <span class="o">=</span> <span class="n">Table</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_get_request</span><span class="p">(</span><span class="s1">&#39;contacts&#39;</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="n">params</span><span class="p">))</span>
         <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Found </span><span class="si">{</span><span class="n">tbl</span><span class="o">.</span><span class="n">num_rows</span><span class="si">}</span><span class="s1"> contacts.&#39;</span><span class="p">)</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">transform_table</span><span class="p">(</span><span class="n">tbl</span><span class="p">,</span> <span class="n">expand_custom_fields</span><span class="p">)</span></div>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_transform_table</span><span class="p">(</span><span class="n">tbl</span><span class="p">,</span> <span class="n">expand_custom_fields</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="Freshdesk.get_companies"><a class="viewcode-back" href="../../../freshdesk.html#parsons.Freshdesk.get_companies">[docs]</a>    <span class="k">def</span> <span class="nf">get_companies</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">expand_custom_fields</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        List companies.</span>
+
+<span class="sd">        See the `API Docs &lt;https://developers.freshdesk.com/api/#list_all_companies&gt;_`</span>
+<span class="sd">        for more information.</span>
 
 <span class="sd">        `Args:`</span>
 <span class="sd">            expand_custom_fields: boolean</span>
@@ -332,13 +351,16 @@
 <span class="sd">                See :ref:`parsons-table` for output options.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
-        <span class="n">tbl</span> <span class="o">=</span> <span class="n">Table</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">get_request</span><span class="p">(</span><span class="s1">&#39;companies&#39;</span><span class="p">))</span>
+        <span class="n">tbl</span> <span class="o">=</span> <span class="n">Table</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_get_request</span><span class="p">(</span><span class="s1">&#39;companies&#39;</span><span class="p">))</span>
         <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Found </span><span class="si">{</span><span class="n">tbl</span><span class="o">.</span><span class="n">num_rows</span><span class="si">}</span><span class="s1"> companies.&#39;</span><span class="p">)</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">transform_table</span><span class="p">(</span><span class="n">tbl</span><span class="p">,</span> <span class="n">expand_custom_fields</span><span class="p">)</span></div>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_transform_table</span><span class="p">(</span><span class="n">tbl</span><span class="p">,</span> <span class="n">expand_custom_fields</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="Freshdesk.get_agents"><a class="viewcode-back" href="../../../freshdesk.html#parsons.Freshdesk.get_agents">[docs]</a>    <span class="k">def</span> <span class="nf">get_agents</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">email</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">mobile</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">phone</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">state</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        List agents.</span>
+
+<span class="sd">        See the `API Docs &lt;https://developers.freshdesk.com/api/#list_all_agents&gt;_`</span>
+<span class="sd">        for more information.</span>
 
 <span class="sd">        `Args:`</span>
 <span class="sd">            email: str</span>
@@ -358,10 +380,9 @@
                   <span class="s1">&#39;mobile&#39;</span><span class="p">:</span> <span class="n">mobile</span><span class="p">,</span>
                   <span class="s1">&#39;phone&#39;</span><span class="p">:</span> <span class="n">phone</span><span class="p">,</span>
                   <span class="s1">&#39;state&#39;</span><span class="p">:</span> <span class="n">state</span><span class="p">}</span>
-
-        <span class="n">tbl</span> <span class="o">=</span> <span class="n">Table</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">get_request</span><span class="p">(</span><span class="s1">&#39;agents&#39;</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="n">params</span><span class="p">))</span>
+        <span class="n">tbl</span> <span class="o">=</span> <span class="n">Table</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_get_request</span><span class="p">(</span><span class="s1">&#39;agents&#39;</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="n">params</span><span class="p">))</span>
         <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Found </span><span class="si">{</span><span class="n">tbl</span><span class="o">.</span><span class="n">num_rows</span><span class="si">}</span><span class="s1"> agents.&#39;</span><span class="p">)</span>
-        <span class="n">tbl</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">transform_table</span><span class="p">(</span><span class="n">tbl</span><span class="p">)</span>
+        <span class="n">tbl</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_transform_table</span><span class="p">(</span><span class="n">tbl</span><span class="p">)</span>
         <span class="n">tbl</span> <span class="o">=</span> <span class="n">tbl</span><span class="o">.</span><span class="n">unpack_dict</span><span class="p">(</span><span class="s1">&#39;contact&#39;</span><span class="p">,</span> <span class="n">prepend</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
         <span class="n">tbl</span><span class="o">.</span><span class="n">remove_column</span><span class="p">(</span><span class="s1">&#39;signature&#39;</span><span class="p">)</span>  <span class="c1"># Removing since raw HTML might cause issues.</span>
 

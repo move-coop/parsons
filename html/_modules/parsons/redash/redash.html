@@ -336,10 +336,7 @@
 <div class="viewcode-block" id="Redash.load_to_table"><a class="viewcode-back" href="../../../redash.html#parsons.redash.Redash.load_to_table">[docs]</a>    <span class="nd">@classmethod</span>
     <span class="k">def</span> <span class="nf">load_to_table</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">refresh</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Fast classmethod so you can get the data all at once:</span>
-<span class="sd">        tabledata = Redash.load_to_table(base_url=&#39;https://example.com&#39;, user_api_key=&#39;abc123&#39;,</span>
-<span class="sd">                                         query_id=1001, params={&#39;datelimit&#39;: &#39;2020-01-01&#39;})</span>
-<span class="sd">        This instantiates the class and makes the appropriate query type (refresh or cached)</span>
+<span class="sd">        Fast classmethod makes the appropriate query type (refresh or cached)</span>
 <span class="sd">        based on which arguments are supplied.</span>
 
 <span class="sd">        `Args:`</span>

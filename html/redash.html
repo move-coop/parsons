@@ -103,7 +103,12 @@
 <li class="toctree-l1"><a class="reference internal" href="ngpvan.html">NGPVAN</a></li>
 <li class="toctree-l1"><a class="reference internal" href="pdi.html">PDI</a></li>
 <li class="toctree-l1"><a class="reference internal" href="p2a.html">Phone2Action</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="#">Redash</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Redash</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#overview">Overview</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#quickstart">Quickstart</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#api">API</a></li>
+</ul>
+</li>
 <li class="toctree-l1"><a class="reference internal" href="rockthevote.html">Rock the Vote</a></li>
 <li class="toctree-l1"><a class="reference internal" href="salesforce.html">Salesforce</a></li>
 <li class="toctree-l1"><a class="reference internal" href="sftp.html">SFTP</a></li>
@@ -193,7 +198,33 @@
             
   <div class="section" id="redash">
 <h1>Redash<a class="headerlink" href="#redash" title="Permalink to this headline">¶</a></h1>
-<p>The Redash class allows you to interact with a Redash server to refresh queries and get query results.</p>
+<div class="section" id="overview">
+<h2>Overview<a class="headerlink" href="#overview" title="Permalink to this headline">¶</a></h2>
+<p>The <code class="docutils literal notranslate"><span class="pre">Redash</span></code> class allows you to interact with a <a class="reference external" href="https://redash.io/">Redash server</a> to fetch fresh or cached
+query results as a Parsons Table.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<dl class="last docutils">
+<dt>Authentication</dt>
+<dd>The <a class="reference external" href="https://redash.io/help/user-guide/integrations-and-api/api">Redash API</a> has two types of API keys:
+<em>User API keys</em> which are found on user profile pages, and <em>Query API keys</em> which are found on query pages. The
+<code class="docutils literal notranslate"><span class="pre">Redash</span></code> class supports fetching fresh queries with a User API Key, and cached queries with a Query API Key.</dd>
+</dl>
+</div>
+</div>
+<div class="section" id="quickstart">
+<h2>Quickstart<a class="headerlink" href="#quickstart" title="Permalink to this headline">¶</a></h2>
+<p>When instantiating the <code class="docutils literal notranslate"><span class="pre">Redash</span></code> class, you must provide the base URL for your Redash instance, either as the
+environmental variable <code class="docutils literal notranslate"><span class="pre">REDASH_BASE_URL</span></code> or as a keyword argument.</p>
+<p>For fresh queries, a User API Key is also required, and can be specified with either the environmental variable
+<code class="docutils literal notranslate"><span class="pre">REDASH_USER_API_KEY</span></code> or a keyword argument.</p>
+<p>To fetch cached queries, you must provide a Query API Key, either as the environmental variable <code class="docutils literal notranslate"><span class="pre">REDASH_QUERY_API_KEY</span></code>
+or as a keyword argument. You do not need a User API Key to fetch a cached query.</p>
+<p>Note that if you specify a Query API Key when loading a table, the method will fetch cached results even if you
+provided a User API Key when instantiating the class.</p>
+</div>
+<div class="section" id="api">
+<h2>API<a class="headerlink" href="#api" title="Permalink to this headline">¶</a></h2>
 <dl class="class">
 <dt id="parsons.redash.Redash">
 <em class="property">class </em><code class="descclassname">parsons.redash.</code><code class="descname">Redash</code><span class="sig-paren">(</span><em>base_url=None</em>, <em>user_api_key=None</em>, <em>pause_time=3</em>, <em>timeout=0</em>, <em>verify=True</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/redash/redash.html#Redash"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.redash.Redash" title="Permalink to this definition">¶</a></dt>
@@ -264,11 +295,7 @@ supply a query_api_key to get cached results back anonymously.</dd>
 <dl class="classmethod">
 <dt id="parsons.redash.Redash.load_to_table">
 <em class="property">classmethod </em><code class="descname">load_to_table</code><span class="sig-paren">(</span><em>refresh=True</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/redash/redash.html#Redash.load_to_table"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.redash.Redash.load_to_table" title="Permalink to this definition">¶</a></dt>
-<dd><p>Fast classmethod so you can get the data all at once:
-tabledata = Redash.load_to_table(base_url=’<a class="reference external" href="https://example.com">https://example.com</a>’, user_api_key=’abc123’,</p>
-<blockquote>
-<div>query_id=1001, params={‘datelimit’: ‘2020-01-01’})</div></blockquote>
-<p>This instantiates the class and makes the appropriate query type (refresh or cached)
+<dd><p>Fast classmethod makes the appropriate query type (refresh or cached)
 based on which arguments are supplied.</p>
 <dl class="docutils">
 <dt><cite>Args:</cite></dt>
@@ -302,6 +329,7 @@ in the url, you should just set ‘datelimit’ in params here.</dd>
 
 </dd></dl>
 
+</div>
 </div>
 
 

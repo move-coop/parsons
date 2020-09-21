@@ -881,7 +881,7 @@
         <span class="k">return</span> <span class="n">manifest</span>
 
     <span class="k">def</span> <span class="nf">upsert</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">table_obj</span><span class="p">,</span> <span class="n">target_table</span><span class="p">,</span> <span class="n">primary_key</span><span class="p">,</span> <span class="n">vacuum</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">distinct_check</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
-               <span class="n">cleanup_temp_table</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="o">**</span><span class="n">copy_args</span><span class="p">):</span>
+               <span class="n">cleanup_temp_table</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">alter_table</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="o">**</span><span class="n">copy_args</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Preform an upsert on an existing table. An upsert is a function in which records</span>
 <span class="sd">        in a table are updated and inserted at the same time. Unlike other SQL databases,</span>
@@ -912,8 +912,9 @@
             <span class="bp">self</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="n">table_obj</span><span class="p">,</span> <span class="n">target_table</span><span class="p">)</span>
             <span class="k">return</span> <span class="kc">None</span>
 
-        <span class="c1"># Make target table column widths match incoming table, if necessary</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">alter_varchar_column_widths</span><span class="p">(</span><span class="n">table_obj</span><span class="p">,</span> <span class="n">target_table</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">alter_table</span><span class="p">:</span>
+            <span class="c1"># Make target table column widths match incoming table, if necessary</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">alter_varchar_column_widths</span><span class="p">(</span><span class="n">table_obj</span><span class="p">,</span> <span class="n">target_table</span><span class="p">)</span>
 
         <span class="n">noise</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">random</span><span class="o">.</span><span class="n">randrange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">10000</span><span class="p">)</span><span class="si">:</span><span class="s1">04</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">[:</span><span class="mi">4</span><span class="p">]</span>
         <span class="n">date_stamp</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s1">&#39;%Y%m</span><span class="si">%d</span><span class="s1">_%H%M&#39;</span><span class="p">)</span>
@@ -955,6 +956,7 @@
                     <span class="n">copy_args</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">copy_args</span><span class="p">,</span> <span class="n">compupdate</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="n">table_obj</span><span class="p">,</span> <span class="n">staging_tbl</span><span class="p">,</span>
                           <span class="n">template_table</span><span class="o">=</span><span class="n">target_table</span><span class="p">,</span>
+                          <span class="n">alter_table</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>  <span class="c1"># We just did our own alter table above</span>
                           <span class="o">**</span><span class="n">copy_args</span><span class="p">)</span>
 
                 <span class="n">staging_table_name</span> <span class="o">=</span> <span class="n">staging_tbl</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;.&#39;</span><span class="p">)[</span><span class="mi">1</span><span class="p">]</span>

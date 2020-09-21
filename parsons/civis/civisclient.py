@@ -30,7 +30,7 @@ class CivisClient(object):
         can be found by reading the Civis API client `documentation <https://civis-python.readthedocs.io/en/stable/client.html>`_.
         """  # noqa: E501
 
-    def query(self, sql, preview_rows=10, wait=True):
+    def query(self, sql, preview_rows=10, polling_interval=None, hidden=True, wait=True):
         """
         Execute a SQL statement as a Civis query.
 
@@ -44,6 +44,10 @@ class CivisClient(object):
             preview_rows: int, optional
                 The maximum number of rows to return. No more than 100 rows can be
                 returned at once.
+            polling_interval: int or float, optional
+                Number of seconds to wait between checks for query completion.
+            hidden: bool, optional
+                If ``True`` (the default), this job will not appear in the Civis UI.
             wait: boolean
                 If ``True``, will wait for query to finish executing before exiting
                 the method.
@@ -52,7 +56,8 @@ class CivisClient(object):
                 See :ref:`parsons-table` for output options.
         """
 
-        fut = civis.io.query_civis(sql, self.db, preview_rows=preview_rows, polling_interval=None)
+        fut = civis.io.query_civis(sql, self.db, preview_rows=preview_rows,
+                                   polling_interval=polling_interval, hidden=hidden)
 
         if not wait:
 

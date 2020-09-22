@@ -443,6 +443,8 @@ class Hustle(object):
                 The notes for the lead
             follow_up: str
                 Follow up for the lead
+            tag_ids: list
+                Tags to apply to lead
         `Returns:`
             dict
         """

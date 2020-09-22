@@ -633,6 +633,8 @@
 <span class="sd">                The notes for the lead</span>
 <span class="sd">            follow_up: str</span>
 <span class="sd">                Follow up for the lead</span>
+<span class="sd">            tag_ids: list</span>
+<span class="sd">                Tags to apply to lead</span>
 <span class="sd">        `Returns:`</span>
 <span class="sd">            dict</span>
 <span class="sd">        &quot;&quot;&quot;</span>
@@ -649,7 +651,7 @@
         <span class="c1"># Remove empty args in dictionary</span>
         <span class="n">lead</span> <span class="o">=</span> <span class="n">json_format</span><span class="o">.</span><span class="n">remove_empty_keys</span><span class="p">(</span><span class="n">lead</span><span class="p">)</span>
 
-        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s1">&#39;Updating lead for </span><span class="si">{first_name}</span><span class="s1"> </span><span class="si">{last_name}</span><span class="s1">.&#39;</span><span class="p">)</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Updating lead for </span><span class="si">{</span><span class="n">first_name</span><span class="si">}</span><span class="s1"> </span><span class="si">{</span><span class="n">last_name</span><span class="si">}</span><span class="s1">.&#39;</span><span class="p">)</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_request</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;leads/</span><span class="si">{</span><span class="n">lead_id</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">req_type</span><span class="o">=</span><span class="s2">&quot;PUT&quot;</span><span class="p">,</span> <span class="n">payload</span><span class="o">=</span><span class="n">lead</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="Hustle.get_tags"><a class="viewcode-back" href="../../../hustle.html#parsons.Hustle.get_tags">[docs]</a>    <span class="k">def</span> <span class="nf">get_tags</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">organization_id</span><span class="p">):</span>

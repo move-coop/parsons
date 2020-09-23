@@ -41,6 +41,8 @@ class RTVFailure(Exception):
 
 class RockTheVote:
     """
+    Instantiate the RockTheVote class
+
     `Args:`
         partner_id: str
             The RockTheVote partner ID for the RTV account

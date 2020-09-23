@@ -1,6 +1,10 @@
 TurboVote
 =========
 
+********
+Overview
+********
+
 `TurboVote <https://turbovote.org/>`_ is an online voter registration and vote by mail
 tool. This class contains a single method which allows you to export your users
 (aka signups).
@@ -36,6 +40,9 @@ You can then call the method:
 	# Get users
 	tv.get_users()
 
+***
+API
+***
 
 .. autoclass :: parsons.TurboVote
    :inherited-members:

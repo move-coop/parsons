@@ -120,19 +120,19 @@ as keyword arguments.
    with open('winning_formula.csv') as w:
        s3.put_file('my_bucket', 'winning.csv, w)
 
-    # Put a Parsons Table as a CSV using convenience method.
-    tbl = Table.from_csv('winning_formula.csv')
-    tbl.to_s3_csv('my_bucket', 'winning.csv')
+   # Put a Parsons Table as a CSV using convenience method.
+   tbl = Table.from_csv('winning_formula.csv')
+   tbl.to_s3_csv('my_bucket', 'winning.csv')
 
-    # Download a csv file and convert to a table
-    f = s3.get_file('my_bucket', 'my_dir/my_file.csv')
-    tbl = Table(f)
+   # Download a csv file and convert to a table
+   f = s3.get_file('my_bucket', 'my_dir/my_file.csv')
+   tbl = Table(f)
 
-    # List buckets that you have access to
-    s3.list_buckets()
+   # List buckets that you have access to
+   s3.list_buckets()
 
-    # List the keys in a bucket
-    s3.list_keys('my_bucket')
+   # List the keys in a bucket
+   s3.list_keys('my_bucket')
 
 ===
 API

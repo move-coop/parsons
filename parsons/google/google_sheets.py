@@ -2,6 +2,8 @@ import os
 import json
 import logging
 
+from os.path import isfile
+
 from parsons.etl.table import Table
 
 import gspread
@@ -9,41 +11,120 @@ from oauth2client.service_account import ServiceAccountCredentials
 
 logger = logging.getLogger(__name__)
 
+# Helper function to load/parse the Google API credentials file from
+# any of the places it might come from.
+def _get_google_credentials(credentials=None,
+                            env_variables=['GOOGLE_DRIVE_CREDENTIALS',
+                                           'GOOGLE_APPLICATION_CREDENTIALS']):
+    """Try to load a credential dict, either from arguments or environment
+    variables.
+
+    Args:
+        credentials: [dict,str,None]
+            If a dict, a dict of credentials. If a str, either a JSON-encoded
+            credential dict or a file path to one. If None, then look in a
+            list of environment variables for a string that is again either
+            a JSON-encoded credential dict or a file path.
+    """
+    # They may have handed us a dict, a string or nothing. If
+    # they've handed us nothing, try to get an appropriate string
+    # from os.environ.
+    if type(credentials) is dict:
+        return credentials
+
+    # If we've been handed a string
+    if credentials:
+        credential_source = f'passed argument'
+
+    # If we've not been handed anything, get string from environment
+    else:
+        # Try our possible environment variables in order for
+        # backward compatibility.
+        for env_var in env_variables:
+            # Is env variable set?
+            credentials = os.environ.get(env_var)
+            if credentials:
+                credential_source = f'environment variable {env_var}'
+                break
+
+    # If we're here and still don't have credentials, it's
+    # not passed as arg and not defined in environ. Complain.
+    if not credentials:
+        logger.error('Google credentials missing. Must be specified '
+                     'as an env var or kwarg.')
+        raise KeyError('No credential arguments passed, and neither '
+                       'environment variable GOOGLE_DRIVE_CREDENTIALS '
+                       'nor GOOGLE_APPLICATION_CREDENTIALS defined.')
+
+    # If we're here, we have a string. Figure out whether its a
+    # JSON string or a filepath to one.
+
+    # Is it a file path?
+    if isfile(credentials):
+        filename = credentials
+        with open(filename) as keyfile:
+            credentials = keyfile.read()
+
+    # Here, should have a JSON string. Try parsing it.
+    try:
+        return json.loads(credentials)
+    except ValueError:
+        err_mesg = (f'Credentials from {credential_source} are neither '
+                    f'contain JSON credentials nor the path to a file '
+                    f'containing them.')
+        logger.error(err_mesg)
+        raise ValueError(err_mesg)
+
 
 class GoogleSheets:
     """
     A connector for Google Sheets, handling data import and export.
 
     `Args:`
-        google_keyfile_dict: dict
-            A dictionary of Google Drive API credentials, parsed from JSON provided
-            by the Google Developer Console. Required if env variable
-            ``GOOGLE_DRIVE_CREDENTIALS`` is not populated.
+        google_keyfile_dict: [dict,str]
+            One of the following:
+            1. A dict of Google Drive API credentials, parsed from
+               JSON provided by the Google Developer Console, or
+            2. JSON str encoding those credentials, or
+            3. Str that is the name of a file containing those credentials.
+
+            Required if envron variable ``GOOGLE_DRIVE_CREDENTIALS`` is not
+            populated and argument app_creds is not set.
+
+        app_creds: str
+            An alias mapping to the functionality of google_keyfile_dict for
+            compatibility with other Google Connector APIS.
+            1. A JSON string encoding Google Drive API credentials, or
+            2. A path to a json file containing those credentials.
+
+        Order of resolution to select credentials is:
+        1. google_keyfile_dict is specified
+        3. app_creds is specified
+        2. GOOGLE_DRIVE_CREDENTIALS is defined in os.environ
+        4. GOOGLE_APPLICATION_CREDENTIALS is defined in os.environ
+
     """
 
-    def __init__(self, google_keyfile_dict=None):
+    def __init__(self, google_keyfile_dict=None, app_creds=None):
 
         scope = [
             'https://spreadsheets.google.com/feeds',
             'https://www.googleapis.com/auth/drive',
             ]
 
-        self.google_keyfile_dict = google_keyfile_dict
+        # app_creds is an alias added for compatibility with other
+        # Google connectors.
+        google_keyfile_dict = google_keyfile_dict or app_creds
 
-        if google_keyfile_dict is None:
-            try:
-                keyfile_json = os.environ['GOOGLE_DRIVE_CREDENTIALS']
-            except KeyError as error:
-                logger.error("Google credentials missing. Must be specified as an env var or kwarg")
-                raise error
+        # Actual keyfile_dict could come from either args or env
+        # variables. # Fob off responsibility for figuring out which
+        # to a separate method.
+        google_keyfile_dict = _get_google_credentials(google_keyfile_dict)
 
-            self.google_keyfile_dict = json.loads(keyfile_json)
-        else:
-            self.google_keyfile_dict = google_keyfile_dict
-
+        # We now have a dict. See if it contains valid credentials.
         credentials = ServiceAccountCredentials.from_json_keyfile_dict(
-            self.google_keyfile_dict, scope
-            )
+            google_keyfile_dict, scope
+        )
         self.gspread_client = gspread.authorize(credentials)
 
     def _get_worksheet(self, spreadsheet_id, worksheet=0):

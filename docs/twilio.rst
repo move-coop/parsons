@@ -20,7 +20,7 @@ Quick Start
 Get Account Usage
 =================================
 
-To instantiate the Twilio class, you can either store your Twilio account SID
+To instantiate the ``Twilio`` class, you can either store your Twilio account SID
 and authorization token as environmental variables (``TWILIO_ACCOUNT_SID`` and
 ``TWILIO_AUTH_TOKEN``, respectively) or pass them in as arguments:
 
@@ -42,16 +42,6 @@ and authorization token as environmental variables (``TWILIO_ACCOUNT_SID`` and
 
    # Get usage for a specific resource
    twilio.get_account_usage(category='sms-inbound')
-
-=================================
-Get Inbound and Outbound Messages
-=================================
-
-.. code-block:: python
-	
-	from parsons import Twilio
-
-	twilio = Twilio()
 
 	# Get messages from a specific day
 	twilio.get_messages(date_sent='10-01-2019')

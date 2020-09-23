@@ -25,21 +25,10 @@ except ImportError:
     zappa_run = None
 
 
-def event_command(event, context):
+def event_command(event):
     """
-    Minimal shim to add to the top lambda handler function
-    to enable distributed tasks
-    In your lambda handler:
-
-    .. code-block:: python
-       :emphasize-lines: 5,6
-
-       from parsons.aws import event_command
-
-       def handler(event, context):
-           ## ADD THESE TWO LINES TO TOP OF HANDLER:
-           if event_command(event, context):
-               return
+    Minimal `shim <https://en.wikipedia.org/wiki/Shim_(computing)>`_
+    to add to the top lambda handler function to enable distributed tasks
 
     The rest of this library is compatible with zappa.async library.
     If you have deployed your app with `Zappa <https://github.com/Miserlou/Zappa>`,

@@ -101,5 +101,5 @@ Quick Start
 Redshift
 ********
 
-See :doc:`aws` section for documentation.
+See :ref:`_redshift` for documentation.
 

@@ -198,11 +198,11 @@
 <span class="sd">    Instantiate the Civis class.</span>
 
 <span class="sd">    `Args:`</span>
-<span class="sd">        api_key: str</span>
-<span class="sd">            The Civis api key.</span>
 <span class="sd">        db: str or int</span>
 <span class="sd">            The Civis Redshift database. Can be a database id or the name of the</span>
 <span class="sd">            database.</span>
+<span class="sd">        api_key: str</span>
+<span class="sd">            The Civis api key.</span>
 <span class="sd">        **kwargs: args</span>
 <span class="sd">            Option settings for the client that are `described in the documentation &lt;https://civis-python.readthedocs.io/en/stable/client.html#civis.APIClient&gt;`_.</span>
 <span class="sd">    `Returns:`</span>
@@ -211,8 +211,8 @@
 
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">db</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">api_key</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
 
-        <span class="bp">self</span><span class="o">.</span><span class="n">api_key</span> <span class="o">=</span> <span class="n">check_env</span><span class="o">.</span><span class="n">check</span><span class="p">(</span><span class="s1">&#39;CIVIS_API_KEY&#39;</span><span class="p">,</span> <span class="n">api_key</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">db</span> <span class="o">=</span> <span class="n">check_env</span><span class="o">.</span><span class="n">check</span><span class="p">(</span><span class="s1">&#39;CIVIS_DATABASE&#39;</span><span class="p">,</span> <span class="n">db</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">api_key</span> <span class="o">=</span> <span class="n">check_env</span><span class="o">.</span><span class="n">check</span><span class="p">(</span><span class="s1">&#39;CIVIS_API_KEY&#39;</span><span class="p">,</span> <span class="n">api_key</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">client</span> <span class="o">=</span> <span class="n">civis</span><span class="o">.</span><span class="n">APIClient</span><span class="p">(</span><span class="n">api_key</span><span class="o">=</span><span class="n">api_key</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        The Civis API client. Utilize this attribute to access to lower level and more</span>
@@ -220,8 +220,7 @@
 <span class="sd">        can be found by reading the Civis API client `documentation &lt;https://civis-python.readthedocs.io/en/stable/client.html&gt;`_.</span>
 <span class="sd">        &quot;&quot;&quot;</span>  <span class="c1"># noqa: E501</span>
 
-<div class="viewcode-block" id="CivisClient.query"><a class="viewcode-back" href="../../../civis.html#parsons.CivisClient.query">[docs]</a>    <span class="k">def</span> <span class="nf">query</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sql</span><span class="p">,</span> <span class="n">preview_rows</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">polling_interval</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">hidden</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
-              <span class="n">wait</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+<div class="viewcode-block" id="CivisClient.query"><a class="viewcode-back" href="../../../civis.html#parsons.CivisClient.query">[docs]</a>    <span class="k">def</span> <span class="nf">query</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sql</span><span class="p">,</span> <span class="n">preview_rows</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">polling_interval</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">hidden</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">wait</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Execute a SQL statement as a Civis query.</span>
 
@@ -247,7 +246,8 @@
 <span class="sd">                See :ref:`parsons-table` for output options.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
-        <span class="n">fut</span> <span class="o">=</span> <span class="n">civis</span><span class="o">.</span><span class="n">io</span><span class="o">.</span><span class="n">query_civis</span><span class="p">(</span><span class="n">sql</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">db</span><span class="p">,</span> <span class="n">preview_rows</span><span class="o">=</span><span class="n">preview_rows</span><span class="p">,</span> <span class="n">polling_interval</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
+        <span class="n">fut</span> <span class="o">=</span> <span class="n">civis</span><span class="o">.</span><span class="n">io</span><span class="o">.</span><span class="n">query_civis</span><span class="p">(</span><span class="n">sql</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">db</span><span class="p">,</span> <span class="n">preview_rows</span><span class="o">=</span><span class="n">preview_rows</span><span class="p">,</span>
+                                   <span class="n">polling_interval</span><span class="o">=</span><span class="n">polling_interval</span><span class="p">,</span> <span class="n">hidden</span><span class="o">=</span><span class="n">hidden</span><span class="p">)</span>
 
         <span class="k">if</span> <span class="ow">not</span> <span class="n">wait</span><span class="p">:</span>
 

@@ -89,6 +89,8 @@
 <li class="toctree-l1"><a class="reference internal" href="bloomerang.html">Bloomerang</a></li>
 <li class="toctree-l1"><a class="reference internal" href="braintree.html">Braintree</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Civis</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#overview">Overview</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#quickstart">Quickstart</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#api">API</a></li>
 </ul>
 </li>
@@ -196,6 +198,26 @@
             
   <div class="section" id="civis">
 <h1>Civis<a class="headerlink" href="#civis" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="overview">
+<h2>Overview<a class="headerlink" href="#overview" title="Permalink to this headline">¶</a></h2>
+<p>The <a class="reference external" href="https://www.civisanalytics.com/civis-platform/">Civis Platform</a> is a cloud-based data science platform.
+This Parsons connector utilizes the <a class="reference external" href="https://civis-python.readthedocs.io/en/stable/user_guide.html">Civis API Python client</a>
+to interact with the Civis Platform. It supports executing Civis SQL queries and writing Parsons Tables to a Civis
+Redshift cluster.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<dl class="last docutils">
+<dt>Authentication</dt>
+<dd>The <code class="docutils literal notranslate"><span class="pre">CivisClient</span></code> class requires your Redshift database ID or name, and an API Key. To obtain an API Key, log in to
+Civis and follow the instructions for <a class="reference external" href="https://civis.zendesk.com/hc/en-us/restricted?return_to=https%3A%2F%2Fcivis.zendesk.com%2Fhc%2Fen-us%2Farticles%2F216341583-Generating-an-API-Key">Creating an API Key</a>.</dd>
+</dl>
+</div>
+</div>
+<div class="section" id="quickstart">
+<h2>Quickstart<a class="headerlink" href="#quickstart" title="Permalink to this headline">¶</a></h2>
+<p>To instantiate the <code class="docutils literal notranslate"><span class="pre">CivisClient</span></code> class, you can either store your database identifier and API Key as
+environmental variables (<code class="docutils literal notranslate"><span class="pre">CIVIS_DATABASE</span></code> and <code class="docutils literal notranslate"><span class="pre">CIVIS_API_KEY</span></code>) or pass them as keyword arguments.</p>
+</div>
 <div class="section" id="api">
 <h2>API<a class="headerlink" href="#api" title="Permalink to this headline">¶</a></h2>
 <dl class="class">
@@ -205,11 +227,11 @@
 <dl class="docutils">
 <dt><cite>Args:</cite></dt>
 <dd><dl class="first last docutils">
-<dt>api_key: str</dt>
-<dd>The Civis api key.</dd>
 <dt>db: str or int</dt>
 <dd>The Civis Redshift database. Can be a database id or the name of the
 database.</dd>
+<dt>api_key: str</dt>
+<dd>The Civis api key.</dd>
 <dt><a href="#id1"><span class="problematic" id="id2">**</span></a>kwargs: args</dt>
 <dd>Option settings for the client that are <a class="reference external" href="https://civis-python.readthedocs.io/en/stable/client.html#civis.APIClient">described in the documentation</a>.</dd>
 </dl>

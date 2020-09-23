@@ -10,17 +10,17 @@ TURBOVOTE_URI = 'https://turbovote-admin-http-api.prod.democracy.works/'
 
 class TurboVote(object):
     """
-    Initialize Turbovote class
+    Instantiate the TurboVote class
 
     `Args:`
         username: str
-            A valid turbovote username. Not required if ``TURBOVOTE_USERNAME``
+            A valid TurboVote username. Not required if ``TURBOVOTE_USERNAME``
             env variable set.
         password: str
-            A valid turbovote password. Not required if ``TURBOVOTE_PASSWORD``
+            A valid TurboVote password. Not required if ``TURBOVOTE_PASSWORD``
             env variable set.
         subdomain: str
-            Your turbovote subdomain (i.e. ``https://MYORG.turbovote.org``). Not
+            Your TurboVote subdomain (i.e. ``https://MYORG.turbovote.org``). Not
             required if ``TURBOVOTE_SUBDOMAIN`` env variable set.
     `Returns:`
         class

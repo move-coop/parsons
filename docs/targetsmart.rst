@@ -4,10 +4,8 @@ TargetSmart
 `TargetSmart <https://targetsmart.com/>`_ provides access to voter and consumer data for the progressive community. Currently,
 there are two TargetSmart services that are supported by two Parsons classes, each requiring separate credentials:
 
-1. ``TargetSmartAPI``: `Single record lookup with HTTPS <https://docs.targetsmart.com/developers/tsapis/index.html>`_.
-This class provides methods to support searching for individual people, voters, and district information for a geographic location.
-2. ``TargetSmartAutomation``: `Bulk record matching with SFTP <https://docs.targetsmart.com/developers/automation/index.html>`_.
-This class provides general methods for processing files instead of individual records.
+1. ``TargetSmartAPI``: `Single record lookup with HTTPS <https://docs.targetsmart.com/developers/tsapis/index.html>`_. This class provides methods to support searching for individual people, voters, and district information for a geographic location.
+2. ``TargetSmartAutomation``: `Bulk record matching with SFTP <https://docs.targetsmart.com/developers/automation/index.html>`_. This class provides general methods for processing files instead of individual records.
 
 .. note::
   Authentication
@@ -44,6 +42,7 @@ To instantiate ``TargetSmartAPI``, you can either store your API Key as the envi
 You can then call various endpoints:
 
 .. code-block:: python
+
    # Search for a person record using an email address
    ts_api.data_enhance(search_id='test@email.com', search_id_type='email')
 
@@ -74,6 +73,7 @@ keyword arguments:
 You can then call various endpoints:
 
 .. code-block:: python
+
    # Check the status of a match job
    ts_auto.match_status(job_name='my_job_name')
 

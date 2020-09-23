@@ -103,14 +103,14 @@ It provides methods to upload and download files from S3 as well as manipulate b
 QuickStart
 ==========
 
-S3 credentials can either be passed as environmental variables (``AWS_ACCESS_KEY_ID`` and ``AWS_SECRET_ACCESS_KEY``) or
-as keyword arguments.
+S3 credentials can be passed as environmental variables (``AWS_ACCESS_KEY_ID`` and ``AWS_SECRET_ACCESS_KEY``),
+stored in an AWS CLI file ``~/.aws/credentials``, or passed as keyword arguments.
 
 .. code-block:: python
 
    from parsons import S3
 
-   # First approach: Pass API credentials via environmental variables
+   # First approach: Pass API credentials via environmental variables or an AWS CLI file
    s3 = S3()
 
    # Second approach: Pass API credentials as arguments
@@ -197,7 +197,7 @@ All of the standard COPY options can be passed as kwargs. See the :meth:`copy` m
 options.
 
 ========
-CORE API
+Core API
 ========
 
 .. autoclass :: parsons.Redshift

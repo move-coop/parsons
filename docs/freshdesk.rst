@@ -42,6 +42,7 @@ or pass them in as keyword arguments:
 You can then call various endpoints:
 
 .. code-block:: python
+
     # Fetch all tickets requested a individual based on their email
     freshdesk.get_tickets(requester_email='user@email.com')
 

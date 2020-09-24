@@ -1,6 +1,10 @@
 Braintree
 =========
 
+********
+Overview
+********
+
 `Braintree <https://www.braintreepayments.com>`_ is an online payment processor often integrated in other
 third-party donation platforms like ActionKit, etc.  Even if much data is accessible through those other
 platforms things like credit card disputes and disbursement (to your bank account!) timing may only be

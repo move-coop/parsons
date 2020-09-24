@@ -25,6 +25,16 @@ class TestSurveyGizmoGetResponses(unittest.TestCase):
 
         assert self.test_survey_id, actual_responses["survey_id"]
 
+    def test_get_responses_single_page(self):
+        api_return = self._get_responses_return_single_page()
+        self.surveygizmo._client.api.surveyresponse.list.return_value = api_return
+
+        actual_responses = self.surveygizmo.get_survey_responses(self.test_survey_id)
+
+        self.assertEqual(2, actual_responses.num_rows)
+        for i in range(0, 1):
+            self.assertEqual(api_return["data"][i]["session_id"], actual_responses[i]["session_id"])
+
     def _get_responses_return_single_page(self):
         return {
                 "result_ok": True,

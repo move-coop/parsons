@@ -39,7 +39,7 @@ class SurveyGizmo(object):
                 api_token_secret=self.api_token_secret
                 )
 
-    def get_surveys(self):
+    def get_surveys(self, page=None):
         """
         Get a table of lists under the account.
 
@@ -50,12 +50,13 @@ class SurveyGizmo(object):
             Table Class
         """
 
-        r = self._client.api.survey.list()
+        r = self._client.api.survey.list(page)
         data = r['data']
 
-        while r['page'] < r['total_pages']:
-            r = self._client.api.survey.list(page=(r['page']+1))
-            data.extend(r['data'])
+        if not page:
+            while r['page'] < r['total_pages']:
+                r = self._client.api.survey.list(page=(r['page']+1))
+                data.extend(r['data'])
 
         tbl = Table(data).remove_column('links')
         tbl.unpack_dict('statistics', prepend=False)
@@ -76,7 +77,7 @@ class SurveyGizmo(object):
             Table Class
         """
 
-        r = self._client.api.surveyresponse.list(survey_id)
+        r = self._client.api.surveyresponse.list(survey_id, page)
         logger.info(f"{survey_id}: {r['total_count']} responses.")
         data = r['data']
 

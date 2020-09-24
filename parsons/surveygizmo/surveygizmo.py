@@ -85,8 +85,9 @@ class SurveyGizmo(object):
             while r['page'] < r['total_pages']:
                 r = self._client.api.surveyresponse.list(survey_id, page=(r['page']+1))
                 data.extend(r['data'])
-                logger.info(f"{survey_id}: Retrieving {r['page']} of {r['total_count']}.")
 
         tbl = Table(data).add_column('survey_id', survey_id, index=1)
+
+        logger.info(f"Found #{tbl.num_rows} responses.")
 
         return tbl

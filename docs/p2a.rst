@@ -40,7 +40,7 @@ To instantiate the ``Phone2Action`` class, you can either pass in the app ID and
        phone_number = phone['phones_address']
        # Only update phone numbers that aren't already subscribed
        if phone['subscribed']:
-        p2a.update_advocate(phone['advocate_id'], phone=phone_number, sms_opt_in=True)
+           p2a.update_advocate(phone['advocate_id'], phone=phone_number, sms_opt_in=True)
 
 ***
 API

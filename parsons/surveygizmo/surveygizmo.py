@@ -44,7 +44,9 @@ class SurveyGizmo(object):
         Get a table of lists under the account.
 
         `Args:`
-            None
+            page : int
+                Retrieve a specific page of responses. If not given,
+                then all pages are retrieved.
 
         `Returns:`
             Table Class
@@ -72,6 +74,10 @@ class SurveyGizmo(object):
         `Args:`
             survey_id: string
                 The id of survey for which to retrieve the responses.
+
+            page : int
+                Retrieve a specific page of responses. If not given,
+                then all pages are retrieved.
 
         `Returns:`
             Table Class

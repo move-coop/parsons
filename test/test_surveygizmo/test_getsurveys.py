@@ -9,7 +9,7 @@ logger = logging.getLogger(__name__)
 # Relevant links
 # V5 API Documentation https://apihelp.surveygizmo.com/help/version-5
 
-class TestSurveyGizmo(unittest.TestCase):
+class TestSurveyGizmoGetSurveys(unittest.TestCase):
     def setUp(self):
         os.environ['SURVEYGIZMO_API_TOKEN'] = 'MYFAKEAPITOKEN'
         os.environ['SURVEYGIZMO_API_TOKEN_SECRET'] = 'MYFAKETOKENSECRET'

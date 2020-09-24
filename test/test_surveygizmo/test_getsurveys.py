@@ -26,7 +26,7 @@ class TestSurveyGizmoGetSurveys(unittest.TestCase):
 
         self.assertEqual(2, actual_surveys.num_rows)
         for i in range(0, 1):
-            self.assertEqual(api_return["data"][i]["title"], actual_surveys[0]["title"])
+            self.assertEqual(api_return["data"][i]["title"], actual_surveys[i]["title"])
 
     def test_removes_links_field(self):
         api_return = self._get_surveys_return_single_page()

@@ -14,10 +14,10 @@ class Freshdesk:
     Instantiate Freshdesk class
 
     `Args:`
-        domain:
+        domain: str
             The subdomain of the Freshdesk account. Not required if ``FRESHDESK_DOMAIN``
             env variable set.
-        api_key:
+        api_key: str
             The Freshdesk provided application key. Not required if ``FRESHDESK_API_KEY``
             env variable set.
     `Returns:`
@@ -88,7 +88,7 @@ class Freshdesk:
                 Filter by requester email.
             company_id: int
                 Filter by company_id.
-            updated_since:
+            updated_since: str
                 Earliest date to include in results.
             expand_custom_fields: boolean
                 Expand nested custom fields to their own columns.

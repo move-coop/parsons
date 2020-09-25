@@ -84,7 +84,7 @@
 <li class="toctree-l1"><a class="reference internal" href="action_network.html">Action Network</a></li>
 <li class="toctree-l1"><a class="reference internal" href="airtable.html">Airtable</a></li>
 <li class="toctree-l1"><a class="reference internal" href="aws.html">Amazon Web Services</a></li>
-<li class="toctree-l1"><a class="reference internal" href="azure.html">Azure</a></li>
+<li class="toctree-l1"><a class="reference internal" href="azure.html">Azure: Blob Storage</a></li>
 <li class="toctree-l1"><a class="reference internal" href="bill_com.html">Bill.com</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Bloomerang</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#overview">Overview</a></li>
@@ -113,8 +113,8 @@
 <li class="toctree-l1"><a class="reference internal" href="salesforce.html">Salesforce</a></li>
 <li class="toctree-l1"><a class="reference internal" href="sftp.html">SFTP</a></li>
 <li class="toctree-l1"><a class="reference internal" href="targetsmart.html">TargetSmart</a></li>
-<li class="toctree-l1"><a class="reference internal" href="twilio.html">Twilio</a></li>
 <li class="toctree-l1"><a class="reference internal" href="turbovote.html">TurboVote</a></li>
+<li class="toctree-l1"><a class="reference internal" href="twilio.html">Twilio</a></li>
 <li class="toctree-l1"><a class="reference internal" href="zoom.html">Zoom</a></li>
 </ul>
 <p class="caption"><span class="caption-text">Enhancements</span></p>
@@ -200,8 +200,8 @@
 <h1>Bloomerang<a class="headerlink" href="#bloomerang" title="Permalink to this headline">¶</a></h1>
 <div class="section" id="overview">
 <h2>Overview<a class="headerlink" href="#overview" title="Permalink to this headline">¶</a></h2>
-<p><a class="reference external" href="https://bloomerang.co/">Bloomerang</a> is a donor management platform for non-profits.
-The private <a class="reference external" href="https://bloomerang.co/features/integrations/api/rest-api">Bloomerang REST API</a>
+<p><a class="reference external" href="https://bloomerang.co/">Bloomerang</a> is a donor management platform for non-profits. This Parsons integration with
+the private <a class="reference external" href="https://bloomerang.co/features/integrations/api/rest-api">Bloomerang REST API</a>
 supports fetching, creating, and updating records of constituents, donations, and interactions.</p>
 <div class="admonition note">
 <p class="first admonition-title">Note</p>
@@ -300,7 +300,7 @@ also be set in order to use OAuth2 authentication.</dd>
 <dd><dl class="docutils">
 <dt><cite>Args:</cite></dt>
 <dd><dl class="first last docutils">
-<dt>constituent_id:</dt>
+<dt>constituent_id: str or int</dt>
 <dd>Constituent ID to update</dd>
 <dt><a href="#id4"><span class="problematic" id="id5">**</span></a>kwargs:`</dt>
 <dd><p class="first">Fields to update, e.g., FirstName = ‘RJ’.</p>
@@ -317,7 +317,7 @@ also be set in order to use OAuth2 authentication.</dd>
 <dd><dl class="docutils">
 <dt><cite>Args:</cite></dt>
 <dd><dl class="first last docutils">
-<dt>constituent_id:</dt>
+<dt>constituent_id: str or int</dt>
 <dd>Constituent ID to get fields for</dd>
 </dl>
 </dd>
@@ -332,7 +332,7 @@ also be set in order to use OAuth2 authentication.</dd>
 <dd><dl class="docutils">
 <dt><cite>Args:</cite></dt>
 <dd><dl class="first last docutils">
-<dt>constituent_id:</dt>
+<dt>constituent_id: str or int</dt>
 <dd>Constituent ID to delete</dd>
 </dl>
 </dd>
@@ -345,9 +345,9 @@ also be set in order to use OAuth2 authentication.</dd>
 <dd><dl class="docutils">
 <dt><cite>Args:</cite></dt>
 <dd><dl class="first last docutils">
-<dt>page_number:</dt>
+<dt>page_number: int</dt>
 <dd>Number of the page to fetch</dd>
-<dt>page_size:</dt>
+<dt>page_size: int</dt>
 <dd>Number of records per page (maximum allowed is 50)</dd>
 </dl>
 </dd>
@@ -377,7 +377,7 @@ also be set in order to use OAuth2 authentication.</dd>
 <dd><dl class="docutils">
 <dt><cite>Args:</cite></dt>
 <dd><dl class="first last docutils">
-<dt>transaction_id:</dt>
+<dt>transaction_id: str or int</dt>
 <dd>Transaction ID to update</dd>
 <dt><a href="#id10"><span class="problematic" id="id11">**</span></a>kwargs:`</dt>
 <dd><p class="first">Fields to update, e.g., CreditCardType = ‘Visa’.</p>
@@ -394,7 +394,7 @@ also be set in order to use OAuth2 authentication.</dd>
 <dd><dl class="docutils">
 <dt><cite>Args:</cite></dt>
 <dd><dl class="first last docutils">
-<dt>transaction_id:</dt>
+<dt>transaction_id: str or int</dt>
 <dd>Transaction ID to get fields for</dd>
 </dl>
 </dd>
@@ -409,7 +409,7 @@ also be set in order to use OAuth2 authentication.</dd>
 <dd><dl class="docutils">
 <dt><cite>Args:</cite></dt>
 <dd><dl class="first last docutils">
-<dt>transaction_id:</dt>
+<dt>transaction_id: str or int</dt>
 <dd>Transaction ID to delete</dd>
 </dl>
 </dd>
@@ -422,9 +422,9 @@ also be set in order to use OAuth2 authentication.</dd>
 <dd><dl class="docutils">
 <dt><cite>Args:</cite></dt>
 <dd><dl class="first last docutils">
-<dt>page_number:</dt>
+<dt>page_number: int</dt>
 <dd>Number of the page to fetch</dd>
-<dt>page_size:</dt>
+<dt>page_size: int</dt>
 <dd>Number of records per page (maximum allowed is 50)</dd>
 </dl>
 </dd>
@@ -439,7 +439,7 @@ also be set in order to use OAuth2 authentication.</dd>
 <dd><dl class="docutils">
 <dt><cite>Args:</cite></dt>
 <dd><dl class="first last docutils">
-<dt>designation_id:</dt>
+<dt>designation_id: str or int</dt>
 <dd>Transaction Designation ID to get fields for</dd>
 </dl>
 </dd>
@@ -454,9 +454,9 @@ also be set in order to use OAuth2 authentication.</dd>
 <dd><dl class="docutils">
 <dt><cite>Args:</cite></dt>
 <dd><dl class="first last docutils">
-<dt>page_number:</dt>
+<dt>page_number: int</dt>
 <dd>Number of the page to fetch</dd>
-<dt>page_size:</dt>
+<dt>page_size: int</dt>
 <dd>Number of records per page (maximum allowed is 50)</dd>
 </dl>
 </dd>
@@ -486,7 +486,7 @@ also be set in order to use OAuth2 authentication.</dd>
 <dd><dl class="docutils">
 <dt><cite>Args:</cite></dt>
 <dd><dl class="first last docutils">
-<dt>interaction_id:</dt>
+<dt>interaction_id: str or int</dt>
 <dd>Interaction ID to update</dd>
 <dt><a href="#id16"><span class="problematic" id="id17">**</span></a>kwargs:`</dt>
 <dd><p class="first">Fields to update, e.g., EmailAddress = “<a class="reference external" href="mailto:user&#37;&#52;&#48;example&#46;com">user<span>&#64;</span>example<span>&#46;</span>com</a>”.</p>
@@ -503,7 +503,7 @@ also be set in order to use OAuth2 authentication.</dd>
 <dd><dl class="docutils">
 <dt><cite>Args:</cite></dt>
 <dd><dl class="first last docutils">
-<dt>interaction_id:</dt>
+<dt>interaction_id: str or int</dt>
 <dd>Interaction ID to get fields for</dd>
 </dl>
 </dd>
@@ -518,7 +518,7 @@ also be set in order to use OAuth2 authentication.</dd>
 <dd><dl class="docutils">
 <dt><cite>Args:</cite></dt>
 <dd><dl class="first last docutils">
-<dt>interaction_id:</dt>
+<dt>interaction_id: str or int</dt>
 <dd>Interaction ID to delete</dd>
 </dl>
 </dd>
@@ -531,9 +531,9 @@ also be set in order to use OAuth2 authentication.</dd>
 <dd><dl class="docutils">
 <dt><cite>Args:</cite></dt>
 <dd><dl class="first last docutils">
-<dt>page_number:</dt>
+<dt>page_number: int</dt>
 <dd>Number of the page to fetch</dd>
-<dt>page_size:</dt>
+<dt>page_size: int</dt>
 <dd>Number of records per page (maximum allowed is 50)</dd>
 </dl>
 </dd>

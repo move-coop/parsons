@@ -82,7 +82,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../../../action_network.html">Action Network</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../airtable.html">Airtable</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../aws.html">Amazon Web Services</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../azure.html">Azure</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../azure.html">Azure: Blob Storage</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../bill_com.html">Bill.com</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../bloomerang.html">Bloomerang</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../braintree.html">Braintree</a></li>
@@ -106,8 +106,8 @@
 <li class="toctree-l1"><a class="reference internal" href="../../../salesforce.html">Salesforce</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../sftp.html">SFTP</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../targetsmart.html">TargetSmart</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../twilio.html">Twilio</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../turbovote.html">TurboVote</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../twilio.html">Twilio</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../zoom.html">Zoom</a></li>
 </ul>
 <p class="caption"><span class="caption-text">Enhancements</span></p>
@@ -199,6 +199,8 @@
 
 <div class="viewcode-block" id="Twilio"><a class="viewcode-back" href="../../../twilio.html#parsons.Twilio">[docs]</a><span class="k">class</span> <span class="nc">Twilio</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Instantiate the Twilio class</span>
+
 <span class="sd">    `Args:`</span>
 <span class="sd">        account_sid: str</span>
 <span class="sd">            The Twilio account sid. Not required if ``TWILIO_ACCOUNT_SID`` env variable is</span>
@@ -318,7 +320,7 @@
 
         <span class="k">return</span> <span class="n">tbl</span></div>
 
-<div class="viewcode-block" id="Twilio.get_messages"><a class="viewcode-back" href="../../../twilio.html#parsons.Twilio.get_messages">[docs]</a>    <span class="k">def</span> <span class="nf">get_messages</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">to</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">from_</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">date_sent</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">date_sent_before</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+<div class="viewcode-block" id="Twilio.get_messages"><a class="viewcode-back" href="../../../twilio.html#parsons.Twilio.get_messages">[docs]</a>    <span class="k">def</span> <span class="nf">get_messages</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">to</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">sent_from</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">date_sent</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">date_sent_before</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
                      <span class="n">date_sent_after</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Get Twilio messages.</span>
@@ -326,7 +328,7 @@
 <span class="sd">        `Args:`</span>
 <span class="sd">            to: str</span>
 <span class="sd">                Filter to messages only sent to the specified phone number.</span>
-<span class="sd">            from_: str</span>
+<span class="sd">            sent_from: str</span>
 <span class="sd">                Filter to messages only sent from the specified phone number.</span>
 <span class="sd">            date_sent: str</span>
 <span class="sd">                Filter to messages only sent on the specified date (ex. ``2019-01-01``).</span>
@@ -339,7 +341,7 @@
 <span class="sd">                See :ref:`parsons-table` for output options.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
-        <span class="n">r</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">messages</span><span class="o">.</span><span class="n">list</span><span class="p">(</span><span class="n">to</span><span class="o">=</span><span class="n">to</span><span class="p">,</span> <span class="n">from_</span><span class="o">=</span><span class="n">from_</span><span class="p">,</span> <span class="n">date_sent</span><span class="o">=</span><span class="n">date_sent</span><span class="p">,</span>
+        <span class="n">r</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">messages</span><span class="o">.</span><span class="n">list</span><span class="p">(</span><span class="n">to</span><span class="o">=</span><span class="n">to</span><span class="p">,</span> <span class="n">sent_from</span><span class="o">=</span><span class="n">sent_from</span><span class="p">,</span> <span class="n">date_sent</span><span class="o">=</span><span class="n">date_sent</span><span class="p">,</span>
                                       <span class="n">date_sent_before</span><span class="o">=</span><span class="n">date_sent_before</span><span class="p">,</span>
                                       <span class="n">date_sent_after</span><span class="o">=</span><span class="n">date_sent_after</span><span class="p">)</span>
 

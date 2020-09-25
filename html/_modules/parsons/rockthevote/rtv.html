@@ -82,7 +82,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../../../action_network.html">Action Network</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../airtable.html">Airtable</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../aws.html">Amazon Web Services</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../azure.html">Azure</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../azure.html">Azure: Blob Storage</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../bill_com.html">Bill.com</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../bloomerang.html">Bloomerang</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../braintree.html">Braintree</a></li>
@@ -106,8 +106,8 @@
 <li class="toctree-l1"><a class="reference internal" href="../../../salesforce.html">Salesforce</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../sftp.html">SFTP</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../targetsmart.html">TargetSmart</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../twilio.html">Twilio</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../turbovote.html">TurboVote</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../twilio.html">Twilio</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../zoom.html">Zoom</a></li>
 </ul>
 <p class="caption"><span class="caption-text">Enhancements</span></p>
@@ -231,11 +231,15 @@
 
 <div class="viewcode-block" id="RockTheVote"><a class="viewcode-back" href="../../../rockthevote.html#parsons.rockthevote.rtv.RockTheVote">[docs]</a><span class="k">class</span> <span class="nc">RockTheVote</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Instantiate the RockTheVote class</span>
+
 <span class="sd">    `Args:`</span>
 <span class="sd">        partner_id: str</span>
-<span class="sd">            The RockTheVote partner ID for the RTV account</span>
+<span class="sd">            The RockTheVote partner ID for the RTV account.</span>
+<span class="sd">            Not required if the ``RTV_PARTNER_ID`` environmental variable is set.</span>
 <span class="sd">        partner_api_key: str</span>
-<span class="sd">            The API Key for the partner</span>
+<span class="sd">            The API Key for the partner.</span>
+<span class="sd">            Not required if the ``RTV_PARTNER_API_KEY`` environmental variable is set.</span>
 <span class="sd">        testing: bool</span>
 <span class="sd">            Whether or not to use the staging instance. Defaults to False.</span>
 <span class="sd">    `Returns`:</span>

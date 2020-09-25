@@ -89,7 +89,7 @@
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="aws.html">Amazon Web Services</a></li>
-<li class="toctree-l1"><a class="reference internal" href="azure.html">Azure</a></li>
+<li class="toctree-l1"><a class="reference internal" href="azure.html">Azure: Blob Storage</a></li>
 <li class="toctree-l1"><a class="reference internal" href="bill_com.html">Bill.com</a></li>
 <li class="toctree-l1"><a class="reference internal" href="bloomerang.html">Bloomerang</a></li>
 <li class="toctree-l1"><a class="reference internal" href="braintree.html">Braintree</a></li>
@@ -113,8 +113,8 @@
 <li class="toctree-l1"><a class="reference internal" href="salesforce.html">Salesforce</a></li>
 <li class="toctree-l1"><a class="reference internal" href="sftp.html">SFTP</a></li>
 <li class="toctree-l1"><a class="reference internal" href="targetsmart.html">TargetSmart</a></li>
-<li class="toctree-l1"><a class="reference internal" href="twilio.html">Twilio</a></li>
 <li class="toctree-l1"><a class="reference internal" href="turbovote.html">TurboVote</a></li>
+<li class="toctree-l1"><a class="reference internal" href="twilio.html">Twilio</a></li>
 <li class="toctree-l1"><a class="reference internal" href="zoom.html">Zoom</a></li>
 </ul>
 <p class="caption"><span class="caption-text">Enhancements</span></p>
@@ -233,11 +233,11 @@ as an argument. You also need to pass in the base key and table name.</p>
 </pre></div>
 </div>
 <p>You can then call various endpoints:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span>    <span class="c1"># Get records from a base</span>
-    <span class="n">at</span><span class="o">.</span><span class="n">get_records</span><span class="p">(</span><span class="n">fields</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;id&#39;</span><span class="p">,</span> <span class="s1">&#39;fn&#39;</span><span class="p">,</span> <span class="s1">&#39;ln&#39;</span><span class="p">])</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Get records from a base</span>
+<span class="n">at</span><span class="o">.</span><span class="n">get_records</span><span class="p">(</span><span class="n">fields</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;id&#39;</span><span class="p">,</span> <span class="s1">&#39;fn&#39;</span><span class="p">,</span> <span class="s1">&#39;ln&#39;</span><span class="p">])</span>
 
-    <span class="c1"># Get a single record from a base</span>
-    <span class="n">at</span><span class="o">.</span><span class="n">get_record</span><span class="p">(</span><span class="mi">1233</span><span class="p">)</span>
+<span class="c1"># Get a single record from a base</span>
+<span class="n">at</span><span class="o">.</span><span class="n">get_record</span><span class="p">(</span><span class="mi">1233</span><span class="p">)</span>
 
 <span class="c1"># Insert records</span>
 <span class="n">tbl</span><span class="o">.</span><span class="n">from_csv</span><span class="p">(</span><span class="s1">&#39;my_new_records&#39;</span><span class="p">)</span>

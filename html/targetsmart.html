@@ -28,7 +28,7 @@
   <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="Twilio" href="twilio.html" />
+    <link rel="next" title="TurboVote" href="turbovote.html" />
     <link rel="prev" title="SFTP" href="sftp.html" /> 
 
   
@@ -84,7 +84,7 @@
 <li class="toctree-l1"><a class="reference internal" href="action_network.html">Action Network</a></li>
 <li class="toctree-l1"><a class="reference internal" href="airtable.html">Airtable</a></li>
 <li class="toctree-l1"><a class="reference internal" href="aws.html">Amazon Web Services</a></li>
-<li class="toctree-l1"><a class="reference internal" href="azure.html">Azure</a></li>
+<li class="toctree-l1"><a class="reference internal" href="azure.html">Azure: Blob Storage</a></li>
 <li class="toctree-l1"><a class="reference internal" href="bill_com.html">Bill.com</a></li>
 <li class="toctree-l1"><a class="reference internal" href="bloomerang.html">Bloomerang</a></li>
 <li class="toctree-l1"><a class="reference internal" href="braintree.html">Braintree</a></li>
@@ -108,12 +108,21 @@
 <li class="toctree-l1"><a class="reference internal" href="salesforce.html">Salesforce</a></li>
 <li class="toctree-l1"><a class="reference internal" href="sftp.html">SFTP</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">TargetSmart</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#api">API</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#automation">Automation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#overview">Overview</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id2">TargetSmart</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#quickstart">Quickstart</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#api">API</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="twilio.html">Twilio</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#automation">Automation</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id3">Quickstart</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id4">API</a></li>
+</ul>
+</li>
+</ul>
+</li>
 <li class="toctree-l1"><a class="reference internal" href="turbovote.html">TurboVote</a></li>
+<li class="toctree-l1"><a class="reference internal" href="twilio.html">Twilio</a></li>
 <li class="toctree-l1"><a class="reference internal" href="zoom.html">Zoom</a></li>
 </ul>
 <p class="caption"><span class="caption-text">Enhancements</span></p>
@@ -197,12 +206,14 @@
             
   <div class="section" id="targetsmart">
 <h1>TargetSmart<a class="headerlink" href="#targetsmart" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="overview">
+<h2>Overview<a class="headerlink" href="#overview" title="Permalink to this headline">¶</a></h2>
 <p><a class="reference external" href="https://targetsmart.com/">TargetSmart</a> provides access to voter and consumer data for the progressive community. Currently,
 there are two TargetSmart services that are supported by two Parsons classes, each requiring separate credentials:</p>
-<p>1. <code class="docutils literal notranslate"><span class="pre">TargetSmartAPI</span></code>: <a class="reference external" href="https://docs.targetsmart.com/developers/tsapis/index.html">Single record lookup with HTTPS</a>.
-This class provides methods to support searching for individual people, voters, and district information for a geographic location.
-2. <code class="docutils literal notranslate"><span class="pre">TargetSmartAutomation</span></code>: <a class="reference external" href="https://docs.targetsmart.com/developers/automation/index.html">Bulk record matching with SFTP</a>.
-This class provides general methods for processing files instead of individual records.</p>
+<ol class="arabic simple">
+<li><code class="docutils literal notranslate"><span class="pre">TargetSmartAPI</span></code>: <a class="reference external" href="https://docs.targetsmart.com/developers/tsapis/index.html">Single record lookup with HTTPS</a>. This class provides methods to support searching for individual people, voters, and district information for a geographic location.</li>
+<li><code class="docutils literal notranslate"><span class="pre">TargetSmartAutomation</span></code>: <a class="reference external" href="https://docs.targetsmart.com/developers/automation/index.html">Bulk record matching with SFTP</a>. This class provides general methods for processing files instead of individual records.</li>
+</ol>
 <div class="admonition note">
 <p class="first admonition-title">Note</p>
 <dl class="last docutils">
@@ -213,8 +224,11 @@ to use the <code class="docutils literal notranslate"><span class="pre">TargetSm
 </dd>
 </dl>
 </div>
-<div class="section" id="api">
-<h2>API<a class="headerlink" href="#api" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="id2">
+<h2>TargetSmart<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="quickstart">
+<h3>Quickstart<a class="headerlink" href="#quickstart" title="Permalink to this headline">¶</a></h3>
 <p>To instantiate <code class="docutils literal notranslate"><span class="pre">TargetSmartAPI</span></code>, you can either store your API Key as the environmental variable
 <code class="docutils literal notranslate"><span class="pre">TS_API_KEY</span></code>, or pass it in as an argument:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">parsons</span> <span class="kn">import</span> <span class="n">TargetSmartAPI</span>
@@ -227,6 +241,16 @@ to use the <code class="docutils literal notranslate"><span class="pre">TargetSm
 </pre></div>
 </div>
 <p>You can then call various endpoints:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Search for a person record using an email address</span>
+<span class="n">ts_api</span><span class="o">.</span><span class="n">data_enhance</span><span class="p">(</span><span class="n">search_id</span><span class="o">=</span><span class="s1">&#39;test@email.com&#39;</span><span class="p">,</span> <span class="n">search_id_type</span><span class="o">=</span><span class="s1">&#39;email&#39;</span><span class="p">)</span>
+
+<span class="c1"># Search for district information using an address</span>
+<span class="n">ts_api</span><span class="o">.</span><span class="n">district</span><span class="p">(</span><span class="n">search_type</span><span class="o">=</span><span class="s1">&#39;address&#39;</span><span class="p">,</span> <span class="n">address</span><span class="o">=</span><span class="s1">&#39;123 test st, Durham NC 27708&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="api">
+<h3>API<a class="headerlink" href="#api" title="Permalink to this headline">¶</a></h3>
 <dl class="class">
 <dt id="parsons.TargetSmartAPI">
 <em class="property">class </em><code class="descclassname">parsons.</code><code class="descname">TargetSmartAPI</code><span class="sig-paren">(</span><em>api_key=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/targetsmart/targetsmart_api.html#TargetSmartAPI"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.TargetSmartAPI" title="Permalink to this definition">¶</a></dt>
@@ -447,8 +471,12 @@ ignored if last_name_exact is enabled.</dd>
 </dd></dl>
 
 </div>
+<p>   :inherited-members:</p>
+</div>
 <div class="section" id="automation">
 <h2>Automation<a class="headerlink" href="#automation" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id3">
+<h3>Quickstart<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h3>
 <p>To instantiate <code class="docutils literal notranslate"><span class="pre">TargetSmartAutomation</span></code>, you can either store your SFTP username and password
 as the environmental variables <code class="docutils literal notranslate"><span class="pre">TS_SFTP_USERNAME</span></code> and <code class="docutils literal notranslate"><span class="pre">TS_SFTP_PASSWORD</span></code>, or pass them in as
 keyword arguments:</p>
@@ -462,6 +490,16 @@ keyword arguments:</p>
 </pre></div>
 </div>
 <p>You can then call various endpoints:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Check the status of a match job</span>
+<span class="n">ts_auto</span><span class="o">.</span><span class="n">match_status</span><span class="p">(</span><span class="n">job_name</span><span class="o">=</span><span class="s1">&#39;my_job_name&#39;</span><span class="p">)</span>
+
+<span class="c1"># Remove all files for the match job</span>
+<span class="n">ts_auto</span><span class="o">.</span><span class="n">remove_files</span><span class="p">(</span><span class="n">job_name</span><span class="o">=</span><span class="s1">&#39;my_job_name&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="id4">
+<h3>API<a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h3>
 <dl class="class">
 <dt id="parsons.TargetSmartAutomation">
 <em class="property">class </em><code class="descclassname">parsons.</code><code class="descname">TargetSmartAutomation</code><span class="sig-paren">(</span><em>sftp_username=None</em>, <em>sftp_password=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/targetsmart/targetsmart_automation.html#TargetSmartAutomation"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.TargetSmartAutomation" title="Permalink to this definition">¶</a></dt>
@@ -508,6 +546,7 @@ the TargetSmart FTP upon completion or failure of match.</dd>
 
 </div>
 </div>
+</div>
 
 
            </div>
@@ -517,7 +556,7 @@ the TargetSmart FTP upon completion or failure of match.</dd>
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="twilio.html" class="btn btn-neutral float-right" title="Twilio" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="turbovote.html" class="btn btn-neutral float-right" title="TurboVote" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
         <a href="sftp.html" class="btn btn-neutral" title="SFTP" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>

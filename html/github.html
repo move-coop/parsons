@@ -84,7 +84,7 @@
 <li class="toctree-l1"><a class="reference internal" href="action_network.html">Action Network</a></li>
 <li class="toctree-l1"><a class="reference internal" href="airtable.html">Airtable</a></li>
 <li class="toctree-l1"><a class="reference internal" href="aws.html">Amazon Web Services</a></li>
-<li class="toctree-l1"><a class="reference internal" href="azure.html">Azure</a></li>
+<li class="toctree-l1"><a class="reference internal" href="azure.html">Azure: Blob Storage</a></li>
 <li class="toctree-l1"><a class="reference internal" href="bill_com.html">Bill.com</a></li>
 <li class="toctree-l1"><a class="reference internal" href="bloomerang.html">Bloomerang</a></li>
 <li class="toctree-l1"><a class="reference internal" href="braintree.html">Braintree</a></li>
@@ -95,10 +95,9 @@
 <li class="toctree-l1"><a class="reference internal" href="facebook_ads.html">FacebookAds</a></li>
 <li class="toctree-l1"><a class="reference internal" href="freshdesk.html">Freshdesk</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">GitHub</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#quickstart">Quickstart</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#api">API</a></li>
-</ul>
-</li>
+<li class="toctree-l2"><a class="reference internal" href="#overview">Overview</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#quickstart">Quickstart</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#api">API</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="google.html">Google</a></li>
@@ -114,8 +113,8 @@
 <li class="toctree-l1"><a class="reference internal" href="salesforce.html">Salesforce</a></li>
 <li class="toctree-l1"><a class="reference internal" href="sftp.html">SFTP</a></li>
 <li class="toctree-l1"><a class="reference internal" href="targetsmart.html">TargetSmart</a></li>
-<li class="toctree-l1"><a class="reference internal" href="twilio.html">Twilio</a></li>
 <li class="toctree-l1"><a class="reference internal" href="turbovote.html">TurboVote</a></li>
+<li class="toctree-l1"><a class="reference internal" href="twilio.html">Twilio</a></li>
 <li class="toctree-l1"><a class="reference internal" href="zoom.html">Zoom</a></li>
 </ul>
 <p class="caption"><span class="caption-text">Enhancements</span></p>
@@ -199,6 +198,8 @@
             
   <div class="section" id="github">
 <h1>GitHub<a class="headerlink" href="#github" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="overview">
+<h2>Overview<a class="headerlink" href="#overview" title="Permalink to this headline">¶</a></h2>
 <p><a class="reference external" href="https://github.com">GitHub</a> is an online tool for software collaboration.</p>
 <p>This <code class="docutils literal notranslate"><span class="pre">GitHub</span></code> class uses the <a class="reference external" href="https://pygithub.readthedocs.io/en/latest/introduction.html">PyGitHub library</a>
 to make requests to the <a class="reference external" href="https://docs.github.com/en/rest">GitHub REST API</a>. The class provides methods to:</p>
@@ -218,6 +219,7 @@ to make requests to the <a class="reference external" href="https://docs.github.
 </ul>
 </dd>
 </dl>
+</div>
 </div>
 <div class="section" id="quickstart">
 <h2>Quickstart<a class="headerlink" href="#quickstart" title="Permalink to this headline">¶</a></h2>
@@ -248,8 +250,9 @@ environmental variable (<code class="docutils literal notranslate"><span class="
 <span class="n">parsons_readme_path</span> <span class="o">=</span> <span class="n">github</span><span class="o">.</span><span class="n">download_file</span><span class="p">(</span><span class="s2">&quot;move-coop/parsons&quot;</span><span class="p">,</span> <span class="s2">&quot;README.md&quot;</span><span class="p">,</span> <span class="n">local_path</span><span class="o">=</span><span class="s2">&quot;/tmp/README.md&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
+</div>
 <div class="section" id="api">
-<h3>API<a class="headerlink" href="#api" title="Permalink to this headline">¶</a></h3>
+<h2>API<a class="headerlink" href="#api" title="Permalink to this headline">¶</a></h2>
 <dl class="class">
 <dt id="parsons.GitHub">
 <em class="property">class </em><code class="descclassname">parsons.</code><code class="descname">GitHub</code><span class="sig-paren">(</span><em>username=None</em>, <em>password=None</em>, <em>access_token=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/github/github.html#GitHub"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.GitHub" title="Permalink to this definition">¶</a></dt>
@@ -274,7 +277,6 @@ variable.</dd>
 </dl>
 </dd></dl>
 
-</div>
 </div>
 </div>
 

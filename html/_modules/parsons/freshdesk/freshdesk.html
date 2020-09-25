@@ -82,7 +82,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../../../action_network.html">Action Network</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../airtable.html">Airtable</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../aws.html">Amazon Web Services</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../azure.html">Azure</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../azure.html">Azure: Blob Storage</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../bill_com.html">Bill.com</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../bloomerang.html">Bloomerang</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../braintree.html">Braintree</a></li>
@@ -106,8 +106,8 @@
 <li class="toctree-l1"><a class="reference internal" href="../../../salesforce.html">Salesforce</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../sftp.html">SFTP</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../targetsmart.html">TargetSmart</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../twilio.html">Twilio</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../turbovote.html">TurboVote</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../twilio.html">Twilio</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../zoom.html">Zoom</a></li>
 </ul>
 <p class="caption"><span class="caption-text">Enhancements</span></p>
@@ -204,10 +204,10 @@
 <span class="sd">    Instantiate Freshdesk class</span>
 
 <span class="sd">    `Args:`</span>
-<span class="sd">        domain:</span>
+<span class="sd">        domain: str</span>
 <span class="sd">            The subdomain of the Freshdesk account. Not required if ``FRESHDESK_DOMAIN``</span>
 <span class="sd">            env variable set.</span>
-<span class="sd">        api_key:</span>
+<span class="sd">        api_key: str</span>
 <span class="sd">            The Freshdesk provided application key. Not required if ``FRESHDESK_API_KEY``</span>
 <span class="sd">            env variable set.</span>
 <span class="sd">    `Returns:`</span>
@@ -256,7 +256,7 @@
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        List tickets.</span>
 
-<span class="sd">        See the `API Docs &lt;https://developers.freshdesk.com/api/#list_all_tickets&gt;_`</span>
+<span class="sd">        See the `API Docs &lt;https://developers.freshdesk.com/api/#list_all_tickets&gt;`_</span>
 <span class="sd">        for more information.</span>
 
 <span class="sd">        .. warning::</span>
@@ -278,7 +278,7 @@
 <span class="sd">                Filter by requester email.</span>
 <span class="sd">            company_id: int</span>
 <span class="sd">                Filter by company_id.</span>
-<span class="sd">            updated_since:</span>
+<span class="sd">            updated_since: str</span>
 <span class="sd">                Earliest date to include in results.</span>
 <span class="sd">            expand_custom_fields: boolean</span>
 <span class="sd">                Expand nested custom fields to their own columns.</span>
@@ -302,7 +302,7 @@
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Get contacts.</span>
 
-<span class="sd">        See the `API Docs &lt;https://developers.freshdesk.com/api/#list_all_contacts&gt;_`</span>
+<span class="sd">        See the `API Docs &lt;https://developers.freshdesk.com/api/#list_all_contacts&gt;`_</span>
 <span class="sd">        for more information.</span>
 
 <span class="sd">        `Args:`</span>
@@ -340,7 +340,7 @@
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        List companies.</span>
 
-<span class="sd">        See the `API Docs &lt;https://developers.freshdesk.com/api/#list_all_companies&gt;_`</span>
+<span class="sd">        See the `API Docs &lt;https://developers.freshdesk.com/api/#list_all_companies&gt;`_</span>
 <span class="sd">        for more information.</span>
 
 <span class="sd">        `Args:`</span>
@@ -359,7 +359,7 @@
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        List agents.</span>
 
-<span class="sd">        See the `API Docs &lt;https://developers.freshdesk.com/api/#list_all_agents&gt;_`</span>
+<span class="sd">        See the `API Docs &lt;https://developers.freshdesk.com/api/#list_all_agents&gt;`_</span>
 <span class="sd">        for more information.</span>
 
 <span class="sd">        `Args:`</span>

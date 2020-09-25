@@ -84,7 +84,7 @@
 <li class="toctree-l1"><a class="reference internal" href="action_network.html">Action Network</a></li>
 <li class="toctree-l1"><a class="reference internal" href="airtable.html">Airtable</a></li>
 <li class="toctree-l1"><a class="reference internal" href="aws.html">Amazon Web Services</a></li>
-<li class="toctree-l1"><a class="reference internal" href="azure.html">Azure</a></li>
+<li class="toctree-l1"><a class="reference internal" href="azure.html">Azure: Blob Storage</a></li>
 <li class="toctree-l1"><a class="reference internal" href="bill_com.html">Bill.com</a></li>
 <li class="toctree-l1"><a class="reference internal" href="bloomerang.html">Bloomerang</a></li>
 <li class="toctree-l1"><a class="reference internal" href="braintree.html">Braintree</a></li>
@@ -113,8 +113,8 @@
 <li class="toctree-l1"><a class="reference internal" href="salesforce.html">Salesforce</a></li>
 <li class="toctree-l1"><a class="reference internal" href="sftp.html">SFTP</a></li>
 <li class="toctree-l1"><a class="reference internal" href="targetsmart.html">TargetSmart</a></li>
-<li class="toctree-l1"><a class="reference internal" href="twilio.html">Twilio</a></li>
 <li class="toctree-l1"><a class="reference internal" href="turbovote.html">TurboVote</a></li>
+<li class="toctree-l1"><a class="reference internal" href="twilio.html">Twilio</a></li>
 <li class="toctree-l1"><a class="reference internal" href="zoom.html">Zoom</a></li>
 </ul>
 <p class="caption"><span class="caption-text">Enhancements</span></p>
@@ -200,30 +200,34 @@
 <h1>Rock the Vote<a class="headerlink" href="#rock-the-vote" title="Permalink to this headline">¶</a></h1>
 <div class="section" id="overview">
 <h2>Overview<a class="headerlink" href="#overview" title="Permalink to this headline">¶</a></h2>
-<p><a class="reference external" href="https://www.rockthevote.org/">Rock the Vote</a> is an online registration tool.</p>
-<p>The Parsons Connector makes use of Rock the Vote’s Rocky API. In order to authenticate with the
-API, users will need to specify the ID and the API key of the RTV partner organization for the
-data.</p>
+<p><a class="reference external" href="https://www.rockthevote.org/">Rock the Vote</a> is an online registration tool. This Parsons connector makes use of
+Rock the Vote’s <a class="reference external" href="https://rock-the-vote.github.io/Voter-Registration-Tool-API-Docs/">Rocky API</a>.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<dl class="last docutils">
+<dt>Authentication</dt>
+<dd>In order to authenticate with the API, users must specify the ID and API key of the RTV partner organization for the data.</dd>
+</dl>
+</div>
 </div>
 <div class="section" id="quickstart">
 <h2>QuickStart<a class="headerlink" href="#quickstart" title="Permalink to this headline">¶</a></h2>
-<p>To use the RockTheVote class you can either store the partner ID and API key as an
-environmental variable (RTV_PARTNER_ID and RTV_PARTNER_API_KEY, respectively), or you can
+<p>To use the <code class="docutils literal notranslate"><span class="pre">RockTheVote</span></code> class you can either store the partner ID and API key as an
+environmental variable (<code class="docutils literal notranslate"><span class="pre">RTV_PARTNER_ID</span></code> and <code class="docutils literal notranslate"><span class="pre">RTV_PARTNER_API_KEY</span></code>, respectively), or you can
 pass them in as arguments to the class.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">parsons</span> <span class="kn">import</span> <span class="n">RockTheVote</span>
 
-<span class="n">rtv</span> <span class="o">=</span> <span class="n">RockTheVote</span><span class="p">()</span>  <span class="c1"># If specified as environment variables, no need to pass them in</span>
+<span class="c1"># If credentials are specified as environment variables, no need to pass them in</span>
+<span class="n">rtv</span> <span class="o">=</span> <span class="n">RockTheVote</span><span class="p">()</span>
 
-<span class="n">rtv</span> <span class="o">=</span> <span class="n">RockTheVote</span><span class="p">(</span><span class="n">partner_id</span><span class="o">=</span><span class="s1">&#39;123&#39;</span><span class="p">,</span> <span class="n">partner_api_key</span><span class="o">=</span><span class="s1">&#39;supersecretkey&#39;</span><span class="p">)</span> <span class="c1"># Pass credentials directly</span>
+<span class="c1"># Pass credentials directly</span>
+<span class="n">rtv</span> <span class="o">=</span> <span class="n">RockTheVote</span><span class="p">(</span><span class="n">partner_id</span><span class="o">=</span><span class="s1">&#39;123&#39;</span><span class="p">,</span> <span class="n">partner_api_key</span><span class="o">=</span><span class="s1">&#39;supersecretkey&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
 <p>To fetch a list of registrations submitted for the partner ID, use the <cite>run_registration_report</cite>
 method. It is possible to filter the results by providing a parameter to specify a start date
 for the registrations.</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">parsons</span> <span class="kn">import</span> <span class="n">RockTheVote</span>
-
-<span class="n">rtv</span> <span class="o">=</span> <span class="n">RockTheVote</span><span class="p">()</span>
-
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Get list of registrations</span>
 <span class="n">registrants</span> <span class="o">=</span> <span class="n">rtv</span><span class="o">.</span><span class="n">run_registration_report</span><span class="p">(</span><span class="n">since</span><span class="o">=</span><span class="s1">&#39;2020-01-01&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
@@ -231,14 +235,10 @@ for the registrations.</p>
 Rocky API. For larger reports, this can take a long time. If you have other things you want to do
 while the report is running, you can break up the creation of the report from the fetching of the
 data.</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">parsons</span> <span class="kn">import</span> <span class="n">RockTheVote</span>
-
-<span class="n">rtv</span> <span class="o">=</span> <span class="n">RockTheVote</span><span class="p">()</span>
-
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Create report and get the ID</span>
 <span class="n">report_id</span> <span class="o">=</span> <span class="n">rtv</span><span class="o">.</span><span class="n">create_registration_report</span><span class="p">(</span><span class="n">since</span><span class="o">=</span><span class="s1">&#39;2020-01-01&#39;</span><span class="p">)</span>
 
-<span class="c1"># Do some other stuff here</span>
-
+<span class="c1"># Get registration report</span>
 <span class="n">registrants</span> <span class="o">=</span> <span class="n">rtv</span><span class="o">.</span><span class="n">get_registration_report</span><span class="p">(</span><span class="n">report_id</span><span class="p">)</span>
 </pre></div>
 </div>
@@ -248,13 +248,16 @@ data.</p>
 <dl class="class">
 <dt id="parsons.rockthevote.rtv.RockTheVote">
 <em class="property">class </em><code class="descclassname">parsons.rockthevote.rtv.</code><code class="descname">RockTheVote</code><span class="sig-paren">(</span><em>partner_id=None</em>, <em>partner_api_key=None</em>, <em>testing=False</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/rockthevote/rtv.html#RockTheVote"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.rockthevote.rtv.RockTheVote" title="Permalink to this definition">¶</a></dt>
-<dd><dl class="docutils">
+<dd><p>Instantiate the RockTheVote class</p>
+<dl class="docutils">
 <dt><cite>Args:</cite></dt>
 <dd><dl class="first last docutils">
 <dt>partner_id: str</dt>
-<dd>The RockTheVote partner ID for the RTV account</dd>
+<dd>The RockTheVote partner ID for the RTV account.
+Not required if the <code class="docutils literal notranslate"><span class="pre">RTV_PARTNER_ID</span></code> environmental variable is set.</dd>
 <dt>partner_api_key: str</dt>
-<dd>The API Key for the partner</dd>
+<dd>The API Key for the partner.
+Not required if the <code class="docutils literal notranslate"><span class="pre">RTV_PARTNER_API_KEY</span></code> environmental variable is set.</dd>
 <dt>testing: bool</dt>
 <dd>Whether or not to use the staging instance. Defaults to False.</dd>
 </dl>

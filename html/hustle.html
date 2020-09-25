@@ -84,7 +84,7 @@
 <li class="toctree-l1"><a class="reference internal" href="action_network.html">Action Network</a></li>
 <li class="toctree-l1"><a class="reference internal" href="airtable.html">Airtable</a></li>
 <li class="toctree-l1"><a class="reference internal" href="aws.html">Amazon Web Services</a></li>
-<li class="toctree-l1"><a class="reference internal" href="azure.html">Azure</a></li>
+<li class="toctree-l1"><a class="reference internal" href="azure.html">Azure: Blob Storage</a></li>
 <li class="toctree-l1"><a class="reference internal" href="bill_com.html">Bill.com</a></li>
 <li class="toctree-l1"><a class="reference internal" href="bloomerang.html">Bloomerang</a></li>
 <li class="toctree-l1"><a class="reference internal" href="braintree.html">Braintree</a></li>
@@ -113,8 +113,8 @@
 <li class="toctree-l1"><a class="reference internal" href="salesforce.html">Salesforce</a></li>
 <li class="toctree-l1"><a class="reference internal" href="sftp.html">SFTP</a></li>
 <li class="toctree-l1"><a class="reference internal" href="targetsmart.html">TargetSmart</a></li>
-<li class="toctree-l1"><a class="reference internal" href="twilio.html">Twilio</a></li>
 <li class="toctree-l1"><a class="reference internal" href="turbovote.html">TurboVote</a></li>
+<li class="toctree-l1"><a class="reference internal" href="twilio.html">Twilio</a></li>
 <li class="toctree-l1"><a class="reference internal" href="zoom.html">Zoom</a></li>
 </ul>
 <p class="caption"><span class="caption-text">Enhancements</span></p>
@@ -200,27 +200,33 @@
 <h1>Hustle<a class="headerlink" href="#hustle" title="Permalink to this headline">¶</a></h1>
 <div class="section" id="overview">
 <h2>Overview<a class="headerlink" href="#overview" title="Permalink to this headline">¶</a></h2>
-<p>Hustle is a peer to peer texting communication platform. This Parsons integration with the
+<p><a class="reference external" href="https://www.hustle.com/">Hustle</a> is a peer to peer texting communication platform. This Parsons integration with the
 the <a class="reference external" href="https://api.hustle.com/docs/">Hustle v1 API</a> provides methods for fetching agents,
 organizations, groups, leads, and tags, as well as creating and updating agents and leads.</p>
 </div>
 <div class="section" id="quick-start">
 <h2>Quick Start<a class="headerlink" href="#quick-start" title="Permalink to this headline">¶</a></h2>
+<p>To instantiate the <code class="docutils literal notranslate"><span class="pre">Hustle</span></code> class, you can either store your Hustle client ID and secret as environmental variables
+(<code class="docutils literal notranslate"><span class="pre">HUSTLE_CLIENT_ID</span></code> and <code class="docutils literal notranslate"><span class="pre">HUSTLE_CLIENT_SECRET</span></code>, respectively) or pass them in as keyword arguments:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">parsons</span> <span class="kn">import</span> <span class="n">Hustle</span>
 
+<span class="c1"># First approach: Use API credentials via environmental variables</span>
+<span class="n">hustle</span> <span class="o">=</span> <span class="n">Hustle</span><span class="p">()</span>
+
+<span class="c1"># Second approach: Pass API credentials as arguments</span>
 <span class="n">hustle</span> <span class="o">=</span> <span class="n">Hustle</span><span class="p">(</span><span class="n">client_id</span><span class="o">=</span><span class="s1">&#39;MYID&#39;</span><span class="p">,</span> <span class="n">client_secret</span><span class="o">=</span><span class="s1">&#39;MYSECRET&#39;</span><span class="p">)</span>
 
-    <span class="c1"># Export your groups to a csv</span>
-    <span class="n">tbl</span> <span class="o">=</span> <span class="n">hustle</span><span class="o">.</span><span class="n">get_groups</span><span class="p">(</span><span class="n">organization_id</span><span class="o">=</span><span class="s1">&#39;ORGID&#39;</span><span class="p">)</span>
-    <span class="n">tbl</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="s1">&#39;my_hustle_groups.csv&#39;</span><span class="p">)</span>
+<span class="c1"># Export your groups to a csv</span>
+<span class="n">tbl</span> <span class="o">=</span> <span class="n">hustle</span><span class="o">.</span><span class="n">get_groups</span><span class="p">(</span><span class="n">organization_id</span><span class="o">=</span><span class="s1">&#39;ORGID&#39;</span><span class="p">)</span>
+<span class="n">tbl</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="s1">&#39;my_hustle_groups.csv&#39;</span><span class="p">)</span>
 
-    <span class="c1"># Export organizations to Redshift</span>
-    <span class="n">tbl</span><span class="o">.</span><span class="n">get_organizations</span><span class="p">()</span><span class="o">.</span><span class="n">to_redshift</span><span class="p">(</span><span class="s1">&#39;hustleschema.hustle_organizations&#39;</span><span class="p">)</span>
+<span class="c1"># Export organizations to Redshift</span>
+<span class="n">tbl</span><span class="o">.</span><span class="n">get_organizations</span><span class="p">()</span><span class="o">.</span><span class="n">to_redshift</span><span class="p">(</span><span class="s1">&#39;hustleschema.hustle_organizations&#39;</span><span class="p">)</span>
 
-    <span class="c1"># Import leads from a csv</span>
-    <span class="n">leads</span> <span class="o">=</span> <span class="n">Table</span><span class="o">.</span><span class="n">from_csv</span><span class="p">(</span><span class="s1">&#39;my_leads.csv&#39;</span><span class="p">)</span>
-    <span class="n">group_id</span> <span class="o">=</span> <span class="s1">&#39;MYGROUP&#39;</span>
-    <span class="n">hustle</span><span class="o">.</span><span class="n">create_leads</span><span class="p">(</span><span class="n">leads</span><span class="p">,</span> <span class="n">group_id</span><span class="p">)</span>
+<span class="c1"># Import leads from a csv</span>
+<span class="n">leads</span> <span class="o">=</span> <span class="n">Table</span><span class="o">.</span><span class="n">from_csv</span><span class="p">(</span><span class="s1">&#39;my_leads.csv&#39;</span><span class="p">)</span>
+<span class="n">group_id</span> <span class="o">=</span> <span class="s1">&#39;MYGROUP&#39;</span>
+<span class="n">hustle</span><span class="o">.</span><span class="n">create_leads</span><span class="p">(</span><span class="n">leads</span><span class="p">,</span> <span class="n">group_id</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>

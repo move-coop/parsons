@@ -82,7 +82,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../../../action_network.html">Action Network</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../airtable.html">Airtable</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../aws.html">Amazon Web Services</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../azure.html">Azure</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../azure.html">Azure: Blob Storage</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../bill_com.html">Bill.com</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../bloomerang.html">Bloomerang</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../braintree.html">Braintree</a></li>
@@ -106,8 +106,8 @@
 <li class="toctree-l1"><a class="reference internal" href="../../../salesforce.html">Salesforce</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../sftp.html">SFTP</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../targetsmart.html">TargetSmart</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../twilio.html">Twilio</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../turbovote.html">TurboVote</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../twilio.html">Twilio</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../zoom.html">Zoom</a></li>
 </ul>
 <p class="caption"><span class="caption-text">Enhancements</span></p>
@@ -208,7 +208,7 @@
 <span class="sd">        api_key: str</span>
 <span class="sd">            A valid Zoom api key. Not required if ``ZOOM_API_KEY`` env</span>
 <span class="sd">            variable set.</span>
-<span class="sd">        api_secret:</span>
+<span class="sd">        api_secret: str</span>
 <span class="sd">            A valid Zoom api secret. Not required if ``ZOOM_API_SECRET`` env</span>
 <span class="sd">            variable set.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -333,7 +333,7 @@
 <span class="sd">        Get past meeting participants</span>
 
 <span class="sd">        `Args:`</span>
-<span class="sd">            meeting_id:</span>
+<span class="sd">            meeting_id: str</span>
 <span class="sd">                The meeting id</span>
 <span class="sd">        `Returns:`</span>
 <span class="sd">            Parsons Table</span>

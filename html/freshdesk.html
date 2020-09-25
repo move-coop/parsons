@@ -84,7 +84,7 @@
 <li class="toctree-l1"><a class="reference internal" href="action_network.html">Action Network</a></li>
 <li class="toctree-l1"><a class="reference internal" href="airtable.html">Airtable</a></li>
 <li class="toctree-l1"><a class="reference internal" href="aws.html">Amazon Web Services</a></li>
-<li class="toctree-l1"><a class="reference internal" href="azure.html">Azure</a></li>
+<li class="toctree-l1"><a class="reference internal" href="azure.html">Azure: Blob Storage</a></li>
 <li class="toctree-l1"><a class="reference internal" href="bill_com.html">Bill.com</a></li>
 <li class="toctree-l1"><a class="reference internal" href="bloomerang.html">Bloomerang</a></li>
 <li class="toctree-l1"><a class="reference internal" href="braintree.html">Braintree</a></li>
@@ -113,8 +113,8 @@
 <li class="toctree-l1"><a class="reference internal" href="salesforce.html">Salesforce</a></li>
 <li class="toctree-l1"><a class="reference internal" href="sftp.html">SFTP</a></li>
 <li class="toctree-l1"><a class="reference internal" href="targetsmart.html">TargetSmart</a></li>
-<li class="toctree-l1"><a class="reference internal" href="twilio.html">Twilio</a></li>
 <li class="toctree-l1"><a class="reference internal" href="turbovote.html">TurboVote</a></li>
+<li class="toctree-l1"><a class="reference internal" href="twilio.html">Twilio</a></li>
 <li class="toctree-l1"><a class="reference internal" href="zoom.html">Zoom</a></li>
 </ul>
 <p class="caption"><span class="caption-text">Enhancements</span></p>
@@ -233,6 +233,16 @@ or pass them in as keyword arguments:</p>
 </pre></div>
 </div>
 <p>You can then call various endpoints:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Fetch all tickets requested a individual based on their email</span>
+<span class="n">freshdesk</span><span class="o">.</span><span class="n">get_tickets</span><span class="p">(</span><span class="n">requester_email</span><span class="o">=</span><span class="s1">&#39;user@email.com&#39;</span><span class="p">)</span>
+
+<span class="c1"># Fetch all contacts in a specific company</span>
+<span class="n">freshdesk</span><span class="o">.</span><span class="n">get_contacts</span><span class="p">(</span><span class="n">company_id</span><span class="o">=</span><span class="s1">&#39;123&#39;</span><span class="p">)</span>
+
+<span class="c1"># Fetch a specific agent by their mobile number</span>
+<span class="n">freshdesk</span><span class="o">.</span><span class="n">get_agents</span><span class="p">(</span><span class="n">mobile</span><span class="o">=</span><span class="s1">&#39;7654367287&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
 </div>
 <div class="section" id="api">
 <h2>API<a class="headerlink" href="#api" title="Permalink to this headline">¶</a></h2>
@@ -243,10 +253,10 @@ or pass them in as keyword arguments:</p>
 <dl class="docutils">
 <dt><cite>Args:</cite></dt>
 <dd><dl class="first last docutils">
-<dt>domain:</dt>
+<dt>domain: str</dt>
 <dd>The subdomain of the Freshdesk account. Not required if <code class="docutils literal notranslate"><span class="pre">FRESHDESK_DOMAIN</span></code>
 env variable set.</dd>
-<dt>api_key:</dt>
+<dt>api_key: str</dt>
 <dd>The Freshdesk provided application key. Not required if <code class="docutils literal notranslate"><span class="pre">FRESHDESK_API_KEY</span></code>
 env variable set.</dd>
 </dl>
@@ -258,7 +268,7 @@ env variable set.</dd>
 <dt id="parsons.Freshdesk.get_tickets">
 <code class="descname">get_tickets</code><span class="sig-paren">(</span><em>ticket_type=None</em>, <em>requester_id=None</em>, <em>requester_email=None</em>, <em>company_id=None</em>, <em>updated_since='2016-01-01'</em>, <em>expand_custom_fields=False</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/freshdesk/freshdesk.html#Freshdesk.get_tickets"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.Freshdesk.get_tickets" title="Permalink to this definition">¶</a></dt>
 <dd><p>List tickets.</p>
-<p>See the <cite>API Docs &lt;https://developers.freshdesk.com/api/#list_all_tickets&gt;_</cite>
+<p>See the <a class="reference external" href="https://developers.freshdesk.com/api/#list_all_tickets">API Docs</a>
 for more information.</p>
 <div class="admonition warning">
 <p class="first admonition-title">Warning</p>
@@ -283,7 +293,7 @@ the past 30 days are returned. To access additional tickets, utilize the
 <dd>Filter by requester email.</dd>
 <dt>company_id: int</dt>
 <dd>Filter by company_id.</dd>
-<dt>updated_since:</dt>
+<dt>updated_since: str</dt>
 <dd>Earliest date to include in results.</dd>
 <dt>expand_custom_fields: boolean</dt>
 <dd>Expand nested custom fields to their own columns.</dd>
@@ -302,7 +312,7 @@ the past 30 days are returned. To access additional tickets, utilize the
 <dt id="parsons.Freshdesk.get_contacts">
 <code class="descname">get_contacts</code><span class="sig-paren">(</span><em>email=None</em>, <em>mobile=None</em>, <em>phone=None</em>, <em>company_id=None</em>, <em>state=None</em>, <em>updated_since=None</em>, <em>expand_custom_fields=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/freshdesk/freshdesk.html#Freshdesk.get_contacts"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.Freshdesk.get_contacts" title="Permalink to this definition">¶</a></dt>
 <dd><p>Get contacts.</p>
-<p>See the <cite>API Docs &lt;https://developers.freshdesk.com/api/#list_all_contacts&gt;_</cite>
+<p>See the <a class="reference external" href="https://developers.freshdesk.com/api/#list_all_contacts">API Docs</a>
 for more information.</p>
 <dl class="docutils">
 <dt><cite>Args:</cite></dt>
@@ -336,7 +346,7 @@ for more information.</p>
 <dt id="parsons.Freshdesk.get_companies">
 <code class="descname">get_companies</code><span class="sig-paren">(</span><em>expand_custom_fields=False</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/freshdesk/freshdesk.html#Freshdesk.get_companies"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.Freshdesk.get_companies" title="Permalink to this definition">¶</a></dt>
 <dd><p>List companies.</p>
-<p>See the <cite>API Docs &lt;https://developers.freshdesk.com/api/#list_all_companies&gt;_</cite>
+<p>See the <a class="reference external" href="https://developers.freshdesk.com/api/#list_all_companies">API Docs</a>
 for more information.</p>
 <dl class="docutils">
 <dt><cite>Args:</cite></dt>
@@ -358,7 +368,7 @@ for more information.</p>
 <dt id="parsons.Freshdesk.get_agents">
 <code class="descname">get_agents</code><span class="sig-paren">(</span><em>email=None</em>, <em>mobile=None</em>, <em>phone=None</em>, <em>state=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/freshdesk/freshdesk.html#Freshdesk.get_agents"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.Freshdesk.get_agents" title="Permalink to this definition">¶</a></dt>
 <dd><p>List agents.</p>
-<p>See the <cite>API Docs &lt;https://developers.freshdesk.com/api/#list_all_agents&gt;_</cite>
+<p>See the <a class="reference external" href="https://developers.freshdesk.com/api/#list_all_agents">API Docs</a>
 for more information.</p>
 <dl class="docutils">
 <dt><cite>Args:</cite></dt>

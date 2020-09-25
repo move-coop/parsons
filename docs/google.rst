@@ -1,8 +1,9 @@
 Google
 ======
 
-Google Cloud services utilize a credentials JSON file for authentication. If you are the administrator of your Google Cloud account,
-you can generate them in the `Google Cloud Console APIs and Services <https://console.cloud.google.com/apis/credentials/serviceaccountkey?_ga=2.116342342.-1334320118.1565013288>`_.
+Google Cloud services allow you to upload and manipulate Tables as spreadsheets (via GoogleSheets) or query them as SQL database tables (via GoogleBigQuery). You can also upload/store/download them as binary objects (via GoogleCloudStorage). Finally, Google offers an API for civic information using GoogleCivic.
+
+For all of these services you will need to enable the APIs for your Google Cloud account and obtain authentication tokens to access them from your scripts. If you are the administrator of your Google Cloud account, you can do both of these at `Google Cloud Console APIs and Services <https://console.cloud.google.com/apis/credentials/serviceaccountkey?_ga=2.116342342.-1334320118.1565013288>`_.
 
 .. _gbq:
 
@@ -94,13 +95,15 @@ Cloud Storage
 Overview
 ========
 Google Cloud Storage is a cloud file storage system. It uses buckets in which to
-store arbitrary files referred to as blobs.
+store arbitrary files referred to as blobs. You may use this connector to upload Parsons tables as blobs, download them to files, and list available blobs.
+
+To use the GoogleCloudStorage class, you will need Google Drive credentials. If you are the administrator of your Google Cloud account, you can generate them in the `Google Cloud Console APIs and Services <https://console.cloud.google.com/apis/credentials/serviceaccountkey?_ga=2.116342342.-1334320118.1565013288>`_.
 
 ==========
 Quickstart
 ==========
 
-To instantiate the GoogleBigQuery class, you can pass the constructor a string containing either the name of the Google Drive credentials file or a JSON string encoding those credentials. Alternatively, you can set the environment variable ``GOOGLE_APPLICATION_CREDENTIALS`` to be either of those strings and call the constructor without that argument.
+To instantiate the GoogleBigQuery class, you can pass the constructor a string containing either the name of your Google Drive credentials file or a JSON string encoding those credentials. Alternatively, you can set the environment variable ``GOOGLE_APPLICATION_CREDENTIALS`` to be either of those strings and call the constructor without that argument.
 
 .. code-block:: python
 
@@ -202,7 +205,7 @@ Google Sheets
 Overview
 ========
 
-The GoogleSheets class allows you to interact with a Google Drive spreadsheet.
+The GoogleSheets class allows you to interact with Google Drive spreadsheets, called "Google Sheets." You can create, modify, read, format, share and delete sheets with this connector.
 
 In order to instantiate the class, you must pass Google Drive credentials as a dictionary, or store the credentials as a JSON string in the ``GOOGLE_DRIVE_CREDENTIALS`` environment variable. Typically you'll get the credentials from the Google Developer Console (look for the "Google Drive API").
 

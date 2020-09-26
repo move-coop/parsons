@@ -1,13 +1,14 @@
 import os
 import unittest
 import unittest.mock as mock
-from parsons.surveygizmo.surveygizmo import SurveyGizmo, Table
+from parsons.surveygizmo.surveygizmo import SurveyGizmo
 import logging
 
 logger = logging.getLogger(__name__)
 
 # Relevant links
 # V5 API Documentation https://apihelp.surveygizmo.com/help/version-5
+
 
 class TestSurveyGizmoGetSurveys(unittest.TestCase):
     def setUp(self):
@@ -34,8 +35,7 @@ class TestSurveyGizmoGetSurveys(unittest.TestCase):
 
         actual_surveys = self.surveygizmo.get_surveys()
 
-        assert not "links" in actual_surveys.columns
-
+        assert "links" not in actual_surveys.columns
 
     def _get_surveys_return_single_page(self):
         return {

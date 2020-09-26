@@ -14,10 +14,10 @@ class Freshdesk:
     Instantiate Freshdesk class
 
     `Args:`
-        domain: str
+        domain:
             The subdomain of the Freshdesk account. Not required if ``FRESHDESK_DOMAIN``
             env variable set.
-        api_key: str
+        api_key:
             The Freshdesk provided application key. Not required if ``FRESHDESK_API_KEY``
             env variable set.
     `Returns:`
@@ -66,7 +66,7 @@ class Freshdesk:
         """
         List tickets.
 
-        See the `API Docs <https://developers.freshdesk.com/api/#list_all_tickets>`_
+        See the `API Docs <https://developers.freshdesk.com/api/#list_all_tickets>_`
         for more information.
 
         .. warning::
@@ -88,7 +88,7 @@ class Freshdesk:
                 Filter by requester email.
             company_id: int
                 Filter by company_id.
-            updated_since: str
+            updated_since:
                 Earliest date to include in results.
             expand_custom_fields: boolean
                 Expand nested custom fields to their own columns.
@@ -112,7 +112,7 @@ class Freshdesk:
         """
         Get contacts.
 
-        See the `API Docs <https://developers.freshdesk.com/api/#list_all_contacts>`_
+        See the `API Docs <https://developers.freshdesk.com/api/#list_all_contacts>_`
         for more information.
 
         `Args:`
@@ -150,7 +150,7 @@ class Freshdesk:
         """
         List companies.
 
-        See the `API Docs <https://developers.freshdesk.com/api/#list_all_companies>`_
+        See the `API Docs <https://developers.freshdesk.com/api/#list_all_companies>_`
         for more information.
 
         `Args:`
@@ -169,7 +169,7 @@ class Freshdesk:
         """
         List agents.
 
-        See the `API Docs <https://developers.freshdesk.com/api/#list_all_agents>`_
+        See the `API Docs <https://developers.freshdesk.com/api/#list_all_agents>_`
         for more information.
 
         `Args:`

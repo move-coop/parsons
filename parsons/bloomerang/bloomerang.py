@@ -109,7 +109,7 @@ class Bloomerang(object):
     def update_constituent(self, constituent_id, **kwargs):
         """
         `Args:`
-            constituent_id: str or int
+            constituent_id:
                 Constituent ID to update
             **kwargs:`
                 Fields to update, e.g., FirstName = 'RJ'.
@@ -121,7 +121,7 @@ class Bloomerang(object):
     def get_constituent(self, constituent_id):
         """
         `Args:`
-            constituent_id: str or int
+            constituent_id:
                 Constituent ID to get fields for
         `Returns:`
             A  JSON of the entry or an error.
@@ -131,7 +131,7 @@ class Bloomerang(object):
     def delete_constituent(self, constituent_id):
         """
         `Args:`
-            constituent_id: str or int
+            constituent_id:
                 Constituent ID to delete
         """
         return self._base_delete('constituent', entity_id=constituent_id)
@@ -139,9 +139,9 @@ class Bloomerang(object):
     def get_constituents(self, page_number=1, page_size=50):
         """
         `Args:`
-            page_number: int
+            page_number:
                 Number of the page to fetch
-            page_size: int
+            page_size:
                 Number of records per page (maximum allowed is 50)
         `Returns:`
             A Table of the entries.
@@ -163,7 +163,7 @@ class Bloomerang(object):
     def update_transaction(self, transaction_id, **kwargs):
         """
         `Args:`
-            transaction_id: str or int
+            transaction_id:
                 Transaction ID to update
             **kwargs:`
                 Fields to update, e.g., CreditCardType = 'Visa'.
@@ -175,7 +175,7 @@ class Bloomerang(object):
     def get_transaction(self, transaction_id):
         """
         `Args:`
-            transaction_id: str or int
+            transaction_id:
                 Transaction ID to get fields for
         `Returns:`
             A  JSON of the entry or an error.
@@ -185,7 +185,7 @@ class Bloomerang(object):
     def delete_transaction(self, transaction_id):
         """
         `Args:`
-            transaction_id: str or int
+            transaction_id:
                 Transaction ID to delete
         """
         return self._base_delete('transaction', entity_id=transaction_id)
@@ -193,9 +193,9 @@ class Bloomerang(object):
     def get_transactions(self, page_number=1, page_size=50):
         """
         `Args:`
-            page_number: int
+            page_number:
                 Number of the page to fetch
-            page_size: int
+            page_size:
                 Number of records per page (maximum allowed is 50)
         `Returns:`
             A  JSON of the entry or an error.
@@ -207,7 +207,7 @@ class Bloomerang(object):
     def get_transaction_designation(self, designation_id):
         """
         `Args:`
-            designation_id: str or int
+            designation_id:
                 Transaction Designation ID to get fields for
         `Returns:`
             A  JSON of the entry or an error.
@@ -217,9 +217,9 @@ class Bloomerang(object):
     def get_transaction_designations(self, page_number=1, page_size=50):
         """
         `Args:`
-            page_number: int
+            page_number:
                 Number of the page to fetch
-            page_size: int
+            page_size:
                 Number of records per page (maximum allowed is 50)
         `Returns:`
             A  JSON of the entry or an error.
@@ -241,7 +241,7 @@ class Bloomerang(object):
     def update_interaction(self, interaction_id, **kwargs):
         """
         `Args:`
-            interaction_id: str or int
+            interaction_id:
                 Interaction ID to update
             **kwargs:`
                 Fields to update, e.g., EmailAddress = "user@example.com".
@@ -253,7 +253,7 @@ class Bloomerang(object):
     def get_interaction(self, interaction_id):
         """
         `Args:`
-            interaction_id: str or int
+            interaction_id:
                 Interaction ID to get fields for
         `Returns:`
             A  JSON of the entry or an error.
@@ -263,7 +263,7 @@ class Bloomerang(object):
     def delete_interaction(self, interaction_id):
         """
         `Args:`
-            interaction_id: str or int
+            interaction_id:
                 Interaction ID to delete
         """
         return self._base_delete('interaction', entity_id=interaction_id)
@@ -271,9 +271,9 @@ class Bloomerang(object):
     def get_interactions(self, page_number=1, page_size=50):
         """
         `Args:`
-            page_number: int
+            page_number:
                 Number of the page to fetch
-            page_size: int
+            page_size:
                 Number of records per page (maximum allowed is 50)
         `Returns:`
             A  JSON of the entry or an error.

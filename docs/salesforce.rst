@@ -1,10 +1,6 @@
 Salesforce
 ==========
 
-********
-Overview
-********
-
 `Salesforce <https://www.salesforce.com>`_ is a cloud-based CRM (customer relationship management) tool
 with a huge share of the for-profit and apolitical non-profit markets. This Parsons integration with the
 `Salesforce REST API <https://developer.salesforce.com/docs/atlas.en-us.api_rest.meta/api_rest/intro_what_is_rest_api.htm>`_
@@ -30,7 +26,6 @@ and security token as environmental variables (``SALESFORCE_USERNAME``, ``SALESF
 and ``SALESFORCE_SECURITY_TOKEN``, respectively) or pass them in as arguments:
 
 .. code-block:: python
-
     from parsons import Salesforce, Table
 
     # First approach: Pass API credentials as environmental variables
@@ -42,7 +37,6 @@ and ``SALESFORCE_SECURITY_TOKEN``, respectively) or pass them in as arguments:
 You can then call different endpoints:
 
 .. code-block:: python
-
     # Get IDs and names for all Contacts
     all_contacts = sf.query("SELECT Id, firstname, lastname FROM Contact")
 

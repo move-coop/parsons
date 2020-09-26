@@ -18,7 +18,7 @@ class Zoom:
         api_key: str
             A valid Zoom api key. Not required if ``ZOOM_API_KEY`` env
             variable set.
-        api_secret: str
+        api_secret:
             A valid Zoom api secret. Not required if ``ZOOM_API_SECRET`` env
             variable set.
     """
@@ -143,7 +143,7 @@ class Zoom:
         Get past meeting participants
 
         `Args:`
-            meeting_id: str
+            meeting_id:
                 The meeting id
         `Returns:`
             Parsons Table

@@ -14,6 +14,7 @@ class ActionNetwork(object):
     `Args:`
         api_token: str
             The OSDI API token
+        api_url:
     """
     def __init__(self, api_token=None):
         self.api_token = check_env.check('AN_API_TOKEN', api_token)

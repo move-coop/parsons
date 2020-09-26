@@ -193,8 +193,8 @@ Indices and tables
    salesforce
    sftp
    targetsmart
-   turbovote
    twilio
+   turbovote
    zoom
 
 .. toctree::

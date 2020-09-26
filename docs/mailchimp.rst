@@ -1,10 +1,6 @@
 Mailchimp
 =========
 
-********
-Overview
-********
-
 `Mailchimp <https://www.mailchimp.com>`_ is a platform used for creating and sending mass emails.
 `The Mailchimp API <https://developers.braintreepayments.com/>`_ allows users to interact with data from existing
 email campaigns under their account and to configure further campaigns.
@@ -30,7 +26,7 @@ as an environmental variable (``MAILCHIMP_API_KEY``) or pass it as an argument.
     from parsons import Mailchimp
 
     # First approach: API key is stored as an environmental variable
-    mc = Mailchimp()
+	mc = Mailchimp()
 
     # Second approach: Pass API key as argument
     mc = Mailchimp(api_key='my_api_key')

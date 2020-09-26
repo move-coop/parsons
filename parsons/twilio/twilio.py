@@ -9,8 +9,6 @@ logger = logging.getLogger(__name__)
 
 class Twilio:
     """
-    Instantiate the Twilio class
-
     `Args:`
         account_sid: str
             The Twilio account sid. Not required if ``TWILIO_ACCOUNT_SID`` env variable is
@@ -130,7 +128,7 @@ class Twilio:
 
         return tbl
 
-    def get_messages(self, to=None, sent_from=None, date_sent=None, date_sent_before=None,
+    def get_messages(self, to=None, from_=None, date_sent=None, date_sent_before=None,
                      date_sent_after=None):
         """
         Get Twilio messages.
@@ -138,7 +136,7 @@ class Twilio:
         `Args:`
             to: str
                 Filter to messages only sent to the specified phone number.
-            sent_from: str
+            from_: str
                 Filter to messages only sent from the specified phone number.
             date_sent: str
                 Filter to messages only sent on the specified date (ex. ``2019-01-01``).
@@ -151,7 +149,7 @@ class Twilio:
                 See :ref:`parsons-table` for output options.
         """
 
-        r = self.client.messages.list(to=to, sent_from=sent_from, date_sent=date_sent,
+        r = self.client.messages.list(to=to, from_=from_, date_sent=date_sent,
                                       date_sent_before=date_sent_before,
                                       date_sent_after=date_sent_after)
 

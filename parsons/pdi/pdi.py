@@ -21,8 +21,7 @@ class PDI(FlagIDs, Universes, Questions, AcquisitionTypes, Flags):
 
     def __init__(self, username=None, password=None, api_token=None,
                  qa_url=False):
-        """
-        Instantiate the PDI class
+        """A class to access the PDI API.
 
         `Args:`
             username: str

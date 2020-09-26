@@ -320,7 +320,7 @@
 
         <span class="k">return</span> <span class="n">tbl</span></div>
 
-<div class="viewcode-block" id="Twilio.get_messages"><a class="viewcode-back" href="../../../twilio.html#parsons.Twilio.get_messages">[docs]</a>    <span class="k">def</span> <span class="nf">get_messages</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">to</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">sent_from</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">date_sent</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">date_sent_before</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+<div class="viewcode-block" id="Twilio.get_messages"><a class="viewcode-back" href="../../../twilio.html#parsons.Twilio.get_messages">[docs]</a>    <span class="k">def</span> <span class="nf">get_messages</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">to</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">from_</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">date_sent</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">date_sent_before</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
                      <span class="n">date_sent_after</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Get Twilio messages.</span>
@@ -328,7 +328,7 @@
 <span class="sd">        `Args:`</span>
 <span class="sd">            to: str</span>
 <span class="sd">                Filter to messages only sent to the specified phone number.</span>
-<span class="sd">            sent_from: str</span>
+<span class="sd">            from_: str</span>
 <span class="sd">                Filter to messages only sent from the specified phone number.</span>
 <span class="sd">            date_sent: str</span>
 <span class="sd">                Filter to messages only sent on the specified date (ex. ``2019-01-01``).</span>
@@ -341,7 +341,7 @@
 <span class="sd">                See :ref:`parsons-table` for output options.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
-        <span class="n">r</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">messages</span><span class="o">.</span><span class="n">list</span><span class="p">(</span><span class="n">to</span><span class="o">=</span><span class="n">to</span><span class="p">,</span> <span class="n">sent_from</span><span class="o">=</span><span class="n">sent_from</span><span class="p">,</span> <span class="n">date_sent</span><span class="o">=</span><span class="n">date_sent</span><span class="p">,</span>
+        <span class="n">r</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">messages</span><span class="o">.</span><span class="n">list</span><span class="p">(</span><span class="n">to</span><span class="o">=</span><span class="n">to</span><span class="p">,</span> <span class="n">from_</span><span class="o">=</span><span class="n">from_</span><span class="p">,</span> <span class="n">date_sent</span><span class="o">=</span><span class="n">date_sent</span><span class="p">,</span>
                                       <span class="n">date_sent_before</span><span class="o">=</span><span class="n">date_sent_before</span><span class="p">,</span>
                                       <span class="n">date_sent_after</span><span class="o">=</span><span class="n">date_sent_after</span><span class="p">)</span>
 

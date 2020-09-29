@@ -23,7 +23,7 @@ Google Cloud projects.
 Quickstart
 ==========
 
-To instantiate the GoogleBigQuery class, you can pass the constructor a string containing either the name of the Google Drive credentials file or a JSON string encoding those credentials. Alternatively, you can set the environment variable ``GOOGLE_APPLICATION_CREDENTIALS`` to be either of those strings and call the constructor without that argument.
+To instantiate the GoogleBigQuery class, you can pass the constructor a string containing either the name of the Google service account credentials file or a JSON string encoding those credentials. Alternatively, you can set the environment variable ``GOOGLE_APPLICATION_CREDENTIALS`` to be either of those strings and call the constructor without that argument.
 
 .. code-block:: python
 
@@ -97,13 +97,13 @@ Overview
 Google Cloud Storage is a cloud file storage system. It uses buckets in which to
 store arbitrary files referred to as blobs. You may use this connector to upload Parsons tables as blobs, download them to files, and list available blobs.
 
-To use the GoogleCloudStorage class, you will need Google Drive credentials. If you are the administrator of your Google Cloud account, you can generate them in the `Google Cloud Console APIs and Services <https://console.cloud.google.com/apis/credentials/serviceaccountkey?_ga=2.116342342.-1334320118.1565013288>`_.
+To use the GoogleCloudStorage class, you will need Google service account credentials. If you are the administrator of your Google Cloud account, you can generate them in the `Google Cloud Console APIs and Services <https://console.cloud.google.com/apis/credentials/serviceaccountkey?_ga=2.116342342.-1334320118.1565013288>`_.
 
 ==========
 Quickstart
 ==========
 
-To instantiate the GoogleBigQuery class, you can pass the constructor a string containing either the name of your Google Drive credentials file or a JSON string encoding those credentials. Alternatively, you can set the environment variable ``GOOGLE_APPLICATION_CREDENTIALS`` to be either of those strings and call the constructor without that argument.
+To instantiate the GoogleBigQuery class, you can pass the constructor a string containing either the name of your Google service account credentials file or a JSON string encoding those credentials. Alternatively, you can set the environment variable ``GOOGLE_APPLICATION_CREDENTIALS`` to be either of those strings and call the constructor without that argument.
 
 .. code-block:: python
 
@@ -205,15 +205,15 @@ Google Sheets
 Overview
 ========
 
-The GoogleSheets class allows you to interact with Google Drive spreadsheets, called "Google Sheets." You can create, modify, read, format, share and delete sheets with this connector.
+The GoogleSheets class allows you to interact with Google service account spreadsheets, called "Google Sheets." You can create, modify, read, format, share and delete sheets with this connector.
 
-In order to instantiate the class, you must pass Google Drive credentials as a dictionary, or store the credentials as a JSON string in the ``GOOGLE_DRIVE_CREDENTIALS`` environment variable. Typically you'll get the credentials from the Google Developer Console (look for the "Google Drive API").
+In order to instantiate the class, you must pass Google service account credentials as a dictionary, or store the credentials as a JSON string in the ``GOOGLE_DRIVE_CREDENTIALS`` environment variable. Typically you'll get the credentials from the Google Developer Console (look for the "Google Drive API").
 
 ==========
 Quickstart
 ==========
 
-To instantiate the GoogleSheets class, you can either pass the constructor a dict containing your Google Drive credentials or define the environment variable ``GOOGLE_DRIVE_CREDENTIALS`` to contain a JSON encoding of the dict.
+To instantiate the GoogleSheets class, you can either pass the constructor a dict containing your Google service account credentials or define the environment variable ``GOOGLE_DRIVE_CREDENTIALS`` to contain a JSON encoding of the dict.
 
 .. code-block:: python
 

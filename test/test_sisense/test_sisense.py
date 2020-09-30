@@ -6,7 +6,8 @@ from parsons.sisense.sisense import Sisense
 from parsons.etl import Table
 
 from test.utils import assert_matching_tables
-from test.test_sisense.test_data import ENV_PARAMETERS, TEST_GET_DASHBOARDS, TEST_GET_DASHBOARD_SHARES, \
+from test.test_sisense.test_data import ENV_PARAMETERS, \
+    TEST_GET_DASHBOARDS, TEST_GET_DASHBOARD_SHARES, \
     TEST_PUBLISH_DASHBOARD_BLOB, TEST_PUBLISH_DASHBOARD_URL, TEST_POST_SUCCESS
 
 
@@ -37,19 +38,16 @@ class TestSisense(unittest.TestCase):
     @requests_mock.Mocker()
     def test_get_dashboard_shares(self, m):
         m.get(f'{self.sisense.uri}dashboards/123/shares', json=TEST_GET_DASHBOARD_SHARES)
-        assert_matching_tables(self.sisense.get_dashboard_shares(dashboard_id=123),
-                               Table(TEST_GET_DASHBOARD_SHARES))
+        assert_matching_tables(self.sisense.get_dashboard_shares(dashboard_id=123), Table(TEST_GET_DASHBOARD_SHARES))  # noqa
 
         m.get(f'{self.sisense.uri}dashboards/123/shares/456', json=TEST_GET_DASHBOARD_SHARES)
-        assert_matching_tables(self.sisense.get_dashboard_shares(dashboard_id=123, share_id=456),
-                               Table(TEST_GET_DASHBOARD_SHARES))
+        assert_matching_tables(self.sisense.get_dashboard_shares(dashboard_id=123, share_id=456), Table(TEST_GET_DASHBOARD_SHARES)) # noqa
 
         m.get(f'{self.sisense.uri}dashboards/123/shares/456', json=TEST_GET_DASHBOARD_SHARES)
-        assert_matching_tables(self.sisense.get_dashboard_shares(dashboard_id='123', share_id='456'),
-                               Table(TEST_GET_DASHBOARD_SHARES))
+        assert_matching_tables(self.sisense.get_dashboard_shares(dashboard_id='123', share_id='456'), Table(TEST_GET_DASHBOARD_SHARES))  # noqa
 
     @requests_mock.Mocker()
     def test_publish_dashboard(self, m):
         m.post(f'{self.sisense.uri}shared_dashboard/create', json=TEST_PUBLISH_DASHBOARD_URL)
         m.post(TEST_PUBLISH_DASHBOARD_URL['url'], json=TEST_POST_SUCCESS)
-        self.assertEqual(self.sisense.publish_dashboard(TEST_PUBLISH_DASHBOARD_BLOB).json(), TEST_POST_SUCCESS)
+        self.assertEqual(self.sisense.publish_dashboard(TEST_PUBLISH_DASHBOARD_BLOB).json(), TEST_POST_SUCCESS) # noqa

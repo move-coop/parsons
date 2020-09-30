@@ -138,7 +138,7 @@ class Twilio:
         `Args:`
             to: str
                 Filter to messages only sent to the specified phone number.
-            from_: str
+            from\_: str
                 Filter to messages only sent from the specified phone number.
             date_sent: str
                 Filter to messages only sent on the specified date (ex. ``2019-01-01``).

@@ -10,6 +10,13 @@ from parsons.box import Box
 from parsons.etl import Table
 from parsons.utilities import files
 
+"""Prior to running, you should ensure that the relevant environment
+variables have been set, e.g. via
+
+export BOX_CLIENT_ID=txqedp4rqi0cz5qckz361fziavdtdwxz
+export BOX_CLIENT_SECRET=bk264KHMDLVy89TeuUpSRa4CN5o35u9h
+export BOX_ACCESS_TOKEN=boK97B39m3ozIGyTcazbWRbi5F2SSZ5J
+"""
 TEST_CLIENT_ID = os.getenv('BOX_CLIENT_ID')
 TEST_BOX_CLIENT_SECRET = os.getenv('BOX_CLIENT_SECRET')
 TEST_ACCESS_TOKEN = os.getenv('BOX_ACCESS_TOKEN')
@@ -23,10 +30,6 @@ def generate_random_string(length):
 class TestBoxStorage(unittest.TestCase):
 
     def setUp(self) -> None:
-        #os.environ['BOX_CLIENT_ID'] = 'txqedp4rqi0cz5qckz361fziavdtdwxz'
-        #os.environ['BOX_CLIENT_SECRET'] = 'bk264KHMDLVy89TeuUpSRa4CN5o35u9h'
-        #os.environ['BOX_ACCESS_TOKEN'] = 'boK97B39m3ozIGyTcazbWRbi5F2SSZ5J'
-
         # Create a client that we'll use to manipulate things behind the scenes
         self.client = Box()
         # Create test folder that we'll use for all our manipulations

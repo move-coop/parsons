@@ -3,12 +3,10 @@ import os
 import pprint
 import random
 import string
-import tempfile
 import unittest
 
 from parsons.box import Box
 from parsons.etl import Table
-from parsons.utilities import files
 
 """Prior to running, you should ensure that the relevant environment
 variables have been set, e.g. via
@@ -21,10 +19,11 @@ TEST_CLIENT_ID = os.getenv('BOX_CLIENT_ID')
 TEST_BOX_CLIENT_SECRET = os.getenv('BOX_CLIENT_SECRET')
 TEST_ACCESS_TOKEN = os.getenv('BOX_ACCESS_TOKEN')
 
+
 def generate_random_string(length):
     """Utility to generate random alpha string for file/folder names"""
-    letters = string.ascii_letters
     return ''.join(random.choice(string.ascii_letters) for i in range(length))
+
 
 @unittest.skipIf(not os.getenv('LIVE_TEST'), 'Skipping because not running live test')
 class TestBoxStorage(unittest.TestCase):
@@ -75,8 +74,8 @@ class TestBoxStorage(unittest.TestCase):
         box = Box()
 
         table = Table([['phone_number', 'last_name', 'first_name'],
-                     ['4435705355', 'Warren', 'Elizabeth'],
-                     ['5126993336', 'Obama', 'Barack']])
+                       ['4435705355', 'Warren', 'Elizabeth'],
+                       ['5126993336', 'Obama', 'Barack']])
         box_file = box.upload_table(table, 'phone_numbers', folder_id=self.temp_folder_id)
 
         new_table = box.get_table(box_file.id)

@@ -3,7 +3,8 @@
 To get authentication info (this eventually belongs in the docs for
 this connector):
 
-Information on Box site here: https://developer.box.com/guides/applications/custom-apps/oauth2-setup/
+Information on Box site here:
+https://developer.box.com/guides/applications/custom-apps/oauth2-setup/
 
 1. Set up Box account
 2. Go to Developer console (https://app.box.com/developers/console)
@@ -25,6 +26,7 @@ from parsons.utilities.check_env import check as check_env
 import tempfile
 
 logger = logging.getLogger(__name__)
+
 
 class Box(object):
     """Box is a file storage provider.
@@ -53,7 +55,7 @@ class Box(object):
         oauth = boxsdk.OAuth2(
             client_id=client_id,
             client_secret=client_secret,
-            access_token = access_token
+            access_token=access_token
         )
         self.client = boxsdk.Client(oauth)
 
@@ -128,7 +130,8 @@ class Box(object):
     # In what formats can we upload/save Tables to Box? For now, just csv
     ALLOWED_FILE_FORMATS = ['csv']
 
-    def upload_table(self, table, file_name, folder_id='0', format='csv') -> boxsdk.object.file.File:
+    def upload_table(self, table, file_name,
+                     folder_id='0', format='csv') -> boxsdk.object.file.File:
         """Save the passed table to Box.
 
         `Args`:
@@ -146,7 +149,7 @@ class Box(object):
         """
         folder_id = folder_id or '0'
 
-        if not format in self.ALLOWED_FILE_FORMATS:
+        if format not in self.ALLOWED_FILE_FORMATS:
             raise ValueError(f'Format argument to upload_table() must be in one '
                              f'of {self.ALLOWED_FILE_FORMATS}; found "{format}"')
 
@@ -169,7 +172,7 @@ class Box(object):
         `Returns`:
             A Parsons Table
         """
-        if not format in self.ALLOWED_FILE_FORMATS:
+        if format not in self.ALLOWED_FILE_FORMATS:
             raise ValueError(f'Format argument to upload_table() must be in one '
                              f'of {self.ALLOWED_FILE_FORMATS}; found "{format}"')
 

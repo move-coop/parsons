@@ -26,7 +26,7 @@ def generate_random_string(length):
     letters = string.ascii_letters
     return ''.join(random.choice(string.ascii_letters) for i in range(length))
 
-#@unittest.skipIf(not os.getenv('LIVE_TEST'), 'Skipping because not running live test')
+@unittest.skipIf(not os.getenv('LIVE_TEST'), 'Skipping because not running live test')
 class TestBoxStorage(unittest.TestCase):
 
     def setUp(self) -> None:

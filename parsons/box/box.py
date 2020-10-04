@@ -13,7 +13,6 @@ Information on Box site here: https://developer.box.com/guides/applications/cust
 5. Scroll down to get the client id & secret, and just above it
    select OAuth2.0 with JWT (Server Authentication) and
    generate a developer token, aka "access token".
-
 """
 
 import logging
@@ -25,7 +24,6 @@ from parsons.utilities.check_env import check as check_env
 import tempfile
 
 logger = logging.getLogger(__name__)
-
 
 class Box(object):
     """

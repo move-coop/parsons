@@ -21,22 +21,7 @@ def generate_random_string(length):
 
 #@unittest.skipIf(not os.getenv('LIVE_TEST'), 'Skipping because not running live test')
 class TestBoxStorage(unittest.TestCase):
-    """
-    def setUp(self):
 
-        self.azure_blob = AzureBlobStorage(
-            account_name=TEST_ACCOUNT_NAME, credential=TEST_CREDENTIAL
-        )
-
-        # Create the container if it does not exist already
-        if not self.azure_blob.container_exists(TEST_CONTAINER_NAME):
-            self.azure_blob.create_container(TEST_CONTAINER_NAME)
-
-        # Create blob if it doesn't exist already
-        if not self.azure_blob.blob_exists(TEST_CONTAINER_NAME, TEST_FILE_NAME):
-            tmp_file_path = files.string_to_temp_file(TEST_FILE_CONTENTS, suffix='.txt')
-            self.azure_blob.put_blob(TEST_CONTAINER_NAME, TEST_FILE_NAME, tmp_file_path)
-    """
     def setUp(self) -> None:
         #os.environ['BOX_CLIENT_ID'] = 'txqedp4rqi0cz5qckz361fziavdtdwxz'
         #os.environ['BOX_CLIENT_SECRET'] = 'bk264KHMDLVy89TeuUpSRa4CN5o35u9h'

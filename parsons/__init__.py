@@ -90,11 +90,8 @@ if not os.environ.get('PARSONS_SKIP_IMPORT_ALL'):
         'PDI',
         'AzureBlobStorage',
         'GitHub',
-<<<<<<< HEAD
-        'Box',
-=======
         'Bloomerang',
->>>>>>> master
+        'Box',
     ]
 
 # Define the default logging config for Parsons and its submodules. For now the

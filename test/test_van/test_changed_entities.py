@@ -3,7 +3,7 @@ import os
 import requests_mock
 from parsons.ngpvan.van import VAN
 from parsons.etl.table import Table
-from test.utils import validate_list, assert_matching_tables
+from test.utils import assert_matching_tables
 
 
 class TestNGPVAN(unittest.TestCase):
@@ -43,4 +43,5 @@ class TestNGPVAN(unittest.TestCase):
         }]
 
         m.get(self.van.connection.uri + 'changedEntityExportJobs/fields/ActivistCodes', json=json)
-        assert_matching_tables(Table(json), self.van.get_changed_entity_resource_fields('ActivistCodes'))
+        assert_matching_tables(
+            Table(json), self.van.get_changed_entity_resource_fields('ActivistCodes'))

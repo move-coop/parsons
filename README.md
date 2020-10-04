@@ -34,41 +34,33 @@ We have a Parsons Docker container hosted on [DockerHub](https://cloud.docker.co
 
 ### Quickstart
 
+For this Quickstart, we are looking to generate a list of voters with cell phones using a [dummy data file](docs/quickstart.csv). We use the `assert` statements to verify that the data has been loaded correctly.
+
+```python
+# Download the Census data from the Parsons GitHub repository
+from parsons import GitHub
+github = GitHub()
+dummy_data = github.download_table('move-coop/parsons', 'docs/quickstart.csv')
+assert dummy_data.num_rows == 1000  # Check that we got all 1,000 people
+
+# Filter down to people with cell phones
+people_with_cell_phones = dummy_data.select_rows(lambda row: row['is_cell'] == 'true')
+assert people_with_cell_phones.num_rows == 498  # Check that we filtered down to our 498 people
+
+# Extract only the columns we need (first name, last name, phone number)
+people_with_cell_phones = people_with_cell_phones.cut('first_name', 'last_name', 'phone_number')
+assert people_with_cell_phones.columns == ['first_name', 'last_name', 'phone_number'] # Check columns
+
+# Output the list to a local CSV file
+filename = people_with_cell_phones.to_csv()  # filename will be the path to the local CSV file
+
+# In order to upload data to a Google Sheet, you will need to set the GOOGLE_DRIVE_CREDENTIALS
+# environment variable
+from parsons import GoogleSheets
+sheets = GoogleSheets()
+sheet_id = sheets.create_spreadsheet('Voter Cell Phones')
+sheets.append_to_sheet(sheet_id, people_with_cell_phones)
 ```
-# VAN - Download activist codes to a CSV
-
-from parsons import VAN
-van = VAN(db='MyVoters')
-ac = van.get_activist_codes()
-ac.to_csv('my_activist_codes.csv')
-
-# Redshift - Create a table from a CSV
-
-from parsons import Table
-tbl = Table.from_csv('my_table.csv')
-tbl.to_redshift('my_schema.my_table')
-
-# Redshift - Export from a query to CSV
-
-from parsons import Redshift
-sql = 'select * from my_schema.my_table'
-rs = Redshift()
-tbl = rs.query(sql)
-tbl.to_csv('my_table.csv')
-
-# Upload a file to S3
-
-from parsons import S3
-s3 = S3()
-s3.put_file('my_bucket','my_table.csv')
-
-# TargetSmart - Append data to a record
-
-from parsons import TargetSmart
-ts = TargetSmart(api_key='MY_KEY')
-record = ts.data_enhance(231231231, state='DC')
-```
-
 
 ### Community
 We hope to foster a strong and robust community of individuals who use and contribute to further development. Individuals are encouraged to submit issues with bugs, suggestions and feature requests. [Here](https://github.com/move-coop/parsons/blob/master/CONTRIBUTING.md) are the guidelines and best practices for contributing to Parsons.

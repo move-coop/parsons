@@ -1,3 +1,5 @@
+# flake8: noqa
+
 expected_posts = {
   'status': 200,
   'result': {

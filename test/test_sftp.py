@@ -4,7 +4,7 @@ from parsons.etl import Table
 from parsons.sftp import SFTP
 from parsons.utilities import files
 from test.utils import mark_live_test, assert_matching_tables
-from test.fixtures import simple_table, simple_csv_path, simple_compressed_csv_path
+from test.fixtures import simple_table, simple_csv_path, simple_compressed_csv_path  # noqa; F401
 
 #
 # Fixtures and constants
@@ -16,8 +16,9 @@ REMOTE_CSV_PATH = f'{REMOTE_DIR}/{REMOTE_CSV}'
 REMOTE_COMPRESSED_CSV = 'test.csv.gz'
 REMOTE_COMPRESSED_CSV_PATH = f'{REMOTE_DIR}/{REMOTE_COMPRESSED_CSV}'
 
+
 @pytest.fixture
-def live_sftp(simple_table, simple_csv_path, simple_compressed_csv_path):
+def live_sftp(simple_table, simple_csv_path, simple_compressed_csv_path):  # noqa: F811
     # Generate a live SFTP connection based on these env vars
     host = os.environ['SFTP_HOST']
     username = os.environ['SFTP_USERNAME']
@@ -41,6 +42,7 @@ def live_sftp(simple_table, simple_csv_path, simple_compressed_csv_path):
 # Tests
 #
 
+
 def test_credential_validation():
     with pytest.raises(ValueError):
         SFTP(host=None, username=None, password=None)
@@ -48,46 +50,54 @@ def test_credential_validation():
     with pytest.raises(ValueError):
         SFTP(host=None, username='sam', password='abc123')
 
+
 @mark_live_test
 def test_list_non_existent_directory(live_sftp):
     with pytest.raises(FileNotFoundError):
-        file_list = live_sftp.list_directory('abc123')
+        live_sftp.list_directory('abc123')
+
 
 @mark_live_test
 def test_list_directory_with_files(live_sftp):
     file_list = live_sftp.list_directory(REMOTE_DIR)
     assert file_list == [REMOTE_COMPRESSED_CSV, REMOTE_CSV]
 
+
 @mark_live_test
 def test_get_non_existent_file(live_sftp):
     with pytest.raises(FileNotFoundError):
         live_sftp.get_file('abc123')
+
 
 # Helper function
 def assert_file_matches_table(local_path, table):
     downloaded_tbl = Table.from_csv(local_path)
     assert_matching_tables(table, downloaded_tbl)
 
+
 @mark_live_test
-def test_get_file(live_sftp, simple_table):
+def test_get_file(live_sftp, simple_table):  # noqa F811
     local_path = files.create_temp_file()
     live_sftp.get_file(REMOTE_CSV_PATH, local_path=local_path)
     assert_file_matches_table(local_path, simple_table)
 
+
 @mark_live_test
-def test_get_table(live_sftp, simple_table):
-    local_path = files.create_temp_file()
+def test_get_table(live_sftp, simple_table):  # noqa: F811
+    files.create_temp_file()
     tbl = live_sftp.get_table(REMOTE_CSV_PATH)
     assert_matching_tables(tbl, simple_table)
 
+
 @mark_live_test
-def test_get_temp_file(live_sftp, simple_table):
+def test_get_temp_file(live_sftp, simple_table):  # noqa: F811
     local_path = live_sftp.get_file(REMOTE_CSV_PATH)
     assert_file_matches_table(local_path, simple_table)
 
+
 @mark_live_test
 @pytest.mark.parametrize('compression', [None, 'gzip'])
-def test_table_to_sftp_csv(live_sftp, simple_table, compression):
+def test_table_to_sftp_csv(live_sftp, simple_table, compression):  # noqa: F811
     host = os.environ['SFTP_HOST']
     username = os.environ['SFTP_USERNAME']
     password = os.environ['SFTP_PASSWORD']

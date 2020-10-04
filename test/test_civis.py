@@ -5,6 +5,7 @@ from parsons.etl.table import Table
 
 # from . import scratch_creds
 
+
 @unittest.skipIf(not os.environ.get('LIVE_TEST'), 'Skipping because not running live test')
 class TestCivisClient(unittest.TestCase):
 

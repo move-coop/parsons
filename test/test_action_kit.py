@@ -50,12 +50,14 @@ class TestActionKit(unittest.TestCase):
         self.actionkit.get_user(123)
         self.actionkit.conn.get.assert_called_with(
             'https://domain.actionkit.com/rest/v1/user/123/',
+            params=None
         )
 
     def test_get_user_fields(self):
         self.actionkit.get_user_fields()
         self.actionkit.conn.get.assert_called_with(
-            'https://domain.actionkit.com/rest/v1/user/schema/'
+            'https://domain.actionkit.com/rest/v1/user/schema/',
+            params=None
         )
 
     def test_create_user(self):
@@ -117,6 +119,7 @@ class TestActionKit(unittest.TestCase):
         self.actionkit.get_campaign(123)
         self.actionkit.conn.get.assert_called_with(
             'https://domain.actionkit.com/rest/v1/campaign/123/',
+            params=None
         )
 
     def test_create_campaign(self):
@@ -141,6 +144,7 @@ class TestActionKit(unittest.TestCase):
         self.actionkit.get_event_create_page(123)
         self.actionkit.conn.get.assert_called_with(
             'https://domain.actionkit.com/rest/v1/eventcreatepage/123/',
+            params=None
         )
 
     def test_create_event_create_page(self):
@@ -170,6 +174,7 @@ class TestActionKit(unittest.TestCase):
         self.actionkit.get_event_create_form(123)
         self.actionkit.conn.get.assert_called_with(
             'https://domain.actionkit.com/rest/v1/eventcreateform/123/',
+            params=None
         )
 
     def test_create_event_create_form(self):
@@ -197,6 +202,7 @@ class TestActionKit(unittest.TestCase):
         self.actionkit.get_event_signup_page(123)
         self.actionkit.conn.get.assert_called_with(
             'https://domain.actionkit.com/rest/v1/eventsignuppage/123/',
+            params=None
         )
 
     def test_create_event_signup_page(self):
@@ -226,6 +232,7 @@ class TestActionKit(unittest.TestCase):
         self.actionkit.get_event_signup_form(123)
         self.actionkit.conn.get.assert_called_with(
             'https://domain.actionkit.com/rest/v1/eventsignupform/123/',
+            params=None
         )
 
     def test_create_event_signup_form(self):
@@ -266,6 +273,7 @@ class TestActionKit(unittest.TestCase):
         self.actionkit.get_page_followup(123)
         self.actionkit.conn.get.assert_called_with(
             'https://domain.actionkit.com/rest/v1/pagefollowup/123/',
+            params=None
         )
 
     def test_create_page_followup(self):
@@ -332,12 +340,26 @@ class TestActionKit(unittest.TestCase):
 
     def test_table_split(self):
         test1 = Table([('x', 'y', 'z'), ('a', 'b', ''), ('1', '', '3'), ('4', '', '6')])
-        tables = self.actionkit._split_tables_no_empties(test1)
+        tables = self.actionkit._split_tables_no_empties(test1, True, [])
         self.assertEqual(len(tables), 2)
         assert_matching_tables(tables[0], Table([('x', 'y'), ('a', 'b')]))
         assert_matching_tables(tables[1], Table([('x', 'z'), ('1', '3'), ('4', '6')]))
 
         test2 = Table([('x', 'y', 'z'), ('a', 'b', 'c'), ('1', '2', '3'), ('4', '5', '6')])
-        tables2 = self.actionkit._split_tables_no_empties(test2)
+        tables2 = self.actionkit._split_tables_no_empties(test2, True, [])
         self.assertEqual(len(tables2), 1)
         assert_matching_tables(tables2[0], test2)
+
+        test3 = Table([('x', 'y', 'z'), ('a', 'b', ''), ('1', '2', '3'), ('4', '5', '6')])
+        tables3 = self.actionkit._split_tables_no_empties(test3, False, ['z'])
+        self.assertEqual(len(tables3), 2)
+        assert_matching_tables(tables3[0], Table([('x', 'y'), ('a', 'b')]))
+        assert_matching_tables(tables3[1],
+                               Table([('x', 'y', 'z'), ('1', '2', '3'), ('4', '5', '6')]))
+
+    def test_collect_errors(self):
+        self.actionkit.collect_upload_errors([{'id': '12345'}])
+        self.actionkit.conn.get.assert_called_with(
+            'https://domain.actionkit.com/rest/v1/uploaderror/',
+            params={'upload': '12345'}
+        )

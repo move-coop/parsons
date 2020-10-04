@@ -3,8 +3,9 @@ import unittest
 import unittest.mock as mock
 from parsons.salesforce.salesforce import Salesforce, Table
 
+
 class TestSalesforce(unittest.TestCase):
-    
+
     def setUp(self):
 
         os.environ['SALESFORCE_USERNAME'] = 'MYFAKEUSERNAME'
@@ -21,12 +22,14 @@ class TestSalesforce(unittest.TestCase):
         self.sf._client.bulk.Contact.update.return_value = [{
             'success': True, 'created': False, 'id': '1234567890AaBbC', 'errors': []
         }]
-        self.sf._client.bulk.Contact.upsert.return_value = [{
-            'success': True, 'created': False, 'id': '1234567890AaBbC', 'errors': []
-        },
-        {
-            'success': True, 'created': True, 'id': '1234567890AaBbc', 'errors': []
-        }]
+        self.sf._client.bulk.Contact.upsert.return_value = [
+            {
+                'success': True, 'created': False, 'id': '1234567890AaBbC', 'errors': []
+            },
+            {
+                'success': True, 'created': True, 'id': '1234567890AaBbc', 'errors': []
+            }
+        ]
         self.sf._client.bulk.Contact.delete.return_value = [{
             'success': True, 'created': False, 'id': '1234567890AaBbC', 'errors': []
         }]
@@ -43,7 +46,7 @@ class TestSalesforce(unittest.TestCase):
     def test_query(self):
 
         fake_soql = 'FAKESOQL'
-        response = self.sf.query(fake_soql) 
+        response = self.sf.query(fake_soql)
         assert self.sf.client.query_all.called_with(fake_soql)
         self.assertEqual(response[0]['value'], 'FAKE')
 
@@ -56,21 +59,28 @@ class TestSalesforce(unittest.TestCase):
 
     def test_update(self):
 
-        fake_data = Table([{'id': '1234567890AaBbC',
+        fake_data = Table([{
+            'id': '1234567890AaBbC',
             'firstname': 'Chrisjen',
-            'lastname': 'Avasarala'}])
+            'lastname': 'Avasarala'
+        }])
         response = self.sf.update_record('Contact', fake_data)
         assert self.sf.client.bulk.Contact.update.called_with(fake_data)
         assert not response[0]['created']
 
     def test_upsert(self):
 
-        fake_data = Table([{'id': '1234567890AaBbC',
-            'firstname': 'Chrisjen',
-            'lastname': 'Avasarala'},
-            {'id': None,
-            'firstname': 'Roberta',
-            'lastname': 'Draper'}])
+        fake_data = Table([
+            {
+                'id': '1234567890AaBbC',
+                'firstname': 'Chrisjen',
+                'lastname': 'Avasarala'
+            },
+            {
+                'id': None,
+                'firstname': 'Roberta',
+                'lastname': 'Draper'
+            }])
         response = self.sf.upsert_record('Contact', fake_data, 'id')
         assert self.sf.client.bulk.Contact.update.called_with(fake_data)
         print(response)

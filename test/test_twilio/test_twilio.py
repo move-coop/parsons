@@ -3,6 +3,7 @@ import unittest
 import unittest.mock as mock
 from parsons.twilio.twilio import Twilio
 
+
 class TestTwilio(unittest.TestCase):
 
     def setUp(self):
@@ -21,9 +22,9 @@ class TestTwilio(unittest.TestCase):
 
     def test_get_accounts(self):
 
-        x = self.twilio.get_accounts(name='MyOrg', status='active')
-        assert self.twilio.client.api.accounts.list.called_with(friendly_name='MyOrg', status='active')
-
+        self.twilio.get_accounts(name='MyOrg', status='active')
+        assert self.twilio.client.api.accounts.list.called_with(
+            friendly_name='MyOrg', status='active')
 
     def test_get_messages(self):
 
@@ -36,9 +37,11 @@ class TestTwilio(unittest.TestCase):
         self.twilio.get_account_usage(time_period='today')
         assert self.twilio.client.usage.records.today.list.called_with(time_period='today')
         self.twilio.get_account_usage(time_period='last_month')
-        assert self.twilio.client.usage.records.last_month.list.called_with(time_period='last_month')
+        assert self.twilio.client.usage.records.last_month.list.called_with(
+            time_period='last_month')
         self.twilio.get_account_usage(time_period='this_month')
-        assert self.twilio.client.usage.records.this_month.list.called_with(time_period='this_month')
+        assert self.twilio.client.usage.records.this_month.list.called_with(
+            time_period='this_month')
         self.twilio.get_account_usage(time_period='yesterday')
         assert self.twilio.client.usage.records.today.list.called_with(time_period='yesterday')
 

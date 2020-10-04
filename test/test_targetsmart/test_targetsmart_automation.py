@@ -2,6 +2,8 @@ from parsons.targetsmart.targetsmart_automation import TargetSmartAutomation
 from parsons.sftp import SFTP
 import unittest
 from test.utils import mark_live_test
+import os
+
 
 class TestTargetSmartAutomation(unittest.TestCase):
 

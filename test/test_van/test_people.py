@@ -3,7 +3,7 @@ import os
 import requests_mock
 from parsons.ngpvan.van import VAN
 from requests.exceptions import HTTPError
-from test.test_van.responses_people import *
+from test.test_van.responses_people import find_people_response, get_person_response
 
 os.environ['VAN_API_KEY'] = 'SOME_KEY'
 
@@ -93,12 +93,12 @@ class TestNGPVAN(unittest.TestCase):
         json = get_person_response
 
         # Test works with external ID
-        m.get(self.van.connection.uri + f'people/DWID:15406767', json=json)
+        m.get(self.van.connection.uri + 'people/DWID:15406767', json=json)
         person = self.van.get_person('15406767', id_type='DWID')
         self.assertEqual(get_person_response, person)
 
         # Test works with vanid
-        m.get(self.van.connection.uri + f'people/19722445', json=json)
+        m.get(self.van.connection.uri + 'people/19722445', json=json)
         person = self.van.get_person('19722445')
         self.assertEqual(get_person_response, person)
 
@@ -106,9 +106,8 @@ class TestNGPVAN(unittest.TestCase):
     def test_apply_canvass_result(self, m):
 
         # Test a valid attempt
-        m.post(self.van.connection.uri + f'people/2335282/canvassResponses', status_code=204)
+        m.post(self.van.connection.uri + 'people/2335282/canvassResponses', status_code=204)
         self.van.apply_canvass_result(2335282, 18)
-
 
         # Test a bad result code
         json = {'errors':
@@ -116,7 +115,7 @@ class TestNGPVAN(unittest.TestCase):
                     'text': "'resultCodeId' must be a valid result code in the current context.",
                     'properties': ['resultCodeId']}
                  ]}
-        m.post(self.van.connection.uri + f'people/2335282/canvassResponses',
+        m.post(self.van.connection.uri + 'people/2335282/canvassResponses',
                json=json, status_code=400)
         self.assertRaises(HTTPError, self.van.apply_canvass_result, 2335282, 0)
 
@@ -126,35 +125,42 @@ class TestNGPVAN(unittest.TestCase):
                   'text': 'An unknown error occurred',
                   'referenceCode': '88A111-E2FF8'}
                  ]}
-        m.post(self.van.connection.uri + f'people/0/canvassResponses', json=json, status_code=400)
+        m.post(self.van.connection.uri + 'people/0/canvassResponses', json=json, status_code=400)
         self.assertRaises(HTTPError, self.van.apply_canvass_result, 0, 18)
 
         # Test a good dwid
-        m.post(self.van.connection.uri + f'people/DWID:2335282/canvassResponses', status_code=204)
+        m.post(self.van.connection.uri + 'people/DWID:2335282/canvassResponses', status_code=204)
         self.van.apply_canvass_result(2335282, 18, id_type='DWID')
 
     @requests_mock.Mocker()
     def test_apply_survey_question(self, m):
 
         # Test valid survey question
-        m.post(self.van.connection.uri + f'people/2335282/canvassResponses', status_code=204)
+        m.post(self.van.connection.uri + 'people/2335282/canvassResponses', status_code=204)
         self.van.apply_survey_response(2335282, 351006, 1443891)
 
         # Test bad survey response id
-        json = {'errors':
-                [{'code': 'INVALID_PARAMETER',
-                  'text': "'surveyResponseId' must be a valid Response to the given Survey Question.",
-                  'properties': ['responses[0].surveyResponseId']}
-                 ]}
-        m.post(self.van.connection.uri + f'people/2335282/canvassResponses', status_code=400)
+        # json = {
+        #     'errors': [{
+        #         'code': 'INVALID_PARAMETER',
+        #         'text': ("'surveyResponseId' must be a valid Response to the given "
+        #                  "Survey Question."),
+        #         'properties': ['responses[0].surveyResponseId']
+        #     }]
+        # }
+        m.post(self.van.connection.uri + 'people/2335282/canvassResponses', status_code=400)
         self.assertRaises(HTTPError, self.van.apply_survey_response, 2335282, 0, 1443891)
 
         # Test bad survey question id
-        json = {'errors':
-                [{'code': 'INVALID_PARAMETER',
-                  'text': "'surveyQuestionId' must be a valid Survey Question that is available in the current context.",
-                  'properties': ['responses[0].surveyQuestionId']}]}
-        m.post(self.van.connection.uri + f'people/2335282/canvassResponses', status_code=400)
+        # json = {
+        #     'errors': [{
+        #         'code': 'INVALID_PARAMETER',
+        #         'text': ("'surveyQuestionId' must be a valid Survey Question that is "
+        #                 "available in the current context."),
+        #         'properties': ['responses[0].surveyQuestionId']
+        #     }]
+        # }
+        m.post(self.van.connection.uri + 'people/2335282/canvassResponses', status_code=400)
         self.assertRaises(HTTPError, self.van.apply_survey_response, 2335282, 351006, 0)
 
     def test_toggle_volunteer_action(self):
@@ -182,8 +188,10 @@ class TestNGPVAN(unittest.TestCase):
                status_code=204)
 
         # Test bad input
-        self.assertRaises(HTTPError, self.van.create_relationship, bad_vanid_1, vanid_2, relationship_id)
-        self.assertRaises(HTTPError, self.van.create_relationship, bad_vanid_1, vanid_2, relationship_id)
+        self.assertRaises(
+            HTTPError, self.van.create_relationship, bad_vanid_1, vanid_2, relationship_id)
+        self.assertRaises(
+            HTTPError, self.van.create_relationship, bad_vanid_1, vanid_2, relationship_id)
 
         self.van.create_relationship(good_vanid_1, vanid_2, relationship_id)
 

@@ -12,13 +12,19 @@ additional details and information.
 
 .. note::
    API Keys
-      API Keys are specific to each committee and state, so you might need many. Not all API Keys are provisioned for all endpoints. When requesting API keys, you should specify the endpoints that you need access to. To learn more about
-      your api key run ``VAN.connection.api_key_profile``.
+      - API Keys are specific to each committee and state.
+      - There is a Parsons type API Key that can be requested via the Integrations menu on the main page. 
+      	If you have an issue gaining access to this key, or an admin has questions, please email 
+	<parsons@movementcooperative.org>.
+  
 
 .. warning::
    VANIDs
       VANIDs are unique to each state and instance of the VAN. VANIDs used for the AV VAN **will not** match
       those of the SmartVAN or VoteBuilder.
+   Maintenance & Suppoort
+      VAN/EveryAction is not responsible for support of Parsons. Their support team cannot answer questions
+      about Parsons. Please direct any questions 
 
 .. toctree::
 	:maxdepth: 1
@@ -61,6 +67,34 @@ documentation for all functions.
 Common Workflows
 ****************
 
+===========
+Bulk Import
+===========
+For some methods, VAN allows you to bulk import multiple records to create or modify them. 
+
+The bulk upload endpoint, requires access to file on the public internet as it runs the upload
+asynchronously. Therefore, in order to bulk import, you must pass in cloud storage credentials
+so that the file can be posted. Currently, only S3 is supported.
+
+**Bulk Apply Activist Codes**
+
+.. code-block:: python
+
+   from parsons import VAN, Table
+
+   van = VAN(db=EveryAction)
+
+   # Load a table containing the VANID, activistcodeid and other options.
+   tbl = Table.from_csv('new_volunteers.csv')
+
+   # Table will be sent to S3 bucket and a POST request will be made to VAN creating
+   # the bulk import job with all of the valid meta information. The method will 
+   # return the job id.
+   job_id = van.bulk_apply_activist_codes(tbl, url_type="S3", bucket='my_bucket')
+
+   # The bulk import job is run asynchronously, so you may poll the status of a job.
+   job_status = van.get_bulk_import_job(job_id)
+
 ============================
 Scores: Loading and Updating
 ============================
@@ -71,7 +105,8 @@ Loading a score is a multi-step process. Once a score is set to approved, loadin
 
 .. code-block:: python
 
-   from parsons import VAN
+   from parsons import VAN, Table
+
    van = VAN(db='MyVoters') # API key stored as an environmental variable
 
    # If you don't know the id, you can run van.get_scores() to list the
@@ -219,6 +254,12 @@ People
 Activist Codes
 ==============
 .. autoclass:: parsons.ngpvan.van.ActivistCodes
+   :inherited-members:
+
+===========
+Bulk Import
+===========
+.. autoclass:: parsons.ngpvan.van.BulkImport
    :inherited-members:
 
 =================

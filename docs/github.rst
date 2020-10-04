@@ -1,6 +1,10 @@
 GitHub
 ======
 
+********
+Overview
+********
+
 `GitHub <https://github.com>`_ is an online tool for software collaboration.
 
 This ``GitHub`` class uses the `PyGitHub library <https://pygithub.readthedocs.io/en/latest/introduction.html>`_
@@ -51,8 +55,8 @@ With the class instantiated, you can now call various endpoints.
   # Download Parsons README.md to local "/tmp/README.md"
   parsons_readme_path = github.download_file("move-coop/parsons", "README.md", local_path="/tmp/README.md")
 
-===
+***
 API
-===
+***
 .. autoclass:: parsons.GitHub
    :inherited-members:

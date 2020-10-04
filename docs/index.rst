@@ -171,6 +171,7 @@ Indices and tables
    aws
    azure
    bill_com
+   bloomerang
    braintree
    civis
    copper
@@ -191,9 +192,9 @@ Indices and tables
    rockthevote
    salesforce
    sftp
-   ts
-   twilio
+   targetsmart
    turbovote
+   twilio
    zoom
 
 .. toctree::

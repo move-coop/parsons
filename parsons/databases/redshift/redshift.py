@@ -323,9 +323,6 @@ class Redshift(RedshiftCreateTable, RedshiftCopyTable, RedshiftTableUtilities, R
                 See :ref:`parsons-table` for output options.
         """
 
-        # Warn the user if they don't provide a DIST key or a SORT key
-        self._log_key_warning(distkey=distkey, sortkey=sortkey, method='copy_s3')
-
         with self.connection() as connection:
 
             if self._create_table_precheck(connection, table_name, if_exists):
@@ -468,9 +465,6 @@ class Redshift(RedshiftCreateTable, RedshiftCopyTable, RedshiftTableUtilities, R
             Parsons Table or ``None``
                 See :ref:`parsons-table` for output options.
         """
-
-        # Warn the user if they don't provide a DIST key or a SORT key
-        self._log_key_warning(distkey=distkey, sortkey=sortkey, method='copy')
 
         # Specify the columns for a copy statement.
         if specifycols or (specifycols is None and template_table):
@@ -697,7 +691,7 @@ class Redshift(RedshiftCreateTable, RedshiftCopyTable, RedshiftTableUtilities, R
         return manifest
 
     def upsert(self, table_obj, target_table, primary_key, vacuum=True, distinct_check=True,
-               cleanup_temp_table=True, **copy_args):
+               cleanup_temp_table=True, alter_table=True, **copy_args):
         """
         Preform an upsert on an existing table. An upsert is a function in which records
         in a table are updated and inserted at the same time. Unlike other SQL databases,
@@ -728,8 +722,9 @@ class Redshift(RedshiftCreateTable, RedshiftCopyTable, RedshiftTableUtilities, R
             self.copy(table_obj, target_table)
             return None
 
-        # Make target table column widths match incoming table, if necessary
-        self.alter_varchar_column_widths(table_obj, target_table)
+        if alter_table:
+            # Make target table column widths match incoming table, if necessary
+            self.alter_varchar_column_widths(table_obj, target_table)
 
         noise = f'{random.randrange(0, 10000):04}'[:4]
         date_stamp = datetime.datetime.now().strftime('%Y%m%d_%H%M')
@@ -771,6 +766,7 @@ class Redshift(RedshiftCreateTable, RedshiftCopyTable, RedshiftTableUtilities, R
                     copy_args = dict(copy_args, compupdate=False)
                 self.copy(table_obj, staging_tbl,
                           template_table=target_table,
+                          alter_table=False,  # We just did our own alter table above
                           **copy_args)
 
                 staging_table_name = staging_tbl.split('.')[1]
@@ -879,29 +875,6 @@ class Redshift(RedshiftCreateTable, RedshiftCopyTable, RedshiftTableUtilities, R
         # Return a Redshift table object
 
         return RedshiftTable(self, table_name)
-
-    @staticmethod
-    def _log_key_warning(distkey=None, sortkey=None, method=''):
-        # Log a warning message advising the user about DIST and SORT keys
-
-        if distkey and sortkey:
-            return
-
-        keys = [
-            (distkey, "DIST", "https://aws.amazon.com/about-aws/whats-new/2019/08/amazon-redshift-"
-                              "now-recommends-distribution-keys-for-improved-query-performance/"),
-            (sortkey, "SORT", "https://docs.amazonaws.cn/en_us/redshift/latest/dg/c_best-practices-"
-                              "sort-key.html")
-        ]
-        warning = "".join([
-            "You didn't provide a {} key to method `parsons.redshift.Redshift.{}`.\n"
-            "You can learn about best practices here:\n{}.\n".format(
-                keyname, method, keyinfo
-            ) for key, keyname, keyinfo in keys if not key])
-
-        warning += "You may be able to further optimize your queries."
-
-        logger.warning(warning)
 
 
 class RedshiftTable(BaseTable):

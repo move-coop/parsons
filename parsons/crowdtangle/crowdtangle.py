@@ -28,8 +28,7 @@ class CrowdTangle(object):
         self.api_key = check_env.check('CT_API_KEY', api_key)
         self.uri = CT_URI
 
-    def base_request(self, endpoint, req_type='GET', args=None):
-        # Internal Request Method
+    def _base_request(self, endpoint, req_type='GET', args=None):
 
         url = f'{self.uri}/{endpoint}'
         base_args = {'token': self.api_key,
@@ -56,8 +55,7 @@ class CrowdTangle(object):
 
         return data
 
-    def base_unpack(self, ParsonsTable):
-        # Unpack base request
+    def _base_unpack(self, ParsonsTable):
 
         logger.debug("Working to unpack the Parsons Table...")
         logger.debug(f'Starting with {len(ParsonsTable.columns)} columns...')
@@ -76,7 +74,7 @@ class CrowdTangle(object):
         logger.info(f'There are now {len(ParsonsTable.columns)} columns...')
         return ParsonsTable
 
-    def unpack(self, ParsonsTable):
+    def _unpack(self, ParsonsTable):
 
         if ParsonsTable.num_rows == 0:
             return None
@@ -86,12 +84,12 @@ class CrowdTangle(object):
 
         while second_count > first_count:
             first_count = len(ParsonsTable.columns)
-            self.base_unpack(ParsonsTable)
+            self._base_unpack(ParsonsTable)
             second_count = len(ParsonsTable.columns)
 
         return ParsonsTable
 
-    def list_to_string(self, list_arg):
+    def _list_to_string(self, list_arg):
 
         if list_arg:
             return ','.join(list_arg)
@@ -101,15 +99,21 @@ class CrowdTangle(object):
     def get_posts(self, start_date=None, end_date=None, language=None, list_ids=None,
                   min_interations=None, search_term=None, types=None):
         """
-        Return advocates (person records).
+        Return a set of posts for the given parameters.
+
+        See the `API documentation <https://github.com/CrowdTangle/API/wiki/Posts>`_
+        for more information.
+
+        .. warning::
+          Rate limit is 2 calls / minute.
 
         `Args:`
             start_date: str
                 Filter to the earliest date at which a post could be posted.
-                The time is formatted as UTC (e.g. ``yyyy-mm-ddThh:mm:ss``).
+                The time is formatted as UTC (e.g. ``yyyy-mm-ddThh:mm:ss`` or ``yyyy-mm-dd``).
             end_date: str
                 Filter to the latest date at which a post could be posted.
-                The time is formatted as UTC (e.g. ``yyyy-mm-ddThh:mm:ss``).
+                The time is formatted as UTC (e.g. ``yyyy-mm-ddThh:mm:ss`` or ``yyyy-mm-dd``).
             language: str
                 Filter to 2-character Locale code. Some languages require more
                 than two characters: Chinese (Simplified) is zh-CN and
@@ -153,28 +157,34 @@ class CrowdTangle(object):
         args = {'startDate': start_date,
                 'endDate': end_date,
                 'language': language,
-                'listIds': self.list_to_string(list_ids),
+                'listIds': self._list_to_string(list_ids),
                 'minInteractions': min_interations,
                 'searchTerm': search_term,
                 'types': types}
 
         logger.info("Retrieving posts.")
-        pt = Table(self.base_request('posts', args=args))
+        pt = Table(self._base_request('posts', args=args))
         logger.info(f'Retrieved {pt.num_rows} posts.')
-        self.unpack(pt)
+        self._unpack(pt)
         return pt
 
     def get_leaderboard(self, start_date=None, end_date=None, list_ids=None, account_ids=None):
         """
-        Return advocates (person records).
+        Return leaderboard data.
+
+        See the `API documentation <https://github.com/CrowdTangle/API/wiki/Leaderboard>`_
+        for more information.
+
+        .. warning::
+          Rate limit is 6 calls / minute.
 
         `Args:`
             start_date: str
                 Filter to the earliest date at which a post could be posted.
-                The time is formatted as UTC (e.g. ``yyyy-mm-ddThh:mm:ss``).
+                The time is formatted as UTC (e.g. ``yyyy-mm-ddThh:mm:ss`` or ``yyyy-mm-dd``).
             end_date: str
                 Filter to the latest date at which a post could be posted.
-                The time is formatted as UTC (e.g. ``yyyy-mm-ddThh:mm:ss``).
+                The time is formatted as UTC (e.g. ``yyyy-mm-ddThh:mm:ss`` or ``yyyy-mm-dd``).
             list_ids: list
                 Filter to the ids of lists or saved searches to retrieve.
             account_ids: list
@@ -188,28 +198,35 @@ class CrowdTangle(object):
 
         args = {'startDate': start_date,
                 'endDate': end_date,
-                'listIds': self.list_to_string(list_ids),
-                'accountIds': self.list_to_string(account_ids)}
+                'listIds': self._list_to_string(list_ids),
+                'accountIds': self._list_to_string(account_ids)}
 
-        pt = Table(self.base_request('leaderboard', args=args))
+        pt = Table(self._base_request('leaderboard', args=args))
         logger.info(f'Retrieved {pt.num_rows} records from the leaderbooard.')
-        self.unpack(pt)
+        self._unpack(pt)
         return pt
 
     def get_links(self, link, start_date=None, end_date=None, include_summary=None,
                   platforms=None):
         """
-        Return posts based on a specific link.
+        Return up to 100 posts based on a specific link. It is strongly recommended to
+        use the ``start_date`` parameter to limit queries to relevant dates.
+
+        See the `API documentation <https://github.com/CrowdTangle/API/wiki/Links>`_
+        for more information.
+
+        .. warning::
+          Rate limit is 2 calls / minute.
 
         `Args:`
             link: str
                 The link to filter posts to.
             start_date: str
                 Filter to the earliest date at which a post could be posted.
-                The time is formatted as UTC (e.g. ``yyyy-mm-ddThh:mm:ss``).
+                The time is formatted as UTC (e.g. ``yyyy-mm-ddThh:mm:ss`` or ``yyyy-mm-dd``).
             end_date: str
                 Filter to the latest date at which a post could be posted.
-                The time is formatted as UTC (e.g. ``yyyy-mm-ddThh:mm:ss``).
+                The time is formatted as UTC (e.g. ``yyyy-mm-ddThh:mm:ss`` or ``yyyy-mm-dd``).
             include_summary: boolean
                 Adds a ``summary`` column with account statistics for each platform
                 that has posted this link. It will look beyond the count
@@ -227,10 +244,10 @@ class CrowdTangle(object):
                 'startDate': start_date,
                 'endDate': end_date,
                 'includeSummary': str(include_summary),
-                'platforms': self.list_to_string(platforms)}
+                'platforms': self._list_to_string(platforms)}
 
         logger.info("Retrieving posts based on link.")
-        pt = Table(self.base_request('links', args=args))
+        pt = Table(self._base_request('links', args=args))
         logger.info(f'Retrieved {pt.num_rows} links.')
-        self.unpack(pt)
+        self._unpack(pt)
         return pt

@@ -41,11 +41,15 @@ class RTVFailure(Exception):
 
 class RockTheVote:
     """
+    Instantiate the RockTheVote class
+
     `Args:`
         partner_id: str
-            The RockTheVote partner ID for the RTV account
+            The RockTheVote partner ID for the RTV account.
+            Not required if the ``RTV_PARTNER_ID`` environmental variable is set.
         partner_api_key: str
-            The API Key for the partner
+            The API Key for the partner.
+            Not required if the ``RTV_PARTNER_API_KEY`` environmental variable is set.
         testing: bool
             Whether or not to use the staging instance. Defaults to False.
     `Returns`:

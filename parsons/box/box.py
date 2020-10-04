@@ -13,6 +13,7 @@ Information on Box site here: https://developer.box.com/guides/applications/cust
 5. Scroll down to get the client id & secret, and just above it
    select OAuth2.0 with JWT (Server Authentication) and
    generate a developer token, aka "access token".
+
 """
 
 import logging
@@ -26,8 +27,8 @@ import tempfile
 logger = logging.getLogger(__name__)
 
 class Box(object):
-    """
-    Box is a file storage provider.
+    """Box is a file storage provider.
+
     `Args:`
         client_id: str
             Box client (account) id -- probably a 16-char alphanumeric.
@@ -59,13 +60,15 @@ class Box(object):
     def create_folder(self, folder_name, parent_folder=None) -> str:
         """Create a Box folder
 
-        Arglist:
-            folder_name   - The name to give to the new folder
-            parent_folder - The parent folder in which to create the new folder. If
-                            omitted, the default folder will be used.
+        `Args`:
+            folder_name: str
+               The name to give to the new folder
+            parent_folder: str
+               Folder id of the parent folder in which to create the new folder. If
+               omitted, the default folder will be used.
 
-        Returns:
-            The Box id of the newly-created folder
+        `Returns`:
+            str: The Box id of the newly-created folder
         """
         parent_folder = parent_folder or '0'
         subfolder = self.client.folder(parent_folder).create_subfolder(folder_name)
@@ -74,26 +77,29 @@ class Box(object):
     def delete_folder(self, folder_id) -> None:
         """Delete a Box folder
 
-        Arglist:
-            folder_id  - The Box id of the folder to delete.
+        `Args`:
+            folder_id:str
+               The Box id of the folder to delete.
         """
         self.client.folder(folder_id=folder_id).delete()
 
     def delete_file(self, file_id) -> None:
         """Delete a Box file
 
-        Arglist:
-            file_id  - The Box id of the file to delete.
+        `Args`:
+            file_id:str
+              The Box id of the file to delete.
         """
         self.client.file(folder_id=file_id).delete()
 
     def list_files(self, folder_id='0') -> Table:
         """List all Box files in a folder
 
-        Arglist:
-            folder_id  - The Box id of the folder in which to search. If omitted,
-                         search in the default folder.
-        Returns:
+        `Args`:
+            folder_id:str
+               The Box id of the folder in which to search. If omitted,
+               search in the default folder.
+        `Returns`:Table
             A Parsons table of files and their attributes
         """
         return self.list_items(folder_id=folder_id, item_type='file')
@@ -101,10 +107,11 @@ class Box(object):
     def list_folders(self, folder_id='0') -> Table:
         """List all Box folders
 
-        Arglist:
-            folder_id  - The Box id of the folder in which to search. If omitted,
-                         search in the default folder.
-        Returns:
+        `Args`:
+            folder_id:str
+               The Box id of the folder in which to search. If omitted,
+               search in the default folder.
+        `Returns`:Table
             A Parsons table of folders and their attributes
         """
         return self.list_items(folder_id=folder_id, item_type='folder')
@@ -124,13 +131,17 @@ class Box(object):
     def upload_table(self, table, file_name, folder_id='0', format='csv') -> boxsdk.object.file.File:
         """Save the passed table to Box.
 
-        Args:
-            table      - The Parsons table to be saved
-            file_name  - The filename under which it should be saved in Box
-            folder_id  - Optionally, the id of the subfolder in which it should be saved
-            format     - For now, only 'csv'; format in which to save table
+        `Args`:
+            table:Table
+               The Parsons table to be saved
+            file_name:str
+               The filename under which it should be saved in Box
+            folder_id:str
+               Optionally, the id of the subfolder in which it should be saved
+            format:str
+               For now, only 'csv'; format in which to save table
 
-        Returns:
+        `Returns`:BoxFile
             A Box File object
         """
         folder_id = folder_id or '0'
@@ -149,11 +160,13 @@ class Box(object):
     def get_table(self, file_id, format='csv') -> Table:
         """Get a table that has been saved to Box in csv or JSON format.
 
-        Args:
-            file_id    - The Box file_id of the table to be retrieved
-            format     - Format in which Table has been saved; for now, only 'csv'
+        `Args`:
+            file_id:str
+                The Box file_id of the table to be retrieved
+            format:str
+                 Format in which Table has been saved; for now, only 'csv'
 
-        Returns:
+        `Returns`:
             A Parsons Table
         """
         if not format in self.ALLOWED_FILE_FORMATS:

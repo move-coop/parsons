@@ -28,7 +28,7 @@
   <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="Azure" href="azure.html" />
+    <link rel="next" title="Azure: Blob Storage" href="azure.html" />
     <link rel="prev" title="Airtable" href="airtable.html" /> 
 
   
@@ -104,8 +104,10 @@
 </li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="azure.html">Azure</a></li>
+<li class="toctree-l1"><a class="reference internal" href="azure.html">Azure: Blob Storage</a></li>
 <li class="toctree-l1"><a class="reference internal" href="bill_com.html">Bill.com</a></li>
+<li class="toctree-l1"><a class="reference internal" href="bloomerang.html">Bloomerang</a></li>
+<li class="toctree-l1"><a class="reference internal" href="box.html">Box</a></li>
 <li class="toctree-l1"><a class="reference internal" href="braintree.html">Braintree</a></li>
 <li class="toctree-l1"><a class="reference internal" href="civis.html">Civis</a></li>
 <li class="toctree-l1"><a class="reference internal" href="copper.html">Copper</a></li>
@@ -126,9 +128,9 @@
 <li class="toctree-l1"><a class="reference internal" href="rockthevote.html">Rock the Vote</a></li>
 <li class="toctree-l1"><a class="reference internal" href="salesforce.html">Salesforce</a></li>
 <li class="toctree-l1"><a class="reference internal" href="sftp.html">SFTP</a></li>
-<li class="toctree-l1"><a class="reference internal" href="ts.html">TargetSmart</a></li>
-<li class="toctree-l1"><a class="reference internal" href="twilio.html">Twilio</a></li>
+<li class="toctree-l1"><a class="reference internal" href="targetsmart.html">TargetSmart</a></li>
 <li class="toctree-l1"><a class="reference internal" href="turbovote.html">TurboVote</a></li>
+<li class="toctree-l1"><a class="reference internal" href="twilio.html">Twilio</a></li>
 <li class="toctree-l1"><a class="reference internal" href="zoom.html">Zoom</a></li>
 </ul>
 <p class="caption"><span class="caption-text">Enhancements</span></p>
@@ -1092,7 +1094,7 @@ required if keys are stored as environmental variables.</dd>
 
 <dl class="function">
 <dt id="parsons.Redshift.upsert">
-<code class="descclassname">parsons.Redshift.</code><code class="descname">upsert</code><span class="sig-paren">(</span><em>self</em>, <em>table_obj</em>, <em>target_table</em>, <em>primary_key</em>, <em>vacuum=True</em>, <em>distinct_check=True</em>, <em>cleanup_temp_table=True</em>, <em>**copy_args</em><span class="sig-paren">)</span><a class="headerlink" href="#parsons.Redshift.upsert" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">parsons.Redshift.</code><code class="descname">upsert</code><span class="sig-paren">(</span><em>self</em>, <em>table_obj</em>, <em>target_table</em>, <em>primary_key</em>, <em>vacuum=True</em>, <em>distinct_check=True</em>, <em>cleanup_temp_table=True</em>, <em>alter_table=True</em>, <em>**copy_args</em><span class="sig-paren">)</span><a class="headerlink" href="#parsons.Redshift.upsert" title="Permalink to this definition">¶</a></dt>
 <dd><p>Preform an upsert on an existing table. An upsert is a function in which records
 in a table are updated and inserted at the same time. Unlike other SQL databases,
 it does not exist natively in Redshift.</p>
@@ -1721,7 +1723,7 @@ full list, see the
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="azure.html" class="btn btn-neutral float-right" title="Azure" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="azure.html" class="btn btn-neutral float-right" title="Azure: Blob Storage" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
         <a href="airtable.html" class="btn btn-neutral" title="Airtable" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>

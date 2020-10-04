@@ -172,6 +172,7 @@ Indices and tables
    azure
    bill_com
    bloomerang
+   box
    braintree
    civis
    copper

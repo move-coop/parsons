@@ -106,7 +106,11 @@
 <li class="toctree-l1"><a class="reference internal" href="redash.html">Redash</a></li>
 <li class="toctree-l1"><a class="reference internal" href="rockthevote.html">Rock the Vote</a></li>
 <li class="toctree-l1"><a class="reference internal" href="salesforce.html">Salesforce</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="#">SFTP</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">SFTP</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#quickstart">Quickstart</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#api">API</a></li>
+</ul>
+</li>
 <li class="toctree-l1"><a class="reference internal" href="targetsmart.html">TargetSmart</a></li>
 <li class="toctree-l1"><a class="reference internal" href="turbovote.html">TurboVote</a></li>
 <li class="toctree-l1"><a class="reference internal" href="twilio.html">Twilio</a></li>
@@ -193,8 +197,31 @@
             
   <div class="section" id="sftp">
 <h1>SFTP<a class="headerlink" href="#sftp" title="Permalink to this headline">¶</a></h1>
-<p>The SFTP class allows you to interact with SFTP services.</p>
-<p>It uses the <a class="reference external" href="http://docs.paramiko.org/en/2.4/api/sftp.html">Paramiko SFTP library</a> under the hood.</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">SFTP</span></code> class allows you to interact with <a href="#id1"><span class="problematic" id="id2">`SFTP services&lt;https://en.wikipedia.org/wiki/SSH_File_Transfer_Protocol&gt;`_</span></a>,
+using the  <a class="reference external" href="http://docs.paramiko.org/en/2.7/api/sftp.html">Paramiko SFTP library</a> under the hood.</p>
+<p>The class provides methods to:</p>
+<ul class="simple">
+<li>Create SFTP connections</li>
+<li>Make, remove, and list the contents of directories</li>
+<li>Get, put, remove, and check the size of files</li>
+</ul>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<dl class="last docutils">
+<dt>Authentication</dt>
+<dd>Depending on the server provider, SFTP may require either password or public key authentication.
+The <code class="docutils literal notranslate"><span class="pre">SFTP</span></code> class supports both methods via <code class="docutils literal notranslate"><span class="pre">password</span></code> and <code class="docutils literal notranslate"><span class="pre">rsa_private_key_file</span></code> arguments.</dd>
+</dl>
+</div>
+<div class="section" id="quickstart">
+<h2>Quickstart<a class="headerlink" href="#quickstart" title="Permalink to this headline">¶</a></h2>
+<p>To instantiate <code class="docutils literal notranslate"><span class="pre">SFTP</span></code>, pass your host name, user name, and either a password or an authentication
+key file as keyword arguments:</p>
+<p>To batch multiple methods using a single connection, you can create a connection and use
+it in a <code class="docutils literal notranslate"><span class="pre">with</span></code> block:</p>
+</div>
+<div class="section" id="api">
+<h2>API<a class="headerlink" href="#api" title="Permalink to this headline">¶</a></h2>
 <dl class="class">
 <dt id="parsons.SFTP">
 <em class="property">class </em><code class="descclassname">parsons.</code><code class="descname">SFTP</code><span class="sig-paren">(</span><em>host</em>, <em>username</em>, <em>password</em>, <em>port=22</em>, <em>rsa_private_key_file=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/sftp/sftp.html#SFTP"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.SFTP" title="Permalink to this definition">¶</a></dt>
@@ -221,19 +248,7 @@ to authenticate stfp connection</dd>
 <dl class="method">
 <dt id="parsons.SFTP.create_connection">
 <code class="descname">create_connection</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/sftp/sftp.html#SFTP.create_connection"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.SFTP.create_connection" title="Permalink to this definition">¶</a></dt>
-<dd><p>Create an SFTP connection. You can then utilize this in a <code class="docutils literal notranslate"><span class="pre">with</span></code> block
-and it will close the connection when it is out of scope. You should use
-this when you wish to batch multiple methods using a single connection.</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">SFTP</span>
-
-<span class="n">sftp</span> <span class="o">=</span> <span class="n">SFTP</span><span class="p">()</span>
-<span class="n">connection</span> <span class="o">=</span> <span class="n">sftp</span><span class="o">.</span><span class="n">create_connection</span><span class="p">()</span>
-
-<span class="k">with</span> <span class="n">connection</span> <span class="k">as</span> <span class="n">conn</span><span class="p">:</span>
-    <span class="n">sftp</span><span class="o">.</span><span class="n">make_directory</span><span class="p">(</span><span class="s1">&#39;my_dir&#39;</span><span class="p">,</span> <span class="n">connection</span><span class="o">=</span><span class="n">conn</span><span class="p">)</span>
-    <span class="n">sftp</span><span class="o">.</span><span class="n">put_file</span><span class="p">(</span><span class="s1">&#39;my_csv.csv&#39;</span><span class="p">,</span> <span class="n">connection</span><span class="o">=</span><span class="n">conn</span><span class="p">)</span>
-</pre></div>
-</div>
+<dd><p>Create an SFTP connection.</p>
 <dl class="docutils">
 <dt>Returns:</dt>
 <dd>SFTP Connection object</dd>
@@ -398,6 +413,7 @@ not downloaded locally.</p>
 
 </dd></dl>
 
+</div>
 </div>
 
 

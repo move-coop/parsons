@@ -23,6 +23,8 @@ import boxsdk
 
 from parsons.etl.table import Table
 from parsons.utilities.check_env import check as check_env
+from parsons.utilities.files import create_temp_file
+
 import tempfile
 
 logger = logging.getLogger(__name__)
@@ -128,7 +130,7 @@ class Box(object):
         return items
 
     # In what formats can we upload/save Tables to Box? For now, just csv
-    ALLOWED_FILE_FORMATS = ['csv']
+    ALLOWED_FILE_FORMATS = ['csv', 'json']
 
     def upload_table(self, table, file_name,
                      folder_id='0', format='csv') -> boxsdk.object.file.File:
@@ -142,7 +144,7 @@ class Box(object):
             folder_id:str
                Optionally, the id of the subfolder in which it should be saved
             format:str
-               For now, only 'csv'; format in which to save table
+               For now, only 'csv' and 'json'; format in which to save table
 
         `Returns`:BoxFile
             A Box File object
@@ -153,12 +155,20 @@ class Box(object):
             raise ValueError(f'Format argument to upload_table() must be in one '
                              f'of {self.ALLOWED_FILE_FORMATS}; found "{format}"')
 
+        # Create a temp directory in which we will let Parsons create a
+        # file. Both will go away automatically when we leave scope.
         with tempfile.TemporaryDirectory() as temp_dir_name:
-            temp_file_path = temp_dir_name + '/table.csv'
-            table.to_csv(local_path=temp_file_path)
+            temp_file_path = temp_dir_name + '/table.tmp'
+            if format == 'csv':
+                table.to_csv(local_path=temp_file_path)
+            elif format == 'json':
+                table.to_json(local_path=temp_file_path)
+            else:
+                raise SystemError(f'Got (theoretically) impossible format option "{format}"')
+
             new_file = self.client.folder(folder_id).upload(file_path=temp_file_path,
                                                             file_name=file_name)
-            return new_file
+        return new_file
 
     def get_table(self, file_id, format='csv') -> Table:
         """Get a table that has been saved to Box in csv or JSON format.
@@ -167,7 +177,7 @@ class Box(object):
             file_id:str
                 The Box file_id of the table to be retrieved
             format:str
-                 Format in which Table has been saved; for now, only 'csv'
+                 Format in which Table has been saved; for now, only 'csv' or 'json'
 
         `Returns`:
             A Parsons Table
@@ -176,5 +186,15 @@ class Box(object):
             raise ValueError(f'Format argument to upload_table() must be in one '
                              f'of {self.ALLOWED_FILE_FORMATS}; found "{format}"')
 
-        content = self.client.file(file_id).content().decode("utf-8")
-        return Table.from_csv_string(content)
+        # Temp file will be around as long as enclosing process is running,
+        # which we need, because the Table we return will continue to use it.
+        output_file_name = create_temp_file()
+        with open(output_file_name, 'wb') as output_file:
+            self.client.file(file_id).download_to(output_file)
+
+        if format == 'csv':
+            return Table.from_csv(output_file_name)
+        elif format == 'json':
+            return Table.from_json(output_file_name)
+        else:
+            raise SystemError(f'Got (theoretically) impossible format option "{format}"')

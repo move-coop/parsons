@@ -1,9 +1,9 @@
 import logging
 import os
-import pprint
 import random
 import string
 import unittest
+import warnings
 
 from parsons.box import Box
 from parsons.etl import Table
@@ -29,6 +29,8 @@ def generate_random_string(length):
 class TestBoxStorage(unittest.TestCase):
 
     def setUp(self) -> None:
+        warnings.filterwarnings(action="ignore", message="unclosed", category=ResourceWarning)
+
         # Create a client that we'll use to manipulate things behind the scenes
         self.client = Box()
         # Create test folder that we'll use for all our manipulations
@@ -63,12 +65,6 @@ class TestBoxStorage(unittest.TestCase):
         folder_list = box.list_folders(folder_id=subfolder)['name']
         self.assertEqual(['temp_folder1', 'temp_folder2'], folder_list)
 
-    def test_list_folders(self) -> None:
-        # Count on environment variables being set
-        box = Box()
-        file_list = box.list_files()
-        print('File list:\n{}'.format(pprint.pformat(file_list)))
-
     def test_upload_file(self) -> None:
         # Count on environment variables being set
         box = Box()
@@ -81,4 +77,20 @@ class TestBoxStorage(unittest.TestCase):
         new_table = box.get_table(box_file.id)
 
         # Check that what we saved is equal to what we got back
-        self.assertEquals(str(table), str(new_table))
+        self.assertEqual(str(table), str(new_table))
+
+        # Check that things also work in JSON
+        box_file = box.upload_table(table, 'phone_numbers_json',
+                                    folder_id=self.temp_folder_id,
+                                    format='json')
+
+        new_table = box.get_table(box_file.id, format='json')
+
+        # Check that what we saved is equal to what we got back
+        self.assertEqual(str(table), str(new_table))
+
+        # Check that we throw an exception with bad formats
+        with self.assertRaises(ValueError):
+            box.upload_table(table, 'phone_numbers', format='illegal_format')
+        with self.assertRaises(ValueError):
+            box.get_table(box_file.id, format='illegal_format')

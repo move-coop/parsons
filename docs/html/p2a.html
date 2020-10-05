@@ -84,10 +84,8 @@
 <li class="toctree-l1"><a class="reference internal" href="action_network.html">Action Network</a></li>
 <li class="toctree-l1"><a class="reference internal" href="airtable.html">Airtable</a></li>
 <li class="toctree-l1"><a class="reference internal" href="aws.html">Amazon Web Services</a></li>
-<li class="toctree-l1"><a class="reference internal" href="azure.html">Azure: Blob Storage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="azure.html">Azure</a></li>
 <li class="toctree-l1"><a class="reference internal" href="bill_com.html">Bill.com</a></li>
-<li class="toctree-l1"><a class="reference internal" href="bloomerang.html">Bloomerang</a></li>
-<li class="toctree-l1"><a class="reference internal" href="box.html">Box</a></li>
 <li class="toctree-l1"><a class="reference internal" href="braintree.html">Braintree</a></li>
 <li class="toctree-l1"><a class="reference internal" href="civis.html">Civis</a></li>
 <li class="toctree-l1"><a class="reference internal" href="copper.html">Copper</a></li>
@@ -104,18 +102,16 @@
 <li class="toctree-l1"><a class="reference internal" href="ngpvan.html">NGPVAN</a></li>
 <li class="toctree-l1"><a class="reference internal" href="pdi.html">PDI</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Phone2Action</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#overview">Overview</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#quick-start">Quick Start</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#id2">API</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="redash.html">Redash</a></li>
 <li class="toctree-l1"><a class="reference internal" href="rockthevote.html">Rock the Vote</a></li>
 <li class="toctree-l1"><a class="reference internal" href="salesforce.html">Salesforce</a></li>
 <li class="toctree-l1"><a class="reference internal" href="sftp.html">SFTP</a></li>
-<li class="toctree-l1"><a class="reference internal" href="targetsmart.html">TargetSmart</a></li>
-<li class="toctree-l1"><a class="reference internal" href="turbovote.html">TurboVote</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ts.html">TargetSmart</a></li>
 <li class="toctree-l1"><a class="reference internal" href="twilio.html">Twilio</a></li>
+<li class="toctree-l1"><a class="reference internal" href="turbovote.html">TurboVote</a></li>
 <li class="toctree-l1"><a class="reference internal" href="zoom.html">Zoom</a></li>
 </ul>
 <p class="caption"><span class="caption-text">Enhancements</span></p>
@@ -199,8 +195,6 @@
             
   <div class="section" id="phone2action">
 <h1>Phone2Action<a class="headerlink" href="#phone2action" title="Permalink to this headline">¶</a></h1>
-<div class="section" id="overview">
-<h2>Overview<a class="headerlink" href="#overview" title="Permalink to this headline">¶</a></h2>
 <p><a class="reference external" href="https://phone2action.com/">Phone2Action</a> is a digital advocacy tool used by progressive organizations. This class
 allows you to interact with the tool by leveraging their <a class="reference external" href="http://docs.phone2action.com/#overview">API</a>.</p>
 <div class="admonition note">
@@ -210,11 +204,9 @@ allows you to interact with the tool by leveraging their <a class="reference ext
 <dd>You will need to email Phone2Action to request credentials to access the API. The credentials consist of an app ID and an app key.</dd>
 </dl>
 </div>
-</div>
 <div class="section" id="quick-start">
 <h2>Quick Start<a class="headerlink" href="#quick-start" title="Permalink to this headline">¶</a></h2>
-<p>To instantiate the <code class="docutils literal notranslate"><span class="pre">Phone2Action</span></code> class, you can either pass in the app ID and app key as arguments or set the
-<code class="docutils literal notranslate"><span class="pre">PHONE2ACTION_APP_ID</span></code> and <code class="docutils literal notranslate"><span class="pre">PHONE2ACTION_APP_KEY</span></code> environmental variables.</p>
+<p>To instantiate a class, you can either pass in the app ID and app key as arguments or set the <code class="docutils literal notranslate"><span class="pre">PHONE2ACTION_APP_ID</span></code> and <code class="docutils literal notranslate"><span class="pre">PHONE2ACTION_APP_KEY</span></code> environmental variables.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">parsons</span> <span class="kn">import</span> <span class="n">Phone2Action</span>
 
 <span class="c1"># Instantiate the class using environment variables</span>
@@ -234,12 +226,9 @@ allows you to interact with the tool by leveraging their <a class="reference ext
     <span class="n">phone_number</span> <span class="o">=</span> <span class="n">phone</span><span class="p">[</span><span class="s1">&#39;phones_address&#39;</span><span class="p">]</span>
     <span class="c1"># Only update phone numbers that aren&#39;t already subscribed</span>
     <span class="k">if</span> <span class="n">phone</span><span class="p">[</span><span class="s1">&#39;subscribed&#39;</span><span class="p">]:</span>
-        <span class="n">p2a</span><span class="o">.</span><span class="n">update_advocate</span><span class="p">(</span><span class="n">phone</span><span class="p">[</span><span class="s1">&#39;advocate_id&#39;</span><span class="p">],</span> <span class="n">phone</span><span class="o">=</span><span class="n">phone_number</span><span class="p">,</span> <span class="n">sms_opt_in</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+     <span class="n">p2a</span><span class="o">.</span><span class="n">update_advocate</span><span class="p">(</span><span class="n">phone</span><span class="p">[</span><span class="s1">&#39;advocate_id&#39;</span><span class="p">],</span> <span class="n">phone</span><span class="o">=</span><span class="n">phone_number</span><span class="p">,</span> <span class="n">sms_opt_in</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 </pre></div>
 </div>
-</div>
-<div class="section" id="id2">
-<h2>API<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h2>
 <dl class="class">
 <dt id="parsons.Phone2Action">
 <em class="property">class </em><code class="descclassname">parsons.</code><code class="descname">Phone2Action</code><span class="sig-paren">(</span><em>app_id=None</em>, <em>app_key=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/phone2action/p2a.html#Phone2Action"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.Phone2Action" title="Permalink to this definition">¶</a></dt>
@@ -376,7 +365,7 @@ opted out, they cannot be opted back in.</dd>
 <dd><cite>Optional</cite>; Whether to opt the advocate out of receiving emails. You must
 provide values for the <code class="docutils literal notranslate"><span class="pre">email</span></code> and <code class="docutils literal notranslate"><span class="pre">campaigns</span></code> arguments. Once an advocate is
 opted out, they cannot be opted back in.</dd>
-<dt><a href="#id3"><span class="problematic" id="id4">**</span></a>kwargs:</dt>
+<dt><a href="#id2"><span class="problematic" id="id3">**</span></a>kwargs:</dt>
 <dd>Additional fields on the advocate to update</dd>
 </dl>
 </dd>
@@ -420,7 +409,7 @@ opted out, they cannot be opted back in.</dd>
 <dd><cite>Optional</cite>; Whether to opt the advocate out of receiving emails. You must
 provide values for the <code class="docutils literal notranslate"><span class="pre">email</span></code> and <code class="docutils literal notranslate"><span class="pre">campaigns</span></code> arguments. Once an advocate is
 opted out, they cannot be opted back in.</dd>
-<dt><a href="#id6"><span class="problematic" id="id7">**</span></a>kwargs:</dt>
+<dt><a href="#id5"><span class="problematic" id="id6">**</span></a>kwargs:</dt>
 <dd>Additional fields on the advocate to update</dd>
 </dl>
 </dd>

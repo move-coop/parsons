@@ -82,10 +82,8 @@
 <li class="toctree-l1"><a class="reference internal" href="../../../../action_network.html">Action Network</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../../airtable.html">Airtable</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../../aws.html">Amazon Web Services</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../../azure.html">Azure: Blob Storage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../azure.html">Azure</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../../bill_com.html">Bill.com</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../../bloomerang.html">Bloomerang</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../../box.html">Box</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../../braintree.html">Braintree</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../../civis.html">Civis</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../../copper.html">Copper</a></li>
@@ -106,9 +104,9 @@
 <li class="toctree-l1"><a class="reference internal" href="../../../../rockthevote.html">Rock the Vote</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../../salesforce.html">Salesforce</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../../sftp.html">SFTP</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../../targetsmart.html">TargetSmart</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../../turbovote.html">TurboVote</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../ts.html">TargetSmart</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../../twilio.html">Twilio</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../turbovote.html">TurboVote</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../../zoom.html">Zoom</a></li>
 </ul>
 <p class="caption"><span class="caption-text">Enhancements</span></p>
@@ -514,6 +512,9 @@
 <span class="sd">                See :ref:`parsons-table` for output options.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
+        <span class="c1"># Warn the user if they don&#39;t provide a DIST key or a SORT key</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_log_key_warning</span><span class="p">(</span><span class="n">distkey</span><span class="o">=</span><span class="n">distkey</span><span class="p">,</span> <span class="n">sortkey</span><span class="o">=</span><span class="n">sortkey</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="s1">&#39;copy_s3&#39;</span><span class="p">)</span>
+
         <span class="k">with</span> <span class="bp">self</span><span class="o">.</span><span class="n">connection</span><span class="p">()</span> <span class="k">as</span> <span class="n">connection</span><span class="p">:</span>
 
             <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_create_table_precheck</span><span class="p">(</span><span class="n">connection</span><span class="p">,</span> <span class="n">table_name</span><span class="p">,</span> <span class="n">if_exists</span><span class="p">):</span>
@@ -656,6 +657,9 @@
 <span class="sd">            Parsons Table or ``None``</span>
 <span class="sd">                See :ref:`parsons-table` for output options.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="c1"># Warn the user if they don&#39;t provide a DIST key or a SORT key</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_log_key_warning</span><span class="p">(</span><span class="n">distkey</span><span class="o">=</span><span class="n">distkey</span><span class="p">,</span> <span class="n">sortkey</span><span class="o">=</span><span class="n">sortkey</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="s1">&#39;copy&#39;</span><span class="p">)</span>
 
         <span class="c1"># Specify the columns for a copy statement.</span>
         <span class="k">if</span> <span class="n">specifycols</span> <span class="ow">or</span> <span class="p">(</span><span class="n">specifycols</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">template_table</span><span class="p">):</span>
@@ -882,7 +886,7 @@
         <span class="k">return</span> <span class="n">manifest</span>
 
     <span class="k">def</span> <span class="nf">upsert</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">table_obj</span><span class="p">,</span> <span class="n">target_table</span><span class="p">,</span> <span class="n">primary_key</span><span class="p">,</span> <span class="n">vacuum</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">distinct_check</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
-               <span class="n">cleanup_temp_table</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">alter_table</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="o">**</span><span class="n">copy_args</span><span class="p">):</span>
+               <span class="n">cleanup_temp_table</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="o">**</span><span class="n">copy_args</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Preform an upsert on an existing table. An upsert is a function in which records</span>
 <span class="sd">        in a table are updated and inserted at the same time. Unlike other SQL databases,</span>
@@ -913,9 +917,8 @@
             <span class="bp">self</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="n">table_obj</span><span class="p">,</span> <span class="n">target_table</span><span class="p">)</span>
             <span class="k">return</span> <span class="kc">None</span>
 
-        <span class="k">if</span> <span class="n">alter_table</span><span class="p">:</span>
-            <span class="c1"># Make target table column widths match incoming table, if necessary</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">alter_varchar_column_widths</span><span class="p">(</span><span class="n">table_obj</span><span class="p">,</span> <span class="n">target_table</span><span class="p">)</span>
+        <span class="c1"># Make target table column widths match incoming table, if necessary</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">alter_varchar_column_widths</span><span class="p">(</span><span class="n">table_obj</span><span class="p">,</span> <span class="n">target_table</span><span class="p">)</span>
 
         <span class="n">noise</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">random</span><span class="o">.</span><span class="n">randrange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">10000</span><span class="p">)</span><span class="si">:</span><span class="s1">04</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">[:</span><span class="mi">4</span><span class="p">]</span>
         <span class="n">date_stamp</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s1">&#39;%Y%m</span><span class="si">%d</span><span class="s1">_%H%M&#39;</span><span class="p">)</span>
@@ -957,7 +960,6 @@
                     <span class="n">copy_args</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">copy_args</span><span class="p">,</span> <span class="n">compupdate</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="n">table_obj</span><span class="p">,</span> <span class="n">staging_tbl</span><span class="p">,</span>
                           <span class="n">template_table</span><span class="o">=</span><span class="n">target_table</span><span class="p">,</span>
-                          <span class="n">alter_table</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>  <span class="c1"># We just did our own alter table above</span>
                           <span class="o">**</span><span class="n">copy_args</span><span class="p">)</span>
 
                 <span class="n">staging_table_name</span> <span class="o">=</span> <span class="n">staging_tbl</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;.&#39;</span><span class="p">)[</span><span class="mi">1</span><span class="p">]</span>
@@ -1065,7 +1067,30 @@
     <span class="k">def</span> <span class="nf">table</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">table_name</span><span class="p">):</span>
         <span class="c1"># Return a Redshift table object</span>
 
-        <span class="k">return</span> <span class="n">RedshiftTable</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">table_name</span><span class="p">)</span></div>
+        <span class="k">return</span> <span class="n">RedshiftTable</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">table_name</span><span class="p">)</span>
+
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">_log_key_warning</span><span class="p">(</span><span class="n">distkey</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">sortkey</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">):</span>
+        <span class="c1"># Log a warning message advising the user about DIST and SORT keys</span>
+
+        <span class="k">if</span> <span class="n">distkey</span> <span class="ow">and</span> <span class="n">sortkey</span><span class="p">:</span>
+            <span class="k">return</span>
+
+        <span class="n">keys</span> <span class="o">=</span> <span class="p">[</span>
+            <span class="p">(</span><span class="n">distkey</span><span class="p">,</span> <span class="s2">&quot;DIST&quot;</span><span class="p">,</span> <span class="s2">&quot;https://aws.amazon.com/about-aws/whats-new/2019/08/amazon-redshift-&quot;</span>
+                              <span class="s2">&quot;now-recommends-distribution-keys-for-improved-query-performance/&quot;</span><span class="p">),</span>
+            <span class="p">(</span><span class="n">sortkey</span><span class="p">,</span> <span class="s2">&quot;SORT&quot;</span><span class="p">,</span> <span class="s2">&quot;https://docs.amazonaws.cn/en_us/redshift/latest/dg/c_best-practices-&quot;</span>
+                              <span class="s2">&quot;sort-key.html&quot;</span><span class="p">)</span>
+        <span class="p">]</span>
+        <span class="n">warning</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span>
+            <span class="s2">&quot;You didn&#39;t provide a </span><span class="si">{}</span><span class="s2"> key to method `parsons.redshift.Redshift.</span><span class="si">{}</span><span class="s2">`.</span><span class="se">\n</span><span class="s2">&quot;</span>
+            <span class="s2">&quot;You can learn about best practices here:</span><span class="se">\n</span><span class="si">{}</span><span class="s2">.</span><span class="se">\n</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+                <span class="n">keyname</span><span class="p">,</span> <span class="n">method</span><span class="p">,</span> <span class="n">keyinfo</span>
+            <span class="p">)</span> <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">keyname</span><span class="p">,</span> <span class="n">keyinfo</span> <span class="ow">in</span> <span class="n">keys</span> <span class="k">if</span> <span class="ow">not</span> <span class="n">key</span><span class="p">])</span>
+
+        <span class="n">warning</span> <span class="o">+=</span> <span class="s2">&quot;You may be able to further optimize your queries.&quot;</span>
+
+        <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="n">warning</span><span class="p">)</span></div>
 
 
 <span class="k">class</span> <span class="nc">RedshiftTable</span><span class="p">(</span><span class="n">BaseTable</span><span class="p">):</span>

@@ -1,10 +1,6 @@
 TurboVote
 =========
 
-********
-Overview
-********
-
 `TurboVote <https://turbovote.org/>`_ is an online voter registration and vote by mail
 tool. This class contains a single method which allows you to export your users
 (aka signups).
@@ -12,13 +8,13 @@ tool. This class contains a single method which allows you to export your users
 .. note::
   Authentication
     TurboVote requires `HTTP Basic Auth <https://en.wikipedia.org/wiki/Basic_access_authentication>`_.
-    Clients with a TurboVote account must pass their username, password, and subdomain.
+    Clients with a TurboVote account must pass their subdomain, username, and password.
 
 **********
 QuickStart
 **********
 
-To instantiate the ``TurboVote`` class, you can either store your TurboVote API
+To instantiate the TurboVote class, you can either store your TurboVote API
 username, password, subdomain as environmental variables (``TURBOVOTE_USERNAME``,
 ``TURBOVOTE_PASSWORD``, and ``TURBOVOTE_SUBDOMAIN``, respectively) or pass them 
 in as arguments:
@@ -40,9 +36,6 @@ You can then call the method:
 	# Get users
 	tv.get_users()
 
-***
-API
-***
 
 .. autoclass :: parsons.TurboVote
    :inherited-members:

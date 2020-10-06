@@ -35,4 +35,3 @@ class TestSisense(unittest.TestCase):
     def test_delete_shared_dashboard(self, m):
         m.post(f'{self.sisense.uri}shared_dashboard/delete', json=TEST_DELETE_SHARED_DASHBOARD)
         self.assertEqual(self.sisense.delete_shared_dashboard(token='abc'), TEST_DELETE_SHARED_DASHBOARD)  # noqa
-

@@ -106,7 +106,7 @@ class Sisense(object):
             **kwargs:
                 Optional arguments.
         `Returns:`
-            Response or an error
+            Dashboard URL as a string or an error
         """
         payload = {'dashboard': dashboard_id, 'chart': chart_id, **kwargs}
         return self._create_dashboard_url(payload)

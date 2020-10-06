@@ -64,7 +64,7 @@ for participant in filtered_participants:
     # generates list of parameters from matched columns, only inlcudes if row has data for column
     params = {col: participant[col] for col in column_map.keys() if participant[col]}
 
-    van_person = van.upsert_person(**params)  # updates if it finds a match, inserts new user otherwise
+    van_person = van.upsert_person(**params)  # updates if it finds a match, or inserts new user
 
     if activist_code_id:
         van.apply_activist_code(id=van_person['vanId'], activist_code_id=activist_code_id,

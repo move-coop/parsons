@@ -5,8 +5,8 @@
 
 # ### CONFIGURATION
 
-# Set the configuration variables below or set environmental variables of the same name and leave
-# these with empty strings.  We recommend using environmental variables if possible.
+# Set the configuration variables below or set environmental variables of the same name and
+# leave these with empty strings.  We recommend using environmental variables if possible.
 
 config_vars = {
     # Zoom Authentication
@@ -16,17 +16,17 @@ config_vars = {
     "VAN_API_KEY": ""
 }
 
-VAN_DB = "MyCampaign"  # one of: MyMembers, EveryAction, MyCampaign (cannot insert people into MyVoters)
-ACTIVIST_CODE_NAME = ""  # the name of the VAN activist code, which must be created manually in VAN
+VAN_DB = "MyCampaign"  # one of: MyMembers, EveryAction, MyCampaign (not MyVoters)
+ACTIVIST_CODE_NAME = ""  # name of VAN activist code, which must be created manually in VAN
 ZOOM_MEETING_ID = ""
-MINIMUM_DURATION = 0  # filters out any Zoom participants who stayed for less than the minimum duration
+MINIMUM_DURATION = 0  # filters out Zoom participants who stayed for less than minimum duration
 
 # ### CODE
 
 # Setup
 
 import os  # noqa: E402
-from parsons import Table, VAN, Zoom, utilities, logger
+from parsons import VAN, Zoom  # noqa: E402
 
 # if variables specified above, sets them as environmental variables
 for name, value in config_vars.items():
@@ -61,10 +61,11 @@ for code in van.get_activist_codes():
 
 for participant in filtered_participants:
 
-    # generates list of parameters from matched columns, only including them if the row has data for that column
-    params = {column_name: participant[column_name] for column_name in column_map.keys() if participant[column_name]}
+    # generates list of parameters from matched columns, only inlcudes if row has data for column
+    params = {col: participant[col] for col in column_map.keys() if participant[col]}
 
     van_person = van.upsert_person(**params)  # updates if it finds a match, inserts new user otherwise
 
     if activist_code_id:
-        van.apply_activist_code(id=van_person['vanId'], activist_code_id=activist_code_id, id_type="vanid")
+        van.apply_activist_code(id=van_person['vanId'], activist_code_id=activist_code_id,
+                                id_type="vanid")

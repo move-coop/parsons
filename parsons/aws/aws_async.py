@@ -25,7 +25,7 @@ except ImportError:
     zappa_run = None
 
 
-def event_command(event):
+def event_command(event, context):
     """
     Minimal `shim <https://en.wikipedia.org/wiki/Shim_(computing)>`_
     to add to the top lambda handler function to enable distributed tasks

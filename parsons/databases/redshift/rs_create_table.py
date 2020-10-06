@@ -27,6 +27,13 @@ RESERVED_WORDS = ['AES128', 'AES256', 'ALL', 'ALLOWOVERWRITE', 'ANALYSE', 'ANALY
                   'VERBOSE', 'WALLET', 'WHEN', 'WHERE', 'WITH', 'WITHOUT']
 
 
+# Max length of a Redshift VARCHAR column
+VARCHAR_MAX = 65535
+# List of varchar lengths to use for columns -- this list needs to be in order from smallest to
+# largest
+VARCHAR_STEPS = [32, 64, 128, 256, 512, 1024, 4096, 8192, 16384]
+
+
 class RedshiftCreateTable(object):
 
     def __init__(self):
@@ -91,10 +98,8 @@ class RedshiftCreateTable(object):
                 if not self.is_valid_integer(val):
                     return 'varchar'
 
-                # Use smallest possible int type
-                if (-32768 < t < 32767) and current_type not in ['int', 'bigint']:
-                    return 'smallint'
-                elif (-2147483648 < t < 2147483647) and current_type not in ['bigint']:
+                # Use smallest possible int type (but don't bother with smallint)
+                if (-2147483648 < t < 2147483647) and current_type not in ['bigint']:
                     return 'int'
                 else:
                     return 'bigint'
@@ -171,7 +176,7 @@ class RedshiftCreateTable(object):
 
             try:
                 idx = mapping['headers'].index(c)
-                mapping['longest'][idx] = 65535
+                mapping['longest'][idx] = VARCHAR_MAX
 
             except KeyError as error:
                 logger.error('Could not find column name provided.')
@@ -181,7 +186,7 @@ class RedshiftCreateTable(object):
 
     def vc_trunc(self, mapping):
 
-        return [65535 if c > 65535 else c for c in mapping['longest']]
+        return [VARCHAR_MAX if c > VARCHAR_MAX else c for c in mapping['longest']]
 
     def vc_validate(self, mapping):
 
@@ -194,9 +199,10 @@ class RedshiftCreateTable(object):
 
         for i in range(len(mapping['headers'])):
             if mapping['type_list'][i] == 'varchar':
+                varchar_length = self._round_longest(mapping['longest'][i])
                 statement = (statement + '\n  {} varchar({}),').format(str(mapping['headers'][i])
                                                                        .lower(),
-                                                                       str(mapping['longest'][i]))
+                                                                       str(varchar_length))
             else:
                 statement = (statement + '\n  ' + '{} {}' + ',').format(str(mapping['headers'][i])
                                                                         .lower(),
@@ -281,3 +287,13 @@ class RedshiftCreateTable(object):
         warning += "You may be able to further optimize your queries."
 
         logger.warning(warning)
+
+    @staticmethod
+    def _round_longest(longest):
+        # Find the value that will work best to fit our longest column value
+        for step in VARCHAR_STEPS:
+            # Make sure we have padding
+            if longest < step / 2:
+                return step
+
+        return VARCHAR_MAX

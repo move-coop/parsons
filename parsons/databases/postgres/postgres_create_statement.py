@@ -26,6 +26,10 @@ RESERVED_WORDS = ['AES128', 'AES256', 'ALL', 'ALLOWOVERWRITE', 'ANALYSE', 'ANALY
                   'TRAILING', 'TRUE', 'TRUNCATECOLUMNS', 'UNION', 'UNIQUE', 'USER', 'USING',
                   'VERBOSE', 'WALLET', 'WHEN', 'WHERE', 'WITH', 'WITHOUT']
 
+# List of varchar lengths to use for columns -- this list needs to be in order from smallest to
+# largest
+VARCHAR_STEPS = [32, 64, 128, 256, 512, 1024, 4096, 8192, 16384]
+
 
 class PostgresCreateStatement(object):
 
@@ -89,10 +93,8 @@ class PostgresCreateStatement(object):
                 if not self.is_valid_integer(val):
                     return 'varchar'
 
-                # Use smallest possible int type
-                if (-32768 < t < 32767) and current_type not in ['int', 'bigint']:
-                    return 'smallint'
-                elif (-2147483648 < t < 2147483647) and current_type not in ['bigint']:
+                # Use smallest possible int type (but don't bother with smallint)
+                if (-2147483648 < t < 2147483647) and current_type not in ['bigint']:
                     return 'int'
                 else:
                     return 'bigint'
@@ -193,9 +195,10 @@ class PostgresCreateStatement(object):
 
         for i in range(len(mapping['headers'])):
             if mapping['type_list'][i] == 'varchar':
+                varchar_length = self._round_longest(mapping['longest'][i])
                 statement = (statement + '\n  {} varchar({}),').format(str(mapping['headers'][i])
                                                                        .lower(),
-                                                                       str(mapping['longest'][i]))
+                                                                       str(varchar_length))
             else:
                 statement = (statement + '\n  ' + '{} {}' + ',').format(str(mapping['headers'][i])
                                                                         .lower(),
@@ -254,3 +257,13 @@ class PostgresCreateStatement(object):
             clean_columns.append(c)
 
         return clean_columns
+
+    @staticmethod
+    def _round_longest(longest):
+        # Find the value that will work best to fit our longest column value
+        for step in VARCHAR_STEPS:
+            # Make sure we have padding
+            if longest < step / 2:
+                return step
+
+        return VARCHAR_MAX

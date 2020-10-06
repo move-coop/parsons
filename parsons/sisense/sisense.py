@@ -108,5 +108,5 @@ class Sisense(object):
         `Returns:`
             Response or an error
         """
-        payload = {'dashboard_id': dashboard_id, 'chart_id': chart_id, **kwargs}
+        payload = {'dashboard': dashboard_id, 'chart': chart_id, **kwargs}
         return self._create_dashboard_url(payload)

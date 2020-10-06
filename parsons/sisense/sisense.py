@@ -93,14 +93,20 @@ class Sisense(object):
                                                  params=params))
         return Table(response)
 
-    def publish_dashboard(self, payload=None):
+    def publish_dashboard(self, dashboard_id, chart_id=None, **kwargs):
         """
-        This method publishes a dashboard based on a URL encoded JSON blob. For available options, see the `API documentation <https://dtdocs.sisense.com/article/embed-api-options>`_. # noqa
+        This method publishes a dashboard or chart using the provided arguments.
+        For available options, see the `API documentation <https://dtdocs.sisense.com/article/embed-api-options>`_. # noqa
 
         `Args:`
-            payload: dict
-                A JSON blob defining the dashboard to publish.
+            dashboard_id: str or int
+                The ID of the dashboard (required).
+            chart_id: str or int
+                The ID of the chart. Only required for publishing individual charts.
+            **kwargs:
+                Optional arguments.
         `Returns:`
             Response or an error
         """
+        payload = {'dashboard_id': dashboard_id, 'chart_id': chart_id, **kwargs}
         return self._create_dashboard_url(payload)

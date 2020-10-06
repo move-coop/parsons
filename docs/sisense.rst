@@ -39,8 +39,6 @@ You can then call various endpoints:
 
 .. code-block:: python
 
-    import json
-
     # Get specific dashboard by ID
     sisense.get_dashboards(dashboard_id='1234')
 
@@ -48,15 +46,10 @@ You can then call various endpoints:
     sisense.get_dashboard_shares(dashboard_id='1234')
 
     # Publish a dashboard
-    data = {
-       "dashboard": 676165,
-       "embed": "v2",
-       "visible": ["CDO_C3_or_C4", "CDP_Disposition", "CDP_Mode", "CDP_Tool", "daterange"],
-       "border": "off",
-       "data_ts": 1446069112,
-       "filters": [{"name": "CDP_Member", "value": "IN"}]
-    }
-    sisense.publish_dashboard(payload=json.dumps(data))
+    sisense.publish_dashboard(dashboard_id='1234')
+
+    # Publish a chart
+    sisense.publish_dashboard(dashboard_id='1234', chart_id='567')
 
 ***
 API

@@ -3,11 +3,9 @@ import unittest
 from unittest import mock
 import requests_mock
 from parsons.sisense.sisense import Sisense
-from parsons.etl import Table
 
-from test.utils import assert_matching_tables
 from test.test_sisense.test_data import ENV_PARAMETERS, \
-    TEST_GET_DASHBOARDS, TEST_GET_DASHBOARD_SHARES, TEST_PUBLISH_DASHBOARD_URL
+    TEST_PUBLISH_SHARED_DASHBOARD, TEST_LIST_SHARED_DASHBOARDS, TEST_DELETE_SHARED_DASHBOARD
 
 
 class TestSisense(unittest.TestCase):
@@ -24,28 +22,17 @@ class TestSisense(unittest.TestCase):
         self.assertEqual(sisense.api.headers['HTTP-X-PARTNER-AUTH'], 'my_site_name:my_api_key')
 
     @requests_mock.Mocker()
-    def test_get_dashboards(self, m):
-        m.get(f'{self.sisense.uri}dashboards', json=TEST_GET_DASHBOARDS)
-        assert_matching_tables(self.sisense.get_dashboards(), Table(TEST_GET_DASHBOARDS))
-
-        m.get(f'{self.sisense.uri}dashboards/123', json=TEST_GET_DASHBOARDS)
-        assert_matching_tables(self.sisense.get_dashboards(123), Table(TEST_GET_DASHBOARDS))
-
-        m.get(f'{self.sisense.uri}dashboards/123', json=TEST_GET_DASHBOARDS)
-        assert_matching_tables(self.sisense.get_dashboards('123'), Table(TEST_GET_DASHBOARDS))
+    def test_publish_shared_dashboard(self, m):
+        m.post(f'{self.sisense.uri}shared_dashboard/create', json=TEST_PUBLISH_SHARED_DASHBOARD)
+        self.assertEqual(self.sisense.publish_shared_dashboard(dashboard_id='1234'), TEST_PUBLISH_SHARED_DASHBOARD) # noqa
 
     @requests_mock.Mocker()
-    def test_get_dashboard_shares(self, m):
-        m.get(f'{self.sisense.uri}dashboards/123/shares', json=TEST_GET_DASHBOARD_SHARES)
-        assert_matching_tables(self.sisense.get_dashboard_shares(dashboard_id=123), Table(TEST_GET_DASHBOARD_SHARES))  # noqa
-
-        m.get(f'{self.sisense.uri}dashboards/123/shares/456', json=TEST_GET_DASHBOARD_SHARES)
-        assert_matching_tables(self.sisense.get_dashboard_shares(dashboard_id=123, share_id=456), Table(TEST_GET_DASHBOARD_SHARES)) # noqa
-
-        m.get(f'{self.sisense.uri}dashboards/123/shares/456', json=TEST_GET_DASHBOARD_SHARES)
-        assert_matching_tables(self.sisense.get_dashboard_shares(dashboard_id='123', share_id='456'), Table(TEST_GET_DASHBOARD_SHARES))  # noqa
+    def test_list_shared_dashboards(self, m):
+        m.post(f'{self.sisense.uri}shared_dashboard/list', json=TEST_LIST_SHARED_DASHBOARDS)
+        self.assertEqual(self.sisense.list_shared_dashboards(dashboard_id='1234'), TEST_LIST_SHARED_DASHBOARDS)  # noqa
 
     @requests_mock.Mocker()
-    def test_publish_dashboard(self, m):
-        m.post(f'{self.sisense.uri}shared_dashboard/create', json=TEST_PUBLISH_DASHBOARD_URL)
-        self.assertEqual(self.sisense.publish_dashboard(dashboard_id='1234'), TEST_PUBLISH_DASHBOARD_URL['url']) # noqa
+    def test_delete_shared_dashboard(self, m):
+        m.post(f'{self.sisense.uri}shared_dashboard/delete', json=TEST_DELETE_SHARED_DASHBOARD)
+        self.assertEqual(self.sisense.delete_shared_dashboard(token='abc'), TEST_DELETE_SHARED_DASHBOARD)  # noqa
+

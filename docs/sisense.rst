@@ -39,17 +39,17 @@ You can then call various endpoints:
 
 .. code-block:: python
 
-    # Get specific dashboard by ID
-    sisense.get_dashboards(dashboard_id='1234')
-
     # Get all the shares for a dashboard
-    sisense.get_dashboard_shares(dashboard_id='1234')
+    sisense.list_shared_dashboards(dashboard_id='1234')
 
     # Publish a dashboard
-    sisense.publish_dashboard(dashboard_id='1234')
+    sisense.publish_shared_dashboard(dashboard_id='1234')
 
     # Publish a chart
-    sisense.publish_dashboard(dashboard_id='1234', chart_id='567')
+    sisense.publish_shared_dashboard(dashboard_id='1234', chart_id='567')
+
+    # Delete a dashboard
+    sisense.delete_shared_dashboard(dashboard_id='1234')
 
 ***
 API

@@ -5,6 +5,8 @@ import string
 import unittest
 import warnings
 
+from boxsdk.exception import BoxAPIException, BoxOAuthException
+
 from parsons.box import Box
 from parsons.etl import Table
 
@@ -59,8 +61,16 @@ class TestBoxStorage(unittest.TestCase):
         box.create_folder(folder_name='temp_folder1', parent_folder=subfolder)
         box.create_folder(folder_name='temp_folder2', parent_folder=subfolder)
 
-        file_list = box.list_files(folder_id=subfolder)['name']
-        self.assertEqual(['temp1', 'temp2'], file_list)
+        file_list = box.list_files(folder_id=subfolder)
+        self.assertEqual(['temp1', 'temp2'], file_list['name'])
+
+        # Check that if we delete a file, it's no longer there
+        for box_file in file_list:
+            if box_file['name'] == 'temp1':
+                box.delete_file(box_file['id'])
+                break
+        file_list = box.list_files(folder_id=subfolder)
+        self.assertEqual(['temp2'], file_list['name'])
 
         folder_list = box.list_folders(folder_id=subfolder)['name']
         self.assertEqual(['temp_folder1', 'temp_folder2'], folder_list)
@@ -94,3 +104,42 @@ class TestBoxStorage(unittest.TestCase):
             box.upload_table(table, 'phone_numbers', format='illegal_format')
         with self.assertRaises(ValueError):
             box.get_table(box_file.id, format='illegal_format')
+
+    def test_errors(self) -> None:
+
+        # Count on environment variables being set
+        box = Box()
+
+        nonexistent_id = '9999999'
+        table = Table([['phone_number', 'last_name', 'first_name'],
+                       ['4435705355', 'Warren', 'Elizabeth'],
+                       ['5126993336', 'Obama', 'Barack']])
+
+        # Upload a bad format
+        with self.assertRaises(ValueError):
+            box.upload_table(table, 'temp1', format='bad_format')
+
+        # Download a bad format
+        with self.assertRaises(ValueError):
+            box.get_table(file_id=nonexistent_id, format='bad_format')
+
+        # Upload to non-existent folder
+        with self.assertLogs(level=logging.WARNING):
+            with self.assertRaises(BoxAPIException):
+                box.upload_table(table, 'temp1', folder_id=nonexistent_id)
+
+        # Download a non-existent file
+        with self.assertLogs(level=logging.WARNING):
+            with self.assertRaises(BoxAPIException):
+                box.get_table(nonexistent_id, format='json')
+
+        # Create folder in non-existent parent
+        with self.assertLogs(level=logging.WARNING):
+            with self.assertRaises(BoxAPIException):
+                box.create_folder(folder_name='subfolder', parent_folder=nonexistent_id)
+
+        # Try using bad credentials
+        box = Box(access_token='5345345345')
+        with self.assertLogs(level=logging.WARNING):
+            with self.assertRaises(BoxOAuthException):
+                box.list_files()

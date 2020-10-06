@@ -94,7 +94,7 @@ class Box(object):
             file_id:str
               The Box id of the file to delete.
         """
-        self.client.file(folder_id=file_id).delete()
+        self.client.file(file_id=file_id).delete()
 
     def list_files(self, folder_id='0') -> Table:
         """List all Box files in a folder
@@ -129,7 +129,7 @@ class Box(object):
             items = items.select_rows(lambda row: row.type == item_type)
         return items
 
-    # In what formats can we upload/save Tables to Box? For now, just csv
+    # In what formats can we upload/save Tables to Box? For now csv and JSON
     ALLOWED_FILE_FORMATS = ['csv', 'json']
 
     def upload_table(self, table, file_name,

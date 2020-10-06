@@ -49,12 +49,12 @@ This class requires credentials in the form three strings to be either passed in
   subfolder_list = box.list_folders(folder_id='533944')
 
   # List files in default folder
-   file_list = box.list_files()
+  file_list = box.list_files()
 
-   # List files in a subfolder
-   subfolder_file_list = box.list_files(folder_id='533944')
+  # List files in a subfolder
+  subfolder_file_list = box.list_files(folder_id='533944')
 
-   all_items = box.list_items(folder_id='533944')
+  all_items = box.list_items(folder_id='533944')
 
 **Create a subfolder and upload a Parsons table to it**
 

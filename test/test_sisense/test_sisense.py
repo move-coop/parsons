@@ -8,7 +8,7 @@ from parsons.etl import Table
 from test.utils import assert_matching_tables
 from test.test_sisense.test_data import ENV_PARAMETERS, \
     TEST_GET_DASHBOARDS, TEST_GET_DASHBOARD_SHARES, \
-    TEST_PUBLISH_DASHBOARD_BLOB, TEST_PUBLISH_DASHBOARD_URL, TEST_POST_SUCCESS
+    TEST_PUBLISH_DASHBOARD_BLOB, TEST_PUBLISH_DASHBOARD_URL
 
 
 class TestSisense(unittest.TestCase):
@@ -49,5 +49,4 @@ class TestSisense(unittest.TestCase):
     @requests_mock.Mocker()
     def test_publish_dashboard(self, m):
         m.post(f'{self.sisense.uri}shared_dashboard/create', json=TEST_PUBLISH_DASHBOARD_URL)
-        m.post(TEST_PUBLISH_DASHBOARD_URL['url'], json=TEST_POST_SUCCESS)
-        self.assertEqual(self.sisense.publish_dashboard(TEST_PUBLISH_DASHBOARD_BLOB).json(), TEST_POST_SUCCESS) # noqa
+        self.assertEqual(self.sisense.publish_dashboard(TEST_PUBLISH_DASHBOARD_BLOB), TEST_PUBLISH_DASHBOARD_URL['url']) # noqa

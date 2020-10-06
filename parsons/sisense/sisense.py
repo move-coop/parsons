@@ -103,4 +103,4 @@ class Sisense(object):
         `Returns:`
             Response or an error
         """
-        return requests.post(self._create_dashboard_url(payload))
+        return self._create_dashboard_url(payload)

@@ -25,10 +25,10 @@ config_vars = {
 
 # ### CODE
 
-from parsons import VAN  # noqa: E402
-from parsons import logger  # noqa: E402
 import os  # noqa: E402
 import random  # noqa: E402
+from parsons import VAN  # noqa: E402
+from parsons import logger  # noqa: E402
 
 # Setup
 
@@ -43,6 +43,8 @@ van = VAN(db=os.environ["VAN_DB_NAME"])
 saved_list = van.get_saved_list(os.environ["VAN_SAVED_LIST_ID"])
 folder = van.get_folder(os.environ["VAN_FOLDER_ID"])
 
+# If you're receiving errors when trying to call this method related to permissions, you may want to
+# reach out to apidevelopers@ngpvan.com to make sure your API key has the correct permissions.
 saved_list_download = van.download_saved_list(os.environ["VAN_SAVED_LIST_ID"])
 
 # Generate a random sample of VAN IDs from the list

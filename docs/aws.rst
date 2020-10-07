@@ -3,11 +3,11 @@ Amazon Web Services
 
 Parsons provides utility functions and/or connectors for three different `AWS services <https://aws.amazon.com/>`_.
 
-* :ref:`_aws_lambda`: AWS's `serverless computing platform <https://aws.amazon.com/lambda/>`_
-* :ref:`_aws_s3`: AWS's `object storage service <https://aws.amazon.com/s3/>`_
-* :ref:`_redshift`: AWS's `data warehousing service <https://aws.amazon.com/redshift/>`_, with two additional classes providing utility functions:
-  * :ref:`_redshift_table_and_view_api`: Methods for managing tables and views
-  * :ref:`_redshift_schema_api`: Methods for managing schema
+* :ref:`aws_lambda`: AWS's `serverless computing platform <https://aws.amazon.com/lambda/>`_
+* :ref:`aws_s3`: AWS's `object storage service <https://aws.amazon.com/s3/>`_
+* :ref:`redshift`: AWS's `data warehousing service <https://aws.amazon.com/redshift/>`_, with two additional classes providing utility functions:
+  * :ref:`redshift_table_and_view_api`: Methods for managing tables and views
+  * :ref:`redshift_schema_api`: Methods for managing schema
 
 See the documentation for each service for more details.
 
@@ -155,7 +155,7 @@ The connector utilizes the `psycopg2 <https://pypi.org/project/psycopg2/>`_ Pyth
 focus on input, output and querying of the database.
 
 In addition to the core API integration provided by the ``Redshift`` class, Parsons also includes utility functions for
-managing schemas and tables. See :ref:`_redshift_table_and_view_api` and :ref:`_redshift_schema_api` for more information.
+managing schemas and tables. See :ref:`redshift_table_and_view_api` and :ref:`redshift_schema_api` for more information.
 
 .. note::
    S3 Credentials

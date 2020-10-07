@@ -10,7 +10,7 @@ formerly known as `Periscope Data <https://www.sisense.com/blog/periscope-data-i
 with functionality including dashboards, data warehousing, data mining, and predictive analytics.
 
 This Parsons integration with the `Sisense REST API v1.0 <https://sisense.dev/reference/rest/v1.html>`_ supports
-fetching and posting dashboards as JSON blobs. You can also fetch information on dashboard shares.
+fetching, posting, and deleting shared dashboards.
 
 .. note::
   Authentication

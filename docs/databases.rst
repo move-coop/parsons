@@ -23,7 +23,7 @@ MySQL
 *****
 .. _my-sql:
 
-MySQL is the world's most popular open source database. The Parsons class leverages on the `mysql <https://github.com/farcepest/MySQLdb1>`_ python package.
+MySQL is the world's most popular open source database. The Parsons class leverages on the `MySQLdb1 <https://github.com/farcepest/MySQLdb1>`_ python package.
 
 ===========
 Quick Start
@@ -57,6 +57,7 @@ Quick Start
    :inherited-members:
 
 .. _postgres:
+
 ********
 Postgres
 ********

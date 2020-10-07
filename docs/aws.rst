@@ -3,9 +3,10 @@ Amazon Web Services
 
 Parsons provides utility functions and/or connectors for three different `AWS services <https://aws.amazon.com/>`_.
 
-* :ref:`aws_lambda`: AWS's `serverless computing platform <https://aws.amazon.com/lambda/>`_
-* :ref:`aws_s3`: AWS's `object storage service <https://aws.amazon.com/s3/>`_
-* :ref:`redshift`: AWS's `data warehousing service <https://aws.amazon.com/redshift/>`_, with two additional classes providing utility functions:
+* :ref:`Lambda <aws_lambda>`: AWS's `serverless computing platform <https://aws.amazon.com/lambda/>`_
+* :ref:`S3 <aws_s3>`: AWS's `object storage service <https://aws.amazon.com/s3/>`_
+* :ref:`Redshift <redshift>`: AWS's `data warehousing service <https://aws.amazon.com/redshift/>`_, with two additional classes providing utility functions.
+
   * :ref:`redshift_table_and_view_api`: Methods for managing tables and views
   * :ref:`redshift_schema_api`: Methods for managing schema
 
@@ -35,13 +36,9 @@ multiple Lambda sub-invocations, each of which can be sent a byte-range of the d
 
 Using this method requires some setup. You have three tasks:
 
-1. Define the function to process rows, the first argument, must take your table's data (though only a subset of rows
-will be passed) (e.g. `def task_for_distribution(table, **kwargs):`)
-2. Where you would have run `task_for_distribution(my_table, **kwargs)` instead call
-``distribute_task(my_table, task_for_distribution, func_kwargs=kwargs)`` (either setting env var S3_TEMP_BUCKET or
-passing a ``bucket=`` parameter)
-3. Setup your Lambda handler to include :py:meth:`parsons.aws.event_command` (or run and deploy your lambda with
-`Zappa <https://github.com/Miserlou/Zappa>`_)
+#. Define the function to process rows, the first argument, must take your table's data (though only a subset of rows will be passed) (e.g. `def task_for_distribution(table, **kwargs):`)
+#. Where you would have run `task_for_distribution(my_table, **kwargs)` instead call ``distribute_task(my_table, task_for_distribution, func_kwargs=kwargs)`` (either setting env var S3_TEMP_BUCKET or passing a ``bucket=`` parameter)
+#. Setup your Lambda handler to include :py:meth:`parsons.aws.event_command` (or run and deploy your lambda with `Zappa <https://github.com/Miserlou/Zappa>`_)
 
 To test locally, include the argument `storage="local"`, which will test the distribute_task function, but run the task
 sequentially and in local memory.

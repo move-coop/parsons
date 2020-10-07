@@ -102,5 +102,5 @@ Quick Start
 Redshift
 ********
 
-See :ref:`redshift` for documentation.
+See :ref:`Redshift <redshift>` for documentation.
 

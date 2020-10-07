@@ -1,7 +1,7 @@
 Amazon Web Services
 ===================
 
-Parsons provides utility functions and/or connectors for three different `AWS services<https://aws.amazon.com/>`_:
+Parsons provides utility functions and/or connectors for three different `AWS services <https://aws.amazon.com/>`_.
 
 * :ref:`_aws_lambda`: AWS's `serverless computing platform <https://aws.amazon.com/lambda/>`_
 * :ref:`_aws_s3`: AWS's `object storage service <https://aws.amazon.com/s3/>`_
@@ -53,7 +53,6 @@ QuickStart
 A minimalistic example Lambda handler might look something like this:
 
 .. code-block:: python
-   :emphasize-lines: 5,6
 
    from parsons.aws import event_command, distribute_task
 
@@ -178,6 +177,7 @@ which can also be passed as environmental variables (``aws_access_key_id`` and `
 or keyword arguments.
 
 .. code-block:: python
+
   from parsons import Redshift
 
   # Pass credentials as environmental variables

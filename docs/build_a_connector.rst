@@ -36,7 +36,11 @@ You’ll also want to create the Connector class itself:
 .. code-block:: python
 
     class YourConnectorName(object):
-        “””`Args:`”””
+        """
+        Instantiate class.
+
+           `Args:`
+        """
 
         def __init__(self, api_key=None):
             pass
@@ -60,7 +64,11 @@ We like to give users two different options for getting api keys and other authe
 
 
     class YourConnectorName(object):
-        “””`Args:`”””
+        """
+        Instantiate class.
+
+           `Args:`
+        """
 
         def __init__(self, api_key=None):
             self.api_key = check_env.check('YOURCONNECTORNAME_API_KEY', api_key)

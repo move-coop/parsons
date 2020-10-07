@@ -36,8 +36,8 @@ multiple Lambda sub-invocations, each of which can be sent a byte-range of the d
 
 Using this method requires some setup. You have three tasks:
 
-#. Define the function to process rows, the first argument, must take your table's data (though only a subset of rows will be passed) (e.g. `def task_for_distribution(table, **kwargs):`)
-#. Where you would have run `task_for_distribution(my_table, **kwargs)` instead call ``distribute_task(my_table, task_for_distribution, func_kwargs=kwargs)`` (either setting env var S3_TEMP_BUCKET or passing a ``bucket=`` parameter)
+#. Define the function to process rows, the first argument, must take your table's data (though only a subset of rows will be passed) (e.g. ``def task_for_distribution(table, **kwargs):``)
+#. Where you would have run ``task_for_distribution(my_table, **kwargs)`` instead call ``distribute_task(my_table, task_for_distribution, func_kwargs=kwargs)`` (either setting env var S3_TEMP_BUCKET or passing a ``bucket=`` parameter)
 #. Setup your Lambda handler to include :py:meth:`parsons.aws.event_command` (or run and deploy your lambda with `Zappa <https://github.com/Miserlou/Zappa>`_)
 
 To test locally, include the argument `storage="local"`, which will test the distribute_task function, but run the task

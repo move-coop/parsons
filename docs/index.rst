@@ -192,6 +192,7 @@ Indices and tables
    rockthevote
    salesforce
    sftp
+   sisense
    targetsmart
    turbovote
    twilio

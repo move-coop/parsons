@@ -40,8 +40,7 @@ Using this method requires some setup. You have three tasks:
 #. Where you would have run ``task_for_distribution(my_table, **kwargs)`` instead call ``distribute_task(my_table, task_for_distribution, func_kwargs=kwargs)`` (either setting env var S3_TEMP_BUCKET or passing a ``bucket=`` parameter)
 #. Setup your Lambda handler to include :py:meth:`parsons.aws.event_command` (or run and deploy your lambda with `Zappa <https://github.com/Miserlou/Zappa>`_)
 
-To test locally, include the argument `storage="local"`, which will test the distribute_task function, but run the task
-sequentially and in local memory.
+To test locally, include the argument ``storage="local"``, which will test the ``distribute_task`` function, but run the task sequentially and in local memory.
 
 ==========
 QuickStart
@@ -73,8 +72,9 @@ A minimalistic example Lambda handler might look something like this:
 API
 ===
 
-.. autofunction :: parsons.aws.distribute_task
-.. autofunction :: parsons.aws.event_command
+.. autofunction:: parsons.aws.distribute_task
+
+.. autofunction:: parsons.aws.event_command
 
 ***
 S3
@@ -134,8 +134,9 @@ stored in an AWS CLI file ``~/.aws/credentials``, or passed as keyword arguments
 API
 ===
 
-.. autoclass :: parsons.S3
+.. autoclass:: parsons.S3
    :inherited-members:
+
 
 ********
 Redshift
@@ -197,7 +198,7 @@ options.
 Core API
 ========
 
-.. autoclass :: parsons.Redshift
+.. autoclass:: parsons.Redshift
 
 .. autofunction:: parsons.Redshift.connection
 
@@ -222,10 +223,11 @@ Core API
 ==================
 Table and View API
 ==================
+
 Table and view utilities are a series of helper methods, all built off of commonly
 used SQL queries run against the Redshift database.
 
-.. autoclass :: parsons.databases.redshift.redshift.RedshiftTableUtilities
+.. autoclass:: parsons.databases.redshift.redshift.RedshiftTableUtilities
    :inherited-members:
 
 .. _redshift_schema_api:
@@ -233,8 +235,9 @@ used SQL queries run against the Redshift database.
 ==========
 Schema API
 ==========
+
 Schema utilities are a series of helper methods, all built off of commonly
 used SQL queries run against the Redshift database.
 
-.. autoclass :: parsons.databases.redshift.redshift.RedshiftSchema
+.. autoclass:: parsons.databases.redshift.redshift.RedshiftSchema
    :inherited-members:

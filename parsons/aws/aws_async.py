@@ -31,7 +31,7 @@ def event_command(event, context):
     to add to the top lambda handler function to enable distributed tasks
 
     The rest of this library is compatible with zappa.async library.
-    If you have deployed your app with `Zappa <https://github.com/Miserlou/Zappa>`,
+    If you have deployed your app with `Zappa <https://github.com/Miserlou/Zappa>`_,
     then you do NOT need to add this shim.
     """
     if not set(event).intersection({'task_path', 'args', 'kwargs'}):

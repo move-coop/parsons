@@ -120,13 +120,18 @@ Parsons documentation is built using the Python Sphinx tool. Sphinx uses the `do
 
 We have a [documentation label](https://github.com/move-coop/parsons/issues?q=is%3Aissue+is%3Aopen+label%3Adocumentation) that may help you find good docs issues to work on. If you are adding a new connector, you will need to add a reference to the connector to one of the .rst files. Please use the existing documentation as an example.
 
+When editing documentation, make sure you are editing the source files (with .md or .rst extension) and not the build files (.html extension).
+
 The workflow for documentation changes is a bit simpler than for code changes:
 
 * Fork the Parsons project using [the “Fork” button in GitHub](https://guides.github.com/activities/forking/)
 * Clone your fork to your local computer
 * Change into the `docs` folder and install the requirements with `pip install -r requirements.txt` (you may want to set up a [virtual environment](#virtual-environments) first)
-* Make your changes and re-build the docs (for now, please follow [this guide](https://www.sphinx-doc.org/en/master/usage/quickstart.html) and/or ask for help in Slack)
+* Make your changes and re-build the docs by running `make html`. 
+* Open these files in your web browser to check that they look as you expect.
 * [Submit a pull request](#submitting-a-pull-request)
+
+When you make documentation changes, you only need to track the source files with git.  The docs built by the html folder should not be included.
 
 You should not need to worry about the unit tests or the linter if you are making documentation changes only.
 

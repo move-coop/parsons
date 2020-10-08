@@ -227,7 +227,7 @@ class TestGmail(unittest.TestCase):
 
         self.assertEqual(parts[0].get_payload(), message_text)
         self.assertEqual(parts[1].get_payload(), message_html)
-        
+
         if os.linesep == '\r\n':
             file = f'{_dir}/assets/loremipsum_b64_win_txt.txt'
         else:

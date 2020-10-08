@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Redash &mdash; Parsons 0.5 documentation</title>
+  <title>Sisense &mdash; Parsons 0.5 documentation</title>
   
 
   
@@ -28,8 +28,8 @@
   <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="Rock the Vote" href="rockthevote.html" />
-    <link rel="prev" title="Phone2Action" href="p2a.html" /> 
+    <link rel="next" title="TargetSmart" href="targetsmart.html" />
+    <link rel="prev" title="SFTP" href="sftp.html" /> 
 
   
   <script src="_static/js/modernizr.min.js"></script>
@@ -103,16 +103,16 @@
 <li class="toctree-l1"><a class="reference internal" href="ngpvan.html">NGPVAN</a></li>
 <li class="toctree-l1"><a class="reference internal" href="pdi.html">PDI</a></li>
 <li class="toctree-l1"><a class="reference internal" href="p2a.html">Phone2Action</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="#">Redash</a><ul>
+<li class="toctree-l1"><a class="reference internal" href="redash.html">Redash</a></li>
+<li class="toctree-l1"><a class="reference internal" href="rockthevote.html">Rock the Vote</a></li>
+<li class="toctree-l1"><a class="reference internal" href="salesforce.html">Salesforce</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sftp.html">SFTP</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Sisense</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#overview">Overview</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#quickstart">Quickstart</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#api">API</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="rockthevote.html">Rock the Vote</a></li>
-<li class="toctree-l1"><a class="reference internal" href="salesforce.html">Salesforce</a></li>
-<li class="toctree-l1"><a class="reference internal" href="sftp.html">SFTP</a></li>
-<li class="toctree-l1"><a class="reference internal" href="sisense.html">Sisense</a></li>
 <li class="toctree-l1"><a class="reference internal" href="targetsmart.html">TargetSmart</a></li>
 <li class="toctree-l1"><a class="reference internal" href="turbovote.html">TurboVote</a></li>
 <li class="toctree-l1"><a class="reference internal" href="twilio.html">Twilio</a></li>
@@ -178,13 +178,13 @@
     
       <li><a href="index.html">Docs</a> &raquo;</li>
         
-      <li>Redash</li>
+      <li>Sisense</li>
     
     
       <li class="wy-breadcrumbs-aside">
         
             
-            <a href="_sources/redash.rst.txt" rel="nofollow"> View page source</a>
+            <a href="_sources/sisense.rst.txt" rel="nofollow"> View page source</a>
           
         
       </li>
@@ -197,134 +197,126 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <div class="section" id="redash">
-<h1>Redash<a class="headerlink" href="#redash" title="Permalink to this headline">¶</a></h1>
+  <div class="section" id="sisense">
+<h1>Sisense<a class="headerlink" href="#sisense" title="Permalink to this headline">¶</a></h1>
 <div class="section" id="overview">
 <h2>Overview<a class="headerlink" href="#overview" title="Permalink to this headline">¶</a></h2>
-<p>The <code class="docutils literal notranslate"><span class="pre">Redash</span></code> class allows you to interact with a <a class="reference external" href="https://redash.io/">Redash server</a> to fetch fresh or cached
-query results as a Parsons Table.</p>
+<p><a class="reference external" href="https://www.sisense.com/product/data-teams/">Sisense for Cloud Data Teams</a> is a business intelligence software
+formerly known as <a class="reference external" href="https://www.sisense.com/blog/periscope-data-is-now-sisense-for-cloud-data-teams/">Periscope Data</a>,
+with functionality including dashboards, data warehousing, data mining, and predictive analytics.</p>
+<p>This Parsons integration with the <a class="reference external" href="https://sisense.dev/reference/rest/v1.html">Sisense REST API v1.0</a> supports
+fetching, posting, and deleting shared dashboards.</p>
 <div class="admonition note">
 <p class="first admonition-title">Note</p>
 <dl class="last docutils">
 <dt>Authentication</dt>
-<dd>The <a class="reference external" href="https://redash.io/help/user-guide/integrations-and-api/api">Redash API</a> has two types of API keys:
-<em>User API keys</em> which are found on user profile pages, and <em>Query API keys</em> which are found on query pages. The
-<code class="docutils literal notranslate"><span class="pre">Redash</span></code> class supports fetching fresh queries with a User API Key, and cached queries with a Query API Key.</dd>
+<dd>Your site name and an authentication token are required to use the <code class="docutils literal notranslate"><span class="pre">Sisense</span></code> class. To obtain a token, log in to
+the Sisense Web Application and follow the instructions in the <a class="reference external" href="https://sisense.dev/guides/rest/using-rest-api.html#authentication">Sisense REST API documentation</a>.
+Be sure to select version <code class="docutils literal notranslate"><span class="pre">1.0</span></code> of the API.</dd>
 </dl>
 </div>
 </div>
 <div class="section" id="quickstart">
 <h2>Quickstart<a class="headerlink" href="#quickstart" title="Permalink to this headline">¶</a></h2>
-<p>When instantiating the <code class="docutils literal notranslate"><span class="pre">Redash</span></code> class, you must provide the base URL for your Redash instance, either as the
-environmental variable <code class="docutils literal notranslate"><span class="pre">REDASH_BASE_URL</span></code> or as a keyword argument.</p>
-<p>For fresh queries, a User API Key is also required, and can be specified with either the environmental variable
-<code class="docutils literal notranslate"><span class="pre">REDASH_USER_API_KEY</span></code> or a keyword argument.</p>
-<p>To fetch cached queries, you must provide a Query API Key, either as the environmental variable <code class="docutils literal notranslate"><span class="pre">REDASH_QUERY_API_KEY</span></code>
-or as a keyword argument. You do not need a User API Key to fetch a cached query.</p>
-<p>Note that if you specify a Query API Key when loading a table, the method will fetch cached results even if you
-provided a User API Key when instantiating the class.</p>
+<p>To instantiate the <code class="docutils literal notranslate"><span class="pre">Sisense</span></code> class, you can either store your Sisense credentials as environmental variables
+(<code class="docutils literal notranslate"><span class="pre">SISENSE_SITE_NAME</span></code> and <code class="docutils literal notranslate"><span class="pre">SISENSE_API_KEY</span></code>) or pass them as keyword arguments:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">parsons</span> <span class="kn">import</span> <span class="n">Sisense</span>
+
+<span class="c1"># First approach: Pass authentication credentials with environmental variables</span>
+<span class="n">sisense</span> <span class="o">=</span> <span class="n">Sisense</span><span class="p">()</span>
+
+<span class="c1"># Second approach: Pass authentication credentials as arguments</span>
+<span class="n">sisense</span> <span class="o">=</span> <span class="n">Sisense</span><span class="p">(</span><span class="n">site_name</span><span class="o">=</span><span class="s1">&#39;my_site_name&#39;</span><span class="p">,</span> <span class="n">api_key</span><span class="o">=</span><span class="s1">&#39;my_api_key&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>You can then call various endpoints:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Get all the shares for a dashboard</span>
+<span class="n">sisense</span><span class="o">.</span><span class="n">list_shared_dashboards</span><span class="p">(</span><span class="n">dashboard_id</span><span class="o">=</span><span class="s1">&#39;1234&#39;</span><span class="p">)</span>
+
+<span class="c1"># Publish a dashboard</span>
+<span class="n">sisense</span><span class="o">.</span><span class="n">publish_shared_dashboard</span><span class="p">(</span><span class="n">dashboard_id</span><span class="o">=</span><span class="s1">&#39;1234&#39;</span><span class="p">)</span>
+
+<span class="c1"># Publish a chart</span>
+<span class="n">sisense</span><span class="o">.</span><span class="n">publish_shared_dashboard</span><span class="p">(</span><span class="n">dashboard_id</span><span class="o">=</span><span class="s1">&#39;1234&#39;</span><span class="p">,</span> <span class="n">chart_id</span><span class="o">=</span><span class="s1">&#39;567&#39;</span><span class="p">)</span>
+
+<span class="c1"># Delete a dashboard</span>
+<span class="n">sisense</span><span class="o">.</span><span class="n">delete_shared_dashboard</span><span class="p">(</span><span class="n">dashboard_id</span><span class="o">=</span><span class="s1">&#39;1234&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
 </div>
 <div class="section" id="api">
 <h2>API<a class="headerlink" href="#api" title="Permalink to this headline">¶</a></h2>
 <dl class="class">
-<dt id="parsons.redash.Redash">
-<em class="property">class </em><code class="descclassname">parsons.redash.</code><code class="descname">Redash</code><span class="sig-paren">(</span><em>base_url=None</em>, <em>user_api_key=None</em>, <em>pause_time=3</em>, <em>timeout=0</em>, <em>verify=True</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/redash/redash.html#Redash"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.redash.Redash" title="Permalink to this definition">¶</a></dt>
-<dd><p>Instantiate Redash Class</p>
+<dt id="parsons.Sisense">
+<em class="property">class </em><code class="descclassname">parsons.</code><code class="descname">Sisense</code><span class="sig-paren">(</span><em>site_name=None</em>, <em>api_key=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/sisense/sisense.html#Sisense"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.Sisense" title="Permalink to this definition">¶</a></dt>
+<dd><p>Instantiate the Sisense class.</p>
 <dl class="docutils">
 <dt><cite>Args:</cite></dt>
 <dd><dl class="first last docutils">
-<dt>base_url: str</dt>
-<dd>The base url for your redash instance (excluding the final /)</dd>
-<dt>user_api_key: str</dt>
-<dd>The user API key found in the User’s profile screen</dd>
-<dt>pause_time int</dt>
-<dd>Specify time between polling for refreshed queries (Defaults to 3 seconds)</dd>
-<dt>verify: bool</dt>
-<dd>For https requests, should the certificate be verified (Defaults to True)</dd>
+<dt>site_name: str</dt>
+<dd>The name of the site. Not required if the <code class="docutils literal notranslate"><span class="pre">SISENSE_SITE_NAME</span></code>
+environmental variable is set.</dd>
+<dt>api_key: str</dt>
+<dd>The Sisense API Key. Not required if the <code class="docutils literal notranslate"><span class="pre">SISENSE_API_KEY</span></code>
+environmental variable is set.</dd>
 </dl>
 </dd>
 <dt><cite>Returns:</cite></dt>
-<dd>Redash Class</dd>
+<dd>Sisense class</dd>
 </dl>
 <dl class="method">
-<dt id="parsons.redash.Redash.get_fresh_query_results">
-<code class="descname">get_fresh_query_results</code><span class="sig-paren">(</span><em>query_id=None</em>, <em>params=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/redash/redash.html#Redash.get_fresh_query_results"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.redash.Redash.get_fresh_query_results" title="Permalink to this definition">¶</a></dt>
-<dd><p>Make a fresh query result and get back the CSV http response object back
-with the CSV string in result.content</p>
+<dt id="parsons.Sisense.publish_shared_dashboard">
+<code class="descname">publish_shared_dashboard</code><span class="sig-paren">(</span><em>dashboard_id</em>, <em>chart_id=None</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/sisense/sisense.html#Sisense.publish_shared_dashboard"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.Sisense.publish_shared_dashboard" title="Permalink to this definition">¶</a></dt>
+<dd><p>This method publishes a dashboard or chart using the provided arguments.
+For available options, see the <a class="reference external" href="https://dtdocs.sisense.com/article/embed-api-options">API documentation</a>. # noqa</p>
 <dl class="docutils">
 <dt><cite>Args:</cite></dt>
 <dd><dl class="first last docutils">
-<dt>query_id: str or int</dt>
-<dd>The query id of the query</dd>
-<dt>params: dict</dt>
-<dd>If there are values for the redash query parameters
-(described <a class="reference external" href="https://redash.io/help/user-guide/querying/query-parameters">https://redash.io/help/user-guide/querying/query-parameters</a>
-e.g. “{{datelimit}}” in the query),
-then this is a dict that will pass the parameters in the POST.
-We add the “<a href="#id1"><span class="problematic" id="id2">p_</span></a>” prefix for parameters, so if your query had ?p_datelimit=….
-in the url, you should just set ‘datelimit’ in params here.
-If you set this with REDASH_QUERY_PARAMS environment variable instead of passing
-the values, then you must include the “<a href="#id3"><span class="problematic" id="id4">p_</span></a>” prefixes and it should be a single
-url-encoded string as you would see it in the URL bar.</dd>
+<dt>dashboard_id: str or int</dt>
+<dd>The ID of the dashboard (required).</dd>
+<dt>chart_id: str or int</dt>
+<dd>The ID of the chart. Only required for publishing individual charts.</dd>
+<dt><a href="#id1"><span class="problematic" id="id2">**</span></a>kwargs:</dt>
+<dd>Optional arguments.</dd>
 </dl>
 </dd>
 <dt><cite>Returns:</cite></dt>
-<dd>Table Class</dd>
+<dd>Response (dict containing the URL) or an error</dd>
 </dl>
 </dd></dl>
 
 <dl class="method">
-<dt id="parsons.redash.Redash.get_cached_query_results">
-<code class="descname">get_cached_query_results</code><span class="sig-paren">(</span><em>query_id=None</em>, <em>query_api_key=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/redash/redash.html#Redash.get_cached_query_results"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.redash.Redash.get_cached_query_results" title="Permalink to this definition">¶</a></dt>
-<dd><p>Get the results from a cached query result and get back the CSV http response object back
-with the CSV string in result.content</p>
+<dt id="parsons.Sisense.list_shared_dashboards">
+<code class="descname">list_shared_dashboards</code><span class="sig-paren">(</span><em>dashboard_id</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/sisense/sisense.html#Sisense.list_shared_dashboards"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.Sisense.list_shared_dashboards" title="Permalink to this definition">¶</a></dt>
+<dd><p>List all shares of a given dashboard.</p>
 <dl class="docutils">
 <dt><cite>Args:</cite></dt>
 <dd><dl class="first last docutils">
-<dt>query_id: str or int</dt>
-<dd>The query id of the query</dd>
-<dt>query_api_key: str</dt>
-<dd>If you did not supply a user_api_key on the Redash object, then you can
-supply a query_api_key to get cached results back anonymously.</dd>
+<dt>dashboard_id: str or int</dt>
+<dd>The ID the dashboard (required).</dd>
 </dl>
 </dd>
 <dt><cite>Returns:</cite></dt>
-<dd>Table Class</dd>
+<dd>Response or an error</dd>
 </dl>
 </dd></dl>
 
-<dl class="classmethod">
-<dt id="parsons.redash.Redash.load_to_table">
-<em class="property">classmethod </em><code class="descname">load_to_table</code><span class="sig-paren">(</span><em>refresh=True</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/redash/redash.html#Redash.load_to_table"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.redash.Redash.load_to_table" title="Permalink to this definition">¶</a></dt>
-<dd><p>Fast classmethod makes the appropriate query type (refresh or cached)
-based on which arguments are supplied.</p>
+<dl class="method">
+<dt id="parsons.Sisense.delete_shared_dashboard">
+<code class="descname">delete_shared_dashboard</code><span class="sig-paren">(</span><em>token</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/sisense/sisense.html#Sisense.delete_shared_dashboard"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.Sisense.delete_shared_dashboard" title="Permalink to this definition">¶</a></dt>
+<dd><p>To delete a shared dashboard you must provide the token for the shared dashboard.
+The token is the last part of the shared dashboard URL. i.e. if the shared URL is:</p>
+<p><a class="reference external" href="https://app.periscopedata.com/shared/9dda9dda-9dda-9dda-9dda-9dda9dda9dda">https://app.periscopedata.com/shared/9dda9dda-9dda-9dda-9dda-9dda9dda9dda</a></p>
+<p>The token is ‘9dda9dda-9dda-9dda-9dda-9dda9dda9dda’.</p>
 <dl class="docutils">
 <dt><cite>Args:</cite></dt>
 <dd><dl class="first last docutils">
-<dt>base_url: str</dt>
-<dd>The base url for your redash instance (excluding the final /)</dd>
-<dt>query_id: str or int</dt>
-<dd>The query id of the query</dd>
-<dt>user_api_key: str</dt>
-<dd>The user API key found in the User’s profile screen required for refresh queries</dd>
-<dt>query_api_key: str</dt>
-<dd>If you did not supply a user_api_key on the Redash object, then you can
-supply a query_api_key to get cached results back anonymously.</dd>
-<dt>pause_time int</dt>
-<dd>Specify time between polling for refreshed queries (Defaults to 3 seconds)</dd>
-<dt>verify: bool</dt>
-<dd>For https requests, should the certificate be verified (Defaults to True)</dd>
-<dt>refresh: bool</dt>
-<dd>Refresh results or cached. (Defaults to True unless a query_api_key IS supplied)</dd>
-<dt>params: dict</dt>
-<dd>For refresh queries, if there are parameters in the query,
-then this is a dict that will pass the parameters in the POST.
-We add the “<a href="#id5"><span class="problematic" id="id6">p_</span></a>” prefix for parameters, so if your query had ?p_datelimit=….
-in the url, you should just set ‘datelimit’ in params here.</dd>
+<dt>token: str or int</dt>
+<dd>The token of the shared dashboard (required).</dd>
 </dl>
 </dd>
 <dt><cite>Returns:</cite></dt>
-<dd>Table Class</dd>
+<dd>Response or an error</dd>
 </dl>
 </dd></dl>
 
@@ -341,10 +333,10 @@ in the url, you should just set ‘datelimit’ in params here.</dd>
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="rockthevote.html" class="btn btn-neutral float-right" title="Rock the Vote" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="targetsmart.html" class="btn btn-neutral float-right" title="TargetSmart" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="p2a.html" class="btn btn-neutral" title="Phone2Action" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="sftp.html" class="btn btn-neutral" title="SFTP" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   

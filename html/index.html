@@ -287,7 +287,7 @@ minimize resource utilization:</p>
 <li>Install only the dependencies you need</li>
 </ol>
 </div></blockquote>
-<p><a href="#id1"><span class="problematic" id="id2">**</span></a>* Don’t import from the root Parsons package</p>
+<p><strong>* Don’t import from the root Parsons package *</strong></p>
 <p>Throughout the Parsons documentation, users are encouraged to load Parsons classes like so:</p>
 <p><code class="docutils literal notranslate"><span class="pre">`python</span>
 <span class="pre">from</span> <span class="pre">parsons</span> <span class="pre">import</span> <span class="pre">Table</span>
@@ -303,7 +303,7 @@ package where a class is defined (e.g. <cite>from parsons.etl import Table</cite
 <p>If you use the <cite>PARSONS_SKIP_IMPORT_ALL</cite> and import directly from the appropriate sub-package,
 you will only load the classes that you need and will not consume extra resources. Using this
 method, you may see as much as an 8x decrease in memory usage for Parsons.</p>
-<p><a href="#id3"><span class="problematic" id="id4">**</span></a>* Install only the dependencies you need</p>
+<p><strong>* Install only the dependencies you need *</strong></p>
 <p>Since Parsons needs to talk to so many different API’s, it has a number of dependencies on other
 Python libraries. It may be preferable to only install those external dependencies that you will
 use.</p>

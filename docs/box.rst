@@ -19,6 +19,7 @@ This class requires credentials in the form three strings to be either passed in
 
 .. code-block:: bash
 
+  # Note: these are fake keys, provided as examples.
   export BOX_CLIENT_ID=dp4rqi0cz5qckz361fziavdtdwxz
   export BOX_CLIENT_SECRET=4KHMDLVy89TeuUpSRa4CN5o35u9h
   export BOX_ACCESS_TOKEN=7B39m3ozIGyTcazbWRbi5F2SSZ5J

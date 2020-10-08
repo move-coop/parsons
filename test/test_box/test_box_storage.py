@@ -13,6 +13,7 @@ from parsons.etl import Table
 """Prior to running, you should ensure that the relevant environment
 variables have been set, e.g. via
 
+# Note: these are fake keys, provided as examples.
 export BOX_CLIENT_ID=txqedp4rqi0cz5qckz361fziavdtdwxz
 export BOX_CLIENT_SECRET=bk264KHMDLVy89TeuUpSRa4CN5o35u9h
 export BOX_ACCESS_TOKEN=boK97B39m3ozIGyTcazbWRbi5F2SSZ5J
@@ -49,7 +50,7 @@ class TestBoxStorage(unittest.TestCase):
         box = Box()
 
         subfolder = box.create_folder(folder_name='subfolder',
-                                      parent_folder=self.temp_folder_id)
+                                      parent_folder_id=self.temp_folder_id)
 
         # Create a couple of files in the temp folder
         table = Table([['phone_number', 'last_name', 'first_name'],
@@ -58,8 +59,8 @@ class TestBoxStorage(unittest.TestCase):
 
         box.upload_table(table, 'temp1', folder_id=subfolder)
         box.upload_table(table, 'temp2', folder_id=subfolder)
-        box.create_folder(folder_name='temp_folder1', parent_folder=subfolder)
-        box.create_folder(folder_name='temp_folder2', parent_folder=subfolder)
+        box.create_folder(folder_name='temp_folder1', parent_folder_id=subfolder)
+        box.create_folder(folder_name='temp_folder2', parent_folder_id=subfolder)
 
         file_list = box.list_files(folder_id=subfolder)
         self.assertEqual(['temp1', 'temp2'], file_list['name'])
@@ -136,7 +137,7 @@ class TestBoxStorage(unittest.TestCase):
         # Create folder in non-existent parent
         with self.assertLogs(level=logging.WARNING):
             with self.assertRaises(BoxAPIException):
-                box.create_folder(folder_name='subfolder', parent_folder=nonexistent_id)
+                box.create_folder(folder_name='subfolder', parent_folder_id=nonexistent_id)
 
         # Try using bad credentials
         box = Box(access_token='5345345345')

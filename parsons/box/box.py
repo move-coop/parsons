@@ -6,11 +6,11 @@ this connector):
 Information on Box site here:
 https://developer.box.com/guides/applications/custom-apps/oauth2-setup/
 
-1. Set up Box account
-2. Go to Developer console (https://app.box.com/developers/console)
+1. Set up Box account.
+2. Go to Developer console (https://app.box.com/developers/console).
 3. Either select an existing app or create a new one. To create a new one:
-  - Select "New App" > "Custom App" > "OAuth 2.0 with JWT"
-4. View your app and select "Configuration" in the left menu
+  - Select "New App" > "Custom App" > "OAuth 2.0 with JWT".
+4. View your app and select "Configuration" in the left menu.
 5. Scroll down to get the client id & secret, and just above it
    select OAuth2.0 with JWT (Server Authentication) and
    generate a developer token, aka "access token".
@@ -29,6 +29,8 @@ import tempfile
 
 logger = logging.getLogger(__name__)
 
+DEFAULT_FOLDER_ID = '0'
+
 
 class Box(object):
     """Box is a file storage provider.
@@ -46,7 +48,8 @@ class Box(object):
             be used when creating and maintaining access for typical users.
             Not required if ''BOX_ACCESS_TOKEN'' env variable is set.
     `Returns:`
-        Box class
+            Box class
+
     """
 
     def __init__(self, client_id=None, client_secret=None, access_token=None):
@@ -61,66 +64,66 @@ class Box(object):
         )
         self.client = boxsdk.Client(oauth)
 
-    def create_folder(self, folder_name, parent_folder=None) -> str:
-        """Create a Box folder
+    def create_folder(self, folder_name,
+                      parent_folder_id=DEFAULT_FOLDER_ID) -> str:
+        """Create a Box folder.
 
         `Args`:
             folder_name: str
-               The name to give to the new folder
-            parent_folder: str
+               The name to give to the new folder.
+            parent_folder_id: str
                Folder id of the parent folder in which to create the new folder. If
                omitted, the default folder will be used.
 
         `Returns`:
-            str: The Box id of the newly-created folder
+            str: The Box id of the newly-created folder.
         """
-        parent_folder = parent_folder or '0'
-        subfolder = self.client.folder(parent_folder).create_subfolder(folder_name)
+        subfolder = self.client.folder(parent_folder_id).create_subfolder(folder_name)
         return subfolder.id
 
     def delete_folder(self, folder_id) -> None:
-        """Delete a Box folder
+        """Delete a Box folder.
 
         `Args`:
-            folder_id:str
+            folder_id: str
                The Box id of the folder to delete.
         """
         self.client.folder(folder_id=folder_id).delete()
 
     def delete_file(self, file_id) -> None:
-        """Delete a Box file
+        """Delete a Box file.
 
         `Args`:
-            file_id:str
+            file_id: str
               The Box id of the file to delete.
         """
         self.client.file(file_id=file_id).delete()
 
-    def list_files(self, folder_id='0') -> Table:
-        """List all Box files in a folder
+    def list_files(self, folder_id=DEFAULT_FOLDER_ID) -> Table:
+        """List all Box files in a folder.
 
         `Args`:
-            folder_id:str
+            folder_id: str
                The Box id of the folder in which to search. If omitted,
                search in the default folder.
-        `Returns`:Table
-            A Parsons table of files and their attributes
+        `Returns`: Table
+            A Parsons table of files and their attributes.
         """
         return self.list_items(folder_id=folder_id, item_type='file')
 
-    def list_folders(self, folder_id='0') -> Table:
-        """List all Box folders
+    def list_folders(self, folder_id=DEFAULT_FOLDER_ID) -> Table:
+        """List all Box folders.
 
         `Args`:
-            folder_id:str
+            folder_id: str
                The Box id of the folder in which to search. If omitted,
                search in the default folder.
-        `Returns`:Table
-            A Parsons table of folders and their attributes
+        `Returns`: Table
+            A Parsons table of folders and their attributes.
         """
         return self.list_items(folder_id=folder_id, item_type='folder')
 
-    def list_items(self, folder_id='0', item_type=None) -> Table:
+    def list_items(self, folder_id=DEFAULT_FOLDER_ID, item_type=None) -> Table:
         url = 'https://api.box.com/2.0/folders/' + folder_id
         json_response = self.client.make_request('GET', url)
 
@@ -129,28 +132,27 @@ class Box(object):
             items = items.select_rows(lambda row: row.type == item_type)
         return items
 
-    # In what formats can we upload/save Tables to Box? For now csv and JSON
+    # In what formats can we upload/save Tables to Box? For now csv and JSON.
     ALLOWED_FILE_FORMATS = ['csv', 'json']
 
     def upload_table(self, table, file_name,
-                     folder_id='0', format='csv') -> boxsdk.object.file.File:
+                     folder_id=DEFAULT_FOLDER_ID,
+                     format='csv') -> boxsdk.object.file.File:
         """Save the passed table to Box.
 
         `Args`:
             table:Table
-               The Parsons table to be saved
-            file_name:str
-               The filename under which it should be saved in Box
-            folder_id:str
-               Optionally, the id of the subfolder in which it should be saved
-            format:str
-               For now, only 'csv' and 'json'; format in which to save table
+               The Parsons table to be saved.
+            file_name: str
+               The filename under which it should be saved in Box.
+            folder_id: str
+               Optionally, the id of the subfolder in which it should be saved.
+            format: str
+               For now, only 'csv' and 'json'; format in which to save table.
 
-        `Returns`:BoxFile
+        `Returns`: BoxFile
             A Box File object
         """
-        folder_id = folder_id or '0'
-
         if format not in self.ALLOWED_FILE_FORMATS:
             raise ValueError(f'Format argument to upload_table() must be in one '
                              f'of {self.ALLOWED_FILE_FORMATS}; found "{format}"')
@@ -174,13 +176,13 @@ class Box(object):
         """Get a table that has been saved to Box in csv or JSON format.
 
         `Args`:
-            file_id:str
-                The Box file_id of the table to be retrieved
-            format:str
-                 Format in which Table has been saved; for now, only 'csv' or 'json'
+            file_id: str
+                The Box file_id of the table to be retrieved.
+            format: str
+                 Format in which Table has been saved; for now, only 'csv' or 'json'.
 
-        `Returns`:
-            A Parsons Table
+        `Returns`: Table
+            A Parsons Table.
         """
         if format not in self.ALLOWED_FILE_FORMATS:
             raise ValueError(f'Format argument to upload_table() must be in one '

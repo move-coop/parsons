@@ -16,11 +16,19 @@ The first thing you’ll need to do is create a new folder for your connector.  
 
 Inside the folder, create two files.  The first should be named __init__.py and should be empty.  The second will have the same name as your folder - this is the file which will have your connector’s code.  For example, in the airtable folder this file is called airtable.py and in the hustle folder it’s called hustle.py.
 
-The directory should look like this::
+The directory should look like this:
 
+.. code-block:: python
     yourconnectorname/
     __init__.py
         yourconnectorname.py
+		
+Next, add the reference to your connector to parsons/__init__.py.  Specifically, open parsons/__init__.py, scroll to the end of the other imports, and add the following:
+
+.. code-block:: python
+	from parsons.yourconnectorname.yourconnectorname import yourconnectorname
+	
+Also, in parsons/__init__.py add 'yourconnectorname' to the end of the list __all__.
 
 Once this is done, open the yourconnectorname.py file.  At the top of the file, add the following code to enable logging for our connector:
 

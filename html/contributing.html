@@ -310,14 +310,17 @@
 <h2>Documentation<a class="headerlink" href="#documentation" title="Permalink to this headline">¶</a></h2>
 <p>Parsons documentation is built using the Python Sphinx tool. Sphinx uses the <code class="docutils literal notranslate"><span class="pre">docs/*.rst</span></code> files in the repository to create the documentation.</p>
 <p>We have a <a class="reference external" href="https://github.com/move-coop/parsons/issues?q=is%3Aissue+is%3Aopen+label%3Adocumentation">documentation label</a> that may help you find good docs issues to work on. If you are adding a new connector, you will need to add a reference to the connector to one of the .rst files. Please use the existing documentation as an example.</p>
+<p>When editing documentation, make sure you are editing the source files (with .md or .rst extension) and not the build files (.html extension).</p>
 <p>The workflow for documentation changes is a bit simpler than for code changes:</p>
 <ul class="simple">
 <li>Fork the Parsons project using <a class="reference external" href="https://guides.github.com/activities/forking/">the “Fork” button in GitHub</a></li>
 <li>Clone your fork to your local computer</li>
 <li>Change into the <code class="docutils literal notranslate"><span class="pre">docs</span></code> folder and install the requirements with <code class="docutils literal notranslate"><span class="pre">pip</span> <span class="pre">install</span> <span class="pre">-r</span> <span class="pre">requirements.txt</span></code> (you may want to set up a <a class="reference external" href="#virtual-environments">virtual environment</a> first)</li>
-<li>Make your changes and re-build the docs (for now, please follow <a class="reference external" href="https://www.sphinx-doc.org/en/master/usage/quickstart.html">this guide</a> and/or ask for help in Slack)</li>
+<li>Make your changes and re-build the docs by running <code class="docutils literal notranslate"><span class="pre">make</span> <span class="pre">html</span></code>.</li>
+<li>Open these files in your web browser to check that they look as you expect.</li>
 <li><a class="reference external" href="#submitting-a-pull-request">Submit a pull request</a></li>
 </ul>
+<p>When you make documentation changes, you only need to track the source files with git.  The docs built by the html folder should not be included.</p>
 <p>You should not need to worry about the unit tests or the linter if you are making documentation changes only.</p>
 </div>
 <div class="section" id="contributing-sample-code">

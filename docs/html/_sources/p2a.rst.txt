@@ -1,6 +1,10 @@
 Phone2Action
 ============
 
+********
+Overview
+********
+
 `Phone2Action <https://phone2action.com/>`_ is a digital advocacy tool used by progressive organizations. This class
 allows you to interact with the tool by leveraging their `API <http://docs.phone2action.com/#overview>`_.
 
@@ -12,7 +16,8 @@ allows you to interact with the tool by leveraging their `API <http://docs.phone
 Quick Start
 ***********
 
-To instantiate a class, you can either pass in the app ID and app key as arguments or set the ``PHONE2ACTION_APP_ID`` and ``PHONE2ACTION_APP_KEY`` environmental variables.
+To instantiate the ``Phone2Action`` class, you can either pass in the app ID and app key as arguments or set the
+``PHONE2ACTION_APP_ID`` and ``PHONE2ACTION_APP_KEY`` environmental variables.
 
 .. code-block:: python
 
@@ -35,8 +40,11 @@ To instantiate a class, you can either pass in the app ID and app key as argumen
        phone_number = phone['phones_address']
        # Only update phone numbers that aren't already subscribed
        if phone['subscribed']:
-        p2a.update_advocate(phone['advocate_id'], phone=phone_number, sms_opt_in=True)
+           p2a.update_advocate(phone['advocate_id'], phone=phone_number, sms_opt_in=True)
 
+***
+API
+***
 
 .. autoclass :: parsons.Phone2Action
    :inherited-members:

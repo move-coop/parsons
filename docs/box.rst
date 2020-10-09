@@ -67,7 +67,7 @@ This class requires credentials in the form three strings to be either passed in
                              file_name='My Parsons Table',
                              folder_id='533944')
 
-  downloaded_table = box.get_table(file_id=box_file.id)
+  downloaded_table = box.get_table_by_file_id(file_id=box_file.id)
 
   box.delete_file(box_file.id)
 

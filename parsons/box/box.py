@@ -172,7 +172,7 @@ class Box(object):
                                                             file_name=file_name)
         return new_file
 
-    def get_table(self, file_id, format='csv') -> Table:
+    def get_table_by_file_id(self, file_id, format='csv') -> Table:
         """Get a table that has been saved to Box in csv or JSON format.
 
         `Args`:

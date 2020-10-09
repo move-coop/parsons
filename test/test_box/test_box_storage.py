@@ -85,7 +85,7 @@ class TestBoxStorage(unittest.TestCase):
                        ['5126993336', 'Obama', 'Barack']])
         box_file = box.upload_table(table, 'phone_numbers', folder_id=self.temp_folder_id)
 
-        new_table = box.get_table(box_file.id)
+        new_table = box.get_table_by_file_id(box_file.id)
 
         # Check that what we saved is equal to what we got back
         self.assertEqual(str(table), str(new_table))
@@ -95,7 +95,7 @@ class TestBoxStorage(unittest.TestCase):
                                     folder_id=self.temp_folder_id,
                                     format='json')
 
-        new_table = box.get_table(box_file.id, format='json')
+        new_table = box.get_table_by_file_id(box_file.id, format='json')
 
         # Check that what we saved is equal to what we got back
         self.assertEqual(str(table), str(new_table))
@@ -104,7 +104,7 @@ class TestBoxStorage(unittest.TestCase):
         with self.assertRaises(ValueError):
             box.upload_table(table, 'phone_numbers', format='illegal_format')
         with self.assertRaises(ValueError):
-            box.get_table(box_file.id, format='illegal_format')
+            box.get_table_by_file_id(box_file.id, format='illegal_format')
 
     def test_errors(self) -> None:
 
@@ -122,7 +122,7 @@ class TestBoxStorage(unittest.TestCase):
 
         # Download a bad format
         with self.assertRaises(ValueError):
-            box.get_table(file_id=nonexistent_id, format='bad_format')
+            box.get_table_by_file_id(file_id=nonexistent_id, format='bad_format')
 
         # Upload to non-existent folder
         with self.assertLogs(level=logging.WARNING):
@@ -132,7 +132,7 @@ class TestBoxStorage(unittest.TestCase):
         # Download a non-existent file
         with self.assertLogs(level=logging.WARNING):
             with self.assertRaises(BoxAPIException):
-                box.get_table(nonexistent_id, format='json')
+                box.get_table_by_file_id(nonexistent_id, format='json')
 
         # Create folder in non-existent parent
         with self.assertLogs(level=logging.WARNING):

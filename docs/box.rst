@@ -61,16 +61,32 @@ This class requires credentials in the form three strings to be either passed in
 
 .. code-block:: python
 
-  new_folder = box.create_folder(folder_name='My Folder',
-                                 parent_folder='533944')
-  box_file = box.upload_file(table=my_parsons_table,
-                             file_name='My Parsons Table',
-                             folder_id='533944')
+  new_folder_id = box.create_folder(folder_name='My Folder',
+                                    parent_folder='533944')
+  box_file = box.upload_table(table=my_parsons_table,
+                              file_name='My Parsons Table',
+                              folder_id=new_folder_id)
 
   downloaded_table = box.get_table_by_file_id(file_id=box_file.id)
 
   box.delete_file(box_file.id)
 
+**Retrieve folder/file ids from path names**
+
+.. code-block:: python
+
+  folder_id = box.get_item_id('My Folder')
+  folder_id == new_folder_id
+
+  file_id = box.get_item_id('My Folder/My Parsons Table')
+  file_id == box_file.id
+
+**Delete folders/files**
+
+.. code-block:: python
+
+  box.delete_file(box_file.id)
+  box.delete_folder(new_folder_id)
 
 
 ***

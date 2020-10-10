@@ -200,3 +200,63 @@ class Box(object):
             return Table.from_json(output_file_name)
         else:
             raise SystemError(f'Got (theoretically) impossible format option "{format}"')
+
+    def get_item_id(self, path, base_folder_id=DEFAULT_FOLDER_ID) -> str:
+        """Given a path-like object, try to return the id for the file or folder
+        at the end of the path. NOTE: This method makes one API call for each level
+        in `path`, so can be slow for long paths.
+
+        `Args`:
+            path: str
+                A slash-separated path from the base folder to the file or
+                folder in question.
+            base_folder_id: str
+                 What to use as the base folder for the path. By default, use
+                 the default folder.
+
+        `Returns`: Table
+            A Parsons Table.
+        """
+        try:
+            # Grab the leftmost element in the path - this is what we're looking for in this folder.
+            if '/' in path:
+                this_element, path = path.split(sep='/', maxsplit=1)
+                if path == '':
+                    raise ValueError(f'Illegal trailing "/" in file path')
+
+            else:
+                this_element = path
+                path = ''
+
+            # Look in our current base_folder for an item whose name matches the
+            # current element. If we're at initial, non-recursed call, base_folder
+            # will be default folder.
+            folder_items = self.list_items(folder_id=base_folder_id)
+            item_id = None
+            for item in folder_items:
+                if item.get('name') == this_element:
+                    item_id = item.get('id')
+                    break
+
+            if item_id is None:
+                raise ValueError(f'No file or folder named "{this_element}"')
+
+            # If there are no more elements left in path, this is the item we're after.
+            if not len(path):
+                return item_id
+
+            # If there *are* more elements in the path, we need to check that this item is
+            # in fact a folder so we can recurse and search inside it.
+            if item.get('type') != 'folder':
+                raise ValueError(f'Invalid folder "{this_element}"')
+
+            return self.get_item_id(path=path, base_folder_id=item_id)
+
+        # At the top level of the recursion, when we have the entire path, we want
+        # to attach it to the error message. If caught at some inner level of the
+        # recursion, just pass it on up.
+        except ValueError as e:
+            if base_folder_id == DEFAULT_FOLDER_ID:
+                raise ValueError(f'{e}: "{path}"')
+            else:
+                raise

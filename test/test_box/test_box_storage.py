@@ -106,8 +106,48 @@ class TestBoxStorage(unittest.TestCase):
         with self.assertRaises(ValueError):
             box.get_table_by_file_id(box_file.id, format='illegal_format')
 
-    def test_errors(self) -> None:
+    def test_get_item_id(self) -> None:
+        # Count on environment variables being set
+        box = Box()
 
+        # Create a subfolder in which we'll do this test
+        sub_sub_folder_name = 'item_subfolder'
+        sub_sub_folder_id = box.create_folder(folder_name=sub_sub_folder_name,
+                                              parent_folder_id=self.temp_folder_id)
+
+        table = Table([['phone_number', 'last_name', 'first_name'],
+                       ['4435705355', 'Warren', 'Elizabeth'],
+                       ['5126993336', 'Obama', 'Barack']])
+        box_file = box.upload_table(table, 'file_in_subfolder', folder_id=self.temp_folder_id)
+
+        box_file = box.upload_table(table, 'phone_numbers', folder_id=sub_sub_folder_id)
+
+        # Now try getting various ids
+        file_path = f'{self.temp_folder_name}/item_subfolder/phone_numbers'
+        self.assertEqual(box_file.id, box.get_item_id(path=file_path))
+
+        file_path = f'{self.temp_folder_name}/item_subfolder'
+        self.assertEqual(sub_sub_folder_id, box.get_item_id(path=file_path))
+
+        file_path = self.temp_folder_name
+        self.assertEqual(self.temp_folder_id, box.get_item_id(path=file_path))
+
+        # Trailing "/"
+        with self.assertRaises(ValueError):
+            file_path = f'{self.temp_folder_name}/item_subfolder/phone_numbers/'
+            box.get_item_id(path=file_path)
+
+        # Nonexistent file
+        with self.assertRaises(ValueError):
+            file_path = f'{self.temp_folder_name}/item_subfolder/nonexistent/phone_numbers'
+            box.get_item_id(path=file_path)
+
+        # File (rather than folder) in middle of path
+        with self.assertRaises(ValueError):
+            file_path = f'{self.temp_folder_name}/file_in_subfolder/phone_numbers'
+            box.get_item_id(path=file_path)
+
+    def test_errors(self) -> None:
         # Count on environment variables being set
         box = Box()
 

@@ -50,7 +50,14 @@ class Box(object):
     `Returns:`
             Box class
 
+    *NOTE*: All path-based methods in this class use an intermediate
+    method that looks up the relevant folder/file id by successive API
+    calls. This can be slow for long paths or intermediate folders
+    that contain many items. If performance is an issue, please use the
+    corresponding folder_id/file_id methods for each function.
     """
+    # In what formats can we upload/save Tables to Box? For now csv and JSON.
+    ALLOWED_FILE_FORMATS = ['csv', 'json']
 
     def __init__(self, client_id=None, client_secret=None, access_token=None):
         client_id = check_env('BOX_CLIENT_ID', client_id)
@@ -64,8 +71,27 @@ class Box(object):
         )
         self.client = boxsdk.Client(oauth)
 
-    def create_folder(self, folder_name,
-                      parent_folder_id=DEFAULT_FOLDER_ID) -> str:
+    def create_folder(self, path) -> str:
+        """Create a Box folder.
+
+        `Args`:
+            path: str
+               Path to the folder to be created. If no slashes are present,
+               path will be name of folder created in the default folder.
+
+        `Returns`:
+            str: The Box id of the newly-created folder.
+        """
+        if '/' in path:
+            parent_folder_path, folder_name = path.rsplit(sep='/', maxsplit=1)
+            parent_folder_id = self.get_item_id(path=parent_folder_path)
+        else:
+            folder_name = path
+            parent_folder_id = DEFAULT_FOLDER_ID
+        return self.create_folder_by_id(folder_name, parent_folder_id=parent_folder_id)
+
+    def create_folder_by_id(self, folder_name,
+                            parent_folder_id=DEFAULT_FOLDER_ID) -> str:
         """Create a Box folder.
 
         `Args`:
@@ -81,7 +107,17 @@ class Box(object):
         subfolder = self.client.folder(parent_folder_id).create_subfolder(folder_name)
         return subfolder.id
 
-    def delete_folder(self, folder_id) -> None:
+    def delete_folder(self, path) -> None:
+        """Delete a Box folder.
+
+        `Args`:
+            folder_id: str
+               Path to the folder to delete.
+        """
+        folder_id = self.get_item_id(path)
+        self.delete_folder_by_id(folder_id=folder_id)
+
+    def delete_folder_by_id(self, folder_id) -> None:
         """Delete a Box folder.
 
         `Args`:
@@ -90,7 +126,17 @@ class Box(object):
         """
         self.client.folder(folder_id=folder_id).delete()
 
-    def delete_file(self, file_id) -> None:
+    def delete_file(self, path) -> None:
+        """Delete a Box file.
+
+        `Args`:
+            path: str
+              Path to the file to delete.
+        """
+        file_id = self.get_item_id(path)
+        self.delete_file_by_id(file_id=file_id)
+
+    def delete_file_by_id(self, file_id) -> None:
         """Delete a Box file.
 
         `Args`:
@@ -99,7 +145,36 @@ class Box(object):
         """
         self.client.file(file_id=file_id).delete()
 
-    def list_files(self, folder_id=DEFAULT_FOLDER_ID) -> Table:
+    def list(self, path='', item_type=None) -> Table:
+        """Return a Table of Box files and/or folders found at a path.
+
+        `Args`:
+            path:str
+               If specified, the slash-separated path of the folder to be listed.
+               If omitted, the default folder will be used.
+            item_type: str
+               Optionally which type of items should be returned, typically either
+               `file` or `folder`. If omitted, all items will be returned.
+
+        `Returns`: Table
+            A Parsons table of items in the folder and their attributes.
+        """
+        if path:
+            folder_id = self.get_item_id(path)
+        else:
+            folder_id = DEFAULT_FOLDER_ID
+        return self.list_items_by_id(folder_id=folder_id, item_type=item_type)
+
+    def list_items_by_id(self, folder_id=DEFAULT_FOLDER_ID, item_type=None) -> Table:
+        url = 'https://api.box.com/2.0/folders/' + folder_id
+        json_response = self.client.make_request('GET', url)
+
+        items = Table(json_response.json()['item_collection']['entries'])
+        if item_type:
+            items = items.select_rows(lambda row: row.type == item_type)
+        return items
+
+    def list_files_by_id(self, folder_id=DEFAULT_FOLDER_ID) -> Table:
         """List all Box files in a folder.
 
         `Args`:
@@ -109,9 +184,9 @@ class Box(object):
         `Returns`: Table
             A Parsons table of files and their attributes.
         """
-        return self.list_items(folder_id=folder_id, item_type='file')
+        return self.list_items_by_id(folder_id=folder_id, item_type='file')
 
-    def list_folders(self, folder_id=DEFAULT_FOLDER_ID) -> Table:
+    def list_folders_by_id(self, folder_id=DEFAULT_FOLDER_ID) -> Table:
         """List all Box folders.
 
         `Args`:
@@ -121,23 +196,34 @@ class Box(object):
         `Returns`: Table
             A Parsons table of folders and their attributes.
         """
-        return self.list_items(folder_id=folder_id, item_type='folder')
+        return self.list_items_by_id(folder_id=folder_id, item_type='folder')
 
-    def list_items(self, folder_id=DEFAULT_FOLDER_ID, item_type=None) -> Table:
-        url = 'https://api.box.com/2.0/folders/' + folder_id
-        json_response = self.client.make_request('GET', url)
+    def upload_table(self, table, path='', format='csv') -> boxsdk.object.file.File:
+        """Save the passed table to Box.
 
-        items = Table(json_response.json()['item_collection']['entries'])
-        if item_type:
-            items = items.select_rows(lambda row: row.type == item_type)
-        return items
+        `Args`:
+            table:Table
+               The Parsons table to be saved.
+            path: str
+               Optionally, file path to filename where table should be saved.
+            format: str
+               For now, only 'csv' and 'json'; format in which to save table.
 
-    # In what formats can we upload/save Tables to Box? For now csv and JSON.
-    ALLOWED_FILE_FORMATS = ['csv', 'json']
+        `Returns`: BoxFile
+            A Box File object
+        """
+        if '/' in path:
+            folder_path, file_name = path.rsplit(sep='/', maxsplit=1)
+            folder_id = self.get_item_id(path=folder_path)
+        else:  # pragma: no cover
+            file_name = path
+            folder_id = DEFAULT_FOLDER_ID
 
-    def upload_table(self, table, file_name,
-                     folder_id=DEFAULT_FOLDER_ID,
-                     format='csv') -> boxsdk.object.file.File:
+        return self.upload_table_to_folder_id(table=table, file_name=file_name,
+                                              folder_id=folder_id, format=format)
+
+    def upload_table_to_folder_id(self, table, file_name, folder_id=DEFAULT_FOLDER_ID,
+                                  format='csv') -> boxsdk.object.file.File:
         """Save the passed table to Box.
 
         `Args`:
@@ -153,6 +239,7 @@ class Box(object):
         `Returns`: BoxFile
             A Box File object
         """
+
         if format not in self.ALLOWED_FILE_FORMATS:
             raise ValueError(f'Format argument to upload_table() must be in one '
                              f'of {self.ALLOWED_FILE_FORMATS}; found "{format}"')
@@ -166,11 +253,27 @@ class Box(object):
             elif format == 'json':
                 table.to_json(local_path=temp_file_path)
             else:
-                raise SystemError(f'Got (theoretically) impossible format option "{format}"')
+                raise SystemError(f'Got (theoretically) impossible '
+                                  f'format option "{format}"')  # pragma: no cover
 
             new_file = self.client.folder(folder_id).upload(file_path=temp_file_path,
                                                             file_name=file_name)
         return new_file
+
+    def get_table(self, path, format='csv') -> Table:
+        """Get a table that has been saved to Box in csv or JSON format.
+
+        `Args`:
+            path: str
+                The slash-separated path to the file containing the table.
+            format: str
+                 Format in which Table has been saved; for now, only 'csv' or 'json'.
+
+        `Returns`: Table
+            A Parsons Table.
+        """
+        file_id = self.get_item_id(path)
+        return self.get_table_by_file_id(file_id=file_id, format=format)
 
     def get_table_by_file_id(self, file_id, format='csv') -> Table:
         """Get a table that has been saved to Box in csv or JSON format.
@@ -199,12 +302,16 @@ class Box(object):
         elif format == 'json':
             return Table.from_json(output_file_name)
         else:
-            raise SystemError(f'Got (theoretically) impossible format option "{format}"')
+            raise SystemError(f'Got (theoretically) impossible '
+                              f'format option "{format}"')  # pragma: no cover
 
     def get_item_id(self, path, base_folder_id=DEFAULT_FOLDER_ID) -> str:
-        """Given a path-like object, try to return the id for the file or folder
-        at the end of the path. NOTE: This method makes one API call for each level
-        in `path`, so can be slow for long paths.
+        """Given a path-like object, try to return the id for the file or
+        folder at the end of the path.
+
+        *NOTE*: This method makes one API call for each level in
+        `path`, so can be slow for long paths or intermediate folders
+        containing very many items.
 
         `Args`:
             path: str
@@ -216,9 +323,11 @@ class Box(object):
 
         `Returns`: Table
             A Parsons Table.
+
         """
         try:
-            # Grab the leftmost element in the path - this is what we're looking for in this folder.
+            # Grab the leftmost element in the path - this is what we're
+            # looking for in this folder.
             if '/' in path:
                 this_element, path = path.split(sep='/', maxsplit=1)
                 if path == '':
@@ -231,11 +340,10 @@ class Box(object):
             # Look in our current base_folder for an item whose name matches the
             # current element. If we're at initial, non-recursed call, base_folder
             # will be default folder.
-            folder_items = self.list_items(folder_id=base_folder_id)
             item_id = None
-            for item in folder_items:
-                if item.get('name') == this_element:
-                    item_id = item.get('id')
+            for item in self.client.folder(folder_id=base_folder_id).get_items():
+                if item.name == this_element:
+                    item_id = item.id
                     break
 
             if item_id is None:
@@ -247,7 +355,7 @@ class Box(object):
 
             # If there *are* more elements in the path, we need to check that this item is
             # in fact a folder so we can recurse and search inside it.
-            if item.get('type') != 'folder':
+            if item.type != 'folder':
                 raise ValueError(f'Invalid folder "{this_element}"')
 
             return self.get_item_id(path=path, base_folder_id=item_id)

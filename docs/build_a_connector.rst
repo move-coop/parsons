@@ -240,7 +240,9 @@ Adding automated tests
  * Add a file *test_yourconnectorname.py* to the *test_yourconnectorname* folder
  * Use the code below as a starting point for your tests
  * Add one `“Happy Path” <https://en.wikipedia.org/wiki/Happy_path>`_ test per public method of your connector
- * When possible mock out any external integrations, otherwise mark your test using the
+ * When possible mock out any external integrations, otherwise mark your test using the ``unittest.skipIf`` decorator (for an example, see test/test_s3.py)
+
+ For a more detailed guide on writing unit tests, see :doc:`How to Write Tests for Parsons Connectors <write_tests>`
 
 .. code-block:: python
 

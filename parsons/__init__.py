@@ -48,6 +48,7 @@ if not os.environ.get('PARSONS_SKIP_IMPORT_ALL'):
     from parsons.azure.azure_blob_storage import AzureBlobStorage
     from parsons.github.github import GitHub
     from parsons.bloomerang.bloomerang import Bloomerang
+    from parsons.box.box import Box
     from parsons.sisense.sisense import Sisense
     from parsons.surveygizmo.surveygizmo import SurveyGizmo
 
@@ -92,6 +93,7 @@ if not os.environ.get('PARSONS_SKIP_IMPORT_ALL'):
         'AzureBlobStorage',
         'GitHub',
         'Bloomerang',
+        'Box',
         'Sisense',
         'SurveyGizmo'
     ]

@@ -9,6 +9,8 @@ logger = logging.getLogger(__name__)
 
 class Twilio:
     """
+    Instantiate the Twilio class
+
     `Args:`
         account_sid: str
             The Twilio account sid. Not required if ``TWILIO_ACCOUNT_SID`` env variable is

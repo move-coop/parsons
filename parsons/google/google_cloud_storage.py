@@ -23,7 +23,7 @@ class GoogleCloudStorage(object):
 
 
     `Args:`
-        credentials: str
+        app_creds: str
             A credentials json string or a path to a json file. Not required
             if ``GOOGLE_APPLICATION_CREDENTIALS`` env variable set.
         project: str
@@ -174,7 +174,7 @@ class GoogleCloudStorage(object):
         """
         Get a blob object
 
-        `Args:
+        `Args`:
             bucket_name: str
                 A bucket name
             blob_name: str

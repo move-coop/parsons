@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>parsons.notifications.slack &mdash; Parsons 0.1 documentation</title>
+  <title>parsons.notifications.slack &mdash; Parsons 0.5 documentation</title>
   
 
   
@@ -79,23 +79,53 @@
               <p class="caption"><span class="caption-text">Integrations</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../../action_kit.html">ActionKit</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../action_network.html">Action Network</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../airtable.html">Airtable</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../aws.html">Amazon Web Services</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../azure.html">Azure: Blob Storage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../bill_com.html">Bill.com</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../bloomerang.html">Bloomerang</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../box.html">Box</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../braintree.html">Braintree</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../civis.html">Civis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../copper.html">Copper</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../crowdtangle.html">CrowdTangle</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../databases.html">Databases</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../facebook_ads.html">FacebookAds</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../google_sheets.html">GoogleSheets</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../mobile_commons.html">Mobile Commons</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../freshdesk.html">Freshdesk</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../github.html">GitHub</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../google.html">Google</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../hustle.html">Hustle</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../mailchimp.html">Mailchimp</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../mobilize_america.html">Mobilize America</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../ngpvan.html">VAN</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../newmode.html">New/Mode</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../ngpvan.html">NGPVAN</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../pdi.html">PDI</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../p2a.html">Phone2Action</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../redshift.html">Redshift</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../s3.html">S3</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../redash.html">Redash</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../rockthevote.html">Rock the Vote</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../salesforce.html">Salesforce</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../sftp.html">SFTP</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../ts.html">TargetSmart</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../targetsmart.html">TargetSmart</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../turbovote.html">TurboVote</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../twilio.html">Twilio</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../zoom.html">Zoom</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Enhancements</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../census_geocoder.html">US Census Geocoder</a></li>
 </ul>
 <p class="caption"><span class="caption-text">Framework</span></p>
 <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../dbsync.html">Database Sync</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../table.html">Parsons Table</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../notifications.html">Notifications</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../utilities.html">Utilities</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Contributor Documentation</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../contributing.html">Contributing to Parsons</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../build_a_connector.html">How to Build a Connector</a></li>
 </ul>
 
             
@@ -159,14 +189,21 @@
            <div itemprop="articleBody">
             
   <h1>Source code for parsons.notifications.slack</h1><div class="highlight"><pre>
-<span></span><span class="kn">from</span> <span class="nn">parsons</span> <span class="k">import</span> <span class="n">Table</span>
-<span class="kn">from</span> <span class="nn">slackclient</span> <span class="k">import</span> <span class="n">SlackClient</span>
-<span class="kn">import</span> <span class="nn">os</span>
+<span></span><span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">time</span>
+
+<span class="kn">from</span> <span class="nn">parsons.etl.table</span> <span class="kn">import</span> <span class="n">Table</span>
+<span class="kn">from</span> <span class="nn">parsons.utilities.check_env</span> <span class="kn">import</span> <span class="n">check</span>
+
+<span class="kn">from</span> <span class="nn">slackclient</span> <span class="kn">import</span> <span class="n">SlackClient</span>
+<span class="kn">from</span> <span class="nn">slackclient.exceptions</span> <span class="kn">import</span> <span class="n">SlackClientError</span>
+
+<span class="kn">import</span> <span class="nn">requests</span>
 
 
 <div class="viewcode-block" id="Slack"><a class="viewcode-back" href="../../../notifications.html#parsons.Slack">[docs]</a><span class="k">class</span> <span class="nc">Slack</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
 
-    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">api_key</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">api_key</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
 
         <span class="k">if</span> <span class="n">api_key</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
 
@@ -245,7 +282,30 @@
 
         <span class="k">return</span> <span class="n">tbl</span></div>
 
-<div class="viewcode-block" id="Slack.message_channel"><a class="viewcode-back" href="../../../notifications.html#parsons.Slack.message_channel">[docs]</a>    <span class="k">def</span> <span class="nf">message_channel</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">channel</span><span class="p">,</span> <span class="n">text</span><span class="p">,</span> <span class="n">as_user</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+<div class="viewcode-block" id="Slack.message"><a class="viewcode-back" href="../../../notifications.html#parsons.Slack.message">[docs]</a>    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">message</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">channel</span><span class="p">,</span> <span class="n">text</span><span class="p">,</span> <span class="n">webhook</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">parent_message_id</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Send a message to a Slack channel with a webhook instead of an api_key.</span>
+<span class="sd">        You might not have the full-access API key but still want to notify a channel</span>
+<span class="sd">        `Args:`</span>
+<span class="sd">            channel: str</span>
+<span class="sd">                The name or id of a `public_channel`, a `private_channel`, or</span>
+<span class="sd">                an `im` (aka 1-1 message).</span>
+<span class="sd">            text: str</span>
+<span class="sd">                Text of the message to send.</span>
+<span class="sd">            webhook: str</span>
+<span class="sd">                If you have a webhook url instead of an api_key</span>
+<span class="sd">                Looks like: https://hooks.slack.com/services/Txxxxxxx/Bxxxxxx/Dxxxxxxx</span>
+<span class="sd">            parent_message_id: str</span>
+<span class="sd">                The `ts` value of the parent message. If used, this will thread the message.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">webhook</span> <span class="o">=</span> <span class="n">check</span><span class="p">(</span><span class="s1">&#39;SLACK_API_WEBHOOK&#39;</span><span class="p">,</span> <span class="n">webhook</span><span class="p">,</span> <span class="n">optional</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="n">payload</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;channel&#39;</span><span class="p">:</span> <span class="n">channel</span><span class="p">,</span> <span class="s1">&#39;text&#39;</span><span class="p">:</span> <span class="n">text</span><span class="p">}</span>
+        <span class="k">if</span> <span class="n">parent_message_id</span><span class="p">:</span>
+            <span class="n">payload</span><span class="p">[</span><span class="s1">&#39;thread_ts&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">parent_message_id</span>
+        <span class="k">return</span> <span class="n">requests</span><span class="o">.</span><span class="n">post</span><span class="p">(</span><span class="n">webhook</span><span class="p">,</span> <span class="n">json</span><span class="o">=</span><span class="n">payload</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="Slack.message_channel"><a class="viewcode-back" href="../../../notifications.html#parsons.Slack.message_channel">[docs]</a>    <span class="k">def</span> <span class="nf">message_channel</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">channel</span><span class="p">,</span> <span class="n">text</span><span class="p">,</span> <span class="n">as_user</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">parent_message_id</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Send a message to a Slack channel</span>
 
@@ -260,25 +320,39 @@
 <span class="sd">                instead of as a bot. Defaults to false. See</span>
 <span class="sd">                https://api.slack.com/methods/chat.postMessage#authorship for</span>
 <span class="sd">                more information about Slack authorship.</span>
+<span class="sd">            parent_message_id: str</span>
+<span class="sd">                The `ts` value of the parent message. If used, this will thread the message.</span>
 <span class="sd">        `Returns:`</span>
 <span class="sd">            `dict`:</span>
 <span class="sd">                A response json</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">resp</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">api_call</span><span class="p">(</span>
-            <span class="s2">&quot;chat.postMessage&quot;</span><span class="p">,</span> <span class="n">channel</span><span class="o">=</span><span class="n">channel</span><span class="p">,</span> <span class="n">text</span><span class="o">=</span><span class="n">text</span><span class="p">,</span> <span class="n">as_user</span><span class="o">=</span><span class="n">as_user</span><span class="p">)</span>
+            <span class="s2">&quot;chat.postMessage&quot;</span><span class="p">,</span> <span class="n">channel</span><span class="o">=</span><span class="n">channel</span><span class="p">,</span> <span class="n">text</span><span class="o">=</span><span class="n">text</span><span class="p">,</span>
+            <span class="n">as_user</span><span class="o">=</span><span class="n">as_user</span><span class="p">,</span> <span class="n">thread_ts</span><span class="o">=</span><span class="n">parent_message_id</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">resp</span><span class="p">[</span><span class="s1">&#39;ok&#39;</span><span class="p">]:</span>
+
+            <span class="k">if</span> <span class="n">resp</span><span class="p">[</span><span class="s1">&#39;error&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;ratelimited&#39;</span><span class="p">:</span>
+                <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">resp</span><span class="p">[</span><span class="s1">&#39;headers&#39;</span><span class="p">][</span><span class="s1">&#39;Retry-After&#39;</span><span class="p">]))</span>
+
+                <span class="n">resp</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">api_call</span><span class="p">(</span>
+                    <span class="s2">&quot;chat.postMessage&quot;</span><span class="p">,</span>
+                    <span class="n">channel</span><span class="o">=</span><span class="n">channel</span><span class="p">,</span> <span class="n">text</span><span class="o">=</span><span class="n">text</span><span class="p">,</span> <span class="n">as_user</span><span class="o">=</span><span class="n">as_user</span><span class="p">)</span>
+
+            <span class="k">raise</span> <span class="n">SlackClientError</span><span class="p">(</span><span class="n">resp</span><span class="p">[</span><span class="s1">&#39;error&#39;</span><span class="p">])</span>
 
         <span class="k">return</span> <span class="n">resp</span></div>
 
 <div class="viewcode-block" id="Slack.upload_file"><a class="viewcode-back" href="../../../notifications.html#parsons.Slack.upload_file">[docs]</a>    <span class="k">def</span> <span class="nf">upload_file</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">channels</span><span class="p">,</span> <span class="n">filename</span><span class="p">,</span> <span class="n">filetype</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-                    <span class="n">initial_comment</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+                    <span class="n">initial_comment</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">is_binary</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Upload a file to Slack channel(s).</span>
 
 <span class="sd">        `Args:`</span>
 <span class="sd">            channels: list</span>
-<span class="sd">                List of channel names or IDs where the file will be shared.</span>
+<span class="sd">                The list of channel names or IDs where the file will be shared.</span>
 <span class="sd">            filename: str</span>
-<span class="sd">                Name of the file to be uploaded.</span>
+<span class="sd">                The path to the file to be uploaded.</span>
 <span class="sd">            filetype: str</span>
 <span class="sd">                A file type identifier. If None, type will be inferred base on</span>
 <span class="sd">                file extension. This is used to determine what fields are</span>
@@ -289,6 +363,9 @@
 <span class="sd">                The text of the message to send along with the file.</span>
 <span class="sd">            title: str</span>
 <span class="sd">                Title of the file to be uploaded.</span>
+<span class="sd">            is_binary: bool</span>
+<span class="sd">                If True, open this file in binary mode. This is needed if</span>
+<span class="sd">                uploading binary files. Defaults to False.</span>
 <span class="sd">        `Returns:`</span>
 <span class="sd">            `dict`:</span>
 <span class="sd">                A response json</span>
@@ -296,11 +373,24 @@
         <span class="k">if</span> <span class="n">filetype</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">and</span> <span class="s1">&#39;.&#39;</span> <span class="ow">in</span> <span class="n">filename</span><span class="p">:</span>
             <span class="n">filetype</span> <span class="o">=</span> <span class="n">filename</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;.&#39;</span><span class="p">)[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
 
-        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span> <span class="k">as</span> <span class="n">file_content</span><span class="p">:</span>
+        <span class="n">mode</span> <span class="o">=</span> <span class="s1">&#39;rb&#39;</span> <span class="k">if</span> <span class="n">is_binary</span> <span class="k">else</span> <span class="s1">&#39;r&#39;</span>
+        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="n">mode</span><span class="p">)</span> <span class="k">as</span> <span class="n">file_content</span><span class="p">:</span>
             <span class="n">resp</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">api_call</span><span class="p">(</span>
                 <span class="s2">&quot;files.upload&quot;</span><span class="p">,</span> <span class="n">channels</span><span class="o">=</span><span class="n">channels</span><span class="p">,</span> <span class="n">file</span><span class="o">=</span><span class="n">file_content</span><span class="p">,</span>
                 <span class="n">filetype</span><span class="o">=</span><span class="n">filetype</span><span class="p">,</span> <span class="n">initial_comment</span><span class="o">=</span><span class="n">initial_comment</span><span class="p">,</span>
                 <span class="n">title</span><span class="o">=</span><span class="n">title</span><span class="p">)</span>
+
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">resp</span><span class="p">[</span><span class="s1">&#39;ok&#39;</span><span class="p">]:</span>
+
+                <span class="k">if</span> <span class="n">resp</span><span class="p">[</span><span class="s1">&#39;error&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;ratelimited&#39;</span><span class="p">:</span>
+                    <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">resp</span><span class="p">[</span><span class="s1">&#39;headers&#39;</span><span class="p">][</span><span class="s1">&#39;Retry-After&#39;</span><span class="p">]))</span>
+
+                    <span class="n">resp</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">api_call</span><span class="p">(</span>
+                        <span class="s2">&quot;files.upload&quot;</span><span class="p">,</span> <span class="n">channels</span><span class="o">=</span><span class="n">channels</span><span class="p">,</span> <span class="n">file</span><span class="o">=</span><span class="n">file_content</span><span class="p">,</span>
+                        <span class="n">filetype</span><span class="o">=</span><span class="n">filetype</span><span class="p">,</span> <span class="n">initial_comment</span><span class="o">=</span><span class="n">initial_comment</span><span class="p">,</span>
+                        <span class="n">title</span><span class="o">=</span><span class="n">title</span><span class="p">)</span>
+
+                <span class="k">raise</span> <span class="n">SlackClientError</span><span class="p">(</span><span class="n">resp</span><span class="p">[</span><span class="s1">&#39;error&#39;</span><span class="p">])</span>
 
         <span class="k">return</span> <span class="n">resp</span></div>
 
@@ -313,13 +403,21 @@
         <span class="n">next_page</span> <span class="o">=</span> <span class="kc">True</span>
         <span class="n">cursor</span> <span class="o">=</span> <span class="kc">None</span>
         <span class="k">while</span> <span class="n">next_page</span><span class="p">:</span>
-            <span class="n">users</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">api_call</span><span class="p">(</span>
+            <span class="n">resp</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">api_call</span><span class="p">(</span>
                 <span class="n">endpoint</span><span class="p">,</span> <span class="n">cursor</span><span class="o">=</span><span class="n">cursor</span><span class="p">,</span> <span class="n">limit</span><span class="o">=</span><span class="n">LIMIT</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
 
-            <span class="n">items</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">users</span><span class="p">[</span><span class="n">collection</span><span class="p">])</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">resp</span><span class="p">[</span><span class="s1">&#39;ok&#39;</span><span class="p">]:</span>
 
-            <span class="k">if</span> <span class="n">users</span><span class="p">[</span><span class="s2">&quot;response_metadata&quot;</span><span class="p">][</span><span class="s2">&quot;next_cursor&quot;</span><span class="p">]:</span>
-                <span class="n">cursor</span> <span class="o">=</span> <span class="n">users</span><span class="p">[</span><span class="s2">&quot;response_metadata&quot;</span><span class="p">][</span><span class="s2">&quot;next_cursor&quot;</span><span class="p">]</span>
+                <span class="k">if</span> <span class="n">resp</span><span class="p">[</span><span class="s1">&#39;error&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;ratelimited&#39;</span><span class="p">:</span>
+                    <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">resp</span><span class="p">[</span><span class="s1">&#39;headers&#39;</span><span class="p">][</span><span class="s1">&#39;Retry-After&#39;</span><span class="p">]))</span>
+                    <span class="k">continue</span>
+
+                <span class="k">raise</span> <span class="n">SlackClientError</span><span class="p">(</span><span class="n">resp</span><span class="p">[</span><span class="s1">&#39;error&#39;</span><span class="p">])</span>
+
+            <span class="n">items</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">resp</span><span class="p">[</span><span class="n">collection</span><span class="p">])</span>
+
+            <span class="k">if</span> <span class="n">resp</span><span class="p">[</span><span class="s2">&quot;response_metadata&quot;</span><span class="p">][</span><span class="s2">&quot;next_cursor&quot;</span><span class="p">]:</span>
+                <span class="n">cursor</span> <span class="o">=</span> <span class="n">resp</span><span class="p">[</span><span class="s2">&quot;response_metadata&quot;</span><span class="p">][</span><span class="s2">&quot;next_cursor&quot;</span><span class="p">]</span>
             <span class="k">else</span><span class="p">:</span>
                 <span class="n">next_page</span> <span class="o">=</span> <span class="kc">False</span>
 

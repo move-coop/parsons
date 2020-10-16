@@ -495,7 +495,9 @@
                         <span class="n">destination_key</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">suffix</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">regex</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
                         <span class="n">date_modified_before</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">date_modified_after</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
                         <span class="n">public_read</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">remove_original</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Transfer files between s3 buckets</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Transfer files between s3 buckets</span>
+
 <span class="sd">        `Args:`</span>
 <span class="sd">            origin_bucket: str</span>
 <span class="sd">                The origin bucket</span>
@@ -519,12 +521,13 @@
 <span class="sd">            remove_original: bool</span>
 <span class="sd">                If the original keys should be removed after transfer</span>
 <span class="sd">            kwargs:</span>
-<span class="sd">                Additional arguments for the S3 API call. See `AWS download_file documentation</span>
+<span class="sd">                Additional arguments for the S3 API call. See `AWS download_file docs</span>
 <span class="sd">                &lt;https://boto3.amazonaws.com/v1/documentation/api/latest/reference/services/s3.html#S3.Client.copy&gt;`_</span>
 <span class="sd">                for more info.</span>
 <span class="sd">        `Returns:`</span>
 <span class="sd">            ``None``</span>
 <span class="sd">        &quot;&quot;&quot;</span>
+
         <span class="c1"># If prefix, get all files for the prefix</span>
         <span class="k">if</span> <span class="n">origin_key</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s1">&#39;/&#39;</span><span class="p">):</span>
             <span class="n">resp</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">list_keys</span><span class="p">(</span>

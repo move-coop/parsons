@@ -286,7 +286,7 @@
 <span class="sd">        ``with rs.connection() as conn:``</span>
 
 <span class="sd">        `Returns:`</span>
-<span class="sd">            Psycopg2 `connection` object</span>
+<span class="sd">            Psycopg2 ``connection`` object</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
         <span class="c1"># Create a psycopg2 connection and cursor</span>
@@ -905,7 +905,7 @@
 <span class="sd">            cleanup_temp_table: boolean</span>
 <span class="sd">                A temp table is dropped by default on cleanup. You can set to False for debugging.</span>
 <span class="sd">            \**copy_args: kwargs</span>
-<span class="sd">                See :func:`~parsons.databases.Redshift.copy`` for options.</span>
+<span class="sd">                See :func:`~parsons.databases.Redshift.copy` for options.</span>
 <span class="sd">        &quot;&quot;&quot;</span>  <span class="c1"># noqa: W605</span>
 
         <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">table_exists</span><span class="p">(</span><span class="n">target_table</span><span class="p">):</span>

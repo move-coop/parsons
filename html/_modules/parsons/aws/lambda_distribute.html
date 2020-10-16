@@ -321,56 +321,6 @@
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Distribute processing rows in a table across multiple AWS Lambda invocations.</span>
 
-<span class="sd">    If you are running the processing of a table inside AWS Lambda, then you</span>
-<span class="sd">    are limited by how many rows can be processed within the Lambda&#39;s time limit</span>
-<span class="sd">    (at time-of-writing, maximum 15min).</span>
-
-<span class="sd">    Based on experience and some napkin math, with</span>
-<span class="sd">    the same data that would allow 1000 rows to be processed inside a single</span>
-<span class="sd">    AWS Lambda instance, this method allows 10 MILLION rows to be processed.</span>
-
-<span class="sd">    Rather than converting the table to SQS</span>
-<span class="sd">    or other options, the fastest way is to upload the table to S3, and then</span>
-<span class="sd">    invoke multiple Lambda sub-invocations, each of which can be sent a</span>
-<span class="sd">    byte-range of the data in the S3 CSV file for which to process.</span>
-
-<span class="sd">    Using this method requires some setup. You have three tasks:</span>
-
-<span class="sd">    1. Define the function to process rows, the first argument, must take</span>
-<span class="sd">       your table&#39;s data (though only a subset of rows will be passed)</span>
-<span class="sd">       (e.g. `def task_for_distribution(table, **kwargs):`)</span>
-<span class="sd">    2. Where you would have run `task_for_distribution(my_table, **kwargs)`</span>
-<span class="sd">       instead call `distribute_task(my_table, task_for_distribution, func_kwargs=kwargs)</span>
-<span class="sd">       (either setting env var S3_TEMP_BUCKET or passing a bucket= parameter)</span>
-<span class="sd">    3. Setup your Lambda handler to include :py:meth:`parsons.aws.event_command`</span>
-<span class="sd">       (or run and deploy your lambda with `Zappa &lt;https://github.com/Miserlou/Zappa&gt;`_)</span>
-
-<span class="sd">    To test locally, include the argument `storage=&quot;local&quot;` which will test</span>
-<span class="sd">    the distribute_task function, but run the task sequentially and in local memory.</span>
-
-<span class="sd">    A minimalistic example Lambda handler might look something like this:</span>
-
-<span class="sd">    .. code-block:: python</span>
-<span class="sd">       :emphasize-lines: 5,6</span>
-
-<span class="sd">       from parsons.aws import event_command, distribute_task</span>
-
-<span class="sd">       def process_table(table, foo, bar=None):</span>
-<span class="sd">           for row in table:</span>
-<span class="sd">               do_sloooooow_thing(row, foo, bar)</span>
-
-<span class="sd">       def handler(event, context):</span>
-<span class="sd">           ## ADD THESE TWO LINES TO TOP OF HANDLER:</span>
-<span class="sd">           if event_command(event, context):</span>
-<span class="sd">               return</span>
-<span class="sd">           table = FakeDatasource.load_to_table(username=&#39;123&#39;, password=&#39;abc&#39;)</span>
-<span class="sd">           # table is so big that running</span>
-<span class="sd">           #   process_table(table, foo=789, bar=&#39;baz&#39;) would timeout</span>
-<span class="sd">           # so instead we:</span>
-<span class="sd">           distribute_task(table, process_table,</span>
-<span class="sd">                           bucket=&#39;my-temp-s3-bucket&#39;,</span>
-<span class="sd">                           func_kwargs={&#39;foo&#39;: 789, &#39;bar&#39;: &#39;baz&#39;})</span>
-
 <span class="sd">    `Args:`</span>
 <span class="sd">        table: Parsons Table</span>
 <span class="sd">           Table of data you wish to distribute processing across Lambda invocations</span>

@@ -239,35 +239,39 @@
 <td>AWS s3 Bucket</td>
 <td>Write a table to a csv stored in S3</td>
 </tr>
-<tr class="row-even"><td><a class="reference internal" href="#parsons.etl.tofrom.ToFrom.to_sftp_csv" title="parsons.etl.tofrom.ToFrom.to_sftp_csv"><code class="xref py py-meth docutils literal notranslate"><span class="pre">to_sftp_csv()</span></code></a></td>
+<tr class="row-even"><td><a class="reference internal" href="#parsons.etl.tofrom.ToFrom.to_gcs_csv" title="parsons.etl.tofrom.ToFrom.to_gcs_csv"><code class="xref py py-meth docutils literal notranslate"><span class="pre">to_gcs_csv()</span></code></a></td>
+<td>Google Cloud Storage Bucket</td>
+<td>Write a table to a csv stored in Google Cloud Storage</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#parsons.etl.tofrom.ToFrom.to_sftp_csv" title="parsons.etl.tofrom.ToFrom.to_sftp_csv"><code class="xref py py-meth docutils literal notranslate"><span class="pre">to_sftp_csv()</span></code></a></td>
 <td>SFTP Server</td>
 <td>Write a table to a csv stored on an SFTP server</td>
 </tr>
-<tr class="row-odd"><td><a class="reference internal" href="#parsons.etl.tofrom.ToFrom.from_csv" title="parsons.etl.tofrom.ToFrom.from_csv"><code class="xref py py-meth docutils literal notranslate"><span class="pre">from_csv()</span></code></a></td>
+<tr class="row-even"><td><a class="reference internal" href="#parsons.etl.tofrom.ToFrom.from_csv" title="parsons.etl.tofrom.ToFrom.from_csv"><code class="xref py py-meth docutils literal notranslate"><span class="pre">from_csv()</span></code></a></td>
 <td>A Redshift Database</td>
 <td>Write a table to a Redshift database</td>
 </tr>
-<tr class="row-even"><td><a class="reference internal" href="#parsons.etl.tofrom.ToFrom.from_postgres" title="parsons.etl.tofrom.ToFrom.from_postgres"><code class="xref py py-meth docutils literal notranslate"><span class="pre">from_postgres()</span></code></a></td>
+<tr class="row-odd"><td><a class="reference internal" href="#parsons.etl.tofrom.ToFrom.from_postgres" title="parsons.etl.tofrom.ToFrom.from_postgres"><code class="xref py py-meth docutils literal notranslate"><span class="pre">from_postgres()</span></code></a></td>
 <td>A Postgres Database</td>
 <td>Write a table to a Postgres database</td>
 </tr>
-<tr class="row-odd"><td><a class="reference internal" href="#parsons.etl.tofrom.ToFrom.to_civis" title="parsons.etl.tofrom.ToFrom.to_civis"><code class="xref py py-meth docutils literal notranslate"><span class="pre">to_civis()</span></code></a></td>
+<tr class="row-even"><td><a class="reference internal" href="#parsons.etl.tofrom.ToFrom.to_civis" title="parsons.etl.tofrom.ToFrom.to_civis"><code class="xref py py-meth docutils literal notranslate"><span class="pre">to_civis()</span></code></a></td>
 <td>Civis Redshift Database</td>
 <td>Write a table to Civis platform database</td>
 </tr>
-<tr class="row-even"><td><code class="xref py py-meth docutils literal notranslate"><span class="pre">from_petl()</span></code></td>
+<tr class="row-odd"><td><code class="xref py py-meth docutils literal notranslate"><span class="pre">from_petl()</span></code></td>
 <td>Petl table object</td>
 <td>Convert a table a Petl table object</td>
 </tr>
-<tr class="row-odd"><td><a class="reference internal" href="#parsons.etl.tofrom.ToFrom.to_json" title="parsons.etl.tofrom.ToFrom.to_json"><code class="xref py py-meth docutils literal notranslate"><span class="pre">to_json()</span></code></a></td>
+<tr class="row-even"><td><a class="reference internal" href="#parsons.etl.tofrom.ToFrom.to_json" title="parsons.etl.tofrom.ToFrom.to_json"><code class="xref py py-meth docutils literal notranslate"><span class="pre">to_json()</span></code></a></td>
 <td>JSON file</td>
 <td>Write a table to a local JSON file</td>
 </tr>
-<tr class="row-even"><td><a class="reference internal" href="#parsons.etl.tofrom.ToFrom.to_html" title="parsons.etl.tofrom.ToFrom.to_html"><code class="xref py py-meth docutils literal notranslate"><span class="pre">to_html()</span></code></a></td>
+<tr class="row-odd"><td><a class="reference internal" href="#parsons.etl.tofrom.ToFrom.to_html" title="parsons.etl.tofrom.ToFrom.to_html"><code class="xref py py-meth docutils literal notranslate"><span class="pre">to_html()</span></code></a></td>
 <td>HTML formatted table</td>
 <td>Write a table to a local html file</td>
 </tr>
-<tr class="row-odd"><td><a class="reference internal" href="#parsons.etl.tofrom.ToFrom.to_dataframe" title="parsons.etl.tofrom.ToFrom.to_dataframe"><code class="xref py py-meth docutils literal notranslate"><span class="pre">to_dataframe()</span></code></a></td>
+<tr class="row-even"><td><a class="reference internal" href="#parsons.etl.tofrom.ToFrom.to_dataframe" title="parsons.etl.tofrom.ToFrom.to_dataframe"><code class="xref py py-meth docutils literal notranslate"><span class="pre">to_dataframe()</span></code></a></td>
 <td>Pandas Dataframe <a class="footnote-reference" href="#id3" id="id2">[1]</a></td>
 <td>Return a Pandas dataframe</td>
 </tr>
@@ -868,6 +872,46 @@ supported. If specified, will override the key suffix.</dd>
 </dd></dl>
 
 <dl class="method">
+<dt id="parsons.etl.tofrom.ToFrom.to_gcs_csv">
+<code class="descname">to_gcs_csv</code><span class="sig-paren">(</span><em>bucket_name</em>, <em>blob_name</em>, <em>app_creds=None</em>, <em>project=None</em>, <em>compression=None</em>, <em>encoding=None</em>, <em>errors='strict'</em>, <em>write_header=True</em>, <em>public_url=False</em>, <em>public_url_expires=60</em>, <em>**csvargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/etl/tofrom.html#ToFrom.to_gcs_csv"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.etl.tofrom.ToFrom.to_gcs_csv" title="Permalink to this definition">¶</a></dt>
+<dd><p>Writes the table to a Google Cloud Storage blob as a CSV.</p>
+<dl class="docutils">
+<dt><cite>Args:</cite></dt>
+<dd><dl class="first last docutils">
+<dt>bucket_name: str</dt>
+<dd>The bucket to upload to</dd>
+<dt>blob_name: str</dt>
+<dd>The blob to name the file. If it ends in ‘.gz’ or ‘.zip’, the file will be
+compressed.</dd>
+<dt>app_creds: str</dt>
+<dd>A credentials json string or a path to a json file. Not required
+if <code class="docutils literal notranslate"><span class="pre">GOOGLE_APPLICATION_CREDENTIALS</span></code> env variable set.</dd>
+<dt>project: str</dt>
+<dd>The project which the client is acting on behalf of. If not passed
+then will use the default inferred environment.</dd>
+<dt>compression: str</dt>
+<dd>The compression type for the csv. Currently “None”, “zip” and “gzip” are
+supported. If specified, will override the key suffix.</dd>
+<dt>encoding: str</dt>
+<dd>The CSV encoding type for <a class="reference external" href="https://docs.python.org/2/library/csv.html#csv.writer/">csv.writer()</a></dd>
+<dt>errors: str</dt>
+<dd>Raise an Error if encountered</dd>
+<dt>write_header: boolean</dt>
+<dd>Include header in output</dd>
+<dt>public_url: boolean</dt>
+<dd>Create a public link to the file</dd>
+<dt>public_url_expire: 60</dt>
+<dd>The time, in minutes, until the url expires if <code class="docutils literal notranslate"><span class="pre">public_url</span></code> set to <code class="docutils literal notranslate"><span class="pre">True</span></code>.</dd>
+<dt>**csvargs: kwargs</dt>
+<dd><code class="docutils literal notranslate"><span class="pre">csv_writer</span></code> optional arguments</dd>
+</dl>
+</dd>
+<dt><cite>Returns:</cite></dt>
+<dd>Public url if specified. If not <code class="docutils literal notranslate"><span class="pre">None</span></code>.</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
 <dt id="parsons.etl.tofrom.ToFrom.to_redshift">
 <code class="descname">to_redshift</code><span class="sig-paren">(</span><em>table_name</em>, <em>username=None</em>, <em>password=None</em>, <em>host=None</em>, <em>db=None</em>, <em>port=None</em>, <em>**copy_args</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/etl/tofrom.html#ToFrom.to_redshift"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.etl.tofrom.ToFrom.to_redshift" title="Permalink to this definition">¶</a></dt>
 <dd><p>Write a table to a Redshift database. Note, this requires you to pass
@@ -996,7 +1040,7 @@ file path that ends in “.gz”, the file will be decompressed first.</dd>
 <dd><dl class="first last docutils">
 <dt>str: str</dt>
 <dd>The string object to convert to a table</dd>
-<dt><a href="#id12"><span class="problematic" id="id13">**</span></a>csvargs: kwargs</dt>
+<dt><a href="#id13"><span class="problematic" id="id14">**</span></a>csvargs: kwargs</dt>
 <dd><code class="docutils literal notranslate"><span class="pre">csv_reader</span></code> optional arguments</dd>
 </dl>
 </dd>

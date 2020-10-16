@@ -194,6 +194,7 @@
 <span class="kn">from</span> <span class="nn">google.cloud</span> <span class="kn">import</span> <span class="n">storage</span>
 <span class="kn">from</span> <span class="nn">parsons.google.utitities</span> <span class="kn">import</span> <span class="n">setup_google_application_credentials</span>
 <span class="kn">from</span> <span class="nn">parsons.utilities</span> <span class="kn">import</span> <span class="n">files</span>
+<span class="kn">import</span> <span class="nn">datetime</span>
 <span class="kn">import</span> <span class="nn">logging</span>
 
 <span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
@@ -483,7 +484,30 @@
         <span class="k">finally</span><span class="p">:</span>
             <span class="n">files</span><span class="o">.</span><span class="n">close_temp_file</span><span class="p">(</span><span class="n">local_file</span><span class="p">)</span>
 
-        <span class="k">return</span> <span class="sa">f</span><span class="s1">&#39;gs://</span><span class="si">{</span><span class="n">bucket_name</span><span class="si">}</span><span class="s1">/</span><span class="si">{</span><span class="n">blob_name</span><span class="si">}</span><span class="s1">&#39;</span></div></div>
+        <span class="k">return</span> <span class="sa">f</span><span class="s1">&#39;gs://</span><span class="si">{</span><span class="n">bucket_name</span><span class="si">}</span><span class="s1">/</span><span class="si">{</span><span class="n">blob_name</span><span class="si">}</span><span class="s1">&#39;</span></div>
+
+<div class="viewcode-block" id="GoogleCloudStorage.get_url"><a class="viewcode-back" href="../../../google.html#parsons.google.google_cloud_storage.GoogleCloudStorage.get_url">[docs]</a>    <span class="k">def</span> <span class="nf">get_url</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">bucket_name</span><span class="p">,</span> <span class="n">blob_name</span><span class="p">,</span> <span class="n">expires_in</span><span class="o">=</span><span class="mi">60</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Generates a presigned url for a blob</span>
+
+<span class="sd">        `Args:`</span>
+<span class="sd">            bucket_name: str</span>
+<span class="sd">                The name of the bucket</span>
+<span class="sd">            blob_name: str</span>
+<span class="sd">                The name of the blob</span>
+<span class="sd">            expires_in: int</span>
+<span class="sd">                Minutes until the url expires</span>
+<span class="sd">        `Returns:`</span>
+<span class="sd">            url:</span>
+<span class="sd">                A link to download the object</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">bucket</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">bucket</span><span class="p">(</span><span class="n">bucket_name</span><span class="p">)</span>
+        <span class="n">blob</span> <span class="o">=</span> <span class="n">bucket</span><span class="o">.</span><span class="n">blob</span><span class="p">(</span><span class="n">blob_name</span><span class="p">)</span>
+        <span class="n">url</span> <span class="o">=</span> <span class="n">blob</span><span class="o">.</span><span class="n">generate_signed_url</span><span class="p">(</span><span class="n">version</span><span class="o">=</span><span class="s2">&quot;v4&quot;</span><span class="p">,</span>
+                                       <span class="n">expiration</span><span class="o">=</span><span class="n">datetime</span><span class="o">.</span><span class="n">timedelta</span><span class="p">(</span><span class="n">minutes</span><span class="o">=</span><span class="n">expires_in</span><span class="p">),</span>
+                                       <span class="n">method</span><span class="o">=</span><span class="s2">&quot;GET&quot;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">url</span></div></div>
 </pre></div>
 
            </div>

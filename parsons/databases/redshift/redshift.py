@@ -94,7 +94,7 @@ class Redshift(RedshiftCreateTable, RedshiftCopyTable, RedshiftTableUtilities, R
         ``with rs.connection() as conn:``
 
         `Returns:`
-            Psycopg2 `connection` object
+            Psycopg2 ``connection`` object
         """
 
         # Create a psycopg2 connection and cursor
@@ -713,7 +713,7 @@ class Redshift(RedshiftCreateTable, RedshiftCopyTable, RedshiftTableUtilities, R
             cleanup_temp_table: boolean
                 A temp table is dropped by default on cleanup. You can set to False for debugging.
             \**copy_args: kwargs
-                See :func:`~parsons.databases.Redshift.copy`` for options.
+                See :func:`~parsons.databases.Redshift.copy` for options.
         """  # noqa: W605
 
         if not self.table_exists(target_table):

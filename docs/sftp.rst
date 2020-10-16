@@ -1,7 +1,7 @@
 SFTP
 ====
 
-The ``SFTP`` class allows you to interact with `SFTP services<https://en.wikipedia.org/wiki/SSH_File_Transfer_Protocol>`_,
+The ``SFTP`` class allows you to interact with `SFTP services <https://en.wikipedia.org/wiki/SSH_File_Transfer_Protocol>`_,
 using the  `Paramiko SFTP library <http://docs.paramiko.org/en/2.7/api/sftp.html>`_ under the hood.
 
 The class provides methods to:
@@ -23,6 +23,7 @@ To instantiate ``SFTP``, pass your host name, user name, and either a password o
 key file as keyword arguments:
 
 .. code-block:: python
+
    from parsons import SFTP
 
    sftp = SFTP(host='my_hostname', username='my_username', password='my_password')
@@ -37,6 +38,7 @@ To batch multiple methods using a single connection, you can create a connection
 it in a ``with`` block:
 
 .. code-block:: python
+
    connection = sftp.create_connection()
 
    with connection as conn:

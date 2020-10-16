@@ -59,7 +59,7 @@ class PostgresCore(PostgresCreateStatement):
 
     def query(self, sql, parameters=None):
         """
-        Execute a query against the database. Will return ``None``if the query returns zero rows.
+        Execute a query against the database. Will return ``None`` if the query returns zero rows.
 
         To include python variables in your query, it is recommended to pass them as parameters,
         following the `psycopg style <http://initd.org/psycopg/docs/usage.html#passing-parameters-to-sql-queries>`_.

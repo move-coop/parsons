@@ -168,6 +168,7 @@ class SFTP(object):
     def put_file(self, local_path, remote_path, connection=None):
         """
         Put a file on the SFTP server
+
         `Args:`
             local_path: str
                 The local path of the source file

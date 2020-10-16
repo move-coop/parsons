@@ -74,13 +74,13 @@ Quick Start
    from parsons import Postgres
 
    # Instantiate Postgres from environmental variables
-   mysql = Postgres()
+   pg = Postgres()
 
    # Instantiate Postgres from passed variables
-   Postgres = Postgres(username='me', password='secret', host='mydb.com', db='dev', port=3306)
+   pg = Postgres(username='me', password='secret', host='mydb.com', db='dev', port=3306)
 
    # Instantiate Postgres from a ~/.pgpass file
-   Postgres = Postgres()
+   pg = Postgres()
 
 **Quick Start**
 

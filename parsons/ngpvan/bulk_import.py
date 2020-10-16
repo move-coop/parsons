@@ -55,7 +55,7 @@ class BulkImport(object):
         process or the fact the job is still processing, it will return ``None``.
 
         `Args:`
-            job_id : int
+            job_id: int
                 The bulk import job id.
         `Returns:`
             Parsons Table

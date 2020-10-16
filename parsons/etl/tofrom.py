@@ -394,7 +394,6 @@ class ToFrom(object):
         else:
             return None
 
-
     def to_gcs_csv(self, bucket_name, blob_name, app_creds=None, project=None, compression=None,
                    encoding=None, errors='strict', write_header=True, public_url=False,
                    public_url_expires=60, **csvargs):
@@ -453,7 +452,6 @@ class ToFrom(object):
             return gcs.get_url(bucket_name, blob_name, expires_in=public_url_expires)
         else:
             return None
-
 
     def to_redshift(self, table_name, username=None, password=None, host=None,
                     db=None, port=None, **copy_args):

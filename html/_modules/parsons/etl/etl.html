@@ -1020,61 +1020,74 @@
 
         <span class="n">normalize_fn</span> <span class="o">=</span> <span class="n">Table</span><span class="o">.</span><span class="n">get_normalized_column_name</span> <span class="k">if</span> <span class="n">fuzzy_match</span> <span class="k">else</span> <span class="p">(</span><span class="k">lambda</span> <span class="n">s</span><span class="p">:</span> <span class="n">s</span><span class="p">)</span>
 
-        <span class="n">desired_columns_normalized</span> <span class="o">=</span> <span class="p">{</span>
-            <span class="n">normalize_fn</span><span class="p">(</span><span class="n">col</span><span class="p">):</span> <span class="n">col</span> <span class="k">for</span> <span class="n">col</span> <span class="ow">in</span> <span class="n">desired_columns</span>
-        <span class="p">}</span>
-
-        <span class="c1"># Check for extra columns in the Table.</span>
-        <span class="k">for</span> <span class="n">orig_col</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">columns</span><span class="p">:</span>
-            <span class="n">normalized_col</span> <span class="o">=</span> <span class="n">normalize_fn</span><span class="p">(</span><span class="n">orig_col</span><span class="p">)</span>
-            <span class="k">if</span> <span class="n">normalized_col</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">desired_columns_normalized</span><span class="p">:</span>
-                <span class="k">if</span> <span class="n">if_extra_columns</span> <span class="o">==</span> <span class="s1">&#39;fail&#39;</span><span class="p">:</span>
-                    <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Table has extra column </span><span class="si">{</span><span class="n">orig_col</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-                <span class="k">elif</span> <span class="n">if_extra_columns</span> <span class="o">==</span> <span class="s1">&#39;remove&#39;</span><span class="p">:</span>
-                    <span class="bp">self</span><span class="o">.</span><span class="n">remove_column</span><span class="p">(</span><span class="n">orig_col</span><span class="p">)</span>
-                <span class="k">elif</span> <span class="n">if_extra_columns</span> <span class="o">!=</span> <span class="s1">&#39;ignore&#39;</span><span class="p">:</span>
-                    <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Invalid option </span><span class="si">{</span><span class="n">if_extra_columns</span><span class="si">}</span><span class="s2"> for &quot;</span>
-                                    <span class="s2">&quot;argument `if_extra_columns`&quot;</span><span class="p">)</span>
-            <span class="k">else</span><span class="p">:</span>
-                <span class="c1"># We matched a desired column. Remove it from our list, so if there is another</span>
-                <span class="c1"># column in our Table that has the same normalized name, we consider it an</span>
-                <span class="c1"># extra column.</span>
-                <span class="n">desired_columns_normalized</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="n">normalized_col</span><span class="p">)</span>
-
-        <span class="c1"># Regenerate the desired columns normalized dict, since we removed any matches</span>
-        <span class="c1"># from it above.</span>
-        <span class="c1"># Note we reverse the desired columns here, to make reordering easier later.</span>
-        <span class="c1"># Cast desired_columns to a list in case someone gave us a dict or other iterable</span>
-        <span class="c1"># that can&#39;t be reversed.</span>
-        <span class="n">desired_columns_normalized</span> <span class="o">=</span> <span class="p">{</span>
-            <span class="n">normalize_fn</span><span class="p">(</span><span class="n">col</span><span class="p">):</span> <span class="n">col</span> <span class="k">for</span> <span class="n">col</span> <span class="ow">in</span> <span class="nb">reversed</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">desired_columns</span><span class="p">))</span>
-        <span class="p">}</span>
-
-        <span class="n">tbl_columns_normalized</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="c1"># Create a mapping of our &quot;normalized&quot; name to the original column name</span>
+        <span class="n">current_columns_normalized</span> <span class="o">=</span> <span class="p">{</span>
             <span class="n">normalize_fn</span><span class="p">(</span><span class="n">col</span><span class="p">):</span> <span class="n">col</span> <span class="k">for</span> <span class="n">col</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">columns</span>
         <span class="p">}</span>
 
-        <span class="c1"># Check for missing columns</span>
-        <span class="k">for</span> <span class="n">normalized_col</span><span class="p">,</span> <span class="n">orig_col</span> <span class="ow">in</span> <span class="n">desired_columns_normalized</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
-            <span class="k">if</span> <span class="n">normalized_col</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">tbl_columns_normalized</span><span class="p">:</span>
+        <span class="c1"># Track any columns we need to add to our current table from our desired columns</span>
+        <span class="n">columns_to_add</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="c1"># We are going to do a &quot;cut&quot; later to trim our table and re-order the columns, but</span>
+        <span class="c1"># we won&#39;t have renamed our columns yet, so we need to remember their un-normalized</span>
+        <span class="c1"># form</span>
+        <span class="n">cut_columns</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="c1"># We are going to also rename our columns AFTER we cut, so we want to remember their</span>
+        <span class="c1"># normalized names</span>
+        <span class="n">final_header</span> <span class="o">=</span> <span class="p">[]</span>
+
+        <span class="c1"># Loop through our desired columns -- the columns we want to see in our final table</span>
+        <span class="k">for</span> <span class="n">desired_column</span> <span class="ow">in</span> <span class="n">desired_columns</span><span class="p">:</span>
+            <span class="n">normalized_desired</span> <span class="o">=</span> <span class="n">normalize_fn</span><span class="p">(</span><span class="n">desired_column</span><span class="p">)</span>
+            <span class="c1"># Try to find our desired column in our Table</span>
+            <span class="k">if</span> <span class="n">normalized_desired</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">current_columns_normalized</span><span class="p">:</span>
+                <span class="c1"># If we can&#39;t find our desired column in our current columns, then it&#39;s &quot;missing&quot;</span>
                 <span class="k">if</span> <span class="n">if_missing_columns</span> <span class="o">==</span> <span class="s1">&#39;fail&#39;</span><span class="p">:</span>
-                    <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Table is missing column </span><span class="si">{</span><span class="n">orig_col</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+                    <span class="c1"># If our missing strategy is to fail, raise an exception</span>
+                    <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Table is missing column </span><span class="si">{</span><span class="n">desired_column</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
                 <span class="k">elif</span> <span class="n">if_missing_columns</span> <span class="o">==</span> <span class="s1">&#39;add&#39;</span><span class="p">:</span>
-                    <span class="bp">self</span><span class="o">.</span><span class="n">add_column</span><span class="p">(</span><span class="n">orig_col</span><span class="p">)</span>
-                    <span class="n">tbl_columns_normalized</span><span class="p">[</span><span class="n">normalized_col</span><span class="p">]</span> <span class="o">=</span> <span class="n">orig_col</span>
+                    <span class="c1"># We have to add to our table</span>
+                    <span class="n">columns_to_add</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">desired_column</span><span class="p">)</span>
+                    <span class="c1"># We will need to remember this column when we cut down to desired columns</span>
+                    <span class="n">cut_columns</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">desired_column</span><span class="p">)</span>
+                    <span class="c1"># This will be in the final table</span>
+                    <span class="n">final_header</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">desired_column</span><span class="p">)</span>
                 <span class="k">elif</span> <span class="n">if_missing_columns</span> <span class="o">!=</span> <span class="s1">&#39;ignore&#39;</span><span class="p">:</span>
+                    <span class="c1"># If it&#39;s not ignore, add, or fail, then it&#39;s not a valid strategy</span>
                     <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Invalid option </span><span class="si">{</span><span class="n">if_missing_columns</span><span class="si">}</span><span class="s2"> for &quot;</span>
                                     <span class="s2">&quot;argument `if_missing_columns`&quot;</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="c1"># We have found this in our current columns, so take it out of our list to search</span>
+                <span class="n">current_column</span> <span class="o">=</span> <span class="n">current_columns_normalized</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="n">normalized_desired</span><span class="p">)</span>
+                <span class="c1"># Add the column to our intermediate table as the old column name</span>
+                <span class="n">cut_columns</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">current_column</span><span class="p">)</span>
+                <span class="c1"># Add to our final header list as the &quot;desired&quot; name</span>
+                <span class="n">final_header</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">desired_column</span><span class="p">)</span>
 
-        <span class="c1"># Change column ordering and names to match the desired columns</span>
-        <span class="k">for</span> <span class="n">desired_normalized_col</span><span class="p">,</span> <span class="n">desired_orig_col</span> <span class="ow">in</span> <span class="n">desired_columns_normalized</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
-            <span class="c1"># Note that we ignore any desired columns still not in the Table, given</span>
-            <span class="c1"># that we already checked what the caller wanted to do above.</span>
-            <span class="k">if</span> <span class="n">desired_normalized_col</span> <span class="ow">in</span> <span class="n">tbl_columns_normalized</span><span class="p">:</span>
-                <span class="n">tbl_orig_col</span> <span class="o">=</span> <span class="n">tbl_columns_normalized</span><span class="p">[</span><span class="n">desired_normalized_col</span><span class="p">]</span>
-                <span class="k">if</span> <span class="n">tbl_orig_col</span> <span class="o">!=</span> <span class="n">desired_orig_col</span><span class="p">:</span>
-                    <span class="bp">self</span><span class="o">.</span><span class="n">rename_column</span><span class="p">(</span><span class="n">tbl_orig_col</span><span class="p">,</span> <span class="n">desired_orig_col</span><span class="p">)</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">move_column</span><span class="p">(</span><span class="n">desired_orig_col</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+        <span class="c1"># Look for any &quot;extra&quot; columns from our current table that aren&#39;t in our desired columns</span>
+        <span class="k">for</span> <span class="n">current_column</span> <span class="ow">in</span> <span class="n">current_columns_normalized</span><span class="o">.</span><span class="n">values</span><span class="p">():</span>
+            <span class="c1"># Figure out what to do with our &quot;extra&quot; columns</span>
+            <span class="k">if</span> <span class="n">if_extra_columns</span> <span class="o">==</span> <span class="s1">&#39;fail&#39;</span><span class="p">:</span>
+                <span class="c1"># If our missing strategy is to fail, raise an exception</span>
+                <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Table has extra column </span><span class="si">{</span><span class="n">current_column</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="n">if_extra_columns</span> <span class="o">==</span> <span class="s1">&#39;ignore&#39;</span><span class="p">:</span>
+                <span class="c1"># If we&#39;re &quot;ignore&quot;ing our extra columns, we should keep them by adding them to</span>
+                <span class="c1"># our intermediate and final columns list</span>
+                <span class="n">cut_columns</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">current_column</span><span class="p">)</span>
+                <span class="n">final_header</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">current_column</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="n">if_extra_columns</span> <span class="o">!=</span> <span class="s1">&#39;remove&#39;</span><span class="p">:</span>
+                <span class="c1"># If it&#39;s not ignore, add, or fail, then it&#39;s not a valid strategy</span>
+                <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Invalid option </span><span class="si">{</span><span class="n">if_extra_columns</span><span class="si">}</span><span class="s2"> for &quot;</span>
+                                <span class="s2">&quot;argument `if_extra_columns`&quot;</span><span class="p">)</span>
+
+        <span class="c1"># Add any columns we need to add</span>
+        <span class="k">for</span> <span class="n">column</span> <span class="ow">in</span> <span class="n">columns_to_add</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">table</span> <span class="o">=</span> <span class="n">petl</span><span class="o">.</span><span class="n">addfield</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">table</span><span class="p">,</span> <span class="n">column</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+
+        <span class="c1"># Cut down to just the columns we care about</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">table</span> <span class="o">=</span> <span class="n">petl</span><span class="o">.</span><span class="n">cut</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">table</span><span class="p">,</span> <span class="o">*</span><span class="n">cut_columns</span><span class="p">)</span>
+
+        <span class="c1"># Rename any columns</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">table</span> <span class="o">=</span> <span class="n">petl</span><span class="o">.</span><span class="n">setheader</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">table</span><span class="p">,</span> <span class="n">final_header</span><span class="p">)</span>
 
         <span class="k">return</span> <span class="bp">self</span></div>
 

@@ -114,9 +114,6 @@ old!_*
 # vscode
 .vscode/
 
-
-# End of https://www.gitignore.io/api/visualstudiocode
-
 doctrees/
 .buildinfo
 

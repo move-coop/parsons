@@ -34,12 +34,13 @@ def create_archive(archive_path, file_path, file_name=None, if_exists='replace')
 
 def unzip_archive(archive_path):
     """
-    Unzip an archive.
+    Unzip an archive. Only returns the path of the first
+    file in the archive.
 
     `Args:`
         archive_path: str
     `Returns:`
-        ``file_path``
+        Extracted file path.
     """
 
     with zipfile.ZipFile(archive_path, 'r') as z:

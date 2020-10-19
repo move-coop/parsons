@@ -218,7 +218,8 @@ class TestActionNetwork(unittest.TestCase):
                 "self": {
                     "href": "https://actionnetwork.org/api/v2/events/fake-id"
                 },
-            }
+            },
+            "event_id": "fake-id"
         }
 
     @requests_mock.Mocker()
@@ -273,9 +274,9 @@ class TestActionNetwork(unittest.TestCase):
     @requests_mock.Mocker()
     def test_create_event(self, m):
         m.post(f"{self.api_url}/events", text=json.dumps(self.fake_event))
-        self.assertGreaterEqual(
+        self.assertEqual(
+            self.fake_event.items(),
             self.an.create_event(
                 "fake_title", start_date=self.fake_date, location=self.fake_location
-            ).items(),
-            self.fake_event.items()
+            ).items()
         )

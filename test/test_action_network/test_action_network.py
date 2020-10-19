@@ -200,6 +200,26 @@ class TestActionNetwork(unittest.TestCase):
                          'modified_date': self.fake_datetime,
                          'identifiers': [self.fake_tag_id_1],
                          '_links': {'self': {'href': self.fake_tag_id_1}}}
+        self.fake_location = {
+            "venue": "White House",
+            "address_lines": [
+                "1600 Pennsylvania Ave"
+            ],
+            "locality": "Washington",
+            "region": "DC",
+            "postal_code": "20009",
+            "country": "US"
+        }
+        self.fake_event = {
+            "title": "fake_title",
+            "start_date": self.fake_date,
+            "location": self.fake_location,
+            "_links": {
+                "self": {
+                    "href": "https://actionnetwork.org/api/v2/events/fake-id"
+                },
+            }
+        }
 
     @requests_mock.Mocker()
     def test_get_page(self, m):
@@ -249,3 +269,13 @@ class TestActionNetwork(unittest.TestCase):
                                                given_name='Flake',
                                                family_name='McFlakerson'),
                          self.updated_fake_person)
+
+    @requests_mock.Mocker()
+    def test_create_event(self, m):
+        m.post(f"{self.api_url}/events", text=json.dumps(self.fake_event))
+        self.assertGreaterEqual(
+            self.an.create_event(
+                "fake_title", start_date=self.fake_date, location=self.fake_location
+            ).items(),
+            self.fake_event.items()
+        )

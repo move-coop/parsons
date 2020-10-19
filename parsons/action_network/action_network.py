@@ -231,3 +231,51 @@ class ActionNetwork(object):
                      for entry_id in identifiers if 'action_network:' in entry_id][0]
         logger.info(f"Tag {person_id} successfully added to tags.")
         return response
+
+    def create_event(self, title, start_date=None, location=None):
+        """
+        Create an event in Action Network
+
+        `Args:`
+            title: str
+                The public title of the event
+            start_date: str OR datetime
+                OPTIONAL: The starting date & time. If a string, use format "YYYY-MM-DD HH:MM:SS"
+                (hint: the default format you get when you use `str()` on a datetime)
+            location: dict
+                OPTIONAL: A dict of location details. Can include any combination of the types of
+                values in the following example:
+                .. code-block:: python
+
+                    my_location = {
+                        "venue": "White House",
+                        "address_lines": [
+                            "1600 Pennsylvania Ave"
+                        ],
+                        "locality": "Washington",
+                        "region": "DC",
+                        "postal_code": "20009",
+                        "country": "US"
+                    }
+
+        `Returns:`
+            Dict of Action Network Event data.
+        """
+
+        data = {
+            "title": title
+        }
+
+        if start_date:
+            start_date = str(start_date)
+            data["start_date"] = start_date
+
+        if isinstance(location, dict):
+            data["location"] = location
+
+        event_dict = self.api.post_request(url=f"{self.api_url}/events", data=json.dumps(data))
+
+        an_event_id = event_dict["_links"]["self"]["href"].split('/')[-1]
+        event_dict["event_id"] = an_event_id
+
+        return event_dict

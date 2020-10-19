@@ -39,8 +39,10 @@ def unzip_archive(archive_path):
     `Args:`
         archive_path: str
     `Returns:`
-        ``None``
+        ``file_path``
     """
 
     with zipfile.ZipFile(archive_path, 'r') as z:
+        file_name = z.namelist()[0]
         z.extractall()
+        return file_name

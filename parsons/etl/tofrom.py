@@ -693,7 +693,7 @@ class ToFrom(object):
             _, _, bucket_, key_ = key.split("/", 3)
             file_ = s3.get_file(bucket_, key_)
             if files.compression_type_for_path(key_) == 'zip':
-                file_ = files.zip_archive.unzip_archive(file_)
+                file_ = zip_archive.unzip_archive(file_)
 
             tbls.append(petl.fromcsv(file_, **csvargs))
 

@@ -39,7 +39,7 @@ We decorate ``test_get_campaigns`` with the ``requests_mock.Mocker`` class, whic
 
 To configure our mock API, we can make use of the ``get``, ``post``, ``patch``, ``put``, and ``delete`` methods on the mock object ``m``. These methods mirror the calls we expect our Connector to make to the API. The methods on the mock object correspond to the HTTP method that we are expecting our Connector class to call with, and the first argument to the mock method is the URL that we expect our Connector to call. We can then provide a ``json`` argument to the mock method to provide a canned response that the mock HTTP server should return.
 
-Below, we will use the ``get`` method to tell the mock HTTP server that we expect a call to the ``campaigns`` endpoint of our API, and that the mock HTTP server should return our ``test_campaigns` canned response. The Mailchimp tests store the canned responses in a separate Python module, which can help keep the test code separate from the test data, which helps makes tests more readable.
+Below, we will use the ``get`` method to tell the mock HTTP server that we expect a call to the ``campaigns`` endpoint of our API, and that the mock HTTP server should return our ``test_campaigns` canned response.
 
 .. code-block:: python
 
@@ -58,6 +58,22 @@ Below, we will use the ``get`` method to tell the mock HTTP server that we expec
 
 
 After wiring up the mock HTTP API, we are ready to call the ``get_campaigns`` method on our ``Mailchimp`` connector. Since we are using the ``requests_mock.Mocker`` class, our Connector will not actually hit the Mailchimp API; our call will be intercepted and the configured canned response will be returned.
+
+The Mailchimp tests store the canned responses in a separate Python module, which can help keep the test code separate from the test data, which helps makes tests more readable. The test data is imported from the ``expected_json.py`` Python file that sits alongside the ``test_mailchimp.py`` test file.
+
+The data is imported at the top of the ``test_mailchimp.py`` file:
+
+.. code-block:: python
+
+    from test.test_mailchimp import expected_json
+
+
+``expected_json`` can now be used to pull in our canned response variables, as we saw above:
+
+.. code-block:: python
+
+    m.get(self.mc.uri + 'campaigns', json=expected_json.test_campaigns)
+
 
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 Tests for Connectors Built on Third Party Libraries

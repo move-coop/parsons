@@ -32,6 +32,8 @@ def assert_matching_tables(table1, table2, ignore_headers=False):
         data1 = table1
         data2 = table2
 
+    assert data1.num_rows == data2.num_rows 
+
     for r1, r2 in zip(data1, data2):
         # Cast both rows to lists, in case they are different types of collections
         assert list(r1) == list(r2)

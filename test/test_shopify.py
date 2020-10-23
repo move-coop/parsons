@@ -44,6 +44,7 @@ class TestShopify(unittest.TestCase):
     mock_result_all = Table([('created_at', 'financial_status', 'id'), ('2020-10-19T12:00:00-04:00', 'paid', 1), ('2020-10-20T12:00:00-04:00', 'refunded', 2)])
     mock_result_completed = Table([('created_at', 'financial_status', 'id'), ('2020-10-19T12:00:00-04:00', 'paid', 1)])
     mock_result_date = mock_result_since = Table([('created_at', 'financial_status', 'id'), ('2020-10-20T12:00:00-04:00', 'refunded', 2)])
+    mock_result_fill_columns = Table([('new_column', 'created_at', 'financial_status', 'id'), ('new_column', '2020-10-19T12:00:00-04:00', 'voided', 1), ('new_column', '2020-10-20T12:00:00-04:00', 'voided', 2)])
 
     def setUp(self):
         self.shopify = Shopify(SUBDOMAIN, PASSWORD, API_KEY, API_VERSION)
@@ -67,6 +68,10 @@ class TestShopify(unittest.TestCase):
         assert_matching_tables(self.shopify.get_orders('2020-10-20', None, False), self.mock_result_date)
         assert_matching_tables(self.shopify.get_orders(None, 2, False), self.mock_result_since)
         assert_matching_tables(self.shopify.get_orders(None, None, True), self.mock_result_completed)
+        assert_matching_tables(self.shopify.get_orders(None, None, False, {
+            'financial_status': 'voided',
+            'new_column': 'new_column'
+        }), self.mock_result_fill_columns)
     
     @requests_mock.Mocker()
     def test_get_query_url(self, m):

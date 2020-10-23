@@ -48,7 +48,7 @@ class Shopify(object):
         """
         return requests.get(self.get_query_url(query_date, since_id, table_name), auth=(self.api_key, self.password)).json().get("count", 0)
 
-    def get_orders(self, query_date=None, since_id=None, completed=True, cols_to_fill={}):
+    def get_orders(self, query_date=None, since_id=None, completed=True):
         """
         Get Shopify orders.
 
@@ -60,9 +60,6 @@ class Shopify(object):
                 Filter query by a minimum ID. This filter is ignored if value is None.
             completed: bool
                 True if only getting completed orders, False otherwise.
-            cols_to_fill: dict
-                A dictionary of custom columns to add or fill, with column name as key and row
-                value as value
         `Returns:`
             Table Class
         """
@@ -112,16 +109,8 @@ class Shopify(object):
 
         tbl = Table(orders)
 
-        # Table transformations
-        cols = tbl.columns
-
-        for col in cols_to_fill:
-            if col not in cols:
-                tbl.add_column(col, cols_to_fill[col])
-            else:
-                tbl.fill_column(col, cols_to_fill[col])
-        
-        for col in cols:
+        # Fill null vals
+        for col in tbl.columns:
             tbl.fillna_column(col, '')
         
         return tbl
@@ -193,8 +182,6 @@ class Shopify(object):
                 Filter query by a minimum ID. This filter is ignored if value is None.
             completed: bool
                 True if only getting completed orders, False otherwise.
-            cols_to_fill: dict
-                A dictionary of custom columns to add or fill, with column name as key and row
                 value as value
         `Returns:`
             Table Class
@@ -202,4 +189,4 @@ class Shopify(object):
         initargs = {a: kwargs.get(a) for a in ('subdomain', 'password', 'api_key', 'api_version') if a in kwargs}
         obj = cls(**initargs)
         
-        return obj.get_orders(kwargs.get('query_date'), kwargs.get('since_id'), kwargs.get('completed'), kwargs.get('cols_to_fill'))
+        return obj.get_orders(kwargs.get('query_date'), kwargs.get('since_id'), kwargs.get('completed'))

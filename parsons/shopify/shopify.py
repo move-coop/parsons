@@ -48,7 +48,7 @@ class Shopify(object):
         """
         return requests.get(self.get_query_url(query_date, since_id, table_name), auth=(self.api_key, self.password)).json().get("count", 0)
 
-    def get_orders(self, query_date=None, since_id=None, completed=True):
+    def get_orders(self, query_date=None, since_id=None, completed=True, cols_to_fill={}):
         """
         Get Shopify orders.
 
@@ -60,6 +60,9 @@ class Shopify(object):
                 Filter query by a minimum ID. This filter is ignored if value is None.
             completed: bool
                 True if only getting completed orders, False otherwise.
+            cols_to_fill: dict
+                A dictionary of custom columns to add or fill, with column name as key and row
+                value as value
         `Returns:`
             Table Class
         """
@@ -72,7 +75,28 @@ class Shopify(object):
                 url += '&financial_status=paid'
 
             res = requests.get(url, auth=(self.api_key, self.password))
-            orders += res.json().get("orders", [])
+
+            cur_orders = res.json().get("orders", [])
+
+            # Flatten orders to non-complex types
+            for order in cur_orders:
+                keys_to_add = {}
+                keys_to_delete = []
+
+                for key1 in order:
+                    if isinstance(order[key1], dict):
+                        for key2 in order[key1]:
+                            keys_to_add[key1 + '_' + key2] = order[key1][key2]
+                        keys_to_delete.append(key1)
+                    elif key1 == 'note_attributes':
+                        for note in order[key1]:
+                            keys_to_add[key1 + '_' + note['name']] = note['value']
+
+                order.update(keys_to_add)
+                for key in keys_to_delete:
+                    del order[key]
+
+            orders += cur_orders
 
             return res
 
@@ -85,8 +109,22 @@ class Shopify(object):
                 res = _append_orders(link[len(link) - 2][1:-1])
             else:
                 break
+
+        tbl = Table(orders)
+
+        # Table transformations
+        cols = tbl.columns
+
+        for col in cols_to_fill:
+            if col not in cols:
+                tbl.add_column(col, cols_to_fill[col])
+            else:
+                tbl.fill_column(col, cols_to_fill[col])
         
-        return Table(orders)
+        for col in cols:
+            tbl.fillna_column(col, '')
+        
+        return tbl
 
     def get_query_url(self, query_date=None, since_id=None, table_name=None, count=True):
         """
@@ -155,10 +193,13 @@ class Shopify(object):
                 Filter query by a minimum ID. This filter is ignored if value is None.
             completed: bool
                 True if only getting completed orders, False otherwise.
+            cols_to_fill: dict
+                A dictionary of custom columns to add or fill, with column name as key and row
+                value as value
         `Returns:`
             Table Class
         """
         initargs = {a: kwargs.get(a) for a in ('subdomain', 'password', 'api_key', 'api_version') if a in kwargs}
         obj = cls(**initargs)
         
-        return obj.get_orders(kwargs.get('query_date'), kwargs.get('since_id'), kwargs.get('completed'))
+        return obj.get_orders(kwargs.get('query_date'), kwargs.get('since_id'), kwargs.get('completed'), kwargs.get('cols_to_fill'))

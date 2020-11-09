@@ -237,16 +237,17 @@ class ETL(object):
             `Parsons Table` and also updates self
 
         .. code-block:: python
+        
+            tbl = [{'fn': 'Jane'},
+                   {'lastname': 'Doe'},
+                   {'dob': '1980-01-01'}]
+            column_map = {'first_name': ['fn', 'first', 'firstname'],
+                          'last_name': ['ln', 'last', 'lastname'],
+                          'date_of_birth': ['dob', 'birthday']}
 
-            tbl = [{fn: 'Jane'},
-                   {lastname: 'Doe'},
-                   {dob: '1980-01-01'}]
-            column_map = {first_name: ['fn', 'first', 'firstname'],
-                          last_name: ['ln', 'last', 'lastname'],
-                          date_of_birth: ['dob', 'birthday']}
             tbl.map_columns(column_map)
             print (tbl)
-            >> {{first_name: 'Jane', last_name: 'Doe', 'date_of_birth': '1908-01-01'}}
+            >> {{'first_name': 'Jane', 'last_name': 'Doe', 'date_of_birth': '1908-01-01'}}
         """
 
         for c in self.columns:
@@ -274,19 +275,19 @@ class ETL(object):
 
         .. code-block:: python
 
-            tbl = [{first: None},
-                   {fn: 'Jane'},
-                   {lastname: 'Doe'},
-                   {dob: '1980-01-01'}]
+            tbl = [{'first': None},
+                   {'fn': 'Jane'},
+                   {'lastname': 'Doe'},
+                   {'dob': '1980-01-01'}]
 
-            column_map = {first_name: ['fn', 'first', 'firstname'],
-                          last_name: ['ln', 'last', 'lastname'],
-                          date_of_birth: ['dob', 'birthday']}
+            column_map = {'first_name': ['fn', 'first', 'firstname'],
+                          'last_name': ['ln', 'last', 'lastname'],
+                          'date_of_birth': ['dob', 'birthday']}
 
             tbl.map_and_coalesce_columns(column_map)
 
             print (tbl)
-            >> {{first_name: 'Jane', last_name: 'Doe', 'date_of_birth': '1908-01-01'}}
+            >> {{'first_name': 'Jane', 'last_name': 'Doe', 'date_of_birth': '1908-01-01'}}
         """
 
         for key, value in column_map.items():
@@ -674,12 +675,12 @@ class ETL(object):
             # Lambda Function
             tbl2 = tbl.select_rows(lambda row: row.foo == 'a' and row.baz > 88.1)
             tbl2
-            >>> {foo: 'a', 'bar': 2, 'baz': 88.1}
+            >>> {'foo': 'a', 'bar': 2, 'baz': 88.1}
 
             # Expression String
             tbl3 = tbl.select_rows("{foo} == 'a' and {baz} > 88.1")
             tbl3
-            >>> {foo: 'a', 'bar': 2, 'baz': 88.1}
+            >>> {'foo': 'a', 'bar': 2, 'baz': 88.1}
 
         `Args:`
             \*filters: function or str

@@ -1401,15 +1401,16 @@ names.</p>
 <dt><cite>Returns:</cite></dt>
 <dd><cite>Parsons Table</cite> and also updates self</dd>
 </dl>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">tbl</span> <span class="o">=</span> <span class="p">[{</span><span class="n">fn</span><span class="p">:</span> <span class="s1">&#39;Jane&#39;</span><span class="p">},</span>
-       <span class="p">{</span><span class="n">lastname</span><span class="p">:</span> <span class="s1">&#39;Doe&#39;</span><span class="p">},</span>
-       <span class="p">{</span><span class="n">dob</span><span class="p">:</span> <span class="s1">&#39;1980-01-01&#39;</span><span class="p">}]</span>
-<span class="n">column_map</span> <span class="o">=</span> <span class="p">{</span><span class="n">first_name</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;fn&#39;</span><span class="p">,</span> <span class="s1">&#39;first&#39;</span><span class="p">,</span> <span class="s1">&#39;firstname&#39;</span><span class="p">],</span>
-              <span class="n">last_name</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;ln&#39;</span><span class="p">,</span> <span class="s1">&#39;last&#39;</span><span class="p">,</span> <span class="s1">&#39;lastname&#39;</span><span class="p">],</span>
-              <span class="n">date_of_birth</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;dob&#39;</span><span class="p">,</span> <span class="s1">&#39;birthday&#39;</span><span class="p">]}</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">tbl</span> <span class="o">=</span> <span class="p">[{</span><span class="s1">&#39;fn&#39;</span><span class="p">:</span> <span class="s1">&#39;Jane&#39;</span><span class="p">},</span>
+       <span class="p">{</span><span class="s1">&#39;lastname&#39;</span><span class="p">:</span> <span class="s1">&#39;Doe&#39;</span><span class="p">},</span>
+       <span class="p">{</span><span class="s1">&#39;dob&#39;</span><span class="p">:</span> <span class="s1">&#39;1980-01-01&#39;</span><span class="p">}]</span>
+<span class="n">column_map</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;first_name&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;fn&#39;</span><span class="p">,</span> <span class="s1">&#39;first&#39;</span><span class="p">,</span> <span class="s1">&#39;firstname&#39;</span><span class="p">],</span>
+              <span class="s1">&#39;last_name&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;ln&#39;</span><span class="p">,</span> <span class="s1">&#39;last&#39;</span><span class="p">,</span> <span class="s1">&#39;lastname&#39;</span><span class="p">],</span>
+              <span class="s1">&#39;date_of_birth&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;dob&#39;</span><span class="p">,</span> <span class="s1">&#39;birthday&#39;</span><span class="p">]}</span>
+
 <span class="n">tbl</span><span class="o">.</span><span class="n">map_columns</span><span class="p">(</span><span class="n">column_map</span><span class="p">)</span>
 <span class="nb">print</span> <span class="p">(</span><span class="n">tbl</span><span class="p">)</span>
-<span class="o">&gt;&gt;</span> <span class="p">{{</span><span class="n">first_name</span><span class="p">:</span> <span class="s1">&#39;Jane&#39;</span><span class="p">,</span> <span class="n">last_name</span><span class="p">:</span> <span class="s1">&#39;Doe&#39;</span><span class="p">,</span> <span class="s1">&#39;date_of_birth&#39;</span><span class="p">:</span> <span class="s1">&#39;1908-01-01&#39;</span><span class="p">}}</span>
+<span class="o">&gt;&gt;</span> <span class="p">{{</span><span class="s1">&#39;first_name&#39;</span><span class="p">:</span> <span class="s1">&#39;Jane&#39;</span><span class="p">,</span> <span class="s1">&#39;last_name&#39;</span><span class="p">:</span> <span class="s1">&#39;Doe&#39;</span><span class="p">,</span> <span class="s1">&#39;date_of_birth&#39;</span><span class="p">:</span> <span class="s1">&#39;1908-01-01&#39;</span><span class="p">}}</span>
 </pre></div>
 </div>
 </dd></dl>
@@ -1434,19 +1435,19 @@ have multiple and unknown column names.
 <dt><cite>Returns:</cite></dt>
 <dd><cite>Parsons Table</cite> and also updates self</dd>
 </dl>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">tbl</span> <span class="o">=</span> <span class="p">[{</span><span class="n">first</span><span class="p">:</span> <span class="kc">None</span><span class="p">},</span>
-       <span class="p">{</span><span class="n">fn</span><span class="p">:</span> <span class="s1">&#39;Jane&#39;</span><span class="p">},</span>
-       <span class="p">{</span><span class="n">lastname</span><span class="p">:</span> <span class="s1">&#39;Doe&#39;</span><span class="p">},</span>
-       <span class="p">{</span><span class="n">dob</span><span class="p">:</span> <span class="s1">&#39;1980-01-01&#39;</span><span class="p">}]</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">tbl</span> <span class="o">=</span> <span class="p">[{</span><span class="s1">&#39;first&#39;</span><span class="p">:</span> <span class="kc">None</span><span class="p">},</span>
+       <span class="p">{</span><span class="s1">&#39;fn&#39;</span><span class="p">:</span> <span class="s1">&#39;Jane&#39;</span><span class="p">},</span>
+       <span class="p">{</span><span class="s1">&#39;lastname&#39;</span><span class="p">:</span> <span class="s1">&#39;Doe&#39;</span><span class="p">},</span>
+       <span class="p">{</span><span class="s1">&#39;dob&#39;</span><span class="p">:</span> <span class="s1">&#39;1980-01-01&#39;</span><span class="p">}]</span>
 
-<span class="n">column_map</span> <span class="o">=</span> <span class="p">{</span><span class="n">first_name</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;fn&#39;</span><span class="p">,</span> <span class="s1">&#39;first&#39;</span><span class="p">,</span> <span class="s1">&#39;firstname&#39;</span><span class="p">],</span>
-              <span class="n">last_name</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;ln&#39;</span><span class="p">,</span> <span class="s1">&#39;last&#39;</span><span class="p">,</span> <span class="s1">&#39;lastname&#39;</span><span class="p">],</span>
-              <span class="n">date_of_birth</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;dob&#39;</span><span class="p">,</span> <span class="s1">&#39;birthday&#39;</span><span class="p">]}</span>
+<span class="n">column_map</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;first_name&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;fn&#39;</span><span class="p">,</span> <span class="s1">&#39;first&#39;</span><span class="p">,</span> <span class="s1">&#39;firstname&#39;</span><span class="p">],</span>
+              <span class="s1">&#39;last_name&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;ln&#39;</span><span class="p">,</span> <span class="s1">&#39;last&#39;</span><span class="p">,</span> <span class="s1">&#39;lastname&#39;</span><span class="p">],</span>
+              <span class="s1">&#39;date_of_birth&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;dob&#39;</span><span class="p">,</span> <span class="s1">&#39;birthday&#39;</span><span class="p">]}</span>
 
 <span class="n">tbl</span><span class="o">.</span><span class="n">map_and_coalesce_columns</span><span class="p">(</span><span class="n">column_map</span><span class="p">)</span>
 
 <span class="nb">print</span> <span class="p">(</span><span class="n">tbl</span><span class="p">)</span>
-<span class="o">&gt;&gt;</span> <span class="p">{{</span><span class="n">first_name</span><span class="p">:</span> <span class="s1">&#39;Jane&#39;</span><span class="p">,</span> <span class="n">last_name</span><span class="p">:</span> <span class="s1">&#39;Doe&#39;</span><span class="p">,</span> <span class="s1">&#39;date_of_birth&#39;</span><span class="p">:</span> <span class="s1">&#39;1908-01-01&#39;</span><span class="p">}}</span>
+<span class="o">&gt;&gt;</span> <span class="p">{{</span><span class="s1">&#39;first_name&#39;</span><span class="p">:</span> <span class="s1">&#39;Jane&#39;</span><span class="p">,</span> <span class="s1">&#39;last_name&#39;</span><span class="p">:</span> <span class="s1">&#39;Doe&#39;</span><span class="p">,</span> <span class="s1">&#39;date_of_birth&#39;</span><span class="p">:</span> <span class="s1">&#39;1908-01-01&#39;</span><span class="p">}}</span>
 </pre></div>
 </div>
 </dd></dl>
@@ -1696,12 +1697,12 @@ filters.</p>
 <span class="c1"># Lambda Function</span>
 <span class="n">tbl2</span> <span class="o">=</span> <span class="n">tbl</span><span class="o">.</span><span class="n">select_rows</span><span class="p">(</span><span class="k">lambda</span> <span class="n">row</span><span class="p">:</span> <span class="n">row</span><span class="o">.</span><span class="n">foo</span> <span class="o">==</span> <span class="s1">&#39;a&#39;</span> <span class="ow">and</span> <span class="n">row</span><span class="o">.</span><span class="n">baz</span> <span class="o">&gt;</span> <span class="mf">88.1</span><span class="p">)</span>
 <span class="n">tbl2</span>
-<span class="o">&gt;&gt;&gt;</span> <span class="p">{</span><span class="n">foo</span><span class="p">:</span> <span class="s1">&#39;a&#39;</span><span class="p">,</span> <span class="s1">&#39;bar&#39;</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span> <span class="s1">&#39;baz&#39;</span><span class="p">:</span> <span class="mf">88.1</span><span class="p">}</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="p">{</span><span class="s1">&#39;foo&#39;</span><span class="p">:</span> <span class="s1">&#39;a&#39;</span><span class="p">,</span> <span class="s1">&#39;bar&#39;</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span> <span class="s1">&#39;baz&#39;</span><span class="p">:</span> <span class="mf">88.1</span><span class="p">}</span>
 
 <span class="c1"># Expression String</span>
 <span class="n">tbl3</span> <span class="o">=</span> <span class="n">tbl</span><span class="o">.</span><span class="n">select_rows</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">{foo}</span><span class="s2"> == &#39;a&#39; and </span><span class="si">{baz}</span><span class="s2"> &gt; 88.1&quot;</span><span class="p">)</span>
 <span class="n">tbl3</span>
-<span class="o">&gt;&gt;&gt;</span> <span class="p">{</span><span class="n">foo</span><span class="p">:</span> <span class="s1">&#39;a&#39;</span><span class="p">,</span> <span class="s1">&#39;bar&#39;</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span> <span class="s1">&#39;baz&#39;</span><span class="p">:</span> <span class="mf">88.1</span><span class="p">}</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="p">{</span><span class="s1">&#39;foo&#39;</span><span class="p">:</span> <span class="s1">&#39;a&#39;</span><span class="p">,</span> <span class="s1">&#39;bar&#39;</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span> <span class="s1">&#39;baz&#39;</span><span class="p">:</span> <span class="mf">88.1</span><span class="p">}</span>
 </pre></div>
 </div>
 <dl class="docutils">

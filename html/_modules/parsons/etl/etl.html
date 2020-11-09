@@ -429,16 +429,17 @@
 <span class="sd">            `Parsons Table` and also updates self</span>
 
 <span class="sd">        .. code-block:: python</span>
+<span class="sd">        </span>
+<span class="sd">            tbl = [{&#39;fn&#39;: &#39;Jane&#39;},</span>
+<span class="sd">                   {&#39;lastname&#39;: &#39;Doe&#39;},</span>
+<span class="sd">                   {&#39;dob&#39;: &#39;1980-01-01&#39;}]</span>
+<span class="sd">            column_map = {&#39;first_name&#39;: [&#39;fn&#39;, &#39;first&#39;, &#39;firstname&#39;],</span>
+<span class="sd">                          &#39;last_name&#39;: [&#39;ln&#39;, &#39;last&#39;, &#39;lastname&#39;],</span>
+<span class="sd">                          &#39;date_of_birth&#39;: [&#39;dob&#39;, &#39;birthday&#39;]}</span>
 
-<span class="sd">            tbl = [{fn: &#39;Jane&#39;},</span>
-<span class="sd">                   {lastname: &#39;Doe&#39;},</span>
-<span class="sd">                   {dob: &#39;1980-01-01&#39;}]</span>
-<span class="sd">            column_map = {first_name: [&#39;fn&#39;, &#39;first&#39;, &#39;firstname&#39;],</span>
-<span class="sd">                          last_name: [&#39;ln&#39;, &#39;last&#39;, &#39;lastname&#39;],</span>
-<span class="sd">                          date_of_birth: [&#39;dob&#39;, &#39;birthday&#39;]}</span>
 <span class="sd">            tbl.map_columns(column_map)</span>
 <span class="sd">            print (tbl)</span>
-<span class="sd">            &gt;&gt; {{first_name: &#39;Jane&#39;, last_name: &#39;Doe&#39;, &#39;date_of_birth&#39;: &#39;1908-01-01&#39;}}</span>
+<span class="sd">            &gt;&gt; {{&#39;first_name&#39;: &#39;Jane&#39;, &#39;last_name&#39;: &#39;Doe&#39;, &#39;date_of_birth&#39;: &#39;1908-01-01&#39;}}</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
         <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">columns</span><span class="p">:</span>
@@ -466,19 +467,19 @@
 
 <span class="sd">        .. code-block:: python</span>
 
-<span class="sd">            tbl = [{first: None},</span>
-<span class="sd">                   {fn: &#39;Jane&#39;},</span>
-<span class="sd">                   {lastname: &#39;Doe&#39;},</span>
-<span class="sd">                   {dob: &#39;1980-01-01&#39;}]</span>
+<span class="sd">            tbl = [{&#39;first&#39;: None},</span>
+<span class="sd">                   {&#39;fn&#39;: &#39;Jane&#39;},</span>
+<span class="sd">                   {&#39;lastname&#39;: &#39;Doe&#39;},</span>
+<span class="sd">                   {&#39;dob&#39;: &#39;1980-01-01&#39;}]</span>
 
-<span class="sd">            column_map = {first_name: [&#39;fn&#39;, &#39;first&#39;, &#39;firstname&#39;],</span>
-<span class="sd">                          last_name: [&#39;ln&#39;, &#39;last&#39;, &#39;lastname&#39;],</span>
-<span class="sd">                          date_of_birth: [&#39;dob&#39;, &#39;birthday&#39;]}</span>
+<span class="sd">            column_map = {&#39;first_name&#39;: [&#39;fn&#39;, &#39;first&#39;, &#39;firstname&#39;],</span>
+<span class="sd">                          &#39;last_name&#39;: [&#39;ln&#39;, &#39;last&#39;, &#39;lastname&#39;],</span>
+<span class="sd">                          &#39;date_of_birth&#39;: [&#39;dob&#39;, &#39;birthday&#39;]}</span>
 
 <span class="sd">            tbl.map_and_coalesce_columns(column_map)</span>
 
 <span class="sd">            print (tbl)</span>
-<span class="sd">            &gt;&gt; {{first_name: &#39;Jane&#39;, last_name: &#39;Doe&#39;, &#39;date_of_birth&#39;: &#39;1908-01-01&#39;}}</span>
+<span class="sd">            &gt;&gt; {{&#39;first_name&#39;: &#39;Jane&#39;, &#39;last_name&#39;: &#39;Doe&#39;, &#39;date_of_birth&#39;: &#39;1908-01-01&#39;}}</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
         <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">column_map</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
@@ -866,12 +867,12 @@
 <span class="sd">            # Lambda Function</span>
 <span class="sd">            tbl2 = tbl.select_rows(lambda row: row.foo == &#39;a&#39; and row.baz &gt; 88.1)</span>
 <span class="sd">            tbl2</span>
-<span class="sd">            &gt;&gt;&gt; {foo: &#39;a&#39;, &#39;bar&#39;: 2, &#39;baz&#39;: 88.1}</span>
+<span class="sd">            &gt;&gt;&gt; {&#39;foo&#39;: &#39;a&#39;, &#39;bar&#39;: 2, &#39;baz&#39;: 88.1}</span>
 
 <span class="sd">            # Expression String</span>
 <span class="sd">            tbl3 = tbl.select_rows(&quot;{foo} == &#39;a&#39; and {baz} &gt; 88.1&quot;)</span>
 <span class="sd">            tbl3</span>
-<span class="sd">            &gt;&gt;&gt; {foo: &#39;a&#39;, &#39;bar&#39;: 2, &#39;baz&#39;: 88.1}</span>
+<span class="sd">            &gt;&gt;&gt; {&#39;foo&#39;: &#39;a&#39;, &#39;bar&#39;: 2, &#39;baz&#39;: 88.1}</span>
 
 <span class="sd">        `Args:`</span>
 <span class="sd">            \*filters: function or str</span>

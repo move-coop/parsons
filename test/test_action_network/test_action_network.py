@@ -10,10 +10,10 @@ class TestActionNetwork(unittest.TestCase):
     @requests_mock.Mocker()
     def setUp(self, m):
 
-        self.api_url = 'http://fakeurl.com'
+        self.api_url = 'https://actionnetwork.org/api/v2'
         self.api_key = "fake_key"
 
-        self.an = ActionNetwork(self.api_key, self.api_url)
+        self.an = ActionNetwork(self.api_key)
 
         self.fake_datetime = '2019-02-29T00:00:00.000+0000'
         self.fake_date = '2019-02-29'

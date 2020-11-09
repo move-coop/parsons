@@ -6,7 +6,6 @@ from parsons.aws.s3 import S3
 from parsons.etl.table import Table
 import urllib
 import time
-import shutil
 from test.utils import assert_matching_tables
 
 # Requires a s3 credentials stored in aws config or env variable
@@ -20,7 +19,7 @@ class TestS3(unittest.TestCase):
 
         self.s3 = S3()
 
-        creds = self.s3.aws.session.get_credentials()
+        self.s3.aws.session.get_credentials()
 
         # Create a new bucket
         self.test_bucket = os.environ['S3_TEMP_BUCKET']
@@ -44,8 +43,8 @@ class TestS3(unittest.TestCase):
                 self.s3.put_file(self.test_bucket, self.test_key, csv_path)
                 self.s3.put_file(self.test_bucket, self.test_key_2, csv_path_2)
                 break
-            except:
-                print ('Retrying putting file in bucket...')
+            except Exception:
+                print('Retrying putting file in bucket...')
                 retry += 1
 
     def tearDown(self):
@@ -160,7 +159,7 @@ class TestS3(unittest.TestCase):
         # Copy
         self.s3.transfer_bucket(self.test_bucket, self.test_key, destination_bucket)
 
-        # Test that object made it 
+        # Test that object made it
         path = self.s3.get_file(destination_bucket, self.test_key)
         result_tbl = Table.from_csv(path)
         assert_matching_tables(self.tbl, result_tbl)
@@ -168,7 +167,9 @@ class TestS3(unittest.TestCase):
         self.assertTrue(self.s3.key_exists(self.test_bucket, self.test_key))
 
         # Transfer and delete original
-        self.s3.transfer_bucket(self.test_bucket, self.test_key_2, destination_bucket, None, None, None, None, None, False, True)
+        self.s3.transfer_bucket(
+            self.test_bucket, self.test_key_2, destination_bucket,
+            None, None, None, None, None, False, True)
         path_2 = self.s3.get_file(destination_bucket, self.test_key_2)
         result_tbl_2 = Table.from_csv(path_2)
         assert_matching_tables(self.tbl_2, result_tbl_2)

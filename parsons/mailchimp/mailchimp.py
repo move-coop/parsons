@@ -25,15 +25,6 @@ class Mailchimp():
         self.uri = f'https://{self.domain}.api.mailchimp.com/3.0/'
         self.client = APIConnector(self.uri, auth=('x', self.api_key))
 
-    def get_request(self, endpoint, params=None, **kwargs):
-        # Internal method to make a get request.
-
-        r = self.client.request(self.uri + endpoint, 'GET', params=params)
-        self.client.validate_response(r)
-        data = r.json()
-
-        return data
-
     def get_lists(self, fields=None, exclude_fields=None,
                   count=None, offset=None, before_date_created=None,
                   since_date_created=None, before_campaign_last_sent=None,
@@ -95,7 +86,7 @@ class Mailchimp():
                   'sort_field': sort_field,
                   'sort_dir': sort_dir}
 
-        response = self.get_request('lists', params=params)
+        response = self.client.get_request('lists', params=params)
         tbl = Table(response['lists'])
         logger.info(f'Found {tbl.num_rows} lists.')
         if tbl.num_rows > 0:
@@ -178,7 +169,7 @@ class Mailchimp():
                   'sort_field': sort_field,
                   'sort_dir': sort_dir}
 
-        response = self.get_request('campaigns', params=params)
+        response = self.client.get_request('campaigns', params=params)
         tbl = Table(response['campaigns'])
         logger.info(f'Found {tbl.num_rows} campaigns.')
         if tbl.num_rows > 0:
@@ -295,7 +286,7 @@ class Mailchimp():
                   'since_last_campaign': since_last_campaign,
                   'unsubscribed_since': unsubscribed_since}
 
-        response = self.get_request(f'lists/{list_id}/members', params=params)
+        response = self.client.get_request(f'lists/{list_id}/members', params=params)
         tbl = Table(response['members'])
         logger.info(f'Found {tbl.num_rows} members.')
         if tbl.num_rows > 0:
@@ -341,8 +332,8 @@ class Mailchimp():
                   'offset': offset,
                   'since': since}
 
-        response = self.get_request(f'reports/{campaign_id}/email-activity',
-                                    params=params)
+        response = self.client.get_request(f'reports/{campaign_id}/email-activity',
+                                           params=params)
         tbl = Table(response['emails'])
         if tbl.num_rows > 0:
             return tbl
@@ -381,8 +372,8 @@ class Mailchimp():
                   'count': count,
                   'offset': offset}
 
-        response = self.get_request(f'reports/{campaign_id}/unsubscribed',
-                                    params=params)
+        response = self.client.get_request(f'reports/{campaign_id}/unsubscribed',
+                                           params=params)
         tbl = Table(response['unsubscribes'])
         logger.info(f'Found {tbl.num_rows} unsubscribes for {campaign_id}.')
         if tbl.num_rows > 0:

@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>TargetSmart &mdash; Parsons 0.1 documentation</title>
+  <title>TargetSmart &mdash; Parsons 0.5 documentation</title>
   
 
   
@@ -28,7 +28,7 @@
   <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="TurboVote" href="turbovote.html" />
+    <link rel="next" title="Twilio" href="twilio.html" />
     <link rel="prev" title="SFTP" href="sftp.html" /> 
 
   
@@ -81,27 +81,55 @@
               <p class="caption"><span class="caption-text">Integrations</span></p>
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="action_kit.html">ActionKit</a></li>
+<li class="toctree-l1"><a class="reference internal" href="action_network.html">Action Network</a></li>
+<li class="toctree-l1"><a class="reference internal" href="airtable.html">Airtable</a></li>
+<li class="toctree-l1"><a class="reference internal" href="aws.html">Amazon Web Services</a></li>
+<li class="toctree-l1"><a class="reference internal" href="azure.html">Azure</a></li>
+<li class="toctree-l1"><a class="reference internal" href="bill_com.html">Bill.com</a></li>
+<li class="toctree-l1"><a class="reference internal" href="braintree.html">Braintree</a></li>
 <li class="toctree-l1"><a class="reference internal" href="civis.html">Civis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="copper.html">Copper</a></li>
+<li class="toctree-l1"><a class="reference internal" href="crowdtangle.html">CrowdTangle</a></li>
+<li class="toctree-l1"><a class="reference internal" href="databases.html">Databases</a></li>
 <li class="toctree-l1"><a class="reference internal" href="facebook_ads.html">FacebookAds</a></li>
-<li class="toctree-l1"><a class="reference internal" href="google_sheets.html">GoogleSheets</a></li>
-<li class="toctree-l1"><a class="reference internal" href="mobile_commons.html">Mobile Commons</a></li>
+<li class="toctree-l1"><a class="reference internal" href="freshdesk.html">Freshdesk</a></li>
+<li class="toctree-l1"><a class="reference internal" href="github.html">GitHub</a></li>
+<li class="toctree-l1"><a class="reference internal" href="google.html">Google</a></li>
+<li class="toctree-l1"><a class="reference internal" href="hustle.html">Hustle</a></li>
+<li class="toctree-l1"><a class="reference internal" href="mailchimp.html">Mailchimp</a></li>
 <li class="toctree-l1"><a class="reference internal" href="mobilize_america.html">Mobilize America</a></li>
-<li class="toctree-l1"><a class="reference internal" href="ngpvan.html">VAN</a></li>
+<li class="toctree-l1"><a class="reference internal" href="newmode.html">New/Mode</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ngpvan.html">NGPVAN</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pdi.html">PDI</a></li>
 <li class="toctree-l1"><a class="reference internal" href="p2a.html">Phone2Action</a></li>
-<li class="toctree-l1"><a class="reference internal" href="redshift.html">Redshift</a></li>
-<li class="toctree-l1"><a class="reference internal" href="s3.html">S3</a></li>
+<li class="toctree-l1"><a class="reference internal" href="redash.html">Redash</a></li>
+<li class="toctree-l1"><a class="reference internal" href="rockthevote.html">Rock the Vote</a></li>
+<li class="toctree-l1"><a class="reference internal" href="salesforce.html">Salesforce</a></li>
 <li class="toctree-l1"><a class="reference internal" href="sftp.html">SFTP</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">TargetSmart</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#api-2-0">API 2.0</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#automation">Automation</a></li>
 </ul>
 </li>
+<li class="toctree-l1"><a class="reference internal" href="twilio.html">Twilio</a></li>
 <li class="toctree-l1"><a class="reference internal" href="turbovote.html">TurboVote</a></li>
+<li class="toctree-l1"><a class="reference internal" href="zoom.html">Zoom</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Enhancements</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="census_geocoder.html">US Census Geocoder</a></li>
 </ul>
 <p class="caption"><span class="caption-text">Framework</span></p>
 <ul>
+<li class="toctree-l1"><a class="reference internal" href="dbsync.html">Database Sync</a></li>
 <li class="toctree-l1"><a class="reference internal" href="table.html">Parsons Table</a></li>
 <li class="toctree-l1"><a class="reference internal" href="notifications.html">Notifications</a></li>
+<li class="toctree-l1"><a class="reference internal" href="utilities.html">Utilities</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Contributor Documentation</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="contributing.html">Contributing to Parsons</a></li>
+<li class="toctree-l1"><a class="reference internal" href="build_a_connector.html">How to Build a Connector</a></li>
 </ul>
 
             
@@ -424,7 +452,7 @@ environmental variables:</p>
 <em class="property">class </em><code class="descclassname">parsons.</code><code class="descname">TargetSmartAutomation</code><span class="sig-paren">(</span><em>sftp_username=None</em>, <em>sftp_password=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/targetsmart/targetsmart_automation.html#TargetSmartAutomation"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.TargetSmartAutomation" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="method">
 <dt id="parsons.TargetSmartAutomation.match">
-<code class="descname">match</code><span class="sig-paren">(</span><em>table</em>, <em>job_type</em>, <em>job_name=None</em>, <em>emails=None</em>, <em>call_back=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/targetsmart/targetsmart_automation.html#TargetSmartAutomation.match"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.TargetSmartAutomation.match" title="Permalink to this definition">¶</a></dt>
+<code class="descname">match</code><span class="sig-paren">(</span><em>table</em>, <em>job_type</em>, <em>job_name=None</em>, <em>emails=None</em>, <em>call_back=None</em>, <em>remove_files=True</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/targetsmart/targetsmart_automation.html#TargetSmartAutomation.match"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.TargetSmartAutomation.match" title="Permalink to this definition">¶</a></dt>
 <dd><p>Match a table to TargetSmart using their bulk matching service.</p>
 <div class="admonition warning">
 <p class="first admonition-title">Warning</p>
@@ -453,6 +481,9 @@ is useful in debugging failed jobs.</dd>
 <dd>A callback url to which the status will be posted. See
 <a class="reference external" href="https://docs.targetsmart.com/developers/automation/index.html#http-callback">TargetSmart documentation</a>
 for more details.</dd>
+<dt>remove_files: boolean</dt>
+<dd>Remove the configuration, file to be matched and matched file from
+the TargetSmart FTP upon completion or failure of match.</dd>
 </dl>
 </dd>
 </dl>
@@ -471,7 +502,7 @@ for more details.</dd>
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="turbovote.html" class="btn btn-neutral float-right" title="TurboVote" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="twilio.html" class="btn btn-neutral float-right" title="Twilio" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
         <a href="sftp.html" class="btn btn-neutral" title="SFTP" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>

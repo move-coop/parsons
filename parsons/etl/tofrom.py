@@ -394,6 +394,65 @@ class ToFrom(object):
         else:
             return None
 
+    def to_gcs_csv(self, bucket_name, blob_name, app_creds=None, project=None, compression=None,
+                   encoding=None, errors='strict', write_header=True, public_url=False,
+                   public_url_expires=60, **csvargs):
+        """
+        Writes the table to a Google Cloud Storage blob as a CSV.
+
+        `Args:`
+            bucket_name: str
+                The bucket to upload to
+            blob_name: str
+                The blob to name the file. If it ends in '.gz' or '.zip', the file will be
+                compressed.
+            app_creds: str
+                A credentials json string or a path to a json file. Not required
+                if ``GOOGLE_APPLICATION_CREDENTIALS`` env variable set.
+            project: str
+                The project which the client is acting on behalf of. If not passed
+                then will use the default inferred environment.
+            compression: str
+                The compression type for the csv. Currently "None", "zip" and "gzip" are
+                supported. If specified, will override the key suffix.
+            encoding: str
+                The CSV encoding type for `csv.writer()
+                <https://docs.python.org/2/library/csv.html#csv.writer/>`_
+            errors: str
+                Raise an Error if encountered
+            write_header: boolean
+                Include header in output
+            public_url: boolean
+                Create a public link to the file
+            public_url_expire: 60
+                The time, in minutes, until the url expires if ``public_url`` set to ``True``.
+            \**csvargs: kwargs
+                ``csv_writer`` optional arguments
+        `Returns:`
+            Public url if specified. If not ``None``.
+        """  # noqa: W605
+
+        compression = compression or files.compression_type_for_path(blob_name)
+
+        csv_name = files.extract_file_name(blob_name, include_suffix=False) + '.csv'
+
+        # Save the CSV as a temp file
+        local_path = self.to_csv(temp_file_compression=compression,
+                                 encoding=encoding,
+                                 errors=errors,
+                                 write_header=write_header,
+                                 csv_name=csv_name,
+                                 **csvargs)
+
+        from parsons.google.google_cloud_storage import GoogleCloudStorage
+        gcs = GoogleCloudStorage(app_creds=app_creds, project=project)
+        gcs.put_blob(bucket_name, blob_name, local_path)
+
+        if public_url:
+            return gcs.get_url(bucket_name, blob_name, expires_in=public_url_expires)
+        else:
+            return None
+
     def to_redshift(self, table_name, username=None, password=None, host=None,
                     db=None, port=None, **copy_args):
         """
@@ -517,6 +576,7 @@ class ToFrom(object):
             Parsons Table
                 See :ref:`parsons-table` for output options.
         """  # noqa: W605
+
         remote_prefixes = ["http://", "https://", "ftp://", "s3://"]
         if any(map(local_path.startswith, remote_prefixes)):
             is_remote_file = True
@@ -651,8 +711,8 @@ class ToFrom(object):
         return pg.query(sql)
 
     @classmethod
-    def from_s3_csv(cls, bucket, key, aws_access_key_id=None, aws_secret_access_key=None,
-                    **csvargs):
+    def from_s3_csv(cls, bucket, key, from_manifest=False, aws_access_key_id=None,
+                    aws_secret_access_key=None, **csvargs):
         """
         Create a ``parsons table`` from a key in an S3 bucket.
 
@@ -661,6 +721,9 @@ class ToFrom(object):
                 The S3 bucket.
             key: str
                 The S3 key
+            from_manifest: bool
+                If True, treats `key` as a manifest file and loads all urls into a `parsons.Table`.
+                Defaults to False.
             aws_access_key_id: str
                 Required if not included as environmental variable.
             aws_secret_access_key: str
@@ -673,12 +736,27 @@ class ToFrom(object):
 
         from parsons.aws import S3
         s3 = S3(aws_access_key_id, aws_secret_access_key)
-        file_obj = s3.get_file(bucket, key)
 
-        if files.compression_type_for_path(key) == 'zip':
-            file_obj = files.zip_archive.unzip_archive(file_obj)
+        if from_manifest:
+            with open(s3.get_file(bucket, key)) as fd:
+                manifest = json.load(fd)
 
-        return cls(petl.fromcsv(file_obj, **csvargs))
+            s3_keys = [x["url"] for x in manifest["entries"]]
+
+        else:
+            s3_keys = [f"s3://{bucket}/{key}"]
+
+        tbls = []
+        for key in s3_keys:
+            # TODO handle urls that end with '/', i.e. urls that point to "folders"
+            _, _, bucket_, key_ = key.split("/", 3)
+            file_ = s3.get_file(bucket_, key_)
+            if files.compression_type_for_path(key_) == 'zip':
+                file_ = zip_archive.unzip_archive(file_)
+
+            tbls.append(petl.fromcsv(file_, **csvargs))
+
+        return cls(petl.cat(*tbls))
 
     @classmethod
     def from_dataframe(cls, dataframe, include_index=False):

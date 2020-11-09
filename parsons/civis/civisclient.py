@@ -8,11 +8,11 @@ class CivisClient(object):
     Instantiate the Civis class.
 
     `Args:`
-        api_key: str
-            The Civis api key.
         db: str or int
             The Civis Redshift database. Can be a database id or the name of the
             database.
+        api_key: str
+            The Civis api key.
         **kwargs: args
             Option settings for the client that are `described in the documentation <https://civis-python.readthedocs.io/en/stable/client.html#civis.APIClient>`_.
     `Returns:`
@@ -21,8 +21,8 @@ class CivisClient(object):
 
     def __init__(self, db=None, api_key=None, **kwargs):
 
-        self.api_key = check_env.check('CIVIS_API_KEY', api_key)
         self.db = check_env.check('CIVIS_DATABASE', db)
+        self.api_key = check_env.check('CIVIS_API_KEY', api_key)
         self.client = civis.APIClient(api_key=api_key, **kwargs)
         """
         The Civis API client. Utilize this attribute to access to lower level and more
@@ -30,8 +30,7 @@ class CivisClient(object):
         can be found by reading the Civis API client `documentation <https://civis-python.readthedocs.io/en/stable/client.html>`_.
         """  # noqa: E501
 
-    def query(self, sql, preview_rows=10, polling_interval=None, hidden=True,
-              wait=True):
+    def query(self, sql, preview_rows=10, polling_interval=None, hidden=True, wait=True):
         """
         Execute a SQL statement as a Civis query.
 
@@ -57,7 +56,8 @@ class CivisClient(object):
                 See :ref:`parsons-table` for output options.
         """
 
-        fut = civis.io.query_civis(sql, self.db, preview_rows=preview_rows, polling_interval=None)
+        fut = civis.io.query_civis(sql, self.db, preview_rows=preview_rows,
+                                   polling_interval=polling_interval, hidden=hidden)
 
         if not wait:
 

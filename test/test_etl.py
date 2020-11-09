@@ -10,6 +10,7 @@ from parsons.utilities import zip_archive
 # - The `Table.to_postgres()` test is housed in the Postgres tests
 # - The `Table.from_postgres()` test is housed in the Postgres test
 
+
 class TestParsonsTable(unittest.TestCase):
 
     def setUp(self):
@@ -67,9 +68,9 @@ class TestParsonsTable(unittest.TestCase):
 
     def test_from_empty_list(self):
         # Just ensure this doesn't throw an error
-        tbl = Table()
-        tbl = Table([])
-        tbl = Table([[]])
+        Table()
+        Table([])
+        Table([[]])
 
     def test_materialize(self):
         # Simple test that materializing doesn't change the table
@@ -81,7 +82,7 @@ class TestParsonsTable(unittest.TestCase):
     def test_materialize_to_file(self):
         # Simple test that materializing doesn't change the table
         tbl_materialized = Table(self.lst_dicts)
-        tbl_materialized.materialize_to_file()
+        _ = tbl_materialized.materialize_to_file()
 
         assert_matching_tables(self.tbl, tbl_materialized)
 
@@ -228,16 +229,15 @@ class TestParsonsTable(unittest.TestCase):
         try:
             # Test using the to_csv() method
             self.tbl.to_csv('myzip.zip')
-            zip_archive.unzip_archive('myzip.zip')
-            assert_matching_tables(self.tbl, Table.from_csv('myzip.csv'))
+            tmp = zip_archive.unzip_archive('myzip.zip')
+            assert_matching_tables(self.tbl, Table.from_csv(tmp))
 
             # Test using the to_csv_zip() method
             self.tbl.to_zip_csv('myzip.zip')
-            zip_archive.unzip_archive('myzip.zip')
-            assert_matching_tables(self.tbl, Table.from_csv('myzip.csv'))
+            tmp = zip_archive.unzip_archive('myzip.zip')
+            assert_matching_tables(self.tbl, Table.from_csv(tmp))
         finally:
             os.unlink('myzip.zip')
-            os.unlink('myzip.csv')
 
     def test_to_civis(self):
 
@@ -421,11 +421,14 @@ class TestParsonsTable(unittest.TestCase):
         # Make sure result has the right number of columns
         self.assertEqual(len(tbl_unpacked.columns), 5)
 
-        result_table = Table([{'id': 1, 'tag_0': 1, 'tag_1': 2, 'tag_2': None, 'tag_3': 4},
-                            {'id': 2, 'tag_0': None, 'tag_1': None, 'tag_2': None, 'tag_3': None}])
+        result_table = Table([
+            {'id': 1, 'tag_0': 1, 'tag_1': 2, 'tag_2': None, 'tag_3': 4},
+            {'id': 2, 'tag_0': None, 'tag_1': None, 'tag_2': None, 'tag_3': None}])
 
         # Check that the values for both rows are distributed correctly
-        self.assertEqual(result_table.data[0] + result_table.data[1], tbl_unpacked.data[0] + tbl_unpacked.data[1])
+        self.assertEqual(
+            result_table.data[0] + result_table.data[1],
+            tbl_unpacked.data[0] + tbl_unpacked.data[1])
 
     def test_unpack_nested_columns_as_rows(self):
 
@@ -621,14 +624,28 @@ class TestParsonsTable(unittest.TestCase):
         assert_matching_tables(desired_tbl, tbl)
 
         # Test disable fuzzy matching, and fail due due to the missing cols
-        self.assertRaises(TypeError, Table(raw).match_columns, desired_tbl.columns, fuzzy_match=False, if_missing_columns='fail')
+        self.assertRaises(
+            TypeError,
+            Table(raw).match_columns,
+            desired_tbl.columns,
+            fuzzy_match=False,
+            if_missing_columns='fail')
 
         # Test disable fuzzy matching, and fail due to the extra cols
-        self.assertRaises(TypeError, Table(raw).match_columns, desired_tbl.columns, fuzzy_match=False, if_extra_columns='fail')
+        self.assertRaises(
+            TypeError,
+            Table(raw).match_columns,
+            desired_tbl.columns,
+            fuzzy_match=False,
+            if_extra_columns='fail')
 
         # Test table that already has the right columns, shouldn't need fuzzy match
         tbl = Table(desired_raw)
-        tbl.match_columns(desired_tbl.columns, fuzzy_match=False, if_missing_columns='fail', if_extra_columns='fail')
+        tbl.match_columns(
+            desired_tbl.columns,
+            fuzzy_match=False,
+            if_missing_columns='fail',
+            if_extra_columns='fail')
         assert_matching_tables(desired_tbl, tbl)
 
         # Test table with missing col, verify the missing col gets added by default
@@ -637,7 +654,8 @@ class TestParsonsTable(unittest.TestCase):
             {'first name': 'Lucy', 'LASTNAME': 'Peterson'},
         ])
         tbl.match_columns(desired_tbl.columns)
-        desired_tbl = Table(desired_raw).remove_column('middle_name').add_column('middle_name', index=1)
+        desired_tbl = (
+            Table(desired_raw).remove_column('middle_name').add_column('middle_name', index=1))
         assert_matching_tables(desired_tbl, tbl)
 
         # Test table with extra col, verify the extra col gets removed by default
@@ -652,8 +670,14 @@ class TestParsonsTable(unittest.TestCase):
         # Test table with two columns that normalize the same and aren't in desired cols, verify
         # they both get removed.
         tbl = Table([
-            {'first name': 'Mary', 'LASTNAME': 'Nichols', 'Age': 32, 'Middle__Name': 'D', 'AGE': None},
-            {'first name': 'Lucy', 'LASTNAME': 'Peterson', 'Age': 26, 'Middle__Name': 'S', 'AGE': None},
+            {
+                'first name': 'Mary', 'LASTNAME': 'Nichols',
+                'Age': 32, 'Middle__Name': 'D', 'AGE': None
+            },
+            {
+                'first name': 'Lucy', 'LASTNAME': 'Peterson',
+                'Age': 26, 'Middle__Name': 'S', 'AGE': None
+            },
         ])
         tbl.match_columns(desired_tbl.columns)
         assert_matching_tables(desired_tbl, tbl)
@@ -695,7 +719,7 @@ class TestParsonsTable(unittest.TestCase):
 
     def test_map_columns(self):
 
-        input_tbl = Table([['fn', 'ln'],['J', 'B']])
+        input_tbl = Table([['fn', 'ln'], ['J', 'B']])
 
         expected_tbl = Table([['first_name', 'last_name'],
                               ['J', 'B']])
@@ -727,17 +751,17 @@ class TestParsonsTable(unittest.TestCase):
     def test_sort(self):
 
         # Test basic sort
-        unsorted_tbl = Table([['a', 'b'],[3, 1],[2, 2],[1, 3]])
+        unsorted_tbl = Table([['a', 'b'], [3, 1], [2, 2], [1, 3]])
         sorted_tbl = unsorted_tbl.sort()
         self.assertEqual(sorted_tbl[0], {'a': 1, 'b': 3})
 
         # Test column sort
-        unsorted_tbl = Table([['a', 'b'],[3, 1],[2, 2],[1, 3]])
+        unsorted_tbl = Table([['a', 'b'], [3, 1], [2, 2], [1, 3]])
         sorted_tbl = unsorted_tbl.sort('b')
         self.assertEqual(sorted_tbl[0], {'a': 3, 'b': 1})
 
         # Test reverse sort
-        unsorted_tbl = Table([['a', 'b'],[3, 1],[2, 2],[1, 3]])
+        unsorted_tbl = Table([['a', 'b'], [3, 1], [2, 2], [1, 3]])
         sorted_tbl = unsorted_tbl.sort(reverse=True)
         self.assertEqual(sorted_tbl[0], {'a': 3, 'b': 1})
 

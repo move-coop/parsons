@@ -47,6 +47,10 @@ if not os.environ.get('PARSONS_SKIP_IMPORT_ALL'):
     from parsons.pdi.pdi import PDI
     from parsons.azure.azure_blob_storage import AzureBlobStorage
     from parsons.github.github import GitHub
+    from parsons.bloomerang.bloomerang import Bloomerang
+    from parsons.box.box import Box
+    from parsons.sisense.sisense import Sisense
+    from parsons.surveygizmo.surveygizmo import SurveyGizmo
 
     __all__ = [
         'VAN',
@@ -88,6 +92,10 @@ if not os.environ.get('PARSONS_SKIP_IMPORT_ALL'):
         'PDI',
         'AzureBlobStorage',
         'GitHub',
+        'Bloomerang',
+        'Box',
+        'Sisense',
+        'SurveyGizmo'
     ]
 
 # Define the default logging config for Parsons and its submodules. For now the

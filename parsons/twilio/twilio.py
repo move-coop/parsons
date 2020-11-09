@@ -9,6 +9,8 @@ logger = logging.getLogger(__name__)
 
 class Twilio:
     """
+    Instantiate the Twilio class
+
     `Args:`
         account_sid: str
             The Twilio account sid. Not required if ``TWILIO_ACCOUNT_SID`` env variable is
@@ -26,9 +28,7 @@ class Twilio:
         self.auth_token = check_env.check('TWILIO_AUTH_TOKEN', auth_token)
         self.client = Client(self.account_sid, self.auth_token)
 
-    def table_convert(self, obj):
-        # Internal method to create a Parsons table from a Twilio object.
-
+    def _table_convert(self, obj):
         tbl = Table([x.__dict__['_properties'] for x in obj])
 
         if 'subresource_uris' in tbl.columns and 'uri' in tbl.columns:
@@ -66,7 +66,7 @@ class Twilio:
         """
 
         r = self.client.api.accounts.list(friendly_name=name, status=status)
-        tbl = self.table_convert(r)
+        tbl = self._table_convert(r)
 
         logger.info(f'Retrieved {tbl.num_rows} accounts.')
         return tbl
@@ -123,7 +123,7 @@ class Twilio:
         else:
             r = self.client.usage.records.list(**args)
 
-        tbl = self.table_convert(r)
+        tbl = self._table_convert(r)
 
         if exclude_null:
             tbl.remove_null_rows('count', null_value='0')
@@ -155,6 +155,6 @@ class Twilio:
                                       date_sent_before=date_sent_before,
                                       date_sent_after=date_sent_after)
 
-        tbl = self.table_convert(r)
+        tbl = self._table_convert(r)
         logger.info(f'Retrieved {tbl.num_rows} messages.')
         return tbl

@@ -56,9 +56,8 @@ class TestPostgresDBSync(unittest.TestCase):
     def test_table_sync_full_truncate(self):
         # Test a db sync with truncate.
 
-        self.db_sync.table_sync_full(f'{self.temp_schema}.source',
-                                      f'{self.temp_schema}.destination',
-                                     if_exists='truncate')
+        self.db_sync.table_sync_full(
+            f'{self.temp_schema}.source', f'{self.temp_schema}.destination', if_exists='truncate')
         source = self.db.query(f"SELECT * FROM {self.temp_schema}.source")
         destination = self.db.query(f"SELECT * FROM {self.temp_schema}.destination")
         assert_matching_tables(source, destination)
@@ -70,9 +69,8 @@ class TestPostgresDBSync(unittest.TestCase):
         self.db.query(f"TRUNCATE {self.temp_schema}.source")
 
         # Attempt to sync.
-        self.db_sync.table_sync_full(f'{self.temp_schema}.source',
-                                      f'{self.temp_schema}.destination')
-
+        self.db_sync.table_sync_full(
+            f'{self.temp_schema}.source', f'{self.temp_schema}.destination')
 
     def test_table_sync_full_chunk(self):
         # Test chunking in full sync.
@@ -133,6 +131,7 @@ class TestPostgresDBSync(unittest.TestCase):
         self.db_sync.table_sync_incremental(f'{self.temp_schema}.source',
                                             f'{self.temp_schema}.destination',
                                             'pk')
+
 
 # These tests interact directly with the Postgres database. In order to run, set the
 # env to LIVE_TEST='TRUE'.

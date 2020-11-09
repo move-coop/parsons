@@ -86,7 +86,7 @@ class MySQL(MySQLCreateTable):
 
     def query(self, sql, parameters=None):
         """
-        Execute a query against the database. Will return ``None``if the query returns zero rows.
+        Execute a query against the database. Will return ``None`` if the query returns zero rows.
 
         To include python variables in your query, it is recommended to pass them as parameters,
         following the `mysql style <https://security.openstack.org/guidelines/dg_parameterize-database-queries.html>`_.

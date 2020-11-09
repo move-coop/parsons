@@ -50,7 +50,7 @@ def parse_table_name(table_name):
         parsed['table'] = parts[0]
     if len(parts) > 1:
         parsed['dataset'] = parts[1]
-    if len(parts) > 3:
+    if len(parts) > 2:
         parsed['project'] = parts[2]
     return parsed
 
@@ -72,12 +72,12 @@ class GoogleBigQuery:
     * Pass in a json string using the ``app_creds`` argument.
 
     Args:
-        project_id: str
-            The project which the client is acting on behalf of. If not passed
-            then will use the default inferred environment.
         app_creds: str
             A credentials json string or a path to a json file. Not required
             if ``GOOGLE_APPLICATION_CREDENTIALS`` env variable set.
+        project: str
+            The project which the client is acting on behalf of. If not passed
+            then will use the default inferred environment.
         location: str
             Default geographic location for tables
     """
@@ -112,7 +112,7 @@ class GoogleBigQuery:
             if_exists: str
                 If the table already exists, either ``fail``, ``append``, ``drop``
                 or ``truncate`` the table.
-            temp_gcs_bucket: str
+            tmp_gcs_bucket: str
                 The name of the Google Cloud Storage bucket to use to stage the data to load
                 into BigQuery. Required if `GCS_TEMP_BUCKET` is not specified.
             gcs_client: object
@@ -193,15 +193,15 @@ class GoogleBigQuery:
 
         .. code-block:: python
 
-        name = "Beatrice O'Brady"
-        sql = 'SELECT * FROM my_table WHERE name = %s'
-        rs.query(sql, parameters=[name])
+           name = "Beatrice O'Brady"
+           sql = 'SELECT * FROM my_table WHERE name = %s'
+           rs.query(sql, parameters=[name])
 
         .. code-block:: python
 
-        name = "Beatrice O'Brady"
-        sql = "SELECT * FROM my_table WHERE name = %(name)s"
-        rs.query(sql, parameters={'name': name})
+           name = "Beatrice O'Brady"
+           sql = "SELECT * FROM my_table WHERE name = %(name)s"
+           rs.query(sql, parameters={'name': name})
 
         `Args:`
             sql: str

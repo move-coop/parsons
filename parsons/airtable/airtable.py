@@ -1,4 +1,4 @@
-from airtable import Airtable as AT
+from airtable import Airtable as client
 from parsons.etl import Table
 from parsons.utilities import check_env
 import logging
@@ -22,7 +22,7 @@ class Airtable(object):
     def __init__(self, base_key, table_name, api_key=None):
 
         self.api_key = check_env.check('AIRTABLE_API_KEY', api_key)
-        self.at = AT(base_key, table_name, self.api_key)
+        self.client = client(base_key, table_name, self.api_key)
 
     def get_record(self, record_id):
         """
@@ -35,7 +35,7 @@ class Airtable(object):
             A dictionary of the record
         """
 
-        return self.at.get(record_id)
+        return self.client.get(record_id)
 
     def get_records(self, fields=None, max_records=None, view=None, formula=None, sort=None):
         """
@@ -88,7 +88,7 @@ class Airtable(object):
         if sort:
             kwargs['sort'] = sort
 
-        tbl = Table(self.at.get_all(**kwargs))
+        tbl = Table(self.client.get_all(**kwargs))
 
         # If the results are empty, then return an empty table.
         if 'fields' not in tbl.columns:
@@ -110,7 +110,7 @@ class Airtable(object):
 
         """
 
-        resp = self.at.insert(row)
+        resp = self.client.insert(row)
         logger.info('Record inserted')
         return resp
 
@@ -129,7 +129,7 @@ class Airtable(object):
             List of dictionaries of inserted rows
         """
 
-        resp = self.at.batch_insert(table)
+        resp = self.client.batch_insert(table)
         logger.info(f'{table.num_rows} records inserted.')
         return resp
 
@@ -149,6 +149,6 @@ class Airtable(object):
             ``None``
         """
 
-        resp = self.at.update(record_id, fields, typecast=typecast)
+        resp = self.client.update(record_id, fields, typecast=typecast)
         logger.info(f'{record_id} updated')
         return resp

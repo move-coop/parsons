@@ -33,6 +33,7 @@ python-dateutil==2.8.1
 azure-storage-blob==12.3.2
 PyGitHub==1.51
 surveygizmo==1.2.3
+pandas==1.1.4
 
 # Testing Requirements
 requests-mock==1.5.2

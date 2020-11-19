@@ -124,7 +124,7 @@ class ETL(object):
         """
         Transform values under one or more fields via arbitrary functions, method
         invocations or dictionary translations. This leverages the petl ``convert()``
-        method. Example usage can be found `here` <https://petl.readthedocs.io/en/v0.24/transform.html#petl.convert>`_
+        method. Example usage can be found `here <https://petl.readthedocs.io/en/v0.24/transform.html#petl.convert>`_.
 
         `Args:`
             \*column: str
@@ -229,12 +229,15 @@ class ETL(object):
         Standardizes column names based on multiple possible values. This method
         is helpful when your input table might have multiple and unknown column
         names.
+
         `Args:`
             column_map: dict
                 A dictionary of columns and possible values that map to it
         `Returns:`
             `Parsons Table` and also updates self
+
         .. code-block:: python
+
             tbl = [{fn: 'Jane'},
                    {lastname: 'Doe'},
                    {dob: '1980-01-01'}]
@@ -825,61 +828,74 @@ class ETL(object):
 
         normalize_fn = Table.get_normalized_column_name if fuzzy_match else (lambda s: s)
 
-        desired_columns_normalized = {
-            normalize_fn(col): col for col in desired_columns
-        }
-
-        # Check for extra columns in the Table.
-        for orig_col in self.columns:
-            normalized_col = normalize_fn(orig_col)
-            if normalized_col not in desired_columns_normalized:
-                if if_extra_columns == 'fail':
-                    raise TypeError(f"Table has extra column {orig_col}")
-                elif if_extra_columns == 'remove':
-                    self.remove_column(orig_col)
-                elif if_extra_columns != 'ignore':
-                    raise TypeError(f"Invalid option {if_extra_columns} for "
-                                    "argument `if_extra_columns`")
-            else:
-                # We matched a desired column. Remove it from our list, so if there is another
-                # column in our Table that has the same normalized name, we consider it an
-                # extra column.
-                desired_columns_normalized.pop(normalized_col)
-
-        # Regenerate the desired columns normalized dict, since we removed any matches
-        # from it above.
-        # Note we reverse the desired columns here, to make reordering easier later.
-        # Cast desired_columns to a list in case someone gave us a dict or other iterable
-        # that can't be reversed.
-        desired_columns_normalized = {
-            normalize_fn(col): col for col in reversed(list(desired_columns))
-        }
-
-        tbl_columns_normalized = {
+        # Create a mapping of our "normalized" name to the original column name
+        current_columns_normalized = {
             normalize_fn(col): col for col in self.columns
         }
 
-        # Check for missing columns
-        for normalized_col, orig_col in desired_columns_normalized.items():
-            if normalized_col not in tbl_columns_normalized:
+        # Track any columns we need to add to our current table from our desired columns
+        columns_to_add = []
+        # We are going to do a "cut" later to trim our table and re-order the columns, but
+        # we won't have renamed our columns yet, so we need to remember their un-normalized
+        # form
+        cut_columns = []
+        # We are going to also rename our columns AFTER we cut, so we want to remember their
+        # normalized names
+        final_header = []
+
+        # Loop through our desired columns -- the columns we want to see in our final table
+        for desired_column in desired_columns:
+            normalized_desired = normalize_fn(desired_column)
+            # Try to find our desired column in our Table
+            if normalized_desired not in current_columns_normalized:
+                # If we can't find our desired column in our current columns, then it's "missing"
                 if if_missing_columns == 'fail':
-                    raise TypeError(f"Table is missing column {orig_col}")
+                    # If our missing strategy is to fail, raise an exception
+                    raise TypeError(f"Table is missing column {desired_column}")
                 elif if_missing_columns == 'add':
-                    self.add_column(orig_col)
-                    tbl_columns_normalized[normalized_col] = orig_col
+                    # We have to add to our table
+                    columns_to_add.append(desired_column)
+                    # We will need to remember this column when we cut down to desired columns
+                    cut_columns.append(desired_column)
+                    # This will be in the final table
+                    final_header.append(desired_column)
                 elif if_missing_columns != 'ignore':
+                    # If it's not ignore, add, or fail, then it's not a valid strategy
                     raise TypeError(f"Invalid option {if_missing_columns} for "
                                     "argument `if_missing_columns`")
+            else:
+                # We have found this in our current columns, so take it out of our list to search
+                current_column = current_columns_normalized.pop(normalized_desired)
+                # Add the column to our intermediate table as the old column name
+                cut_columns.append(current_column)
+                # Add to our final header list as the "desired" name
+                final_header.append(desired_column)
 
-        # Change column ordering and names to match the desired columns
-        for desired_normalized_col, desired_orig_col in desired_columns_normalized.items():
-            # Note that we ignore any desired columns still not in the Table, given
-            # that we already checked what the caller wanted to do above.
-            if desired_normalized_col in tbl_columns_normalized:
-                tbl_orig_col = tbl_columns_normalized[desired_normalized_col]
-                if tbl_orig_col != desired_orig_col:
-                    self.rename_column(tbl_orig_col, desired_orig_col)
-                self.move_column(desired_orig_col, 0)
+        # Look for any "extra" columns from our current table that aren't in our desired columns
+        for current_column in current_columns_normalized.values():
+            # Figure out what to do with our "extra" columns
+            if if_extra_columns == 'fail':
+                # If our missing strategy is to fail, raise an exception
+                raise TypeError(f"Table has extra column {current_column}")
+            elif if_extra_columns == 'ignore':
+                # If we're "ignore"ing our extra columns, we should keep them by adding them to
+                # our intermediate and final columns list
+                cut_columns.append(current_column)
+                final_header.append(current_column)
+            elif if_extra_columns != 'remove':
+                # If it's not ignore, add, or fail, then it's not a valid strategy
+                raise TypeError(f"Invalid option {if_extra_columns} for "
+                                "argument `if_extra_columns`")
+
+        # Add any columns we need to add
+        for column in columns_to_add:
+            self.table = petl.addfield(self.table, column, None)
+
+        # Cut down to just the columns we care about
+        self.table = petl.cut(self.table, *cut_columns)
+
+        # Rename any columns
+        self.table = petl.setheader(self.table, final_header)
 
         return self
 

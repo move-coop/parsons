@@ -1,6 +1,5 @@
 import unittest
 import gspread
-import warnings
 import os
 
 from parsons.google.google_sheets import GoogleSheets
@@ -104,8 +103,8 @@ class TestGoogleSheets(unittest.TestCase):
             {'col1': 3, 'col2': 9, 'col3': '=A2*B2'},
             {'col1': 'Buda', 'col2': 'Pest', 'col3': '=A3&LOWER(B3)'},
         ])
-        self.google_sheets.append_to_sheet(self.spreadsheet_id, append_table, 2,
-            user_entered_value=True)
+        self.google_sheets.append_to_sheet(
+            self.spreadsheet_id, append_table, 2, user_entered_value=True)
         result_table = self.google_sheets.read_sheet(self.spreadsheet_id, 2)
 
         # Get the values from col3 which has fomulas
@@ -129,6 +128,7 @@ class TestGoogleSheets(unittest.TestCase):
     def test_share_spreadsheet(self):
         # Test that sharing of spreadsheet works as intended.
 
-        self.google_sheets.share_spreadsheet(self.spreadsheet_id, 'bob@bob.com', role='reader', notify=True)
+        self.google_sheets.share_spreadsheet(
+            self.spreadsheet_id, 'bob@bob.com', role='reader', notify=True)
         permissions = self.google_sheets.get_spreadsheet_permissions(self.spreadsheet_id)
-        self.assertIn('bob@bob.com',permissions['emailAddress'])
+        self.assertIn('bob@bob.com', permissions['emailAddress'])

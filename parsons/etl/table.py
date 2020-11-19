@@ -197,6 +197,9 @@ class Table(ETL, ToFrom):
             file_path: str
                 The path to the file to materialize the table to; if not specified, a temp file
                 will be created.
+        `Returns:`
+            str
+                Path to the temp file that now contains the table
         """
 
         # Load the data in batches, and "pickle" the rows to a temp file.
@@ -211,6 +214,8 @@ class Table(ETL, ToFrom):
 
         # Load a Table from the file
         self.table = petl.frompickle(file_path)
+
+        return file_path
 
     def is_valid_table(self):
         """

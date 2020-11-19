@@ -94,7 +94,7 @@ class Redshift(RedshiftCreateTable, RedshiftCopyTable, RedshiftTableUtilities, R
         ``with rs.connection() as conn:``
 
         `Returns:`
-            Psycopg2 `connection` object
+            Psycopg2 ``connection`` object
         """
 
         # Create a psycopg2 connection and cursor
@@ -232,7 +232,7 @@ class Redshift(RedshiftCreateTable, RedshiftCopyTable, RedshiftTableUtilities, R
                 dateformat='auto', timeformat='auto', emptyasnull=True,
                 blanksasnull=True, nullas=None, acceptinvchars=True, truncatecolumns=False,
                 columntypes=None, specifycols=None,
-                aws_access_key_id=None, aws_secret_access_key=None):
+                aws_access_key_id=None, aws_secret_access_key=None, bucket_region=None):
         """
         Copy a file from s3 to Redshift.
 
@@ -314,18 +314,18 @@ class Redshift(RedshiftCreateTable, RedshiftCopyTable, RedshiftTableUtilities, R
             aws_secret_access_key:
                 An AWS secret access key granted to the bucket where the file is located. Not
                 required if keys are stored as environmental variables.
+            bucket_region: str
+                The AWS region that the bucket is located in. This should be provided if the
+                Redshift cluster is located in a different region from the temp bucket.
+
         `Returns`
             Parsons Table or ``None``
                 See :ref:`parsons-table` for output options.
         """
 
-        # Warn the user if they don't provide a DIST key or a SORT key
-        self._log_key_warning(distkey=distkey, sortkey=sortkey, method='copy_s3')
-
         with self.connection() as connection:
 
             if self._create_table_precheck(connection, table_name, if_exists):
-
                 # Grab the object from s3
                 from parsons.aws.s3 import S3
                 s3 = S3(aws_access_key_id=aws_access_key_id,
@@ -359,7 +359,8 @@ class Redshift(RedshiftCreateTable, RedshiftCopyTable, RedshiftTableUtilities, R
                                            nullas=nullas, acceptinvchars=acceptinvchars,
                                            truncatecolumns=truncatecolumns,
                                            specifycols=specifycols,
-                                           dateformat=dateformat, timeformat=timeformat)
+                                           dateformat=dateformat, timeformat=timeformat,
+                                           bucket_region=bucket_region)
 
             self.query_with_connection(copy_sql, connection, commit=False)
             logger.info(f'Data copied to {table_name}.')
@@ -370,7 +371,7 @@ class Redshift(RedshiftCreateTable, RedshiftCopyTable, RedshiftTableUtilities, R
              dateformat='auto', timeformat='auto', varchar_max=None, truncatecolumns=False,
              columntypes=None, specifycols=None, alter_table=False,
              aws_access_key_id=None, aws_secret_access_key=None, iam_role=None,
-             cleanup_s3_file=True, template_table=None):
+             cleanup_s3_file=True, template_table=None, temp_bucket_region=None):
         """
         Copy a :ref:`parsons-table` to Redshift.
 
@@ -455,14 +456,15 @@ class Redshift(RedshiftCreateTable, RedshiftCopyTable, RedshiftTableUtilities, R
                 is a pre-existing table that has the same columns/types, then use the template_table
                 table name as the schema for the new table.
                 Unless you set specifycols=False explicitly, a template_table will set it to True
+            temp_bucket_region: str
+                The AWS region that the temp bucket (specified by the TEMP_S3_BUCKET environment
+                variable) is located in. This should be provided if the Redshift cluster is located
+                in a different region from the temp bucket.
 
         `Returns`
             Parsons Table or ``None``
                 See :ref:`parsons-table` for output options.
         """
-
-        # Warn the user if they don't provide a DIST key or a SORT key
-        self._log_key_warning(distkey=distkey, sortkey=sortkey, method='copy')
 
         # Specify the columns for a copy statement.
         if specifycols or (specifycols is None and template_table):
@@ -512,7 +514,8 @@ class Redshift(RedshiftCreateTable, RedshiftCopyTable, RedshiftTableUtilities, R
                              'specifycols': cols,
                              'aws_access_key_id': aws_access_key_id,
                              'aws_secret_access_key': aws_secret_access_key,
-                             'compression': 'gzip'}
+                             'compression': 'gzip',
+                             'bucket_region': temp_bucket_region}
 
                 # Copy from S3 to Redshift
                 sql = self.copy_statement(table_name, self.s3_temp_bucket, key, **copy_args)
@@ -599,7 +602,7 @@ class Redshift(RedshiftCreateTable, RedshiftCopyTable, RedshiftTableUtilities, R
         if header:
             statement += "HEADER \n"
         if delimiter:
-            statement += f"DELIMITER as {delimiter}"
+            statement += f"DELIMITER as '{delimiter}' \n"
         if compression:
             statement += f"{compression.upper()} \n"
         if add_quotes:
@@ -688,7 +691,7 @@ class Redshift(RedshiftCreateTable, RedshiftCopyTable, RedshiftTableUtilities, R
         return manifest
 
     def upsert(self, table_obj, target_table, primary_key, vacuum=True, distinct_check=True,
-               cleanup_temp_table=True, **copy_args):
+               cleanup_temp_table=True, alter_table=True, **copy_args):
         """
         Preform an upsert on an existing table. An upsert is a function in which records
         in a table are updated and inserted at the same time. Unlike other SQL databases,
@@ -710,7 +713,7 @@ class Redshift(RedshiftCreateTable, RedshiftCopyTable, RedshiftTableUtilities, R
             cleanup_temp_table: boolean
                 A temp table is dropped by default on cleanup. You can set to False for debugging.
             \**copy_args: kwargs
-                See :func:`~parsons.databases.Redshift.copy`` for options.
+                See :func:`~parsons.databases.Redshift.copy` for options.
         """  # noqa: W605
 
         if not self.table_exists(target_table):
@@ -719,8 +722,9 @@ class Redshift(RedshiftCreateTable, RedshiftCopyTable, RedshiftTableUtilities, R
             self.copy(table_obj, target_table)
             return None
 
-        # Make target table column widths match incoming table, if necessary
-        self.alter_varchar_column_widths(table_obj, target_table)
+        if alter_table:
+            # Make target table column widths match incoming table, if necessary
+            self.alter_varchar_column_widths(table_obj, target_table)
 
         noise = f'{random.randrange(0, 10000):04}'[:4]
         date_stamp = datetime.datetime.now().strftime('%Y%m%d_%H%M')
@@ -762,6 +766,7 @@ class Redshift(RedshiftCreateTable, RedshiftCopyTable, RedshiftTableUtilities, R
                     copy_args = dict(copy_args, compupdate=False)
                 self.copy(table_obj, staging_tbl,
                           template_table=target_table,
+                          alter_table=False,  # We just did our own alter table above
                           **copy_args)
 
                 staging_table_name = staging_tbl.split('.')[1]
@@ -870,29 +875,6 @@ class Redshift(RedshiftCreateTable, RedshiftCopyTable, RedshiftTableUtilities, R
         # Return a Redshift table object
 
         return RedshiftTable(self, table_name)
-
-    @staticmethod
-    def _log_key_warning(distkey=None, sortkey=None, method=''):
-        # Log a warning message advising the user about DIST and SORT keys
-
-        if distkey and sortkey:
-            return
-
-        keys = [
-            (distkey, "DIST", "https://aws.amazon.com/about-aws/whats-new/2019/08/amazon-redshift-"
-                              "now-recommends-distribution-keys-for-improved-query-performance/"),
-            (sortkey, "SORT", "https://docs.amazonaws.cn/en_us/redshift/latest/dg/c_best-practices-"
-                              "sort-key.html")
-        ]
-        warning = "".join([
-            "You didn't provide a {} key to method `parsons.redshift.Redshift.{}`.\n"
-            "You can learn about best practices here:\n{}.\n".format(
-                keyname, method, keyinfo
-            ) for key, keyname, keyinfo in keys if not key])
-
-        warning += "You may be able to further optimize your queries."
-
-        logger.warning(warning)
 
 
 class RedshiftTable(BaseTable):

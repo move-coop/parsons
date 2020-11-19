@@ -101,7 +101,7 @@ class TestNGPVAN(unittest.TestCase):
 
         m.get(self.van.connection.uri + 'supporterGroups', json=json)
 
-        expected = ['id', 'name', 'description']
+        ['id', 'name', 'description']
 
         self.van.get_supporter_groups()
 
@@ -125,7 +125,7 @@ class TestNGPVAN(unittest.TestCase):
 
         # Test bad input raises
         bad_supporter_group_id = 999
-        bad_vanid = 99999
+        # bad_vanid = 99999
         bad_ep = f'supporterGroups/{bad_supporter_group_id}'
         m.delete(self.van.connection.uri + bad_ep, status_code=404)
         self.assertRaises(HTTPError, self.van.delete_supporter_group, bad_supporter_group_id)
@@ -145,7 +145,8 @@ class TestNGPVAN(unittest.TestCase):
         bad_vanid = 99999
         bad_uri = f'supporterGroups/{bad_vanid}/people/{bad_supporter_group_id}'
         m.put(self.van.connection.uri + bad_uri, status_code=404)
-        self.assertRaises(HTTPError, self.van.add_person_supporter_group, bad_vanid, bad_supporter_group_id)
+        self.assertRaises(
+            HTTPError, self.van.add_person_supporter_group, bad_vanid, bad_supporter_group_id)
 
     @requests_mock.Mocker()
     def test_delete_person_supporter_group(self, m):
@@ -162,7 +163,9 @@ class TestNGPVAN(unittest.TestCase):
         bad_vanid = 99999
         bad_ep = f'supporterGroups/{bad_vanid}/people/{bad_supporter_group_id}'
         m.delete(self.van.connection.uri + bad_ep, status_code=404)
-        self.assertRaises(HTTPError, self.van.delete_person_supporter_group, bad_vanid, bad_supporter_group_id)
+        self.assertRaises(
+            HTTPError, self.van.delete_person_supporter_group, bad_vanid, bad_supporter_group_id)
+
 
 if __name__ == '__main__':
 

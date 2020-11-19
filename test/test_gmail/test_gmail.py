@@ -228,7 +228,12 @@ class TestGmail(unittest.TestCase):
         self.assertEqual(parts[0].get_payload(), message_text)
         self.assertEqual(parts[1].get_payload(), message_html)
 
-        with open(f'{_dir}/assets/loremipsum_b64_txt.txt', 'r') as f:
+        if os.linesep == '\r\n':
+            file = f'{_dir}/assets/loremipsum_b64_win_txt.txt'
+        else:
+            file = f'{_dir}/assets/loremipsum_b64_txt.txt'
+
+        with open(file, 'r') as f:
             b64_txt = f.read()
         self.assertEqual(parts[2].get_payload(), b64_txt)
 

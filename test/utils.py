@@ -11,8 +11,9 @@ def test_something():
     service = SomeService()
     ...
 """
-mark_live_test = pytest.mark.skipif(not os.environ.get('LIVE_TEST'),
-    reason='Skipping because not running live test')
+mark_live_test = pytest.mark.skipif(
+    not os.environ.get('LIVE_TEST'), reason='Skipping because not running live test')
+
 
 # Tests whether a table has the expected structure
 def validate_list(expected_keys, table):
@@ -21,6 +22,7 @@ def validate_list(expected_keys, table):
         raise KeyError('Not all expected keys found.')
 
     return True
+
 
 def assert_matching_tables(table1, table2, ignore_headers=False):
     if ignore_headers:

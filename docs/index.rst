@@ -106,7 +106,7 @@ minimize resource utilization:
   1. Don't import classes from the root Parsons package
   2. Install only the dependencies you need
 
-*** Don't import from the root Parsons package
+*** Don't import from the root Parsons package ***
 
 Throughout the Parsons documentation, users are encouraged to load Parsons classes like so:
 
@@ -128,7 +128,7 @@ If you use the `PARSONS_SKIP_IMPORT_ALL` and import directly from the appropriat
 you will only load the classes that you need and will not consume extra resources. Using this
 method, you may see as much as an 8x decrease in memory usage for Parsons.
 
-*** Install only the dependencies you need
+*** Install only the dependencies you need ***
 
 Since Parsons needs to talk to so many different API's, it has a number of dependencies on other
 Python libraries. It may be preferable to only install those external dependencies that you will
@@ -171,6 +171,8 @@ Indices and tables
    aws
    azure
    bill_com
+   bloomerang
+   box
    braintree
    civis
    copper
@@ -191,9 +193,10 @@ Indices and tables
    rockthevote
    salesforce
    sftp
-   ts
-   twilio
+   sisense
+   targetsmart
    turbovote
+   twilio
    zoom
 
 .. toctree::

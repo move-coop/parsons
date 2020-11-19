@@ -36,7 +36,11 @@ You’ll also want to create the Connector class itself:
 .. code-block:: python
 
     class YourConnectorName(object):
-        “””`Args:`”””
+        """
+        Instantiate class.
+
+           `Args:`
+        """
 
         def __init__(self, api_key=None):
             pass
@@ -60,7 +64,11 @@ We like to give users two different options for getting api keys and other authe
 
 
     class YourConnectorName(object):
-        “””`Args:`”””
+        """
+        Instantiate class.
+
+           `Args:`
+        """
 
         def __init__(self, api_key=None):
             self.api_key = check_env.check('YOURCONNECTORNAME_API_KEY', api_key)
@@ -242,34 +250,34 @@ Adding automated tests
  * Add one `“Happy Path” <https://en.wikipedia.org/wiki/Happy_path>`_ test per public method of your connector
  * When possible mock out any external integrations, otherwise mark your test using the
 
-```python
-from parsons.yourconnector.yourconnector import YourConnector
-import unittest
-import requests_mock
+.. code-block:: python
+
+    from parsons.yourconnector.yourconnector import YourConnector
+    import unittest
+    import requests_mock
 
 
-class TestYourConnector(unittest.TestCase):
+    class TestYourConnector(unittest.TestCase):
 
-    def setUp(self):
+        def setUp(self):
 
-        # add any setup code here to run before each test
-        pass
+            # add any setup code here to run before each test
+            pass
 
-    def tearDown(self):
+        def tearDown(self):
 
-        # add any teardown code here to run after each test
-        pass
+            # add any teardown code here to run after each test
+            pass
 
-    @requests_mock.Mocker()
-    def test_get_things(self, m):
+        @requests_mock.Mocker()
+        def test_get_things(self, m):
 
-    	# Test that campaigns are returned correctly.
-        m.get(‘http://yourconnector.com/v1/things’, json=[])
-        yc = YourConnector()
-        tbl = yc.get_things()
+            # Test that campaigns are returned correctly.
+            m.get('http://yourconnector.com/v1/things', json=[])
+            yc = YourConnector()
+            tbl = yc.get_things()
 
-        self.assertEqual(tbl.num_rows, 0)
-```
+            self.assertEqual(tbl.num_rows, 0)
 
 ^^^^^^^^^^^^^^^^^^^^
 Adding documentation

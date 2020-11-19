@@ -10,20 +10,18 @@ TURBOVOTE_URI = 'https://turbovote-admin-http-api.prod.democracy.works/'
 
 class TurboVote(object):
     """
-    Initialize Turbovote class
+    Instantiate the TurboVote class
 
     `Args:`
         username: str
-            A valid turbovote username. Not required if ``TURBOVOTE_USERNAME``
+            A valid TurboVote username. Not required if ``TURBOVOTE_USERNAME``
             env variable set.
         password: str
-            A valid turbovote password. Not required if ``TURBOVOTE_PASSWORD``
-            env variable set
+            A valid TurboVote password. Not required if ``TURBOVOTE_PASSWORD``
+            env variable set.
         subdomain: str
-            Your turbovote subdomain (i.e. ``https://MYORG.turbovote.org``). Not
+            Your TurboVote subdomain (i.e. ``https://MYORG.turbovote.org``). Not
             required if ``TURBOVOTE_SUBDOMAIN`` env variable set.
-        uri: str
-            Base turbovote API url
     `Returns:`
         class
     """
@@ -39,17 +37,11 @@ class TurboVote(object):
         # Retrieve a temporary bearer token to access API
 
         url = self.uri + 'login'
-
         payload = {'username': self.username,
                    'password': self.password}
-
-        logger.info('Generating token...')
         r = requests.post(url, data=payload)
         logger.debug(r.url)
-
         r.raise_for_status()
-
-        logger.info('Token generated.')
 
         return r.json()['id-token']
 
@@ -65,8 +57,6 @@ class TurboVote(object):
         url = self.uri + f'partners/{self.subdomain}.turbovote.org/users'
 
         headers = {"Authorization": f"Bearer {self._get_token()}"}
-
-        logger.info('Requesting users table...')
         r = requests.get(url, headers=headers)
         logger.debug(r)
         r.raise_for_status()

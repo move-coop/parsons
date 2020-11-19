@@ -41,7 +41,7 @@ class SFTP(object):
             raise ValueError("Missing the SFTP username")
 
         if not (password or rsa_private_key_file):
-            raise ValueError("Missing password or ssh authentication key")
+            raise ValueError("Missing password or SSH authentication key")
 
         self.password = password
         self.rsa_private_key_file = rsa_private_key_file
@@ -50,20 +50,7 @@ class SFTP(object):
     @contextmanager
     def create_connection(self):
         """
-        Create an SFTP connection. You can then utilize this in a ``with`` block
-        and it will close the connection when it is out of scope. You should use
-        this when you wish to batch multiple methods using a single connection.
-
-        .. code-block:: python
-
-            import SFTP
-
-            sftp = SFTP()
-            connection = sftp.create_connection()
-
-            with connection as conn:
-                sftp.make_directory('my_dir', connection=conn)
-                sftp.put_file('my_csv.csv', connection=conn)
+        Create an SFTP connection.
 
         Returns:
             SFTP Connection object
@@ -91,7 +78,7 @@ class SFTP(object):
             connection: obj
                 An SFTP connection object
         `Returns:`
-            list
+            list of files and subdirectories in the provided directory
         """
 
         if connection:
@@ -240,7 +227,7 @@ class SFTP(object):
                 See :ref:`parsons-table` for output options.
         """
 
-        if not files.valid_table_suffix(remote_path):
+        if not file_utilities.valid_table_suffix(remote_path):
             raise ValueError('File type cannot be converted to a Parsons table.')
 
         return Table.from_csv(self.get_file(remote_path, connection=connection))
@@ -248,6 +235,7 @@ class SFTP(object):
     def put_file(self, local_path, remote_path, connection=None):
         """
         Put a file on the SFTP server
+
         `Args:`
             local_path: str
                 The local path of the source file
@@ -357,7 +345,6 @@ class SFTP(object):
         """
         return self._list_contents(remote_path, connection, file_pattern=pattern)[1]
 
-
     @connect
     def walk_tree(self, remote_path, connection=None, download=False, dir_pattern=None,
                   file_pattern=None, max_depth=2):
@@ -393,7 +380,8 @@ class SFTP(object):
                            "Recursively walking a remote directory will be much slower than a "
                            "similar operation on a local file system.".format(max_depth))
 
-        to_return = self._walk_tree(remote_path, connection, download, dir_pattern, file_pattern, max_depth=max_depth)
+        to_return = self._walk_tree(remote_path, connection, download, dir_pattern, file_pattern,
+                                    max_depth=max_depth)
 
         return to_return
 
@@ -412,8 +400,9 @@ class SFTP(object):
 
         if depth < max_depth:
             for directory in dirs:
-                deeper_dirs, deeper_files = self._walk_tree(directory, connection, download, dir_pattern, file_pattern,
-                                                            depth, max_depth)
+                deeper_dirs, deeper_files = self._walk_tree(
+                    directory, connection, download, dir_pattern, file_pattern, depth, max_depth
+                )
                 dir_list.extend(deeper_dirs)
                 file_list.extend(deeper_files)
 
@@ -421,5 +410,3 @@ class SFTP(object):
         file_list.extend(files)
 
         return dir_list, file_list
-
-

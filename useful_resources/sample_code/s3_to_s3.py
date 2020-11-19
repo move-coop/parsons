@@ -1,17 +1,17 @@
-### METADATA
+# ### METADATA
 
 # Connectors: S3
 # Description: Gets files from source s3 bucket and moves to destination S3 bucket
 # Parsons Version: unknown
 
 
-### CONFIGURATION
+# ### CONFIGURATION
 
-# Set the configuration variables below or set environmental variables of the same name and leave these
-# with empty strings.  We recommend using environmental variables if possible.
+# Set the configuration variables below or set environmental variables of the same name and leave
+# these with empty strings.  We recommend using environmental variables if possible.
 
 config_vars = {
-        # S3 (source) 
+        # S3 (source)
         "AWS_SOURCE_ACCESS_KEY_ID": "",
         "AWS_SOURCE_SECRET_ACCESS_KEY": "",
         # S3 (destination)
@@ -19,22 +19,23 @@ config_vars = {
         'AWS_DESTINATION_ACCESS_KEY_ID': ""
 }
 
-DESTINATION_BUCKET = None    
+DESTINATION_BUCKET = None
 
 
-### CODE
+# ### CODE
 
-import os
-from parsons import Redshift, S3, utilities, logger
+import os  # noqa: E402
+from parsons import S3, utilities, logger  # noqa: E402
 
-# Setup 
+# Setup
 
 for name, value in config_vars.items():    # sets variables if provided in this script
     if value.strip() != "":
         os.environ[name] = value
 
 s3_source = S3(os.environ['AWS_SOURCE_ACCESS_KEY_ID'], os.environ['AWS_SOURCE_SECRET_ACCESS_KEY'])
-s3_destination = S3(os.environ['AWS_DESTINATION_ACCESS_KEY_ID'], os.environ['AWS_DESTINATION_SECRET_ACCESS_KEY'])
+s3_destination = S3(
+    os.environ['AWS_DESTINATION_ACCESS_KEY_ID'], os.environ['AWS_DESTINATION_SECRET_ACCESS_KEY'])
 
 # Let's write some code!
 

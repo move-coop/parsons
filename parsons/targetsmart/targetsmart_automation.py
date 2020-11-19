@@ -1,8 +1,8 @@
 from parsons.sftp.sftp import SFTP
 from parsons.etl.table import Table
 from parsons.utilities.files import create_temp_file
+from parsons.utilities import check_env
 import xml.etree.ElementTree as ET
-import os
 import uuid
 import time
 import logging
@@ -30,21 +30,11 @@ class TargetSmartAutomation(object):
         self.sftp_host = TS_STFP_HOST
         self.sftp_port = TS_SFTP_PORT
         self.sftp_dir = TS_SFTP_DIR
+        self.sftp_username = check_env.check('TS_SFTP_USERNAME', sftp_username)
+        self.sftp_password = check_env.check('TS_SFTP_PASSWORD', sftp_password)
+        self.sftp = SFTP(self.sftp_host, self.sftp_username, self.sftp_password, self.sftp_port)
 
-        try:
-            self.sftp_username = sftp_username or os.environ['TS_SFTP_USERNAME']
-            self.sftp_password = sftp_password or os.environ['TS_SFTP_PASSWORD']
-
-        except KeyError as error:
-            logger.error("Connection info missing. It must include as kwarg or "
-                         "env variable.")
-            raise error
-
-        self.sftp = SFTP(self.sftp_host, self.sftp_username, self.sftp_password,
-                         self.sftp_port)
-
-    def match(self, table, job_type, job_name=None, emails=None, call_back=None,
-              remove_files=True):
+    def match(self, table, job_type, job_name=None, emails=None, call_back=None, remove_files=True):
         """
         Match a table to TargetSmart using their bulk matching service.
 

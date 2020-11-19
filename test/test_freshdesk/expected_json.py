@@ -90,4 +90,3 @@ test_contact = [{
   'updated_at': '2020-01-27T16:44:34Z',
   'unique_external_id': None
 }]
-

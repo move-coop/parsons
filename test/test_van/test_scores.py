@@ -4,11 +4,12 @@ import requests_mock
 import unittest.mock as mock
 from parsons.ngpvan.van import VAN
 from parsons.etl.table import Table
-from test.utils import validate_list, assert_matching_tables
+from test.utils import validate_list
 from parsons.utilities import cloud_storage
 
 
 os.environ['VAN_API_KEY'] = 'SOME_KEY'
+
 
 class TestScores(unittest.TestCase):
 
@@ -57,40 +58,41 @@ class TestScores(unittest.TestCase):
     @requests_mock.Mocker()
     def test_get_score_updates(self, m):
 
-        json = {'items': [{
+        json = {
+            'items': [{
                 'scoreUpdateId': 58319,
                 'score': {
-                  'scoreId': 29817,
-                  'name': 'TargetSmart Gun Ownership',
-                  'shortName': None,
-                  'description': None,
-                  'minValue': 0.0,
-                  'maxValue': 100.0,
-                  'state': 'MT',
-                  'origin': None
+                    'scoreId': 29817,
+                    'name': 'TargetSmart Gun Ownership',
+                    'shortName': None,
+                    'description': None,
+                    'minValue': 0.0,
+                    'maxValue': 100.0,
+                    'state': 'MT',
+                    'origin': None
                 },
                 'updateStatistics': {
-                  'totalRows': 856644,
-                  'duplicateRows': 0,
-                  'matchedRows': 856644,
-                  'matchPercent': 100.0,
-                  'increasedBy': 441264,
-                  'decreasedBy': 280588,
-                  'nulledOut': 3649,
-                  'added': 115129,
-                  'outOfRange': 0,
-                  'badValues': 0,
-                  'maxValue': 95.9,
-                  'minValue': 11.2,
-                  'averageValue': 72.3338,
-                  'medianValue': 76.3
+                    'totalRows': 856644,
+                    'duplicateRows': 0,
+                    'matchedRows': 856644,
+                    'matchPercent': 100.0,
+                    'increasedBy': 441264,
+                    'decreasedBy': 280588,
+                    'nulledOut': 3649,
+                    'added': 115129,
+                    'outOfRange': 0,
+                    'badValues': 0,
+                    'maxValue': 95.9,
+                    'minValue': 11.2,
+                    'averageValue': 72.3338,
+                    'medianValue': 76.3
                 },
                 'loadStatus': 'Completed',
                 'dateProcessed': '2019-09-10T02:07:00Z'
-              }],
-              'nextPageLink': None,
-              'count': 306
-            }
+            }],
+            'nextPageLink': None,
+            'count': 306
+        }
 
         m.get(self.van.connection.uri + 'scoreUpdates', json=json)
 
@@ -141,7 +143,7 @@ class TestScores(unittest.TestCase):
 
         m.get(self.van.connection.uri + f'scoreUpdates/{score_update_id}', json=json)
 
-        expected = ['loadStatus', 'updateStatistics', 'score', 'dateProcessed', 'scoreUpdateId']
+        # expected = ['loadStatus', 'updateStatistics', 'score', 'dateProcessed', 'scoreUpdateId']
 
         self.assertEqual(json, self.van.get_score_update(score_update_id))
 
@@ -170,14 +172,14 @@ class TestScores(unittest.TestCase):
         tbl = Table([['vanid', 'col'], ['1', '.5']])
         json = {'jobId': 9749}
         m.post(self.van.connection.uri + 'FileLoadingJobs', json=json, status_code=201)
-        job_id = self.van.upload_scores(tbl, [{'score_id': 9999, 'score_column': 'col'}], url_type='S3')
+        self.van.upload_scores(tbl, [{'score_id': 9999, 'score_column': 'col'}], url_type='S3')
 
     @requests_mock.Mocker()
     def test_create_file_load(self, m):
 
         file_name = 'test_scores.csv'
         file_url_good = 'http://tmc.org/test_scores.zip'
-        file_url_bad = 'http://tmc.org/test_scores'
+        # file_url_bad = 'http://tmc.org/test_scores'
         columns = ['vanid', 'score']
         id_column = 'vanid'
         id_type = 'VANID'

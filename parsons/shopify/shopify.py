@@ -1,9 +1,9 @@
 from datetime import datetime, timedelta
 import re
-import requests
 
 from parsons.etl.table import Table
 from parsons.utilities import check_env
+from parsons.utilities.api_connector import APIConnector
 
 class Shopify(object):
     """
@@ -30,6 +30,10 @@ class Shopify(object):
         self.password = check_env.check('SHOPIFY_PASSWORD', password)
         self.api_key = check_env.check('SHOPIFY_API_KEY', api_key)
         self.api_version = check_env.check('SHOPIFY_API_VERSION', api_version)
+        self.client = APIConnector('https://%s.myshopify.com/admin/api/%s/' % (
+            self.subdomain,
+            self.api_version
+        ), auth=(self.api_key, self.password))
 
     def get_count(self, query_date=None, since_id=None, table_name=None):
         """
@@ -46,7 +50,7 @@ class Shopify(object):
         `Returns:`
             int
         """
-        return requests.get(self.get_query_url(query_date, since_id, table_name), auth=(self.api_key, self.password)).json().get("count", 0)
+        return self.client.request(self.get_query_url(query_date, since_id, table_name), 'GET').json().get("count", 0)
 
     def get_orders(self, query_date=None, since_id=None, completed=True):
         """
@@ -71,7 +75,7 @@ class Shopify(object):
             if completed:
                 url += '&financial_status=paid'
 
-            res = requests.get(url, auth=(self.api_key, self.password))
+            res = self.client.request(url, 'GET')
 
             cur_orders = res.json().get("orders", [])
 
@@ -106,14 +110,8 @@ class Shopify(object):
                 res = _append_orders(link[len(link) - 2][1:-1])
             else:
                 break
-
-        tbl = Table(orders)
-
-        # Fill null vals
-        for col in tbl.columns:
-            tbl.fillna_column(col, '')
         
-        return tbl
+        return Table(orders)
 
     def get_query_url(self, query_date=None, since_id=None, table_name=None, count=True):
         """
@@ -156,10 +154,10 @@ class Shopify(object):
         )
     
     @classmethod
-    def load_to_table(cls, **kwargs):
+    def load_to_table(cls, subdomain=None, password=None, api_key=None, api_version=None, query_date=None, since_id=None, completed=True):
         """
         Fast classmethod so you can get the data all at once:
-        tabledata = Redash.load_to_table(subdomain='myorg', password='abc123',
+        tabledata = Shopify.load_to_table(subdomain='myorg', password='abc123',
                                          api_key='abc123', api_version='2020-10',
                                          query_date='2020-10-20', since_id='8414',
                                          completed=True)
@@ -186,7 +184,4 @@ class Shopify(object):
         `Returns:`
             Table Class
         """
-        initargs = {a: kwargs.get(a) for a in ('subdomain', 'password', 'api_key', 'api_version') if a in kwargs}
-        obj = cls(**initargs)
-        
-        return obj.get_orders(kwargs.get('query_date'), kwargs.get('since_id'), kwargs.get('completed'))
+        return cls(subdomain, password, api_key, api_version).get_orders(query_date, since_id, completed)

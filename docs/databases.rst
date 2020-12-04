@@ -87,11 +87,11 @@ Quick Start
 .. code-block:: python
 
    # Query database
-   tbl = postgres.query('select * from my_schema.secret_sauce')
+   tbl = pg.query('select * from my_schema.secret_sauce')
 
    # Copy data to database
    tbl = Table.from_csv('my_file.csv') # Load from a CSV or other source.
-   postgres.copy(tbl, 'my_schema.winning_formula')
+   pg.copy(tbl, 'my_schema.winning_formula')
 
 .. autoclass:: parsons.Postgres
    :inherited-members:

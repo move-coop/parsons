@@ -110,3 +110,49 @@ class TestZoom(unittest.TestCase):
 
         m.get(ZOOM_URI + 'report/meetings/123/participants', json=participants)
         assert_matching_tables(self.zoom.get_past_meeting_participants(123), tbl)
+
+    @requests_mock.Mocker()
+    def test_get_meeting_registrants(self, m):
+
+        registrants = {
+            'page_count': 1,
+            'page_size': 30,
+            'total_records': 4,
+            'next_page_token': '',
+            'registrants': [{
+                'id': '',
+                'user_id': '16778240',
+                'name': 'Barack Obama',
+                'user_email': '',
+                'purchasing_time_frame': 'Within a month',
+                'role_in_purchase_process': 'Not involved'
+            }, {
+                'id': '',
+                'user_id': '16779264',
+                'name': '',
+                'user_email': '',
+                'purchasing_time_frame': 'Within a month',
+                'role_in_purchase_process': 'Not involved'
+            }]}
+
+        tbl = Table([
+            {
+                'id': '',
+                'user_id': '16778240',
+                'name': 'Barack Obama',
+                'user_email': '',
+                'purchasing_time_frame': 'Within a month',
+                'role_in_purchase_process': 'Not involved'
+            },
+            {
+                'id': '',
+                'user_id': '16779264',
+                'name': '',
+                'user_email': '',
+                'purchasing_time_frame': 'Within a month',
+                'role_in_purchase_process': 'Not involved'
+            }
+        ])
+
+        m.get(ZOOM_URI + 'meetings/123/registrants', json=registrants)
+        assert_matching_tables(self.zoom.get_meeting_registrants(123), tbl)

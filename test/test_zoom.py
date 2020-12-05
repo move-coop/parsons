@@ -265,3 +265,128 @@ class TestZoom(unittest.TestCase):
 
         m.get(ZOOM_URI + 'report/webinars/123/participants', json=participants)
         assert_matching_tables(self.zoom.get_past_webinar_participants(123), tbl)
+
+    @requests_mock.Mocker()
+    def test_get_webinar_registrants(self, m):
+        registrants = {
+            'page_count': 1,
+            'page_size': 30,
+            'total_records': 4,
+            'next_page_token': '',
+            'registrants': [{
+                "id": "",
+                "email": "barack@obama.com",
+                "first_name": "Barack",
+                "last_name": "Obama",
+                "address": "dsfhkdjsfh st",
+                "city": "jackson heights",
+                "country": "US",
+                "zip": "11371",
+                "state": "NY",
+                "phone": "00000000",
+                "industry": "Food",
+                "org": "Cooking Org",
+                "job_title": "Chef",
+                "purchasing_time_frame": "1-3 months",
+                "role_in_purchase_process": "Influencer",
+                "no_of_employees": "10",
+                "comments": "Looking forward to the Webinar",
+                "custom_questions": [
+                    {
+                      "title": "What do you hope to learn from this Webinar?",
+                      "value": "Look forward to learning how you come up with recipes and what services you offer."
+                    }
+                ],
+                "status": "approved",
+                "create_time": "2019-02-26T23:01:16.899Z",
+                "join_url": "https://zoom.us/webinar/mywebinariscool"
+            }, {
+                "id": "",
+                "email": "joe@biden.com",
+                "first_name": "Joe",
+                "last_name": "Biden",
+                "address": "dsfhkdjsfh st",
+                "city": "jackson heights",
+                "country": "US",
+                "zip": "11371",
+                "state": "NY",
+                "phone": "00000000",
+                "industry": "Food",
+                "org": "Cooking Org",
+                "job_title": "Chef",
+                "purchasing_time_frame": "1-3 months",
+                "role_in_purchase_process": "Influencer",
+                "no_of_employees": "10",
+                "comments": "Looking forward to the Webinar",
+                "custom_questions": [
+                    {
+                      "title": "What do you hope to learn from this Webinar?",
+                      "value": "Look forward to learning how you come up with recipes and what services you offer."
+                    }
+                ],
+                "status": "approved",
+                "create_time": "2019-02-26T23:01:16.899Z",
+                "join_url": "https://zoom.us/webinar/mywebinariscool"
+            }]}
+
+        tbl = Table([
+            {
+                "id": "",
+                "email": "barack@obama.com",
+                "first_name": "Barack",
+                "last_name": "Obama",
+                "address": "dsfhkdjsfh st",
+                "city": "jackson heights",
+                "country": "US",
+                "zip": "11371",
+                "state": "NY",
+                "phone": "00000000",
+                "industry": "Food",
+                "org": "Cooking Org",
+                "job_title": "Chef",
+                "purchasing_time_frame": "1-3 months",
+                "role_in_purchase_process": "Influencer",
+                "no_of_employees": "10",
+                "comments": "Looking forward to the Webinar",
+                "custom_questions": [
+                    {
+                      "title": "What do you hope to learn from this Webinar?",
+                      "value": "Look forward to learning how you come up with recipes and what services you offer."
+                    }
+                ],
+                "status": "approved",
+                "create_time": "2019-02-26T23:01:16.899Z",
+                "join_url": "https://zoom.us/webinar/mywebinariscool"
+            },
+            {
+                "id": "",
+                "email": "joe@biden.com",
+                "first_name": "Joe",
+                "last_name": "Biden",
+                "address": "dsfhkdjsfh st",
+                "city": "jackson heights",
+                "country": "US",
+                "zip": "11371",
+                "state": "NY",
+                "phone": "00000000",
+                "industry": "Food",
+                "org": "Cooking Org",
+                "job_title": "Chef",
+                "purchasing_time_frame": "1-3 months",
+                "role_in_purchase_process": "Influencer",
+                "no_of_employees": "10",
+                "comments": "Looking forward to the Webinar",
+                "custom_questions": [
+                    {
+                      "title": "What do you hope to learn from this Webinar?",
+                      "value": "Look forward to learning how you come up with recipes and what services you offer."
+                    }
+                ],
+                "status": "approved",
+                "create_time": "2019-02-26T23:01:16.899Z",
+                "join_url": "https://zoom.us/webinar/mywebinariscool"
+            }
+        ])
+
+        m.get(ZOOM_URI + 'report/webinars/123/registrants', json=registrants)
+        assert_matching_tables(self.zoom.get_webinar_registrants(123), tbl)

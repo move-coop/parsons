@@ -216,3 +216,52 @@ class TestZoom(unittest.TestCase):
 
         m.get(ZOOM_URI + 'users/123/webinars', json=webinars)
         assert_matching_tables(self.zoom.get_user_webinars(123), tbl)
+
+    @requests_mock.Mocker()
+    def test_get_past_webinar_participants(self, m):
+        participants = {
+            'page_count': 1,
+            'page_size': 30,
+            'total_records': 4,
+            'next_page_token': '',
+            'participants': [{
+                "id": "",
+                "user_id": "sdfjkldsf87987",
+                "name": "Barack",
+                "user_email": "riya@sdfjkldsf87987.fdjfhdf",
+                "join_time": "2019-02-01T12:34:12.660Z",
+                "leave_time": "2019-03-01T12:34:12.660Z",
+                "duration": "20"
+            }, {
+                "id": "",
+                "user_id": "sdfjkldsfdfgdfg",
+                "name": "Joe",
+                "user_email": "riya@sdfjkldsf87987.fdjfhdf",
+                "join_time": "2019-02-01T12:34:12.660Z",
+                "leave_time": "2019-03-01T12:34:12.660Z",
+                "duration": "20"
+            }]}
+
+        tbl = Table([
+            {
+                "id": "",
+                "user_id": "sdfjkldsf87987",
+                "name": "Barack",
+                "user_email": "riya@sdfjkldsf87987.fdjfhdf",
+                "join_time": "2019-02-01T12:34:12.660Z",
+                "leave_time": "2019-03-01T12:34:12.660Z",
+                "duration": "20"
+            },
+            {
+                "id": "",
+                "user_id": "sdfjkldsfdfgdfg",
+                "name": "Joe",
+                "user_email": "riya@sdfjkldsf87987.fdjfhdf",
+                "join_time": "2019-02-01T12:34:12.660Z",
+                "leave_time": "2019-03-01T12:34:12.660Z",
+                "duration": "20"
+            }
+        ])
+
+        m.get(ZOOM_URI + 'report/webinars/123/participants', json=participants)
+        assert_matching_tables(self.zoom.get_past_webinar_participants(123), tbl)

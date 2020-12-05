@@ -185,3 +185,19 @@ class Zoom:
         tbl = self._get_request(f'users/{user_id}/webinars', 'webinars')
         logger.info(f'Retrieved {tbl.num_rows} webinars.')
         return tbl
+
+    def get_past_webinar_participants(self, webinar_id):
+        """
+        Get past meeting participants
+
+        `Args:`
+            webinar_id: str
+                The webinar id
+        `Returns:`
+            Parsons Table
+                See :ref:`parsons-table` for output options.
+        """
+
+        tbl = self._get_request(f'report/webinars/{webinar_id}/participants', 'participants')
+        logger.info(f'Retrieved {tbl.num_rows} webinar participants.')
+        return tbl

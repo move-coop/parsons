@@ -37,7 +37,8 @@ class Airtable(object):
 
         return self.client.get(record_id)
 
-    def get_records(self, fields=None, max_records=None, view=None, formula=None, sort=None, sample_size=None):
+    def get_records(self, fields=None, max_records=None, view=None,
+                    formula=None, sort=None, sample_size=None):
         """
         `Args:`
             fields: str or lst

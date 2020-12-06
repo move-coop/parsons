@@ -237,7 +237,7 @@ class ETL(object):
             `Parsons Table` and also updates self
 
         .. code-block:: python
-        
+
             tbl = [{'fn': 'Jane'},
                    {'lastname': 'Doe'},
                    {'dob': '1980-01-01'}]

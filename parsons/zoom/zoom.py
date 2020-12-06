@@ -217,4 +217,3 @@ class Zoom:
         tbl = self._get_request(f'report/webinars/{webinar_id}/registrants', 'registrants')
         logger.info(f'Retrieved {tbl.num_rows} webinar registrants.')
         return tbl
-

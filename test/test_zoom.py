@@ -294,7 +294,7 @@ class TestZoom(unittest.TestCase):
                 "custom_questions": [
                     {
                       "title": "What do you hope to learn from this Webinar?",
-                      "value": "Look forward to learning how you come up with recipes and what services you offer."
+                      "value": "Look forward to learning how you come up with recipes and services"
                     }
                 ],
                 "status": "approved",
@@ -321,7 +321,7 @@ class TestZoom(unittest.TestCase):
                 "custom_questions": [
                     {
                       "title": "What do you hope to learn from this Webinar?",
-                      "value": "Look forward to learning how you come up with recipes and what services you offer."
+                      "value": "Look forward to learning how you come up with recipes and services"
                     }
                 ],
                 "status": "approved",
@@ -351,7 +351,7 @@ class TestZoom(unittest.TestCase):
                 "custom_questions": [
                     {
                       "title": "What do you hope to learn from this Webinar?",
-                      "value": "Look forward to learning how you come up with recipes and what services you offer."
+                      "value": "Look forward to learning how you come up with recipes and services"
                     }
                 ],
                 "status": "approved",
@@ -379,7 +379,7 @@ class TestZoom(unittest.TestCase):
                 "custom_questions": [
                     {
                       "title": "What do you hope to learn from this Webinar?",
-                      "value": "Look forward to learning how you come up with recipes and what services you offer."
+                      "value": "Look forward to learning how you come up with recipes and services"
                     }
                 ],
                 "status": "approved",

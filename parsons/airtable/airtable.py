@@ -97,7 +97,13 @@ class Airtable(object):
         if 'fields' not in tbl.columns:
             return Table([[]])
 
-        unpack_dicts_kwargs = {'column': 'fields', 'prepend': False}
+        unpack_dicts_kwargs = {
+            'column': 'fields',
+            'prepend': False,
+        }
+        if fields:
+            unpack_dicts_kwargs['keys'] = fields
+
         if sample_size:
             unpack_dicts_kwargs['sample_size'] = sample_size
 

@@ -356,7 +356,7 @@ class ETL(object):
         return self
 
     def unpack_dict(self, column, keys=None, include_original=False,
-                    sample_size=1000, missing=None, prepend=True,
+                    sample_size=5000, missing=None, prepend=True,
                     prepend_value=None):
         """
         Unpack dictionary values from one column into separate columns

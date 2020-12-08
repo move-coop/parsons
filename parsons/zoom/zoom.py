@@ -140,7 +140,7 @@ class Zoom:
 
     def get_past_meeting_participants(self, meeting_id):
         """
-        Get past meeting participants
+        Get past meeting participants.
 
         `Args:`
             meeting_id: str
@@ -152,4 +152,68 @@ class Zoom:
 
         tbl = self._get_request(f'report/meetings/{meeting_id}/participants', 'participants')
         logger.info(f'Retrieved {tbl.num_rows} participants.')
+        return tbl
+
+    def get_meeting_registrants(self, meeting_id):
+        """
+        Get meeting registrants.
+
+        `Args:`
+            meeting_id: str
+                The meeting id
+        `Returns:`
+            Parsons Table
+                See :ref:`parsons-table` for output options.
+        """
+
+        tbl = self._get_request(f'meetings/{meeting_id}/registrants', 'registrants')
+        logger.info(f'Retrieved {tbl.num_rows} registrants.')
+        return tbl
+
+    def get_user_webinars(self, user_id):
+        """
+        Get meeting registrants.
+
+        `Args:`
+            user_id: str
+                The user id
+        `Returns:`
+            Parsons Table
+                See :ref:`parsons-table` for output options.
+        """
+
+        tbl = self._get_request(f'users/{user_id}/webinars', 'webinars')
+        logger.info(f'Retrieved {tbl.num_rows} webinars.')
+        return tbl
+
+    def get_past_webinar_participants(self, webinar_id):
+        """
+        Get past meeting participants
+
+        `Args:`
+            webinar_id: str
+                The webinar id
+        `Returns:`
+            Parsons Table
+                See :ref:`parsons-table` for output options.
+        """
+
+        tbl = self._get_request(f'report/webinars/{webinar_id}/participants', 'participants')
+        logger.info(f'Retrieved {tbl.num_rows} webinar participants.')
+        return tbl
+
+    def get_webinar_registrants(self, webinar_id):
+        """
+        Get past meeting participants
+
+        `Args:`
+            webinar_id: str
+                The webinar id
+        `Returns:`
+            Parsons Table
+                See :ref:`parsons-table` for output options.
+        """
+
+        tbl = self._get_request(f'report/webinars/{webinar_id}/registrants', 'registrants')
+        logger.info(f'Retrieved {tbl.num_rows} webinar registrants.')
         return tbl

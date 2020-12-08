@@ -37,7 +37,8 @@ class Airtable(object):
 
         return self.client.get(record_id)
 
-    def get_records(self, fields=None, max_records=None, view=None, formula=None, sort=None):
+    def get_records(self, fields=None, max_records=None, view=None,
+                    formula=None, sort=None, sample_size=None):
         """
         `Args:`
             fields: str or lst
@@ -78,6 +79,9 @@ class Airtable(object):
                 Example usage:
                 ``airtable.get_records(sort=['ColumnA', '-ColumnB'])``
 
+            sample_size: int
+                Number of rows to sample before determining columns
+
         `Returns:`
             Parsons Table
                 See :ref:`parsons-table` for output options.
@@ -94,7 +98,17 @@ class Airtable(object):
         if 'fields' not in tbl.columns:
             return Table([[]])
 
-        return tbl.unpack_dict(column='fields', prepend=False)
+        unpack_dicts_kwargs = {
+            'column': 'fields',
+            'prepend': False,
+        }
+        if fields:
+            unpack_dicts_kwargs['keys'] = fields
+
+        if sample_size:
+            unpack_dicts_kwargs['sample_size'] = sample_size
+
+        return tbl.unpack_dict(**unpack_dicts_kwargs)
 
     def insert_record(self, row):
         """

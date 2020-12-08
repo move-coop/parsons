@@ -332,7 +332,7 @@
 
 <div class="viewcode-block" id="Zoom.get_past_meeting_participants"><a class="viewcode-back" href="../../../zoom.html#parsons.Zoom.get_past_meeting_participants">[docs]</a>    <span class="k">def</span> <span class="nf">get_past_meeting_participants</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">meeting_id</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Get past meeting participants</span>
+<span class="sd">        Get past meeting participants.</span>
 
 <span class="sd">        `Args:`</span>
 <span class="sd">            meeting_id: str</span>
@@ -344,6 +344,70 @@
 
         <span class="n">tbl</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_request</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;report/meetings/</span><span class="si">{</span><span class="n">meeting_id</span><span class="si">}</span><span class="s1">/participants&#39;</span><span class="p">,</span> <span class="s1">&#39;participants&#39;</span><span class="p">)</span>
         <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Retrieved </span><span class="si">{</span><span class="n">tbl</span><span class="o">.</span><span class="n">num_rows</span><span class="si">}</span><span class="s1"> participants.&#39;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">tbl</span></div>
+
+<div class="viewcode-block" id="Zoom.get_meeting_registrants"><a class="viewcode-back" href="../../../zoom.html#parsons.Zoom.get_meeting_registrants">[docs]</a>    <span class="k">def</span> <span class="nf">get_meeting_registrants</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">meeting_id</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Get meeting registrants.</span>
+
+<span class="sd">        `Args:`</span>
+<span class="sd">            meeting_id: str</span>
+<span class="sd">                The meeting id</span>
+<span class="sd">        `Returns:`</span>
+<span class="sd">            Parsons Table</span>
+<span class="sd">                See :ref:`parsons-table` for output options.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">tbl</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_request</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;meetings/</span><span class="si">{</span><span class="n">meeting_id</span><span class="si">}</span><span class="s1">/registrants&#39;</span><span class="p">,</span> <span class="s1">&#39;registrants&#39;</span><span class="p">)</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Retrieved </span><span class="si">{</span><span class="n">tbl</span><span class="o">.</span><span class="n">num_rows</span><span class="si">}</span><span class="s1"> registrants.&#39;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">tbl</span></div>
+
+<div class="viewcode-block" id="Zoom.get_user_webinars"><a class="viewcode-back" href="../../../zoom.html#parsons.Zoom.get_user_webinars">[docs]</a>    <span class="k">def</span> <span class="nf">get_user_webinars</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">user_id</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Get meeting registrants.</span>
+
+<span class="sd">        `Args:`</span>
+<span class="sd">            user_id: str</span>
+<span class="sd">                The user id</span>
+<span class="sd">        `Returns:`</span>
+<span class="sd">            Parsons Table</span>
+<span class="sd">                See :ref:`parsons-table` for output options.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">tbl</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_request</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;users/</span><span class="si">{</span><span class="n">user_id</span><span class="si">}</span><span class="s1">/webinars&#39;</span><span class="p">,</span> <span class="s1">&#39;webinars&#39;</span><span class="p">)</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Retrieved </span><span class="si">{</span><span class="n">tbl</span><span class="o">.</span><span class="n">num_rows</span><span class="si">}</span><span class="s1"> webinars.&#39;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">tbl</span></div>
+
+<div class="viewcode-block" id="Zoom.get_past_webinar_participants"><a class="viewcode-back" href="../../../zoom.html#parsons.Zoom.get_past_webinar_participants">[docs]</a>    <span class="k">def</span> <span class="nf">get_past_webinar_participants</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">webinar_id</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Get past meeting participants</span>
+
+<span class="sd">        `Args:`</span>
+<span class="sd">            webinar_id: str</span>
+<span class="sd">                The webinar id</span>
+<span class="sd">        `Returns:`</span>
+<span class="sd">            Parsons Table</span>
+<span class="sd">                See :ref:`parsons-table` for output options.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">tbl</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_request</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;report/webinars/</span><span class="si">{</span><span class="n">webinar_id</span><span class="si">}</span><span class="s1">/participants&#39;</span><span class="p">,</span> <span class="s1">&#39;participants&#39;</span><span class="p">)</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Retrieved </span><span class="si">{</span><span class="n">tbl</span><span class="o">.</span><span class="n">num_rows</span><span class="si">}</span><span class="s1"> webinar participants.&#39;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">tbl</span></div>
+
+<div class="viewcode-block" id="Zoom.get_webinar_registrants"><a class="viewcode-back" href="../../../zoom.html#parsons.Zoom.get_webinar_registrants">[docs]</a>    <span class="k">def</span> <span class="nf">get_webinar_registrants</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">webinar_id</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Get past meeting participants</span>
+
+<span class="sd">        `Args:`</span>
+<span class="sd">            webinar_id: str</span>
+<span class="sd">                The webinar id</span>
+<span class="sd">        `Returns:`</span>
+<span class="sd">            Parsons Table</span>
+<span class="sd">                See :ref:`parsons-table` for output options.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">tbl</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_request</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;report/webinars/</span><span class="si">{</span><span class="n">webinar_id</span><span class="si">}</span><span class="s1">/registrants&#39;</span><span class="p">,</span> <span class="s1">&#39;registrants&#39;</span><span class="p">)</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Retrieved </span><span class="si">{</span><span class="n">tbl</span><span class="o">.</span><span class="n">num_rows</span><span class="si">}</span><span class="s1"> webinar registrants.&#39;</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">tbl</span></div></div>
 </pre></div>
 

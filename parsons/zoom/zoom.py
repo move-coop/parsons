@@ -140,7 +140,7 @@ class Zoom:
 
     def get_past_meeting_participants(self, meeting_id):
         """
-        Get past meeting participants
+        Get past meeting participants.
 
         `Args:`
             meeting_id: str
@@ -156,7 +156,7 @@ class Zoom:
 
     def get_meeting_registrants(self, meeting_id):
         """
-        Get meeting registrants
+        Get meeting registrants.
 
         `Args:`
             meeting_id: str
@@ -172,7 +172,7 @@ class Zoom:
 
     def get_user_webinars(self, user_id):
         """
-        Get meeting registrants
+        Get meeting registrants.
 
         `Args:`
             user_id: str

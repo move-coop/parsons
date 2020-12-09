@@ -229,7 +229,8 @@
 
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">record_id</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="Airtable.get_records"><a class="viewcode-back" href="../../../airtable.html#parsons.Airtable.get_records">[docs]</a>    <span class="k">def</span> <span class="nf">get_records</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fields</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">max_records</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">view</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">formula</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">sort</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<div class="viewcode-block" id="Airtable.get_records"><a class="viewcode-back" href="../../../airtable.html#parsons.Airtable.get_records">[docs]</a>    <span class="k">def</span> <span class="nf">get_records</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fields</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">max_records</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">view</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                    <span class="n">formula</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">sort</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">sample_size</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        `Args:`</span>
 <span class="sd">            fields: str or lst</span>
@@ -270,6 +271,9 @@
 <span class="sd">                Example usage:</span>
 <span class="sd">                ``airtable.get_records(sort=[&#39;ColumnA&#39;, &#39;-ColumnB&#39;])``</span>
 
+<span class="sd">            sample_size: int</span>
+<span class="sd">                Number of rows to sample before determining columns</span>
+
 <span class="sd">        `Returns:`</span>
 <span class="sd">            Parsons Table</span>
 <span class="sd">                See :ref:`parsons-table` for output options.</span>
@@ -286,7 +290,17 @@
         <span class="k">if</span> <span class="s1">&#39;fields&#39;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">tbl</span><span class="o">.</span><span class="n">columns</span><span class="p">:</span>
             <span class="k">return</span> <span class="n">Table</span><span class="p">([[]])</span>
 
-        <span class="k">return</span> <span class="n">tbl</span><span class="o">.</span><span class="n">unpack_dict</span><span class="p">(</span><span class="n">column</span><span class="o">=</span><span class="s1">&#39;fields&#39;</span><span class="p">,</span> <span class="n">prepend</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span></div>
+        <span class="n">unpack_dicts_kwargs</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s1">&#39;column&#39;</span><span class="p">:</span> <span class="s1">&#39;fields&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;prepend&#39;</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span>
+        <span class="p">}</span>
+        <span class="k">if</span> <span class="n">fields</span><span class="p">:</span>
+            <span class="n">unpack_dicts_kwargs</span><span class="p">[</span><span class="s1">&#39;keys&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">fields</span>
+
+        <span class="k">if</span> <span class="n">sample_size</span><span class="p">:</span>
+            <span class="n">unpack_dicts_kwargs</span><span class="p">[</span><span class="s1">&#39;sample_size&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">sample_size</span>
+
+        <span class="k">return</span> <span class="n">tbl</span><span class="o">.</span><span class="n">unpack_dict</span><span class="p">(</span><span class="o">**</span><span class="n">unpack_dicts_kwargs</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="Airtable.insert_record"><a class="viewcode-back" href="../../../airtable.html#parsons.Airtable.insert_record">[docs]</a>    <span class="k">def</span> <span class="nf">insert_record</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">row</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>

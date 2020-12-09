@@ -283,7 +283,7 @@ in Excel or GoogleDocs.</dd>
 
 <dl class="method">
 <dt id="parsons.Airtable.get_records">
-<code class="descname">get_records</code><span class="sig-paren">(</span><em>fields=None</em>, <em>max_records=None</em>, <em>view=None</em>, <em>formula=None</em>, <em>sort=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/airtable/airtable.html#Airtable.get_records"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.Airtable.get_records" title="Permalink to this definition">¶</a></dt>
+<code class="descname">get_records</code><span class="sig-paren">(</span><em>fields=None</em>, <em>max_records=None</em>, <em>view=None</em>, <em>formula=None</em>, <em>sort=None</em>, <em>sample_size=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/airtable/airtable.html#Airtable.get_records"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.Airtable.get_records" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="docutils">
 <dt><cite>Args:</cite></dt>
 <dd><dl class="first last docutils">
@@ -318,6 +318,8 @@ sign -.</p>
 <p class="last">Example usage:
 <code class="docutils literal notranslate"><span class="pre">airtable.get_records(sort=['ColumnA',</span> <span class="pre">'-ColumnB'])</span></code></p>
 </dd>
+<dt>sample_size: int</dt>
+<dd>Number of rows to sample before determining columns</dd>
 </dl>
 </dd>
 <dt><cite>Returns:</cite></dt>

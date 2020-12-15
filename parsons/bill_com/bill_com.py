@@ -121,11 +121,7 @@ class BillCom(object):
         r_table = Table(response)
         max_ct = data['max']
 
-        # Flag to simulate do-while
-        first_run = True
-
-        while first_run or len(response) == max_ct:
-            first_run = False
+        while len(response) == max_ct:
             data['start'] += max_ct
             response = self._post_request(data, "List", object_name)[field]
             r_table.concat(Table(response))

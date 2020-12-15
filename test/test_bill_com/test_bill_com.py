@@ -182,7 +182,7 @@ class TestBillCom(unittest.TestCase):
             {"dict": 2, "col": "C"},
             {"dict": 3, "col": "D"},
             {"dict": 4, "col": "E"}
-                ]
+        ]
 
         params = request.text.split('&')
         data_param = unquote([x for x in params if 'data=' in x][0])
@@ -192,7 +192,7 @@ class TestBillCom(unittest.TestCase):
         max_ct = data_json['max']
         end = start + max_ct
 
-        return {"response_data": remainder[start: end]}
+        return {"response_data": remainder}
 
     @requests_mock.Mocker()
     def test_paginate_list(self, m):
@@ -206,7 +206,7 @@ class TestBillCom(unittest.TestCase):
             {"dict": 2, "col": "C"},
             {"dict": 3, "col": "D"},
             {"dict": 4, "col": "E"}
-                ]
+        ]
 
         r_table = Table()
         r_table.concat(Table(r))

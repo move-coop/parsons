@@ -1,7 +1,6 @@
 import unittest
 import requests_mock
 import json
-from urllib.parse import unquote
 from parsons import Table, BillCom
 from test.utils import assert_matching_tables
 
@@ -183,14 +182,6 @@ class TestBillCom(unittest.TestCase):
             {"dict": 3, "col": "D"},
             {"dict": 4, "col": "E"}
         ]
-
-        params = request.text.split('&')
-        data_param = unquote([x for x in params if 'data=' in x][0])
-        data_json = json.loads(data_param.replace('+', '').split('=')[1])
-
-        start = data_json['start']
-        max_ct = data_json['max']
-        end = start + max_ct
 
         return {"response_data": remainder}
 

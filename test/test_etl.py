@@ -577,22 +577,22 @@ class TestParsonsTable(unittest.TestCase):
         self.assertEqual(tbl.row_data(1), row)
 
     def test_stack(self):
-        tbl1 = self.tbl
+        tbl1 = self.tbl.select_rows(lambda x: x)
         tbl2 = Table([{'first': 'Mary', 'last': 'Nichols'}])
         # Different column names shouldn't matter for stack()
         tbl3 = Table([{'f': 'Lucy', 'l': 'Peterson'}])
         tbl1.stack(tbl2, tbl3)
 
-        expected_tbl = Table(petl.stack(tbl1.table, tbl2.table, tbl3.table))
+        expected_tbl = Table(petl.stack(self.tbl.table, tbl2.table, tbl3.table))
         assert_matching_tables(expected_tbl, tbl1)
 
     def test_concat(self):
-        tbl1 = self.tbl
+        tbl1 = self.tbl.select_rows(lambda x: x)
         tbl2 = Table([{'first': 'Mary', 'last': 'Nichols'}])
         tbl3 = Table([{'first': 'Lucy', 'last': 'Peterson'}])
         tbl1.concat(tbl2, tbl3)
 
-        expected_tbl = Table(petl.cat(tbl1.table, tbl2.table, tbl3.table))
+        expected_tbl = Table(petl.cat(self.tbl.table, tbl2.table, tbl3.table))
         assert_matching_tables(expected_tbl, tbl1)
 
     def test_chunk(self):

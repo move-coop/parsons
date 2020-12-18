@@ -5,6 +5,7 @@ from parsons.etl.table import Table
 from parsons.utilities import check_env
 from parsons.utilities.api_connector import APIConnector
 
+
 class Shopify(object):
     """
     Instantiate the Shopify class
@@ -50,7 +51,8 @@ class Shopify(object):
         `Returns:`
             int
         """
-        return self.client.request(self.get_query_url(query_date, since_id, table_name), 'GET').json().get("count", 0)
+        return self.client.request(self.get_query_url(query_date, since_id, table_name),
+                                   'GET').json().get("count", 0)
 
     def get_orders(self, query_date=None, since_id=None, completed=True):
         """
@@ -110,7 +112,7 @@ class Shopify(object):
                 res = _append_orders(link[len(link) - 2][1:-1])
             else:
                 break
-        
+
         return Table(orders)
 
     def get_query_url(self, query_date=None, since_id=None, table_name=None, count=True):
@@ -141,7 +143,8 @@ class Shopify(object):
             # Specific date if provided
             query_date = datetime.strptime(query_date, "%Y-%m-%d")
             max_date = query_date + timedelta(days=1)
-            filters += '&created_at_min={}&created_at_max={}'.format(query_date.isoformat(), max_date.isoformat())
+            filters += '&created_at_min={}&created_at_max={}'.format(query_date.isoformat(),
+                                                                     max_date.isoformat())
         elif since_id:
             # Since ID if provided
             filters += '&since_id=%s' % since_id
@@ -152,9 +155,10 @@ class Shopify(object):
             table,
             filters
         )
-    
+
     @classmethod
-    def load_to_table(cls, subdomain=None, password=None, api_key=None, api_version=None, query_date=None, since_id=None, completed=True):
+    def load_to_table(cls, subdomain=None, password=None, api_key=None, api_version=None,
+                      query_date=None, since_id=None, completed=True):
         """
         Fast classmethod so you can get the data all at once:
         tabledata = Shopify.load_to_table(subdomain='myorg', password='abc123',
@@ -184,4 +188,5 @@ class Shopify(object):
         `Returns:`
             Table Class
         """
-        return cls(subdomain, password, api_key, api_version).get_orders(query_date, since_id, completed)
+        return cls(subdomain, password, api_key, api_version).get_orders(query_date, since_id,
+                                                                         completed)

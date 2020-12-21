@@ -289,7 +289,7 @@ to authenticate stfp connection</dd>
 </dl>
 </dd>
 <dt><cite>Returns:</cite></dt>
-<dd>list</dd>
+<dd>list of files and subdirectories in the provided directory</dd>
 </dl>
 </dd></dl>
 
@@ -346,6 +346,37 @@ when the script is done running.</dd>
 <dd><dl class="first last docutils">
 <dt>str</dt>
 <dd>The path of the local file</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="parsons.SFTP.get_files">
+<code class="descname">get_files</code><span class="sig-paren">(</span><em>files_to_download=None</em>, <em>remote=None</em>, <em>connection=None</em>, <em>pattern=None</em>, <em>local_paths=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/sftp/sftp.html#SFTP.get_files"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.SFTP.get_files" title="Permalink to this definition">¶</a></dt>
+<dd><p>Download a list of files, either by providing the list explicitly, providing directories
+that contain files to download, or both.</p>
+<dl class="docutils">
+<dt><cite>Args:</cite></dt>
+<dd><dl class="first last docutils">
+<dt>files_to_download: list</dt>
+<dd>A list of full remote paths (can be relative) to files to download</dd>
+<dt>remote: str or list</dt>
+<dd>A path to a remote directory or a list of paths</dd>
+<dt>connection: obj</dt>
+<dd>An SFTP connection object</dd>
+<dt>pattern: str</dt>
+<dd>A regex pattern with which to select file names. Defaults to None, in which case
+all files will be selected.</dd>
+<dt>local_paths: list</dt>
+<dd>A list of paths to which to save the selected files. Defaults to None. If it is not
+the same length as the files to be fetched, temporary files are used instead.</dd>
+</dl>
+</dd>
+<dt><cite>Returns:</cite></dt>
+<dd><dl class="first last docutils">
+<dt>list</dt>
+<dd>Local paths where the files are saved.</dd>
 </dl>
 </dd>
 </dl>
@@ -427,6 +458,92 @@ not downloaded locally.</p>
 <dd><dl class="first last docutils">
 <dt>int</dt>
 <dd>The file size in MB.</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="parsons.SFTP.list_subdirectories">
+<code class="descname">list_subdirectories</code><span class="sig-paren">(</span><em>remote_path</em>, <em>connection=None</em>, <em>pattern=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/sftp/sftp.html#SFTP.list_subdirectories"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.SFTP.list_subdirectories" title="Permalink to this definition">¶</a></dt>
+<dd><p>List the subdirectories of a directory on the remote server.</p>
+<dl class="docutils">
+<dt><cite>Args:</cite></dt>
+<dd><dl class="first last docutils">
+<dt>remote_path: str</dt>
+<dd>The remote directory whose subdirectories will be listed</dd>
+<dt>connection: obj</dt>
+<dd>An SFTP connection object</dd>
+<dt>pattern: str</dt>
+<dd>A regex pattern with which to select full directory paths. Defaults to None, in
+which case all subdirectories will be selected.</dd>
+</dl>
+</dd>
+<dt><cite>Returns:</cite></dt>
+<dd><dl class="first last docutils">
+<dt>list</dt>
+<dd>The subdirectories in <cite>remote_path</cite>.</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="parsons.SFTP.list_files">
+<code class="descname">list_files</code><span class="sig-paren">(</span><em>remote_path</em>, <em>connection=None</em>, <em>pattern=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/sftp/sftp.html#SFTP.list_files"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.SFTP.list_files" title="Permalink to this definition">¶</a></dt>
+<dd><p>List the files in a directory on the remote server.</p>
+<dl class="docutils">
+<dt><cite>Args:</cite></dt>
+<dd><dl class="first last docutils">
+<dt>remote_path: str</dt>
+<dd>The remote directory whose files will be listed</dd>
+<dt>connection: obj</dt>
+<dd>An SFTP connection object</dd>
+<dt>pattern: str</dt>
+<dd>A regex pattern with which to select file names. Defaults to None, in which case
+all files will be selected.</dd>
+</dl>
+</dd>
+<dt><cite>Returns:</cite></dt>
+<dd><dl class="first last docutils">
+<dt>list</dt>
+<dd>The files in <cite>remote_path</cite>.</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="parsons.SFTP.walk_tree">
+<code class="descname">walk_tree</code><span class="sig-paren">(</span><em>remote_path</em>, <em>connection=None</em>, <em>download=False</em>, <em>dir_pattern=None</em>, <em>file_pattern=None</em>, <em>max_depth=2</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/sftp/sftp.html#SFTP.walk_tree"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.SFTP.walk_tree" title="Permalink to this definition">¶</a></dt>
+<dd><p>Recursively walks a directory, fetching all subdirectories and files (as long as
+they match <cite>dir_pattern</cite> and <cite>file_pattern</cite>, respectively) and the maximum directory
+depth hasn’t been exceeded. Optionally downloads discovered files.</p>
+<dl class="docutils">
+<dt><cite>Args:</cite></dt>
+<dd><dl class="first last docutils">
+<dt>remote_path: str</dt>
+<dd>The top level directory to walk</dd>
+<dt>connection: obj</dt>
+<dd>An SFTP connection object</dd>
+<dt>download: bool</dt>
+<dd>Whether to download discovered files</dd>
+<dt>dir_pattern: str</dt>
+<dd>A regex pattern with which to select directories. Defaults to None, in which case
+all directories will be selected.</dd>
+<dt>file_pattern: str</dt>
+<dd>A regex pattern with which to select files. Defaults to None, in which case
+all files will be selected.</dd>
+<dt>max_depth: int</dt>
+<dd>A limit on how many directories deep to traverse.  The default, 2, will search the
+contents of <cite>remote_path</cite> and its subdirectories.</dd>
+</dl>
+</dd>
+<dt><cite>Returns:</cite></dt>
+<dd><dl class="first last docutils">
+<dt>tuple</dt>
+<dd>A list of directories touched and a list of files.  If the files were downloaded
+the file list will consist of local paths, if not, remote paths.</dd>
 </dl>
 </dd>
 </dl>

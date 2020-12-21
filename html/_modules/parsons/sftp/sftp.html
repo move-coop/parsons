@@ -191,10 +191,16 @@
             
   <h1>Source code for parsons.sftp.sftp</h1><div class="highlight"><pre>
 <span></span><span class="kn">from</span> <span class="nn">contextlib</span> <span class="kn">import</span> <span class="n">contextmanager</span>
+<span class="kn">from</span> <span class="nn">stat</span> <span class="kn">import</span> <span class="n">S_ISDIR</span><span class="p">,</span> <span class="n">S_ISREG</span>
+<span class="kn">import</span> <span class="nn">logging</span>
 <span class="kn">import</span> <span class="nn">paramiko</span>
+<span class="kn">import</span> <span class="nn">re</span>
 
-<span class="kn">from</span> <span class="nn">parsons.utilities</span> <span class="kn">import</span> <span class="n">files</span>
+<span class="kn">from</span> <span class="nn">parsons.utilities</span> <span class="kn">import</span> <span class="n">files</span> <span class="k">as</span> <span class="n">file_utilities</span>
 <span class="kn">from</span> <span class="nn">parsons.etl</span> <span class="kn">import</span> <span class="n">Table</span>
+<span class="kn">from</span> <span class="nn">parsons.sftp.utilities</span> <span class="kn">import</span> <span class="n">connect</span>
+
+<span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
 
 
 <div class="viewcode-block" id="SFTP"><a class="viewcode-back" href="../../../sftp.html#parsons.SFTP">[docs]</a><span class="k">class</span> <span class="nc">SFTP</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
@@ -264,7 +270,7 @@
 <span class="sd">            connection: obj</span>
 <span class="sd">                An SFTP connection object</span>
 <span class="sd">        `Returns:`</span>
-<span class="sd">            list</span>
+<span class="sd">            list of files and subdirectories in the provided directory</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
         <span class="k">if</span> <span class="n">connection</span><span class="p">:</span>
@@ -326,14 +332,75 @@
 <span class="sd">        &quot;&quot;&quot;</span>
 
         <span class="k">if</span> <span class="ow">not</span> <span class="n">local_path</span><span class="p">:</span>
-            <span class="n">local_path</span> <span class="o">=</span> <span class="n">files</span><span class="o">.</span><span class="n">create_temp_file_for_path</span><span class="p">(</span><span class="n">remote_path</span><span class="p">)</span>
+            <span class="n">local_path</span> <span class="o">=</span> <span class="n">file_utilities</span><span class="o">.</span><span class="n">create_temp_file_for_path</span><span class="p">(</span><span class="n">remote_path</span><span class="p">)</span>
 
         <span class="k">if</span> <span class="n">connection</span><span class="p">:</span>
             <span class="n">connection</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">remote_path</span><span class="p">,</span> <span class="n">local_path</span><span class="p">)</span>
-        <span class="k">with</span> <span class="bp">self</span><span class="o">.</span><span class="n">create_connection</span><span class="p">()</span> <span class="k">as</span> <span class="n">connection</span><span class="p">:</span>
-            <span class="n">connection</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">remote_path</span><span class="p">,</span> <span class="n">local_path</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">with</span> <span class="bp">self</span><span class="o">.</span><span class="n">create_connection</span><span class="p">()</span> <span class="k">as</span> <span class="n">connection</span><span class="p">:</span>
+                <span class="n">connection</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">remote_path</span><span class="p">,</span> <span class="n">local_path</span><span class="p">)</span>
 
         <span class="k">return</span> <span class="n">local_path</span></div>
+
+<div class="viewcode-block" id="SFTP.get_files"><a class="viewcode-back" href="../../../sftp.html#parsons.SFTP.get_files">[docs]</a>    <span class="nd">@connect</span>
+    <span class="k">def</span> <span class="nf">get_files</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">files_to_download</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">remote</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">connection</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">pattern</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                  <span class="n">local_paths</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Download a list of files, either by providing the list explicitly, providing directories</span>
+<span class="sd">        that contain files to download, or both.</span>
+
+<span class="sd">        `Args:`</span>
+<span class="sd">            files_to_download: list</span>
+<span class="sd">                A list of full remote paths (can be relative) to files to download</span>
+<span class="sd">            remote: str or list</span>
+<span class="sd">                A path to a remote directory or a list of paths</span>
+<span class="sd">            connection: obj</span>
+<span class="sd">                An SFTP connection object</span>
+<span class="sd">            pattern: str</span>
+<span class="sd">                A regex pattern with which to select file names. Defaults to None, in which case</span>
+<span class="sd">                all files will be selected.</span>
+<span class="sd">            local_paths: list</span>
+<span class="sd">                A list of paths to which to save the selected files. Defaults to None. If it is not</span>
+<span class="sd">                the same length as the files to be fetched, temporary files are used instead.</span>
+<span class="sd">        `Returns:`</span>
+<span class="sd">            list</span>
+<span class="sd">                Local paths where the files are saved.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="p">(</span><span class="n">files_to_download</span> <span class="ow">or</span> <span class="n">remote</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;You must provide either `files_to_download`, `remote`, or both, as &quot;</span>
+                             <span class="s2">&quot;an argument to `get_files`.&quot;</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">files_to_download</span><span class="p">:</span>
+            <span class="n">files_to_download</span> <span class="o">=</span> <span class="p">[]</span>
+
+        <span class="k">if</span> <span class="n">remote</span><span class="p">:</span>
+            <span class="k">try</span><span class="p">:</span>  <span class="c1"># assume `remote` is a str</span>
+                <span class="n">files_to_download</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">list_files</span><span class="p">(</span><span class="n">remote</span><span class="p">,</span> <span class="n">connection</span><span class="p">,</span> <span class="n">pattern</span><span class="p">))</span>
+            <span class="k">except</span> <span class="ne">TypeError</span><span class="p">:</span>  <span class="c1"># if it&#39;s not a str it&#39;s a list</span>
+                <span class="n">files_to_download</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span>
+                    <span class="n">f</span> <span class="k">for</span> <span class="n">file_list</span> <span class="ow">in</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">list_files</span><span class="p">(</span><span class="n">directory</span><span class="p">,</span> <span class="n">connection</span><span class="p">,</span> <span class="n">pattern</span><span class="p">)</span>
+                                        <span class="k">for</span> <span class="n">directory</span> <span class="ow">in</span> <span class="n">remote</span><span class="p">]</span>
+                    <span class="k">for</span> <span class="n">f</span> <span class="ow">in</span> <span class="n">file_list</span>
+                <span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">local_paths</span> <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="n">local_paths</span><span class="p">)</span> <span class="o">!=</span> <span class="nb">len</span><span class="p">(</span><span class="n">files_to_download</span><span class="p">):</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="s2">&quot;You provided a list of local paths for your files but it was not &quot;</span>
+                           <span class="s2">&quot;the same length as the files you are going to download.</span><span class="se">\n</span><span class="s2">Defaulting to &quot;</span>
+                           <span class="s2">&quot;temporary files.&quot;</span><span class="p">)</span>
+            <span class="n">local_paths</span> <span class="o">=</span> <span class="p">[]</span>
+
+        <span class="k">if</span> <span class="n">local_paths</span><span class="p">:</span>
+            <span class="k">return</span> <span class="p">[</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">get_file</span><span class="p">(</span><span class="n">remote_path</span><span class="p">,</span> <span class="n">local_path</span><span class="p">,</span> <span class="n">connection</span><span class="p">)</span>
+                <span class="k">for</span> <span class="n">local_path</span><span class="p">,</span> <span class="n">remote_path</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">local_paths</span><span class="p">,</span> <span class="n">files_to_download</span><span class="p">)</span>
+            <span class="p">]</span>
+
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="p">[</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">get_file</span><span class="p">(</span><span class="n">file</span><span class="p">,</span> <span class="n">local_path</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">connection</span><span class="o">=</span><span class="n">connection</span><span class="p">)</span>
+                <span class="k">for</span> <span class="n">file</span> <span class="ow">in</span> <span class="n">files_to_download</span>
+            <span class="p">]</span></div>
 
 <div class="viewcode-block" id="SFTP.get_table"><a class="viewcode-back" href="../../../sftp.html#parsons.SFTP.get_table">[docs]</a>    <span class="k">def</span> <span class="nf">get_table</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">remote_path</span><span class="p">,</span> <span class="n">connection</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
@@ -352,7 +419,7 @@
 <span class="sd">                See :ref:`parsons-table` for output options.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
-        <span class="k">if</span> <span class="ow">not</span> <span class="n">files</span><span class="o">.</span><span class="n">valid_table_suffix</span><span class="p">(</span><span class="n">remote_path</span><span class="p">):</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">file_utilities</span><span class="o">.</span><span class="n">valid_table_suffix</span><span class="p">(</span><span class="n">remote_path</span><span class="p">):</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;File type cannot be converted to a Parsons table.&#39;</span><span class="p">)</span>
 
         <span class="k">return</span> <span class="n">Table</span><span class="o">.</span><span class="n">from_csv</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">get_file</span><span class="p">(</span><span class="n">remote_path</span><span class="p">,</span> <span class="n">connection</span><span class="o">=</span><span class="n">connection</span><span class="p">))</span></div>
@@ -411,7 +478,130 @@
             <span class="k">with</span> <span class="bp">self</span><span class="o">.</span><span class="n">create_connection</span><span class="p">()</span> <span class="k">as</span> <span class="n">connection</span><span class="p">:</span>
                 <span class="n">size</span> <span class="o">=</span> <span class="n">connection</span><span class="o">.</span><span class="n">file</span><span class="p">(</span><span class="n">remote_path</span><span class="p">,</span> <span class="s1">&#39;r&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">_get_size</span><span class="p">()</span>
 
-        <span class="k">return</span> <span class="n">size</span> <span class="o">/</span> <span class="mi">1024</span></div></div>
+        <span class="k">return</span> <span class="n">size</span> <span class="o">/</span> <span class="mi">1024</span></div>
+
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">_list_contents</span><span class="p">(</span><span class="n">remote_path</span><span class="p">,</span> <span class="n">connection</span><span class="p">,</span> <span class="n">dir_pattern</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">file_pattern</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+
+        <span class="n">dirs_to_return</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">files_to_return</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">dirs_and_files</span> <span class="o">=</span> <span class="p">[(</span><span class="n">S_ISDIR</span><span class="p">,</span> <span class="n">dir_pattern</span><span class="p">,</span> <span class="kc">True</span><span class="p">,</span> <span class="n">dirs_to_return</span><span class="p">),</span>
+                          <span class="p">(</span><span class="n">S_ISREG</span><span class="p">,</span> <span class="n">file_pattern</span><span class="p">,</span> <span class="kc">False</span><span class="p">,</span> <span class="n">files_to_return</span><span class="p">)]</span>
+
+        <span class="k">try</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">entry</span> <span class="ow">in</span> <span class="n">connection</span><span class="o">.</span><span class="n">listdir_attr</span><span class="p">(</span><span class="n">remote_path</span><span class="p">):</span>
+                <span class="n">entry_pathname</span> <span class="o">=</span> <span class="n">remote_path</span> <span class="o">+</span> <span class="s2">&quot;/&quot;</span> <span class="o">+</span> <span class="n">entry</span><span class="o">.</span><span class="n">filename</span>
+                <span class="k">for</span> <span class="n">method</span><span class="p">,</span> <span class="n">pattern</span><span class="p">,</span> <span class="n">do_search_full_path</span><span class="p">,</span> <span class="n">paths</span> <span class="ow">in</span> <span class="n">dirs_and_files</span><span class="p">:</span>
+                    <span class="n">string</span> <span class="o">=</span> <span class="n">entry_pathname</span> <span class="k">if</span> <span class="n">do_search_full_path</span> <span class="k">else</span> <span class="n">entry</span><span class="o">.</span><span class="n">filename</span>
+                    <span class="k">if</span> <span class="n">method</span><span class="p">(</span><span class="n">entry</span><span class="o">.</span><span class="n">st_mode</span><span class="p">)</span> <span class="ow">and</span> <span class="p">(</span><span class="ow">not</span> <span class="n">pattern</span> <span class="ow">or</span> <span class="n">re</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="n">pattern</span><span class="p">,</span> <span class="n">string</span><span class="p">)):</span>
+                        <span class="n">paths</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">entry_pathname</span><span class="p">)</span>
+        <span class="k">except</span> <span class="ne">FileNotFoundError</span><span class="p">:</span>  <span class="c1"># This error is raised when a directory is empty</span>
+            <span class="k">pass</span>
+        <span class="k">return</span> <span class="n">dirs_to_return</span><span class="p">,</span> <span class="n">files_to_return</span>
+
+<div class="viewcode-block" id="SFTP.list_subdirectories"><a class="viewcode-back" href="../../../sftp.html#parsons.SFTP.list_subdirectories">[docs]</a>    <span class="nd">@connect</span>
+    <span class="k">def</span> <span class="nf">list_subdirectories</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">remote_path</span><span class="p">,</span> <span class="n">connection</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">pattern</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        List the subdirectories of a directory on the remote server.</span>
+
+<span class="sd">        `Args:`</span>
+<span class="sd">            remote_path: str</span>
+<span class="sd">                The remote directory whose subdirectories will be listed</span>
+<span class="sd">            connection: obj</span>
+<span class="sd">                An SFTP connection object</span>
+<span class="sd">            pattern: str</span>
+<span class="sd">                A regex pattern with which to select full directory paths. Defaults to None, in</span>
+<span class="sd">                which case all subdirectories will be selected.</span>
+<span class="sd">        `Returns:`</span>
+<span class="sd">            list</span>
+<span class="sd">                The subdirectories in `remote_path`.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_list_contents</span><span class="p">(</span><span class="n">remote_path</span><span class="p">,</span> <span class="n">connection</span><span class="p">,</span> <span class="n">dir_pattern</span><span class="o">=</span><span class="n">pattern</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span></div>
+
+<div class="viewcode-block" id="SFTP.list_files"><a class="viewcode-back" href="../../../sftp.html#parsons.SFTP.list_files">[docs]</a>    <span class="nd">@connect</span>
+    <span class="k">def</span> <span class="nf">list_files</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">remote_path</span><span class="p">,</span> <span class="n">connection</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">pattern</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        List the files in a directory on the remote server.</span>
+
+<span class="sd">        `Args:`</span>
+<span class="sd">            remote_path: str</span>
+<span class="sd">                The remote directory whose files will be listed</span>
+<span class="sd">            connection: obj</span>
+<span class="sd">                An SFTP connection object</span>
+<span class="sd">            pattern: str</span>
+<span class="sd">                A regex pattern with which to select file names. Defaults to None, in which case</span>
+<span class="sd">                all files will be selected.</span>
+<span class="sd">        `Returns:`</span>
+<span class="sd">            list</span>
+<span class="sd">                The files in `remote_path`.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_list_contents</span><span class="p">(</span><span class="n">remote_path</span><span class="p">,</span> <span class="n">connection</span><span class="p">,</span> <span class="n">file_pattern</span><span class="o">=</span><span class="n">pattern</span><span class="p">)[</span><span class="mi">1</span><span class="p">]</span></div>
+
+<div class="viewcode-block" id="SFTP.walk_tree"><a class="viewcode-back" href="../../../sftp.html#parsons.SFTP.walk_tree">[docs]</a>    <span class="nd">@connect</span>
+    <span class="k">def</span> <span class="nf">walk_tree</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">remote_path</span><span class="p">,</span> <span class="n">connection</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">download</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">dir_pattern</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                  <span class="n">file_pattern</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">max_depth</span><span class="o">=</span><span class="mi">2</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Recursively walks a directory, fetching all subdirectories and files (as long as</span>
+<span class="sd">        they match `dir_pattern` and `file_pattern`, respectively) and the maximum directory</span>
+<span class="sd">        depth hasn&#39;t been exceeded. Optionally downloads discovered files.</span>
+
+<span class="sd">        `Args:`</span>
+<span class="sd">            remote_path: str</span>
+<span class="sd">                The top level directory to walk</span>
+<span class="sd">            connection: obj</span>
+<span class="sd">                An SFTP connection object</span>
+<span class="sd">            download: bool</span>
+<span class="sd">                Whether to download discovered files</span>
+<span class="sd">            dir_pattern: str</span>
+<span class="sd">                A regex pattern with which to select directories. Defaults to None, in which case</span>
+<span class="sd">                all directories will be selected.</span>
+<span class="sd">            file_pattern: str</span>
+<span class="sd">                A regex pattern with which to select files. Defaults to None, in which case</span>
+<span class="sd">                all files will be selected.</span>
+<span class="sd">            max_depth: int</span>
+<span class="sd">                A limit on how many directories deep to traverse.  The default, 2, will search the</span>
+<span class="sd">                contents of `remote_path` and its subdirectories.</span>
+<span class="sd">        `Returns:`</span>
+<span class="sd">            tuple</span>
+<span class="sd">                A list of directories touched and a list of files.  If the files were downloaded</span>
+<span class="sd">                the file list will consist of local paths, if not, remote paths.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">if</span> <span class="n">max_depth</span> <span class="o">&gt;</span> <span class="mi">3</span><span class="p">:</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="s2">&quot;Calling `walk_tree` with `max_depth` </span><span class="si">{}</span><span class="s2">.  &quot;</span>
+                           <span class="s2">&quot;Recursively walking a remote directory will be much slower than a &quot;</span>
+                           <span class="s2">&quot;similar operation on a local file system.&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">max_depth</span><span class="p">))</span>
+
+        <span class="n">to_return</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_walk_tree</span><span class="p">(</span><span class="n">remote_path</span><span class="p">,</span> <span class="n">connection</span><span class="p">,</span> <span class="n">download</span><span class="p">,</span> <span class="n">dir_pattern</span><span class="p">,</span> <span class="n">file_pattern</span><span class="p">,</span>
+                                    <span class="n">max_depth</span><span class="o">=</span><span class="n">max_depth</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">to_return</span></div>
+
+    <span class="k">def</span> <span class="nf">_walk_tree</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">remote_path</span><span class="p">,</span> <span class="n">connection</span><span class="p">,</span> <span class="n">download</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">dir_pattern</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                   <span class="n">file_pattern</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">depth</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">max_depth</span><span class="o">=</span><span class="mi">2</span><span class="p">):</span>
+
+        <span class="n">dir_list</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">file_list</span> <span class="o">=</span> <span class="p">[]</span>
+
+        <span class="n">depth</span> <span class="o">+=</span> <span class="mi">1</span>
+
+        <span class="n">dirs</span><span class="p">,</span> <span class="n">files</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_list_contents</span><span class="p">(</span><span class="n">remote_path</span><span class="p">,</span> <span class="n">connection</span><span class="p">,</span> <span class="n">dir_pattern</span><span class="p">,</span> <span class="n">file_pattern</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">download</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">get_files</span><span class="p">(</span><span class="n">files_to_download</span><span class="o">=</span><span class="n">files</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">depth</span> <span class="o">&lt;</span> <span class="n">max_depth</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">directory</span> <span class="ow">in</span> <span class="n">dirs</span><span class="p">:</span>
+                <span class="n">deeper_dirs</span><span class="p">,</span> <span class="n">deeper_files</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_walk_tree</span><span class="p">(</span>
+                    <span class="n">directory</span><span class="p">,</span> <span class="n">connection</span><span class="p">,</span> <span class="n">download</span><span class="p">,</span> <span class="n">dir_pattern</span><span class="p">,</span> <span class="n">file_pattern</span><span class="p">,</span> <span class="n">depth</span><span class="p">,</span> <span class="n">max_depth</span>
+                <span class="p">)</span>
+                <span class="n">dir_list</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">deeper_dirs</span><span class="p">)</span>
+                <span class="n">file_list</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">deeper_files</span><span class="p">)</span>
+
+        <span class="n">dir_list</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">dirs</span><span class="p">)</span>
+        <span class="n">file_list</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">files</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">dir_list</span><span class="p">,</span> <span class="n">file_list</span></div>
 </pre></div>
 
            </div>

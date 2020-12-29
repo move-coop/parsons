@@ -1,6 +1,7 @@
 requests==2.20.0
 petl==1.2.0
 boto3==1.9.25
+boxsdk==2.10.0
 civis==1.14.2
 slackclient==1.3.0
 psycopg2-binary==2.8.5
@@ -31,6 +32,7 @@ braintree==4.0.0
 python-dateutil==2.8.1
 azure-storage-blob==12.3.2
 PyGitHub==1.51
+surveygizmo==1.2.3
 
 # Testing Requirements
 requests-mock==1.5.2

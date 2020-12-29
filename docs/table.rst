@@ -8,7 +8,7 @@ Parsons Table
 Overview
 ********
 
-Most methods and functions in Parsons return a ``Table``, which is a 2D list-like object. (It's similar to a pandas DataFrame, if you are familiar with that). You can call the following methods on the returned object to output it into a variety of formats or storage types. (For a full list of ``Table`` methods, scroll down to the class documentation.)
+Most methods and functions in Parsons return a ``Table``, which is a 2D list-like object similar to a Pandas Dataframe. You can call the following methods on the Table object to output it into a variety of formats or storage types. A full list of ``Table`` methods can be found in the API section.
 
 ===================
 From Parsons Table
@@ -21,34 +21,37 @@ From Parsons Table
     * - Method
       - Destination Type
       - Description
-    * - ``.to_csv()``
+    * - :py:meth:`~parsons.etl.tofrom.ToFrom.to_csv`
       - CSV File
       - Write a table to a local csv file
-    * - ``.to_s3_csv()``
+    * - :py:meth:`~parsons.etl.tofrom.ToFrom.to_s3_csv`
       - AWS s3 Bucket
       - Write a table to a csv stored in S3
-    * - ``.to_sftp_csv()``
+    * - :py:meth:`~parsons.etl.tofrom.ToFrom.to_gcs_csv`
+      - Google Cloud Storage Bucket
+      - Write a table to a csv stored in Google Cloud Storage
+    * - :py:meth:`~parsons.etl.tofrom.ToFrom.to_sftp_csv`
       - SFTP Server
       - Write a table to a csv stored on an SFTP server
-    * - ``.to_redshift()``
+    * - :py:meth:`~parsons.etl.tofrom.ToFrom.from_csv`
       - A Redshift Database
       - Write a table to a Redshift database
-    * - ``.to_postgres()``
+    * - :py:meth:`~parsons.etl.tofrom.ToFrom.from_postgres`
       - A Postgres Database
       - Write a table to a Postgres database
-    * - ``.to_civis()``
+    * - :py:meth:`~parsons.etl.tofrom.ToFrom.to_civis`
       - Civis Redshift Database
       - Write a table to Civis platform database
-    * - ``.to_petl()``
+    * - :py:meth:`~parsons.etl.tofrom.ToFrom.from_petl`
       - Petl table object
       - Convert a table a Petl table object
-    * - ``.to_json()``
+    * - :py:meth:`~parsons.etl.tofrom.ToFrom.to_json`
       - JSON file
       - Write a table to a local JSON file
-    * - ``.to_html()``
+    * - :py:meth:`~parsons.etl.tofrom.ToFrom.to_html`
       - HTML formatted table
       - Write a table to a local html file
-    * - ``.to_dataframe()``
+    * - :py:meth:`~parsons.etl.tofrom.ToFrom.to_dataframe`
       - Pandas Dataframe [1]_
       - Return a Pandas dataframe 
 
@@ -67,27 +70,27 @@ Create Parsons Table object using the following methods.
     * - Method
       - Source Type
       - Description
-    * - ``.from_csv()``
+    * - :py:meth:`~parsons.etl.tofrom.ToFrom.from_csv`
       - File like object, local path, url, ftp.
       - Loads a csv object into a Table
-    * - ``.from_json()``
+    * - :py:meth:`~parsons.etl.tofrom.ToFrom.from_json`
       - File like object, local path, url, ftp.
       - Loads a json object into a Table
-    * - ``.from_columns()``
+    * - :py:meth:`~parsons.etl.tofrom.ToFrom.from_columns`    
       - List object
       - Loads lists organized as columns in Table
-    * - ``.from_redshift()``
+    * - :py:meth:`~parsons.etl.tofrom.ToFrom.from_redshift`
       - Redshift table
       - Loads a Redshift query into a Table
-    * - ``.from_postgres()``
+    * - :py:meth:`~parsons.etl.tofrom.ToFrom.from_postgres`
       - Postgres table
       - Loads a Postgres query into a Table
-    * - ``.from_dataframe()``
+    * - :py:meth:`~parsons.etl.tofrom.ToFrom.from_dataframe`
       - Pandas Dataframe [2]_
       - Load a Parsons table from a Pandas Dataframe
-    * - ``.from_s3_csv()``
+    * - :py:meth:`~parsons.etl.tofrom.ToFrom.from_s3_csv`
       - S3 CSV
-      - Load a Parsons table from a file on S3
+      - Load a Parsons table from a csv file on S3
 
 .. [2] Requires optional installation of Pandas package by running ``pip install pandas``.
 
@@ -108,6 +111,8 @@ You can also use the Table constructor to create a Table from a python list or p
 Parsons Table Attributes
 ========================
 
+Tables have a number of convenience attributes.
+
 .. list-table::
     :widths: 25 50
     :header-rows: 1
@@ -122,6 +127,81 @@ Parsons Table Attributes
       - The actual data (rows) of the table, as a list of tuples (without field names)
     * - ``.first``
       - The first value in the table. Use for database queries where a single value is returned.
+
+=============================
+Parsons Table Transformations
+=============================
+
+Parsons tables have many methods that allow you to easily transform tables. Below is a selection
+of commonly used methods. The full list can be found in the API section.
+
+**Column Transformations**
+
+.. list-table::
+    :widths: 40 200
+    :header-rows: 1
+
+    * - Method
+      - Description
+    * - :py:meth:`~parsons.etl.etl.ETL.add_column`
+      - Add a column
+    * - :py:meth:`~parsons.etl.etl.ETL.remove_column`
+      - Remove a column
+    * - :py:meth:`~parsons.etl.etl.ETL.rename_column`
+      - Rename a column
+    * - :py:meth:`~parsons.etl.etl.ETL.move_column`
+      - Move a column within a table
+    * - :py:meth:`~parsons.etl.etl.ETL.cut`
+      - Return a table with a subset of columns
+    * - :py:meth:`~parsons.etl.etl.ETL.fill_column`
+      - Provide a fixed value to fill a column
+    * - :py:meth:`~parsons.etl.etl.ETL.fillna_column`
+      - Provide a fixed value to fill all null values in a column
+    * - :py:meth:`~parsons.etl.etl.ETL.get_column_types`
+      - Get the python type of values for a given column
+    * - :py:meth:`~parsons.etl.etl.ETL.convert_column`
+      - Transform the values of a column via arbitrary functions
+    * - :py:meth:`~parsons.etl.etl.ETL.coalesce_columns`
+      - Coalesce values from one or more source columns
+    * - :py:meth:`~parsons.etl.etl.ETL.map_columns`
+      - Standardizes column names based on multiple possible values
+
+
+**Row Transformations**
+
+.. list-table::
+    :widths: 25 50
+    :header-rows: 1
+
+    * - Method
+      - Description
+    * - :py:meth:`~parsons.etl.etl.ETL.select_rows`
+      - Return a table of a subset of rows based on filters
+    * - :py:meth:`~parsons.etl.etl.ETL.stack`
+      - Stack a number of tables on top of one another
+    * - :py:meth:`~parsons.etl.etl.ETL.chunk`
+      - Divide tables into smaller tables based on row count
+    * - :py:meth:`~parsons.etl.etl.ETL.remove_null_rows`
+      - Removes rows with null values in specified columns
+
+
+**Extraction and Reshaping**
+
+.. list-table::
+    :widths: 25 50
+    :header-rows: 1
+
+    * - Method
+      - Description
+    * - :py:meth:`~parsons.etl.etl.ETL.unpack_dict`
+      - Unpack dictionary values from one column to top level columns
+    * - :py:meth:`~parsons.etl.etl.ETL.unpack_list`
+      - Unpack list values from one column and add to top level columns
+    * - :py:meth:`~parsons.etl.etl.ETL.long_table`
+      - Take a column with nested data and create a new long table
+    * - :py:meth:`~parsons.etl.etl.ETL.unpack_nested_columns_as_rows`
+      - Unpack list or dict values from one column into separate rows
+
 
 ======================
 Parsons Table Indexing
@@ -227,13 +307,10 @@ To & From API
 .. autoclass:: parsons.etl.tofrom.ToFrom
    :inherited-members:
 
-*******
-ETL API
-*******
+******************
+Transformation API
+******************
 The following methods allow you to manipulate the Parsons table data.
-
-.. autoclass:: parsons.etl.etl.ETL
-   :inherited-members:
 
 .. autoclass:: parsons.etl.etl.ETL
    :inherited-members:

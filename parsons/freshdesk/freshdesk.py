@@ -9,19 +9,19 @@ logger = logging.getLogger(__name__)
 PAGE_SIZE = 100
 
 
-class Freshdesk():
+class Freshdesk:
     """
-    Instantiate FreshDesk Class
+    Instantiate Freshdesk class
 
     `Args:`
-        domain:
-            The subdomain of the FreshDesk account. Not required if ``FRESHDESK_DOMAIN``
+        domain: str
+            The subdomain of the Freshdesk account. Not required if ``FRESHDESK_DOMAIN``
             env variable set.
-        api_key:
-            The FreshDesk provided application key. Not required if ``FRESHDESK_API_KEY``
+        api_key: str
+            The Freshdesk provided application key. Not required if ``FRESHDESK_API_KEY``
             env variable set.
     `Returns:`
-        FreshDesk Class
+        Freshdesk class
     """
 
     def __init__(self, domain, api_key):
@@ -31,9 +31,7 @@ class Freshdesk():
         self.uri = f'https://{self.domain}.freshdesk.com/api/v2/'
         self.client = APIConnector(self.uri, auth=(self.api_key, 'x'))
 
-    def get_request(self, endpoint, params=None, **kwargs):
-        # Internal method to make a get request.
-
+    def _get_request(self, endpoint, params=None):
         base_params = {'per_page': PAGE_SIZE}
 
         if params:
@@ -53,8 +51,8 @@ class Freshdesk():
 
         return data
 
-    def transform_table(self, tbl, expand_custom_fields=None):
-        # Internal method to transform a table prior to returning
+    @staticmethod
+    def _transform_table(tbl, expand_custom_fields=None):
         if tbl.num_rows > 0:
             tbl.move_column('id', 0)
             tbl.sort()
@@ -68,13 +66,17 @@ class Freshdesk():
         """
         List tickets.
 
+        See the `API Docs <https://developers.freshdesk.com/api/#list_all_tickets>`_
+        for more information.
+
         .. warning::
             Deleted and Spam tickets are not included. However they can be pulled separately
             by utilizing the ``ticket_type`` parameter.
 
         .. warning::
-            Freshdesk will return a maximum of 9,000 tickets. To access additional tickets,
-            utilize the ``updated_since`` parameter.
+            Freshdesk will return a maximum of 9,000 tickets. By default, only tickets created in
+            the past 30 days are returned. To access additional tickets, utilize the
+            ``updated_since`` parameter.
 
         `Args:`
             ticket_type: str
@@ -86,6 +88,8 @@ class Freshdesk():
                 Filter by requester email.
             company_id: int
                 Filter by company_id.
+            updated_since: str
+                Earliest date to include in results.
             expand_custom_fields: boolean
                 Expand nested custom fields to their own columns.
         `Returns:`
@@ -99,14 +103,17 @@ class Freshdesk():
                   'company_id': company_id,
                   'updated_since': updated_since}
 
-        tbl = Table(self.get_request('tickets', params=params))
+        tbl = Table(self._get_request('tickets', params=params))
         logger.info(f'Found {tbl.num_rows} tickets.')
-        return self.transform_table(tbl, expand_custom_fields)
+        return self._transform_table(tbl, expand_custom_fields)
 
     def get_contacts(self, email=None, mobile=None, phone=None, company_id=None,
                      state=None, updated_since=None, expand_custom_fields=None):
         """
         Get contacts.
+
+        See the `API Docs <https://developers.freshdesk.com/api/#list_all_contacts>`_
+        for more information.
 
         `Args:`
             email: str
@@ -115,8 +122,17 @@ class Freshdesk():
                 Filter by mobile phone number.
             phone: str
                 Filter by phone number.
+            company_id: int
+                Filter by company ID.
+            state: str
+                Filter by state.
+            updated_since: str
+                Earliest date to include in results.
             expand_custom_fields: boolean
                 Expand nested custom fields to their own columns.
+        `Returns:`
+            Parsons Table
+                See :ref:`parsons-table` for output options.
         """
 
         params = {'email': email,
@@ -126,13 +142,16 @@ class Freshdesk():
                   'state': state,
                   '_updated_since': updated_since}
 
-        tbl = Table(self.get_request('contacts', params=params))
+        tbl = Table(self._get_request('contacts', params=params))
         logger.info(f'Found {tbl.num_rows} contacts.')
-        return self.transform_table(tbl, expand_custom_fields)
+        return self._transform_table(tbl, expand_custom_fields)
 
     def get_companies(self, expand_custom_fields=False):
         """
         List companies.
+
+        See the `API Docs <https://developers.freshdesk.com/api/#list_all_companies>`_
+        for more information.
 
         `Args:`
             expand_custom_fields: boolean
@@ -142,13 +161,16 @@ class Freshdesk():
                 See :ref:`parsons-table` for output options.
         """
 
-        tbl = Table(self.get_request('companies'))
+        tbl = Table(self._get_request('companies'))
         logger.info(f'Found {tbl.num_rows} companies.')
-        return self.transform_table(tbl, expand_custom_fields)
+        return self._transform_table(tbl, expand_custom_fields)
 
     def get_agents(self, email=None, mobile=None, phone=None, state=None):
         """
         List agents.
+
+        See the `API Docs <https://developers.freshdesk.com/api/#list_all_agents>`_
+        for more information.
 
         `Args:`
             email: str
@@ -168,10 +190,9 @@ class Freshdesk():
                   'mobile': mobile,
                   'phone': phone,
                   'state': state}
-
-        tbl = Table(self.get_request('agents', params=params))
+        tbl = Table(self._get_request('agents', params=params))
         logger.info(f'Found {tbl.num_rows} agents.')
-        tbl = self.transform_table(tbl)
+        tbl = self._transform_table(tbl)
         tbl = tbl.unpack_dict('contact', prepend=False)
         tbl.remove_column('signature')  # Removing since raw HTML might cause issues.
 

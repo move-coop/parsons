@@ -2,6 +2,7 @@ import google
 from google.cloud import storage
 from parsons.google.utitities import setup_google_application_credentials
 from parsons.utilities import files
+import datetime
 import logging
 
 logger = logging.getLogger(__name__)
@@ -23,7 +24,7 @@ class GoogleCloudStorage(object):
 
 
     `Args:`
-        credentials: str
+        app_creds: str
             A credentials json string or a path to a json file. Not required
             if ``GOOGLE_APPLICATION_CREDENTIALS`` env variable set.
         project: str
@@ -174,7 +175,7 @@ class GoogleCloudStorage(object):
         """
         Get a blob object
 
-        `Args:
+        `Args`:
             bucket_name: str
                 A bucket name
             blob_name: str
@@ -292,3 +293,26 @@ class GoogleCloudStorage(object):
             files.close_temp_file(local_file)
 
         return f'gs://{bucket_name}/{blob_name}'
+
+    def get_url(self, bucket_name, blob_name, expires_in=60):
+        """
+        Generates a presigned url for a blob
+
+        `Args:`
+            bucket_name: str
+                The name of the bucket
+            blob_name: str
+                The name of the blob
+            expires_in: int
+                Minutes until the url expires
+        `Returns:`
+            url:
+                A link to download the object
+        """
+
+        bucket = self.client.bucket(bucket_name)
+        blob = bucket.blob(blob_name)
+        url = blob.generate_signed_url(version="v4",
+                                       expiration=datetime.timedelta(minutes=expires_in),
+                                       method="GET")
+        return url

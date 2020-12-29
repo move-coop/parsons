@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>parsons.targetsmart.targetsmart_api &mdash; Parsons 0.1 documentation</title>
+  <title>parsons.targetsmart.targetsmart_api &mdash; Parsons 0.5 documentation</title>
   
 
   
@@ -79,23 +79,53 @@
               <p class="caption"><span class="caption-text">Integrations</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../../action_kit.html">ActionKit</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../action_network.html">Action Network</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../airtable.html">Airtable</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../aws.html">Amazon Web Services</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../azure.html">Azure: Blob Storage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../bill_com.html">Bill.com</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../bloomerang.html">Bloomerang</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../box.html">Box</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../braintree.html">Braintree</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../civis.html">Civis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../copper.html">Copper</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../crowdtangle.html">CrowdTangle</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../databases.html">Databases</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../facebook_ads.html">FacebookAds</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../google_sheets.html">GoogleSheets</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../mobile_commons.html">Mobile Commons</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../freshdesk.html">Freshdesk</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../github.html">GitHub</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../google.html">Google</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../hustle.html">Hustle</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../mailchimp.html">Mailchimp</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../mobilize_america.html">Mobilize America</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../ngpvan.html">VAN</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../newmode.html">New/Mode</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../ngpvan.html">NGPVAN</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../pdi.html">PDI</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../p2a.html">Phone2Action</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../redshift.html">Redshift</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../s3.html">S3</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../redash.html">Redash</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../rockthevote.html">Rock the Vote</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../salesforce.html">Salesforce</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../sftp.html">SFTP</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../ts.html">TargetSmart</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../targetsmart.html">TargetSmart</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../turbovote.html">TurboVote</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../twilio.html">Twilio</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../zoom.html">Zoom</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Enhancements</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../census_geocoder.html">US Census Geocoder</a></li>
 </ul>
 <p class="caption"><span class="caption-text">Framework</span></p>
 <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../dbsync.html">Database Sync</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../table.html">Parsons Table</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../notifications.html">Notifications</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../utilities.html">Utilities</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Contributor Documentation</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../contributing.html">Contributing to Parsons</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../build_a_connector.html">How to Build a Connector</a></li>
 </ul>
 
             
@@ -160,26 +190,18 @@
             
   <h1>Source code for parsons.targetsmart.targetsmart_api</h1><div class="highlight"><pre>
 <span></span><span class="kn">import</span> <span class="nn">requests</span>
-<span class="kn">import</span> <span class="nn">os</span>
 <span class="kn">import</span> <span class="nn">petl</span>
-<span class="kn">from</span> <span class="nn">parsons.etl.table</span> <span class="k">import</span> <span class="n">Table</span>
+<span class="kn">from</span> <span class="nn">parsons.etl.table</span> <span class="kn">import</span> <span class="n">Table</span>
+<span class="kn">from</span> <span class="nn">parsons.utilities</span> <span class="kn">import</span> <span class="n">check_env</span>
+
+<span class="n">URI</span> <span class="o">=</span> <span class="s1">&#39;https://api.targetsmart.com/&#39;</span>
 
 
 <span class="k">class</span> <span class="nc">TargetSmartConnector</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
 
-    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">api_key</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">uri</span><span class="o">=</span><span class="s1">&#39;https://api.targetsmart.com/&#39;</span><span class="p">):</span>
-
-        <span class="k">if</span> <span class="n">api_key</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-
-            <span class="k">try</span><span class="p">:</span>
-                <span class="n">api_key</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s1">&#39;TS_API_KEY&#39;</span><span class="p">]</span>
-            <span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
-                <span class="k">raise</span> <span class="ne">KeyError</span><span class="p">(</span><span class="s1">&#39;No TargetSmart API key found. Please store&#39;</span>
-                               <span class="s1">&#39; in environment variable or pass as an&#39;</span>
-                               <span class="s1">&#39;argument.&#39;</span><span class="p">)</span>
-
-        <span class="bp">self</span><span class="o">.</span><span class="n">uri</span> <span class="o">=</span> <span class="n">uri</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">api_key</span> <span class="o">=</span> <span class="n">api_key</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">api_key</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">uri</span> <span class="o">=</span> <span class="n">URI</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">api_key</span> <span class="o">=</span> <span class="n">check_env</span><span class="o">.</span><span class="n">check</span><span class="p">(</span><span class="s1">&#39;TS_API_KEY&#39;</span><span class="p">,</span> <span class="n">api_key</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">headers</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;x-api-key&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">api_key</span><span class="p">}</span>
 
     <span class="k">def</span> <span class="nf">request</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">url</span><span class="p">,</span> <span class="n">args</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">raw</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
@@ -196,7 +218,7 @@
 
 <span class="k">class</span> <span class="nc">Person</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
 
-    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 
         <span class="k">return</span> <span class="kc">None</span>
 
@@ -237,10 +259,10 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">connection</span><span class="o">.</span><span class="n">request</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">args</span><span class="o">=</span><span class="n">args</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">radius_search</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">first_name</span><span class="p">,</span> <span class="n">last_name</span><span class="p">,</span> <span class="n">middle_name</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">name_suffix</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-                      <span class="n">latitude</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">longitude</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">address</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">address_type</span><span class="o">=</span><span class="s1">&#39;reg&#39;</span><span class="p">,</span>
-                      <span class="n">radius_size</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">radius_unit</span><span class="o">=</span><span class="s1">&#39;miles&#39;</span><span class="p">,</span> <span class="n">max_results</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">gender</span><span class="o">=</span><span class="s1">&#39;a&#39;</span><span class="p">,</span>
-                      <span class="n">age_min</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">age_max</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">composite_score_min</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">composite_score_max</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span>
-                      <span class="n">last_name_exact</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">last_name_is_prefix</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">last_name_prefix_length</span><span class="o">=</span><span class="mi">10</span><span class="p">):</span>
+                      <span class="n">latitude</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">longitude</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">address</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">radius_size</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span>
+                      <span class="n">radius_unit</span><span class="o">=</span><span class="s1">&#39;miles&#39;</span><span class="p">,</span> <span class="n">max_results</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">gender</span><span class="o">=</span><span class="s1">&#39;a&#39;</span><span class="p">,</span> <span class="n">age_min</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">age_max</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                      <span class="n">composite_score_min</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">composite_score_max</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">last_name_exact</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                      <span class="n">last_name_is_prefix</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">last_name_prefix_length</span><span class="o">=</span><span class="mi">10</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Search for a person based on a specified radius</span>
 
@@ -351,7 +373,7 @@
 
 <span class="k">class</span> <span class="nc">Service</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
 
-    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 
         <span class="k">return</span> <span class="kc">None</span>
 
@@ -430,7 +452,7 @@
 
 <span class="k">class</span> <span class="nc">Voter</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
 
-    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">connection</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">connection</span><span class="p">):</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">connection</span> <span class="o">=</span> <span class="n">connection</span>
 
@@ -438,8 +460,7 @@
                                  <span class="n">state</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">street_number</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
                                  <span class="n">street_name</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">city</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">zip_code</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
                                  <span class="n">age</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">dob</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">phone</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">email</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-                                 <span class="n">unparsed_full_address</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-                                 <span class="n">obj_type</span><span class="o">=</span><span class="s2">&quot;dict&quot;</span><span class="p">):</span>
+                                 <span class="n">unparsed_full_address</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Searches for a registered individual, returns matches.</span>
 
@@ -499,9 +520,9 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">connection</span><span class="o">.</span><span class="n">request</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">args</span><span class="o">=</span><span class="n">args</span><span class="p">,</span> <span class="n">raw</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 
 
-<div class="viewcode-block" id="TargetSmartAPI"><a class="viewcode-back" href="../../../ts.html#parsons.TargetSmartAPI">[docs]</a><span class="k">class</span> <span class="nc">TargetSmartAPI</span><span class="p">(</span><span class="n">Voter</span><span class="p">,</span> <span class="n">Person</span><span class="p">,</span> <span class="n">Service</span><span class="p">):</span>
+<div class="viewcode-block" id="TargetSmartAPI"><a class="viewcode-back" href="../../../targetsmart.html#parsons.TargetSmartAPI">[docs]</a><span class="k">class</span> <span class="nc">TargetSmartAPI</span><span class="p">(</span><span class="n">Voter</span><span class="p">,</span> <span class="n">Person</span><span class="p">,</span> <span class="n">Service</span><span class="p">):</span>
 
-    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">api_key</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">api_key</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">connection</span> <span class="o">=</span> <span class="n">TargetSmartConnector</span><span class="p">(</span><span class="n">api_key</span><span class="o">=</span><span class="n">api_key</span><span class="p">)</span></div>
 </pre></div>

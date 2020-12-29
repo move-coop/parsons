@@ -18,4 +18,5 @@ Please also add your new script to the table below.
 | s3_to_redshift.py  |  Moves files from S3 to Redshift| Redshift, S3| unknown |
 | s3_to_s3.py | Get files from vendor s3 bucket and moves to own S3 bucket | S3 |  unknown  |
 | update_user_in_actionkit.py | Adds a voterbase_id (the Targetsmart ID) to users in ActionKit |Redshift, ActionKit |  unknown  |
-
+| zoom_to_van.py | Adds Zoom attendees to VAN and applies an activist code |Zoom, VAN|0.15.0|
+| ngpvan_sample_list.py | Creates a new saved list from a random sample of an existing saved list in VAN | VAN | unknown |

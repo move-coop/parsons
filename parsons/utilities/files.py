@@ -1,6 +1,7 @@
 import errno
 import gzip
 import os
+import shutil
 import tempfile
 
 __all__ = [
@@ -27,6 +28,9 @@ TMP_MAX = 1000
 # runtime of the script.
 _temp_files = []
 
+# Same as above, but for our temp directories.
+_temp_directories = []
+
 
 def create_temp_file(suffix=None):
     """
@@ -42,6 +46,19 @@ def create_temp_file(suffix=None):
     temp_file = TempFile(suffix=suffix)
     _temp_files.append(temp_file)
     return temp_file.name
+
+
+def create_temp_directory():
+    """
+    Create a temp directory that will exist as long as the current script is running.
+
+    `Returns:`
+        str
+            The path of the temp directory
+    """
+    temp_dir = TempDirectory()
+    _temp_directories.append(temp_dir)
+    return temp_dir.name
 
 
 def create_temp_file_for_path(path):
@@ -82,13 +99,57 @@ def close_temp_file(path):
 
     for temp_file in _temp_files:
         if temp_file.name == path:
-            # Call close explicitly to clean up, because we can't always assume that de-refencing
-            # will necessarily result in the TempFilePath being cleaned up (depends on platform)
+            # Call remove explicitly to clean up, because we can't always assume that de-refencing
+            # will necessarily result in the TempFile being cleaned up (depends on platform)
             temp_file.remove()
             _temp_files.remove(temp_file)
             return True
 
     return False
+
+
+def cleanup_temp_directory(path):
+    """
+    Force closes a Parsons temp directory, which will cause it and its files to be deleted.
+
+    Useful for when you don't want to wait until the end of your script's execution for temp
+    files to be closed and deleted. Eg. If you're running into system limits on open file
+    descriptors.
+
+    `Args:`
+        path: str
+            Path of a temp directory created by ``create_temp_directory``
+    `Returns:`
+        bool
+            Whether the temp directory was found and closed
+    """
+
+    for temp_dir in _temp_directories:
+        if temp_dir.name == path:
+            # Call remove explicitly to clean up, because we can't always assume that de-refencing
+            # will necessarily result in the TempDirectory being cleaned up (depends on platform)
+            temp_dir.remove()
+            _temp_directories.remove(temp_dir)
+            return True
+
+    return False
+
+
+def track_temp_file(path):
+    """
+    Start tracking a file as a "temp" file that needs to be cleaned up by Parsons.
+
+
+    `Args:`
+        path: str
+            The path of the file to start tracking
+    `Returns:`
+        str
+            The path of the file to start tracking
+    """
+    temp_file = TempFile(path)
+    _temp_files.append(temp_file)
+    return path
 
 
 def is_gzip_path(path):
@@ -220,7 +281,7 @@ def has_data(file_path):
         return True
 
 
-def generate_tempfile(suffix):
+def generate_tempfile(suffix=None, create=False):
     """
     Create a new temp file with a unique filename.
 
@@ -245,6 +306,14 @@ def generate_tempfile(suffix):
             name = f'{name}{suffix}'
         path = os.path.join(temp_dir, name)
 
+        # Check to see if the path already exists.
+        if os.path.exists(path):
+            continue
+
+        # If we aren't creating it here, then just return the name
+        if not create:
+            return path
+
         try:
             # "Touch" the file to ensure that there is a file there, so that if our user tries
             # open it in read mode later, they won't get an error about the file not existing.
@@ -261,11 +330,54 @@ def generate_tempfile(suffix):
                           "No usable temporary directory name found")
 
 
+class TempDirectory:
+    """
+    Class for creating and eventually cleaning up a temporary directory.
+
+    Creating the instance of the TempDirectory will create a uniquely named temporary dir. When the
+    instance is garbage collected (e.g., when the Python process closes) or when the remove method
+    is called explicitly, the temporary directory is removed from disk.
+
+    Creating the instance will also create the directory itself, so files can be loaded immediately.
+    """
+
+    def __init__(self, mkdir=os.makedirs):
+        self.remove_called = False
+        self.name = generate_tempfile()
+
+        mkdir(self.name)
+
+    def __del__(self):
+        # When we are being cleaned up, call remove to make sure the file is removed from disk.
+        self.remove()
+
+    def remove(self, cleanup=shutil.rmtree):
+        """
+        Remove the file from disk.
+
+        Note: We cache a reference to the os.unlink function because during shutdown of the Python
+        process, the reference to the os module may be None'd out as part of garbage collection.
+        So, we want to make sure we have a reference to the function saved somewhere.
+
+        `Args:`
+            unlink: function
+                Function to use for removing the file from disk.
+        """
+        # Only try to unlink if we have a valid file path and we haven't yet called close.
+        if self.name and not self.remove_called:
+            try:
+                cleanup(self.name)
+            except FileNotFoundError:
+                pass  # if the file isn't found, our work is done
+
+        self.remove_called = True
+
+
 class TempFile:
     """
     Class for creating and eventually cleaning up a temporary file.
 
-    Creating the instance of the TempFilePath will create a uniquely named temporary file. When the
+    Creating the instance of the TempFile will create a uniquely named temporary file. When the
     instance is garbage collected (e.g., when the Python process closes) or when the remove method
     is called explicitly, the temporary file is removed from disk.
 
@@ -276,7 +388,7 @@ class TempFile:
 
     Since Parsons hands out the temporary file's path and not the file handle, users must be able
     to open the file, but that is impossible as long as NamedTemporaryFile holds onto the open
-    file handle with its exclusive read lock. So we wrote, TempFilePath to not hold onto the open
+    file handle with its exclusive read lock. So we wrote, TempFile to not hold onto the open
     file handle.
 
     `Args:`
@@ -284,9 +396,9 @@ class TempFile:
             The suffix to give the file path in order to advertise the file/mime type of the file.
     """
 
-    def __init__(self, suffix=None):
+    def __init__(self, name=None, suffix=None):
         self.remove_called = False
-        self.name = generate_tempfile(suffix)
+        self.name = name or generate_tempfile(suffix)
 
     def __del__(self):
         # When we are being cleaned up, call remove to make sure the file is removed from disk.

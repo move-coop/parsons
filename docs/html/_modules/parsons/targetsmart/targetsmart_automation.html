@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>parsons.targetsmart.targetsmart_automation &mdash; Parsons 0.1 documentation</title>
+  <title>parsons.targetsmart.targetsmart_automation &mdash; Parsons 0.5 documentation</title>
   
 
   
@@ -79,23 +79,53 @@
               <p class="caption"><span class="caption-text">Integrations</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../../action_kit.html">ActionKit</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../action_network.html">Action Network</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../airtable.html">Airtable</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../aws.html">Amazon Web Services</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../azure.html">Azure: Blob Storage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../bill_com.html">Bill.com</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../bloomerang.html">Bloomerang</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../box.html">Box</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../braintree.html">Braintree</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../civis.html">Civis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../copper.html">Copper</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../crowdtangle.html">CrowdTangle</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../databases.html">Databases</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../facebook_ads.html">FacebookAds</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../google_sheets.html">GoogleSheets</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../mobile_commons.html">Mobile Commons</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../freshdesk.html">Freshdesk</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../github.html">GitHub</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../google.html">Google</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../hustle.html">Hustle</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../mailchimp.html">Mailchimp</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../mobilize_america.html">Mobilize America</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../ngpvan.html">VAN</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../newmode.html">New/Mode</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../ngpvan.html">NGPVAN</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../pdi.html">PDI</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../p2a.html">Phone2Action</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../redshift.html">Redshift</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../s3.html">S3</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../redash.html">Redash</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../rockthevote.html">Rock the Vote</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../salesforce.html">Salesforce</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../sftp.html">SFTP</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../ts.html">TargetSmart</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../targetsmart.html">TargetSmart</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../turbovote.html">TurboVote</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../twilio.html">Twilio</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../zoom.html">Zoom</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Enhancements</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../census_geocoder.html">US Census Geocoder</a></li>
 </ul>
 <p class="caption"><span class="caption-text">Framework</span></p>
 <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../dbsync.html">Database Sync</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../table.html">Parsons Table</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../notifications.html">Notifications</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../utilities.html">Utilities</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Contributor Documentation</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../contributing.html">Contributing to Parsons</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../build_a_connector.html">How to Build a Connector</a></li>
 </ul>
 
             
@@ -159,11 +189,11 @@
            <div itemprop="articleBody">
             
   <h1>Source code for parsons.targetsmart.targetsmart_automation</h1><div class="highlight"><pre>
-<span></span><span class="kn">from</span> <span class="nn">parsons.sftp.sftp</span> <span class="k">import</span> <span class="n">SFTP</span>
-<span class="kn">from</span> <span class="nn">parsons.etl.table</span> <span class="k">import</span> <span class="n">Table</span>
-<span class="kn">from</span> <span class="nn">parsons.utilities.files</span> <span class="k">import</span> <span class="n">create_temp_file</span>
+<span></span><span class="kn">from</span> <span class="nn">parsons.sftp.sftp</span> <span class="kn">import</span> <span class="n">SFTP</span>
+<span class="kn">from</span> <span class="nn">parsons.etl.table</span> <span class="kn">import</span> <span class="n">Table</span>
+<span class="kn">from</span> <span class="nn">parsons.utilities.files</span> <span class="kn">import</span> <span class="n">create_temp_file</span>
+<span class="kn">from</span> <span class="nn">parsons.utilities</span> <span class="kn">import</span> <span class="n">check_env</span>
 <span class="kn">import</span> <span class="nn">xml.etree.ElementTree</span> <span class="k">as</span> <span class="nn">ET</span>
-<span class="kn">import</span> <span class="nn">os</span>
 <span class="kn">import</span> <span class="nn">uuid</span>
 <span class="kn">import</span> <span class="nn">time</span>
 <span class="kn">import</span> <span class="nn">logging</span>
@@ -184,27 +214,18 @@
 <span class="c1"># going to be possible.</span>
 
 
-<div class="viewcode-block" id="TargetSmartAutomation"><a class="viewcode-back" href="../../../ts.html#parsons.TargetSmartAutomation">[docs]</a><span class="k">class</span> <span class="nc">TargetSmartAutomation</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+<div class="viewcode-block" id="TargetSmartAutomation"><a class="viewcode-back" href="../../../targetsmart.html#parsons.TargetSmartAutomation">[docs]</a><span class="k">class</span> <span class="nc">TargetSmartAutomation</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
 
-    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sftp_username</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">sftp_password</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sftp_username</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">sftp_password</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">sftp_host</span> <span class="o">=</span> <span class="n">TS_STFP_HOST</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">sftp_port</span> <span class="o">=</span> <span class="n">TS_SFTP_PORT</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">sftp_dir</span> <span class="o">=</span> <span class="n">TS_SFTP_DIR</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">sftp_username</span> <span class="o">=</span> <span class="n">check_env</span><span class="o">.</span><span class="n">check</span><span class="p">(</span><span class="s1">&#39;TS_SFTP_USERNAME&#39;</span><span class="p">,</span> <span class="n">sftp_username</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">sftp_password</span> <span class="o">=</span> <span class="n">check_env</span><span class="o">.</span><span class="n">check</span><span class="p">(</span><span class="s1">&#39;TS_SFTP_PASSWORD&#39;</span><span class="p">,</span> <span class="n">sftp_password</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">sftp</span> <span class="o">=</span> <span class="n">SFTP</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">sftp_host</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">sftp_username</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">sftp_password</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">sftp_port</span><span class="p">)</span>
 
-        <span class="k">try</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">sftp_username</span> <span class="o">=</span> <span class="n">sftp_username</span> <span class="ow">or</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s1">&#39;TS_SFTP_USERNAME&#39;</span><span class="p">]</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">sftp_password</span> <span class="o">=</span> <span class="n">sftp_password</span> <span class="ow">or</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s1">&#39;TS_SFTP_PASSWORD&#39;</span><span class="p">]</span>
-
-        <span class="k">except</span> <span class="ne">KeyError</span> <span class="k">as</span> <span class="n">error</span><span class="p">:</span>
-            <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s2">&quot;Connection info missing. It must include as kwarg or &quot;</span>
-                         <span class="s2">&quot;env variable.&quot;</span><span class="p">)</span>
-            <span class="k">raise</span> <span class="n">error</span>
-
-        <span class="bp">self</span><span class="o">.</span><span class="n">sftp</span> <span class="o">=</span> <span class="n">SFTP</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">sftp_host</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">sftp_username</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">sftp_password</span><span class="p">,</span>
-                         <span class="bp">self</span><span class="o">.</span><span class="n">sftp_port</span><span class="p">)</span>
-
-<div class="viewcode-block" id="TargetSmartAutomation.match"><a class="viewcode-back" href="../../../ts.html#parsons.TargetSmartAutomation.match">[docs]</a>    <span class="k">def</span> <span class="nf">match</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">table</span><span class="p">,</span> <span class="n">job_type</span><span class="p">,</span> <span class="n">job_name</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">emails</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">call_back</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<div class="viewcode-block" id="TargetSmartAutomation.match"><a class="viewcode-back" href="../../../targetsmart.html#parsons.TargetSmartAutomation.match">[docs]</a>    <span class="k">def</span> <span class="nf">match</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">table</span><span class="p">,</span> <span class="n">job_type</span><span class="p">,</span> <span class="n">job_name</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">emails</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">call_back</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">remove_files</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Match a table to TargetSmart using their bulk matching service.</span>
 
@@ -230,6 +251,9 @@
 <span class="sd">                A callback url to which the status will be posted. See</span>
 <span class="sd">                `TargetSmart documentation &lt;https://docs.targetsmart.com/developers/automation/index.html#http-callback&gt;`_</span>
 <span class="sd">                for more details.</span>
+<span class="sd">            remove_files: boolean</span>
+<span class="sd">                Remove the configuration, file to be matched and matched file from</span>
+<span class="sd">                the TargetSmart FTP upon completion or failure of match.</span>
 <span class="sd">        &quot;&quot;&quot;</span> <span class="c1"># noqa: E501,E261</span>
 
         <span class="c1"># Generate a match job</span>
@@ -237,14 +261,14 @@
 
         <span class="k">try</span><span class="p">:</span>
             <span class="c1"># Upload table</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">sftp</span><span class="o">.</span><span class="n">put_file</span><span class="p">(</span><span class="n">table</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(),</span> <span class="n">f</span><span class="s1">&#39;</span><span class="si">{self.sftp_dir}</span><span class="s1">/</span><span class="si">{job_name}</span><span class="s1">_input.csv&#39;</span><span class="p">)</span>
-            <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="n">f</span><span class="s1">&#39;Table with </span><span class="si">{table.num_rows}</span><span class="s1"> rows uploaded to TargetSmart.&#39;</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">sftp</span><span class="o">.</span><span class="n">put_file</span><span class="p">(</span><span class="n">table</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(),</span> <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">sftp_dir</span><span class="si">}</span><span class="s1">/</span><span class="si">{</span><span class="n">job_name</span><span class="si">}</span><span class="s1">_input.csv&#39;</span><span class="p">)</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Table with </span><span class="si">{</span><span class="n">table</span><span class="o">.</span><span class="n">num_rows</span><span class="si">}</span><span class="s1"> rows uploaded to TargetSmart.&#39;</span><span class="p">)</span>
 
             <span class="c1"># Create/upload XML configuration</span>
             <span class="n">xml</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">create_job_xml</span><span class="p">(</span><span class="n">job_type</span><span class="p">,</span> <span class="n">job_name</span><span class="p">,</span> <span class="n">emails</span><span class="o">=</span><span class="n">emails</span><span class="p">,</span>
                                       <span class="n">status_key</span><span class="o">=</span><span class="n">job_name</span><span class="p">,</span> <span class="n">call_back</span><span class="o">=</span><span class="n">call_back</span><span class="p">)</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">sftp</span><span class="o">.</span><span class="n">put_file</span><span class="p">(</span><span class="n">xml</span><span class="p">,</span> <span class="n">f</span><span class="s1">&#39;</span><span class="si">{self.sftp_dir}</span><span class="s1">/</span><span class="si">{job_name}</span><span class="s1">.job.xml&#39;</span><span class="p">)</span>
-            <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="n">f</span><span class="s1">&#39;Match configuration uploaded to TargetSmart.&#39;</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">sftp</span><span class="o">.</span><span class="n">put_file</span><span class="p">(</span><span class="n">xml</span><span class="p">,</span> <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">sftp_dir</span><span class="si">}</span><span class="s1">/</span><span class="si">{</span><span class="n">job_name</span><span class="si">}</span><span class="s1">.job.xml&#39;</span><span class="p">)</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Match configuration uploaded to TargetSmart.&#39;</span><span class="p">)</span>
 
             <span class="c1"># Check xml configuration status</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">poll_config_status</span><span class="p">(</span><span class="n">job_name</span><span class="p">)</span>
@@ -253,11 +277,12 @@
             <span class="bp">self</span><span class="o">.</span><span class="n">match_status</span><span class="p">(</span><span class="n">job_name</span><span class="p">)</span>
 
             <span class="c1"># Download the resulting file</span>
-            <span class="n">tbl</span> <span class="o">=</span> <span class="n">Table</span><span class="o">.</span><span class="n">from_csv</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">sftp</span><span class="o">.</span><span class="n">get_file</span><span class="p">(</span><span class="n">f</span><span class="s1">&#39;</span><span class="si">{self.sftp_dir}</span><span class="s1">/</span><span class="si">{job_name}</span><span class="s1">_output.csv&#39;</span><span class="p">))</span>
+            <span class="n">tbl</span> <span class="o">=</span> <span class="n">Table</span><span class="o">.</span><span class="n">from_csv</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">sftp</span><span class="o">.</span><span class="n">get_file</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">sftp_dir</span><span class="si">}</span><span class="s1">/</span><span class="si">{</span><span class="n">job_name</span><span class="si">}</span><span class="s1">_output.csv&#39;</span><span class="p">))</span>
 
         <span class="k">finally</span><span class="p">:</span>
             <span class="c1"># Clean up files</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">remove_files</span><span class="p">(</span><span class="n">job_name</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">remove_files</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">remove_files</span><span class="p">(</span><span class="n">job_name</span><span class="p">)</span>
 
             <span class="c1"># Log Stats</span>
             <span class="c1"># TO DO: Provide some stats on the match</span>
@@ -306,7 +331,7 @@
             <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="n">polling_interval</span><span class="p">)</span>
             <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">config_status</span><span class="p">(</span><span class="n">job_name</span><span class="p">):</span>
                 <span class="k">return</span> <span class="kc">True</span>
-            <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="n">f</span><span class="s1">&#39;Waiting on </span><span class="si">{job_name}</span><span class="s1"> job configuration...&#39;</span><span class="p">)</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Waiting on </span><span class="si">{</span><span class="n">job_name</span><span class="si">}</span><span class="s1"> job configuration...&#39;</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">config_status</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">job_name</span><span class="p">):</span>
         <span class="c1"># Check the status of the configuration by parsing the</span>
@@ -314,12 +339,12 @@
 
         <span class="k">for</span> <span class="n">f</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">sftp</span><span class="o">.</span><span class="n">list_directory</span><span class="p">(</span><span class="n">remote_path</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">sftp_dir</span><span class="p">):</span>
 
-            <span class="k">if</span> <span class="n">f</span> <span class="o">==</span> <span class="n">f</span><span class="s1">&#39;</span><span class="si">{job_name}</span><span class="s1">.job.xml.good&#39;</span><span class="p">:</span>
-                <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="n">f</span><span class="s1">&#39;Match job </span><span class="si">{job_name}</span><span class="s1"> configured.&#39;</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">f</span> <span class="o">==</span> <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">job_name</span><span class="si">}</span><span class="s1">.job.xml.good&#39;</span><span class="p">:</span>
+                <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Match job </span><span class="si">{</span><span class="n">job_name</span><span class="si">}</span><span class="s1"> configured.&#39;</span><span class="p">)</span>
                 <span class="k">return</span> <span class="kc">True</span>
 
-            <span class="k">elif</span> <span class="n">f</span> <span class="o">==</span> <span class="n">f</span><span class="s1">&#39;</span><span class="si">{job_name}</span><span class="s1">.job.xml.bad&#39;</span><span class="p">:</span>
-                <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="n">f</span><span class="s1">&#39;Match job </span><span class="si">{job_name}</span><span class="s1"> configuration error.&#39;</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="n">f</span> <span class="o">==</span> <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">job_name</span><span class="si">}</span><span class="s1">.job.xml.bad&#39;</span><span class="p">:</span>
+                <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Match job </span><span class="si">{</span><span class="n">job_name</span><span class="si">}</span><span class="s1"> configuration error.&#39;</span><span class="p">)</span>
                 <span class="c1">#  To Do: Lift up the configuration error.</span>
                 <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;Job configuration failed. If you provided an email&#39;</span>
                                  <span class="s1">&#39;address, you will be sent more details.&#39;</span><span class="p">)</span>
@@ -337,19 +362,19 @@
 
         <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
 
-            <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s1">&#39;Match running...&#39;</span><span class="p">)</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s1">&#39;Match running...&#39;</span><span class="p">)</span>
             <span class="k">for</span> <span class="n">file_name</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">sftp</span><span class="o">.</span><span class="n">list_directory</span><span class="p">(</span><span class="n">remote_path</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">sftp_dir</span><span class="p">):</span>
 
-                <span class="k">if</span> <span class="n">file_name</span> <span class="o">==</span> <span class="n">f</span><span class="s1">&#39;</span><span class="si">{job_name}</span><span class="s1">.finish.xml&#39;</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">file_name</span> <span class="o">==</span> <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">job_name</span><span class="si">}</span><span class="s1">.finish.xml&#39;</span><span class="p">:</span>
 
-                    <span class="n">xml_file</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">sftp</span><span class="o">.</span><span class="n">get_file</span><span class="p">(</span><span class="n">f</span><span class="s1">&#39;</span><span class="si">{self.sftp_dir}</span><span class="s1">/</span><span class="si">{job_name}</span><span class="s1">.finish.xml&#39;</span><span class="p">)</span>
+                    <span class="n">xml_file</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">sftp</span><span class="o">.</span><span class="n">get_file</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">sftp_dir</span><span class="si">}</span><span class="s1">/</span><span class="si">{</span><span class="n">job_name</span><span class="si">}</span><span class="s1">.finish.xml&#39;</span><span class="p">)</span>
                     <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">xml_file</span><span class="p">,</span> <span class="s1">&#39;rb&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">x</span><span class="p">:</span>
                         <span class="n">xml</span> <span class="o">=</span> <span class="n">xmltodict</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">dict_constructor</span><span class="o">=</span><span class="nb">dict</span><span class="p">)</span>
 
                     <span class="k">if</span> <span class="n">xml</span><span class="p">[</span><span class="s1">&#39;jobcontext&#39;</span><span class="p">][</span><span class="s1">&#39;state&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;error&#39;</span><span class="p">:</span>
                         <span class="c1"># To Do: Parse these in a pretty way</span>
-                        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="n">f</span><span class="s2">&quot;Match Error: </span><span class="si">{xml[&#39;jobcontext&#39;][&#39;errors&#39;]}</span><span class="s2">&quot;</span><span class="p">)</span>
-                        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="n">f</span><span class="s2">&quot;Match job failed. </span><span class="si">{xml[&#39;jobcontext&#39;][&#39;errors&#39;]}</span><span class="s2">&quot;</span><span class="p">)</span>
+                        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Match Error: </span><span class="si">{</span><span class="n">xml</span><span class="p">[</span><span class="s1">&#39;jobcontext&#39;</span><span class="p">][</span><span class="s1">&#39;errors&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+                        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Match job failed. </span><span class="si">{</span><span class="n">xml</span><span class="p">[</span><span class="s1">&#39;jobcontext&#39;</span><span class="p">][</span><span class="s1">&#39;errors&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
 
                     <span class="k">elif</span> <span class="n">xml</span><span class="p">[</span><span class="s1">&#39;jobcontext&#39;</span><span class="p">][</span><span class="s1">&#39;state&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;success&#39;</span><span class="p">:</span>
                         <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s1">&#39;Match complete.&#39;</span><span class="p">)</span>
@@ -363,8 +388,8 @@
 
         <span class="k">for</span> <span class="n">file_name</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">sftp</span><span class="o">.</span><span class="n">list_directory</span><span class="p">(</span><span class="n">remote_path</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">sftp_dir</span><span class="p">):</span>
             <span class="k">if</span> <span class="n">job_name</span> <span class="ow">in</span> <span class="n">file_name</span><span class="p">:</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">sftp</span><span class="o">.</span><span class="n">remove_file</span><span class="p">(</span><span class="n">f</span><span class="s1">&#39;</span><span class="si">{self.sftp_dir}</span><span class="s1">/</span><span class="si">{file_name}</span><span class="s1">&#39;</span><span class="p">)</span>
-                <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="n">f</span><span class="s1">&#39;</span><span class="si">{file_name}</span><span class="s1"> removed from SFTP.&#39;</span><span class="p">)</span></div>
+                <span class="bp">self</span><span class="o">.</span><span class="n">sftp</span><span class="o">.</span><span class="n">remove_file</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">sftp_dir</span><span class="si">}</span><span class="s1">/</span><span class="si">{</span><span class="n">file_name</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+                <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">file_name</span><span class="si">}</span><span class="s1"> removed from SFTP.&#39;</span><span class="p">)</span></div>
 </pre></div>
 
            </div>

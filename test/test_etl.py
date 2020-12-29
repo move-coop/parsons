@@ -82,7 +82,7 @@ class TestParsonsTable(unittest.TestCase):
     def test_materialize_to_file(self):
         # Simple test that materializing doesn't change the table
         tbl_materialized = Table(self.lst_dicts)
-        tbl_materialized.materialize_to_file()
+        _ = tbl_materialized.materialize_to_file()
 
         assert_matching_tables(self.tbl, tbl_materialized)
 
@@ -229,16 +229,15 @@ class TestParsonsTable(unittest.TestCase):
         try:
             # Test using the to_csv() method
             self.tbl.to_csv('myzip.zip')
-            zip_archive.unzip_archive('myzip.zip')
-            assert_matching_tables(self.tbl, Table.from_csv('myzip.csv'))
+            tmp = zip_archive.unzip_archive('myzip.zip')
+            assert_matching_tables(self.tbl, Table.from_csv(tmp))
 
             # Test using the to_csv_zip() method
             self.tbl.to_zip_csv('myzip.zip')
-            zip_archive.unzip_archive('myzip.zip')
-            assert_matching_tables(self.tbl, Table.from_csv('myzip.csv'))
+            tmp = zip_archive.unzip_archive('myzip.zip')
+            assert_matching_tables(self.tbl, Table.from_csv(tmp))
         finally:
             os.unlink('myzip.zip')
-            os.unlink('myzip.csv')
 
     def test_to_civis(self):
 

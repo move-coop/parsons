@@ -115,7 +115,5 @@ class Alchemer(object):
 
         return tbl
 
-
-class SurveyGizmo(Alchemer):
-
-    pass
+# Backwards compatibility for old SurveyGizmo class.
+SurveyGizmo = Alchemer

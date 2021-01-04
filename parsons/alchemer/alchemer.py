@@ -19,6 +19,7 @@ def sg_compatibility():
     if os.getenv('SURVEYGIZMO_API_VERSION'):
         os.environ['ALCHEMER_API_VERSION'] = os.getenv('SURVEYGIZMO_API_VERSION')
 
+
 class Alchemer(object):
     """
     Instantiate Alchemer Class
@@ -113,6 +114,7 @@ class Alchemer(object):
         logger.info(f"Found #{tbl.num_rows} responses.")
 
         return tbl
+
 
 class SurveyGizmo(Alchemer):
 

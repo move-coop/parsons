@@ -1,29 +1,29 @@
 import os
 import unittest
 import unittest.mock as mock
-from parsons.surveygizmo.surveygizmo import SurveyGizmo
+from parsons.alchemer.alchemer import Alchemer
 import logging
 
 logger = logging.getLogger(__name__)
 
 # Relevant links
-# V5 API Documentation https://apihelp.surveygizmo.com/help/version-5
+# V5 API Documentation https://apihelp.alchemer.com/help/version-5
 
 
-class TestSurveyGizmoGetSurveys(unittest.TestCase):
+class TestAlchemErGetSurveys(unittest.TestCase):
     def setUp(self):
-        os.environ['SURVEYGIZMO_API_TOKEN'] = 'MYFAKEAPITOKEN'
-        os.environ['SURVEYGIZMO_API_TOKEN_SECRET'] = 'MYFAKETOKENSECRET'
-        os.environ['SURVEYGIZMO_API_VERSION'] = 'MYFAKEVERSION'
+        os.environ['ALCHEMER_API_TOKEN'] = 'MYFAKEAPITOKEN'
+        os.environ['ALCHEMER_API_TOKEN_SECRET'] = 'MYFAKETOKENSECRET'
+        os.environ['ALCHEMER_API_VERSION'] = 'MYFAKEVERSION'
 
-        self.surveygizmo = SurveyGizmo()
-        self.surveygizmo._client = mock.MagicMock()
+        self.alchemer = Alchemer()
+        self.alchemer._client = mock.MagicMock()
 
     def test_get_surveys_single_page(self):
         api_return = self._get_surveys_return_single_page()
-        self.surveygizmo._client.api.survey.list.return_value = api_return
+        self.alchemer._client.api.survey.list.return_value = api_return
 
-        actual_surveys = self.surveygizmo.get_surveys()
+        actual_surveys = self.alchemer.get_surveys()
 
         self.assertEqual(2, actual_surveys.num_rows)
         for i in range(0, 1):
@@ -31,9 +31,9 @@ class TestSurveyGizmoGetSurveys(unittest.TestCase):
 
     def test_removes_links_field(self):
         api_return = self._get_surveys_return_single_page()
-        self.surveygizmo._client.api.survey.list.return_value = api_return
+        self.alchemer._client.api.survey.list.return_value = api_return
 
-        actual_surveys = self.surveygizmo.get_surveys()
+        actual_surveys = self.alchemer.get_surveys()
 
         assert "links" not in actual_surveys.columns
 

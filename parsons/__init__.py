@@ -50,7 +50,7 @@ if not os.environ.get('PARSONS_SKIP_IMPORT_ALL'):
     from parsons.bloomerang.bloomerang import Bloomerang
     from parsons.box.box import Box
     from parsons.sisense.sisense import Sisense
-    from parsons.surveygizmo.surveygizmo import SurveyGizmo
+    from parsons.alchemer.alchemer import SurveyGizmo, Alchemer
 
     __all__ = [
         'VAN',
@@ -95,7 +95,8 @@ if not os.environ.get('PARSONS_SKIP_IMPORT_ALL'):
         'Bloomerang',
         'Box',
         'Sisense',
-        'SurveyGizmo'
+        'SurveyGizmo',
+        'Alchemer'
     ]
 
 # Define the default logging config for Parsons and its submodules. For now the

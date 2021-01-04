@@ -6,32 +6,48 @@ from parsons.utilities import check_env
 logger = logging.getLogger(__name__)
 
 
-class SurveyGizmo(object):
+def sg_compatibility():
+    # Create backwards compatibility with SurveyGizmo class
+
+    import os
+    if os.getenv('SURVEYGIZMO_API_TOKEN'):
+        os.environ['ALCHEMER_API_TOKEN'] = os.getenv('SURVEYGIZMO_API_TOKEN')
+
+    if os.getenv('SURVEYGIZMO_API_TOKEN_SECRET'):
+        os.environ['ALCHEMER_API_TOKEN_SECRET'] = os.getenv('SURVEYGIZMO_API_TOKEN_SECRET')
+
+    if os.getenv('SURVEYGIZMO_API_VERSION'):
+        os.environ['ALCHEMER_API_VERSION'] = os.getenv('SURVEYGIZMO_API_VERSION')
+
+class Alchemer(object):
     """
-    Instantiate SurveyGizmo Class
+    Instantiate Alchemer Class
 
     `Args:`
         api_token:
-            The SurveyGizmo-provided application token. Not required if
-            ``SURVEYGIZMO_API_TOKEN`` env variable set.
+            The Alchemer-provided application token. Not required if
+            ``ALCHEMER_API_TOKEN`` env variable set.
 
         api_token:
-            The SurveyGizmo-provided application token. Not required if
-            ``SURVEYGIZMO_API_TOKEN_SECRET`` env variable set.
+            The Alchemer-provided application token. Not required if
+            ``ALCHEMER_API_TOKEN_SECRET`` env variable set.
 
         api_version:
             The version of the API that you would like to use. Not required if
-            ``SURVEYGIZMO_API_VERSION`` env variable set.
+            ``ALCHEMER_API_VERSION`` env variable set.
             Default v5
 
     `Returns:`
-        SurveyGizmo Class
+        Alchemer Class
     """
 
     def __init__(self, api_token=None, api_token_secret=None, api_version='v5'):
-        self.api_token = check_env.check('SURVEYGIZMO_API_TOKEN', api_token)
-        self.api_token_secret = check_env.check('SURVEYGIZMO_API_TOKEN_SECRET', api_token_secret)
-        self.api_version = check_env.check('SURVEYGIZMO_API_VERSION', api_version)
+
+        sg_compatibility()
+
+        self.api_token = check_env.check('ALCHEMER_API_TOKEN', api_token)
+        self.api_token_secret = check_env.check('ALCHEMER_API_TOKEN_SECRET', api_token_secret)
+        self.api_version = check_env.check('ALCHEMER_API_VERSION', api_version)
 
         self._client = surveygizmo.SurveyGizmo(
                 api_version=self.api_version,
@@ -97,3 +113,7 @@ class SurveyGizmo(object):
         logger.info(f"Found #{tbl.num_rows} responses.")
 
         return tbl
+
+class SurveyGizmo(Alchemer):
+
+    pass

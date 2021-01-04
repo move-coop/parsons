@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Utilities &mdash; Parsons 0.5 documentation</title>
+  <title>Alchemer &mdash; Parsons 0.5 documentation</title>
   
 
   
@@ -28,8 +28,8 @@
   <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="Contributing to Parsons" href="contributing.html" />
-    <link rel="prev" title="Notifications" href="notifications.html" /> 
+    <link rel="next" title="Amazon Web Services" href="aws.html" />
+    <link rel="prev" title="Airtable" href="airtable.html" /> 
 
   
   <script src="_static/js/modernizr.min.js"></script>
@@ -79,11 +79,15 @@
             
             
               <p class="caption"><span class="caption-text">Integrations</span></p>
-<ul>
+<ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="action_kit.html">ActionKit</a></li>
 <li class="toctree-l1"><a class="reference internal" href="action_network.html">Action Network</a></li>
 <li class="toctree-l1"><a class="reference internal" href="airtable.html">Airtable</a></li>
-<li class="toctree-l1"><a class="reference internal" href="alchemer.html">Alchemer</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Alchemer</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#overview">Overview</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#quick-start">Quick Start</a></li>
+</ul>
+</li>
 <li class="toctree-l1"><a class="reference internal" href="aws.html">Amazon Web Services</a></li>
 <li class="toctree-l1"><a class="reference internal" href="azure.html">Azure: Blob Storage</a></li>
 <li class="toctree-l1"><a class="reference internal" href="bill_com.html">Bill.com</a></li>
@@ -120,14 +124,11 @@
 <li class="toctree-l1"><a class="reference internal" href="census_geocoder.html">US Census Geocoder</a></li>
 </ul>
 <p class="caption"><span class="caption-text">Framework</span></p>
-<ul class="current">
+<ul>
 <li class="toctree-l1"><a class="reference internal" href="dbsync.html">Database Sync</a></li>
 <li class="toctree-l1"><a class="reference internal" href="table.html">Parsons Table</a></li>
 <li class="toctree-l1"><a class="reference internal" href="notifications.html">Notifications</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="#">Utilities</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#id1">Cloud Storage</a></li>
-</ul>
-</li>
+<li class="toctree-l1"><a class="reference internal" href="utilities.html">Utilities</a></li>
 </ul>
 <p class="caption"><span class="caption-text">Contributor Documentation</span></p>
 <ul>
@@ -178,13 +179,13 @@
     
       <li><a href="index.html">Docs</a> &raquo;</li>
         
-      <li>Utilities</li>
+      <li>Alchemer</li>
     
     
       <li class="wy-breadcrumbs-aside">
         
             
-            <a href="_sources/utilities.rst.txt" rel="nofollow"> View page source</a>
+            <a href="_sources/alchemer.rst.txt" rel="nofollow"> View page source</a>
           
         
       </li>
@@ -197,54 +198,30 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <div class="section" id="utilities">
-<h1>Utilities<a class="headerlink" href="#utilities" title="Permalink to this headline">¶</a></h1>
-<div class="section" id="id1">
-<h2>Cloud Storage<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h2>
-<p>The Parsons cloud storage utility was created to interact with APIs that require access to files
-to run an asynchronous process. While this utility currently only works with <code class="docutils literal notranslate"><span class="pre">S3</span></code>, the goal
-is add functionality for additional cloud storage services in the future.</p>
-<p>The cloud storage utility is currently being utilitized primarily by the NGPVAN class
-methods such as <a class="reference internal" href="ngpvan.html#parsons.ngpvan.van.Scores.upload_scores" title="parsons.ngpvan.van.Scores.upload_scores"><code class="xref py py-func docutils literal notranslate"><span class="pre">upload_scores()</span></code></a> and Bulk Import methods.</p>
-<p>These methods have arguments specific their method, but all also contain the following cloud
-storage arguments:</p>
-<ul class="simple">
-<li><code class="docutils literal notranslate"><span class="pre">url_type</span></code> - The type of cloud storage to utilize. Currently only <code class="docutils literal notranslate"><span class="pre">S3</span></code>.</li>
-<li><code class="docutils literal notranslate"><span class="pre">**url_kwargs</span></code> - These are arguments specific to the cloud storage type in order to initialize.</li>
-</ul>
-<p><strong>S3</strong></p>
-<p>When you select the <code class="docutils literal notranslate"><span class="pre">url_type</span></code> S3, the Parsons table will be converted to a csv and compressed. The file will be posted to an S3 bucket. A presigned public url will be generated and returned. The url will be active by default for 60 minutes, however you may adjust that time.</p>
-<table border="1" class="colwidths-given docutils">
-<colgroup>
-<col width="17%" />
-<col width="17%" />
-<col width="67%" />
-</colgroup>
-<thead valign="bottom">
-<tr class="row-odd"><th class="head">Argument</th>
-<th class="head">Required</th>
-<th class="head">Description</th>
-</tr>
-</thead>
-<tbody valign="top">
-<tr class="row-even"><td><code class="docutils literal notranslate"><span class="pre">bucket</span></code></td>
-<td>Yes</td>
-<td>The S3 bucket to post the file</td>
-</tr>
-<tr class="row-odd"><td><code class="docutils literal notranslate"><span class="pre">aws_access_key</span></code></td>
-<td>No</td>
-<td>Required if <code class="docutils literal notranslate"><span class="pre">AWS_ACCESS_KEY_ID</span></code> env variable not set.</td>
-</tr>
-<tr class="row-even"><td><code class="docutils literal notranslate"><span class="pre">aws_secret_access_key</span></code></td>
-<td>No</td>
-<td>Required if <code class="docutils literal notranslate"><span class="pre">AWS_SECRET_ACCESS_KEY</span></code> env variable not set.</td>
-</tr>
-<tr class="row-odd"><td><code class="docutils literal notranslate"><span class="pre">public_url_expires</span></code></td>
-<td>No</td>
-<td>Defaults is 60 minutes.</td>
-</tr>
-</tbody>
-</table>
+  <div class="section" id="alchemer">
+<h1>Alchemer<a class="headerlink" href="#alchemer" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="overview">
+<h2>Overview<a class="headerlink" href="#overview" title="Permalink to this headline">¶</a></h2>
+<p><a class="reference external" href="https://www.alchemer.com/">Alchemer</a> is an online research tool that allows users to field surveys. This Parsons
+class allows users to retrieve surveys and survey results.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Alchemer was formerly known as SurveyGizmo.</p>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<dl class="last docutils">
+<dt>Authentication</dt>
+<dd>To use the class, you need to provide an Alchemer API token and API token secret. For more information,
+see Alchemer API <a class="reference external" href="https://apihelp.alchemer.com/help/authentication">authentication documentation</a>.</dd>
+</dl>
+</div>
+</div>
+<div class="section" id="quick-start">
+<h2>Quick Start<a class="headerlink" href="#quick-start" title="Permalink to this headline">¶</a></h2>
+<p>To instantiate the <code class="docutils literal notranslate"><span class="pre">Alchemer</span></code> class, you can either store your API token and API secret
+token as environmental variables (<code class="docutils literal notranslate"><span class="pre">SURVEYGIZMO_API_TOKEN</span></code> and <code class="docutils literal notranslate"><span class="pre">SURVEYGIZMO_API_TOKEN_SECRET</span></code>,
+respectively) or pass in the tokens arguments:</p>
 </div>
 </div>
 
@@ -256,10 +233,10 @@ storage arguments:</p>
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="contributing.html" class="btn btn-neutral float-right" title="Contributing to Parsons" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="aws.html" class="btn btn-neutral float-right" title="Amazon Web Services" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="notifications.html" class="btn btn-neutral" title="Notifications" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="airtable.html" class="btn btn-neutral" title="Airtable" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   

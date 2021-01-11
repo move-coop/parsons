@@ -89,7 +89,7 @@ class CensusGeocoder(object):
             * - Street
             * - City
             * - State
-            * - Zipcode
+            * - Zip
 
         `Args:`
             table: Parsons Table

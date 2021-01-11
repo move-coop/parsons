@@ -1,5 +1,6 @@
 from parsons.etl.etl import ETL
 from parsons.etl.tofrom import ToFrom
+from parsons.etl.transformations import Transformations
 from parsons.utilities import files
 import petl
 import pickle
@@ -11,7 +12,7 @@ logger = logging.getLogger(__name__)
 DIRECT_INDEX_WARNING_COUNT = 10
 
 
-class Table(ETL, ToFrom):
+class Table(ETL, ToFrom, Transformations):
     """
     Create a Parsons Table. Accepts one of the following:
     - A list of lists, with list[0] holding field names, and the other lists holding data

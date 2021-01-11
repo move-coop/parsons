@@ -82,7 +82,11 @@ class Table(ETL, ToFrom):
 
     def __bool__(self):
 
-        return self.num_rows > 0
+        # Try to get a single row from our table
+        head_one = petl.head(self.table)
+
+        # See if our single row is empty
+        return petl.nrows(head_one) > 0
 
     def _repr_html_(self):
         """

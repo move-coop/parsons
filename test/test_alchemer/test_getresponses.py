@@ -1,36 +1,36 @@
 import os
 import unittest
 import unittest.mock as mock
-from parsons.surveygizmo.surveygizmo import SurveyGizmo
+from parsons.alchemer.alchemer import Alchemer
 import logging
 
 logger = logging.getLogger(__name__)
 
 
-class TestSurveyGizmoGetResponses(unittest.TestCase):
+class TestAlchemErGetResponses(unittest.TestCase):
     def setUp(self):
-        os.environ['SURVEYGIZMO_API_TOKEN'] = 'MYFAKEAPITOKEN'
-        os.environ['SURVEYGIZMO_API_TOKEN_SECRET'] = 'MYFAKETOKENSECRET'
-        os.environ['SURVEYGIZMO_API_VERSION'] = 'MYFAKEVERSION'
+        os.environ['ALCHEMER_API_TOKEN'] = 'MYFAKEAPITOKEN'
+        os.environ['ALCHEMER_API_TOKEN_SECRET'] = 'MYFAKETOKENSECRET'
+        os.environ['ALCHEMER_API_VERSION'] = 'MYFAKEVERSION'
 
-        self.surveygizmo = SurveyGizmo()
-        self.surveygizmo._client = mock.MagicMock()
+        self.alchemer = Alchemer()
+        self.alchemer._client = mock.MagicMock()
 
         self.test_survey_id = "1234567"
 
     def test_adds_survey_id(self):
         api_return = self._get_responses_return_single_page()
-        self.surveygizmo._client.api.surveyresponse.list.return_value = api_return
+        self.alchemer._client.api.surveyresponse.list.return_value = api_return
 
-        actual_responses = self.surveygizmo.get_survey_responses(self.test_survey_id)
+        actual_responses = self.alchemer.get_survey_responses(self.test_survey_id)
 
         assert self.test_survey_id, actual_responses["survey_id"]
 
     def test_get_responses_single_page(self):
         api_return = self._get_responses_return_single_page()
-        self.surveygizmo._client.api.surveyresponse.list.return_value = api_return
+        self.alchemer._client.api.surveyresponse.list.return_value = api_return
 
-        actual_responses = self.surveygizmo.get_survey_responses(self.test_survey_id)
+        actual_responses = self.alchemer.get_survey_responses(self.test_survey_id)
 
         self.assertEqual(2, actual_responses.num_rows)
         for i in range(0, 1):

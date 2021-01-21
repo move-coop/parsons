@@ -60,13 +60,11 @@ class CivisClient(object):
                                    polling_interval=polling_interval, hidden=hidden)
 
         if not wait:
-
-            return None
+            return fut
 
         result = fut.result()
 
         if result['result_rows'] is None:
-
             return None
 
         result['result_rows'].insert(0, result['result_columns'])
@@ -116,5 +114,6 @@ class CivisClient(object):
                                           headers=True, **civisargs)
 
         if wait:
+            return fut.result()
 
-            fut.result()
+        return fut

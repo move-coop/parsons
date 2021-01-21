@@ -156,6 +156,55 @@ class ActionKit(object):
         resp = self.conn.patch(self._base_endpoint('user', user_id), data=json.dumps(kwargs))
         logger.info(f'{resp.status_code}: {user_id}')
 
+    def get_event(self, event_id):
+        """Get an event.
+
+        `Args:`
+            event_id: int
+                The id for the event.
+        `Returns:`
+            dict
+                Event json object.
+
+        """
+        return self._base_get(f"event/{event_id}")
+
+    def get_events(self, limit=None, **kwargs):
+        """Get multiple events.
+
+        `Args:`
+            limit: int
+                The number of events to return.
+            **kwargs:
+                Optional arguments to pass to the client. A full list can be found
+                in the `ActionKit API Documentation <https://roboticdogs.actionkit.com/docs/\
+                manual/api/rest/actionprocessing.html>`_.
+
+                Additionally, expressions to filter the data can also be provided. For addition
+                info, visit `Django's docs on field lookups <https://docs.djangoproject.com/\
+                en/3.1/topics/db/queries/#field-lookups>`_.
+
+                .. code-block:: python
+
+                    ak.get_events(fields__name__contains="FirstName")
+        `Returns:`
+            Parsons.Table
+                The events data.
+        """
+        kwargs["_limit"] = 100
+        json_data = self._base_get("event", params=kwargs)
+        data = json_data["objects"]
+
+        next_url = json_data.get("meta", {}).get("next")
+        while next_url:
+            resp = self.conn.get(f'https://{self.domain}{next_url}')
+            data += resp.json().get("objects", [])
+            next_url = resp.json().get("meta", {}).get("next")
+            if limit and len(data) > limit:
+                break
+
+        return Table(data[:limit])
+
     def update_event(self, event_id, **kwargs):
         """
         Update an event.

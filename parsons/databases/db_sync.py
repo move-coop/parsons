@@ -101,9 +101,6 @@ class DBSync:
                 Full table path (e.g. ``my_schema.my_table``)
             destination_table: str
                 Full table path (e.g. ``my_schema.my_table``)
-            if_exists: str
-                If destination table exists either ``drop`` or ``truncate``. Truncate is
-                useful when there are dependent views associated with the table.
             primary_key: str
                 The name of the primary key. This must be the same for the source and
                 destination table.

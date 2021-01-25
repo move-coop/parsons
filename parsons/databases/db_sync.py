@@ -58,7 +58,10 @@ class DBSync:
         if destination_tbl.exists:
             if if_exists == 'drop':
                 destination_tbl.drop()
-            elif if_exists in ('truncate','drop_if_needed'):
+            elif if_exists == 'truncate':
+                self._check_column_match(source_tbl, destination_tbl)
+                destination_tbl.truncate()
+            elif if_exists == 'drop_if_needed':
                 try:
                     self._check_column_match(source_tbl, destination_tbl)
                     destination_tbl.truncate()

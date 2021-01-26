@@ -38,8 +38,10 @@ class DBSync:
             destination_table: str
                 Full table path (e.g. ``my_schema.my_table``)
             if_exists: str
-                If destination table exists either ``drop`` or ``truncate``. Truncate is
-                useful when there are dependent views associated with the table.
+                If destination table exists either ``drop``, ``truncate``, or ``drop_if_needed``. 
+                Truncate is useful when there are dependent views associated with the table.
+                Drop if needed defaults to ``truncate``, but if an error occurs (because a data 
+                type or length has changed), it will instead ``drop``.
             **kwargs: args
                 Optional copy arguments for destination database.
         `Returns:`
@@ -59,6 +61,13 @@ class DBSync:
             elif if_exists == 'truncate':
                 self._check_column_match(source_tbl, destination_tbl)
                 destination_tbl.truncate()
+            elif if_exists == 'drop_if_needed':
+                try:
+                    self._check_column_match(source_tbl, destination_tbl)
+                    destination_tbl.truncate()
+                except:
+                    logger.info(f"needed to drop {destination_tbl}...")
+                    destination_tbl.drop()
             else:
                 raise ValueError('Invalid if_exists argument. Must be drop or truncate.')
 
@@ -95,9 +104,6 @@ class DBSync:
                 Full table path (e.g. ``my_schema.my_table``)
             destination_table: str
                 Full table path (e.g. ``my_schema.my_table``)
-            if_exists: str
-                If destination table exists either ``drop`` or ``truncate``. Truncate is
-                useful when there are dependent views associated with the table.
             primary_key: str
                 The name of the primary key. This must be the same for the source and
                 destination table.

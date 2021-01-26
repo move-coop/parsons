@@ -82,6 +82,18 @@ class Bloomerang(object):
     def _base_pagination_params(page_number=1, page_size=50):
         return {'skip': page_size * (page_number - 1), 'take': min(page_size, 50)}
 
+    @staticmethod
+    def _base_ordering_params(order_by=None, order_direction=None):
+        params = {}
+
+        if order_by:
+            params["orderBy"] = order_by
+
+        if order_direction:
+            params["orderDirection"] = order_direction
+
+        return params
+
     def _base_create(self, endpoint, entity_id=None, **kwargs):
         return self.conn.post_request(url=self._base_endpoint(endpoint, entity_id),
                                       json=json.dumps({**kwargs}))

@@ -232,17 +232,24 @@ class Bloomerang(object):
         """
         return self._base_get('transaction/designation', entity_id=designation_id)
 
-    def get_transaction_designations(self, page_number=1, page_size=50):
+    def get_transaction_designations(self, page_number=1, page_size=50, order_by=None,
+                                     order_direction=None):
         """
         `Args:`
             page_number: int
                 Number of the page to fetch
             page_size: int
                 Number of records per page (maximum allowed is 50)
+            order_by: str
+                Sorts by ``Date``, ``CreatedDate``, or ``LastModifiedDate`` (default ``Date``).
+            order_direction: str
+                Sorts the order_by in ``Asc`` or ``Desc`` order (default ``Desc``).
         `Returns:`
             A  JSON of the entry or an error.
         """
         params = self._base_pagination_params(page_number, page_size)
+        params.update(self._base_ordering_params(order_by, order_direction))
+
         response = self._base_get(f'transactions/designations', params=params)
         return Table(response['Results'])
 

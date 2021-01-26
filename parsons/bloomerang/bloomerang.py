@@ -148,7 +148,8 @@ class Bloomerang(object):
         """
         return self._base_delete('constituent', entity_id=constituent_id)
 
-    def get_constituents(self, page_number=1, page_size=50, order_by=None, order_direction=None):
+    def get_constituents(self, page_number=1, page_size=50, order_by=None, order_direction=None,
+                         last_modified=None):
         """
         `Args:`
             page_number: int
@@ -159,11 +160,16 @@ class Bloomerang(object):
                 Sorts by ``Id``, ``CreatedDate``, or ``LastModifiedDate`` (default ``Id``).
             order_direction: str
                 Sorts the order_by in ``Asc`` or ``Desc`` order.
+            last_modified: str
+                Filters to constituents last modified after the specified date (ISO-8601 format).
         `Returns:`
             A Table of the entries.
         """
         params = self._base_pagination_params(page_number, page_size)
         params.update(self._base_ordering_params(order_by, order_direction))
+
+        if last_modified:
+            params["lastModified"] = last_modified
 
         response = self._base_get(f'constituents', params=params)
         return Table(response['Results'])

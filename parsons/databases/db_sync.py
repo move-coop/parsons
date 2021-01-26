@@ -38,9 +38,9 @@ class DBSync:
             destination_table: str
                 Full table path (e.g. ``my_schema.my_table``)
             if_exists: str
-                If destination table exists either ``drop``, ``truncate``, or ``drop_if_needed``. 
+                If destination table exists either ``drop``, ``truncate``, or ``drop_if_needed``.
                 Truncate is useful when there are dependent views associated with the table.
-                Drop if needed defaults to ``truncate``, but if an error occurs (because a data 
+                Drop if needed defaults to ``truncate``, but if an error occurs (because a data
                 type or length has changed), it will instead ``drop``.
             **kwargs: args
                 Optional copy arguments for destination database.

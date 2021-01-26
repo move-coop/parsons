@@ -231,8 +231,10 @@
 <span class="sd">            destination_table: str</span>
 <span class="sd">                Full table path (e.g. ``my_schema.my_table``)</span>
 <span class="sd">            if_exists: str</span>
-<span class="sd">                If destination table exists either ``drop`` or ``truncate``. Truncate is</span>
-<span class="sd">                useful when there are dependent views associated with the table.</span>
+<span class="sd">                If destination table exists either ``drop``, ``truncate``, or ``drop_if_needed``. </span>
+<span class="sd">                Truncate is useful when there are dependent views associated with the table.</span>
+<span class="sd">                Drop if needed defaults to ``truncate``, but if an error occurs (because a data </span>
+<span class="sd">                type or length has changed), it will instead ``drop``.</span>
 <span class="sd">            **kwargs: args</span>
 <span class="sd">                Optional copy arguments for destination database.</span>
 <span class="sd">        `Returns:`</span>
@@ -252,6 +254,13 @@
             <span class="k">elif</span> <span class="n">if_exists</span> <span class="o">==</span> <span class="s1">&#39;truncate&#39;</span><span class="p">:</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">_check_column_match</span><span class="p">(</span><span class="n">source_tbl</span><span class="p">,</span> <span class="n">destination_tbl</span><span class="p">)</span>
                 <span class="n">destination_tbl</span><span class="o">.</span><span class="n">truncate</span><span class="p">()</span>
+            <span class="k">elif</span> <span class="n">if_exists</span> <span class="o">==</span> <span class="s1">&#39;drop_if_needed&#39;</span><span class="p">:</span>
+                <span class="k">try</span><span class="p">:</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">_check_column_match</span><span class="p">(</span><span class="n">source_tbl</span><span class="p">,</span> <span class="n">destination_tbl</span><span class="p">)</span>
+                    <span class="n">destination_tbl</span><span class="o">.</span><span class="n">truncate</span><span class="p">()</span>
+                <span class="k">except</span><span class="p">:</span>
+                    <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;needed to drop </span><span class="si">{</span><span class="n">destination_tbl</span><span class="si">}</span><span class="s2">...&quot;</span><span class="p">)</span>
+                    <span class="n">destination_tbl</span><span class="o">.</span><span class="n">drop</span><span class="p">()</span>
             <span class="k">else</span><span class="p">:</span>
                 <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;Invalid if_exists argument. Must be drop or truncate.&#39;</span><span class="p">)</span>
 
@@ -288,9 +297,6 @@
 <span class="sd">                Full table path (e.g. ``my_schema.my_table``)</span>
 <span class="sd">            destination_table: str</span>
 <span class="sd">                Full table path (e.g. ``my_schema.my_table``)</span>
-<span class="sd">            if_exists: str</span>
-<span class="sd">                If destination table exists either ``drop`` or ``truncate``. Truncate is</span>
-<span class="sd">                useful when there are dependent views associated with the table.</span>
 <span class="sd">            primary_key: str</span>
 <span class="sd">                The name of the primary key. This must be the same for the source and</span>
 <span class="sd">                destination table.</span>

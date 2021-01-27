@@ -275,6 +275,18 @@
     <span class="k">def</span> <span class="nf">_base_pagination_params</span><span class="p">(</span><span class="n">page_number</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">page_size</span><span class="o">=</span><span class="mi">50</span><span class="p">):</span>
         <span class="k">return</span> <span class="p">{</span><span class="s1">&#39;skip&#39;</span><span class="p">:</span> <span class="n">page_size</span> <span class="o">*</span> <span class="p">(</span><span class="n">page_number</span> <span class="o">-</span> <span class="mi">1</span><span class="p">),</span> <span class="s1">&#39;take&#39;</span><span class="p">:</span> <span class="nb">min</span><span class="p">(</span><span class="n">page_size</span><span class="p">,</span> <span class="mi">50</span><span class="p">)}</span>
 
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">_base_ordering_params</span><span class="p">(</span><span class="n">order_by</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">order_direction</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="n">params</span> <span class="o">=</span> <span class="p">{}</span>
+
+        <span class="k">if</span> <span class="n">order_by</span><span class="p">:</span>
+            <span class="n">params</span><span class="p">[</span><span class="s2">&quot;orderBy&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">order_by</span>
+
+        <span class="k">if</span> <span class="n">order_direction</span><span class="p">:</span>
+            <span class="n">params</span><span class="p">[</span><span class="s2">&quot;orderDirection&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">order_direction</span>
+
+        <span class="k">return</span> <span class="n">params</span>
+
     <span class="k">def</span> <span class="nf">_base_create</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">endpoint</span><span class="p">,</span> <span class="n">entity_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">conn</span><span class="o">.</span><span class="n">post_request</span><span class="p">(</span><span class="n">url</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_base_endpoint</span><span class="p">(</span><span class="n">endpoint</span><span class="p">,</span> <span class="n">entity_id</span><span class="p">),</span>
                                       <span class="n">json</span><span class="o">=</span><span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">({</span><span class="o">**</span><span class="n">kwargs</span><span class="p">}))</span>
@@ -329,17 +341,29 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_base_delete</span><span class="p">(</span><span class="s1">&#39;constituent&#39;</span><span class="p">,</span> <span class="n">entity_id</span><span class="o">=</span><span class="n">constituent_id</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="Bloomerang.get_constituents"><a class="viewcode-back" href="../../../bloomerang.html#parsons.Bloomerang.get_constituents">[docs]</a>    <span class="k">def</span> <span class="nf">get_constituents</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">page_number</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">page_size</span><span class="o">=</span><span class="mi">50</span><span class="p">):</span>
+<div class="viewcode-block" id="Bloomerang.get_constituents"><a class="viewcode-back" href="../../../bloomerang.html#parsons.Bloomerang.get_constituents">[docs]</a>    <span class="k">def</span> <span class="nf">get_constituents</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">page_number</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">page_size</span><span class="o">=</span><span class="mi">50</span><span class="p">,</span> <span class="n">order_by</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">order_direction</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                         <span class="n">last_modified</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        `Args:`</span>
 <span class="sd">            page_number: int</span>
 <span class="sd">                Number of the page to fetch</span>
 <span class="sd">            page_size: int</span>
 <span class="sd">                Number of records per page (maximum allowed is 50)</span>
+<span class="sd">            order_by: str</span>
+<span class="sd">                Sorts by ``Id``, ``CreatedDate``, or ``LastModifiedDate`` (default ``Id``).</span>
+<span class="sd">            order_direction: str</span>
+<span class="sd">                Sorts the order_by in ``Asc`` or ``Desc`` order.</span>
+<span class="sd">            last_modified: str</span>
+<span class="sd">                Filters to constituents last modified after the specified date (ISO-8601 format).</span>
 <span class="sd">        `Returns:`</span>
 <span class="sd">            A Table of the entries.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">params</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_base_pagination_params</span><span class="p">(</span><span class="n">page_number</span><span class="p">,</span> <span class="n">page_size</span><span class="p">)</span>
+        <span class="n">params</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_base_ordering_params</span><span class="p">(</span><span class="n">order_by</span><span class="p">,</span> <span class="n">order_direction</span><span class="p">))</span>
+
+        <span class="k">if</span> <span class="n">last_modified</span><span class="p">:</span>
+            <span class="n">params</span><span class="p">[</span><span class="s2">&quot;lastModified&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">last_modified</span>
+
         <span class="n">response</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_base_get</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;constituents&#39;</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="n">params</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">Table</span><span class="p">(</span><span class="n">response</span><span class="p">[</span><span class="s1">&#39;Results&#39;</span><span class="p">])</span></div>
 
@@ -383,17 +407,23 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_base_delete</span><span class="p">(</span><span class="s1">&#39;transaction&#39;</span><span class="p">,</span> <span class="n">entity_id</span><span class="o">=</span><span class="n">transaction_id</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="Bloomerang.get_transactions"><a class="viewcode-back" href="../../../bloomerang.html#parsons.Bloomerang.get_transactions">[docs]</a>    <span class="k">def</span> <span class="nf">get_transactions</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">page_number</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">page_size</span><span class="o">=</span><span class="mi">50</span><span class="p">):</span>
+<div class="viewcode-block" id="Bloomerang.get_transactions"><a class="viewcode-back" href="../../../bloomerang.html#parsons.Bloomerang.get_transactions">[docs]</a>    <span class="k">def</span> <span class="nf">get_transactions</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">page_number</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">page_size</span><span class="o">=</span><span class="mi">50</span><span class="p">,</span> <span class="n">order_by</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">order_direction</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        `Args:`</span>
 <span class="sd">            page_number: int</span>
 <span class="sd">                Number of the page to fetch</span>
 <span class="sd">            page_size: int</span>
 <span class="sd">                Number of records per page (maximum allowed is 50)</span>
+<span class="sd">            order_by: str</span>
+<span class="sd">                Sorts by ``Date``, ``CreatedDate``, or ``LastModifiedDate`` (default ``Date``).</span>
+<span class="sd">            order_direction: str</span>
+<span class="sd">                Sorts the order_by in ``Asc`` or ``Desc`` order (default ``Desc``).</span>
 <span class="sd">        `Returns:`</span>
 <span class="sd">            A  JSON of the entry or an error.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">params</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_base_pagination_params</span><span class="p">(</span><span class="n">page_number</span><span class="p">,</span> <span class="n">page_size</span><span class="p">)</span>
+        <span class="n">params</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_base_ordering_params</span><span class="p">(</span><span class="n">order_by</span><span class="p">,</span> <span class="n">order_direction</span><span class="p">))</span>
+
         <span class="n">response</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_base_get</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;transactions&#39;</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="n">params</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">Table</span><span class="p">(</span><span class="n">response</span><span class="p">[</span><span class="s1">&#39;Results&#39;</span><span class="p">])</span></div>
 
@@ -407,17 +437,24 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_base_get</span><span class="p">(</span><span class="s1">&#39;transaction/designation&#39;</span><span class="p">,</span> <span class="n">entity_id</span><span class="o">=</span><span class="n">designation_id</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="Bloomerang.get_transaction_designations"><a class="viewcode-back" href="../../../bloomerang.html#parsons.Bloomerang.get_transaction_designations">[docs]</a>    <span class="k">def</span> <span class="nf">get_transaction_designations</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">page_number</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">page_size</span><span class="o">=</span><span class="mi">50</span><span class="p">):</span>
+<div class="viewcode-block" id="Bloomerang.get_transaction_designations"><a class="viewcode-back" href="../../../bloomerang.html#parsons.Bloomerang.get_transaction_designations">[docs]</a>    <span class="k">def</span> <span class="nf">get_transaction_designations</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">page_number</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">page_size</span><span class="o">=</span><span class="mi">50</span><span class="p">,</span> <span class="n">order_by</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                                     <span class="n">order_direction</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        `Args:`</span>
 <span class="sd">            page_number: int</span>
 <span class="sd">                Number of the page to fetch</span>
 <span class="sd">            page_size: int</span>
 <span class="sd">                Number of records per page (maximum allowed is 50)</span>
+<span class="sd">            order_by: str</span>
+<span class="sd">                Sorts by ``Date``, ``CreatedDate``, or ``LastModifiedDate`` (default ``Date``).</span>
+<span class="sd">            order_direction: str</span>
+<span class="sd">                Sorts the order_by in ``Asc`` or ``Desc`` order (default ``Desc``).</span>
 <span class="sd">        `Returns:`</span>
 <span class="sd">            A  JSON of the entry or an error.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">params</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_base_pagination_params</span><span class="p">(</span><span class="n">page_number</span><span class="p">,</span> <span class="n">page_size</span><span class="p">)</span>
+        <span class="n">params</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_base_ordering_params</span><span class="p">(</span><span class="n">order_by</span><span class="p">,</span> <span class="n">order_direction</span><span class="p">))</span>
+
         <span class="n">response</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_base_get</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;transactions/designations&#39;</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="n">params</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">Table</span><span class="p">(</span><span class="n">response</span><span class="p">[</span><span class="s1">&#39;Results&#39;</span><span class="p">])</span></div>
 

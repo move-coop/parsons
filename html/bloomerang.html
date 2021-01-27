@@ -344,7 +344,7 @@ also be set in order to use OAuth2 authentication.</dd>
 
 <dl class="method">
 <dt id="parsons.Bloomerang.get_constituents">
-<code class="descname">get_constituents</code><span class="sig-paren">(</span><em>page_number=1</em>, <em>page_size=50</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/bloomerang/bloomerang.html#Bloomerang.get_constituents"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.Bloomerang.get_constituents" title="Permalink to this definition">¶</a></dt>
+<code class="descname">get_constituents</code><span class="sig-paren">(</span><em>page_number=1</em>, <em>page_size=50</em>, <em>order_by=None</em>, <em>order_direction=None</em>, <em>last_modified=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/bloomerang/bloomerang.html#Bloomerang.get_constituents"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.Bloomerang.get_constituents" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="docutils">
 <dt><cite>Args:</cite></dt>
 <dd><dl class="first last docutils">
@@ -352,6 +352,12 @@ also be set in order to use OAuth2 authentication.</dd>
 <dd>Number of the page to fetch</dd>
 <dt>page_size: int</dt>
 <dd>Number of records per page (maximum allowed is 50)</dd>
+<dt>order_by: str</dt>
+<dd>Sorts by <code class="docutils literal notranslate"><span class="pre">Id</span></code>, <code class="docutils literal notranslate"><span class="pre">CreatedDate</span></code>, or <code class="docutils literal notranslate"><span class="pre">LastModifiedDate</span></code> (default <code class="docutils literal notranslate"><span class="pre">Id</span></code>).</dd>
+<dt>order_direction: str</dt>
+<dd>Sorts the order_by in <code class="docutils literal notranslate"><span class="pre">Asc</span></code> or <code class="docutils literal notranslate"><span class="pre">Desc</span></code> order.</dd>
+<dt>last_modified: str</dt>
+<dd>Filters to constituents last modified after the specified date (ISO-8601 format).</dd>
 </dl>
 </dd>
 <dt><cite>Returns:</cite></dt>
@@ -421,7 +427,7 @@ also be set in order to use OAuth2 authentication.</dd>
 
 <dl class="method">
 <dt id="parsons.Bloomerang.get_transactions">
-<code class="descname">get_transactions</code><span class="sig-paren">(</span><em>page_number=1</em>, <em>page_size=50</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/bloomerang/bloomerang.html#Bloomerang.get_transactions"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.Bloomerang.get_transactions" title="Permalink to this definition">¶</a></dt>
+<code class="descname">get_transactions</code><span class="sig-paren">(</span><em>page_number=1</em>, <em>page_size=50</em>, <em>order_by=None</em>, <em>order_direction=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/bloomerang/bloomerang.html#Bloomerang.get_transactions"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.Bloomerang.get_transactions" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="docutils">
 <dt><cite>Args:</cite></dt>
 <dd><dl class="first last docutils">
@@ -429,6 +435,10 @@ also be set in order to use OAuth2 authentication.</dd>
 <dd>Number of the page to fetch</dd>
 <dt>page_size: int</dt>
 <dd>Number of records per page (maximum allowed is 50)</dd>
+<dt>order_by: str</dt>
+<dd>Sorts by <code class="docutils literal notranslate"><span class="pre">Date</span></code>, <code class="docutils literal notranslate"><span class="pre">CreatedDate</span></code>, or <code class="docutils literal notranslate"><span class="pre">LastModifiedDate</span></code> (default <code class="docutils literal notranslate"><span class="pre">Date</span></code>).</dd>
+<dt>order_direction: str</dt>
+<dd>Sorts the order_by in <code class="docutils literal notranslate"><span class="pre">Asc</span></code> or <code class="docutils literal notranslate"><span class="pre">Desc</span></code> order (default <code class="docutils literal notranslate"><span class="pre">Desc</span></code>).</dd>
 </dl>
 </dd>
 <dt><cite>Returns:</cite></dt>
@@ -453,7 +463,7 @@ also be set in order to use OAuth2 authentication.</dd>
 
 <dl class="method">
 <dt id="parsons.Bloomerang.get_transaction_designations">
-<code class="descname">get_transaction_designations</code><span class="sig-paren">(</span><em>page_number=1</em>, <em>page_size=50</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/bloomerang/bloomerang.html#Bloomerang.get_transaction_designations"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.Bloomerang.get_transaction_designations" title="Permalink to this definition">¶</a></dt>
+<code class="descname">get_transaction_designations</code><span class="sig-paren">(</span><em>page_number=1</em>, <em>page_size=50</em>, <em>order_by=None</em>, <em>order_direction=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/bloomerang/bloomerang.html#Bloomerang.get_transaction_designations"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.Bloomerang.get_transaction_designations" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="docutils">
 <dt><cite>Args:</cite></dt>
 <dd><dl class="first last docutils">
@@ -461,6 +471,10 @@ also be set in order to use OAuth2 authentication.</dd>
 <dd>Number of the page to fetch</dd>
 <dt>page_size: int</dt>
 <dd>Number of records per page (maximum allowed is 50)</dd>
+<dt>order_by: str</dt>
+<dd>Sorts by <code class="docutils literal notranslate"><span class="pre">Date</span></code>, <code class="docutils literal notranslate"><span class="pre">CreatedDate</span></code>, or <code class="docutils literal notranslate"><span class="pre">LastModifiedDate</span></code> (default <code class="docutils literal notranslate"><span class="pre">Date</span></code>).</dd>
+<dt>order_direction: str</dt>
+<dd>Sorts the order_by in <code class="docutils literal notranslate"><span class="pre">Asc</span></code> or <code class="docutils literal notranslate"><span class="pre">Desc</span></code> order (default <code class="docutils literal notranslate"><span class="pre">Desc</span></code>).</dd>
 </dl>
 </dd>
 <dt><cite>Returns:</cite></dt>

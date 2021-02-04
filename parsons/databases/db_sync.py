@@ -65,7 +65,7 @@ class DBSync:
                 try:
                     self._check_column_match(source_tbl, destination_tbl)
                     destination_tbl.truncate()
-                except:
+                except Exception:
                     logger.info(f"needed to drop {destination_tbl}...")
                     destination_tbl.drop()
             else:

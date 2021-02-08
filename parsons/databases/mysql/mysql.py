@@ -316,12 +316,15 @@ class MySQL(MySQLCreateTable):
 class MySQLTable(BaseTable):
     # MySQL table object.
 
-    def get_rows(self, offset=0, chunk_size=None):
+    def get_rows(self, offset=0, chunk_size=None, order_by=None):
         """
         Get rows from a table.
         """
 
         sql = f"SELECT * FROM {self.table}"
+
+        if order_by:
+            sql += f" ORDER BY {order_by}"
 
         if chunk_size:
             sql += f" LIMIT {chunk_size}"
@@ -344,6 +347,7 @@ class MySQLTable(BaseTable):
                *
                FROM {self.table}
                WHERE {primary_key} > {cutoff_value}
+               ORDER BY {primary_key}
                """
 
         if chunk_size:

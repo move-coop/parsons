@@ -92,7 +92,7 @@ class BaseTable:
 
         return self.db.query(sql)
 
-    def get_new_rows_count(self, primary_key_col, start_value):
+    def get_new_rows_count(self, primary_key_col, start_value=None):
         """
         Get a count of rows that have a greater primary key value
         than the one provided.
@@ -102,10 +102,16 @@ class BaseTable:
                SELECT
                COUNT(*)
                FROM {self.table}
-               WHERE {primary_key_col} > %s
                """
+        params = []
 
-        return self.db.query(sql, [start_value]).first
+        if start_value:
+            sql += f"""
+                    WHERE {primary_key_col} > %s
+                    """
+            params = [start_value]
+
+        return self.db.query(sql, params).first
 
     def get_new_rows(self, primary_key, cutoff_value, offset=0, chunk_size=None):
         """

@@ -16,11 +16,14 @@ class DBSync:
         chunk_size: int
             The number of rows per transaction copy when syncing a table. The
             default value is 100,000 rows.
+        retries: int
+            The number of times to retry if there is an error processing a
+            chunk of data. The default value is 0.
     `Returns:`
         A DBSync object.
     """
 
-    def __init__(self, source_db, destination_db, chunk_size=100000, retries=1):
+    def __init__(self, source_db, destination_db, chunk_size=100_000, retries=0):
 
         self.source_db = source_db
         self.dest_db = destination_db
@@ -209,12 +212,17 @@ class DBSync:
         last_exc = None
         rows_processed = 0
 
-        for i in range(self.retries):
+        # Run through once per each number of retries we have (we will break out of the
+        # loop manually if we are successful in processing the data)
+        for i in range(self.retries + 1):
+            # Log a message if this is a true "retry"
             if i > 0:
-                logger.info('Retrying syncing a chunk of data')
+                logger.info('Retrying the chunk of data')
+
             try:
                 if cutoff:
-                    # Get a chunk
+                    # If we have a cuttoff, we are loading data incrementally -- filter out
+                    # any data before our cutoff
                     rows = source_table.get_new_rows(primary_key=order_by,
                                                      cutoff_value=cutoff,
                                                      offset=offset,
@@ -223,14 +231,14 @@ class DBSync:
                     # Get a chunk
                     rows = source_table.get_rows(offset=offset, chunk_size=chunk_size)
 
+                # If we didn't get any data, exit early -- there's nothing to load
                 if rows.num_rows == 0:
                     return 0
 
                 number_of_rows = rows.num_rows
-
                 logger.info('Syncing %s records', number_of_rows)
 
-                # Copy the chunk
+                # Copy the chunk into the destination database
                 self.dest_db.copy(rows, destination_table_name, if_exists='append', **kwargs)
                 rows_processed = number_of_rows
             except Exception as exc:

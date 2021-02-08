@@ -123,7 +123,7 @@ class BaseTable:
                *
                FROM {self.table}
                {where_clause}
-               ORDER BY RANDOM
+               ORDER BY RANDOM()
                """
 
         if chunk_size:

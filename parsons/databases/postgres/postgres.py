@@ -46,17 +46,21 @@ class Postgres(PostgresCore):
         self.timeout = timeout
         self.dialect = 'postgres'
 
-    def copy(self, tbl, table_name, if_exists='fail'):
+    def copy(self, tbl, table_name, if_exists='fail', strict_length=False):
         """
         Copy a :ref:`parsons-table` to Postgres.
 
-        tbl: parsons.Table
-            A Parsons table object
-        table_name: str
-            The destination schema and table (e.g. ``my_schema.my_table``)
-        if_exists: str
-            If the table already exists, either ``fail``, ``append``, ``drop``
-            or ``truncate`` the table.
+        `Args:`
+            tbl: parsons.Table
+                A Parsons table object
+            table_name: str
+                The destination schema and table (e.g. ``my_schema.my_table``)
+            if_exists: str
+                If the table already exists, either ``fail``, ``append``, ``drop``
+                or ``truncate`` the table.
+            strict_length: bool
+                Whether or not to tightly fit the length of the table columns to the length
+                of the data in ``tbl``; if ``padding`` is specified, this argument is ignored
         """
 
         with self.connection() as connection:
@@ -66,7 +70,7 @@ class Postgres(PostgresCore):
 
                 # Create the table
                 # To Do: Pass in the advanced configuration parameters.
-                sql = self.create_statement(tbl, table_name)
+                sql = self.create_statement(tbl, table_name, strict_length=strict_length)
 
                 self.query_with_connection(sql, connection, commit=False)
                 logger.info(f'{table_name} created.')

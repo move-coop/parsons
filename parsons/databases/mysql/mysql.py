@@ -188,7 +188,7 @@ class MySQL(MySQLCreateTable):
                 logger.debug(f'Query returned {final_tbl.num_rows} rows.')
                 return final_tbl
 
-    def copy(self, tbl, table_name, if_exists='fail', chunk_size=1000):
+    def copy(self, tbl, table_name, if_exists='fail', chunk_size=1000, strict_length=True):
         """
         Copy a :ref:`parsons-table` to the database.
 
@@ -197,15 +197,19 @@ class MySQL(MySQLCreateTable):
             many MySQL Database configurations do not allow data files to be
             loaded. It results in a minor performance hit compared to `LOAD DATA`.
 
-        tbl: parsons.Table
-            A Parsons table object
-        table_name: str
-            The destination schema and table (e.g. ``my_schema.my_table``)
-        if_exists: str
-            If the table already exists, either ``fail``, ``append``, ``drop``
-            or ``truncate`` the table.
-        chunk_size: int
-            The number of rows to insert per query.
+        `Args:`
+            tbl: parsons.Table
+                A Parsons table object
+            table_name: str
+                The destination schema and table (e.g. ``my_schema.my_table``)
+            if_exists: str
+                If the table already exists, either ``fail``, ``append``, ``drop``
+                or ``truncate`` the table.
+            chunk_size: int
+                The number of rows to insert per query.
+            strict_length: bool
+                Whether or not to tightly fit the length of the table columns to the length
+                of the data in ``tbl``; if ``padding`` is specified, this argument is ignored
         """
 
         if tbl.num_rows == 0:
@@ -216,7 +220,7 @@ class MySQL(MySQLCreateTable):
 
             # Create table if not exists
             if self._create_table_precheck(connection, table_name, if_exists):
-                sql = self.create_statement(tbl, table_name)
+                sql = self.create_statement(tbl, table_name, strict_length=strict_length)
                 self.query_with_connection(sql, connection, commit=False)
                 logger.info(f'Table {table_name} created.')
 
@@ -316,12 +320,15 @@ class MySQL(MySQLCreateTable):
 class MySQLTable(BaseTable):
     # MySQL table object.
 
-    def get_rows(self, offset=0, chunk_size=None):
+    def get_rows(self, offset=0, chunk_size=None, order_by=None):
         """
         Get rows from a table.
         """
 
         sql = f"SELECT * FROM {self.table}"
+
+        if order_by:
+            sql += f" ORDER BY {order_by}"
 
         if chunk_size:
             sql += f" LIMIT {chunk_size}"
@@ -344,6 +351,7 @@ class MySQLTable(BaseTable):
                *
                FROM {self.table}
                WHERE {primary_key} > {cutoff_value}
+               ORDER BY {primary_key}
                """
 
         if chunk_size:

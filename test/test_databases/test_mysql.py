@@ -164,7 +164,7 @@ class TestMySQL(unittest.TestCase):  # noqa
     def test_evaluate_table(self):
 
         table_map = [{'name': 'ID', 'type': 'smallint', 'width': 0},
-                     {'name': 'Name', 'type': 'varchar', 'width': 10},
+                     {'name': 'Name', 'type': 'varchar', 'width': 8},
                      {'name': 'Score', 'type': 'float', 'width': 0}]
         self.assertEqual(self.mysql.evaluate_table(self.tbl), table_map)
 

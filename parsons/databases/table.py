@@ -75,12 +75,15 @@ class BaseTable:
         Get rows from a table.
         """
 
-        sql = f"SELECT * FROM {self.table}"
+        sql = f"""
+               SELECT SETSEED(0.1);
+               SELECT * FROM {self.table} ORDER BY RANDOM()
+               """
 
         if chunk_size:
             sql += f" LIMIT {chunk_size}"
 
-        sql += f" OFFSET {offset}"
+        sql += f" OFFSET {offset};"
 
         return self.db.query(sql)
 
@@ -115,16 +118,18 @@ class BaseTable:
             parameters = []
 
         sql = f"""
+               SELECT SETSEED(0.1);
                SELECT
                *
                FROM {self.table}
                {where_clause}
+               ORDER BY RANDOM
                """
 
         if chunk_size:
             sql += f" LIMIT {chunk_size}"
 
-        sql += f" OFFSET {offset}"
+        sql += f" OFFSET {offset};"
 
         return self.db.query(sql, parameters)
 

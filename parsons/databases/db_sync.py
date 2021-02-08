@@ -20,14 +20,15 @@ class DBSync:
         A DBSync object.
     """
 
-    def __init__(self, source_db, destination_db, chunk_size=100000):
+    def __init__(self, source_db, destination_db, chunk_size=100000, retries=1):
 
         self.source_db = source_db
         self.dest_db = destination_db
         self.chunk_size = chunk_size
+        self.retries = retries
 
     def table_sync_full(self, source_table, destination_table, if_exists='drop',
-                        **kwargs):
+                        order_by=None, **kwargs):
         """
         Full sync of table from a source database to a destination database. This will
         wipe all data from the destination table.
@@ -80,14 +81,12 @@ class DBSync:
         copied_rows = 0
         while copied_rows < source_tbl.num_rows:
 
-            # Get a chunk
-            rows = source_tbl.get_rows(offset=copied_rows, chunk_size=self.chunk_size)
-
-            # Copy the chunk
-            self.dest_db.copy(rows, destination_table, if_exists='append', **kwargs)
+            # Process a chunk
+            row_count = self._process_chunk(source_tbl, destination_table, copied_rows,
+                                            self.chunk_size, order_by=order_by, **kwargs)
 
             # Update counter
-            copied_rows += rows.num_rows
+            copied_rows += row_count
 
         logger.info(f'{source_table} synced: {copied_rows} total rows copied.')
 
@@ -158,20 +157,17 @@ class DBSync:
             logger.info(f'Found {new_row_count} new rows in source table.')
 
             copied_rows = 0
+
             # Copy rows in chunks.
             while True:
-                # Get a chunk
-                rows = source_tbl.get_new_rows(primary_key=primary_key,
-                                               cutoff_value=dest_max_pk,
-                                               offset=copied_rows,
-                                               chunk_size=self.chunk_size)
 
-                row_count = rows.num_rows if rows else 0
+                # Process a chunk
+                row_count = self._process_chunk(
+                    source_tbl, destination_table, copied_rows, self.chunk_size,
+                    cutoff=dest_max_pk, order_by=primary_key, **kwargs)
+
                 if row_count == 0:
                     break
-
-                # Copy the chunk
-                self.dest_db.copy(rows, destination_table, if_exists='append', **kwargs)
 
                 # Update the counter
                 copied_rows += row_count
@@ -204,3 +200,55 @@ class DBSync:
         if source_table_obj.columns != destination_table_obj.columns:
             raise ValueError("""Destination table columns do not match source table columns.
                              Consider dropping destination table and running a full sync.""")
+
+    def _process_chunk(
+        self, source_table, destination_table_name, offset, chunk_size,
+        cutoff=None, order_by=None, **kwargs
+    ):
+
+        last_exc = None
+        rows_processed = 0
+
+        for i in range(self.retries):
+            if i > 0:
+                logger.info('Retrying syncing a chunk of data')
+            try:
+                if cutoff:
+                    # Get a chunk
+                    rows = source_table.get_new_rows(primary_key=order_by,
+                                                     cutoff_value=cutoff,
+                                                     offset=offset,
+                                                     chunk_size=chunk_size)
+                else:
+                    # Get a chunk
+                    rows = source_table.get_rows(offset=offset, chunk_size=chunk_size)
+
+                if rows.num_rows == 0:
+                    return 0
+
+                number_of_rows = rows.num_rows
+
+                logger.info('Syncing %s records', number_of_rows)
+
+                # Copy the chunk
+                self.dest_db.copy(rows, destination_table_name, if_exists='append', **kwargs)
+                rows_processed = number_of_rows
+            except Exception as exc:
+                # Log the exception
+                logger.exception('Unhandled exception processing a chunk')
+
+                # Remember the last exception we encountered
+                last_exc = exc
+
+                # Move on to the next retry in the loop
+                continue
+            else:
+                # No exception, so no need to retry -- let's break out of the loop
+                break
+        else:
+            # If we are here, then we completed the for loop and therefore, we ran out of retries
+            # Let's raise the last known exception
+            raise last_exc
+
+        # Return the number of rows copied
+        return rows_processed

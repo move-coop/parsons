@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>parsons.ngpvan.signups &mdash; Parsons 0.1 documentation</title>
+  <title>parsons.ngpvan.signups &mdash; Parsons 0.5 documentation</title>
   
 
   
@@ -79,23 +79,53 @@
               <p class="caption"><span class="caption-text">Integrations</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../../action_kit.html">ActionKit</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../action_network.html">Action Network</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../airtable.html">Airtable</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../aws.html">Amazon Web Services</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../azure.html">Azure: Blob Storage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../bill_com.html">Bill.com</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../bloomerang.html">Bloomerang</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../box.html">Box</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../braintree.html">Braintree</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../civis.html">Civis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../copper.html">Copper</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../crowdtangle.html">CrowdTangle</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../databases.html">Databases</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../facebook_ads.html">FacebookAds</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../google_sheets.html">GoogleSheets</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../mobile_commons.html">Mobile Commons</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../freshdesk.html">Freshdesk</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../github.html">GitHub</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../google.html">Google</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../hustle.html">Hustle</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../mailchimp.html">Mailchimp</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../mobilize_america.html">Mobilize America</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../ngpvan.html">VAN</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../newmode.html">New/Mode</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../ngpvan.html">NGPVAN</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../pdi.html">PDI</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../p2a.html">Phone2Action</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../redshift.html">Redshift</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../s3.html">S3</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../redash.html">Redash</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../rockthevote.html">Rock the Vote</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../salesforce.html">Salesforce</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../sftp.html">SFTP</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../ts.html">TargetSmart</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../targetsmart.html">TargetSmart</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../turbovote.html">TurboVote</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../twilio.html">Twilio</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../zoom.html">Zoom</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Enhancements</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../census_geocoder.html">US Census Geocoder</a></li>
 </ul>
 <p class="caption"><span class="caption-text">Framework</span></p>
 <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../dbsync.html">Database Sync</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../table.html">Parsons Table</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../notifications.html">Notifications</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../utilities.html">Utilities</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Contributor Documentation</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../contributing.html">Contributing to Parsons</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../build_a_connector.html">How to Build a Connector</a></li>
 </ul>
 
             
@@ -159,26 +189,30 @@
            <div itemprop="articleBody">
             
   <h1>Source code for parsons.ngpvan.signups</h1><div class="highlight"><pre>
-<span></span>
+<span></span><span class="sd">&quot;&quot;&quot;NGPVAN Signups Endpoints&quot;&quot;&quot;</span>
+<span class="kn">from</span> <span class="nn">parsons.etl.table</span> <span class="kn">import</span> <span class="n">Table</span>
+<span class="kn">import</span> <span class="nn">logging</span>
+
+<span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
+
 
 <div class="viewcode-block" id="Signups"><a class="viewcode-back" href="../../../ngpvan.html#parsons.ngpvan.van.Signups">[docs]</a><span class="k">class</span> <span class="nc">Signups</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Class for &#39;/signups&#39; end points.&quot;&quot;&quot;</span>
 
-    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">van_connection</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">van_connection</span><span class="p">):</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">connection</span> <span class="o">=</span> <span class="n">van_connection</span>
 
 <div class="viewcode-block" id="Signups.get_signups_statuses"><a class="viewcode-back" href="../../../ngpvan.html#parsons.ngpvan.van.Signups.get_signups_statuses">[docs]</a>    <span class="k">def</span> <span class="nf">get_signups_statuses</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">event_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">event_type_id</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Get a list of valid signup statuses for a given event type</span>
-<span class="sd">        or event. You may pass either and ``event_id`` or an ``event_type_id``</span>
+<span class="sd">        or event. You must pass one of ``event_id`` or ``event_type_id``</span>
 <span class="sd">        but not both.</span>
 
 <span class="sd">        `Args:`</span>
 <span class="sd">            event_id: int</span>
-<span class="sd">                A valid event id</span>
+<span class="sd">                A valid event id.</span>
 <span class="sd">            event_type_id: int</span>
-<span class="sd">                A valid event type id</span>
+<span class="sd">                A valid event type id.</span>
 <span class="sd">        `Returns:`</span>
 <span class="sd">            Parsons Table</span>
 <span class="sd">                See :ref:`parsons-table` for output options.</span>
@@ -191,13 +225,13 @@
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;Event Id and Event Type ID may not BOTH be populated&#39;</span><span class="p">)</span>
 
         <span class="k">if</span> <span class="n">event_id</span><span class="p">:</span>
-            <span class="n">args</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;eventId&#39;</span><span class="p">:</span> <span class="n">event_id</span><span class="p">}</span>
+            <span class="n">params</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;eventId&#39;</span><span class="p">:</span> <span class="n">event_id</span><span class="p">}</span>
         <span class="k">if</span> <span class="n">event_type_id</span><span class="p">:</span>
-            <span class="n">args</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;eventTypeId&#39;</span><span class="p">:</span> <span class="n">event_type_id</span><span class="p">}</span>
+            <span class="n">params</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;eventTypeId&#39;</span><span class="p">:</span> <span class="n">event_type_id</span><span class="p">}</span>
 
-        <span class="n">url</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">connection</span><span class="o">.</span><span class="n">uri</span> <span class="o">+</span> <span class="s1">&#39;signups/statuses&#39;</span>
-
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">connection</span><span class="o">.</span><span class="n">request</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">args</span><span class="o">=</span><span class="n">args</span><span class="p">)</span></div>
+        <span class="n">tbl</span> <span class="o">=</span> <span class="n">Table</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">connection</span><span class="o">.</span><span class="n">get_request</span><span class="p">(</span><span class="s1">&#39;signups/statuses&#39;</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="n">params</span><span class="p">))</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Found </span><span class="si">{</span><span class="n">tbl</span><span class="o">.</span><span class="n">num_rows</span><span class="si">}</span><span class="s1"> signups.&#39;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">tbl</span></div>
 
 <div class="viewcode-block" id="Signups.get_person_signups"><a class="viewcode-back" href="../../../ngpvan.html#parsons.ngpvan.van.Signups.get_person_signups">[docs]</a>    <span class="k">def</span> <span class="nf">get_person_signups</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">vanid</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
@@ -205,15 +239,15 @@
 
 <span class="sd">        `Args:`</span>
 <span class="sd">            vanid: int</span>
-<span class="sd">                A valid vanid associated with a person</span>
+<span class="sd">                A valid vanid associated with a person.</span>
 <span class="sd">        `Returns:`</span>
 <span class="sd">            Parsons Table</span>
 <span class="sd">                See :ref:`parsons-table` for output options.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
-        <span class="n">url</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">connection</span><span class="o">.</span><span class="n">uri</span> <span class="o">+</span> <span class="s1">&#39;signups&#39;</span>
-
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_unpack_signups</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">connection</span><span class="o">.</span><span class="n">request_paginate</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">args</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;vanID&#39;</span><span class="p">:</span> <span class="n">vanid</span><span class="p">}))</span></div>
+        <span class="n">tbl</span> <span class="o">=</span> <span class="n">Table</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">connection</span><span class="o">.</span><span class="n">get_request</span><span class="p">(</span><span class="s1">&#39;signups&#39;</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;vanID&#39;</span><span class="p">:</span> <span class="n">vanid</span><span class="p">}))</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Found </span><span class="si">{</span><span class="n">tbl</span><span class="o">.</span><span class="n">num_rows</span><span class="si">}</span><span class="s1"> signups for </span><span class="si">{</span><span class="n">vanid</span><span class="si">}</span><span class="s1">.&#39;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_unpack_signups</span><span class="p">(</span><span class="n">tbl</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="Signups.get_event_signups"><a class="viewcode-back" href="../../../ngpvan.html#parsons.ngpvan.van.Signups.get_event_signups">[docs]</a>    <span class="k">def</span> <span class="nf">get_event_signups</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">event_id</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
@@ -227,26 +261,25 @@
 <span class="sd">                See :ref:`parsons-table` for output options.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
-        <span class="n">url</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">connection</span><span class="o">.</span><span class="n">uri</span> <span class="o">+</span> <span class="s1">&#39;signups&#39;</span>
-
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_unpack_signups</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">connection</span><span class="o">.</span><span class="n">request_paginate</span><span class="p">(</span><span class="n">url</span><span class="p">,</span>
-                                                                     <span class="n">args</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;eventId&#39;</span><span class="p">:</span> <span class="n">event_id</span><span class="p">}))</span></div>
+        <span class="n">tbl</span> <span class="o">=</span> <span class="n">Table</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">connection</span><span class="o">.</span><span class="n">get_request</span><span class="p">(</span><span class="s1">&#39;signups&#39;</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;eventId&#39;</span><span class="p">:</span> <span class="n">event_id</span><span class="p">}))</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Found </span><span class="si">{</span><span class="n">tbl</span><span class="o">.</span><span class="n">num_rows</span><span class="si">}</span><span class="s1"> signups for event </span><span class="si">{</span><span class="n">event_id</span><span class="si">}</span><span class="s1">.&#39;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_unpack_signups</span><span class="p">(</span><span class="n">tbl</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="Signups.get_signup"><a class="viewcode-back" href="../../../ngpvan.html#parsons.ngpvan.van.Signups.get_signup">[docs]</a>    <span class="k">def</span> <span class="nf">get_signup</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">event_signup_id</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Get a single signup object.</span>
 
 <span class="sd">        `Args:`</span>
-<span class="sd">            event_id: int</span>
+<span class="sd">            event_signup_id: int</span>
 <span class="sd">                A valid event_signup_id associated with a signup.</span>
 <span class="sd">        `Returns:`</span>
 <span class="sd">            Parsons Table</span>
 <span class="sd">                See :ref:`parsons-table` for output options.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
-        <span class="n">url</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">connection</span><span class="o">.</span><span class="n">uri</span> <span class="o">+</span> <span class="s1">&#39;signups/</span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">event_signup_id</span><span class="p">)</span>
-
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_unpack_signups</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">connection</span><span class="o">.</span><span class="n">request</span><span class="p">(</span><span class="n">url</span><span class="p">))</span></div>
+        <span class="n">r</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">connection</span><span class="o">.</span><span class="n">get_request</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;signups/</span><span class="si">{</span><span class="n">event_signup_id</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Found sign up </span><span class="si">{</span><span class="n">event_signup_id</span><span class="si">}</span><span class="s1">.&#39;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">r</span></div>
 
 <div class="viewcode-block" id="Signups.create_signup"><a class="viewcode-back" href="../../../ngpvan.html#parsons.ngpvan.van.Signups.create_signup">[docs]</a>    <span class="k">def</span> <span class="nf">create_signup</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">vanid</span><span class="p">,</span> <span class="n">event_id</span><span class="p">,</span> <span class="n">shift_id</span><span class="p">,</span> <span class="n">role_id</span><span class="p">,</span> <span class="n">status_id</span><span class="p">,</span> <span class="n">location_id</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
@@ -270,8 +303,6 @@
 <span class="sd">                The event signup id</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
-        <span class="n">url</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">connection</span><span class="o">.</span><span class="n">uri</span> <span class="o">+</span> <span class="s1">&#39;signups&#39;</span>
-
         <span class="n">signup</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;person&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;vanId&#39;</span><span class="p">:</span> <span class="n">vanid</span><span class="p">},</span>
                   <span class="s1">&#39;event&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;eventId&#39;</span><span class="p">:</span> <span class="n">event_id</span><span class="p">},</span>
                   <span class="s1">&#39;shift&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;eventShiftId&#39;</span><span class="p">:</span> <span class="n">shift_id</span><span class="p">},</span>
@@ -280,7 +311,9 @@
                   <span class="s1">&#39;location&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;locationId&#39;</span><span class="p">:</span> <span class="n">location_id</span><span class="p">}</span>
                   <span class="p">}</span>
 
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">connection</span><span class="o">.</span><span class="n">request</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">req_type</span><span class="o">=</span><span class="s2">&quot;POST&quot;</span><span class="p">,</span> <span class="n">post_data</span><span class="o">=</span><span class="n">signup</span><span class="p">,</span> <span class="n">raw</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span></div>
+        <span class="n">r</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">connection</span><span class="o">.</span><span class="n">post_request</span><span class="p">(</span><span class="s1">&#39;signups&#39;</span><span class="p">,</span> <span class="n">json</span><span class="o">=</span><span class="n">signup</span><span class="p">)</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s1">&#39;Signup </span><span class="si">{r}</span><span class="s1"> created.&#39;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">r</span></div>
 
 <div class="viewcode-block" id="Signups.update_signup"><a class="viewcode-back" href="../../../ngpvan.html#parsons.ngpvan.van.Signups.update_signup">[docs]</a>    <span class="k">def</span> <span class="nf">update_signup</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">event_signup_id</span><span class="p">,</span> <span class="n">shift_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">role_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">status_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
                       <span class="n">location_id</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
@@ -300,13 +333,11 @@
 <span class="sd">            location_id: int</span>
 <span class="sd">                The location_id to update</span>
 <span class="sd">        `Returns:`</span>
-<span class="sd">            tuple</span>
-<span class="sd">                If successful ``(204, No Content)``</span>
+<span class="sd">            ``None``</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
         <span class="c1">#  Get the signup object</span>
-        <span class="n">s_url</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">connection</span><span class="o">.</span><span class="n">uri</span> <span class="o">+</span> <span class="s1">&#39;signups/</span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">event_signup_id</span><span class="p">)</span>
-        <span class="n">signup</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">connection</span><span class="o">.</span><span class="n">request</span><span class="p">(</span><span class="n">s_url</span><span class="p">,</span> <span class="n">raw</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span><span class="o">.</span><span class="n">json</span><span class="p">()</span>
+        <span class="n">signup</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">connection</span><span class="o">.</span><span class="n">get_request</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;signups/</span><span class="si">{</span><span class="n">event_signup_id</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
 
         <span class="c1"># Update the signup object</span>
         <span class="k">if</span> <span class="n">shift_id</span><span class="p">:</span>
@@ -318,9 +349,7 @@
         <span class="k">if</span> <span class="n">location_id</span><span class="p">:</span>
             <span class="n">signup</span><span class="p">[</span><span class="s1">&#39;location&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;locationId&#39;</span><span class="p">:</span> <span class="n">location_id</span><span class="p">}</span>
 
-        <span class="n">url</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">connection</span><span class="o">.</span><span class="n">uri</span> <span class="o">+</span> <span class="s1">&#39;signups/</span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">event_signup_id</span><span class="p">)</span>
-
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">connection</span><span class="o">.</span><span class="n">request</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">req_type</span><span class="o">=</span><span class="s2">&quot;PUT&quot;</span><span class="p">,</span> <span class="n">post_data</span><span class="o">=</span><span class="n">signup</span><span class="p">)</span></div>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">connection</span><span class="o">.</span><span class="n">put_request</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;signups/</span><span class="si">{</span><span class="n">event_signup_id</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">json</span><span class="o">=</span><span class="n">signup</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="Signups.delete_signup"><a class="viewcode-back" href="../../../ngpvan.html#parsons.ngpvan.van.Signups.delete_signup">[docs]</a>    <span class="k">def</span> <span class="nf">delete_signup</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">event_signup_id</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
@@ -330,13 +359,12 @@
 <span class="sd">            event_signup_id: int</span>
 <span class="sd">                A valid event signup id</span>
 <span class="sd">        `Returns:`</span>
-<span class="sd">            tuple</span>
-<span class="sd">                If successful ``(204, No Content)``</span>
+<span class="sd">            ``None``</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
-        <span class="n">url</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">connection</span><span class="o">.</span><span class="n">uri</span> <span class="o">+</span> <span class="s1">&#39;signups/</span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">event_signup_id</span><span class="p">)</span>
-
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">connection</span><span class="o">.</span><span class="n">request</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">req_type</span><span class="o">=</span><span class="s2">&quot;DELETE&quot;</span><span class="p">)</span></div>
+        <span class="n">r</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">connection</span><span class="o">.</span><span class="n">delete_request</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;signups/</span><span class="si">{</span><span class="n">event_signup_id</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Signup </span><span class="si">{</span><span class="n">event_signup_id</span><span class="si">}</span><span class="s1"> deleted.&#39;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">r</span></div>
 
     <span class="k">def</span> <span class="nf">_unpack_signups</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">table</span><span class="p">):</span>
 

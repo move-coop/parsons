@@ -1,6 +1,10 @@
 Bill.com
 ==========
 
+********
+Overview
+********
+
 `Bill.com <https://www.bill.com>`_ is an online billing and invoicing tool. This class contains methods to:
 
 - Get lists of customers, users, and invoices

@@ -82,7 +82,11 @@ class Table(ETL, ToFrom):
 
     def __bool__(self):
 
-        return self.num_rows > 0
+        # Try to get a single row from our table
+        head_one = petl.head(self.table)
+
+        # See if our single row is empty
+        return petl.nrows(head_one) > 0
 
     def _repr_html_(self):
         """
@@ -197,6 +201,9 @@ class Table(ETL, ToFrom):
             file_path: str
                 The path to the file to materialize the table to; if not specified, a temp file
                 will be created.
+        `Returns:`
+            str
+                Path to the temp file that now contains the table
         """
 
         # Load the data in batches, and "pickle" the rows to a temp file.
@@ -211,6 +218,8 @@ class Table(ETL, ToFrom):
 
         # Load a Table from the file
         self.table = petl.frompickle(file_path)
+
+        return file_path
 
     def is_valid_table(self):
         """

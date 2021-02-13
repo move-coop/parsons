@@ -38,6 +38,10 @@ class RedshiftCreateTable(DatabaseCreateStatement):
 
     def create_statement(self, tbl, table_name, padding=None, distkey=None, sortkey=None,
                          varchar_max=None, varchar_truncate=True, columntypes=None):
+
+        # Warn the user if they don't provide a DIST key or a SORT key
+        self._log_key_warning(distkey=distkey, sortkey=sortkey, method='copy')
+
         # Generate a table create statement
 
         # Validate and rename column names if needed
@@ -173,3 +177,26 @@ class RedshiftCreateTable(DatabaseCreateStatement):
     def column_name_validate(self, columns):
         return self.format_columns(
             columns, col_prefix="col_")
+
+    @staticmethod
+    def _log_key_warning(distkey=None, sortkey=None, method=''):
+        # Log a warning message advising the user about DIST and SORT keys
+
+        if distkey and sortkey:
+            return
+
+        keys = [
+            (distkey, "DIST", "https://aws.amazon.com/about-aws/whats-new/2019/08/amazon-redshift-"
+                              "now-recommends-distribution-keys-for-improved-query-performance/"),
+            (sortkey, "SORT", "https://docs.amazonaws.cn/en_us/redshift/latest/dg/c_best-practices-"
+                              "sort-key.html")
+        ]
+        warning = "".join([
+            "You didn't provide a {} key to method `parsons.redshift.Redshift.{}`.\n"
+            "You can learn about best practices here:\n{}.\n".format(
+                keyname, method, keyinfo
+            ) for key, keyname, keyinfo in keys if not key])
+
+        warning += "You may be able to further optimize your queries."
+
+        logger.warning(warning)

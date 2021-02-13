@@ -38,11 +38,11 @@ You can then call various endpoints:
 
 .. code-block:: python
 
-	# Get records from a base
-	at.get_records(fields=['id', 'fn', 'ln'])
+    # Get records from a base
+    at.get_records(fields=['id', 'fn', 'ln'])
 
-	# Get a single record from a base
-	at.get_record(1233)
+    # Get a single record from a base
+    at.get_record(1233)
 
     # Insert records
     tbl.from_csv('my_new_records')

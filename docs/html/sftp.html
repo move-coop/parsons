@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>SFTP &mdash; Parsons 0.1 documentation</title>
+  <title>SFTP &mdash; Parsons 0.5 documentation</title>
   
 
   
@@ -28,8 +28,8 @@
   <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="TargetSmart" href="ts.html" />
-    <link rel="prev" title="S3" href="s3.html" /> 
+    <link rel="next" title="TargetSmart" href="targetsmart.html" />
+    <link rel="prev" title="Salesforce" href="salesforce.html" /> 
 
   
   <script src="_static/js/modernizr.min.js"></script>
@@ -81,23 +81,53 @@
               <p class="caption"><span class="caption-text">Integrations</span></p>
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="action_kit.html">ActionKit</a></li>
+<li class="toctree-l1"><a class="reference internal" href="action_network.html">Action Network</a></li>
+<li class="toctree-l1"><a class="reference internal" href="airtable.html">Airtable</a></li>
+<li class="toctree-l1"><a class="reference internal" href="aws.html">Amazon Web Services</a></li>
+<li class="toctree-l1"><a class="reference internal" href="azure.html">Azure: Blob Storage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="bill_com.html">Bill.com</a></li>
+<li class="toctree-l1"><a class="reference internal" href="bloomerang.html">Bloomerang</a></li>
+<li class="toctree-l1"><a class="reference internal" href="box.html">Box</a></li>
+<li class="toctree-l1"><a class="reference internal" href="braintree.html">Braintree</a></li>
 <li class="toctree-l1"><a class="reference internal" href="civis.html">Civis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="copper.html">Copper</a></li>
+<li class="toctree-l1"><a class="reference internal" href="crowdtangle.html">CrowdTangle</a></li>
+<li class="toctree-l1"><a class="reference internal" href="databases.html">Databases</a></li>
 <li class="toctree-l1"><a class="reference internal" href="facebook_ads.html">FacebookAds</a></li>
-<li class="toctree-l1"><a class="reference internal" href="google_sheets.html">GoogleSheets</a></li>
-<li class="toctree-l1"><a class="reference internal" href="mobile_commons.html">Mobile Commons</a></li>
+<li class="toctree-l1"><a class="reference internal" href="freshdesk.html">Freshdesk</a></li>
+<li class="toctree-l1"><a class="reference internal" href="github.html">GitHub</a></li>
+<li class="toctree-l1"><a class="reference internal" href="google.html">Google</a></li>
+<li class="toctree-l1"><a class="reference internal" href="hustle.html">Hustle</a></li>
+<li class="toctree-l1"><a class="reference internal" href="mailchimp.html">Mailchimp</a></li>
 <li class="toctree-l1"><a class="reference internal" href="mobilize_america.html">Mobilize America</a></li>
-<li class="toctree-l1"><a class="reference internal" href="ngpvan.html">VAN</a></li>
+<li class="toctree-l1"><a class="reference internal" href="newmode.html">New/Mode</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ngpvan.html">NGPVAN</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pdi.html">PDI</a></li>
 <li class="toctree-l1"><a class="reference internal" href="p2a.html">Phone2Action</a></li>
-<li class="toctree-l1"><a class="reference internal" href="redshift.html">Redshift</a></li>
-<li class="toctree-l1"><a class="reference internal" href="s3.html">S3</a></li>
+<li class="toctree-l1"><a class="reference internal" href="redash.html">Redash</a></li>
+<li class="toctree-l1"><a class="reference internal" href="rockthevote.html">Rock the Vote</a></li>
+<li class="toctree-l1"><a class="reference internal" href="salesforce.html">Salesforce</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">SFTP</a></li>
-<li class="toctree-l1"><a class="reference internal" href="ts.html">TargetSmart</a></li>
+<li class="toctree-l1"><a class="reference internal" href="targetsmart.html">TargetSmart</a></li>
 <li class="toctree-l1"><a class="reference internal" href="turbovote.html">TurboVote</a></li>
+<li class="toctree-l1"><a class="reference internal" href="twilio.html">Twilio</a></li>
+<li class="toctree-l1"><a class="reference internal" href="zoom.html">Zoom</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Enhancements</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="census_geocoder.html">US Census Geocoder</a></li>
 </ul>
 <p class="caption"><span class="caption-text">Framework</span></p>
 <ul>
+<li class="toctree-l1"><a class="reference internal" href="dbsync.html">Database Sync</a></li>
 <li class="toctree-l1"><a class="reference internal" href="table.html">Parsons Table</a></li>
 <li class="toctree-l1"><a class="reference internal" href="notifications.html">Notifications</a></li>
+<li class="toctree-l1"><a class="reference internal" href="utilities.html">Utilities</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Contributor Documentation</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="contributing.html">Contributing to Parsons</a></li>
+<li class="toctree-l1"><a class="reference internal" href="build_a_connector.html">How to Build a Connector</a></li>
 </ul>
 
             
@@ -168,16 +198,60 @@
 <p>It uses the <a class="reference external" href="http://docs.paramiko.org/en/2.4/api/sftp.html">Paramiko SFTP library</a> under the hood.</p>
 <dl class="class">
 <dt id="parsons.SFTP">
-<em class="property">class </em><code class="descclassname">parsons.</code><code class="descname">SFTP</code><span class="sig-paren">(</span><em>host</em>, <em>username</em>, <em>password</em>, <em>port=22</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/sftp/sftp.html#SFTP"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.SFTP" title="Permalink to this definition">¶</a></dt>
-<dd><dl class="method">
+<em class="property">class </em><code class="descclassname">parsons.</code><code class="descname">SFTP</code><span class="sig-paren">(</span><em>host</em>, <em>username</em>, <em>password</em>, <em>port=22</em>, <em>rsa_private_key_file=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/sftp/sftp.html#SFTP"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.SFTP" title="Permalink to this definition">¶</a></dt>
+<dd><p>Instantiate SFTP Class</p>
+<dl class="docutils">
+<dt><cite>Args:</cite></dt>
+<dd><dl class="first last docutils">
+<dt>host: str</dt>
+<dd>The host name</dd>
+<dt>username: str</dt>
+<dd>The user name</dd>
+<dt>password: str</dt>
+<dd>The password</dd>
+<dt>rsa_private_key_file str</dt>
+<dd>Absolute path to a private RSA key used
+to authenticate stfp connection</dd>
+<dt>port: int</dt>
+<dd>Specify if different than the standard port 22</dd>
+</dl>
+</dd>
+<dt><cite>Returns:</cite></dt>
+<dd>SFTP Class</dd>
+</dl>
+<dl class="method">
+<dt id="parsons.SFTP.create_connection">
+<code class="descname">create_connection</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/sftp/sftp.html#SFTP.create_connection"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.SFTP.create_connection" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create an SFTP connection. You can then utilize this in a <code class="docutils literal notranslate"><span class="pre">with</span></code> block
+and it will close the connection when it is out of scope. You should use
+this when you wish to batch multiple methods using a single connection.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">SFTP</span>
+
+<span class="n">sftp</span> <span class="o">=</span> <span class="n">SFTP</span><span class="p">()</span>
+<span class="n">connection</span> <span class="o">=</span> <span class="n">sftp</span><span class="o">.</span><span class="n">create_connection</span><span class="p">()</span>
+
+<span class="k">with</span> <span class="n">connection</span> <span class="k">as</span> <span class="n">conn</span><span class="p">:</span>
+    <span class="n">sftp</span><span class="o">.</span><span class="n">make_directory</span><span class="p">(</span><span class="s1">&#39;my_dir&#39;</span><span class="p">,</span> <span class="n">connection</span><span class="o">=</span><span class="n">conn</span><span class="p">)</span>
+    <span class="n">sftp</span><span class="o">.</span><span class="n">put_file</span><span class="p">(</span><span class="s1">&#39;my_csv.csv&#39;</span><span class="p">,</span> <span class="n">connection</span><span class="o">=</span><span class="n">conn</span><span class="p">)</span>
+</pre></div>
+</div>
+<dl class="docutils">
+<dt>Returns:</dt>
+<dd>SFTP Connection object</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
 <dt id="parsons.SFTP.list_directory">
-<code class="descname">list_directory</code><span class="sig-paren">(</span><em>remote_path='.'</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/sftp/sftp.html#SFTP.list_directory"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.SFTP.list_directory" title="Permalink to this definition">¶</a></dt>
+<code class="descname">list_directory</code><span class="sig-paren">(</span><em>remote_path='.'</em>, <em>connection=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/sftp/sftp.html#SFTP.list_directory"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.SFTP.list_directory" title="Permalink to this definition">¶</a></dt>
 <dd><p>List the contents of a directory</p>
 <dl class="docutils">
 <dt><cite>Args:</cite></dt>
 <dd><dl class="first last docutils">
 <dt>remote_path: str</dt>
 <dd>The remote path of the directory</dd>
+<dt>connection: obj</dt>
+<dd>An SFTP connection object</dd>
 </dl>
 </dd>
 <dt><cite>Returns:</cite></dt>
@@ -187,13 +261,15 @@
 
 <dl class="method">
 <dt id="parsons.SFTP.make_directory">
-<code class="descname">make_directory</code><span class="sig-paren">(</span><em>remote_path</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/sftp/sftp.html#SFTP.make_directory"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.SFTP.make_directory" title="Permalink to this definition">¶</a></dt>
+<code class="descname">make_directory</code><span class="sig-paren">(</span><em>remote_path</em>, <em>connection=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/sftp/sftp.html#SFTP.make_directory"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.SFTP.make_directory" title="Permalink to this definition">¶</a></dt>
 <dd><p>Makes a new directory on the SFTP server</p>
 <dl class="docutils">
 <dt><cite>Args:</cite></dt>
 <dd><dl class="first last docutils">
 <dt>remote_path: str</dt>
 <dd>The remote path of the directory</dd>
+<dt>connection: obj</dt>
+<dd>An SFTP connection object</dd>
 </dl>
 </dd>
 </dl>
@@ -201,13 +277,15 @@
 
 <dl class="method">
 <dt id="parsons.SFTP.remove_directory">
-<code class="descname">remove_directory</code><span class="sig-paren">(</span><em>remote_path</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/sftp/sftp.html#SFTP.remove_directory"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.SFTP.remove_directory" title="Permalink to this definition">¶</a></dt>
+<code class="descname">remove_directory</code><span class="sig-paren">(</span><em>remote_path</em>, <em>connection=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/sftp/sftp.html#SFTP.remove_directory"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.SFTP.remove_directory" title="Permalink to this definition">¶</a></dt>
 <dd><p>Remove a directory from the SFTP server</p>
 <dl class="docutils">
 <dt><cite>Args:</cite></dt>
 <dd><dl class="first last docutils">
 <dt>remote_path: str</dt>
 <dd>The remote path of the directory</dd>
+<dt>connection: obj</dt>
+<dd>An SFTP connection object</dd>
 </dl>
 </dd>
 </dl>
@@ -215,7 +293,7 @@
 
 <dl class="method">
 <dt id="parsons.SFTP.get_file">
-<code class="descname">get_file</code><span class="sig-paren">(</span><em>remote_path</em>, <em>local_path=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/sftp/sftp.html#SFTP.get_file"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.SFTP.get_file" title="Permalink to this definition">¶</a></dt>
+<code class="descname">get_file</code><span class="sig-paren">(</span><em>remote_path</em>, <em>local_path=None</em>, <em>connection=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/sftp/sftp.html#SFTP.get_file"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.SFTP.get_file" title="Permalink to this definition">¶</a></dt>
 <dd><p>Download a file from the SFTP server</p>
 <dl class="docutils">
 <dt><cite>Args:</cite></dt>
@@ -226,6 +304,8 @@
 <dd>The local path where the file will be downloaded. If not specified, a temporary
 file will be created and returned, and that file will be removed automatically
 when the script is done running.</dd>
+<dt>connection: obj</dt>
+<dd>An SFTP connection object</dd>
 </dl>
 </dd>
 <dt><cite>Returns:</cite></dt>
@@ -238,8 +318,32 @@ when the script is done running.</dd>
 </dd></dl>
 
 <dl class="method">
+<dt id="parsons.SFTP.get_table">
+<code class="descname">get_table</code><span class="sig-paren">(</span><em>remote_path</em>, <em>connection=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/sftp/sftp.html#SFTP.get_table"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.SFTP.get_table" title="Permalink to this definition">¶</a></dt>
+<dd><p>Download a csv from the server and convert into a Parsons table.</p>
+<p>The file may be compressed with gzip, or zip, but may not contain
+multiple files in the archive.</p>
+<dl class="docutils">
+<dt><cite>Args:</cite></dt>
+<dd><dl class="first last docutils">
+<dt>remote_path: str</dt>
+<dd>The remote path of the file to download</dd>
+<dt>connection: obj</dt>
+<dd>An SFTP connection object</dd>
+</dl>
+</dd>
+<dt><cite>Returns:</cite></dt>
+<dd><dl class="first last docutils">
+<dt>Parsons Table</dt>
+<dd>See <a class="reference internal" href="table.html#parsons-table"><span class="std std-ref">Parsons Table</span></a> for output options.</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
 <dt id="parsons.SFTP.put_file">
-<code class="descname">put_file</code><span class="sig-paren">(</span><em>local_path</em>, <em>remote_path</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/sftp/sftp.html#SFTP.put_file"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.SFTP.put_file" title="Permalink to this definition">¶</a></dt>
+<code class="descname">put_file</code><span class="sig-paren">(</span><em>local_path</em>, <em>remote_path</em>, <em>connection=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/sftp/sftp.html#SFTP.put_file"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.SFTP.put_file" title="Permalink to this definition">¶</a></dt>
 <dd><p>Put a file on the SFTP server
 <cite>Args:</cite></p>
 <blockquote>
@@ -248,19 +352,46 @@ when the script is done running.</dd>
 <dd>The local path of the source file</dd>
 <dt>remote_path: str</dt>
 <dd>The remote path of the new file</dd>
+<dt>connection: obj</dt>
+<dd>An SFTP connection object</dd>
 </dl>
 </div></blockquote>
 </dd></dl>
 
 <dl class="method">
 <dt id="parsons.SFTP.remove_file">
-<code class="descname">remove_file</code><span class="sig-paren">(</span><em>remote_path</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/sftp/sftp.html#SFTP.remove_file"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.SFTP.remove_file" title="Permalink to this definition">¶</a></dt>
+<code class="descname">remove_file</code><span class="sig-paren">(</span><em>remote_path</em>, <em>connection=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/sftp/sftp.html#SFTP.remove_file"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.SFTP.remove_file" title="Permalink to this definition">¶</a></dt>
 <dd><p>Delete a file on the SFTP server</p>
 <dl class="docutils">
 <dt><cite>Args:</cite></dt>
 <dd><dl class="first last docutils">
 <dt>remote_path: str</dt>
 <dd>The remote path of the file</dd>
+<dt>connection: obj</dt>
+<dd>An SFTP connection object</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="parsons.SFTP.get_file_size">
+<code class="descname">get_file_size</code><span class="sig-paren">(</span><em>remote_path</em>, <em>connection=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/sftp/sftp.html#SFTP.get_file_size"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.SFTP.get_file_size" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the size of a file in MB on the SFTP server. The file is
+not downloaded locally.</p>
+<dl class="docutils">
+<dt><cite>Args:</cite></dt>
+<dd><dl class="first last docutils">
+<dt>remote_path: str</dt>
+<dd>The remote path of the file</dd>
+<dt>connection: obj</dt>
+<dd>An SFTP connection object</dd>
+</dl>
+</dd>
+<dt><cite>Returns:</cite></dt>
+<dd><dl class="first last docutils">
+<dt>int</dt>
+<dd>The file size in MB.</dd>
 </dl>
 </dd>
 </dl>
@@ -278,10 +409,10 @@ when the script is done running.</dd>
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="ts.html" class="btn btn-neutral float-right" title="TargetSmart" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="targetsmart.html" class="btn btn-neutral float-right" title="TargetSmart" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="s3.html" class="btn btn-neutral" title="S3" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="salesforce.html" class="btn btn-neutral" title="Salesforce" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   

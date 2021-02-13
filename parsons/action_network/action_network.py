@@ -6,22 +6,22 @@ import logging
 
 logger = logging.getLogger(__name__)
 
+API_URL = 'https://actionnetwork.org/api/v2'
+
 
 class ActionNetwork(object):
     """
     `Args:`
         api_token: str
             The OSDI API token
-        api_url:
-            The end point url
     """
-    def __init__(self, api_token=None, api_url=None):
+    def __init__(self, api_token=None):
         self.api_token = check_env.check('AN_API_TOKEN', api_token)
         self.headers = {
             "Content-Type": "application/json",
             "OSDI-API-Token": self.api_token
         }
-        self.api_url = check_env.check('AN_API_URL', api_url)
+        self.api_url = API_URL
         self.api = APIConnector(self.api_url, headers=self.headers)
 
     def _get_page(self, object_name, page, per_page=25):
@@ -77,9 +77,8 @@ class ActionNetwork(object):
         """
         return self.api.get_request(url=f"people/{person_id}")
 
-    def add_person(self, email_address, given_name=None, family_name=None, tags=[],
-                   languages_spoken=[], postal_addresses=[],
-                   **kwargs):
+    def add_person(self, email_address, given_name=None, family_name=None, tags=None,
+                   languages_spoken=None, postal_addresses=None, **kwargs):
         """
         `Args:`
             email_address:
@@ -126,14 +125,19 @@ class ActionNetwork(object):
         data = {
             "person": {
                 "email_addresses": email_addresses_field,
-                "given_name": given_name,
-                "family_name": family_name,
-                "languages_spoken": languages_spoken,
-                "postal_addresses": postal_addresses,
-                "custom_fields": {**kwargs}
               },
-            "add_tags": tags
         }
+        if given_name is not None:
+            data["person"]["given_name"] = given_name
+        if family_name is not None:
+            data["person"]["family_name"] = family_name
+        if languages_spoken is not None:
+            data["person"]["languages_spoken"] = languages_spoken
+        if postal_addresses is not None:
+            data["person"]["postal_address"] = postal_addresses
+        if tags is not None:
+            data["add_tags"] = tags
+        data["person"]["custom_fields"] = {**kwargs}
         response = self.api.post_request(url=f"{self.api_url}/people", data=json.dumps(data))
         identifiers = response['identifiers']
         person_id = [entry_id.split(':')[1]

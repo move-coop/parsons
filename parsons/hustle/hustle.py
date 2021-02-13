@@ -443,6 +443,8 @@ class Hustle(object):
                 The notes for the lead
             follow_up: str
                 Follow up for the lead
+            tag_ids: list
+                Tags to apply to lead
         `Returns:`
             dict
         """
@@ -459,7 +461,7 @@ class Hustle(object):
         # Remove empty args in dictionary
         lead = json_format.remove_empty_keys(lead)
 
-        logger.info('Updating lead for {first_name} {last_name}.')
+        logger.info(f'Updating lead for {first_name} {last_name}.')
         return self._request(f'leads/{lead_id}', req_type="PUT", payload=lead)
 
     def get_tags(self, organization_id):

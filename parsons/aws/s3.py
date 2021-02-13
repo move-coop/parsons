@@ -303,7 +303,9 @@ class S3(object):
                         destination_key=None, suffix=None, regex=None,
                         date_modified_before=None, date_modified_after=None,
                         public_read=False, remove_original=False, **kwargs):
-        """Transfer files between s3 buckets
+        """
+        Transfer files between s3 buckets
+
         `Args:`
             origin_bucket: str
                 The origin bucket
@@ -327,12 +329,13 @@ class S3(object):
             remove_original: bool
                 If the original keys should be removed after transfer
             kwargs:
-                Additional arguments for the S3 API call. See `AWS download_file documentation
+                Additional arguments for the S3 API call. See `AWS download_file docs
                 <https://boto3.amazonaws.com/v1/documentation/api/latest/reference/services/s3.html#S3.Client.copy>`_
                 for more info.
         `Returns:`
             ``None``
         """
+
         # If prefix, get all files for the prefix
         if origin_key.endswith('/'):
             resp = self.list_keys(

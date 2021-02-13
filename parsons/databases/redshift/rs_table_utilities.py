@@ -361,8 +361,17 @@ class RedshiftTableUtilities(object):
         `Returns:`
             A dict mapping column name to a dict with extra info. The keys of the dict are ordered
             just like the columns in the table. The extra info is a dict with format
-            ``{'data_type': str, 'max_length': int or None, 'max_precision': int or None,
-               'max_scale': int or None, 'is_nullable': bool}``
+
+            .. code-block:: python
+
+                {
+                'data_type': str,
+                'max_length': int or None,
+                'max_precision': int or None,
+                'max_scale': int or None,
+                'is_nullable': bool
+                }
+
         """
 
         query = f"""

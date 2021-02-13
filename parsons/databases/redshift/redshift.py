@@ -402,11 +402,22 @@ class Redshift(RedshiftCreateTable, RedshiftCopyTable, RedshiftTableUtilities, R
             statupate: boolean
                 Governs automatic computation and refresh of optimizer statistics at the end
                 of a successful COPY command. If ``True`` explicitly sets ``statupate`` to on, if
-                ``False`` explicitly sets ``statupate`` to off. Defaults to ``None``.
+                ``False`` explicitly sets ``statupate`` to off. If ``None`` stats update only if
+                the table is initially empty. Defaults to ``None``.
+                See `Redshift docs <https://docs.aws.amazon.com/redshift/latest/dg/copy-parameters-data-load.html#copy-statupdate>`_
+                for more details.
+
+                .. note::
+                    If STATUPDATE is used, the current user must be either the table owner or a
+                    superuser.
+
             compupdate: boolean
                 Controls whether compression encodings are automatically applied during a COPY. If
                 ``True`` explicitly sets ``compupdate`` to on, if ``False`` explicitly sets
-                ``compupdate`` to off. Defaults to ``None``.
+                ``compupdate`` to off. If ``None`` the COPY command only chooses compression if the
+                table is initially empty. Defaults to ``None``.
+                See `Redshift docs <https://docs.aws.amazon.com/redshift/latest/dg/copy-parameters-data-load.html#copy-compupdate>`_
+                for more details.
             acceptanydate: boolean
                 Allows any date format, including invalid formats such as 00/00/00 00:00:00, to be
                 loaded without generating an error.

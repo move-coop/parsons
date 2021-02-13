@@ -174,7 +174,7 @@ class ActionKit(object):
 
         `Args:`
             limit: int
-                The number of events to return.
+                The number of events to return. If omitted, all events are returned.
             **kwargs:
                 Optional arguments to pass to the client. A full list can be found
                 in the `ActionKit API Documentation <https://roboticdogs.actionkit.com/docs/\

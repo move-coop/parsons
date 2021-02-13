@@ -50,9 +50,9 @@ class CivisClient(object):
                 If ``True`` (the default), this job will not appear in the Civis UI.
             wait: boolean
                 If ``True``, will wait for query to finish executing before exiting
-                the method.
+                the method. If ``False``, returns the future object.
         `Returns`
-            Parsons Table
+            Parsons Table or ``civis.CivisFuture``
                 See :ref:`parsons-table` for output options.
         """
 
@@ -101,9 +101,10 @@ class CivisClient(object):
             sortkey2: str
                 The second column in a compound sortkey for the table.
             wait: boolean
-                Wait for write job to complete before exiting method.
+                Wait for write job to complete before exiting method. If ``False``, returns
+                the future object.
         `Returns`
-            ``None``
+            ``None`` or ``civis.CivisFuture``
         """ # noqa: E501,E261
 
         fut = civis.io.dataframe_to_civis(table_obj.to_dataframe(), database=self.db,

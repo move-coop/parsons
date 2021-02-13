@@ -191,7 +191,11 @@ class ActionKit(object):
             Parsons.Table
                 The events data.
         """
-        kwargs["_limit"] = 100
+        # "The maximum number of objects returned per request is 100. Use paging
+        # to get more objects."
+        # (https://roboticdogs.actionkit.com/docs//manual/api/rest/overview.html#ordering)
+        # get `limit` events if it's provided, otherwise get 100
+        kwargs["_limit"] = min(100, limit or 1_000_000_000)
         json_data = self._base_get("event", params=kwargs)
         data = json_data["objects"]
 
@@ -200,7 +204,7 @@ class ActionKit(object):
             resp = self.conn.get(f'https://{self.domain}{next_url}')
             data += resp.json().get("objects", [])
             next_url = resp.json().get("meta", {}).get("next")
-            if limit and len(data) > limit:
+            if limit and len(data) >= limit:
                 break
 
         return Table(data[:limit])

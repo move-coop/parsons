@@ -478,7 +478,7 @@ class Redshift(RedshiftCreateTable, RedshiftCopyTable, RedshiftTableUtilities, R
         `Returns`
             Parsons Table or ``None``
                 See :ref:`parsons-table` for output options.
-        """
+        """  # noqa: E501
 
         # Specify the columns for a copy statement.
         if specifycols or (specifycols is None and template_table):

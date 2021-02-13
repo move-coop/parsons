@@ -34,7 +34,7 @@ class Zoom:
         # on JWT generation using Zoom API: https://marketplace.zoom.us/docs/guides/auth/jwt
 
         payload = {"iss": self.api_key, "exp": int(datetime.datetime.now().timestamp() + 30)}
-        token = jwt.encode(payload, self.api_secret, algorithm='HS256').decode("utf-8")
+        token = jwt.encode(payload, self.api_secret, algorithm='HS256')
         self.client.headers = {'authorization': f"Bearer {token}",
                                'content-type': "application/json"}
 

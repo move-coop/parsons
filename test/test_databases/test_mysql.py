@@ -1,4 +1,5 @@
 from parsons.databases.mysql.mysql import MySQL
+from parsons.databases.table import BaseTable
 from parsons.etl.table import Table
 from test.utils import assert_matching_tables
 import unittest

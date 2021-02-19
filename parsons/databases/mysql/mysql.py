@@ -312,49 +312,6 @@ class MySQL(MySQLCreateTable):
             return False
 
     def table(self, table_name):
-        # Return a MySQL table object
+        # Return a BaseTable table object
 
-        return MySQLTable(self, table_name)
-
-
-class MySQLTable(BaseTable):
-    # MySQL table object.
-
-    def get_rows(self, offset=0, chunk_size=None, order_by=None):
-        """
-        Get rows from a table.
-        """
-
-        sql = f"SELECT * FROM {self.table}"
-
-        if order_by:
-            sql += f" ORDER BY {order_by}"
-
-        if chunk_size:
-            sql += f" LIMIT {chunk_size}"
-
-        if offset:
-            sql += f" ,{offset}"
-
-        return self.db.query(sql)
-
-    def get_new_rows(self, primary_key, cutoff_value, offset=0, chunk_size=None):
-        """
-        Get rows that have a greater primary key value than the one
-        provided.
-
-        It will select every value greater than the provided value.
-        """
-
-        sql = f"""
-               SELECT
-               *
-               FROM {self.table}
-               WHERE {primary_key} > {cutoff_value}
-               ORDER BY {primary_key}
-               """
-
-        if chunk_size:
-            sql += f" LIMIT {chunk_size}, {offset};"
-
-        return self.db.query(sql)
+        return BaseTable(self, table_name)

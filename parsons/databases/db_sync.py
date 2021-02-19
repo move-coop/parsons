@@ -293,7 +293,7 @@ class DBSync:
     def create_table(self, source_table, destination_table):
         """
         Create the empty table in the destination database based on the source
-        database schema structure.
+        database schema structure. This method utilizes the Alchemy subclass.
         """
 
         source_obj = self.source_db.get_table_object(source_table)

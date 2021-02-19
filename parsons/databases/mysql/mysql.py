@@ -9,6 +9,7 @@ import logging
 import os
 from parsons.databases.table import BaseTable
 from parsons.databases.mysql.create_table import MySQLCreateTable
+from parsons.databases.alchemy import Alchemy
 
 # Max number of rows that we query at a time, so we can avoid loading huge
 # data sets into memory.
@@ -18,7 +19,7 @@ QUERY_BATCH_SIZE = 100000
 logger = logging.getLogger(__name__)
 
 
-class MySQL(MySQLCreateTable):
+class MySQL(MySQLCreateTable, Alchemy):
     """
     Connect to a MySQL database.
 

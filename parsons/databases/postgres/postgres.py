@@ -59,8 +59,10 @@ class Postgres(PostgresCore):
                 If the table already exists, either ``fail``, ``append``, ``drop``
                 or ``truncate`` the table.
             strict_length: bool
-                Whether or not to tightly fit the length of the table columns to the length
-                of the data in ``tbl``; if ``padding`` is specified, this argument is ignored
+                If the database table needs to be created, strict_length determines whether
+                the created table's column sizes will be sized to exactly fit the current data,
+                or if their size will be rounded up to account for future values being larger
+                then the current dataset
         """
 
         with self.connection() as connection:

@@ -1,5 +1,6 @@
 from parsons.databases.postgres.postgres_core import PostgresCore
 from parsons.databases.table import BaseTable
+from parsons.databases.alchemy import Alchemy
 import logging
 import os
 
@@ -7,7 +8,7 @@ import os
 logger = logging.getLogger(__name__)
 
 
-class Postgres(PostgresCore):
+class Postgres(PostgresCore, Alchemy):
     """
     A Postgres class to connect to database. Credentials can be passed from a ``.pgpass`` file
     stored in your home directory or with environmental variables.

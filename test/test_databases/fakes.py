@@ -52,6 +52,7 @@ class FakeDatabase:
 
         pass
 
+
 class FakeTable:
     def __init__(self, table_name, data):
         self.table_name = table_name

@@ -34,6 +34,7 @@ azure-storage-blob==12.3.2
 PyGitHub==1.51
 surveygizmo==1.2.3
 PyJWT==2.0.1 # Otherwise `import jwt` would refer to python-jwt package
+SQLAlchemy==1.3.23
 
 # Testing Requirements
 requests-mock==1.5.2

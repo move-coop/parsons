@@ -1,9 +1,8 @@
 from sqlalchemy import create_engine, Table, MetaData
-from sqlalchemy.orm import sessionmaker
-from sqlalchemy.engine import reflection
 import logging
 
 logger = logging.getLogger(__name__)
+
 
 class Alchemy:
 
@@ -30,14 +29,13 @@ class Alchemy:
                   (self.password, f':{self.password}'),
                   (self.host, f'@{self.host}'),
                   (self.port, f':{self.port}'),
-                  (self.db, f'/{self.db}')
-                 ]
+                  (self.db, f'/{self.db}')]
 
         url = f'{connection_schema}://'
 
         for i in params:
             if i[0]:
-               url += i[1]
+                url += i[1]
 
         return url
 
@@ -67,8 +65,8 @@ class Alchemy:
     @staticmethod
     def split_table_name(full_table_name):
         """
-    	Utility method to parse the schema and table name.
-    	"""
+        Utility method to parse the schema and table name.
+        """
 
         if "." not in full_table_name:
             return "public", full_table_name

@@ -4,6 +4,7 @@ from parsons.databases.redshift.rs_create_table import RedshiftCreateTable
 from parsons.databases.redshift.rs_table_utilities import RedshiftTableUtilities
 from parsons.databases.redshift.rs_schema import RedshiftSchema
 from parsons.databases.table import BaseTable
+from parsons.databases.alchemy import Alchemy
 from parsons.utilities import files
 import psycopg2
 import psycopg2.extras
@@ -24,7 +25,8 @@ QUERY_BATCH_SIZE = 100000
 logger = logging.getLogger(__name__)
 
 
-class Redshift(RedshiftCreateTable, RedshiftCopyTable, RedshiftTableUtilities, RedshiftSchema):
+class Redshift(RedshiftCreateTable, RedshiftCopyTable, RedshiftTableUtilities, RedshiftSchema,
+               Alchemy):
     """
     A Redshift class to connect to database.
 

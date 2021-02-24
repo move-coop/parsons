@@ -87,6 +87,10 @@ class DBSync:
             logger.info('Source table contains 0 rows')
             return None
 
+        # Create the table, if needed.
+        if not destination_tbl.exists:
+            self.create_table(source_table, destination_table)
+
         copied_rows = self.copy_rows(source_table, destination_table, None,
                                      order_by, **kwargs)
 
@@ -285,3 +289,12 @@ class DBSync:
 
         logger.info('Source and destination table row counts match.')
         return True
+
+    def create_table(self, source_table, destination_table):
+        """
+        Create the empty table in the destination database based on the source
+        database schema structure. This method utilizes the Alchemy subclass.
+        """
+
+        source_obj = self.source_db.get_table_object(source_table)
+        self.dest_db.create_table(source_obj, destination_table)

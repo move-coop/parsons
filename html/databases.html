@@ -401,6 +401,37 @@ then the current dataset. defaults to <code class="docutils literal notranslate"
 </dl>
 </dd></dl>
 
+<dl class="method">
+<dt id="parsons.MySQL.create_table">
+<code class="descname">create_table</code><span class="sig-paren">(</span><em>table_object</em>, <em>table_name</em><span class="sig-paren">)</span><a class="headerlink" href="#parsons.MySQL.create_table" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create a table based on table object data.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="parsons.MySQL.generate_alchemy_url">
+<code class="descname">generate_alchemy_url</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#parsons.MySQL.generate_alchemy_url" title="Permalink to this definition">¶</a></dt>
+<dd><p>Generate a SQL Alchemy engine
+<a class="reference external" href="https://docs.sqlalchemy.org/en/14/core/engines">https://docs.sqlalchemy.org/en/14/core/engines</a>.html#</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="parsons.MySQL.generate_engine">
+<code class="descname">generate_engine</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#parsons.MySQL.generate_engine" title="Permalink to this definition">¶</a></dt>
+<dd><p>Generate a SQL Alchemy engine.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="parsons.MySQL.get_table_object">
+<code class="descname">get_table_object</code><span class="sig-paren">(</span><em>table_name</em><span class="sig-paren">)</span><a class="headerlink" href="#parsons.MySQL.get_table_object" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get a SQL Alchemy table object.</p>
+</dd></dl>
+
+<dl class="staticmethod">
+<dt id="parsons.MySQL.split_table_name">
+<em class="property">static </em><code class="descname">split_table_name</code><span class="sig-paren">(</span><em>full_table_name</em><span class="sig-paren">)</span><a class="headerlink" href="#parsons.MySQL.split_table_name" title="Permalink to this definition">¶</a></dt>
+<dd><p>Utility method to parse the schema and table name.</p>
+</dd></dl>
+
 </dd></dl>
 
 </div>
@@ -495,6 +526,31 @@ any context manager):
 </dd></dl>
 
 <dl class="method">
+<dt id="parsons.Postgres.create_table">
+<code class="descname">create_table</code><span class="sig-paren">(</span><em>table_object</em>, <em>table_name</em><span class="sig-paren">)</span><a class="headerlink" href="#parsons.Postgres.create_table" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create a table based on table object data.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="parsons.Postgres.generate_alchemy_url">
+<code class="descname">generate_alchemy_url</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#parsons.Postgres.generate_alchemy_url" title="Permalink to this definition">¶</a></dt>
+<dd><p>Generate a SQL Alchemy engine
+<a class="reference external" href="https://docs.sqlalchemy.org/en/14/core/engines">https://docs.sqlalchemy.org/en/14/core/engines</a>.html#</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="parsons.Postgres.generate_engine">
+<code class="descname">generate_engine</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#parsons.Postgres.generate_engine" title="Permalink to this definition">¶</a></dt>
+<dd><p>Generate a SQL Alchemy engine.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="parsons.Postgres.get_table_object">
+<code class="descname">get_table_object</code><span class="sig-paren">(</span><em>table_name</em><span class="sig-paren">)</span><a class="headerlink" href="#parsons.Postgres.get_table_object" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get a SQL Alchemy table object.</p>
+</dd></dl>
+
+<dl class="method">
 <dt id="parsons.Postgres.query">
 <code class="descname">query</code><span class="sig-paren">(</span><em>sql</em>, <em>parameters=None</em><span class="sig-paren">)</span><a class="headerlink" href="#parsons.Postgres.query" title="Permalink to this definition">¶</a></dt>
 <dd><p>Execute a query against the database. Will return <code class="docutils literal notranslate"><span class="pre">None</span></code> if the query returns zero rows.</p>
@@ -561,6 +617,12 @@ commit manually with <code class="docutils literal notranslate"><span class="pre
 </dl>
 </dd>
 </dl>
+</dd></dl>
+
+<dl class="staticmethod">
+<dt id="parsons.Postgres.split_table_name">
+<em class="property">static </em><code class="descname">split_table_name</code><span class="sig-paren">(</span><em>full_table_name</em><span class="sig-paren">)</span><a class="headerlink" href="#parsons.Postgres.split_table_name" title="Permalink to this definition">¶</a></dt>
+<dd><p>Utility method to parse the schema and table name.</p>
 </dd></dl>
 
 <dl class="method">

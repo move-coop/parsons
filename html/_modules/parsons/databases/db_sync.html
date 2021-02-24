@@ -280,6 +280,10 @@
             <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s1">&#39;Source table contains 0 rows&#39;</span><span class="p">)</span>
             <span class="k">return</span> <span class="kc">None</span>
 
+        <span class="c1"># Create the table, if needed.</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">destination_tbl</span><span class="o">.</span><span class="n">exists</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">create_table</span><span class="p">(</span><span class="n">source_table</span><span class="p">,</span> <span class="n">destination_table</span><span class="p">)</span>
+
         <span class="n">copied_rows</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">copy_rows</span><span class="p">(</span><span class="n">source_table</span><span class="p">,</span> <span class="n">destination_table</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span>
                                      <span class="n">order_by</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
 
@@ -477,7 +481,16 @@
             <span class="k">return</span> <span class="kc">False</span>
 
         <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s1">&#39;Source and destination table row counts match.&#39;</span><span class="p">)</span>
-        <span class="k">return</span> <span class="kc">True</span></div>
+        <span class="k">return</span> <span class="kc">True</span>
+
+<div class="viewcode-block" id="DBSync.create_table"><a class="viewcode-back" href="../../../dbsync.html#parsons.DBSync.create_table">[docs]</a>    <span class="k">def</span> <span class="nf">create_table</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">source_table</span><span class="p">,</span> <span class="n">destination_table</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Create the empty table in the destination database based on the source</span>
+<span class="sd">        database schema structure. This method utilizes the Alchemy subclass.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">source_obj</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">source_db</span><span class="o">.</span><span class="n">get_table_object</span><span class="p">(</span><span class="n">source_table</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">dest_db</span><span class="o">.</span><span class="n">create_table</span><span class="p">(</span><span class="n">source_obj</span><span class="p">,</span> <span class="n">destination_table</span><span class="p">)</span></div></div>
 </pre></div>
 
            </div>

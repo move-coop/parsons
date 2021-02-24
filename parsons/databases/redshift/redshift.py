@@ -232,7 +232,8 @@ class Redshift(RedshiftCreateTable, RedshiftCopyTable, RedshiftTableUtilities, R
                 dateformat='auto', timeformat='auto', emptyasnull=True,
                 blanksasnull=True, nullas=None, acceptinvchars=True, truncatecolumns=False,
                 columntypes=None, specifycols=None,
-                aws_access_key_id=None, aws_secret_access_key=None, bucket_region=None):
+                aws_access_key_id=None, aws_secret_access_key=None, bucket_region=None,
+                strict_length=True):
         """
         Copy a file from s3 to Redshift.
 
@@ -317,6 +318,12 @@ class Redshift(RedshiftCreateTable, RedshiftCopyTable, RedshiftTableUtilities, R
             bucket_region: str
                 The AWS region that the bucket is located in. This should be provided if the
                 Redshift cluster is located in a different region from the temp bucket.
+            strict_length: bool
+                If the database table needs to be created, strict_length determines whether
+                the created table's column sizes will be sized to exactly fit the current data,
+                or if their size will be rounded up to account for future values being larger
+                then the current dataset. defaults to ``True``; this argument is ignored if
+                ``padding`` is specified
 
         `Returns`
             Parsons Table or ``None``
@@ -342,7 +349,8 @@ class Redshift(RedshiftCreateTable, RedshiftCopyTable, RedshiftTableUtilities, R
                 sql = self.create_statement(tbl, table_name, padding=padding,
                                             distkey=distkey, sortkey=sortkey,
                                             varchar_max=varchar_max,
-                                            columntypes=columntypes)
+                                            columntypes=columntypes,
+                                            strict_length=strict_length)
 
                 self.query_with_connection(sql, connection, commit=False)
                 logger.info(f'{table_name} created.')
@@ -371,7 +379,8 @@ class Redshift(RedshiftCreateTable, RedshiftCopyTable, RedshiftTableUtilities, R
              dateformat='auto', timeformat='auto', varchar_max=None, truncatecolumns=False,
              columntypes=None, specifycols=None, alter_table=False,
              aws_access_key_id=None, aws_secret_access_key=None, iam_role=None,
-             cleanup_s3_file=True, template_table=None, temp_bucket_region=None):
+             cleanup_s3_file=True, template_table=None, temp_bucket_region=None,
+             strict_length=True):
         """
         Copy a :ref:`parsons-table` to Redshift.
 
@@ -460,6 +469,9 @@ class Redshift(RedshiftCreateTable, RedshiftCopyTable, RedshiftTableUtilities, R
                 The AWS region that the temp bucket (specified by the TEMP_S3_BUCKET environment
                 variable) is located in. This should be provided if the Redshift cluster is located
                 in a different region from the temp bucket.
+            strict_length: bool
+                Whether or not to tightly fit the length of the table columns to the length
+                of the data in ``tbl``; if ``padding`` is specified, this argument is ignored
 
         `Returns`
             Parsons Table or ``None``
@@ -484,7 +496,8 @@ class Redshift(RedshiftCreateTable, RedshiftCopyTable, RedshiftTableUtilities, R
                     sql = self.create_statement(tbl, table_name, padding=padding,
                                                 distkey=distkey, sortkey=sortkey,
                                                 varchar_max=varchar_max,
-                                                columntypes=columntypes)
+                                                columntypes=columntypes,
+                                                strict_length=strict_length)
                 self.query_with_connection(sql, connection, commit=False)
                 logger.info(f'{table_name} created.')
 

@@ -1,5 +1,7 @@
 import logging
 
+from parsons.etl.table import Table
+
 logger = logging.getLogger(__name__)
 
 
@@ -13,21 +15,30 @@ class DBSync:
             A database object.
         destination_db: Database connection object
             A database object.
-        chunk_size: int
-            The number of rows per transaction copy when syncing a table. The
+        read_chunk_size: int
+            The number of rows to read from the source at a time when syncing a table. The
             default value is 100,000 rows.
+        write_chunk_size: int
+            The number of rows to batch up before writing out to the destination. This value
+            defaults to whatever the read_chunk_size is.
+        retries: int
+            The number of times to retry if there is an error processing a
+            chunk of data. The default value is 0.
     `Returns:`
         A DBSync object.
     """
 
-    def __init__(self, source_db, destination_db, chunk_size=100000):
+    def __init__(self, source_db, destination_db, read_chunk_size=100_000, write_chunk_size=None,
+                 retries=0):
 
         self.source_db = source_db
         self.dest_db = destination_db
-        self.chunk_size = chunk_size
+        self.read_chunk_size = read_chunk_size
+        self.write_chunk_size = write_chunk_size or read_chunk_size
+        self.retries = retries
 
     def table_sync_full(self, source_table, destination_table, if_exists='drop',
-                        **kwargs):
+                        order_by=None, **kwargs):
         """
         Full sync of table from a source database to a destination database. This will
         wipe all data from the destination table.
@@ -76,18 +87,8 @@ class DBSync:
             logger.info('Source table contains 0 rows')
             return None
 
-        # Copy rows in chunks.
-        copied_rows = 0
-        while copied_rows < source_tbl.num_rows:
-
-            # Get a chunk
-            rows = source_tbl.get_rows(offset=copied_rows, chunk_size=self.chunk_size)
-
-            # Copy the chunk
-            self.dest_db.copy(rows, destination_table, if_exists='append', **kwargs)
-
-            # Update counter
-            copied_rows += rows.num_rows
+        copied_rows = self.copy_rows(source_table, destination_table, None,
+                                     order_by, **kwargs)
 
         logger.info(f'{source_table} synced: {copied_rows} total rows copied.')
 
@@ -123,7 +124,8 @@ class DBSync:
         # Check that the destination table exists. If it does not, then run a
         # full sync instead.
         if not destination_tbl.exists:
-            self.table_sync_full(source_table, destination_table)
+            self.table_sync_full(source_table, destination_table, order_by=primary_key, **kwargs)
+            return
 
         # If the source table contains 0 rows, do not attempt to copy the table.
         if source_tbl.num_rows == 0:
@@ -157,28 +159,116 @@ class DBSync:
 
             logger.info(f'Found {new_row_count} new rows in source table.')
 
-            copied_rows = 0
-            # Copy rows in chunks.
-            while True:
-                # Get a chunk
-                rows = source_tbl.get_new_rows(primary_key=primary_key,
-                                               cutoff_value=dest_max_pk,
-                                               offset=copied_rows,
-                                               chunk_size=self.chunk_size)
+            rows_copied = self.copy_rows(source_table, destination_table, dest_max_pk,
+                                         primary_key, **kwargs)
 
-                row_count = rows.num_rows if rows else 0
-                if row_count == 0:
-                    break
-
-                # Copy the chunk
-                self.dest_db.copy(rows, destination_table, if_exists='append', **kwargs)
-
-                # Update the counter
-                copied_rows += row_count
+            logger.info('Copied %s new rows to %s.', rows_copied, destination_table)
 
         self._row_count_verify(source_tbl, destination_tbl)
 
         logger.info(f'{source_table} synced to {destination_table}.')
+
+    def copy_rows(self, source_table_name, destination_table_name, cutoff, order_by, **kwargs):
+        """
+        Copy the rows from the source to the destination.
+
+        `Args:`
+            source_table_name: str
+                Full table path (e.g. ``my_schema.my_table``)
+            destination_table_name: str
+                Full table path (e.g. ``my_schema.my_table``)
+            cutoff:
+                Start value to use as a minimum for incremental updates.
+            order_by:
+                Column to use to order the data to ensure a stable sort.
+            **kwargs: args
+                Optional copy arguments for destination database.
+        `Returns:`
+            ``None``
+        """
+
+        # Create the table objects
+        source_table = self.source_db.table(source_table_name)
+
+        # Initialize the Parsons table we will use to store rows before writing
+        buffer = Table()
+
+        # Track the number of retries we have left before giving up
+        retries_left = self.retries + 1
+
+        total_rows_downloaded = 0
+        total_rows_written = 0
+        rows_buffered = 0
+
+        # Keep going until we break out
+        while True:
+            try:
+                # Get the records to load into the database
+                if cutoff:
+                    # If we have a cutoff, we are loading data incrementally -- filter out
+                    # any data before our cutoff
+                    rows = source_table.get_new_rows(primary_key=order_by,
+                                                     cutoff_value=cutoff,
+                                                     offset=total_rows_downloaded,
+                                                     chunk_size=self.read_chunk_size)
+                else:
+                    # Get a chunk
+                    rows = source_table.get_rows(offset=total_rows_downloaded,
+                                                 chunk_size=self.read_chunk_size,
+                                                 order_by=order_by)
+
+                number_of_rows = rows.num_rows
+                total_rows_downloaded += number_of_rows
+
+                # If we didn't get any data, exit the loop -- there's nothing to load
+                if number_of_rows == 0:
+                    # If we have any rows that are unwritten, flush them to the destination database
+                    if rows_buffered > 0:
+                        self.dest_db.copy(buffer, destination_table_name, if_exists='append',
+                                          **kwargs)
+                        total_rows_written += rows_buffered
+
+                        # Reset the buffer
+                        rows_buffered = 0
+                        buffer = Table()
+
+                    break
+
+                # Add the new rows to our buffer
+                buffer.concat(rows)
+                rows_buffered += number_of_rows
+
+                # If our buffer reaches our write threshold, write it out
+                if rows_buffered >= self.write_chunk_size:
+                    self.dest_db.copy(buffer, destination_table_name, if_exists='append', **kwargs)
+                    total_rows_written += rows_buffered
+
+                    # Reset the buffer
+                    rows_buffered = 0
+                    buffer = Table()
+
+            except Exception:
+                # Tick down the number of retries
+                retries_left -= 1
+
+                # If we are out of retries, fail
+                if retries_left == 0:
+                    logger.debug('No retries remaining')
+                    raise
+
+                # Otherwise, log the exception and try again
+                logger.exception('Unhandled error copying data; retrying')
+
+        return total_rows_written
+
+    def _check_column_match(self, source_table_obj, destination_table_obj):
+        """
+        Ensure that the columns from each table match
+        """
+
+        if source_table_obj.columns != destination_table_obj.columns:
+            raise ValueError("""Destination table columns do not match source table columns.
+                             Consider dropping destination table and running a full sync.""")
 
     def _row_count_verify(self, source_table_obj, destination_table_obj):
         """
@@ -195,12 +285,3 @@ class DBSync:
 
         logger.info('Source and destination table row counts match.')
         return True
-
-    def _check_column_match(self, source_table_obj, destination_table_obj):
-        """
-        Ensure that the columns from each table match
-        """
-
-        if source_table_obj.columns != destination_table_obj.columns:
-            raise ValueError("""Destination table columns do not match source table columns.
-                             Consider dropping destination table and running a full sync.""")

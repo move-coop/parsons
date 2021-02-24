@@ -27,6 +27,13 @@ RESERVED_WORDS = ['AES128', 'AES256', 'ALL', 'ALLOWOVERWRITE', 'ANALYSE', 'ANALY
                   'VERBOSE', 'WALLET', 'WHEN', 'WHERE', 'WITH', 'WITHOUT']
 
 
+# Max length of a Redshift VARCHAR column
+VARCHAR_MAX = 65535
+# List of varchar lengths to use for columns -- this list needs to be in order from smallest to
+# largest
+VARCHAR_STEPS = [32, 64, 128, 256, 512, 1024, 4096, 8192, 16384]
+
+
 class PostgresCreateStatement(object):
 
     def __init__(self):
@@ -34,7 +41,8 @@ class PostgresCreateStatement(object):
         pass
 
     def create_statement(self, tbl, table_name, padding=None, distkey=None, sortkey=None,
-                         varchar_max=None, varchar_truncate=True, columntypes=None):
+                         varchar_max=None, varchar_truncate=True, columntypes=None,
+                         strict_length=True):
         # Generate a table create statement. Distkeys and sortkeys are only used by
         # Redshift and should not be passed when generating a create statement for
         # Postgres.
@@ -49,6 +57,8 @@ class PostgresCreateStatement(object):
 
         if padding:
             mapping['longest'] = self.vc_padding(mapping, padding)
+        elif not strict_length:
+            mapping['longest'] = self.vc_step(mapping)
 
         if varchar_max:
             mapping['longest'] = self.vc_max(mapping, varchar_max)
@@ -163,6 +173,9 @@ class PostgresCreateStatement(object):
 
         return [int(c + (c * padding)) for c in mapping['longest']]
 
+    def vc_step(self, mapping):
+        return [self.round_longest(c) for c in mapping['longest']]
+
     def vc_max(self, mapping, columns):
         # Set the varchar width of a column to the maximum
 
@@ -170,7 +183,7 @@ class PostgresCreateStatement(object):
 
             try:
                 idx = mapping['headers'].index(c)
-                mapping['longest'][idx] = 65535
+                mapping['longest'][idx] = VARCHAR_MAX
 
             except KeyError as error:
                 logger.error('Could not find column name provided.')
@@ -180,7 +193,7 @@ class PostgresCreateStatement(object):
 
     def vc_trunc(self, mapping):
 
-        return [65535 if c > 65535 else c for c in mapping['longest']]
+        return [VARCHAR_MAX if c > VARCHAR_MAX else c for c in mapping['longest']]
 
     def vc_validate(self, mapping):
 
@@ -254,3 +267,13 @@ class PostgresCreateStatement(object):
             clean_columns.append(c)
 
         return clean_columns
+
+    @staticmethod
+    def round_longest(longest):
+        # Find the value that will work best to fit our longest column value
+        for step in VARCHAR_STEPS:
+            # Make sure we have padding
+            if longest < step / 2:
+                return step
+
+        return VARCHAR_MAX

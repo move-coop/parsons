@@ -10,6 +10,12 @@ SMALLINT_VALUES = [-32768, 32767]
 MEDIUMINT_VALUES = [-8388608, 8388607]
 INT_VALUES = [-2147483648, 2147483647]
 
+# Max length of a Redshift VARCHAR column
+VARCHAR_MAX = 65535
+# List of varchar lengths to use for columns -- this list needs to be in order from smallest to
+# largest
+VARCHAR_STEPS = [32, 64, 128, 256, 512, 1024, 4096, 8192, 16384]
+
 # Additional padding to add on to the maximum column width to account
 # for the addition of future data sets.
 VARCHAR_PAD = .25
@@ -103,7 +109,7 @@ class MySQLCreateTable():
                 if row_width > col_width:
                     col_width = row_width
 
-        return col_type, int(col_width + (col_width * VARCHAR_PAD))
+        return col_type, col_width
 
     def evaluate_table(self, tbl):
         # Generate a dict of MySQL column types and widths for all columns
@@ -118,7 +124,7 @@ class MySQLCreateTable():
 
         return table_map
 
-    def create_statement(self, tbl, table_name):
+    def create_statement(self, tbl, table_name, strict_length=True):
         # Generate create statement SQL for a given Parsons table.
 
         # Validate and rename column names if needed
@@ -130,8 +136,13 @@ class MySQLCreateTable():
         # Generate the column syntax
         column_syntax = []
         for c in table_map:
+            if strict_length:
+                col_width = int(c['width'] + (VARCHAR_PAD * c['width']))
+            else:
+                col_width = self.round_longest(c['width'])
+
             if c['type'] == 'varchar':
-                column_syntax.append(f"{c['name']} {c['type']}({c['width']}) \n")
+                column_syntax.append(f"{c['name']} {c['type']}({col_width}) \n")
             else:
                 column_syntax.append(f"{c['name']} {c['type']} \n")
 
@@ -169,3 +180,13 @@ class MySQLCreateTable():
             updated_columns.append(col)
 
         return updated_columns
+
+    @staticmethod
+    def round_longest(longest):
+        # Find the value that will work best to fit our longest column value
+        for step in VARCHAR_STEPS:
+            # Make sure we have padding
+            if longest < step / 2:
+                return step
+
+        return VARCHAR_MAX

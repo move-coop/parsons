@@ -298,3 +298,4 @@ class DBSync:
 
         source_obj = self.source_db.get_table_object(source_table)
         self.dest_db.create_table(source_obj, destination_table)
+

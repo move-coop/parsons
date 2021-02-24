@@ -849,7 +849,7 @@ commit manually with <code class="docutils literal notranslate"><span class="pre
 
 <dl class="function">
 <dt id="parsons.Redshift.copy">
-<code class="descclassname">parsons.Redshift.</code><code class="descname">copy</code><span class="sig-paren">(</span><em>self</em>, <em>tbl</em>, <em>table_name</em>, <em>if_exists='fail'</em>, <em>max_errors=0</em>, <em>distkey=None</em>, <em>sortkey=None</em>, <em>padding=None</em>, <em>statupdate=False</em>, <em>compupdate=True</em>, <em>acceptanydate=True</em>, <em>emptyasnull=True</em>, <em>blanksasnull=True</em>, <em>nullas=None</em>, <em>acceptinvchars=True</em>, <em>dateformat='auto'</em>, <em>timeformat='auto'</em>, <em>varchar_max=None</em>, <em>truncatecolumns=False</em>, <em>columntypes=None</em>, <em>specifycols=None</em>, <em>alter_table=False</em>, <em>aws_access_key_id=None</em>, <em>aws_secret_access_key=None</em>, <em>iam_role=None</em>, <em>cleanup_s3_file=True</em>, <em>template_table=None</em>, <em>temp_bucket_region=None</em><span class="sig-paren">)</span><a class="headerlink" href="#parsons.Redshift.copy" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">parsons.Redshift.</code><code class="descname">copy</code><span class="sig-paren">(</span><em>self</em>, <em>tbl</em>, <em>table_name</em>, <em>if_exists='fail'</em>, <em>max_errors=0</em>, <em>distkey=None</em>, <em>sortkey=None</em>, <em>padding=None</em>, <em>statupdate=False</em>, <em>compupdate=True</em>, <em>acceptanydate=True</em>, <em>emptyasnull=True</em>, <em>blanksasnull=True</em>, <em>nullas=None</em>, <em>acceptinvchars=True</em>, <em>dateformat='auto'</em>, <em>timeformat='auto'</em>, <em>varchar_max=None</em>, <em>truncatecolumns=False</em>, <em>columntypes=None</em>, <em>specifycols=None</em>, <em>alter_table=False</em>, <em>aws_access_key_id=None</em>, <em>aws_secret_access_key=None</em>, <em>iam_role=None</em>, <em>cleanup_s3_file=True</em>, <em>template_table=None</em>, <em>temp_bucket_region=None</em>, <em>strict_length=True</em><span class="sig-paren">)</span><a class="headerlink" href="#parsons.Redshift.copy" title="Permalink to this definition">¶</a></dt>
 <dd><p>Copy a <a class="reference internal" href="table.html#parsons-table"><span class="std std-ref">Parsons Table</span></a> to Redshift.</p>
 <dl class="docutils">
 <dt><cite>Args:</cite></dt>
@@ -938,6 +938,9 @@ Unless you set specifycols=False explicitly, a template_table will set it to Tru
 <dd>The AWS region that the temp bucket (specified by the TEMP_S3_BUCKET environment
 variable) is located in. This should be provided if the Redshift cluster is located
 in a different region from the temp bucket.</dd>
+<dt>strict_length: bool</dt>
+<dd>Whether or not to tightly fit the length of the table columns to the length
+of the data in <code class="docutils literal notranslate"><span class="pre">tbl</span></code>; if <code class="docutils literal notranslate"><span class="pre">padding</span></code> is specified, this argument is ignored</dd>
 </dl>
 </dd>
 <dt><cite>Returns</cite></dt>
@@ -951,7 +954,7 @@ in a different region from the temp bucket.</dd>
 
 <dl class="function">
 <dt id="parsons.Redshift.copy_s3">
-<code class="descclassname">parsons.Redshift.</code><code class="descname">copy_s3</code><span class="sig-paren">(</span><em>self</em>, <em>table_name</em>, <em>bucket</em>, <em>key</em>, <em>manifest=False</em>, <em>data_type='csv'</em>, <em>csv_delimiter='</em>, <em>'</em>, <em>compression=None</em>, <em>if_exists='fail'</em>, <em>max_errors=0</em>, <em>distkey=None</em>, <em>sortkey=None</em>, <em>padding=None</em>, <em>varchar_max=None</em>, <em>statupdate=True</em>, <em>compupdate=True</em>, <em>ignoreheader=1</em>, <em>acceptanydate=True</em>, <em>dateformat='auto'</em>, <em>timeformat='auto'</em>, <em>emptyasnull=True</em>, <em>blanksasnull=True</em>, <em>nullas=None</em>, <em>acceptinvchars=True</em>, <em>truncatecolumns=False</em>, <em>columntypes=None</em>, <em>specifycols=None</em>, <em>aws_access_key_id=None</em>, <em>aws_secret_access_key=None</em>, <em>bucket_region=None</em><span class="sig-paren">)</span><a class="headerlink" href="#parsons.Redshift.copy_s3" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">parsons.Redshift.</code><code class="descname">copy_s3</code><span class="sig-paren">(</span><em>self</em>, <em>table_name</em>, <em>bucket</em>, <em>key</em>, <em>manifest=False</em>, <em>data_type='csv'</em>, <em>csv_delimiter='</em>, <em>'</em>, <em>compression=None</em>, <em>if_exists='fail'</em>, <em>max_errors=0</em>, <em>distkey=None</em>, <em>sortkey=None</em>, <em>padding=None</em>, <em>varchar_max=None</em>, <em>statupdate=True</em>, <em>compupdate=True</em>, <em>ignoreheader=1</em>, <em>acceptanydate=True</em>, <em>dateformat='auto'</em>, <em>timeformat='auto'</em>, <em>emptyasnull=True</em>, <em>blanksasnull=True</em>, <em>nullas=None</em>, <em>acceptinvchars=True</em>, <em>truncatecolumns=False</em>, <em>columntypes=None</em>, <em>specifycols=None</em>, <em>aws_access_key_id=None</em>, <em>aws_secret_access_key=None</em>, <em>bucket_region=None</em>, <em>strict_length=True</em><span class="sig-paren">)</span><a class="headerlink" href="#parsons.Redshift.copy_s3" title="Permalink to this definition">¶</a></dt>
 <dd><p>Copy a file from s3 to Redshift.</p>
 <dl class="docutils">
 <dt><cite>Args:</cite></dt>
@@ -1036,6 +1039,12 @@ required if keys are stored as environmental variables.</dd>
 <dt>bucket_region: str</dt>
 <dd>The AWS region that the bucket is located in. This should be provided if the
 Redshift cluster is located in a different region from the temp bucket.</dd>
+<dt>strict_length: bool</dt>
+<dd>If the database table needs to be created, strict_length determines whether
+the created table’s column sizes will be sized to exactly fit the current data,
+or if their size will be rounded up to account for future values being larger
+then the current dataset. defaults to <code class="docutils literal notranslate"><span class="pre">True</span></code>; this argument is ignored if
+<code class="docutils literal notranslate"><span class="pre">padding</span></code> is specified</dd>
 </dl>
 </dd>
 <dt><cite>Returns</cite></dt>

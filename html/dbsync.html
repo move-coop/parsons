@@ -239,7 +239,7 @@ distinct primary keys.</p>
 <h2>API<a class="headerlink" href="#api" title="Permalink to this headline">¶</a></h2>
 <dl class="class">
 <dt id="parsons.DBSync">
-<em class="property">class </em><code class="descclassname">parsons.</code><code class="descname">DBSync</code><span class="sig-paren">(</span><em>source_db</em>, <em>destination_db</em>, <em>chunk_size=100000</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/databases/db_sync.html#DBSync"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.DBSync" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="descclassname">parsons.</code><code class="descname">DBSync</code><span class="sig-paren">(</span><em>source_db</em>, <em>destination_db</em>, <em>read_chunk_size=100000</em>, <em>write_chunk_size=None</em>, <em>retries=0</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/databases/db_sync.html#DBSync"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.DBSync" title="Permalink to this definition">¶</a></dt>
 <dd><p>Sync tables between databases. Works with <code class="docutils literal notranslate"><span class="pre">Postgres</span></code>, <code class="docutils literal notranslate"><span class="pre">Redshift</span></code>, <code class="docutils literal notranslate"><span class="pre">MySQL</span></code>
 databases.</p>
 <dl class="docutils">
@@ -249,9 +249,15 @@ databases.</p>
 <dd>A database object.</dd>
 <dt>destination_db: Database connection object</dt>
 <dd>A database object.</dd>
-<dt>chunk_size: int</dt>
-<dd>The number of rows per transaction copy when syncing a table. The
+<dt>read_chunk_size: int</dt>
+<dd>The number of rows to read from the source at a time when syncing a table. The
 default value is 100,000 rows.</dd>
+<dt>write_chunk_size: int</dt>
+<dd>The number of rows to batch up before writing out to the destination. This value
+defaults to whatever the read_chunk_size is.</dd>
+<dt>retries: int</dt>
+<dd>The number of times to retry if there is an error processing a
+chunk of data. The default value is 0.</dd>
 </dl>
 </dd>
 <dt><cite>Returns:</cite></dt>
@@ -259,7 +265,7 @@ default value is 100,000 rows.</dd>
 </dl>
 <dl class="method">
 <dt id="parsons.DBSync.table_sync_full">
-<code class="descname">table_sync_full</code><span class="sig-paren">(</span><em>source_table</em>, <em>destination_table</em>, <em>if_exists='drop'</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/databases/db_sync.html#DBSync.table_sync_full"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.DBSync.table_sync_full" title="Permalink to this definition">¶</a></dt>
+<code class="descname">table_sync_full</code><span class="sig-paren">(</span><em>source_table</em>, <em>destination_table</em>, <em>if_exists='drop'</em>, <em>order_by=None</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/databases/db_sync.html#DBSync.table_sync_full"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.DBSync.table_sync_full" title="Permalink to this definition">¶</a></dt>
 <dd><p>Full sync of table from a source database to a destination database. This will
 wipe all data from the destination table.</p>
 <dl class="docutils">
@@ -302,6 +308,30 @@ destination table.</dd>
 <dd>Check that the source table primary key is distinct prior to running the
 sync. If it is not, an error will be raised.</dd>
 <dt><a href="#id3"><span class="problematic" id="id4">**</span></a>kwargs: args</dt>
+<dd>Optional copy arguments for destination database.</dd>
+</dl>
+</dd>
+<dt><cite>Returns:</cite></dt>
+<dd><code class="docutils literal notranslate"><span class="pre">None</span></code></dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="parsons.DBSync.copy_rows">
+<code class="descname">copy_rows</code><span class="sig-paren">(</span><em>source_table_name</em>, <em>destination_table_name</em>, <em>cutoff</em>, <em>order_by</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/databases/db_sync.html#DBSync.copy_rows"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.DBSync.copy_rows" title="Permalink to this definition">¶</a></dt>
+<dd><p>Copy the rows from the source to the destination.</p>
+<dl class="docutils">
+<dt><cite>Args:</cite></dt>
+<dd><dl class="first last docutils">
+<dt>source_table_name: str</dt>
+<dd>Full table path (e.g. <code class="docutils literal notranslate"><span class="pre">my_schema.my_table</span></code>)</dd>
+<dt>destination_table_name: str</dt>
+<dd>Full table path (e.g. <code class="docutils literal notranslate"><span class="pre">my_schema.my_table</span></code>)</dd>
+<dt>cutoff:</dt>
+<dd>Start value to use as a minimum for incremental updates.</dd>
+<dt>order_by:</dt>
+<dd>Column to use to order the data to ensure a stable sort.</dd>
+<dt><a href="#id5"><span class="problematic" id="id6">**</span></a>kwargs: args</dt>
 <dd>Optional copy arguments for destination database.</dd>
 </dl>
 </dd>

@@ -239,17 +239,23 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">timeout</span> <span class="o">=</span> <span class="n">timeout</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">dialect</span> <span class="o">=</span> <span class="s1">&#39;postgres&#39;</span>
 
-<div class="viewcode-block" id="Postgres.copy"><a class="viewcode-back" href="../../../../databases.html#parsons.Postgres.copy">[docs]</a>    <span class="k">def</span> <span class="nf">copy</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tbl</span><span class="p">,</span> <span class="n">table_name</span><span class="p">,</span> <span class="n">if_exists</span><span class="o">=</span><span class="s1">&#39;fail&#39;</span><span class="p">):</span>
+<div class="viewcode-block" id="Postgres.copy"><a class="viewcode-back" href="../../../../databases.html#parsons.Postgres.copy">[docs]</a>    <span class="k">def</span> <span class="nf">copy</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tbl</span><span class="p">,</span> <span class="n">table_name</span><span class="p">,</span> <span class="n">if_exists</span><span class="o">=</span><span class="s1">&#39;fail&#39;</span><span class="p">,</span> <span class="n">strict_length</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Copy a :ref:`parsons-table` to Postgres.</span>
 
-<span class="sd">        tbl: parsons.Table</span>
-<span class="sd">            A Parsons table object</span>
-<span class="sd">        table_name: str</span>
-<span class="sd">            The destination schema and table (e.g. ``my_schema.my_table``)</span>
-<span class="sd">        if_exists: str</span>
-<span class="sd">            If the table already exists, either ``fail``, ``append``, ``drop``</span>
-<span class="sd">            or ``truncate`` the table.</span>
+<span class="sd">        `Args:`</span>
+<span class="sd">            tbl: parsons.Table</span>
+<span class="sd">                A Parsons table object</span>
+<span class="sd">            table_name: str</span>
+<span class="sd">                The destination schema and table (e.g. ``my_schema.my_table``)</span>
+<span class="sd">            if_exists: str</span>
+<span class="sd">                If the table already exists, either ``fail``, ``append``, ``drop``</span>
+<span class="sd">                or ``truncate`` the table.</span>
+<span class="sd">            strict_length: bool</span>
+<span class="sd">                If the database table needs to be created, strict_length determines whether</span>
+<span class="sd">                the created table&#39;s column sizes will be sized to exactly fit the current data,</span>
+<span class="sd">                or if their size will be rounded up to account for future values being larger</span>
+<span class="sd">                then the current dataset</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
         <span class="k">with</span> <span class="bp">self</span><span class="o">.</span><span class="n">connection</span><span class="p">()</span> <span class="k">as</span> <span class="n">connection</span><span class="p">:</span>
@@ -259,7 +265,7 @@
 
                 <span class="c1"># Create the table</span>
                 <span class="c1"># To Do: Pass in the advanced configuration parameters.</span>
-                <span class="n">sql</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">create_statement</span><span class="p">(</span><span class="n">tbl</span><span class="p">,</span> <span class="n">table_name</span><span class="p">)</span>
+                <span class="n">sql</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">create_statement</span><span class="p">(</span><span class="n">tbl</span><span class="p">,</span> <span class="n">table_name</span><span class="p">,</span> <span class="n">strict_length</span><span class="o">=</span><span class="n">strict_length</span><span class="p">)</span>
 
                 <span class="bp">self</span><span class="o">.</span><span class="n">query_with_connection</span><span class="p">(</span><span class="n">sql</span><span class="p">,</span> <span class="n">connection</span><span class="p">,</span> <span class="n">commit</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
                 <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">table_name</span><span class="si">}</span><span class="s1"> created.&#39;</span><span class="p">)</span>

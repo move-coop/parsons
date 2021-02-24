@@ -349,7 +349,7 @@ commit manually with <code class="docutils literal notranslate"><span class="pre
 
 <dl class="method">
 <dt id="parsons.MySQL.copy">
-<code class="descname">copy</code><span class="sig-paren">(</span><em>tbl</em>, <em>table_name</em>, <em>if_exists='fail'</em>, <em>chunk_size=1000</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/databases/mysql/mysql.html#MySQL.copy"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.MySQL.copy" title="Permalink to this definition">¶</a></dt>
+<code class="descname">copy</code><span class="sig-paren">(</span><em>tbl</em>, <em>table_name</em>, <em>if_exists='fail'</em>, <em>chunk_size=1000</em>, <em>strict_length=True</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/databases/mysql/mysql.html#MySQL.copy"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.MySQL.copy" title="Permalink to this definition">¶</a></dt>
 <dd><p>Copy a <a class="reference internal" href="table.html#parsons-table"><span class="std std-ref">Parsons Table</span></a> to the database.</p>
 <div class="admonition note">
 <p class="first admonition-title">Note</p>
@@ -358,6 +358,8 @@ many MySQL Database configurations do not allow data files to be
 loaded. It results in a minor performance hit compared to <cite>LOAD DATA</cite>.</p>
 </div>
 <dl class="docutils">
+<dt><cite>Args:</cite></dt>
+<dd><dl class="first last docutils">
 <dt>tbl: parsons.Table</dt>
 <dd>A Parsons table object</dd>
 <dt>table_name: str</dt>
@@ -367,6 +369,13 @@ loaded. It results in a minor performance hit compared to <cite>LOAD DATA</cite>
 or <code class="docutils literal notranslate"><span class="pre">truncate</span></code> the table.</dd>
 <dt>chunk_size: int</dt>
 <dd>The number of rows to insert per query.</dd>
+<dt>strict_length: bool</dt>
+<dd>If the database table needs to be created, strict_length determines whether
+the created table’s column sizes will be sized to exactly fit the current data,
+or if their size will be rounded up to account for future values being larger
+then the current dataset. defaults to <code class="docutils literal notranslate"><span class="pre">True</span></code></dd>
+</dl>
+</dd>
 </dl>
 </dd></dl>
 
@@ -448,9 +457,11 @@ stored in your home directory or with environmental variables.</p>
 </dl>
 <dl class="method">
 <dt id="parsons.Postgres.copy">
-<code class="descname">copy</code><span class="sig-paren">(</span><em>tbl</em>, <em>table_name</em>, <em>if_exists='fail'</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/databases/postgres/postgres.html#Postgres.copy"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.Postgres.copy" title="Permalink to this definition">¶</a></dt>
+<code class="descname">copy</code><span class="sig-paren">(</span><em>tbl</em>, <em>table_name</em>, <em>if_exists='fail'</em>, <em>strict_length=False</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/databases/postgres/postgres.html#Postgres.copy"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.Postgres.copy" title="Permalink to this definition">¶</a></dt>
 <dd><p>Copy a <a class="reference internal" href="table.html#parsons-table"><span class="std std-ref">Parsons Table</span></a> to Postgres.</p>
 <dl class="docutils">
+<dt><cite>Args:</cite></dt>
+<dd><dl class="first last docutils">
 <dt>tbl: parsons.Table</dt>
 <dd>A Parsons table object</dd>
 <dt>table_name: str</dt>
@@ -458,6 +469,13 @@ stored in your home directory or with environmental variables.</p>
 <dt>if_exists: str</dt>
 <dd>If the table already exists, either <code class="docutils literal notranslate"><span class="pre">fail</span></code>, <code class="docutils literal notranslate"><span class="pre">append</span></code>, <code class="docutils literal notranslate"><span class="pre">drop</span></code>
 or <code class="docutils literal notranslate"><span class="pre">truncate</span></code> the table.</dd>
+<dt>strict_length: bool</dt>
+<dd>If the database table needs to be created, strict_length determines whether
+the created table’s column sizes will be sized to exactly fit the current data,
+or if their size will be rounded up to account for future values being larger
+then the current dataset</dd>
+</dl>
+</dd>
 </dl>
 </dd></dl>
 

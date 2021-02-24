@@ -209,8 +209,10 @@ class MySQL(MySQLCreateTable, Alchemy):
             chunk_size: int
                 The number of rows to insert per query.
             strict_length: bool
-                Whether or not to tightly fit the length of the table columns to the length
-                of the data in ``tbl``; if ``padding`` is specified, this argument is ignored
+                If the database table needs to be created, strict_length determines whether
+                the created table's column sizes will be sized to exactly fit the current data,
+                or if their size will be rounded up to account for future values being larger
+                then the current dataset. defaults to ``True``
         """
 
         if tbl.num_rows == 0:
@@ -313,49 +315,6 @@ class MySQL(MySQLCreateTable, Alchemy):
             return False
 
     def table(self, table_name):
-        # Return a MySQL table object
+        # Return a BaseTable table object
 
-        return MySQLTable(self, table_name)
-
-
-class MySQLTable(BaseTable):
-    # MySQL table object.
-
-    def get_rows(self, offset=0, chunk_size=None, order_by=None):
-        """
-        Get rows from a table.
-        """
-
-        sql = f"SELECT * FROM {self.table}"
-
-        if order_by:
-            sql += f" ORDER BY {order_by}"
-
-        if chunk_size:
-            sql += f" LIMIT {chunk_size}"
-
-        if offset:
-            sql += f" ,{offset}"
-
-        return self.db.query(sql)
-
-    def get_new_rows(self, primary_key, cutoff_value, offset=0, chunk_size=None):
-        """
-        Get rows that have a greater primary key value than the one
-        provided.
-
-        It will select every value greater than the provided value.
-        """
-
-        sql = f"""
-               SELECT
-               *
-               FROM {self.table}
-               WHERE {primary_key} > {cutoff_value}
-               ORDER BY {primary_key}
-               """
-
-        if chunk_size:
-            sql += f" LIMIT {chunk_size}, {offset};"
-
-        return self.db.query(sql)
+        return BaseTable(self, table_name)

@@ -209,7 +209,7 @@ class DBSync:
             try:
                 # Get the records to load into the database
                 if cutoff:
-                    # If we have a cut off, we are loading data incrementally -- filter out
+                    # If we have a cutoff, we are loading data incrementally -- filter out
                     # any data before our cutoff
                     rows = source_table.get_new_rows(primary_key=order_by,
                                                      cutoff_value=cutoff,

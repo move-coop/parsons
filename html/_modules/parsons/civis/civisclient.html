@@ -243,9 +243,9 @@
 <span class="sd">                If ``True`` (the default), this job will not appear in the Civis UI.</span>
 <span class="sd">            wait: boolean</span>
 <span class="sd">                If ``True``, will wait for query to finish executing before exiting</span>
-<span class="sd">                the method.</span>
+<span class="sd">                the method. If ``False``, returns the future object.</span>
 <span class="sd">        `Returns`</span>
-<span class="sd">            Parsons Table</span>
+<span class="sd">            Parsons Table or ``civis.CivisFuture``</span>
 <span class="sd">                See :ref:`parsons-table` for output options.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
@@ -253,13 +253,11 @@
                                    <span class="n">polling_interval</span><span class="o">=</span><span class="n">polling_interval</span><span class="p">,</span> <span class="n">hidden</span><span class="o">=</span><span class="n">hidden</span><span class="p">)</span>
 
         <span class="k">if</span> <span class="ow">not</span> <span class="n">wait</span><span class="p">:</span>
-
-            <span class="k">return</span> <span class="kc">None</span>
+            <span class="k">return</span> <span class="n">fut</span>
 
         <span class="n">result</span> <span class="o">=</span> <span class="n">fut</span><span class="o">.</span><span class="n">result</span><span class="p">()</span>
 
         <span class="k">if</span> <span class="n">result</span><span class="p">[</span><span class="s1">&#39;result_rows&#39;</span><span class="p">]</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-
             <span class="k">return</span> <span class="kc">None</span>
 
         <span class="n">result</span><span class="p">[</span><span class="s1">&#39;result_rows&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">result</span><span class="p">[</span><span class="s1">&#39;result_columns&#39;</span><span class="p">])</span>
@@ -296,9 +294,10 @@
 <span class="sd">            sortkey2: str</span>
 <span class="sd">                The second column in a compound sortkey for the table.</span>
 <span class="sd">            wait: boolean</span>
-<span class="sd">                Wait for write job to complete before exiting method.</span>
+<span class="sd">                Wait for write job to complete before exiting method. If ``False``, returns</span>
+<span class="sd">                the future object.</span>
 <span class="sd">        `Returns`</span>
-<span class="sd">            ``None``</span>
+<span class="sd">            ``None`` or ``civis.CivisFuture``</span>
 <span class="sd">        &quot;&quot;&quot;</span> <span class="c1"># noqa: E501,E261</span>
 
         <span class="n">fut</span> <span class="o">=</span> <span class="n">civis</span><span class="o">.</span><span class="n">io</span><span class="o">.</span><span class="n">dataframe_to_civis</span><span class="p">(</span><span class="n">table_obj</span><span class="o">.</span><span class="n">to_dataframe</span><span class="p">(),</span> <span class="n">database</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">db</span><span class="p">,</span>
@@ -309,8 +308,9 @@
                                           <span class="n">headers</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="o">**</span><span class="n">civisargs</span><span class="p">)</span>
 
         <span class="k">if</span> <span class="n">wait</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">fut</span><span class="o">.</span><span class="n">result</span><span class="p">()</span>
 
-            <span class="n">fut</span><span class="o">.</span><span class="n">result</span><span class="p">()</span></div></div>
+        <span class="k">return</span> <span class="n">fut</span></div></div>
 </pre></div>
 
            </div>

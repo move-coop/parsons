@@ -271,12 +271,12 @@ returned at once.</dd>
 <dd>If <code class="docutils literal notranslate"><span class="pre">True</span></code> (the default), this job will not appear in the Civis UI.</dd>
 <dt>wait: boolean</dt>
 <dd>If <code class="docutils literal notranslate"><span class="pre">True</span></code>, will wait for query to finish executing before exiting
-the method.</dd>
+the method. If <code class="docutils literal notranslate"><span class="pre">False</span></code>, returns the future object.</dd>
 </dl>
 </dd>
 <dt><cite>Returns</cite></dt>
 <dd><dl class="first last docutils">
-<dt>Parsons Table</dt>
+<dt>Parsons Table or <code class="docutils literal notranslate"><span class="pre">civis.CivisFuture</span></code></dt>
 <dd>See <a class="reference internal" href="table.html#parsons-table"><span class="std std-ref">Parsons Table</span></a> for output options.</dd>
 </dl>
 </dd>
@@ -313,11 +313,12 @@ used.</dd>
 <dt>sortkey2: str</dt>
 <dd>The second column in a compound sortkey for the table.</dd>
 <dt>wait: boolean</dt>
-<dd>Wait for write job to complete before exiting method.</dd>
+<dd>Wait for write job to complete before exiting method. If <code class="docutils literal notranslate"><span class="pre">False</span></code>, returns
+the future object.</dd>
 </dl>
 </dd>
 <dt><cite>Returns</cite></dt>
-<dd><code class="docutils literal notranslate"><span class="pre">None</span></code></dd>
+<dd><code class="docutils literal notranslate"><span class="pre">None</span></code> or <code class="docutils literal notranslate"><span class="pre">civis.CivisFuture</span></code></dd>
 </dl>
 </dd></dl>
 

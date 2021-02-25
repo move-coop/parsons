@@ -1,4 +1,5 @@
 from sqlalchemy import create_engine, Table, MetaData
+import sqlalchemy
 import logging
 
 logger = logging.getLogger(__name__)
@@ -45,8 +46,15 @@ class Alchemy:
         """
 
         schema, table_name = self.split_table_name(table_name)
-        db_meta = MetaData(bind=self.generate_engine(), schema=schema)
-        return Table(table_name, db_meta, autoload=True)
+
+        # SQL Alchemy does not play nicely with Redshift views. With this pattern,
+        # it will allow it to fail if it is a view and then fall back on the old
+        # pattern of sampling the data in order to create a table.
+        try:
+            db_meta = MetaData(bind=self.generate_engine(), schema=schema)
+            return Table(table_name, db_meta, autoload=True)
+        except sqlalchemy.exc.NoSuchTableError
+            return None
 
     def create_table(self, table_object, table_name):
         """

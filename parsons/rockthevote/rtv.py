@@ -274,9 +274,9 @@ class RockTheVote:
                 A single row table with the response json
         """
         requirements_url = f'state_requirements.json'
-        
+
         logger.info(f"Getting the requirements for {home_state_id}...")
-        
+
         params = {
             'lang': lang,
             'home_state_id': home_state_id,

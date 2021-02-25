@@ -253,8 +253,8 @@ class RockTheVote:
         return self.get_registration_report(report_id, block=True,
                                             poll_interval_seconds=poll_interval_seconds,
                                             report_timeout_seconds=report_timeout_seconds)
-    
-    def get_state_requirements(self, lang, home_state_id, home_zip_code, 
+
+    def get_state_requirements(self, lang, home_state_id, home_zip_code,
                                date_of_birth=None, callback=None):
         """
         Checks state eligibility and provides state specific fields information.
@@ -278,19 +278,19 @@ class RockTheVote:
         logger.info(f"Getting the requirements for {home_state_id}...")
         
         params = {
-            'lang' : lang,
-            'home_state_id' : home_state_id,
-            'home_zip_code' : home_zip_code
+            'lang': lang,
+            'home_state_id': home_state_id,
+            'home_zip_code': home_zip_code
         }
-        
+
         if date_of_birth:
             params['date_of_birth'] = date_of_birth
-        
+
         if callback:
             params['callback'] = callback
-            
+
         requirements_response = self.client.request(requirements_url, 'get', params=params)
-        
+
         if requirements_response.status_code == requests.codes.ok:
             response_json = requirements_response.json()
             table = Table([response_json])
@@ -299,4 +299,3 @@ class RockTheVote:
             error_json = requirements_response.json()
             logger.info(f'{error_json}')
             raise RTVFailure("Could not retrieve state requirements")
-            

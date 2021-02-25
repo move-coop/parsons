@@ -76,6 +76,10 @@ class Table(ETL, ToFrom):
 
             return self.column_data(index)
 
+        elif isinstance(index, slice):
+            tblslice = petl.rowslice(self.table, index.start, index.stop, index.step)
+            return [row for row in tblslice]
+
         else:
 
             raise TypeError('You must pass a string or an index as a value.')

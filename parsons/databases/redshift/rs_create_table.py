@@ -16,6 +16,7 @@ class RedshiftCreateTable(DatabaseCreateStatement):
         self.REPLACE_CHARS = consts.REPLACE_CHARS
 
         # Redshift doesn't have a medium int
+        self.SMALLINT = self.INT
         self.MEDIUMINT = self.INT
 
         # Currently py floats are coded as Redshift decimals
@@ -139,7 +140,7 @@ class RedshiftCreateTable(DatabaseCreateStatement):
 
             try:
                 idx = mapping['headers'].index(c)
-                mapping['longest'][idx] = VARCHAR_MAX
+                mapping['longest'][idx] = self.VARCHAR_MAX
 
             except KeyError as error:
                 logger.error('Could not find column name provided.')
@@ -149,7 +150,7 @@ class RedshiftCreateTable(DatabaseCreateStatement):
 
     def vc_trunc(self, mapping):
 
-        return [VARCHAR_MAX if c > VARCHAR_MAX else c for c in mapping['longest']]
+        return [self.VARCHAR_MAX if c > self.VARCHAR_MAX else c for c in mapping['longest']]
 
     def vc_validate(self, mapping):
 
@@ -213,9 +214,9 @@ class RedshiftCreateTable(DatabaseCreateStatement):
     @staticmethod
     def round_longest(longest):
         # Find the value that will work best to fit our longest column value
-        for step in VARCHAR_STEPS:
+        for step in self.VARCHAR_STEPS:
             # Make sure we have padding
             if longest < step / 2:
                 return step
 
-        return VARCHAR_MAX
+        return self.VARCHAR_MAX

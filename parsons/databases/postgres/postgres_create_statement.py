@@ -21,6 +21,13 @@ class PostgresCreateStatement(DatabaseCreateStatement):
         # Currently py floats are coded as Postgres decimals
         self.FLOAT = consts.DECIMAL
 
+        # Max length of a Redshift VARCHAR column
+        self.VARCHAR_MAX = consts.VARCHAR_MAX
+
+        # List of varchar lengths to use for columns -- this list needs to be in order from smallest to
+        # largest
+        self.VARCHAR_STEPS = consts.VARCHAR_STEPS
+
     # the default behavior is f"{col}_"
     def _rename_reserved_word(self, col, index):
         """Return the renamed column.
@@ -37,7 +44,8 @@ class PostgresCreateStatement(DatabaseCreateStatement):
         return f"col_{index}"
 
     def create_statement(self, tbl, table_name, padding=None, distkey=None, sortkey=None,
-                         varchar_max=None, varchar_truncate=True, columntypes=None):
+                         varchar_max=None, varchar_truncate=True, columntypes=None,
+                         strict_length=True):
         # Generate a table create statement. Distkeys and sortkeys are only used by
         # Redshift and should not be passed when generating a create statement for
         # Postgres.
@@ -52,6 +60,8 @@ class PostgresCreateStatement(DatabaseCreateStatement):
 
         if padding:
             mapping['longest'] = self.vc_padding(mapping, padding)
+        elif not strict_length:
+            mapping['longest'] = self.vc_step(mapping)
 
         if varchar_max:
             mapping['longest'] = self.vc_max(mapping, varchar_max)
@@ -122,6 +132,9 @@ class PostgresCreateStatement(DatabaseCreateStatement):
 
         return [int(c + (c * padding)) for c in mapping['longest']]
 
+    def vc_step(self, mapping):
+        return [self.round_longest(c) for c in mapping['longest']]
+
     def vc_max(self, mapping, columns):
         # Set the varchar width of a column to the maximum
 
@@ -129,7 +142,7 @@ class PostgresCreateStatement(DatabaseCreateStatement):
 
             try:
                 idx = mapping['headers'].index(c)
-                mapping['longest'][idx] = 65535
+                mapping['longest'][idx] = self.VARCHAR_MAX
 
             except KeyError as error:
                 logger.error('Could not find column name provided.')
@@ -139,7 +152,7 @@ class PostgresCreateStatement(DatabaseCreateStatement):
 
     def vc_trunc(self, mapping):
 
-        return [65535 if c > 65535 else c for c in mapping['longest']]
+        return [self.VARCHAR_MAX if c > self.VARCHAR_MAX else c for c in mapping['longest']]
 
     def vc_validate(self, mapping):
 
@@ -175,3 +188,13 @@ class PostgresCreateStatement(DatabaseCreateStatement):
     # This is for backwards compatability
     def column_name_validate(self, columns):
         return self.format_columns(columns, col_prefix="col_")
+
+    @staticmethod
+    def round_longest(longest):
+        # Find the value that will work best to fit our longest column value
+        for step in self.VARCHAR_STEPS:
+            # Make sure we have padding
+            if longest < step / 2:
+                return step
+
+        return self.VARCHAR_MAX

@@ -58,8 +58,8 @@ class TestRedshift(unittest.TestCase):
 
     def test_data_type(self):
 
-        # Test smallint
-        self.assertEqual(self.rs.data_type(1, ''), 'smallint')
+        # Test int
+        self.assertEqual(self.rs.data_type(1, ''), 'int')
         # Test int
         self.assertEqual(self.rs.data_type(32769, ''), 'int')
         # Test bigint
@@ -80,11 +80,11 @@ class TestRedshift(unittest.TestCase):
         # Test correct header labels
         self.assertEqual(self.mapping['headers'], ['ID', 'Name'])
         # Test correct data types
-        self.assertEqual(self.mapping['type_list'], ['smallint', 'varchar'])
+        self.assertEqual(self.mapping['type_list'], ['int', 'varchar'])
 
         self.assertEqual(
             self.mapping2['type_list'],
-            ['varchar', 'varchar', 'decimal', 'varchar', "decimal", "smallint", "varchar"])
+            ['varchar', 'varchar', 'decimal', 'varchar', "decimal", "int", "varchar"])
         # Test correct lengths
         self.assertEqual(self.mapping['longest'], [1, 5])
 
@@ -112,7 +112,7 @@ class TestRedshift(unittest.TestCase):
 
         # Test the the statement is expected
         sql = self.rs.create_sql('tmc.test', self.mapping, distkey='ID')
-        exp_sql = "create table tmc.test (\n  id smallint,\n  name varchar(5)) \ndistkey(ID) ;"
+        exp_sql = "create table tmc.test (\n  id int,\n  name varchar(5)) \ndistkey(ID) ;"
         self.assertEqual(sql, exp_sql)
 
     def test_column_validate(self):
@@ -128,7 +128,7 @@ class TestRedshift(unittest.TestCase):
 
         # Assert that copy statement is expected
         sql = self.rs.create_statement(self.tbl, 'tmc.test', distkey='ID')
-        exp_sql = """create table tmc.test (\n  "id" smallint,\n  "name" varchar(5)) \ndistkey(ID) ;"""  # noqa: E501
+        exp_sql = """create table tmc.test (\n  "id" int,\n  "name" varchar(5)) \ndistkey(ID) ;"""  # noqa: E501
         self.assertEqual(sql, exp_sql)
 
         # Assert that an error is raised by an empty table
@@ -219,7 +219,7 @@ class TestRedshiftDB(unittest.TestCase):
                     """
 
         other_sql = f"""
-                    create table {self.temp_schema}.test (id smallint,name varchar(5));
+                    create table {self.temp_schema}.test (id int,name varchar(5));
                     create view {self.temp_schema}.test_view as (
                         select * from {self.temp_schema}.test
                     );
@@ -606,11 +606,11 @@ class TestRedshiftDB(unittest.TestCase):
     def test_get_columns(self):
         cols = self.rs.get_columns(self.temp_schema, 'test')
 
-        # id smallint,name varchar(5)
+        # id int,name varchar(5)
         expected_cols = {
             'id':   {
-                'data_type': 'smallint', 'max_length': None,
-                'max_precision': 16, 'max_scale': 0, 'is_nullable': True},
+                'data_type': 'int', 'max_length': None,
+                'max_precision': 32, 'max_scale': 0, 'is_nullable': True},
             'name': {
                 'data_type': 'character varying', 'max_length': 5,
                 'max_precision': None, 'max_scale': None, 'is_nullable': True},

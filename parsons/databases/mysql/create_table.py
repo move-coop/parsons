@@ -7,6 +7,7 @@ import logging
 logger = logging.getLogger(__name__)
 
 
+
 class MySQLCreateTable(DatabaseCreateStatement):
 
     def __init__(self):
@@ -15,6 +16,11 @@ class MySQLCreateTable(DatabaseCreateStatement):
         self.VARCHAR_PAD = consts.VARCHAR_PAD
         self.COL_NAME_MAX_LEN = consts.COL_NAME_MAX_LEN
         self.RESERVED_WORDS = []
+        self.VARCHAR_STEPS = consts.VARCHAR_STEPS
+        self.VARCHAR_MAX = consts.VARCHAR_MAX
+        self.SMALLINT_VALUES = consts.SMALLINT_VALUES
+        self.MEDIUMINT_VALUES = consts.MEDIUMINT_VALUES
+        self.INT_VALUES = consts.INT_VALUES
 
     # This is for backwards compatability
     def data_type(self, val, current_type):
@@ -44,7 +50,7 @@ class MySQLCreateTable(DatabaseCreateStatement):
                 if row_width > col_width:
                     col_width = row_width
 
-        return col_type, int(col_width + (col_width * self.VARCHAR_PAD))
+        return col_type, col_width
 
     def evaluate_table(self, tbl):
         # Generate a dict of MySQL column types and widths for all columns
@@ -59,7 +65,7 @@ class MySQLCreateTable(DatabaseCreateStatement):
 
         return table_map
 
-    def create_statement(self, tbl, table_name):
+    def create_statement(self, tbl, table_name, strict_length=True):
         # Generate create statement SQL for a given Parsons table.
 
         # Validate and rename column names if needed
@@ -71,8 +77,13 @@ class MySQLCreateTable(DatabaseCreateStatement):
         # Generate the column syntax
         column_syntax = []
         for c in table_map:
+            if strict_length:
+                col_width = int(c['width'] + (self.VARCHAR_PAD * c['width']))
+            else:
+                col_width = self.round_longest(c['width'])
+
             if c['type'] == 'varchar':
-                column_syntax.append(f"{c['name']} {c['type']}({c['width']}) \n")
+                column_syntax.append(f"{c['name']} {c['type']}({col_width}) \n")
             else:
                 column_syntax.append(f"{c['name']} {c['type']} \n")
 
@@ -82,3 +93,13 @@ class MySQLCreateTable(DatabaseCreateStatement):
     # This is for backwards compatability
     def columns_convert(self, columns):
         return self.format_columns(columns, col_prefix="col_")
+
+    @staticmethod
+    def round_longest(longest):
+        # Find the value that will work best to fit our longest column value
+        for step in self.VARCHAR_STEPS:
+            # Make sure we have padding
+            if longest < step / 2:
+                return step
+
+        return self.VARCHAR_MAX

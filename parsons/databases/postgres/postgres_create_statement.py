@@ -24,8 +24,8 @@ class PostgresCreateStatement(DatabaseCreateStatement):
         # Max length of a Redshift VARCHAR column
         self.VARCHAR_MAX = consts.VARCHAR_MAX
 
-        # List of varchar lengths to use for columns -- this list needs to be in order from smallest to
-        # largest
+        # List of varchar lengths to use for columns -- this list needs to be in order from
+        # smallest to largest
         self.VARCHAR_STEPS = consts.VARCHAR_STEPS
 
     # the default behavior is f"{col}_"
@@ -192,9 +192,9 @@ class PostgresCreateStatement(DatabaseCreateStatement):
     @staticmethod
     def round_longest(longest):
         # Find the value that will work best to fit our longest column value
-        for step in self.VARCHAR_STEPS:
+        for step in PostgresCreateStatement.VARCHAR_STEPS:
             # Make sure we have padding
             if longest < step / 2:
                 return step
 
-        return self.VARCHAR_MAX
+        return PostgresCreateStatement.VARCHAR_MAX

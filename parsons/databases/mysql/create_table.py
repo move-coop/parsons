@@ -7,7 +7,6 @@ import logging
 logger = logging.getLogger(__name__)
 
 
-
 class MySQLCreateTable(DatabaseCreateStatement):
 
     def __init__(self):
@@ -97,9 +96,9 @@ class MySQLCreateTable(DatabaseCreateStatement):
     @staticmethod
     def round_longest(longest):
         # Find the value that will work best to fit our longest column value
-        for step in self.VARCHAR_STEPS:
+        for step in MySQLCreateTable.VARCHAR_STEPS:
             # Make sure we have padding
             if longest < step / 2:
                 return step
 
-        return self.VARCHAR_MAX
+        return MySQLCreateTable.VARCHAR_MAX

@@ -214,9 +214,9 @@ class RedshiftCreateTable(DatabaseCreateStatement):
     @staticmethod
     def round_longest(longest):
         # Find the value that will work best to fit our longest column value
-        for step in self.VARCHAR_STEPS:
+        for step in RedshiftCreateTable.VARCHAR_STEPS:
             # Make sure we have padding
             if longest < step / 2:
                 return step
 
-        return self.VARCHAR_MAX
+        return RedshiftCreateTable.VARCHAR_MAX

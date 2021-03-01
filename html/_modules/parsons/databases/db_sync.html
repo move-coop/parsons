@@ -489,8 +489,14 @@
 <span class="sd">        database schema structure. This method utilizes the Alchemy subclass.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
-        <span class="n">source_obj</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">source_db</span><span class="o">.</span><span class="n">get_table_object</span><span class="p">(</span><span class="n">source_table</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">dest_db</span><span class="o">.</span><span class="n">create_table</span><span class="p">(</span><span class="n">source_obj</span><span class="p">,</span> <span class="n">destination_table</span><span class="p">)</span></div></div>
+        <span class="c1"># Try to create the destination using the source table&#39;s schema; if that doesn&#39;t work,</span>
+        <span class="c1"># then we will lean on &quot;copy&quot; when loading the data to create the destination</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">source_obj</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">source_db</span><span class="o">.</span><span class="n">get_table_object</span><span class="p">(</span><span class="n">source_table</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">dest_db</span><span class="o">.</span><span class="n">create_table</span><span class="p">(</span><span class="n">source_obj</span><span class="p">,</span> <span class="n">destination_table</span><span class="p">)</span>
+        <span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="s1">&#39;Unable to create destination table based on source table; we will &#39;</span>
+                           <span class="s1">&#39;fallback to using &quot;copy&quot; to create the destination.&#39;</span><span class="p">)</span></div></div>
 </pre></div>
 
            </div>

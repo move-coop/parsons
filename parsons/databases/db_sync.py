@@ -296,5 +296,11 @@ class DBSync:
         database schema structure. This method utilizes the Alchemy subclass.
         """
 
-        source_obj = self.source_db.get_table_object(source_table)
-        self.dest_db.create_table(source_obj, destination_table)
+        # Try to create the destination using the source table's schema; if that doesn't work,
+        # then we will lean on "copy" when loading the data to create the destination
+        try:
+            source_obj = self.source_db.get_table_object(source_table)
+            self.dest_db.create_table(source_obj, destination_table)
+        except Exception:
+            logger.warning('Unable to create destination table based on source table; we will '
+                           'fallback to using "copy" to create the destination.')

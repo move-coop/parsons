@@ -2,6 +2,7 @@ import os
 import unittest
 
 import requests_mock
+import json
 
 from parsons import RockTheVote
 
@@ -56,3 +57,23 @@ class TestRockTheVote(unittest.TestCase):
         self.assertEqual(result.num_rows, 1)
         self.assertEqual(result[0]['first_name'], 'Carol')
         self.assertEqual(result[0]['last_name'], 'King')
+
+    @requests_mock.Mocker()
+    def test_get_state_requirements(self, mocker):
+        partner_id = '1'
+        partner_api_key = 'abcd'
+
+        with open(f'{_dir}/sample.json', 'r') as j:
+            expected_json = json.load(j)
+
+        mocker.get('https://register.rockthevote.com/api/v4/state_requirements.json',
+                   json=expected_json)
+
+        rtv = RockTheVote(partner_id=partner_id, partner_api_key=partner_api_key)
+
+        result = rtv.get_state_requirements('en', 'fl', '33314')
+        print(result.columns)
+
+        self.assertEqual(result.num_rows, 1)
+        self.assertEqual(result[0]['requires_party'], True)
+        self.assertEqual(result[0]['requires_race'], True)

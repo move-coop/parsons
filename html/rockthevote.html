@@ -354,6 +354,35 @@ ISO format (e.g. 2020-01-01)</dd>
 </dl>
 </dd></dl>
 
+<dl class="method">
+<dt id="parsons.rockthevote.rtv.RockTheVote.get_state_requirements">
+<code class="descname">get_state_requirements</code><span class="sig-paren">(</span><em>lang</em>, <em>home_state_id</em>, <em>home_zip_code</em>, <em>date_of_birth=None</em>, <em>callback=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/rockthevote/rtv.html#RockTheVote.get_state_requirements"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.rockthevote.rtv.RockTheVote.get_state_requirements" title="Permalink to this definition">¶</a></dt>
+<dd><p>Checks state eligibility and provides state specific fields information.
+Args:</p>
+<blockquote>
+<div><dl class="docutils">
+<dt>lang: str</dt>
+<dd>Required. Language. Represented by an abbreviation. ‘en’, ‘es’, etc</dd>
+<dt>home_state_id: str</dt>
+<dd>Required. 2-character state abbreviation</dd>
+<dt>home_zip_code: str</dt>
+<dd>Required. ‘zzzzz’ 5 digit zip codes</dd>
+<dt>date_of_birth: str</dt>
+<dd>Optional. ‘mm-dd-yyyy’</dd>
+<dt>callback: str</dt>
+<dd>Optional.  If used, will change the return value from JSON format to jsonp</dd>
+</dl>
+</div></blockquote>
+<dl class="docutils">
+<dt>Returns:</dt>
+<dd><dl class="first last docutils">
+<dt>Parsons.Table</dt>
+<dd>A single row table with the response json</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
 </dd></dl>
 
 </div>

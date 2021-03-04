@@ -408,6 +408,100 @@ then the current dataset. defaults to <code class="docutils literal notranslate"
 </dd></dl>
 
 <dl class="method">
+<dt id="parsons.MySQL.detect_data_type">
+<code class="descname">detect_data_type</code><span class="sig-paren">(</span><em>value</em>, <em>cmp_type=None</em><span class="sig-paren">)</span><a class="headerlink" href="#parsons.MySQL.detect_data_type" title="Permalink to this definition">¶</a></dt>
+<dd><p>Detect the higher of value’s type cmp_type.</p>
+<ol class="arabic simple">
+<li>check if it’s a string</li>
+<li>check if it’s a number</li>
+</ol>
+<blockquote>
+<div><ol class="loweralpha simple">
+<li>check if it’s a float</li>
+<li>check if it’s an int</li>
+</ol>
+</div></blockquote>
+<dl class="docutils">
+<dt><cite>Args</cite>:</dt>
+<dd><dl class="first last docutils">
+<dt>value: str</dt>
+<dd>The value to inspect.</dd>
+<dt>cmp_type: str</dt>
+<dd>The string representation of a type to compare with
+<code class="docutils literal notranslate"><span class="pre">value</span></code>’s type.</dd>
+</dl>
+</dd>
+<dt><cite>Returns</cite>:</dt>
+<dd><dl class="first last docutils">
+<dt>str</dt>
+<dd>The string representation of the higher of the two types.</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="parsons.MySQL.format_column">
+<code class="descname">format_column</code><span class="sig-paren">(</span><em>col</em>, <em>index=''</em>, <em>replace_chars=None</em>, <em>col_prefix='_'</em><span class="sig-paren">)</span><a class="headerlink" href="#parsons.MySQL.format_column" title="Permalink to this definition">¶</a></dt>
+<dd><p>Format the column to meet database contraints.</p>
+<dl class="docutils">
+<dt>Formats the columns as follows:</dt>
+<dd><ol class="first last arabic simple">
+<li>Coverts to lowercase (if case insensitive)</li>
+<li>Strips leading and trailing whitespace</li>
+<li>Replaces invalid characters</li>
+<li>Renames if in reserved words</li>
+</ol>
+</dd>
+<dt><cite>Args</cite>:</dt>
+<dd><dl class="first last docutils">
+<dt>col: str</dt>
+<dd>The column to format.</dd>
+<dt>index: int</dt>
+<dd>(Optional) The index of the column. Used if the column is empty.</dd>
+<dt>replace_chars: dict</dt>
+<dd>A dictionary of invalid characters and their replacements. If
+<code class="docutils literal notranslate"><span class="pre">None</span></code> uses {” “: “_”}</dd>
+<dt>col_prefix: str</dt>
+<dd>The prefix to use when the column is empty or starts with an
+invalid character.</dd>
+</dl>
+</dd>
+<dt><cite>Returns</cite>:</dt>
+<dd><dl class="first last docutils">
+<dt>str</dt>
+<dd>The formatted column.</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="parsons.MySQL.format_columns">
+<code class="descname">format_columns</code><span class="sig-paren">(</span><em>cols</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#parsons.MySQL.format_columns" title="Permalink to this definition">¶</a></dt>
+<dd><p>Format the columns to meet database contraints.</p>
+<p>This method relies on <code class="docutils literal notranslate"><span class="pre">format_column</span></code> to handle most changes. It
+only handles duplicated columns. Options to <code class="docutils literal notranslate"><span class="pre">format_column</span></code> can be
+passed through kwargs.</p>
+<dl class="docutils">
+<dt><cite>Args</cite>:</dt>
+<dd><dl class="first last docutils">
+<dt>cols: list</dt>
+<dd>The columns to format.</dd>
+<dt>kwargs: dicts</dt>
+<dd>Keyword arguments to pass to <code class="docutils literal notranslate"><span class="pre">format_column</span></code>.</dd>
+</dl>
+</dd>
+<dt><cite>Returns</cite>:</dt>
+<dd><dl class="first last docutils">
+<dt>list</dt>
+<dd>The formatted columns.</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
 <dt id="parsons.MySQL.generate_alchemy_url">
 <code class="descname">generate_alchemy_url</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#parsons.MySQL.generate_alchemy_url" title="Permalink to this definition">¶</a></dt>
 <dd><p>Generate a SQL Alchemy engine
@@ -421,9 +515,51 @@ then the current dataset. defaults to <code class="docutils literal notranslate"
 </dd></dl>
 
 <dl class="method">
+<dt id="parsons.MySQL.get_bigger_int">
+<code class="descname">get_bigger_int</code><span class="sig-paren">(</span><em>int1</em>, <em>int2</em><span class="sig-paren">)</span><a class="headerlink" href="#parsons.MySQL.get_bigger_int" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the bigger of the two ints.</p>
+<dl class="docutils">
+<dt><cite>Args</cite>:</dt>
+<dd><dl class="first last docutils">
+<dt>int1: str</dt>
+<dd>The string representation if an int type.</dd>
+<dt>int2: str</dt>
+<dd>The string representation if an int type.</dd>
+</dl>
+</dd>
+<dt><cite>Returns</cite>:</dt>
+<dd><dl class="first last docutils">
+<dt>str</dt>
+<dd>A string representation of the higher of the two int types.</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
 <dt id="parsons.MySQL.get_table_object">
 <code class="descname">get_table_object</code><span class="sig-paren">(</span><em>table_name</em><span class="sig-paren">)</span><a class="headerlink" href="#parsons.MySQL.get_table_object" title="Permalink to this definition">¶</a></dt>
 <dd><p>Get a SQL Alchemy table object.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="parsons.MySQL.is_valid_sql_num">
+<code class="descname">is_valid_sql_num</code><span class="sig-paren">(</span><em>val</em><span class="sig-paren">)</span><a class="headerlink" href="#parsons.MySQL.is_valid_sql_num" title="Permalink to this definition">¶</a></dt>
+<dd><p>Check whether val is a valid sql number.</p>
+<dl class="docutils">
+<dt><cite>Args</cite>:</dt>
+<dd><dl class="first last docutils">
+<dt>val: any</dt>
+<dd>The values to check.</dd>
+</dl>
+</dd>
+<dt><cite>Returns</cite>:</dt>
+<dd><dl class="first last docutils">
+<dt>bool</dt>
+<dd>Whether or not the value is a valid sql number.</dd>
+</dl>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="staticmethod">
@@ -532,6 +668,100 @@ any context manager):
 </dd></dl>
 
 <dl class="method">
+<dt id="parsons.Postgres.detect_data_type">
+<code class="descname">detect_data_type</code><span class="sig-paren">(</span><em>value</em>, <em>cmp_type=None</em><span class="sig-paren">)</span><a class="headerlink" href="#parsons.Postgres.detect_data_type" title="Permalink to this definition">¶</a></dt>
+<dd><p>Detect the higher of value’s type cmp_type.</p>
+<ol class="arabic simple">
+<li>check if it’s a string</li>
+<li>check if it’s a number</li>
+</ol>
+<blockquote>
+<div><ol class="loweralpha simple">
+<li>check if it’s a float</li>
+<li>check if it’s an int</li>
+</ol>
+</div></blockquote>
+<dl class="docutils">
+<dt><cite>Args</cite>:</dt>
+<dd><dl class="first last docutils">
+<dt>value: str</dt>
+<dd>The value to inspect.</dd>
+<dt>cmp_type: str</dt>
+<dd>The string representation of a type to compare with
+<code class="docutils literal notranslate"><span class="pre">value</span></code>’s type.</dd>
+</dl>
+</dd>
+<dt><cite>Returns</cite>:</dt>
+<dd><dl class="first last docutils">
+<dt>str</dt>
+<dd>The string representation of the higher of the two types.</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="parsons.Postgres.format_column">
+<code class="descname">format_column</code><span class="sig-paren">(</span><em>col</em>, <em>index=''</em>, <em>replace_chars=None</em>, <em>col_prefix='_'</em><span class="sig-paren">)</span><a class="headerlink" href="#parsons.Postgres.format_column" title="Permalink to this definition">¶</a></dt>
+<dd><p>Format the column to meet database contraints.</p>
+<dl class="docutils">
+<dt>Formats the columns as follows:</dt>
+<dd><ol class="first last arabic simple">
+<li>Coverts to lowercase (if case insensitive)</li>
+<li>Strips leading and trailing whitespace</li>
+<li>Replaces invalid characters</li>
+<li>Renames if in reserved words</li>
+</ol>
+</dd>
+<dt><cite>Args</cite>:</dt>
+<dd><dl class="first last docutils">
+<dt>col: str</dt>
+<dd>The column to format.</dd>
+<dt>index: int</dt>
+<dd>(Optional) The index of the column. Used if the column is empty.</dd>
+<dt>replace_chars: dict</dt>
+<dd>A dictionary of invalid characters and their replacements. If
+<code class="docutils literal notranslate"><span class="pre">None</span></code> uses {” “: “_”}</dd>
+<dt>col_prefix: str</dt>
+<dd>The prefix to use when the column is empty or starts with an
+invalid character.</dd>
+</dl>
+</dd>
+<dt><cite>Returns</cite>:</dt>
+<dd><dl class="first last docutils">
+<dt>str</dt>
+<dd>The formatted column.</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="parsons.Postgres.format_columns">
+<code class="descname">format_columns</code><span class="sig-paren">(</span><em>cols</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#parsons.Postgres.format_columns" title="Permalink to this definition">¶</a></dt>
+<dd><p>Format the columns to meet database contraints.</p>
+<p>This method relies on <code class="docutils literal notranslate"><span class="pre">format_column</span></code> to handle most changes. It
+only handles duplicated columns. Options to <code class="docutils literal notranslate"><span class="pre">format_column</span></code> can be
+passed through kwargs.</p>
+<dl class="docutils">
+<dt><cite>Args</cite>:</dt>
+<dd><dl class="first last docutils">
+<dt>cols: list</dt>
+<dd>The columns to format.</dd>
+<dt>kwargs: dicts</dt>
+<dd>Keyword arguments to pass to <code class="docutils literal notranslate"><span class="pre">format_column</span></code>.</dd>
+</dl>
+</dd>
+<dt><cite>Returns</cite>:</dt>
+<dd><dl class="first last docutils">
+<dt>list</dt>
+<dd>The formatted columns.</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
 <dt id="parsons.Postgres.generate_alchemy_url">
 <code class="descname">generate_alchemy_url</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#parsons.Postgres.generate_alchemy_url" title="Permalink to this definition">¶</a></dt>
 <dd><p>Generate a SQL Alchemy engine
@@ -545,9 +775,51 @@ any context manager):
 </dd></dl>
 
 <dl class="method">
+<dt id="parsons.Postgres.get_bigger_int">
+<code class="descname">get_bigger_int</code><span class="sig-paren">(</span><em>int1</em>, <em>int2</em><span class="sig-paren">)</span><a class="headerlink" href="#parsons.Postgres.get_bigger_int" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the bigger of the two ints.</p>
+<dl class="docutils">
+<dt><cite>Args</cite>:</dt>
+<dd><dl class="first last docutils">
+<dt>int1: str</dt>
+<dd>The string representation if an int type.</dd>
+<dt>int2: str</dt>
+<dd>The string representation if an int type.</dd>
+</dl>
+</dd>
+<dt><cite>Returns</cite>:</dt>
+<dd><dl class="first last docutils">
+<dt>str</dt>
+<dd>A string representation of the higher of the two int types.</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
 <dt id="parsons.Postgres.get_table_object">
 <code class="descname">get_table_object</code><span class="sig-paren">(</span><em>table_name</em><span class="sig-paren">)</span><a class="headerlink" href="#parsons.Postgres.get_table_object" title="Permalink to this definition">¶</a></dt>
 <dd><p>Get a SQL Alchemy table object.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="parsons.Postgres.is_valid_sql_num">
+<code class="descname">is_valid_sql_num</code><span class="sig-paren">(</span><em>val</em><span class="sig-paren">)</span><a class="headerlink" href="#parsons.Postgres.is_valid_sql_num" title="Permalink to this definition">¶</a></dt>
+<dd><p>Check whether val is a valid sql number.</p>
+<dl class="docutils">
+<dt><cite>Args</cite>:</dt>
+<dd><dl class="first last docutils">
+<dt>val: any</dt>
+<dd>The values to check.</dd>
+</dl>
+</dd>
+<dt><cite>Returns</cite>:</dt>
+<dd><dl class="first last docutils">
+<dt>bool</dt>
+<dd>Whether or not the value is a valid sql number.</dd>
+</dl>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="method">

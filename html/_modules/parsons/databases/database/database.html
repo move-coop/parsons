@@ -1,0 +1,501 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>parsons.databases.database.database &mdash; Parsons 0.5 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  <link rel="stylesheet" href="../../../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../../../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../search.html" /> 
+
+  
+  <script src="../../../../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../../../../index.html" class="icon icon-home"> Parsons
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Integrations</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../action_kit.html">ActionKit</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../action_network.html">Action Network</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../airtable.html">Airtable</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../alchemer.html">Alchemer</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../aws.html">Amazon Web Services</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../azure.html">Azure: Blob Storage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../bill_com.html">Bill.com</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../bloomerang.html">Bloomerang</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../box.html">Box</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../braintree.html">Braintree</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../civis.html">Civis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../copper.html">Copper</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../crowdtangle.html">CrowdTangle</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../databases.html">Databases</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../facebook_ads.html">FacebookAds</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../freshdesk.html">Freshdesk</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../github.html">GitHub</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../google.html">Google</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../hustle.html">Hustle</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../mailchimp.html">Mailchimp</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../mobilize_america.html">Mobilize America</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../newmode.html">New/Mode</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../ngpvan.html">NGPVAN</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../pdi.html">PDI</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../p2a.html">Phone2Action</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../redash.html">Redash</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../rockthevote.html">Rock the Vote</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../salesforce.html">Salesforce</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../sftp.html">SFTP</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../sisense.html">Sisense</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../targetsmart.html">TargetSmart</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../turbovote.html">TurboVote</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../twilio.html">Twilio</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../zoom.html">Zoom</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Enhancements</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../census_geocoder.html">US Census Geocoder</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Framework</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../dbsync.html">Database Sync</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../table.html">Parsons Table</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../notifications.html">Notifications</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../utilities.html">Utilities</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Contributor Documentation</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../contributing.html">Contributing to Parsons</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../build_a_connector.html">How to Build a Connector</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../../index.html">Parsons</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../../../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../../../index.html">Module code</a> &raquo;</li>
+        
+      <li>parsons.databases.database.database</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for parsons.databases.database.database</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">parsons.databases.database.constants</span> <span class="k">as</span> <span class="nn">consts</span>
+<span class="kn">import</span> <span class="nn">ast</span>
+
+
+<span class="k">class</span> <span class="nc">DatabaseCreateStatement</span><span class="p">():</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">INT_TYPES</span> <span class="o">=</span> <span class="n">consts</span><span class="o">.</span><span class="n">INT_TYPES</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">SMALLINT</span> <span class="o">=</span> <span class="n">consts</span><span class="o">.</span><span class="n">SMALLINT</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">SMALLINT_MIN</span> <span class="o">=</span> <span class="n">consts</span><span class="o">.</span><span class="n">SMALLINT_MIN</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">SMALLINT_MAX</span> <span class="o">=</span> <span class="n">consts</span><span class="o">.</span><span class="n">SMALLINT_MAX</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">MEDIUMINT</span> <span class="o">=</span> <span class="n">consts</span><span class="o">.</span><span class="n">MEDIUMINT</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">MEDIUMINT_MIN</span> <span class="o">=</span> <span class="n">consts</span><span class="o">.</span><span class="n">MEDIUMINT_MIN</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">MEDIUMINT_MAX</span> <span class="o">=</span> <span class="n">consts</span><span class="o">.</span><span class="n">MEDIUMINT_MAX</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">INT</span> <span class="o">=</span> <span class="n">consts</span><span class="o">.</span><span class="n">INT</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">INT_MIN</span> <span class="o">=</span> <span class="n">consts</span><span class="o">.</span><span class="n">INT_MIN</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">INT_MAX</span> <span class="o">=</span> <span class="n">consts</span><span class="o">.</span><span class="n">INT_MAX</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">BIGINT</span> <span class="o">=</span> <span class="n">consts</span><span class="o">.</span><span class="n">BIGINT</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">FLOAT</span> <span class="o">=</span> <span class="n">consts</span><span class="o">.</span><span class="n">FLOAT</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">VARCHAR</span> <span class="o">=</span> <span class="n">consts</span><span class="o">.</span><span class="n">VARCHAR</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">RESERVED_WORDS</span> <span class="o">=</span> <span class="n">consts</span><span class="o">.</span><span class="n">RESERVED_WORDS</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">COL_NAME_MAX_LEN</span> <span class="o">=</span> <span class="n">consts</span><span class="o">.</span><span class="n">COL_NAME_MAX_LEN</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">IS_CASE_SENSITIVE</span> <span class="o">=</span> <span class="n">consts</span><span class="o">.</span><span class="n">IS_CASE_SENSITIVE</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">REPLACE_CHARS</span> <span class="o">=</span> <span class="n">consts</span><span class="o">.</span><span class="n">REPLACE_CHARS</span>
+
+    <span class="c1"># This will allow child classes to modify how these columns are handled.</span>
+    <span class="k">def</span> <span class="nf">_rename_reserved_word</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">col</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Return the renamed column.</span>
+
+<span class="sd">        `Args`:</span>
+<span class="sd">            col: str</span>
+<span class="sd">                The column to rename.</span>
+<span class="sd">            index: int</span>
+<span class="sd">                (Optional) The index of the column.</span>
+<span class="sd">        `Returns`:</span>
+<span class="sd">            str</span>
+<span class="sd">                The rename column.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">col</span><span class="si">}</span><span class="s2">_&quot;</span>
+
+    <span class="k">def</span> <span class="nf">_rename_duped</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">col</span><span class="p">,</span> <span class="n">index</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Return the renamed column.</span>
+
+<span class="sd">        `Args`:</span>
+<span class="sd">            col: str</span>
+<span class="sd">                The column to rename.</span>
+<span class="sd">            index: int</span>
+<span class="sd">                (Optional) The index of the column.</span>
+<span class="sd">        `Returns`:</span>
+<span class="sd">            str</span>
+<span class="sd">                The rename column.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">col</span><span class="si">}</span><span class="s2">_</span><span class="si">{</span><span class="n">index</span><span class="si">}</span><span class="s2">&quot;</span>
+
+    <span class="k">def</span> <span class="nf">get_bigger_int</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">int1</span><span class="p">,</span> <span class="n">int2</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Return the bigger of the two ints.</span>
+
+<span class="sd">        `Args`:</span>
+<span class="sd">            int1: str</span>
+<span class="sd">                The string representation if an int type.</span>
+<span class="sd">            int2: str</span>
+<span class="sd">                The string representation if an int type.</span>
+<span class="sd">        `Returns`:</span>
+<span class="sd">            str</span>
+<span class="sd">                A string representation of the higher of the two int types.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">WEIGHTS</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">SMALLINT</span><span class="p">:</span> <span class="mi">100</span><span class="p">,</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">MEDIUMINT</span><span class="p">:</span> <span class="mi">200</span><span class="p">,</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">INT</span><span class="p">:</span> <span class="mi">300</span><span class="p">,</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">BIGINT</span><span class="p">:</span> <span class="mi">400</span><span class="p">,</span>
+        <span class="p">}</span>
+
+        <span class="k">return</span> <span class="n">int1</span> <span class="k">if</span> <span class="n">WEIGHTS</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">int1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="o">&gt;=</span> <span class="n">WEIGHTS</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">int2</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="k">else</span> <span class="n">int2</span>
+
+    <span class="k">def</span> <span class="nf">is_valid_sql_num</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">val</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Check whether val is a valid sql number.</span>
+
+<span class="sd">        `Args`:</span>
+<span class="sd">            val: any</span>
+<span class="sd">                The values to check.</span>
+<span class="sd">        `Returns`:</span>
+<span class="sd">            bool</span>
+<span class="sd">                Whether or not the value is a valid sql number.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># Python accepts numbers with single-underscore separators such as</span>
+        <span class="c1"># 100_000 (evals to 100000)</span>
+        <span class="c1"># SQL engines may not support this</span>
+
+        <span class="c1"># If its python type is a number, then it&#39;s a number</span>
+        <span class="c1"># 100_000 is stored at 100000 in memory so it&#39;s fine</span>
+        <span class="c1"># not using `isinstance` b/c isinstance(bool. (int, float)) == True</span>
+        <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">val</span><span class="p">)</span> <span class="ow">in</span> <span class="p">(</span><span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">):</span>
+            <span class="k">return</span> <span class="kc">True</span>
+
+        <span class="c1"># If it can be cast to a number and it doesn&#39;t contain underscores</span>
+        <span class="c1"># then it&#39;s a valid sql number</span>
+        <span class="c1"># Also check the first character is not zero</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="k">if</span> <span class="p">(</span><span class="nb">float</span><span class="p">(</span><span class="n">val</span><span class="p">)</span> <span class="ow">or</span> <span class="nb">int</span><span class="p">(</span><span class="n">val</span><span class="p">))</span> <span class="ow">and</span> <span class="s2">&quot;_&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">val</span> <span class="ow">and</span> <span class="n">val</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">!=</span> <span class="s2">&quot;0&quot;</span><span class="p">:</span>
+                <span class="k">return</span> <span class="kc">True</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">return</span> <span class="kc">False</span>
+
+        <span class="c1"># If it can&#39;t be cast to a number in python</span>
+        <span class="c1"># then it&#39;s not a number in sql</span>
+        <span class="k">except</span> <span class="p">(</span><span class="ne">TypeError</span><span class="p">,</span> <span class="ne">ValueError</span><span class="p">):</span>
+            <span class="k">return</span> <span class="kc">False</span>
+
+    <span class="k">def</span> <span class="nf">detect_data_type</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">,</span> <span class="n">cmp_type</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Detect the higher of value&#39;s type cmp_type.</span>
+
+<span class="sd">        1. check if it&#39;s a string</span>
+<span class="sd">        2. check if it&#39;s a number</span>
+<span class="sd">          a. check if it&#39;s a float</span>
+<span class="sd">          b. check if it&#39;s an int</span>
+
+<span class="sd">        `Args`:</span>
+<span class="sd">            value: str</span>
+<span class="sd">                The value to inspect.</span>
+<span class="sd">            cmp_type: str</span>
+<span class="sd">                The string representation of a type to compare with</span>
+<span class="sd">                ``value``&#39;s type.</span>
+<span class="sd">        `Returns`:</span>
+<span class="sd">            str</span>
+<span class="sd">                The string representation of the higher of the two types.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># Stop if the compare type is already a varchar</span>
+        <span class="c1"># varchar is the highest data type.</span>
+        <span class="k">if</span> <span class="n">cmp_type</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">VARCHAR</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">cmp_type</span>
+
+        <span class="c1"># Attempt to evaluate value as a literal (e.g. &#39;1&#39; =&gt; 1, ) If the value</span>
+        <span class="c1"># is just a string, is None, or is empty, it will raise an error. These</span>
+        <span class="c1"># should be considered varchars.</span>
+        <span class="c1"># E.g.</span>
+        <span class="c1"># &quot;&quot; =&gt; SyntaxError</span>
+        <span class="c1"># &quot;anystring&quot; =&gt; ValueError</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">val_lit</span> <span class="o">=</span> <span class="n">ast</span><span class="o">.</span><span class="n">literal_eval</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">value</span><span class="p">))</span>
+        <span class="k">except</span> <span class="p">(</span><span class="ne">SyntaxError</span><span class="p">,</span> <span class="ne">ValueError</span><span class="p">):</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">VARCHAR</span>
+
+        <span class="c1"># Exit early if it&#39;s None</span>
+        <span class="c1"># is_valid_sql_num(None) == False</span>
+        <span class="c1"># instead of defaulting to varchar (which is the next test)</span>
+        <span class="c1"># return the compare type</span>
+        <span class="k">if</span> <span class="n">val_lit</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">cmp_type</span>
+
+        <span class="c1"># Make sure that it is a valid integer</span>
+        <span class="c1"># Python accepts 100_000 as a valid form of 100000,</span>
+        <span class="c1"># however a sql engine may throw an error</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_valid_sql_num</span><span class="p">(</span><span class="n">value</span><span class="p">):</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">VARCHAR</span>
+
+        <span class="n">type_lit</span> <span class="o">=</span> <span class="nb">type</span><span class="p">(</span><span class="n">val_lit</span><span class="p">)</span>
+
+        <span class="c1"># If a float, stop here</span>
+        <span class="c1"># float is highest after varchar</span>
+        <span class="k">if</span> <span class="n">type_lit</span> <span class="o">==</span> <span class="nb">float</span> <span class="ow">or</span> <span class="n">cmp_type</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">FLOAT</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">FLOAT</span>
+
+        <span class="c1"># The value is very likely an int</span>
+        <span class="c1"># let&#39;s get its size</span>
+        <span class="c1"># If the compare types are empty and use the types of the current value</span>
+        <span class="k">if</span> <span class="n">type_lit</span> <span class="o">==</span> <span class="nb">int</span> <span class="ow">and</span> <span class="n">cmp_type</span> <span class="ow">in</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">INT_TYPES</span> <span class="o">+</span> <span class="p">[</span><span class="kc">None</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">]):</span>
+
+            <span class="c1"># Use smallest possible int type above TINYINT</span>
+            <span class="k">if</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">SMALLINT_MIN</span> <span class="o">&lt;</span> <span class="n">val_lit</span> <span class="o">&lt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">SMALLINT_MAX</span><span class="p">):</span>
+                <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_bigger_int</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">SMALLINT</span><span class="p">,</span> <span class="n">cmp_type</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">MEDIUMINT_MIN</span> <span class="o">&lt;</span> <span class="n">val_lit</span> <span class="o">&lt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">MEDIUMINT_MAX</span><span class="p">):</span>
+                <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_bigger_int</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">MEDIUMINT</span><span class="p">,</span> <span class="n">cmp_type</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">INT_MIN</span> <span class="o">&lt;</span> <span class="n">val_lit</span> <span class="o">&lt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">INT_MAX</span><span class="p">):</span>
+                <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_bigger_int</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">INT</span><span class="p">,</span> <span class="n">cmp_type</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">BIGINT</span>
+
+        <span class="c1"># Need to determine who makes it all the way down here</span>
+        <span class="k">return</span> <span class="n">cmp_type</span>
+
+    <span class="k">def</span> <span class="nf">format_column</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">col</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">replace_chars</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">col_prefix</span><span class="o">=</span><span class="s2">&quot;_&quot;</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Format the column to meet database contraints.</span>
+
+<span class="sd">        Formats the columns as follows:</span>
+<span class="sd">            1. Coverts to lowercase (if case insensitive)</span>
+<span class="sd">            2. Strips leading and trailing whitespace</span>
+<span class="sd">            3. Replaces invalid characters</span>
+<span class="sd">            4. Renames if in reserved words</span>
+<span class="sd">        `Args`:</span>
+<span class="sd">            col: str</span>
+<span class="sd">                The column to format.</span>
+<span class="sd">            index: int</span>
+<span class="sd">                (Optional) The index of the column. Used if the column is empty.</span>
+<span class="sd">            replace_chars: dict</span>
+<span class="sd">                A dictionary of invalid characters and their replacements. If</span>
+<span class="sd">                ``None`` uses {&quot; &quot;: &quot;_&quot;}</span>
+<span class="sd">            col_prefix: str</span>
+<span class="sd">                The prefix to use when the column is empty or starts with an</span>
+<span class="sd">                invalid character.</span>
+<span class="sd">        `Returns`:</span>
+<span class="sd">            str</span>
+<span class="sd">                The formatted column.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">replace_chars</span> <span class="o">=</span> <span class="n">replace_chars</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">REPLACE_CHARS</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">IS_CASE_SENSITIVE</span><span class="p">:</span>
+            <span class="n">col</span> <span class="o">=</span> <span class="n">col</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
+
+        <span class="n">col</span> <span class="o">=</span> <span class="n">col</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+
+        <span class="k">for</span> <span class="n">char</span><span class="p">,</span> <span class="n">rep_char</span> <span class="ow">in</span> <span class="n">replace_chars</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="n">col</span> <span class="o">=</span> <span class="n">col</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="n">char</span><span class="p">,</span> <span class="n">rep_char</span><span class="p">)</span>
+
+        <span class="c1"># The format for this column passes all other checks</span>
+        <span class="k">if</span> <span class="n">col</span> <span class="o">==</span> <span class="s2">&quot;&quot;</span><span class="p">:</span>
+            <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">col_prefix</span><span class="si">}{</span><span class="n">index</span><span class="si">}</span><span class="s2">&quot;</span>
+
+        <span class="k">if</span> <span class="n">col</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">RESERVED_WORDS</span><span class="p">:</span>
+            <span class="n">col</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_rename_reserved_word</span><span class="p">(</span><span class="n">col</span><span class="p">,</span> <span class="n">index</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">col</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">isdigit</span><span class="p">():</span>
+            <span class="n">col</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;x_</span><span class="si">{</span><span class="n">col</span><span class="si">}</span><span class="s2">&quot;</span>
+
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">col</span><span class="p">)</span> <span class="o">&gt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">COL_NAME_MAX_LEN</span><span class="p">:</span>
+            <span class="n">col</span> <span class="o">=</span> <span class="n">col</span><span class="p">[:</span><span class="bp">self</span><span class="o">.</span><span class="n">COL_NAME_MAX_LEN</span><span class="p">]</span>
+
+        <span class="k">return</span> <span class="n">col</span>
+
+    <span class="k">def</span> <span class="nf">format_columns</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">cols</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Format the columns to meet database contraints.</span>
+
+<span class="sd">        This method relies on ``format_column`` to handle most changes. It</span>
+<span class="sd">        only handles duplicated columns. Options to ``format_column`` can be</span>
+<span class="sd">        passed through kwargs.</span>
+
+<span class="sd">        `Args`:</span>
+<span class="sd">            cols: list</span>
+<span class="sd">                The columns to format.</span>
+<span class="sd">            kwargs: dicts</span>
+<span class="sd">                Keyword arguments to pass to ``format_column``.</span>
+<span class="sd">        `Returns`:</span>
+<span class="sd">            list</span>
+<span class="sd">                The formatted columns.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">formatted_cols</span> <span class="o">=</span> <span class="p">[]</span>
+
+        <span class="k">for</span> <span class="n">idx</span><span class="p">,</span> <span class="n">col</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">cols</span><span class="p">):</span>
+            <span class="n">formatted_col</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">format_column</span><span class="p">(</span><span class="n">col</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="n">idx</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+            <span class="k">if</span> <span class="n">formatted_col</span> <span class="ow">in</span> <span class="n">formatted_cols</span><span class="p">:</span>
+                <span class="n">formatted_col</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_rename_duped</span><span class="p">(</span><span class="n">formatted_col</span><span class="p">,</span> <span class="n">idx</span><span class="p">)</span>
+
+            <span class="n">formatted_cols</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">formatted_col</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">formatted_cols</span>
+</pre></div>
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2019, The Movement Cooperative
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../../../" src="../../../../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../../../../_static/jquery.js"></script>
+        <script type="text/javascript" src="../../../../_static/underscore.js"></script>
+        <script type="text/javascript" src="../../../../_static/doctools.js"></script>
+        <script type="text/javascript" src="../../../../_static/language_data.js"></script>
+    
+
+  
+
+  <script type="text/javascript" src="../../../../_static/js/theme.js"></script>
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

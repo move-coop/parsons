@@ -63,6 +63,7 @@ class Redshift(RedshiftCreateTable, RedshiftCopyTable, RedshiftTableUtilities, R
     def __init__(self, username=None, password=None, host=None, db=None, port=None,
                  timeout=10, s3_temp_bucket=None,
                  aws_access_key_id=None, aws_secret_access_key=None, iam_role=None):
+        super().__init__()
 
         try:
             self.username = username or os.environ['REDSHIFT_USERNAME']

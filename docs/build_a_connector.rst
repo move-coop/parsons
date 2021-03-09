@@ -248,7 +248,9 @@ Adding automated tests
  * Add a file *test_yourconnectorname.py* to the *test_yourconnectorname* folder
  * Use the code below as a starting point for your tests
  * Add one `“Happy Path” <https://en.wikipedia.org/wiki/Happy_path>`_ test per public method of your connector
- * When possible mock out any external integrations, otherwise mark your test using the
+ * When possible mock out any external integrations, otherwise mark your test using the ``unittest.skipIf`` decorator (for an example, see test/test_s3.py)
+
+ For a more detailed guide on writing unit tests, see :doc:`How to Write Tests for Parsons Connectors <write_tests>`
 
 .. code-block:: python
 
@@ -256,6 +258,9 @@ Adding automated tests
     import unittest
     import requests_mock
 
+    from parsons.yourconnector.yourconnector import YourConnector
+    import unittest
+    import requests_mock
 
     class TestYourConnector(unittest.TestCase):
 
@@ -273,7 +278,7 @@ Adding automated tests
         def test_get_things(self, m):
 
             # Test that campaigns are returned correctly.
-            m.get('http://yourconnector.com/v1/things', json=[])
+            m.get(‘http://yourconnector.com/v1/things’, json=[])
             yc = YourConnector()
             tbl = yc.get_things()
 

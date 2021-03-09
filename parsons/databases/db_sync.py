@@ -38,7 +38,7 @@ class DBSync:
         self.retries = retries
 
     def table_sync_full(self, source_table, destination_table, if_exists='drop',
-                        order_by=None, **kwargs):
+                        order_by=None, verify_row_count=True, **kwargs):
         """
         Full sync of table from a source database to a destination database. This will
         wipe all data from the destination table.
@@ -53,6 +53,12 @@ class DBSync:
                 Truncate is useful when there are dependent views associated with the table.
                 Drop if needed defaults to ``truncate``, but if an error occurs (because a data
                 type or length has changed), it will instead ``drop``.
+            order_by: str
+                Name of the column to order rows by to ensure stable sorting of results across
+                chunks.
+            verify_row_count: bool
+                Whether or not to verify the count of rows in the source and destination table
+                are the same at the end of the sync.
             **kwargs: args
                 Optional copy arguments for destination database.
         `Returns:`
@@ -82,11 +88,6 @@ class DBSync:
             else:
                 raise ValueError('Invalid if_exists argument. Must be drop or truncate.')
 
-        # If the source table contains 0 rows, do not attempt to copy the table.
-        if source_tbl.num_rows == 0:
-            logger.info('Source table contains 0 rows')
-            return None
-
         # Create the table, if needed.
         if not destination_tbl.exists:
             self.create_table(source_table, destination_table)
@@ -94,12 +95,13 @@ class DBSync:
         copied_rows = self.copy_rows(source_table, destination_table, None,
                                      order_by, **kwargs)
 
+        if verify_row_count:
+            self._row_count_verify(source_tbl, destination_tbl)
+
         logger.info(f'{source_table} synced: {copied_rows} total rows copied.')
 
-        self._row_count_verify(source_tbl, destination_tbl)
-
     def table_sync_incremental(self, source_table, destination_table, primary_key,
-                               distinct_check=True, **kwargs):
+                               distinct_check=True, verify_row_count=True, **kwargs):
         """
         Incremental sync of table from a source database to a destination database
         using an incremental primary key.
@@ -115,6 +117,9 @@ class DBSync:
             distinct_check: bool
                 Check that the source table primary key is distinct prior to running the
                 sync. If it is not, an error will be raised.
+            verify_row_count: bool
+                Whether or not to verify the count of rows in the source and destination table
+                are the same at the end of the sync.
             **kwargs: args
                 Optional copy arguments for destination database.
         `Returns:`
@@ -128,20 +133,23 @@ class DBSync:
         # Check that the destination table exists. If it does not, then run a
         # full sync instead.
         if not destination_tbl.exists:
+            logger.info('Destination tables %s does not exist, running a full sync',
+                        destination_table)
             self.table_sync_full(source_table, destination_table, order_by=primary_key, **kwargs)
             return
 
-        # If the source table contains 0 rows, do not attempt to copy the table.
-        if source_tbl.num_rows == 0:
-            logger.info('Source table contains 0 rows')
-            return None
-
         # Check that the source table primary key is distinct
         if distinct_check and not source_tbl.distinct_primary_key(primary_key):
+            logger.info('Checking for distinct values for column %s in table %s',
+                        primary_key, source_table)
             raise ValueError('{primary_key} is not distinct in source table.')
 
         # Get the max source table and destination table primary key
+        logger.debug('Calculating the maximum value for %s for source table %s', primary_key,
+                     source_table)
         source_max_pk = source_tbl.max_primary_key(primary_key)
+        logger.debug('Calculating the maximum value for %s for destination table %s', primary_key,
+                     destination_table)
         dest_max_pk = destination_tbl.max_primary_key(primary_key)
 
         # Check for a mismatch in row counts; if dest_max_pk is None, or destination is empty
@@ -151,24 +159,17 @@ class DBSync:
 
         # Do not copied if row counts are equal.
         elif dest_max_pk == source_max_pk:
-            logger.info('Tables are in sync.')
+            logger.info('Tables are already in sync.')
             return None
 
         else:
-            # Get count of rows to be copied.
-            if dest_max_pk is not None:
-                new_row_count = source_tbl.get_new_rows_count(primary_key, dest_max_pk)
-            else:
-                new_row_count = source_tbl.num_rows
-
-            logger.info(f'Found {new_row_count} new rows in source table.')
-
             rows_copied = self.copy_rows(source_table, destination_table, dest_max_pk,
                                          primary_key, **kwargs)
 
             logger.info('Copied %s new rows to %s.', rows_copied, destination_table)
 
-        self._row_count_verify(source_tbl, destination_tbl)
+        if verify_row_count:
+            self._row_count_verify(source_tbl, destination_tbl)
 
         logger.info(f'{source_table} synced to {destination_table}.')
 
@@ -228,6 +229,7 @@ class DBSync:
                 if number_of_rows == 0:
                     # If we have any rows that are unwritten, flush them to the destination database
                     if rows_buffered > 0:
+                        logger.debug('Copying %s rows to %s', rows_buffered, destination_table_name)
                         self.dest_db.copy(buffer, destination_table_name, if_exists='append',
                                           **kwargs)
                         total_rows_written += rows_buffered
@@ -244,6 +246,7 @@ class DBSync:
 
                 # If our buffer reaches our write threshold, write it out
                 if rows_buffered >= self.write_chunk_size:
+                    logger.debug('Copying %s rows to %s', rows_buffered, destination_table_name)
                     self.dest_db.copy(buffer, destination_table_name, if_exists='append', **kwargs)
                     total_rows_written += rows_buffered
 
@@ -265,7 +268,8 @@ class DBSync:
 
         return total_rows_written
 
-    def _check_column_match(self, source_table_obj, destination_table_obj):
+    @staticmethod
+    def _check_column_match(source_table_obj, destination_table_obj):
         """
         Ensure that the columns from each table match
         """
@@ -274,7 +278,8 @@ class DBSync:
             raise ValueError("""Destination table columns do not match source table columns.
                              Consider dropping destination table and running a full sync.""")
 
-    def _row_count_verify(self, source_table_obj, destination_table_obj):
+    @staticmethod
+    def _row_count_verify(source_table_obj, destination_table_obj):
         """
         Ensure the the rows of the source table and the destination table match
         """

@@ -28,6 +28,7 @@
   <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="How to Write Tests for Parsons Connectors" href="write_tests.html" />
     <link rel="prev" title="Contributing to Parsons" href="contributing.html" /> 
 
   
@@ -144,6 +145,7 @@
 </li>
 </ul>
 </li>
+<li class="toctree-l1"><a class="reference internal" href="write_tests.html">How to Write Tests for Parsons Connectors</a></li>
 </ul>
 
             
@@ -411,35 +413,39 @@
 <li>Add a file <em>test_yourconnectorname.py</em> to the <em>test_yourconnectorname</em> folder</li>
 <li>Use the code below as a starting point for your tests</li>
 <li>Add one <a class="reference external" href="https://en.wikipedia.org/wiki/Happy_path">“Happy Path”</a> test per public method of your connector</li>
-<li>When possible mock out any external integrations, otherwise mark your test using the</li>
+<li>When possible mock out any external integrations, otherwise mark your test using the <code class="docutils literal notranslate"><span class="pre">unittest.skipIf</span></code> decorator (for an example, see test/test_s3.py)</li>
 </ul>
+<p>For a more detailed guide on writing unit tests, see <a class="reference internal" href="write_tests.html"><span class="doc">How to Write Tests for Parsons Connectors</span></a></p>
 </div></blockquote>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">parsons.yourconnector.yourconnector</span> <span class="kn">import</span> <span class="n">YourConnector</span>
-<span class="kn">import</span> <span class="nn">unittest</span>
-<span class="kn">import</span> <span class="nn">requests_mock</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span>from parsons.yourconnector.yourconnector import YourConnector
+import unittest
+import requests_mock
 
+from parsons.yourconnector.yourconnector import YourConnector
+import unittest
+import requests_mock
 
-<span class="k">class</span> <span class="nc">TestYourConnector</span><span class="p">(</span><span class="n">unittest</span><span class="o">.</span><span class="n">TestCase</span><span class="p">):</span>
+class TestYourConnector(unittest.TestCase):
 
-    <span class="k">def</span> <span class="nf">setUp</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    def setUp(self):
 
-        <span class="c1"># add any setup code here to run before each test</span>
-        <span class="k">pass</span>
+        # add any setup code here to run before each test
+        pass
 
-    <span class="k">def</span> <span class="nf">tearDown</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    def tearDown(self):
 
-        <span class="c1"># add any teardown code here to run after each test</span>
-        <span class="k">pass</span>
+        # add any teardown code here to run after each test
+        pass
 
-    <span class="nd">@requests_mock</span><span class="o">.</span><span class="n">Mocker</span><span class="p">()</span>
-    <span class="k">def</span> <span class="nf">test_get_things</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">m</span><span class="p">):</span>
+    @requests_mock.Mocker()
+    def test_get_things(self, m):
 
-        <span class="c1"># Test that campaigns are returned correctly.</span>
-        <span class="n">m</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;http://yourconnector.com/v1/things&#39;</span><span class="p">,</span> <span class="n">json</span><span class="o">=</span><span class="p">[])</span>
-        <span class="n">yc</span> <span class="o">=</span> <span class="n">YourConnector</span><span class="p">()</span>
-        <span class="n">tbl</span> <span class="o">=</span> <span class="n">yc</span><span class="o">.</span><span class="n">get_things</span><span class="p">()</span>
+        # Test that campaigns are returned correctly.
+        m.get(‘http://yourconnector.com/v1/things’, json=[])
+        yc = YourConnector()
+        tbl = yc.get_things()
 
-        <span class="bp">self</span><span class="o">.</span><span class="n">assertEqual</span><span class="p">(</span><span class="n">tbl</span><span class="o">.</span><span class="n">num_rows</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+        self.assertEqual(tbl.num_rows, 0)
 </pre></div>
 </div>
 </div>
@@ -477,6 +483,8 @@
           <footer>
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="write_tests.html" class="btn btn-neutral float-right" title="How to Write Tests for Parsons Connectors" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
         <a href="contributing.html" class="btn btn-neutral" title="Contributing to Parsons" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>

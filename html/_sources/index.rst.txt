@@ -224,3 +224,4 @@ Indices and tables
 
    contributing
    build_a_connector
+   write_tests

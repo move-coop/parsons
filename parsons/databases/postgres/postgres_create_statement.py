@@ -1,40 +1,51 @@
-import ast
+from parsons.databases.database.database import DatabaseCreateStatement
+import parsons.databases.postgres.constants as consts
+
 import petl
 import logging
 
 logger = logging.getLogger(__name__)
 
-# These are reserved words by Postgres/Redshift and cannot be used as column names.
-RESERVED_WORDS = ['AES128', 'AES256', 'ALL', 'ALLOWOVERWRITE', 'ANALYSE', 'ANALYZE', 'AND', 'ANY',
-                  'ARRAY', 'AS', 'ASC', 'AUTHORIZATION', 'BACKUP', 'BETWEEN', 'BINARY',
-                  'BLANKSASNULL', 'BOTH', 'BYTEDICT', 'BZIP2', 'CASE', 'CAST', 'CHECK', 'COLLATE',
-                  'COLUMN', 'CONSTRAINT', 'CREATE', 'CREDENTIALS', 'CROSS', 'CURRENT_DATE',
-                  'CURRENT_TIME', 'CURRENT_TIMESTAMP', 'CURRENT_USER', 'CURRENT_USER_ID',
-                  'DEFAULT', 'DEFERRABLE', 'DEFLATE', 'DEFRAG', 'DELTA', 'DELTA32K', 'DESC',
-                  'DISABLE', 'DISTINCT', 'DO', 'ELSE', 'EMPTYASNULL', 'ENABLE', 'ENCODE', 'ENCRYPT',
-                  'ENCRYPTION', 'END', 'EXCEPT', 'EXPLICIT', 'FALSE', 'FOR', 'FOREIGN', 'FREEZE',
-                  'FROM', 'FULL', 'GLOBALDICT256', 'GLOBALDICT64K', 'GRANT', 'GROUP', 'GZIP',
-                  'HAVING', 'IDENTITY', 'IGNORE', 'ILIKE', 'IN', 'INITIALLY', 'INNER', 'INTERSECT',
-                  'INTO', 'IS', 'ISNULL', 'JOIN', 'LEADING', 'LEFT', 'LIKE', 'LIMIT', 'LOCALTIME',
-                  'LOCALTIMESTAMP', 'LUN', 'LUNS', 'LZO', 'LZOP', 'MINUS', 'MOSTLY13', 'MOSTLY32',
-                  'MOSTLY8', 'NATURAL', 'NEW', 'NOT', 'NOTNULL', 'NULL', 'NULLS', 'OFF', 'OFFLINE',
-                  'OFFSET', 'OLD', 'ON', 'ONLY', 'OPEN', 'OR', 'ORDER', 'OUTER', 'OVERLAPS',
-                  'PARALLEL', 'PARTITION', 'PERCENT', 'PERMISSIONS', 'PLACING', 'PRIMARY', 'RAW',
-                  'READRATIO', 'RECOVER', 'REFERENCES', 'RESPECT', 'REJECTLOG', 'RESORT', 'RESTORE',
-                  'RIGHT', 'SELECT', 'SESSION_USER', 'SIMILAR', 'SOME', 'SYSDATE', 'SYSTEM',
-                  'TABLE', 'TAG', 'TDES', 'TEXT255', 'TEXT32K', 'THEN', 'TIMESTAMP', 'TO', 'TOP',
-                  'TRAILING', 'TRUE', 'TRUNCATECOLUMNS', 'UNION', 'UNIQUE', 'USER', 'USING',
-                  'VERBOSE', 'WALLET', 'WHEN', 'WHERE', 'WITH', 'WITHOUT']
 
-
-class PostgresCreateStatement(object):
+class PostgresCreateStatement(DatabaseCreateStatement):
 
     def __init__(self):
+        super().__init__()
 
-        pass
+        self.COL_NAME_MAX_LEN = consts.COL_NAME_MAX_LEN
+        self.REPLACE_CHARS = consts.REPLACE_CHARS
+
+        # Postgres doesn't have a medium int
+        self.MEDIUMINT = self.INT
+
+        # Currently py floats are coded as Postgres decimals
+        self.FLOAT = consts.DECIMAL
+
+        # Max length of a Redshift VARCHAR column
+        self.VARCHAR_MAX = consts.VARCHAR_MAX
+
+        # List of varchar lengths to use for columns -- this list needs to be in order from
+        # smallest to largest
+        self.VARCHAR_STEPS = consts.VARCHAR_STEPS
+
+    # the default behavior is f"{col}_"
+    def _rename_reserved_word(self, col, index):
+        """Return the renamed column.
+
+        `Args`:
+            col: str
+                The column to rename.
+            index: int
+                (Optional) The index of the column.
+        `Returns`:
+            str
+                The rename column.
+        """
+        return f"col_{index}"
 
     def create_statement(self, tbl, table_name, padding=None, distkey=None, sortkey=None,
-                         varchar_max=None, varchar_truncate=True, columntypes=None):
+                         varchar_max=None, varchar_truncate=True, columntypes=None,
+                         strict_length=True):
         # Generate a table create statement. Distkeys and sortkeys are only used by
         # Redshift and should not be passed when generating a create statement for
         # Postgres.
@@ -49,6 +60,8 @@ class PostgresCreateStatement(object):
 
         if padding:
             mapping['longest'] = self.vc_padding(mapping, padding)
+        elif not strict_length:
+            mapping['longest'] = self.vc_step(mapping)
 
         if varchar_max:
             mapping['longest'] = self.vc_max(mapping, varchar_max)
@@ -70,57 +83,13 @@ class PostgresCreateStatement(object):
 
         return self.create_sql(table_name, mapping, distkey=distkey, sortkey=sortkey)
 
+    # This is for backwards compatability
     def data_type(self, val, current_type):
-        # Determine the database data type of a given value
+        return self.detect_data_type(val, current_type)
 
-        try:
-            # Convert to string to reevaluate data type
-            t = ast.literal_eval(str(val))
-        except ValueError:
-            return 'varchar'
-        except SyntaxError:
-            return 'varchar'
-
-        if type(t) in [int, float]:
-            if (type(t) in [int] and
-                    current_type not in ['decimal', 'varchar']):
-
-                # Make sure that it is a valid integer
-                if not self.is_valid_integer(val):
-                    return 'varchar'
-
-                # Use smallest possible int type
-                if (-32768 < t < 32767) and current_type not in ['int', 'bigint']:
-                    return 'smallint'
-                elif (-2147483648 < t < 2147483647) and current_type not in ['bigint']:
-                    return 'int'
-                else:
-                    return 'bigint'
-            if ((type(t) is float or current_type in ['decimal'])
-                    and current_type not in ['varchar']):
-                return 'decimal'
-        else:
-            return 'varchar'
-
+    # This is for backwards compatability
     def is_valid_integer(self, val):
-
-        # Valid ints in python can contain an underscore, but Postgres can't. This
-        # checks to see if there is an underscore in the value and turns it into
-        # a varchar if so.
-        try:
-            if '_' in val:
-                return False
-
-        except TypeError:
-            return True
-
-        # If it has a leading zero, we should treat it as a varchar, since it is
-        # probably there for a good reason (e.g. zipcode)
-        if val.isdigit():
-            if val[0] == '0':
-                return False
-
-        return True
+        return self.is_valid_sql_num(val)
 
     def generate_data_types(self, table):
         # Generate column data types
@@ -163,6 +132,9 @@ class PostgresCreateStatement(object):
 
         return [int(c + (c * padding)) for c in mapping['longest']]
 
+    def vc_step(self, mapping):
+        return [self.round_longest(c) for c in mapping['longest']]
+
     def vc_max(self, mapping, columns):
         # Set the varchar width of a column to the maximum
 
@@ -170,7 +142,7 @@ class PostgresCreateStatement(object):
 
             try:
                 idx = mapping['headers'].index(c)
-                mapping['longest'][idx] = 65535
+                mapping['longest'][idx] = self.VARCHAR_MAX
 
             except KeyError as error:
                 logger.error('Could not find column name provided.')
@@ -180,7 +152,7 @@ class PostgresCreateStatement(object):
 
     def vc_trunc(self, mapping):
 
-        return [65535 if c > 65535 else c for c in mapping['longest']]
+        return [self.VARCHAR_MAX if c > self.VARCHAR_MAX else c for c in mapping['longest']]
 
     def vc_validate(self, mapping):
 
@@ -213,44 +185,16 @@ class PostgresCreateStatement(object):
 
         return statement
 
+    # This is for backwards compatability
     def column_name_validate(self, columns):
-        # Validate the column names and rename if not valid
+        return self.format_columns(columns, col_prefix="col_")
 
-        clean_columns = []
+    @staticmethod
+    def round_longest(longest):
+        # Find the value that will work best to fit our longest column value
+        for step in PostgresCreateStatement.VARCHAR_STEPS:
+            # Make sure we have padding
+            if longest < step / 2:
+                return step
 
-        for idx, c in enumerate(columns):
-
-            # Remove spaces. Technically allowed with double quotes
-            # but I think that it is bad practice.
-            c = c.replace(' ', '')
-
-            # if column is an empty string, replace with 'col_INDEX'
-            if c == '':
-                logger.info(f'Column is an empty string. Renaming column.')
-                c = f'col_{idx}'
-
-            # If column is a reserved word, replace with 'col_INDEX'. Technically
-            # you can allow these with quotes, but I think that it is bad practice
-            if c.upper()in RESERVED_WORDS:
-                logger.info(f'{c} is a Redshift/Postgres reserved word. Renaming column.')
-                c = f'col_{idx}'
-
-            # If column name begins with an integer, preprent with 'x_'
-            if c[0].isdigit():
-                logger.info(f'{c} begins with digit. Renaming column.')
-                c = f'x_{c}'
-
-            # If column name length is greater than 120 characters, truncate.
-            # Technically, you can have up to 127 bytes, which might allow
-            # for a few more characters, but playing it safe.
-            if len(c) > 120:
-                logger.info(f'Column {c[:10]}... too long. Truncating column name.')
-                c = c[:120]
-
-            # Check for duplicate column names and add index if a dupe is found.
-            if c in clean_columns:
-                c = f'{c}_{idx}'
-
-            clean_columns.append(c)
-
-        return clean_columns
+        return PostgresCreateStatement.VARCHAR_MAX

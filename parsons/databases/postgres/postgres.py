@@ -1,5 +1,6 @@
 from parsons.databases.postgres.postgres_core import PostgresCore
 from parsons.databases.table import BaseTable
+from parsons.databases.alchemy import Alchemy
 import logging
 import os
 
@@ -7,7 +8,7 @@ import os
 logger = logging.getLogger(__name__)
 
 
-class Postgres(PostgresCore):
+class Postgres(PostgresCore, Alchemy):
     """
     A Postgres class to connect to database. Credentials can be passed from a ``.pgpass`` file
     stored in your home directory or with environmental variables.
@@ -28,6 +29,7 @@ class Postgres(PostgresCore):
     """
 
     def __init__(self, username=None, password=None, host=None, db=None, port=5432, timeout=10):
+        super().__init__()
 
         self.username = username or os.environ.get('PGUSER')
         self.password = password or os.environ.get('PGPASSWORD')
@@ -46,17 +48,23 @@ class Postgres(PostgresCore):
         self.timeout = timeout
         self.dialect = 'postgres'
 
-    def copy(self, tbl, table_name, if_exists='fail'):
+    def copy(self, tbl, table_name, if_exists='fail', strict_length=False):
         """
         Copy a :ref:`parsons-table` to Postgres.
 
-        tbl: parsons.Table
-            A Parsons table object
-        table_name: str
-            The destination schema and table (e.g. ``my_schema.my_table``)
-        if_exists: str
-            If the table already exists, either ``fail``, ``append``, ``drop``
-            or ``truncate`` the table.
+        `Args:`
+            tbl: parsons.Table
+                A Parsons table object
+            table_name: str
+                The destination schema and table (e.g. ``my_schema.my_table``)
+            if_exists: str
+                If the table already exists, either ``fail``, ``append``, ``drop``
+                or ``truncate`` the table.
+            strict_length: bool
+                If the database table needs to be created, strict_length determines whether
+                the created table's column sizes will be sized to exactly fit the current data,
+                or if their size will be rounded up to account for future values being larger
+                then the current dataset
         """
 
         with self.connection() as connection:
@@ -66,7 +74,7 @@ class Postgres(PostgresCore):
 
                 # Create the table
                 # To Do: Pass in the advanced configuration parameters.
-                sql = self.create_statement(tbl, table_name)
+                sql = self.create_statement(tbl, table_name, strict_length=strict_length)
 
                 self.query_with_connection(sql, connection, commit=False)
                 logger.info(f'{table_name} created.')

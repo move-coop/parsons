@@ -48,6 +48,24 @@ def test_create_temp_file_for_path():
     assert temp_path[-3:] == '.gz'
 
 
+def test_create_temp_directory():
+    temp_directory = files.create_temp_directory()
+    test_file1 = f'{temp_directory}/test.txt'
+    test_file2 = f'{temp_directory}/test2.txt'
+    with open(test_file1, 'w') as fh1, open(test_file2, 'w') as fh2:
+        fh1.write('TEST')
+        fh2.write('TEST')
+
+    assert files.has_data(test_file1)
+    assert files.has_data(test_file2)
+
+    files.cleanup_temp_directory(temp_directory)
+
+    # Verify the temp file no longer exists
+    with pytest.raises(FileNotFoundError):
+        open(test_file1, 'r')
+
+
 def test_close_temp_file():
     temp = files.create_temp_file()
     files.close_temp_file(temp)

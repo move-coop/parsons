@@ -1,4 +1,5 @@
 from parsons import Postgres, DBSync, Table, Redshift
+from test.test_databases.fakes import FakeDatabase
 from test.utils import assert_matching_tables
 import unittest
 import os
@@ -160,3 +161,152 @@ class TestRedshiftDBSync(TestPostgresDBSync):
 
         # Create DB Sync object
         self.db_sync = DBSync(self.db, self.db)
+
+
+class TestFakeDBSync(unittest.TestCase):
+
+    def setUp(self):
+        self.fake_source = FakeDatabase()
+        self.fake_destination = FakeDatabase()
+
+    def test_table_sync_full(self):
+        dbsync = DBSync(self.fake_source, self.fake_destination)
+        source_data = Table([
+            {'id': 1, 'value': 11},
+            {'id': 2, 'value': 121142},
+            {'id': 3, 'value': 111},
+            {'id': 4, 'value': 12211},
+            {'id': 5, 'value': 1231},
+        ])
+        self.fake_source.setup_table('source', source_data)
+
+        dbsync.table_sync_full('source', 'destination')
+
+        destination = self.fake_destination.table('destination')
+
+        # Make sure the data came through
+        assert_matching_tables(source_data, destination.data)
+
+    def test_table_sync_incremental(self):
+        dbsync = DBSync(self.fake_source, self.fake_destination)
+        source_data = Table([
+            {'id': 1, 'value': 11},
+            {'id': 2, 'value': 121142},
+            {'id': 3, 'value': 111},
+            {'id': 4, 'value': 12211},
+            {'id': 5, 'value': 1231},
+        ])
+        self.fake_source.setup_table('source', source_data)
+
+        # Start with one row
+        destination_data = Table([
+            {'id': 1, 'value': 11},
+        ])
+        self.fake_destination.setup_table('destination', destination_data)
+
+        dbsync.table_sync_incremental('source', 'destination', 'id')
+
+        destination = self.fake_destination.table('destination')
+
+        # Make sure the rest of the data came through
+        assert_matching_tables(source_data, destination.data)
+
+    def test_table_sync_full_with_retry(self):
+        # Setup the dbsync with two retries
+        dbsync = DBSync(self.fake_source, self.fake_destination, retries=2)
+        source_data = Table([
+            {'id': 1, 'value': 11},
+            {'id': 2, 'value': 121142},
+        ])
+        self.fake_source.setup_table('source', source_data)
+
+        # Have the copy fail twice
+        self.fake_destination.setup_table('destination', Table(), failures=2)
+
+        dbsync.table_sync_full('source', 'destination')
+
+        destination = self.fake_destination.table('destination')
+
+        # Make sure all of the data still came through
+        assert_matching_tables(source_data, destination.data)
+
+    def test_table_sync_full_without_retry(self):
+        # Setup the dbsync with no retries
+        dbsync = DBSync(self.fake_source, self.fake_destination, retries=0)
+        source_data = Table([
+            {'id': 1, 'value': 11},
+            {'id': 2, 'value': 121142},
+        ])
+        self.fake_source.setup_table('source', source_data)
+
+        # Have the copy fail once
+        self.fake_destination.setup_table('destination', Table(), failures=1)
+
+        # Make sure the sync results in an exception
+        self.assertRaises(ValueError, lambda: dbsync.table_sync_full('source', 'destination'))
+
+    def test_table_sync_full_order_by(self):
+        dbsync = DBSync(self.fake_source, self.fake_destination)
+        source_data = Table([
+            {'id': 1, 'value': 21},
+            {'id': 2, 'value': 121142},
+            {'id': 3, 'value': 1},
+        ])
+        self.fake_source.setup_table('source', source_data)
+        self.fake_destination.setup_table('destination', Table())
+
+        dbsync.table_sync_full('source', 'destination', order_by='value')
+
+        destination = self.fake_destination.table('destination')
+
+        # Check that the rows were inserted in the expected order
+        self.assertEqual(destination.data[0]['id'], 3)
+        self.assertEqual(destination.data[1]['id'], 1)
+        self.assertEqual(destination.data[2]['id'], 2)
+
+    def test_table_sync_full_read_chunk(self):
+        dbsync = DBSync(self.fake_source, self.fake_destination, read_chunk_size=2)
+        source_data = Table([
+            {'id': 1, 'value': 11},
+            {'id': 2, 'value': 121142},
+            {'id': 3, 'value': 111},
+            {'id': 4, 'value': 12211},
+            {'id': 5, 'value': 1231},
+        ])
+        self.fake_source.setup_table('source', source_data)
+
+        dbsync.table_sync_full('source', 'destination')
+
+        destination = self.fake_destination.table('destination')
+
+        # Make sure the data came through
+        assert_matching_tables(source_data, destination.data)
+
+        # Make sure copy was called the expected number of times
+        # read chunks of 2, 5 rows to write.. should be 3 copy calls
+        self.assertEqual(len(self.fake_destination.copy_call_args), 3,
+                         self.fake_destination.copy_call_args)
+
+    def test_table_sync_full_write_chunk(self):
+        dbsync = DBSync(self.fake_source, self.fake_destination, read_chunk_size=1,
+                        write_chunk_size=3)
+        source_data = Table([
+            {'id': 1, 'value': 11},
+            {'id': 2, 'value': 121142},
+            {'id': 3, 'value': 111},
+            {'id': 4, 'value': 12211},
+            {'id': 5, 'value': 1231},
+        ])
+        self.fake_source.setup_table('source', source_data)
+
+        dbsync.table_sync_full('source', 'destination')
+
+        destination = self.fake_destination.table('destination')
+
+        # Make sure the data came through
+        assert_matching_tables(source_data, destination.data)
+
+        # Make sure copy was called the expected number of times
+        # write chunks of 3, 5 rows to write.. should be 2 copy calls
+        self.assertEqual(len(self.fake_destination.copy_call_args), 2,
+                         self.fake_destination.copy_call_args)

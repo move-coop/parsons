@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Notifications &mdash; Parsons 0.1 documentation</title>
+  <title>Notifications &mdash; Parsons 0.5 documentation</title>
   
 
   
@@ -28,6 +28,7 @@
   <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Utilities" href="utilities.html" />
     <link rel="prev" title="Parsons Table" href="table.html" /> 
 
   
@@ -80,21 +81,45 @@
               <p class="caption"><span class="caption-text">Integrations</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="action_kit.html">ActionKit</a></li>
+<li class="toctree-l1"><a class="reference internal" href="action_network.html">Action Network</a></li>
+<li class="toctree-l1"><a class="reference internal" href="airtable.html">Airtable</a></li>
+<li class="toctree-l1"><a class="reference internal" href="aws.html">Amazon Web Services</a></li>
+<li class="toctree-l1"><a class="reference internal" href="azure.html">Azure: Blob Storage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="bill_com.html">Bill.com</a></li>
+<li class="toctree-l1"><a class="reference internal" href="bloomerang.html">Bloomerang</a></li>
+<li class="toctree-l1"><a class="reference internal" href="box.html">Box</a></li>
+<li class="toctree-l1"><a class="reference internal" href="braintree.html">Braintree</a></li>
 <li class="toctree-l1"><a class="reference internal" href="civis.html">Civis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="copper.html">Copper</a></li>
+<li class="toctree-l1"><a class="reference internal" href="crowdtangle.html">CrowdTangle</a></li>
+<li class="toctree-l1"><a class="reference internal" href="databases.html">Databases</a></li>
 <li class="toctree-l1"><a class="reference internal" href="facebook_ads.html">FacebookAds</a></li>
-<li class="toctree-l1"><a class="reference internal" href="google_sheets.html">GoogleSheets</a></li>
-<li class="toctree-l1"><a class="reference internal" href="mobile_commons.html">Mobile Commons</a></li>
+<li class="toctree-l1"><a class="reference internal" href="freshdesk.html">Freshdesk</a></li>
+<li class="toctree-l1"><a class="reference internal" href="github.html">GitHub</a></li>
+<li class="toctree-l1"><a class="reference internal" href="google.html">Google</a></li>
+<li class="toctree-l1"><a class="reference internal" href="hustle.html">Hustle</a></li>
+<li class="toctree-l1"><a class="reference internal" href="mailchimp.html">Mailchimp</a></li>
 <li class="toctree-l1"><a class="reference internal" href="mobilize_america.html">Mobilize America</a></li>
-<li class="toctree-l1"><a class="reference internal" href="ngpvan.html">VAN</a></li>
+<li class="toctree-l1"><a class="reference internal" href="newmode.html">New/Mode</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ngpvan.html">NGPVAN</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pdi.html">PDI</a></li>
 <li class="toctree-l1"><a class="reference internal" href="p2a.html">Phone2Action</a></li>
-<li class="toctree-l1"><a class="reference internal" href="redshift.html">Redshift</a></li>
-<li class="toctree-l1"><a class="reference internal" href="s3.html">S3</a></li>
+<li class="toctree-l1"><a class="reference internal" href="redash.html">Redash</a></li>
+<li class="toctree-l1"><a class="reference internal" href="rockthevote.html">Rock the Vote</a></li>
+<li class="toctree-l1"><a class="reference internal" href="salesforce.html">Salesforce</a></li>
 <li class="toctree-l1"><a class="reference internal" href="sftp.html">SFTP</a></li>
-<li class="toctree-l1"><a class="reference internal" href="ts.html">TargetSmart</a></li>
+<li class="toctree-l1"><a class="reference internal" href="targetsmart.html">TargetSmart</a></li>
 <li class="toctree-l1"><a class="reference internal" href="turbovote.html">TurboVote</a></li>
+<li class="toctree-l1"><a class="reference internal" href="twilio.html">Twilio</a></li>
+<li class="toctree-l1"><a class="reference internal" href="zoom.html">Zoom</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Enhancements</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="census_geocoder.html">US Census Geocoder</a></li>
 </ul>
 <p class="caption"><span class="caption-text">Framework</span></p>
 <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="dbsync.html">Database Sync</a></li>
 <li class="toctree-l1"><a class="reference internal" href="table.html">Parsons Table</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Notifications</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#slack">Slack</a><ul>
@@ -102,19 +127,25 @@
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="#quickstart">QuickStart</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id1">Slack</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#api">API</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#gmail">Gmail</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#id2">Overview</a><ul class="simple">
+<li class="toctree-l3"><a class="reference internal" href="#id1">Overview</a><ul class="simple">
 </ul>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="#id3">QuickStart</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id4">Gmail</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id2">QuickStart</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id3">API</a></li>
 </ul>
 </li>
 </ul>
 </li>
+<li class="toctree-l1"><a class="reference internal" href="utilities.html">Utilities</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Contributor Documentation</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="contributing.html">Contributing to Parsons</a></li>
+<li class="toctree-l1"><a class="reference internal" href="build_a_connector.html">How to Build a Connector</a></li>
 </ul>
 
             
@@ -193,11 +224,18 @@ information.</p>
 <p class="first admonition-title">Note</p>
 <dl class="last docutils">
 <dt>API Tokens</dt>
-<dd><ul class="first last simple">
-<li>Slack API Tokens are required to use this module. Reference their
-<a class="reference external" href="https://api.slack.com/docs/oauth">Authentication documentation</a> for
-additional information on authentication.</li>
-<li>Slack has rate limits on all its endpoints.</li>
+<dd><ul class="first last">
+<li><p class="first">Slack API Tokens are required to use this module. To obtain an API
+Token, <a class="reference external" href="https://api.slack.com/apps">create a Slack App</a> associated
+with the desired Slack workspace. Once you create the app, navigate
+to ‘OAuth &amp; Permissions’ and add the following OAuth scopes:</p>
+<p><cite>channels:read</cite>, <cite>users:read</cite>, <cite>chat:write</cite>, and <cite>files:write</cite></p>
+<p>You can now install the Slack App, which will produce an API Token.
+Note that you can change the scopes any time, but you must reinstall
+the app each time (your API Token will stay the same).</p>
+</li>
+<li><p class="first">Slack has rate limits on all its endpoints.</p>
+</li>
 </ul>
 </dd>
 </dl>
@@ -207,7 +245,7 @@ additional information on authentication.</li>
 </div>
 <div class="section" id="quickstart">
 <h3>QuickStart<a class="headerlink" href="#quickstart" title="Permalink to this headline">¶</a></h3>
-<p>To call the Slack class you can either store the api key as an environment
+<p>To call the Slack class you can either store the API Token as an environment
 variable <cite>SLACK_API_TOKEN</cite> or pass it in as an argument.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">parsons</span> <span class="kn">import</span> <span class="n">Slack</span>
 
@@ -229,8 +267,8 @@ variable <cite>SLACK_API_TOKEN</cite> or pass it in as an argument.</p>
 </pre></div>
 </div>
 </div>
-<div class="section" id="id1">
-<h3>Slack<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="api">
+<h3>API<a class="headerlink" href="#api" title="Permalink to this headline">¶</a></h3>
 <dl class="class">
 <dt id="parsons.Slack">
 <em class="property">class </em><code class="descclassname">parsons.</code><code class="descname">Slack</code><span class="sig-paren">(</span><em>api_key=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/notifications/slack.html#Slack"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.Slack" title="Permalink to this definition">¶</a></dt>
@@ -287,9 +325,31 @@ available fields. <cite>Notes:</cite> nested fields are unpacked.</dd>
 </dl>
 </dd></dl>
 
+<dl class="classmethod">
+<dt id="parsons.Slack.message">
+<em class="property">classmethod </em><code class="descname">message</code><span class="sig-paren">(</span><em>channel</em>, <em>text</em>, <em>webhook=None</em>, <em>parent_message_id=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/notifications/slack.html#Slack.message"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.Slack.message" title="Permalink to this definition">¶</a></dt>
+<dd><p>Send a message to a Slack channel with a webhook instead of an api_key.
+You might not have the full-access API key but still want to notify a channel
+<cite>Args:</cite></p>
+<blockquote>
+<div><dl class="docutils">
+<dt>channel: str</dt>
+<dd>The name or id of a <cite>public_channel</cite>, a <cite>private_channel</cite>, or
+an <cite>im</cite> (aka 1-1 message).</dd>
+<dt>text: str</dt>
+<dd>Text of the message to send.</dd>
+<dt>webhook: str</dt>
+<dd>If you have a webhook url instead of an api_key
+Looks like: <a class="reference external" href="https://hooks.slack.com/services/Txxxxxxx/Bxxxxxx/Dxxxxxxx">https://hooks.slack.com/services/Txxxxxxx/Bxxxxxx/Dxxxxxxx</a></dd>
+<dt>parent_message_id: str</dt>
+<dd>The <cite>ts</cite> value of the parent message. If used, this will thread the message.</dd>
+</dl>
+</div></blockquote>
+</dd></dl>
+
 <dl class="method">
 <dt id="parsons.Slack.message_channel">
-<code class="descname">message_channel</code><span class="sig-paren">(</span><em>channel</em>, <em>text</em>, <em>as_user=False</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/notifications/slack.html#Slack.message_channel"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.Slack.message_channel" title="Permalink to this definition">¶</a></dt>
+<code class="descname">message_channel</code><span class="sig-paren">(</span><em>channel</em>, <em>text</em>, <em>as_user=False</em>, <em>parent_message_id=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/notifications/slack.html#Slack.message_channel"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.Slack.message_channel" title="Permalink to this definition">¶</a></dt>
 <dd><p>Send a message to a Slack channel</p>
 <dl class="docutils">
 <dt><cite>Args:</cite></dt>
@@ -304,6 +364,8 @@ an <cite>im</cite> (aka 1-1 message).</dd>
 instead of as a bot. Defaults to false. See
 <a class="reference external" href="https://api.slack.com/methods/chat.postMessage#authorship">https://api.slack.com/methods/chat.postMessage#authorship</a> for
 more information about Slack authorship.</dd>
+<dt>parent_message_id: str</dt>
+<dd>The <cite>ts</cite> value of the parent message. If used, this will thread the message.</dd>
 </dl>
 </dd>
 <dt><cite>Returns:</cite></dt>
@@ -317,15 +379,15 @@ more information about Slack authorship.</dd>
 
 <dl class="method">
 <dt id="parsons.Slack.upload_file">
-<code class="descname">upload_file</code><span class="sig-paren">(</span><em>channels</em>, <em>filename</em>, <em>filetype=None</em>, <em>initial_comment=None</em>, <em>title=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/notifications/slack.html#Slack.upload_file"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.Slack.upload_file" title="Permalink to this definition">¶</a></dt>
+<code class="descname">upload_file</code><span class="sig-paren">(</span><em>channels</em>, <em>filename</em>, <em>filetype=None</em>, <em>initial_comment=None</em>, <em>title=None</em>, <em>is_binary=False</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/notifications/slack.html#Slack.upload_file"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.Slack.upload_file" title="Permalink to this definition">¶</a></dt>
 <dd><p>Upload a file to Slack channel(s).</p>
 <dl class="docutils">
 <dt><cite>Args:</cite></dt>
 <dd><dl class="first last docutils">
 <dt>channels: list</dt>
-<dd>List of channel names or IDs where the file will be shared.</dd>
+<dd>The list of channel names or IDs where the file will be shared.</dd>
 <dt>filename: str</dt>
-<dd>Name of the file to be uploaded.</dd>
+<dd>The path to the file to be uploaded.</dd>
 <dt>filetype: str</dt>
 <dd>A file type identifier. If None, type will be inferred base on
 file extension. This is used to determine what fields are
@@ -336,6 +398,9 @@ file object.</dd>
 <dd>The text of the message to send along with the file.</dd>
 <dt>title: str</dt>
 <dd>Title of the file to be uploaded.</dd>
+<dt>is_binary: bool</dt>
+<dd>If True, open this file in binary mode. This is needed if
+uploading binary files. Defaults to False.</dd>
 </dl>
 </dd>
 <dt><cite>Returns:</cite></dt>
@@ -350,11 +415,12 @@ file object.</dd>
 </dd></dl>
 
 </div>
+<p></p>
 </div>
 <div class="section" id="gmail">
 <h2>Gmail<a class="headerlink" href="#gmail" title="Permalink to this headline">¶</a></h2>
-<div class="section" id="id2">
-<h3>Overview<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id1">
+<h3>Overview<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h3>
 <p>The Gmail module leverages the Gmail API and provides an way to easily send
 notifications through email. It is recommended that you reference the
 <a class="reference external" href="https://developers.google.com/gmail/api/">Gmail API documentation</a> for
@@ -385,8 +451,8 @@ the Google Developer Console (look for the “Gmail API”).</li>
 <div class="toctree-wrapper compound">
 </div>
 </div>
-<div class="section" id="id3">
-<h3>QuickStart<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id2">
+<h3>QuickStart<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h3>
 <p>To call the Gmail class you will need to pass in the path to a
 <cite>credentials.json</cite> and the path to <cite>tokens.json</cite>.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">parsons</span> <span class="kn">import</span> <span class="n">Gmail</span>
@@ -418,123 +484,28 @@ attachments.</p>
 <p>Additionally, you can create a raw email messages and send it. See below for
 more details.</p>
 </div>
-<div class="section" id="id4">
-<h3>Gmail<a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id3">
+<h3>API<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h3>
 <dl class="class">
 <dt id="parsons.Gmail">
-<em class="property">class </em><code class="descclassname">parsons.</code><code class="descname">Gmail</code><span class="sig-paren">(</span><em>creds_path=None</em>, <em>token_path=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/notifications/gmail.html#Gmail"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.Gmail" title="Permalink to this definition">¶</a></dt>
-<dd><p>Class for sending emails using gmail.</p>
-<dl class="method">
-<dt id="parsons.Gmail.create_message_simple">
-<code class="descname">create_message_simple</code><span class="sig-paren">(</span><em>sender</em>, <em>to</em>, <em>subject</em>, <em>message_text</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/notifications/gmail.html#Gmail.create_message_simple"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.Gmail.create_message_simple" title="Permalink to this definition">¶</a></dt>
-<dd><p>Create a text-only message for an email.</p>
+<em class="property">class </em><code class="descclassname">parsons.</code><code class="descname">Gmail</code><span class="sig-paren">(</span><em>creds_path=None</em>, <em>token_path=None</em>, <em>user_id='me'</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/notifications/gmail.html#Gmail"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.Gmail" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create a Gmail object, for sending emails.</p>
 <dl class="docutils">
 <dt><cite>Args:</cite></dt>
 <dd><dl class="first last docutils">
-<dt>sender: str</dt>
-<dd>Email address of the sender.</dd>
-<dt>to: str</dt>
-<dd>Email address(es) of the recipient(s).</dd>
-<dt>subject: str</dt>
-<dd>The subject of the email message.</dd>
-<dt>message_text: str</dt>
-<dd>The text of the email message.</dd>
-</dl>
-</dd>
-<dt><cite>Returns:</cite></dt>
-<dd><dl class="first last docutils">
-<dt>dict</dt>
-<dd>An object containing a base64url encoded email object.</dd>
-</dl>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="method">
-<dt id="parsons.Gmail.create_message_html">
-<code class="descname">create_message_html</code><span class="sig-paren">(</span><em>sender</em>, <em>to</em>, <em>subject</em>, <em>message_text</em>, <em>message_html</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/notifications/gmail.html#Gmail.create_message_html"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.Gmail.create_message_html" title="Permalink to this definition">¶</a></dt>
-<dd><p>Create an html message for an email.</p>
-<dl class="docutils">
-<dt><cite>Args:</cite></dt>
-<dd><dl class="first last docutils">
-<dt>sender: str</dt>
-<dd>Email address of the sender.</dd>
-<dt>to: str</dt>
-<dd>Email address(es) of the recipient(s).</dd>
-<dt>subject: str</dt>
-<dd>The subject of the email message.</dd>
-<dt>message_text: str</dt>
-<dd>The text of the email message.</dd>
-<dt>message_html: str</dt>
-<dd>The html formatted text of the email message.</dd>
-</dl>
-</dd>
-<dt><cite>Returns:</cite></dt>
-<dd><dl class="first last docutils">
-<dt>dict</dt>
-<dd>An object containing a base64url encoded email object.</dd>
-</dl>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="method">
-<dt id="parsons.Gmail.create_message_attachments">
-<code class="descname">create_message_attachments</code><span class="sig-paren">(</span><em>sender</em>, <em>to</em>, <em>subject</em>, <em>message_text</em>, <em>files</em>, <em>message_html=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/notifications/gmail.html#Gmail.create_message_attachments"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.Gmail.create_message_attachments" title="Permalink to this definition">¶</a></dt>
-<dd><p>Create a message for an email that includes an attachment.</p>
-<dl class="docutils">
-<dt><cite>Args:</cite></dt>
-<dd><dl class="first last docutils">
-<dt>sender: str</dt>
-<dd>Email address of the sender.</dd>
-<dt>to: str</dt>
-<dd>Email address of the receiver.</dd>
-<dt>subject: str</dt>
-<dd>The subject of the email message.</dd>
-<dt>message_text: str</dt>
-<dd>The text of the email message.</dd>
-<dt>files: list</dt>
-<dd>The path(s) to the file(s) to be attached.</dd>
-<dt>message_html: str</dt>
-<dd>Optional; The html formatted text of the email message.</dd>
-</dl>
-</dd>
-<dt><cite>Returns:</cite></dt>
-<dd><dl class="first last docutils">
-<dt>dict</dt>
-<dd>An object containing a base64url encoded email object.</dd>
-</dl>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="method">
-<dt id="parsons.Gmail.send_message">
-<code class="descname">send_message</code><span class="sig-paren">(</span><em>message</em>, <em>user_id=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/notifications/gmail.html#Gmail.send_message"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.Gmail.send_message" title="Permalink to this definition">¶</a></dt>
-<dd><p>Send an email message.</p>
-<dl class="docutils">
-<dt><cite>Args:</cite></dt>
-<dd><dl class="first last docutils">
-<dt>message: dict</dt>
-<dd>Message to be sent as a base64url encode object.</dd>
+<dt>creds_path: str</dt>
+<dd>The path to the credentials.json file.</dd>
+<dt>token_path: str</dt>
+<dd>The path to the token.json file.</dd>
 <dt>user_id: str</dt>
-<dd>Optional; User’s email address. Defaults to the special value
+<dd>Optional; Sender email address. Defaults to the special value
 “me” which is used to indicate the authenticated user.</dd>
 </dl>
 </dd>
-<dt><cite>Returns:</cite></dt>
-<dd><dl class="first last docutils">
-<dt>dict</dt>
-<dd>A Users.messages object see <cite>https://developers.google.com/gmail/api/v1/reference/users/messages#resource.</cite> # noqa
-for more info.</dd>
 </dl>
-</dd>
-</dl>
-</dd></dl>
-
 <dl class="method">
 <dt id="parsons.Gmail.send_email">
-<code class="descname">send_email</code><span class="sig-paren">(</span><em>sender</em>, <em>to</em>, <em>subject</em>, <em>message_text</em>, <em>message_html=None</em>, <em>files=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/notifications/gmail.html#Gmail.send_email"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.Gmail.send_email" title="Permalink to this definition">¶</a></dt>
+<code class="descname">send_email</code><span class="sig-paren">(</span><em>sender</em>, <em>to</em>, <em>subject</em>, <em>message_text</em>, <em>message_html=None</em>, <em>files=None</em><span class="sig-paren">)</span><a class="headerlink" href="#parsons.Gmail.send_email" title="Permalink to this definition">¶</a></dt>
 <dd><p>Send an email message.</p>
 <dl class="docutils">
 <dt><cite>Args:</cite></dt>
@@ -557,7 +528,7 @@ email is sent a text-only body.</dd>
 </dl>
 </dd>
 <dt><cite>Returns:</cite></dt>
-<dd>An object containing a base64url encoded email object.</dd>
+<dd>None</dd>
 </dl>
 </dd></dl>
 
@@ -574,6 +545,8 @@ email is sent a text-only body.</dd>
           <footer>
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="utilities.html" class="btn btn-neutral float-right" title="Utilities" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
         <a href="table.html" class="btn btn-neutral" title="Parsons Table" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>

@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>parsons.notifications.gmail &mdash; Parsons 0.1 documentation</title>
+  <title>parsons.notifications.gmail &mdash; Parsons 0.5 documentation</title>
   
 
   
@@ -79,23 +79,53 @@
               <p class="caption"><span class="caption-text">Integrations</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../../action_kit.html">ActionKit</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../action_network.html">Action Network</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../airtable.html">Airtable</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../aws.html">Amazon Web Services</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../azure.html">Azure: Blob Storage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../bill_com.html">Bill.com</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../bloomerang.html">Bloomerang</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../box.html">Box</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../braintree.html">Braintree</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../civis.html">Civis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../copper.html">Copper</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../crowdtangle.html">CrowdTangle</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../databases.html">Databases</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../facebook_ads.html">FacebookAds</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../google_sheets.html">GoogleSheets</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../mobile_commons.html">Mobile Commons</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../freshdesk.html">Freshdesk</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../github.html">GitHub</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../google.html">Google</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../hustle.html">Hustle</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../mailchimp.html">Mailchimp</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../mobilize_america.html">Mobilize America</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../ngpvan.html">VAN</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../newmode.html">New/Mode</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../ngpvan.html">NGPVAN</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../pdi.html">PDI</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../p2a.html">Phone2Action</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../redshift.html">Redshift</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../s3.html">S3</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../redash.html">Redash</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../rockthevote.html">Rock the Vote</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../salesforce.html">Salesforce</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../sftp.html">SFTP</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../ts.html">TargetSmart</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../targetsmart.html">TargetSmart</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../turbovote.html">TurboVote</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../twilio.html">Twilio</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../zoom.html">Zoom</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Enhancements</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../census_geocoder.html">US Census Geocoder</a></li>
 </ul>
 <p class="caption"><span class="caption-text">Framework</span></p>
 <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../dbsync.html">Database Sync</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../table.html">Parsons Table</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../notifications.html">Notifications</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../utilities.html">Utilities</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Contributor Documentation</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../contributing.html">Contributing to Parsons</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../build_a_connector.html">How to Build a Connector</a></li>
 </ul>
 
             
@@ -159,51 +189,32 @@
            <div itemprop="articleBody">
             
   <h1>Source code for parsons.notifications.gmail</h1><div class="highlight"><pre>
-<span></span><span class="c1"># Adapted from Gmail API tutorial https://developers.google.com/gmail/api</span>
-<span class="kn">from</span> <span class="nn">apiclient</span> <span class="k">import</span> <span class="n">errors</span>
-<span class="kn">from</span> <span class="nn">email.mime.text</span> <span class="k">import</span> <span class="n">MIMEText</span>
-<span class="kn">from</span> <span class="nn">email.mime.multipart</span> <span class="k">import</span> <span class="n">MIMEMultipart</span>
-<span class="kn">from</span> <span class="nn">email.mime.image</span> <span class="k">import</span> <span class="n">MIMEImage</span>
-<span class="kn">from</span> <span class="nn">email.mime.audio</span> <span class="k">import</span> <span class="n">MIMEAudio</span>
-<span class="kn">from</span> <span class="nn">email.mime.base</span> <span class="k">import</span> <span class="n">MIMEBase</span>
-<span class="kn">from</span> <span class="nn">email.mime.application</span> <span class="k">import</span> <span class="n">MIMEApplication</span>
-<span class="kn">from</span> <span class="nn">email.encoders</span> <span class="k">import</span> <span class="n">encode_base64</span>
-<span class="kn">from</span> <span class="nn">email.utils</span> <span class="k">import</span> <span class="n">parseaddr</span>
-<span class="kn">from</span> <span class="nn">googleapiclient.discovery</span> <span class="k">import</span> <span class="n">build</span>
-<span class="kn">from</span> <span class="nn">httplib2</span> <span class="k">import</span> <span class="n">Http</span>
-<span class="kn">from</span> <span class="nn">oauth2client</span> <span class="k">import</span> <span class="n">file</span><span class="p">,</span> <span class="n">client</span><span class="p">,</span> <span class="n">tools</span>
-<span class="kn">from</span> <span class="nn">validate_email</span> <span class="k">import</span> <span class="n">validate_email</span>
-<span class="kn">import</span> <span class="nn">base64</span>
-<span class="kn">import</span> <span class="nn">logging</span>
-<span class="kn">import</span> <span class="nn">mimetypes</span>
-<span class="kn">import</span> <span class="nn">os</span>
-
-<span class="c1"># BUG: can&#39;t send files equal to or larger than 6MB</span>
-<span class="c1"># There is a possible fix</span>
-<span class="c1"># `BUG-1` are the changes that would need to be made</span>
-
-<span class="c1"># BUG-1</span>
-<span class="c1"># import httplib2shim</span>
-<span class="c1"># import sys</span>
-
-<span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
+<span></span><span class="kn">import</span> <span class="nn">base64</span>
+<span class="kn">from</span> <span class="nn">apiclient</span> <span class="kn">import</span> <span class="n">errors</span>
+<span class="kn">from</span> <span class="nn">googleapiclient.discovery</span> <span class="kn">import</span> <span class="n">build</span>
+<span class="kn">from</span> <span class="nn">httplib2</span> <span class="kn">import</span> <span class="n">Http</span>
+<span class="kn">from</span> <span class="nn">oauth2client</span> <span class="kn">import</span> <span class="n">file</span><span class="p">,</span> <span class="n">client</span><span class="p">,</span> <span class="n">tools</span>
+<span class="kn">from</span> <span class="nn">parsons.notifications.sendmail</span> <span class="kn">import</span> <span class="n">SendMail</span>
 
 <span class="n">SCOPES</span> <span class="o">=</span> <span class="s1">&#39;https://www.googleapis.com/auth/gmail.send&#39;</span>
 
 
-<div class="viewcode-block" id="Gmail"><a class="viewcode-back" href="../../../notifications.html#parsons.Gmail">[docs]</a><span class="k">class</span> <span class="nc">Gmail</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Class for sending emails using gmail.&quot;&quot;&quot;</span>
+<div class="viewcode-block" id="Gmail"><a class="viewcode-back" href="../../../notifications.html#parsons.Gmail">[docs]</a><span class="k">class</span> <span class="nc">Gmail</span><span class="p">(</span><span class="n">SendMail</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Create a Gmail object, for sending emails.</span>
 
-    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">creds_path</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">token_path</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Create a Gmail object.</span>
+<span class="sd">    `Args:`</span>
+<span class="sd">        creds_path: str</span>
+<span class="sd">            The path to the credentials.json file.</span>
+<span class="sd">        token_path: str</span>
+<span class="sd">            The path to the token.json file.</span>
+<span class="sd">        user_id: str</span>
+<span class="sd">            Optional; Sender email address. Defaults to the special value</span>
+<span class="sd">            &quot;me&quot; which is used to indicate the authenticated user.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
 
-<span class="sd">        `Args:`</span>
-<span class="sd">            creds_path: str</span>
-<span class="sd">                The path to the credentials.json file.</span>
-<span class="sd">            token_path: str</span>
-<span class="sd">                The path to the token.json file.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">user_id</span> <span class="o">=</span> <span class="s1">&#39;me&#39;</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">creds_path</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">token_path</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">user_id</span><span class="o">=</span><span class="s1">&#39;me&#39;</span><span class="p">):</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">user_id</span> <span class="o">=</span> <span class="n">user_id</span>
 
         <span class="k">if</span> <span class="ow">not</span> <span class="n">creds_path</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Invalid path to credentials.json.&quot;</span><span class="p">)</span>
@@ -229,272 +240,40 @@
         <span class="c1"># BUG-1</span>
         <span class="c1"># self.service = build(&#39;gmail&#39;, &#39;v1&#39;, http=self.creds.authorize(http))</span>
 
-<div class="viewcode-block" id="Gmail.create_message_simple"><a class="viewcode-back" href="../../../notifications.html#parsons.Gmail.create_message_simple">[docs]</a>    <span class="k">def</span> <span class="nf">create_message_simple</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sender</span><span class="p">,</span> <span class="n">to</span><span class="p">,</span> <span class="n">subject</span><span class="p">,</span> <span class="n">message_text</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Create a text-only message for an email.</span>
+    <span class="k">def</span> <span class="nf">_encode_raw_message</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">message</span><span class="p">):</span>
+        <span class="k">return</span> <span class="p">{</span><span class="s1">&#39;raw&#39;</span><span class="p">:</span> <span class="n">base64</span><span class="o">.</span><span class="n">urlsafe_b64encode</span><span class="p">(</span><span class="n">message</span><span class="o">.</span><span class="n">as_bytes</span><span class="p">())</span><span class="o">.</span><span class="n">decode</span><span class="p">()}</span>
 
-<span class="sd">        `Args:`</span>
-<span class="sd">            sender: str</span>
-<span class="sd">                Email address of the sender.</span>
-<span class="sd">            to: str</span>
-<span class="sd">                Email address(es) of the recipient(s).</span>
-<span class="sd">            subject: str</span>
-<span class="sd">                The subject of the email message.</span>
-<span class="sd">            message_text: str</span>
-<span class="sd">                The text of the email message.</span>
-<span class="sd">        `Returns:`</span>
-<span class="sd">            dict</span>
-<span class="sd">                An object containing a base64url encoded email object.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Creating a simple message...&quot;</span><span class="p">)</span>
-
-        <span class="n">message</span> <span class="o">=</span> <span class="n">MIMEText</span><span class="p">(</span><span class="n">message_text</span><span class="p">)</span>
-        <span class="n">message</span><span class="p">[</span><span class="s1">&#39;to&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">to</span>
-        <span class="n">message</span><span class="p">[</span><span class="s1">&#39;from&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">sender</span>
-        <span class="n">message</span><span class="p">[</span><span class="s1">&#39;subject&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">subject</span>
-
-        <span class="n">msg</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;raw&#39;</span><span class="p">:</span> <span class="n">base64</span><span class="o">.</span><span class="n">urlsafe_b64encode</span><span class="p">(</span><span class="n">message</span><span class="o">.</span><span class="n">as_bytes</span><span class="p">())</span><span class="o">.</span><span class="n">decode</span><span class="p">()}</span>
-
-        <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
-        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Encoded simple message sucessfully created.&quot;</span><span class="p">)</span>
-
-        <span class="k">return</span> <span class="n">msg</span></div>
-
-<div class="viewcode-block" id="Gmail.create_message_html"><a class="viewcode-back" href="../../../notifications.html#parsons.Gmail.create_message_html">[docs]</a>    <span class="k">def</span> <span class="nf">create_message_html</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sender</span><span class="p">,</span> <span class="n">to</span><span class="p">,</span> <span class="n">subject</span><span class="p">,</span> <span class="n">message_text</span><span class="p">,</span>
-                            <span class="n">message_html</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Create an html message for an email.</span>
-
-<span class="sd">        `Args:`</span>
-<span class="sd">            sender: str</span>
-<span class="sd">                Email address of the sender.</span>
-<span class="sd">            to: str</span>
-<span class="sd">                Email address(es) of the recipient(s).</span>
-<span class="sd">            subject: str</span>
-<span class="sd">                The subject of the email message.</span>
-<span class="sd">            message_text: str</span>
-<span class="sd">                The text of the email message.</span>
-<span class="sd">            message_html: str</span>
-<span class="sd">                The html formatted text of the email message.</span>
-<span class="sd">        `Returns:`</span>
-<span class="sd">            dict</span>
-<span class="sd">                An object containing a base64url encoded email object.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Creating an html message...&quot;</span><span class="p">)</span>
-
-        <span class="n">message</span> <span class="o">=</span> <span class="n">MIMEMultipart</span><span class="p">(</span><span class="s1">&#39;alternative&#39;</span><span class="p">)</span>
-        <span class="n">message</span><span class="p">[</span><span class="s1">&#39;subject&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">subject</span>
-        <span class="n">message</span><span class="p">[</span><span class="s1">&#39;from&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">sender</span>
-        <span class="n">message</span><span class="p">[</span><span class="s1">&#39;to&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">to</span>
-        <span class="k">if</span> <span class="n">message_text</span><span class="p">:</span>
-            <span class="n">message</span><span class="o">.</span><span class="n">attach</span><span class="p">(</span><span class="n">MIMEText</span><span class="p">(</span><span class="n">message_text</span><span class="p">,</span> <span class="s1">&#39;plain&#39;</span><span class="p">))</span>
-        <span class="n">message</span><span class="o">.</span><span class="n">attach</span><span class="p">(</span><span class="n">MIMEText</span><span class="p">(</span><span class="n">message_html</span><span class="p">,</span> <span class="s1">&#39;html&#39;</span><span class="p">))</span>
-
-        <span class="n">msg</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;raw&#39;</span><span class="p">:</span> <span class="n">base64</span><span class="o">.</span><span class="n">urlsafe_b64encode</span><span class="p">(</span><span class="n">message</span><span class="o">.</span><span class="n">as_bytes</span><span class="p">())</span><span class="o">.</span><span class="n">decode</span><span class="p">()}</span>
-
-        <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
-        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Encoded html message sucessfully created.&quot;</span><span class="p">)</span>
-
-        <span class="k">return</span> <span class="n">msg</span></div>
-
-<div class="viewcode-block" id="Gmail.create_message_attachments"><a class="viewcode-back" href="../../../notifications.html#parsons.Gmail.create_message_attachments">[docs]</a>    <span class="k">def</span> <span class="nf">create_message_attachments</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sender</span><span class="p">,</span> <span class="n">to</span><span class="p">,</span> <span class="n">subject</span><span class="p">,</span> <span class="n">message_text</span><span class="p">,</span>
-                                   <span class="n">files</span><span class="p">,</span> <span class="n">message_html</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Create a message for an email that includes an attachment.</span>
-
-<span class="sd">        `Args:`</span>
-<span class="sd">            sender: str</span>
-<span class="sd">                Email address of the sender.</span>
-<span class="sd">            to: str</span>
-<span class="sd">                Email address of the receiver.</span>
-<span class="sd">            subject: str</span>
-<span class="sd">                The subject of the email message.</span>
-<span class="sd">            message_text: str</span>
-<span class="sd">                The text of the email message.</span>
-<span class="sd">            files: list</span>
-<span class="sd">                The path(s) to the file(s) to be attached.</span>
-<span class="sd">            message_html: str</span>
-<span class="sd">                Optional; The html formatted text of the email message.</span>
-<span class="sd">        `Returns:`</span>
-<span class="sd">            dict</span>
-<span class="sd">                An object containing a base64url encoded email object.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Creating a message with attachments...&quot;</span><span class="p">)</span>
-
-        <span class="n">message</span> <span class="o">=</span> <span class="n">MIMEMultipart</span><span class="p">(</span><span class="s1">&#39;alternative&#39;</span><span class="p">)</span>
-        <span class="n">message</span><span class="p">[</span><span class="s1">&#39;to&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">to</span>
-        <span class="n">message</span><span class="p">[</span><span class="s1">&#39;from&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">sender</span>
-        <span class="n">message</span><span class="p">[</span><span class="s1">&#39;subject&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">subject</span>
-
-        <span class="n">msg</span> <span class="o">=</span> <span class="n">MIMEText</span><span class="p">(</span><span class="n">message_text</span><span class="p">,</span> <span class="s1">&#39;plain&#39;</span><span class="p">)</span>
-        <span class="n">message</span><span class="o">.</span><span class="n">attach</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
-
-        <span class="k">if</span> <span class="n">message_html</span><span class="p">:</span>
-            <span class="n">html</span> <span class="o">=</span> <span class="n">MIMEText</span><span class="p">(</span><span class="n">message_html</span><span class="p">,</span> <span class="s1">&#39;html&#39;</span><span class="p">)</span>
-            <span class="n">message</span><span class="o">.</span><span class="n">attach</span><span class="p">(</span><span class="n">html</span><span class="p">)</span>
-
-        <span class="k">for</span> <span class="n">f</span> <span class="ow">in</span> <span class="n">files</span><span class="p">:</span>
-            <span class="n">content_type</span><span class="p">,</span> <span class="n">encoding</span> <span class="o">=</span> <span class="n">mimetypes</span><span class="o">.</span><span class="n">guess_type</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
-            <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span>
-                <span class="n">f</span><span class="s2">&quot;(File: </span><span class="si">{f}</span><span class="s2">, Content-type: </span><span class="si">{content_type}</span><span class="s2">, &quot;</span>
-                <span class="n">f</span><span class="s2">&quot;Encoding: </span><span class="si">{encoding}</span><span class="s2">)&quot;</span><span class="p">)</span>
-
-            <span class="k">if</span> <span class="n">content_type</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="n">encoding</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-                <span class="n">content_type</span> <span class="o">=</span> <span class="s1">&#39;application/octet-stream&#39;</span>
-
-            <span class="n">main_type</span><span class="p">,</span> <span class="n">sub_type</span> <span class="o">=</span> <span class="n">content_type</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;/&#39;</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
-
-            <span class="k">if</span> <span class="n">main_type</span> <span class="o">==</span> <span class="s1">&#39;text&#39;</span><span class="p">:</span>
-                <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Added a text file.&quot;</span><span class="p">)</span>
-                <span class="n">fp</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="s1">&#39;rb&#39;</span><span class="p">)</span>
-                <span class="n">msg</span> <span class="o">=</span> <span class="n">MIMEText</span><span class="p">(</span><span class="n">fp</span><span class="o">.</span><span class="n">read</span><span class="p">(),</span> <span class="n">_subtype</span><span class="o">=</span><span class="n">sub_type</span><span class="p">,</span> <span class="n">_charset</span><span class="o">=</span><span class="s1">&#39;utf-8&#39;</span><span class="p">)</span>
-                <span class="n">fp</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
-
-            <span class="k">elif</span> <span class="n">main_type</span> <span class="o">==</span> <span class="s1">&#39;image&#39;</span><span class="p">:</span>
-                <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Added an image file.&quot;</span><span class="p">)</span>
-                <span class="n">fp</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="s1">&#39;rb&#39;</span><span class="p">)</span>
-                <span class="n">msg</span> <span class="o">=</span> <span class="n">MIMEImage</span><span class="p">(</span><span class="n">fp</span><span class="o">.</span><span class="n">read</span><span class="p">(),</span> <span class="n">_subtype</span><span class="o">=</span><span class="n">sub_type</span><span class="p">)</span>
-                <span class="n">filename</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">basename</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
-                <span class="n">msg</span><span class="o">.</span><span class="n">add_header</span><span class="p">(</span><span class="s1">&#39;Content-ID&#39;</span><span class="p">,</span> <span class="n">f</span><span class="s1">&#39;&lt;</span><span class="si">{filename}</span><span class="s1">&gt;&#39;</span><span class="p">)</span>
-                <span class="n">fp</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
-
-            <span class="k">elif</span> <span class="n">main_type</span> <span class="o">==</span> <span class="s1">&#39;audio&#39;</span><span class="p">:</span>
-                <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Added an audio file.&quot;</span><span class="p">)</span>
-                <span class="n">fp</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="s1">&#39;rb&#39;</span><span class="p">)</span>
-                <span class="n">msg</span> <span class="o">=</span> <span class="n">MIMEAudio</span><span class="p">(</span><span class="n">fp</span><span class="o">.</span><span class="n">read</span><span class="p">(),</span> <span class="n">_subtype</span><span class="o">=</span><span class="n">sub_type</span><span class="p">)</span>
-                <span class="n">fp</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
-
-            <span class="k">elif</span> <span class="n">main_type</span> <span class="o">==</span> <span class="s1">&#39;application&#39;</span><span class="p">:</span>
-                <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Added an application file.&quot;</span><span class="p">)</span>
-                <span class="n">fp</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="s1">&#39;rb&#39;</span><span class="p">)</span>
-                <span class="n">msg</span> <span class="o">=</span> <span class="n">MIMEApplication</span><span class="p">(</span><span class="n">fp</span><span class="o">.</span><span class="n">read</span><span class="p">(),</span> <span class="n">_subtype</span><span class="o">=</span><span class="n">sub_type</span><span class="p">)</span>
-                <span class="n">fp</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
-
-            <span class="k">else</span><span class="p">:</span>
-                <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Added an unknown-type file.&quot;</span><span class="p">)</span>
-                <span class="n">fp</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="s1">&#39;rb&#39;</span><span class="p">)</span>
-                <span class="n">msg</span> <span class="o">=</span> <span class="n">MIMEBase</span><span class="p">(</span><span class="n">main_type</span><span class="p">,</span> <span class="n">sub_type</span><span class="p">)</span>
-                <span class="n">msg</span><span class="o">.</span><span class="n">set_payload</span><span class="p">(</span><span class="n">fp</span><span class="o">.</span><span class="n">read</span><span class="p">())</span>
-                <span class="n">encode_base64</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
-                <span class="n">fp</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
-
-            <span class="n">filename</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">basename</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
-            <span class="n">msg</span><span class="o">.</span><span class="n">add_header</span><span class="p">(</span>
-                <span class="s1">&#39;Content-Disposition&#39;</span><span class="p">,</span> <span class="s1">&#39;attachment&#39;</span><span class="p">,</span> <span class="n">filename</span><span class="o">=</span><span class="n">filename</span><span class="p">)</span>
-            <span class="n">message</span><span class="o">.</span><span class="n">attach</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
-
-        <span class="n">m</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;raw&#39;</span><span class="p">:</span> <span class="n">base64</span><span class="o">.</span><span class="n">urlsafe_b64encode</span><span class="p">(</span><span class="n">message</span><span class="o">.</span><span class="n">as_bytes</span><span class="p">())</span><span class="o">.</span><span class="n">decode</span><span class="p">()}</span>
-
-        <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="n">m</span><span class="p">)</span>
-        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Encoded message with attachments sucessfully created.&quot;</span><span class="p">)</span>
-
-        <span class="k">return</span> <span class="n">m</span></div>
-
-    <span class="k">def</span> <span class="nf">_validate_email_string</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
-        <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="n">f</span><span class="s2">&quot;Validating email </span><span class="si">{str}</span><span class="s2">...&quot;</span><span class="p">)</span>
-        <span class="n">realname</span><span class="p">,</span> <span class="n">email_addr</span> <span class="o">=</span> <span class="n">parseaddr</span><span class="p">(</span><span class="nb">str</span><span class="p">)</span>
-
-        <span class="k">if</span> <span class="ow">not</span> <span class="n">email_addr</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Invalid email address.&quot;</span><span class="p">)</span>
-
-        <span class="k">if</span> <span class="ow">not</span> <span class="n">validate_email</span><span class="p">(</span><span class="n">email_addr</span><span class="p">):</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Invalid email address.&quot;</span><span class="p">)</span>
-
-        <span class="k">return</span> <span class="kc">True</span>
-
-<div class="viewcode-block" id="Gmail.send_message"><a class="viewcode-back" href="../../../notifications.html#parsons.Gmail.send_message">[docs]</a>    <span class="k">def</span> <span class="nf">send_message</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">message</span><span class="p">,</span> <span class="n">user_id</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">_send_message</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">msg</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Send an email message.</span>
 
 <span class="sd">        `Args:`</span>
 <span class="sd">            message: dict</span>
 <span class="sd">                Message to be sent as a base64url encode object.</span>
-<span class="sd">            user_id: str</span>
-<span class="sd">                Optional; User&#39;s email address. Defaults to the special value</span>
-<span class="sd">                &quot;me&quot; which is used to indicate the authenticated user.</span>
+<span class="sd">                i.e. the objects created by the create_* instance methods</span>
 <span class="sd">        `Returns:`</span>
 <span class="sd">            dict</span>
 <span class="sd">                A Users.messages object see `https://developers.google.com/gmail/api/v1/reference/users/messages#resource.` # noqa</span>
 <span class="sd">                for more info.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Sending a message...&quot;</span><span class="p">)</span>
-        <span class="k">if</span> <span class="ow">not</span> <span class="n">user_id</span><span class="p">:</span>
-            <span class="n">user_id</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">user_id</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">log</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Sending a message...&quot;</span><span class="p">)</span>
+
+        <span class="n">message</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_encode_raw_message</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">log</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="n">message</span><span class="p">)</span>
+
         <span class="k">try</span><span class="p">:</span>
             <span class="n">message</span> <span class="o">=</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">service</span><span class="o">.</span><span class="n">users</span><span class="p">()</span><span class="o">.</span><span class="n">messages</span><span class="p">()</span>
-                       <span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="n">userId</span><span class="o">=</span><span class="n">user_id</span><span class="p">,</span> <span class="n">body</span><span class="o">=</span><span class="n">message</span><span class="p">)</span><span class="o">.</span><span class="n">execute</span><span class="p">())</span>
+                       <span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="n">userId</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">user_id</span><span class="p">,</span> <span class="n">body</span><span class="o">=</span><span class="n">message</span><span class="p">)</span><span class="o">.</span><span class="n">execute</span><span class="p">())</span>
         <span class="k">except</span> <span class="n">errors</span><span class="o">.</span><span class="n">HttpError</span><span class="p">:</span>
-            <span class="n">logger</span><span class="o">.</span><span class="n">exception</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">log</span><span class="o">.</span><span class="n">exception</span><span class="p">(</span>
                 <span class="s1">&#39;An error occurred: while attempting to send a message.&#39;</span><span class="p">)</span>
             <span class="k">raise</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="n">message</span><span class="p">)</span>
-            <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span>
-                <span class="n">f</span><span class="s2">&quot;Message sent succesfully (Message Id: </span><span class="si">{message[&#39;id&#39;]}</span><span class="s2">)&quot;</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">log</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="n">message</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">log</span><span class="o">.</span><span class="n">info</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s2">&quot;Message sent succesfully (Message Id: </span><span class="si">{</span><span class="n">message</span><span class="p">[</span><span class="s1">&#39;id&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">)&quot;</span><span class="p">)</span>
 
             <span class="k">return</span> <span class="n">message</span></div>
-
-<div class="viewcode-block" id="Gmail.send_email"><a class="viewcode-back" href="../../../notifications.html#parsons.Gmail.send_email">[docs]</a>    <span class="k">def</span> <span class="nf">send_email</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sender</span><span class="p">,</span> <span class="n">to</span><span class="p">,</span> <span class="n">subject</span><span class="p">,</span> <span class="n">message_text</span><span class="p">,</span> <span class="n">message_html</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-                   <span class="n">files</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Send an email message.</span>
-
-<span class="sd">        `Args:`</span>
-<span class="sd">            sender: str</span>
-<span class="sd">                Email address of the sender.</span>
-<span class="sd">            to: str or list</span>
-<span class="sd">                Email address(es) of the receiver(s). Must be in correct email</span>
-<span class="sd">                string syntax. For example, `name@email.com` or</span>
-<span class="sd">                `&quot;Name&quot; &lt;email@email.com&gt;`.</span>
-<span class="sd">            subject: str</span>
-<span class="sd">                The subject of the email message.</span>
-<span class="sd">            message_text: str</span>
-<span class="sd">                The text of the email message.</span>
-<span class="sd">            message_html: str</span>
-<span class="sd">                The html formatted text of the email message. If ommitted, the</span>
-<span class="sd">                email is sent a text-only body.</span>
-<span class="sd">            files: str or list</span>
-<span class="sd">                The path to the file(s) to be attached.</span>
-
-<span class="sd">        `Returns:`</span>
-<span class="sd">            An object containing a base64url encoded email object.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Preparing to send and email...&quot;</span><span class="p">)</span>
-
-        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Validating email(s)&quot;</span><span class="p">)</span>
-        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">to</span><span class="p">,</span> <span class="nb">list</span><span class="p">):</span>
-            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">to</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
-                <span class="k">raise</span> <span class="n">EmptyListError</span><span class="p">(</span><span class="s2">&quot;Must contain at least 1 email.&quot;</span><span class="p">)</span>
-
-            <span class="k">for</span> <span class="n">e</span> <span class="ow">in</span> <span class="n">to</span><span class="p">:</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">_validate_email_string</span><span class="p">(</span><span class="n">e</span><span class="p">)</span>
-
-            <span class="n">to</span> <span class="o">=</span> <span class="s1">&#39;, &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">to</span><span class="p">)</span>
-
-        <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">to</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">_validate_email_string</span><span class="p">(</span><span class="n">to</span><span class="p">)</span>
-
-        <span class="k">if</span> <span class="ow">not</span> <span class="n">message_html</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">files</span><span class="p">:</span>
-            <span class="n">msg_type</span> <span class="o">=</span> <span class="s1">&#39;simple&#39;</span>
-            <span class="n">msg</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">create_message_simple</span><span class="p">(</span><span class="n">sender</span><span class="p">,</span> <span class="n">to</span><span class="p">,</span> <span class="n">subject</span><span class="p">,</span> <span class="n">message_text</span><span class="p">)</span>
-
-        <span class="k">elif</span> <span class="ow">not</span> <span class="n">files</span><span class="p">:</span>
-            <span class="n">msg_type</span> <span class="o">=</span> <span class="s1">&#39;html&#39;</span>
-            <span class="n">msg</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">create_message_html</span><span class="p">(</span>
-                <span class="n">sender</span><span class="p">,</span> <span class="n">to</span><span class="p">,</span> <span class="n">subject</span><span class="p">,</span> <span class="n">message_text</span><span class="p">,</span> <span class="n">message_html</span><span class="p">)</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="n">msg_type</span> <span class="o">=</span> <span class="s1">&#39;attachments&#39;</span>
-            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">files</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
-                <span class="n">files</span> <span class="o">=</span> <span class="p">[</span><span class="n">files</span><span class="p">]</span>
-
-            <span class="n">msg</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">create_message_attachments</span><span class="p">(</span>
-                <span class="n">sender</span><span class="p">,</span> <span class="n">to</span><span class="p">,</span> <span class="n">subject</span><span class="p">,</span> <span class="n">message_text</span><span class="p">,</span> <span class="n">files</span><span class="p">,</span> <span class="n">message_html</span><span class="p">)</span>
-
-        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="n">f</span><span class="s2">&quot;Sending a(n) </span><span class="si">{msg_type}</span><span class="s2"> email...&quot;</span><span class="p">)</span>
-
-        <span class="bp">self</span><span class="o">.</span><span class="n">send_message</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
-
-        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Email sent succesfully.&quot;</span><span class="p">)</span></div></div>
-
-
-<span class="k">class</span> <span class="nc">EmptyListError</span><span class="p">(</span><span class="ne">IndexError</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Throw when a list is empty that should contain at least 1 element.&quot;&quot;&quot;</span>
-    <span class="k">pass</span>
 </pre></div>
 
            </div>

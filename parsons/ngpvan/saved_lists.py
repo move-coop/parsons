@@ -87,7 +87,8 @@ class SavedLists(object):
             description: str
                 Description of the file upload job and the list.
             callback_url: string
-                The configured HTTP listener to which successful list loads will send a standard webhook.
+                The configured HTTP listener to which successful list loads will send
+                a standard webhook.
             columns: list
                 A list of column names contained in the file.
             id_column : str
@@ -96,9 +97,10 @@ class SavedLists(object):
                 The file delimiter used.
             header: boolean
                 Whether or not the source file has a header row.
-            quptes: boolean
-                 Whether or not fields are enclosed in quotation marks within each column of the file.
-            replace: boolean
+            quotes: boolean
+                 Whether or not fields are enclosed in quotation marks within each
+                 column of the file.
+            overwrite: boolean
                 Replace saved list if already exists.
             **url_kwargs: kwargs
                 Arguments to configure your cloud storage url type.
@@ -119,10 +121,10 @@ class SavedLists(object):
         if folder_id not in [x['folderId'] for x in self.get_folders()]:
             raise ValueError("Folder does not exist or is not shared with API user.")
 
-        if not replace:
+        if not overwrite:
             if list_name in [x['name'] for x in self.get_saved_lists(folder_id)]:
-                raise ValueError("Saved list already exists. Set to overwriteExistingListId argument to True or "
-                                 "change list name.")
+                raise ValueError("Saved list already exists. Set overwrite "
+                                 "argument to True or change list name.")
 
                 # To Do: Validate that it is a .zip file. Not entirely sure if this is possible
                 # as some urls might not end in ".zip".
@@ -153,14 +155,12 @@ class SavedLists(object):
                      "value": callback_url}]
                 }
 
-
         r = self.connection.post_request('fileLoadingJobs', json=json)
         job_id = r['jobId']
         logger.info(f'Score loading job {job_id} created.')
         r = self.connection.get_request(callback_url)
         logger.info(f'INSERT REAL response from Callback response.')
         return r
-
 
     def upload_saved_list(self, tbl, list_name, folder_id, url_type, id_type='vanid', replace=False,
                           **url_kwargs):
@@ -213,8 +213,9 @@ class SavedLists(object):
         # i think we dont need this if we have the warning in the funciton description,
         # perhapse a style/standanrds decision
         if id_type == 'vanid':
-            logger.warn('The NVPVAN SOAP API is deprecated, consider using parsons.VAN.upload_saved_list_rest '
-                         ' if you are uploading a list of vanids')
+            logger.warn('The NVPVAN SOAP API is deprecated, consider using '
+                        'parsons.VAN.upload_saved_list_rest if you are '
+                        'uploading a list of vanids.')
         # Create XML
         xml = self.connection.soap_client.factory.create('CreateAndStoreSavedListMetaData')
         xml.SavedList._Name = list_name
@@ -243,6 +244,7 @@ class SavedLists(object):
         if r:
             logger.info(f"Uploaded {r['ListSize']} records to {r['_Name']} saved list.")
         return r
+
 
 class Folders(object):
 

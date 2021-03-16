@@ -213,7 +213,7 @@ class SavedLists(object):
         # i think we dont need this if we have the warning in the funciton description,
         # perhapse a style/standanrds decision
         if id_type == 'vanid':
-            logger.warn('The NVPVAN SOAP API is deprecated, consider using method=\'rest\''
+            logger.warn('The NVPVAN SOAP API is deprecated, consider using parsons.VAN.upload_saved_list_rest '
                          ' if you are uploading a list of vanids')
         # Create XML
         xml = self.connection.soap_client.factory.create('CreateAndStoreSavedListMetaData')

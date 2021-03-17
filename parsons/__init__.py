@@ -112,5 +112,7 @@ logger.addHandler(_handler)
 if os.environ.get('TESTING'):
     # Log less stuff in automated tests
     logger.setLevel('WARNING')
+elif os.environ.get('DEBUG'):
+    logger.setLevel('DEBUG')
 else:
     logger.setLevel('INFO')

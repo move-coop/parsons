@@ -350,6 +350,59 @@
         <span class="n">resp</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">conn</span><span class="o">.</span><span class="n">patch</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_base_endpoint</span><span class="p">(</span><span class="s1">&#39;user&#39;</span><span class="p">,</span> <span class="n">user_id</span><span class="p">),</span> <span class="n">data</span><span class="o">=</span><span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">kwargs</span><span class="p">))</span>
         <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">resp</span><span class="o">.</span><span class="n">status_code</span><span class="si">}</span><span class="s1">: </span><span class="si">{</span><span class="n">user_id</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span></div>
 
+<div class="viewcode-block" id="ActionKit.get_event"><a class="viewcode-back" href="../../../action_kit.html#parsons.ActionKit.get_event">[docs]</a>    <span class="k">def</span> <span class="nf">get_event</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">event_id</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Get an event.</span>
+
+<span class="sd">        `Args:`</span>
+<span class="sd">            event_id: int</span>
+<span class="sd">                The id for the event.</span>
+<span class="sd">        `Returns:`</span>
+<span class="sd">            dict</span>
+<span class="sd">                Event json object.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_base_get</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;event/</span><span class="si">{</span><span class="n">event_id</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="ActionKit.get_events"><a class="viewcode-back" href="../../../action_kit.html#parsons.ActionKit.get_events">[docs]</a>    <span class="k">def</span> <span class="nf">get_events</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">limit</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Get multiple events.</span>
+
+<span class="sd">        `Args:`</span>
+<span class="sd">            limit: int</span>
+<span class="sd">                The number of events to return. If omitted, all events are returned.</span>
+<span class="sd">            **kwargs:</span>
+<span class="sd">                Optional arguments to pass to the client. A full list can be found</span>
+<span class="sd">                in the `ActionKit API Documentation &lt;https://roboticdogs.actionkit.com/docs/\</span>
+<span class="sd">                manual/api/rest/actionprocessing.html&gt;`_.</span>
+
+<span class="sd">                Additionally, expressions to filter the data can also be provided. For addition</span>
+<span class="sd">                info, visit `Django&#39;s docs on field lookups &lt;https://docs.djangoproject.com/\</span>
+<span class="sd">                en/3.1/topics/db/queries/#field-lookups&gt;`_.</span>
+
+<span class="sd">                .. code-block:: python</span>
+
+<span class="sd">                    ak.get_events(fields__name__contains=&quot;FirstName&quot;)</span>
+<span class="sd">        `Returns:`</span>
+<span class="sd">            Parsons.Table</span>
+<span class="sd">                The events data.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># &quot;The maximum number of objects returned per request is 100. Use paging</span>
+        <span class="c1"># to get more objects.&quot;</span>
+        <span class="c1"># (https://roboticdogs.actionkit.com/docs//manual/api/rest/overview.html#ordering)</span>
+        <span class="c1"># get `limit` events if it&#39;s provided, otherwise get 100</span>
+        <span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;_limit&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="mi">100</span><span class="p">,</span> <span class="n">limit</span> <span class="ow">or</span> <span class="mi">1_000_000_000</span><span class="p">)</span>
+        <span class="n">json_data</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_base_get</span><span class="p">(</span><span class="s2">&quot;event&quot;</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="n">json_data</span><span class="p">[</span><span class="s2">&quot;objects&quot;</span><span class="p">]</span>
+
+        <span class="n">next_url</span> <span class="o">=</span> <span class="n">json_data</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;meta&quot;</span><span class="p">,</span> <span class="p">{})</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;next&quot;</span><span class="p">)</span>
+        <span class="k">while</span> <span class="n">next_url</span><span class="p">:</span>
+            <span class="n">resp</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">conn</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;https://</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">domain</span><span class="si">}{</span><span class="n">next_url</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+            <span class="n">data</span> <span class="o">+=</span> <span class="n">resp</span><span class="o">.</span><span class="n">json</span><span class="p">()</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;objects&quot;</span><span class="p">,</span> <span class="p">[])</span>
+            <span class="n">next_url</span> <span class="o">=</span> <span class="n">resp</span><span class="o">.</span><span class="n">json</span><span class="p">()</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;meta&quot;</span><span class="p">,</span> <span class="p">{})</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;next&quot;</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">limit</span> <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="n">data</span><span class="p">)</span> <span class="o">&gt;=</span> <span class="n">limit</span><span class="p">:</span>
+                <span class="k">break</span>
+
+        <span class="k">return</span> <span class="n">Table</span><span class="p">(</span><span class="n">data</span><span class="p">[:</span><span class="n">limit</span><span class="p">])</span></div>
+
 <div class="viewcode-block" id="ActionKit.update_event"><a class="viewcode-back" href="../../../action_kit.html#parsons.ActionKit.update_event">[docs]</a>    <span class="k">def</span> <span class="nf">update_event</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">event_id</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Update an event.</span>

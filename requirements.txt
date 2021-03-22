@@ -6,7 +6,7 @@ civis==1.14.2
 slackclient==1.3.0
 psycopg2-binary==2.8.5
 xmltodict==0.11.0
-gspread==3.3.0
+gspread==3.7.0
 oauth2client==4.1.3
 facebook-business==6.0.0
 google-api-python-client==1.7.7

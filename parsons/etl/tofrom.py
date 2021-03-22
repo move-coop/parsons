@@ -644,19 +644,7 @@ class ToFrom(object):
             Parsons Table
                 See :ref:`parsons-table` for output options.
         """
-
-        if line_delimited:
-            if files.is_gzip_path(local_path):
-                open_fn = gzip.open
-            else:
-                open_fn = open
-
-            with open_fn(local_path, 'r') as file:
-                rows = [json.loads(line) for line in file]
-            return cls(rows)
-
-        else:
-            return cls(petl.fromjson(local_path, header=header))
+        return cls(petl.fromjson(local_path, header=header, lines=line_delimited))
 
     @classmethod
     def from_redshift(cls, sql, username=None, password=None, host=None,

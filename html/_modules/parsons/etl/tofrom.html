@@ -838,19 +838,7 @@
 <span class="sd">            Parsons Table</span>
 <span class="sd">                See :ref:`parsons-table` for output options.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-
-        <span class="k">if</span> <span class="n">line_delimited</span><span class="p">:</span>
-            <span class="k">if</span> <span class="n">files</span><span class="o">.</span><span class="n">is_gzip_path</span><span class="p">(</span><span class="n">local_path</span><span class="p">):</span>
-                <span class="n">open_fn</span> <span class="o">=</span> <span class="n">gzip</span><span class="o">.</span><span class="n">open</span>
-            <span class="k">else</span><span class="p">:</span>
-                <span class="n">open_fn</span> <span class="o">=</span> <span class="nb">open</span>
-
-            <span class="k">with</span> <span class="n">open_fn</span><span class="p">(</span><span class="n">local_path</span><span class="p">,</span> <span class="s1">&#39;r&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">file</span><span class="p">:</span>
-                <span class="n">rows</span> <span class="o">=</span> <span class="p">[</span><span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">line</span><span class="p">)</span> <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">file</span><span class="p">]</span>
-            <span class="k">return</span> <span class="bp">cls</span><span class="p">(</span><span class="n">rows</span><span class="p">)</span>
-
-        <span class="k">else</span><span class="p">:</span>
-            <span class="k">return</span> <span class="bp">cls</span><span class="p">(</span><span class="n">petl</span><span class="o">.</span><span class="n">fromjson</span><span class="p">(</span><span class="n">local_path</span><span class="p">,</span> <span class="n">header</span><span class="o">=</span><span class="n">header</span><span class="p">))</span></div>
+        <span class="k">return</span> <span class="bp">cls</span><span class="p">(</span><span class="n">petl</span><span class="o">.</span><span class="n">fromjson</span><span class="p">(</span><span class="n">local_path</span><span class="p">,</span> <span class="n">header</span><span class="o">=</span><span class="n">header</span><span class="p">,</span> <span class="n">lines</span><span class="o">=</span><span class="n">line_delimited</span><span class="p">))</span></div>
 
 <div class="viewcode-block" id="ToFrom.from_redshift"><a class="viewcode-back" href="../../../table.html#parsons.etl.tofrom.ToFrom.from_redshift">[docs]</a>    <span class="nd">@classmethod</span>
     <span class="k">def</span> <span class="nf">from_redshift</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">sql</span><span class="p">,</span> <span class="n">username</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">password</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">host</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>

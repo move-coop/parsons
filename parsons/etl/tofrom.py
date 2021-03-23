@@ -644,7 +644,7 @@ class ToFrom(object):
             Parsons Table
                 See :ref:`parsons-table` for output options.
         """
-        
+
         if line_delimited:
             if files.is_gzip_path(local_path):
                 open_fn = gzip.open

@@ -582,22 +582,22 @@ passed through kwargs.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">parsons</span> <span class="kn">import</span> <span class="n">Postgres</span>
 
 <span class="c1"># Instantiate Postgres from environmental variables</span>
-<span class="n">mysql</span> <span class="o">=</span> <span class="n">Postgres</span><span class="p">()</span>
+<span class="n">pg</span> <span class="o">=</span> <span class="n">Postgres</span><span class="p">()</span>
 
 <span class="c1"># Instantiate Postgres from passed variables</span>
-<span class="n">Postgres</span> <span class="o">=</span> <span class="n">Postgres</span><span class="p">(</span><span class="n">username</span><span class="o">=</span><span class="s1">&#39;me&#39;</span><span class="p">,</span> <span class="n">password</span><span class="o">=</span><span class="s1">&#39;secret&#39;</span><span class="p">,</span> <span class="n">host</span><span class="o">=</span><span class="s1">&#39;mydb.com&#39;</span><span class="p">,</span> <span class="n">db</span><span class="o">=</span><span class="s1">&#39;dev&#39;</span><span class="p">,</span> <span class="n">port</span><span class="o">=</span><span class="mi">3306</span><span class="p">)</span>
+<span class="n">pg</span> <span class="o">=</span> <span class="n">Postgres</span><span class="p">(</span><span class="n">username</span><span class="o">=</span><span class="s1">&#39;me&#39;</span><span class="p">,</span> <span class="n">password</span><span class="o">=</span><span class="s1">&#39;secret&#39;</span><span class="p">,</span> <span class="n">host</span><span class="o">=</span><span class="s1">&#39;mydb.com&#39;</span><span class="p">,</span> <span class="n">db</span><span class="o">=</span><span class="s1">&#39;dev&#39;</span><span class="p">,</span> <span class="n">port</span><span class="o">=</span><span class="mi">3306</span><span class="p">)</span>
 
 <span class="c1"># Instantiate Postgres from a ~/.pgpass file</span>
-<span class="n">Postgres</span> <span class="o">=</span> <span class="n">Postgres</span><span class="p">()</span>
+<span class="n">pg</span> <span class="o">=</span> <span class="n">Postgres</span><span class="p">()</span>
 </pre></div>
 </div>
 <p><strong>Quick Start</strong></p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Query database</span>
-<span class="n">tbl</span> <span class="o">=</span> <span class="n">postgres</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="s1">&#39;select * from my_schema.secret_sauce&#39;</span><span class="p">)</span>
+<span class="n">tbl</span> <span class="o">=</span> <span class="n">pg</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="s1">&#39;select * from my_schema.secret_sauce&#39;</span><span class="p">)</span>
 
 <span class="c1"># Copy data to database</span>
 <span class="n">tbl</span> <span class="o">=</span> <span class="n">Table</span><span class="o">.</span><span class="n">from_csv</span><span class="p">(</span><span class="s1">&#39;my_file.csv&#39;</span><span class="p">)</span> <span class="c1"># Load from a CSV or other source.</span>
-<span class="n">postgres</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="n">tbl</span><span class="p">,</span> <span class="s1">&#39;my_schema.winning_formula&#39;</span><span class="p">)</span>
+<span class="n">pg</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="n">tbl</span><span class="p">,</span> <span class="s1">&#39;my_schema.winning_formula&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
 <dl class="class">

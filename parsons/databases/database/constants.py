@@ -27,6 +27,10 @@ RESERVED_WORDS = [
 VARCHAR = "varchar"
 FLOAT = "float"
 
+BOOL = "bool"
+TRUE_VALS = ("TRUE", "T", "YES", "Y", "1", 1)
+FALSE_VALS = ("FALSE", "F", "NO", "N", "0", 0)
+
 # The following values are the minimum and maximum values for MySQL int
 # types. https://dev.mysql.com/doc/refman/8.0/en/integer-types.html
 SMALLINT = "smallint"

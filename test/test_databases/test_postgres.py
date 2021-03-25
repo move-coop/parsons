@@ -56,8 +56,11 @@ class TestPostgresCreateStatement(unittest.TestCase):
 
     def test_data_type(self):
 
+        # Test bool
+        self.assertEqual(self.pg.data_type(1, ''), 'bool')
+        self.assertEqual(self.pg.data_type(True, ''), 'bool')
         # Test smallint
-        self.assertEqual(self.pg.data_type(1, ''), 'smallint')
+        self.assertEqual(self.pg.data_type(2, ''), 'smallint')
         # Test int
         self.assertEqual(self.pg.data_type(32769, ''), 'int')
         # Test bigint
@@ -81,7 +84,7 @@ class TestPostgresCreateStatement(unittest.TestCase):
         self.assertEqual(self.mapping['type_list'], ['smallint', 'varchar'])
         self.assertEqual(
             self.mapping2['type_list'],
-            ['varchar', 'varchar', 'decimal', 'varchar', "decimal", "smallint", "varchar"])
+            ['varchar', 'varchar', 'decimal', 'varchar', "decimal", "bool", "varchar"])
         # Test correct lengths
         self.assertEqual(self.mapping['longest'], [1, 5])
 

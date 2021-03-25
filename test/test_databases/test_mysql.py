@@ -1,5 +1,5 @@
 from parsons.databases.mysql.mysql import MySQL
-from parsons.databases.table import BaseTable
+from parsons.databases.mysql.create_table import MySQLCreateTable
 from parsons.etl.table import Table
 from test.utils import assert_matching_tables
 import unittest
@@ -64,7 +64,7 @@ class TestMySQL(unittest.TestCase):
                                 ('you', 'hey', '3')
                          """)
 
-        self.tbl = BaseTable(self.mysql, 'test')
+        self.tbl = MySQLCreateTable(self.mysql, 'test')
 
     def tearDown(self):
 
@@ -91,7 +91,7 @@ class TestMySQL(unittest.TestCase):
 
         self.assertTrue(self.tbl.exists)
 
-        tbl_bad = BaseTable(self.mysql, 'bad_test')
+        tbl_bad = MySQLCreateTable(self.mysql, 'bad_test')
         self.assertFalse(tbl_bad.exists)
 
     def test_drop(self):
@@ -145,8 +145,11 @@ class TestMySQL(unittest.TestCase):  # noqa
 
     def test_data_type(self):
 
+        # Test bool
+        self.assertEqual(self.mysql.data_type(1, ''), 'bool')
+        self.assertEqual(self.mysql.data_type(False, ''), 'bool')
         # Test smallint
-        self.assertEqual(self.mysql.data_type(1, ''), 'smallint')
+        self.assertEqual(self.mysql.data_type(2, ''), 'smallint')
         # Test int
         self.assertEqual(self.mysql.data_type(32769, ''), 'mediumint')
         # Test bigint

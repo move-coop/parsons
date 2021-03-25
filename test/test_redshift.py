@@ -58,8 +58,12 @@ class TestRedshift(unittest.TestCase):
 
     def test_data_type(self):
 
-        # Test int
-        self.assertEqual(self.rs.data_type(1, ''), 'int')
+        # Test bool
+        self.assertEqual(self.rs.data_type(1, ''), 'bool')
+        self.assertEqual(self.rs.data_type(True, ''), 'bool')
+        # Test smallint
+        # Currently smallints are coded as ints
+        self.assertEqual(self.rs.data_type(2, ''), 'int')
         # Test int
         self.assertEqual(self.rs.data_type(32769, ''), 'int')
         # Test bigint
@@ -84,7 +88,7 @@ class TestRedshift(unittest.TestCase):
 
         self.assertEqual(
             self.mapping2['type_list'],
-            ['varchar', 'varchar', 'decimal', 'varchar', "decimal", "int", "varchar"])
+            ['varchar', 'varchar', 'decimal', 'varchar', "decimal", "bool", "varchar"])
         # Test correct lengths
         self.assertEqual(self.mapping['longest'], [1, 5])
 
@@ -120,8 +124,9 @@ class TestRedshift(unittest.TestCase):
         bad_cols = ['a', 'a', '', 'SELECT', 'asdfjkasjdfklasjdfklajskdfljaskldfjaklsdfjlaksdfjklasj'
                     'dfklasjdkfljaskldfljkasjdkfasjlkdfjklasdfjklakjsfasjkdfljaslkdfjklasdfjklasjkl'
                     'dfakljsdfjalsdkfjklasjdfklasjdfklasdkljf']
-        fixed_cols = ['a', 'a_1', 'col_2', 'col_3', 'asdfjkasjdfklasjdfklajskdfljaskldfjaklsdfjlaks'
-                      'dfjklasjdfklasjdkfljaskldfljkasjdkfasjlkdfjklasdfjklakjsfasjkdfljaslkdfjkl']
+        fixed_cols = [
+            'a', 'a_1', 'col_2', 'col_3', 'asdfjkasjdfklasjdfklajskdfljaskldfjaklsdfjlaks'
+            'dfjklasjdfklasjdkfljaskldfljkasjdkfasjlkdfjklasdfjklakjsfasjkdfljaslkdfjkl']
         self.assertEqual(self.rs.column_name_validate(bad_cols), fixed_cols)
 
     def test_create_statement(self):

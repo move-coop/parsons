@@ -1,5 +1,5 @@
 from parsons.databases.database.constants import (
-    SMALLINT, MEDIUMINT, INT, BIGINT, FLOAT, VARCHAR)
+    SMALLINT, MEDIUMINT, INT, BIGINT, FLOAT, BOOL, VARCHAR)
 
 from parsons.databases.database.database import DatabaseCreateStatement
 
@@ -49,6 +49,8 @@ def test_get_bigger_int(dcs, int1, int2, higher):
      (+1.2, True),
      (+1., True),
      (+1.0_0, True),
+     (0, True),
+     (0.0, True),
      ("10", True),
      ("1_0", False),
      ("+10", True),
@@ -60,6 +62,8 @@ def test_get_bigger_int(dcs, int1, int2, higher):
      ("+1.2", True),
      ("+1.", True),
      ("+1.0_0", False),
+     ("0", True),
+     ("0.0", True),
      (True, False),
      ("True", False),
      ("a string", False),
@@ -74,8 +78,8 @@ def test_is_valid_sql_num(dcs, val, is_valid):
 
 @pytest.mark.parametrize(
     ("val", "cmp_type", "detected_type"),
-    ((1, None, SMALLINT),
-     (1, "", SMALLINT),
+    ((2, None, SMALLINT),
+     (2, "", SMALLINT),
      (1, MEDIUMINT, MEDIUMINT),
      (32769, None, MEDIUMINT),
      (32769, BIGINT, BIGINT),
@@ -83,6 +87,15 @@ def test_is_valid_sql_num(dcs, val, is_valid):
      (2147483648, FLOAT, FLOAT),
      (5.001, None, FLOAT),
      (5.001, "", FLOAT),
+     (2, BOOL, SMALLINT),
+     (True, None, BOOL),
+     (0, None, BOOL),
+     (1, None, BOOL),
+     (1, BOOL, BOOL),
+     ("F", None, BOOL),
+     ("FALSE", None, BOOL),
+     ("Yes", None, BOOL),
+     ("FALSE", VARCHAR, VARCHAR),
      ("word", "", VARCHAR),
      ("word", INT, VARCHAR),
      ("1_2", BIGINT, VARCHAR),
@@ -91,6 +104,7 @@ def test_is_valid_sql_num(dcs, val, is_valid):
      ("word", None, VARCHAR),
      ("1_2", None, VARCHAR),
      ("01", None, VARCHAR),
+     ("{}", None, VARCHAR),
      ))
 def test_detect_data_type(dcs, val, cmp_type, detected_type):
     assert dcs.detect_data_type(val, cmp_type) == detected_type

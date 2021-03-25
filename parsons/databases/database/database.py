@@ -17,6 +17,9 @@ class DatabaseCreateStatement():
         self.INT_MAX = consts.INT_MAX
         self.BIGINT = consts.BIGINT
         self.FLOAT = consts.FLOAT
+        self.BOOL = consts.BOOL
+        self.TRUE_VALS = consts.TRUE_VALS
+        self.FALSE_VALS = consts.FALSE_VALS
         self.VARCHAR = consts.VARCHAR
         self.RESERVED_WORDS = consts.RESERVED_WORDS
         self.COL_NAME_MAX_LEN = consts.COL_NAME_MAX_LEN
@@ -97,7 +100,8 @@ class DatabaseCreateStatement():
         # then it's a valid sql number
         # Also check the first character is not zero
         try:
-            if (float(val) or int(val)) and "_" not in val and val[0] != "0":
+            if ((float(val) or 1) and "_" not in val and
+                    (val in ("0", "0.0") or val[0] != "0")):
                 return True
             else:
                 return False
@@ -106,6 +110,25 @@ class DatabaseCreateStatement():
         # then it's not a number in sql
         except (TypeError, ValueError):
             return False
+
+    def is_sql_bool(self, val):
+        """Check whether val is a valid sql boolean.
+
+        When inserting data into databases, different values can be accepted
+        as boolean types. For excample, ``False``, ``'FALSE'``, ``1``.
+
+        `Args`:
+            val: any
+                The value to check.
+        `Returns`:
+            bool
+                Whether or not the value is a valid sql boolean.
+        """
+        if isinstance(val, bool) or (
+                type(val) in (int, str) and
+                str(val).upper() in self.TRUE_VALS + self.FALSE_VALS):
+            return True
+        return False
 
     def detect_data_type(self, value, cmp_type=None):
         """Detect the higher of value's type cmp_type.
@@ -139,6 +162,8 @@ class DatabaseCreateStatement():
         try:
             val_lit = ast.literal_eval(str(value))
         except (SyntaxError, ValueError):
+            if self.is_sql_bool(value):
+                return self.BOOL
             return self.VARCHAR
 
         # Exit early if it's None
@@ -152,7 +177,13 @@ class DatabaseCreateStatement():
         # Python accepts 100_000 as a valid form of 100000,
         # however a sql engine may throw an error
         if not self.is_valid_sql_num(value):
-            return self.VARCHAR
+            if self.is_sql_bool(val_lit) and cmp_type != self.VARCHAR:
+                return self.BOOL
+            else:
+                return self.VARCHAR
+
+        if self.is_sql_bool(val_lit) and cmp_type not in self.INT_TYPES + [self.FLOAT]:
+            return self.BOOL
 
         type_lit = type(val_lit)
 
@@ -164,7 +195,7 @@ class DatabaseCreateStatement():
         # The value is very likely an int
         # let's get its size
         # If the compare types are empty and use the types of the current value
-        if type_lit == int and cmp_type in (self.INT_TYPES + [None, ""]):
+        if type_lit == int and cmp_type in (self.INT_TYPES + [None, "", self.BOOL]):
 
             # Use smallest possible int type above TINYINT
             if (self.SMALLINT_MIN < val_lit < self.SMALLINT_MAX):

@@ -27,7 +27,7 @@ RESERVED_WORDS = [
 VARCHAR = "varchar"
 FLOAT = "float"
 
-DO_PARSE_BOOLS= False
+DO_PARSE_BOOLS = False
 BOOL = "bool"
 TRUE_VALS = ("TRUE", "T", "YES", "Y", "1", 1)
 FALSE_VALS = ("FALSE", "F", "NO", "N", "0", 0)

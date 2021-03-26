@@ -8,7 +8,9 @@ import pytest
 
 @pytest.fixture
 def dcs():
-    return DatabaseCreateStatement()
+    db = DatabaseCreateStatement()
+    db.DO_PARSE_BOOLS = True
+    return db
 
 
 @pytest.mark.parametrize(

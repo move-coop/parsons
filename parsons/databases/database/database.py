@@ -17,9 +17,13 @@ class DatabaseCreateStatement():
         self.INT_MAX = consts.INT_MAX
         self.BIGINT = consts.BIGINT
         self.FLOAT = consts.FLOAT
+
+        # Added for backwards compatability
+        self.DO_PARSE_BOOLS = False
         self.BOOL = consts.BOOL
         self.TRUE_VALS = consts.TRUE_VALS
         self.FALSE_VALS = consts.FALSE_VALS
+
         self.VARCHAR = consts.VARCHAR
         self.RESERVED_WORDS = consts.RESERVED_WORDS
         self.COL_NAME_MAX_LEN = consts.COL_NAME_MAX_LEN
@@ -124,6 +128,9 @@ class DatabaseCreateStatement():
             bool
                 Whether or not the value is a valid sql boolean.
         """
+        if not self.DO_PARSE_BOOLS:
+            return
+
         if isinstance(val, bool) or (
                 type(val) in (int, str) and
                 str(val).upper() in self.TRUE_VALS + self.FALSE_VALS):

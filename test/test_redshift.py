@@ -19,6 +19,7 @@ class TestRedshift(unittest.TestCase):
     def setUp(self):
 
         self.rs = Redshift(username='test', password='test', host='test', db='test', port=123)
+        self.rs.DO_PARSE_BOOLS = True
 
         self.tbl = Table([['ID', 'Name'],
                           [1, 'Jim'],

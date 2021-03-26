@@ -15,6 +15,7 @@ class TestPostgresCreateStatement(unittest.TestCase):
     def setUp(self):
 
         self.pg = Postgres(username='test', password='test', host='test', db='test', port=123)
+        self.pg.DO_PARSE_BOOLS = True
 
         self.tbl = Table([['ID', 'Name'],
                           [1, 'Jim'],

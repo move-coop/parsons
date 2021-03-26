@@ -137,6 +137,7 @@ class TestMySQL(unittest.TestCase):  # noqa
     def setUp(self):
 
         self.mysql = MySQL(username='test', password='test', host='test', db='test', port=123)
+        self.mysql.DO_PARSE_BOOLS = True
 
         self.tbl = Table([['ID', 'Name', 'Score'],
                           [1, 'Jim', 1.9],

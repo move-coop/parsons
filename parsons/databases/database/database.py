@@ -19,7 +19,7 @@ class DatabaseCreateStatement():
         self.FLOAT = consts.FLOAT
 
         # Added for backwards compatability
-        self.DO_PARSE_BOOLS = False
+        self.DO_PARSE_BOOLS = consts.DO_PARSE_BOOLS
         self.BOOL = consts.BOOL
         self.TRUE_VALS = consts.TRUE_VALS
         self.FALSE_VALS = consts.FALSE_VALS

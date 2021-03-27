@@ -23,7 +23,7 @@ import boxsdk
 
 from parsons.etl.table import Table
 from parsons.utilities.check_env import check as check_env
-from parsons.utilities.files import create_temp_file
+from parsons.utilities.files import create_temp_file, create_temp_file_for_path
 
 import tempfile
 
@@ -260,7 +260,7 @@ class Box(object):
                                                             file_name=file_name)
         return new_file
 
-    def download_file(path: str, local_path: str = None) -> str:
+    def download_file(self, path: str, local_path: str = None) -> str:
         """Download a Box object to a local file.
 
         `Args`:
@@ -279,7 +279,7 @@ class Box(object):
         if not local_path:
             # Temp file will be around as long as enclosing process is running,
             # which we need, because the Table we return will continue to use it.
-            local_path = files.create_temp_file_for_path(path)
+            local_path = create_temp_file_for_path(path)
 
         file_id = self.get_item_id(path)
 
@@ -287,7 +287,6 @@ class Box(object):
             self.client.file(file_id).download_to(output_file)
 
         return local_path
-
 
     def get_table(self, path, format='csv') -> Table:
         """Get a table that has been saved to Box in csv or JSON format.

@@ -380,7 +380,7 @@ class Redshift(RedshiftCreateTable, RedshiftCopyTable, RedshiftTableUtilities, R
              sortkey=None, padding=None, statupdate=False, compupdate=True, acceptanydate=True,
              emptyasnull=True, blanksasnull=True, nullas=None, acceptinvchars=True,
              dateformat='auto', timeformat='auto', varchar_max=None, truncatecolumns=False,
-             columntypes=None, specifycols=None, alter_table=False,
+             columntypes=None, specifycols=None, alter_table=False, alter_table_cascade=False,
              aws_access_key_id=None, aws_secret_access_key=None, iam_role=None,
              cleanup_s3_file=True, template_table=None, temp_bucket_region=None,
              strict_length=True):
@@ -450,7 +450,11 @@ class Redshift(RedshiftCreateTable, RedshiftCopyTable, RedshiftTableUtilities, R
             alter_table: boolean
                 Will check if the target table varchar widths are wide enough to copy in the
                 table data. If not, will attempt to alter the table to make it wide enough. This
-                will not work with tables that have dependent views.
+                will not work with tables that have dependent views. To drop them, set
+                ``alter_table_cascade`` to True.
+            alter_table_cascade: boolean
+                Will drop dependent objects when attempting to alter the table. If ``alter_table``
+                is not ``True``, this will be ignored.
             aws_access_key_id:
                 An AWS access key granted to the bucket where the file is located. Not required
                 if keys are stored as environmental variables.
@@ -507,7 +511,8 @@ class Redshift(RedshiftCreateTable, RedshiftCopyTable, RedshiftTableUtilities, R
             # If alter_table is True, then alter table if the table column widths
             # are wider than the existing table.
             if alter_table:
-                self.alter_varchar_column_widths(tbl, table_name)
+                self.alter_varchar_column_widths(
+                    tbl, table_name, drop_dependencies=alter_table_cascade)
 
             # Upload the table to S3
             key = self.temp_s3_copy(tbl, aws_access_key_id=aws_access_key_id,
@@ -829,7 +834,42 @@ class Redshift(RedshiftCreateTable, RedshiftCopyTable, RedshiftTableUtilities, R
                 self.query_with_connection(f'VACUUM {target_table};', connection)
                 logger.info(f'{target_table} vacuumed.')
 
-    def alter_varchar_column_widths(self, tbl, table_name):
+    def drop_dependencies_for_cols(self, schema, table, cols):
+        fmt_cols = ", ".join([f"'{c}'" for c in cols])
+        sql_depend = f"""
+            select
+                distinct dependent_ns.nspname||'.'||dependent_view.relname as table_name
+            from pg_depend
+            join pg_rewrite
+                on pg_depend.objid = pg_rewrite.oid
+            join pg_class as dependent_view
+                on pg_rewrite.ev_class = dependent_view.oid
+            join pg_class as source_table
+                on pg_depend.refobjid = source_table.oid
+            join pg_attribute
+                on pg_depend.refobjid = pg_attribute.attrelid
+                and pg_depend.refobjsubid = pg_attribute.attnum
+            join pg_namespace dependent_ns
+                on dependent_ns.oid = dependent_view.relnamespace
+            join pg_namespace source_ns on source_ns.oid = source_table.relnamespace
+            where
+                source_ns.nspname = '{schema}'
+                and source_table.relname = '{table}'
+                and pg_attribute.attname in ({fmt_cols})
+            ;
+        """
+
+        with self.connection() as connection:
+            connection.set_session(autocommit=True)
+            tbl = self.query_with_connection(sql_depend, connection)
+            dropped_views = [row['table_name'] for row in tbl]
+            sql_drop = "\n".join([f"drop view {view};" for view in dropped_views])
+            tbl = self.query_with_connection(sql_drop, connection)
+            logger.info(f"Dropped the following views: {dropped_views}")
+
+        return tbl
+
+    def alter_varchar_column_widths(self, tbl, table_name, drop_dependencies=False):
         """
         Alter the width of a varchar columns in a Redshift table to match the widths
         of a Parsons table. The columns are matched by column name and not their
@@ -853,7 +893,9 @@ class Redshift(RedshiftCreateTable, RedshiftCopyTable, RedshiftTableUtilities, R
         # Determine the max width of the varchar columns in the Redshift table
         s, t = self.split_full_table_name(table_name)
         cols = self.get_columns(s, t)
-        rc = {k: v['max_length'] for k, v in cols.items() if v['data_type'] == 'character varying'} # noqa: E501, E261
+        rc = {k: v['max_length'] for k, v in cols.items() if v['data_type'] == 'character varying'}  # noqa: E501, E261
+        if drop_dependencies:
+            drop_dependencies_for_cols(s, t, rc.keys())
 
         # Figure out if any of the destination table varchar columns are smaller than the
         # associated Parsons table columns. If they are, then alter column types to expand

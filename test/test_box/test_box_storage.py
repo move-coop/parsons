@@ -159,6 +159,22 @@ class TestBoxStorage(unittest.TestCase):
         with self.assertRaises(ValueError):
             box.get_table_by_file_id(box_file.id, format='illegal_format')
 
+    def test_download_file(self) -> None:
+        box = Box()
+
+        table = Table([['phone_number', 'last_name', 'first_name'],
+                       ['4435705355', 'Warren', 'Elizabeth'],
+                       ['5126993336', 'Obama', 'Barack']])
+        uploaded_file = table.to_csv()
+
+        path_filename = f'{self.temp_folder_name}/my_path'
+        box.upload_table(table, path_filename)
+
+        downloaded_file = box.download_file(path_filename)
+
+        with open(uploaded_file) as uploaded, open(downloaded_file) as downloaded:
+            self.assertEqual(str(uploaded.read()), str(downloaded.read()))
+
     def test_get_item_id(self) -> None:
         # Count on environment variables being set
         box = Box()

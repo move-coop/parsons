@@ -424,7 +424,55 @@
         <span class="n">person_id</span> <span class="o">=</span> <span class="p">[</span><span class="n">entry_id</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;:&#39;</span><span class="p">)[</span><span class="mi">1</span><span class="p">]</span>
                      <span class="k">for</span> <span class="n">entry_id</span> <span class="ow">in</span> <span class="n">identifiers</span> <span class="k">if</span> <span class="s1">&#39;action_network:&#39;</span> <span class="ow">in</span> <span class="n">entry_id</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
         <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Tag </span><span class="si">{</span><span class="n">person_id</span><span class="si">}</span><span class="s2"> successfully added to tags.&quot;</span><span class="p">)</span>
-        <span class="k">return</span> <span class="n">response</span></div></div>
+        <span class="k">return</span> <span class="n">response</span></div>
+
+<div class="viewcode-block" id="ActionNetwork.create_event"><a class="viewcode-back" href="../../../action_network.html#parsons.ActionNetwork.create_event">[docs]</a>    <span class="k">def</span> <span class="nf">create_event</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">title</span><span class="p">,</span> <span class="n">start_date</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">location</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Create an event in Action Network</span>
+
+<span class="sd">        `Args:`</span>
+<span class="sd">            title: str</span>
+<span class="sd">                The public title of the event</span>
+<span class="sd">            start_date: str OR datetime</span>
+<span class="sd">                OPTIONAL: The starting date &amp; time. If a string, use format &quot;YYYY-MM-DD HH:MM:SS&quot;</span>
+<span class="sd">                (hint: the default format you get when you use `str()` on a datetime)</span>
+<span class="sd">            location: dict</span>
+<span class="sd">                OPTIONAL: A dict of location details. Can include any combination of the types of</span>
+<span class="sd">                values in the following example:</span>
+<span class="sd">                .. code-block:: python</span>
+
+<span class="sd">                    my_location = {</span>
+<span class="sd">                        &quot;venue&quot;: &quot;White House&quot;,</span>
+<span class="sd">                        &quot;address_lines&quot;: [</span>
+<span class="sd">                            &quot;1600 Pennsylvania Ave&quot;</span>
+<span class="sd">                        ],</span>
+<span class="sd">                        &quot;locality&quot;: &quot;Washington&quot;,</span>
+<span class="sd">                        &quot;region&quot;: &quot;DC&quot;,</span>
+<span class="sd">                        &quot;postal_code&quot;: &quot;20009&quot;,</span>
+<span class="sd">                        &quot;country&quot;: &quot;US&quot;</span>
+<span class="sd">                    }</span>
+
+<span class="sd">        `Returns:`</span>
+<span class="sd">            Dict of Action Network Event data.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">data</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s2">&quot;title&quot;</span><span class="p">:</span> <span class="n">title</span>
+        <span class="p">}</span>
+
+        <span class="k">if</span> <span class="n">start_date</span><span class="p">:</span>
+            <span class="n">start_date</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">start_date</span><span class="p">)</span>
+            <span class="n">data</span><span class="p">[</span><span class="s2">&quot;start_date&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">start_date</span>
+
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">location</span><span class="p">,</span> <span class="nb">dict</span><span class="p">):</span>
+            <span class="n">data</span><span class="p">[</span><span class="s2">&quot;location&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">location</span>
+
+        <span class="n">event_dict</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">api</span><span class="o">.</span><span class="n">post_request</span><span class="p">(</span><span class="n">url</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">api_url</span><span class="si">}</span><span class="s2">/events&quot;</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">data</span><span class="p">))</span>
+
+        <span class="n">an_event_id</span> <span class="o">=</span> <span class="n">event_dict</span><span class="p">[</span><span class="s2">&quot;_links&quot;</span><span class="p">][</span><span class="s2">&quot;self&quot;</span><span class="p">][</span><span class="s2">&quot;href&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;/&#39;</span><span class="p">)[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+        <span class="n">event_dict</span><span class="p">[</span><span class="s2">&quot;event_id&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">an_event_id</span>
+
+        <span class="k">return</span> <span class="n">event_dict</span></div></div>
 </pre></div>
 
            </div>

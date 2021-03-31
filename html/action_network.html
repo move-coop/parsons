@@ -471,6 +471,46 @@ For details, see Action Network’s documentation:
 <p>Adds a tag to Action Network. Once created, tags CANNOT be edited or deleted.</p>
 </dd></dl>
 
+<dl class="method">
+<dt id="parsons.ActionNetwork.create_event">
+<code class="descname">create_event</code><span class="sig-paren">(</span><em>title</em>, <em>start_date=None</em>, <em>location=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/action_network/action_network.html#ActionNetwork.create_event"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.ActionNetwork.create_event" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create an event in Action Network</p>
+<dl class="docutils">
+<dt><cite>Args:</cite></dt>
+<dd><dl class="first last docutils">
+<dt>title: str</dt>
+<dd>The public title of the event</dd>
+<dt>start_date: str OR datetime</dt>
+<dd>OPTIONAL: The starting date &amp; time. If a string, use format “YYYY-MM-DD HH:MM:SS”
+(hint: the default format you get when you use <cite>str()</cite> on a datetime)</dd>
+<dt>location: dict</dt>
+<dd><p class="first">OPTIONAL: A dict of location details. Can include any combination of the types of
+values in the following example:
+.. code-block:: python</p>
+<blockquote class="last">
+<div><dl class="docutils">
+<dt>my_location = {</dt>
+<dd><p class="first">“venue”: “White House”,
+“address_lines”: [</p>
+<blockquote>
+<div>“1600 Pennsylvania Ave”</div></blockquote>
+<p class="last">],
+“locality”: “Washington”,
+“region”: “DC”,
+“postal_code”: “20009”,
+“country”: “US”</p>
+</dd>
+</dl>
+<p>}</p>
+</div></blockquote>
+</dd>
+</dl>
+</dd>
+<dt><cite>Returns:</cite></dt>
+<dd>Dict of Action Network Event data.</dd>
+</dl>
+</dd></dl>
+
 </dd></dl>
 
 </div>

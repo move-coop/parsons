@@ -114,7 +114,7 @@ class SavedLists(object):
         rando = str(uuid.uuid1())
         file_name = rando + '.csv'
         url = cloud_storage.post_file(tbl, url_type, file_path=rando + '.zip', **url_kwargs)
-        url_for_van = url.split('?')[0]  # hack around https://github.com/move-coop/parsons/issues/513
+        url_for_van = url.split('?')[0]  # hack around github.com/move-coop/parsons/issues/513
         logger.info(f'Table uploaded to {url_type}.')
 
         # VAN errors for this method are not particularly useful or helpful. For that reason, we
@@ -159,7 +159,7 @@ class SavedLists(object):
 
         logger.info(json)
         file_load_job_response = self.connection.post_request('fileLoadingJobs', json=json)
-        job_id = r['jobId']
+        job_id = file_load_job_response['jobId']
         logger.info(f'Score loading job {job_id} created.')
         callback_response = self.connection.get_request(callback_url)
         logger.info(callback_response)

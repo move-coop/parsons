@@ -161,7 +161,7 @@ class SavedLists(object):
         file_load_job_response = self.connection.post_request('fileLoadingJobs', json=json)
         job_id = file_load_job_response['jobId']
         logger.info(f'Score loading job {job_id} created. Reference '
-                     'callback url to check for job status')
+                    'callback url to check for job status')
         return file_load_job_response
 
     def upload_saved_list(self, tbl, list_name, folder_id, url_type, id_type='vanid', replace=False,

@@ -67,7 +67,7 @@ class SavedLists(object):
         else:
             return Table.from_csv(job['downloadUrl'])
 
-    def upload_saved_list_rest(self, tbl, url_type, folder_id, list_name,
+    def upload_saved_list_rest(self, tbl, folder_id, list_name,
                                description, callback_url, columns, id_column,
                                delimiter='csv', header=True, quotes=True,
                                overwrite=None, **url_kwargs):
@@ -216,7 +216,7 @@ class SavedLists(object):
         # i think we dont need this if we have the warning in the funciton description,
         # perhapse a style/standanrds decision
         if id_type == 'vanid':
-            logger.warn('The NVPVAN SOAP API is deprecated, consider using '
+            logger.warning('The NVPVAN SOAP API is deprecated, consider using '
                         'parsons.VAN.upload_saved_list_rest if you are '
                         'uploading a list of vanids.')
         # Create XML

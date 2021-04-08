@@ -70,7 +70,7 @@ class SavedLists(object):
     def upload_saved_list_rest(self, tbl, url_type, folder_id, list_name,
                                description, callback_url, columns, id_column,
                                delimiter='csv', header=True, quotes=True,
-                               overwrite=False, **url_kwargs):
+                               overwrite=None, **url_kwargs):
         """
         Upload a saved list. Invalid or unmatched person id records will be ignored. Your api user
         must be shared on the target folder.
@@ -100,7 +100,7 @@ class SavedLists(object):
             quotes: boolean
                  Whether or not fields are enclosed in quotation marks within each
                  column of the file.
-            overwrite: boolean
+            overwrite: int
                 Replace saved list if already exists.
             **url_kwargs: kwargs
                 Arguments to configure your cloud storage url type.
@@ -111,8 +111,10 @@ class SavedLists(object):
                 Upload results information included the number of matched and saved
                 records in your list.
         """
-        file_name = str(uuid.uuid1())
-        url = cloud_storage.post_file(tbl, url_type, file_path=file_name + '.zip', **url_kwargs)
+        rando = str(uuid.uuid1())
+        file_name = rando + '.csv'
+        url = cloud_storage.post_file(tbl, url_type, file_path=rando + '.zip', **url_kwargs)
+        logger.info(url)
         logger.info(f'Table uploaded to {url_type}.')
 
         # VAN errors for this method are not particularly useful or helpful. For that reason, we
@@ -121,13 +123,9 @@ class SavedLists(object):
         if folder_id not in [x['folderId'] for x in self.get_folders()]:
             raise ValueError("Folder does not exist or is not shared with API user.")
 
-        if not overwrite:
-            if list_name in [x['name'] for x in self.get_saved_lists(folder_id)]:
-                raise ValueError("Saved list already exists. Set overwrite "
-                                 "argument to True or change list name.")
-
-                # To Do: Validate that it is a .zip file. Not entirely sure if this is possible
-                # as some urls might not end in ".zip".
+        if list_name in [x['name'] for x in self.get_saved_lists(folder_id)]:
+            raise ValueError("Saved list already exists. Set overwrite "
+                             "argument to list ID or change list name.")
 
         if delimiter not in ['csv', 'tab', 'pipe']:
             raise ValueError("Delimiter must be one of 'csv', 'tab' or 'pipe'")
@@ -147,19 +145,24 @@ class SavedLists(object):
                 "actions": [
                     {"actionType": "LoadSavedListFile",
                      "listDescription": description,
+                     "listName": list_name,
                      "personIdColumn": id_column,
-                     "personIdType": "VANID",
-                     "overwriteExistingListId": overwrite}],
+                     "folderId": folder_id,
+                     "personIdType": "VANID"}],
                 "listeners": [
                     {"type": "URL",
                      "value": callback_url}]
                 }
 
+        if overwrite:
+            json["actions"][0]["overwriteExistingListId"] = overwrite
+
+        logger.info(json)
         r = self.connection.post_request('fileLoadingJobs', json=json)
         job_id = r['jobId']
         logger.info(f'Score loading job {job_id} created.')
         r = self.connection.get_request(callback_url)
-        logger.info(f'INSERT REAL response from Callback response.')
+        logger.info(r)
         return r
 
     def upload_saved_list(self, tbl, list_name, folder_id, url_type, id_type='vanid', replace=False,

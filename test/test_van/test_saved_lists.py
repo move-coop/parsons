@@ -82,11 +82,11 @@ class TestSavedLists(unittest.TestCase):
                 folder_id=1, list_name="GOTV List", description="parsons test list",
                 callback_url="https://webhook.site/69ab58c3-a3a7-4ed8-828c-1ea850cb4160",
                 columns=["VANID"], id_column="VANID",
-                bucket="tmc-scratch,
+                bucket="tmc-scratch",
                 overwrite=517612
                 )
             self.assertIn("jobId", response)
-                        
+
     @requests_mock.Mocker()
     def test_get_folders(self, m):
 

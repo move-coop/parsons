@@ -176,7 +176,8 @@ class GoogleSheets:
             editor_email: str (optional)
                 Email address which should be given permissions on this spreadsheet
             folder_id: str (optional)
-                ID of the Google folder where the spreadsheet should be created. Tip: Get this from the folder URL.
+                ID of the Google folder where the spreadsheet should be created.
+                Tip: Get this from the folder URL.
                 Anyone shared on the folder will have access to the spreadsheet.
 
         `Returns:`

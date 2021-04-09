@@ -1033,9 +1033,9 @@ with. To share publicly, set sharee value to <code class="docutils literal notra
 
 <dl class="method">
 <dt id="parsons.google.google_sheets.GoogleSheets.create_spreadsheet">
-<code class="descname">create_spreadsheet</code><span class="sig-paren">(</span><em>title</em>, <em>editor_email=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/google/google_sheets.html#GoogleSheets.create_spreadsheet"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.google.google_sheets.GoogleSheets.create_spreadsheet" title="Permalink to this definition">¶</a></dt>
+<code class="descname">create_spreadsheet</code><span class="sig-paren">(</span><em>title</em>, <em>editor_email=None</em>, <em>folder_id=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/google/google_sheets.html#GoogleSheets.create_spreadsheet"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.google.google_sheets.GoogleSheets.create_spreadsheet" title="Permalink to this definition">¶</a></dt>
 <dd><p>Create a Google spreadsheet from a Parsons table. Optionally shares the new doc with
-the given email address.</p>
+the given email address. Optionally creates the sheet in a specified folder.</p>
 <dl class="docutils">
 <dt><cite>Args:</cite></dt>
 <dd><dl class="first last docutils">
@@ -1043,6 +1043,10 @@ the given email address.</p>
 <dd>The human-readable title of the new spreadsheet</dd>
 <dt>editor_email: str (optional)</dt>
 <dd>Email address which should be given permissions on this spreadsheet</dd>
+<dt>folder_id: str (optional)</dt>
+<dd>ID of the Google folder where the spreadsheet should be created.
+Tip: Get this from the folder URL.
+Anyone shared on the folder will have access to the spreadsheet.</dd>
 </dl>
 </dd>
 <dt><cite>Returns:</cite></dt>

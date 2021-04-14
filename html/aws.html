@@ -850,7 +850,7 @@ commit manually with <code class="docutils literal notranslate"><span class="pre
 
 <dl class="function">
 <dt id="parsons.Redshift.copy">
-<code class="descclassname">parsons.Redshift.</code><code class="descname">copy</code><span class="sig-paren">(</span><em>self</em>, <em>tbl</em>, <em>table_name</em>, <em>if_exists='fail'</em>, <em>max_errors=0</em>, <em>distkey=None</em>, <em>sortkey=None</em>, <em>padding=None</em>, <em>statupdate=False</em>, <em>compupdate=True</em>, <em>acceptanydate=True</em>, <em>emptyasnull=True</em>, <em>blanksasnull=True</em>, <em>nullas=None</em>, <em>acceptinvchars=True</em>, <em>dateformat='auto'</em>, <em>timeformat='auto'</em>, <em>varchar_max=None</em>, <em>truncatecolumns=False</em>, <em>columntypes=None</em>, <em>specifycols=None</em>, <em>alter_table=False</em>, <em>aws_access_key_id=None</em>, <em>aws_secret_access_key=None</em>, <em>iam_role=None</em>, <em>cleanup_s3_file=True</em>, <em>template_table=None</em>, <em>temp_bucket_region=None</em>, <em>strict_length=True</em><span class="sig-paren">)</span><a class="headerlink" href="#parsons.Redshift.copy" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">parsons.Redshift.</code><code class="descname">copy</code><span class="sig-paren">(</span><em>self</em>, <em>tbl</em>, <em>table_name</em>, <em>if_exists='fail'</em>, <em>max_errors=0</em>, <em>distkey=None</em>, <em>sortkey=None</em>, <em>padding=None</em>, <em>statupdate=False</em>, <em>compupdate=True</em>, <em>acceptanydate=True</em>, <em>emptyasnull=True</em>, <em>blanksasnull=True</em>, <em>nullas=None</em>, <em>acceptinvchars=True</em>, <em>dateformat='auto'</em>, <em>timeformat='auto'</em>, <em>varchar_max=None</em>, <em>truncatecolumns=False</em>, <em>columntypes=None</em>, <em>specifycols=None</em>, <em>alter_table=False</em>, <em>alter_table_cascade=False</em>, <em>aws_access_key_id=None</em>, <em>aws_secret_access_key=None</em>, <em>iam_role=None</em>, <em>cleanup_s3_file=True</em>, <em>template_table=None</em>, <em>temp_bucket_region=None</em>, <em>strict_length=True</em><span class="sig-paren">)</span><a class="headerlink" href="#parsons.Redshift.copy" title="Permalink to this definition">¶</a></dt>
 <dd><p>Copy a <a class="reference internal" href="table.html#parsons-table"><span class="std std-ref">Parsons Table</span></a> to Redshift.</p>
 <dl class="docutils">
 <dt><cite>Args:</cite></dt>
@@ -917,7 +917,11 @@ column and that column name is among the source table’s columns.</p>
 <dt>alter_table: boolean</dt>
 <dd>Will check if the target table varchar widths are wide enough to copy in the
 table data. If not, will attempt to alter the table to make it wide enough. This
-will not work with tables that have dependent views.</dd>
+will not work with tables that have dependent views. To drop them, set
+<code class="docutils literal notranslate"><span class="pre">alter_table_cascade</span></code> to True.</dd>
+<dt>alter_table_cascade: boolean</dt>
+<dd>Will drop dependent objects when attempting to alter the table. If <code class="docutils literal notranslate"><span class="pre">alter_table</span></code>
+is not <code class="docutils literal notranslate"><span class="pre">True</span></code>, this will be ignored.</dd>
 <dt>aws_access_key_id:</dt>
 <dd>An AWS access key granted to the bucket where the file is located. Not required
 if keys are stored as environmental variables.</dd>

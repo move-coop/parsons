@@ -574,7 +574,7 @@
              <span class="n">sortkey</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">padding</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">statupdate</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">compupdate</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">acceptanydate</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
              <span class="n">emptyasnull</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">blanksasnull</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">nullas</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">acceptinvchars</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
              <span class="n">dateformat</span><span class="o">=</span><span class="s1">&#39;auto&#39;</span><span class="p">,</span> <span class="n">timeformat</span><span class="o">=</span><span class="s1">&#39;auto&#39;</span><span class="p">,</span> <span class="n">varchar_max</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">truncatecolumns</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
-             <span class="n">columntypes</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">specifycols</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">alter_table</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+             <span class="n">columntypes</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">specifycols</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">alter_table</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">alter_table_cascade</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
              <span class="n">aws_access_key_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">aws_secret_access_key</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">iam_role</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
              <span class="n">cleanup_s3_file</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">template_table</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">temp_bucket_region</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
              <span class="n">strict_length</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
@@ -644,7 +644,11 @@
 <span class="sd">            alter_table: boolean</span>
 <span class="sd">                Will check if the target table varchar widths are wide enough to copy in the</span>
 <span class="sd">                table data. If not, will attempt to alter the table to make it wide enough. This</span>
-<span class="sd">                will not work with tables that have dependent views.</span>
+<span class="sd">                will not work with tables that have dependent views. To drop them, set</span>
+<span class="sd">                ``alter_table_cascade`` to True.</span>
+<span class="sd">            alter_table_cascade: boolean</span>
+<span class="sd">                Will drop dependent objects when attempting to alter the table. If ``alter_table``</span>
+<span class="sd">                is not ``True``, this will be ignored.</span>
 <span class="sd">            aws_access_key_id:</span>
 <span class="sd">                An AWS access key granted to the bucket where the file is located. Not required</span>
 <span class="sd">                if keys are stored as environmental variables.</span>
@@ -701,7 +705,8 @@
             <span class="c1"># If alter_table is True, then alter table if the table column widths</span>
             <span class="c1"># are wider than the existing table.</span>
             <span class="k">if</span> <span class="n">alter_table</span><span class="p">:</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">alter_varchar_column_widths</span><span class="p">(</span><span class="n">tbl</span><span class="p">,</span> <span class="n">table_name</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">alter_varchar_column_widths</span><span class="p">(</span>
+                    <span class="n">tbl</span><span class="p">,</span> <span class="n">table_name</span><span class="p">,</span> <span class="n">drop_dependencies</span><span class="o">=</span><span class="n">alter_table_cascade</span><span class="p">)</span>
 
             <span class="c1"># Upload the table to S3</span>
             <span class="n">key</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">temp_s3_copy</span><span class="p">(</span><span class="n">tbl</span><span class="p">,</span> <span class="n">aws_access_key_id</span><span class="o">=</span><span class="n">aws_access_key_id</span><span class="p">,</span>
@@ -1023,7 +1028,42 @@
                 <span class="bp">self</span><span class="o">.</span><span class="n">query_with_connection</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;VACUUM </span><span class="si">{</span><span class="n">target_table</span><span class="si">}</span><span class="s1">;&#39;</span><span class="p">,</span> <span class="n">connection</span><span class="p">)</span>
                 <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">target_table</span><span class="si">}</span><span class="s1"> vacuumed.&#39;</span><span class="p">)</span>
 
-    <span class="k">def</span> <span class="nf">alter_varchar_column_widths</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tbl</span><span class="p">,</span> <span class="n">table_name</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">drop_dependencies_for_cols</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">schema</span><span class="p">,</span> <span class="n">table</span><span class="p">,</span> <span class="n">cols</span><span class="p">):</span>
+        <span class="n">fmt_cols</span> <span class="o">=</span> <span class="s2">&quot;, &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="sa">f</span><span class="s2">&quot;&#39;</span><span class="si">{</span><span class="n">c</span><span class="si">}</span><span class="s2">&#39;&quot;</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">cols</span><span class="p">])</span>
+        <span class="n">sql_depend</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">            select</span>
+<span class="s2">                distinct dependent_ns.nspname||&#39;.&#39;||dependent_view.relname as table_name</span>
+<span class="s2">            from pg_depend</span>
+<span class="s2">            join pg_rewrite</span>
+<span class="s2">                on pg_depend.objid = pg_rewrite.oid</span>
+<span class="s2">            join pg_class as dependent_view</span>
+<span class="s2">                on pg_rewrite.ev_class = dependent_view.oid</span>
+<span class="s2">            join pg_class as source_table</span>
+<span class="s2">                on pg_depend.refobjid = source_table.oid</span>
+<span class="s2">            join pg_attribute</span>
+<span class="s2">                on pg_depend.refobjid = pg_attribute.attrelid</span>
+<span class="s2">                and pg_depend.refobjsubid = pg_attribute.attnum</span>
+<span class="s2">            join pg_namespace dependent_ns</span>
+<span class="s2">                on dependent_ns.oid = dependent_view.relnamespace</span>
+<span class="s2">            join pg_namespace source_ns on source_ns.oid = source_table.relnamespace</span>
+<span class="s2">            where</span>
+<span class="s2">                source_ns.nspname = &#39;</span><span class="si">{</span><span class="n">schema</span><span class="si">}</span><span class="s2">&#39;</span>
+<span class="s2">                and source_table.relname = &#39;</span><span class="si">{</span><span class="n">table</span><span class="si">}</span><span class="s2">&#39;</span>
+<span class="s2">                and pg_attribute.attname in (</span><span class="si">{</span><span class="n">fmt_cols</span><span class="si">}</span><span class="s2">)</span>
+<span class="s2">            ;</span>
+<span class="s2">        &quot;&quot;&quot;</span>
+
+        <span class="k">with</span> <span class="bp">self</span><span class="o">.</span><span class="n">connection</span><span class="p">()</span> <span class="k">as</span> <span class="n">connection</span><span class="p">:</span>
+            <span class="n">connection</span><span class="o">.</span><span class="n">set_session</span><span class="p">(</span><span class="n">autocommit</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+            <span class="n">tbl</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">query_with_connection</span><span class="p">(</span><span class="n">sql_depend</span><span class="p">,</span> <span class="n">connection</span><span class="p">)</span>
+            <span class="n">dropped_views</span> <span class="o">=</span> <span class="p">[</span><span class="n">row</span><span class="p">[</span><span class="s1">&#39;table_name&#39;</span><span class="p">]</span> <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">tbl</span><span class="p">]</span>
+            <span class="n">sql_drop</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="sa">f</span><span class="s2">&quot;drop view </span><span class="si">{</span><span class="n">view</span><span class="si">}</span><span class="s2">;&quot;</span> <span class="k">for</span> <span class="n">view</span> <span class="ow">in</span> <span class="n">dropped_views</span><span class="p">])</span>
+            <span class="n">tbl</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">query_with_connection</span><span class="p">(</span><span class="n">sql_drop</span><span class="p">,</span> <span class="n">connection</span><span class="p">)</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Dropped the following views: </span><span class="si">{</span><span class="n">dropped_views</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">tbl</span>
+
+    <span class="k">def</span> <span class="nf">alter_varchar_column_widths</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tbl</span><span class="p">,</span> <span class="n">table_name</span><span class="p">,</span> <span class="n">drop_dependencies</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Alter the width of a varchar columns in a Redshift table to match the widths</span>
 <span class="sd">        of a Parsons table. The columns are matched by column name and not their</span>
@@ -1047,7 +1087,9 @@
         <span class="c1"># Determine the max width of the varchar columns in the Redshift table</span>
         <span class="n">s</span><span class="p">,</span> <span class="n">t</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">split_full_table_name</span><span class="p">(</span><span class="n">table_name</span><span class="p">)</span>
         <span class="n">cols</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_columns</span><span class="p">(</span><span class="n">s</span><span class="p">,</span> <span class="n">t</span><span class="p">)</span>
-        <span class="n">rc</span> <span class="o">=</span> <span class="p">{</span><span class="n">k</span><span class="p">:</span> <span class="n">v</span><span class="p">[</span><span class="s1">&#39;max_length&#39;</span><span class="p">]</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">cols</span><span class="o">.</span><span class="n">items</span><span class="p">()</span> <span class="k">if</span> <span class="n">v</span><span class="p">[</span><span class="s1">&#39;data_type&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;character varying&#39;</span><span class="p">}</span> <span class="c1"># noqa: E501, E261</span>
+        <span class="n">rc</span> <span class="o">=</span> <span class="p">{</span><span class="n">k</span><span class="p">:</span> <span class="n">v</span><span class="p">[</span><span class="s1">&#39;max_length&#39;</span><span class="p">]</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">cols</span><span class="o">.</span><span class="n">items</span><span class="p">()</span> <span class="k">if</span> <span class="n">v</span><span class="p">[</span><span class="s1">&#39;data_type&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;character varying&#39;</span><span class="p">}</span>  <span class="c1"># noqa: E501, E261</span>
+        <span class="k">if</span> <span class="n">drop_dependencies</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">drop_dependencies_for_cols</span><span class="p">(</span><span class="n">s</span><span class="p">,</span> <span class="n">t</span><span class="p">,</span> <span class="n">rc</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span>
 
         <span class="c1"># Figure out if any of the destination table varchar columns are smaller than the</span>
         <span class="c1"># associated Parsons table columns. If they are, then alter column types to expand</span>

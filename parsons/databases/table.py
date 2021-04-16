@@ -32,7 +32,12 @@ class BaseTable:
         Get the maximum primary key in the table.
         """
 
-        return self.db.query(f"SELECT MAX({primary_key}) FROM {self.table}").first
+        return self.db.query(f"""
+            SELECT {primary_key}
+            FROM {self.table}
+            ORDER BY {primary_key} DESC
+            LIMIT 1
+        """).first
 
     def distinct_primary_key(self, primary_key):
         """
@@ -70,12 +75,15 @@ class BaseTable:
 
         return self.db.table_exists(self.table)
 
-    def get_rows(self, offset=0, chunk_size=None):
+    def get_rows(self, offset=0, chunk_size=None, order_by=None):
         """
         Get rows from a table.
         """
 
         sql = f"SELECT * FROM {self.table}"
+
+        if order_by:
+            sql += f" ORDER BY {order_by}"
 
         if chunk_size:
             sql += f" LIMIT {chunk_size}"
@@ -84,7 +92,7 @@ class BaseTable:
 
         return self.db.query(sql)
 
-    def get_new_rows_count(self, primary_key_col, start_value):
+    def get_new_rows_count(self, primary_key_col, start_value=None):
         """
         Get a count of rows that have a greater primary key value
         than the one provided.
@@ -94,10 +102,16 @@ class BaseTable:
                SELECT
                COUNT(*)
                FROM {self.table}
-               WHERE {primary_key_col} > %s
                """
+        params = []
 
-        return self.db.query(sql, [start_value]).first
+        if start_value:
+            sql += f"""
+                    WHERE {primary_key_col} > %s
+                    """
+            params = [start_value]
+
+        return self.db.query(sql, params).first
 
     def get_new_rows(self, primary_key, cutoff_value, offset=0, chunk_size=None):
         """
@@ -108,7 +122,7 @@ class BaseTable:
         """
 
         if cutoff_value is not None:
-            where_clause = f'where {primary_key} > %s'
+            where_clause = f"WHERE {primary_key} > %s"
             parameters = [cutoff_value]
         else:
             where_clause = ''
@@ -119,6 +133,7 @@ class BaseTable:
                *
                FROM {self.table}
                {where_clause}
+               ORDER BY {primary_key}
                """
 
         if chunk_size:

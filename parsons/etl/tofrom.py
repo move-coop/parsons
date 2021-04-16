@@ -557,9 +557,10 @@ class ToFrom(object):
         from parsons.civis.civisclient import CivisClient
         civis = CivisClient(db=db, api_key=api_key)
         return civis.table_import(
-            self, table, max_errors=None,
-            existing_table_rows=existing_table_rows, diststyle=None,
-            distkey=None, sortkey1=None, sortkey2=None, wait=True, **civisargs)
+            self, table, max_errors=max_errors,
+            existing_table_rows=existing_table_rows, diststyle=diststyle,
+            distkey=distkey, sortkey1=sortkey1, sortkey2=sortkey2, wait=wait,
+            **civisargs)
 
     @classmethod
     def from_csv(cls, local_path, **csvargs):

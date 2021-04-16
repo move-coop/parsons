@@ -139,6 +139,14 @@ class TestActionKit(unittest.TestCase):
             })
         )
 
+    def test_get_event(self):
+        # Test get event
+        self.actionkit.get_event(1)
+        self.actionkit.conn.get.assert_called_with(
+            'https://domain.actionkit.com/rest/v1/event/1/',
+            params=None
+        )
+
     def test_get_event_create_page(self):
         # Test get event create page
         self.actionkit.get_event_create_page(123)

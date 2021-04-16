@@ -1,17 +1,17 @@
 requests==2.20.0
-petl==1.2.0
+petl==1.6.8
 boto3==1.9.25
 boxsdk==2.10.0
 civis==1.14.2
 slackclient==1.3.0
 psycopg2-binary==2.8.5
 xmltodict==0.11.0
-gspread==3.3.0
+gspread==3.7.0
 oauth2client==4.1.3
 facebook-business==6.0.0
 google-api-python-client==1.7.7
 google-resumable-media!=0.4.0,<0.5.0dev,>=0.3.1
-httplib2==0.18.0
+httplib2==0.19.0
 validate-email==1.3
 paramiko==2.7.1
 xmltodict==0.11.0
@@ -33,6 +33,8 @@ python-dateutil==2.8.1
 azure-storage-blob==12.3.2
 PyGitHub==1.51
 surveygizmo==1.2.3
+PyJWT==2.0.1 # Otherwise `import jwt` would refer to python-jwt package
+SQLAlchemy==1.3.23
 
 # Testing Requirements
 requests-mock==1.5.2
@@ -44,4 +46,4 @@ pytest-datadir==1.3.0
 # Stuff for TMC scripts
 # TODO Remove when we have a TMC-specific Docker image
 selenium==3.141.0
-Jinja2==2.10.1
+Jinja2==2.11.3

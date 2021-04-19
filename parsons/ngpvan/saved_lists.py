@@ -67,9 +67,109 @@ class SavedLists(object):
         else:
             return Table.from_csv(job['downloadUrl'])
 
+    def upload_saved_list_rest(self, tbl, url_type, folder_id, list_name,
+                               description, callback_url, columns, id_column,
+                               delimiter='csv', header=True, quotes=True,
+                               overwrite=None, **url_kwargs):
+        """
+        Upload a saved list. Invalid or unmatched person id records will be ignored. Your api user
+        must be shared on the target folder.
+
+        `Args:`
+            tbl: parsons.Table
+                A parsons table object containing one column of person ids.
+            url_type: str
+                The cloud file storage to use to post the file. Currently only ``S3``.
+            folder_id: int
+                The folder id where the list will be stored.
+            list_name: str
+                The saved list name.
+            description: str
+                Description of the file upload job and the list.
+            callback_url: string
+                The configured HTTP listener to which successful list loads will send
+                a standard webhook.
+            columns: list
+                A list of column names contained in the file.
+            id_column : str
+                The column name of the VAN ID column in the file. Must be VAN ID.
+            delimiter: str
+                The file delimiter used.
+            header: boolean
+                Whether or not the source file has a header row.
+            quotes: boolean
+                 Whether or not fields are enclosed in quotation marks within each
+                 column of the file.
+            overwrite: int
+                Replace saved list if already exists.
+            **url_kwargs: kwargs
+                Arguments to configure your cloud storage url type.
+                    * S3 requires ``bucket`` argument and, if not stored as env variables
+                      ``aws_access_key`` and ``aws_secret_access_key``.
+        `Returns:`
+            dict
+                Upload results information included the number of matched and saved
+                records in your list.
+        """
+        rando = str(uuid.uuid1())
+        file_name = rando + '.csv'
+        url = cloud_storage.post_file(tbl, url_type, file_path=rando + '.zip', **url_kwargs)
+        url_for_van = url.split('?')[0]  # hack around github.com/move-coop/parsons/issues/513
+        logger.info(f'Table uploaded to {url_type}.')
+
+        # VAN errors for this method are not particularly useful or helpful. For that reason, we
+        # will check that the folder exists and if the list already exists.
+        logger.info('Validating folder id and list name.')
+        if folder_id not in [x['folderId'] for x in self.get_folders()]:
+            raise ValueError("Folder does not exist or is not shared with API user.")
+
+        if list_name in [x['name'] for x in self.get_saved_lists(folder_id)]:
+            raise ValueError("Saved list already exists. Set overwrite "
+                             "argument to list ID or change list name.")
+
+        if delimiter not in ['csv', 'tab', 'pipe']:
+            raise ValueError("Delimiter must be one of 'csv', 'tab' or 'pipe'")
+
+        columns = [{'name': c} for c in columns]
+        delimiter = delimiter.capitalize()
+
+        json = {"description": description,
+                "file": {
+                    "columnDelimiter": delimiter,
+                    "columns": columns,
+                    "fileName": file_name,
+                    "hasHeader": header,
+                    "hasQuotes": quotes,
+                    "sourceUrl": url_for_van
+                },
+                "actions": [
+                    {"actionType": "LoadSavedListFile",
+                     "listDescription": description,
+                     "listName": list_name,
+                     "personIdColumn": id_column,
+                     "folderId": folder_id,
+                     "personIdType": "VANID"}],
+                "listeners": [
+                    {"type": "URL",
+                     "value": callback_url}]
+                }
+
+        if overwrite:
+            json["actions"][0]["overwriteExistingListId"] = overwrite
+
+        logger.info(json)
+        file_load_job_response = self.connection.post_request('fileLoadingJobs', json=json)
+        job_id = file_load_job_response['jobId']
+        logger.info(f'Score loading job {job_id} created. Reference '
+                    'callback url to check for job status')
+        return file_load_job_response
+
     def upload_saved_list(self, tbl, list_name, folder_id, url_type, id_type='vanid', replace=False,
                           **url_kwargs):
         """
+            .. warning::
+               .. deprecated:: 0.X Use :func:`parsons.VAN.upload_saved_list_rest` instead.
+
         Upload a saved list. Invalid or unmatched person id records will be ignored. Your api user
         must be shared on the target folder.
 
@@ -80,7 +180,7 @@ class SavedLists(object):
                 The saved list name.
             folder_id: int
                 The folder id where the list will be stored.
-            url_post_type: str
+            url_type: str
                 The cloud file storage to use to post the file. Currently only ``S3``.
             id_type: str
                 The primary key type. The options, beyond ``vanid`` are specific to your
@@ -96,12 +196,28 @@ class SavedLists(object):
                 Upload results information included the number of matched and saved
                 records in your list.
         """
-
         # Move to cloud storage
         file_name = str(uuid.uuid1())
         url = cloud_storage.post_file(tbl, url_type, file_path=file_name + '.zip', **url_kwargs)
         logger.info(f'Table uploaded to {url_type}.')
 
+        # VAN errors for this method are not particularly useful or helpful. For that reason, we
+        # will check that the folder exists and if the list already exists.
+        logger.info('Validating folder id and list name.')
+        if folder_id not in [x['folderId'] for x in self.get_folders()]:
+            raise ValueError("Folder does not exist or is not shared with API user.")
+
+        if not replace:
+            if list_name in [x['name'] for x in self.get_saved_lists(folder_id)]:
+                raise ValueError("Saved list already exists. Set to replace argument to True or "
+                                 "change list name.")
+
+        # i think we dont need this if we have the warning in the funciton description,
+        # perhapse a style/standanrds decision
+        if id_type == 'vanid':
+            logger.warning('The NVPVAN SOAP API is deprecated, consider using '
+                           'parsons.VAN.upload_saved_list_rest if you are '
+                           'uploading a list of vanids.')
         # Create XML
         xml = self.connection.soap_client.factory.create('CreateAndStoreSavedListMetaData')
         xml.SavedList._Name = list_name
@@ -121,17 +237,6 @@ class SavedLists(object):
         col.Name = id_type
         col.RefersTo._Path = f"Person[@PersonIDType=\'{id_type}\']"
         col._Index = '0'
-
-        # VAN errors for this method are not particularly useful or helpful. For that reason, we
-        # will check that the folder exists and if the list already exists.
-        logger.info('Validating folder id and list name.')
-        if folder_id not in [x['folderId'] for x in self.get_folders()]:
-            raise ValueError("Folder does not exist or is not shared with API user.")
-
-        if not replace:
-            if list_name in [x['name'] for x in self.get_saved_lists(folder_id)]:
-                raise ValueError("Saved list already exists. Set to replace argument to True or "
-                                 "change list name.")
 
         # Assemble request
         file_desc.Columns.Column.append(col)

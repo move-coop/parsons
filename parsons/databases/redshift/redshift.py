@@ -800,7 +800,7 @@ class Redshift(RedshiftCreateTable, RedshiftCopyTable, RedshiftTableUtilities, R
                 if from_s3:
                     if table_obj is not None:
                         raise ValueError(
-                            'upsert() using from_s3= requires the first argument (table_obj)'
+                            'upsert(... from_s3=True) requires the first argument (table_obj)'
                             ' to be None. from_s3 and table_obj are mutually exclusive.'
                         )
                     self.copy_s3(staging_tbl,

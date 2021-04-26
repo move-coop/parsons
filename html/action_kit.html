@@ -684,6 +684,71 @@ in the <a class="reference external" href="https://roboticdogs.actionkit.com/doc
 </dd></dl>
 
 <dl class="method">
+<dt id="parsons.ActionKit.get_mailer">
+<code class="descname">get_mailer</code><span class="sig-paren">(</span><em>entity_id</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/action_kit/action_kit.html#ActionKit.get_mailer"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.ActionKit.get_mailer" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get a mailer.</p>
+<dl class="docutils">
+<dt><cite>Args:</cite></dt>
+<dd><dl class="first last docutils">
+<dt>entity_id: int</dt>
+<dd>The entity id of the record to get.</dd>
+</dl>
+</dd>
+<dt><cite>Returns</cite>:</dt>
+<dd>Mailer json object</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="parsons.ActionKit.create_mailer">
+<code class="descname">create_mailer</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/action_kit/action_kit.html#ActionKit.create_mailer"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.ActionKit.create_mailer" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create a mailer.</p>
+<dl class="docutils">
+<dt><cite>Args:</cite></dt>
+<dd><dl class="first last docutils">
+<dt><a href="#id31"><span class="problematic" id="id32">**</span></a>kwargs:</dt>
+<dd>Arguments and fields to pass to the client. A full list can be found in the
+<a class="reference external" href="https://roboticdogs.actionkit.com/docs/manual/api/rest/mailer.html">ActionKit API Documentation</a>.</dd>
+</dl>
+</dd>
+<dt><cite>Returns:</cite></dt>
+<dd>URI of new mailer</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="parsons.ActionKit.rebuild_mailer">
+<code class="descname">rebuild_mailer</code><span class="sig-paren">(</span><em>mailing_id</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/action_kit/action_kit.html#ActionKit.rebuild_mailer"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.ActionKit.rebuild_mailer" title="Permalink to this definition">¶</a></dt>
+<dd><p>Rebuild a mailer.</p>
+<dl class="docutils">
+<dt><cite>Args:</cite></dt>
+<dd><dl class="first last docutils">
+<dt>mailing_id: int</dt>
+<dd>Id of the mailer.</dd>
+</dl>
+</dd>
+<dt><cite>Returns:</cite></dt>
+<dd>URI to poll for progress</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="parsons.ActionKit.queue_mailer">
+<code class="descname">queue_mailer</code><span class="sig-paren">(</span><em>mailing_id</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/action_kit/action_kit.html#ActionKit.queue_mailer"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.ActionKit.queue_mailer" title="Permalink to this definition">¶</a></dt>
+<dd><p>Queue a mailer.</p>
+<dl class="docutils">
+<dt><cite>Args:</cite></dt>
+<dd><dl class="first last docutils">
+<dt>mailing_id: int</dt>
+<dd>Id of the mailer.</dd>
+</dl>
+</dd>
+<dt><cite>Returns:</cite></dt>
+<dd>URI to poll for progress</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
 <dt id="parsons.ActionKit.get_page_followup">
 <code class="descname">get_page_followup</code><span class="sig-paren">(</span><em>page_followup_id</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/action_kit/action_kit.html#ActionKit.get_page_followup"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.ActionKit.get_page_followup" title="Permalink to this definition">¶</a></dt>
 <dd><p>Get a page followup.</p>
@@ -721,7 +786,7 @@ in the <a class="reference external" href="https://roboticdogs.actionkit.com/doc
 <dd>The signup page to associate the followup page with</dd>
 <dt>url: str</dt>
 <dd>URL of the folloup page</dd>
-<dt><a href="#id31"><span class="problematic" id="id32">**</span></a>kwargs:</dt>
+<dt><a href="#id34"><span class="problematic" id="id35">**</span></a>kwargs:</dt>
 <dd>Optional arguments and fields to pass to the client. A full list can be found
 in the <a class="reference external" href="https://roboticdogs.actionkit.com/docs/manual/api/rest/actionprocessing.html">ActionKit API Documentation</a>.</dd>
 </dl>
@@ -744,7 +809,7 @@ in the <a class="reference external" href="https://roboticdogs.actionkit.com/doc
 <dd>The email address of the user to post the action.</dd>
 <dt>ak_id:</dt>
 <dd>The action kit id of the record.</dd>
-<dt><a href="#id34"><span class="problematic" id="id35">**</span></a>kwargs:</dt>
+<dt><a href="#id37"><span class="problematic" id="id38">**</span></a>kwargs:</dt>
 <dd>Optional arguments and fields to pass to the client. A full list can be found
 in the <a class="reference external" href="https://roboticdogs.actionkit.com/docs/manual/api/rest/actionprocessing.html">ActionKit API Documentation</a>.</dd>
 </dl>
@@ -777,10 +842,10 @@ which is more likely to return the proper 400 with a useful error message</p>
 A user_id or email column is required.
 ActionKit rejects files that are larger than 128M</dd>
 <dt>autocreate_user_fields: bool</dt>
-<dd>When True columns starting with “<a href="#id39"><span class="problematic" id="id40">user_</span></a>” will be uploaded as user fields.
+<dd>When True columns starting with “<a href="#id42"><span class="problematic" id="id43">user_</span></a>” will be uploaded as user fields.
 See the <a class="reference external" href="https://roboticdogs.actionkit.com/docs/manual/api/rest/uploads.html#create-a-multipart-post-request">autocreate_user_fields documentation</a>.</dd>
 <dt>user_fields_only: bool</dt>
-<dd>When uploading only an email/user_id column and <a href="#id41"><span class="problematic" id="id42">user_</span></a> user fields,
+<dd>When uploading only an email/user_id column and <a href="#id44"><span class="problematic" id="id45">user_</span></a> user fields,
 ActionKit has a fast processing path.
 This doesn’t work, if you upload a zipped csv though.</dd>
 </dl>
@@ -802,7 +867,7 @@ res: requests http response object</dd>
 <dd><p>Bulk upload a table of new users or user updates.
 See <a class="reference external" href="https://roboticdogs.actionkit.com/docs/manual/api/rest/uploads.html">ActionKit User Upload Documentation</a>
 Be careful that blank values in columns will overwrite existing data.</p>
-<p>Tables with only an identifying column (user_id/email) and <a href="#id43"><span class="problematic" id="id44">user_</span></a> user fields
+<p>Tables with only an identifying column (user_id/email) and <a href="#id46"><span class="problematic" id="id47">user_</span></a> user fields
 will be fast-processed – this is useful for setting/updating user fields.</p>
 <div class="admonition note">
 <p class="first admonition-title">Note</p>
@@ -818,7 +883,7 @@ which is more likely to return the proper 400 with a useful error message</p>
 <dd>A Table of user data to bulk upload
 A user_id or email column is required.</dd>
 <dt>autocreate_user_fields: bool</dt>
-<dd>When True columns starting with “<a href="#id45"><span class="problematic" id="id46">user_</span></a>” will be uploaded as user fields.
+<dd>When True columns starting with “<a href="#id48"><span class="problematic" id="id49">user_</span></a>” will be uploaded as user fields.
 <a class="reference external" href="https://actionkit.com/">ActionKit</a>.
 See the autocreate_user_fields <a class="reference external" href="https://roboticdogs.actionkit.com/docs/manual/api/rest/uploads.html#create-a-multipart-post-request">documentation</a>.</dd>
 <dt>no_overwrite_on_empty: bool</dt>

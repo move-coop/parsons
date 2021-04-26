@@ -508,6 +508,63 @@ class ActionKit(object):
                                data=json.dumps(kwargs))
         logger.info(f'{resp.status_code}: {event_signup_id}')
 
+    def get_mailer(self, entity_id):
+        """
+        Get a mailer.
+
+        `Args:`
+            entity_id: int
+                The entity id of the record to get.
+        `Returns`:
+            Mailer json object
+        """
+
+        return self._base_get(endpoint='mailer', entity_id=entity_id)
+
+    def create_mailer(self, **kwargs):
+        """
+        Create a mailer.
+
+        `Args:`
+            **kwargs:
+                Arguments and fields to pass to the client. A full list can be found in the
+                `ActionKit API Documentation <https://roboticdogs.actionkit.com/docs/manual/api/\
+                rest/mailer.html>`_.
+        `Returns:`
+            URI of new mailer
+        """
+
+        return self._base_post(endpoint='mailer', exception_message='Could not create mailer',
+                               **kwargs)
+
+    def rebuild_mailer(self, mailing_id):
+        """
+        Rebuild a mailer.
+
+        `Args:`
+            mailing_id: int
+                Id of the mailer.
+        `Returns:`
+            URI to poll for progress
+        """
+
+        return self._base_post(endpoint='mailer/' + str(mailing_id) + '/rebuild',
+                               exception_message='Could not rebuild mailer')
+
+    def queue_mailer(self, mailing_id):
+        """
+        Queue a mailer.
+
+        `Args:`
+            mailing_id: int
+                Id of the mailer.
+        `Returns:`
+            URI to poll for progress
+        """
+
+        return self._base_post(endpoint='mailer/' + str(mailing_id) + '/queue',
+                               exception_message='Could not queue mailer')
+
     def get_page_followup(self, page_followup_id):
         """
         Get a page followup.

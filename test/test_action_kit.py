@@ -276,6 +276,61 @@ class TestActionKit(unittest.TestCase):
             data=json.dumps({'email': 'test'})
         )
 
+    def test_get_mailer(self):
+        # Test get mailer
+        self.actionkit.get_mailer(123)
+        self.actionkit.conn.get.assert_called_with(
+            'https://domain.actionkit.com/rest/v1/mailer/123/',
+            params=None
+        )
+
+    def test_create_mailer(self):
+        # Test create mailer
+
+        # Mock resp and status code
+        resp_mock = mock.MagicMock()
+        type(resp_mock.post()).status_code = mock.PropertyMock(return_value=201)
+        self.actionkit.conn = resp_mock
+
+        self.actionkit.create_mailer(
+            fromline='test <test@test.com>', subjects=['test1', 'test2'], html='<p>test</p>'
+        )
+        self.actionkit.conn.post.assert_called_with(
+            'https://domain.actionkit.com/rest/v1/mailer/',
+            data=json.dumps({
+                'fromline': 'test <test@test.com>', 'subjects': ['test1', 'test2'],
+                'html': '<p>test</p>'
+            })
+        )
+
+    def test_rebuild_mailer(self):
+        # Test rebuild mailer
+
+        # Mock resp and status code
+        resp_mock = mock.MagicMock()
+        type(resp_mock.post()).status_code = mock.PropertyMock(return_value=201)
+        self.actionkit.conn = resp_mock
+
+        self.actionkit.rebuild_mailer(123)
+        self.actionkit.conn.post.assert_called_with(
+            'https://domain.actionkit.com/rest/v1/mailer/123/rebuild/',
+            data=json.dumps({})
+        )
+
+    def test_queue_mailer(self):
+        # Test queue mailer
+
+        # Mock resp and status code
+        resp_mock = mock.MagicMock()
+        type(resp_mock.post()).status_code = mock.PropertyMock(return_value=201)
+        self.actionkit.conn = resp_mock
+
+        self.actionkit.queue_mailer(123)
+        self.actionkit.conn.post.assert_called_with(
+            'https://domain.actionkit.com/rest/v1/mailer/123/queue/',
+            data=json.dumps({})
+        )
+
     def test_get_page_followup(self):
         # Test get page followup
         self.actionkit.get_page_followup(123)

@@ -959,7 +959,7 @@ of the data in <code class="docutils literal notranslate"><span class="pre">tbl<
 
 <dl class="function">
 <dt id="parsons.Redshift.copy_s3">
-<code class="descclassname">parsons.Redshift.</code><code class="descname">copy_s3</code><span class="sig-paren">(</span><em>self</em>, <em>table_name</em>, <em>bucket</em>, <em>key</em>, <em>manifest=False</em>, <em>data_type='csv'</em>, <em>csv_delimiter='</em>, <em>'</em>, <em>compression=None</em>, <em>if_exists='fail'</em>, <em>max_errors=0</em>, <em>distkey=None</em>, <em>sortkey=None</em>, <em>padding=None</em>, <em>varchar_max=None</em>, <em>statupdate=True</em>, <em>compupdate=True</em>, <em>ignoreheader=1</em>, <em>acceptanydate=True</em>, <em>dateformat='auto'</em>, <em>timeformat='auto'</em>, <em>emptyasnull=True</em>, <em>blanksasnull=True</em>, <em>nullas=None</em>, <em>acceptinvchars=True</em>, <em>truncatecolumns=False</em>, <em>columntypes=None</em>, <em>specifycols=None</em>, <em>aws_access_key_id=None</em>, <em>aws_secret_access_key=None</em>, <em>bucket_region=None</em>, <em>strict_length=True</em><span class="sig-paren">)</span><a class="headerlink" href="#parsons.Redshift.copy_s3" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">parsons.Redshift.</code><code class="descname">copy_s3</code><span class="sig-paren">(</span><em>self</em>, <em>table_name</em>, <em>bucket</em>, <em>key</em>, <em>manifest=False</em>, <em>data_type='csv'</em>, <em>csv_delimiter='</em>, <em>'</em>, <em>compression=None</em>, <em>if_exists='fail'</em>, <em>max_errors=0</em>, <em>distkey=None</em>, <em>sortkey=None</em>, <em>padding=None</em>, <em>varchar_max=None</em>, <em>statupdate=True</em>, <em>compupdate=True</em>, <em>ignoreheader=1</em>, <em>acceptanydate=True</em>, <em>dateformat='auto'</em>, <em>timeformat='auto'</em>, <em>emptyasnull=True</em>, <em>blanksasnull=True</em>, <em>nullas=None</em>, <em>acceptinvchars=True</em>, <em>truncatecolumns=False</em>, <em>columntypes=None</em>, <em>specifycols=None</em>, <em>aws_access_key_id=None</em>, <em>aws_secret_access_key=None</em>, <em>bucket_region=None</em>, <em>strict_length=True</em>, <em>template_table=None</em><span class="sig-paren">)</span><a class="headerlink" href="#parsons.Redshift.copy_s3" title="Permalink to this definition">¶</a></dt>
 <dd><p>Copy a file from s3 to Redshift.</p>
 <dl class="docutils">
 <dt><cite>Args:</cite></dt>
@@ -1050,6 +1050,10 @@ the created table’s column sizes will be sized to exactly fit the current data
 or if their size will be rounded up to account for future values being larger
 then the current dataset. defaults to <code class="docutils literal notranslate"><span class="pre">True</span></code>; this argument is ignored if
 <code class="docutils literal notranslate"><span class="pre">padding</span></code> is specified</dd>
+<dt>template_table: str</dt>
+<dd>Instead of specifying columns, columntypes, and/or inference, if there
+is a pre-existing table that has the same columns/types, then use the template_table
+table name as the schema for the new table.</dd>
 </dl>
 </dd>
 <dt><cite>Returns</cite></dt>
@@ -1119,7 +1123,7 @@ required if keys are stored as environmental variables.</dd>
 
 <dl class="function">
 <dt id="parsons.Redshift.upsert">
-<code class="descclassname">parsons.Redshift.</code><code class="descname">upsert</code><span class="sig-paren">(</span><em>self</em>, <em>table_obj</em>, <em>target_table</em>, <em>primary_key</em>, <em>vacuum=True</em>, <em>distinct_check=True</em>, <em>cleanup_temp_table=True</em>, <em>alter_table=True</em>, <em>**copy_args</em><span class="sig-paren">)</span><a class="headerlink" href="#parsons.Redshift.upsert" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">parsons.Redshift.</code><code class="descname">upsert</code><span class="sig-paren">(</span><em>self</em>, <em>table_obj</em>, <em>target_table</em>, <em>primary_key</em>, <em>vacuum=True</em>, <em>distinct_check=True</em>, <em>cleanup_temp_table=True</em>, <em>alter_table=True</em>, <em>from_s3=False</em>, <em>**copy_args</em><span class="sig-paren">)</span><a class="headerlink" href="#parsons.Redshift.upsert" title="Permalink to this definition">¶</a></dt>
 <dd><p>Preform an upsert on an existing table. An upsert is a function in which records
 in a table are updated and inserted at the same time. Unlike other SQL databases,
 it does not exist natively in Redshift.</p>
@@ -1140,6 +1144,12 @@ if you lack these priviledges.</dd>
 <dd>Check if the primary key column is distinct. Raise error if not.</dd>
 <dt>cleanup_temp_table: boolean</dt>
 <dd>A temp table is dropped by default on cleanup. You can set to False for debugging.</dd>
+<dt>alter_table: boolean</dt>
+<dd>Set to False to avoid automatic varchar column resizing to accomodate new data</dd>
+<dt>from_s3: boolean</dt>
+<dd>Instead of specifying a table_obj (set the first argument to None),
+set this to True and include <code class="xref py py-func docutils literal notranslate"><span class="pre">copy_s3()</span></code> arguments
+to upsert a pre-existing s3 file into the target_table</dd>
 <dt>**copy_args: kwargs</dt>
 <dd>See <code class="xref py py-func docutils literal notranslate"><span class="pre">copy()</span></code> for options.</dd>
 </dl>

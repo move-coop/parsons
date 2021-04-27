@@ -430,7 +430,7 @@
                 <span class="n">blanksasnull</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">nullas</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">acceptinvchars</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">truncatecolumns</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
                 <span class="n">columntypes</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">specifycols</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
                 <span class="n">aws_access_key_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">aws_secret_access_key</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">bucket_region</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-                <span class="n">strict_length</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+                <span class="n">strict_length</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">template_table</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Copy a file from s3 to Redshift.</span>
 
@@ -521,6 +521,10 @@
 <span class="sd">                or if their size will be rounded up to account for future values being larger</span>
 <span class="sd">                then the current dataset. defaults to ``True``; this argument is ignored if</span>
 <span class="sd">                ``padding`` is specified</span>
+<span class="sd">            template_table: str</span>
+<span class="sd">                Instead of specifying columns, columntypes, and/or inference, if there</span>
+<span class="sd">                is a pre-existing table that has the same columns/types, then use the template_table</span>
+<span class="sd">                table name as the schema for the new table.</span>
 
 <span class="sd">        `Returns`</span>
 <span class="sd">            Parsons Table or ``None``</span>
@@ -530,24 +534,26 @@
         <span class="k">with</span> <span class="bp">self</span><span class="o">.</span><span class="n">connection</span><span class="p">()</span> <span class="k">as</span> <span class="n">connection</span><span class="p">:</span>
 
             <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_create_table_precheck</span><span class="p">(</span><span class="n">connection</span><span class="p">,</span> <span class="n">table_name</span><span class="p">,</span> <span class="n">if_exists</span><span class="p">):</span>
-                <span class="c1"># Grab the object from s3</span>
-                <span class="kn">from</span> <span class="nn">parsons.aws.s3</span> <span class="kn">import</span> <span class="n">S3</span>
-                <span class="n">s3</span> <span class="o">=</span> <span class="n">S3</span><span class="p">(</span><span class="n">aws_access_key_id</span><span class="o">=</span><span class="n">aws_access_key_id</span><span class="p">,</span>
-                        <span class="n">aws_secret_access_key</span><span class="o">=</span><span class="n">aws_secret_access_key</span><span class="p">)</span>
-
-                <span class="n">local_path</span> <span class="o">=</span> <span class="n">s3</span><span class="o">.</span><span class="n">get_file</span><span class="p">(</span><span class="n">bucket</span><span class="p">,</span> <span class="n">key</span><span class="p">)</span>
-
-                <span class="k">if</span> <span class="n">data_type</span> <span class="o">==</span> <span class="s1">&#39;csv&#39;</span><span class="p">:</span>
-                    <span class="n">tbl</span> <span class="o">=</span> <span class="n">Table</span><span class="o">.</span><span class="n">from_csv</span><span class="p">(</span><span class="n">local_path</span><span class="p">,</span> <span class="n">delimiter</span><span class="o">=</span><span class="n">csv_delimiter</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">template_table</span><span class="p">:</span>
+                    <span class="n">sql</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;CREATE TABLE </span><span class="si">{</span><span class="n">table_name</span><span class="si">}</span><span class="s1"> (LIKE </span><span class="si">{</span><span class="n">template_table</span><span class="si">}</span><span class="s1">)&#39;</span>
                 <span class="k">else</span><span class="p">:</span>
-                    <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;Invalid data type provided&quot;</span><span class="p">)</span>
+                    <span class="c1"># Grab the object from s3</span>
+                    <span class="kn">from</span> <span class="nn">parsons.aws.s3</span> <span class="kn">import</span> <span class="n">S3</span>
+                    <span class="n">s3</span> <span class="o">=</span> <span class="n">S3</span><span class="p">(</span><span class="n">aws_access_key_id</span><span class="o">=</span><span class="n">aws_access_key_id</span><span class="p">,</span>
+                            <span class="n">aws_secret_access_key</span><span class="o">=</span><span class="n">aws_secret_access_key</span><span class="p">)</span>
 
-                <span class="c1"># Create the table</span>
-                <span class="n">sql</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">create_statement</span><span class="p">(</span><span class="n">tbl</span><span class="p">,</span> <span class="n">table_name</span><span class="p">,</span> <span class="n">padding</span><span class="o">=</span><span class="n">padding</span><span class="p">,</span>
-                                            <span class="n">distkey</span><span class="o">=</span><span class="n">distkey</span><span class="p">,</span> <span class="n">sortkey</span><span class="o">=</span><span class="n">sortkey</span><span class="p">,</span>
-                                            <span class="n">varchar_max</span><span class="o">=</span><span class="n">varchar_max</span><span class="p">,</span>
-                                            <span class="n">columntypes</span><span class="o">=</span><span class="n">columntypes</span><span class="p">,</span>
-                                            <span class="n">strict_length</span><span class="o">=</span><span class="n">strict_length</span><span class="p">)</span>
+                    <span class="n">local_path</span> <span class="o">=</span> <span class="n">s3</span><span class="o">.</span><span class="n">get_file</span><span class="p">(</span><span class="n">bucket</span><span class="p">,</span> <span class="n">key</span><span class="p">)</span>
+                    <span class="k">if</span> <span class="n">data_type</span> <span class="o">==</span> <span class="s1">&#39;csv&#39;</span><span class="p">:</span>
+                        <span class="n">tbl</span> <span class="o">=</span> <span class="n">Table</span><span class="o">.</span><span class="n">from_csv</span><span class="p">(</span><span class="n">local_path</span><span class="p">,</span> <span class="n">delimiter</span><span class="o">=</span><span class="n">csv_delimiter</span><span class="p">)</span>
+                    <span class="k">else</span><span class="p">:</span>
+                        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;Invalid data type provided&quot;</span><span class="p">)</span>
+
+                    <span class="c1"># Create the table</span>
+                    <span class="n">sql</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">create_statement</span><span class="p">(</span><span class="n">tbl</span><span class="p">,</span> <span class="n">table_name</span><span class="p">,</span> <span class="n">padding</span><span class="o">=</span><span class="n">padding</span><span class="p">,</span>
+                                                <span class="n">distkey</span><span class="o">=</span><span class="n">distkey</span><span class="p">,</span> <span class="n">sortkey</span><span class="o">=</span><span class="n">sortkey</span><span class="p">,</span>
+                                                <span class="n">varchar_max</span><span class="o">=</span><span class="n">varchar_max</span><span class="p">,</span>
+                                                <span class="n">columntypes</span><span class="o">=</span><span class="n">columntypes</span><span class="p">,</span>
+                                                <span class="n">strict_length</span><span class="o">=</span><span class="n">strict_length</span><span class="p">)</span>
 
                 <span class="bp">self</span><span class="o">.</span><span class="n">query_with_connection</span><span class="p">(</span><span class="n">sql</span><span class="p">,</span> <span class="n">connection</span><span class="p">,</span> <span class="n">commit</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
                 <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">table_name</span><span class="si">}</span><span class="s1"> created.&#39;</span><span class="p">)</span>
@@ -906,7 +912,7 @@
         <span class="k">return</span> <span class="n">manifest</span>
 
     <span class="k">def</span> <span class="nf">upsert</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">table_obj</span><span class="p">,</span> <span class="n">target_table</span><span class="p">,</span> <span class="n">primary_key</span><span class="p">,</span> <span class="n">vacuum</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">distinct_check</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
-               <span class="n">cleanup_temp_table</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">alter_table</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="o">**</span><span class="n">copy_args</span><span class="p">):</span>
+               <span class="n">cleanup_temp_table</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">alter_table</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">from_s3</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="o">**</span><span class="n">copy_args</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Preform an upsert on an existing table. An upsert is a function in which records</span>
 <span class="sd">        in a table are updated and inserted at the same time. Unlike other SQL databases,</span>
@@ -927,6 +933,12 @@
 <span class="sd">                Check if the primary key column is distinct. Raise error if not.</span>
 <span class="sd">            cleanup_temp_table: boolean</span>
 <span class="sd">                A temp table is dropped by default on cleanup. You can set to False for debugging.</span>
+<span class="sd">            alter_table: boolean</span>
+<span class="sd">                Set to False to avoid automatic varchar column resizing to accomodate new data</span>
+<span class="sd">            from_s3: boolean</span>
+<span class="sd">                Instead of specifying a table_obj (set the first argument to None),</span>
+<span class="sd">                set this to True and include :func:`~parsons.databases.Redshift.copy_s3` arguments</span>
+<span class="sd">                to upsert a pre-existing s3 file into the target_table</span>
 <span class="sd">            \**copy_args: kwargs</span>
 <span class="sd">                See :func:`~parsons.databases.Redshift.copy` for options.</span>
 <span class="sd">        &quot;&quot;&quot;</span>  <span class="c1"># noqa: W605</span>
@@ -937,7 +949,7 @@
             <span class="bp">self</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="n">table_obj</span><span class="p">,</span> <span class="n">target_table</span><span class="p">)</span>
             <span class="k">return</span> <span class="kc">None</span>
 
-        <span class="k">if</span> <span class="n">alter_table</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">alter_table</span> <span class="ow">and</span> <span class="n">table_obj</span><span class="p">:</span>
             <span class="c1"># Make target table column widths match incoming table, if necessary</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">alter_varchar_column_widths</span><span class="p">(</span><span class="n">table_obj</span><span class="p">,</span> <span class="n">target_table</span><span class="p">)</span>
 
@@ -979,10 +991,20 @@
                     <span class="c1"># column is not impactful barely impactful</span>
                     <span class="c1"># https://docs.aws.amazon.com/redshift/latest/dg/c_Loading_tables_auto_compress.html</span>
                     <span class="n">copy_args</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">copy_args</span><span class="p">,</span> <span class="n">compupdate</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="n">table_obj</span><span class="p">,</span> <span class="n">staging_tbl</span><span class="p">,</span>
-                          <span class="n">template_table</span><span class="o">=</span><span class="n">target_table</span><span class="p">,</span>
-                          <span class="n">alter_table</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>  <span class="c1"># We just did our own alter table above</span>
-                          <span class="o">**</span><span class="n">copy_args</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">from_s3</span><span class="p">:</span>
+                    <span class="k">if</span> <span class="n">table_obj</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                            <span class="s1">&#39;upsert(... from_s3=True) requires the first argument (table_obj)&#39;</span>
+                            <span class="s1">&#39; to be None. from_s3 and table_obj are mutually exclusive.&#39;</span>
+                        <span class="p">)</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">copy_s3</span><span class="p">(</span><span class="n">staging_tbl</span><span class="p">,</span>
+                                 <span class="n">template_table</span><span class="o">=</span><span class="n">target_table</span><span class="p">,</span>
+                                 <span class="o">**</span><span class="n">copy_args</span><span class="p">)</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="n">table_obj</span><span class="p">,</span> <span class="n">staging_tbl</span><span class="p">,</span>
+                              <span class="n">template_table</span><span class="o">=</span><span class="n">target_table</span><span class="p">,</span>
+                              <span class="n">alter_table</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>  <span class="c1"># We just did our own alter table above</span>
+                              <span class="o">**</span><span class="n">copy_args</span><span class="p">)</span>
 
                 <span class="n">staging_table_name</span> <span class="o">=</span> <span class="n">staging_tbl</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;.&#39;</span><span class="p">)[</span><span class="mi">1</span><span class="p">]</span>
                 <span class="n">target_table_name</span> <span class="o">=</span> <span class="n">target_table</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;.&#39;</span><span class="p">)[</span><span class="mi">1</span><span class="p">]</span>

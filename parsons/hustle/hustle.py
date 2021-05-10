@@ -416,7 +416,7 @@ class Hustle(object):
             if not group_id and 'group_id' not in table.columns:
                 raise ValueError('Group Id must be passed as an argument or a column value.')
             if group_id:
-                lead['group_id'] == group_id
+                lead['group_id'] = group_id
 
             created_leads.append(self.create_lead(**lead))
 

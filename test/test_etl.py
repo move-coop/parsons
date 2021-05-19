@@ -785,3 +785,30 @@ class TestParsonsTable(unittest.TestCase):
 
         self.assertEqual(not empty, True)
         self.assertEqual(not not_empty, False)
+
+    def test_use_petl(self):
+        # confirm that this method doesn't exist for parsons.Table
+        self.assertRaises(AttributeError, getattr, Table, 'skipcomments')
+
+        tbl = Table([
+            ['col1', 'col2'],
+            ['# this is a comment row', ],
+            ['a', 1],
+            ['#this is another comment', 'this is also ignored'],
+            ['b', 2]
+        ])
+        tbl_expected = Table([
+            ['col1', 'col2'],
+            ['a', 1],
+            ['b', 2]
+        ])
+
+        tbl_after = tbl.use_petl('skipcomments', '#')
+        assert_matching_tables(tbl_expected, tbl_after)
+
+        tbl.use_petl('skipcomments', '#', update_table=True)
+        assert_matching_tables(tbl_expected, tbl)
+
+        from petl.util.base import Table as PetlTable
+        tbl_petl = tbl.use_petl('skipcomments', '#', to_petl=True)
+        self.assertIsInstance(tbl_petl, PetlTable)

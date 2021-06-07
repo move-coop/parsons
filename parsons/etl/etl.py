@@ -1009,3 +1009,65 @@ class ETL(object):
         """
         self.table = petl.setheader(self.table, new_header)
         return self
+
+    def use_petl(self, petl_method, *args, **kwargs):
+        """
+        Call a petl function on the current table.
+
+        This convenience method exposes the petl functions to the current
+        Table. This is useful in cases where one might need a ``petl`` function
+        that has not yet been implemented for ``parsons.Table``.
+
+        .. code-block:: python
+
+            >>> # https://petl.readthedocs.io/en/v1.6.0/transform.html#petl.transform.basics.skipcomments
+            >>> tbl = Table([
+            ...     ['col1', 'col2'],
+            ...     ['# this is a comment row',],
+            ...     ['a', 1],
+            ...     ['#this is another comment', 'this is also ignored'],
+            ...     ['b', 2]
+            ... ])
+            >>> tbl.use_petl('skipcomments', '#', update_table=True)
+
+            {'col1': 'a', 'col2': 1}
+            {'col1': 'b', 'col2': 2}
+
+            >>> tbl.table
+
+            +------+------+
+            | col1 | col2 |
+            +======+======+
+            | 'a'  |    1 |
+            +------+------+
+            | 'b'  |    2 |
+            +------+------+
+
+        `Args:`
+            petl_method: str
+                The ``petl`` function to call
+            update_table: bool
+                If ``True``, updates the ``parsons.Table``. Defaults to
+                ``False``.
+            to_petl: bool
+                If ``True``, returns a petl table, otherwise a ``parsons.Table``.
+                Defaults to ``False``.
+            \*args: Any
+                The arguements to pass to the petl function.
+            \**kwargs: Any
+                The keyword arguements to pass to the petl function.
+        `Returns:`
+            `parsons.Table` or `petl` table
+        """  # noqa: E501
+        update_table = kwargs.pop('update_table', False)
+        to_petl = kwargs.pop('to_petl', False)
+
+        if update_table:
+            self.table = getattr(petl, petl_method)(self.table, *args, **kwargs)
+
+        if to_petl:
+            return getattr(petl, petl_method)(self.table, *args, **kwargs)
+
+        from parsons.etl.table import Table
+
+        return Table(getattr(petl, petl_method)(self.table, *args, **kwargs))

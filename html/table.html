@@ -522,7 +522,23 @@ If you need to iterate over the data, make sure to use the python iterator synta
 </div>
 <div class="section" id="petl">
 <h3>PETL<a class="headerlink" href="#petl" title="Permalink to this headline">¶</a></h3>
-<p>The Parsons <code class="docutils literal notranslate"><span class="pre">Table</span></code> relies heavily on the <a class="reference external" href="https://petl.readthedocs.io/en/stable/index.html">petl</a> Python package. You can always access the underlying petl table with <code class="docutils literal notranslate"><span class="pre">my_parsons_table.table</span></code>, which will allow you to perform any petl-supported ETL operations.</p>
+<p>The Parsons <code class="docutils literal notranslate"><span class="pre">Table</span></code> relies heavily on the <a class="reference external" href="https://petl.readthedocs.io/en/stable/index.html">petl</a>
+Python package. You can always access the underlying petl table, <code class="docutils literal notranslate"><span class="pre">parsons.Table.table</span></code>, which will
+allow you to perform any petl-supported ETL operations. Additionally, you can use the helper method,
+<a class="reference internal" href="#parsons.etl.etl.ETL.use_petl" title="parsons.etl.etl.ETL.use_petl"><code class="xref py py-meth docutils literal notranslate"><span class="pre">use_petl()</span></code></a>, to conveniently perform the same operations on a parsons
+<code class="docutils literal notranslate"><span class="pre">Table</span></code>. For example:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">petl</span>
+<span class="o">...</span>
+
+<span class="n">tbl</span> <span class="o">=</span> <span class="n">Table</span><span class="p">()</span>
+<span class="n">tbl</span><span class="o">.</span><span class="n">table</span> <span class="o">=</span> <span class="n">petl</span><span class="o">.</span><span class="n">skipcomments</span><span class="p">(</span><span class="n">tbl</span><span class="o">.</span><span class="n">table</span><span class="p">,</span> <span class="s1">&#39;#&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>or</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">tbl</span> <span class="o">=</span> <span class="n">Table</span><span class="p">()</span>
+<span class="n">tbl</span><span class="o">.</span><span class="n">use_petl</span><span class="p">(</span><span class="s1">&#39;skipcomments&#39;</span><span class="p">,</span> <span class="s1">&#39;#&#39;</span><span class="p">,</span> <span class="n">update_table</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+</div>
 </div>
 <div class="section" id="lazy-loading">
 <h3>Lazy Loading<a class="headerlink" href="#lazy-loading" title="Permalink to this headline">¶</a></h3>
@@ -1938,6 +1954,59 @@ will sort columns from left to right.</dd>
 </dd>
 <dt><cite>Returns:</cite></dt>
 <dd><cite>Parsons Table</cite> and also updates self</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="parsons.etl.etl.ETL.use_petl">
+<code class="descname">use_petl</code><span class="sig-paren">(</span><em>petl_method</em>, <em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/etl/etl.html#ETL.use_petl"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.etl.etl.ETL.use_petl" title="Permalink to this definition">¶</a></dt>
+<dd><p>Call a petl function on the current table.</p>
+<p>This convenience method exposes the petl functions to the current
+Table. This is useful in cases where one might need a <code class="docutils literal notranslate"><span class="pre">petl</span></code> function
+that has not yet been implemented for <code class="docutils literal notranslate"><span class="pre">parsons.Table</span></code>.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="c1"># https://petl.readthedocs.io/en/v1.6.0/transform.html#petl.transform.basics.skipcomments</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">tbl</span> <span class="o">=</span> <span class="n">Table</span><span class="p">([</span>
+<span class="gp">... </span>    <span class="p">[</span><span class="s1">&#39;col1&#39;</span><span class="p">,</span> <span class="s1">&#39;col2&#39;</span><span class="p">],</span>
+<span class="gp">... </span>    <span class="p">[</span><span class="s1">&#39;# this is a comment row&#39;</span><span class="p">,],</span>
+<span class="gp">... </span>    <span class="p">[</span><span class="s1">&#39;a&#39;</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span>
+<span class="gp">... </span>    <span class="p">[</span><span class="s1">&#39;#this is another comment&#39;</span><span class="p">,</span> <span class="s1">&#39;this is also ignored&#39;</span><span class="p">],</span>
+<span class="gp">... </span>    <span class="p">[</span><span class="s1">&#39;b&#39;</span><span class="p">,</span> <span class="mi">2</span><span class="p">]</span>
+<span class="gp">... </span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">tbl</span><span class="o">.</span><span class="n">use_petl</span><span class="p">(</span><span class="s1">&#39;skipcomments&#39;</span><span class="p">,</span> <span class="s1">&#39;#&#39;</span><span class="p">,</span> <span class="n">update_table</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+<span class="go">{&#39;col1&#39;: &#39;a&#39;, &#39;col2&#39;: 1}</span>
+<span class="go">{&#39;col1&#39;: &#39;b&#39;, &#39;col2&#39;: 2}</span>
+
+<span class="gp">&gt;&gt;&gt; </span><span class="n">tbl</span><span class="o">.</span><span class="n">table</span>
+
+<span class="go">+------+------+</span>
+<span class="go">| col1 | col2 |</span>
+<span class="go">+======+======+</span>
+<span class="go">| &#39;a&#39;  |    1 |</span>
+<span class="go">+------+------+</span>
+<span class="go">| &#39;b&#39;  |    2 |</span>
+<span class="go">+------+------+</span>
+</pre></div>
+</div>
+<dl class="docutils">
+<dt><cite>Args:</cite></dt>
+<dd><dl class="first last docutils">
+<dt>petl_method: str</dt>
+<dd>The <code class="docutils literal notranslate"><span class="pre">petl</span></code> function to call</dd>
+<dt>update_table: bool</dt>
+<dd>If <code class="docutils literal notranslate"><span class="pre">True</span></code>, updates the <code class="docutils literal notranslate"><span class="pre">parsons.Table</span></code>. Defaults to
+<code class="docutils literal notranslate"><span class="pre">False</span></code>.</dd>
+<dt>to_petl: bool</dt>
+<dd>If <code class="docutils literal notranslate"><span class="pre">True</span></code>, returns a petl table, otherwise a <code class="docutils literal notranslate"><span class="pre">parsons.Table</span></code>.
+Defaults to <code class="docutils literal notranslate"><span class="pre">False</span></code>.</dd>
+<dt>*args: Any</dt>
+<dd>The arguements to pass to the petl function.</dd>
+<dt>**kwargs: Any</dt>
+<dd>The keyword arguements to pass to the petl function.</dd>
+</dl>
+</dd>
+<dt><cite>Returns:</cite></dt>
+<dd><cite>parsons.Table</cite> or <cite>petl</cite> table</dd>
 </dl>
 </dd></dl>
 

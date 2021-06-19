@@ -128,7 +128,7 @@ class Airtable(object):
         logger.info('Record inserted')
         return resp
 
-    def insert_records(self, table):
+    def insert_records(self, table, typecast = False):
         """
         Insert multiple records into an Airtable. The columns in your Parsons table must
         exist in the Airtable. The method will attempt to map based on column name, so the
@@ -143,7 +143,7 @@ class Airtable(object):
             List of dictionaries of inserted rows
         """
 
-        resp = self.client.batch_insert(table)
+        resp = self.client.batch_insert(table, typecast=typecast)
         logger.info(f'{table.num_rows} records inserted.')
         return resp
 

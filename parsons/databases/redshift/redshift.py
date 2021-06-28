@@ -383,7 +383,7 @@ class Redshift(RedshiftCreateTable, RedshiftCopyTable, RedshiftTableUtilities, R
             logger.info(f'Data copied to {table_name}.')
 
     def copy(self, tbl, table_name, if_exists='fail', max_errors=0, distkey=None,
-             sortkey=None, padding=None, statupdate=False, compupdate=True, acceptanydate=True,
+             sortkey=None, padding=None, statupdate=None, compupdate=None, acceptanydate=True,
              emptyasnull=True, blanksasnull=True, nullas=None, acceptinvchars=True,
              dateformat='auto', timeformat='auto', varchar_max=None, truncatecolumns=False,
              columntypes=None, specifycols=None, alter_table=False, alter_table_cascade=False,
@@ -416,9 +416,23 @@ class Redshift(RedshiftCreateTable, RedshiftCopyTable, RedshiftTableUtilities, R
                 characters.
             statupate: boolean
                 Governs automatic computation and refresh of optimizer statistics at the end
-                of a successful COPY command.
+                of a successful COPY command. If ``True`` explicitly sets ``statupate`` to on, if
+                ``False`` explicitly sets ``statupate`` to off. If ``None`` stats update only if
+                the table is initially empty. Defaults to ``None``.
+                See `Redshift docs <https://docs.aws.amazon.com/redshift/latest/dg/copy-parameters-data-load.html#copy-statupdate>`_
+                for more details.
+
+                .. note::
+                    If STATUPDATE is used, the current user must be either the table owner or a
+                    superuser.
+
             compupdate: boolean
-                Controls whether compression encodings are automatically applied during a COPY.
+                Controls whether compression encodings are automatically applied during a COPY. If
+                ``True`` explicitly sets ``compupdate`` to on, if ``False`` explicitly sets
+                ``compupdate`` to off. If ``None`` the COPY command only chooses compression if the
+                table is initially empty. Defaults to ``None``.
+                See `Redshift docs <https://docs.aws.amazon.com/redshift/latest/dg/copy-parameters-data-load.html#copy-compupdate>`_
+                for more details.
             acceptanydate: boolean
                 Allows any date format, including invalid formats such as 00/00/00 00:00:00, to be
                 loaded without generating an error.
@@ -489,7 +503,7 @@ class Redshift(RedshiftCreateTable, RedshiftCopyTable, RedshiftTableUtilities, R
         `Returns`
             Parsons Table or ``None``
                 See :ref:`parsons-table` for output options.
-        """
+        """  # noqa: E501
 
         # Specify the columns for a copy statement.
         if specifycols or (specifycols is None and template_table):

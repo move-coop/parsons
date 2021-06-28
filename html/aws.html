@@ -850,7 +850,7 @@ commit manually with <code class="docutils literal notranslate"><span class="pre
 
 <dl class="function">
 <dt id="parsons.Redshift.copy">
-<code class="descclassname">parsons.Redshift.</code><code class="descname">copy</code><span class="sig-paren">(</span><em>self</em>, <em>tbl</em>, <em>table_name</em>, <em>if_exists='fail'</em>, <em>max_errors=0</em>, <em>distkey=None</em>, <em>sortkey=None</em>, <em>padding=None</em>, <em>statupdate=False</em>, <em>compupdate=True</em>, <em>acceptanydate=True</em>, <em>emptyasnull=True</em>, <em>blanksasnull=True</em>, <em>nullas=None</em>, <em>acceptinvchars=True</em>, <em>dateformat='auto'</em>, <em>timeformat='auto'</em>, <em>varchar_max=None</em>, <em>truncatecolumns=False</em>, <em>columntypes=None</em>, <em>specifycols=None</em>, <em>alter_table=False</em>, <em>alter_table_cascade=False</em>, <em>aws_access_key_id=None</em>, <em>aws_secret_access_key=None</em>, <em>iam_role=None</em>, <em>cleanup_s3_file=True</em>, <em>template_table=None</em>, <em>temp_bucket_region=None</em>, <em>strict_length=True</em><span class="sig-paren">)</span><a class="headerlink" href="#parsons.Redshift.copy" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">parsons.Redshift.</code><code class="descname">copy</code><span class="sig-paren">(</span><em>self</em>, <em>tbl</em>, <em>table_name</em>, <em>if_exists='fail'</em>, <em>max_errors=0</em>, <em>distkey=None</em>, <em>sortkey=None</em>, <em>padding=None</em>, <em>statupdate=None</em>, <em>compupdate=None</em>, <em>acceptanydate=True</em>, <em>emptyasnull=True</em>, <em>blanksasnull=True</em>, <em>nullas=None</em>, <em>acceptinvchars=True</em>, <em>dateformat='auto'</em>, <em>timeformat='auto'</em>, <em>varchar_max=None</em>, <em>truncatecolumns=False</em>, <em>columntypes=None</em>, <em>specifycols=None</em>, <em>alter_table=False</em>, <em>alter_table_cascade=False</em>, <em>aws_access_key_id=None</em>, <em>aws_secret_access_key=None</em>, <em>iam_role=None</em>, <em>cleanup_s3_file=True</em>, <em>template_table=None</em>, <em>temp_bucket_region=None</em>, <em>strict_length=True</em><span class="sig-paren">)</span><a class="headerlink" href="#parsons.Redshift.copy" title="Permalink to this definition">¶</a></dt>
 <dd><p>Copy a <a class="reference internal" href="table.html#parsons-table"><span class="std std-ref">Parsons Table</span></a> to Redshift.</p>
 <dl class="docutils">
 <dt><cite>Args:</cite></dt>
@@ -876,10 +876,25 @@ helpful to add a buffer for future copies in which the data might be wider.</dd>
 <dd>A list of columns in which to set the width of the varchar column to 65,535
 characters.</dd>
 <dt>statupate: boolean</dt>
-<dd>Governs automatic computation and refresh of optimizer statistics at the end
-of a successful COPY command.</dd>
+<dd><p class="first">Governs automatic computation and refresh of optimizer statistics at the end
+of a successful COPY command. If <code class="docutils literal notranslate"><span class="pre">True</span></code> explicitly sets <code class="docutils literal notranslate"><span class="pre">statupate</span></code> to on, if
+<code class="docutils literal notranslate"><span class="pre">False</span></code> explicitly sets <code class="docutils literal notranslate"><span class="pre">statupate</span></code> to off. If <code class="docutils literal notranslate"><span class="pre">None</span></code> stats update only if
+the table is initially empty. Defaults to <code class="docutils literal notranslate"><span class="pre">None</span></code>.
+See <a class="reference external" href="https://docs.aws.amazon.com/redshift/latest/dg/copy-parameters-data-load.html#copy-statupdate">Redshift docs</a>
+for more details.</p>
+<div class="last admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">If STATUPDATE is used, the current user must be either the table owner or a
+superuser.</p>
+</div>
+</dd>
 <dt>compupdate: boolean</dt>
-<dd>Controls whether compression encodings are automatically applied during a COPY.</dd>
+<dd>Controls whether compression encodings are automatically applied during a COPY. If
+<code class="docutils literal notranslate"><span class="pre">True</span></code> explicitly sets <code class="docutils literal notranslate"><span class="pre">compupdate</span></code> to on, if <code class="docutils literal notranslate"><span class="pre">False</span></code> explicitly sets
+<code class="docutils literal notranslate"><span class="pre">compupdate</span></code> to off. If <code class="docutils literal notranslate"><span class="pre">None</span></code> the COPY command only chooses compression if the
+table is initially empty. Defaults to <code class="docutils literal notranslate"><span class="pre">None</span></code>.
+See <a class="reference external" href="https://docs.aws.amazon.com/redshift/latest/dg/copy-parameters-data-load.html#copy-compupdate">Redshift docs</a>
+for more details.</dd>
 <dt>acceptanydate: boolean</dt>
 <dd>Allows any date format, including invalid formats such as 00/00/00 00:00:00, to be
 loaded without generating an error.</dd>

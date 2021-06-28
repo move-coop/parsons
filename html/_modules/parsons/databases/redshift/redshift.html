@@ -577,7 +577,7 @@
             <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Data copied to </span><span class="si">{</span><span class="n">table_name</span><span class="si">}</span><span class="s1">.&#39;</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">copy</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tbl</span><span class="p">,</span> <span class="n">table_name</span><span class="p">,</span> <span class="n">if_exists</span><span class="o">=</span><span class="s1">&#39;fail&#39;</span><span class="p">,</span> <span class="n">max_errors</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">distkey</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-             <span class="n">sortkey</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">padding</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">statupdate</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">compupdate</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">acceptanydate</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+             <span class="n">sortkey</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">padding</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">statupdate</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">compupdate</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">acceptanydate</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
              <span class="n">emptyasnull</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">blanksasnull</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">nullas</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">acceptinvchars</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
              <span class="n">dateformat</span><span class="o">=</span><span class="s1">&#39;auto&#39;</span><span class="p">,</span> <span class="n">timeformat</span><span class="o">=</span><span class="s1">&#39;auto&#39;</span><span class="p">,</span> <span class="n">varchar_max</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">truncatecolumns</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
              <span class="n">columntypes</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">specifycols</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">alter_table</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">alter_table_cascade</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
@@ -610,9 +610,23 @@
 <span class="sd">                characters.</span>
 <span class="sd">            statupate: boolean</span>
 <span class="sd">                Governs automatic computation and refresh of optimizer statistics at the end</span>
-<span class="sd">                of a successful COPY command.</span>
+<span class="sd">                of a successful COPY command. If ``True`` explicitly sets ``statupate`` to on, if</span>
+<span class="sd">                ``False`` explicitly sets ``statupate`` to off. If ``None`` stats update only if</span>
+<span class="sd">                the table is initially empty. Defaults to ``None``.</span>
+<span class="sd">                See `Redshift docs &lt;https://docs.aws.amazon.com/redshift/latest/dg/copy-parameters-data-load.html#copy-statupdate&gt;`_</span>
+<span class="sd">                for more details.</span>
+
+<span class="sd">                .. note::</span>
+<span class="sd">                    If STATUPDATE is used, the current user must be either the table owner or a</span>
+<span class="sd">                    superuser.</span>
+
 <span class="sd">            compupdate: boolean</span>
-<span class="sd">                Controls whether compression encodings are automatically applied during a COPY.</span>
+<span class="sd">                Controls whether compression encodings are automatically applied during a COPY. If</span>
+<span class="sd">                ``True`` explicitly sets ``compupdate`` to on, if ``False`` explicitly sets</span>
+<span class="sd">                ``compupdate`` to off. If ``None`` the COPY command only chooses compression if the</span>
+<span class="sd">                table is initially empty. Defaults to ``None``.</span>
+<span class="sd">                See `Redshift docs &lt;https://docs.aws.amazon.com/redshift/latest/dg/copy-parameters-data-load.html#copy-compupdate&gt;`_</span>
+<span class="sd">                for more details.</span>
 <span class="sd">            acceptanydate: boolean</span>
 <span class="sd">                Allows any date format, including invalid formats such as 00/00/00 00:00:00, to be</span>
 <span class="sd">                loaded without generating an error.</span>
@@ -683,7 +697,7 @@
 <span class="sd">        `Returns`</span>
 <span class="sd">            Parsons Table or ``None``</span>
 <span class="sd">                See :ref:`parsons-table` for output options.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        &quot;&quot;&quot;</span>  <span class="c1"># noqa: E501</span>
 
         <span class="c1"># Specify the columns for a copy statement.</span>
         <span class="k">if</span> <span class="n">specifycols</span> <span class="ow">or</span> <span class="p">(</span><span class="n">specifycols</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">template_table</span><span class="p">):</span>

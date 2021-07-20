@@ -839,15 +839,17 @@ class ActionKit(object):
         `Returns`:
             A Parsons Table of the report results.
         """
-        
+
         endpoint = f'report/run/{report_name}'
-        
+
+        # returns data as a list of lists with no headers
         r = self._base_post(endpoint=endpoint, exception_message='Report not found', return_full_json=True)
-        
-        r_tbl = Table(r)
-        
-        tbl = Table([report_columns]).stack(r_tbl)
-        
+
+        # adds headers as first item in list
+        r.insert(0, report_columns)
+
+        tbl = Table(r)
+
         return tbl
     
 

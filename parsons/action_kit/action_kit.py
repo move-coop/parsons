@@ -814,3 +814,41 @@ class ActionKit(object):
                 logger.debug(f'error collect result: {error_data}')
                 errors.extend(error_data.get('objects') or [])
         return errors
+    
+    def get_action(self, action_id):
+        """
+        Get an action.
+        `Args`:
+            action_id: int
+                The user id of the record to get.
+        `Returns`:
+            Action json object
+        """
+
+        return self._base_get(endpoint='action', entity_id=action_id,
+                              exception_message='Action not found')
+    
+    def run_report(self, report_name, report_columns):
+        """
+        Runs a synchronous report.
+        `Args:`
+            report_name: str
+                The short name of the report.
+            report_columns: list
+                A list of the report column names in order.
+        `Returns`:
+            A Parsons Table of the report results.
+        """
+        
+        endpoint = f'report/run/{report_name}'
+        
+        r = self._base_post(endpoint=endpoint, exception_message='Report not found', return_full_json=True)
+        
+        r_tbl = Table(r)
+        
+        tbl = Table([report_columns]).stack(r_tbl)
+        
+        return tbl
+    
+
+

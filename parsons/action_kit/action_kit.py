@@ -852,7 +852,7 @@ class ActionKit(object):
 
         return tbl
     
-    def update_action_source(self, action_id, new_source, log=None):
+    def update_action_source(self, action_id, new_source):
         """
         Updates an action's source code.
         `Args`:
@@ -860,8 +860,6 @@ class ActionKit(object):
                 The ID of the action.
             new_source: str
                 The new source code to apply to the action.
-            log: bool
-                If True, adds custom fields previous_source and date_source_updated to the action.
         `Returns`:
             None
         """
@@ -871,25 +869,11 @@ class ActionKit(object):
         exception_message = 'Error updating source code.'
 
         a = self.get_action(action_id)
-
         resource_uri = a['resource_uri'].replace('/rest/v1/', '')[:-1]
 
-        if log == True:
-            current_source = a['source']
-
-            data = {
-                "source": new_source,
-                "fields": {
-                    "previous_source": current_source,
-                    "date_source_updated": today
-                }
-            }
-
-        else:
-
-            data = {
-                "source": new_source,
-            }
+        data = {
+            "source": new_source
+        }
 
         r = self.conn.patch(self._base_endpoint(resource_uri), data=json.dumps(data))
 

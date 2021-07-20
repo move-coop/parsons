@@ -156,6 +156,20 @@ class ActionKit(object):
         resp = self.conn.patch(self._base_endpoint('user', user_id), data=json.dumps(kwargs))
         logger.info(f'{resp.status_code}: {user_id}')
 
+    def delete_user(self, user_id):
+        """
+        Delete a user.
+
+        `Args:`
+            user_id: int
+                The user id of the person to delete
+        `Returns:`
+            ``None``
+        """
+
+        resp = self.conn.delete(self._base_endpoint('user', user_id))
+        logger.info(f'{resp.status_code}: {user_id}')
+        
     def get_event(self, event_id):
         """Get an event.
 
@@ -226,20 +240,6 @@ class ActionKit(object):
 
         resp = self.conn.patch(self._base_endpoint('event', event_id), data=json.dumps(kwargs))
         logger.info(f'{resp.status_code}: {event_id}')
-
-    def delete_user(self, user_id):
-        """
-        Delete a user.
-
-        `Args:`
-            user_id: int
-                The user id of the person to delete
-        `Returns:`
-            ``None``
-        """
-
-        resp = self.conn.delete(self._base_endpoint('user', user_id))
-        logger.info(f'{resp.status_code}: {user_id}')
 
     def get_campaign(self, campaign_id):
         """
@@ -614,6 +614,19 @@ class ActionKit(object):
                                url=url,
                                **kwargs)
 
+    def get_action(self, action_id):
+        """
+        Get an action.
+        `Args`:
+            action_id: int
+                The user id of the record to get.
+        `Returns`:
+            Action dict
+        """
+
+        return self._base_get(endpoint='action', entity_id=action_id,
+                              exception_message='Action not found')
+    
     def create_generic_action(self, page, email=None, ak_id=None, **kwargs):
         """
         Post a generic action. One of ``ak_id`` or ``email`` is a required argument.
@@ -643,6 +656,36 @@ class ActionKit(object):
                                page=page,
                                return_full_json=True,
                                **kwargs)
+    
+    def update_action_source(self, action_id, new_source):
+        """
+        Updates an action's source code.
+        `Args`:
+            action_id: int
+                The ID of the action.
+            new_source: str
+                The new source code to apply to the action.
+        `Returns`:
+            None
+        """
+
+        today = datetime.today().strftime('%Y-%m-%d')
+
+        exception_message = 'Error updating source code.'
+
+        a = self.get_action(action_id)
+        resource_uri = a['resource_uri'].replace('/rest/v1/', '')[:-1]
+
+        data = {
+            "source": new_source
+        }
+
+        r = self.conn.patch(self._base_endpoint(resource_uri), data=json.dumps(data))
+
+        if r.status_code != 202:
+            raise Exception(self.parse_error(r, exception_message))
+        
+        return None
 
     def bulk_upload_csv(self, csv_file, import_page,
                         autocreate_user_fields=False, user_fields_only=False):
@@ -815,19 +858,6 @@ class ActionKit(object):
                 errors.extend(error_data.get('objects') or [])
         return errors
     
-    def get_action(self, action_id):
-        """
-        Get an action.
-        `Args`:
-            action_id: int
-                The user id of the record to get.
-        `Returns`:
-            Action dict
-        """
-
-        return self._base_get(endpoint='action', entity_id=action_id,
-                              exception_message='Action not found')
-    
     def run_report(self, report_name, report_columns):
         """
         Runs a synchronous report.
@@ -851,32 +881,4 @@ class ActionKit(object):
         tbl = Table(r)
 
         return tbl
-    
-    def update_action_source(self, action_id, new_source):
-        """
-        Updates an action's source code.
-        `Args`:
-            action_id: int
-                The ID of the action.
-            new_source: str
-                The new source code to apply to the action.
-        `Returns`:
-            None
-        """
-
-        today = datetime.today().strftime('%Y-%m-%d')
-
-        exception_message = 'Error updating source code.'
-
-        a = self.get_action(action_id)
-        resource_uri = a['resource_uri'].replace('/rest/v1/', '')[:-1]
-
-        data = {
-            "source": new_source
-        }
-
-        r = self.conn.patch(self._base_endpoint(resource_uri), data=json.dumps(data))
-
-        if r.status_code != 202:
-            raise Exception(self.parse_error(r, exception_message))
 

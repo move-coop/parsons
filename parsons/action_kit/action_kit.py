@@ -65,7 +65,7 @@ class ActionKit(object):
 
         resp = self.conn.post(self._base_endpoint(endpoint), data=json.dumps(kwargs))
 
-        if resp.status_code != 201:
+        if resp.status_code != 201 and resp.status_code != 200:
             raise Exception(self.parse_error(resp, exception_message))
 
         # Some of the methods should just return pointer to location of created

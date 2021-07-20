@@ -822,7 +822,7 @@ class ActionKit(object):
             action_id: int
                 The user id of the record to get.
         `Returns`:
-            Action json object
+            Action dict
         """
 
         return self._base_get(endpoint='action', entity_id=action_id,

@@ -69,7 +69,9 @@ class Hustle(object):
 
         headers = {'Authorization': f'Bearer {self.auth_token}'}
 
-        parameters = {'limit': PAGE_LIMIT}
+        parameters = {}
+        if req_type == 'GET':
+            parameters = {'limit': PAGE_LIMIT}
 
         if args:
             parameters.update(args)

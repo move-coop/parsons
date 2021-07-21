@@ -62,7 +62,7 @@ class Hustle(object):
 
             pass
 
-    def curl_request(url, method, headers, payloads):
+    def curl_request(self, url, method, headers, payloads):
         # construct the curl command from request
         command = "curl -v -H {headers} {data} -X {method} {uri}"
         data = "" 

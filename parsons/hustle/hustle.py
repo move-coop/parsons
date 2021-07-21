@@ -410,7 +410,7 @@ class Hustle(object):
                 if k in arg_list:
                     lead[k] = v
                 else:
-                    custom_fields[k] = v
+                    custom_fields[k] = str(v)
 
             lead['custom_fields'] = custom_fields
 
@@ -458,7 +458,7 @@ class Hustle(object):
                 'globalOptedOut': global_opt_out,
                 'notes': notes,
                 'followUp': follow_up,
-                'tagIds': tag_ids}
+                'tagIds': str(tag_ids)}
 
         # Remove empty args in dictionary
         lead = json_format.remove_empty_keys(lead)

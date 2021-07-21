@@ -79,7 +79,8 @@ class SavedLists(object):
             tbl: parsons.Table
                 A parsons table object containing one column of person ids.
             url_type: str
-                The cloud file storage to use to post the file. Currently only ``S3``.
+                The cloud file storage to use to post the file (``S3`` or ``GCS``).
+                See :ref:`Cloud Storage <cloud-storage>` for more details.
             folder_id: int
                 The folder id where the list will be stored.
             list_name: str
@@ -103,9 +104,8 @@ class SavedLists(object):
             overwrite: int
                 Replace saved list if already exists.
             **url_kwargs: kwargs
-                Arguments to configure your cloud storage url type.
-                    * S3 requires ``bucket`` argument and, if not stored as env variables
-                      ``aws_access_key`` and ``aws_secret_access_key``.
+                Arguments to configure your cloud storage url type. See
+                :ref:`Cloud Storage <cloud-storage>` for more details.
         `Returns:`
             dict
                 Upload results information included the number of matched and saved
@@ -181,16 +181,16 @@ class SavedLists(object):
             folder_id: int
                 The folder id where the list will be stored.
             url_type: str
-                The cloud file storage to use to post the file. Currently only ``S3``.
+                The cloud file storage to use to post the file (``S3`` or ``GCS``).
+                See :ref:`Cloud Storage <cloud-storage>` for more details.
             id_type: str
                 The primary key type. The options, beyond ``vanid`` are specific to your
                 instance of VAN.
             replace: boolean
                 Replace saved list if already exists.
             **url_kwargs: kwargs
-                Arguments to configure your cloud storage url type.
-                    * S3 requires ``bucket`` argument and, if not stored as env variables
-                      ``aws_access_key`` and ``aws_secret_access_key``.
+                Arguments to configure your cloud storage url type. See
+                :ref:`Cloud Storage <cloud-storage>` for more details.
         `Returns:`
             dict
                 Upload results information included the number of matched and saved

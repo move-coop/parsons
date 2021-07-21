@@ -148,7 +148,7 @@ class Scores(object):
                    {'score2_id' : int, score2_column': str}]
 
             url_type: str
-                The cloud file storage to use to post the file.
+                The cloud file storage to use to post the file (``S3`` or ``GCS``).
                 See :ref:`Cloud Storage <cloud-storage>` for more details.
             email: str
                 An email address to send job load status updates.

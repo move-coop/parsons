@@ -62,6 +62,17 @@ class Hustle(object):
 
             pass
 
+    def curl_request(url, method, headers, payloads):
+        # construct the curl command from request
+        command = "curl -v -H {headers} {data} -X {method} {uri}"
+        data = "" 
+        if payloads:
+            payload_list = ['"{0}":"{1}"'.format(k,v) for k,v in payloads.items()]
+            data = " -d '{" + ", ".join(payload_list) + "}'"
+        header_list = ['"{0}: {1}"'.format(k, v) for k, v in headers.items()]
+        header = " -H ".join(header_list)
+        print(command.format(method=method, headers=header, data=data, uri=url))
+
     def _request(self, endpoint, req_type='GET', args=None, payload=None, raise_on_error=True):
 
         url = self.uri + endpoint
@@ -77,6 +88,8 @@ class Hustle(object):
             parameters.update(args)
 
         r = request(req_type, url, params=parameters, json=payload, headers=headers)
+
+        self.curl_request(url, req_type, headers, parameters)
 
         self._error_check(r, raise_on_error)
 

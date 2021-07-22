@@ -409,7 +409,7 @@ class Hustle(object):
         table.map_columns(LEAD_COLUMN_MAP)
 
         arg_list = ['first_name', 'last_name', 'email', 'phone_number', 'follow_up',
-                    'tag_id', 'group_id']
+                    'tag_ids', 'group_id']
 
         created_leads = []
 

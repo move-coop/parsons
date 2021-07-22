@@ -66,8 +66,8 @@ class TestRedshift(unittest.TestCase):
         self.assertEqual(self.rs.data_type(2147483648, ''), 'bigint')
         # Test varchar that looks like an int
         self.assertEqual(self.rs.data_type('00001', ''), 'varchar')
-        # Test a float as a decimal
-        self.assertEqual(self.rs.data_type(5.001, ''), 'decimal')
+        # Test a float as a float
+        self.assertEqual(self.rs.data_type(5.001, ''), 'float')
         # Test varchar
         self.assertEqual(self.rs.data_type('word', ''), 'varchar')
         # Test int with underscore
@@ -84,7 +84,7 @@ class TestRedshift(unittest.TestCase):
 
         self.assertEqual(
             self.mapping2['type_list'],
-            ['varchar', 'varchar', 'decimal', 'varchar', "decimal", "int", "varchar"])
+            ['varchar', 'varchar', 'float', 'varchar', "float", "int", "varchar"])
         # Test correct lengths
         self.assertEqual(self.mapping['longest'], [1, 5])
 

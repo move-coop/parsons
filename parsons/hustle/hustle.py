@@ -73,7 +73,7 @@ class Hustle(object):
         header = " -H ".join(header_list)
         print(command.format(method=method, headers=header, data=data, uri=url))
 
-    def _request(self, endpoint, req_type=None, args=None, payload=None, raise_on_error=True):
+    def _request(self, endpoint, req_type='GET', args=None, payload=None, raise_on_error=True):
 
         url = self.uri + endpoint
         self._token_check()
@@ -369,6 +369,7 @@ class Hustle(object):
 
         # Remove empty args in dictionary
         lead = json_format.remove_empty_keys(lead)
+        logger.info(f'lead: {lead}')
         logger.info(f'Generating lead for {first_name} {last_name}.')
         return self._request(f'groups/{group_id}/leads', req_type='POST', payload=lead)
 

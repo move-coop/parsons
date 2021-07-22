@@ -67,7 +67,7 @@ class Hustle(object):
         command = "curl -v -H {headers} {data} -X {method} {uri}"
         data = ""
         if payloads:
-            payload_list = ['"{0}":"{1}"'.format(k,v) for k,v in payloads.items()]
+            payload_list = ['"{0}":"{1}"'.format(k, v) for k, v in payloads.items()]
             data = " -d '{" + ", ".join(payload_list) + "}'"
         header_list = ['"{0}: {1}"'.format(k, v) for k, v in headers.items()]
         header = " -H ".join(header_list)

@@ -65,7 +65,7 @@ class Hustle(object):
     def curl_request(self, url, method, headers, payloads):
         # construct the curl command from request
         command = "curl -v -H {headers} {data} -X {method} {uri}"
-        data = "" 
+        data = ""
         if payloads:
             payload_list = ['"{0}":"{1}"'.format(k,v) for k,v in payloads.items()]
             data = " -d '{" + ", ".join(payload_list) + "}'"

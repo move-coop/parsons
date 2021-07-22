@@ -120,8 +120,9 @@ class Hustle(object):
             return None
 
         if raise_on_error:
-
-            logger.info(r.json())
+            logger.error(r.status_code)
+            logger.error(r.reason)
+            logger.error(r.json())
             r.raise_for_status()
             return None
 
@@ -327,8 +328,8 @@ class Hustle(object):
         logger.info(f'Got {tbl.num_rows} leads.')
         return tbl
 
-    def create_lead(self, group_id, phone_number, first_name, last_name=None, email=None,
-                    notes=None, follow_up=None, custom_fields=None, tag_ids=None):
+    def create_lead(self, group_id, phone_number, first_name, last_name='', email='',
+                    notes='', follow_up='', custom_fields={}, tag_ids=[]):
         """
 
         Create a lead.
@@ -357,18 +358,19 @@ class Hustle(object):
                 ``None``
         """
 
-        lead = {'firstName': first_name,
-                'lastName': last_name,
-                'email': email,
-                'phoneNumber': phone_number,
-                'notes': notes,
-                'followUp': follow_up,
-                'customFields': custom_fields,
-                'tagIds': tag_ids
-                }
+        lead = {
+            'firstName': first_name,
+            'lastName': last_name,
+            'email': email,
+            'phoneNumber': phone_number,
+            'notes': notes,
+            'followUp': follow_up,
+            'customFields': custom_fields,
+            'tagIds': tag_ids
+        }
 
         # Remove empty args in dictionary
-        lead = json_format.remove_empty_keys(lead)
+        # lead = json_format.remove_empty_keys(lead)
         logger.info(f'lead: {lead}')
         logger.info(f'Generating lead for {first_name} {last_name}.')
         return self._request(f'groups/{group_id}/leads', req_type='POST', payload=lead)

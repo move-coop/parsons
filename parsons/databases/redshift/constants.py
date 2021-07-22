@@ -1,6 +1,6 @@
 COL_NAME_MAX_LEN = 120
 
-DECIMAL = 'decimal'
+DECIMAL = 'float'
 
 REPLACE_CHARS = {" ": ""}
 

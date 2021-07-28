@@ -297,13 +297,13 @@ documentation for all functions.</p>
 <div class="section" id="bulk-import">
 <h3>Bulk Import<a class="headerlink" href="#bulk-import" title="Permalink to this headline">¶</a></h3>
 <p>For some methods, VAN allows you to bulk import multiple records to create or modify them.</p>
-<p>The bulk upload endpoint, requires access to file on the public internet as it runs the upload
-asynchronously. Therefore, in order to bulk import, you must pass in cloud storage credentials
-so that the file can be posted. Currently, only S3 is supported.</p>
+<p>The bulk upload endpoint requires access to file on the public internet as it runs the upload
+asynchronously. Therefore, in order to bulk import, you must pass in cloud storage credentials,
+either AWS S3 or Google Cloud Storage, so that the file can be posted.</p>
 <p><strong>Bulk Apply Activist Codes</strong></p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">parsons</span> <span class="kn">import</span> <span class="n">VAN</span><span class="p">,</span> <span class="n">Table</span>
 
-<span class="n">van</span> <span class="o">=</span> <span class="n">VAN</span><span class="p">(</span><span class="n">db</span><span class="o">=</span><span class="n">EveryAction</span><span class="p">)</span>
+<span class="n">van</span> <span class="o">=</span> <span class="n">VAN</span><span class="p">(</span><span class="n">db</span><span class="o">=</span><span class="s1">&#39;EveryAction&#39;</span><span class="p">)</span>
 
 <span class="c1"># Load a table containing the VANID, activistcodeid and other options.</span>
 <span class="n">tbl</span> <span class="o">=</span> <span class="n">Table</span><span class="o">.</span><span class="n">from_csv</span><span class="p">(</span><span class="s1">&#39;new_volunteers.csv&#39;</span><span class="p">)</span>
@@ -315,6 +315,31 @@ so that the file can be posted. Currently, only S3 is supported.</p>
 
 <span class="c1"># The bulk import job is run asynchronously, so you may poll the status of a job.</span>
 <span class="n">job_status</span> <span class="o">=</span> <span class="n">van</span><span class="o">.</span><span class="n">get_bulk_import_job</span><span class="p">(</span><span class="n">job_id</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><strong>Upload Saved List</strong></p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">parsons</span> <span class="kn">import</span> <span class="n">VAN</span><span class="p">,</span> <span class="n">Table</span>
+
+<span class="n">van</span> <span class="o">=</span> <span class="n">VAN</span><span class="p">(</span><span class="n">db</span><span class="o">=</span><span class="s1">&#39;MyVoters&#39;</span><span class="p">)</span>
+
+<span class="c1"># Load a table containing VANIDs</span>
+<span class="n">tbl</span> <span class="o">=</span> <span class="n">Table</span><span class="o">.</span><span class="n">from_csv</span><span class="p">(</span><span class="s1">&#39;gcs_test.csv&#39;</span><span class="p">)</span>
+
+<span class="c1"># The destination folder id. You can get a list of folder ids by running the</span>
+<span class="c1"># VAN.get_folders() method. Remember to share the folder with your API user</span>
+<span class="c1"># or you will not be able to access it.</span>
+<span class="n">folder_id</span> <span class="o">=</span> <span class="mi">1171</span>
+
+<span class="c1"># The destination list name</span>
+<span class="n">list_name</span> <span class="o">=</span> <span class="s1">&#39;My Winning List v1.0&#39;</span>
+
+<span class="c1"># The cloud storage service and kwargs specific to GCS.</span>
+<span class="n">url_type</span> <span class="o">=</span> <span class="s1">&#39;GCS&#39;</span>
+<span class="n">bucket_name</span> <span class="o">=</span> <span class="s1">&#39;my_bucket&#39;</span>
+<span class="n">app_creds</span> <span class="o">=</span> <span class="s1">&#39;my_creds.json&#39;</span> <span class="c1"># Not required if stored as env variable.</span>
+
+<span class="n">van</span><span class="o">.</span><span class="n">upload_saved_list</span><span class="p">(</span><span class="n">tbl</span><span class="p">,</span> <span class="n">list_name</span><span class="p">,</span> <span class="n">folder_id</span><span class="p">,</span> <span class="n">url_type</span><span class="p">,</span> <span class="n">replace</span><span class="o">=</span><span class="n">true</span><span class="p">,</span>
+                      <span class="n">bucket_name</span><span class="o">=</span><span class="n">bucket_name</span><span class="p">,</span> <span class="n">app_creds</span><span class="o">=</span><span class="n">app_creds</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -1065,17 +1090,11 @@ must be <code class="docutils literal notranslate"><span class="pre">vanid</span
 <dt>table: Parsons table</dt>
 <dd>A Parsons table.</dd>
 <dt>url_type: str</dt>
-<dd>The cloud file storage to use to post the file. Currently only <code class="docutils literal notranslate"><span class="pre">S3</span></code>.</dd>
+<dd>The cloud file storage to use to post the file (<code class="docutils literal notranslate"><span class="pre">S3</span></code> or <code class="docutils literal notranslate"><span class="pre">GCS</span></code>).
+See <a class="reference internal" href="utilities.html#cloud-storage"><span class="std std-ref">Cloud Storage</span></a> for more details.</dd>
 <dt><a href="#id4"><span class="problematic" id="id5">**</span></a>url_kwargs: kwargs</dt>
-<dd><dl class="first last docutils">
-<dt>Arguments to configure your cloud storage url type.</dt>
-<dd><ul class="first last simple">
-<li>S3 requires <code class="docutils literal notranslate"><span class="pre">bucket</span></code> argument and, if not stored as env variables
-<code class="docutils literal notranslate"><span class="pre">aws_access_key</span></code> and <code class="docutils literal notranslate"><span class="pre">aws_secret_access_key</span></code>.</li>
-</ul>
-</dd>
-</dl>
-</dd>
+<dd>Arguments to configure your cloud storage url type. See
+<a class="reference internal" href="utilities.html#cloud-storage"><span class="std std-ref">Cloud Storage</span></a> for more details.</dd>
 </dl>
 </dd>
 <dt><cite>Returns:</cite></dt>
@@ -1986,7 +2005,8 @@ must be shared on the target folder.</p>
 <dt>tbl: parsons.Table</dt>
 <dd>A parsons table object containing one column of person ids.</dd>
 <dt>url_type: str</dt>
-<dd>The cloud file storage to use to post the file. Currently only <code class="docutils literal notranslate"><span class="pre">S3</span></code>.</dd>
+<dd>The cloud file storage to use to post the file (<code class="docutils literal notranslate"><span class="pre">S3</span></code> or <code class="docutils literal notranslate"><span class="pre">GCS</span></code>).
+See <a class="reference internal" href="utilities.html#cloud-storage"><span class="std std-ref">Cloud Storage</span></a> for more details.</dd>
 <dt>folder_id: int</dt>
 <dd>The folder id where the list will be stored.</dd>
 <dt>list_name: str</dt>
@@ -2010,15 +2030,8 @@ column of the file.</dd>
 <dt>overwrite: int</dt>
 <dd>Replace saved list if already exists.</dd>
 <dt><a href="#id8"><span class="problematic" id="id9">**</span></a>url_kwargs: kwargs</dt>
-<dd><dl class="first last docutils">
-<dt>Arguments to configure your cloud storage url type.</dt>
-<dd><ul class="first last simple">
-<li>S3 requires <code class="docutils literal notranslate"><span class="pre">bucket</span></code> argument and, if not stored as env variables
-<code class="docutils literal notranslate"><span class="pre">aws_access_key</span></code> and <code class="docutils literal notranslate"><span class="pre">aws_secret_access_key</span></code>.</li>
-</ul>
-</dd>
-</dl>
-</dd>
+<dd>Arguments to configure your cloud storage url type. See
+<a class="reference internal" href="utilities.html#cloud-storage"><span class="std std-ref">Cloud Storage</span></a> for more details.</dd>
 </dl>
 </dd>
 <dt><cite>Returns:</cite></dt>
@@ -2054,22 +2067,16 @@ must be shared on the target folder.</p>
 <dt>folder_id: int</dt>
 <dd>The folder id where the list will be stored.</dd>
 <dt>url_type: str</dt>
-<dd>The cloud file storage to use to post the file. Currently only <code class="docutils literal notranslate"><span class="pre">S3</span></code>.</dd>
+<dd>The cloud file storage to use to post the file (<code class="docutils literal notranslate"><span class="pre">S3</span></code> or <code class="docutils literal notranslate"><span class="pre">GCS</span></code>).
+See <a class="reference internal" href="utilities.html#cloud-storage"><span class="std std-ref">Cloud Storage</span></a> for more details.</dd>
 <dt>id_type: str</dt>
 <dd>The primary key type. The options, beyond <code class="docutils literal notranslate"><span class="pre">vanid</span></code> are specific to your
 instance of VAN.</dd>
 <dt>replace: boolean</dt>
 <dd>Replace saved list if already exists.</dd>
 <dt><a href="#id10"><span class="problematic" id="id11">**</span></a>url_kwargs: kwargs</dt>
-<dd><dl class="first last docutils">
-<dt>Arguments to configure your cloud storage url type.</dt>
-<dd><ul class="first last simple">
-<li>S3 requires <code class="docutils literal notranslate"><span class="pre">bucket</span></code> argument and, if not stored as env variables
-<code class="docutils literal notranslate"><span class="pre">aws_access_key</span></code> and <code class="docutils literal notranslate"><span class="pre">aws_secret_access_key</span></code>.</li>
-</ul>
-</dd>
-</dl>
-</dd>
+<dd>Arguments to configure your cloud storage url type. See
+<a class="reference internal" href="utilities.html#cloud-storage"><span class="std std-ref">Cloud Storage</span></a> for more details.</dd>
 </dl>
 </dd>
 <dt><cite>Returns:</cite></dt>
@@ -2227,7 +2234,7 @@ table must contain the primary key (e.g. vanid).</dd>
 </div>
 </dd>
 <dt>url_type: str</dt>
-<dd>The cloud file storage to use to post the file.
+<dd>The cloud file storage to use to post the file (<code class="docutils literal notranslate"><span class="pre">S3</span></code> or <code class="docutils literal notranslate"><span class="pre">GCS</span></code>).
 See <a class="reference internal" href="utilities.html#cloud-storage"><span class="std std-ref">Cloud Storage</span></a> for more details.</dd>
 <dt>email: str</dt>
 <dd>An email address to send job load status updates.</dd>

@@ -331,11 +331,11 @@
 <span class="sd">            table: Parsons table</span>
 <span class="sd">                A Parsons table.</span>
 <span class="sd">            url_type: str</span>
-<span class="sd">                The cloud file storage to use to post the file. Currently only ``S3``.</span>
+<span class="sd">                The cloud file storage to use to post the file (``S3`` or ``GCS``).</span>
+<span class="sd">                See :ref:`Cloud Storage &lt;cloud-storage&gt;` for more details.</span>
 <span class="sd">            **url_kwargs: kwargs</span>
-<span class="sd">                Arguments to configure your cloud storage url type.</span>
-<span class="sd">                    * S3 requires ``bucket`` argument and, if not stored as env variables</span>
-<span class="sd">                      ``aws_access_key`` and ``aws_secret_access_key``.</span>
+<span class="sd">                Arguments to configure your cloud storage url type. See</span>
+<span class="sd">                :ref:`Cloud Storage &lt;cloud-storage&gt;` for more details.</span>
 <span class="sd">        `Returns:`</span>
 <span class="sd">            int</span>
 <span class="sd">                The bulk import job id</span>

@@ -72,9 +72,9 @@ Bulk Import
 ===========
 For some methods, VAN allows you to bulk import multiple records to create or modify them. 
 
-The bulk upload endpoint, requires access to file on the public internet as it runs the upload
-asynchronously. Therefore, in order to bulk import, you must pass in cloud storage credentials
-so that the file can be posted. Currently, only S3 is supported.
+The bulk upload endpoint requires access to file on the public internet as it runs the upload
+asynchronously. Therefore, in order to bulk import, you must pass in cloud storage credentials,
+either AWS S3 or Google Cloud Storage, so that the file can be posted.
 
 **Bulk Apply Activist Codes**
 
@@ -82,7 +82,7 @@ so that the file can be posted. Currently, only S3 is supported.
 
    from parsons import VAN, Table
 
-   van = VAN(db=EveryAction)
+   van = VAN(db='EveryAction')
 
    # Load a table containing the VANID, activistcodeid and other options.
    tbl = Table.from_csv('new_volunteers.csv')
@@ -94,6 +94,33 @@ so that the file can be posted. Currently, only S3 is supported.
 
    # The bulk import job is run asynchronously, so you may poll the status of a job.
    job_status = van.get_bulk_import_job(job_id)
+
+**Upload Saved List**
+
+.. code-block:: python
+
+   from parsons import VAN, Table
+
+   van = VAN(db='MyVoters')
+
+   # Load a table containing VANIDs
+   tbl = Table.from_csv('gcs_test.csv')
+
+   # The destination folder id. You can get a list of folder ids by running the
+   # VAN.get_folders() method. Remember to share the folder with your API user
+   # or you will not be able to access it.
+   folder_id = 1171
+
+   # The destination list name
+   list_name = 'My Winning List v1.0'
+
+   # The cloud storage service and kwargs specific to GCS. 
+   url_type = 'GCS'
+   bucket_name = 'my_bucket'
+   app_creds = 'my_creds.json' # Not required if stored as env variable.
+
+   van.upload_saved_list(tbl, list_name, folder_id, url_type, replace=true, 
+                         bucket_name=bucket_name, app_creds=app_creds)
 
 ============================
 Scores: Loading and Updating

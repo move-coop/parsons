@@ -20,7 +20,7 @@ class RedshiftCreateTable(DatabaseCreateStatement):
         self.MEDIUMINT = self.INT
 
         # Currently py floats are coded as Redshift decimals
-        self.FLOAT = consts.DECIMAL
+        self.FLOAT = consts.FLOAT
 
         self.VARCHAR_MAX = consts.VARCHAR_MAX
         self.VARCHAR_STEPS = consts.VARCHAR_STEPS

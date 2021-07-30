@@ -7,7 +7,7 @@ Overview
 ********
 
 The VAN module leverages the VAN API and generally follows the naming convention of their API endpoints. It
-is recommended that you reference their `API documentation <https://developers.ngpvan.com/van-api#van>`_ to
+is recommended that you reference their `API documentation <https://docs.ngpvan.com/reference/overview>`_ for
 additional details and information.
 
 .. note::
@@ -33,7 +33,7 @@ additional details and information.
 QuickStart
 **********
 
-To call the VAN class you can either store the api key as an environmental variable VAN_API_KEY or pass it in as an argument..
+To call the VAN class you can either store the api key as an environmental variable VAN_API_KEY or pass it in as an argument.
 
 .. code-block:: python
 
@@ -72,9 +72,9 @@ Bulk Import
 ===========
 For some methods, VAN allows you to bulk import multiple records to create or modify them. 
 
-The bulk upload endpoint requires access to file on the public internet as it runs the upload
-asynchronously. Therefore, in order to bulk import, you must pass in cloud storage credentials,
-either AWS S3 or Google Cloud Storage, so that the file can be posted.
+The bulk upload endpoint requires access to files on the public internet as it runs the upload
+asynchronously. Therefore, in order to bulk import, you must pass in cloud storage credentials
+(either AWS S3 or Google Cloud Storage) so that the file can be posted.
 
 **Bulk Apply Activist Codes**
 

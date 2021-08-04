@@ -658,7 +658,16 @@ class Redshift(RedshiftCreateTable, RedshiftCopyTable, RedshiftTableUtilities, R
             statement += f"REGION {aws_region} \n"
 
         logger.info(f'Unloading data to s3://{bucket}/{key_prefix}')
-        logger.debug(statement)
+        # Censor sensitive data
+        logger.debug(
+            statement.replace(
+                aws_access_key_id,
+                'XXXXXXXXXXXX'
+            ).replace(
+                aws_secret_access_key,
+                'YYYYYYYYYYYYY'
+            )
+        )
 
         return self.query(statement)
 

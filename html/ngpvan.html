@@ -235,7 +235,7 @@
 <div class="section" id="overview">
 <h2>Overview<a class="headerlink" href="#overview" title="Permalink to this headline">¶</a></h2>
 <p>The VAN module leverages the VAN API and generally follows the naming convention of their API endpoints. It
-is recommended that you reference their <a class="reference external" href="https://developers.ngpvan.com/van-api#van">API documentation</a> to
+is recommended that you reference their <a class="reference external" href="https://docs.ngpvan.com/reference/overview">API documentation</a> for
 additional details and information.</p>
 <div class="admonition note">
 <p class="first admonition-title">Note</p>
@@ -266,7 +266,7 @@ about Parsons. Please direct any questions</dd>
 </div>
 <div class="section" id="quickstart">
 <h2>QuickStart<a class="headerlink" href="#quickstart" title="Permalink to this headline">¶</a></h2>
-<p>To call the VAN class you can either store the api key as an environmental variable VAN_API_KEY or pass it in as an argument..</p>
+<p>To call the VAN class you can either store the api key as an environmental variable VAN_API_KEY or pass it in as an argument.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">parsons</span> <span class="kn">import</span> <span class="n">VAN</span>
 
  <span class="n">van</span> <span class="o">=</span> <span class="n">VAN</span><span class="p">(</span><span class="n">db</span><span class="o">=</span><span class="s1">&#39;MyVoters&#39;</span><span class="p">)</span> <span class="c1"># Specify the DB type and pass api key via environmental variable.</span>
@@ -297,9 +297,9 @@ documentation for all functions.</p>
 <div class="section" id="bulk-import">
 <h3>Bulk Import<a class="headerlink" href="#bulk-import" title="Permalink to this headline">¶</a></h3>
 <p>For some methods, VAN allows you to bulk import multiple records to create or modify them.</p>
-<p>The bulk upload endpoint requires access to file on the public internet as it runs the upload
-asynchronously. Therefore, in order to bulk import, you must pass in cloud storage credentials,
-either AWS S3 or Google Cloud Storage, so that the file can be posted.</p>
+<p>The bulk upload endpoint requires access to files on the public internet as it runs the upload
+asynchronously. Therefore, in order to bulk import, you must pass in cloud storage credentials
+(either AWS S3 or Google Cloud Storage) so that the file can be posted.</p>
 <p><strong>Bulk Apply Activist Codes</strong></p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">parsons</span> <span class="kn">import</span> <span class="n">VAN</span><span class="p">,</span> <span class="n">Table</span>
 
@@ -609,7 +609,7 @@ main phone or ‘F’ for fax line. Defaults to home phone.</dd>
 <div class="admonition note">
 <p class="first admonition-title">Note</p>
 <p class="last">A full list of possible values for the json, and its structure can be found
-<a class="reference external" href="https://developers.ngpvan.com/van-api#match-candidates">here</a>.</p>
+<a class="reference external" href="https://docs.ngpvan.com/reference/people#common-models">here</a>.</p>
 </div>
 <dl class="docutils">
 <dt><cite>Args:</cite></dt>
@@ -690,7 +690,7 @@ main phone or ‘F’ for fax line. Defaults to home phone.</dd>
 <div class="admonition note">
 <p class="first admonition-title">Note</p>
 <p class="last">A full list of possible values for the json, and its structure can be found
-<a class="reference external" href="https://developers.ngpvan.com/van-api#match-candidates">here</a>. <cite>vanId</cite> can
+<a class="reference external" href="https://docs.ngpvan.com/reference/people#common-models">here</a>. <cite>vanId</cite> can
 be passed to ensure the correct record is updated.</p>
 </div>
 <div class="admonition warning">
@@ -804,7 +804,8 @@ can be found by using the <code class="xref py py-meth docutils literal notransl
 <dd><p>Apply responses such as survey questions, activist codes, and volunteer actions
 to a person record. This method allows you apply multiple responses (e.g. two survey
 questions) at the same time. It is a low level method that requires that you
-conform to the VAN API <a class="reference external" href="https://developers.ngpvan.com/van-api#people-post-people--vanid--canvassresponses">response object format</a>.</p>
+conform to the VAN API <a class="reference external" href="https://docs.ngpvan.com/reference/people#peoplevanidcanvassresponses">response object
+format</a>.</p>
 <dl class="docutils">
 <dt><cite>Args:</cite></dt>
 <dd><dl class="first docutils">

@@ -446,7 +446,7 @@ class People(object):
         Apply responses such as survey questions, activist codes, and volunteer actions
         to a person record. This method allows you apply multiple responses (e.g. two survey
         questions) at the same time. It is a low level method that requires that you
-        conform to the VAN API `response object 
+        conform to the VAN API `response object
         format <https://docs.ngpvan.com/reference/people#peoplevanidcanvassresponses>`_.
 
         `Args:`

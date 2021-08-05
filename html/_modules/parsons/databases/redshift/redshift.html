@@ -754,13 +754,18 @@
 
                 <span class="c1"># Copy from S3 to Redshift</span>
                 <span class="n">sql</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">copy_statement</span><span class="p">(</span><span class="n">table_name</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">s3_temp_bucket</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="o">**</span><span class="n">copy_args</span><span class="p">)</span>
-                <span class="n">sql_censored</span> <span class="o">=</span> <span class="n">sql</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span>
-                    <span class="n">aws_access_key_id</span><span class="p">,</span>
-                    <span class="s1">&#39;XXXXXXXXXXXX&#39;</span>
-                <span class="p">)</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span>
-                    <span class="n">aws_secret_access_key</span><span class="p">,</span>
-                    <span class="s1">&#39;YYYYYYYYYYYYY&#39;</span>
-                <span class="p">)</span>
+                <span class="n">sql_censored</span> <span class="o">=</span> <span class="n">sql</span>
+                <span class="k">if</span> <span class="n">aws_access_key_id</span><span class="p">:</span>
+                    <span class="n">sql_censored</span> <span class="o">=</span> <span class="n">sql_censored</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span>
+                        <span class="n">aws_access_key_id</span><span class="p">,</span>
+                        <span class="s1">&#39;XXXXXXXXXXXX&#39;</span>
+                    <span class="p">)</span>
+                <span class="k">if</span> <span class="n">aws_secret_access_key</span><span class="p">:</span>
+                    <span class="n">sql_censored</span> <span class="o">=</span> <span class="n">sql_censored</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span>
+                        <span class="n">aws_secret_access_key</span><span class="p">,</span>
+                        <span class="s1">&#39;YYYYYYYYYYYYY&#39;</span>
+                    <span class="p">)</span>
+
                 <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Copy SQL command: </span><span class="si">{</span><span class="n">sql_censored</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">query_with_connection</span><span class="p">(</span><span class="n">sql</span><span class="p">,</span> <span class="n">connection</span><span class="p">,</span> <span class="n">commit</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
 
@@ -860,15 +865,18 @@
 
         <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Unloading data to s3://</span><span class="si">{</span><span class="n">bucket</span><span class="si">}</span><span class="s1">/</span><span class="si">{</span><span class="n">key_prefix</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
         <span class="c1"># Censor sensitive data</span>
-        <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span>
-            <span class="n">statement</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span>
+        <span class="n">statement_censored</span> <span class="o">=</span> <span class="n">statement</span>
+        <span class="k">if</span> <span class="n">aws_access_key_id</span><span class="p">:</span>
+            <span class="n">statement_censored</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span>
                 <span class="n">aws_access_key_id</span><span class="p">,</span>
                 <span class="s1">&#39;XXXXXXXXXXXX&#39;</span>
-            <span class="p">)</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span>
+            <span class="p">)</span>
+        <span class="k">if</span> <span class="n">aws_secret_access_key</span><span class="p">:</span>
+            <span class="n">statement_censored</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span>
                 <span class="n">aws_secret_access_key</span><span class="p">,</span>
                 <span class="s1">&#39;YYYYYYYYYYYYY&#39;</span>
             <span class="p">)</span>
-        <span class="p">)</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="n">statement_censored</span><span class="p">)</span>
 
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="n">statement</span><span class="p">)</span>
 

@@ -808,6 +808,41 @@
                                <span class="n">url</span><span class="o">=</span><span class="n">url</span><span class="p">,</span>
                                <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
 
+<div class="viewcode-block" id="ActionKit.get_survey_question"><a class="viewcode-back" href="../../../action_kit.html#parsons.ActionKit.get_survey_question">[docs]</a>    <span class="k">def</span> <span class="nf">get_survey_question</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">survey_question_id</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Get a survey question.</span>
+
+<span class="sd">        `Args:`</span>
+<span class="sd">            survey_question_id: int</span>
+<span class="sd">                The survey question id of the record to get.</span>
+<span class="sd">        `Returns`:</span>
+<span class="sd">            Survey question json object</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_base_get</span><span class="p">(</span><span class="n">endpoint</span><span class="o">=</span><span class="s1">&#39;surveyquestion&#39;</span><span class="p">,</span> <span class="n">entity_id</span><span class="o">=</span><span class="n">survey_question_id</span><span class="p">,</span>
+                              <span class="n">exception_message</span><span class="o">=</span><span class="s1">&#39;Survey question not found&#39;</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="ActionKit.update_survey_question"><a class="viewcode-back" href="../../../action_kit.html#parsons.ActionKit.update_survey_question">[docs]</a>    <span class="k">def</span> <span class="nf">update_survey_question</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">survey_question_id</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Update a survey question.</span>
+
+<span class="sd">        `Args:`</span>
+<span class="sd">            survey_question_id: int</span>
+<span class="sd">                The id of the survey question to update</span>
+<span class="sd">            survey_question_dict: dict</span>
+<span class="sd">                A dictionary of fields to update for the survey question.</span>
+<span class="sd">            **kwargs:</span>
+<span class="sd">                Optional arguments and fields to pass to the client. A full list can be found</span>
+<span class="sd">                in the `ActionKit API Documentation &lt;https://roboticdogs.actionkit.com/docs/\</span>
+<span class="sd">                manual/api/rest/actionprocessing.html&gt;`_.</span>
+<span class="sd">        `Returns:`</span>
+<span class="sd">            ``None``</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">resp</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">conn</span><span class="o">.</span><span class="n">patch</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_base_endpoint</span><span class="p">(</span><span class="s1">&#39;surveyquestion&#39;</span><span class="p">,</span> <span class="n">survey_question_id</span><span class="p">),</span>
+                               <span class="n">data</span><span class="o">=</span><span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">kwargs</span><span class="p">))</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">resp</span><span class="o">.</span><span class="n">status_code</span><span class="si">}</span><span class="s1">: </span><span class="si">{</span><span class="n">survey_question_id</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span></div>
+
 <div class="viewcode-block" id="ActionKit.create_generic_action"><a class="viewcode-back" href="../../../action_kit.html#parsons.ActionKit.create_generic_action">[docs]</a>    <span class="k">def</span> <span class="nf">create_generic_action</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">page</span><span class="p">,</span> <span class="n">email</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">ak_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Post a generic action. One of ``ak_id`` or ``email`` is a required argument.</span>

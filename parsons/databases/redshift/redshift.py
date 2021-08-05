@@ -560,7 +560,14 @@ class Redshift(RedshiftCreateTable, RedshiftCopyTable, RedshiftTableUtilities, R
 
                 # Copy from S3 to Redshift
                 sql = self.copy_statement(table_name, self.s3_temp_bucket, key, **copy_args)
-                logger.debug(f'Copy SQL command: {sql}')
+                sql_censored = sql.replace(
+                    aws_access_key_id,
+                    'XXXXXXXXXXXX'
+                ).replace(
+                    aws_secret_access_key,
+                    'YYYYYYYYYYYYY'
+                )
+                logger.debug(f'Copy SQL command: {sql_censored}')
                 self.query_with_connection(sql, connection, commit=False)
 
                 logger.info(f'Data copied to {table_name}.')

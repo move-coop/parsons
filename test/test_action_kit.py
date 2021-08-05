@@ -359,6 +359,26 @@ class TestActionKit(unittest.TestCase):
             })
         )
 
+    def test_get_survey_question(self):
+        # Test get survey question
+        self.actionkit.get_survey_question(123)
+        self.actionkit.conn.get.assert_called_with(
+            'https://domain.actionkit.com/rest/v1/surveyquestion/123/', params=None
+        )
+
+    def test_update_survey_question(self):
+        # Test update survey question
+
+        # Mock resp and status code
+        resp_mock = mock.MagicMock()
+        type(resp_mock.patch()).status_code = mock.PropertyMock(return_value=202)
+        self.actionkit.conn = resp_mock
+        self.actionkit.update_survey_question(123, question_html='test')
+        self.actionkit.conn.patch.assert_called_with(
+            'https://domain.actionkit.com/rest/v1/surveyquestion/123/',
+            data=json.dumps({'question_html': 'test'})
+        )
+
     def test_create_generic_action(self):
         # Test create a generic action
 

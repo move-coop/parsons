@@ -614,6 +614,41 @@ class ActionKit(object):
                                url=url,
                                **kwargs)
 
+    def get_survey_question(self, survey_question_id):
+        """
+        Get a survey question.
+
+        `Args:`
+            survey_question_id: int
+                The survey question id of the record to get.
+        `Returns`:
+            Survey question json object
+        """
+
+        return self._base_get(endpoint='surveyquestion', entity_id=survey_question_id,
+                              exception_message='Survey question not found')
+
+    def update_survey_question(self, survey_question_id, **kwargs):
+        """
+        Update a survey question.
+
+        `Args:`
+            survey_question_id: int
+                The id of the survey question to update
+            survey_question_dict: dict
+                A dictionary of fields to update for the survey question.
+            **kwargs:
+                Optional arguments and fields to pass to the client. A full list can be found
+                in the `ActionKit API Documentation <https://roboticdogs.actionkit.com/docs/\
+                manual/api/rest/actionprocessing.html>`_.
+        `Returns:`
+            ``None``
+        """
+
+        resp = self.conn.patch(self._base_endpoint('surveyquestion', survey_question_id),
+                               data=json.dumps(kwargs))
+        logger.info(f'{resp.status_code}: {survey_question_id}')
+
     def create_generic_action(self, page, email=None, ak_id=None, **kwargs):
         """
         Post a generic action. One of ``ak_id`` or ``email`` is a required argument.

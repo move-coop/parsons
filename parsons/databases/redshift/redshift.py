@@ -571,6 +571,7 @@ class Redshift(RedshiftCreateTable, RedshiftCopyTable, RedshiftTableUtilities, R
                         aws_secret_access_key,
                         'YYYYYYYYYYYYY'
                     )
+
                 logger.debug(f'Copy SQL command: {sql_censored}')
                 self.query_with_connection(sql, connection, commit=False)
 

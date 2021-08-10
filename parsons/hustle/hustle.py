@@ -69,7 +69,9 @@ class Hustle(object):
 
         headers = {'Authorization': f'Bearer {self.auth_token}'}
 
-        parameters = {'limit': PAGE_LIMIT}
+        parameters = {}
+        if req_type == 'GET':
+            parameters = {'limit': PAGE_LIMIT}
 
         if args:
             parameters.update(args)
@@ -393,7 +395,7 @@ class Hustle(object):
         table.map_columns(LEAD_COLUMN_MAP)
 
         arg_list = ['first_name', 'last_name', 'email', 'phone_number', 'follow_up',
-                    'tag_id', 'group_id']
+                    'tag_ids', 'group_id']
 
         created_leads = []
 

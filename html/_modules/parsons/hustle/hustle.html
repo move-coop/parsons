@@ -263,7 +263,9 @@
 
         <span class="n">headers</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;Authorization&#39;</span><span class="p">:</span> <span class="sa">f</span><span class="s1">&#39;Bearer </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">auth_token</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">}</span>
 
-        <span class="n">parameters</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;limit&#39;</span><span class="p">:</span> <span class="n">PAGE_LIMIT</span><span class="p">}</span>
+        <span class="n">parameters</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="k">if</span> <span class="n">req_type</span> <span class="o">==</span> <span class="s1">&#39;GET&#39;</span><span class="p">:</span>
+            <span class="n">parameters</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;limit&#39;</span><span class="p">:</span> <span class="n">PAGE_LIMIT</span><span class="p">}</span>
 
         <span class="k">if</span> <span class="n">args</span><span class="p">:</span>
             <span class="n">parameters</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">args</span><span class="p">)</span>
@@ -587,7 +589,7 @@
         <span class="n">table</span><span class="o">.</span><span class="n">map_columns</span><span class="p">(</span><span class="n">LEAD_COLUMN_MAP</span><span class="p">)</span>
 
         <span class="n">arg_list</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;first_name&#39;</span><span class="p">,</span> <span class="s1">&#39;last_name&#39;</span><span class="p">,</span> <span class="s1">&#39;email&#39;</span><span class="p">,</span> <span class="s1">&#39;phone_number&#39;</span><span class="p">,</span> <span class="s1">&#39;follow_up&#39;</span><span class="p">,</span>
-                    <span class="s1">&#39;tag_id&#39;</span><span class="p">,</span> <span class="s1">&#39;group_id&#39;</span><span class="p">]</span>
+                    <span class="s1">&#39;tag_ids&#39;</span><span class="p">,</span> <span class="s1">&#39;group_id&#39;</span><span class="p">]</span>
 
         <span class="n">created_leads</span> <span class="o">=</span> <span class="p">[]</span>
 

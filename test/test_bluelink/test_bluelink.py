@@ -1,6 +1,5 @@
 import unittest
 import requests_mock
-import json
 from parsons import Table
 from parsons.bluelink import Bluelink, Person, Identifier, Email
 
@@ -63,10 +62,12 @@ class TestBluelink(unittest.TestCase):
         m.post(self.bluelink.api_url)
 
         # create a Person object
-        # The Identifier is pretending that the user can be identified in SALESFORCE with FAKE_ID as her id
-        person = Person(identifiers=Identifier(source="SALESFORCE", identifier="FAKE_ID"),
-                     given_name="Jane", family_name="Doe",
-                     emails=[Email(address="jdoe@example.com", primary=True)])
+        # The Identifier is pretending that the user can be
+        # identified in SALESFORCE with FAKE_ID as her id
+        person = Person(identifiers=[Identifier(source="SALESFORCE",
+                                                identifier="FAKE_ID")],
+                        given_name="Jane", family_name="Doe",
+                        emails=[Email(address="jdoe@example.com", primary=True)])
 
         # String to identify that the data came from your system. For example, your company name.
         source = "BLUELINK-PARSONS-TEST"
@@ -85,12 +86,13 @@ class TestBluelink(unittest.TestCase):
         actual_people = Person.from_table(tbl, self.row_to_person)
 
         # expected:
-        person1 = Person(identifiers=[Identifier(source="FAKESOURCE", identifier="bart@springfield.net")],
+        person1 = Person(identifiers=[Identifier(source="FAKESOURCE",
+                                                 identifier="bart@springfield.net")],
                          emails=[Email(address="bart@springfield.net", primary=True)],
                          family_name="Simpson", given_name="Bart")
-        person2 = Person(identifiers=[Identifier(source="FAKESOURCE", identifier="homer@springfield.net")],
+        person2 = Person(identifiers=[Identifier(source="FAKESOURCE",
+                                                 identifier="homer@springfield.net")],
                          emails=[Email(address="homer@springfield.net", primary=True)],
                          family_name="Simpson", given_name="Homer")
         expected_people = [person1, person2]
         self.assertEqual(actual_people, expected_people)
-

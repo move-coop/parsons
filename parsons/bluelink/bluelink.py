@@ -13,6 +13,7 @@ class Bluelink:
     """
     Instantiate a Bluelink connector.
     Allows for a simple method of inserting Person data to Bluelink via a webhook.
+    # see: https://bluelinkdata.github.io/docs/BluelinkApiGuide#webhook
 
     `Args:`:
         user: str

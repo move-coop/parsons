@@ -7,9 +7,12 @@ Overview
 
 `Bluelink <https://bluelink.org/>`_ is an online tool for connecting the various `digital software tools <https://https://bluelink.org/product/#integrations>`_
 used by campaigns and movement groups in the political and non-profit space to allow you to seamlessly and easily sync data between them.
-This integration currently supports sending your structured person data and related tags to Bluelink, after which you can use our UI to send to any of our
+This integration currently supports sending your structured person data and related tags to Bluelink via the
+`Bluelink Webhook API <https://bluelinkdata.github.io/docs/BluelinkApiGuide#webhook>`_, after which you can use our UI to send to any of our
 `supported tools <https://bluelink.org/product/#integrations>`_. If you don't see a tool you would like to connect to, please reach out at
 hello@bluelink.org to ask us to add it.
+
+
 
 .. note::
    Authentication

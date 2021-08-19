@@ -331,6 +331,18 @@ class TestActionKit(unittest.TestCase):
             data=json.dumps({})
         )
 
+    def test_update_order(self):
+        # Test update order
+
+        # Mock resp and status code
+        resp_mock = mock.MagicMock()
+        type(resp_mock.patch()).status_code = mock.PropertyMock(return_value=202)
+        self.actionkit.conn = resp_mock
+        self.actionkit.update_order(123, account='test')
+        self.actionkit.conn.patch.assert_called_with(
+            'https://domain.actionkit.com/rest/v1/order/123/', data=json.dumps({'account': 'test'})
+        )
+
     def test_get_page_followup(self):
         # Test get page followup
         self.actionkit.get_page_followup(123)
@@ -377,6 +389,19 @@ class TestActionKit(unittest.TestCase):
         self.actionkit.conn.patch.assert_called_with(
             'https://domain.actionkit.com/rest/v1/surveyquestion/123/',
             data=json.dumps({'question_html': 'test'})
+        )
+
+    def test_update_transaction(self):
+        # Test update transaction
+
+        # Mock resp and status code
+        resp_mock = mock.MagicMock()
+        type(resp_mock.patch()).status_code = mock.PropertyMock(return_value=202)
+        self.actionkit.conn = resp_mock
+        self.actionkit.update_transaction(123, account='test')
+        self.actionkit.conn.patch.assert_called_with(
+            'https://domain.actionkit.com/rest/v1/transaction/123/',
+            data=json.dumps({'account': 'test'})
         )
 
     def test_create_generic_action(self):

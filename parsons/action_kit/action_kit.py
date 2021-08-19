@@ -565,6 +565,25 @@ class ActionKit(object):
         return self._base_post(endpoint='mailer/' + str(mailing_id) + '/queue',
                                exception_message='Could not queue mailer')
 
+    def update_order(self, order_id, **kwargs):
+        """
+        Update an order.
+
+        `Args:`
+            order_id: int
+                The id of the order to update
+            **kwargs:
+                Optional arguments and fields to pass to the client. A full list can be found
+                in the `ActionKit API Documentation <https://roboticdogs.actionkit.com/docs/\
+                manual/api/rest/actionprocessing.html>`_.
+        `Returns:`
+            ``None``
+        """
+
+        resp = self.conn.patch(self._base_endpoint('order', order_id),
+                               data=json.dumps(kwargs))
+        logger.info(f'{resp.status_code}: {order_id}')
+
     def get_page_followup(self, page_followup_id):
         """
         Get a page followup.
@@ -648,6 +667,25 @@ class ActionKit(object):
         resp = self.conn.patch(self._base_endpoint('surveyquestion', survey_question_id),
                                data=json.dumps(kwargs))
         logger.info(f'{resp.status_code}: {survey_question_id}')
+
+    def update_transaction(self, transaction_id, **kwargs):
+        """
+        Update a transaction.
+
+        `Args:`
+            transaction_id: int
+                The id of the transaction to update
+            **kwargs:
+                Optional arguments and fields to pass to the client. A full list can be found
+                in the `ActionKit API Documentation <https://roboticdogs.actionkit.com/docs/\
+                manual/api/rest/actionprocessing.html>`_.
+        `Returns:`
+            ``None``
+        """
+
+        resp = self.conn.patch(self._base_endpoint('transaction', transaction_id),
+                               data=json.dumps(kwargs))
+        logger.info(f'{resp.status_code}: {transaction_id}')
 
     def create_generic_action(self, page, email=None, ak_id=None, **kwargs):
         """

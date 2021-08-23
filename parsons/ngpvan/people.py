@@ -530,7 +530,7 @@ class People(object):
                 'vanId': vanid_2}
 
         self.connection.post_request(f"people/{vanid_1}/relationships", json=json)
-        logger.info('Relationship {vanid_1} to {vanid_2} created.')
+        logger.info(f'Relationship {vanid_1} to {vanid_2} created.')
 
     def apply_person_code(self, id, code_id, id_type='vanid'):
         """

@@ -189,7 +189,8 @@ class Redshift(RedshiftCreateTable, RedshiftCopyTable, RedshiftTableUtilities, R
 
         with self.cursor(connection) as cursor:
 
-            logger.debug(f'SQL Query: {sql}')
+            if 'credentials' not in sql:
+                logger.debug(f'SQL Query: {sql}')
             cursor.execute(sql, parameters)
 
             if commit:

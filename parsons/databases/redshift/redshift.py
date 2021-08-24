@@ -560,17 +560,9 @@ class Redshift(RedshiftCreateTable, RedshiftCopyTable, RedshiftTableUtilities, R
 
                 # Copy from S3 to Redshift
                 sql = self.copy_statement(table_name, self.s3_temp_bucket, key, **copy_args)
-                sql_censored = sql
-                if aws_access_key_id:
-                    sql_censored = sql_censored.replace(
-                        aws_access_key_id,
-                        'XXXXXXXXXXXX'
-                    )
-                if aws_secret_access_key:
-                    sql_censored = sql_censored.replace(
-                        aws_secret_access_key,
-                        'YYYYYYYYYYYYY'
-                    )
+                sql_censored = "\n".join(["credentials: REDACTED"
+                                          if 'credentials' in x else x
+                                          for x in sql.split("\n")])
 
                 logger.debug(f'Copy SQL command: {sql_censored}')
                 self.query_with_connection(sql, connection, commit=False)
@@ -671,17 +663,9 @@ class Redshift(RedshiftCreateTable, RedshiftCopyTable, RedshiftTableUtilities, R
 
         logger.info(f'Unloading data to s3://{bucket}/{key_prefix}')
         # Censor sensitive data
-        statement_censored = statement
-        if aws_access_key_id:
-            statement_censored.replace(
-                aws_access_key_id,
-                'XXXXXXXXXXXX'
-            )
-        if aws_secret_access_key:
-            statement_censored.replace(
-                aws_secret_access_key,
-                'YYYYYYYYYYYYY'
-            )
+        statement_censored = "\n".join(["credentials: REDACTED"
+                                          if 'credentials' in x else x
+                                          for x in statement.split("\n")])
         logger.debug(statement_censored)
 
         return self.query(statement)

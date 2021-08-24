@@ -665,8 +665,8 @@ class Redshift(RedshiftCreateTable, RedshiftCopyTable, RedshiftTableUtilities, R
         logger.info(f'Unloading data to s3://{bucket}/{key_prefix}')
         # Censor sensitive data
         statement_censored = "\n".join(["credentials: REDACTED"
-                                          if 'credentials' in x else x
-                                          for x in statement.split("\n")])
+                                        if 'credentials' in x else x
+                                        for x in statement.split("\n")])
         logger.debug(statement_censored)
 
         return self.query(statement)

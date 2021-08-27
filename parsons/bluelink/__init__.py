@@ -1,7 +1,9 @@
 from parsons.bluelink.bluelink import Bluelink
-from parsons.bluelink.person import Person, Email, Address, Phone, Identifier, Tag, Score
+from parsons.bluelink.person import BluelinkPerson, \
+    BluelinkEmail, BluelinkAddress, BluelinkPhone, BluelinkIdentifier, BluelinkTag, BluelinkScore
 
 __all__ = [
     'Bluelink',
-    'Person', 'Email', 'Address', 'Phone', 'Identifier', 'Tag', 'Score'
+    'BluelinkPerson', 'BluelinkEmail', 'BluelinkAddress', 'BluelinkPhone',
+    'BluelinkIdentifier', 'BluelinkTag', 'BluelinkScore'
 ]

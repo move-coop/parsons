@@ -39,28 +39,28 @@ BLUELINK_WEBHOOK_USER and BLUELINK_WEBHOOK_PASSWORD environment variables.
    # Second approach: Pass API credentials as arguments
    bluelink = Bluelink('username', 'password')
 
-You can upsert Person data by directly using a Person object:
+You can upsert person data by directly using a BluelinkPerson object:
 
 .. code-block:: python
 
-   from parsons.bluelink import Bluelink, Person, Identifier
+   from parsons.bluelink import Bluelink, BluelinkPerson, BluelinkIdentifier
 
    # create the person object
-   person = Person(identifiers=[Identifier(source="SOURCE_VENDOR", identifier="ID")], given_name="Jane", family_name="Doe")
+   person = BluelinkPerson(identifiers=[BluelinkIdentifier(source="SOURCE_VENDOR", identifier="ID")], given_name="Jane", family_name="Doe")
 
    # use the bluelink connector to upsert
    source = "MY_ORG_NAME"
    bluelink.upsert_person(source, person)
 
-You can bulk upsert person data via a Parsons Table by providing a function that takes a row and outputs a Person:
+You can bulk upsert person data via a Parsons Table by providing a function that takes a row and outputs a BluelinkPerson:
 
 .. code-block:: python
 
-   from parsons.bluelink import Bluelink, Person, Identifier
+   from parsons.bluelink import Bluelink, BluelinkPerson, BluelinkIdentifier
 
-   # a function that takes a row and returns a Person
+   # a function that takes a row and returns a BluelinkPerson
    def row_to_person(row):
-      return Person(identifiers=[Identifier(source="SOURCE_VENDOR", identifier=row["id"])],
+      return BluelinkPerson(identifiers=[BluelinkIdentifier(source="SOURCE_VENDOR", identifier=row["id"])],
                     given_name=row["firstName"], family_name=row["lastName"])
 
    # a parsons table filled with person data

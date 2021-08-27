@@ -4,36 +4,36 @@ import json
 logger = logging.getLogger(__name__)
 
 
-class Person(object):
+class BluelinkPerson(object):
     """
-    Instantiate Person Class.
+    Instantiate BluelinkPerson Class.
     Used for to upserting via Bluelink connector.
     See: https://bluelinkdata.github.io/docs/BluelinkApiGuide#person-object
 
     `Args:`
-        identifiers: list[Identifier]
-            A list of Identifier objects.
-            A Person must have at least 1 identifier.
+        identifiers: list[BluelinkIdentifier]
+            A list of BluelinkIdentifier objects.
+            A BluelinkPerson must have at least 1 identifier.
         given_name: str
             First name / given name.
         family_name: str
             Last name / family name.
-        phones: list[Phone]
-            A list of Phone objects representing phone numbers.
-        emails: list[Email]
-            A list of Email objects representing email addresses.
-        addresses: list[Address]
-            A list of Address objects representing postal addresses.
-        tags: list[Tag]
+        phones: list[BluelinkPhone]
+            A list of BluelinkPhone objects representing phone numbers.
+        emails: list[BluelinkEmail]
+            A list of BluelinkEmail objects representing email addresses.
+        addresses: list[BluelinkAddress]
+            A list of BluelinkAddress objects representing postal addresses.
+        tags: list[BluelinkTag]
             Simple tags that apply to the person, eg DONOR.
         employer: str
             Name of the persons employer.
-        employer_address: Address
-            Address of the persons employer.
+        employer_address: BluelinkAddress
+            BluelinkAddress of the persons employer.
         occupation: str
             Occupation.
-        scores: list[Score]
-            List of Score objects. Scores are numeric scores, ie partisanship model.
+        scores: list[BluelinkScore]
+            List of BluelinkScore objects. Scores are numeric scores, ie partisanship model.
         birthdate: str
             ISO 8601 formatted birth date: 'YYYY-MM-DD'
         details: dict
@@ -44,7 +44,8 @@ class Person(object):
                  occupation=None, scores=None, birthdate=None, details=None):
 
         if not identifiers:
-            raise Exception("Person requires list of Identifiers with at least 1 Identifier")
+            raise Exception("BluelinkPerson requires list of BluelinkIdentifiers with "
+                            "at least 1 BluelinkIdentifier")
 
         self.identifiers = identifiers
         self.addresses = addresses
@@ -63,7 +64,7 @@ class Person(object):
         self.details = details
 
     def __json__(self):
-        """The json str representation of this Person object"""
+        """The json str representation of this BluelinkPerson object"""
         return json.dumps(self, default=lambda obj: obj.__dict__)
 
     def __eq__(self, other):
@@ -78,25 +79,25 @@ class Person(object):
     @staticmethod
     def from_table(tbl, dict_to_person):
         """
-        Return a list of Person objects from a Parsons Table.
+        Return a list of BluelinkPerson objects from a Parsons Table.
 
         `Args:`
             tbl: Table
                 A parsons Table.
-            dict_to_person: Callable[[dict],Person]
+            dict_to_person: Callable[[dict],BluelinkPerson]
                 A function that takes a dictionary representation of a table row,
-                and returns a Person.
+                and returns a BluelinkPerson.
         `Returns:`
-           list[Person]
-           A list of Person objects.
+           list[BluelinkPerson]
+           A list of BluelinkPerson objects.
         """
         return [dict_to_person(row) for row in tbl]
 
 
-class Identifier(object):
+class BluelinkIdentifier(object):
     """
-    Instantiate an Identifier object.
-    Identifier is necessary for updating Person records.
+    Instantiate an BluelinkIdentifier object.
+    BluelinkIdentifier is necessary for updating BluelinkPerson records.
 
     `Args:`
         source: str
@@ -116,9 +117,9 @@ class Identifier(object):
         self.details = details
 
 
-class Email(object):
+class BluelinkEmail(object):
     """
-    Instantiate an Email object.
+    Instantiate an BluelinkEmail object.
 
     `Args:`
         address: str
@@ -137,9 +138,9 @@ class Email(object):
         self.status = status
 
 
-class Address(object):
+class BluelinkAddress(object):
     """
-    Instantiate an Address object.
+    Instantiate an BluelinkAddress object.
 
     `Args`:
         address_lines: list[str]
@@ -175,9 +176,9 @@ class Address(object):
         self.status = status
 
 
-class Phone(object):
+class BluelinkPhone(object):
     """
-    Instantiate a Phone object.
+    Instantiate a BluelinkPhone object.
 
     `Args:`
         number: str
@@ -209,20 +210,20 @@ class Phone(object):
         self.details = details
 
 
-class Tag(object):
+class BluelinkTag(object):
     """
-    Instantiate a Tag object.
+    Instantiate a BluelinkTag object.
 
     `Args:`
         tag: str
-            Tag string; convention is either a simple string
+            A tag string; convention is either a simple string
             or a string with a prefix separated by a colon, e.g., “DONOR:GRASSROOTS”
     """
     def __init__(self, tag):
         self.tag = tag
 
 
-class Score(object):
+class BluelinkScore(object):
     """
     Instantiate a score object.
     Represents some kind of numeric score.

@@ -1,7 +1,7 @@
 import unittest
 import requests_mock
 from parsons import Table
-from parsons.bluelink import Bluelink, Person, Identifier, Email
+from parsons.bluelink import Bluelink, BluelinkPerson, BluelinkIdentifier, BluelinkEmail
 
 
 class TestBluelink(unittest.TestCase):
@@ -13,16 +13,16 @@ class TestBluelink(unittest.TestCase):
     @staticmethod
     def row_to_person(row):
         """
-        dict -> Person
-        Transforms a parsons Table row to a Person.
+        dict -> BluelinkPerson
+        Transforms a parsons Table row to a BluelinkPerson.
         This function is passed into bulk_upsert_person along with a Table
         """
         email = row["email"]
-        return Person(
+        return BluelinkPerson(
             identifiers=[
-                Identifier(source="FAKESOURCE", identifier=email),
+                BluelinkIdentifier(source="FAKESOURCE", identifier=email),
             ],
-            emails=[Email(address=email, primary=True)],
+            emails=[BluelinkEmail(address=email, primary=True)],
             family_name=row["family_name"],
             given_name=row["given_name"],
         )
@@ -50,24 +50,24 @@ class TestBluelink(unittest.TestCase):
         source = "BLUELINK-PARSONS-TEST"
 
         # call bulk_upsert_person
-        # passing in the source, the Table, and the function that maps a Table row -> Person
+        # passing in the source, the Table, and the function that maps a Table row -> BluelinkPerson
         self.bluelink.bulk_upsert_person(source, tbl, self.row_to_person)
 
     @requests_mock.Mocker()
     def test_upsert_person(self, m):
         """
-        This function demonstrates how to insert a single Person record
+        This function demonstrates how to insert a single BluelinkPerson record
         """
         # Mock POST requests to api
         m.post(self.bluelink.api_url)
 
-        # create a Person object
-        # The Identifier is pretending that the user can be
+        # create a BluelinkPerson object
+        # The BluelinkIdentifier is pretending that the user can be
         # identified in SALESFORCE with FAKE_ID as her id
-        person = Person(identifiers=[Identifier(source="SALESFORCE",
-                                                identifier="FAKE_ID")],
-                        given_name="Jane", family_name="Doe",
-                        emails=[Email(address="jdoe@example.com", primary=True)])
+        person = BluelinkPerson(identifiers=[BluelinkIdentifier(source="SALESFORCE",
+                                                                identifier="FAKE_ID")],
+                                given_name="Jane", family_name="Doe",
+                                emails=[BluelinkEmail(address="jdoe@example.com", primary=True)])
 
         # String to identify that the data came from your system. For example, your company name.
         source = "BLUELINK-PARSONS-TEST"
@@ -77,22 +77,24 @@ class TestBluelink(unittest.TestCase):
 
     def test_table_to_people(self):
         """
-        Test transforming a parsons Table -> list[Person]
+        Test transforming a parsons Table -> list[BluelinkPerson]
         """
         # setup
         tbl = self.get_table()
 
         # function under test
-        actual_people = Person.from_table(tbl, self.row_to_person)
+        actual_people = BluelinkPerson.from_table(tbl, self.row_to_person)
 
         # expected:
-        person1 = Person(identifiers=[Identifier(source="FAKESOURCE",
-                                                 identifier="bart@springfield.net")],
-                         emails=[Email(address="bart@springfield.net", primary=True)],
-                         family_name="Simpson", given_name="Bart")
-        person2 = Person(identifiers=[Identifier(source="FAKESOURCE",
-                                                 identifier="homer@springfield.net")],
-                         emails=[Email(address="homer@springfield.net", primary=True)],
-                         family_name="Simpson", given_name="Homer")
+        person1 = BluelinkPerson(
+            identifiers=[BluelinkIdentifier(source="FAKESOURCE",
+                                            identifier="bart@springfield.net")],
+            emails=[BluelinkEmail(address="bart@springfield.net", primary=True)],
+            family_name="Simpson", given_name="Bart")
+        person2 = BluelinkPerson(
+            identifiers=[BluelinkIdentifier(source="FAKESOURCE",
+                                            identifier="homer@springfield.net")],
+            emails=[BluelinkEmail(address="homer@springfield.net", primary=True)],
+            family_name="Simpson", given_name="Homer")
         expected_people = [person1, person2]
         self.assertEqual(actual_people, expected_people)

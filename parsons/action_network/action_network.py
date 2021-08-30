@@ -78,12 +78,13 @@ class ActionNetwork(object):
         """
         return self.api.get_request(url=f"people/{person_id}")
 
-    def add_person(self, email_address=None, cell_number=None, mobile_status='subscribed', given_name=None,
-                   family_name=None, tags=None, languages_spoken=None, postal_addresses=None, **kwargs):
+    def add_person(self, email_address=None, given_name=None, family_name=None, tags=None,
+                   languages_spoken=None, postal_addresses=None, mobile_number=None,
+                   mobile_status='subscribed', **kwargs):
         """
         `Args:`
             email_address:
-                Either email_address or cell_number are required. Can be any of the following
+                Either email_address or mobile_number are required. Can be any of the following
                     - a string with the person's email
                     - a list of strings with a person's emails
                     - a dictionary with the following fields
@@ -96,21 +97,6 @@ class ActionNetwork(object):
                             - "previous bounce"
                             - "spam complaint"
                             - "previous spam complaint"
-                                        email_address:
-            cell_number:
-                Either email_address or cell_number are required. Can be any of the following
-                    - a string with the person's cell phone number
-                    - an integer with the person's cell phone number
-                    - a list of strings with the person's cell phone numbers
-                    - a list of integers with the person's cell phone numbers
-                    - a dictionary with the following fields
-                        - number (REQUIRED)
-                        - primary (OPTIONAL): Boolean indicating the user's primary mobile number
-                        - status (OPTIONAL): can taken on any of these values
-                            - "subscribed"
-                            - "unsubscribed"
-            mobile_status:
-                'subscribed' or 'unsubscribed'
             given_name:
                 The person's given name
             family_name:
@@ -123,6 +109,20 @@ class ActionNetwork(object):
                 Optional field. A list of dictionaries.
                 For details, see Action Network's documentation:
                 https://actionnetwork.org/docs/v2/person_signup_helper
+            mobile_number:
+                Either email_address or mobile_number are required. Can be any of the following
+                    - a string with the person's cell phone number
+                    - an integer with the person's cell phone number
+                    - a list of strings with the person's cell phone numbers
+                    - a list of integers with the person's cell phone numbers
+                    - a dictionary with the following fields
+                        - number (REQUIRED)
+                        - primary (OPTIONAL): Boolean indicating the user's primary mobile number
+                        - status (OPTIONAL): can taken on any of these values
+                            - "subscribed"
+                            - "unsubscribed"
+            mobile_status:
+                'subscribed' or 'unsubscribed'
             **kwargs:
                 Any additional fields to store about the person. Action Network allows
                 any custom field.
@@ -131,40 +131,45 @@ class ActionNetwork(object):
         email_addresses_field = None
         if type(email_address) == str:
             email_addresses_field = [{"address": email_address}]
-        elif type(email_address == list):
+        elif type(email_address) == list:
             if type(email_address[0]) == str:
                 email_addresses_field = [{"address": email} for email in email_address]
                 email_addresses_field[0]['primary'] = True
             if type(email_address[0]) == dict:
                 email_addresses_field = email_address
 
-        cell_numbers_field = None
-        if type(cell_number) == str:
-            cell_numbers_field = [{"number": re.sub('[^0-9]', "", cell_number), "status": mobile_status}]
-        elif type(cell_number) == int:
-            cell_numbers_field = [{"number": str(cell_number), "status": mobile_status}]
-        elif type(cell_number == list):
-            if type(cell_number[0]) == str:
-                cell_numbers_field = [{"number": re.sub('[^0-9]', "", cell), "status": mobile_status}
-                                      for cell in cell_number]
-                cell_numbers_field[0]['primary'] = True
-            if type(cell_number[0]) == int:
-                cell_numbers_field = [{"number": cell, "status": mobile_status} for cell in cell_number]
-                cell_numbers_field[0]['primary'] = True
-            if type(cell_number[0]) == dict:
-                cell_numbers_field = cell_number
+        mobile_numbers_field = None
+        if type(mobile_number) == str:
+            mobile_numbers_field = [{"number": re.sub('[^0-9]', "", mobile_number),
+                                     "status": mobile_status}]
+        elif type(mobile_number) == int:
+            mobile_numbers_field = [{"number": str(mobile_number), "status": mobile_status}]
+        elif type(mobile_number) == list:
+            if len(mobile_number) > 1:
+                raise('Action Network allows only 1 phone number per activist')
+            if type(mobile_number[0]) == str:
+                mobile_numbers_field = [{"number": re.sub('[^0-9]', "", cell),
+                                        "status": mobile_status}
+                                        for cell in mobile_number]
+                mobile_numbers_field[0]['primary'] = True
+            if type(mobile_number[0]) == int:
+                mobile_numbers_field = [{"number": cell, "status": mobile_status}
+                                        for cell in mobile_number]
+                mobile_numbers_field[0]['primary'] = True
+            if type(mobile_number[0]) == dict:
+                mobile_numbers_field = mobile_number
 
-        if not email_addresses_field and not cell_numbers_field:
-            raise("Either email_address or cell_number is required and can be formatted as a string, list of strings, "
-                  "a dictionary, a list of dictionaries, or (for cell_number only) an integer or list of integers")
+        if not email_addresses_field and not mobile_numbers_field:
+            raise("Either email_address or mobile_number is required and can be formatted "
+                  "as a string, list of strings, a dictionary, a list of dictionaries, or "
+                  "(for mobile_number only) an integer or list of integers")
 
         data = {"person": {}}
 
-        if email_addresses_field:
+        if email_addresses_field is not None:
             data["person"]["email_addresses"] = email_addresses_field
-        if cell_numbers_field:
-            data["person"]["phone_numbers"] = cell_numbers_field
-
+        if mobile_numbers_field is not None:
+            data["person"]["phone_numbers"] = mobile_numbers_field
         if given_name is not None:
             data["person"]["given_name"] = given_name
         if family_name is not None:

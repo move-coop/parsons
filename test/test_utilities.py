@@ -128,6 +128,7 @@ def test_remove_empty_keys():
     test_dict = {'a': '', 'b': 2}
     assert json_format.remove_empty_keys(test_dict) == {'b': 2}
 
+
 def test_redact_credentials():
 
     # Test with quotes, escape characters, and line breaks

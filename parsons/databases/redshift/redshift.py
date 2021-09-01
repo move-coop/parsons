@@ -5,7 +5,7 @@ from parsons.databases.redshift.rs_table_utilities import RedshiftTableUtilities
 from parsons.databases.redshift.rs_schema import RedshiftSchema
 from parsons.databases.table import BaseTable
 from parsons.databases.alchemy import Alchemy
-from parsons.utilities import files
+from parsons.utilities import files, sql_helpers
 import psycopg2
 import psycopg2.extras
 import os
@@ -189,7 +189,8 @@ class Redshift(RedshiftCreateTable, RedshiftCopyTable, RedshiftTableUtilities, R
 
         with self.cursor(connection) as cursor:
 
-            logger.debug(f'SQL Query: {sql}')
+            if 'credentials' not in sql:
+                logger.debug(f'SQL Query: {sql}')
             cursor.execute(sql, parameters)
 
             if commit:
@@ -560,17 +561,7 @@ class Redshift(RedshiftCreateTable, RedshiftCopyTable, RedshiftTableUtilities, R
 
                 # Copy from S3 to Redshift
                 sql = self.copy_statement(table_name, self.s3_temp_bucket, key, **copy_args)
-                sql_censored = sql
-                if aws_access_key_id:
-                    sql_censored = sql_censored.replace(
-                        aws_access_key_id,
-                        'XXXXXXXXXXXX'
-                    )
-                if aws_secret_access_key:
-                    sql_censored = sql_censored.replace(
-                        aws_secret_access_key,
-                        'YYYYYYYYYYYYY'
-                    )
+                sql_censored = sql_helpers.redact_credentials(sql)
 
                 logger.debug(f'Copy SQL command: {sql_censored}')
                 self.query_with_connection(sql, connection, commit=False)
@@ -671,17 +662,7 @@ class Redshift(RedshiftCreateTable, RedshiftCopyTable, RedshiftTableUtilities, R
 
         logger.info(f'Unloading data to s3://{bucket}/{key_prefix}')
         # Censor sensitive data
-        statement_censored = statement
-        if aws_access_key_id:
-            statement_censored.replace(
-                aws_access_key_id,
-                'XXXXXXXXXXXX'
-            )
-        if aws_secret_access_key:
-            statement_censored.replace(
-                aws_secret_access_key,
-                'YYYYYYYYYYYYY'
-            )
+        statement_censored = sql_helpers.redact_credentials(statement)
         logger.debug(statement_censored)
 
         return self.query(statement)

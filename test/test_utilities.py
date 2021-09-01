@@ -9,7 +9,7 @@ from parsons.utilities.datetime import date_to_timestamp, parse_date
 from parsons.utilities import files
 from parsons.utilities import check_env
 from parsons.utilities import json_format
-from parsons.utilities import sql
+from parsons.utilities import sql_helpers
 from test.conftest import xfail_value_error
 
 
@@ -143,7 +143,7 @@ def test_redact_credentials():
     CREDENTIALS REDACTED
     MANIFEST"""
 
-    assert sql.redact_credentials(test_str) == test_result
+    assert sql_helpers.redact_credentials(test_str) == test_result
 
 
 class TestCheckEnv(unittest.TestCase):

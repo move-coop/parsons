@@ -173,6 +173,7 @@ Indices and tables
    azure
    bill_com
    bloomerang
+   bluelink
    box
    braintree
    civis

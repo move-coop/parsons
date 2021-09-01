@@ -9,6 +9,7 @@ from parsons.utilities.datetime import date_to_timestamp, parse_date
 from parsons.utilities import files
 from parsons.utilities import check_env
 from parsons.utilities import json_format
+from parsons.utilities import sql
 from test.conftest import xfail_value_error
 
 
@@ -126,6 +127,22 @@ def test_remove_empty_keys():
     # Assert that a nested empty string is removed
     test_dict = {'a': '', 'b': 2}
     assert json_format.remove_empty_keys(test_dict) == {'b': 2}
+
+def test_redact_credentials():
+
+    # Test with quotes, escape characters, and line breaks
+    test_str = """COPY schema.tablename
+    FROM 's3://bucket/path/to/file.csv'
+    credentials  'aws_access_key_id=string-\\'escaped-quote;
+    aws_secret_access_key='string-escape-char\\\\'
+    MANIFEST"""
+
+    test_result = """COPY schema.tablename
+    FROM 's3://bucket/path/to/file.csv'
+    CREDENTIALS REDACTED
+    MANIFEST"""
+
+    assert sql.redact_credentials(test_str) == test_result
 
 
 class TestCheckEnv(unittest.TestCase):

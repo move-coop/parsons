@@ -536,13 +536,20 @@ class ActionKit(object):
 
         return self._base_post(endpoint='mailer', exception_message='Could not create mailer',
                                **kwargs)
-    def update_mailer(self, mailer_id, **kwargs):
+    def copy_mailer(self, mailer_id):
         """
-        Update a user.
+        copy a mailer
+        returns new copy of mailer which should be updatable.
+        """
+        resp = self.conn.post(self._base_endpoint('mailer', entity_id=mailer_id) + '/copy')
+        return(resp)
+    def update_mailing(self, mailer_id, **kwargs):
+        """
+        Update a mailing.
 
         `Args:`
-            user_id: int
-                The id of the mailer to update
+            mailing_id: int
+                The id of the mailing to update
             **kwargs:
                 Optional arguments and fields to pass to the client. A full list can be found
                 in the `ActionKit API Documentation <https://roboticdogs.actionkit.com/docs/\

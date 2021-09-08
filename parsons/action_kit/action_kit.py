@@ -544,7 +544,7 @@ class ActionKit(object):
         """
         resp = self.conn.post(self._base_endpoint('mailer', entity_id=mailer_id) + '/copy')
         return(resp)
-        
+
     def update_mailing(self, mailer_id, **kwargs):
         """
         Update a mailing.

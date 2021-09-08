@@ -536,16 +536,16 @@ class ActionKit(object):
 
         return self._base_post(endpoint='mailer', exception_message='Could not create mailer',
                                **kwargs)
-    def copy_mailer(self, mailer_id):
 
+    def copy_mailer(self, mailer_id):
         """
         copy a mailer
         returns new copy of mailer which should be updatable.
         """
         resp = self.conn.post(self._base_endpoint('mailer', entity_id=mailer_id) + '/copy')
         return(resp)
-    def update_mailing(self, mailer_id, **kwargs):
         
+    def update_mailing(self, mailer_id, **kwargs):
         """
         Update a mailing.
 

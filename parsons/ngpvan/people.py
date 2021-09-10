@@ -76,7 +76,7 @@ class People(object):
 
         .. note::
             A full list of possible values for the json, and its structure can be found
-            `here <https://developers.ngpvan.com/van-api#match-candidates>`_.
+            `here <https://docs.ngpvan.com/reference/people#peoplefind>`_.
 
         `Args:`
             match_json: dict
@@ -150,7 +150,7 @@ class People(object):
 
         .. note::
             A full list of possible values for the json, and its structure can be found
-            `here <https://docs.ngpvan.com/reference/people#common-models>`_.
+            `here <https://docs.ngpvan.com/reference/people#peoplevanid>`_.
 
         `Args:`
             id: str
@@ -233,7 +233,7 @@ class People(object):
 
         .. note::
             A full list of possible values for the json, and its structure can be found
-            `here <https://docs.ngpvan.com/reference/people#common-models>`_. `vanId` can
+            `here <https://docs.ngpvan.com/reference/people#peoplefindorcreate>`_. `vanId` can
             be passed to ensure the correct record is updated.
 
         .. warning::
@@ -447,7 +447,7 @@ class People(object):
         to a person record. This method allows you apply multiple responses (e.g. two survey
         questions) at the same time. It is a low level method that requires that you
         conform to the VAN API `response object
-        format <https://docs.ngpvan.com/reference/people#peoplevanidcanvassresponses>`_.
+        format <https://docs.ngpvan.com/reference/canvass-responses>`_.
 
         `Args:`
             id: str

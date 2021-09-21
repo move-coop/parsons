@@ -194,6 +194,7 @@ Indices and tables
    redash
    rockthevote
    salesforce
+   shopify
    sftp
    sisense
    targetsmart

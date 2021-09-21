@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Alchemer &mdash; Parsons 0.5 documentation</title>
+  <title>Shopify &mdash; Parsons 0.5 documentation</title>
   
 
   
@@ -28,8 +28,8 @@
   <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="Amazon Web Services" href="aws.html" />
-    <link rel="prev" title="Airtable" href="airtable.html" /> 
+    <link rel="next" title="SFTP" href="sftp.html" />
+    <link rel="prev" title="Salesforce" href="salesforce.html" /> 
 
   
   <script src="_static/js/modernizr.min.js"></script>
@@ -83,11 +83,7 @@
 <li class="toctree-l1"><a class="reference internal" href="action_kit.html">ActionKit</a></li>
 <li class="toctree-l1"><a class="reference internal" href="action_network.html">Action Network</a></li>
 <li class="toctree-l1"><a class="reference internal" href="airtable.html">Airtable</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="#">Alchemer</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#overview">Overview</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#quick-start">Quick Start</a></li>
-</ul>
-</li>
+<li class="toctree-l1"><a class="reference internal" href="alchemer.html">Alchemer</a></li>
 <li class="toctree-l1"><a class="reference internal" href="aws.html">Amazon Web Services</a></li>
 <li class="toctree-l1"><a class="reference internal" href="azure.html">Azure: Blob Storage</a></li>
 <li class="toctree-l1"><a class="reference internal" href="bill_com.html">Bill.com</a></li>
@@ -113,7 +109,12 @@
 <li class="toctree-l1"><a class="reference internal" href="redash.html">Redash</a></li>
 <li class="toctree-l1"><a class="reference internal" href="rockthevote.html">Rock the Vote</a></li>
 <li class="toctree-l1"><a class="reference internal" href="salesforce.html">Salesforce</a></li>
-<li class="toctree-l1"><a class="reference internal" href="shopify.html">Shopify</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Shopify</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#overview">Overview</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#quickstart">Quickstart</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#api">API</a></li>
+</ul>
+</li>
 <li class="toctree-l1"><a class="reference internal" href="sftp.html">SFTP</a></li>
 <li class="toctree-l1"><a class="reference internal" href="sisense.html">Sisense</a></li>
 <li class="toctree-l1"><a class="reference internal" href="targetsmart.html">TargetSmart</a></li>
@@ -182,13 +183,13 @@
     
       <li><a href="index.html">Docs</a> &raquo;</li>
         
-      <li>Alchemer</li>
+      <li>Shopify</li>
     
     
       <li class="wy-breadcrumbs-aside">
         
             
-            <a href="_sources/alchemer.rst.txt" rel="nofollow"> View page source</a>
+            <a href="_sources/shopify.rst.txt" rel="nofollow"> View page source</a>
           
         
       </li>
@@ -201,30 +202,39 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <div class="section" id="alchemer">
-<h1>Alchemer<a class="headerlink" href="#alchemer" title="Permalink to this headline">¶</a></h1>
+  <div class="section" id="shopify">
+<h1>Shopify<a class="headerlink" href="#shopify" title="Permalink to this headline">¶</a></h1>
 <div class="section" id="overview">
 <h2>Overview<a class="headerlink" href="#overview" title="Permalink to this headline">¶</a></h2>
-<p><a class="reference external" href="https://www.alchemer.com/">Alchemer</a> is an online research tool that allows users to field surveys. This Parsons
-class allows users to retrieve surveys and survey results.</p>
-<div class="admonition note">
-<p class="first admonition-title">Note</p>
-<p class="last">Alchemer was formerly known as SurveyGizmo.</p>
-</div>
+<p><a class="reference external" href="https://www.shopify.com/">Shopify</a> is an e-commerce platform for online stores. This Parsons integration with the <a class="reference external" href="https://shopify.dev/api/admin/rest/reference">Shopify REST API</a> supports fetching records of orders.</p>
 <div class="admonition note">
 <p class="first admonition-title">Note</p>
 <dl class="last docutils">
 <dt>Authentication</dt>
-<dd>To use the class, you need to provide an Alchemer API token and API token secret. For more information,
-see Alchemer API <a class="reference external" href="https://apihelp.alchemer.com/help/authentication">authentication documentation</a>.</dd>
+<dd>Shopify supports different types of authentication methods for different types of apps, which are documented <a class="reference external" href="https://shopify.dev/apps/auth">here</a>.</dd>
 </dl>
 </div>
 </div>
-<div class="section" id="quick-start">
-<h2>Quick Start<a class="headerlink" href="#quick-start" title="Permalink to this headline">¶</a></h2>
-<p>To instantiate the <code class="docutils literal notranslate"><span class="pre">Alchemer</span></code> class, you can either store your API token and API secret
-token as environmental variables (<code class="docutils literal notranslate"><span class="pre">SURVEYGIZMO_API_TOKEN</span></code> and <code class="docutils literal notranslate"><span class="pre">SURVEYGIZMO_API_TOKEN_SECRET</span></code>,
-respectively) or pass in the tokens arguments:</p>
+<div class="section" id="quickstart">
+<h2>Quickstart<a class="headerlink" href="#quickstart" title="Permalink to this headline">¶</a></h2>
+<p>To instantiate the Shopify class, you can either store your Shopify API subdomain, password, key, and version as environmental variables (<code class="docutils literal notranslate"><span class="pre">SHOPIFY_SUBDOMAIN</span></code>, <code class="docutils literal notranslate"><span class="pre">SHOPIFY_PASSWORD</span></code>, <code class="docutils literal notranslate"><span class="pre">SHOPIFY_API_KEY</span></code>, and <code class="docutils literal notranslate"><span class="pre">SHOPIFY_API_VERSION</span></code>, respectively) or pass in your subdomain, password, key, and version as arguments:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">parsons</span> <span class="kn">import</span> <span class="n">Shopify</span>
+
+<span class="c1"># First approach: Use API credentials via environmental variables</span>
+<span class="n">shopify</span> <span class="o">=</span> <span class="n">Shopify</span><span class="p">()</span>
+
+<span class="c1"># Second approach: Pass API credentials as arguments</span>
+<span class="n">shopify</span> <span class="o">=</span> <span class="n">Shopify</span><span class="p">(</span><span class="n">subdomain</span><span class="o">=</span><span class="s1">&#39;mysubdomain&#39;</span><span class="p">,</span> <span class="n">password</span><span class="o">=</span><span class="s1">&#39;1234&#39;</span><span class="p">,</span> <span class="n">api_key</span><span class="o">=</span><span class="s1">&#39;1234&#39;</span><span class="p">,</span> <span class="n">api_version</span><span class="o">=</span><span class="s1">&#39;2020-10&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>You can then call various endpoints:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Fetch orders</span>
+<span class="n">orders</span> <span class="o">=</span> <span class="n">shopify</span><span class="o">.</span><span class="n">get_orders</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="api">
+<h2>API<a class="headerlink" href="#api" title="Permalink to this headline">¶</a></h2>
 </div>
 </div>
 
@@ -236,10 +246,10 @@ respectively) or pass in the tokens arguments:</p>
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="aws.html" class="btn btn-neutral float-right" title="Amazon Web Services" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="sftp.html" class="btn btn-neutral float-right" title="SFTP" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="airtable.html" class="btn btn-neutral" title="Airtable" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="salesforce.html" class="btn btn-neutral" title="Salesforce" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   

@@ -293,15 +293,16 @@ about and organizing volunteers and donors. It is used primarily for digital org
 
 <dl class="method">
 <dt id="parsons.ActionNetwork.add_person">
-<code class="descname">add_person</code><span class="sig-paren">(</span><em>email_address</em>, <em>given_name=None</em>, <em>family_name=None</em>, <em>tags=None</em>, <em>languages_spoken=None</em>, <em>postal_addresses=None</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/action_network/action_network.html#ActionNetwork.add_person"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.ActionNetwork.add_person" title="Permalink to this definition">¶</a></dt>
+<code class="descname">add_person</code><span class="sig-paren">(</span><em>email_address=None</em>, <em>given_name=None</em>, <em>family_name=None</em>, <em>tags=None</em>, <em>languages_spoken=None</em>, <em>postal_addresses=None</em>, <em>mobile_number=None</em>, <em>mobile_status='subscribed'</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/action_network/action_network.html#ActionNetwork.add_person"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.ActionNetwork.add_person" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="docutils">
 <dt><cite>Args:</cite></dt>
 <dd><dl class="first last docutils">
 <dt>email_address:</dt>
 <dd><dl class="first last docutils">
-<dt>Can be any of the following</dt>
+<dt>Either email_address or mobile_number are required. Can be any of the following</dt>
 <dd><ul class="first last simple">
 <li>a string with the person’s email</li>
+<li>a list of strings with a person’s emails</li>
 <li><dl class="first docutils">
 <dt>a dictionary with the following fields</dt>
 <dd><ul class="first last">
@@ -339,7 +340,39 @@ about and organizing volunteers and donors. It is used primarily for digital org
 <dt>postal_addresses:</dt>
 <dd>Optional field. A list of dictionaries.
 For details, see Action Network’s documentation:
-<a class="reference external" href="https://actionnetwork.org/docs/v2/people#put">https://actionnetwork.org/docs/v2/people#put</a></dd>
+<a class="reference external" href="https://actionnetwork.org/docs/v2/person_signup_helper">https://actionnetwork.org/docs/v2/person_signup_helper</a></dd>
+<dt>mobile_number:</dt>
+<dd><dl class="first last docutils">
+<dt>Either email_address or mobile_number are required. Can be any of the following</dt>
+<dd><ul class="first last simple">
+<li>a string with the person’s cell phone number</li>
+<li>an integer with the person’s cell phone number</li>
+<li>a list of strings with the person’s cell phone numbers</li>
+<li>a list of integers with the person’s cell phone numbers</li>
+<li><dl class="first docutils">
+<dt>a dictionary with the following fields</dt>
+<dd><ul class="first last">
+<li>number (REQUIRED)</li>
+<li>primary (OPTIONAL): Boolean indicating the user’s primary mobile number</li>
+<li><dl class="first docutils">
+<dt>status (OPTIONAL): can taken on any of these values</dt>
+<dd><ul class="first last">
+<li>“subscribed”</li>
+<li>“unsubscribed”</li>
+</ul>
+</dd>
+</dl>
+</li>
+</ul>
+</dd>
+</dl>
+</li>
+</ul>
+</dd>
+</dl>
+</dd>
+<dt>mobile_status:</dt>
+<dd>‘subscribed’ or ‘unsubscribed’</dd>
 <dt><a href="#id2"><span class="problematic" id="id3">**</span></a>kwargs:</dt>
 <dd>Any additional fields to store about the person. Action Network allows
 any custom field.</dd>

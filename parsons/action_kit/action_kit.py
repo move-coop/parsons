@@ -537,6 +537,32 @@ class ActionKit(object):
         return self._base_post(endpoint='mailer', exception_message='Could not create mailer',
                                **kwargs)
 
+    def copy_mailer(self, mailer_id):
+        """
+        copy a mailer
+        returns new copy of mailer which should be updatable.
+        """
+        resp = self.conn.post(self._base_endpoint('mailer', entity_id=mailer_id) + '/copy')
+        return(resp)
+
+    def update_mailing(self, mailer_id, **kwargs):
+        """
+        Update a mailing.
+
+        `Args:`
+            mailing_id: int
+                The id of the mailing to update
+            **kwargs:
+                Optional arguments and fields to pass to the client. A full list can be found
+                in the `ActionKit API Documentation <https://roboticdogs.actionkit.com/docs/\
+                manual/api/rest/actionprocessing.html>`_.
+        `Returns:`
+            ``None``
+        """
+
+        resp = self.conn.patch(self._base_endpoint('mailer', mailer_id), data=json.dumps(kwargs))
+        logger.info(f'{resp.status_code}: {mailer_id}')
+
     def rebuild_mailer(self, mailing_id):
         """
         Rebuild a mailer.

@@ -733,6 +733,32 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_base_post</span><span class="p">(</span><span class="n">endpoint</span><span class="o">=</span><span class="s1">&#39;mailer&#39;</span><span class="p">,</span> <span class="n">exception_message</span><span class="o">=</span><span class="s1">&#39;Could not create mailer&#39;</span><span class="p">,</span>
                                <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
 
+<div class="viewcode-block" id="ActionKit.copy_mailer"><a class="viewcode-back" href="../../../action_kit.html#parsons.ActionKit.copy_mailer">[docs]</a>    <span class="k">def</span> <span class="nf">copy_mailer</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">mailer_id</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        copy a mailer</span>
+<span class="sd">        returns new copy of mailer which should be updatable.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">resp</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">conn</span><span class="o">.</span><span class="n">post</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_base_endpoint</span><span class="p">(</span><span class="s1">&#39;mailer&#39;</span><span class="p">,</span> <span class="n">entity_id</span><span class="o">=</span><span class="n">mailer_id</span><span class="p">)</span> <span class="o">+</span> <span class="s1">&#39;/copy&#39;</span><span class="p">)</span>
+        <span class="k">return</span><span class="p">(</span><span class="n">resp</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="ActionKit.update_mailing"><a class="viewcode-back" href="../../../action_kit.html#parsons.ActionKit.update_mailing">[docs]</a>    <span class="k">def</span> <span class="nf">update_mailing</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">mailer_id</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Update a mailing.</span>
+
+<span class="sd">        `Args:`</span>
+<span class="sd">            mailing_id: int</span>
+<span class="sd">                The id of the mailing to update</span>
+<span class="sd">            **kwargs:</span>
+<span class="sd">                Optional arguments and fields to pass to the client. A full list can be found</span>
+<span class="sd">                in the `ActionKit API Documentation &lt;https://roboticdogs.actionkit.com/docs/\</span>
+<span class="sd">                manual/api/rest/actionprocessing.html&gt;`_.</span>
+<span class="sd">        `Returns:`</span>
+<span class="sd">            ``None``</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">resp</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">conn</span><span class="o">.</span><span class="n">patch</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_base_endpoint</span><span class="p">(</span><span class="s1">&#39;mailer&#39;</span><span class="p">,</span> <span class="n">mailer_id</span><span class="p">),</span> <span class="n">data</span><span class="o">=</span><span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">kwargs</span><span class="p">))</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">resp</span><span class="o">.</span><span class="n">status_code</span><span class="si">}</span><span class="s1">: </span><span class="si">{</span><span class="n">mailer_id</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span></div>
+
 <div class="viewcode-block" id="ActionKit.rebuild_mailer"><a class="viewcode-back" href="../../../action_kit.html#parsons.ActionKit.rebuild_mailer">[docs]</a>    <span class="k">def</span> <span class="nf">rebuild_mailer</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">mailing_id</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Rebuild a mailer.</span>

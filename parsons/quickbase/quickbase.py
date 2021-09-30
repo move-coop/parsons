@@ -34,7 +34,7 @@ class Quickbase(object):
             Table Class
         """
         return Table(self.client.request(f'https://api.quickbase.com/v1/tables?appId={app_id}',
-                                         'GET'))
+                                         'GET').json())
 
     def query_records(self, table_from=None):
         """
@@ -47,4 +47,4 @@ class Quickbase(object):
             Table Class
         """
         return Table(self.client.request(f'https://api.quickbase.com/v1/records/query',
-                                         'POST', json={"from": table_from}))
+                                         'POST', json={"from": table_from}).json())

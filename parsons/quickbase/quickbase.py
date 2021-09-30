@@ -46,5 +46,7 @@ class Quickbase(object):
         `Returns:`
             Table Class
         """
-        return Table(self.client.request(f'https://api.quickbase.com/v1/records/query',
-                                         'POST', json={"from": table_from}).json())
+        req_resp = (self.client.request(f'https://api.quickbase.com/v1/records/query',
+                                        'POST',
+                                        json={"from": table_from}).json())
+        return Table(req_resp['data'])

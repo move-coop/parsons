@@ -49,4 +49,22 @@ class Quickbase(object):
         req_resp = (self.client.request(f'https://api.quickbase.com/v1/records/query',
                                         'POST',
                                         json={"from": table_from}).json())
+
+        resp_tbl = Table(req_resp['data'])
+        cleaned_tbl = Table()
+
+        for row in resp_tbl:
+            row_dict = {}
+            for column in resp_tbl.columns:
+                row_dict[column] = row[column]['value']
+            cleaned_tbl.concat(Table([row_dict]))
+
+        column_resp = req_resp['fields']
+        column_map = {}
+        for entry in column_resp:
+            column_map[str(entry['id'])] = entry['label'].lower().strip()
+
+        for column in cleaned_tbl.columns:
+            cleaned_tbl.rename_column(column, column_map[column])
+
         return Table(req_resp['data'])

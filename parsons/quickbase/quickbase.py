@@ -67,4 +67,4 @@ class Quickbase(object):
         for column in cleaned_tbl.columns:
             cleaned_tbl.rename_column(column, column_map[column])
 
-        return Table(req_resp['data'])
+        return cleaned_tbl

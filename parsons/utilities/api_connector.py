@@ -114,8 +114,6 @@ class APIConnector(object):
         """
 
         r = self.request(url, 'POST', params=params, data=data, json=json)
-        import curlify
-        print(curlify.to_curl(r.request))
 
         # Validate the response and lift up an errors.
         self.validate_response(r)

@@ -59,19 +59,18 @@ class TestNGPVAN(unittest.TestCase):
                 "exportJobId": 2170181229,
                 "jobStatus": "Pending"}
 
-        json2 = {"dateChangedFrom": "2021-10-10T00:00:00-04:00",
-                "dateChangedTo": "2021-10-11T00:00:00-04:00",
-                "files": [
-                    {
-                        "downloadUrl": "https://box.com/file.csv",
-                        "dateExpired": "2021-11-03T15:27:01.8687339-04:00",
-                    }
-                ],
-                "message": "Finished processing export job",
-                "code": None,
-                "exportedRecordCount": 6110,
-                "exportJobId": 2170181229,
-                "jobStatus": "Complete"}
+        json2 = {
+                    "dateChangedFrom": "2021-10-10T00:00:00-04:00",
+                    "dateChangedTo": "2021-10-11T00:00:00-04:00",
+                    "files": [
+                        {"downloadUrl": "https://box.com/file.csv",
+                         "dateExpired": "2021-11-03T15:27:01.8687339-04:00"}
+                    ],
+                    "message": "Finished processing export job",
+                    "code": None,
+                    "exportedRecordCount": 6110,
+                    "exportJobId": 2170181229,
+                    "jobStatus": "Complete"}
 
         tbl = Table([{'a': 1, 'b': 2}])
 
@@ -79,8 +78,8 @@ class TestNGPVAN(unittest.TestCase):
         m.get(self.van.connection.uri + 'changedEntityExportJobs/2170181229', json=json2)
 
         Table.from_csv = mock.MagicMock()
-        Table.from_csv.return_value = tbl 
+        Table.from_csv.return_value = tbl
 
-        out_tbl = self.van.get_changed_entities('ContactHistory','2021-10-10')
+        out_tbl = self.van.get_changed_entities('ContactHistory', '2021-10-10')
 
         assert_matching_tables(out_tbl, tbl)

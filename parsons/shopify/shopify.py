@@ -31,10 +31,10 @@ class Shopify(object):
         self.password = check_env.check('SHOPIFY_PASSWORD', password)
         self.api_key = check_env.check('SHOPIFY_API_KEY', api_key)
         self.api_version = check_env.check('SHOPIFY_API_VERSION', api_version)
-        self.client = APIConnector('https://%s.myshopify.com/admin/api/%s/' % (
-            self.subdomain,
-            self.api_version
-        ), auth=(self.api_key, self.password))
+        self.base_url = 'https://%s.myshopify.com/admin/api/%s/' % (
+            self.subdomain, self.api_version
+        )
+        self.client = APIConnector(self.base_url, auth=(self.api_key, self.password))
 
     def get_count(self, query_date=None, since_id=None, table_name=None):
         """
@@ -149,12 +149,21 @@ class Shopify(object):
             # Since ID if provided
             filters += '&since_id=%s' % since_id
 
-        return 'https://%s.myshopify.com/admin/api/%s/%s?%s' % (
-            self.subdomain,
-            self.api_version,
-            table,
-            filters
-        )
+        return self.base_url + '%s?%s' % (table, filters)
+
+    def graphql(self, query):
+        """
+        Make GraphQL request. Reference: https://shopify.dev/api/admin-graphql
+
+        `Args:`
+            query: str
+                GraphQL query.
+        `Returns:`
+            dict
+        """
+        return self.client.request(
+            self.base_url + 'graphql.json', 'POST', json={"query": query}
+        ).json().get('data')
 
     @classmethod
     def load_to_table(cls, subdomain=None, password=None, api_key=None, api_version=None,

@@ -1193,6 +1193,41 @@ See <a class="reference internal" href="utilities.html#cloud-storage"><span clas
 </dl>
 </dd></dl>
 
+<dl class="method">
+<dt id="parsons.ngpvan.van.ChangedEntities.get_changed_entities">
+<code class="descname">get_changed_entities</code><span class="sig-paren">(</span><em>resource_type</em>, <em>date_from</em>, <em>date_to=None</em>, <em>include_inactive=False</em>, <em>requested_fields=None</em>, <em>custom_fields=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/ngpvan/changed_entities.html#ChangedEntities.get_changed_entities"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.ngpvan.van.ChangedEntities.get_changed_entities" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get modified records for VAN from up to 90 days in the past.</p>
+<dl class="docutils">
+<dt><cite>Args:</cite></dt>
+<dd><dl class="first last docutils">
+<dt>resource_type: str</dt>
+<dd>The type of resource to export. Use the <code class="xref py py-meth docutils literal notranslate"><span class="pre">get_changed_entity_resources()</span></code>
+to get a list of potential entities.</dd>
+<dt>date_from: str</dt>
+<dd>The start date in which to search. Must be less than 90 days in the
+past. Must be``iso8601`` formatted date (<code class="docutils literal notranslate"><span class="pre">2021-10-11</span></code>).</dd>
+<dt>date_to: str</dt>
+<dd>The end date to search. Must be less than 90 days in the
+past. Must be``iso8601`` formatted date (<code class="docutils literal notranslate"><span class="pre">2021-10-11</span></code>).</dd>
+<dt>include_inactive: boolean</dt>
+<dd>Include inactive records</dd>
+<dt>requested_fields: list</dt>
+<dd>A list of optional requested fields to include. These options can be accessed through
+<code class="xref py py-meth docutils literal notranslate"><span class="pre">get_changed_entity_resource_fields()</span></code>
+method.</dd>
+<dt>custom_fields: list</dt>
+<dd>A list of ids of custom fields to include in the export.</dd>
+</dl>
+</dd>
+<dt><cite>Returns:</cite></dt>
+<dd><dl class="first last docutils">
+<dt>Parsons Table</dt>
+<dd>See <a class="reference internal" href="table.html#parsons-table"><span class="std std-ref">Parsons Table</span></a> for output options.</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
 </dd></dl>
 
 </div>

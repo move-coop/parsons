@@ -1,6 +1,10 @@
+import logging
 from parsons.etl.table import Table
 from parsons.utilities import check_env
 from parsons.utilities.api_connector import APIConnector
+
+
+logger = logging.getLogger(__name__)
 
 
 class Quickbase(object):
@@ -25,7 +29,7 @@ class Quickbase(object):
                                             'AUTHORIZATION': 'QB-USER-TOKEN '
                                             + self.user_token})
 
-    def list_app_tables(self, app_id=None):
+    def get_app_tables(self, app_id=None):
         """
         Get metadata about tables in a QuickBase app.
 
@@ -40,7 +44,9 @@ class Quickbase(object):
 
     def query_records(self, table_from=None):
         """
-        Query records in a Quickbase table.
+        Query records in a Quickbase table. This follows the patterns laid out
+        in Quickbase query documentaiton, located here:
+        https://help.quickbase.com/api-guide/componentsquery.html
 
         `Args:`
             from: str

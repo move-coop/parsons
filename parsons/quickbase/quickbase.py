@@ -9,10 +9,11 @@ class Quickbase(object):
 
     `Args:`
         hostname: str
-            The URL for the homepage/login page of the organization's Quickbase instance (e.g. demo.quickbase.com).
+            The URL for the homepage/login page of the organization's Quickbase
+            instance (e.g. demo.quickbase.com).
         user_token: str
-            The Quickbase account user token (API key). Not required if ``QUICKBASE_USER_TOKEN`` env variable
-            set.
+            The Quickbase account user token (API key). Not required if
+            ``QUICKBASE_USER_TOKEN`` env variable is set.
     `Returns:`
         Quickbase Class
     """
@@ -21,7 +22,8 @@ class Quickbase(object):
         self.user_token = check_env.check('QUICKBASE_USER_TOKEN', user_token)
         self.client = APIConnector('https://api.quickbase.com/v1/',
                                    headers={'QB-Realm-Hostname': self.hostname,
-                                            'AUTHORIZATION': 'QB-USER-TOKEN ' + self.user_token})
+                                            'AUTHORIZATION': 'QB-USER-TOKEN '
+                                            + self.user_token})
 
     def list_app_tables(self, app_id=None):
         """
@@ -46,9 +48,10 @@ class Quickbase(object):
         `Returns:`
             Table Class
         """
-        req_resp = (self.client.request(f'https://api.quickbase.com/v1/records/query',
-                                        'POST',
-                                        json={"from": table_from}).json())
+        req_resp = \
+            (self.client.request(f'https://api.quickbase.com/v1/records/query',
+                                 'POST',
+                                 json={"from": table_from}).json())
 
         resp_tbl = Table(req_resp['data'])
         cleaned_tbl = Table()

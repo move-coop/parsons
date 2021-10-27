@@ -123,7 +123,8 @@ class TestRedshift(unittest.TestCase):
 
         # check compound sortkey formatting
         sql = self.rs.create_sql('tmc.test', self.mapping, sortkey=['ID1', 'ID2'])
-        exp_sql = "create table tmc.test (\n  id int,\n  name varchar(5)) \ncompound sortkey(ID1, ID2);"
+        exp_sql = "create table tmc.test (\n  id int,\n  name varchar(5))"
+        exp_sql += " \ncompound sortkey(ID1, ID2);"
         self.assertEqual(sql, exp_sql)
 
     def test_column_validate(self):

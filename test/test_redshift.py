@@ -115,6 +115,17 @@ class TestRedshift(unittest.TestCase):
         exp_sql = "create table tmc.test (\n  id int,\n  name varchar(5)) \ndistkey(ID) ;"
         self.assertEqual(sql, exp_sql)
 
+    def test_compound_sortkey(self):
+        # check single sortkey formatting
+        sql = self.rs.create_sql('tmc.test', self.mapping, sortkey='ID')
+        exp_sql = "create table tmc.test (\n  id int,\n  name varchar(5)) \nsortkey(ID);"
+        self.assertEqual(sql, exp_sql)
+
+        # check compound sortkey formatting
+        sql = self.rs.create_sql('tmc.test', self.mapping, sortkey=['ID1', 'ID2'])
+        exp_sql = "create table tmc.test (\n  id int,\n  name varchar(5)) \ncompound sortkey(ID1, ID2);"
+        self.assertEqual(sql, exp_sql)
+
     def test_column_validate(self):
 
         bad_cols = ['a', 'a', '', 'SELECT', 'asdfjkasjdfklasjdfklajskdfljaskldfjaklsdfjlaksdfjklasj'

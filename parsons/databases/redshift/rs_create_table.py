@@ -176,7 +176,11 @@ class RedshiftCreateTable(DatabaseCreateStatement):
         if distkey:
             statement += '\ndistkey({}) '.format(distkey)
 
-        if sortkey:
+        if sortkey and isinstance(sortkey, list):
+            statement += '\ncompound sortkey('
+            statement += ', '.join(sortkey)
+            statement += ')'
+        elif sortkey:
             statement += '\nsortkey({})'.format(sortkey)
 
         statement += ';'

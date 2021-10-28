@@ -7,10 +7,15 @@ from test.utils import validate_list, assert_matching_tables
 
 os.environ['VAN_API_KEY'] = 'SOME_KEY'
 
+
 class TestTargets(unittest.TestCase):
 
-    mock_data = mock_data = '12827,Volunteer Recruitment Tiers,Tier,109957740\n12827,Volunteer Recruitment Tiers,Tier,109957754'
-    mock_result = Table([('12827', 'Volunteer Recruitment Tiers', 'Tier', '109957740'), ('12827', 'Volunteer Recruitment Tiers', 'Tier', '109957754')])
+    mock_data = mock_data = (
+        '12827,Volunteer Recruitment Tiers,Tier,109957740\n'
+        '12827,Volunteer Recruitment Tiers,Tier,109957754')
+    mock_result = Table([
+        ('12827', 'Volunteer Recruitment Tiers', 'Tier', '109957740'),
+        ('12827', 'Volunteer Recruitment Tiers', 'Tier', '109957754')])
 
     def setUp(self):
 
@@ -51,9 +56,9 @@ class TestTargets(unittest.TestCase):
     def test_get_target(self, m):
 
         # Create response
-        json = {u'targetId': 15723, 
-                u'name': u'Mail_VR_Chase', 
-                u'type': u'Dynamic', 
+        json = {u'targetId': 15723,
+                u'name': u'Mail_VR_Chase',
+                u'type': u'Dynamic',
                 u'description': None,
                 u'points': 15,
                 u'areSubgroupsSticky': False,
@@ -70,7 +75,6 @@ class TestTargets(unittest.TestCase):
 
         self.assertEqual(json, self.van.get_target(15723))
 
-
     @requests_mock.Mocker()
     def test_create_target_export(self, m):
 
@@ -84,27 +88,27 @@ class TestTargets(unittest.TestCase):
 
         self.assertEqual(r, export_job_id)
 
-
     @requests_mock.Mocker()
     def test_get_target_export(self, m):
 
         export_job_id = 455961790
-        json=[{"targetId": 12827,
-                "file": 
-                    {
-                    "downloadUrl": "https://ngpvan.blob.core.windows.net/target-export-files/TargetExport_455961790.csv",
-                    "dateExpired": "null",
-                    "recordCount": 1016883
-                    }
-                ,
-                "webhookUrl": "null",
-                "exportJobId": 455961790,
-                "jobStatus": "Complete"}]
-        download_url='https://ngpvan.blob.core.windows.net/target-export-files/TargetExport_455961790.csv'
+        json = [{
+            "targetId": 12827,
+            "file": {
+                "downloadUrl": (
+                    "https://ngpvan.blob.core.windows.net/"
+                    "target-export-files/TargetExport_455961790.csv"),
+                "dateExpired": "null",
+                "recordCount": 1016883},
+            "webhookUrl": "null",
+            "exportJobId": 455961790,
+            "jobStatus": "Complete"}]
+
+        download_url = (
+            'https://ngpvan.blob.core.windows.net/target-export-files/TargetExport_455961790.csv')
 
         m.post(self.van.connection.uri + 'targetExportJobs', json=export_job_id, status_code=204)
-        m.get(self.van.connection.uri + f'targetExportJobs/455961790', 
-          json=json)
+        m.get(self.van.connection.uri + 'targetExportJobs/455961790', json=json)
         m.get(download_url, text=self.mock_data)
         assert_matching_tables(self.van.get_target_export(export_job_id),
                                self.mock_result)

@@ -1,9 +1,10 @@
 import unittest
 import os
 import requests_mock
+import unittest.mock as mock
 from parsons.ngpvan.van import VAN
 from parsons.etl.table import Table
-from test.utils import validate_list, assert_matching_tables
+from test.utils import assert_matching_tables
 
 
 class TestNGPVAN(unittest.TestCase):
@@ -43,4 +44,42 @@ class TestNGPVAN(unittest.TestCase):
         }]
 
         m.get(self.van.connection.uri + 'changedEntityExportJobs/fields/ActivistCodes', json=json)
-        assert_matching_tables(Table(json), self.van.get_changed_entity_resource_fields('ActivistCodes'))
+        assert_matching_tables(
+            Table(json), self.van.get_changed_entity_resource_fields('ActivistCodes'))
+
+    @requests_mock.Mocker()
+    def test_get_changed_entities(self, m):
+
+        json = {"dateChangedFrom": "2021-10-10T00:00:00-04:00",
+                "dateChangedTo": "2021-10-11T00:00:00-04:00",
+                "files": [],
+                "message": "Created export job",
+                "code": None,
+                "exportedRecordCount": 0,
+                "exportJobId": 2170181229,
+                "jobStatus": "Pending"}
+
+        json2 = {
+                    "dateChangedFrom": "2021-10-10T00:00:00-04:00",
+                    "dateChangedTo": "2021-10-11T00:00:00-04:00",
+                    "files": [
+                        {"downloadUrl": "https://box.com/file.csv",
+                         "dateExpired": "2021-11-03T15:27:01.8687339-04:00"}
+                    ],
+                    "message": "Finished processing export job",
+                    "code": None,
+                    "exportedRecordCount": 6110,
+                    "exportJobId": 2170181229,
+                    "jobStatus": "Complete"}
+
+        tbl = Table([{'a': 1, 'b': 2}])
+
+        m.post(self.van.connection.uri + 'changedEntityExportJobs', json=json)
+        m.get(self.van.connection.uri + 'changedEntityExportJobs/2170181229', json=json2)
+
+        Table.from_csv = mock.MagicMock()
+        Table.from_csv.return_value = tbl
+
+        out_tbl = self.van.get_changed_entities('ContactHistory', '2021-10-10')
+
+        assert_matching_tables(out_tbl, tbl)

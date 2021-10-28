@@ -146,10 +146,7 @@ class Redash(object):
     @classmethod
     def load_to_table(cls, refresh=True, **kwargs):
         """
-        Fast classmethod so you can get the data all at once:
-        tabledata = Redash.load_to_table(base_url='https://example.com', user_api_key='abc123',
-                                         query_id=1001, params={'datelimit': '2020-01-01'})
-        This instantiates the class and makes the appropriate query type (refresh or cached)
+        Fast classmethod makes the appropriate query type (refresh or cached)
         based on which arguments are supplied.
 
         `Args:`

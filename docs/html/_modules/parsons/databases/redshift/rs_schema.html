@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>parsons.databases.redshift.rs_schema &mdash; Parsons 0.1 documentation</title>
+  <title>parsons.databases.redshift.rs_schema &mdash; Parsons 0.5 documentation</title>
   
 
   
@@ -79,23 +79,53 @@
               <p class="caption"><span class="caption-text">Integrations</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../../../action_kit.html">ActionKit</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../action_network.html">Action Network</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../airtable.html">Airtable</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../aws.html">Amazon Web Services</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../azure.html">Azure: Blob Storage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../bill_com.html">Bill.com</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../bloomerang.html">Bloomerang</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../box.html">Box</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../braintree.html">Braintree</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../../civis.html">Civis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../copper.html">Copper</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../crowdtangle.html">CrowdTangle</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../databases.html">Databases</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../../facebook_ads.html">FacebookAds</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../../google_sheets.html">GoogleSheets</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../../mobile_commons.html">Mobile Commons</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../freshdesk.html">Freshdesk</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../github.html">GitHub</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../google.html">Google</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../hustle.html">Hustle</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../mailchimp.html">Mailchimp</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../../mobilize_america.html">Mobilize America</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../../ngpvan.html">VAN</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../newmode.html">New/Mode</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../ngpvan.html">NGPVAN</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../pdi.html">PDI</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../../p2a.html">Phone2Action</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../../redshift.html">Redshift</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../../s3.html">S3</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../redash.html">Redash</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../rockthevote.html">Rock the Vote</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../salesforce.html">Salesforce</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../../sftp.html">SFTP</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../../ts.html">TargetSmart</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../targetsmart.html">TargetSmart</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../../turbovote.html">TurboVote</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../twilio.html">Twilio</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../zoom.html">Zoom</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Enhancements</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../census_geocoder.html">US Census Geocoder</a></li>
 </ul>
 <p class="caption"><span class="caption-text">Framework</span></p>
 <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../dbsync.html">Database Sync</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../../table.html">Parsons Table</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../../notifications.html">Notifications</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../utilities.html">Utilities</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Contributor Documentation</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../contributing.html">Contributing to Parsons</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../build_a_connector.html">How to Build a Connector</a></li>
 </ul>
 
             
@@ -143,8 +173,6 @@
         
           <li><a href="../../../index.html">Module code</a> &raquo;</li>
         
-          <li><a href="../redshift.html">parsons.databases.redshift</a> &raquo;</li>
-        
       <li>parsons.databases.redshift.rs_schema</li>
     
     
@@ -161,14 +189,14 @@
            <div itemprop="articleBody">
             
   <h1>Source code for parsons.databases.redshift.rs_schema</h1><div class="highlight"><pre>
-<span></span><span class="k">class</span> <span class="nc">RedshiftSchema</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+<div class="viewcode-block" id="RedshiftSchema"><a class="viewcode-back" href="../../../../aws.html#parsons.databases.redshift.redshift.RedshiftSchema">[docs]</a><span></span><span class="k">class</span> <span class="nc">RedshiftSchema</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
 
     <span class="k">def</span> <span class="nf">schema_exists</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">schema</span><span class="p">):</span>
-        <span class="n">sql</span> <span class="o">=</span> <span class="n">f</span><span class="s2">&quot;select * from pg_namespace where nspname = &#39;</span><span class="si">{schema}</span><span class="s2">&#39;&quot;</span>
+        <span class="n">sql</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;select * from pg_namespace where nspname = &#39;</span><span class="si">{</span><span class="n">schema</span><span class="si">}</span><span class="s2">&#39;&quot;</span>
         <span class="n">res</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="n">sql</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">res</span><span class="o">.</span><span class="n">num_rows</span> <span class="o">&gt;</span> <span class="mi">0</span>
 
-    <span class="k">def</span> <span class="nf">create_schema_with_permissions</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">schema</span><span class="p">,</span> <span class="n">group</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<div class="viewcode-block" id="RedshiftSchema.create_schema_with_permissions"><a class="viewcode-back" href="../../../../aws.html#parsons.databases.redshift.redshift.RedshiftSchema.create_schema_with_permissions">[docs]</a>    <span class="k">def</span> <span class="nf">create_schema_with_permissions</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">schema</span><span class="p">,</span> <span class="n">group</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Creates a Redshift schema (if it doesn&#39;t already exist), and grants usage permissions to</span>
 <span class="sd">        a Redshift group (if specified).</span>
@@ -185,10 +213,10 @@
 <span class="sd">        &quot;&quot;&quot;</span> <span class="c1"># noqa: E501,E261</span>
 
         <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">schema_exists</span><span class="p">(</span><span class="n">schema</span><span class="p">):</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="n">f</span><span class="s2">&quot;create schema </span><span class="si">{schema}</span><span class="s2">&quot;</span><span class="p">)</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="n">f</span><span class="s2">&quot;grant usage on schema </span><span class="si">{schema}</span><span class="s2"> to group </span><span class="si">{group}</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;create schema </span><span class="si">{</span><span class="n">schema</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;grant usage on schema </span><span class="si">{</span><span class="n">schema</span><span class="si">}</span><span class="s2"> to group </span><span class="si">{</span><span class="n">group</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span></div>
 
-    <span class="k">def</span> <span class="nf">grant_schema_permissions</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">schema</span><span class="p">,</span> <span class="n">group</span><span class="p">,</span> <span class="n">permissions_type</span><span class="o">=</span><span class="s1">&#39;select&#39;</span><span class="p">):</span>
+<div class="viewcode-block" id="RedshiftSchema.grant_schema_permissions"><a class="viewcode-back" href="../../../../aws.html#parsons.databases.redshift.redshift.RedshiftSchema.grant_schema_permissions">[docs]</a>    <span class="k">def</span> <span class="nf">grant_schema_permissions</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">schema</span><span class="p">,</span> <span class="n">group</span><span class="p">,</span> <span class="n">permissions_type</span><span class="o">=</span><span class="s1">&#39;select&#39;</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Grants a Redshift group permissions to all tables within an existing schema.</span>
 
@@ -203,11 +231,11 @@
 <span class="sd">                `Redshift GRANT docs &lt;https://docs.aws.amazon.com/redshift/latest/dg/r_GRANT.html&gt;`_)</span>
 <span class="sd">        &quot;&quot;&quot;</span> <span class="c1"># noqa: E501,E261</span>
 
-        <span class="n">sql</span> <span class="o">=</span> <span class="n">f</span><span class="s2">&quot;&quot;&quot;</span>
-<span class="s2">            grant usage on schema </span><span class="si">{schema}</span><span class="s2"> to group </span><span class="si">{group}</span><span class="s2">;</span>
-<span class="s2">            grant </span><span class="si">{permissions_type}</span><span class="s2"> on all tables in schema </span><span class="si">{schema}</span><span class="s2"> to group </span><span class="si">{group}</span><span class="s2">;</span>
+        <span class="n">sql</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">            grant usage on schema </span><span class="si">{</span><span class="n">schema</span><span class="si">}</span><span class="s2"> to group </span><span class="si">{</span><span class="n">group</span><span class="si">}</span><span class="s2">;</span>
+<span class="s2">            grant </span><span class="si">{</span><span class="n">permissions_type</span><span class="si">}</span><span class="s2"> on all tables in schema </span><span class="si">{</span><span class="n">schema</span><span class="si">}</span><span class="s2"> to group </span><span class="si">{</span><span class="n">group</span><span class="si">}</span><span class="s2">;</span>
 <span class="s2">        &quot;&quot;&quot;</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="n">sql</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="n">sql</span><span class="p">)</span></div></div>
 </pre></div>
 
            </div>

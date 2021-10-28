@@ -76,7 +76,7 @@ class People(object):
 
         .. note::
             A full list of possible values for the json, and its structure can be found
-            `here <https://developers.ngpvan.com/van-api#match-candidates>`_.
+            `here <https://docs.ngpvan.com/reference/people#peoplefind>`_.
 
         `Args:`
             match_json: dict
@@ -150,7 +150,7 @@ class People(object):
 
         .. note::
             A full list of possible values for the json, and its structure can be found
-            `here <https://developers.ngpvan.com/van-api#match-candidates>`_.
+            `here <https://docs.ngpvan.com/reference/people#peoplevanid>`_.
 
         `Args:`
             id: str
@@ -233,7 +233,7 @@ class People(object):
 
         .. note::
             A full list of possible values for the json, and its structure can be found
-            `here <https://developers.ngpvan.com/van-api#match-candidates>`_. `vanId` can
+            `here <https://docs.ngpvan.com/reference/people#peoplefindorcreate>`_. `vanId` can
             be passed to ensure the correct record is updated.
 
         .. warning::
@@ -446,7 +446,8 @@ class People(object):
         Apply responses such as survey questions, activist codes, and volunteer actions
         to a person record. This method allows you apply multiple responses (e.g. two survey
         questions) at the same time. It is a low level method that requires that you
-        conform to the VAN API `response object format <https://developers.ngpvan.com/van-api#people-post-people--vanid--canvassresponses>`_.
+        conform to the VAN API `response object
+        format <https://docs.ngpvan.com/reference/canvass-responses>`_.
 
         `Args:`
             id: str
@@ -529,7 +530,7 @@ class People(object):
                 'vanId': vanid_2}
 
         self.connection.post_request(f"people/{vanid_1}/relationships", json=json)
-        logger.info('Relationship {vanid_1} to {vanid_2} created.')
+        logger.info(f'Relationship {vanid_1} to {vanid_2} created.')
 
     def apply_person_code(self, id, code_id, id_type='vanid'):
         """

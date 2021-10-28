@@ -1,4 +1,4 @@
-from airtable import Airtable as AT
+from airtable import Airtable as client
 from parsons.etl import Table
 from parsons.utilities import check_env
 import logging
@@ -22,7 +22,7 @@ class Airtable(object):
     def __init__(self, base_key, table_name, api_key=None):
 
         self.api_key = check_env.check('AIRTABLE_API_KEY', api_key)
-        self.at = AT(base_key, table_name, self.api_key)
+        self.client = client(base_key, table_name, self.api_key)
 
     def get_record(self, record_id):
         """
@@ -35,9 +35,10 @@ class Airtable(object):
             A dictionary of the record
         """
 
-        return self.at.get(record_id)
+        return self.client.get(record_id)
 
-    def get_records(self, fields=None, max_records=None, view=None, formula=None, sort=None):
+    def get_records(self, fields=None, max_records=None, view=None,
+                    formula=None, sort=None, sample_size=None):
         """
         `Args:`
             fields: str or lst
@@ -78,6 +79,9 @@ class Airtable(object):
                 Example usage:
                 ``airtable.get_records(sort=['ColumnA', '-ColumnB'])``
 
+            sample_size: int
+                Number of rows to sample before determining columns
+
         `Returns:`
             Parsons Table
                 See :ref:`parsons-table` for output options.
@@ -88,13 +92,23 @@ class Airtable(object):
         if sort:
             kwargs['sort'] = sort
 
-        tbl = Table(self.at.get_all(**kwargs))
+        tbl = Table(self.client.get_all(**kwargs))
 
         # If the results are empty, then return an empty table.
         if 'fields' not in tbl.columns:
             return Table([[]])
 
-        return tbl.unpack_dict(column='fields', prepend=False)
+        unpack_dicts_kwargs = {
+            'column': 'fields',
+            'prepend': False,
+        }
+        if fields:
+            unpack_dicts_kwargs['keys'] = fields
+
+        if sample_size:
+            unpack_dicts_kwargs['sample_size'] = sample_size
+
+        return tbl.unpack_dict(**unpack_dicts_kwargs)
 
     def insert_record(self, row):
         """
@@ -110,11 +124,11 @@ class Airtable(object):
 
         """
 
-        resp = self.at.insert(row)
+        resp = self.client.insert(row)
         logger.info('Record inserted')
         return resp
 
-    def insert_records(self, table):
+    def insert_records(self, table, typecast=False):
         """
         Insert multiple records into an Airtable. The columns in your Parsons table must
         exist in the Airtable. The method will attempt to map based on column name, so the
@@ -129,7 +143,7 @@ class Airtable(object):
             List of dictionaries of inserted rows
         """
 
-        resp = self.at.batch_insert(table)
+        resp = self.client.batch_insert(table, typecast=typecast)
         logger.info(f'{table.num_rows} records inserted.')
         return resp
 
@@ -149,6 +163,6 @@ class Airtable(object):
             ``None``
         """
 
-        resp = self.at.update(record_id, fields, typecast=typecast)
+        resp = self.client.update(record_id, fields, typecast=typecast)
         logger.info(f'{record_id} updated')
         return resp

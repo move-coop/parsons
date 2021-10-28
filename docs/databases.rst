@@ -1,22 +1,98 @@
 Databases
 =========
 
+********
+Overview
+********
+
+Parsons offers support for a variety of popular SQL database dialects. The functionality is focused on the ability to query and upload data to SQL databases. Each database class also includes the ability to infer datatypes and data schemas from a Parsons table and automatically create new tables.
+
+Similar to other classes in Parsons, the query methods for databases all return :ref:`parsons-table`, which allow them to be easily converted to other data types.
+
+There is also support for synchronization of tables between databases as part of the :doc:`dbsync` framework.
+
 ***************
 Google BigQuery
 ***************
 
 See :doc:`google` for documentation.
 
+
 *****
 MySQL
 *****
+.. _my-sql:
+
+MySQL is the world's most popular open source database. The Parsons class leverages on the `MySQLdb1 <https://github.com/farcepest/MySQLdb1>`_ python package.
+
+===========
+Quick Start
+===========
+
+**Authentication**
+
+.. code-block:: python
+
+   from parsons import MySQL
+
+   # Instantiate MySQL from environmental variables
+   mysql = MySQL()
+
+   # Instantiate MySQL from passed variables
+   mysql = MySQL(username='me', password='secret', host='mydb.com', db='dev', port=3306)
+
+**Quick Start**
+
+.. code-block:: python
+
+   # Query database
+   tbl = mysql.query('select * from my_schema.secret_sauce')
+
+   # Copy data to database
+   tbl = Table.from_csv('my_file.csv') # Load from a CSV or other source.
+   mysql.copy(tbl, 'my_schema.winning_formula')
+
 
 .. autoclass:: parsons.MySQL
    :inherited-members:
 
+.. _postgres:
+
 ********
 Postgres
 ********
+
+Postgres is popular open source SQL database dialect. The Parsons class leverages the `mysql <https://www.psycopg.org/>`_ python package.
+
+===========
+Quick Start
+===========
+
+**Authentication**
+
+.. code-block:: python
+
+   from parsons import Postgres
+
+   # Instantiate Postgres from environmental variables
+   pg = Postgres()
+
+   # Instantiate Postgres from passed variables
+   pg = Postgres(username='me', password='secret', host='mydb.com', db='dev', port=3306)
+
+   # Instantiate Postgres from a ~/.pgpass file
+   pg = Postgres()
+
+**Quick Start**
+
+.. code-block:: python
+
+   # Query database
+   tbl = pg.query('select * from my_schema.secret_sauce')
+
+   # Copy data to database
+   tbl = Table.from_csv('my_file.csv') # Load from a CSV or other source.
+   pg.copy(tbl, 'my_schema.winning_formula')
 
 .. autoclass:: parsons.Postgres
    :inherited-members:
@@ -26,56 +102,5 @@ Postgres
 Redshift
 ********
 
-See :doc:`aws` section for documentation.
+See :ref:`Redshift <redshift>` for documentation.
 
-*************
-Database Sync
-*************
-
-Sync tables between two databases with just a few lines of code. Currently supported
-database types are:
-
-* Google BigQuery
-* MySQL
-* Postgres
-* Redshift
-
-========
-Examples
-========
-
-**Full Sync Of Tables**
-
-Copy all data from a source table to a destination table.
-
-.. code-block:: python
-
-   # Create source and destination database objects
-   source_rs = Redshift()
-   destination_rs = Postgres()
-
-   # Create db sync object and run sync.
-   db_sync = DBSync(source_rs, destination_rs) # Create DBSync Object
-   db_sync.table_sync_full('parsons.source_data', 'parsons.destination_data')
-
-**Incremental Sync of Tables**
-
-Copy just new data in the table. Utilize this method for tables with
-distinct primary keys.
-
-.. code-block:: python
-
-   # Create source and destination database objects
-   source_rs = Postgres()
-   destination_rs = Postgres()
-
-   # Create db sync object and run sync.
-   db_sync = DBSync(source_pg, destination_pg) # Create DBSync Object
-   db_sync.table_sync_incremental('parsons.source_data', 'parsons.destination_data', 'myid')
-
-===
-API
-===
-
-.. autoclass:: parsons.DBSync
-   :inherited-members:

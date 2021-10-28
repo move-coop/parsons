@@ -1,4 +1,5 @@
-from parsons.databases.mysql.mysql import MySQL, MySQLTable
+from parsons.databases.mysql.mysql import MySQL
+from parsons.databases.table import BaseTable
 from parsons.etl.table import Table
 from test.utils import assert_matching_tables
 import unittest
@@ -16,7 +17,7 @@ class TestMySQLLive(unittest.TestCase):
     def tearDown(self):
 
         # Drop the view, the table and the schema
-        sql = f"DROP TABLE IF EXISTS test;"
+        sql = "DROP TABLE IF EXISTS test;"
         self.mysql.query(sql)
 
     def test_query(self):
@@ -28,7 +29,7 @@ class TestMySQLLive(unittest.TestCase):
     def test_query_no_response(self):
 
         # Check that a query that has no response and doesn't fail
-        sql = f"CREATE TABLE test (name VARCHAR(255), user_name VARCHAR(255))"
+        sql = "CREATE TABLE test (name VARCHAR(255), user_name VARCHAR(255))"
         r = self.mysql.query(sql)
         self.assertEqual(r, None)
 
@@ -54,15 +55,16 @@ class TestMySQL(unittest.TestCase):
         self.mysql = MySQL()
 
         # Create tables
-        self.mysql.query("CREATE TABLE IF NOT EXISTS test (name VARCHAR(255), user_name VARCHAR(255), id INT)")
+        self.mysql.query(
+            "CREATE TABLE IF NOT EXISTS test (name VARCHAR(255), user_name VARCHAR(255), id INT)")
         self.mysql.query("""
-                         INSERT INTO test (name, user_name, id) 
+                         INSERT INTO test (name, user_name, id)
                          VALUES ('me', 'myuser', '1'),
                                 ('you', 'hey', '2'),
                                 ('you', 'hey', '3')
                          """)
 
-        self.tbl = MySQLTable(self.mysql, 'test')
+        self.tbl = BaseTable(self.mysql, 'test')
 
     def tearDown(self):
 
@@ -89,7 +91,7 @@ class TestMySQL(unittest.TestCase):
 
         self.assertTrue(self.tbl.exists)
 
-        tbl_bad = MySQLTable(self.mysql, 'bad_test')
+        tbl_bad = BaseTable(self.mysql, 'bad_test')
         self.assertFalse(tbl_bad.exists)
 
     def test_drop(self):
@@ -120,7 +122,7 @@ class TestMySQL(unittest.TestCase):
         tbl = Table(data)
 
         # Basic
-        assert_matching_tables(self.tbl.get_new_rows('id', 1), tbl) 
+        assert_matching_tables(self.tbl.get_new_rows('id', 1), tbl)
 
         # Chunking
         assert_matching_tables(self.tbl.get_new_rows('id', 1, chunk_size=1), tbl)
@@ -129,8 +131,8 @@ class TestMySQL(unittest.TestCase):
 
         self.assertEqual(self.tbl.get_new_rows_count('id', 1), 2)
 
-
-class TestMySQL(unittest.TestCase):
+# TODO: figure out why there are 2 of these
+class TestMySQL(unittest.TestCase):  # noqa
 
     def setUp(self):
 
@@ -163,7 +165,7 @@ class TestMySQL(unittest.TestCase):
     def test_evaluate_table(self):
 
         table_map = [{'name': 'ID', 'type': 'smallint', 'width': 0},
-                     {'name': 'Name', 'type': 'varchar', 'width': 10},
+                     {'name': 'Name', 'type': 'varchar', 'width': 8},
                      {'name': 'Score', 'type': 'float', 'width': 0}]
         self.assertEqual(self.mysql.evaluate_table(self.tbl), table_map)
 

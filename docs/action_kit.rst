@@ -8,7 +8,7 @@ Overview
 `ActionKit <https://actionkit.com/>`_ is a platform for advocacy, fundraising, and
 get-out-the-vote. This Parsons integration with the
 `ActionKit REST API <https://roboticdogs.actionkit.com/docs/manual/api/rest/overview.html>`_
-supports fetching, creating, and updating records of campaigns, events, and users.
+supports fetching, creating, and updating records of campaigns, events, mailers, orders, survey questions, transactions, and users.
 Bulk upload of new users and user updates is also supported.
 
 .. note::
@@ -29,7 +29,7 @@ domain, username, and password as arguments:
 
 .. code-block:: python
 
-   from parsons import VAN
+   from parsons import ActionKit
 
    # First approach: Use API credentials via environmental variables
    ak = ActionKit()

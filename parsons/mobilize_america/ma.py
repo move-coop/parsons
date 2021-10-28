@@ -1,6 +1,6 @@
 from requests import request as _request
 from parsons.etl.table import Table
-from parsons.utilities.date_convert import iso_to_unix
+from parsons.utilities.datetime import date_to_timestamp
 import petl
 import re
 import os
@@ -31,9 +31,7 @@ class MobilizeAmerica(object):
             logger.info('Mobilize America API Key missing. Calling methods that rely on private'
                         ' endpoints will fail.')
 
-    def request(self, url, req_type='GET', post_data=None, args=None, auth=False):
-        # Internal request method
-
+    def _request(self, url, req_type='GET', post_data=None, args=None, auth=False):
         if auth:
 
             if not self.api_key:
@@ -51,16 +49,15 @@ class MobilizeAmerica(object):
 
         return r
 
-    def request_paginate(self, url, req_type='GET', post_data=None, args=None, raw=False,
-                         paginate=False, auth=False):
+    def _request_paginate(self, url, req_type='GET', args=None, auth=False):
 
-        r = self.request(url, req_type=req_type, args=args, auth=auth)
+        r = self._request(url, req_type=req_type, args=args, auth=auth)
 
         json = r.json()['data']
 
         while r.json()['next']:
 
-            r = self.request(r.json()['next'], req_type=req_type)
+            r = self._request(r.json()['next'], req_type=req_type)
             json.extend(r.json()['data'])
 
         return json
@@ -76,7 +73,7 @@ class MobilizeAmerica(object):
         if time_arg:
 
             time = re.sub('<=|<|>=|>', '', time_arg)
-            time = iso_to_unix(time)
+            time = date_to_timestamp(time)
             time_filter = re.search('<=|<|>=|>', time_arg).group()
 
             for i in trans:
@@ -99,8 +96,10 @@ class MobilizeAmerica(object):
                 See :ref:`parsons-table` for output options.
         """
 
-        return Table(self.request_paginate(self.uri + 'organizations',
-                                           args={'updated_since': iso_to_unix(updated_since)}))
+        return Table(self._request_paginate(self.uri + 'organizations',
+                                            args={
+                                                'updated_since': date_to_timestamp(updated_since)
+                                            }))
 
     def get_events(self, organization_id=None, updated_since=None, timeslot_start=None,
                    timeslot_end=None, timeslots_table=False, max_timeslots=None):
@@ -143,11 +142,11 @@ class MobilizeAmerica(object):
             organization_id = [organization_id]
 
         args = {'organization_id': organization_id,
-                'updated_since': iso_to_unix(updated_since),
+                'updated_since': date_to_timestamp(updated_since),
                 'timeslot_start': self._time_parse(timeslot_start),
                 'timeslot_end': self._time_parse(timeslot_end)}
 
-        tbl = Table(self.request_paginate(self.uri + 'events', args=args))
+        tbl = Table(self._request_paginate(self.uri + 'events', args=args))
 
         if tbl.num_rows > 0:
 
@@ -236,12 +235,12 @@ class MobilizeAmerica(object):
             organization_id = [organization_id]
 
         args = {'organization_id': organization_id,
-                'updated_since': iso_to_unix(updated_since),
+                'updated_since': date_to_timestamp(updated_since),
                 'timeslot_start': self._time_parse(timeslot_start),
                 'timeslot_end': self._time_parse(timeslot_end),
                 }
 
-        tbl = Table(self.request_paginate(self.uri + 'events', args=args, auth=True))
+        tbl = Table(self._request_paginate(self.uri + 'events', args=args, auth=True))
 
         if tbl.num_rows > 0:
 
@@ -282,9 +281,9 @@ class MobilizeAmerica(object):
             organization_id = [organization_id]
 
         args = {'organization_id': organization_id,
-                'updated_since': iso_to_unix(updated_since)}
+                'updated_since': date_to_timestamp(updated_since)}
 
-        return Table(self.request_paginate(self.uri + 'events/deleted', args=args))
+        return Table(self._request_paginate(self.uri + 'events/deleted', args=args))
 
     def get_people(self, organization_id=None, updated_since=None):
         """
@@ -304,10 +303,8 @@ class MobilizeAmerica(object):
         """
 
         url = self.uri + 'organizations/' + str(organization_id) + '/people'
-
-        return Table(self.request_paginate(url,
-                                           args={'updated_since': iso_to_unix(updated_since)},
-                                           auth=True))
+        args = {'updated_since': date_to_timestamp(updated_since)}
+        return Table(self._request_paginate(url, args=args, auth=True))
 
     def get_attendances(self, organization_id=None, updated_since=None):
         """
@@ -328,7 +325,5 @@ class MobilizeAmerica(object):
         """
 
         url = self.uri + 'organizations/' + str(organization_id) + '/attendances'
-
-        return Table(self.request_paginate(url,
-                                           args={'updated_since': iso_to_unix(updated_since)},
-                                           auth=True))
+        args = {'updated_since': date_to_timestamp(updated_since)}
+        return Table(self._request_paginate(url, args=args, auth=True))

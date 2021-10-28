@@ -101,7 +101,8 @@ camp_json = [
             "summary": "",
             "introduction": "Welcome",
             "call_to_action": "Contact your officials in one click!",
-            "thank_you": "<p>Thanks for taking action. Please encourage others to act by sharing on social media.</p>",
+            "thank_you": "<p>Thanks for taking action. Please encourage others to act by "
+            "sharing on social media.</p>",
             "background_image": None
         },
         "updated_at": {
@@ -111,6 +112,14 @@ camp_json = [
         }
     }
 ]
+
+
+def parse_request_body(m):
+    kvs = m.split('&')
+    return {
+        kv.split('=')[0]: kv.split('=')[1]
+        for kv in kvs
+    }
 
 
 class TestP2A(unittest.TestCase):
@@ -142,7 +151,7 @@ class TestP2A(unittest.TestCase):
     @requests_mock.Mocker()
     def test_get_advocates(self, m):
 
-        m.get(self.p2a.uri + 'advocates', json=adv_json)
+        m.get(self.p2a.client.uri + 'advocates', json=adv_json)
 
         adv_exp = ['id', 'prefix', 'firstname', 'middlename',
                    'lastname', 'suffix', 'notes', 'stage', 'connections',
@@ -181,8 +190,8 @@ class TestP2A(unittest.TestCase):
         # Make it look like there's more data
         response['pagination']['count'] = 100
 
-        m.get(self.p2a.uri + 'advocates?page=1', json=adv_json)
-        m.get(self.p2a.uri + 'advocates?page=2', exc=Exception('Should only call once'))
+        m.get(self.p2a.client.uri + 'advocates?page=1', json=adv_json)
+        m.get(self.p2a.client.uri + 'advocates?page=2', exc=Exception('Should only call once'))
 
         results = self.p2a.get_advocates(page=1)
         self.assertTrue(results['advocates'].num_rows, 1)
@@ -195,7 +204,7 @@ class TestP2A(unittest.TestCase):
         # Make it look like there's more data
         response['pagination']['count'] = 0
 
-        m.get(self.p2a.uri + 'advocates', json=adv_json)
+        m.get(self.p2a.client.uri + 'advocates', json=adv_json)
 
         results = self.p2a.get_advocates()
         self.assertTrue(results['advocates'].num_rows, 0)
@@ -210,6 +219,68 @@ class TestP2A(unittest.TestCase):
                     'content_call_to_action', 'content_introduction',
                     'content_summary', 'content_thank_you']
 
-        m.get(self.p2a.uri + 'campaigns', json=camp_json)
+        m.get(self.p2a.client.uri + 'campaigns', json=camp_json)
 
         self.assertTrue(validate_list(camp_exp, self.p2a.get_campaigns()))
+
+    @requests_mock.Mocker()
+    def test_create_advocate(self, m):
+
+        m.post(self.p2a.client.uri + 'advocates', json={'advocateid': 1})
+
+        # Test arg validation - create requires a phone or an email
+        self.assertRaises(ValueError,
+                          lambda: self.p2a.create_advocate(campaigns=[1],
+                                                           firstname='Foo',
+                                                           lastname='bar'))
+        # Test arg validation - sms opt in requires a phone
+        self.assertRaises(ValueError,
+                          lambda: self.p2a.create_advocate(campaigns=[1],
+                                                           email='foo@bar.com',
+                                                           sms_optin=True))
+
+        # Test arg validation - email opt in requires a email
+        self.assertRaises(ValueError,
+                          lambda: self.p2a.create_advocate(campaigns=[1],
+                                                           phone='1234567890',
+                                                           email_optin=True))
+
+        # Test a successful call
+        advocateid = self.p2a.create_advocate(campaigns=[1],
+                                              email='foo@bar.com',
+                                              email_optin=True,
+                                              firstname='Test')
+        self.assertTrue(m.called)
+        self.assertEqual(advocateid, 1)
+
+        # Check that the properties were mapped
+        data = parse_request_body(m.last_request.text)
+        self.assertEqual(data['firstname'], 'Test')
+        self.assertNotIn('lastname', data)
+        self.assertEqual(data['emailOptin'], '1')
+        self.assertEqual(data['email'], 'foo%40bar.com')
+
+    @requests_mock.Mocker()
+    def test_update_advocate(self, m):
+
+        m.post(self.p2a.client.uri + 'advocates')
+
+        # Test arg validation - sms opt in requires a phone
+        self.assertRaises(ValueError,
+                          lambda: self.p2a.update_advocate(advocate_id=1, sms_optin=True))
+
+        # Test arg validation - email opt in requires a email
+        self.assertRaises(ValueError,
+                          lambda: self.p2a.update_advocate(advocate_id=1, email_optin=True))
+
+        # Test a successful call
+        self.p2a.update_advocate(advocate_id=1, campaigns=[1], email='foo@bar.com',
+                                 email_optin=True, firstname='Test')
+        self.assertTrue(m.called)
+
+        # Check that the properties were mapped
+        data = parse_request_body(m.last_request.text)
+        self.assertEqual(data['firstname'], 'Test')
+        self.assertNotIn('lastname', data)
+        self.assertEqual(data['emailOptin'], '1')
+        self.assertEqual(data['email'], 'foo%40bar.com')

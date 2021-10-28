@@ -1,4 +1,6 @@
+import os
 import zipfile
+from parsons.utilities.files import create_temp_directory
 
 
 def create_archive(archive_path, file_path, file_name=None, if_exists='replace'):
@@ -32,15 +34,22 @@ def create_archive(archive_path, file_path, file_name=None, if_exists='replace')
     return archive_path
 
 
-def unzip_archive(archive_path):
+def unzip_archive(archive_path, destination=None):
     """
-    Unzip an archive.
+    Unzip an archive. Only returns the path of the first
+    file in the archive.
 
     `Args:`
         archive_path: str
+            Path to the ZIP archive
+        destination: str
+            `Optional`; path to unzip the archive into; if not specified, the
     `Returns:`
-        ``None``
+        Extracted file path.
     """
+    destination = destination or create_temp_directory()
 
     with zipfile.ZipFile(archive_path, 'r') as z:
-        z.extractall()
+        file_name = z.namelist()[0]
+        z.extractall(path=destination)
+        return os.path.join(destination, file_name)

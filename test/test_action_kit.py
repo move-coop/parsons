@@ -50,12 +50,14 @@ class TestActionKit(unittest.TestCase):
         self.actionkit.get_user(123)
         self.actionkit.conn.get.assert_called_with(
             'https://domain.actionkit.com/rest/v1/user/123/',
+            params=None
         )
 
     def test_get_user_fields(self):
         self.actionkit.get_user_fields()
         self.actionkit.conn.get.assert_called_with(
-            'https://domain.actionkit.com/rest/v1/user/schema/'
+            'https://domain.actionkit.com/rest/v1/user/schema/',
+            params=None
         )
 
     def test_create_user(self):
@@ -117,6 +119,7 @@ class TestActionKit(unittest.TestCase):
         self.actionkit.get_campaign(123)
         self.actionkit.conn.get.assert_called_with(
             'https://domain.actionkit.com/rest/v1/campaign/123/',
+            params=None
         )
 
     def test_create_campaign(self):
@@ -136,11 +139,20 @@ class TestActionKit(unittest.TestCase):
             })
         )
 
+    def test_get_event(self):
+        # Test get event
+        self.actionkit.get_event(1)
+        self.actionkit.conn.get.assert_called_with(
+            'https://domain.actionkit.com/rest/v1/event/1/',
+            params=None
+        )
+
     def test_get_event_create_page(self):
         # Test get event create page
         self.actionkit.get_event_create_page(123)
         self.actionkit.conn.get.assert_called_with(
             'https://domain.actionkit.com/rest/v1/eventcreatepage/123/',
+            params=None
         )
 
     def test_create_event_create_page(self):
@@ -170,6 +182,7 @@ class TestActionKit(unittest.TestCase):
         self.actionkit.get_event_create_form(123)
         self.actionkit.conn.get.assert_called_with(
             'https://domain.actionkit.com/rest/v1/eventcreateform/123/',
+            params=None
         )
 
     def test_create_event_create_form(self):
@@ -197,6 +210,7 @@ class TestActionKit(unittest.TestCase):
         self.actionkit.get_event_signup_page(123)
         self.actionkit.conn.get.assert_called_with(
             'https://domain.actionkit.com/rest/v1/eventsignuppage/123/',
+            params=None
         )
 
     def test_create_event_signup_page(self):
@@ -226,6 +240,7 @@ class TestActionKit(unittest.TestCase):
         self.actionkit.get_event_signup_form(123)
         self.actionkit.conn.get.assert_called_with(
             'https://domain.actionkit.com/rest/v1/eventsignupform/123/',
+            params=None
         )
 
     def test_create_event_signup_form(self):
@@ -261,11 +276,79 @@ class TestActionKit(unittest.TestCase):
             data=json.dumps({'email': 'test'})
         )
 
+    def test_get_mailer(self):
+        # Test get mailer
+        self.actionkit.get_mailer(123)
+        self.actionkit.conn.get.assert_called_with(
+            'https://domain.actionkit.com/rest/v1/mailer/123/',
+            params=None
+        )
+
+    def test_create_mailer(self):
+        # Test create mailer
+
+        # Mock resp and status code
+        resp_mock = mock.MagicMock()
+        type(resp_mock.post()).status_code = mock.PropertyMock(return_value=201)
+        self.actionkit.conn = resp_mock
+
+        self.actionkit.create_mailer(
+            fromline='test <test@test.com>', subjects=['test1', 'test2'], html='<p>test</p>'
+        )
+        self.actionkit.conn.post.assert_called_with(
+            'https://domain.actionkit.com/rest/v1/mailer/',
+            data=json.dumps({
+                'fromline': 'test <test@test.com>', 'subjects': ['test1', 'test2'],
+                'html': '<p>test</p>'
+            })
+        )
+
+    def test_rebuild_mailer(self):
+        # Test rebuild mailer
+
+        # Mock resp and status code
+        resp_mock = mock.MagicMock()
+        type(resp_mock.post()).status_code = mock.PropertyMock(return_value=201)
+        self.actionkit.conn = resp_mock
+
+        self.actionkit.rebuild_mailer(123)
+        self.actionkit.conn.post.assert_called_with(
+            'https://domain.actionkit.com/rest/v1/mailer/123/rebuild/',
+            data=json.dumps({})
+        )
+
+    def test_queue_mailer(self):
+        # Test queue mailer
+
+        # Mock resp and status code
+        resp_mock = mock.MagicMock()
+        type(resp_mock.post()).status_code = mock.PropertyMock(return_value=201)
+        self.actionkit.conn = resp_mock
+
+        self.actionkit.queue_mailer(123)
+        self.actionkit.conn.post.assert_called_with(
+            'https://domain.actionkit.com/rest/v1/mailer/123/queue/',
+            data=json.dumps({})
+        )
+
+    def test_update_order(self):
+        # Test update order
+
+        # Mock resp and status code
+        resp_mock = mock.MagicMock()
+        type(resp_mock.patch()).status_code = mock.PropertyMock(return_value=202)
+        self.actionkit.conn = resp_mock
+        self.actionkit.update_order(123, account='test')
+        self.actionkit.conn.patch.assert_called_with(
+            'https://domain.actionkit.com/rest/v1/order/123/', data=json.dumps({'account': 'test'})
+        )
+
     def test_get_page_followup(self):
         # Test get page followup
         self.actionkit.get_page_followup(123)
         self.actionkit.conn.get.assert_called_with(
             'https://domain.actionkit.com/rest/v1/pagefollowup/123/',
+            params=None
         )
 
     def test_create_page_followup(self):
@@ -286,6 +369,39 @@ class TestActionKit(unittest.TestCase):
                 'page': '/rest/v1/eventsignuppage/123/',
                 'url': 'url'
             })
+        )
+
+    def test_get_survey_question(self):
+        # Test get survey question
+        self.actionkit.get_survey_question(123)
+        self.actionkit.conn.get.assert_called_with(
+            'https://domain.actionkit.com/rest/v1/surveyquestion/123/', params=None
+        )
+
+    def test_update_survey_question(self):
+        # Test update survey question
+
+        # Mock resp and status code
+        resp_mock = mock.MagicMock()
+        type(resp_mock.patch()).status_code = mock.PropertyMock(return_value=202)
+        self.actionkit.conn = resp_mock
+        self.actionkit.update_survey_question(123, question_html='test')
+        self.actionkit.conn.patch.assert_called_with(
+            'https://domain.actionkit.com/rest/v1/surveyquestion/123/',
+            data=json.dumps({'question_html': 'test'})
+        )
+
+    def test_update_transaction(self):
+        # Test update transaction
+
+        # Mock resp and status code
+        resp_mock = mock.MagicMock()
+        type(resp_mock.patch()).status_code = mock.PropertyMock(return_value=202)
+        self.actionkit.conn = resp_mock
+        self.actionkit.update_transaction(123, account='test')
+        self.actionkit.conn.patch.assert_called_with(
+            'https://domain.actionkit.com/rest/v1/transaction/123/',
+            data=json.dumps({'account': 'test'})
         )
 
     def test_create_generic_action(self):
@@ -332,12 +448,26 @@ class TestActionKit(unittest.TestCase):
 
     def test_table_split(self):
         test1 = Table([('x', 'y', 'z'), ('a', 'b', ''), ('1', '', '3'), ('4', '', '6')])
-        tables = self.actionkit._split_tables_no_empties(test1)
+        tables = self.actionkit._split_tables_no_empties(test1, True, [])
         self.assertEqual(len(tables), 2)
         assert_matching_tables(tables[0], Table([('x', 'y'), ('a', 'b')]))
         assert_matching_tables(tables[1], Table([('x', 'z'), ('1', '3'), ('4', '6')]))
 
         test2 = Table([('x', 'y', 'z'), ('a', 'b', 'c'), ('1', '2', '3'), ('4', '5', '6')])
-        tables2 = self.actionkit._split_tables_no_empties(test2)
+        tables2 = self.actionkit._split_tables_no_empties(test2, True, [])
         self.assertEqual(len(tables2), 1)
         assert_matching_tables(tables2[0], test2)
+
+        test3 = Table([('x', 'y', 'z'), ('a', 'b', ''), ('1', '2', '3'), ('4', '5', '6')])
+        tables3 = self.actionkit._split_tables_no_empties(test3, False, ['z'])
+        self.assertEqual(len(tables3), 2)
+        assert_matching_tables(tables3[0], Table([('x', 'y'), ('a', 'b')]))
+        assert_matching_tables(tables3[1],
+                               Table([('x', 'y', 'z'), ('1', '2', '3'), ('4', '5', '6')]))
+
+    def test_collect_errors(self):
+        self.actionkit.collect_upload_errors([{'id': '12345'}])
+        self.actionkit.conn.get.assert_called_with(
+            'https://domain.actionkit.com/rest/v1/uploaderror/',
+            params={'upload': '12345'}
+        )

@@ -18,7 +18,7 @@ class Zoom:
         api_key: str
             A valid Zoom api key. Not required if ``ZOOM_API_KEY`` env
             variable set.
-        api_secret:
+        api_secret: str
             A valid Zoom api secret. Not required if ``ZOOM_API_SECRET`` env
             variable set.
     """
@@ -34,17 +34,15 @@ class Zoom:
         # on JWT generation using Zoom API: https://marketplace.zoom.us/docs/guides/auth/jwt
 
         payload = {"iss": self.api_key, "exp": int(datetime.datetime.now().timestamp() + 30)}
-        token = jwt.encode(payload, self.api_secret, algorithm='HS256').decode("utf-8")
+        token = jwt.encode(payload, self.api_secret, algorithm='HS256')
         self.client.headers = {'authorization': f"Bearer {token}",
                                'content-type': "application/json"}
 
-    def get_request(self, endpoint, data_key, params=None, **kwargs):
-        # Internal GET request method.
-
+    def _get_request(self, endpoint, data_key, params=None, **kwargs):
         # To Do: Consider increasing default page size.
 
         self.refresh_header_token()
-        r = self.client.get_request(ZOOM_URI + endpoint, params=params, **kwargs)
+        r = self.client.get_request(endpoint, params=params, **kwargs)
         self.client.data_key = data_key
         data = self.client.data_parse(r)
 
@@ -62,7 +60,7 @@ class Zoom:
         else:
             while r['page_number'] < r['page_count']:
                 params['page_number'] = int(r['page_number']) + 1
-                r = self.client.get_request(ZOOM_URI + endpoint, params=params, **kwargs)
+                r = self.client.get_request(endpoint, params=params, **kwargs)
                 data.extend(self.client.data_parse(r))
             return Table(data)
 
@@ -87,7 +85,7 @@ class Zoom:
         params = {'status': status,
                   'role_id': role_id}
 
-        tbl = self.get_request('users', 'users', params=params)
+        tbl = self._get_request('users', 'users', params=params)
         logger.info(f'Retrieved {tbl.num_rows} users.')
         return tbl
 
@@ -120,7 +118,7 @@ class Zoom:
                 See :ref:`parsons-table` for output options.
         """
 
-        tbl = self.get_request(f'users/{user_id}/meetings', 'meetings')
+        tbl = self._get_request(f'users/{user_id}/meetings', 'meetings')
         logger.info(f'Retrieved {tbl.num_rows} meetings.')
         return tbl
 
@@ -132,25 +130,90 @@ class Zoom:
             meeting_id: str
                 The meeting id
         `Returns:`
-            dict
+            Parsons Table
+                See :ref:`parsons-table` for output options.
         """
 
-        tbl = self.get_request(f'past_meetings/{meeting_uuid}', None)
+        tbl = self._get_request(f'past_meetings/{meeting_uuid}', None)
         logger.info(f'Retrieved meeting {meeting_uuid}.')
         return tbl
 
     def get_past_meeting_participants(self, meeting_id):
         """
-        Get past meeting participants
+        Get past meeting participants.
 
         `Args:`
-            meeting_id:
+            meeting_id: str
                 The meeting id
         `Returns:`
             Parsons Table
                 See :ref:`parsons-table` for output options.
         """
 
-        tbl = self.get_request(f'/report/meetings/{meeting_id}/participants', 'participants')
+        tbl = self._get_request(f'report/meetings/{meeting_id}/participants', 'participants')
         logger.info(f'Retrieved {tbl.num_rows} participants.')
+        return tbl
+
+    def get_meeting_registrants(self, meeting_id):
+        """
+        Get meeting registrants.
+
+        `Args:`
+            meeting_id: str
+                The meeting id
+        `Returns:`
+            Parsons Table
+                See :ref:`parsons-table` for output options.
+        """
+
+        tbl = self._get_request(f'meetings/{meeting_id}/registrants', 'registrants')
+        logger.info(f'Retrieved {tbl.num_rows} registrants.')
+        return tbl
+
+    def get_user_webinars(self, user_id):
+        """
+        Get meeting registrants.
+
+        `Args:`
+            user_id: str
+                The user id
+        `Returns:`
+            Parsons Table
+                See :ref:`parsons-table` for output options.
+        """
+
+        tbl = self._get_request(f'users/{user_id}/webinars', 'webinars')
+        logger.info(f'Retrieved {tbl.num_rows} webinars.')
+        return tbl
+
+    def get_past_webinar_participants(self, webinar_id):
+        """
+        Get past meeting participants
+
+        `Args:`
+            webinar_id: str
+                The webinar id
+        `Returns:`
+            Parsons Table
+                See :ref:`parsons-table` for output options.
+        """
+
+        tbl = self._get_request(f'report/webinars/{webinar_id}/participants', 'participants')
+        logger.info(f'Retrieved {tbl.num_rows} webinar participants.')
+        return tbl
+
+    def get_webinar_registrants(self, webinar_id):
+        """
+        Get past meeting participants
+
+        `Args:`
+            webinar_id: str
+                The webinar id
+        `Returns:`
+            Parsons Table
+                See :ref:`parsons-table` for output options.
+        """
+
+        tbl = self._get_request(f'report/webinars/{webinar_id}/registrants', 'registrants')
+        logger.info(f'Retrieved {tbl.num_rows} webinar registrants.')
         return tbl

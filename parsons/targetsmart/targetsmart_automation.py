@@ -9,8 +9,8 @@ import logging
 import xmltodict
 
 
-TS_STFP_HOST = 'sftp.targetsmart.com'
-TS_SFTP_PORT = 2222
+TS_STFP_HOST = 'transfer.targetsmart.com'
+TS_SFTP_PORT = 22
 TS_SFTP_DIR = 'automation'
 
 logger = logging.getLogger(__name__)

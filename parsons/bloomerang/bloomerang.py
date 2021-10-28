@@ -82,6 +82,18 @@ class Bloomerang(object):
     def _base_pagination_params(page_number=1, page_size=50):
         return {'skip': page_size * (page_number - 1), 'take': min(page_size, 50)}
 
+    @staticmethod
+    def _base_ordering_params(order_by=None, order_direction=None):
+        params = {}
+
+        if order_by:
+            params["orderBy"] = order_by
+
+        if order_direction:
+            params["orderDirection"] = order_direction
+
+        return params
+
     def _base_create(self, endpoint, entity_id=None, **kwargs):
         return self.conn.post_request(url=self._base_endpoint(endpoint, entity_id),
                                       json=json.dumps({**kwargs}))
@@ -136,17 +148,29 @@ class Bloomerang(object):
         """
         return self._base_delete('constituent', entity_id=constituent_id)
 
-    def get_constituents(self, page_number=1, page_size=50):
+    def get_constituents(self, page_number=1, page_size=50, order_by=None, order_direction=None,
+                         last_modified=None):
         """
         `Args:`
             page_number: int
                 Number of the page to fetch
             page_size: int
                 Number of records per page (maximum allowed is 50)
+            order_by: str
+                Sorts by ``Id``, ``CreatedDate``, or ``LastModifiedDate`` (default ``Id``).
+            order_direction: str
+                Sorts the order_by in ``Asc`` or ``Desc`` order.
+            last_modified: str
+                Filters to constituents last modified after the specified date (ISO-8601 format).
         `Returns:`
             A Table of the entries.
         """
         params = self._base_pagination_params(page_number, page_size)
+        params.update(self._base_ordering_params(order_by, order_direction))
+
+        if last_modified:
+            params["lastModified"] = last_modified
+
         response = self._base_get(f'constituents', params=params)
         return Table(response['Results'])
 
@@ -190,17 +214,23 @@ class Bloomerang(object):
         """
         return self._base_delete('transaction', entity_id=transaction_id)
 
-    def get_transactions(self, page_number=1, page_size=50):
+    def get_transactions(self, page_number=1, page_size=50, order_by=None, order_direction=None):
         """
         `Args:`
             page_number: int
                 Number of the page to fetch
             page_size: int
                 Number of records per page (maximum allowed is 50)
+            order_by: str
+                Sorts by ``Date``, ``CreatedDate``, or ``LastModifiedDate`` (default ``Date``).
+            order_direction: str
+                Sorts the order_by in ``Asc`` or ``Desc`` order (default ``Desc``).
         `Returns:`
             A  JSON of the entry or an error.
         """
         params = self._base_pagination_params(page_number, page_size)
+        params.update(self._base_ordering_params(order_by, order_direction))
+
         response = self._base_get(f'transactions', params=params)
         return Table(response['Results'])
 
@@ -214,17 +244,24 @@ class Bloomerang(object):
         """
         return self._base_get('transaction/designation', entity_id=designation_id)
 
-    def get_transaction_designations(self, page_number=1, page_size=50):
+    def get_transaction_designations(self, page_number=1, page_size=50, order_by=None,
+                                     order_direction=None):
         """
         `Args:`
             page_number: int
                 Number of the page to fetch
             page_size: int
                 Number of records per page (maximum allowed is 50)
+            order_by: str
+                Sorts by ``Date``, ``CreatedDate``, or ``LastModifiedDate`` (default ``Date``).
+            order_direction: str
+                Sorts the order_by in ``Asc`` or ``Desc`` order (default ``Desc``).
         `Returns:`
             A  JSON of the entry or an error.
         """
         params = self._base_pagination_params(page_number, page_size)
+        params.update(self._base_ordering_params(order_by, order_direction))
+
         response = self._base_get(f'transactions/designations', params=params)
         return Table(response['Results'])
 

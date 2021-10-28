@@ -168,10 +168,13 @@ Indices and tables
    action_kit
    action_network
    airtable
+   alchemer
    aws
    azure
    bill_com
    bloomerang
+   bluelink
+   box
    braintree
    civis
    copper
@@ -191,6 +194,7 @@ Indices and tables
    redash
    rockthevote
    salesforce
+   shopify
    sftp
    sisense
    targetsmart
@@ -222,3 +226,4 @@ Indices and tables
 
    contributing
    build_a_connector
+   write_tests

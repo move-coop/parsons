@@ -4,7 +4,8 @@ import requests_mock
 from parsons.airtable import Airtable
 from parsons.etl import Table
 from test.utils import assert_matching_tables
-from airtable_responses import insert_response, insert_responses, records_response
+from airtable_responses import insert_response, insert_responses, \
+    records_response, records_response_with_more_columns
 
 
 os.environ['AIRTABLE_API_KEY'] = 'SOME_KEY'
@@ -54,6 +55,35 @@ class TestAirtable(unittest.TestCase):
         self.at.get_records(max_records=1)
         # Assert that Parsons tables match
         assert_matching_tables(self.at.get_records(), tbl)
+
+    @requests_mock.Mocker()
+    def test_get_records_with_1_sample(self, m):
+
+        m.get(self.base_uri, json=records_response_with_more_columns)
+
+        airtable_res = self.at.get_records(sample_size=1)
+
+        assert airtable_res.columns == ['id', 'createdTime', 'Name']
+
+    @requests_mock.Mocker()
+    def test_get_records_with_5_sample(self, m):
+
+        m.get(self.base_uri, json=records_response_with_more_columns)
+
+        airtable_res = self.at.get_records(sample_size=5)
+
+        assert airtable_res.columns == ['id', 'createdTime', 'Name', 'SecondColumn']
+
+    @requests_mock.Mocker()
+    def test_get_records_with_explicit_headers(self, m):
+
+        m.get(self.base_uri, json=records_response_with_more_columns)
+
+        fields = ['Name', 'SecondColumn']
+
+        airtable_res = self.at.get_records(fields, sample_size=1)
+
+        assert airtable_res.columns == ['id', 'createdTime', 'Name', 'SecondColumn']
 
     @requests_mock.Mocker()
     def test_insert_record(self, m):

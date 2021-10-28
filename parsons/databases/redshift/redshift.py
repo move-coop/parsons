@@ -4,7 +4,8 @@ from parsons.databases.redshift.rs_create_table import RedshiftCreateTable
 from parsons.databases.redshift.rs_table_utilities import RedshiftTableUtilities
 from parsons.databases.redshift.rs_schema import RedshiftSchema
 from parsons.databases.table import BaseTable
-from parsons.utilities import files
+from parsons.databases.alchemy import Alchemy
+from parsons.utilities import files, sql_helpers
 import psycopg2
 import psycopg2.extras
 import os
@@ -24,7 +25,8 @@ QUERY_BATCH_SIZE = 100000
 logger = logging.getLogger(__name__)
 
 
-class Redshift(RedshiftCreateTable, RedshiftCopyTable, RedshiftTableUtilities, RedshiftSchema):
+class Redshift(RedshiftCreateTable, RedshiftCopyTable, RedshiftTableUtilities, RedshiftSchema,
+               Alchemy):
     """
     A Redshift class to connect to database.
 
@@ -61,6 +63,7 @@ class Redshift(RedshiftCreateTable, RedshiftCopyTable, RedshiftTableUtilities, R
     def __init__(self, username=None, password=None, host=None, db=None, port=None,
                  timeout=10, s3_temp_bucket=None,
                  aws_access_key_id=None, aws_secret_access_key=None, iam_role=None):
+        super().__init__()
 
         try:
             self.username = username or os.environ['REDSHIFT_USERNAME']
@@ -94,7 +97,7 @@ class Redshift(RedshiftCreateTable, RedshiftCopyTable, RedshiftTableUtilities, R
         ``with rs.connection() as conn:``
 
         `Returns:`
-            Psycopg2 `connection` object
+            Psycopg2 ``connection`` object
         """
 
         # Create a psycopg2 connection and cursor
@@ -186,7 +189,8 @@ class Redshift(RedshiftCreateTable, RedshiftCopyTable, RedshiftTableUtilities, R
 
         with self.cursor(connection) as cursor:
 
-            logger.debug(f'SQL Query: {sql}')
+            if 'credentials' not in sql:
+                logger.debug(f'SQL Query: {sql}')
             cursor.execute(sql, parameters)
 
             if commit:
@@ -232,7 +236,8 @@ class Redshift(RedshiftCreateTable, RedshiftCopyTable, RedshiftTableUtilities, R
                 dateformat='auto', timeformat='auto', emptyasnull=True,
                 blanksasnull=True, nullas=None, acceptinvchars=True, truncatecolumns=False,
                 columntypes=None, specifycols=None,
-                aws_access_key_id=None, aws_secret_access_key=None, bucket_region=None):
+                aws_access_key_id=None, aws_secret_access_key=None, bucket_region=None,
+                strict_length=True, template_table=None):
         """
         Copy a file from s3 to Redshift.
 
@@ -317,6 +322,16 @@ class Redshift(RedshiftCreateTable, RedshiftCopyTable, RedshiftTableUtilities, R
             bucket_region: str
                 The AWS region that the bucket is located in. This should be provided if the
                 Redshift cluster is located in a different region from the temp bucket.
+            strict_length: bool
+                If the database table needs to be created, strict_length determines whether
+                the created table's column sizes will be sized to exactly fit the current data,
+                or if their size will be rounded up to account for future values being larger
+                then the current dataset. defaults to ``True``; this argument is ignored if
+                ``padding`` is specified
+            template_table: str
+                Instead of specifying columns, columntypes, and/or inference, if there
+                is a pre-existing table that has the same columns/types, then use the template_table
+                table name as the schema for the new table.
 
         `Returns`
             Parsons Table or ``None``
@@ -326,23 +341,26 @@ class Redshift(RedshiftCreateTable, RedshiftCopyTable, RedshiftTableUtilities, R
         with self.connection() as connection:
 
             if self._create_table_precheck(connection, table_name, if_exists):
-                # Grab the object from s3
-                from parsons.aws.s3 import S3
-                s3 = S3(aws_access_key_id=aws_access_key_id,
-                        aws_secret_access_key=aws_secret_access_key)
-
-                local_path = s3.get_file(bucket, key)
-
-                if data_type == 'csv':
-                    tbl = Table.from_csv(local_path, delimiter=csv_delimiter)
+                if template_table:
+                    sql = f'CREATE TABLE {table_name} (LIKE {template_table})'
                 else:
-                    raise TypeError("Invalid data type provided")
+                    # Grab the object from s3
+                    from parsons.aws.s3 import S3
+                    s3 = S3(aws_access_key_id=aws_access_key_id,
+                            aws_secret_access_key=aws_secret_access_key)
 
-                # Create the table
-                sql = self.create_statement(tbl, table_name, padding=padding,
-                                            distkey=distkey, sortkey=sortkey,
-                                            varchar_max=varchar_max,
-                                            columntypes=columntypes)
+                    local_path = s3.get_file(bucket, key)
+                    if data_type == 'csv':
+                        tbl = Table.from_csv(local_path, delimiter=csv_delimiter)
+                    else:
+                        raise TypeError("Invalid data type provided")
+
+                    # Create the table
+                    sql = self.create_statement(tbl, table_name, padding=padding,
+                                                distkey=distkey, sortkey=sortkey,
+                                                varchar_max=varchar_max,
+                                                columntypes=columntypes,
+                                                strict_length=strict_length)
 
                 self.query_with_connection(sql, connection, commit=False)
                 logger.info(f'{table_name} created.')
@@ -366,12 +384,13 @@ class Redshift(RedshiftCreateTable, RedshiftCopyTable, RedshiftTableUtilities, R
             logger.info(f'Data copied to {table_name}.')
 
     def copy(self, tbl, table_name, if_exists='fail', max_errors=0, distkey=None,
-             sortkey=None, padding=None, statupdate=False, compupdate=True, acceptanydate=True,
+             sortkey=None, padding=None, statupdate=None, compupdate=None, acceptanydate=True,
              emptyasnull=True, blanksasnull=True, nullas=None, acceptinvchars=True,
              dateformat='auto', timeformat='auto', varchar_max=None, truncatecolumns=False,
-             columntypes=None, specifycols=None, alter_table=False,
+             columntypes=None, specifycols=None, alter_table=False, alter_table_cascade=False,
              aws_access_key_id=None, aws_secret_access_key=None, iam_role=None,
-             cleanup_s3_file=True, template_table=None, temp_bucket_region=None):
+             cleanup_s3_file=True, template_table=None, temp_bucket_region=None,
+             strict_length=True):
         """
         Copy a :ref:`parsons-table` to Redshift.
 
@@ -398,9 +417,23 @@ class Redshift(RedshiftCreateTable, RedshiftCopyTable, RedshiftTableUtilities, R
                 characters.
             statupate: boolean
                 Governs automatic computation and refresh of optimizer statistics at the end
-                of a successful COPY command.
+                of a successful COPY command. If ``True`` explicitly sets ``statupate`` to on, if
+                ``False`` explicitly sets ``statupate`` to off. If ``None`` stats update only if
+                the table is initially empty. Defaults to ``None``.
+                See `Redshift docs <https://docs.aws.amazon.com/redshift/latest/dg/copy-parameters-data-load.html#copy-statupdate>`_
+                for more details.
+
+                .. note::
+                    If STATUPDATE is used, the current user must be either the table owner or a
+                    superuser.
+
             compupdate: boolean
-                Controls whether compression encodings are automatically applied during a COPY.
+                Controls whether compression encodings are automatically applied during a COPY. If
+                ``True`` explicitly sets ``compupdate`` to on, if ``False`` explicitly sets
+                ``compupdate`` to off. If ``None`` the COPY command only chooses compression if the
+                table is initially empty. Defaults to ``None``.
+                See `Redshift docs <https://docs.aws.amazon.com/redshift/latest/dg/copy-parameters-data-load.html#copy-compupdate>`_
+                for more details.
             acceptanydate: boolean
                 Allows any date format, including invalid formats such as 00/00/00 00:00:00, to be
                 loaded without generating an error.
@@ -438,7 +471,11 @@ class Redshift(RedshiftCreateTable, RedshiftCopyTable, RedshiftTableUtilities, R
             alter_table: boolean
                 Will check if the target table varchar widths are wide enough to copy in the
                 table data. If not, will attempt to alter the table to make it wide enough. This
-                will not work with tables that have dependent views.
+                will not work with tables that have dependent views. To drop them, set
+                ``alter_table_cascade`` to True.
+            alter_table_cascade: boolean
+                Will drop dependent objects when attempting to alter the table. If ``alter_table``
+                is not ``True``, this will be ignored.
             aws_access_key_id:
                 An AWS access key granted to the bucket where the file is located. Not required
                 if keys are stored as environmental variables.
@@ -460,11 +497,14 @@ class Redshift(RedshiftCreateTable, RedshiftCopyTable, RedshiftTableUtilities, R
                 The AWS region that the temp bucket (specified by the TEMP_S3_BUCKET environment
                 variable) is located in. This should be provided if the Redshift cluster is located
                 in a different region from the temp bucket.
+            strict_length: bool
+                Whether or not to tightly fit the length of the table columns to the length
+                of the data in ``tbl``; if ``padding`` is specified, this argument is ignored
 
         `Returns`
             Parsons Table or ``None``
                 See :ref:`parsons-table` for output options.
-        """
+        """  # noqa: E501
 
         # Specify the columns for a copy statement.
         if specifycols or (specifycols is None and template_table):
@@ -484,14 +524,16 @@ class Redshift(RedshiftCreateTable, RedshiftCopyTable, RedshiftTableUtilities, R
                     sql = self.create_statement(tbl, table_name, padding=padding,
                                                 distkey=distkey, sortkey=sortkey,
                                                 varchar_max=varchar_max,
-                                                columntypes=columntypes)
+                                                columntypes=columntypes,
+                                                strict_length=strict_length)
                 self.query_with_connection(sql, connection, commit=False)
                 logger.info(f'{table_name} created.')
 
             # If alter_table is True, then alter table if the table column widths
             # are wider than the existing table.
             if alter_table:
-                self.alter_varchar_column_widths(tbl, table_name)
+                self.alter_varchar_column_widths(
+                    tbl, table_name, drop_dependencies=alter_table_cascade)
 
             # Upload the table to S3
             key = self.temp_s3_copy(tbl, aws_access_key_id=aws_access_key_id,
@@ -519,7 +561,9 @@ class Redshift(RedshiftCreateTable, RedshiftCopyTable, RedshiftTableUtilities, R
 
                 # Copy from S3 to Redshift
                 sql = self.copy_statement(table_name, self.s3_temp_bucket, key, **copy_args)
-                logger.debug(f'Copy SQL command: {sql}')
+                sql_censored = sql_helpers.redact_credentials(sql)
+
+                logger.debug(f'Copy SQL command: {sql_censored}')
                 self.query_with_connection(sql, connection, commit=False)
 
                 logger.info(f'Data copied to {table_name}.')
@@ -617,7 +661,9 @@ class Redshift(RedshiftCreateTable, RedshiftCopyTable, RedshiftTableUtilities, R
             statement += f"REGION {aws_region} \n"
 
         logger.info(f'Unloading data to s3://{bucket}/{key_prefix}')
-        logger.debug(statement)
+        # Censor sensitive data
+        statement_censored = sql_helpers.redact_credentials(statement)
+        logger.debug(statement_censored)
 
         return self.query(statement)
 
@@ -691,7 +737,7 @@ class Redshift(RedshiftCreateTable, RedshiftCopyTable, RedshiftTableUtilities, R
         return manifest
 
     def upsert(self, table_obj, target_table, primary_key, vacuum=True, distinct_check=True,
-               cleanup_temp_table=True, alter_table=True, **copy_args):
+               cleanup_temp_table=True, alter_table=True, from_s3=False, **copy_args):
         """
         Preform an upsert on an existing table. An upsert is a function in which records
         in a table are updated and inserted at the same time. Unlike other SQL databases,
@@ -712,8 +758,14 @@ class Redshift(RedshiftCreateTable, RedshiftCopyTable, RedshiftTableUtilities, R
                 Check if the primary key column is distinct. Raise error if not.
             cleanup_temp_table: boolean
                 A temp table is dropped by default on cleanup. You can set to False for debugging.
+            alter_table: boolean
+                Set to False to avoid automatic varchar column resizing to accomodate new data
+            from_s3: boolean
+                Instead of specifying a table_obj (set the first argument to None),
+                set this to True and include :func:`~parsons.databases.Redshift.copy_s3` arguments
+                to upsert a pre-existing s3 file into the target_table
             \**copy_args: kwargs
-                See :func:`~parsons.databases.Redshift.copy`` for options.
+                See :func:`~parsons.databases.Redshift.copy` for options.
         """  # noqa: W605
 
         if not self.table_exists(target_table):
@@ -722,7 +774,7 @@ class Redshift(RedshiftCreateTable, RedshiftCopyTable, RedshiftTableUtilities, R
             self.copy(table_obj, target_table)
             return None
 
-        if alter_table:
+        if alter_table and table_obj:
             # Make target table column widths match incoming table, if necessary
             self.alter_varchar_column_widths(table_obj, target_table)
 
@@ -764,10 +816,20 @@ class Redshift(RedshiftCreateTable, RedshiftCopyTable, RedshiftTableUtilities, R
                     # column is not impactful barely impactful
                     # https://docs.aws.amazon.com/redshift/latest/dg/c_Loading_tables_auto_compress.html
                     copy_args = dict(copy_args, compupdate=False)
-                self.copy(table_obj, staging_tbl,
-                          template_table=target_table,
-                          alter_table=False,  # We just did our own alter table above
-                          **copy_args)
+                if from_s3:
+                    if table_obj is not None:
+                        raise ValueError(
+                            'upsert(... from_s3=True) requires the first argument (table_obj)'
+                            ' to be None. from_s3 and table_obj are mutually exclusive.'
+                        )
+                    self.copy_s3(staging_tbl,
+                                 template_table=target_table,
+                                 **copy_args)
+                else:
+                    self.copy(table_obj, staging_tbl,
+                              template_table=target_table,
+                              alter_table=False,  # We just did our own alter table above
+                              **copy_args)
 
                 staging_table_name = staging_tbl.split('.')[1]
                 target_table_name = target_table.split('.')[1]
@@ -813,7 +875,42 @@ class Redshift(RedshiftCreateTable, RedshiftCopyTable, RedshiftTableUtilities, R
                 self.query_with_connection(f'VACUUM {target_table};', connection)
                 logger.info(f'{target_table} vacuumed.')
 
-    def alter_varchar_column_widths(self, tbl, table_name):
+    def drop_dependencies_for_cols(self, schema, table, cols):
+        fmt_cols = ", ".join([f"'{c}'" for c in cols])
+        sql_depend = f"""
+            select
+                distinct dependent_ns.nspname||'.'||dependent_view.relname as table_name
+            from pg_depend
+            join pg_rewrite
+                on pg_depend.objid = pg_rewrite.oid
+            join pg_class as dependent_view
+                on pg_rewrite.ev_class = dependent_view.oid
+            join pg_class as source_table
+                on pg_depend.refobjid = source_table.oid
+            join pg_attribute
+                on pg_depend.refobjid = pg_attribute.attrelid
+                and pg_depend.refobjsubid = pg_attribute.attnum
+            join pg_namespace dependent_ns
+                on dependent_ns.oid = dependent_view.relnamespace
+            join pg_namespace source_ns on source_ns.oid = source_table.relnamespace
+            where
+                source_ns.nspname = '{schema}'
+                and source_table.relname = '{table}'
+                and pg_attribute.attname in ({fmt_cols})
+            ;
+        """
+
+        with self.connection() as connection:
+            connection.set_session(autocommit=True)
+            tbl = self.query_with_connection(sql_depend, connection)
+            dropped_views = [row['table_name'] for row in tbl]
+            sql_drop = "\n".join([f"drop view {view};" for view in dropped_views])
+            tbl = self.query_with_connection(sql_drop, connection)
+            logger.info(f"Dropped the following views: {dropped_views}")
+
+        return tbl
+
+    def alter_varchar_column_widths(self, tbl, table_name, drop_dependencies=False):
         """
         Alter the width of a varchar columns in a Redshift table to match the widths
         of a Parsons table. The columns are matched by column name and not their
@@ -837,7 +934,9 @@ class Redshift(RedshiftCreateTable, RedshiftCopyTable, RedshiftTableUtilities, R
         # Determine the max width of the varchar columns in the Redshift table
         s, t = self.split_full_table_name(table_name)
         cols = self.get_columns(s, t)
-        rc = {k: v['max_length'] for k, v in cols.items() if v['data_type'] == 'character varying'} # noqa: E501, E261
+        rc = {k: v['max_length'] for k, v in cols.items() if v['data_type'] == 'character varying'}  # noqa: E501, E261
+        if drop_dependencies:
+            self.drop_dependencies_for_cols(s, t, rc.keys())
 
         # Figure out if any of the destination table varchar columns are smaller than the
         # associated Parsons table columns. If they are, then alter column types to expand

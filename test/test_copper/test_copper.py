@@ -122,15 +122,15 @@ class TestCopper(unittest.TestCase):
 
         # GET request.text is always None
         if request.text is None:
-            row_start = 1
-            row_finish = 10
+            row_start = 0
+            row_finish = 100
         else:
             pdict = json.loads(request.text)
             page_number = pdict['page_number'] - 1
             page_size = pdict['page_size']
 
             row_start = page_number * page_size
-            row_finish = row_start + page_size + 1
+            row_finish = row_start + page_size
 
         with open(f'{_dir}/{context.headers["filename"]}', 'r') as json_file:
             response = json.load(json_file)
@@ -813,6 +813,8 @@ class TestCopper(unittest.TestCase):
              "name": "Note"},
             {"category": "user", "count_as_interaction": True, "id": 504464, "is_disabled": False,
              "name": "Mail"},
+            {"category": "user", "count_as_interaction": True, "id": 248465, "is_disabled": False,
+             "name": "Stories from the Field"},
             {"category": "user", "count_as_interaction": True, "id": 236962, "is_disabled": False,
              "name": "Press Coverage"}
         ])

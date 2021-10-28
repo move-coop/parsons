@@ -20,7 +20,7 @@ class RedshiftCopyTable(object):
 
     def copy_statement(self, table_name, bucket, key, manifest=False,
                        data_type='csv', csv_delimiter=',', max_errors=0,
-                       statupdate=True, compupdate=True, ignoreheader=1, acceptanydate=True,
+                       statupdate=None, compupdate=None, ignoreheader=1, acceptanydate=True,
                        dateformat='auto', timeformat='auto', emptyasnull=True,
                        blanksasnull=True, nullas=None, acceptinvchars=True, truncatecolumns=False,
                        specifycols=None, aws_access_key_id=None, aws_secret_access_key=None,
@@ -44,12 +44,23 @@ class RedshiftCopyTable(object):
             sql += f"region '{bucket_region}'\n"
             logger.info('Copying data from S3 bucket %s in region %s', bucket, bucket_region)
         sql += f"maxerror {max_errors} \n"
-        if statupdate:
-            sql += "statupdate on\n"
-        if compupdate:
-            sql += "compupdate on \n"
-        else:
-            sql += "compupdate off \n"
+
+        # Redshift has some default behavior when statupdate is left out
+        # vs when it is explicitly set as on or off.
+        if statupdate is not None:
+            if statupdate:
+                sql += "statupdate on\n"
+            else:
+                sql += "statupdate off\n"
+
+        # Redshift has some default behavior when compupdate is left out
+        # vs when it is explicitly set as on or off.
+        if compupdate is not None:
+            if compupdate:
+                sql += "compupdate on\n"
+            else:
+                sql += "compupdate off\n"
+
         if ignoreheader:
             sql += f"ignoreheader {ignoreheader} \n"
         if acceptanydate:

@@ -27,6 +27,9 @@ From Parsons Table
     * - :py:meth:`~parsons.etl.tofrom.ToFrom.to_s3_csv`
       - AWS s3 Bucket
       - Write a table to a csv stored in S3
+    * - :py:meth:`~parsons.etl.tofrom.ToFrom.to_gcs_csv`
+      - Google Cloud Storage Bucket
+      - Write a table to a csv stored in Google Cloud Storage
     * - :py:meth:`~parsons.etl.tofrom.ToFrom.to_sftp_csv`
       - SFTP Server
       - Write a table to a csv stored on an SFTP server
@@ -246,7 +249,26 @@ If you need to iterate over the data, make sure to use the python iterator synta
 PETL
 ====
 
-The Parsons ``Table`` relies heavily on the `petl <https://petl.readthedocs.io/en/stable/index.html>`_ Python package. You can always access the underlying petl table with ``my_parsons_table.table``, which will allow you to perform any petl-supported ETL operations.
+The Parsons ``Table`` relies heavily on the `petl <https://petl.readthedocs.io/en/stable/index.html>`_
+Python package. You can always access the underlying petl table, ``parsons.Table.table``, which will
+allow you to perform any petl-supported ETL operations. Additionally, you can use the helper method,
+:py:meth:`~parsons.etl.etl.ETL.use_petl`, to conveniently perform the same operations on a parsons
+``Table``. For example:
+
+.. code-block:: python
+
+  import petl
+  ...
+
+  tbl = Table()
+  tbl.table = petl.skipcomments(tbl.table, '#')
+
+or
+
+.. code-block:: python
+
+  tbl = Table()
+  tbl.use_petl('skipcomments', '#', update_table=True)
 
 ============
 Lazy Loading

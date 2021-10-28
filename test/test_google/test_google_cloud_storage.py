@@ -1,5 +1,7 @@
 import unittest
 from parsons.google.google_cloud_storage import GoogleCloudStorage
+from parsons.etl import Table
+from test.utils import assert_matching_tables
 from parsons.utilities import files
 from google.cloud import storage
 import os
@@ -106,3 +108,12 @@ class TestGoogleStorageBuckets(unittest.TestCase):
         # Check that it was deleted.
         self.cloud.delete_blob(TEMP_BUCKET_NAME, file_name)
         self.assertFalse(self.cloud.blob_exists(TEMP_BUCKET_NAME, file_name))
+
+    def test_get_url(self):
+
+        file_name = 'delete_me.csv'
+        input_tbl = Table([['a'], ['1']])
+        self.cloud.upload_table(input_tbl, TEMP_BUCKET_NAME, file_name)
+        url = self.cloud.get_url(TEMP_BUCKET_NAME, file_name)
+        download_tbl = Table.from_csv(url)
+        assert_matching_tables(input_tbl, download_tbl)

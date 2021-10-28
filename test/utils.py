@@ -1,3 +1,4 @@
+from parsons.etl.table import Table
 import os
 import pytest
 
@@ -31,6 +32,9 @@ def assert_matching_tables(table1, table2, ignore_headers=False):
     else:
         data1 = table1
         data2 = table2
+
+    if isinstance(data1, Table) and isinstance(data2, Table):
+        assert data1.num_rows == data2.num_rows
 
     for r1, r2 in zip(data1, data2):
         # Cast both rows to lists, in case they are different types of collections

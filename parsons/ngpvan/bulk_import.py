@@ -137,11 +137,11 @@ class BulkImport(object):
             table: Parsons table
                 A Parsons table.
             url_type: str
-                The cloud file storage to use to post the file. Currently only ``S3``.
+                The cloud file storage to use to post the file (``S3`` or ``GCS``).
+                See :ref:`Cloud Storage <cloud-storage>` for more details.
             **url_kwargs: kwargs
-                Arguments to configure your cloud storage url type.
-                    * S3 requires ``bucket`` argument and, if not stored as env variables
-                      ``aws_access_key`` and ``aws_secret_access_key``.
+                Arguments to configure your cloud storage url type. See
+                :ref:`Cloud Storage <cloud-storage>` for more details.
         `Returns:`
             int
                 The bulk import job id

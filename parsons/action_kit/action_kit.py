@@ -156,6 +156,59 @@ class ActionKit(object):
         resp = self.conn.patch(self._base_endpoint('user', user_id), data=json.dumps(kwargs))
         logger.info(f'{resp.status_code}: {user_id}')
 
+    def get_event(self, event_id):
+        """Get an event.
+
+        `Args:`
+            event_id: int
+                The id for the event.
+        `Returns:`
+            dict
+                Event json object.
+
+        """
+        return self._base_get(f"event/{event_id}")
+
+    def get_events(self, limit=None, **kwargs):
+        """Get multiple events.
+
+        `Args:`
+            limit: int
+                The number of events to return. If omitted, all events are returned.
+            **kwargs:
+                Optional arguments to pass to the client. A full list can be found
+                in the `ActionKit API Documentation <https://roboticdogs.actionkit.com/docs/\
+                manual/api/rest/actionprocessing.html>`_.
+
+                Additionally, expressions to filter the data can also be provided. For addition
+                info, visit `Django's docs on field lookups <https://docs.djangoproject.com/\
+                en/3.1/topics/db/queries/#field-lookups>`_.
+
+                .. code-block:: python
+
+                    ak.get_events(fields__name__contains="FirstName")
+        `Returns:`
+            Parsons.Table
+                The events data.
+        """
+        # "The maximum number of objects returned per request is 100. Use paging
+        # to get more objects."
+        # (https://roboticdogs.actionkit.com/docs//manual/api/rest/overview.html#ordering)
+        # get `limit` events if it's provided, otherwise get 100
+        kwargs["_limit"] = min(100, limit or 1_000_000_000)
+        json_data = self._base_get("event", params=kwargs)
+        data = json_data["objects"]
+
+        next_url = json_data.get("meta", {}).get("next")
+        while next_url:
+            resp = self.conn.get(f'https://{self.domain}{next_url}')
+            data += resp.json().get("objects", [])
+            next_url = resp.json().get("meta", {}).get("next")
+            if limit and len(data) >= limit:
+                break
+
+        return Table(data[:limit])
+
     def update_event(self, event_id, **kwargs):
         """
         Update an event.
@@ -455,6 +508,108 @@ class ActionKit(object):
                                data=json.dumps(kwargs))
         logger.info(f'{resp.status_code}: {event_signup_id}')
 
+    def get_mailer(self, entity_id):
+        """
+        Get a mailer.
+
+        `Args:`
+            entity_id: int
+                The entity id of the record to get.
+        `Returns`:
+            Mailer json object
+        """
+
+        return self._base_get(endpoint='mailer', entity_id=entity_id)
+
+    def create_mailer(self, **kwargs):
+        """
+        Create a mailer.
+
+        `Args:`
+            **kwargs:
+                Arguments and fields to pass to the client. A full list can be found in the
+                `ActionKit API Documentation <https://roboticdogs.actionkit.com/docs/manual/api/\
+                rest/mailer.html>`_.
+        `Returns:`
+            URI of new mailer
+        """
+
+        return self._base_post(endpoint='mailer', exception_message='Could not create mailer',
+                               **kwargs)
+
+    def copy_mailer(self, mailer_id):
+        """
+        copy a mailer
+        returns new copy of mailer which should be updatable.
+        """
+        resp = self.conn.post(self._base_endpoint('mailer', entity_id=mailer_id) + '/copy')
+        return(resp)
+
+    def update_mailing(self, mailer_id, **kwargs):
+        """
+        Update a mailing.
+
+        `Args:`
+            mailing_id: int
+                The id of the mailing to update
+            **kwargs:
+                Optional arguments and fields to pass to the client. A full list can be found
+                in the `ActionKit API Documentation <https://roboticdogs.actionkit.com/docs/\
+                manual/api/rest/actionprocessing.html>`_.
+        `Returns:`
+            ``None``
+        """
+
+        resp = self.conn.patch(self._base_endpoint('mailer', mailer_id), data=json.dumps(kwargs))
+        logger.info(f'{resp.status_code}: {mailer_id}')
+
+    def rebuild_mailer(self, mailing_id):
+        """
+        Rebuild a mailer.
+
+        `Args:`
+            mailing_id: int
+                Id of the mailer.
+        `Returns:`
+            URI to poll for progress
+        """
+
+        return self._base_post(endpoint='mailer/' + str(mailing_id) + '/rebuild',
+                               exception_message='Could not rebuild mailer')
+
+    def queue_mailer(self, mailing_id):
+        """
+        Queue a mailer.
+
+        `Args:`
+            mailing_id: int
+                Id of the mailer.
+        `Returns:`
+            URI to poll for progress
+        """
+
+        return self._base_post(endpoint='mailer/' + str(mailing_id) + '/queue',
+                               exception_message='Could not queue mailer')
+
+    def update_order(self, order_id, **kwargs):
+        """
+        Update an order.
+
+        `Args:`
+            order_id: int
+                The id of the order to update
+            **kwargs:
+                Optional arguments and fields to pass to the client. A full list can be found
+                in the `ActionKit API Documentation <https://roboticdogs.actionkit.com/docs/\
+                manual/api/rest/actionprocessing.html>`_.
+        `Returns:`
+            ``None``
+        """
+
+        resp = self.conn.patch(self._base_endpoint('order', order_id),
+                               data=json.dumps(kwargs))
+        logger.info(f'{resp.status_code}: {order_id}')
+
     def get_page_followup(self, page_followup_id):
         """
         Get a page followup.
@@ -503,6 +658,60 @@ class ActionKit(object):
                                page=f'/rest/v1/eventsignuppage/{signup_page_id}/',
                                url=url,
                                **kwargs)
+
+    def get_survey_question(self, survey_question_id):
+        """
+        Get a survey question.
+
+        `Args:`
+            survey_question_id: int
+                The survey question id of the record to get.
+        `Returns`:
+            Survey question json object
+        """
+
+        return self._base_get(endpoint='surveyquestion', entity_id=survey_question_id,
+                              exception_message='Survey question not found')
+
+    def update_survey_question(self, survey_question_id, **kwargs):
+        """
+        Update a survey question.
+
+        `Args:`
+            survey_question_id: int
+                The id of the survey question to update
+            survey_question_dict: dict
+                A dictionary of fields to update for the survey question.
+            **kwargs:
+                Optional arguments and fields to pass to the client. A full list can be found
+                in the `ActionKit API Documentation <https://roboticdogs.actionkit.com/docs/\
+                manual/api/rest/actionprocessing.html>`_.
+        `Returns:`
+            ``None``
+        """
+
+        resp = self.conn.patch(self._base_endpoint('surveyquestion', survey_question_id),
+                               data=json.dumps(kwargs))
+        logger.info(f'{resp.status_code}: {survey_question_id}')
+
+    def update_transaction(self, transaction_id, **kwargs):
+        """
+        Update a transaction.
+
+        `Args:`
+            transaction_id: int
+                The id of the transaction to update
+            **kwargs:
+                Optional arguments and fields to pass to the client. A full list can be found
+                in the `ActionKit API Documentation <https://roboticdogs.actionkit.com/docs/\
+                manual/api/rest/actionprocessing.html>`_.
+        `Returns:`
+            ``None``
+        """
+
+        resp = self.conn.patch(self._base_endpoint('transaction', transaction_id),
+                               data=json.dumps(kwargs))
+        logger.info(f'{resp.status_code}: {transaction_id}')
 
     def create_generic_action(self, page, email=None, ak_id=None, **kwargs):
         """

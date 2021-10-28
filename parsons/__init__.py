@@ -48,8 +48,9 @@ if not os.environ.get('PARSONS_SKIP_IMPORT_ALL'):
     from parsons.azure.azure_blob_storage import AzureBlobStorage
     from parsons.github.github import GitHub
     from parsons.bloomerang.bloomerang import Bloomerang
+    from parsons.box.box import Box
     from parsons.sisense.sisense import Sisense
-    from parsons.surveygizmo.surveygizmo import SurveyGizmo
+    from parsons.alchemer.alchemer import SurveyGizmo, Alchemer
 
     __all__ = [
         'VAN',
@@ -92,8 +93,10 @@ if not os.environ.get('PARSONS_SKIP_IMPORT_ALL'):
         'AzureBlobStorage',
         'GitHub',
         'Bloomerang',
+        'Box',
         'Sisense',
-        'SurveyGizmo'
+        'SurveyGizmo',
+        'Alchemer'
     ]
 
 # Define the default logging config for Parsons and its submodules. For now the
@@ -109,5 +112,7 @@ logger.addHandler(_handler)
 if os.environ.get('TESTING'):
     # Log less stuff in automated tests
     logger.setLevel('WARNING')
+elif os.environ.get('DEBUG'):
+    logger.setLevel('DEBUG')
 else:
     logger.setLevel('INFO')

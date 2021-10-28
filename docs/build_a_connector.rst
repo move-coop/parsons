@@ -19,16 +19,18 @@ Inside the folder, create two files.  The first should be named __init__.py and 
 The directory should look like this:
 
 .. code-block:: python
+
     yourconnectorname/
     __init__.py
         yourconnectorname.py
-		
-Next, add the reference to your connector to parsons/__init__.py.  Specifically, open parsons/__init__.py, scroll to the end of the other imports, and add the following:
+
+Next, add the reference to your connector to `parsons/__init__.py`.  Specifically, open `parsons/__init__.py`, scroll to the end of the other imports, and add the following:
 
 .. code-block:: python
+
 	from parsons.yourconnectorname.yourconnectorname import yourconnectorname
-	
-Also, in parsons/__init__.py add 'yourconnectorname' to the end of the list __all__.
+
+Also, in `parsons/__init__.py` add 'yourconnectorname' to the end of the list `__all__`.
 
 Once this is done, open the yourconnectorname.py file.  At the top of the file, add the following code to enable logging for our connector:
 

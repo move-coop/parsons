@@ -222,11 +222,16 @@
 <p>The first thing you’ll need to do is create a new folder for your connector.  This folder should have the same name as the module (file) within the folder, and the same name as the connector class.  For example, the airtable connector is in the “airtable” folder, and the hustle connector is in the “hustle” folder.</p>
 <p>Inside the folder, create two files.  The first should be named __init__.py and should be empty.  The second will have the same name as your folder - this is the file which will have your connector’s code.  For example, in the airtable folder this file is called airtable.py and in the hustle folder it’s called hustle.py.</p>
 <p>The directory should look like this:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">yourconnectorname</span><span class="o">/</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">yourconnectorname</span><span class="o">/</span>
 <span class="fm">__init__</span><span class="o">.</span><span class="n">py</span>
     <span class="n">yourconnectorname</span><span class="o">.</span><span class="n">py</span>
 </pre></div>
 </div>
+<p>Next, add the reference to your connector to <cite>parsons/__init__.py</cite>.  Specifically, open <cite>parsons/__init__.py</cite>, scroll to the end of the other imports, and add the following:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">parsons.yourconnectorname.yourconnectorname</span> <span class="kn">import</span> <span class="n">yourconnectorname</span>
+</pre></div>
+</div>
+<p>Also, in <cite>parsons/__init__.py</cite> add ‘yourconnectorname’ to the end of the list <cite>__all__</cite>.</p>
 <p>Once this is done, open the yourconnectorname.py file.  At the top of the file, add the following code to enable logging for our connector:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">logging</span>
 

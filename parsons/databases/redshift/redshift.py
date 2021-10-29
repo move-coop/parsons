@@ -780,7 +780,7 @@ class Redshift(RedshiftCreateTable, RedshiftCopyTable, RedshiftTableUtilities, R
         # Set distkey and sortkey to argument or primary key. These keys will be used
         # for the staging table and, if it does not already exist, the destination table.
         distkey = distkey or primary_keys[0]
-        sortkey = sortkey or primary_keys
+        sortkey = sortkey or primary_key
 
         if not self.table_exists(target_table):
             logger.info('Target table does not exist. Copying into newly \

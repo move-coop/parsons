@@ -765,16 +765,21 @@ class Redshift(RedshiftCreateTable, RedshiftCopyTable, RedshiftTableUtilities, R
                 to upsert a pre-existing s3 file into the target_table
             distkey: str
                 The column name of the distkey. If not provided, will default to ``primary_key``.
-            sortkey: str
-                The column name of the sortkey. If not provided, will default to ``primary_key``.
+            sortkey: str or list
+                The column name(s) of the sortkey. If not provided, will default to ``primary_key``.
             \**copy_args: kwargs
                 See :func:`~parsons.databases.Redshift.copy` for options.
         """  # noqa: W605
 
+        if isinstance(primary_key, str):
+            primary_keys = [primary_key]
+        else:
+            primary_keys = primary_key
+
         # Set distkey and sortkey to argument or primary key. These keys will be used
-        # for the staging table and, if it does not already exist, the desitination table.
-        distkey = distkey or primary_key
-        sortkey = sortkey or primary_key
+        # for the staging table and, if it does not already exist, the destination table.
+        distkey = distkey or primary_keys[0]
+        sortkey = sortkey or primary_keys
 
         if not self.table_exists(target_table):
             logger.info('Target table does not exist. Copying into newly \
@@ -791,10 +796,7 @@ class Redshift(RedshiftCreateTable, RedshiftCopyTable, RedshiftTableUtilities, R
         # Generate a temp table like "table_tmp_20200210_1230_14212"
         staging_tbl = '{}_stg_{}_{}'.format(target_table, date_stamp, noise)
 
-        if isinstance(primary_key, str):
-            primary_keys = [primary_key]
-        else:
-            primary_keys = primary_key
+
 
         if distinct_check:
             primary_keys_statement = ', '.join(primary_keys)
@@ -838,8 +840,8 @@ class Redshift(RedshiftCreateTable, RedshiftCopyTable, RedshiftTableUtilities, R
                     self.copy(table_obj, staging_tbl,
                               template_table=target_table,
                               alter_table=False,  # We just did our own alter table above
-                              distkey=primary_key,
-                              sortkey=primary_key,
+                              distkey=distkey,
+                              sortkey=sortkey,
                               **copy_args)
 
                 staging_table_name = staging_tbl.split('.')[1]

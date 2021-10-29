@@ -737,7 +737,8 @@ class Redshift(RedshiftCreateTable, RedshiftCopyTable, RedshiftTableUtilities, R
         return manifest
 
     def upsert(self, table_obj, target_table, primary_key, vacuum=True, distinct_check=True,
-               cleanup_temp_table=True, alter_table=True, from_s3=False, distkey=None, sortkey=None, **copy_args):
+               cleanup_temp_table=True, alter_table=True, from_s3=False, distkey=None,
+               sortkey=None, **copy_args):
         """
         Preform an upsert on an existing table. An upsert is a function in which rows
         in a table are updated and inserted at the same time.
@@ -795,8 +796,6 @@ class Redshift(RedshiftCreateTable, RedshiftCopyTable, RedshiftTableUtilities, R
         date_stamp = datetime.datetime.now().strftime('%Y%m%d_%H%M')
         # Generate a temp table like "table_tmp_20200210_1230_14212"
         staging_tbl = '{}_stg_{}_{}'.format(target_table, date_stamp, noise)
-
-
 
         if distinct_check:
             primary_keys_statement = ', '.join(primary_keys)

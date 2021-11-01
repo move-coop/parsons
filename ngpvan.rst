@@ -13,10 +13,10 @@ additional details and information.
 .. note::
    API Keys
       - API Keys are specific to each committee and state.
-      - There is a Parsons type API Key that can be requested via the Integrations menu on the main page. 
-      	If you have an issue gaining access to this key, or an admin has questions, please email 
+      - There is a Parsons type API Key that can be requested via the Integrations menu on the main page.
+      	If you have an issue gaining access to this key, or an admin has questions, please email
 	<parsons@movementcooperative.org>.
-  
+
 
 .. warning::
    VANIDs
@@ -24,7 +24,7 @@ additional details and information.
       those of the SmartVAN or VoteBuilder.
    Maintenance & Suppoort
       VAN/EveryAction is not responsible for support of Parsons. Their support team cannot answer questions
-      about Parsons. Please direct any questions 
+      about Parsons. Please direct any questions
 
 .. toctree::
 	:maxdepth: 1
@@ -70,13 +70,19 @@ Common Workflows
 ===========
 Bulk Import
 ===========
-For some methods, VAN allows you to bulk import multiple records to create or modify them. 
+For some methods, VAN allows you to bulk import multiple records to create or modify them.
 
 The bulk upload endpoint requires access to files on the public internet as it runs the upload
 asynchronously. Therefore, in order to bulk import, you must pass in cloud storage credentials
 (either AWS S3 or Google Cloud Storage) so that the file can be posted.
 
 **Bulk Apply Activist Codes**
+
+In this example we are applying activist codes to a list of contacts. The csv file would
+have the following columns:
+
+  * ``vanid``
+  * ``activistcodeid``
 
 .. code-block:: python
 
@@ -88,12 +94,54 @@ asynchronously. Therefore, in order to bulk import, you must pass in cloud stora
    tbl = Table.from_csv('new_volunteers.csv')
 
    # Table will be sent to S3 bucket and a POST request will be made to VAN creating
-   # the bulk import job with all of the valid meta information. The method will 
+   # the bulk import job with all of the valid meta information. The method will
    # return the job id.
    job_id = van.bulk_apply_activist_codes(tbl, url_type="S3", bucket='my_bucket')
 
    # The bulk import job is run asynchronously, so you may poll the status of a job.
    job_status = van.get_bulk_import_job(job_id)
+
+
+** Bulk Upsert Contacts**
+In this example we are creating and updating emails and addresses. The csv file would
+have the following columns:
+
+* ``vanid``
+* ``first_name``
+* ``last_name``
+* ``address``
+* ``city``
+* ``state``
+* ``zip``
+* ``email``
+
+Note that ``vanid`` must be the first column in your table. For additional fields, see the
+:func:`~parsons.ngpvan.van.BulkImport.bulk_upsert_contacts` documentation.
+
+If a record contains a null value, it will not be updated.
+
+If the VANID record is null, then a new record will be created.
+
+.. code-block:: python
+
+    from parsons import VAN, Table
+
+    van = VAN(db=EveryAction)
+
+    # Load a table containing VANID and PII columns
+    tbl = Table.from_csv('hot_leads.csv')
+
+    # Table will be sent to S3 bucket and a POST request will be made to VAN creating
+    # the bulk import job with all of the valid meta information. The method will
+    # return the job id.
+    job_id = van.bulk_upsert_contacts(tbl, url_type="S3", bucket='my_bucket')
+
+    # The bulk import job is run asynchronously, so you may poll the status of a job.
+    job_status = van.get_bulk_import_job(job_id)
+
+    # When the job is complete, get the results of the job. This file will include newly
+    # created vanids.
+    job_results = van.get_bulk_import_job_results(job_id)
 
 **Upload Saved List**
 
@@ -114,12 +162,12 @@ asynchronously. Therefore, in order to bulk import, you must pass in cloud stora
    # The destination list name
    list_name = 'My Winning List v1.0'
 
-   # The cloud storage service and kwargs specific to GCS. 
+   # The cloud storage service and kwargs specific to GCS.
    url_type = 'GCS'
    bucket_name = 'my_bucket'
    app_creds = 'my_creds.json' # Not required if stored as env variable.
 
-   van.upload_saved_list(tbl, list_name, folder_id, url_type, replace=true, 
+   van.upload_saved_list(tbl, list_name, folder_id, url_type, replace=true,
                          bucket_name=bucket_name, app_creds=app_creds)
 
 ============================

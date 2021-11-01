@@ -303,6 +303,14 @@ documentation for all functions.</p>
 asynchronously. Therefore, in order to bulk import, you must pass in cloud storage credentials
 (either AWS S3 or Google Cloud Storage) so that the file can be posted.</p>
 <p><strong>Bulk Apply Activist Codes</strong></p>
+<p>In this example we are applying activist codes to a list of contacts. The csv file would
+have the following columns:</p>
+<blockquote>
+<div><ul class="simple">
+<li><code class="docutils literal notranslate"><span class="pre">vanid</span></code></li>
+<li><code class="docutils literal notranslate"><span class="pre">activistcodeid</span></code></li>
+</ul>
+</div></blockquote>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">parsons</span> <span class="kn">import</span> <span class="n">VAN</span><span class="p">,</span> <span class="n">Table</span>
 
 <span class="n">van</span> <span class="o">=</span> <span class="n">VAN</span><span class="p">(</span><span class="n">db</span><span class="o">=</span><span class="s1">&#39;EveryAction&#39;</span><span class="p">)</span>
@@ -317,6 +325,43 @@ asynchronously. Therefore, in order to bulk import, you must pass in cloud stora
 
 <span class="c1"># The bulk import job is run asynchronously, so you may poll the status of a job.</span>
 <span class="n">job_status</span> <span class="o">=</span> <span class="n">van</span><span class="o">.</span><span class="n">get_bulk_import_job</span><span class="p">(</span><span class="n">job_id</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>** Bulk Upsert Contacts**
+In this example we are creating and updating emails and addresses. The csv file would
+have the following columns:</p>
+<ul class="simple">
+<li><code class="docutils literal notranslate"><span class="pre">vanid</span></code></li>
+<li><code class="docutils literal notranslate"><span class="pre">first_name</span></code></li>
+<li><code class="docutils literal notranslate"><span class="pre">last_name</span></code></li>
+<li><code class="docutils literal notranslate"><span class="pre">address</span></code></li>
+<li><code class="docutils literal notranslate"><span class="pre">city</span></code></li>
+<li><code class="docutils literal notranslate"><span class="pre">state</span></code></li>
+<li><code class="docutils literal notranslate"><span class="pre">zip</span></code></li>
+<li><code class="docutils literal notranslate"><span class="pre">email</span></code></li>
+</ul>
+<p>Note that <code class="docutils literal notranslate"><span class="pre">vanid</span></code> must be the first column in your table. For additional fields, see the
+<a class="reference internal" href="#parsons.ngpvan.van.BulkImport.bulk_upsert_contacts" title="parsons.ngpvan.van.BulkImport.bulk_upsert_contacts"><code class="xref py py-func docutils literal notranslate"><span class="pre">bulk_upsert_contacts()</span></code></a> documentation.</p>
+<p>If a record contains a null value, it will not be updated.</p>
+<p>If the VANID record is null, then a new record will be created.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">parsons</span> <span class="kn">import</span> <span class="n">VAN</span><span class="p">,</span> <span class="n">Table</span>
+
+<span class="n">van</span> <span class="o">=</span> <span class="n">VAN</span><span class="p">(</span><span class="n">db</span><span class="o">=</span><span class="n">EveryAction</span><span class="p">)</span>
+
+<span class="c1"># Load a table containing VANID and PII columns</span>
+<span class="n">tbl</span> <span class="o">=</span> <span class="n">Table</span><span class="o">.</span><span class="n">from_csv</span><span class="p">(</span><span class="s1">&#39;hot_leads.csv&#39;</span><span class="p">)</span>
+
+<span class="c1"># Table will be sent to S3 bucket and a POST request will be made to VAN creating</span>
+<span class="c1"># the bulk import job with all of the valid meta information. The method will</span>
+<span class="c1"># return the job id.</span>
+<span class="n">job_id</span> <span class="o">=</span> <span class="n">van</span><span class="o">.</span><span class="n">bulk_upsert_contacts</span><span class="p">(</span><span class="n">tbl</span><span class="p">,</span> <span class="n">url_type</span><span class="o">=</span><span class="s2">&quot;S3&quot;</span><span class="p">,</span> <span class="n">bucket</span><span class="o">=</span><span class="s1">&#39;my_bucket&#39;</span><span class="p">)</span>
+
+<span class="c1"># The bulk import job is run asynchronously, so you may poll the status of a job.</span>
+<span class="n">job_status</span> <span class="o">=</span> <span class="n">van</span><span class="o">.</span><span class="n">get_bulk_import_job</span><span class="p">(</span><span class="n">job_id</span><span class="p">)</span>
+
+<span class="c1"># When the job is complete, get the results of the job. This file will include newly</span>
+<span class="c1"># created vanids.</span>
+<span class="n">job_results</span> <span class="o">=</span> <span class="n">van</span><span class="o">.</span><span class="n">get_bulk_import_job_results</span><span class="p">(</span><span class="n">job_id</span><span class="p">)</span>
 </pre></div>
 </div>
 <p><strong>Upload Saved List</strong></p>
@@ -1021,6 +1066,29 @@ the types of bulk imports that you can run. These might include
 </dd></dl>
 
 <dl class="method">
+<dt id="parsons.ngpvan.van.BulkImport.get_bulk_import_job_results">
+<code class="descname">get_bulk_import_job_results</code><span class="sig-paren">(</span><em>job_id</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/ngpvan/bulk_import.html#BulkImport.get_bulk_import_job_results"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.ngpvan.van.BulkImport.get_bulk_import_job_results" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get result file of a bulk upload job. This will include one row
+per record processed as well as the status of each.</p>
+<p>If the job results have not been generated, either due to an error in the
+process or the fact the job is still processing, it will return <code class="docutils literal notranslate"><span class="pre">None</span></code>.</p>
+<dl class="docutils">
+<dt><cite>Args:</cite></dt>
+<dd><dl class="first last docutils">
+<dt>job_id: int</dt>
+<dd>The bulk import job id.</dd>
+</dl>
+</dd>
+<dt><cite>Returns:</cite></dt>
+<dd><dl class="first last docutils">
+<dt>Parsons Table</dt>
+<dd>See <a class="reference internal" href="table.html#parsons-table"><span class="std std-ref">Parsons Table</span></a> for output options.</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
 <dt id="parsons.ngpvan.van.BulkImport.get_bulk_import_mapping_types">
 <code class="descname">get_bulk_import_mapping_types</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/ngpvan/bulk_import.html#BulkImport.get_bulk_import_mapping_types"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.ngpvan.van.BulkImport.get_bulk_import_mapping_types" title="Permalink to this definition">¶</a></dt>
 <dd><p>Get bulk import mapping types.</p>
@@ -1045,6 +1113,28 @@ the types of bulk imports that you can run. These might include
 <dd><dl class="first last docutils">
 <dt>dict</dt>
 <dd>A mapping type json</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="parsons.ngpvan.van.BulkImport.get_bulk_import_mapping_type_fields">
+<code class="descname">get_bulk_import_mapping_type_fields</code><span class="sig-paren">(</span><em>type_name</em>, <em>field_name</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/ngpvan/bulk_import.html#BulkImport.get_bulk_import_mapping_type_fields"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.ngpvan.van.BulkImport.get_bulk_import_mapping_type_fields" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get data about a field in a mapping type.</p>
+<dl class="docutils">
+<dt><cite>Args:</cite></dt>
+<dd><dl class="first last docutils">
+<dt>type_name: str</dt>
+<dd>The mapping type name</dd>
+<dt>field_name: str</dt>
+<dd>The field name</dd>
+</dl>
+</dd>
+<dt><cite>Returns:</cite></dt>
+<dd><dl class="first last docutils">
+<dt>dict</dt>
+<dd>A mapping type fields json</dd>
 </dl>
 </dd>
 </dl>
@@ -1096,6 +1186,156 @@ must be <code class="docutils literal notranslate"><span class="pre">vanid</span
 <dd>The cloud file storage to use to post the file (<code class="docutils literal notranslate"><span class="pre">S3</span></code> or <code class="docutils literal notranslate"><span class="pre">GCS</span></code>).
 See <a class="reference internal" href="utilities.html#cloud-storage"><span class="std std-ref">Cloud Storage</span></a> for more details.</dd>
 <dt><a href="#id4"><span class="problematic" id="id5">**</span></a>url_kwargs: kwargs</dt>
+<dd>Arguments to configure your cloud storage url type. See
+<a class="reference internal" href="utilities.html#cloud-storage"><span class="std std-ref">Cloud Storage</span></a> for more details.</dd>
+</dl>
+</dd>
+<dt><cite>Returns:</cite></dt>
+<dd><dl class="first last docutils">
+<dt>int</dt>
+<dd>The bulk import job id</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="parsons.ngpvan.van.BulkImport.bulk_upsert_contacts">
+<code class="descname">bulk_upsert_contacts</code><span class="sig-paren">(</span><em>tbl</em>, <em>url_type</em>, <em>result_fields=None</em>, <em>**url_kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/ngpvan/bulk_import.html#BulkImport.bulk_upsert_contacts"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.ngpvan.van.BulkImport.bulk_upsert_contacts" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bulk create or update contact records. Provide a Parsons table of contact data to
+create or update records.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<ul class="last simple">
+<li>The first column of the table must be VANID.</li>
+<li>The other columns can be a combination of the columns listed below.
+The valid column names also accept permutations with underscores, spaces
+and capitalization (e.g. <code class="docutils literal notranslate"><span class="pre">phonenumber</span></code> = <code class="docutils literal notranslate"><span class="pre">Phone_Number</span></code>).</li>
+</ul>
+</div>
+<p><strong>Table Fields</strong></p>
+<table border="1" class="colwidths-given docutils">
+<colgroup>
+<col width="82%" />
+<col width="16%" />
+<col width="2%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Column</th>
+<th class="head">Valid Column Names</th>
+<th class="head">Notes</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>VANID</td>
+<td><code class="docutils literal notranslate"><span class="pre">vanid</span></code></td>
+<td>&#160;</td>
+</tr>
+<tr class="row-odd"><td>Voter VAN ID</td>
+<td><code class="docutils literal notranslate"><span class="pre">votervanid</span></code></td>
+<td>The contact’s MyVoters VANID</td>
+</tr>
+<tr class="row-even"><td>External ID</td>
+<td><code class="docutils literal notranslate"><span class="pre">externalid</span></code>, <code class="docutils literal notranslate"><span class="pre">id</span></code>, <code class="docutils literal notranslate"><span class="pre">pk</span></code>, <code class="docutils literal notranslate"><span class="pre">voterbaseid</span></code></td>
+<td>An external id to be stored.</td>
+</tr>
+<tr class="row-odd"><td><strong>PII</strong></td>
+<td>&#160;</td>
+<td>&#160;</td>
+</tr>
+<tr class="row-even"><td>First Name</td>
+<td><code class="docutils literal notranslate"><span class="pre">fn</span></code>, <code class="docutils literal notranslate"><span class="pre">firstname</span></code>, <code class="docutils literal notranslate"><span class="pre">last</span></code></td>
+<td>&#160;</td>
+</tr>
+<tr class="row-odd"><td>Middle Name</td>
+<td><code class="docutils literal notranslate"><span class="pre">mn</span></code>, <code class="docutils literal notranslate"><span class="pre">middlename</span></code>, <code class="docutils literal notranslate"><span class="pre">middle</span></code></td>
+<td>&#160;</td>
+</tr>
+<tr class="row-even"><td>Last Name</td>
+<td><code class="docutils literal notranslate"><span class="pre">ln</span></code>, <code class="docutils literal notranslate"><span class="pre">lastname</span></code>, <code class="docutils literal notranslate"><span class="pre">last</span></code></td>
+<td>&#160;</td>
+</tr>
+<tr class="row-odd"><td>Date of Birth</td>
+<td><code class="docutils literal notranslate"><span class="pre">dob</span></code>, <code class="docutils literal notranslate"><span class="pre">dateofbirth</span></code> <code class="docutils literal notranslate"><span class="pre">birthdate</span></code></td>
+<td>What type of thing does this need?</td>
+</tr>
+<tr class="row-even"><td>Sex</td>
+<td><code class="docutils literal notranslate"><span class="pre">sex</span></code>, <code class="docutils literal notranslate"><span class="pre">gender</span></code></td>
+<td>&#160;</td>
+</tr>
+<tr class="row-odd"><td><strong>Physical Address</strong></td>
+<td>&#160;</td>
+<td>&#160;</td>
+</tr>
+<tr class="row-even"><td>Address Line 1</td>
+<td><code class="docutils literal notranslate"><span class="pre">addressline1</span></code>, <code class="docutils literal notranslate"><span class="pre">address1</span></code>, <code class="docutils literal notranslate"><span class="pre">address</span></code></td>
+<td>&#160;</td>
+</tr>
+<tr class="row-odd"><td>Address Line 2</td>
+<td><code class="docutils literal notranslate"><span class="pre">addressline2</span></code>, <code class="docutils literal notranslate"><span class="pre">address2</span></code></td>
+<td>&#160;</td>
+</tr>
+<tr class="row-even"><td>Address Line 3</td>
+<td><code class="docutils literal notranslate"><span class="pre">addressline3</span></code>, <code class="docutils literal notranslate"><span class="pre">address3</span></code></td>
+<td>&#160;</td>
+</tr>
+<tr class="row-odd"><td>City</td>
+<td><code class="docutils literal notranslate"><span class="pre">city</span></code></td>
+<td>&#160;</td>
+</tr>
+<tr class="row-even"><td>State Or Province</td>
+<td><code class="docutils literal notranslate"><span class="pre">state</span></code>, <code class="docutils literal notranslate"><span class="pre">st</span></code>, <code class="docutils literal notranslate"><span class="pre">stateorprovince</span></code></td>
+<td>&#160;</td>
+</tr>
+<tr class="row-odd"><td>Country Code</td>
+<td><code class="docutils literal notranslate"><span class="pre">countrycode</span></code>, <code class="docutils literal notranslate"><span class="pre">country</span></code></td>
+<td>A valid two character country code (e.g. <code class="docutils literal notranslate"><span class="pre">US</span></code>)</td>
+</tr>
+<tr class="row-even"><td>Display As Entered</td>
+<td><code class="docutils literal notranslate"><span class="pre">displayasentered</span></code></td>
+<td>Required values are <code class="docutils literal notranslate"><span class="pre">Y</span></code> and <code class="docutils literal notranslate"><span class="pre">N</span></code>. Determines if the address is
+processed through address correction.</td>
+</tr>
+<tr class="row-odd"><td><strong>Phones</strong></td>
+<td>&#160;</td>
+<td>&#160;</td>
+</tr>
+<tr class="row-even"><td>Cell Phone</td>
+<td><code class="docutils literal notranslate"><span class="pre">cellphone</span></code>, <code class="docutils literal notranslate"><span class="pre">cell</span></code></td>
+<td>&#160;</td>
+</tr>
+<tr class="row-odd"><td>Cell Phone Country Code</td>
+<td><code class="docutils literal notranslate"><span class="pre">cellcountrycode</span></code>, <code class="docutils literal notranslate"><span class="pre">cellphonecountrycode</span></code></td>
+<td>A valid two digit country code (e.g. <code class="docutils literal notranslate"><span class="pre">01</span></code>)</td>
+</tr>
+<tr class="row-even"><td>Home Phone</td>
+<td><code class="docutils literal notranslate"><span class="pre">homephone</span></code>, <code class="docutils literal notranslate"><span class="pre">home</span></code>, <code class="docutils literal notranslate"><span class="pre">phone</span></code></td>
+<td>&#160;</td>
+</tr>
+<tr class="row-odd"><td>Home Phone Country Code</td>
+<td><code class="docutils literal notranslate"><span class="pre">homecountrycode</span></code>, <code class="docutils literal notranslate"><span class="pre">homephonecountrycode</span></code></td>
+<td>&#160;</td>
+</tr>
+<tr class="row-even"><td><strong>Email</strong></td>
+<td>&#160;</td>
+<td>&#160;</td>
+</tr>
+<tr class="row-odd"><td>Email</td>
+<td><code class="docutils literal notranslate"><span class="pre">email</span></code>, <code class="docutils literal notranslate"><span class="pre">emailaddress</span></code></td>
+<td>&#160;</td>
+</tr>
+</tbody>
+</table>
+<dl class="docutils">
+<dt><cite>Args:</cite></dt>
+<dd><dl class="first last docutils">
+<dt>table: Parsons table</dt>
+<dd>A Parsons table.</dd>
+<dt>url_type: str</dt>
+<dd>The cloud file storage to use to post the file. Currently only <code class="docutils literal notranslate"><span class="pre">S3</span></code>.</dd>
+<dt>results_fields: list</dt>
+<dd>A list of fields to include in the results file.</dd>
+<dt><a href="#id6"><span class="problematic" id="id7">**</span></a>url_kwargs: kwargs</dt>
 <dd>Arguments to configure your cloud storage url type. See
 <a class="reference internal" href="utilities.html#cloud-storage"><span class="std std-ref">Cloud Storage</span></a> for more details.</dd>
 </dl>
@@ -1526,7 +1766,7 @@ code. You can find supported entities with the <code class="xref py py-meth docu
 <dd>A list of fields for which to include data. If a field is omitted,
 <code class="docutils literal notranslate"><span class="pre">None</span></code> will be returned for that field. Can be <code class="docutils literal notranslate"><span class="pre">locations</span></code>,
 <code class="docutils literal notranslate"><span class="pre">codes</span></code>, <code class="docutils literal notranslate"><span class="pre">shifts</span></code>, <code class="docutils literal notranslate"><span class="pre">roles</span></code>, <code class="docutils literal notranslate"><span class="pre">notes</span></code>, <code class="docutils literal notranslate"><span class="pre">financialProgram</span></code>,
-<code class="docutils literal notranslate"><span class="pre">ticketCategories</span></code>, <a href="#id6"><span class="problematic" id="id7">``</span></a>voterRegistrationBatches`.`</dd>
+<code class="docutils literal notranslate"><span class="pre">ticketCategories</span></code>, <a href="#id8"><span class="problematic" id="id9">``</span></a>voterRegistrationBatches`.`</dd>
 </dl>
 </dd>
 <dt><cite>Returns:</cite></dt>
@@ -2067,7 +2307,7 @@ a standard webhook.</dd>
 column of the file.</dd>
 <dt>overwrite: int</dt>
 <dd>Replace saved list if already exists.</dd>
-<dt><a href="#id8"><span class="problematic" id="id9">**</span></a>url_kwargs: kwargs</dt>
+<dt><a href="#id10"><span class="problematic" id="id11">**</span></a>url_kwargs: kwargs</dt>
 <dd>Arguments to configure your cloud storage url type. See
 <a class="reference internal" href="utilities.html#cloud-storage"><span class="std std-ref">Cloud Storage</span></a> for more details.</dd>
 </dl>
@@ -2112,7 +2352,7 @@ See <a class="reference internal" href="utilities.html#cloud-storage"><span clas
 instance of VAN.</dd>
 <dt>replace: boolean</dt>
 <dd>Replace saved list if already exists.</dd>
-<dt><a href="#id10"><span class="problematic" id="id11">**</span></a>url_kwargs: kwargs</dt>
+<dt><a href="#id12"><span class="problematic" id="id13">**</span></a>url_kwargs: kwargs</dt>
 <dd>Arguments to configure your cloud storage url type. See
 <a class="reference internal" href="utilities.html#cloud-storage"><span class="std std-ref">Cloud Storage</span></a> for more details.</dd>
 </dl>
@@ -2242,7 +2482,7 @@ approve a score loading job.</p>
 <dt id="parsons.ngpvan.van.Scores.upload_scores">
 <code class="descname">upload_scores</code><span class="sig-paren">(</span><em>tbl</em>, <em>config</em>, <em>url_type</em>, <em>id_type='vanid'</em>, <em>email=None</em>, <em>auto_approve=True</em>, <em>approve_tolerance=0.1</em>, <em>**url_kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/ngpvan/scores.html#Scores.upload_scores"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsons.ngpvan.van.Scores.upload_scores" title="Permalink to this definition">¶</a></dt>
 <dd><p>Upload scores. Use to create or overwrite scores. Multiple score loads
-should be configured in a single call. <a class="footnote-reference" href="#id15" id="id12">[1]</a></p>
+should be configured in a single call. <a class="footnote-reference" href="#id17" id="id14">[1]</a></p>
 <dl class="docutils">
 <dt><cite>Args:</cite></dt>
 <dd><dl class="first last docutils">
@@ -2282,7 +2522,7 @@ average values provided, then score will be automatically approved.</dd>
 <dt>approve_tolderance: float</dt>
 <dd>The deviation from the average scores allowed in order to automatically
 approve the score. Maximum of .1.</dd>
-<dt><a href="#id13"><span class="problematic" id="id14">**</span></a>url_kwargs: kwargs</dt>
+<dt><a href="#id15"><span class="problematic" id="id16">**</span></a>url_kwargs: kwargs</dt>
 <dd>Arguments to configure your cloud storage url type. See
 <a class="reference internal" href="utilities.html#cloud-storage"><span class="std std-ref">Cloud Storage</span></a> for more details.</dd>
 </dl>
@@ -2294,10 +2534,10 @@ approve the score. Maximum of .1.</dd>
 </dl>
 </dd>
 </dl>
-<table class="docutils footnote" frame="void" id="id15" rules="none">
+<table class="docutils footnote" frame="void" id="id17" rules="none">
 <colgroup><col class="label" /><col /></colgroup>
 <tbody valign="top">
-<tr><td class="label"><a class="fn-backref" href="#id12">[1]</a></td><td>NGPVAN asks that you load multiple scores in a single call to reduce the load
+<tr><td class="label"><a class="fn-backref" href="#id14">[1]</a></td><td>NGPVAN asks that you load multiple scores in a single call to reduce the load
 on their servers.</td></tr>
 </tbody>
 </table>

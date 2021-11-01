@@ -420,7 +420,7 @@
 
         <span class="k">return</span> <span class="bp">self</span></div>
 
-<div class="viewcode-block" id="ETL.map_columns"><a class="viewcode-back" href="../../../table.html#parsons.etl.etl.ETL.map_columns">[docs]</a>    <span class="k">def</span> <span class="nf">map_columns</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">column_map</span><span class="p">):</span>
+<div class="viewcode-block" id="ETL.map_columns"><a class="viewcode-back" href="../../../table.html#parsons.etl.etl.ETL.map_columns">[docs]</a>    <span class="k">def</span> <span class="nf">map_columns</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">column_map</span><span class="p">,</span> <span class="n">exact_match</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Standardizes column names based on multiple possible values. This method</span>
 <span class="sd">        is helpful when your input table might have multiple and unknown column</span>
@@ -429,6 +429,9 @@
 <span class="sd">        `Args:`</span>
 <span class="sd">            column_map: dict</span>
 <span class="sd">                A dictionary of columns and possible values that map to it</span>
+<span class="sd">            exact_match: boolean</span>
+<span class="sd">                If ``True`` will only map if an exact match. If ``False`` will</span>
+<span class="sd">                ignore case, spaces and underscores.</span>
 <span class="sd">        `Returns:`</span>
 <span class="sd">            `Parsons Table` and also updates self</span>
 
@@ -446,11 +449,17 @@
 <span class="sd">            &gt;&gt; {{&#39;first_name&#39;: &#39;Jane&#39;, &#39;last_name&#39;: &#39;Doe&#39;, &#39;date_of_birth&#39;: &#39;1908-01-01&#39;}}</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
-        <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">columns</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">col</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">columns</span><span class="p">:</span>
+
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">exact_match</span><span class="p">:</span>
+                <span class="n">cleaned_col</span> <span class="o">=</span> <span class="n">col</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">&#39;_&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">&#39; &#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">cleaned_col</span> <span class="o">=</span> <span class="n">col</span>
+
             <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">column_map</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
                 <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">v</span><span class="p">:</span>
-                    <span class="k">if</span> <span class="n">c</span> <span class="o">==</span> <span class="n">i</span><span class="p">:</span>
-                        <span class="bp">self</span><span class="o">.</span><span class="n">rename_column</span><span class="p">(</span><span class="n">c</span><span class="p">,</span> <span class="n">k</span><span class="p">)</span>
+                    <span class="k">if</span> <span class="n">cleaned_col</span> <span class="o">==</span> <span class="n">i</span><span class="p">:</span>
+                        <span class="bp">self</span><span class="o">.</span><span class="n">rename_column</span><span class="p">(</span><span class="n">col</span><span class="p">,</span> <span class="n">k</span><span class="p">)</span>
 
         <span class="k">return</span> <span class="bp">self</span></div>
 

@@ -224,7 +224,7 @@ class ETL(object):
 
         return self
 
-    def map_columns(self, column_map):
+    def map_columns(self, column_map, exact_match=False):
         """
         Standardizes column names based on multiple possible values. This method
         is helpful when your input table might have multiple and unknown column
@@ -233,6 +233,9 @@ class ETL(object):
         `Args:`
             column_map: dict
                 A dictionary of columns and possible values that map to it
+            exact_match: boolean
+                If ``True`` will only map if an exact match. If ``False`` will
+                ignore case, spaces and underscores.
         `Returns:`
             `Parsons Table` and also updates self
 
@@ -250,11 +253,17 @@ class ETL(object):
             >> {{'first_name': 'Jane', 'last_name': 'Doe', 'date_of_birth': '1908-01-01'}}
         """
 
-        for c in self.columns:
+        for col in self.columns:
+
+            if not exact_match:
+                cleaned_col = col.lower().replace('_', '').replace(' ', '')
+            else:
+                cleaned_col = col
+
             for k, v in column_map.items():
                 for i in v:
-                    if c == i:
-                        self.rename_column(c, k)
+                    if cleaned_col == i:
+                        self.rename_column(col, k)
 
         return self
 

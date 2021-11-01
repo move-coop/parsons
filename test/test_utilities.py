@@ -9,6 +9,7 @@ from parsons.utilities.datetime import date_to_timestamp, parse_date
 from parsons.utilities import files
 from parsons.utilities import check_env
 from parsons.utilities import json_format
+from parsons.utilities import sql_helpers
 from test.conftest import xfail_value_error
 
 
@@ -46,6 +47,24 @@ def test_parse_date():
 def test_create_temp_file_for_path():
     temp_path = files.create_temp_file_for_path('some/file.gz')
     assert temp_path[-3:] == '.gz'
+
+
+def test_create_temp_directory():
+    temp_directory = files.create_temp_directory()
+    test_file1 = f'{temp_directory}/test.txt'
+    test_file2 = f'{temp_directory}/test2.txt'
+    with open(test_file1, 'w') as fh1, open(test_file2, 'w') as fh2:
+        fh1.write('TEST')
+        fh2.write('TEST')
+
+    assert files.has_data(test_file1)
+    assert files.has_data(test_file2)
+
+    files.cleanup_temp_directory(temp_directory)
+
+    # Verify the temp file no longer exists
+    with pytest.raises(FileNotFoundError):
+        open(test_file1, 'r')
 
 
 def test_close_temp_file():
@@ -108,6 +127,23 @@ def test_remove_empty_keys():
     # Assert that a nested empty string is removed
     test_dict = {'a': '', 'b': 2}
     assert json_format.remove_empty_keys(test_dict) == {'b': 2}
+
+
+def test_redact_credentials():
+
+    # Test with quotes, escape characters, and line breaks
+    test_str = """COPY schema.tablename
+    FROM 's3://bucket/path/to/file.csv'
+    credentials  'aws_access_key_id=string-\\'escaped-quote;
+    aws_secret_access_key='string-escape-char\\\\'
+    MANIFEST"""
+
+    test_result = """COPY schema.tablename
+    FROM 's3://bucket/path/to/file.csv'
+    CREDENTIALS REDACTED
+    MANIFEST"""
+
+    assert sql_helpers.redact_credentials(test_str) == test_result
 
 
 class TestCheckEnv(unittest.TestCase):

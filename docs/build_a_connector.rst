@@ -16,11 +16,21 @@ The first thing you’ll need to do is create a new folder for your connector.  
 
 Inside the folder, create two files.  The first should be named __init__.py and should be empty.  The second will have the same name as your folder - this is the file which will have your connector’s code.  For example, in the airtable folder this file is called airtable.py and in the hustle folder it’s called hustle.py.
 
-The directory should look like this::
+The directory should look like this:
+
+.. code-block:: python
 
     yourconnectorname/
     __init__.py
         yourconnectorname.py
+
+Next, add the reference to your connector to `parsons/__init__.py`.  Specifically, open `parsons/__init__.py`, scroll to the end of the other imports, and add the following:
+
+.. code-block:: python
+
+	from parsons.yourconnectorname.yourconnectorname import yourconnectorname
+
+Also, in `parsons/__init__.py` add 'yourconnectorname' to the end of the list `__all__`.
 
 Once this is done, open the yourconnectorname.py file.  At the top of the file, add the following code to enable logging for our connector:
 
@@ -36,7 +46,11 @@ You’ll also want to create the Connector class itself:
 .. code-block:: python
 
     class YourConnectorName(object):
-        “””`Args:`”””
+        """
+        Instantiate class.
+
+           `Args:`
+        """
 
         def __init__(self, api_key=None):
             pass
@@ -60,7 +74,11 @@ We like to give users two different options for getting api keys and other authe
 
 
     class YourConnectorName(object):
-        “””`Args:`”””
+        """
+        Instantiate class.
+
+           `Args:`
+        """
 
         def __init__(self, api_key=None):
             self.api_key = check_env.check('YOURCONNECTORNAME_API_KEY', api_key)
@@ -240,36 +258,41 @@ Adding automated tests
  * Add a file *test_yourconnectorname.py* to the *test_yourconnectorname* folder
  * Use the code below as a starting point for your tests
  * Add one `“Happy Path” <https://en.wikipedia.org/wiki/Happy_path>`_ test per public method of your connector
- * When possible mock out any external integrations, otherwise mark your test using the
+ * When possible mock out any external integrations, otherwise mark your test using the ``unittest.skipIf`` decorator (for an example, see test/test_s3.py)
 
-```python
-from parsons.yourconnector.yourconnector import YourConnector
-import unittest
-import requests_mock
+ For a more detailed guide on writing unit tests, see :doc:`How to Write Tests for Parsons Connectors <write_tests>`
 
+.. code-block:: python
 
-class TestYourConnector(unittest.TestCase):
+    from parsons.yourconnector.yourconnector import YourConnector
+    import unittest
+    import requests_mock
 
-    def setUp(self):
+    from parsons.yourconnector.yourconnector import YourConnector
+    import unittest
+    import requests_mock
 
-        # add any setup code here to run before each test
-        pass
+    class TestYourConnector(unittest.TestCase):
 
-    def tearDown(self):
+        def setUp(self):
 
-        # add any teardown code here to run after each test
-        pass
+            # add any setup code here to run before each test
+            pass
 
-    @requests_mock.Mocker()
-    def test_get_things(self, m):
+        def tearDown(self):
 
-    	# Test that campaigns are returned correctly.
-        m.get(‘http://yourconnector.com/v1/things’, json=[])
-        yc = YourConnector()
-        tbl = yc.get_things()
+            # add any teardown code here to run after each test
+            pass
 
-        self.assertEqual(tbl.num_rows, 0)
-```
+        @requests_mock.Mocker()
+        def test_get_things(self, m):
+
+            # Test that campaigns are returned correctly.
+            m.get(‘http://yourconnector.com/v1/things’, json=[])
+            yc = YourConnector()
+            tbl = yc.get_things()
+
+            self.assertEqual(tbl.num_rows, 0)
 
 ^^^^^^^^^^^^^^^^^^^^
 Adding documentation

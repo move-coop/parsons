@@ -82,7 +82,7 @@ class TestParsonsTable(unittest.TestCase):
     def test_materialize_to_file(self):
         # Simple test that materializing doesn't change the table
         tbl_materialized = Table(self.lst_dicts)
-        tbl_materialized.materialize_to_file()
+        _ = tbl_materialized.materialize_to_file()
 
         assert_matching_tables(self.tbl, tbl_materialized)
 
@@ -229,16 +229,15 @@ class TestParsonsTable(unittest.TestCase):
         try:
             # Test using the to_csv() method
             self.tbl.to_csv('myzip.zip')
-            zip_archive.unzip_archive('myzip.zip')
-            assert_matching_tables(self.tbl, Table.from_csv('myzip.csv'))
+            tmp = zip_archive.unzip_archive('myzip.zip')
+            assert_matching_tables(self.tbl, Table.from_csv(tmp))
 
             # Test using the to_csv_zip() method
             self.tbl.to_zip_csv('myzip.zip')
-            zip_archive.unzip_archive('myzip.zip')
-            assert_matching_tables(self.tbl, Table.from_csv('myzip.csv'))
+            tmp = zip_archive.unzip_archive('myzip.zip')
+            assert_matching_tables(self.tbl, Table.from_csv(tmp))
         finally:
             os.unlink('myzip.zip')
-            os.unlink('myzip.csv')
 
     def test_to_civis(self):
 
@@ -577,22 +576,22 @@ class TestParsonsTable(unittest.TestCase):
         self.assertEqual(tbl.row_data(1), row)
 
     def test_stack(self):
-        tbl1 = self.tbl
+        tbl1 = self.tbl.select_rows(lambda x: x)
         tbl2 = Table([{'first': 'Mary', 'last': 'Nichols'}])
         # Different column names shouldn't matter for stack()
         tbl3 = Table([{'f': 'Lucy', 'l': 'Peterson'}])
         tbl1.stack(tbl2, tbl3)
 
-        expected_tbl = Table(petl.stack(tbl1.table, tbl2.table, tbl3.table))
+        expected_tbl = Table(petl.stack(self.tbl.table, tbl2.table, tbl3.table))
         assert_matching_tables(expected_tbl, tbl1)
 
     def test_concat(self):
-        tbl1 = self.tbl
+        tbl1 = self.tbl.select_rows(lambda x: x)
         tbl2 = Table([{'first': 'Mary', 'last': 'Nichols'}])
         tbl3 = Table([{'first': 'Lucy', 'last': 'Peterson'}])
         tbl1.concat(tbl2, tbl3)
 
-        expected_tbl = Table(petl.cat(tbl1.table, tbl2.table, tbl3.table))
+        expected_tbl = Table(petl.cat(self.tbl.table, tbl2.table, tbl3.table))
         assert_matching_tables(expected_tbl, tbl1)
 
     def test_chunk(self):
@@ -798,3 +797,30 @@ class TestParsonsTable(unittest.TestCase):
 
         self.assertEqual(not empty, True)
         self.assertEqual(not not_empty, False)
+
+    def test_use_petl(self):
+        # confirm that this method doesn't exist for parsons.Table
+        self.assertRaises(AttributeError, getattr, Table, 'skipcomments')
+
+        tbl = Table([
+            ['col1', 'col2'],
+            ['# this is a comment row', ],
+            ['a', 1],
+            ['#this is another comment', 'this is also ignored'],
+            ['b', 2]
+        ])
+        tbl_expected = Table([
+            ['col1', 'col2'],
+            ['a', 1],
+            ['b', 2]
+        ])
+
+        tbl_after = tbl.use_petl('skipcomments', '#')
+        assert_matching_tables(tbl_expected, tbl_after)
+
+        tbl.use_petl('skipcomments', '#', update_table=True)
+        assert_matching_tables(tbl_expected, tbl)
+
+        from petl.util.base import Table as PetlTable
+        tbl_petl = tbl.use_petl('skipcomments', '#', to_petl=True)
+        self.assertIsInstance(tbl_petl, PetlTable)

@@ -1,10 +1,13 @@
 import json
 from parsons import Table
+import re
 from parsons.utilities import check_env
 from parsons.utilities.api_connector import APIConnector
 import logging
 
 logger = logging.getLogger(__name__)
+
+API_URL = 'https://actionnetwork.org/api/v2'
 
 
 class ActionNetwork(object):
@@ -12,16 +15,14 @@ class ActionNetwork(object):
     `Args:`
         api_token: str
             The OSDI API token
-        api_url:
-            The end point url
     """
-    def __init__(self, api_token=None, api_url=None):
+    def __init__(self, api_token=None):
         self.api_token = check_env.check('AN_API_TOKEN', api_token)
         self.headers = {
             "Content-Type": "application/json",
             "OSDI-API-Token": self.api_token
         }
-        self.api_url = check_env.check('AN_API_URL', api_url)
+        self.api_url = API_URL
         self.api = APIConnector(self.api_url, headers=self.headers)
 
     def _get_page(self, object_name, page, per_page=25):
@@ -77,14 +78,15 @@ class ActionNetwork(object):
         """
         return self.api.get_request(url=f"people/{person_id}")
 
-    def add_person(self, email_address, given_name=None, family_name=None, tags=[],
-                   languages_spoken=[], postal_addresses=[],
-                   **kwargs):
+    def add_person(self, email_address=None, given_name=None, family_name=None, tags=None,
+                   languages_spoken=None, postal_addresses=None, mobile_number=None,
+                   mobile_status='subscribed', **kwargs):
         """
         `Args:`
             email_address:
-                Can be any of the following
+                Either email_address or mobile_number are required. Can be any of the following
                     - a string with the person's email
+                    - a list of strings with a person's emails
                     - a dictionary with the following fields
                         - email_address (REQUIRED)
                         - primary (OPTIONAL): Boolean indicating the user's primary email address
@@ -106,7 +108,21 @@ class ActionNetwork(object):
             postal_addresses:
                 Optional field. A list of dictionaries.
                 For details, see Action Network's documentation:
-                https://actionnetwork.org/docs/v2/people#put
+                https://actionnetwork.org/docs/v2/person_signup_helper
+            mobile_number:
+                Either email_address or mobile_number are required. Can be any of the following
+                    - a string with the person's cell phone number
+                    - an integer with the person's cell phone number
+                    - a list of strings with the person's cell phone numbers
+                    - a list of integers with the person's cell phone numbers
+                    - a dictionary with the following fields
+                        - number (REQUIRED)
+                        - primary (OPTIONAL): Boolean indicating the user's primary mobile number
+                        - status (OPTIONAL): can taken on any of these values
+                            - "subscribed"
+                            - "unsubscribed"
+            mobile_status:
+                'subscribed' or 'unsubscribed'
             **kwargs:
                 Any additional fields to store about the person. Action Network allows
                 any custom field.
@@ -115,25 +131,56 @@ class ActionNetwork(object):
         email_addresses_field = None
         if type(email_address) == str:
             email_addresses_field = [{"address": email_address}]
-        elif type(email_address == list):
+        elif type(email_address) == list:
             if type(email_address[0]) == str:
                 email_addresses_field = [{"address": email} for email in email_address]
                 email_addresses_field[0]['primary'] = True
             if type(email_address[0]) == dict:
                 email_addresses_field = email_address
-        if not email_addresses_field:
-            raise("email_address must be a string, list of strings, or list of dictionaries")
-        data = {
-            "person": {
-                "email_addresses": email_addresses_field,
-                "given_name": given_name,
-                "family_name": family_name,
-                "languages_spoken": languages_spoken,
-                "postal_addresses": postal_addresses,
-                "custom_fields": {**kwargs}
-              },
-            "add_tags": tags
-        }
+
+        mobile_numbers_field = None
+        if type(mobile_number) == str:
+            mobile_numbers_field = [{"number": re.sub('[^0-9]', "", mobile_number),
+                                     "status": mobile_status}]
+        elif type(mobile_number) == int:
+            mobile_numbers_field = [{"number": str(mobile_number), "status": mobile_status}]
+        elif type(mobile_number) == list:
+            if len(mobile_number) > 1:
+                raise('Action Network allows only 1 phone number per activist')
+            if type(mobile_number[0]) == str:
+                mobile_numbers_field = [{"number": re.sub('[^0-9]', "", cell),
+                                        "status": mobile_status}
+                                        for cell in mobile_number]
+                mobile_numbers_field[0]['primary'] = True
+            if type(mobile_number[0]) == int:
+                mobile_numbers_field = [{"number": cell, "status": mobile_status}
+                                        for cell in mobile_number]
+                mobile_numbers_field[0]['primary'] = True
+            if type(mobile_number[0]) == dict:
+                mobile_numbers_field = mobile_number
+
+        if not email_addresses_field and not mobile_numbers_field:
+            raise("Either email_address or mobile_number is required and can be formatted "
+                  "as a string, list of strings, a dictionary, a list of dictionaries, or "
+                  "(for mobile_number only) an integer or list of integers")
+
+        data = {"person": {}}
+
+        if email_addresses_field is not None:
+            data["person"]["email_addresses"] = email_addresses_field
+        if mobile_numbers_field is not None:
+            data["person"]["phone_numbers"] = mobile_numbers_field
+        if given_name is not None:
+            data["person"]["given_name"] = given_name
+        if family_name is not None:
+            data["person"]["family_name"] = family_name
+        if languages_spoken is not None:
+            data["person"]["languages_spoken"] = languages_spoken
+        if postal_addresses is not None:
+            data["person"]["postal_address"] = postal_addresses
+        if tags is not None:
+            data["add_tags"] = tags
+        data["person"]["custom_fields"] = {**kwargs}
         response = self.api.post_request(url=f"{self.api_url}/people", data=json.dumps(data))
         identifiers = response['identifiers']
         person_id = [entry_id.split(':')[1]
@@ -227,3 +274,51 @@ class ActionNetwork(object):
                      for entry_id in identifiers if 'action_network:' in entry_id][0]
         logger.info(f"Tag {person_id} successfully added to tags.")
         return response
+
+    def create_event(self, title, start_date=None, location=None):
+        """
+        Create an event in Action Network
+
+        `Args:`
+            title: str
+                The public title of the event
+            start_date: str OR datetime
+                OPTIONAL: The starting date & time. If a string, use format "YYYY-MM-DD HH:MM:SS"
+                (hint: the default format you get when you use `str()` on a datetime)
+            location: dict
+                OPTIONAL: A dict of location details. Can include any combination of the types of
+                values in the following example:
+                .. code-block:: python
+
+                    my_location = {
+                        "venue": "White House",
+                        "address_lines": [
+                            "1600 Pennsylvania Ave"
+                        ],
+                        "locality": "Washington",
+                        "region": "DC",
+                        "postal_code": "20009",
+                        "country": "US"
+                    }
+
+        `Returns:`
+            Dict of Action Network Event data.
+        """
+
+        data = {
+            "title": title
+        }
+
+        if start_date:
+            start_date = str(start_date)
+            data["start_date"] = start_date
+
+        if isinstance(location, dict):
+            data["location"] = location
+
+        event_dict = self.api.post_request(url=f"{self.api_url}/events", data=json.dumps(data))
+
+        an_event_id = event_dict["_links"]["self"]["href"].split('/')[-1]
+        event_dict["event_id"] = an_event_id
+
+        return event_dict

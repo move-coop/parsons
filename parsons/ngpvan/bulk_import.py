@@ -182,7 +182,8 @@ class BulkImport(object):
             table: Parsons table
                 A Parsons table.
             url_type: str
-                The cloud file storage to use to post the file. Currently only ``S3``.
+                The cloud file storage to use to post the file (``S3`` or ``GCS``).
+                See :ref:`Cloud Storage <cloud-storage>` for more details.
             **url_kwargs: kwargs
                 Arguments to configure your cloud storage url type. See
                 :ref:`Cloud Storage <cloud-storage>` for more details.

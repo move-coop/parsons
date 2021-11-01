@@ -23,7 +23,7 @@ MySQL
 *****
 .. _my-sql:
 
-MySQL is the world's most popular open source database. The Parsons class leverages on the `mysql <https://github.com/farcepest/MySQLdb1>`_ python package.
+MySQL is the world's most popular open source database. The Parsons class leverages on the `MySQLdb1 <https://github.com/farcepest/MySQLdb1>`_ python package.
 
 ===========
 Quick Start
@@ -57,6 +57,7 @@ Quick Start
    :inherited-members:
 
 .. _postgres:
+
 ********
 Postgres
 ********
@@ -74,24 +75,24 @@ Quick Start
    from parsons import Postgres
 
    # Instantiate Postgres from environmental variables
-   mysql = Postgres()
+   pg = Postgres()
 
    # Instantiate Postgres from passed variables
-   Postgres = Postgres(username='me', password='secret', host='mydb.com', db='dev', port=3306)
+   pg = Postgres(username='me', password='secret', host='mydb.com', db='dev', port=3306)
 
    # Instantiate Postgres from a ~/.pgpass file
-   Postgres = Postgres()
+   pg = Postgres()
 
 **Quick Start**
 
 .. code-block:: python
 
    # Query database
-   tbl = postgres.query('select * from my_schema.secret_sauce')
+   tbl = pg.query('select * from my_schema.secret_sauce')
 
    # Copy data to database
    tbl = Table.from_csv('my_file.csv') # Load from a CSV or other source.
-   postgres.copy(tbl, 'my_schema.winning_formula')
+   pg.copy(tbl, 'my_schema.winning_formula')
 
 .. autoclass:: parsons.Postgres
    :inherited-members:
@@ -101,5 +102,5 @@ Quick Start
 Redshift
 ********
 
-See :doc:`aws` section for documentation.
+See :ref:`Redshift <redshift>` for documentation.
 

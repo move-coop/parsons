@@ -111,6 +111,9 @@ venv.bak/
 scratch*
 old!_*
 
+# vscode
+.vscode/
+
 doctrees/
 .buildinfo
 

@@ -7,16 +7,16 @@ Overview
 ********
 
 The VAN module leverages the VAN API and generally follows the naming convention of their API endpoints. It
-is recommended that you reference their `API documentation <https://developers.ngpvan.com/van-api#van>`_ to
+is recommended that you reference their `API documentation <https://docs.ngpvan.com/reference/overview>`_ for
 additional details and information.
 
 .. note::
    API Keys
       - API Keys are specific to each committee and state.
-      - There is a Parsons type API Key that can be requested via the Integrations menu on the main page. 
-      	If you have an issue gaining access to this key, or an admin has questions, please email 
+      - There is a Parsons type API Key that can be requested via the Integrations menu on the main page.
+      	If you have an issue gaining access to this key, or an admin has questions, please email
 	<parsons@movementcooperative.org>.
-  
+
 
 .. warning::
    VANIDs
@@ -24,7 +24,7 @@ additional details and information.
       those of the SmartVAN or VoteBuilder.
    Maintenance & Suppoort
       VAN/EveryAction is not responsible for support of Parsons. Their support team cannot answer questions
-      about Parsons. Please direct any questions 
+      about Parsons. Please direct any questions
 
 .. toctree::
 	:maxdepth: 1
@@ -33,7 +33,7 @@ additional details and information.
 QuickStart
 **********
 
-To call the VAN class you can either store the api key as an environmental variable VAN_API_KEY or pass it in as an argument..
+To call the VAN class you can either store the api key as an environmental variable VAN_API_KEY or pass it in as an argument.
 
 .. code-block:: python
 
@@ -70,11 +70,11 @@ Common Workflows
 ===========
 Bulk Import
 ===========
-For some methods, VAN allows you to bulk import multiple records to create or modify them. 
+For some methods, VAN allows you to bulk import multiple records to create or modify them.
 
-The bulk upload endpoint, requires access to file on the public internet as it runs the upload
+The bulk upload endpoint requires access to files on the public internet as it runs the upload
 asynchronously. Therefore, in order to bulk import, you must pass in cloud storage credentials
-so that the file can be posted. Currently, only S3 is supported.
+(either AWS S3 or Google Cloud Storage) so that the file can be posted.
 
 **Bulk Apply Activist Codes**
 
@@ -88,13 +88,13 @@ have the following columns:
 
    from parsons import VAN, Table
 
-   van = VAN(db=EveryAction)
+   van = VAN(db='EveryAction')
 
    # Load a table containing the VANID, activistcodeid and other options.
    tbl = Table.from_csv('new_volunteers.csv')
 
    # Table will be sent to S3 bucket and a POST request will be made to VAN creating
-   # the bulk import job with all of the valid meta information. The method will 
+   # the bulk import job with all of the valid meta information. The method will
    # return the job id.
    job_id = van.bulk_apply_activist_codes(tbl, url_type="S3", bucket='my_bucket')
 
@@ -132,7 +132,7 @@ If the VANID record is null, then a new record will be created.
     tbl = Table.from_csv('hot_leads.csv')
 
     # Table will be sent to S3 bucket and a POST request will be made to VAN creating
-    # the bulk import job with all of the valid meta information. The method will 
+    # the bulk import job with all of the valid meta information. The method will
     # return the job id.
     job_id = van.bulk_upsert_contacts(tbl, url_type="S3", bucket='my_bucket')
 
@@ -143,6 +143,32 @@ If the VANID record is null, then a new record will be created.
     # created vanids.
     job_results = van.get_bulk_import_job_results(job_id)
 
+**Upload Saved List**
+
+.. code-block:: python
+
+   from parsons import VAN, Table
+
+   van = VAN(db='MyVoters')
+
+   # Load a table containing VANIDs
+   tbl = Table.from_csv('gcs_test.csv')
+
+   # The destination folder id. You can get a list of folder ids by running the
+   # VAN.get_folders() method. Remember to share the folder with your API user
+   # or you will not be able to access it.
+   folder_id = 1171
+
+   # The destination list name
+   list_name = 'My Winning List v1.0'
+
+   # The cloud storage service and kwargs specific to GCS.
+   url_type = 'GCS'
+   bucket_name = 'my_bucket'
+   app_creds = 'my_creds.json' # Not required if stored as env variable.
+
+   van.upload_saved_list(tbl, list_name, folder_id, url_type, replace=true,
+                         bucket_name=bucket_name, app_creds=app_creds)
 
 ============================
 Scores: Loading and Updating

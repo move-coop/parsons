@@ -9,6 +9,8 @@ logger = logging.getLogger(__name__)
 
 class Salesforce:
     """
+    Instantiate the Salesforce class
+
     `Args:`
         username: str
             The Salesforce username (usually an email address). Not required if
@@ -21,7 +23,7 @@ class Salesforce:
             Settings > My Personal Information > Reset My Security Token.
             Not required if ``SALESFORCE_SECURITY_TOKEN`` env variable is passed.
         test_environment: bool
-            If ``True`` the client will connect to a Saleforce sandbox instance. Not required if
+            If ``True`` the client will connect to a Salesforce sandbox instance. Not required if
             ``SALESFORCE_DOMAIN`` env variable is passed.
     `Returns:`
         Salesforce class
@@ -69,7 +71,7 @@ class Salesforce:
         `Args:`
             soql: str
                 The desired query in Salesforce SOQL language (SQL with additional limitations).
-                For reference, see `Salesforce SOQL documentation<https://developer.salesforce.com/docs/atlas.en-us.soql_sosl.meta/soql_sosl/sforce_api_calls_soql.htm>`_.
+                For reference, see the `Salesforce SOQL documentation <https://developer.salesforce.com/docs/atlas.en-us.soql_sosl.meta/soql_sosl/sforce_api_calls_soql.htm>`_.
         `Returns:`
             list of dicts with Salesforce data
         """ # noqa: E501,E261

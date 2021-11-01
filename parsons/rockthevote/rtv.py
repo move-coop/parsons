@@ -41,11 +41,15 @@ class RTVFailure(Exception):
 
 class RockTheVote:
     """
+    Instantiate the RockTheVote class
+
     `Args:`
         partner_id: str
-            The RockTheVote partner ID for the RTV account
+            The RockTheVote partner ID for the RTV account.
+            Not required if the ``RTV_PARTNER_ID`` environmental variable is set.
         partner_api_key: str
-            The API Key for the partner
+            The API Key for the partner.
+            Not required if the ``RTV_PARTNER_API_KEY`` environmental variable is set.
         testing: bool
             Whether or not to use the staging instance. Defaults to False.
     `Returns`:
@@ -249,3 +253,49 @@ class RockTheVote:
         return self.get_registration_report(report_id, block=True,
                                             poll_interval_seconds=poll_interval_seconds,
                                             report_timeout_seconds=report_timeout_seconds)
+
+    def get_state_requirements(self, lang, home_state_id, home_zip_code,
+                               date_of_birth=None, callback=None):
+        """
+        Checks state eligibility and provides state specific fields information.
+        Args:
+            lang: str
+                Required. Language. Represented by an abbreviation. 'en', 'es', etc
+            home_state_id: str
+                Required. 2-character state abbreviation
+            home_zip_code: str
+                Required. 'zzzzz' 5 digit zip codes
+            date_of_birth: str
+                Optional. 'mm-dd-yyyy'
+            callback: str
+                Optional.  If used, will change the return value from JSON format to jsonp
+        Returns:
+            Parsons.Table
+                A single row table with the response json
+        """
+        requirements_url = f'state_requirements.json'
+
+        logger.info(f"Getting the requirements for {home_state_id}...")
+
+        params = {
+            'lang': lang,
+            'home_state_id': home_state_id,
+            'home_zip_code': home_zip_code
+        }
+
+        if date_of_birth:
+            params['date_of_birth'] = date_of_birth
+
+        if callback:
+            params['callback'] = callback
+
+        requirements_response = self.client.request(requirements_url, 'get', params=params)
+
+        if requirements_response.status_code == requests.codes.ok:
+            response_json = requirements_response.json()
+            table = Table([response_json])
+            return table
+        else:
+            error_json = requirements_response.json()
+            logger.info(f'{error_json}')
+            raise RTVFailure("Could not retrieve state requirements")

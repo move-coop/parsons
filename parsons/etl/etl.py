@@ -224,7 +224,7 @@ class ETL(object):
 
         return self
 
-    def map_columns(self, column_map, exact_match=False):
+    def map_columns(self, column_map, exact_match=True):
         """
         Standardizes column names based on multiple possible values. This method
         is helpful when your input table might have multiple and unknown column

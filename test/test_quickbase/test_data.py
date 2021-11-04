@@ -1,6 +1,4 @@
-from parsons import Table
-
-test_get_app_tables = Table([
+test_get_app_tables = [
   {
     "alias": "_DBID_MEMBERSHIP",
     "created": "2020-09-01T20:16:15Z",
@@ -36,4 +34,4 @@ test_get_app_tables = Table([
     "spaceRemaining": "500 MB",
     "spaceUsed": "100 KB",
     "updated": "2020-09-11T14:17:23Z"
-  }])
+  }]

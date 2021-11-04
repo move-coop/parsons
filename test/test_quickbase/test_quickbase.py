@@ -10,7 +10,7 @@ class TestQuickbase(unittest.TestCase):
     def test_get_app_tables(self, m):
 
         qb = Quickbase(hostname='test.example.com', user_token='12345')
-        m.get(qb.hostname + f'/v1/tables?appId={qb.user_token}',
+        m.get(f'{qb.api_hostname}/tables?appId=test',
               json=test_data.test_get_app_tables)
         tbl = qb.get_app_tables(app_id='test')
 

@@ -31,8 +31,9 @@ class Quickbase(object):
 
     def get_app_tables(self, app_id=None):
         """
-        Get metadata about tables in a QuickBase app. See QuickBase documentation for all
-        included fields: https://developer.quickbase.com/operation/getAppTables
+        Query records in a Quickbase table. This follows the patterns laid out
+        in Quickbase query documentaiton, located here:
+        https://help.quickbase.com/api-guide/componentsquery.html
 
         `Args:`
             app_id: str

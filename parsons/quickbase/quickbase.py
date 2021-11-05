@@ -24,10 +24,10 @@ class Quickbase(object):
     def __init__(self, hostname=None, user_token=None):
         self.hostname = check_env.check('QUICKBASE_HOSTNAME', hostname)
         self.user_token = check_env.check('QUICKBASE_USER_TOKEN', user_token)
-        self.client = APIConnector('https://api.quickbase.com/v1/',
+        self.api_hostname = 'https://api.quickbase.com/v1'
+        self.client = APIConnector(self.api_hostname,
                                    headers={'QB-Realm-Hostname': self.hostname,
-                                            'AUTHORIZATION': 'QB-USER-TOKEN '
-                                            + self.user_token})
+                                            'AUTHORIZATION': f'QB-USER-TOKEN {self.user_token}'})
 
     def get_app_tables(self, app_id=None):
         """
@@ -40,8 +40,9 @@ class Quickbase(object):
         `Returns:`
             Table Class
         """
-        return Table(self.client.request(f'https://api.quickbase.com/v1/tables?appId={app_id}',
-                                         'GET').json())
+        return Table(self.client.request(
+            f'{self.api_hostname}/tables?appId={app_id}',
+            'GET').json())
 
     def query_records(self, table_from=None):
         """
@@ -56,7 +57,7 @@ class Quickbase(object):
             Table Class
         """
         req_resp = \
-            (self.client.request(f'https://api.quickbase.com/v1/records/query',
+            (self.client.request(f'{self.api_hostname}/records/query',
                                  'POST',
                                  json={"from": table_from}).json())
 

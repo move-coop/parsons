@@ -933,11 +933,11 @@
         <span class="k">return</span> <span class="n">manifest</span>
 
     <span class="k">def</span> <span class="nf">upsert</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">table_obj</span><span class="p">,</span> <span class="n">target_table</span><span class="p">,</span> <span class="n">primary_key</span><span class="p">,</span> <span class="n">vacuum</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">distinct_check</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
-               <span class="n">cleanup_temp_table</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">alter_table</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">from_s3</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="o">**</span><span class="n">copy_args</span><span class="p">):</span>
+               <span class="n">cleanup_temp_table</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">alter_table</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">from_s3</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">distkey</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+               <span class="n">sortkey</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">copy_args</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Preform an upsert on an existing table. An upsert is a function in which records</span>
-<span class="sd">        in a table are updated and inserted at the same time. Unlike other SQL databases,</span>
-<span class="sd">        it does not exist natively in Redshift.</span>
+<span class="sd">        Preform an upsert on an existing table. An upsert is a function in which rows</span>
+<span class="sd">        in a table are updated and inserted at the same time.</span>
 
 <span class="sd">        `Args:`</span>
 <span class="sd">            table_obj: obj</span>
@@ -960,14 +960,28 @@
 <span class="sd">                Instead of specifying a table_obj (set the first argument to None),</span>
 <span class="sd">                set this to True and include :func:`~parsons.databases.Redshift.copy_s3` arguments</span>
 <span class="sd">                to upsert a pre-existing s3 file into the target_table</span>
+<span class="sd">            distkey: str</span>
+<span class="sd">                The column name of the distkey. If not provided, will default to ``primary_key``.</span>
+<span class="sd">            sortkey: str or list</span>
+<span class="sd">                The column name(s) of the sortkey. If not provided, will default to ``primary_key``.</span>
 <span class="sd">            \**copy_args: kwargs</span>
 <span class="sd">                See :func:`~parsons.databases.Redshift.copy` for options.</span>
 <span class="sd">        &quot;&quot;&quot;</span>  <span class="c1"># noqa: W605</span>
 
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">primary_key</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+            <span class="n">primary_keys</span> <span class="o">=</span> <span class="p">[</span><span class="n">primary_key</span><span class="p">]</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">primary_keys</span> <span class="o">=</span> <span class="n">primary_key</span>
+
+        <span class="c1"># Set distkey and sortkey to argument or primary key. These keys will be used</span>
+        <span class="c1"># for the staging table and, if it does not already exist, the destination table.</span>
+        <span class="n">distkey</span> <span class="o">=</span> <span class="n">distkey</span> <span class="ow">or</span> <span class="n">primary_keys</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">sortkey</span> <span class="o">=</span> <span class="n">sortkey</span> <span class="ow">or</span> <span class="n">primary_key</span>
+
         <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">table_exists</span><span class="p">(</span><span class="n">target_table</span><span class="p">):</span>
             <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s1">&#39;Target table does not exist. Copying into newly </span><span class="se">\</span>
 <span class="s1">                         created target table.&#39;</span><span class="p">)</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="n">table_obj</span><span class="p">,</span> <span class="n">target_table</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="n">table_obj</span><span class="p">,</span> <span class="n">target_table</span><span class="p">,</span> <span class="n">distkey</span><span class="o">=</span><span class="n">distkey</span><span class="p">,</span> <span class="n">sortkey</span><span class="o">=</span><span class="n">sortkey</span><span class="p">)</span>
             <span class="k">return</span> <span class="kc">None</span>
 
         <span class="k">if</span> <span class="n">alter_table</span> <span class="ow">and</span> <span class="n">table_obj</span><span class="p">:</span>
@@ -978,11 +992,6 @@
         <span class="n">date_stamp</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s1">&#39;%Y%m</span><span class="si">%d</span><span class="s1">_%H%M&#39;</span><span class="p">)</span>
         <span class="c1"># Generate a temp table like &quot;table_tmp_20200210_1230_14212&quot;</span>
         <span class="n">staging_tbl</span> <span class="o">=</span> <span class="s1">&#39;</span><span class="si">{}</span><span class="s1">_stg_</span><span class="si">{}</span><span class="s1">_</span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">target_table</span><span class="p">,</span> <span class="n">date_stamp</span><span class="p">,</span> <span class="n">noise</span><span class="p">)</span>
-
-        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">primary_key</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
-            <span class="n">primary_keys</span> <span class="o">=</span> <span class="p">[</span><span class="n">primary_key</span><span class="p">]</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="n">primary_keys</span> <span class="o">=</span> <span class="n">primary_key</span>
 
         <span class="k">if</span> <span class="n">distinct_check</span><span class="p">:</span>
             <span class="n">primary_keys_statement</span> <span class="o">=</span> <span class="s1">&#39;, &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">primary_keys</span><span class="p">)</span>
@@ -1012,6 +1021,7 @@
                     <span class="c1"># column is not impactful barely impactful</span>
                     <span class="c1"># https://docs.aws.amazon.com/redshift/latest/dg/c_Loading_tables_auto_compress.html</span>
                     <span class="n">copy_args</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">copy_args</span><span class="p">,</span> <span class="n">compupdate</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+
                 <span class="k">if</span> <span class="n">from_s3</span><span class="p">:</span>
                     <span class="k">if</span> <span class="n">table_obj</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
                         <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
@@ -1025,6 +1035,8 @@
                     <span class="bp">self</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="n">table_obj</span><span class="p">,</span> <span class="n">staging_tbl</span><span class="p">,</span>
                               <span class="n">template_table</span><span class="o">=</span><span class="n">target_table</span><span class="p">,</span>
                               <span class="n">alter_table</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>  <span class="c1"># We just did our own alter table above</span>
+                              <span class="n">distkey</span><span class="o">=</span><span class="n">distkey</span><span class="p">,</span>
+                              <span class="n">sortkey</span><span class="o">=</span><span class="n">sortkey</span><span class="p">,</span>
                               <span class="o">**</span><span class="n">copy_args</span><span class="p">)</span>
 
                 <span class="n">staging_table_name</span> <span class="o">=</span> <span class="n">staging_tbl</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;.&#39;</span><span class="p">)[</span><span class="mi">1</span><span class="p">]</span>

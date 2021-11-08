@@ -35,3 +35,9 @@ test_get_app_tables = [
     "spaceUsed": "100 KB",
     "updated": "2020-09-11T14:17:23Z"
   }]
+
+test_query_records = [
+  {
+    "from": 'test_table'
+  }
+]

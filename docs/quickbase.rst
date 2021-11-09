@@ -1,6 +1,5 @@
-===
 Quickbase
-===
+=========
 
 ********
 Overview

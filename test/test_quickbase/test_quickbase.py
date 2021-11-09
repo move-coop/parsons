@@ -19,7 +19,7 @@ class TestQuickbase(unittest.TestCase):
     @requests_mock.Mocker()
     def test_query_records(self, m):
         qb = Quickbase(hostname='test.example.com', user_token='12345')
-        m.post(f'{qb.api_hostname}/records/query?appId=test',
+        m.post(f'{qb.api_hostname}/records/query',
                json=test_data.test_query_records)
         tbl = qb.query_records(table_from='test_table')
 

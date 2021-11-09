@@ -1,3 +1,4 @@
+===
 Quickbase
 ===
 
@@ -10,13 +11,13 @@ with select functions of the the `Quickbase API <https://developer.quickbase.com
 
 This Parsons connector provides methods to fetch lists of available tables in Quickbase, and to
 query those tables using `Quickbase's own query language 
-<https://help.quickbase.com/api-guide/componentsquery.html>`.
+<https://help.quickbase.com/api-guide/componentsquery.html>`_.
 
 .. note::
   Authentication
     A user token and app ID are required to instantiate the ``Quickbase`` class.
     Details on how to create user tokens can be found `on the Quickbase website 
-    <https://help.quickbase.com/user-assistance/create_user_tokens.html>`.
+    <https://help.quickbase.com/user-assistance/create_user_tokens.html>`_.
 
 **********
 Quickstart

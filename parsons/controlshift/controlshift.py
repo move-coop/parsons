@@ -6,11 +6,13 @@ from parsons.utilities.oauth_api_connector import OAuthAPIConnector
 class Controlshift(object):
     def __init__(self, hostname=None, client_id=None, client_secret=None) -> None:
         self.hostname = check_env.check('CONTROLSHIFT_HOSTNAME', hostname)
+        token_url = f'{self.hostname}/oauth/token'
         self.client = OAuthAPIConnector(
             self.hostname,
             client_id=check_env.check('CONTROLSHIFT_CLIENT_ID', client_id),
             client_secret=check_env.check('CONTROLSHIFT_CLIENT_SECRET', client_secret),
-            token_url=f'{self.hostname}/oauth/token'
+            token_url=token_url,
+            auto_refresh_url=token_url
         )
 
     def get_petitions(self):

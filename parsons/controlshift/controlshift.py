@@ -14,6 +14,12 @@ class Controlshift(object):
         )
 
     def get_petitions(self):
-        response = self.client.request(
-            f'{self.hostname}/api/v1/petitions?page=1', 'GET').json()
-        return Table(response['petitions'])
+        next_page = 1
+        petitions = []
+        while next_page:
+            response = self.client.get_request(
+                f'{self.hostname}/api/v1/petitions', {'page': next_page})
+            next_page = response['meta']['next_page']
+            petitions.extend(response['petitions'])
+
+        return Table(petitions)

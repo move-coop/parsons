@@ -127,13 +127,13 @@ class ETL(object):
         method. Example usage can be found `here <https://petl.readthedocs.io/en/v0.24/transform.html#petl.convert>`_.
 
         `Args:`
-            \*column: str
+            *column: str
                 A single column or multiple columns passed as a list
-            \**kwargs: str, method or variable
+            **kwargs: str, method or variable
                 The update function, method, or variable to process the update
         `Returns:`
             `Parsons Table` and also updates self
-        """ # noqa: E501,E261
+        """  # noqa: E501,E261
 
         self.table = petl.convert(self.table, *column, **kwargs)
 
@@ -1061,9 +1061,9 @@ class ETL(object):
             to_petl: bool
                 If ``True``, returns a petl table, otherwise a ``parsons.Table``.
                 Defaults to ``False``.
-            \*args: Any
+            *args: Any
                 The arguements to pass to the petl function.
-            \**kwargs: Any
+            **kwargs: Any
                 The keyword arguements to pass to the petl function.
         `Returns:`
             `parsons.Table` or `petl` table

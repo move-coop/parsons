@@ -170,7 +170,7 @@ def distribute_task(table, func_to_run,
         depending on how this method is invoked.
     """
     if storage not in ('s3', 'local'):
-        raise DistributeTaskException(f'storage argument must be s3 or local')
+        raise DistributeTaskException('storage argument must be s3 or local')
     bucket = check('S3_TEMP_BUCKET', bucket)
     csvdata = StringIO()
     outcsv = csv.writer(csvdata)

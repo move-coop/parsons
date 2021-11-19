@@ -77,7 +77,7 @@ class TargetSmartAutomation(object):
             xml = self.create_job_xml(job_type, job_name, emails=emails,
                                       status_key=job_name, call_back=call_back)
             self.sftp.put_file(xml, f'{self.sftp_dir}/{job_name}.job.xml')
-            logger.info(f'Match configuration uploaded to TargetSmart.')
+            logger.info('Match configuration uploaded to TargetSmart.')
 
             # Check xml configuration status
             self.poll_config_status(job_name)

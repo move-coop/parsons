@@ -23,7 +23,7 @@ class ChangedEntities(object):
             list
         """
 
-        r = self.connection.get_request(f'changedEntityExportJobs/resources')
+        r = self.connection.get_request('changedEntityExportJobs/resources')
         logger.info(f'Found {len(r)} changed entity resources.')
         return r
 
@@ -72,16 +72,16 @@ class ChangedEntities(object):
         """  # noqa: E501
 
         json = {
-                "dateChangedFrom": date_from,
-                "dateChangedTo": date_to,
-                "resourceType": resource_type,
-                "requestedFields": requested_fields,
-                "requestedCustomFieldIds": custom_fields,
-                "fileSizeKbLimit": 100000,
-                "includeInactive": include_inactive
-               }
+            "dateChangedFrom": date_from,
+            "dateChangedTo": date_to,
+            "resourceType": resource_type,
+            "requestedFields": requested_fields,
+            "requestedCustomFieldIds": custom_fields,
+            "fileSizeKbLimit": 100000,
+            "includeInactive": include_inactive
+        }
 
-        r = self.connection.post_request(f'changedEntityExportJobs', json=json)
+        r = self.connection.post_request('changedEntityExportJobs', json=json)
 
         while True:
             status = self._get_changed_entity_job(r['exportJobId'])

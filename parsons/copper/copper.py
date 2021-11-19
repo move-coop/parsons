@@ -285,7 +285,7 @@ class Copper(object):
 
         # Unpack all list columns
         if len(list_cols) > 0:
-            for l in list_cols:
+            for l in list_cols:  # noqa E741
                 # Check for nested data
                 list_rows = obj_table.select_rows(
                     lambda row: isinstance(row[l], list)

@@ -410,7 +410,7 @@
 <span class="sd">                See :ref:`parsons-table` for output options.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
-        <span class="n">tbl</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_request</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;report/webinars/</span><span class="si">{</span><span class="n">webinar_id</span><span class="si">}</span><span class="s1">/registrants&#39;</span><span class="p">,</span> <span class="s1">&#39;registrants&#39;</span><span class="p">)</span>
+        <span class="n">tbl</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_request</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;webinars/</span><span class="si">{</span><span class="n">webinar_id</span><span class="si">}</span><span class="s1">/registrants&#39;</span><span class="p">,</span> <span class="s1">&#39;registrants&#39;</span><span class="p">)</span>
         <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Retrieved </span><span class="si">{</span><span class="n">tbl</span><span class="o">.</span><span class="n">num_rows</span><span class="si">}</span><span class="s1"> webinar registrants.&#39;</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">tbl</span></div></div>
 </pre></div>

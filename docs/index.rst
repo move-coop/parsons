@@ -177,6 +177,7 @@ Indices and tables
    box
    braintree
    civis
+   controlshift
    copper
    crowdtangle
    databases

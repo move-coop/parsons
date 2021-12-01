@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Utilities &mdash; Parsons 0.5 documentation</title>
+  <title>Controlshift &mdash; Parsons 0.5 documentation</title>
   
 
   
@@ -28,8 +28,8 @@
   <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="Contributing to Parsons" href="contributing.html" />
-    <link rel="prev" title="Notifications" href="notifications.html" /> 
+    <link rel="next" title="Copper" href="copper.html" />
+    <link rel="prev" title="Civis" href="civis.html" /> 
 
   
   <script src="_static/js/modernizr.min.js"></script>
@@ -79,7 +79,7 @@
             
             
               <p class="caption"><span class="caption-text">Integrations</span></p>
-<ul>
+<ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="action_kit.html">ActionKit</a></li>
 <li class="toctree-l1"><a class="reference internal" href="action_network.html">Action Network</a></li>
 <li class="toctree-l1"><a class="reference internal" href="airtable.html">Airtable</a></li>
@@ -92,7 +92,12 @@
 <li class="toctree-l1"><a class="reference internal" href="box.html">Box</a></li>
 <li class="toctree-l1"><a class="reference internal" href="braintree.html">Braintree</a></li>
 <li class="toctree-l1"><a class="reference internal" href="civis.html">Civis</a></li>
-<li class="toctree-l1"><a class="reference internal" href="controlshift.html">Controlshift</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Controlshift</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#overview">Overview</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#quickstart">Quickstart</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#controlshift-class">Controlshift Class</a></li>
+</ul>
+</li>
 <li class="toctree-l1"><a class="reference internal" href="copper.html">Copper</a></li>
 <li class="toctree-l1"><a class="reference internal" href="crowdtangle.html">CrowdTangle</a></li>
 <li class="toctree-l1"><a class="reference internal" href="databases.html">Databases</a></li>
@@ -123,14 +128,11 @@
 <li class="toctree-l1"><a class="reference internal" href="census_geocoder.html">US Census Geocoder</a></li>
 </ul>
 <p class="caption"><span class="caption-text">Framework</span></p>
-<ul class="current">
+<ul>
 <li class="toctree-l1"><a class="reference internal" href="dbsync.html">Database Sync</a></li>
 <li class="toctree-l1"><a class="reference internal" href="table.html">Parsons Table</a></li>
 <li class="toctree-l1"><a class="reference internal" href="notifications.html">Notifications</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="#">Utilities</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#id1">Cloud Storage</a></li>
-</ul>
-</li>
+<li class="toctree-l1"><a class="reference internal" href="utilities.html">Utilities</a></li>
 </ul>
 <p class="caption"><span class="caption-text">Contributor Documentation</span></p>
 <ul>
@@ -182,13 +184,13 @@
     
       <li><a href="index.html">Docs</a> &raquo;</li>
         
-      <li>Utilities</li>
+      <li>Controlshift</li>
     
     
       <li class="wy-breadcrumbs-aside">
         
             
-            <a href="_sources/utilities.rst.txt" rel="nofollow"> View page source</a>
+            <a href="_sources/controlshift.rst.txt" rel="nofollow"> View page source</a>
           
         
       </li>
@@ -201,86 +203,39 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <div class="section" id="utilities">
-<h1>Utilities<a class="headerlink" href="#utilities" title="Permalink to this headline">¶</a></h1>
-<div class="section" id="id1">
-<h2>Cloud Storage<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h2>
-<p>The Parsons cloud storage utility was created to interact with APIs that require access to files
-to run an asynchronous process.</p>
-<p>The cloud storage utility is currently being utilitized primarily by the NGPVAN class
-methods such as <a class="reference internal" href="ngpvan.html#parsons.ngpvan.van.Scores.upload_scores" title="parsons.ngpvan.van.Scores.upload_scores"><code class="xref py py-func docutils literal notranslate"><span class="pre">upload_scores()</span></code></a> and
-<a class="reference internal" href="ngpvan.html#parsons.ngpvan.van.SavedLists.upload_saved_list" title="parsons.ngpvan.van.SavedLists.upload_saved_list"><code class="xref py py-func docutils literal notranslate"><span class="pre">upload_saved_list()</span></code></a>.</p>
-<p>These methods have arguments specific their method, but all also contain the following cloud
-storage arguments:</p>
-<ul class="simple">
-<li><code class="docutils literal notranslate"><span class="pre">url_type</span></code> - The type of cloud storage to utilize. Currently <code class="docutils literal notranslate"><span class="pre">S3</span></code> or <code class="docutils literal notranslate"><span class="pre">GCS</span></code>.</li>
-<li><code class="docutils literal notranslate"><span class="pre">**url_kwargs</span></code> - These are arguments specific to the cloud storage type in order to initialize. They
-are listed below based on the url type.</li>
-</ul>
-<p>The file will then be converted to a CSV, compressed and posted to the cloud storage. A presigned url will
-be generated and active by default for 60 minutes, but you can adjust the time.</p>
-<p><strong>Amazon S3</strong></p>
-<p>Below are the required and optional arguments utilizing Amazon S3 as the cloud storage service:</p>
-<table border="1" class="colwidths-given docutils">
-<colgroup>
-<col width="17%" />
-<col width="17%" />
-<col width="67%" />
-</colgroup>
-<thead valign="bottom">
-<tr class="row-odd"><th class="head">Argument</th>
-<th class="head">Required</th>
-<th class="head">Description</th>
-</tr>
-</thead>
-<tbody valign="top">
-<tr class="row-even"><td><code class="docutils literal notranslate"><span class="pre">bucket</span></code></td>
-<td>Yes</td>
-<td>The S3 bucket to post the file</td>
-</tr>
-<tr class="row-odd"><td><code class="docutils literal notranslate"><span class="pre">aws_access_key</span></code></td>
-<td>No</td>
-<td>Required if <code class="docutils literal notranslate"><span class="pre">AWS_ACCESS_KEY_ID</span></code> env variable not set.</td>
-</tr>
-<tr class="row-even"><td><code class="docutils literal notranslate"><span class="pre">aws_secret_access_key</span></code></td>
-<td>No</td>
-<td>Required if <code class="docutils literal notranslate"><span class="pre">AWS_SECRET_ACCESS_KEY</span></code> env variable not set.</td>
-</tr>
-<tr class="row-odd"><td><code class="docutils literal notranslate"><span class="pre">public_url_expires</span></code></td>
-<td>No</td>
-<td>Defaults is 60 minutes.</td>
-</tr>
-</tbody>
-</table>
-<p><strong>Google Cloud Storage</strong></p>
-<p>Below are the required and optional arguments utilizing Google Cloud Storage as the cloud storage service:</p>
-<table border="1" class="colwidths-given docutils">
-<colgroup>
-<col width="17%" />
-<col width="17%" />
-<col width="67%" />
-</colgroup>
-<thead valign="bottom">
-<tr class="row-odd"><th class="head">Argument</th>
-<th class="head">Required</th>
-<th class="head">Description</th>
-</tr>
-</thead>
-<tbody valign="top">
-<tr class="row-even"><td><code class="docutils literal notranslate"><span class="pre">bucket</span></code></td>
-<td>Yes</td>
-<td>The S3 bucket to post the file</td>
-</tr>
-<tr class="row-odd"><td><code class="docutils literal notranslate"><span class="pre">app_creds</span></code></td>
-<td>No</td>
-<td>Required if <code class="docutils literal notranslate"><span class="pre">GOOGLE_APPLICATION_CREDENTIALS</span></code> env variable not set.</td>
-</tr>
-<tr class="row-even"><td><code class="docutils literal notranslate"><span class="pre">public_url_expire</span></code></td>
-<td>No</td>
-<td>Defaults is 60 minutes.</td>
-</tr>
-</tbody>
-</table>
+  <div class="section" id="controlshift">
+<h1>Controlshift<a class="headerlink" href="#controlshift" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="overview">
+<h2>Overview<a class="headerlink" href="#overview" title="Permalink to this headline">¶</a></h2>
+<p>Controlshift is a platform for creating campaigns with distributed events, local groups, and member-led petitions. This connector allows you to interact with select functions of the the <a class="reference external" href="https://developers.controlshiftlabs.com/#authenticated-rest-api/">Controlshift Authenticated REST API</a> .</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<dl class="last docutils">
+<dt>Authentication</dt>
+<dd>An API Application Integration is required to instantiate the <code class="docutils literal notranslate"><span class="pre">Controlshift</span></code> class.
+Details on how to create the integration and acquire credentials can be found <a class="reference external" href="https://developers.controlshiftlabs.com/#authenticated-rest-api-quickstart-guide">on the Controlshift website</a>.</dd>
+</dl>
+</div>
+</div>
+<div class="section" id="quickstart">
+<h2>Quickstart<a class="headerlink" href="#quickstart" title="Permalink to this headline">¶</a></h2>
+<p>To instantiate the Controlshift class, you can either store your credentials as environment
+variables (<code class="docutils literal notranslate"><span class="pre">CONTROLSHIFT_HOSTNAME</span></code>, <code class="docutils literal notranslate"><span class="pre">CONTROLSHIFT_CLIENT_ID</span></code>, and <code class="docutils literal notranslate"><span class="pre">CONTROLSHIFT_CLIENT_SECRET</span></code>) or pass them in as arguments:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">parsons</span> <span class="kn">import</span> <span class="n">Controlshift</span>
+
+<span class="c1"># First approach: Use API credentials via environmental variables</span>
+<span class="n">cs</span> <span class="o">=</span> <span class="n">Controlshift</span><span class="p">()</span>
+
+<span class="c1"># Second approach: Pass API credentials as arguments</span>
+<span class="n">cs</span> <span class="o">=</span> <span class="n">Controlshift</span><span class="p">(</span><span class="n">hostname</span><span class="o">=</span><span class="s1">&#39;my_hostname&#39;</span><span class="p">,</span> <span class="n">client_id</span><span class="o">=</span><span class="s1">&#39;my_client_id&#39;</span><span class="p">,</span> <span class="n">client_secret</span><span class="o">=</span><span class="s1">&#39;my_client_secret&#39;</span><span class="p">)</span>
+
+<span class="c1"># Get all petitions</span>
+<span class="n">cs</span><span class="o">.</span><span class="n">get_petitions</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="controlshift-class">
+<h2>Controlshift Class<a class="headerlink" href="#controlshift-class" title="Permalink to this headline">¶</a></h2>
 </div>
 </div>
 
@@ -292,10 +247,10 @@ be generated and active by default for 60 minutes, but you can adjust the time.<
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="contributing.html" class="btn btn-neutral float-right" title="Contributing to Parsons" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="copper.html" class="btn btn-neutral float-right" title="Copper" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="notifications.html" class="btn btn-neutral" title="Notifications" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="civis.html" class="btn btn-neutral" title="Civis" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   

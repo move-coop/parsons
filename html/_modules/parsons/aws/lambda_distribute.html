@@ -90,6 +90,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../../../box.html">Box</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../braintree.html">Braintree</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../civis.html">Civis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../controlshift.html">Controlshift</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../copper.html">Copper</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../crowdtangle.html">CrowdTangle</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../databases.html">Databases</a></li>
@@ -366,7 +367,7 @@
 <span class="sd">        depending on how this method is invoked.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">if</span> <span class="n">storage</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">(</span><span class="s1">&#39;s3&#39;</span><span class="p">,</span> <span class="s1">&#39;local&#39;</span><span class="p">):</span>
-        <span class="k">raise</span> <span class="n">DistributeTaskException</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;storage argument must be s3 or local&#39;</span><span class="p">)</span>
+        <span class="k">raise</span> <span class="n">DistributeTaskException</span><span class="p">(</span><span class="s1">&#39;storage argument must be s3 or local&#39;</span><span class="p">)</span>
     <span class="n">bucket</span> <span class="o">=</span> <span class="n">check</span><span class="p">(</span><span class="s1">&#39;S3_TEMP_BUCKET&#39;</span><span class="p">,</span> <span class="n">bucket</span><span class="p">)</span>
     <span class="n">csvdata</span> <span class="o">=</span> <span class="n">StringIO</span><span class="p">()</span>
     <span class="n">outcsv</span> <span class="o">=</span> <span class="n">csv</span><span class="o">.</span><span class="n">writer</span><span class="p">(</span><span class="n">csvdata</span><span class="p">)</span>

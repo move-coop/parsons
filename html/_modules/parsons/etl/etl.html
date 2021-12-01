@@ -90,6 +90,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../../../box.html">Box</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../braintree.html">Braintree</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../civis.html">Civis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../controlshift.html">Controlshift</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../copper.html">Copper</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../crowdtangle.html">CrowdTangle</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../databases.html">Databases</a></li>
@@ -323,13 +324,13 @@
 <span class="sd">        method. Example usage can be found `here &lt;https://petl.readthedocs.io/en/v0.24/transform.html#petl.convert&gt;`_.</span>
 
 <span class="sd">        `Args:`</span>
-<span class="sd">            \*column: str</span>
+<span class="sd">            *column: str</span>
 <span class="sd">                A single column or multiple columns passed as a list</span>
-<span class="sd">            \**kwargs: str, method or variable</span>
+<span class="sd">            **kwargs: str, method or variable</span>
 <span class="sd">                The update function, method, or variable to process the update</span>
 <span class="sd">        `Returns:`</span>
 <span class="sd">            `Parsons Table` and also updates self</span>
-<span class="sd">        &quot;&quot;&quot;</span> <span class="c1"># noqa: E501,E261</span>
+<span class="sd">        &quot;&quot;&quot;</span>  <span class="c1"># noqa: E501,E261</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">table</span> <span class="o">=</span> <span class="n">petl</span><span class="o">.</span><span class="n">convert</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">table</span><span class="p">,</span> <span class="o">*</span><span class="n">column</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
 
@@ -1257,9 +1258,9 @@
 <span class="sd">            to_petl: bool</span>
 <span class="sd">                If ``True``, returns a petl table, otherwise a ``parsons.Table``.</span>
 <span class="sd">                Defaults to ``False``.</span>
-<span class="sd">            \*args: Any</span>
+<span class="sd">            *args: Any</span>
 <span class="sd">                The arguements to pass to the petl function.</span>
-<span class="sd">            \**kwargs: Any</span>
+<span class="sd">            **kwargs: Any</span>
 <span class="sd">                The keyword arguements to pass to the petl function.</span>
 <span class="sd">        `Returns:`</span>
 <span class="sd">            `parsons.Table` or `petl` table</span>

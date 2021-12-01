@@ -90,6 +90,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../../../box.html">Box</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../braintree.html">Braintree</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../civis.html">Civis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../controlshift.html">Controlshift</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../copper.html">Copper</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../crowdtangle.html">CrowdTangle</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../databases.html">Databases</a></li>
@@ -367,7 +368,7 @@
         <span class="k">if</span> <span class="n">last_modified</span><span class="p">:</span>
             <span class="n">params</span><span class="p">[</span><span class="s2">&quot;lastModified&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">last_modified</span>
 
-        <span class="n">response</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_base_get</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;constituents&#39;</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="n">params</span><span class="p">)</span>
+        <span class="n">response</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_base_get</span><span class="p">(</span><span class="s1">&#39;constituents&#39;</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="n">params</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">Table</span><span class="p">(</span><span class="n">response</span><span class="p">[</span><span class="s1">&#39;Results&#39;</span><span class="p">])</span></div>
 
 <div class="viewcode-block" id="Bloomerang.create_transaction"><a class="viewcode-back" href="../../../bloomerang.html#parsons.Bloomerang.create_transaction">[docs]</a>    <span class="k">def</span> <span class="nf">create_transaction</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
@@ -427,7 +428,7 @@
         <span class="n">params</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_base_pagination_params</span><span class="p">(</span><span class="n">page_number</span><span class="p">,</span> <span class="n">page_size</span><span class="p">)</span>
         <span class="n">params</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_base_ordering_params</span><span class="p">(</span><span class="n">order_by</span><span class="p">,</span> <span class="n">order_direction</span><span class="p">))</span>
 
-        <span class="n">response</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_base_get</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;transactions&#39;</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="n">params</span><span class="p">)</span>
+        <span class="n">response</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_base_get</span><span class="p">(</span><span class="s1">&#39;transactions&#39;</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="n">params</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">Table</span><span class="p">(</span><span class="n">response</span><span class="p">[</span><span class="s1">&#39;Results&#39;</span><span class="p">])</span></div>
 
 <div class="viewcode-block" id="Bloomerang.get_transaction_designation"><a class="viewcode-back" href="../../../bloomerang.html#parsons.Bloomerang.get_transaction_designation">[docs]</a>    <span class="k">def</span> <span class="nf">get_transaction_designation</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">designation_id</span><span class="p">):</span>
@@ -458,7 +459,7 @@
         <span class="n">params</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_base_pagination_params</span><span class="p">(</span><span class="n">page_number</span><span class="p">,</span> <span class="n">page_size</span><span class="p">)</span>
         <span class="n">params</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_base_ordering_params</span><span class="p">(</span><span class="n">order_by</span><span class="p">,</span> <span class="n">order_direction</span><span class="p">))</span>
 
-        <span class="n">response</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_base_get</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;transactions/designations&#39;</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="n">params</span><span class="p">)</span>
+        <span class="n">response</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_base_get</span><span class="p">(</span><span class="s1">&#39;transactions/designations&#39;</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="n">params</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">Table</span><span class="p">(</span><span class="n">response</span><span class="p">[</span><span class="s1">&#39;Results&#39;</span><span class="p">])</span></div>
 
 <div class="viewcode-block" id="Bloomerang.create_interaction"><a class="viewcode-back" href="../../../bloomerang.html#parsons.Bloomerang.create_interaction">[docs]</a>    <span class="k">def</span> <span class="nf">create_interaction</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
@@ -512,7 +513,7 @@
 <span class="sd">            A  JSON of the entry or an error.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">params</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_base_pagination_params</span><span class="p">(</span><span class="n">page_number</span><span class="p">,</span> <span class="n">page_size</span><span class="p">)</span>
-        <span class="n">response</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_base_get</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;interactions&#39;</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="n">params</span><span class="p">)</span>
+        <span class="n">response</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_base_get</span><span class="p">(</span><span class="s1">&#39;interactions&#39;</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="n">params</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">Table</span><span class="p">(</span><span class="n">response</span><span class="p">[</span><span class="s1">&#39;Results&#39;</span><span class="p">])</span></div></div>
 </pre></div>
 

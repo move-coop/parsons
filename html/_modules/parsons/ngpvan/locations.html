@@ -90,6 +90,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../../../box.html">Box</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../braintree.html">Braintree</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../civis.html">Civis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../controlshift.html">Controlshift</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../copper.html">Copper</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../crowdtangle.html">CrowdTangle</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../databases.html">Databases</a></li>
@@ -271,7 +272,7 @@
                         <span class="s1">&#39;zipOrPostalCode&#39;</span><span class="p">:</span> <span class="n">zip_code</span>
                     <span class="p">}}</span>
 
-        <span class="n">r</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">connection</span><span class="o">.</span><span class="n">post_request</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;locations/findOrCreate&#39;</span><span class="p">,</span> <span class="n">json</span><span class="o">=</span><span class="n">location</span><span class="p">)</span>
+        <span class="n">r</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">connection</span><span class="o">.</span><span class="n">post_request</span><span class="p">(</span><span class="s1">&#39;locations/findOrCreate&#39;</span><span class="p">,</span> <span class="n">json</span><span class="o">=</span><span class="n">location</span><span class="p">)</span>
         <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Location </span><span class="si">{</span><span class="n">r</span><span class="si">}</span><span class="s1"> created.&#39;</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">r</span></div>
 

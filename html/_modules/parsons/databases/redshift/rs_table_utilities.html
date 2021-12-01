@@ -90,6 +90,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../../../../box.html">Box</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../../braintree.html">Braintree</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../../civis.html">Civis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../controlshift.html">Controlshift</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../../copper.html">Copper</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../../crowdtangle.html">CrowdTangle</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../../databases.html">Databases</a></li>
@@ -498,10 +499,10 @@
 <span class="sd">                See :ref:`parsons-table` for output options.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
-        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Retrieving tables info.&quot;</span><span class="p">)</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Retrieving tables info.&quot;</span><span class="p">)</span>
         <span class="n">sql</span> <span class="o">=</span> <span class="s2">&quot;select * from pg_tables&quot;</span>
         <span class="k">if</span> <span class="n">schema</span> <span class="ow">or</span> <span class="n">table_name</span><span class="p">:</span>
-            <span class="n">sql</span> <span class="o">+=</span> <span class="sa">f</span><span class="s2">&quot; where&quot;</span>
+            <span class="n">sql</span> <span class="o">+=</span> <span class="s2">&quot; where&quot;</span>
         <span class="k">if</span> <span class="n">schema</span><span class="p">:</span>
             <span class="n">sql</span> <span class="o">+=</span> <span class="sa">f</span><span class="s2">&quot; schemaname = &#39;</span><span class="si">{</span><span class="n">schema</span><span class="si">}</span><span class="s2">&#39;&quot;</span>
         <span class="k">if</span> <span class="n">table_name</span><span class="p">:</span>
@@ -527,10 +528,10 @@
 <span class="sd">                See :ref:`parsons-table` for output options.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
-        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Retrieving table statistics.&quot;</span><span class="p">)</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Retrieving table statistics.&quot;</span><span class="p">)</span>
         <span class="n">sql</span> <span class="o">=</span> <span class="s2">&quot;select * from svv_table_info&quot;</span>
         <span class="k">if</span> <span class="n">schema</span> <span class="ow">or</span> <span class="n">table_name</span><span class="p">:</span>
-            <span class="n">sql</span> <span class="o">+=</span> <span class="sa">f</span><span class="s2">&quot; where&quot;</span>
+            <span class="n">sql</span> <span class="o">+=</span> <span class="s2">&quot; where&quot;</span>
         <span class="k">if</span> <span class="n">schema</span><span class="p">:</span>
             <span class="n">sql</span> <span class="o">+=</span> <span class="sa">f</span><span class="s2">&quot; schema = &#39;</span><span class="si">{</span><span class="n">schema</span><span class="si">}</span><span class="s2">&#39;&quot;</span>
         <span class="k">if</span> <span class="n">table_name</span><span class="p">:</span>
@@ -627,7 +628,7 @@
 <span class="sd">                See :ref:`parsons-table` for output options.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
-        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Retrieving views info.&quot;</span><span class="p">)</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Retrieving views info.&quot;</span><span class="p">)</span>
         <span class="n">sql</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;</span>
 <span class="s2">              select table_schema as schema_name,</span>
 <span class="s2">              table_name as view_name,</span>

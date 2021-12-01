@@ -90,6 +90,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../../../box.html">Box</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../braintree.html">Braintree</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../civis.html">Civis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../controlshift.html">Controlshift</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../copper.html">Copper</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../crowdtangle.html">CrowdTangle</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../databases.html">Databases</a></li>
@@ -273,7 +274,7 @@
             <span class="n">xml</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">create_job_xml</span><span class="p">(</span><span class="n">job_type</span><span class="p">,</span> <span class="n">job_name</span><span class="p">,</span> <span class="n">emails</span><span class="o">=</span><span class="n">emails</span><span class="p">,</span>
                                       <span class="n">status_key</span><span class="o">=</span><span class="n">job_name</span><span class="p">,</span> <span class="n">call_back</span><span class="o">=</span><span class="n">call_back</span><span class="p">)</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">sftp</span><span class="o">.</span><span class="n">put_file</span><span class="p">(</span><span class="n">xml</span><span class="p">,</span> <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">sftp_dir</span><span class="si">}</span><span class="s1">/</span><span class="si">{</span><span class="n">job_name</span><span class="si">}</span><span class="s1">.job.xml&#39;</span><span class="p">)</span>
-            <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Match configuration uploaded to TargetSmart.&#39;</span><span class="p">)</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s1">&#39;Match configuration uploaded to TargetSmart.&#39;</span><span class="p">)</span>
 
             <span class="c1"># Check xml configuration status</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">poll_config_status</span><span class="p">(</span><span class="n">job_name</span><span class="p">)</span>

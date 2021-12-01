@@ -90,6 +90,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../../../box.html">Box</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../braintree.html">Braintree</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../civis.html">Civis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../controlshift.html">Controlshift</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../copper.html">Copper</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../crowdtangle.html">CrowdTangle</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../databases.html">Databases</a></li>
@@ -219,7 +220,7 @@
 <span class="sd">            list</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
-        <span class="n">r</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">connection</span><span class="o">.</span><span class="n">get_request</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;changedEntityExportJobs/resources&#39;</span><span class="p">)</span>
+        <span class="n">r</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">connection</span><span class="o">.</span><span class="n">get_request</span><span class="p">(</span><span class="s1">&#39;changedEntityExportJobs/resources&#39;</span><span class="p">)</span>
         <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Found </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">r</span><span class="p">)</span><span class="si">}</span><span class="s1"> changed entity resources.&#39;</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">r</span></div>
 
@@ -268,16 +269,16 @@
 <span class="sd">        &quot;&quot;&quot;</span>  <span class="c1"># noqa: E501</span>
 
         <span class="n">json</span> <span class="o">=</span> <span class="p">{</span>
-                <span class="s2">&quot;dateChangedFrom&quot;</span><span class="p">:</span> <span class="n">date_from</span><span class="p">,</span>
-                <span class="s2">&quot;dateChangedTo&quot;</span><span class="p">:</span> <span class="n">date_to</span><span class="p">,</span>
-                <span class="s2">&quot;resourceType&quot;</span><span class="p">:</span> <span class="n">resource_type</span><span class="p">,</span>
-                <span class="s2">&quot;requestedFields&quot;</span><span class="p">:</span> <span class="n">requested_fields</span><span class="p">,</span>
-                <span class="s2">&quot;requestedCustomFieldIds&quot;</span><span class="p">:</span> <span class="n">custom_fields</span><span class="p">,</span>
-                <span class="s2">&quot;fileSizeKbLimit&quot;</span><span class="p">:</span> <span class="mi">100000</span><span class="p">,</span>
-                <span class="s2">&quot;includeInactive&quot;</span><span class="p">:</span> <span class="n">include_inactive</span>
-               <span class="p">}</span>
+            <span class="s2">&quot;dateChangedFrom&quot;</span><span class="p">:</span> <span class="n">date_from</span><span class="p">,</span>
+            <span class="s2">&quot;dateChangedTo&quot;</span><span class="p">:</span> <span class="n">date_to</span><span class="p">,</span>
+            <span class="s2">&quot;resourceType&quot;</span><span class="p">:</span> <span class="n">resource_type</span><span class="p">,</span>
+            <span class="s2">&quot;requestedFields&quot;</span><span class="p">:</span> <span class="n">requested_fields</span><span class="p">,</span>
+            <span class="s2">&quot;requestedCustomFieldIds&quot;</span><span class="p">:</span> <span class="n">custom_fields</span><span class="p">,</span>
+            <span class="s2">&quot;fileSizeKbLimit&quot;</span><span class="p">:</span> <span class="mi">100000</span><span class="p">,</span>
+            <span class="s2">&quot;includeInactive&quot;</span><span class="p">:</span> <span class="n">include_inactive</span>
+        <span class="p">}</span>
 
-        <span class="n">r</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">connection</span><span class="o">.</span><span class="n">post_request</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;changedEntityExportJobs&#39;</span><span class="p">,</span> <span class="n">json</span><span class="o">=</span><span class="n">json</span><span class="p">)</span>
+        <span class="n">r</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">connection</span><span class="o">.</span><span class="n">post_request</span><span class="p">(</span><span class="s1">&#39;changedEntityExportJobs&#39;</span><span class="p">,</span> <span class="n">json</span><span class="o">=</span><span class="n">json</span><span class="p">)</span>
 
         <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
             <span class="n">status</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_changed_entity_job</span><span class="p">(</span><span class="n">r</span><span class="p">[</span><span class="s1">&#39;exportJobId&#39;</span><span class="p">])</span>

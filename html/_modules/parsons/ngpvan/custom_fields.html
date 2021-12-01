@@ -90,6 +90,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../../../box.html">Box</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../braintree.html">Braintree</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../civis.html">Civis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../controlshift.html">Controlshift</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../copper.html">Copper</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../crowdtangle.html">CrowdTangle</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../databases.html">Databases</a></li>
@@ -243,7 +244,7 @@
         <span class="c1"># Some custom fields do no have associated values. If this is the case then</span>
         <span class="c1"># we should return an empty Table, but with the expected columns.</span>
         <span class="k">if</span> <span class="n">tbl</span><span class="o">.</span><span class="n">get_column_types</span><span class="p">(</span><span class="s1">&#39;availableValues&#39;</span><span class="p">)</span> <span class="o">==</span> <span class="p">[</span><span class="s1">&#39;NoneType&#39;</span><span class="p">]:</span>
-            <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Found 0 custom field values.&#39;</span><span class="p">)</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s1">&#39;Found 0 custom field values.&#39;</span><span class="p">)</span>
             <span class="k">return</span> <span class="n">Table</span><span class="p">([{</span><span class="s1">&#39;customFieldId&#39;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span>
                            <span class="s1">&#39;id&#39;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span>
                            <span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span>

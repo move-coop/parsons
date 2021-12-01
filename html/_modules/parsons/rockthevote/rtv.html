@@ -90,6 +90,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../../../box.html">Box</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../braintree.html">Braintree</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../civis.html">Civis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../controlshift.html">Controlshift</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../copper.html">Copper</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../crowdtangle.html">CrowdTangle</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../databases.html">Databases</a></li>
@@ -279,7 +280,7 @@
 <span class="sd">            int</span>
 <span class="sd">                The ID of the created report.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">report_url</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;registrant_reports.json&#39;</span>
+        <span class="n">report_url</span> <span class="o">=</span> <span class="s1">&#39;registrant_reports.json&#39;</span>
         <span class="c1"># Create the report for the new data</span>
         <span class="n">report_parameters</span> <span class="o">=</span> <span class="p">{</span>
             <span class="s1">&#39;partner_id&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">partner_id</span><span class="p">,</span>
@@ -361,8 +362,8 @@
         <span class="c1"># report. Otherwise, as long as we haven&#39;t run out of time, we will</span>
         <span class="c1"># check the status.</span>
         <span class="k">while</span> <span class="ow">not</span> <span class="n">download_url</span> <span class="ow">and</span> <span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span> <span class="o">&lt;</span> <span class="n">end_time</span><span class="p">:</span>
-            <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Registrations report not ready yet, sleeping %s seconds&#39;</span><span class="p">,</span>
-                         <span class="n">poll_interval_seconds</span><span class="p">)</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s1">&#39;Registrations report not ready yet, sleeping </span><span class="si">{</span><span class="n">poll_interval_seconds</span><span class="si">}</span><span class="s1"> seconds&#39;</span><span class="p">)</span>
 
             <span class="c1"># Check the status again via the status endpoint</span>
             <span class="n">status_response</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">request</span><span class="p">(</span><span class="n">status_url</span><span class="p">,</span> <span class="s1">&#39;get&#39;</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="n">credentials</span><span class="p">)</span>
@@ -469,7 +470,7 @@
 <span class="sd">            Parsons.Table</span>
 <span class="sd">                A single row table with the response json</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">requirements_url</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;state_requirements.json&#39;</span>
+        <span class="n">requirements_url</span> <span class="o">=</span> <span class="s1">&#39;state_requirements.json&#39;</span>
 
         <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Getting the requirements for </span><span class="si">{</span><span class="n">home_state_id</span><span class="si">}</span><span class="s2">...&quot;</span><span class="p">)</span>
 

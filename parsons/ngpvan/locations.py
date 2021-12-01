@@ -75,7 +75,7 @@ class Locations(object):
                         'zipOrPostalCode': zip_code
                     }}
 
-        r = self.connection.post_request(f'locations/findOrCreate', json=location)
+        r = self.connection.post_request('locations/findOrCreate', json=location)
         logger.info(f'Location {r} created.')
         return r
 

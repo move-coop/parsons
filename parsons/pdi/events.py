@@ -44,6 +44,11 @@ class Events:
                 An optional contact email for the host. Defaults to None
             website: str
                 An optional website for the event. Defualts to None
+
+        `Returns:`
+            dict
+                Response from PDI in dictionary object
+
             """
 
         payload = {
@@ -109,6 +114,9 @@ class Events:
                         An optional website for the event. Defualts to None
                     signup_goal: int
                         The goal of how many people you want to complete the activity
+                `Returns:`
+                    dict
+                        Response from PDI in dictionary object
                     """
         event_data = self.create_event(calendar_id, location_id, event_name, start_datetime,
                                        end_datetime, description, all_day, recurrencetype,
@@ -168,6 +176,11 @@ class Events:
                         yyyy-MM-ddThh:mm:ss.fffZ
                     signup_goal: int
                         The goal of how many people you want to complete the activity
+
+
+                `Returns:`
+                    dict
+                        Response from PDI in dictionary object
                     """
 
         event_activity_payload = {

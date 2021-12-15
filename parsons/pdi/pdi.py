@@ -3,6 +3,7 @@ from parsons.pdi.flags import Flags
 from parsons.pdi.universes import Universes
 from parsons.pdi.questions import Questions
 from parsons.pdi.acquisition_types import AcquisitionTypes
+from parsons.pdi.events import Events
 
 from parsons import Table
 from parsons.utilities import check_env
@@ -17,7 +18,7 @@ import requests
 logger = logging.getLogger(__name__)
 
 
-class PDI(FlagIDs, Universes, Questions, AcquisitionTypes, Flags):
+class PDI(FlagIDs, Universes, Questions, AcquisitionTypes, Flags, Events):
 
     def __init__(self, username=None, password=None, api_token=None,
                  qa_url=False):

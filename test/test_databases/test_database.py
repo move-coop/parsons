@@ -9,6 +9,12 @@ import pytest
 @pytest.fixture
 def dcs():
     db = DatabaseCreateStatement()
+    return db
+
+
+@pytest.fixture
+def dcs_bool():
+    db = DatabaseCreateStatement()
     db.DO_PARSE_BOOLS = True
     return db
 
@@ -80,8 +86,8 @@ def test_is_valid_sql_num(dcs, val, is_valid):
 
 @pytest.mark.parametrize(
     ("val", "cmp_type", "detected_type"),
-    ((2, None, SMALLINT),
-     (2, "", SMALLINT),
+    ((1, None, SMALLINT),
+     (1, "", SMALLINT),
      (1, MEDIUMINT, MEDIUMINT),
      (32769, None, MEDIUMINT),
      (32769, BIGINT, BIGINT),
@@ -89,14 +95,6 @@ def test_is_valid_sql_num(dcs, val, is_valid):
      (2147483648, FLOAT, FLOAT),
      (5.001, None, FLOAT),
      (5.001, "", FLOAT),
-     (2, BOOL, SMALLINT),
-     (True, None, BOOL),
-     (0, None, BOOL),
-     (1, None, BOOL),
-     (1, BOOL, BOOL),
-     ("F", None, BOOL),
-     ("FALSE", None, BOOL),
-     ("Yes", None, BOOL),
      ("FALSE", VARCHAR, VARCHAR),
      ("word", "", VARCHAR),
      ("word", INT, VARCHAR),
@@ -110,6 +108,24 @@ def test_is_valid_sql_num(dcs, val, is_valid):
      ))
 def test_detect_data_type(dcs, val, cmp_type, detected_type):
     assert dcs.detect_data_type(val, cmp_type) == detected_type
+
+
+@pytest.mark.parametrize(
+    ("val", "cmp_type", "detected_type"),
+    ((2, None, SMALLINT),
+     (2, "", SMALLINT),
+     (1, MEDIUMINT, MEDIUMINT),
+     (2, BOOL, SMALLINT),
+     (True, None, BOOL),
+     (0, None, BOOL),
+     (1, None, BOOL),
+     (1, BOOL, BOOL),
+     ("F", None, BOOL),
+     ("FALSE", None, BOOL),
+     ("Yes", None, BOOL)
+     ))
+def test_detect_data_type_bools(dcs_bool, val, cmp_type, detected_type):
+    assert dcs_bool.detect_data_type(val, cmp_type) == detected_type
 
 
 @pytest.mark.parametrize(

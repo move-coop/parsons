@@ -171,7 +171,7 @@ class Events(object):
                  }
 
         if location_ids:
-            event['locations'] = [{'locationId': l} for l in location_ids],
+            event['locations'] = [{'locationId': l} for l in location_ids],  # noqa E741
 
         if code_ids:
             event['codes'] = [{'codeID': c} for c in code_ids]

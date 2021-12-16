@@ -71,8 +71,8 @@ class TestRedshift(unittest.TestCase):
         self.assertEqual(self.rs.data_type(2147483648, ''), 'bigint')
         # Test varchar that looks like an int
         self.assertEqual(self.rs.data_type('00001', ''), 'varchar')
-        # Test a float as a decimal
-        self.assertEqual(self.rs.data_type(5.001, ''), 'decimal')
+        # Test a float as a float
+        self.assertEqual(self.rs.data_type(5.001, ''), 'float')
         # Test varchar
         self.assertEqual(self.rs.data_type('word', ''), 'varchar')
         # Test int with underscore
@@ -89,7 +89,7 @@ class TestRedshift(unittest.TestCase):
 
         self.assertEqual(
             self.mapping2['type_list'],
-            ['varchar', 'varchar', 'decimal', 'varchar', "decimal", "bool", "varchar"])
+            ['varchar', 'varchar', 'decimal', 'varchar', "float", "int", "bool", "varchar"])
         # Test correct lengths
         self.assertEqual(self.mapping['longest'], [1, 5])
 
@@ -118,6 +118,18 @@ class TestRedshift(unittest.TestCase):
         # Test the the statement is expected
         sql = self.rs.create_sql('tmc.test', self.mapping, distkey='ID')
         exp_sql = "create table tmc.test (\n  id int,\n  name varchar(5)) \ndistkey(ID) ;"
+        self.assertEqual(sql, exp_sql)
+
+    def test_compound_sortkey(self):
+        # check single sortkey formatting
+        sql = self.rs.create_sql('tmc.test', self.mapping, sortkey='ID')
+        exp_sql = "create table tmc.test (\n  id int,\n  name varchar(5)) \nsortkey(ID);"
+        self.assertEqual(sql, exp_sql)
+
+        # check compound sortkey formatting
+        sql = self.rs.create_sql('tmc.test', self.mapping, sortkey=['ID1', 'ID2'])
+        exp_sql = "create table tmc.test (\n  id int,\n  name varchar(5))"
+        exp_sql += " \ncompound sortkey(ID1, ID2);"
         self.assertEqual(sql, exp_sql)
 
     def test_column_validate(self):
@@ -161,7 +173,14 @@ class TestRedshift(unittest.TestCase):
         os.environ['AWS_ACCESS_KEY_ID'] = prior_aws_access_key_id
         os.environ['AWS_SECRET_ACCESS_KEY'] = prior_aws_secret_access_key
 
-    def test_copy_statement(self):
+    def scrub_copy_tokens(self, s):
+
+        s = re.sub('=.+;', '=*HIDDEN*;', s)
+        s = re.sub('aws_secret_access_key=.+\'',
+                   'aws_secret_access_key=*HIDDEN*\'', s)
+        return s
+
+    def test_copy_statement_default(self):
 
         sql = self.rs.copy_statement('test_schema.test', 'buck', 'file.csv',
                                      aws_access_key_id='abc123',
@@ -171,7 +190,7 @@ class TestRedshift(unittest.TestCase):
         # Scrub the keys
         sql = re.sub(r'id=.+;', '*id=HIDDEN*;', re.sub(r"key=.+'", "key=*HIDDEN*'", sql))
 
-        expected_options = ['statupdate', 'compupdate', 'ignoreheader 1', 'acceptanydate',
+        expected_options = ['ignoreheader 1', 'acceptanydate',
                             "dateformat 'auto'", "timeformat 'auto'", "csv delimiter ','",
                             "copy test_schema.test \nfrom 's3://buck/file.csv'",
                             "'aws_access_key_*id=HIDDEN*;aws_secret_access_key=*HIDDEN*'",
@@ -180,6 +199,74 @@ class TestRedshift(unittest.TestCase):
 
         # Check that all of the expected options are there:
         [self.assertNotEqual(sql.find(o), -1, o) for o in expected_options]
+
+    def test_copy_statement_statupdate(self):
+
+        sql = self.rs.copy_statement(
+            'test_schema.test', 'buck', 'file.csv',
+            aws_access_key_id='abc123', aws_secret_access_key='abc123', statupdate=True)
+
+        # Scrub the keys
+        sql = re.sub(r'id=.+;', '*id=HIDDEN*;', re.sub(r"key=.+'", "key=*HIDDEN*'", sql))
+
+        expected_options = ["statupdate on", 'ignoreheader 1', 'acceptanydate',
+                            "dateformat 'auto'", "timeformat 'auto'", "csv delimiter ','",
+                            "copy test_schema.test \nfrom 's3://buck/file.csv'",
+                            "'aws_access_key_*id=HIDDEN*;aws_secret_access_key=*HIDDEN*'",
+                            'emptyasnull', 'blanksasnull', 'acceptinvchars']
+
+        # Check that all of the expected options are there:
+        [self.assertNotEqual(sql.find(o), -1) for o in expected_options]
+
+        sql2 = self.rs.copy_statement(
+            'test_schema.test', 'buck', 'file.csv',
+            aws_access_key_id='abc123', aws_secret_access_key='abc123', statupdate=False)
+
+        # Scrub the keys
+        sql2 = re.sub(r'id=.+;', '*id=HIDDEN*;', re.sub(r"key=.+'", "key=*HIDDEN*'", sql2))
+
+        expected_options = ["statupdate off", 'ignoreheader 1', 'acceptanydate',
+                            "dateformat 'auto'", "timeformat 'auto'", "csv delimiter ','",
+                            "copy test_schema.test \nfrom 's3://buck/file.csv'",
+                            "'aws_access_key_*id=HIDDEN*;aws_secret_access_key=*HIDDEN*'",
+                            'emptyasnull', 'blanksasnull', 'acceptinvchars']
+
+        # Check that all of the expected options are there:
+        [self.assertNotEqual(sql2.find(o), -1) for o in expected_options]
+
+    def test_copy_statement_compupdate(self):
+
+        sql = self.rs.copy_statement(
+            'test_schema.test', 'buck', 'file.csv',
+            aws_access_key_id='abc123', aws_secret_access_key='abc123', compupdate=True)
+
+        # Scrub the keys
+        sql = re.sub(r'id=.+;', '*id=HIDDEN*;', re.sub(r"key=.+'", "key=*HIDDEN*'", sql))
+
+        expected_options = ["compupdate on", 'ignoreheader 1', 'acceptanydate',
+                            "dateformat 'auto'", "timeformat 'auto'", "csv delimiter ','",
+                            "copy test_schema.test \nfrom 's3://buck/file.csv'",
+                            "'aws_access_key_*id=HIDDEN*;aws_secret_access_key=*HIDDEN*'",
+                            'emptyasnull', 'blanksasnull', 'acceptinvchars']
+
+        # Check that all of the expected options are there:
+        [self.assertNotEqual(sql.find(o), -1) for o in expected_options]
+
+        sql2 = self.rs.copy_statement(
+            'test_schema.test', 'buck', 'file.csv',
+            aws_access_key_id='abc123', aws_secret_access_key='abc123', compupdate=False)
+
+        # Scrub the keys
+        sql2 = re.sub(r'id=.+;', '*id=HIDDEN*;', re.sub(r"key=.+'", "key=*HIDDEN*'", sql2))
+
+        expected_options = ["compupdate off", 'ignoreheader 1', 'acceptanydate',
+                            "dateformat 'auto'", "timeformat 'auto'", "csv delimiter ','",
+                            "copy test_schema.test \nfrom 's3://buck/file.csv'",
+                            "'aws_access_key_*id=HIDDEN*;aws_secret_access_key=*HIDDEN*'",
+                            'emptyasnull', 'blanksasnull', 'acceptinvchars']
+
+        # Check that all of the expected options are there:
+        [self.assertNotEqual(sql2.find(o), -1) for o in expected_options]
 
     def test_copy_statement_columns(self):
 
@@ -192,7 +279,7 @@ class TestRedshift(unittest.TestCase):
         # Scrub the keys
         sql = re.sub(r'id=.+;', '*id=HIDDEN*;', re.sub(r"key=.+'", "key=*HIDDEN*'", sql))
 
-        expected_options = ['statupdate', 'compupdate', 'ignoreheader 1', 'acceptanydate',
+        expected_options = ['ignoreheader 1', 'acceptanydate',
                             "dateformat 'auto'", "timeformat 'auto'", "csv delimiter ','",
                             "copy test_schema.test(a, b, c) \nfrom 's3://buck/file.csv'",
                             "'aws_access_key_*id=HIDDEN*;aws_secret_access_key=*HIDDEN*'",

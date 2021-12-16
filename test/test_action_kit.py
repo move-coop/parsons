@@ -276,6 +276,73 @@ class TestActionKit(unittest.TestCase):
             data=json.dumps({'email': 'test'})
         )
 
+    def test_get_mailer(self):
+        # Test get mailer
+        self.actionkit.get_mailer(123)
+        self.actionkit.conn.get.assert_called_with(
+            'https://domain.actionkit.com/rest/v1/mailer/123/',
+            params=None
+        )
+
+    def test_create_mailer(self):
+        # Test create mailer
+
+        # Mock resp and status code
+        resp_mock = mock.MagicMock()
+        type(resp_mock.post()).status_code = mock.PropertyMock(return_value=201)
+        self.actionkit.conn = resp_mock
+
+        self.actionkit.create_mailer(
+            fromline='test <test@test.com>', subjects=['test1', 'test2'], html='<p>test</p>'
+        )
+        self.actionkit.conn.post.assert_called_with(
+            'https://domain.actionkit.com/rest/v1/mailer/',
+            data=json.dumps({
+                'fromline': 'test <test@test.com>', 'subjects': ['test1', 'test2'],
+                'html': '<p>test</p>'
+            })
+        )
+
+    def test_rebuild_mailer(self):
+        # Test rebuild mailer
+
+        # Mock resp and status code
+        resp_mock = mock.MagicMock()
+        type(resp_mock.post()).status_code = mock.PropertyMock(return_value=201)
+        self.actionkit.conn = resp_mock
+
+        self.actionkit.rebuild_mailer(123)
+        self.actionkit.conn.post.assert_called_with(
+            'https://domain.actionkit.com/rest/v1/mailer/123/rebuild/',
+            data=json.dumps({})
+        )
+
+    def test_queue_mailer(self):
+        # Test queue mailer
+
+        # Mock resp and status code
+        resp_mock = mock.MagicMock()
+        type(resp_mock.post()).status_code = mock.PropertyMock(return_value=201)
+        self.actionkit.conn = resp_mock
+
+        self.actionkit.queue_mailer(123)
+        self.actionkit.conn.post.assert_called_with(
+            'https://domain.actionkit.com/rest/v1/mailer/123/queue/',
+            data=json.dumps({})
+        )
+
+    def test_update_order(self):
+        # Test update order
+
+        # Mock resp and status code
+        resp_mock = mock.MagicMock()
+        type(resp_mock.patch()).status_code = mock.PropertyMock(return_value=202)
+        self.actionkit.conn = resp_mock
+        self.actionkit.update_order(123, account='test')
+        self.actionkit.conn.patch.assert_called_with(
+            'https://domain.actionkit.com/rest/v1/order/123/', data=json.dumps({'account': 'test'})
+        )
+
     def test_get_page_followup(self):
         # Test get page followup
         self.actionkit.get_page_followup(123)
@@ -302,6 +369,39 @@ class TestActionKit(unittest.TestCase):
                 'page': '/rest/v1/eventsignuppage/123/',
                 'url': 'url'
             })
+        )
+
+    def test_get_survey_question(self):
+        # Test get survey question
+        self.actionkit.get_survey_question(123)
+        self.actionkit.conn.get.assert_called_with(
+            'https://domain.actionkit.com/rest/v1/surveyquestion/123/', params=None
+        )
+
+    def test_update_survey_question(self):
+        # Test update survey question
+
+        # Mock resp and status code
+        resp_mock = mock.MagicMock()
+        type(resp_mock.patch()).status_code = mock.PropertyMock(return_value=202)
+        self.actionkit.conn = resp_mock
+        self.actionkit.update_survey_question(123, question_html='test')
+        self.actionkit.conn.patch.assert_called_with(
+            'https://domain.actionkit.com/rest/v1/surveyquestion/123/',
+            data=json.dumps({'question_html': 'test'})
+        )
+
+    def test_update_transaction(self):
+        # Test update transaction
+
+        # Mock resp and status code
+        resp_mock = mock.MagicMock()
+        type(resp_mock.patch()).status_code = mock.PropertyMock(return_value=202)
+        self.actionkit.conn = resp_mock
+        self.actionkit.update_transaction(123, account='test')
+        self.actionkit.conn.patch.assert_called_with(
+            'https://domain.actionkit.com/rest/v1/transaction/123/',
+            data=json.dumps({'account': 'test'})
         )
 
     def test_create_generic_action(self):

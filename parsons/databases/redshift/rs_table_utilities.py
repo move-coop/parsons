@@ -1,4 +1,5 @@
 import logging
+# import pkgutil
 
 logger = logging.getLogger(__name__)
 
@@ -301,10 +302,10 @@ class RedshiftTableUtilities(object):
                 See :ref:`parsons-table` for output options.
         """
 
-        logger.info(f"Retrieving tables info.")
+        logger.info("Retrieving tables info.")
         sql = "select * from pg_tables"
         if schema or table_name:
-            sql += f" where"
+            sql += " where"
         if schema:
             sql += f" schemaname = '{schema}'"
         if table_name:
@@ -330,10 +331,10 @@ class RedshiftTableUtilities(object):
                 See :ref:`parsons-table` for output options.
         """
 
-        logger.info(f"Retrieving table statistics.")
+        logger.info("Retrieving table statistics.")
         sql = "select * from svv_table_info"
         if schema or table_name:
-            sql += f" where"
+            sql += " where"
         if schema:
             sql += f" schema = '{schema}'"
         if table_name:
@@ -430,7 +431,7 @@ class RedshiftTableUtilities(object):
                 See :ref:`parsons-table` for output options.
         """
 
-        logger.info(f"Retrieving views info.")
+        logger.info("Retrieving views info.")
         sql = """
               select table_schema as schema_name,
               table_name as view_name,
@@ -627,6 +628,8 @@ class RedshiftTableUtilities(object):
         conditions_str = ' and '.join(conditions)
         where_clause = f"where {conditions_str}" if conditions_str else ''
 
+        # ddl_query = pkgutil.get_data(
+        #     __name__, "queries/v_generate_tbl_ddl.sql").decode()
         sql_get_ddl = f"""
             select *
             from admin.v_generate_tbl_ddl
@@ -700,6 +703,8 @@ class RedshiftTableUtilities(object):
         conditions_str = ' and '.join(conditions)
         where_clause = f"where {conditions_str}" if conditions_str else ''
 
+        # ddl_query = pkgutil.get_data(
+        #     __name__, "queries/v_generate_view_ddl.sql").decode()
         sql_get_ddl = f"""
             select schemaname || '.' || viewname as viewname, ddl
             from admin.v_generate_view_ddl g

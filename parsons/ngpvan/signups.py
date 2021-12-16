@@ -121,7 +121,7 @@ class Signups(object):
                   }
 
         r = self.connection.post_request('signups', json=signup)
-        logger.info('Signup {r} created.')
+        logger.info(f'Signup {r} created.')
         return r
 
     def update_signup(self, event_signup_id, shift_id=None, role_id=None, status_id=None,

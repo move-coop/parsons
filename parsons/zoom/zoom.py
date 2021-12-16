@@ -214,6 +214,6 @@ class Zoom:
                 See :ref:`parsons-table` for output options.
         """
 
-        tbl = self._get_request(f'report/webinars/{webinar_id}/registrants', 'registrants')
+        tbl = self._get_request(f'webinars/{webinar_id}/registrants', 'registrants')
         logger.info(f'Retrieved {tbl.num_rows} webinar registrants.')
         return tbl

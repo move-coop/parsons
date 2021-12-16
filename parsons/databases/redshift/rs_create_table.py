@@ -21,7 +21,7 @@ class RedshiftCreateTable(DatabaseCreateStatement):
         self.MEDIUMINT = self.INT
 
         # Currently py floats are coded as Redshift decimals
-        self.FLOAT = consts.DECIMAL
+        self.FLOAT = consts.FLOAT
 
         self.VARCHAR_MAX = consts.VARCHAR_MAX
         self.VARCHAR_STEPS = consts.VARCHAR_STEPS
@@ -177,7 +177,11 @@ class RedshiftCreateTable(DatabaseCreateStatement):
         if distkey:
             statement += '\ndistkey({}) '.format(distkey)
 
-        if sortkey:
+        if sortkey and isinstance(sortkey, list):
+            statement += '\ncompound sortkey('
+            statement += ', '.join(sortkey)
+            statement += ')'
+        elif sortkey:
             statement += '\nsortkey({})'.format(sortkey)
 
         statement += ';'
@@ -215,9 +219,9 @@ class RedshiftCreateTable(DatabaseCreateStatement):
     @staticmethod
     def round_longest(longest):
         # Find the value that will work best to fit our longest column value
-        for step in RedshiftCreateTable.VARCHAR_STEPS:
+        for step in consts.VARCHAR_STEPS:
             # Make sure we have padding
             if longest < step / 2:
                 return step
 
-        return RedshiftCreateTable.VARCHAR_MAX
+        return consts.VARCHAR_MAX

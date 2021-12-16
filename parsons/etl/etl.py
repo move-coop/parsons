@@ -127,13 +127,13 @@ class ETL(object):
         method. Example usage can be found `here <https://petl.readthedocs.io/en/v0.24/transform.html#petl.convert>`_.
 
         `Args:`
-            \*column: str
+            *column: str
                 A single column or multiple columns passed as a list
-            \**kwargs: str, method or variable
+            **kwargs: str, method or variable
                 The update function, method, or variable to process the update
         `Returns:`
             `Parsons Table` and also updates self
-        """ # noqa: E501,E261
+        """  # noqa: E501,E261
 
         self.table = petl.convert(self.table, *column, **kwargs)
 
@@ -224,7 +224,7 @@ class ETL(object):
 
         return self
 
-    def map_columns(self, column_map):
+    def map_columns(self, column_map, exact_match=True):
         """
         Standardizes column names based on multiple possible values. This method
         is helpful when your input table might have multiple and unknown column
@@ -233,6 +233,9 @@ class ETL(object):
         `Args:`
             column_map: dict
                 A dictionary of columns and possible values that map to it
+            exact_match: boolean
+                If ``True`` will only map if an exact match. If ``False`` will
+                ignore case, spaces and underscores.
         `Returns:`
             `Parsons Table` and also updates self
 
@@ -250,11 +253,17 @@ class ETL(object):
             >> {{'first_name': 'Jane', 'last_name': 'Doe', 'date_of_birth': '1908-01-01'}}
         """
 
-        for c in self.columns:
+        for col in self.columns:
+
+            if not exact_match:
+                cleaned_col = col.lower().replace('_', '').replace(' ', '')
+            else:
+                cleaned_col = col
+
             for k, v in column_map.items():
                 for i in v:
-                    if c == i:
-                        self.rename_column(c, k)
+                    if cleaned_col == i:
+                        self.rename_column(col, k)
 
         return self
 
@@ -1009,3 +1018,65 @@ class ETL(object):
         """
         self.table = petl.setheader(self.table, new_header)
         return self
+
+    def use_petl(self, petl_method, *args, **kwargs):
+        """
+        Call a petl function on the current table.
+
+        This convenience method exposes the petl functions to the current
+        Table. This is useful in cases where one might need a ``petl`` function
+        that has not yet been implemented for ``parsons.Table``.
+
+        .. code-block:: python
+
+            >>> # https://petl.readthedocs.io/en/v1.6.0/transform.html#petl.transform.basics.skipcomments
+            >>> tbl = Table([
+            ...     ['col1', 'col2'],
+            ...     ['# this is a comment row',],
+            ...     ['a', 1],
+            ...     ['#this is another comment', 'this is also ignored'],
+            ...     ['b', 2]
+            ... ])
+            >>> tbl.use_petl('skipcomments', '#', update_table=True)
+
+            {'col1': 'a', 'col2': 1}
+            {'col1': 'b', 'col2': 2}
+
+            >>> tbl.table
+
+            +------+------+
+            | col1 | col2 |
+            +======+======+
+            | 'a'  |    1 |
+            +------+------+
+            | 'b'  |    2 |
+            +------+------+
+
+        `Args:`
+            petl_method: str
+                The ``petl`` function to call
+            update_table: bool
+                If ``True``, updates the ``parsons.Table``. Defaults to
+                ``False``.
+            to_petl: bool
+                If ``True``, returns a petl table, otherwise a ``parsons.Table``.
+                Defaults to ``False``.
+            *args: Any
+                The arguements to pass to the petl function.
+            **kwargs: Any
+                The keyword arguements to pass to the petl function.
+        `Returns:`
+            `parsons.Table` or `petl` table
+        """  # noqa: E501
+        update_table = kwargs.pop('update_table', False)
+        to_petl = kwargs.pop('to_petl', False)
+
+        if update_table:
+            self.table = getattr(petl, petl_method)(self.table, *args, **kwargs)
+
+        if to_petl:
+            return getattr(petl, petl_method)(self.table, *args, **kwargs)
+
+        from parsons.etl.table import Table
+
+        return Table(getattr(petl, petl_method)(self.table, *args, **kwargs))

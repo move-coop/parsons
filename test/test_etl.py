@@ -717,19 +717,31 @@ class TestParsonsTable(unittest.TestCase):
 
         self.assertEqual(expected, ptable.to_dicts())
 
-    def test_map_columns(self):
+    def test_map_columns_exact(self):
 
-        input_tbl = Table([['fn', 'ln'], ['J', 'B']])
-
-        expected_tbl = Table([['first_name', 'last_name'],
-                              ['J', 'B']])
+        input_tbl = Table([['fn', 'ln', 'MID'], ['J', 'B', 'H']])
 
         column_map = {'first_name': ['fn', 'first'],
-                      'last_name': ['last', 'ln']}
+                      'last_name': ['last', 'ln'],
+                      'middle_name': ['mi']}
 
+        exact_tbl = Table([['first_name', 'last_name', 'MID'],
+                           ['J', 'B', 'H']])
         input_tbl.map_columns(column_map)
+        assert_matching_tables(input_tbl, exact_tbl)
 
-        assert_matching_tables(input_tbl, expected_tbl)
+    def test_map_columns_fuzzy(self):
+
+        input_tbl = Table([['fn', 'ln', 'Mi_'], ['J', 'B', 'H']])
+
+        column_map = {'first_name': ['fn', 'first'],
+                      'last_name': ['last', 'ln'],
+                      'middle_name': ['mi']}
+
+        fuzzy_tbl = Table([['first_name', 'last_name', 'middle_name'],
+                           ['J', 'B', 'H']])
+        input_tbl.map_columns(column_map, exact_match=False)
+        assert_matching_tables(input_tbl, fuzzy_tbl)
 
     def test_get_column_max_with(self):
 
@@ -785,3 +797,30 @@ class TestParsonsTable(unittest.TestCase):
 
         self.assertEqual(not empty, True)
         self.assertEqual(not not_empty, False)
+
+    def test_use_petl(self):
+        # confirm that this method doesn't exist for parsons.Table
+        self.assertRaises(AttributeError, getattr, Table, 'skipcomments')
+
+        tbl = Table([
+            ['col1', 'col2'],
+            ['# this is a comment row', ],
+            ['a', 1],
+            ['#this is another comment', 'this is also ignored'],
+            ['b', 2]
+        ])
+        tbl_expected = Table([
+            ['col1', 'col2'],
+            ['a', 1],
+            ['b', 2]
+        ])
+
+        tbl_after = tbl.use_petl('skipcomments', '#')
+        assert_matching_tables(tbl_expected, tbl_after)
+
+        tbl.use_petl('skipcomments', '#', update_table=True)
+        assert_matching_tables(tbl_expected, tbl)
+
+        from petl.util.base import Table as PetlTable
+        tbl_petl = tbl.use_petl('skipcomments', '#', to_petl=True)
+        self.assertIsInstance(tbl_petl, PetlTable)

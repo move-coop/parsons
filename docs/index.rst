@@ -173,9 +173,11 @@ Indices and tables
    azure
    bill_com
    bloomerang
+   bluelink
    box
    braintree
    civis
+   controlshift
    copper
    crowdtangle
    databases
@@ -193,6 +195,7 @@ Indices and tables
    redash
    rockthevote
    salesforce
+   shopify
    sftp
    sisense
    targetsmart

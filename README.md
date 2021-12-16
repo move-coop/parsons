@@ -6,7 +6,7 @@
 
 A Python package that provides a simple interface to a variety of utilities and tools frequently used by progressive organizations, political and issue campaigns, activists, and other allied actors.
 
-Parsons offers simplified interactions with these services and tools, including a growing number of CRMs, organizing tools, cloud compute service providers, as well as tools to easily trasform data in transit.
+Parsons offers simplified interactions with these services and tools, including a growing number of CRMs, organizing tools, cloud compute service providers, as well as tools to easily transform data in transit.
 
 This project is maintained by [The Movement Cooperative](https://movementcooperative.org/) and is named after [Lucy Parsons](https://en.wikipedia.org/wiki/Lucy_Parsons). The Movement Cooperative is a member-led organization focused on providing data, tools, and strategic support for the progressive community.
 
@@ -65,4 +65,4 @@ sheets.append_to_sheet(sheet_id, people_with_cell_phones)
 ### Community
 We hope to foster a strong and robust community of individuals who use and contribute to further development. Individuals are encouraged to submit issues with bugs, suggestions and feature requests. [Here](https://github.com/move-coop/parsons/blob/master/CONTRIBUTING.md) are the guidelines and best practices for contributing to Parsons.
 
-You can also stay up to date by joining the [Parsons python google group](https://groups.google.com/forum/#!forum/parsons-python/join).
+You can also stay up to date by joining the Parsons Slack group, an active community of Parsons contributors and progressive data engineers. For an invite, just reach out to engineering+parsons@movementcooperative.org!

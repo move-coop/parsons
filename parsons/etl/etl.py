@@ -80,9 +80,11 @@ class ETL(object):
             `Parsons Table` and also updates self
         """
 
-        self.add_column(column_name + '_column_fill_temp', fill_value)
-        self.remove_column(column_name)
-        self.rename_column(column_name + '_column_fill_temp', column_name)
+        if callable(fill_value):
+            self.table = petl.convert(self.table, column_name, lambda _, r: fill_value(r),
+                                      pass_row=True)
+        else:
+            self.table = petl.update(self.table, column_name, fill_value)
 
         return self
 
@@ -94,12 +96,17 @@ class ETL(object):
             column_name: str
                 The column to fill
             fill_value:
-                Fixed value only
+                A fixed or calculated value
         `Returns:`
             `Parsons Table` and also updates self
         """
 
-        self.fill_column(column_name, lambda x: x[column_name] if x[column_name] else fill_value)
+        if callable(fill_value):
+            self.table = petl.convert(self.table, column_name, lambda _, r: fill_value(r),
+                                      where=lambda r: r[column_name] is None, pass_row=True)
+        else:
+            self.table = petl.update(self.table, column_name, fill_value,
+                                     where=lambda r: r[column_name] is None)
 
         return self
 

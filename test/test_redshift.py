@@ -37,7 +37,10 @@ class TestRedshift(unittest.TestCase):
         ])
 
         self.mapping = self.rs.generate_data_types(self.tbl)
+        self.rs.DO_PARSE_BOOLS = True
         self.mapping2 = self.rs.generate_data_types(self.tbl2)
+        self.rs.DO_PARSE_BOOLS = False
+        self.mapping3 = self.rs.generate_data_types(self.tbl2)
 
     def test_split_full_table_name(self):
         schema, table = Redshift.split_full_table_name('some_schema.some_table')
@@ -58,8 +61,16 @@ class TestRedshift(unittest.TestCase):
 
     def test_data_type(self):
 
-        # Test int
+        # Test bool
+        self.rs.DO_PARSE_BOOLS = True
+        self.assertEqual(self.rs.data_type(1, ''), 'bool')
+        self.assertEqual(self.rs.data_type(True, ''), 'bool')
+        self.rs.DO_PARSE_BOOLS = False
         self.assertEqual(self.rs.data_type(1, ''), 'int')
+        self.assertEqual(self.rs.data_type(True, ''), 'varchar')
+        # Test smallint
+        # Currently smallints are coded as ints
+        self.assertEqual(self.rs.data_type(2, ''), 'int')
         # Test int
         self.assertEqual(self.rs.data_type(32769, ''), 'int')
         # Test bigint
@@ -84,7 +95,11 @@ class TestRedshift(unittest.TestCase):
 
         self.assertEqual(
             self.mapping2['type_list'],
-            ['varchar', 'varchar', 'float', 'varchar', "float", "int", "varchar"])
+            ['varchar', 'varchar', 'float', 'varchar', 'float', 'bool', 'varchar'])
+
+        self.assertEqual(
+            self.mapping3['type_list'],
+            ['varchar', 'varchar', 'float', 'varchar', 'float', 'int', 'varchar'])
         # Test correct lengths
         self.assertEqual(self.mapping['longest'], [1, 5])
 
@@ -132,8 +147,9 @@ class TestRedshift(unittest.TestCase):
         bad_cols = ['a', 'a', '', 'SELECT', 'asdfjkasjdfklasjdfklajskdfljaskldfjaklsdfjlaksdfjklasj'
                     'dfklasjdkfljaskldfljkasjdkfasjlkdfjklasdfjklakjsfasjkdfljaslkdfjklasdfjklasjkl'
                     'dfakljsdfjalsdkfjklasjdfklasjdfklasdkljf']
-        fixed_cols = ['a', 'a_1', 'col_2', 'col_3', 'asdfjkasjdfklasjdfklajskdfljaskldfjaklsdfjlaks'
-                      'dfjklasjdfklasjdkfljaskldfljkasjdkfasjlkdfjklasdfjklakjsfasjkdfljaslkdfjkl']
+        fixed_cols = [
+            'a', 'a_1', 'col_2', 'col_3', 'asdfjkasjdfklasjdfklajskdfljaskldfjaklsdfjlaks'
+            'dfjklasjdfklasjdkfljaskldfljkasjdkfasjlkdfjklasdfjklakjsfasjkdfljaslkdfjkl']
         self.assertEqual(self.rs.column_name_validate(bad_cols), fixed_cols)
 
     def test_create_statement(self):

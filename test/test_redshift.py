@@ -89,7 +89,7 @@ class TestRedshift(unittest.TestCase):
 
         self.assertEqual(
             self.mapping2['type_list'],
-            ['varchar', 'varchar', 'decimal', 'varchar', "float", "int", "bool", "varchar"])
+            ['varchar', 'varchar', 'float', 'varchar', 'float', 'bool', 'varchar'])
         # Test correct lengths
         self.assertEqual(self.mapping['longest'], [1, 5])
 

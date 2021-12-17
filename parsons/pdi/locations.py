@@ -15,26 +15,29 @@ class Locations:
 
         `Returns:`
             parsons.Table
-                A Parsons table of all the data.
+                A Parsons table containing all requested location data.
         """
 
         return self._request(self.locations_url, limit=limit)
 
 
-    def find_or_create_locations(self, addresses):
-        """Find the IDs of existing PDI locations or create IDs for new locations for a table of
-        addresses
-
+    def create_location(self, address: str, name: str):
+        """Create a new PDI address
         `Args:`
-            addresses: parsons table
-                A parsons table containing a column named 'address' and another column named 'name'
-                where the 'address' column contains a full address (street number, city, state, zip)
-                and the 'name' column contains the name of the location to be create if no match
-                is found for the address in PDI.
+            address: str
+               A full address including street number, city, state, and zip.
+            name: str
+                The name of the location. E.g. "The Overlook Hotel"
+        `Returns:`
+            dict
+                Response from PDI in dictionary object
+            """
 
-        `Returns`
-            parsons table
-                The input table with 2 new columns: the 'id' column will contain each locations
-                PDI LocationID, and the 'existed' column will contain True if PDI already contained
-                a location match, or False where a new address was created.
-        """
+        payload = {
+            'locationName': name,
+            'address': address
+        }
+
+        return self._request(self.locations_url, req_type='POST', post_date=payload)
+
+

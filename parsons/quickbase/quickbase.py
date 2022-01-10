@@ -70,6 +70,7 @@ class Quickbase(object):
             for column in resp_tbl.columns:
                 row_dict[column] = row[column]['value']
             cleaned_tbl.concat(Table([row_dict]))
+            cleaned_tbl.materialize
 
         column_resp = req_resp['fields']
         column_map = {}

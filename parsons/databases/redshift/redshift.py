@@ -737,8 +737,8 @@ class Redshift(RedshiftCreateTable, RedshiftCopyTable, RedshiftTableUtilities, R
         return manifest
 
     def upsert(self, table_obj, target_table, primary_key, vacuum=True, distinct_check=True,
-               cleanup_temp_table=True, alter_table=True, from_s3=False, distkey=None,
-               sortkey=None, **copy_args):
+               cleanup_temp_table=True, alter_table=True, alter_table_cascade=False,
+               from_s3=False, distkey=None, sortkey=None, **copy_args):
         """
         Preform an upsert on an existing table. An upsert is a function in which rows
         in a table are updated and inserted at the same time.
@@ -760,6 +760,9 @@ class Redshift(RedshiftCreateTable, RedshiftCopyTable, RedshiftTableUtilities, R
                 A temp table is dropped by default on cleanup. You can set to False for debugging.
             alter_table: boolean
                 Set to False to avoid automatic varchar column resizing to accomodate new data
+            alter_table_cascade: boolean
+                Will drop dependent objects when attempting to alter the table. If ``alter_table``
+                is not ``True``, this will be ignored.
             from_s3: boolean
                 Instead of specifying a table_obj (set the first argument to None),
                 set this to True and include :func:`~parsons.databases.Redshift.copy_s3` arguments

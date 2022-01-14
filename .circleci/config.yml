@@ -3,20 +3,20 @@
 # Check https://circleci.com/docs/2.0/language-python/ for more details
 #
 workflows:
-  version: 3
+  version: 2
   build:
     jobs:
       - test
       - docs-build:
-        filters:
-          branches:
-            ignore: master
+          filters:
+            branches:
+              ignore: master
       - docs-build-deploy:
           filters:
             branches:
               only: master
 
-version: 3
+version: 2
 jobs:
   test:
     docker:

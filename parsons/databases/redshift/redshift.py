@@ -790,7 +790,8 @@ class Redshift(RedshiftCreateTable, RedshiftCopyTable, RedshiftTableUtilities, R
 
         if alter_table and table_obj:
             # Make target table column widths match incoming table, if necessary
-            self.alter_varchar_column_widths(table_obj, target_table)
+            self.alter_varchar_column_widths(table_obj, target_table,
+                                             drop_dependencies=alter_table_cascade)
 
         noise = f'{random.randrange(0, 10000):04}'[:4]
         date_stamp = datetime.datetime.now().strftime('%Y%m%d_%H%M')

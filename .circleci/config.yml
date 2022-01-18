@@ -7,6 +7,10 @@ workflows:
   build:
     jobs:
       - test
+      - docs-build:
+          filters:
+            branches:
+              ignore: master
       - docs-build-deploy:
           filters:
             branches:
@@ -57,6 +61,35 @@ jobs:
       - store_artifacts:
           path: test-reports
           destination: test-reports
+
+  docs-build:
+    docker:
+      - image: circleci/python:3.7
+    steps:
+      - checkout
+      # Download and cache dependencies
+      - restore_cache:
+          keys:
+            - v1-dependencies-python3.7-{{ checksum "./docs/requirements.txt" }}
+            # fallback to using the latest cache if no exact match is found
+            - v1-dependencies-python3.7-
+      - run:
+          name: Install dependencies
+          # Note that we the circleci node image installs stuff with a user "circleci", rather
+          # than root. So we need to tell npm where to install stuff.
+          command: |
+            python3 -m venv venv
+            . venv/bin/activate
+            pip install -r ./docs/requirements.txt
+      - save_cache:
+          paths:
+            - ./venv
+          key: v1-dependencies-python3.7-{{ checksum "./docs/requirements.txt" }}
+      - run:
+          name: Build docs
+          command: |
+            . venv/bin/activate
+            cd docs/ && make html && cd ..
 
   docs-build-deploy:
     docker:

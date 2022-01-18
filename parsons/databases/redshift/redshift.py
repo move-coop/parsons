@@ -475,7 +475,7 @@ class Redshift(RedshiftCreateTable, RedshiftCopyTable, RedshiftTableUtilities, R
                 ``alter_table_cascade`` to True.
             alter_table_cascade: boolean
                 Will drop dependent objects when attempting to alter the table. If ``alter_table``
-                is not ``True``, this will be ignored.
+                is ``False``, this will be ignored.
             aws_access_key_id:
                 An AWS access key granted to the bucket where the file is located. Not required
                 if keys are stored as environmental variables.
@@ -762,7 +762,7 @@ class Redshift(RedshiftCreateTable, RedshiftCopyTable, RedshiftTableUtilities, R
                 Set to False to avoid automatic varchar column resizing to accomodate new data
             alter_table_cascade: boolean
                 Will drop dependent objects when attempting to alter the table. If ``alter_table``
-                is not ``True``, this will be ignored.
+                is ``False``, this will be ignored.
             from_s3: boolean
                 Instead of specifying a table_obj (set the first argument to None),
                 set this to True and include :func:`~parsons.databases.Redshift.copy_s3` arguments

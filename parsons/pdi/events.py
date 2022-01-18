@@ -9,8 +9,21 @@ class Events:
         self.events_url = self.base_url + '/events'
         self.calendars_url = self.base_url + '/calendars'
         self.eventactivities_url = self.base_url + '/eventActivities'
+        self.activites_url = self.base_ur +'/activities'
 
         super().__init__()
+
+    def get_activity(self, activity_id):
+        """Get details for a specific activity using the activity id
+
+        `Args:`
+            activity_id: int
+                The activity id that you'd like to retrieve details for
+        `Returns:`
+            A dictionary with the activity id, activityName, and activityAddress
+        """
+
+        return self._request(self.activities_ur + f'/{activity_id}', req_type='GET')
 
     def create_event(self, calendar_id: str, location_id: str, event_name: str, start_datetime: str,
                      end_datetime: str, description=None,all_day=False, recurrencetype=None,

@@ -475,7 +475,7 @@ class Redshift(RedshiftCreateTable, RedshiftCopyTable, RedshiftTableUtilities, R
                 ``alter_table_cascade`` to True.
             alter_table_cascade: boolean
                 Will drop dependent objects when attempting to alter the table. If ``alter_table``
-                is not ``True``, this will be ignored.
+                is ``False``, this will be ignored.
             aws_access_key_id:
                 An AWS access key granted to the bucket where the file is located. Not required
                 if keys are stored as environmental variables.
@@ -737,8 +737,8 @@ class Redshift(RedshiftCreateTable, RedshiftCopyTable, RedshiftTableUtilities, R
         return manifest
 
     def upsert(self, table_obj, target_table, primary_key, vacuum=True, distinct_check=True,
-               cleanup_temp_table=True, alter_table=True, from_s3=False, distkey=None,
-               sortkey=None, **copy_args):
+               cleanup_temp_table=True, alter_table=True, alter_table_cascade=False,
+               from_s3=False, distkey=None, sortkey=None, **copy_args):
         """
         Preform an upsert on an existing table. An upsert is a function in which rows
         in a table are updated and inserted at the same time.
@@ -760,6 +760,9 @@ class Redshift(RedshiftCreateTable, RedshiftCopyTable, RedshiftTableUtilities, R
                 A temp table is dropped by default on cleanup. You can set to False for debugging.
             alter_table: boolean
                 Set to False to avoid automatic varchar column resizing to accomodate new data
+            alter_table_cascade: boolean
+                Will drop dependent objects when attempting to alter the table. If ``alter_table``
+                is ``False``, this will be ignored.
             from_s3: boolean
                 Instead of specifying a table_obj (set the first argument to None),
                 set this to True and include :func:`~parsons.databases.Redshift.copy_s3` arguments
@@ -790,7 +793,8 @@ class Redshift(RedshiftCreateTable, RedshiftCopyTable, RedshiftTableUtilities, R
 
         if alter_table and table_obj:
             # Make target table column widths match incoming table, if necessary
-            self.alter_varchar_column_widths(table_obj, target_table)
+            self.alter_varchar_column_widths(table_obj, target_table,
+                                             drop_dependencies=alter_table_cascade)
 
         noise = f'{random.randrange(0, 10000):04}'[:4]
         date_stamp = datetime.datetime.now().strftime('%Y%m%d_%H%M')

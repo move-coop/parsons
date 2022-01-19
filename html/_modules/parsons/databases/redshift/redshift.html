@@ -594,7 +594,7 @@
 <span class="sd">                ``alter_table_cascade`` to True.</span>
 <span class="sd">            alter_table_cascade: boolean</span>
 <span class="sd">                Will drop dependent objects when attempting to alter the table. If ``alter_table``</span>
-<span class="sd">                is not ``True``, this will be ignored.</span>
+<span class="sd">                is ``False``, this will be ignored.</span>
 <span class="sd">            aws_access_key_id:</span>
 <span class="sd">                An AWS access key granted to the bucket where the file is located. Not required</span>
 <span class="sd">                if keys are stored as environmental variables.</span>
@@ -856,8 +856,8 @@
         <span class="k">return</span> <span class="n">manifest</span>
 
     <span class="k">def</span> <span class="nf">upsert</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">table_obj</span><span class="p">,</span> <span class="n">target_table</span><span class="p">,</span> <span class="n">primary_key</span><span class="p">,</span> <span class="n">vacuum</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">distinct_check</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
-               <span class="n">cleanup_temp_table</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">alter_table</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">from_s3</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">distkey</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-               <span class="n">sortkey</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">copy_args</span><span class="p">):</span>
+               <span class="n">cleanup_temp_table</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">alter_table</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">alter_table_cascade</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+               <span class="n">from_s3</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">distkey</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">sortkey</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">copy_args</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Preform an upsert on an existing table. An upsert is a function in which rows</span>
 <span class="sd">        in a table are updated and inserted at the same time.</span>
@@ -879,6 +879,9 @@
 <span class="sd">                A temp table is dropped by default on cleanup. You can set to False for debugging.</span>
 <span class="sd">            alter_table: boolean</span>
 <span class="sd">                Set to False to avoid automatic varchar column resizing to accomodate new data</span>
+<span class="sd">            alter_table_cascade: boolean</span>
+<span class="sd">                Will drop dependent objects when attempting to alter the table. If ``alter_table``</span>
+<span class="sd">                is ``False``, this will be ignored.</span>
 <span class="sd">            from_s3: boolean</span>
 <span class="sd">                Instead of specifying a table_obj (set the first argument to None),</span>
 <span class="sd">                set this to True and include :func:`~parsons.databases.Redshift.copy_s3` arguments</span>
@@ -909,7 +912,8 @@
 
         <span class="k">if</span> <span class="n">alter_table</span> <span class="ow">and</span> <span class="n">table_obj</span><span class="p">:</span>
             <span class="c1"># Make target table column widths match incoming table, if necessary</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">alter_varchar_column_widths</span><span class="p">(</span><span class="n">table_obj</span><span class="p">,</span> <span class="n">target_table</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">alter_varchar_column_widths</span><span class="p">(</span><span class="n">table_obj</span><span class="p">,</span> <span class="n">target_table</span><span class="p">,</span>
+                                             <span class="n">drop_dependencies</span><span class="o">=</span><span class="n">alter_table_cascade</span><span class="p">)</span>
 
         <span class="n">noise</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">random</span><span class="o">.</span><span class="n">randrange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">10000</span><span class="p">)</span><span class="si">:</span><span class="s1">04</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">[:</span><span class="mi">4</span><span class="p">]</span>
         <span class="n">date_stamp</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s1">&#39;%Y%m</span><span class="si">%d</span><span class="s1">_%H%M&#39;</span><span class="p">)</span>

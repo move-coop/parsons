@@ -1,136 +1,206 @@
-# PARSONS PACKAGE - TERMS OF SERVICE
+Parsons: a Python library of connectors for the progressive community.
 
-The Movement Cooperative (“TMC” or “we”) is pleased to make the Parsons Package (“Parsons”) available under these Terms 
-of Service ("Parsons Terms”). By using Parsons, you agree to these Parsons Terms, including the Parsons Values Statement, 
-attached hereto as Exhibit A, both of which may change over time.
+Copyright 2019-2022 The Movement Cooperative
 
-## 1. Parsons is for the progressive community.
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this library except in compliance with the License,
+with the Additional NOTICE under Section 4(d) to include preserving
+the following author attribution statement:
 
-Our goal is to make Parsons available to the progressive community for non-commercial purposes to further our shared goals 
-and values and to improve the Parsons Package. (If you wish to use Parsons for commercial purposes, please contact us 
-at info@movementcooperative.org and we can discuss the terms of an appropriate license agreement to cover commercial uses.)
-The Parsons Values Statement (Exhibit A) sets forth the values we expect Parsons users to uphold, and we reserve the right
-to revoke or suspend this license for a diversion from those values. We recognize that progressive values are debatable
-so we welcome your feedback on the Parsons Values Statement. If you have any questions or concerns as to whether your
-work might violate the Parsons Values Statement, we encourage you to contact us at info@movementcooperative.org You
-understand and agree that we may change the Parsons Values Statement at any time, with or without notice to you.
+NOTICE
 
-## 2. Our obligations to each other.
-Subject to these Parsons Terms, including your adherence to the Parsons Values Statement, we grant you a limited, 
-non-exclusive, and revocable license to use Parsons for non-commercial purposes. You agree to use Parsons only in 
-compliance with the law, and we reserve the right to limit, temporarily or indefinitely suspend, or terminate your 
-license to Parsons for breach of these Terms, including a breach of the Parsons Values Statement. 
+Parsons was originally authored by The Movement Cooperative,
+and is developed and maintained by people who support the following values:
+- Ending discrimination and violence based on race, ethnicity,  gender,
+sexual identification, age, religion, disabilities and immigration status.
+- Economic equality.
+- Reproductive rights or access to reproductive health care, specifically
+access to abortions.
+- Environmental protection, regulations and laws.
+- Firearm safety and gun violence prevention.
+- The ability of governmental entities to provide services
+(such as health care, food, education) to all.
+- The rights of workers to collectively bargain for wages, benefits
+and safe working conditions.
 
-If you are using Parsons on behalf of a company, organization, or other entity, then (a) "you” includes you and that entity, and (b) you represent and warrant that you are authorized to bind the entity to these Parsons Terms, and you agree to comply with the terms set forth in these Parsons Terms on behalf of such entity.
+You may obtain a copy of the License at
 
-## 3. Feedback, collaboration, and distribution
-We welcome and encourage developers to provide us with feedback and ideas that will make Parsons better. If you choose to
-submit comments, ideas, feedback, contribute code or features, you agree that we and other Parsons users are free to use
-them without any restriction or compensation to you. By accepting your feedback or submissions, TMC does not waive any
-rights to use similar or related feedback developed by our employees, contractors, or partners, or obtained from sources
-other than you.
+    http://www.apache.org/licenses/LICENSE-2.0
 
-We also want to encourage the progressive community to adapt and share Parsons in ways that are helpful to the progressive
-community, and we grant you a license to modify and distribute Parsons for non-commercial purposes so long as you ensure
-that those who receive Parsons from you agree to use Parsons in accordance with the Parsons Terms and Parsons Values Statement. You understand and agree that TMC retains the right to limit, suspend, or terminate your license and that of those who receive Parsons from you for violations of these Parson Terms, including the Parsons Values Statement.
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
 
-## 4. Brand Features
-You may not use TMC trade names, trademarks, service marks, logos, domain names, and other distinctive brand features in a
-way that suggests our endorsement of or support for you or for your use of Parsons, without our prior written consent. 
+### Apache License, Version 2.0, January 2004
+TERMS AND CONDITIONS FOR USE, REPRODUCTION, AND DISTRIBUTION
 
-## 5. Third-party Services
-Parsons makes it possible to work with or integrate third-party products and services that TMC does not own or control. We
-do not endorse or assume any responsibility for these third-party products or services. If you, your users, or your
-partners access any third-party product or service using Parsons, you do so at your own risk, and you agree that TMC
-will have no liability arising from the use of or access to any third-party products or services.
+   1. Definitions.
 
-## 6. Termination.
-TMC may terminate or suspend these Parsons Terms (including your license to use Parsons) at any time, if TMC believes there
-is a good reason to do so. In addition, TMC my terminate or suspend your license to use Parsons at any time upon your
-breach of these Parsons Terms, including a breach of the Parsons Value Statement. Upon termination, you continue to be
-bound by Sections 3 through 12 of these Parsons Terms.
+      "License" shall mean the terms and conditions for use, reproduction,
+      and distribution as defined by Sections 1 through 9 of this document.
 
-## 7. Indemnity
-You agree to defend, indemnify and hold harmless TMC and its officers, directors, employees and agents, from and against
-any claims, suits, proceedings, disputes, demands, liabilities, damages, losses, costs and expenses, including, without
-limitation, reasonable legal and accounting fees (including costs of defense of claims, suits or proceedings brought by
-third parties), in any way related to (a) your access to, use of, modification of, or distribution of Parsons (b) the use
-of Parsons by you or your users, or (c) your breach of these Parsons Terms.
+      "Licensor" shall mean the copyright owner or entity authorized by
+      the copyright owner that is granting the License.
 
-## 8. Disclaimers
-Parsons is provided on an "as is” basis without warranty of any kind, whether express or implied. TMC SPECIFICALLY DISCLAIMS
-ANY AND ALL WARRANTIES AND CONDITIONS OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE, NON-INFRINGEMENT, AND ANY
-WARRANTIES ARISING OUT OF A COURSE OF DEALING OR USAGE OF TRADE. TMC takes no responsibility and assumes no liability
-for your use of Parsons, including any content that you or any other user or third party posts or transmits using Parsons. 
+      "Legal Entity" shall mean the union of the acting entity and all
+      other entities that control, are controlled by, or are under common
+      control with that entity. For the purposes of this definition,
+      "control" means (i) the power, direct or indirect, to cause the
+      direction or management of such entity, whether by contract or
+      otherwise, or (ii) ownership of fifty percent (50%) or more of the
+      outstanding shares, or (iii) beneficial ownership of such entity.
 
-## 9. Limitation of Liability
-TO THE MAXIMUM EXTENT PERMITTED BY LAW, TMC WILL NOT BE LIABLE FOR ANY, INDIRECT, INCIDENTAL, SPECIAL, CONSEQUENTIAL OR
-PUNITIVE DAMAGES, OR ANY LOSS OF PROFITS OR REVENUES, WHETHER INCURRED DIRECTLY OR INDIRECTLY, OR ANY LOSS OF DATA, USE,
-GOODWILL, OR OTHER INTANGIBLE LOSSES. IN NO EVENT WILL TMC’S AGGREGATE LIABILITY FOR ALL CLAIMS RELATED TO PARSONS EXCEED
-ONE HUNDRED U.S. DOLLARS (U.S. $100.00).
+      "You" (or "Your") shall mean an individual or Legal Entity
+      exercising permissions granted by this License.
 
-## 10. Arbitration
-If you have a dispute with TMC, you agree to first contact us and attempt to resolve the dispute with us informally. If we
-aren’t able to resolve the dispute with you informally, we each agree to resolve any claim, dispute, or controversy
-(excluding claims for injunctive or other equitable relief) arising out of or in connection with or relating to these
-Parsons Terms by binding arbitration by the American Arbitration Association ("AAA”) under the Commercial Arbitration Rules
-and Supplementary Procedures for Consumer Related Disputes then in effect for the AAA, except as provided herein. Unless
-you and TMC agree otherwise, the arbitration will be conducted in New York City, New York. Each party will be responsible
-for paying any AAA filing, administrative and arbitrator fees in accordance with AAA rules. The award rendered by the
-arbitrator will include costs of arbitration, reasonable attorneys’ fees and reasonable costs for expert and other
-witnesses. Any judgment on the award the arbitrator renders may be entered in any court of competent jurisdiction. Nothing
-in this Section will prevent either party from seeking injunctive or other equitable relief from the courts for matters
-related to data security, intellectual property or unauthorized access to Parsons. ALL CLAIMS MUST BE BROUGHT IN THE
-PARTIES’ INDIVIDUAL CAPACITY, AND NOT AS A PLAINTIFF OR CLASS MEMBER IN ANY PURPORTED CLASS OR REPRESENTATIVE PROCEEDING,
-AND, UNLESS WE AGREE OTHERWISE, THE ARBITRATOR MAY NOT CONSOLIDATE MORE THAN ONE PERSON’S CLAIMS. BY ENTERING INTO THESE
-PARSONS TERMS, YOU AGREE THAT YOU AND TMC EACH WAIVE THE RIGHT TO A TRIAL BY JURY OR TO PARTICIPATE IN A CLASS ACTION.
+      "Source" form shall mean the preferred form for making modifications,
+      including but not limited to software source code, documentation
+      source, and configuration files.
 
-## 11. Governing Law and Jurisdiction
-These Parsons Terms will be governed by the laws of the State of New York, without respect to its conflict of laws
-principles. We each agree to submit to the personal jurisdiction of a state court located in New York County, New York or
-the United States District Court for the Southern District of New York, for any actions not subject to Section 10
-(Arbitration). Parsons is made available from the United States, and we make no representations that it is appropriate
-or available for use in other locations.
+      "Object" form shall mean any form resulting from mechanical
+      transformation or translation of a Source form, including but
+      not limited to compiled object code, generated documentation,
+      and conversions to other media types.
 
-## 12. Miscellaneous
-TMC reserves the right to determine the form and means of sending you notifications, and you agree to receive legal notices
-electronically if we so choose. We may revise these Parsons Terms from time to time and the most current version will
-always be available together with the Parsons source code at Github.com. By continuing to access or use Parsons after
-revisions become effective, you agree to be bound by the revised Parsons Terms. Except as allowed in Section 3, you may
-not transfer or assign these Parsons Terms or any rights and licenses granted hereunder, but they may be assigned by TMC
-without restriction. Any attempted transfer or assignment in violation hereof shall be null and void. 
+      "Work" shall mean the work of authorship, whether in Source or
+      Object form, made available under the License, as indicated by a
+      copyright notice that is included in or attached to the work
+      (an example is provided in the Appendix below).
 
-These Parsons Terms, together with the Parsons Values Statement and any amendments and any additional agreements you may
-enter into with TMC in connection with Parsons, will constitute the entire agreement between you and TMC concerning Parsons
-and supersede any prior terms you have with TMC regarding Parsons. If any provision of the Parsons Terms is deemed invalid,
-then that provision will be limited or eliminated to the minimum extent necessary, and the remaining provisions will remain
-in full force and effect. No waiver of any term of these Parsons Terms shall be deemed a further or continuing waiver of such
-term or any other term, and TMC’s failure to assert any right or provision under these Parsons Terms shall not constitute a
-waiver of such right or provision.
+      "Derivative Works" shall mean any work, whether in Source or Object
+      form, that is based on (or derived from) the Work and for which the
+      editorial revisions, annotations, elaborations, or other modifications
+      represent, as a whole, an original work of authorship. For the purposes
+      of this License, Derivative Works shall not include works that remain
+      separable from, or merely link (or bind by name) to the interfaces of,
+      the Work and Derivative Works thereof.
 
-## EXHIBIT A
+      "Contribution" shall mean any work of authorship, including
+      the original version of the Work and any modifications or additions
+      to that Work or Derivative Works thereof, that is intentionally
+      submitted to Licensor for inclusion in the Work by the copyright owner
+      or by an individual or Legal Entity authorized to submit on behalf of
+      the copyright owner. For the purposes of this definition, "submitted"
+      means any form of electronic, verbal, or written communication sent
+      to the Licensor or its representatives, including but not limited to
+      communication on electronic mailing lists, source code control systems,
+      and issue tracking systems that are managed by, or on behalf of, the
+      Licensor for the purpose of discussing and improving the Work, but
+      excluding communication that is conspicuously marked or otherwise
+      designated in writing by the copyright owner as "Not a Contribution."
 
-### PARSONS VALUES STATEMENT
+      "Contributor" shall mean Licensor and any individual or Legal Entity
+      on behalf of whom a Contribution has been received by Licensor and
+      subsequently incorporated within the Work.
 
-The Parsons Package may not be used, directly or indirectly, for any of the following purposes:
+   2. Grant of Copyright License. Subject to the terms and conditions of
+      this License, each Contributor hereby grants to You a perpetual,
+      worldwide, non-exclusive, no-charge, royalty-free, irrevocable
+      copyright license to reproduce, prepare Derivative Works of,
+      publicly display, publicly perform, sublicense, and distribute the
+      Work and such Derivative Works in Source or Object form.
 
-- Support or perpetuate discrimination and violence, either implicit or explicit, including but not limited to race,
-ethnicity,  gender, sexual identification, age, religion, disabilities and immigration status.
+   3. Grant of Patent License. Subject to the terms and conditions of
+      this License, each Contributor hereby grants to You a perpetual,
+      worldwide, non-exclusive, no-charge, royalty-free, irrevocable
+      (except as stated in this section) patent license to make, have made,
+      use, offer to sell, sell, import, and otherwise transfer the Work,
+      where such license applies only to those patent claims licensable
+      by such Contributor that are necessarily infringed by their
+      Contribution(s) alone or by combination of their Contribution(s)
+      with the Work to which such Contribution(s) was submitted. If You
+      institute patent litigation against any entity (including a
+      cross-claim or counterclaim in a lawsuit) alleging that the Work
+      or a Contribution incorporated within the Work constitutes direct
+      or contributory patent infringement, then any patent licenses
+      granted to You under this License for that Work shall terminate
+      as of the date such litigation is filed.
 
-- Support or perpetuate economic inequality.
+   4. Redistribution. You may reproduce and distribute copies of the
+      Work or Derivative Works thereof in any medium, with or without
+      modifications, and in Source or Object form, provided that You
+      meet the following conditions:
 
-- Oppose protection and expansion of reproductive rights or access to reproductive health care, specifically access to
-abortions.
+      (a) You must give any other recipients of the Work or
+          Derivative Works a copy of this License; and
 
-- Oppose existing and expansion of environmental regulations and laws.
+      (b) You must cause any modified files to carry prominent notices
+          stating that You changed the files; and
 
-- Oppose existing and expansion of firearm safety and gun violence prevention.
+      (c) You must retain, in the Source form of any Derivative Works
+          that You distribute, all copyright, patent, trademark, and
+          attribution notices from the Source form of the Work,
+          excluding those notices that do not pertain to any part of
+          the Derivative Works; and
 
-- Oppose existing and expansion of  the ability of governmental entities to provide services (such as health care,
-food, education) to all.
+      (d) If the Work includes a "NOTICE" text file as part of its
+          distribution, then any Derivative Works that You distribute must
+          include a readable copy of the attribution notices contained
+          within such NOTICE file, excluding those notices that do not
+          pertain to any part of the Derivative Works, in at least one
+          of the following places: within a NOTICE text file distributed
+          as part of the Derivative Works; within the Source form or
+          documentation, if provided along with the Derivative Works; or,
+          within a display generated by the Derivative Works, if and
+          wherever such third-party notices normally appear. The contents
+          of the NOTICE file are for informational purposes only and
+          do not modify the License. You may add Your own attribution
+          notices within Derivative Works that You distribute, alongside
+          or as an addendum to the NOTICE text from the Work, provided
+          that such additional attribution notices cannot be construed
+          as modifying the License.
 
-- Oppose the rights of workers to collectively bargain for wages, benefits and safe working conditions.
+      You may add Your own copyright statement to Your modifications and
+      may provide additional or different license terms and conditions
+      for use, reproduction, or distribution of Your modifications, or
+      for any such Derivative Works as a whole, provided Your use,
+      reproduction, and distribution of the Work otherwise complies with
+      the conditions stated in this License.
 
+   5. Submission of Contributions. Unless You explicitly state otherwise,
+      any Contribution intentionally submitted for inclusion in the Work
+      by You to the Licensor shall be under the terms and conditions of
+      this License, without any additional terms or conditions.
+      Notwithstanding the above, nothing herein shall supersede or modify
+      the terms of any separate license agreement you may have executed
+      with Licensor regarding such Contributions.
 
+   6. Trademarks. This License does not grant permission to use the trade
+      names, trademarks, service marks, or product names of the Licensor,
+      except as required for reasonable and customary use in describing the
+      origin of the Work and reproducing the content of the NOTICE file.
 
+   7. Disclaimer of Warranty. Unless required by applicable law or
+      agreed to in writing, Licensor provides the Work (and each
+      Contributor provides its Contributions) on an "AS IS" BASIS,
+      WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or
+      implied, including, without limitation, any warranties or conditions
+      of TITLE, NON-INFRINGEMENT, MERCHANTABILITY, or FITNESS FOR A
+      PARTICULAR PURPOSE. You are solely responsible for determining the
+      appropriateness of using or redistributing the Work and assume any
+      risks associated with Your exercise of permissions under this License.
 
+   8. Limitation of Liability. In no event and under no legal theory,
+      whether in tort (including negligence), contract, or otherwise,
+      unless required by applicable law (such as deliberate and grossly
+      negligent acts) or agreed to in writing, shall any Contributor be
+      liable to You for damages, including any direct, indirect, special,
+      incidental, or consequential damages of any character arising as a
+      result of this License or out of the use or inability to use the
+      Work (including but not limited to damages for loss of goodwill,
+      work stoppage, computer failure or malfunction, or any and all
+      other commercial damages or losses), even if such Contributor
+      has been advised of the possibility of such damages.
+
+   9. Accepting Warranty or Additional Liability. While redistributing
+      the Work or Derivative Works thereof, You may choose to offer,
+      and charge a fee for, acceptance of support, warranty, indemnity,
+      or other liability obligations and/or rights consistent with this
+      License. However, in accepting such obligations, You may act only
+      on Your own behalf and on Your sole responsibility, not on behalf
+      of any other Contributor, and only if You agree to indemnify,
+      defend, and hold each Contributor harmless for any liability
+      incurred by, or claims asserted against, such Contributor by reason
+      of your accepting any such warranty or additional liability.

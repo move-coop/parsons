@@ -274,6 +274,50 @@ class FacebookAds(object):
         CustomAudience(audience_id).add_users(schema, batch, is_raw=True)
         logger.info(f"Added {added_so_far+len(batch)}/{total_rows} users to custom audience...")
 
+    def _remove_batch_from_custom_audience(app_id, app_secret, access_token, audience_id, schema,
+                                      batch, added_so_far, total_rows):
+        FacebookAdsApi.init(app_id, app_secret, access_token)
+
+        CustomAudience(audience_id).remove_users(schema, batch, is_raw=True)
+        logger.info(f"Removed {added_so_far+len(batch)}/{total_rows} users from custom audience...")
+
+    def _change_users_in_custom_audience(self, audience_id, users_table, adding=True):
+        match_table = FacebookAds.get_match_table_for_users_table(users_table)
+        if not match_table.columns:
+            raise KeyError("No valid columns found for audience matching. "
+                           "See FacebookAds.KeyMatchMap for supported columns")
+
+        num_rows = match_table.num_rows
+        logger.info(f"Found {num_rows} rows with valid FB matching keys")
+        logger.info(f"Using FB matching keys: {match_table.columns}")
+
+        (schema, data) = FacebookAds._get_match_schema_and_data(match_table)
+
+        # Use the FB API to add users, respecting the limit per API call.
+        # Process and upload batches in parallel, to improve performance.
+
+        batch_size = MAX_FB_AUDIENCE_API_USERS
+
+        if adding:
+            parallel_jobs = (
+                delayed(FacebookAds._add_batch_to_custom_audience)(
+                    self.app_id, self.app_secret, self.access_token, audience_id, schema,
+                    data[i:i+batch_size], i, num_rows
+                )
+                for i in range(0, len(data), batch_size)
+            )
+        else:
+            parallel_jobs = (
+                delayed(FacebookAds._remove_batch_from_custom_audience)(
+                    self.app_id, self.app_secret, self.access_token, audience_id, schema,
+                    data[i:i+batch_size], i, num_rows
+                )
+                for i in range(0, len(data), batch_size)
+            )
+
+        n_jobs = os.environ.get('PARSONS_NUM_PARALLEL_JOBS', 4)
+        Parallel(n_jobs=n_jobs)(parallel_jobs)
+
     def add_users_to_custom_audience(self, audience_id, users_table):
         """
         Adds user data to a custom audience.
@@ -352,29 +396,10 @@ class FacebookAds(object):
         logger.info(f"Adding custom audience users from provided table with "
                     f"{users_table.num_rows} rows")
 
-        match_table = FacebookAds.get_match_table_for_users_table(users_table)
-        if not match_table.columns:
-            raise KeyError("No valid columns found for audience matching. "
-                           "See FacebookAds.KeyMatchMap for supported columns")
+        FacebookAds._change_users_in_custom_audience(self, audience_id, users_table)
 
-        num_rows = match_table.num_rows
-        logger.info(f"Found {num_rows} rows with valid FB matching keys")
-        logger.info(f"Using FB matching keys: {match_table.columns}")
+    def remove_users_from_custom_audience(self, audience_id, users_table):
+        logger.info(f"Removing custom audience users from provided table with "
+                    f"{users_table.num_rows} rows")
 
-        (schema, data) = FacebookAds._get_match_schema_and_data(match_table)
-
-        # Use the FB API to add users, respecting the limit per API call.
-        # Process and upload batches in parallel, to improve performance.
-
-        batch_size = MAX_FB_AUDIENCE_API_USERS
-
-        parallel_jobs = (
-            delayed(FacebookAds._add_batch_to_custom_audience)(
-                self.app_id, self.app_secret, self.access_token, audience_id, schema,
-                data[i:i+batch_size], i, num_rows
-            )
-            for i in range(0, len(data), batch_size)
-        )
-
-        n_jobs = os.environ.get('PARSONS_NUM_PARALLEL_JOBS', 4)
-        Parallel(n_jobs=n_jobs)(parallel_jobs)
+        FacebookAds._change_users_in_custom_audience(self, audience_id, users_table, adding=False)

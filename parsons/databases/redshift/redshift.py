@@ -526,7 +526,6 @@ class Redshift(RedshiftCreateTable, RedshiftCopyTable, RedshiftTableUtilities, R
                                                 varchar_max=varchar_max,
                                                 columntypes=columntypes,
                                                 strict_length=strict_length)
-                    print(f'Create statement: {sql}')
                 self.query_with_connection(sql, connection, commit=False)
                 logger.info(f'{table_name} created.')
 

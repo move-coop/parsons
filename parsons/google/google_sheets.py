@@ -32,12 +32,17 @@ class GoogleSheets:
 
         if google_keyfile_dict is None:
             try:
-                keyfile_json = os.environ['GOOGLE_DRIVE_CREDENTIALS']
+                google_drive_credentials = os.environ['GOOGLE_DRIVE_CREDENTIALS']
+                if os.path.exists(google_drive_credentials):
+                    google_credential_file = open(google_drive_credentials)
+                    keyfile_json = json.load(google_credential_file)
+                else:
+                    keyfile_json = json.loads(google_drive_credentials)
             except KeyError as error:
                 logger.error("Google credentials missing. Must be specified as an env var or kwarg")
                 raise error
 
-            self.google_keyfile_dict = json.loads(keyfile_json)
+            self.google_keyfile_dict = keyfile_json
         else:
             self.google_keyfile_dict = google_keyfile_dict
 

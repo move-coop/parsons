@@ -13,8 +13,10 @@ workflows:
               ignore: master
       - docs-build-deploy:
           filters:
+            tags:
+              only: /^v.*/
             branches:
-              only: master
+              ignore: /.*/
 
 version: 2
 jobs:
@@ -132,4 +134,4 @@ jobs:
             git config user.email "ci-build@movementcooperative.org"
             git config user.name "ci-build"
             export PATH=/home/circleci/npm/bin:$PATH
-            gh-pages --dotfiles --dist docs
+            gh-pages --dotfiles --message "[skip ci] Updates" --dist docs

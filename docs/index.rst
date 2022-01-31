@@ -76,7 +76,7 @@ Virtual Environments
 
 Normally, tools like `pip` install Python libraries directly to your system. Python scripts
 or libraries look for their dependencies in your system. This can cause problems when you
-have two scripts/libraries installed that require differnt versions of the same library.
+have two scripts/libraries installed that require different versions of the same library.
 
 To solve this problem, we recommend you use *virtual environments* to install Parsons.
 Virtual environments allow you to keep different sets of installed libraries so that you can
@@ -97,9 +97,9 @@ Windows
 
 3. Add the ``Scripts\`` directory to your Path.
 
-4. To create a virtual environment for Parsons, execute this command: ``mkvirtualenv parsons``
+4. To create a virtual environment for Parsons, execute: ``mkvirtualenv parsons``
 
-5. To use this virtual environment execute: ``workon parsons``
+5. To use this virtual environment, execute: ``workon parsons``
 
 
 Linux / Mac OS
@@ -110,12 +110,12 @@ Linux / Mac OS
 Installation
 ============
 
-There are two methods of installing Parsons: Using pip, and from source. Use pip if you just want to install Parsons and start using it. Install from source if you might want to patch Parsons to customize its behavior.
+There are two ways to install Parsons: Using pip and from source. Use pip if you just want to install Parsons and start using it. Install from source if you might want to patch Parsons to customize its behavior.
 
 Installing Parsons (pip)
 -----------------------------
 
-1. Make sure you're in your parsons virtual environment.
+1. Make sure you're in your parsons virtual environment: ``workon parsons``.
 
 2. Execute: ``pip install parsons``
 
@@ -123,7 +123,7 @@ Installing Parsons from Source
 ----------------------------------
 
 
-1. Make sure you're in your parsons virtual environment.
+1. Make sure you're in your parsons virtual environment: ``workon parsons``.
 
 2. Execute these commands::
 
@@ -132,7 +132,7 @@ Installing Parsons from Source
       python setup.py install
 
 
-3. To update your installation, pull the most recent branch from the Parsons GitHub repo and rerun ``python setup.py install``.
+3. To update your installation, pull the most recent branch from the Parsons GitHub repo (``git pull origin master``) and rerun ``python setup.py install``.
 
 Logging
 =======

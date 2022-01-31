@@ -17,7 +17,7 @@ The Movement Cooperative is a member led organization focused on providing data,
 
 License and Usage
 =================
-Usage of Parsons is governed by the `TMC Parsons License <https://github.com/move-coop/parsons/blob/master/LICENSE.md>`_, which allows for unlimited non-commercial usage, provided that individuals and organizations adhere to our broad values statement.
+Usage of Parsons is governed by the `TMC Parsons License <https://github.com/move-coop/parsons/blob/master/LICENSE.md>`_, a modified Apache License with author attribution statement.
 
 Design Goals
 ============

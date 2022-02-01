@@ -1,14 +1,12 @@
 import unittest
 import requests_mock
-import json
 from parsons import Table, ActBlue
-from test.utils import validate_list
 from test.test_actblue import test_columns_data
 from unittest.mock import MagicMock
 
 
-TEST_CLIENT_UUID='someuuid'
-TEST_CLIENT_SECRET='somesecret'
+TEST_CLIENT_UUID = 'someuuid'
+TEST_CLIENT_SECRET = 'somesecret'
 
 TEST_ID = '12345'
 TEST_URI = 'https://faketestingurl.com/example'
@@ -21,11 +19,14 @@ TEST_POST_RESPONSE = {
     "id": TEST_ID
 }
 
+TEST_DOWNLOAD_URL = "https://www.example.com/example.csv"
+
 TEST_GET_RESPONSE = {
     "id": TEST_ID,
-    "download_url": "https://www.example.com/example.csv",
+    "download_url": TEST_DOWNLOAD_URL,
     "status": "complete"
 }
+
 
 class TestActBlue(unittest.TestCase):
 
@@ -46,28 +47,25 @@ class TestActBlue(unittest.TestCase):
         response = self.ab.post_request(TEST_CSV_TYPE, TEST_DATE_RANGE_START, TEST_DATE_RANGE_END)
         assert response['id'] == TEST_POST_RESPONSE['id']
 
-    
     @requests_mock.Mocker()
     def test_successful_get_download_url(self, m):
         m.get(f'{TEST_URI}/csvs/{TEST_ID}', json=TEST_GET_RESPONSE)
 
-        assert self.ab.get_download_url(csv_id=TEST_ID) == "https://www.example.com/example.csv"
-
+        assert self.ab.get_download_url(csv_id=TEST_ID) == TEST_DOWNLOAD_URL
 
     @requests_mock.Mocker()
     def test_successful_poll_for_download_url(self, m):
-        mocked_get_response_no_download_url =   {
+        mocked_get_response_no_download_url = {
             "id": TEST_ID,
             "download_url": None,
             "status": "in_progress"
         }
 
-        m.get(f'{TEST_URI}/csvs/{TEST_ID}', [{ 'json': mocked_get_response_no_download_url },
-                                             { 'json': TEST_GET_RESPONSE }])
+        m.get(f'{TEST_URI}/csvs/{TEST_ID}', [{'json': mocked_get_response_no_download_url},
+                                             {'json': TEST_GET_RESPONSE}])
 
-        assert self.ab.poll_for_download_url(csv_id=TEST_ID) == "https://www.example.com/example.csv"
+        assert self.ab.poll_for_download_url(csv_id=TEST_ID) == TEST_DOWNLOAD_URL
 
-        
     @requests_mock.Mocker()
     def test_successful_get_contributions(self, m):
         m.post(f'{TEST_URI}/csvs', json=TEST_POST_RESPONSE)

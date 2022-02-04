@@ -31,6 +31,7 @@ if not os.environ.get('PARSONS_SKIP_IMPORT_ALL'):
     from parsons.geocode.census_geocoder import CensusGeocoder
     from parsons.airtable.airtable import Airtable
     from parsons.copper.copper import Copper
+    from parsons.controlshift.controlshift import Controlshift
     from parsons.crowdtangle.crowdtangle import CrowdTangle
     from parsons.hustle.hustle import Hustle
     from parsons.twilio.twilio import Twilio
@@ -77,6 +78,7 @@ if not os.environ.get('PARSONS_SKIP_IMPORT_ALL'):
         'CensusGeocoder',
         'Airtable',
         'Copper',
+        'Controlshift',
         'CrowdTangle',
         'Hustle',
         'Twilio',

@@ -146,12 +146,7 @@ class Contacts():
 
         contact_id = contact_response['id']
 
-        logger.debug(f'''
-Created contact {contact_id} before error: 
-{json.dumps(contact_response, indent=4)}
-'''
-        )
-
+        # Add phone number to contact
         if phone_number:
 
             phone_payload = {
@@ -160,8 +155,16 @@ Created contact {contact_id} before error:
                 'isPrimary': primary_phone
             }
 
-            phone_response = self._request(self.contacts_url + f'/{contact_id}/phones',
-                                           req_type='POST', post_data=phone_payload)
+            try:
+                phone_response = self._request(self.contacts_url + f'/{contact_id}/phones',
+                                               req_type='POST', post_data=phone_payload)
+
+            except Exception as e:
+                raise Exception(f'''
+Contact {contact_id} was created but there was an error assigning the phone number:
+Contact:{contact_payload}
+Error: {str(e)}
+''')
 
             final_dict['phone'] = phone_response
 
@@ -171,9 +174,15 @@ Created contact {contact_id} before error:
                 'isPrimary': primary_email
             }
 
-            email_response = self._request(self.contacts_url + f'/{contact_id}/emails',
-                                           req_type='POST', post_data=email_payload)
-
+            try:
+                email_response = self._request(self.contacts_url + f'/{contact_id}/emails',
+                                               req_type='POST', post_data=email_payload)
+            except Exception as e:
+                raise Exception(f'''
+Contact {contact_id} was created but there was an error assigning the phone number:
+Contact:{contact_payload}
+Error: {str(e)}
+''')
             final_dict['email'] = email_response
 
         return final_dict

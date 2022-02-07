@@ -3,6 +3,7 @@ import json
 import logging
 
 from parsons.etl.table import Table
+from parsons.google.utitities import setup_google_application_credentials
 
 import gspread
 from oauth2client.service_account import ServiceAccountCredentials
@@ -28,27 +29,15 @@ class GoogleSheets:
             'https://www.googleapis.com/auth/drive',
             ]
 
-        self.google_keyfile_dict = google_keyfile_dict
-
-        if google_keyfile_dict is None:
-            try:
-                google_drive_credentials = os.environ['GOOGLE_DRIVE_CREDENTIALS']
-                if os.path.exists(google_drive_credentials):
-                    google_credential_file = open(google_drive_credentials)
-                    keyfile_json = json.load(google_credential_file)
-                else:
-                    keyfile_json = json.loads(google_drive_credentials)
-            except KeyError as error:
-                logger.error("Google credentials missing. Must be specified as an env var or kwarg")
-                raise error
-
-            self.google_keyfile_dict = keyfile_json
-        else:
-            self.google_keyfile_dict = google_keyfile_dict
+        setup_google_application_credentials(google_keyfile_dict, 'GOOGLE_DRIVE_CREDENTIALS')
+        google_drive_credentials = os.environ['GOOGLE_DRIVE_CREDENTIALS']
+        if os.path.exists(google_drive_credentials):
+            google_credential_file = open(google_drive_credentials)
+            credentials_dict = json.load(google_credential_file)
 
         credentials = ServiceAccountCredentials.from_json_keyfile_dict(
-            self.google_keyfile_dict, scope
-            )
+            credentials_dict, scope
+        )
         self.gspread_client = gspread.authorize(credentials)
 
     def _get_worksheet(self, spreadsheet_id, worksheet=0):

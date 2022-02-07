@@ -30,10 +30,8 @@ class GoogleSheets:
             ]
 
         setup_google_application_credentials(google_keyfile_dict, 'GOOGLE_DRIVE_CREDENTIALS')
-        google_drive_credentials = os.environ['GOOGLE_DRIVE_CREDENTIALS']
-        if os.path.exists(google_drive_credentials):
-            google_credential_file = open(google_drive_credentials)
-            credentials_dict = json.load(google_credential_file)
+        google_credential_file = open(os.environ['GOOGLE_DRIVE_CREDENTIALS'])
+        credentials_dict = json.load(google_credential_file)
 
         credentials = ServiceAccountCredentials.from_json_keyfile_dict(
             credentials_dict, scope

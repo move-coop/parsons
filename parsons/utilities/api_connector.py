@@ -94,7 +94,8 @@ class APIConnector(object):
 
         return r.json()
 
-    def post_request(self, url, params=None, data=None, json=None, success_codes=[200, 204, 201]):
+    def post_request(self, url, params=None, data=None, json=None,
+                     success_codes=[200, 201, 202, 204]):
         """
         Make a POST request.
 

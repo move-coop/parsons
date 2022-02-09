@@ -53,6 +53,7 @@ if not os.environ.get('PARSONS_SKIP_IMPORT_ALL'):
     from parsons.sisense.sisense import Sisense
     from parsons.alchemer.alchemer import SurveyGizmo, Alchemer
     from parsons.quickbase.quickbase import Quickbase
+    from parsons.actblue.actblue import ActBlue
 
     __all__ = [
         'VAN',
@@ -100,7 +101,8 @@ if not os.environ.get('PARSONS_SKIP_IMPORT_ALL'):
         'Sisense',
         'SurveyGizmo',
         'Alchemer',
-        'Quickbase'
+        'Quickbase',
+        'ActBlue'
     ]
 
 # Define the default logging config for Parsons and its submodules. For now the

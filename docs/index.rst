@@ -224,6 +224,7 @@ Indices and tables
    :caption: Integrations
    :name: integrations
 
+   actblue
    action_kit
    action_network
    airtable
@@ -251,11 +252,12 @@ Indices and tables
    ngpvan
    pdi
    p2a
+   quickbase
    redash
    rockthevote
    salesforce
-   shopify
    sftp
+   shopify
    sisense
    targetsmart
    turbovote

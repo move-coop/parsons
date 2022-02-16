@@ -44,7 +44,7 @@ Sample Script Guidelines
 Configuration Variables
 ^^^^^^^^^^^^^^^^^^^^^^^
 
-Please separate out all configuration variables, including information like passwords and API keys, and move them to the top of the file. We recomment that sensitive information be stored in environmental variables and loaded into the script (see an example here (ADD_LINK)). Regardless, make sure to remove any sensitive information like passwords before submitting!
+Please separate out all configuration variables, including information like passwords and API keys, and move them to the top of the file. We recommend that sensitive information be stored in environmental variables and loaded into the script (as shown `in this example <https://github.com/move-coop/parsons/blob/master/useful_resources/sample_code/zoom_to_van.py>`_). Regardless, make sure to remove any sensitive information like passwords before submitting!
 
 We ask you to separate out configuration variables to minimize the likelihood of other users needing to edit your code. That makes your script easier to reuse.
 
@@ -68,11 +68,11 @@ Comment Liberally
 
 Please use code comments to describe what's happening in the code. Err on the side of too much exposition, rather than too little.
 
-^^^^^^^^^^^^^^^^^^^^^^
-Follow Our Style Guide
-^^^^^^^^^^^^^^^^^^^^^^
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Write Code in the Parsons Style
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-You can see our full style guide here (ADD LINK).
+We're still working on our style guide, so for now, just try to write code that's in line with Python's `PEP8 <https://realpython.com/python-pep8/>`_. If you're not used to writing code in this style, we're happy to help.
 
 In particular, please try to use meaningful and readable variable names. For example, instead of writing::
 
@@ -84,9 +84,29 @@ Write something more like::
     for attendee in training_session:
       print(attendee)
 
-^^^^^^^^^^^^^^^^^^^^^^^^^
-Make Your Script Runnable
-^^^^^^^^^^^^^^^^^^^^^^^^^
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Put Your Code In Callable Functions
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Make your script runnable from the command like using the ``__main__`` function.
+Often people will write their Python code like this::
 
+    user_name = "Maria"
+    message = f"Hello {user_name}! Welcome to our community."
+    print(message)
+
+This works fine when running a script directly, but can cause trouble when importing into other files. Code at the "top" level of a Python file automatically runs on import. Most people importing your code into another file will not want to do that!
+
+To make your code easier to re-use, stick it in one or more functions::
+
+    def greet_user(user_name):
+        message = f"Hello {user_name}! Welcome to our community."
+        print(message)
+
+Now other people can import your code and use it however they like. But what if they still want to run it from the command line? You can allow them to do that too by sticking this at the bottom of your Python file::
+
+    if __name__ == "__main__":
+        greet_user("Maria")  # or whatever you want to happen when the file is run
+
+What's happening here? Well, ``__name__`` is a special, built-in Python variable that is set to ``__main__`` if you're running the file directly. So this little piece of code says: if and only if you're running this code directly, execute the code within.
+
+Now anyone using your code can run it directly, *or* they can import it and re-use it however they like!

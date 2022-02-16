@@ -293,5 +293,4 @@ Indices and tables
    :caption: Use Cases and Sample Scripts
    :name: use_cases_and_sample_scripts
 
-   contribute_use_cases
-   use_cases/use_case_one
+   use_cases/contribute_use_cases

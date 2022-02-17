@@ -4,17 +4,21 @@ How to Contribute a Use Case & Sample Script
 
 People use Parsons for a great many things. We like to document and share that usage to save work and inspire other members of the community.
 
-A "use case" is a narrative description of any length (but usually at least a couple paragraphs) explaining the problem the user faced and why and how they used Parsons. The sample script is a cleaned-up version of the script they used that someone else can then take and adapt.
+A "use case" is a narrative description of any length (but usually at least a couple paragraphs) explaining the problem the user faced and why and how they used Parsons to solve it. The "sample script" is a cleaned-up and standardized version of the original script that someone else can take and adapt.
 
-To submit a use case and sample script, please take the following steps. Please reach out to the community at any point if you have questions about these steps, need someone to pair with you on this process, or for any other reason.
+To submit a use case and sample script, please take the following steps. Please reach out to the community at any point if you have questions about these steps, need someone to pair with you on this process, or for any other reason. The best place to get help is the #contrib channel on the Parsons slack. To request access to the Parsons slack, email *engineering@movementcooperative.org*.
+
+.. note::
+
+    The last step in this process involves submitting your contribution as a pull request. To do this, fork the repository by clicking the "fork" button in the top right-hand corner. Then you can make the edits described below, either locally or through the `Github web editor <https://docs.github.com/en/codespaces/the-githubdev-web-based-editor>`_. Once you've saved your changes (if you're working locally, this means doing a ``git push`` back to your fork) an alert asking you if you want to open a pull request should appear on your fork's main page. Go ahead and follow those instructions!
 
 Steps:
 
-  1. Write up your use case in a file in ``docs/use_cases``. Use the guidelines below for style and content. The file should end with ``.rst``. (That means it's a `Restructured Text <https://www.writethedocs.org/guide/writing/reStructuredText/>`_ file. Note that the syntax for RST files can be a little tricky!)
+  1. Write up your use case in a file in ``docs/use_cases``. Use the guidelines below for style and content. The file should end with ``.rst``. That means it's a `Restructured Text <https://www.writethedocs.org/guide/writing/reStructuredText/>`_ file. Note that the syntax for RST files can be a little tricky!
 
-  2. Test that your use case looks correctly by building the documentation. There are instructions `here <https://move-coop.github.io/parsons/html/contributing.html#documentation>`_. The important steps to follow there are making a virtual environment, installing the requirements.txt file, and then building the docs with `make html`.
+  2. Test that your use case looks correct by building the documentation. There are instructions `here <https://move-coop.github.io/parsons/html/contributing.html#documentation>`_. The important steps to follow there are making a virtual environment, installing the requirements.txt file, and then building the docs with `make html`.
 
-  3. Write up your sample script in a Python (``.py``) and place it in ``useful_resources/sample_code``. Use the guidelines below for style and content. After you've adapted to our style, please test to make sure the script still works.
+  3. Write up your sample script in a Python (``.py``) file and place it in ``useful_resources/sample_code``. Use the guidelines below for style and content. After you've adapted to our style, please test to make sure the script still works.
 
   4. Submit your changes as a pull request on Github. We will review your contribution and give you any feedback. When it's ready, we'll merge!
 

@@ -44,13 +44,41 @@ We are still working out the best structure for these write-ups, so feel free to
 Sample Script Guidelines
 ************************
 
+^^^^^^^^^^^^^^^^^^^^^
+Sensitive Information
+^^^^^^^^^^^^^^^^^^^^^
+
+Most scripts will include sensitive information like passwords and API keys. We recommend these be stored in environmental variables. Some environmental variables may need to be explicitly loaded into the script, but most will not. This is because each Parsons connector automatically looks in the environment for specific variables and uses them when initializing the connector. For example, the Zoom connector looks for ``ZOOM_API_KEY`` and ``ZOOM_API_SECRET``.
+
+Your sample script should make clear to users what environmental variables need to be set, including the variables for the connectors you're using. You can include a note to users reminding them to set environmental variables, something like::
+
+    # To use the Zoom connector, set the ZOOM_API_KEY and ZOOM_API_SECRET environmental variables.
+
+If you need to use other environmental variables beyond the ones automatically accessed by the connectors, make sure your script loads them from the environment::
+
+    NEW_ENV_VARIABLE = os.getenv('NEW_ENV_VARIABLE')
+
+Regardless of the approach you chose, make sure to remove any sensitive information like passwords before submitting!
+
+.. note::
+
+    Not sure how to set environmental variables? You can set them from the command line::
+
+        set VARIABLE_NAME=VARIABLE_VALUE       # Windows
+        export VARIABLE_NAME=VARIABLE_VALUE    # Linux/Mac
+
+    Or you can run a Python script that looks like this::
+
+        import os
+        os.environ[VARIABLE_NAME] = VARIABLE_VALUE
+
+    Hosting environments often have custom ways of setting environmental variables. You can look up their documentation and/or ask for help in the Parsons Slack.
+
 ^^^^^^^^^^^^^^^^^^^^^^^
 Configuration Variables
 ^^^^^^^^^^^^^^^^^^^^^^^
 
-Please separate out all configuration variables, including information like passwords and API keys, and move them to the top of the file. We recommend that sensitive information be stored in environmental variables and loaded into the script (as shown `in this example <https://github.com/move-coop/parsons/blob/master/useful_resources/sample_code/zoom_to_van.py>`_). Regardless, make sure to remove any sensitive information like passwords before submitting!
-
-We ask you to separate out configuration variables to minimize the likelihood of other users needing to edit your code. That makes your script easier to reuse.
+Please separate out all configuration variables and move them to the top of the file. We recommend that sensitive information be stored in environmental variables as shown above. We ask you to separate out configuration variables in order to minimize the likelihood of other users needing to edit your code. That makes your script easier to reuse.
 
 For example, instead of doing this::
 

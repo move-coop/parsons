@@ -19,7 +19,7 @@ import requests
 logger = logging.getLogger(__name__)
 
 
-class PDI(FlagIDs, Universes, Questions, AcquisitionTypes, Flags, Events, Locations):
+class PDI(FlagIDs, Universes, Questions, AcquisitionTypes, Flags, Events, Locations, Contacts):
 
     def __init__(self, username=None, password=None, api_token=None,
                  qa_url=False):

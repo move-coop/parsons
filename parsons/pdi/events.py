@@ -242,7 +242,6 @@ class Events:
         """
 
         event_invitation_payload ={
-                "eventId": event_id,
                 "contactId": contact_id,
                 "rsvpStatus": status,
                 "isConfirmed": confirmed,
@@ -252,6 +251,9 @@ class Events:
         if specific_occurrence_start:
             event_invitation_payload["specificOcurrenceStartUtc"] = specific_occurrence_start
 
-        response = self._request(self.eventactivities_url, req_type='POST',
-                                 post_data=event_invitation_payload)
+        response = self._request(self.eventactivities_url + f'/{event_id}/invitations',
+                                 req_type='POST', post_data=event_invitation_payload)
         return response
+
+
+    def update_invitation(self, ):

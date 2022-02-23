@@ -217,7 +217,7 @@ class Events:
         return response
 
     def create_invitation(self, event_id: str, contact_id: str, status: str, attended: bool,
-                          confirmed=False):
+                          confirmed=False, specific_occurrence_start=None):
         """Create a PDI event invitation indicating a contact has been registered for an event
 
             `Args:`
@@ -233,7 +233,25 @@ class Events:
                 confirmed: boolean
                     Indicates whether invitation confirmed they will attend the event. Defaults to
                     False
+                specific_occurrence_start: str
+                    If invitation is for a specific occurrence of a recurring event, then the start
+                    datetime of the event in UTC formatted as yyyy-MM-ddTHH:mm:ss.fffZ
             `Returns:`
                 dict
                     Response from PDI in dictionary object
         """
+
+        event_invitation_payload ={
+                "eventId": event_id,
+                "contactId": contact_id,
+                "rsvpStatus": status,
+                "isConfirmed": confirmed,
+                "attended": attended
+            }
+
+        if specific_occurrence_start:
+            event_invitation_payload["specificOcurrenceStartUtc"] = specific_occurrence_start
+
+        response = self._request(self.eventactivities_url, req_type='POST',
+                                 post_data=event_invitation_payload)
+        return response

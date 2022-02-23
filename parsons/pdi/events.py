@@ -301,8 +301,8 @@ class Events:
                                  req_type='PUT', post_data=event_invitation_payload)
         return response
 
-    def create_activity_assignment(self, eventactivityid: str, contact_id: str, status=None,
-                                   completed=None, confirmed=None, specific_occurrence_start=None):
+    def create_activity_assignment(self, eventactivityid: str, contact_id: str, status: str,
+                                   completed: bool, confirmed=False, specific_occurrence_start=None):
         """Create an activity assignement
 
             `Args:`
@@ -338,5 +338,52 @@ class Events:
 
         response = self._request(self.activityassignment_url, req_type='POST',
                                  post_data=assignment_payload)
+
+        return response
+
+
+    def update_activity_assignment(self, activityassignementid: str, eventactivityid: str,
+                                   contact_id: str, status=None, completed=None, confirmed=None,
+                                   specific_occurrence_start=None):
+        """Create an activity assignement
+
+            `Args:`
+                activityassignementid: str
+                    Id of the specific event activity assignement you want to modify
+                eventactivityid: str
+                    The ID of the specific event activity you'd like to assign a contact
+                contact_id: str
+                    The ID of the contact to which the assignment belongs
+                status: str
+                    Options are: "Yes", "No", "Maybe", "Scheduled", "Invited", "Cancelled",
+                    "No-Show", "Completed", and ""
+                completed: boolean
+                    Indicates whether contact attended event
+                confirmed: boolean
+                    Indicates whether invitation confirmed they will attend the event
+                specific_occurrence_start: str
+                    If invitation is for a specific occurrence of a recurring event, then the start
+                    datetime of the event in UTC formatted as yyyy-MM-ddTHH:mm:ss.fffZ
+            `Returns:`
+                dict
+                    Response from PDI in dictionary object
+        """
+
+        assignment_payload = {
+            "contactId": contact_id,
+            "eventActivityId": eventactivityid
+        }
+
+        if status:
+            assignment_payload['rsvpStatus'] = status
+        if confirmed is not None:
+            assignment_payload['isConfirmed'] = confirmed
+        if completed is not None:
+            assignment_payload['isShiftWorked'] = completed
+        if specific_occurrence_start:
+            assignment_payload["specificOcurrenceStartUtc"] = specific_occurrence_start
+
+        response = self._request(self.activityassignment_url + f'/{activityassignementid}',
+                                 req_type='PUT', post_data=assignment_payload)
 
         return response

@@ -264,7 +264,7 @@ class Events:
                 invitation_id: str
                     The ID of the event invitation
                 event_id: str
-                    The ID of the event to write the RSVP to
+                    The ID of the event that corresponds to the invitation
                 contact_id: str
                     The ID of the contact to which the invitation belongs
                 status: str
@@ -273,8 +273,7 @@ class Events:
                 attended: boolean
                     Indicates whether contact attended event
                 confirmed: boolean
-                    Indicates whether invitation confirmed they will attend the event. Defaults to
-                    False
+                    Indicates whether invitation confirmed they will attend the event
                 specific_occurrence_start: str
                     If invitation is for a specific occurrence of a recurring event, then the start
                     datetime of the event in UTC formatted as yyyy-MM-ddTHH:mm:ss.fffZ

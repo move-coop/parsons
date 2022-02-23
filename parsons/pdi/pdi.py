@@ -5,6 +5,7 @@ from parsons.pdi.questions import Questions
 from parsons.pdi.acquisition_types import AcquisitionTypes
 from parsons.pdi.events import Events
 from parsons.pdi.locations import Locations
+from parsons.pdi.contacts import Contacts
 
 from parsons import Table
 from parsons.utilities import check_env

@@ -215,3 +215,25 @@ class Events:
         logger.info(f'Created activity {activity_name} for event {event_id})')
 
         return response
+
+    def create_invitation(self, event_id: str, contact_id: str, status: str, attended: bool,
+                          confirmed=False):
+        """Create a PDI event invitation indicating a contact has been registered for an event
+
+            `Args:`
+                event_id: str
+                    The ID of the event to write the RSVP to
+                contact_id: str
+                    The ID of the contact to which the invitation belongs
+                status: str
+                    Options are: "Yes", "No", "Maybe", "Scheduled", "Invited", "Cancelled",
+                    "No-Show", "Completed", and ""
+                attended: boolean
+                    Indicates whether contact attended event
+                confirmed: boolean
+                    Indicates whether invitation confirmed they will attend the event. Defaults to
+                    False
+            `Returns:`
+                dict
+                    Response from PDI in dictionary object
+        """

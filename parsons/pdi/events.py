@@ -251,9 +251,51 @@ class Events:
         if specific_occurrence_start:
             event_invitation_payload["specificOcurrenceStartUtc"] = specific_occurrence_start
 
-        response = self._request(self.eventactivities_url + f'/{event_id}/invitations',
+        response = self._request(self.events_url + f'/{event_id}/invitations',
                                  req_type='POST', post_data=event_invitation_payload)
         return response
 
 
-    def update_invitation(self, ):
+    def update_invitation(self, invitation_id: str, event_id: str, contact_id: str, status=None,
+                          attended=None, confirmed=None, specific_occurrence_start=None):
+        """Modify a PDI event invitation
+
+            `Args:`
+                invitation_id: str
+                    The ID of the event invitation
+                event_id: str
+                    The ID of the event to write the RSVP to
+                contact_id: str
+                    The ID of the contact to which the invitation belongs
+                status: str
+                    Options are: "Yes", "No", "Maybe", "Scheduled", "Invited", "Cancelled",
+                    "No-Show", "Completed", and ""
+                attended: boolean
+                    Indicates whether contact attended event
+                confirmed: boolean
+                    Indicates whether invitation confirmed they will attend the event. Defaults to
+                    False
+                specific_occurrence_start: str
+                    If invitation is for a specific occurrence of a recurring event, then the start
+                    datetime of the event in UTC formatted as yyyy-MM-ddTHH:mm:ss.fffZ
+            `Returns:`
+                dict
+                    Response from PDI in dictionary object
+        """
+
+        event_invitation_payload = {
+            "contactId": contact_id
+        }
+
+        if status:
+            event_invitation_payload['rsvpStatus'] = status
+        if confirmed is not None:
+            event_invitation_payload['isConfirmed'] = confirmed
+        if attended is not None:
+            event_invitation_payload['attended'] = attended
+        if specific_occurrence_start:
+            event_invitation_payload["specificOcurrenceStartUtc"] = specific_occurrence_start
+
+        response = self._request(self.events_url + f'/{event_id}/invitations/{invitation_id}',
+                                 req_type='PUT', post_data=event_invitation_payload)
+        return response

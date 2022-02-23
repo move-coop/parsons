@@ -2,6 +2,7 @@ import logging
 
 logger = logging.getLogger(__name__)
 
+
 class Events:
     """A class for interacting with PDI events via PDIs API"""
 
@@ -9,7 +10,8 @@ class Events:
         self.events_url = self.base_url + '/events'
         self.calendars_url = self.base_url + '/calendars'
         self.eventactivities_url = self.base_url + '/eventActivities'
-        self.activites_url = self.base_ur +'/activities'
+        self.activites_url = self.base_ur + '/activities'
+        self.activityassignment_url = self.base_url + '/eventActivityAssignements'
 
         super().__init__()
 
@@ -26,7 +28,7 @@ class Events:
         return self._request(self.activities_ur + f'/{activity_id}', req_type='GET')
 
     def create_event(self, calendar_id: str, location_id: str, event_name: str, start_datetime: str,
-                     end_datetime: str, description=None,all_day=False, recurrencetype=None,
+                     end_datetime: str, description=None, all_day=False, recurrencetype=None,
                      recurrence_end_datetime=None, host_phone=None, host_email=None, website=None):
         """Create event in a specified calendar
 
@@ -65,17 +67,17 @@ class Events:
             """
 
         payload = {
-          "locationId": location_id,
-          "recurrenceType": recurrencetype,
-          "name": event_name,
-          "description": description,
-          "startDateTimeUtc": start_datetime,
-          "endDateTimeUtc": end_datetime,
-          "isAllDay": str(all_day).lower(),
-          "recurrenceEndDateTimeUtc": recurrence_end_datetime,
-          "phone": host_phone,
-          "contactEmail": host_email,
-          "website": website
+            "locationId": location_id,
+            "recurrenceType": recurrencetype,
+            "name": event_name,
+            "description": description,
+            "startDateTimeUtc": start_datetime,
+            "endDateTimeUtc": end_datetime,
+            "isAllDay": str(all_day).lower(),
+            "recurrenceEndDateTimeUtc": recurrence_end_datetime,
+            "phone": host_phone,
+            "contactEmail": host_email,
+            "website": website
         }
 
         response = self._request(self.calendars_url + f'/{calendar_id}' + '/events',
@@ -88,7 +90,8 @@ class Events:
     def create_event_with_activity(self, calendar_id: str, location_id: str, activity_id: str,
                                    event_name: str, activity_name: str, start_datetime: str,
                                    end_datetime: str, description=None, all_day=False,
-                                   recurrencetype=None, recurrence_end_datetime=None, host_phone=None,
+                                   recurrencetype=None, recurrence_end_datetime=None,
+                                   host_phone=None,
                                    host_email=None, website=None, signup_goal=None):
         """Create event in a specified calendar with an associated activity. The activty will
             be assigned the same start, end time, and recurrance settings as the event.
@@ -241,12 +244,12 @@ class Events:
                     Response from PDI in dictionary object
         """
 
-        event_invitation_payload ={
-                "contactId": contact_id,
-                "rsvpStatus": status,
-                "isConfirmed": confirmed,
-                "attended": attended
-            }
+        event_invitation_payload = {
+            "contactId": contact_id,
+            "rsvpStatus": status,
+            "isConfirmed": confirmed,
+            "attended": attended
+        }
 
         if specific_occurrence_start:
             event_invitation_payload["specificOcurrenceStartUtc"] = specific_occurrence_start
@@ -254,7 +257,6 @@ class Events:
         response = self._request(self.events_url + f'/{event_id}/invitations',
                                  req_type='POST', post_data=event_invitation_payload)
         return response
-
 
     def update_invitation(self, invitation_id: str, event_id: str, contact_id: str, status=None,
                           attended=None, confirmed=None, specific_occurrence_start=None):
@@ -297,4 +299,44 @@ class Events:
 
         response = self._request(self.events_url + f'/{event_id}/invitations/{invitation_id}',
                                  req_type='PUT', post_data=event_invitation_payload)
+        return response
+
+    def create_activity_assignment(self, eventactivityid: str, contact_id: str, status=None,
+                                   completed=None, confirmed=None, specific_occurrence_start=None):
+        """Create an activity assignement
+
+            `Args:`
+                eventactivityid: str
+                    The ID of the specific event activity you'd like to assign a contact
+                contact_id: str
+                    The ID of the contact to which the assignment belongs
+                status: str
+                    Options are: "Yes", "No", "Maybe", "Scheduled", "Invited", "Cancelled",
+                    "No-Show", "Completed", and ""
+                completed: boolean
+                    Indicates whether contact attended event
+                confirmed: boolean
+                    Indicates whether invitation confirmed they will attend the event
+                specific_occurrence_start: str
+                    If invitation is for a specific occurrence of a recurring event, then the start
+                    datetime of the event in UTC formatted as yyyy-MM-ddTHH:mm:ss.fffZ
+            `Returns:`
+                dict
+                    Response from PDI in dictionary object
+        """
+
+        assignment_payload = {
+            "rsvpStatus": status,
+            "isConfirmed": confirmed,
+            "isShiftWorked": completed,
+            "contactId": contact_id,
+            "eventActivityId": eventactivityid
+        }
+
+        if specific_occurrence_start:
+            assignment_payload["specificOcurrenceStartUtc"] = specific_occurrence_start
+
+        response = self._request(self.activityassignment_url, req_type='POST',
+                                 post_data=assignment_payload)
+
         return response

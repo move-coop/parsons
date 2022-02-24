@@ -3,6 +3,10 @@ from parsons.pdi.flags import Flags
 from parsons.pdi.universes import Universes
 from parsons.pdi.questions import Questions
 from parsons.pdi.acquisition_types import AcquisitionTypes
+from parsons.pdi.events import Events
+from parsons.pdi.locations import Locations
+from parsons.pdi.phones import Phones
+from parsons.pdi.contacts import Contacts
 
 from parsons import Table
 from parsons.utilities import check_env
@@ -17,7 +21,8 @@ import requests
 logger = logging.getLogger(__name__)
 
 
-class PDI(FlagIDs, Universes, Questions, AcquisitionTypes, Flags):
+class PDI(FlagIDs, Universes, Questions, AcquisitionTypes, 
+Flags, Events, Locations, Phones, Contacts):
 
     def __init__(self, username=None, password=None, api_token=None,
                  qa_url=False):
@@ -65,10 +70,8 @@ class PDI(FlagIDs, Universes, Questions, AcquisitionTypes, Flags):
             f"{self.base_url}/sessions",
             json=login,
             headers=headers)
-
         logger.debug(f"{res.status_code} - {res.url}")
         res.raise_for_status()
-
         # status_code == 200
         data = res.json()
         self.session_token = data["AccessToken"]

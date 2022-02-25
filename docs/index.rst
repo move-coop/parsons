@@ -289,3 +289,10 @@ Indices and tables
    contributing
    build_a_connector
    write_tests
+
+.. toctree::
+   :maxdepth: 1
+   :caption: Use Cases and Sample Scripts
+   :name: use_cases_and_sample_scripts
+
+   use_cases/contribute_use_cases

@@ -359,7 +359,7 @@ class Box(object):
             if '/' in path:
                 this_element, path = path.split(sep='/', maxsplit=1)
                 if path == '':
-                    raise ValueError(f'Illegal trailing "/" in file path')
+                    raise ValueError('Illegal trailing "/" in file path')
 
             else:
                 this_element = path

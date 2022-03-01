@@ -83,7 +83,7 @@ class RockTheVote:
             int
                 The ID of the created report.
         """
-        report_url = f'registrant_reports.json'
+        report_url = 'registrant_reports.json'
         # Create the report for the new data
         report_parameters = {
             'partner_id': self.partner_id,
@@ -165,8 +165,8 @@ class RockTheVote:
         # report. Otherwise, as long as we haven't run out of time, we will
         # check the status.
         while not download_url and datetime.datetime.now() < end_time:
-            logger.debug(f'Registrations report not ready yet, sleeping %s seconds',
-                         poll_interval_seconds)
+            logger.debug(
+                f'Registrations report not ready yet, sleeping {poll_interval_seconds} seconds')
 
             # Check the status again via the status endpoint
             status_response = self.client.request(status_url, 'get', params=credentials)
@@ -273,7 +273,7 @@ class RockTheVote:
             Parsons.Table
                 A single row table with the response json
         """
-        requirements_url = f'state_requirements.json'
+        requirements_url = 'state_requirements.json'
 
         logger.info(f"Getting the requirements for {home_state_id}...")
 

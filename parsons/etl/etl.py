@@ -80,9 +80,11 @@ class ETL(object):
             `Parsons Table` and also updates self
         """
 
-        self.add_column(column_name + '_column_fill_temp', fill_value)
-        self.remove_column(column_name)
-        self.rename_column(column_name + '_column_fill_temp', column_name)
+        if callable(fill_value):
+            self.table = petl.convert(self.table, column_name, lambda _, r: fill_value(r),
+                                      pass_row=True)
+        else:
+            self.table = petl.update(self.table, column_name, fill_value)
 
         return self
 
@@ -94,12 +96,17 @@ class ETL(object):
             column_name: str
                 The column to fill
             fill_value:
-                Fixed value only
+                A fixed or calculated value
         `Returns:`
             `Parsons Table` and also updates self
         """
 
-        self.fill_column(column_name, lambda x: x[column_name] if x[column_name] else fill_value)
+        if callable(fill_value):
+            self.table = petl.convert(self.table, column_name, lambda _, r: fill_value(r),
+                                      where=lambda r: r[column_name] is None, pass_row=True)
+        else:
+            self.table = petl.update(self.table, column_name, fill_value,
+                                     where=lambda r: r[column_name] is None)
 
         return self
 
@@ -127,13 +134,13 @@ class ETL(object):
         method. Example usage can be found `here <https://petl.readthedocs.io/en/v0.24/transform.html#petl.convert>`_.
 
         `Args:`
-            \*column: str
+            *column: str
                 A single column or multiple columns passed as a list
-            \**kwargs: str, method or variable
+            **kwargs: str, method or variable
                 The update function, method, or variable to process the update
         `Returns:`
             `Parsons Table` and also updates self
-        """ # noqa: E501,E261
+        """  # noqa: E501,E261
 
         self.table = petl.convert(self.table, *column, **kwargs)
 
@@ -224,7 +231,7 @@ class ETL(object):
 
         return self
 
-    def map_columns(self, column_map):
+    def map_columns(self, column_map, exact_match=True):
         """
         Standardizes column names based on multiple possible values. This method
         is helpful when your input table might have multiple and unknown column
@@ -233,6 +240,9 @@ class ETL(object):
         `Args:`
             column_map: dict
                 A dictionary of columns and possible values that map to it
+            exact_match: boolean
+                If ``True`` will only map if an exact match. If ``False`` will
+                ignore case, spaces and underscores.
         `Returns:`
             `Parsons Table` and also updates self
 
@@ -250,11 +260,17 @@ class ETL(object):
             >> {{'first_name': 'Jane', 'last_name': 'Doe', 'date_of_birth': '1908-01-01'}}
         """
 
-        for c in self.columns:
+        for col in self.columns:
+
+            if not exact_match:
+                cleaned_col = col.lower().replace('_', '').replace(' ', '')
+            else:
+                cleaned_col = col
+
             for k, v in column_map.items():
                 for i in v:
-                    if c == i:
-                        self.rename_column(c, k)
+                    if cleaned_col == i:
+                        self.rename_column(col, k)
 
         return self
 
@@ -1052,9 +1068,9 @@ class ETL(object):
             to_petl: bool
                 If ``True``, returns a petl table, otherwise a ``parsons.Table``.
                 Defaults to ``False``.
-            \*args: Any
+            *args: Any
                 The arguements to pass to the petl function.
-            \**kwargs: Any
+            **kwargs: Any
                 The keyword arguements to pass to the petl function.
         `Returns:`
             `parsons.Table` or `petl` table

@@ -86,7 +86,7 @@ class People(object):
             A person dict object
         """
 
-        logger.info(f'Finding a match for json details.')
+        logger.info('Finding a match for json details.')
 
         return self._people_search(match_json=match_json)
 

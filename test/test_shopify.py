@@ -17,6 +17,17 @@ class TestShopify(unittest.TestCase):
     mock_count_date = mock_count_since = {
         'count': 1
     }
+    mock_graphql = {
+        'data': {
+            'orders': {
+                'edges': [{
+                    'node': {
+                        'id': 1
+                    }
+                }]
+            }
+        }
+    }
     mock_orders_all = {
         'orders': [{
             'created_at': '2020-10-19T12:00:00-04:00',
@@ -93,3 +104,21 @@ class TestShopify(unittest.TestCase):
         self.assertEqual(self.shopify.get_query_url(None, None, "orders", False),
                          f'https://{SUBDOMAIN}.myshopify.com/admin/api/{API_VERSION}/orders.json?' +
                          'limit=250&status=any')
+
+    @requests_mock.Mocker()
+    def test_graphql(self, m):
+        m.post(
+            'https://{0}.myshopify.com/admin/api/{1}/graphql.json'.format(SUBDOMAIN, API_VERSION),
+            json=self.mock_graphql
+        )
+        self.assertEqual(self.shopify.graphql("""
+            {{
+                orders(query: "financial_status:=paid", first: 100) {{
+                    edges {{
+                        node {{
+                            id
+                        }}
+                    }}
+                }}
+            }}
+        """), self.mock_graphql['data'])

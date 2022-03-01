@@ -15,8 +15,9 @@ class RedshiftCreateTable(DatabaseCreateStatement):
         self.COL_NAME_MAX_LEN = consts.COL_NAME_MAX_LEN
         self.REPLACE_CHARS = consts.REPLACE_CHARS
 
-        # Redshift doesn't have a medium int
+        # Currently smallints are coded as ints
         self.SMALLINT = self.INT
+        # Redshift doesn't have a medium int
         self.MEDIUMINT = self.INT
 
         # Currently py floats are coded as Redshift decimals
@@ -176,7 +177,11 @@ class RedshiftCreateTable(DatabaseCreateStatement):
         if distkey:
             statement += '\ndistkey({}) '.format(distkey)
 
-        if sortkey:
+        if sortkey and isinstance(sortkey, list):
+            statement += '\ncompound sortkey('
+            statement += ', '.join(sortkey)
+            statement += ')'
+        elif sortkey:
             statement += '\nsortkey({})'.format(sortkey)
 
         statement += ';'

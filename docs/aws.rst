@@ -138,6 +138,26 @@ API
 .. autoclass:: parsons.S3
    :inherited-members:
 
+=====================
+Temporary Credentials
+=====================
+
+The S3 API supports creating temporary credentials for one-off operations, such as pushing a file to a particular key in a particular bucket.
+For example, the Mapbox API allows you to request temporary credentials that grant you access to a bucket where you can upload map data. 
+When S3 returns a set of temporary credentials it also returns a session token that needs to be included with the standard credentials for 
+them to be accepted. The ``S3`` class can be passed a session token as an environmental variable (``AWS_SESSION_TOKEN``) or as a keyword argument.
+
+.. code-block:: python
+
+   from parsons import S3
+
+   # First approach: Pass session token via AWS_SESSION_TOKEN environmental variable
+   s3 = S3()
+
+   # Second approach: Pass session token as an argument
+   creds = request_temporary_credentials()
+   s3 = S3(aws_access_key_id=creds['id'], aws_secret_access_key=creds['key'],
+           aws_session_token=creds['token'])
 
 ********
 Redshift

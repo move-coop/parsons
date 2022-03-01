@@ -171,7 +171,7 @@ class Bloomerang(object):
         if last_modified:
             params["lastModified"] = last_modified
 
-        response = self._base_get(f'constituents', params=params)
+        response = self._base_get('constituents', params=params)
         return Table(response['Results'])
 
     def create_transaction(self, **kwargs):
@@ -231,7 +231,7 @@ class Bloomerang(object):
         params = self._base_pagination_params(page_number, page_size)
         params.update(self._base_ordering_params(order_by, order_direction))
 
-        response = self._base_get(f'transactions', params=params)
+        response = self._base_get('transactions', params=params)
         return Table(response['Results'])
 
     def get_transaction_designation(self, designation_id):
@@ -262,7 +262,7 @@ class Bloomerang(object):
         params = self._base_pagination_params(page_number, page_size)
         params.update(self._base_ordering_params(order_by, order_direction))
 
-        response = self._base_get(f'transactions/designations', params=params)
+        response = self._base_get('transactions/designations', params=params)
         return Table(response['Results'])
 
     def create_interaction(self, **kwargs):
@@ -316,5 +316,5 @@ class Bloomerang(object):
             A  JSON of the entry or an error.
         """
         params = self._base_pagination_params(page_number, page_size)
-        response = self._base_get(f'interactions', params=params)
+        response = self._base_get('interactions', params=params)
         return Table(response['Results'])

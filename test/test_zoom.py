@@ -388,5 +388,5 @@ class TestZoom(unittest.TestCase):
             }
         ])
 
-        m.get(ZOOM_URI + 'report/webinars/123/registrants', json=registrants)
+        m.get(ZOOM_URI + 'webinars/123/registrants', json=registrants)
         assert_matching_tables(self.zoom.get_webinar_registrants(123), tbl)

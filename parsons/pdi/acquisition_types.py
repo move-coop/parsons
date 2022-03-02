@@ -7,9 +7,8 @@ class AcquisitionTypes:
 
         super().__init__()
 
-    def get_acquisition_types(self, limit=None):
+    def get_acquisition_types(self, limit:int=None):
         """Get a list of Acquisition Types.
-
         `Args:`
             limit: int
                 Specify limit to return.
@@ -18,7 +17,6 @@ class AcquisitionTypes:
             parsons.Table
                 A Parsons table of all the data.
         """
-
         return self._request(self.url_acqtypes, limit=limit)
 
     def create_acquisition_type(self, acquisition_type:str, acquisition_description:str, 

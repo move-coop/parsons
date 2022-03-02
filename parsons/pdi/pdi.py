@@ -7,6 +7,7 @@ from parsons.pdi.events import Events
 from parsons.pdi.locations import Locations
 from parsons.pdi.phones import Phones
 from parsons.pdi.contacts import Contacts
+from parsons.pdi.activities import Activities
 
 from parsons import Table
 from parsons.utilities import check_env
@@ -22,7 +23,7 @@ logger = logging.getLogger(__name__)
 
 
 class PDI(FlagIDs, Universes, Questions, AcquisitionTypes, 
-Flags, Events, Locations, Phones, Contacts):
+Flags, Events, Locations, Phones, Contacts, Activities):
 
     def __init__(self, username=None, password=None, api_token=None,
                  qa_url=False):
@@ -115,7 +116,6 @@ Flags, Events, Locations, Phones, Contacts):
 
         args = self._clean_dict(args) if args else args
         post_data = self._clean_dict(post_data) if post_data else post_data
-
         res = request_fn[req_type](
             url, headers=headers, json=post_data, params=args)
 

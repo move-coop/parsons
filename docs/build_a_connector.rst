@@ -287,6 +287,8 @@ Connector-Specific Guidance
 
 The following connectors have sandbox API keys available. Some connectors have specific best practices or additional information to send along when you request the key from us.
 
+**ActionNetwork**: In order to access the ActionNetwork sandbox account, we’ll need the email address associated with your ActionNetwork account. Please make an ActionNetwork account if you don’t have one already, and include the associated email in your access request to us.
+
 **ControlShift**: Please limit your testing to pushing and pulling data in and out and do not use the account for sending mass texts. (The sandbox account has an associated phone number, but it is unnecessary for Parsons testing.)
 
 **Hustle**
@@ -294,8 +296,6 @@ The following connectors have sandbox API keys available. Some connectors have s
 **Mobilize**
 
 **Strive**
-
-**ActionNetwork**: In order to access the ActionNetwork sandbox account, we’ll need the email address associated with your ActionNetwork account. Please make an ActionNetwork account if you don’t have one already, and include the associated email in your access request to us.
 
 ------------
 Finishing up

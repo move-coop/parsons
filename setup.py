@@ -11,7 +11,7 @@ def main():
 
     setup(
         name="parsons",
-        version='0.18.0',
+        version='0.18.1',
         author="The Movement Cooperative",
         author_email="info@movementcooperative.org",
         url='https://github.com/movementcoop/parsons',

@@ -39,6 +39,7 @@
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <p class="caption" role="heading"><span class="caption-text">Integrations</span></p>
 <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="actblue.html">ActBlue</a></li>
 <li class="toctree-l1"><a class="reference internal" href="action_kit.html">ActionKit</a></li>
 <li class="toctree-l1"><a class="reference internal" href="action_network.html">Action Network</a></li>
 <li class="toctree-l1"><a class="reference internal" href="airtable.html">Airtable</a></li>
@@ -71,11 +72,12 @@
 <li class="toctree-l1"><a class="reference internal" href="ngpvan.html">NGPVAN</a></li>
 <li class="toctree-l1"><a class="reference internal" href="pdi.html">PDI</a></li>
 <li class="toctree-l1"><a class="reference internal" href="p2a.html">Phone2Action</a></li>
+<li class="toctree-l1"><a class="reference internal" href="quickbase.html">Quickbase</a></li>
 <li class="toctree-l1"><a class="reference internal" href="redash.html">Redash</a></li>
 <li class="toctree-l1"><a class="reference internal" href="rockthevote.html">Rock the Vote</a></li>
 <li class="toctree-l1"><a class="reference internal" href="salesforce.html">Salesforce</a></li>
-<li class="toctree-l1"><a class="reference internal" href="shopify.html">Shopify</a></li>
 <li class="toctree-l1"><a class="reference internal" href="sftp.html">SFTP</a></li>
+<li class="toctree-l1"><a class="reference internal" href="shopify.html">Shopify</a></li>
 <li class="toctree-l1"><a class="reference internal" href="sisense.html">Sisense</a></li>
 <li class="toctree-l1"><a class="reference internal" href="targetsmart.html">TargetSmart</a></li>
 <li class="toctree-l1"><a class="reference internal" href="turbovote.html">TurboVote</a></li>
@@ -98,6 +100,10 @@
 <li class="toctree-l1"><a class="reference internal" href="contributing.html">Contributing to Parsons</a></li>
 <li class="toctree-l1"><a class="reference internal" href="build_a_connector.html">How to Build a Connector</a></li>
 <li class="toctree-l1"><a class="reference internal" href="write_tests.html">How to Write Tests for Parsons Connectors</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Use Cases and Sample Scripts</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="use_cases/contribute_use_cases.html">How to Contribute a Use Case &amp; Sample Script</a></li>
 </ul>
 
         </div>
@@ -157,6 +163,42 @@ variables (<code class="docutils literal notranslate"><span class="pre">CONTROLS
 </section>
 <section id="controlshift-class">
 <h2>Controlshift Class<a class="headerlink" href="#controlshift-class" title="Permalink to this headline"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="parsons.Controlshift">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">parsons.</span></span><span class="sig-name descname"><span class="pre">Controlshift</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">hostname</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">client_id</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">client_secret</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/controlshift/controlshift.html#Controlshift"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.Controlshift" title="Permalink to this definition"></a></dt>
+<dd><p>Instantiate the Controlshift class. Requires an API Application integration.
+For more info on setup, see:
+<a class="reference external" href="https://developers.controlshiftlabs.com/#authenticated-rest-api-quickstart-guide">https://developers.controlshiftlabs.com/#authenticated-rest-api-quickstart-guide</a></p>
+<dl class="simple">
+<dt><cite>Args:</cite></dt><dd><dl class="simple">
+<dt>hostname: str</dt><dd><p>The URL for the homepage/login page of the organization’s Controlshift
+instance (e.g. demo.controlshift.app). Not required if
+<code class="docutils literal notranslate"><span class="pre">CONTROLSHIFT_HOSTNAME</span></code> env variable is set.</p>
+</dd>
+<dt>client_id: str</dt><dd><p>The Client ID for your REST API Application. Not required if
+<code class="docutils literal notranslate"><span class="pre">CONTROLSHIFT_CLIENT_ID</span></code> env variable is set.</p>
+</dd>
+<dt>client_secret: str</dt><dd><p>The Client Secret for your REST API Application. Not required if
+<code class="docutils literal notranslate"><span class="pre">CONTROLSHIFT_CLIENT_SECRET</span></code> env variable is set.</p>
+</dd>
+</dl>
+</dd>
+<dt><cite>Returns:</cite></dt><dd><p>Controlshift Class</p>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="parsons.Controlshift.get_petitions">
+<span class="sig-name descname"><span class="pre">get_petitions</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">parsons.etl.table.Table</span></span></span><a class="reference internal" href="_modules/parsons/controlshift/controlshift.html#Controlshift.get_petitions"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.Controlshift.get_petitions" title="Permalink to this definition"></a></dt>
+<dd><p>Get a full list of all petitions, including ones that are unlaunched or otherwise not
+visible to the public.</p>
+<dl class="simple">
+<dt><cite>Return:</cite></dt><dd><p>Table Class</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
 </section>
 </section>
 

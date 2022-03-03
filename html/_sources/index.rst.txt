@@ -17,7 +17,7 @@ The Movement Cooperative is a member led organization focused on providing data,
 
 License and Usage
 =================
-Usage of Parsons is governed by the `TMC Parsons License <https://github.com/move-coop/parsons/blob/master/LICENSE.md>`_, a modified Apache License with author attribution statement.
+Usage of Parsons is governed by a `modified Apache License with author attribution statement <https://github.com/move-coop/parsons/blob/master/LICENSE.md>`_.
 
 Design Goals
 ============
@@ -71,9 +71,68 @@ Sources
 * Documentation: `<https://move-coop.github.io/parsons/html/index.html>`_
 * Source Code: `<https://github.com/move-coop/parsons>`_
 
+Virtual Environments
+====================
+
+Normally, tools like `pip` install Python libraries directly to your system. Python scripts
+or libraries look for their dependencies in your system. This can cause problems when you
+have two scripts/libraries installed that require different versions of the same library.
+
+To solve this problem, we recommend you use *virtual environments* to install Parsons.
+Virtual environments allow you to keep different sets of installed libraries so that you can
+use different versions of the same libraries for different purposes.
+
+Windows
+------------------------------
+
+`Source <https://pypi.org/project/virtualenvwrapper-win/>`_
+
+1. Install virtualenvwrappers from source::
+
+      git clone git://github.com/davidmarble/virtualenvwrapper-win.git
+      cd virtualenvwrapper-win
+      python setup.py install
+
+2. Find the ``Scripts\`` directory for your Python installation, such as ``C:\Users\<User>\AppData\Local\Programs\Python\Python37\Scripts\``.
+
+3. Add the ``Scripts\`` directory to your Path.
+
+4. To create a virtual environment for Parsons, execute: ``mkvirtualenv parsons``
+
+5. To use this virtual environment, execute: ``workon parsons``
+
+
+Linux / Mac OS
+------------------------------
+
+<Coming Soon>
+
 Installation
 ============
-You can install the most recent release by running: ``pip install parsons``
+
+There are two ways to install Parsons: Using pip and from source. Use pip if you just want to install Parsons and start using it. Install from source if you might want to patch Parsons to customize its behavior.
+
+Installing Parsons (pip)
+-----------------------------
+
+1. Make sure you're in your parsons virtual environment: ``workon parsons``.
+
+2. Execute: ``pip install parsons``
+
+Installing Parsons from Source
+----------------------------------
+
+
+1. Make sure you're in your parsons virtual environment: ``workon parsons``.
+
+2. Execute these commands::
+
+      git clone https://github.com/move-coop/parsons.git
+      pip install -r requirements.txt
+      python setup.py install
+
+
+3. To update your installation, pull the most recent branch from the Parsons GitHub repo (``git pull origin master``) and rerun ``python setup.py install``.
 
 Logging
 =======
@@ -165,6 +224,7 @@ Indices and tables
    :caption: Integrations
    :name: integrations
 
+   actblue
    action_kit
    action_network
    airtable
@@ -192,11 +252,12 @@ Indices and tables
    ngpvan
    pdi
    p2a
+   quickbase
    redash
    rockthevote
    salesforce
-   shopify
    sftp
+   shopify
    sisense
    targetsmart
    turbovote
@@ -228,3 +289,10 @@ Indices and tables
    contributing
    build_a_connector
    write_tests
+
+.. toctree::
+   :maxdepth: 1
+   :caption: Use Cases and Sample Scripts
+   :name: use_cases_and_sample_scripts
+
+   use_cases/contribute_use_cases

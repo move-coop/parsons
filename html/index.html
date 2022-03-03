@@ -18,7 +18,7 @@
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="ActionKit" href="action_kit.html" /> 
+    <link rel="next" title="ActBlue" href="actblue.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -38,6 +38,7 @@
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <p class="caption" role="heading"><span class="caption-text">Integrations</span></p>
 <ul>
+<li class="toctree-l1"><a class="reference internal" href="actblue.html">ActBlue</a></li>
 <li class="toctree-l1"><a class="reference internal" href="action_kit.html">ActionKit</a></li>
 <li class="toctree-l1"><a class="reference internal" href="action_network.html">Action Network</a></li>
 <li class="toctree-l1"><a class="reference internal" href="airtable.html">Airtable</a></li>
@@ -65,11 +66,12 @@
 <li class="toctree-l1"><a class="reference internal" href="ngpvan.html">NGPVAN</a></li>
 <li class="toctree-l1"><a class="reference internal" href="pdi.html">PDI</a></li>
 <li class="toctree-l1"><a class="reference internal" href="p2a.html">Phone2Action</a></li>
+<li class="toctree-l1"><a class="reference internal" href="quickbase.html">Quickbase</a></li>
 <li class="toctree-l1"><a class="reference internal" href="redash.html">Redash</a></li>
 <li class="toctree-l1"><a class="reference internal" href="rockthevote.html">Rock the Vote</a></li>
 <li class="toctree-l1"><a class="reference internal" href="salesforce.html">Salesforce</a></li>
-<li class="toctree-l1"><a class="reference internal" href="shopify.html">Shopify</a></li>
 <li class="toctree-l1"><a class="reference internal" href="sftp.html">SFTP</a></li>
+<li class="toctree-l1"><a class="reference internal" href="shopify.html">Shopify</a></li>
 <li class="toctree-l1"><a class="reference internal" href="sisense.html">Sisense</a></li>
 <li class="toctree-l1"><a class="reference internal" href="targetsmart.html">TargetSmart</a></li>
 <li class="toctree-l1"><a class="reference internal" href="turbovote.html">TurboVote</a></li>
@@ -92,6 +94,10 @@
 <li class="toctree-l1"><a class="reference internal" href="contributing.html">Contributing to Parsons</a></li>
 <li class="toctree-l1"><a class="reference internal" href="build_a_connector.html">How to Build a Connector</a></li>
 <li class="toctree-l1"><a class="reference internal" href="write_tests.html">How to Write Tests for Parsons Connectors</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Use Cases and Sample Scripts</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="use_cases/contribute_use_cases.html">How to Contribute a Use Case &amp; Sample Script</a></li>
 </ul>
 
         </div>
@@ -130,7 +136,7 @@ was built and is maintained by The Movement Cooperative.</p>
 </section>
 <section id="license-and-usage">
 <h1>License and Usage<a class="headerlink" href="#license-and-usage" title="Permalink to this headline"></a></h1>
-<p>Usage of Parsons is governed by the <a class="reference external" href="https://github.com/move-coop/parsons/blob/master/LICENSE.md">TMC Parsons License</a>, a modified Apache License with author attribution statement.</p>
+<p>Usage of Parsons is governed by a <a class="reference external" href="https://github.com/move-coop/parsons/blob/master/LICENSE.md">modified Apache License with author attribution statement</a>.</p>
 </section>
 <section id="design-goals">
 <h1>Design Goals<a class="headerlink" href="#design-goals" title="Permalink to this headline"></a></h1>
@@ -182,9 +188,60 @@ was built and is maintained by The Movement Cooperative.</p>
 <li><p>Source Code: <a class="reference external" href="https://github.com/move-coop/parsons">https://github.com/move-coop/parsons</a></p></li>
 </ul>
 </section>
+<section id="virtual-environments">
+<h1>Virtual Environments<a class="headerlink" href="#virtual-environments" title="Permalink to this headline"></a></h1>
+<p>Normally, tools like <cite>pip</cite> install Python libraries directly to your system. Python scripts
+or libraries look for their dependencies in your system. This can cause problems when you
+have two scripts/libraries installed that require different versions of the same library.</p>
+<p>To solve this problem, we recommend you use <em>virtual environments</em> to install Parsons.
+Virtual environments allow you to keep different sets of installed libraries so that you can
+use different versions of the same libraries for different purposes.</p>
+<section id="windows">
+<h2>Windows<a class="headerlink" href="#windows" title="Permalink to this headline"></a></h2>
+<p><a class="reference external" href="https://pypi.org/project/virtualenvwrapper-win/">Source</a></p>
+<ol class="arabic">
+<li><p>Install virtualenvwrappers from source:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">git</span> <span class="n">clone</span> <span class="n">git</span><span class="p">:</span><span class="o">//</span><span class="n">github</span><span class="o">.</span><span class="n">com</span><span class="o">/</span><span class="n">davidmarble</span><span class="o">/</span><span class="n">virtualenvwrapper</span><span class="o">-</span><span class="n">win</span><span class="o">.</span><span class="n">git</span>
+<span class="n">cd</span> <span class="n">virtualenvwrapper</span><span class="o">-</span><span class="n">win</span>
+<span class="n">python</span> <span class="n">setup</span><span class="o">.</span><span class="n">py</span> <span class="n">install</span>
+</pre></div>
+</div>
+</li>
+<li><p>Find the <code class="docutils literal notranslate"><span class="pre">Scripts\</span></code> directory for your Python installation, such as <code class="docutils literal notranslate"><span class="pre">C:\Users\&lt;User&gt;\AppData\Local\Programs\Python\Python37\Scripts\</span></code>.</p></li>
+<li><p>Add the <code class="docutils literal notranslate"><span class="pre">Scripts\</span></code> directory to your Path.</p></li>
+<li><p>To create a virtual environment for Parsons, execute: <code class="docutils literal notranslate"><span class="pre">mkvirtualenv</span> <span class="pre">parsons</span></code></p></li>
+<li><p>To use this virtual environment, execute: <code class="docutils literal notranslate"><span class="pre">workon</span> <span class="pre">parsons</span></code></p></li>
+</ol>
+</section>
+<section id="linux-mac-os">
+<h2>Linux / Mac OS<a class="headerlink" href="#linux-mac-os" title="Permalink to this headline"></a></h2>
+<p>&lt;Coming Soon&gt;</p>
+</section>
+</section>
 <section id="installation">
 <h1>Installation<a class="headerlink" href="#installation" title="Permalink to this headline"></a></h1>
-<p>You can install the most recent release by running: <code class="docutils literal notranslate"><span class="pre">pip</span> <span class="pre">install</span> <span class="pre">parsons</span></code></p>
+<p>There are two ways to install Parsons: Using pip and from source. Use pip if you just want to install Parsons and start using it. Install from source if you might want to patch Parsons to customize its behavior.</p>
+<section id="installing-parsons-pip">
+<h2>Installing Parsons (pip)<a class="headerlink" href="#installing-parsons-pip" title="Permalink to this headline"></a></h2>
+<ol class="arabic simple">
+<li><p>Make sure you’re in your parsons virtual environment: <code class="docutils literal notranslate"><span class="pre">workon</span> <span class="pre">parsons</span></code>.</p></li>
+<li><p>Execute: <code class="docutils literal notranslate"><span class="pre">pip</span> <span class="pre">install</span> <span class="pre">parsons</span></code></p></li>
+</ol>
+</section>
+<section id="installing-parsons-from-source">
+<h2>Installing Parsons from Source<a class="headerlink" href="#installing-parsons-from-source" title="Permalink to this headline"></a></h2>
+<ol class="arabic">
+<li><p>Make sure you’re in your parsons virtual environment: <code class="docutils literal notranslate"><span class="pre">workon</span> <span class="pre">parsons</span></code>.</p></li>
+<li><p>Execute these commands:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">git</span> <span class="n">clone</span> <span class="n">https</span><span class="p">:</span><span class="o">//</span><span class="n">github</span><span class="o">.</span><span class="n">com</span><span class="o">/</span><span class="n">move</span><span class="o">-</span><span class="n">coop</span><span class="o">/</span><span class="n">parsons</span><span class="o">.</span><span class="n">git</span>
+<span class="n">pip</span> <span class="n">install</span> <span class="o">-</span><span class="n">r</span> <span class="n">requirements</span><span class="o">.</span><span class="n">txt</span>
+<span class="n">python</span> <span class="n">setup</span><span class="o">.</span><span class="n">py</span> <span class="n">install</span>
+</pre></div>
+</div>
+</li>
+<li><p>To update your installation, pull the most recent branch from the Parsons GitHub repo (<code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">pull</span> <span class="pre">origin</span> <span class="pre">master</span></code>) and rerun <code class="docutils literal notranslate"><span class="pre">python</span> <span class="pre">setup.py</span> <span class="pre">install</span></code>.</p></li>
+</ol>
+</section>
 </section>
 <section id="logging">
 <h1>Logging<a class="headerlink" href="#logging" title="Permalink to this headline"></a></h1>
@@ -261,6 +318,7 @@ for Parsons to work at all:</p>
 <div class="toctree-wrapper compound" id="integrations">
 <p class="caption" role="heading"><span class="caption-text">Integrations</span></p>
 <ul>
+<li class="toctree-l1"><a class="reference internal" href="actblue.html">ActBlue</a></li>
 <li class="toctree-l1"><a class="reference internal" href="action_kit.html">ActionKit</a></li>
 <li class="toctree-l1"><a class="reference internal" href="action_network.html">Action Network</a></li>
 <li class="toctree-l1"><a class="reference internal" href="airtable.html">Airtable</a></li>
@@ -288,11 +346,12 @@ for Parsons to work at all:</p>
 <li class="toctree-l1"><a class="reference internal" href="ngpvan.html">NGPVAN</a></li>
 <li class="toctree-l1"><a class="reference internal" href="pdi.html">PDI</a></li>
 <li class="toctree-l1"><a class="reference internal" href="p2a.html">Phone2Action</a></li>
+<li class="toctree-l1"><a class="reference internal" href="quickbase.html">Quickbase</a></li>
 <li class="toctree-l1"><a class="reference internal" href="redash.html">Redash</a></li>
 <li class="toctree-l1"><a class="reference internal" href="rockthevote.html">Rock the Vote</a></li>
 <li class="toctree-l1"><a class="reference internal" href="salesforce.html">Salesforce</a></li>
-<li class="toctree-l1"><a class="reference internal" href="shopify.html">Shopify</a></li>
 <li class="toctree-l1"><a class="reference internal" href="sftp.html">SFTP</a></li>
+<li class="toctree-l1"><a class="reference internal" href="shopify.html">Shopify</a></li>
 <li class="toctree-l1"><a class="reference internal" href="sisense.html">Sisense</a></li>
 <li class="toctree-l1"><a class="reference internal" href="targetsmart.html">TargetSmart</a></li>
 <li class="toctree-l1"><a class="reference internal" href="turbovote.html">TurboVote</a></li>
@@ -323,13 +382,19 @@ for Parsons to work at all:</p>
 <li class="toctree-l1"><a class="reference internal" href="write_tests.html">How to Write Tests for Parsons Connectors</a></li>
 </ul>
 </div>
+<div class="toctree-wrapper compound" id="use-cases-and-sample-scripts">
+<p class="caption" role="heading"><span class="caption-text">Use Cases and Sample Scripts</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="use_cases/contribute_use_cases.html">How to Contribute a Use Case &amp; Sample Script</a></li>
+</ul>
+</div>
 </section>
 
 
            </div>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
-        <a href="action_kit.html" class="btn btn-neutral float-right" title="ActionKit" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="actblue.html" class="btn btn-neutral float-right" title="ActBlue" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>

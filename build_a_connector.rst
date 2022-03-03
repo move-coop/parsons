@@ -234,6 +234,69 @@ The `get_lists` method corresponds to the `GET /lists <https://mailchimp.com/dev
 
 The method can return more than one record, so the results of the call to the API are wrapped in a Parsons `Table`. If there are no results from the call, an empty table is returned.
 
+--------------
+Sandbox Access
+--------------
+
+When developing a Parsons connector, it's helpful to be able to test your changes against a non-production account. We have set up test accounts with some vendors which you can use for testing by following the steps below.
+
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Accessing and Using Credentials
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+**Step 1: Request Access**
+
+Request access to the test account (usually in the form of an API key) by emailing engineering@movementcooperative.org. Please provide your GitHub username and some context for your request. Why do you need the account credentials? What are you testing? If a community member recommended you request an account from us, you can include their name here. See :ref:`connector-specific-guidance` for additional information we may need to give you access to a specific sandbox.
+
+An example request might look something like "Hi, I'm Ana (abc123 on github), I want to work on the ActionNetwork connector but I don't know how to test it. At the contributor meeting Betty linked me here and said I should ask you."
+
+**Step 2: Save and Use the Credentials**
+
+When using your credentials, please store them as environmental variables rather than including them directly in your code. If you use them in your code and accidentally include them as part of a pull request, we will need to generate new credentials. Let's try to avoid that hassle!
+
+You can set environmental variables with the following commands::
+
+    set VARIABLE_NAME=VARIABLE_VALUE         # Windows
+    export VARIABLE_NAME=VARIABLE_VALUE      # Linux/Mac
+
+Some environmental variables may need to be explicitly loaded into scripts for use, but most will not. This is because each Parsons connector automatically looks in the environment for specific variables and uses them when initializing the connector. For example, the Zoom connector looks for ZOOM_API_KEY and ZOOM_API_SECRET. Check the documentation for the precise names of the environmental variables it looks for.
+
+In rare cases you may need to load the environmental variables yourself within the script. You can do so with the following code::
+
+    import os
+    ENV_VARIABLE = os.getenv('ENV_VARIABLE')
+
+^^^^^^^^^^^^^^^^^^^^^^
+General Best Practices
+^^^^^^^^^^^^^^^^^^^^^^
+
+Since the sandbox accounts are shared with multiple people, we ask contributors to observe some guidelines:
+
+* Use clear naming conventions when creating test data. Either prefix or suffix data with your initials or use another identifier.
+* Only add mock data to the test account, never real data (especially if there are fields for contact information).
+* Try to limit the amount of data you push in/pull out of the account to only the amount that you need.
+* Leave test data that looks like it was created by someone else in the same state that you found it.
+* Delete test data when you finish testing.
+* Be mindful when sending requests to third party platforms. We don’t want to burden them or to have our account suspended and rate-limited. If you accidentally over-requested from the third-party platform and have been suspended or rate-limited in a way that does not expire after a day or less, please reach out to us so we can try to get access again.
+
+.. _connector-specific-guidance:
+
+^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Connector-Specific Guidance
+^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+The following connectors have sandbox API keys available. Some connectors have specific best practices or additional information to send along when you request the key from us.
+
+**ActionNetwork**: In order to access the ActionNetwork sandbox account, we’ll need the email address associated with your ActionNetwork account. Please make an ActionNetwork account if you don’t have one already, and include the associated email in your access request to us.
+
+**ControlShift**: Please limit your testing to pushing and pulling data in and out and do not use the account for sending mass texts. (The sandbox account has an associated phone number, but it is unnecessary for Parsons testing.)
+
+**Hustle**: No connector-specific guidance.
+
+**Mobilize**:  No connector-specific guidance.
+
+**Strive**:  No connector-specific guidance.
+
 ------------
 Finishing up
 ------------

@@ -36,6 +36,7 @@
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <p class="caption" role="heading"><span class="caption-text">Integrations</span></p>
 <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../actblue.html">ActBlue</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../action_kit.html">ActionKit</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../action_network.html">Action Network</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../airtable.html">Airtable</a></li>
@@ -63,11 +64,12 @@
 <li class="toctree-l1"><a class="reference internal" href="../../../ngpvan.html">NGPVAN</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../pdi.html">PDI</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../p2a.html">Phone2Action</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../quickbase.html">Quickbase</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../redash.html">Redash</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../rockthevote.html">Rock the Vote</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../salesforce.html">Salesforce</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../shopify.html">Shopify</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../sftp.html">SFTP</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../shopify.html">Shopify</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../sisense.html">Sisense</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../targetsmart.html">TargetSmart</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../turbovote.html">TurboVote</a></li>
@@ -90,6 +92,10 @@
 <li class="toctree-l1"><a class="reference internal" href="../../../contributing.html">Contributing to Parsons</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../build_a_connector.html">How to Build a Connector</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../write_tests.html">How to Write Tests for Parsons Connectors</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Use Cases and Sample Scripts</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../use_cases/contribute_use_cases.html">How to Contribute a Use Case &amp; Sample Script</a></li>
 </ul>
 
         </div>
@@ -122,6 +128,7 @@
 <span class="kn">import</span> <span class="nn">logging</span>
 
 <span class="kn">from</span> <span class="nn">parsons.etl.table</span> <span class="kn">import</span> <span class="n">Table</span>
+<span class="kn">from</span> <span class="nn">parsons.google.utitities</span> <span class="kn">import</span> <span class="n">setup_google_application_credentials</span>
 
 <span class="kn">import</span> <span class="nn">gspread</span>
 <span class="kn">from</span> <span class="nn">oauth2client.service_account</span> <span class="kn">import</span> <span class="n">ServiceAccountCredentials</span>
@@ -147,22 +154,13 @@
             <span class="s1">&#39;https://www.googleapis.com/auth/drive&#39;</span><span class="p">,</span>
             <span class="p">]</span>
 
-        <span class="bp">self</span><span class="o">.</span><span class="n">google_keyfile_dict</span> <span class="o">=</span> <span class="n">google_keyfile_dict</span>
-
-        <span class="k">if</span> <span class="n">google_keyfile_dict</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="k">try</span><span class="p">:</span>
-                <span class="n">keyfile_json</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s1">&#39;GOOGLE_DRIVE_CREDENTIALS&#39;</span><span class="p">]</span>
-            <span class="k">except</span> <span class="ne">KeyError</span> <span class="k">as</span> <span class="n">error</span><span class="p">:</span>
-                <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s2">&quot;Google credentials missing. Must be specified as an env var or kwarg&quot;</span><span class="p">)</span>
-                <span class="k">raise</span> <span class="n">error</span>
-
-            <span class="bp">self</span><span class="o">.</span><span class="n">google_keyfile_dict</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">keyfile_json</span><span class="p">)</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">google_keyfile_dict</span> <span class="o">=</span> <span class="n">google_keyfile_dict</span>
+        <span class="n">setup_google_application_credentials</span><span class="p">(</span><span class="n">google_keyfile_dict</span><span class="p">,</span> <span class="s1">&#39;GOOGLE_DRIVE_CREDENTIALS&#39;</span><span class="p">)</span>
+        <span class="n">google_credential_file</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s1">&#39;GOOGLE_DRIVE_CREDENTIALS&#39;</span><span class="p">])</span>
+        <span class="n">credentials_dict</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">google_credential_file</span><span class="p">)</span>
 
         <span class="n">credentials</span> <span class="o">=</span> <span class="n">ServiceAccountCredentials</span><span class="o">.</span><span class="n">from_json_keyfile_dict</span><span class="p">(</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">google_keyfile_dict</span><span class="p">,</span> <span class="n">scope</span>
-            <span class="p">)</span>
+            <span class="n">credentials_dict</span><span class="p">,</span> <span class="n">scope</span>
+        <span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">gspread_client</span> <span class="o">=</span> <span class="n">gspread</span><span class="o">.</span><span class="n">authorize</span><span class="p">(</span><span class="n">credentials</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">_get_worksheet</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">spreadsheet_id</span><span class="p">,</span> <span class="n">worksheet</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>

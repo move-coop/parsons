@@ -291,11 +291,11 @@ The following connectors have sandbox API keys available. Some connectors have s
 
 **ControlShift**: Please limit your testing to pushing and pulling data in and out and do not use the account for sending mass texts. (The sandbox account has an associated phone number, but it is unnecessary for Parsons testing.)
 
-**Hustle**
+**Hustle**: No connector-specific guidance.
 
-**Mobilize**
+**Mobilize**:  No connector-specific guidance.
 
-**Strive**
+**Strive**:  No connector-specific guidance.
 
 ------------
 Finishing up

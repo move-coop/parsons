@@ -1,0 +1,115 @@
+# This script checks the status of all jobs and workflows in a given Civis Project and posts them to a Slack channel.
+
+import os
+import civis
+import datetime
+import json
+import logging
+from parsons import Slack, Table
+
+client = civis.APIClient()
+slack = Slack(api_key=os.getenv('SLACK_PASSWORD'))
+
+SLACK_CHANNEL = os.environ['SLACK_CHANNEL']
+CIVIS_PROJECT = os.environ['CIVIS_PROJECT']
+
+logger = logging.getLogger(__name__)
+_handler = logging.StreamHandler()
+_formatter = logging.Formatter('%(levelname)s %(message)s')
+_handler.setFormatter(_formatter)
+logger.addHandler(_handler)
+logger.setLevel('INFO')
+
+def format_datetime(text):
+    formatted_text = text.replace('Z', '')
+    dt = datetime.datetime.fromisoformat(formatted_text)
+    return dt.strftime('%Y-%m-%d')
+
+def get_run_state_emoji(run_state):
+    if run_state == 'succeeded':
+        return ':white_check_mark:'
+    elif run_state == 'failed':
+        return ':x:'
+    elif run_state == 'running':
+        return ':runner:'
+    else:
+        return ':shrug:'
+      
+def get_workflows_and_jobs(project_id):
+    project = client.projects.get(project_id)
+    
+    # Get workflow and the job data from the project
+    workflows = [dict(x) for x in project['workflows']]
+    tbl = Table(workflows)
+    # We need to distinguish between jobs and workflows later on, so adding a column
+    tbl.add_column('object_type', 'workflow')
+    
+    # Imports and other scripts are separated out in the response but they are all treated as jobs
+    # so we pull and combine
+    jobs = [dict(x) for x in project['scripts']]
+    imports = [dict(x) for x in project['imports']]
+    full_list = jobs + imports
+    jobs_tbl = Table(full_list)
+    jobs_tbl.add_column('object_type', 'job') 
+    
+    tbl.concat(jobs_tbl)
+    
+    return tbl
+  
+def get_last_success(object_id, object_type):
+    last_success = '-'
+
+    if object_type == 'workflow':
+        workflow_executions = client.workflows.list_executions(object_id, order='updated_at')
+        for e in workflow_executions:
+            if e['state'] != 'succeeded':
+                continue
+            else:
+                last_success = format_datetime(e['finished_at'])
+                break
+
+    elif object_type == 'job':
+        job_runs = client.jobs.list_runs(object_id)
+        job_runs_tbl = Table([dict(x) for x in job_runs]).sort(columns='finished_at', reverse=True)
+        for run in job_runs_tbl:
+            if run['state'] != 'succeeded':
+                continue
+            else:
+                last_success = format_datetime(run['finished_at'])
+                break
+
+    else:
+        logger.info(f'{object_type} is not a valid object type.')
+
+    return last_success
+  
+def main():
+    project_name = client.projects.get(CIVIS_PROJECT)['name']
+    
+    t = get_workflows_and_jobs(CIVIS_PROJECT).sort(columns=['state', 'name'])
+    
+    logger.info(f'Found {t.num_rows} jobs and workflows in {project_name} project.')
+    
+    # This is a list of strings we will build with each job's status
+    output_lines = []
+    
+    for run in t:
+        if run['state'] == 'succeeded' and run['object_type'] == 'workflow':
+            last_success = format_datetime(run['updated_at'])
+        else:
+            last_success = get_last_success(run['id'], run['object_type'])
+        
+        output_line = f"{get_run_state_emoji(run['state'])} {run['name']} (last success: {last_success})"
+        output_lines.append(output_line)
+
+    # Output our message to Slack
+    # Combine the list of statuses into one string
+    line_items = '\n'.join(output_lines)
+    message = f'*{project_name} Status*\n{line_items}'
+    logger.info(f'Posting message to Slack channel {SLACK_CHANNEL}')
+    # Post message
+    slack.message_channel(SLACK_CHANNEL, message, as_user=True)
+    logger.info('Slack message posted')
+    
+if __name__ == '__main__':
+    main()

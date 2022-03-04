@@ -7,11 +7,15 @@ import json
 import logging
 from parsons import Slack, Table
 
+# To use the Civis connector, set the environment variables CIVIS_DATABASE and CIVIS_API_KEY.
+# These environment variables are not necessary if you are running this code in a Civis container script.
 client = civis.APIClient()
-slack = Slack(api_key=os.getenv('SLACK_PASSWORD'))
+# To use the Slack connector, set the environment variable SLACK_API_TOKEN
+slack = Slack()
 
-SLACK_CHANNEL = os.environ['SLACK_CHANNEL']
-CIVIS_PROJECT = os.environ['CIVIS_PROJECT']
+# Configuration variables
+SLACK_CHANNEL = '' # Slack channel where the alert will post.
+CIVIS_PROJECT = '' # ID of the Civis project with jobs and workflows you want to see the status of.
 
 logger = logging.getLogger(__name__)
 _handler = logging.StreamHandler()
@@ -20,11 +24,13 @@ _handler.setFormatter(_formatter)
 logger.addHandler(_handler)
 logger.setLevel('INFO')
 
+# Cleans up datetime format for posting to Slack.
 def format_datetime(text):
     formatted_text = text.replace('Z', '')
     dt = datetime.datetime.fromisoformat(formatted_text)
     return dt.strftime('%Y-%m-%d')
 
+# Assigns an emoji for each potential run status a Civis job or workflow might have.
 def get_run_state_emoji(run_state):
     if run_state == 'succeeded':
         return ':white_check_mark:'
@@ -34,7 +40,8 @@ def get_run_state_emoji(run_state):
         return ':runner:'
     else:
         return ':shrug:'
-      
+
+# Returns a Parsons table with workflow and job data from the specified Civis project.     
 def get_workflows_and_jobs(project_id):
     project = client.projects.get(project_id)
     
@@ -56,6 +63,7 @@ def get_workflows_and_jobs(project_id):
     
     return tbl
   
+# Returns the date and time of the last successful run for a Civis job or workflow.
 def get_last_success(object_id, object_type):
     last_success = '-'
 

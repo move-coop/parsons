@@ -30,7 +30,7 @@ The commands you can use in the command line differ somewhat dependning on wheth
 * Use ``dir`` to list all the files and folders in a directory.
 * A `Windows command line cheat sheet <http://www.cs.columbia.edu/~sedwards/classes/2017/1102-spring/Command%20Prompt%20Cheatsheet.pdf>`_ can help you keep track of which commands are which.
 
-You do not have to type everything on the command line out by hand. You can auto-complete the names of of files/folders in your current directory by tapping the tab key. On Mac/Linux you can also tab-complete installed programs. And you can access previous commands by clicking the up and down arrows. Save your hands! Learn these tricks.
+You do not have to type everything on the command line out by hand. You can auto-complete the names of files/folders in your current directory by tapping the tab key. On Mac/Linux you can also tab-complete installed programs. And you can access previous commands by clicking the up and down arrows. Save your hands! Learn these tricks.
 
 ***************************************
 Step 2: Set Up Your Virtual Environment

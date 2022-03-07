@@ -92,7 +92,7 @@ On Windows, absolute paths look a little different. They start with the letter o
 
 In these instructions we try to use absolute paths, even though they're a little wordier, because it's less likely to cause problems for you if you run them from an unexpected place.
 
-Confusingly, there's an important environmental variable called **$PATH**. The $PATH is a list of places your computer will check when searching for installed libraries and scripts. You can check what's currently in your $PATH by typing ``echo $PATH`` (Mac/Linux) or ``echo %PATH%`` (Windows).
+In addition to paths, there's an important environmental variable called **$PATH**. The $PATH is a list of absolute paths your computer will check when searching for installed libraries and scripts. You can check what's currently in your $PATH by typing ``echo $PATH`` (Mac/Linux) or ``echo %PATH%`` (Windows).
 
 When you activate your virtual environment, the path to the environment is placed as the first path. Paths are checked in order from first to last. You can check what packages have been installed in your virtualenv (and thus should be available on the path when the virtualenv is activated) by looking in ``lib/site-packages``.
 

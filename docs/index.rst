@@ -296,3 +296,10 @@ Indices and tables
    :name: use_cases_and_sample_scripts
 
    use_cases/contribute_use_cases
+
+.. toctree::
+   :maxdepth: 1
+   :caption: Training Guides
+   :name: training_guides
+
+   training_guides/getting_set_up

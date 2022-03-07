@@ -19,18 +19,18 @@ The commands you can use in the command line differ somewhat dependning on wheth
 **Mac/Linux**:
 
 * You can use ``pwd`` (“print working directory”) to figure out where you currently are.
-* To move around, use ``cd`` (for example ``cd ..`` means "go up one directory" or ``cd my_folder`` which means "go into ``my_folder``").
+* To move around, use ``cd`` (for example ``cd ..`` means "go up one directory" or ``cd my_folder`` which means "go into my_folder").
 * Use ``ls`` to list all the files and folders in your current directory.
 * A `Mac/Linux command line cheat sheet <https://www.guru99.com/linux-commands-cheat-sheet.html>`_ can help you keep track of which commands are which.
 
 **Windows**:
 
 * You can use ``cd`` to figure out where you currently are.
-* To move around, use ``cd`` (for example ``cd ..`` means "go up one directory" or ``cd my_folder`` which means "go into ``my_folder``").
+* To move around, use ``cd`` (for example ``cd ..`` means "go up one directory" or ``cd my_folder`` which means "go into my_folder").
 * Use ``dir`` to list all the files and folders in a directory.
 * A `Windows command line cheat sheet <http://www.cs.columbia.edu/~sedwards/classes/2017/1102-spring/Command%20Prompt%20Cheatsheet.pdf>`_ can help you keep track of which commands are which.
 
-You do not have to type everything on the command line out by hand. You can auto-complete the names of installed programs as well as files/folders in your current directory by tapping the tab key. You can also access previous commands by clicking the up and down arrows. Save your hands! Learn these tricks.
+You do not have to type everything on the command line out by hand. You can auto-complete the names of of files/folders in your current directory by tapping the tab key. On Mac/Linux you can also tab-complete installed programs. And you can access previous commands by clicking the up and down arrows. Save your hands! Learn these tricks.
 
 ***************************************
 Step 2: Set Up Your Virtual Environment
@@ -46,9 +46,9 @@ Mac/Linux Virtual Environments
 
 Before getting started, check which version of Python you’re running by typing ``python --version`` in your command line. Python 3.4+ includes a virtual environment manager called `venv <https://docs.python.org/3/library/venv.html>`_.  If your version is lower than Python 3.4, you'll have to install a virtual environment manager like `virtualenv <https://virtualenv.pypa.io/en/latest/>`_ if you haven't already. You can do this by typing ``pip install virtualenv`` in the command line.
 
-Next, create a directory to store your virtual environments, for example at the path *home/your_name/virtualenvs*. (Not sure what a path is?  see :ref:`Paths vs $PATHs<path-explainer>`.)
+Next, create a directory to store your virtual environments, for example at the path */home/your_name/virtualenvs*. (Not sure what a path is?  see :ref:`Paths vs $PATHs<path-explainer>`.)
 
-You can use the ``mkdir`` command to create a new directory, ie: ``mkdir home/username/virtualenvs``. We'll refer to the full path to this directory as **$path_to_your_env** below.
+You can use the ``mkdir`` command to create a new directory, ie: ``mkdir /home/username/virtualenvs``. We'll refer to the full path to this directory as **$path_to_your_env** below.
 
 The next step is to create your virtual environment within this directory. The commands are different based on whether you're on Python 3.4+ and using venv, or whether you're using an older version with the virtualenv program you just installed.
 
@@ -68,6 +68,8 @@ Start by installing virtualenvwrappers from source::
   	cd virtualenvwrapper-win
   	python setup.py install
 
+Not familiar with git? Read :ref:`our intro below<git-explainer>`.
+
 Find the Scripts\ directory for your Python installation, such as ``C:\Users\<User>\AppData\Local\Programs\Python\Python37\Scripts\``.
 
 Add the Scripts\ directory to your $PATH. (Not sure what a $PATH is?  see :ref:`Paths vs $PATHs<path-explainer>`.)
@@ -82,9 +84,11 @@ To use this virtual environment, execute: ``workon parsons``
 Paths vs $PATHs
 ^^^^^^^^^^^^^^^
 
-Paths are how we refer to a file or program's location in the file system. For example, ``home/janedoe/virtualenvs`` says that within the top-level directory ``home`` there is a directory named ``janedoe``, and within ``janedoe`` there is a directory ``virtualenvs``.
+Paths are how we refer to a file or program's location in the file system. For example, ``/home/janedoe/virtualenvs`` says that within the top-level directory ``home`` there is a directory named ``janedoe``, and within ``janedoe`` there is a directory ``virtualenvs``.
 
-``home/janedoe/virtualenvs`` is an **absolute path** because it specifies exactly how to get there no matter where you are in the system. The path ``janedoe/virtualenvs`` is a **relative path** because it only works if you use it from the home directory. Trying to use a relative path from the wrong location is a common source of command line errors!
+``/home/janedoe/virtualenvs`` is an **absolute path** because it specifies exactly how to get there no matter where you are in the system. The path ``janedoe/virtualenvs`` is a **relative path** because it only works if you use it from the home directory. Trying to use a relative path from the wrong location is a common source of command line errors!
+
+On Windows, absolute paths look a little different. They start with the letter of the hard drive they're in, ie ``C:\Users\JaneDoe\Virtualenvs``.
 
 In these instructions we try to use absolute paths, even though they're a little wordier, because it's less likely to cause problems for you if you run them from an unexpected place.
 
@@ -111,6 +115,8 @@ By default, pip installs from the `Python Package Index or PyPI <https://pypi.or
 Essentially when you type ``pip install parsons`` (or pip install anything!) you’re saying “Go find this project on PyPI and install it.” (Here’s `Parsons <https://pypi.org/project/parsons/>`_ on PyPI!)
 
 To install Parsons using pip, make sure your virtual environment is activated and type ``pip install parsons``. It's that simple!
+
+.. _git-explainer:
 
 ^^^^^^^^^
 Using Git

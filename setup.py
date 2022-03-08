@@ -2,12 +2,38 @@ import os
 from setuptools import find_packages
 from distutils.core import setup
 
-THIS_DIR = os.path.abspath(os.path.dirname(__file__))
 
 
 def main():
-    with open(os.path.join(THIS_DIR, 'requirements.txt')) as reqs:
-        requirements = reqs.read().strip().split('\n')
+    limited_deps = os.environ.get("PARSONS_LIMITED_DEPENDENCIES", "")
+    if limited_deps.strip().upper() in ("1", "YES", "TRUE", "ON"):
+        install_requires = [
+            "petl",
+            "python-dateutil",
+            "requests",
+            "simplejson",
+        ]
+        extras_require = {
+            "google": [
+                "google-cloud-bigquery",
+                "google-cloud-storage",
+                "gspread",
+                "oauth2client",
+            ],
+            "ngpvan": [
+                "suds-py3",
+            ],
+        }
+        extras_require["all"] = sorted({
+            lib
+            for libs in extras_require.values()
+            for lib in libs
+        })
+    else:
+        THIS_DIR = os.path.abspath(os.path.dirname(__file__))
+        with open(os.path.join(THIS_DIR, 'requirements.txt')) as reqs:
+            install_requires = reqs.read().strip().split('\n')
+        extras_require = {}
 
     setup(
         name="parsons",
@@ -17,7 +43,8 @@ def main():
         url='https://github.com/movementcoop/parsons',
         keywords=['PROGRESSIVE', 'API', 'ETL'],
         packages=find_packages(),
-        install_requires=requirements,
+        install_requires=install_requires,
+        extras_require=extras_require,
         classifiers=[
             'Development Status :: 3 - Alpha',
             'Intended Audience :: Developers',

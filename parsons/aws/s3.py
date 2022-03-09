@@ -144,6 +144,8 @@ class S3(object):
                 args['ContinuationToken'] = continuation_token
             args.update(kwargs)
 
+            print(args)
+            print('lasjdflkasjdf')
             resp = self.client.list_objects_v2(**args)
 
             for key in resp.get('Contents', []):

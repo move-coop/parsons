@@ -27,6 +27,7 @@ class AWSConnection(object):
             if aws_session_token is None:
                 aws_session_token = os.getenv('AWS_SESSION_TOKEN')
                 print(aws_session_token[0:3])
+            print(aws_access_key_id[0:6])
 
             self.session = boto3.Session(aws_access_key_id=aws_access_key_id,
                                          aws_secret_access_key=aws_secret_access_key)

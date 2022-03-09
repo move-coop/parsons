@@ -26,11 +26,10 @@ class AWSConnection(object):
             # whenever the aws_access_key_id and aws_secret_access_key are passed.
             if aws_session_token is None:
                 aws_session_token = os.getenv('AWS_SESSION_TOKEN')
-                print(aws_session_token[0:3])
-            print(aws_access_key_id[0:6])
 
             self.session = boto3.Session(aws_access_key_id=aws_access_key_id,
-                                         aws_secret_access_key=aws_secret_access_key)
+                                         aws_secret_access_key=aws_secret_access_key,
+                                         aws_session_token=None)
 
         else:
             self.session = boto3.Session()
@@ -144,8 +143,6 @@ class S3(object):
                 args['ContinuationToken'] = continuation_token
             args.update(kwargs)
 
-            print(args)
-            print('lasjdflkasjdf')
             resp = self.client.list_objects_v2(**args)
 
             for key in resp.get('Contents', []):

@@ -24,8 +24,8 @@ class AWSConnection(object):
             # The AWS session token isn't needed most of the time, so we'll check
             # for the env variable here instead of requiring it to be passed
             # whenever the aws_access_key_id and aws_secret_access_key are passed.
-            if aws_session_token is None:
-                aws_session_token = os.getenv('AWS_SESSION_TOKEN')
+            # if aws_session_token is None:
+            #     aws_session_token = os.getenv('AWS_SESSION_TOKEN')
 
             self.session = boto3.Session(aws_access_key_id=aws_access_key_id,
                                          aws_secret_access_key=aws_secret_access_key,

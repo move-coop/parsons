@@ -29,7 +29,7 @@ class AWSConnection(object):
 
             self.session = boto3.Session(aws_access_key_id=aws_access_key_id,
                                          aws_secret_access_key=aws_secret_access_key,
-                                         aws_session_token=None)
+                                         aws_session_token='')
 
         else:
             self.session = boto3.Session()

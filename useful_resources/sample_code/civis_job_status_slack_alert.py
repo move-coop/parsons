@@ -71,16 +71,16 @@ def get_last_success(object_id, object_type):
 
     if object_type == 'workflow':
         workflow_executions = client.workflows.list_executions(object_id, order='updated_at')
-        for e in workflow_executions:
-            if e['state'] != 'succeeded':
+        for execution in workflow_executions:
+            if execution['state'] != 'succeeded':
                 continue
             else:
-                last_success = format_datetime(e['finished_at'])
+                last_success = format_datetime(execution['finished_at'])
                 break
     
     elif object_type == 'job':
         job_runs = client.jobs.list_runs(object_id)
-        job_runs_tbl = Table([dict(x) for x in job_runs]).sort(columns='finished_at', reverse=True)
+        job_runs_tbl = Table([dict(job_run) for job_run in job_runs]).sort(columns='finished_at', reverse=True)
         for run in job_runs_tbl:
             if run['state'] != 'succeeded':
                 continue
@@ -96,14 +96,14 @@ def get_last_success(object_id, object_type):
 def main():
     project_name = client.projects.get(CIVIS_PROJECT)['name']
     
-    t = get_workflows_and_jobs(CIVIS_PROJECT).sort(columns=['state', 'name'])
+    scripts_table = get_workflows_and_jobs(CIVIS_PROJECT).sort(columns=['state', 'name'])
     
-    logger.info(f'Found {t.num_rows} jobs and workflows in {project_name} project.')
+    logger.info(f'Found {scripts_table.num_rows} jobs and workflows in {project_name} project.')
     
     # This is a list of strings we will build with each job's status
     output_lines = []
     
-    for run in t:
+    for run in scripts_table:
         if run['state'] == 'succeeded' and run['object_type'] == 'workflow':
             last_success = format_datetime(run['updated_at'])
         else:

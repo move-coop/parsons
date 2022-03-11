@@ -17,6 +17,9 @@ if not os.environ.get('PARSONS_SKIP_IMPORT_ALL'):
     from parsons.civis.civisclient import CivisClient
     from parsons.etl.table import Table
     from parsons.notifications.gmail import Gmail
+    from parsons.notifications.slack import Slack
+    from parsons.notifications.sendmail import SendMail
+    from parsons.notifications.smtp import SMTP
     from parsons.google.google_civic import GoogleCivic
     from parsons.google.google_sheets import GoogleSheets
     from parsons.google.google_cloud_storage import GoogleCloudStorage
@@ -24,7 +27,6 @@ if not os.environ.get('PARSONS_SKIP_IMPORT_ALL'):
     from parsons.phone2action.p2a import Phone2Action
     from parsons.mobilize_america.ma import MobilizeAmerica
     from parsons.facebook_ads.facebook_ads import FacebookAds
-    from parsons.notifications.slack import Slack
     from parsons.turbovote.turbovote import TurboVote
     from parsons.sftp.sftp import SFTP
     from parsons.action_kit.action_kit import ActionKit

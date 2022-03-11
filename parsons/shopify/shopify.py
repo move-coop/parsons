@@ -170,10 +170,12 @@ class Shopify(object):
                       query_date=None, since_id=None, completed=True):
         """
         Fast classmethod so you can get the data all at once:
-        tabledata = Shopify.load_to_table(subdomain='myorg', password='abc123',
-                                         api_key='abc123', api_version='2020-10',
-                                         query_date='2020-10-20', since_id='8414',
-                                         completed=True)
+
+            tabledata = Shopify.load_to_table(subdomain='myorg', password='abc123',
+                                            api_key='abc123', api_version='2020-10',
+                                            query_date='2020-10-20', since_id='8414',
+                                            completed=True)
+
         This instantiates the class and makes the appropriate query type to Shopify's orders
         table based on which arguments are supplied.
 

@@ -1,7 +1,7 @@
 import unittest
 import os
 import requests_mock
-from parsons.ngpvan.van import VAN
+from parsons import VAN
 from test.utils import assert_matching_tables
 
 

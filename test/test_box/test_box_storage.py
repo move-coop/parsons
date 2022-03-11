@@ -7,8 +7,7 @@ import warnings
 
 from boxsdk.exception import BoxAPIException, BoxOAuthException
 
-from parsons.box import Box
-from parsons.etl import Table
+from parsons import Box, Table
 
 """Prior to running, you should ensure that the relevant environment
 variables have been set, e.g. via

@@ -2,9 +2,8 @@ import os
 import unittest
 import requests_mock
 from test.utils import assert_matching_tables
+from parsons import Table, Redash, RedashTimeout
 
-from parsons.etl.table import Table
-from parsons.redash.redash import Redash, RedashTimeout
 
 BASE_URL = 'https://redash.example.com'
 API_KEY = 'abc123'

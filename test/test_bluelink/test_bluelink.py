@@ -1,7 +1,6 @@
 import unittest
 import requests_mock
-from parsons import Table
-from parsons.bluelink import Bluelink, BluelinkPerson, BluelinkIdentifier, BluelinkEmail
+from parsons import Table, Bluelink, BluelinkPerson, BluelinkIdentifier, BluelinkEmail
 
 
 class TestBluelink(unittest.TestCase):

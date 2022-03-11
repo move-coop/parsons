@@ -2,8 +2,7 @@ import unittest
 import os
 from datetime import datetime
 import pytz
-from parsons.aws.s3 import S3
-from parsons.etl.table import Table
+from parsons import S3, Table
 import urllib
 import time
 from test.utils import assert_matching_tables

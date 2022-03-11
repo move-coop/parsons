@@ -117,10 +117,6 @@ if not os.environ.get('PARSONS_SKIP_IMPORT_ALL'):
         'SendMail'
     ]
 
-    from parsons.redash.redash import Redash, RedashTimeout, RedashQueryFailed
-    from parsons.bluelink import Bluelink, BluelinkPerson, BluelinkIdentifier, BluelinkEmail
-    from parsons.braintree.braintree import Braintree
-
 # Define the default logging config for Parsons and its submodules. For now the
 # logger gets a StreamHandler by default. At some point a NullHandler may be more
 # appropriate, so the end user must decide on logging behavior.

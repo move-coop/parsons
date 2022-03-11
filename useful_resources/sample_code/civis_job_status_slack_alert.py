@@ -48,7 +48,7 @@ def get_workflows_and_jobs(project_id):
     # Get workflow and the job data from the project
     workflows = [dict(workflow) for workflow in project['workflows']]
     table = Table(workflows)
-    # We need to distinguish between jobs and workflows later on, so adding a column
+    # We need to distinguish between jobs and workflows later on, so adding a column noting these are workflows.
     table.add_column('object_type', 'workflow')
     
     # Imports and other scripts are separated out in the response but they are all treated as jobs
@@ -59,6 +59,8 @@ def get_workflows_and_jobs(project_id):
     jobs_table = Table(full_list)
     jobs_table.add_column('object_type', 'job') 
     
+    # Here we combine the table of jobs and imports into the table of workflows.
+    # The object_type column lets us distinguish between the types, which is necessary for the get_last_success function.
     table.concat(jobs_table)
     
     return table
@@ -75,7 +77,7 @@ def get_last_success(object_id, object_type):
             else:
                 last_success = format_datetime(e['finished_at'])
                 break
-
+    
     elif object_type == 'job':
         job_runs = client.jobs.list_runs(object_id)
         job_runs_tbl = Table([dict(x) for x in job_runs]).sort(columns='finished_at', reverse=True)

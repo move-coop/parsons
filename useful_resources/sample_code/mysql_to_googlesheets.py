@@ -17,7 +17,7 @@ logger.setLevel('INFO')
   
 # Instantiate classes
 mysql = MySQL()
-gs = GoogleSheets()
+gsheets = GoogleSheets()
 
 # Configuration Variables
 # FOLDER_ID is the ID of the Google Drive folder the Google Sheets workbook will be created.
@@ -34,7 +34,7 @@ QUERY = '''-- Enter SQL here'''
 def tryoverwrite(table,k,sheet_id,tab_index):
   
   try:
-    gs.overwrite_sheet(sheet_id,table,worksheet=tab_index,user_entered_value=False)
+    gsheets.overwrite_sheet(sheet_id,table,worksheet=tab_index,user_entered_value=False)
     
   except APIError as e:
     print(f"trying to overwrite {worksheet} for the {k}th time")
@@ -48,7 +48,7 @@ def main():
   logger.info(f"Creating Google Sheets workbook called '{TITLE}'")
 
   try:
-    new_sheet = gs.create_spreadsheet(
+    new_sheet = gsheets.create_spreadsheet(
       title = TITLE,
       editor_email=None,
       folder_id = FOLDER_ID
@@ -70,7 +70,7 @@ def main():
   logger.info(f"Querying complete. Preparing to load data into Google Sheets tab {TAB_LABEL}")
   tbl.convert_columns_to_str()
   k=0
-  tab_index = gs.add_sheet(new_sheet, title=TAB_LABEL)
+  tab_index = gsheets.add_sheet(new_sheet, title=TAB_LABEL)
   tryoverwrite(tbl,k,sheet_id=new_sheet,tab_index=tab_index)
   logger.info(f"Load into Google Sheets for tab {TAB_LABEL} complete!")
         

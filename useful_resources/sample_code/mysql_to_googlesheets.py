@@ -30,19 +30,19 @@ TAB_LABEL = 'tab_label_here'
 QUERY = '''-- Enter SQL here'''
 
 # Function to add data to spreadsheet tab.
-# There is a limit to the number of calls per minute so we try k number of times
-def tryoverwrite(table,k,sheet_id,tab_index):
+# There is a limit to the number of calls per minute, so we use request_count to set a maximum number of tries
+def try_overwrite(table, request_count, sheet_id, tab_index):
   
   try:
-    gsheets.overwrite_sheet(sheet_id,table,worksheet=tab_index,user_entered_value=False)
+    gsheets.overwrite_sheet(sheet_id, table, worksheet=tab_index, user_entered_value=False)
     
   except APIError as e:
-    print(f"trying to overwrite {worksheet} for the {k}th time")
-    if k > 60:
+    print(f"trying to overwrite {worksheet} for the {request_count}th time")
+    if request_count > 60:
         raise APIError(e)
     time.sleep(80)
-    k+=1
-    tryoverwrite(table,k,sheet_id,tab_index)
+    request_count+=1
+    try_overwrite(table, request_count, sheet_id, tab_index)
   
 def main():
   logger.info(f"Creating Google Sheets workbook called '{TITLE}'")
@@ -65,13 +65,13 @@ def main():
     logger.info(f"There was a problem creating the Google Sheets workbook! Error: {str(e)}")
 
   logger.info(f"Querying MYSQL database...")
-  tbl = mysql.query(QUERY)
+  query_results = mysql.query(QUERY)
 
   logger.info(f"Querying complete. Preparing to load data into Google Sheets tab {TAB_LABEL}")
-  tbl.convert_columns_to_str()
-  k=0
+  query_results.convert_columns_to_str()
+  request_count=0
   tab_index = gsheets.add_sheet(new_sheet, title=TAB_LABEL)
-  tryoverwrite(tbl,k,sheet_id=new_sheet,tab_index=tab_index)
+  try_overwrite(query_results, request_count, sheet_id=new_sheet, tab_index=tab_index)
   logger.info(f"Load into Google Sheets for tab {TAB_LABEL} complete!")
         
 if __name__ == '__main__':

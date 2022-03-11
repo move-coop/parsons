@@ -27,7 +27,7 @@ logger.setLevel('INFO')
 
 # Cleans up datetime format for posting to Slack.
 def format_datetime(text):
-    
+
     formatted_text = text.replace('Z', '')
     dt = datetime.datetime.fromisoformat(formatted_text)
     return dt.strftime('%Y-%m-%d')
@@ -35,7 +35,7 @@ def format_datetime(text):
 
 # Assigns an emoji for each potential run status a Civis job or workflow might have.
 def get_run_state_emoji(run_state):
-    
+
     if run_state == 'succeeded':
         return ':white_check_mark:'
     elif run_state == 'failed':
@@ -76,7 +76,7 @@ def get_workflows_and_jobs(project_id):
 
 # Returns the date and time of the last successful run for a Civis job or workflow.
 def get_last_success(object_id, object_type):
-    
+
     last_success = '-'
 
     if object_type == 'workflow':
@@ -91,7 +91,7 @@ def get_last_success(object_id, object_type):
     elif object_type == 'job':
         job_runs = client.jobs.list_runs(object_id)
         job_runs_tbl = Table([dict(run) for run in job_runs]) \
-                       .sort(columns='finished_at', reverse=True)
+        .sort(columns='finished_at', reverse=True)
         for run in job_runs_tbl:
             if run['state'] != 'succeeded':
                 continue
@@ -119,7 +119,8 @@ def main():
     for run in scripts_table:
         last_success = get_last_success(run['id'], run['object_type'])
 
-        output_line = f"{get_run_state_emoji(run['state'])} {run['name']} (last success: {last_success})"
+        output_line = f"""{get_run_state_emoji(run['state'])} 
+        {run['name']} (last success: {last_success})"""
         output_lines.append(output_line)
 
     # Output our message to Slack
@@ -130,6 +131,7 @@ def main():
     # Post message
     slack.message_channel(SLACK_CHANNEL, message, as_user=True)
     logger.info('Slack message posted')
+
 
 if __name__ == '__main__':
     main()

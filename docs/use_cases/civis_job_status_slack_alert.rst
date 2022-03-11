@@ -6,7 +6,7 @@ The Movement Cooperative uses Civis Platform to run the data syncs its members r
 Civis users are able to monitor the status of these pipelines within the Civis interface, but not all stakeholders are Civis users and if a problem occurs folks have to navigate to another system, such as Slack or TMC's support ticket system, to flag the issue, collaborate on troubleshooting, and get updates on the resolution.
 
 To make this process more efficient, promote transparency, and facilitate collaboration, the TMC Engineering team wrote a script using Parsons to post Civis data sync statuses to an internal Slack channel.
-Then, at the request of a TMC member organization, the TMC Data & Technology team templatized it so they could create customized versions for member organizations with only the specific syncs they depend on.
+Then, at the request of Indivisible, the TMC Data & Technology team templatized it so they could create customized versions for member organizations with only the specific syncs they depend on. Indivisible now has their own Slack channel with a daily alert on the status of their data syncs and other important scripts.
 
 Data syncs in Civis can take a variety of forms. Some are single jobs, some are a specific type of job called an import, and others consist of multiple jobs chained together in a workflow. The Civis API treats these objects slightly differently, so the script accounts for that by parsing out each type from the API response and combining them into one Parsons Table with a column for object_type.
 

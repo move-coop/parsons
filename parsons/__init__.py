@@ -55,6 +55,7 @@ if not os.environ.get('PARSONS_SKIP_IMPORT_ALL'):
     from parsons.alchemer.alchemer import SurveyGizmo, Alchemer
     from parsons.quickbase.quickbase import Quickbase
     from parsons.actblue.actblue import ActBlue
+    from parsons.redash.redash import Redash, RedashTimeout, RedashQueryFailed
 
     __all__ = [
         'VAN',

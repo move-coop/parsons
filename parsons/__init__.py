@@ -51,6 +51,7 @@ if not os.environ.get('PARSONS_SKIP_IMPORT_ALL'):
     from parsons.bloomerang.bloomerang import Bloomerang
     from parsons.box.box import Box
     from parsons.sisense.sisense import Sisense
+    from parsons.shopify.shopify import Shopify
     from parsons.alchemer.alchemer import SurveyGizmo, Alchemer
     from parsons.quickbase.quickbase import Quickbase
     from parsons.actblue.actblue import ActBlue
@@ -99,6 +100,7 @@ if not os.environ.get('PARSONS_SKIP_IMPORT_ALL'):
         'Bloomerang',
         'Box',
         'Sisense',
+        'Shopify',
         'SurveyGizmo',
         'Alchemer',
         'Quickbase',

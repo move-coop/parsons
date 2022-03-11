@@ -82,5 +82,6 @@ def main():
   try_overwrite(query_results, request_count, sheet_id=new_sheet, tab_index=tab_index)
   logger.info(f"Load into Google Sheets for tab {TAB_LABEL} complete!")
 
+
 if __name__ == '__main__':
     main()

@@ -56,6 +56,7 @@ if not os.environ.get('PARSONS_SKIP_IMPORT_ALL'):
     from parsons.quickbase.quickbase import Quickbase
     from parsons.actblue.actblue import ActBlue
     from parsons.redash.redash import Redash, RedashTimeout, RedashQueryFailed
+    from parsons.bluelink import Bluelink, BluelinkPerson, BluelinkIdentifier, BluelinkEmail
 
     __all__ = [
         'VAN',

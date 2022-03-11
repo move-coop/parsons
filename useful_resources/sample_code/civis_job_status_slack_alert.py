@@ -104,10 +104,7 @@ def main():
     output_lines = []
     
     for run in scripts_table:
-        if run['state'] == 'succeeded' and run['object_type'] == 'workflow':
-            last_success = format_datetime(run['updated_at'])
-        else:
-            last_success = get_last_success(run['id'], run['object_type'])
+        last_success = get_last_success(run['id'], run['object_type'])
         
         output_line = f"{get_run_state_emoji(run['state'])} {run['name']} (last success: {last_success})"
         output_lines.append(output_line)

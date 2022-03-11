@@ -2,8 +2,8 @@
 
 import os
 import logging
-from parsons import Table, GoogleSheets, MySQL
-from datetime import datetime
+import time
+from parsons import GoogleSheets, MySQL
 
 logger = logging.getLogger(__name__)
 _handler = logging.StreamHandler()
@@ -12,9 +12,14 @@ _handler.setFormatter(_formatter)
 logger.addHandler(_handler)
 logger.setLevel('INFO')
 
-# To use the MySQL connector, set the MYSQL_USERNAME, MYSQL_PASSWORD, MYSQL_HOST, MYSQL_DB, and MYSQL_PORT environment variables.
+# To use the MySQL connector, set the environment variables:
+# MYSQL_USERNAME
+# MYSQL_PASSWORD
+# MYSQL_HOST
+# MYSQL_DB
+# MYSQL_PORT
 # To use the Google Sheets connector, set the GOOGLE_DRIVE_CREDENTIALS environment variable.
-  
+
 # Instantiate classes
 mysql = MySQL()
 gsheets = GoogleSheets()
@@ -29,21 +34,24 @@ TAB_LABEL = 'tab_label_here'
 # QUERY is the SQL query we will run against the MYSQL database.
 QUERY = '''-- Enter SQL here'''
 
+
 # Function to add data to spreadsheet tab.
-# There is a limit to the number of calls per minute, so we use request_count to set a maximum number of tries
+# There is a limit to the number of calls per minute,
+# so we use request_count to set a maximum number of tries
 def try_overwrite(table, request_count, sheet_id, tab_index):
-  
+
   try:
     gsheets.overwrite_sheet(sheet_id, table, worksheet=tab_index, user_entered_value=False)
     
   except APIError as e:
-    print(f"trying to overwrite {worksheet} for the {request_count}th time")
+    print(f"trying to overwrite {tab_index} for the {request_count}th time")
     if request_count > 60:
         raise APIError(e)
     time.sleep(80)
     request_count+=1
     try_overwrite(table, request_count, sheet_id, tab_index)
-  
+
+
 def main():
   logger.info(f"Creating Google Sheets workbook called '{TITLE}'")
 
@@ -73,6 +81,6 @@ def main():
   tab_index = gsheets.add_sheet(new_sheet, title=TAB_LABEL)
   try_overwrite(query_results, request_count, sheet_id=new_sheet, tab_index=tab_index)
   logger.info(f"Load into Google Sheets for tab {TAB_LABEL} complete!")
-        
+
 if __name__ == '__main__':
     main()

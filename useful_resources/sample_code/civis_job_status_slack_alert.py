@@ -46,22 +46,22 @@ def get_workflows_and_jobs(project_id):
     project = client.projects.get(project_id)
     
     # Get workflow and the job data from the project
-    workflows = [dict(x) for x in project['workflows']]
-    tbl = Table(workflows)
+    workflows = [dict(workflow) for workflow in project['workflows']]
+    table = Table(workflows)
     # We need to distinguish between jobs and workflows later on, so adding a column
-    tbl.add_column('object_type', 'workflow')
+    table.add_column('object_type', 'workflow')
     
     # Imports and other scripts are separated out in the response but they are all treated as jobs
     # so we pull and combine
-    jobs = [dict(x) for x in project['scripts']]
-    imports = [dict(x) for x in project['imports']]
+    jobs = [dict(job) for job in project['scripts']]
+    imports = [dict(import_job) for import_job in project['imports']]
     full_list = jobs + imports
-    jobs_tbl = Table(full_list)
-    jobs_tbl.add_column('object_type', 'job') 
+    jobs_table = Table(full_list)
+    jobs_table.add_column('object_type', 'job') 
     
-    tbl.concat(jobs_tbl)
+    table.concat(jobs_table)
     
-    return tbl
+    return table
   
 # Returns the date and time of the last successful run for a Civis job or workflow.
 def get_last_success(object_id, object_type):

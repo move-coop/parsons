@@ -34,9 +34,9 @@ class Contacts:
         return self._request(self.url_contacts, args=params, limit=limit)
 
 
-    def create_contact(self, name_prefix="", first_name="", last_name="", name_suffix="",
-        nickname="", occupation="", employer="", volunteer_status="", donor_status="",
-        member_status="", date_of_birth="", gender=None, pdi_id=None):
+    def create_contact(self, name_prefix="", first_name="", last_name="", middleName="",
+        name_suffix="", nickname="", occupation="", employer="", volunteer_status="",
+        donor_status="", member_status="", date_of_birth=None, gender=None, pdi_id=None):
         """
         Create new contact
         `Args:`
@@ -79,7 +79,7 @@ class Contacts:
             "gender": gender,
             "pdiId": pdi_id
         }
-        return self._request(self.locations_url, req_type='POST', post_data=payload)
+        return self._request(self.url_contacts, req_type='POST', post_data=payload)
 
 
     def get_contact(self, id: str):

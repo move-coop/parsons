@@ -34,7 +34,7 @@ class Contacts:
         return self._request(self.url_contacts, args=params, limit=limit)
 
 
-    def create_contact(self, name_prefix="", first_name="", last_name="", middleName="",
+    def create_contact(self, name_prefix="", first_name="", last_name="", middlename="",
         name_suffix="", nickname="", occupation="", employer="", volunteer_status="",
         donor_status="", member_status="", date_of_birth=None, gender=None, pdi_id=None):
         """

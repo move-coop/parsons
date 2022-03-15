@@ -172,7 +172,7 @@ class Contacts:
         if extension:
             payload['extension'] = extension
 
-        response = self._request(self.contacts_url + f'/{str(contact_id)}/phones', req_type='POST',
+        response = self._request(self.url_contacts + f'/{str(contact_id)}/phones', req_type='POST',
                                  post_data=payload)
 
         return response
@@ -195,7 +195,7 @@ class Contacts:
             'isPrimary': primary
         }
 
-        response = self._request(self.contacts_url + f'/{str(contact_id)}/emails', req_type='POST',
+        response = self._request(self.url_contacts + f'/{str(contact_id)}/emails', req_type='POST',
                                  post_data=payload)
 
         return response

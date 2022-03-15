@@ -70,6 +70,7 @@ class Contacts:
             "lastName": last_name,
             "nameSuffix": name_suffix,
             "nickname": nickname,
+            "middleName": middlename,
             "occupation": occupation,
             "employer": employer,
             "volunteerStatus": volunteer_status,

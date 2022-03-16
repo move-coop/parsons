@@ -5,22 +5,13 @@ Bluelink
 Overview
 ********
 
-`Bluelink <https://bluelink.org/>`_ is an online tool for connecting the various `digital software tools <https://https://bluelink.org/product/#integrations>`_
-used by campaigns and movement groups in the political and non-profit space to allow you to seamlessly and easily sync data between them.
-This integration currently supports sending your structured person data and related tags to Bluelink via the
-`Bluelink Webhook API <https://bluelinkdata.github.io/docs/BluelinkApiGuide#webhook>`_, after which you can use our UI to send to any of our
-`supported tools <https://bluelink.org/product/#integrations>`_. If you don't see a tool you would like to connect to, please reach out at
-hello@bluelink.org to ask us to add it.
-
-
+`Bluelink <https://bluelink.org/>`_ is an online tool for connecting various `digital software tools <https://https://bluelink.org/product/#integrations>`_ used by campaigns and movement groups in the political and non-profit space so you can sync data between them. This integration currently supports sending your structured person data and related tags to Bluelink via the `Bluelink Webhook API <https://bluelinkdata.github.io/docs/BluelinkApiGuide#webhook>`_, after which you can use Bluelink's UI to send to any of their `supported tools <https://bluelink.org/product/#integrations>`_. If you don't see a tool you would like to connect to, please reach out at hello@bluelink.org to ask them to add it.
 
 .. note::
    Authentication
-      If you don't have a Bluelink account please complete the `form <https://bluelink.org/#form>`_ on our website or email us at hello@bluelink.org.
-      To get connection credentials select or ask an account administrator to select `Bluelink Webhook <https://app.bluelink.org/bluelink-webhook-integration>`_
-      from the apps menu. The credentials are automatically embedded into a one time secret link in case they need to be sent to you.
-      Open the link to access the user and password, that you will then either pass directly to the Bluelink connector as arguments, 
-      or set them as environment variables.
+      If you don't have a Bluelink account please complete the `form <https://bluelink.org/#form>`_ on the Bluelink website or email them at hello@bluelink.org. To get connection credentials select `Bluelink Webhook <https://app.bluelink.org/bluelink-webhook-integration>`_ from the apps menu. If you don't see this option, you may need to ask an account administrator to do this step for you.
+
+      The credentials are automatically embedded into a one time secret link in case they need to be sent to you. Open the link to access the user and password.
 
 ==========
 Quickstart

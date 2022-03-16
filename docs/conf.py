@@ -44,7 +44,8 @@ extensions = [
     'sphinx.ext.coverage',
     'sphinx.ext.imgmath',
     'sphinx.ext.viewcode',
-    'myst_parser'
+    'myst_parser',
+    'sphinx_multiversion',
 ]
 
 # Sorting of attributes
@@ -89,7 +90,9 @@ html_theme = 'sphinx_rtd_theme'
 # further.  For a list of options available for each theme, see the
 # documentation.
 #
-# html_theme_options = {}
+html_theme_options = {
+    'display_version': True,
+}
 
 # Add any paths that contain custom static files (such as style sheets) here,
 # relative to this directory. They are copied after the builtin static files,
@@ -104,7 +107,11 @@ html_static_path = ['_static']
 # default: ``['localtoc.html', 'relations.html', 'sourcelink.html',
 # 'searchbox.html']``.
 #
-# html_sidebars = {}
+html_sidebars = {
+    '**': [
+        'versioning.html',
+    ],
+}
 
 
 # -- Options for HTMLHelp output ---------------------------------------------
@@ -165,3 +172,17 @@ texinfo_documents = [
 
 
 # -- Extension configuration -------------------------------------------------
+
+# sphinx-multiversion overrides
+
+# # Whitelist pattern for tags (set to None to ignore all tags)
+# smv_tag_whitelist = None  # don't use tags to generate docs
+
+# Whitelist pattern for branches (set to None to ignore all branches)
+smv_branch_whitelist = r'^master|main$'  # creates version for latest master/main branch
+
+# # Pattern for released versions
+# smv_released_pattern = r'^tags/v\d\.$'  # matches tags starting with v0.x v1.x etc (will break at v10.x)
+
+# Pattern for released versions
+smv_tag_whitelist = r'^tags/v\d\.$'  # matches tags starting with v0.x v1.x etc (will break at v10.x)

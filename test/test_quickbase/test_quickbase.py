@@ -1,7 +1,7 @@
-from parsons.quickbase.quickbase import Quickbase
-from test.test_quickbase import test_data
 import unittest
 import requests_mock
+from parsons import Quickbase
+from test.test_quickbase import test_data
 
 
 class TestQuickbase(unittest.TestCase):

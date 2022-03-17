@@ -1,5 +1,4 @@
-from parsons.databases.postgres import Postgres
-from parsons.etl.table import Table
+from parsons import Postgres, Table
 from test.utils import assert_matching_tables
 import unittest
 import os

@@ -1,10 +1,12 @@
 import unittest
 import petl
-from parsons.etl.table import Table
 import os
 import shutil
+
+from parsons import Table
 from test.utils import assert_matching_tables
 from parsons.utilities import zip_archive
+
 
 # Notes :
 # - The `Table.to_postgres()` test is housed in the Postgres tests

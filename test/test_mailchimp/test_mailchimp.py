@@ -1,4 +1,4 @@
-from parsons.mailchimp.mailchimp import Mailchimp
+from parsons import Mailchimp
 import unittest
 import requests_mock
 from test.test_mailchimp import expected_json

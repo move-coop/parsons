@@ -1,7 +1,7 @@
 import os
 import unittest
 import unittest.mock as mock
-from parsons.newmode import Newmode
+from parsons import Newmode
 
 
 class TestNewmode(unittest.TestCase):

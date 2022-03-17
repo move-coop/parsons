@@ -5,8 +5,7 @@ from urllib.parse import parse_qs, urlparse
 
 from azure.storage.blob import BlobClient, ContainerClient
 
-from parsons.azure import AzureBlobStorage
-from parsons.etl import Table
+from parsons import AzureBlobStorage, Table
 from parsons.utilities import files
 
 

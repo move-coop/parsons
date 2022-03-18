@@ -1,7 +1,6 @@
 # This script checks the status of all jobs and workflows in a given Civis Project
 # and posts them to a Slack channel.
 
-import os
 import civis
 import datetime
 import logging

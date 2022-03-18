@@ -1,6 +1,5 @@
 # This script runs a query against a MySQL database and saves the results to a Google Sheet.
 
-import os
 import logging
 import time
 from parsons import GoogleSheets, MySQL

@@ -108,10 +108,15 @@ html_static_path = ['_static']
 # 'searchbox.html']``.
 #
 html_sidebars = {
-    '**': [
-        'versioning.html',
-    ],
+    '**': [ 'versions.html']
 }
+
+try:
+    html_context
+except NameError:
+    html_context = dict()
+
+html_context['display_versions_lower_left'] = True
 
 
 # -- Options for HTMLHelp output ---------------------------------------------
@@ -175,14 +180,11 @@ texinfo_documents = [
 
 # sphinx-multiversion overrides
 
-# # Whitelist pattern for tags (set to None to ignore all tags)
-# smv_tag_whitelist = None  # don't use tags to generate docs
+# TODO: define elsewhere and import?
+DOCUMENTED_VERSIONS = ["v0.18.1", "v0.18.0", "v0.17.0", "v0.16.0", "v0.15.0", "v0.14.0"]
 
-# Whitelist pattern for branches (set to None to ignore all branches)
+# Whitelist pattern for branches
 smv_branch_whitelist = r'^master|main$'  # creates version for latest master/main branch
 
-# # Pattern for released versions
-# smv_released_pattern = r'^tags/v\d\.$'  # matches tags starting with v0.x v1.x etc (will break at v10.x)
-
-# Pattern for released versions
-smv_tag_whitelist = r'^tags/v\d\.$'  # matches tags starting with v0.x v1.x etc (will break at v10.x)
+# Get tags to whitelist from DOCUMENTED_VERSIONS const
+smv_tag_whitelist = "|".join(["^" + version + "$" for version in DOCUMENTED_VERSIONS])

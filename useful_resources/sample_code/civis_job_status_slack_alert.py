@@ -6,11 +6,14 @@ import datetime
 import logging
 from parsons import Slack, Table
 
+# Environment variables
 # To use the Civis connector, set the environment variables CIVIS_DATABASE and CIVIS_API_KEY.
 # These environment variables are not necessary if you run this code in a Civis container script.
 client = civis.APIClient()
 # To use the Slack connector, set the environment variable SLACK_API_TOKEN
 slack = Slack()
+# More on environmental variables:
+# https://move-coop.github.io/parsons/html/use_cases/contribute_use_cases.html#sensitive-information
 
 # Configuration variables
 SLACK_CHANNEL = ''  # Slack channel where the alert will post.

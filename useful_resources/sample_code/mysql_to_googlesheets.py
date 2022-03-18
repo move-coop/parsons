@@ -18,6 +18,8 @@ logger.setLevel('INFO')
 # MYSQL_DB
 # MYSQL_PORT
 # To use the Google Sheets connector, set the GOOGLE_DRIVE_CREDENTIALS environment variable.
+# More on environmental variables:
+# https://move-coop.github.io/parsons/html/use_cases/contribute_use_cases.html#sensitive-information
 
 # Instantiate classes
 mysql = MySQL()

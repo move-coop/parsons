@@ -93,7 +93,7 @@ def get_last_success(object_id, object_type):
     elif object_type == 'job':
         job_runs = client.jobs.list_runs(object_id)
         job_runs_tbl = Table([dict(run) for run in job_runs]) \
-        .sort(columns='finished_at', reverse=True)
+            .sort(columns='finished_at', reverse=True)
         for run in job_runs_tbl:
             if run['state'] != 'succeeded':
                 continue
@@ -121,7 +121,7 @@ def main():
     for run in scripts_table:
         last_success = get_last_success(run['id'], run['object_type'])
 
-        output_line = f"""{get_run_state_emoji(run['state'])} 
+        output_line = f"""{get_run_state_emoji(run['state'])}
         {run['name']} (last success: {last_success})"""
         output_lines.append(output_line)
 

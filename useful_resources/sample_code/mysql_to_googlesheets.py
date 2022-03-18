@@ -3,6 +3,7 @@
 import logging
 import time
 from parsons import GoogleSheets, MySQL
+from gspread.exceptions import APIError
 
 logger = logging.getLogger(__name__)
 _handler = logging.StreamHandler()
@@ -57,18 +58,18 @@ def main():
     logger.info(f"Creating Google Sheets workbook called '{TITLE}'")
 
     try:
-      new_sheet = gsheets.create_spreadsheet(
-        title=TITLE,
-        editor_email=None,
-        folder_id=FOLDER_ID
-      )
-      # If successful new_sheet will be the spreadsheet's ID in a string
-      if isinstance(new_sheet, str):
-          logger.info(f"Successfully created sheet {TITLE}!")
-      # If we do not get a string back from the create_spreadsheet call
-      # then something went wrong. Print the response.
-      else:
-          logger.info(f"create_spreadsheet did not return a sheet ID. Issue: {str(new_sheet)}")
+        new_sheet = gsheets.create_spreadsheet(
+            title=TITLE,
+            editor_email=None,
+            folder_id=FOLDER_ID
+        )
+        # If successful new_sheet will be the spreadsheet's ID in a string
+        if isinstance(new_sheet, str):
+            logger.info(f"Successfully created sheet {TITLE}!")
+        # If we do not get a string back from the create_spreadsheet call
+        # then something went wrong. Print the response.
+        else:
+            logger.info(f"create_spreadsheet did not return a sheet ID. Issue: {str(new_sheet)}")
 
     # If we get an error when trying to create the spreadsheet we print the error.
     except Exception as e:

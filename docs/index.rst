@@ -297,3 +297,4 @@ Indices and tables
 
    use_cases/contribute_use_cases
    use_cases/civis_job_status_slack_alert
+   use_cases/mysql_to_googlesheets

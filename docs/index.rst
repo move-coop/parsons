@@ -296,6 +296,8 @@ Indices and tables
    :name: use_cases_and_sample_scripts
 
    use_cases/contribute_use_cases
+   use_cases/civis_job_status_slack_alert
+   use_cases/mysql_to_googlesheets
 
 .. toctree::
    :maxdepth: 1

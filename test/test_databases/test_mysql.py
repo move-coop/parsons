@@ -1,6 +1,5 @@
-from parsons.databases.mysql.mysql import MySQL
+from parsons import MySQL, Table
 from parsons.databases.mysql.create_table import MySQLCreateTable
-from parsons.etl.table import Table
 from test.utils import assert_matching_tables
 import unittest
 import os

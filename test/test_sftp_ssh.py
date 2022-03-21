@@ -1,7 +1,6 @@
 import pytest
 import os
-from parsons.etl import Table
-from parsons.sftp import SFTP
+from parsons import Table, SFTP
 from parsons.utilities import files
 from test.utils import mark_live_test, assert_matching_tables
 from test.fixtures import simple_table, simple_csv_path, simple_compressed_csv_path  # noqa: F401

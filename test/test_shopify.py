@@ -1,5 +1,4 @@
-from parsons.etl.table import Table
-from parsons.shopify.shopify import Shopify
+from parsons import Table, Shopify
 from test.utils import assert_matching_tables
 import requests_mock
 import unittest

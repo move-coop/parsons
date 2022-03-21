@@ -3,8 +3,7 @@ import unittest
 import unittest.mock as mock
 from google.cloud import bigquery
 from google.cloud import exceptions
-from parsons.google.google_bigquery import GoogleBigQuery
-from parsons.etl import Table
+from parsons import GoogleBigQuery, Table
 
 
 class TestGoogleBigQuery(unittest.TestCase):

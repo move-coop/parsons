@@ -298,3 +298,10 @@ Indices and tables
    use_cases/contribute_use_cases
    use_cases/civis_job_status_slack_alert
    use_cases/mysql_to_googlesheets
+
+.. toctree::
+   :maxdepth: 1
+   :caption: Training Guides
+   :name: training_guides
+
+   training_guides/getting_set_up

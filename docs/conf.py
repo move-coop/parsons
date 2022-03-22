@@ -44,7 +44,7 @@ extensions = [
     'sphinx.ext.coverage',
     'sphinx.ext.imgmath',
     'sphinx.ext.viewcode',
-    'm2r'
+    'myst_parser'
 ]
 
 # Sorting of attributes

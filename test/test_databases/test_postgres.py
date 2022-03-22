@@ -1,5 +1,4 @@
-from parsons.databases.postgres import Postgres
-from parsons.etl.table import Table
+from parsons import Postgres, Table
 from test.utils import assert_matching_tables
 import unittest
 import os
@@ -34,6 +33,8 @@ class TestPostgresCreateStatement(unittest.TestCase):
 
         self.mapping = self.pg.generate_data_types(self.tbl)
         self.mapping2 = self.pg.generate_data_types(self.tbl2)
+        self.pg.DO_PARSE_BOOLS = True
+        self.mapping3 = self.pg.generate_data_types(self.tbl2)
 
     def test_connection(self):
 
@@ -55,15 +56,18 @@ class TestPostgresCreateStatement(unittest.TestCase):
         self.assertEqual(pg_env.port, 5432)
 
     def test_data_type(self):
-
+        self.pg.DO_PARSE_BOOLS = False
         # Test smallint
         self.assertEqual(self.pg.data_type(1, ''), 'smallint')
+        self.assertEqual(self.pg.data_type(2, ''), 'smallint')
         # Test int
         self.assertEqual(self.pg.data_type(32769, ''), 'int')
         # Test bigint
         self.assertEqual(self.pg.data_type(2147483648, ''), 'bigint')
         # Test varchar that looks like an int
         self.assertEqual(self.pg.data_type('00001', ''), 'varchar')
+        # Test varchar that looks like a bool
+        self.assertEqual(self.pg.data_type(True, ''), 'varchar')
         # Test a float as a decimal
         self.assertEqual(self.pg.data_type(5.001, ''), 'decimal')
         # Test varchar
@@ -72,6 +76,11 @@ class TestPostgresCreateStatement(unittest.TestCase):
         self.assertEqual(self.pg.data_type('1_2', ''), 'varchar')
         # Test int with leading zero
         self.assertEqual(self.pg.data_type('01', ''), 'varchar')
+
+        # Test bool
+        self.pg.DO_PARSE_BOOLS = True
+        self.assertEqual(self.pg.data_type(1, ''), 'bool')
+        self.assertEqual(self.pg.data_type(True, ''), 'bool')
 
     def test_generate_data_types(self):
 
@@ -82,6 +91,9 @@ class TestPostgresCreateStatement(unittest.TestCase):
         self.assertEqual(
             self.mapping2['type_list'],
             ['varchar', 'varchar', 'decimal', 'varchar', "decimal", "smallint", "varchar"])
+        self.assertEqual(
+            self.mapping3['type_list'],
+            ['varchar', 'varchar', 'decimal', 'varchar', "decimal", "bool", "varchar"])
         # Test correct lengths
         self.assertEqual(self.mapping['longest'], [1, 5])
 

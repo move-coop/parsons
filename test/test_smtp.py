@@ -1,4 +1,4 @@
-from parsons.notifications.smtp import SMTP
+from parsons import SMTP
 import base64
 import io
 import re

@@ -4,17 +4,15 @@ import json
 import os
 
 
-def setup_google_application_credentials(app_creds):
+def setup_google_application_credentials(app_creds, env_var_name='GOOGLE_APPLICATION_CREDENTIALS'):
     # Detect if the app_creds string is a path or json and if it is a
     # json string, then convert it to a temporary file. Then set the
     # environmental variable.
-    if app_creds:
-        try:
-            json.loads(app_creds)
-            creds_path = files.string_to_temp_file(app_creds, suffix='.json')
-        except ValueError:
-            creds_path = app_creds
+    credentials = check_env.check(env_var_name, app_creds)
+    try:
+        json.loads(credentials)
+        creds_path = files.string_to_temp_file(credentials, suffix='.json')
+    except ValueError:
+        creds_path = credentials
 
-        os.environ['GOOGLE_APPLICATION_CREDENTIALS'] = creds_path
-
-    check_env.check('GOOGLE_APPLICATION_CREDENTIALS', app_creds)
+    os.environ[env_var_name] = creds_path

@@ -2,8 +2,7 @@ import json
 import os
 import unittest
 from unittest import mock
-from parsons.action_kit.action_kit import ActionKit
-from parsons.etl.table import Table
+from parsons import ActionKit, Table
 
 from test.utils import assert_matching_tables
 

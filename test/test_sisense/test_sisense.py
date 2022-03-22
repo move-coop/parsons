@@ -2,7 +2,7 @@ import os
 import unittest
 from unittest import mock
 import requests_mock
-from parsons.sisense.sisense import Sisense
+from parsons import Sisense
 
 from test.test_sisense.test_data import ENV_PARAMETERS, \
     TEST_PUBLISH_SHARED_DASHBOARD, TEST_LIST_SHARED_DASHBOARDS, TEST_DELETE_SHARED_DASHBOARD

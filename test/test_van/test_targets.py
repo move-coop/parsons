@@ -1,8 +1,7 @@
 import unittest
 import os
 import requests_mock
-from parsons.ngpvan import VAN
-from parsons.etl.table import Table
+from parsons import VAN, Table
 from test.utils import validate_list, assert_matching_tables
 
 os.environ['VAN_API_KEY'] = 'SOME_KEY'

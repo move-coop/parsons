@@ -1,7 +1,7 @@
 import unittest
 import os
 import requests_mock
-from parsons.ngpvan.van import VAN
+from parsons import VAN
 from requests.exceptions import HTTPError
 from test.test_van.responses_people import find_people_response, get_person_response
 

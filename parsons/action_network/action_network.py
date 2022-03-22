@@ -25,22 +25,26 @@ class ActionNetwork(object):
         self.api_url = API_URL
         self.api = APIConnector(self.api_url, headers=self.headers)
 
-    def _get_page(self, object_name, page, per_page=25):
+    def _get_page(self, object_name, page, per_page=25, filter=None):
         # returns data from one page of results
         if per_page > 25:
             per_page = 25
             logger.info("Action Network's API will not return more than 25 entries per page. \
             Changing per_page parameter to 25.")
-        page_url = f"{object_name}?page={page}&per_page={per_page}"
-        return self.api.get_request(url=page_url)
+        params = {
+            "page": page,
+            "per_page": per_page,
+            "filter": filter
+        }
+        return self.api.get_request(url=object_name, params=params)
 
-    def _get_entry_list(self, object_name, limit=None, per_page=25):
+    def _get_entry_list(self, object_name, limit=None, per_page=25, filter=None):
         # returns a list of entries for a given object, such as people, tags, or actions
         count = 0
         page = 1
         return_list = []
         while True:
-            response = self._get_page(object_name, page, per_page)
+            response = self._get_page(object_name, page, per_page, filter=filter)
             page = page + 1
             response_list = response['_embedded'][f"osdi:{object_name}"]
             if not response_list:
@@ -51,7 +55,7 @@ class ActionNetwork(object):
                 if count >= limit:
                     return Table(return_list[0:limit])
 
-    def get_people(self, limit=None, per_page=25, page=None):
+    def get_people(self, limit=None, per_page=25, page=None, filter=None):
         """
         `Args:`
             limit:
@@ -60,12 +64,15 @@ class ActionNetwork(object):
                 The number of entries per page to return. 25 maximum.
             page
                 Which page of results to return
+            filter
+                The OData query for filtering results. E.g. "modified_date gt '2014-03-25'".
+                When None, no filter is applied.
         `Returns:`
             A list of JSONs of people stored in Action Network.
         """
         if page:
-            self._get_page("people", page, per_page)
-        return self._get_entry_list("people", limit, per_page)
+            return self._get_page("people", page, per_page, filter=filter)
+        return self._get_entry_list("people", limit, per_page, filter=filter)
 
     def get_person(self, person_id):
         """
@@ -231,7 +238,7 @@ class ActionNetwork(object):
         logger.info(f"Person {entry_id} successfully updated")
         return response
 
-    def get_tags(self, limit=None, per_page=25, page=None):
+    def get_tags(self, limit=None, per_page=25, page=None, filter=None):
         """
         `Args:`
             limit:
@@ -244,8 +251,8 @@ class ActionNetwork(object):
             A list of JSONs of tags in Action Network.
         """
         if page:
-            self.get_page("tags", page, per_page)
-        return self._get_entry_list("tags", limit, per_page)
+            self.get_page("tags", page, per_page, filter=filter)
+        return self._get_entry_list("tags", limit, per_page, filter=filter)
 
     def get_tag(self, tag_id):
         """

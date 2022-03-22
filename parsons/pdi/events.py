@@ -12,6 +12,29 @@ class Events:
 
         super().__init__()
 
+    def get_events(self, first_event_date: str, last_event_date: str, limit=None):
+        """Get a table of PDI events in a given time frame
+
+        `Args:`
+            first_event_date: str
+                First date in the timeframe from which you want events formatted at 'yyy-MM-dd'
+            last_event_date: str
+                Last date in the timeframe from which you want events formatted at 'yyy-MM-dd'
+            limit: int
+                The max number of events to return
+
+        `Returns:`
+            parsons.Table
+                A Parsons table containing all requested events data.
+        """
+
+        params = {
+            'startDate': first_event_date,
+            'endDate': last_event_date,
+        }
+
+        return self._request(self.events_url, args=params, limit=limit)
+
     def create_event(self, calendar_id: str, location_id: str, event_name: str, start_datetime: str,
                      end_datetime: str, description=None,all_day=False, recurrencetype=None,
                      recurrence_end_datetime=None, host_phone=None, host_email=None, website=None):
@@ -31,7 +54,7 @@ class Events:
                 yyyy-MM-ddThh:mm:ss.fffZ
             end_datetime: str
                 The end date formatted like start_datetime
-            is_all_day = bool
+            is_all_day: bool
                 set to True if event is an all day event. Defaults to False
             recurrencetype: str
                 Either 'daily', 'weekly', or 'monthly'. Defaults to None

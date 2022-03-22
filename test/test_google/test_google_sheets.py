@@ -2,8 +2,7 @@ import unittest
 import gspread
 import os
 
-from parsons.google.google_sheets import GoogleSheets
-from parsons.etl.table import Table
+from parsons import GoogleSheets, Table
 from test.utils import assert_matching_tables
 
 

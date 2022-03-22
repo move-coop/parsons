@@ -227,7 +227,7 @@ class AzureBlobStorage(object):
         if not account_key:
             if not self.credential:
                 raise ValueError(
-                    f'An account shared access key must be provided if it was not on initialization'
+                    'An account shared access key must be provided if it was not on initialization'
                 )
             account_key = self.credential
 

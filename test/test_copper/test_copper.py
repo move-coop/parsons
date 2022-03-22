@@ -3,8 +3,7 @@ import os
 import json
 import requests_mock
 import sys
-from parsons.copper import Copper
-from parsons.etl import Table
+from parsons import Copper, Table
 from test.utils import assert_matching_tables
 import logging
 

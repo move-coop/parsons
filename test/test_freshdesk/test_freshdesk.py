@@ -1,4 +1,4 @@
-from parsons.freshdesk.freshdesk import Freshdesk
+from parsons import Freshdesk
 import unittest
 import requests_mock
 from test.test_freshdesk import expected_json

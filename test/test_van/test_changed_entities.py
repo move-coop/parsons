@@ -2,8 +2,7 @@ import unittest
 import os
 import requests_mock
 import unittest.mock as mock
-from parsons.ngpvan.van import VAN
-from parsons.etl.table import Table
+from parsons import VAN, Table
 from test.utils import assert_matching_tables
 
 

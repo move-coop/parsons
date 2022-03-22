@@ -32,7 +32,8 @@ version control.
 
 [This folder](./sample_code/) contains examples of Parsons in common use-cases
 
-* Updating ActionKit User
-* Moving data between different Amazon S3 accounts
-* Copying data into Redshift from S3
-* Applying Activist Codes in VAN
+- Updating ActionKit User
+- Moving data between different Amazon S3 accounts
+- Copying data into Redshift from S3
+- Applying Activist Codes in VAN
+- Copying data into Google Sheets from ActBlue

@@ -475,7 +475,7 @@ class Redshift(RedshiftCreateTable, RedshiftCopyTable, RedshiftTableUtilities, R
                 ``alter_table_cascade`` to True.
             alter_table_cascade: boolean
                 Will drop dependent objects when attempting to alter the table. If ``alter_table``
-                is not ``True``, this will be ignored.
+                is ``False``, this will be ignored.
             aws_access_key_id:
                 An AWS access key granted to the bucket where the file is located. Not required
                 if keys are stored as environmental variables.
@@ -737,11 +737,11 @@ class Redshift(RedshiftCreateTable, RedshiftCopyTable, RedshiftTableUtilities, R
         return manifest
 
     def upsert(self, table_obj, target_table, primary_key, vacuum=True, distinct_check=True,
-               cleanup_temp_table=True, alter_table=True, from_s3=False, **copy_args):
+               cleanup_temp_table=True, alter_table=True, alter_table_cascade=False,
+               from_s3=False, distkey=None, sortkey=None, **copy_args):
         """
-        Preform an upsert on an existing table. An upsert is a function in which records
-        in a table are updated and inserted at the same time. Unlike other SQL databases,
-        it does not exist natively in Redshift.
+        Preform an upsert on an existing table. An upsert is a function in which rows
+        in a table are updated and inserted at the same time.
 
         `Args:`
             table_obj: obj
@@ -760,33 +760,46 @@ class Redshift(RedshiftCreateTable, RedshiftCopyTable, RedshiftTableUtilities, R
                 A temp table is dropped by default on cleanup. You can set to False for debugging.
             alter_table: boolean
                 Set to False to avoid automatic varchar column resizing to accomodate new data
+            alter_table_cascade: boolean
+                Will drop dependent objects when attempting to alter the table. If ``alter_table``
+                is ``False``, this will be ignored.
             from_s3: boolean
                 Instead of specifying a table_obj (set the first argument to None),
                 set this to True and include :func:`~parsons.databases.Redshift.copy_s3` arguments
                 to upsert a pre-existing s3 file into the target_table
+            distkey: str
+                The column name of the distkey. If not provided, will default to ``primary_key``.
+            sortkey: str or list
+                The column name(s) of the sortkey. If not provided, will default to ``primary_key``.
             \**copy_args: kwargs
                 See :func:`~parsons.databases.Redshift.copy` for options.
         """  # noqa: W605
-
-        if not self.table_exists(target_table):
-            logger.info('Target table does not exist. Copying into newly \
-                         created target table.')
-            self.copy(table_obj, target_table)
-            return None
-
-        if alter_table and table_obj:
-            # Make target table column widths match incoming table, if necessary
-            self.alter_varchar_column_widths(table_obj, target_table)
-
-        noise = f'{random.randrange(0, 10000):04}'[:4]
-        date_stamp = datetime.datetime.now().strftime('%Y%m%d_%H%M')
-        # Generate a temp table like "table_tmp_20200210_1230_14212"
-        staging_tbl = '{}_stg_{}_{}'.format(target_table, date_stamp, noise)
 
         if isinstance(primary_key, str):
             primary_keys = [primary_key]
         else:
             primary_keys = primary_key
+
+        # Set distkey and sortkey to argument or primary key. These keys will be used
+        # for the staging table and, if it does not already exist, the destination table.
+        distkey = distkey or primary_keys[0]
+        sortkey = sortkey or primary_key
+
+        if not self.table_exists(target_table):
+            logger.info('Target table does not exist. Copying into newly \
+                         created target table.')
+            self.copy(table_obj, target_table, distkey=distkey, sortkey=sortkey)
+            return None
+
+        if alter_table and table_obj:
+            # Make target table column widths match incoming table, if necessary
+            self.alter_varchar_column_widths(table_obj, target_table,
+                                             drop_dependencies=alter_table_cascade)
+
+        noise = f'{random.randrange(0, 10000):04}'[:4]
+        date_stamp = datetime.datetime.now().strftime('%Y%m%d_%H%M')
+        # Generate a temp table like "table_tmp_20200210_1230_14212"
+        staging_tbl = '{}_stg_{}_{}'.format(target_table, date_stamp, noise)
 
         if distinct_check:
             primary_keys_statement = ', '.join(primary_keys)
@@ -816,6 +829,7 @@ class Redshift(RedshiftCreateTable, RedshiftCopyTable, RedshiftTableUtilities, R
                     # column is not impactful barely impactful
                     # https://docs.aws.amazon.com/redshift/latest/dg/c_Loading_tables_auto_compress.html
                     copy_args = dict(copy_args, compupdate=False)
+
                 if from_s3:
                     if table_obj is not None:
                         raise ValueError(
@@ -829,6 +843,8 @@ class Redshift(RedshiftCreateTable, RedshiftCopyTable, RedshiftTableUtilities, R
                     self.copy(table_obj, staging_tbl,
                               template_table=target_table,
                               alter_table=False,  # We just did our own alter table above
+                              distkey=distkey,
+                              sortkey=sortkey,
                               **copy_args)
 
                 staging_table_name = staging_tbl.split('.')[1]
@@ -904,9 +920,10 @@ class Redshift(RedshiftCreateTable, RedshiftCopyTable, RedshiftTableUtilities, R
             connection.set_session(autocommit=True)
             tbl = self.query_with_connection(sql_depend, connection)
             dropped_views = [row['table_name'] for row in tbl]
-            sql_drop = "\n".join([f"drop view {view};" for view in dropped_views])
-            tbl = self.query_with_connection(sql_drop, connection)
-            logger.info(f"Dropped the following views: {dropped_views}")
+            if dropped_views:
+                sql_drop = "\n".join([f"drop view {view};" for view in dropped_views])
+                tbl = self.query_with_connection(sql_drop, connection)
+                logger.info(f"Dropped the following views: {dropped_views}")
 
         return tbl
 

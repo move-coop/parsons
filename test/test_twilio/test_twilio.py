@@ -1,7 +1,7 @@
 import os
 import unittest
 import unittest.mock as mock
-from parsons.twilio.twilio import Twilio
+from parsons import Twilio
 
 
 class TestTwilio(unittest.TestCase):

@@ -1,7 +1,7 @@
 import unittest
 import os
 import requests_mock
-from parsons.ngpvan import VAN
+from parsons import VAN
 from test.utils import validate_list
 
 os.environ['VAN_API_KEY'] = 'SOME_KEY'

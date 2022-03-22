@@ -17,6 +17,9 @@ if not os.environ.get('PARSONS_SKIP_IMPORT_ALL'):
     from parsons.civis.civisclient import CivisClient
     from parsons.etl.table import Table
     from parsons.notifications.gmail import Gmail
+    from parsons.notifications.slack import Slack
+    from parsons.notifications.sendmail import SendMail
+    from parsons.notifications.smtp import SMTP
     from parsons.google.google_admin import GoogleAdmin
     from parsons.google.google_civic import GoogleCivic
     from parsons.google.google_sheets import GoogleSheets
@@ -25,13 +28,13 @@ if not os.environ.get('PARSONS_SKIP_IMPORT_ALL'):
     from parsons.phone2action.p2a import Phone2Action
     from parsons.mobilize_america.ma import MobilizeAmerica
     from parsons.facebook_ads.facebook_ads import FacebookAds
-    from parsons.notifications.slack import Slack
     from parsons.turbovote.turbovote import TurboVote
     from parsons.sftp.sftp import SFTP
     from parsons.action_kit.action_kit import ActionKit
     from parsons.geocode.census_geocoder import CensusGeocoder
     from parsons.airtable.airtable import Airtable
     from parsons.copper.copper import Copper
+    from parsons.controlshift.controlshift import Controlshift
     from parsons.crowdtangle.crowdtangle import CrowdTangle
     from parsons.hustle.hustle import Hustle
     from parsons.twilio.twilio import Twilio
@@ -51,7 +54,13 @@ if not os.environ.get('PARSONS_SKIP_IMPORT_ALL'):
     from parsons.bloomerang.bloomerang import Bloomerang
     from parsons.box.box import Box
     from parsons.sisense.sisense import Sisense
+    from parsons.shopify.shopify import Shopify
     from parsons.alchemer.alchemer import SurveyGizmo, Alchemer
+    from parsons.quickbase.quickbase import Quickbase
+    from parsons.actblue.actblue import ActBlue
+    from parsons.redash.redash import Redash
+    from parsons.bluelink import Bluelink
+    from parsons.braintree.braintree import Braintree
 
     __all__ = [
         'VAN',
@@ -78,6 +87,7 @@ if not os.environ.get('PARSONS_SKIP_IMPORT_ALL'):
         'CensusGeocoder',
         'Airtable',
         'Copper',
+        'Controlshift',
         'CrowdTangle',
         'Hustle',
         'Twilio',
@@ -97,8 +107,16 @@ if not os.environ.get('PARSONS_SKIP_IMPORT_ALL'):
         'Bloomerang',
         'Box',
         'Sisense',
+        'Shopify',
         'SurveyGizmo',
-        'Alchemer'
+        'Alchemer',
+        'Quickbase',
+        'ActBlue',
+        'Redash',
+        'Bluelink',
+        'Braintree',
+        'SMTP',
+        'SendMail'
     ]
 
 # Define the default logging config for Parsons and its submodules. For now the

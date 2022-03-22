@@ -2,8 +2,7 @@ import unittest
 import requests_mock
 from test.utils import assert_matching_tables
 
-from parsons.etl.table import Table
-from parsons.zoom.zoom import Zoom
+from parsons import Table, Zoom
 
 API_KEY = 'fake_api_key'
 API_SECRET = 'fake_api_secret'
@@ -388,5 +387,5 @@ class TestZoom(unittest.TestCase):
             }
         ])
 
-        m.get(ZOOM_URI + 'report/webinars/123/registrants', json=registrants)
+        m.get(ZOOM_URI + 'webinars/123/registrants', json=registrants)
         assert_matching_tables(self.zoom.get_webinar_registrants(123), tbl)

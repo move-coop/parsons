@@ -17,6 +17,7 @@ if not os.environ.get('PARSONS_SKIP_IMPORT_ALL'):
     from parsons.civis.civisclient import CivisClient
     from parsons.etl.table import Table
     from parsons.notifications.gmail import Gmail
+    from parsons.google.google_admin import GoogleAdmin
     from parsons.google.google_civic import GoogleCivic
     from parsons.google.google_sheets import GoogleSheets
     from parsons.google.google_cloud_storage import GoogleCloudStorage
@@ -62,6 +63,7 @@ if not os.environ.get('PARSONS_SKIP_IMPORT_ALL'):
         'DBSync',
         'Table',
         'Gmail',
+        'GoogleAdmin',
         'GoogleCivic',
         'GoogleCloudStorage',
         'GoogleBigQuery',

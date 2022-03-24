@@ -33,7 +33,7 @@ From Parsons Table
     * - :py:meth:`~parsons.etl.tofrom.ToFrom.to_sftp_csv`
       - SFTP Server
       - Write a table to a csv stored on an SFTP server
-    * - :py:meth:`~parsons.etl.tofrom.ToFrom.from_csv`
+    * - :py:meth:`~parsons.etl.tofrom.ToFrom.from_redshift`
       - A Redshift Database
       - Write a table to a Redshift database
     * - :py:meth:`~parsons.etl.tofrom.ToFrom.from_postgres`

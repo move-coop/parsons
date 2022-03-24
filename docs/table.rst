@@ -30,7 +30,7 @@ From Parsons Table
     * - :py:meth:`~parsons.etl.tofrom.ToFrom.to_gcs_csv`
       - Google Cloud Storage Bucket
       - Write a table to a csv stored in Google Cloud Storage
-    * - :py:meth:`~parsons.etl.tofrom.ToFrom.to_sftp_csv`
+    * - :py:meth:`~parsons.etl.tofrom.ToFrom.to_sftp_redshift`
       - SFTP Server
       - Write a table to a csv stored on an SFTP server
     * - :py:meth:`~parsons.etl.tofrom.ToFrom.from_csv`

@@ -92,8 +92,8 @@ jobs:
           command: |
             . venv/bin/activate
             cd docs/
-            chmod +x deploy_docs.sh
-            ./deploy_docs.sh
+            sphinx-multiversion . html
+            cp ./index-redirect.html html/index.html
             cd ..
 
   docs-build-deploy:
@@ -134,8 +134,8 @@ jobs:
           command: |
             . venv/bin/activate
             cd docs/
-            chmod +x deploy_docs.sh
-            ./deploy_docs.sh
+            sphinx-multiversion . html
+            cp ./index-redirect.html html/index.html
             cd ..
             git config user.email "ci-build@movementcooperative.org"
             git config user.name "ci-build"

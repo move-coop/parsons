@@ -180,7 +180,6 @@ texinfo_documents = [
 
 # sphinx-multiversion overrides
 
-# TODO: define elsewhere and import?
 DOCUMENTED_VERSIONS = ["v0.18.1", "v0.18.0", "v0.17.0", "v0.16.0", "v0.15.0", "v0.14.0"]
 
 # Whitelist pattern for branches

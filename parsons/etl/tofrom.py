@@ -563,7 +563,7 @@ class ToFrom(object):
             **civisargs)
 
     @classmethod
-    def from_csv(cls, local_path, **csvargs):
+    def from_redshift(cls, local_path, **csvargs):
         """
         Create a ``parsons table`` object from a CSV file
 

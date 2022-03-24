@@ -27,6 +27,27 @@ The goal of Parsons is to make the movement of data between systems as easy and 
 
 Parsons seeks to be flexible from a data ingestion and output perspective, while providing ETL tools that recognize that our data is **always** messy. Central to this concept is the :ref:`parsons-table` the table-like object that most methods return.
 
+The Parsons Table
+=================
+We use petl as the basis for the Parsons table because petl streams data from a table whenever it is needed and only fully loads it during major transformations. Pandas, on the other hand manages memory in a different way, requiring a table to be loaded into memory in order to work on it.
+
+This means you can do a lot of rapid-fire ETL tasks without needing too much computing power. This saves organizations money on computer resources as they can do more work on large datasets using personal computers without having to spin up EC2 instances on AWS or similar.
+
+You can easily convert Parsons tables to dataframes using the ``Table.to_dataframe()`` function and back using ``Table.from_dataframe()``.
+
+Example:
+
+
+.. code-block:: python
+
+  from parsons import Table
+  import pandas as pd 
+
+  tbl = Table.from_csv('my_csv.csv)
+  df = tbl.to_dataframe() # Convert to a dataframe
+  df.describe() # Do things with the dataframe
+  tbl2 = Table.from_dataframe(df) # Convert it back to a parsons table
+
 QuickStart
 ==========
 

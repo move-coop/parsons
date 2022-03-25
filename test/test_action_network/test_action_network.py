@@ -24,7 +24,7 @@ class TestActionNetwork(unittest.TestCase):
         self.fake_person_id_2 = "fake_person_id_2"
         self.fake_tag_id_1 = "fake_tag_id_1"
         self.fake_tag_id_2 = "fake_tag_id_2"
-        self.fake_tag_filter = f"name eq 'fake_tag_1'"
+        self.fake_tag_filter = "name eq 'fake_tag_1'"
         self.fake_people_list_1 = {
          'per_page': 2,
          'page': 1,

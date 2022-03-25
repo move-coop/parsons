@@ -19,10 +19,12 @@ class TestActionNetwork(unittest.TestCase):
         self.fake_date = '2019-02-29'
         self.fake_customer_email_1 = 'fake_customer_email_1@fake_customer_email.com'
         self.fake_customer_email_2 = 'fake_customer_email_2@fake_customer_email.com'
+        self.fake_filter_by_email_1 = f"filter eq '{self.fake_customer_email_1}'"
         self.fake_person_id_1 = "fake_person_id_1"
         self.fake_person_id_2 = "fake_person_id_2"
         self.fake_tag_id_1 = "fake_tag_id_1"
         self.fake_tag_id_2 = "fake_tag_id_2"
+        self.fake_tag_filter = f"name eq 'fake_tag_1'"
         self.fake_people_list_1 = {
          'per_page': 2,
          'page': 1,
@@ -105,8 +107,8 @@ class TestActionNetwork(unittest.TestCase):
                                         'created_date': self.fake_datetime,
                                         'modified_date': self.fake_datetime,
                                         'languages_spoken': ['en']}]}}
-        self.fake_people_list = (self.fake_people_list_1['_embedded']['osdi:people'] +
-                                 self.fake_people_list_2['_embedded']['osdi:people'])
+        self.fake_people_list = (self.fake_people_list_1['_embedded']['osdi:people']
+                                 + self.fake_people_list_2['_embedded']['osdi:people'])
         self.fake_tag_list = {
          'total_pages': 1,
          'per_page': 2,
@@ -280,3 +282,34 @@ class TestActionNetwork(unittest.TestCase):
                 "fake_title", start_date=self.fake_date, location=self.fake_location
             ).items()
         )
+
+    @requests_mock.Mocker()
+    def test_filter_get_people(self, m):
+        m.get(f"{self.api_url}/people?page=1&per_page=25&filter={self.fake_filter_by_email_1}",
+              text=json.dumps(self.fake_people_list_1))
+        m.get(f"{self.api_url}/people?page=2&per_page=25&filter={self.fake_filter_by_email_1}",
+              text=json.dumps(self.fake_people_list_2))
+        m.get(f"{self.api_url}/people?page=3&per_page=25&filter={self.fake_filter_by_email_1}",
+              text=json.dumps({'_embedded': {"osdi:people": []}}))
+        assert_matching_tables(self.an.get_people(
+              filter=self.fake_filter_by_email_1), Table(self.fake_people_list))
+
+    @requests_mock.Mocker()
+    def test_filter_get_entry_list(self, m):
+        m.get(f"{self.api_url}/people?page=1&per_page=25&filter={self.fake_filter_by_email_1}",
+              text=json.dumps(self.fake_people_list_1))
+        m.get(f"{self.api_url}/people?page=2&per_page=25&filter={self.fake_filter_by_email_1}",
+              text=json.dumps(self.fake_people_list_2))
+        m.get(f"{self.api_url}/people?page=3&per_page=25&filter={self.fake_filter_by_email_1}",
+              text=json.dumps({'_embedded': {"osdi:people": []}}))
+        assert_matching_tables(self.an._get_entry_list(
+              'people', filter=self.fake_filter_by_email_1), Table(self.fake_people_list))
+
+    @requests_mock.Mocker()
+    def test_filter_on_get_unsupported_entry(self, m):
+        m.get(f"{self.api_url}/tags?page=1&per_page=25&filter={self.fake_tag_filter}",
+              text=json.dumps(self.fake_tag_list))
+        m.get(f"{self.api_url}/tags?page=2&per_page=25&filter={self.fake_tag_filter}",
+              text=json.dumps({'_embedded': {"osdi:tags": []}}))
+        assert_matching_tables(self.an._get_entry_list('tags', filter=self.fake_tag_filter),
+                               Table(self.fake_tag_list['_embedded']['osdi:tags']))

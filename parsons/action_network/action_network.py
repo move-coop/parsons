@@ -16,6 +16,7 @@ class ActionNetwork(object):
         api_token: str
             The OSDI API token
     """
+
     def __init__(self, api_token=None):
         self.api_token = check_env.check('AN_API_TOKEN', api_token)
         self.headers = {
@@ -40,6 +41,10 @@ class ActionNetwork(object):
 
     def _get_entry_list(self, object_name, limit=None, per_page=25, filter=None):
         # returns a list of entries for a given object, such as people, tags, or actions
+        # Filter can only be applied to people, petitions, events, forms, fundraising_pages,
+        # event_campaigns, campaigns, advocacy_campaigns, signatures, attendances, submissions,
+        # donations and outreaches.
+        # See Action Network API docs for more info: https://actionnetwork.org/docs/v2/
         count = 0
         page = 1
         return_list = []
@@ -238,7 +243,7 @@ class ActionNetwork(object):
         logger.info(f"Person {entry_id} successfully updated")
         return response
 
-    def get_tags(self, limit=None, per_page=25, page=None, filter=None):
+    def get_tags(self, limit=None, per_page=25, page=None):
         """
         `Args:`
             limit:
@@ -251,8 +256,8 @@ class ActionNetwork(object):
             A list of JSONs of tags in Action Network.
         """
         if page:
-            self.get_page("tags", page, per_page, filter=filter)
-        return self._get_entry_list("tags", limit, per_page, filter=filter)
+            self.get_page("tags", page, per_page)
+        return self._get_entry_list("tags", limit, per_page)
 
     def get_tag(self, tag_id):
         """

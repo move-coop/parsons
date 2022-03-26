@@ -22,7 +22,7 @@ additional details and information.
    VANIDs
       VANIDs are unique to each state and instance of the VAN. VANIDs used for the AV VAN **will not** match
       those of the SmartVAN or VoteBuilder.
-   Maintenance & Suppoort
+   Maintenance & Support
       VAN/EveryAction is not responsible for support of Parsons. Their support team cannot answer questions
       about Parsons. Please direct any questions
 

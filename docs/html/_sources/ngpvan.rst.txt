@@ -13,18 +13,18 @@ additional details and information.
 .. note::
    API Keys
       - API Keys are specific to each committee and state.
-      - There is a Parsons type API Key that can be requested via the Integrations menu on the main page. 
-      	If you have an issue gaining access to this key, or an admin has questions, please email 
+      - There is a Parsons type API Key that can be requested via the Integrations menu on the main page.
+      	If you have an issue gaining access to this key, or an admin has questions, please email
 	<parsons@movementcooperative.org>.
-  
+
 
 .. warning::
    VANIDs
       VANIDs are unique to each state and instance of the VAN. VANIDs used for the AV VAN **will not** match
       those of the SmartVAN or VoteBuilder.
-   Maintenance & Suppoort
+   Maintenance & Support
       VAN/EveryAction is not responsible for support of Parsons. Their support team cannot answer questions
-      about Parsons. Please direct any questions 
+      about Parsons. Please direct any questions
 
 .. toctree::
 	:maxdepth: 1
@@ -70,7 +70,7 @@ Common Workflows
 ===========
 Bulk Import
 ===========
-For some methods, VAN allows you to bulk import multiple records to create or modify them. 
+For some methods, VAN allows you to bulk import multiple records to create or modify them.
 
 The bulk upload endpoint, requires access to file on the public internet as it runs the upload
 asynchronously. Therefore, in order to bulk import, you must pass in cloud storage credentials
@@ -88,7 +88,7 @@ so that the file can be posted. Currently, only S3 is supported.
    tbl = Table.from_csv('new_volunteers.csv')
 
    # Table will be sent to S3 bucket and a POST request will be made to VAN creating
-   # the bulk import job with all of the valid meta information. The method will 
+   # the bulk import job with all of the valid meta information. The method will
    # return the job id.
    job_id = van.bulk_apply_activist_codes(tbl, url_type="S3", bucket='my_bucket')
 

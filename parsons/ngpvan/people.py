@@ -19,11 +19,11 @@ class People(object):
             Person find must include the following minimum combinations to conduct
             a search.
 
-            - first_name, last_name, email
-            - first_name, last_name, phone
-            - first_name, last_name, zip5, date_of_birth
-            - first_name, last_name, street_number, street_name, zip5
-            - email_address
+              - first_name, last_name, email
+              - first_name, last_name, phone
+              - first_name, last_name, zip5, date_of_birth
+              - first_name, last_name, street_number, street_name, zip5
+              - email_address
 
         `Args:`
             first_name: str
@@ -68,11 +68,11 @@ class People(object):
             Person find must include the following minimum combinations to conduct
             a search.
 
-            - first_name, last_name, email
-            - first_name, last_name, phone
-            - first_name, last_name, zip5, date_of_birth
-            - first_name, last_name, street_number, street_name, zip5
-            - email_address
+              - first_name, last_name, email
+              - first_name, last_name, phone
+              - first_name, last_name, zip5, date_of_birth
+              - first_name, last_name, street_number, street_name, zip5
+              - email_address
 
         .. note::
             A full list of possible values for the json, and its structure can be found
@@ -173,11 +173,11 @@ class People(object):
 
         .. note::
             Person find must include the following minimum combinations.
-            - first_name, last_name, email
-            - first_name, last_name, phone
-            - first_name, last_name, zip5, date_of_birth
-            - first_name, last_name, street_number, street_name, zip5
-            - email_address
+              - first_name, last_name, email
+              - first_name, last_name, phone
+              - first_name, last_name, zip5, date_of_birth
+              - first_name, last_name, street_number, street_name, zip5
+              - email_address
 
         .. warning::
             This method can only be run on MyMembers, EveryAction, MyCampaign databases.
@@ -225,11 +225,11 @@ class People(object):
 
         .. note::
             Person find must include the following minimum combinations.
-            - first_name, last_name, email
-            - first_name, last_name, phone
-            - first_name, last_name, zip5, date_of_birth
-            - first_name, last_name, street_number, street_name, zip5
-            - email_address
+              - first_name, last_name, email
+              - first_name, last_name, phone
+              - first_name, last_name, zip5, date_of_birth
+              - first_name, last_name, street_number, street_name, zip5
+              - email_address
 
         .. note::
             A full list of possible values for the json, and its structure can be found

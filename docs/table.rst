@@ -30,19 +30,19 @@ From Parsons Table
     * - :py:meth:`~parsons.etl.tofrom.ToFrom.to_gcs_csv`
       - Google Cloud Storage Bucket
       - Write a table to a csv stored in Google Cloud Storage
-    * - :py:meth:`~parsons.etl.tofrom.ToFrom.to_sftp_redshift`
+    * - :py:meth:`~parsons.etl.tofrom.ToFrom.to_sftp_csv`
       - SFTP Server
       - Write a table to a csv stored on an SFTP server
-    * - :py:meth:`~parsons.etl.tofrom.ToFrom.from_csv`
+    * - :py:meth:`~parsons.etl.tofrom.ToFrom.to_redshift`
       - A Redshift Database
       - Write a table to a Redshift database
-    * - :py:meth:`~parsons.etl.tofrom.ToFrom.from_postgres`
+    * - :py:meth:`~parsons.etl.tofrom.ToFrom.to_postgres`
       - A Postgres Database
       - Write a table to a Postgres database
     * - :py:meth:`~parsons.etl.tofrom.ToFrom.to_civis`
       - Civis Redshift Database
       - Write a table to Civis platform database
-    * - :py:meth:`~parsons.etl.tofrom.ToFrom.from_petl`
+    * - :py:meth:`~parsons.etl.tofrom.ToFrom.to_petl`
       - Petl table object
       - Convert a table a Petl table object
     * - :py:meth:`~parsons.etl.tofrom.ToFrom.to_json`
@@ -54,6 +54,16 @@ From Parsons Table
     * - :py:meth:`~parsons.etl.tofrom.ToFrom.to_dataframe`
       - Pandas Dataframe [1]_
       - Return a Pandas dataframe 
+    * - :py:meth:`~parsons.etl.tofrom.ToFrom.to_append_csv`
+      - CSV file 
+      - Appends table to an existing CSV
+    * - :py:meth:`~parsons.etl.tofrom.ToFrom.to_zip_csv`
+      - ZIP file
+      - Writes a table to a CSV in a zip archive 
+    * - :py:meth:`~parsons.etl.tofrom.ToFrom.to_dicts`
+      - Dicts
+      - Write a table as a list of dicts
+    
 
 .. [1] Requires optional installation of Pandas package by running ``pip install pandas``.
 
@@ -91,6 +101,9 @@ Create Parsons Table object using the following methods.
     * - :py:meth:`~parsons.etl.tofrom.ToFrom.from_s3_csv`
       - S3 CSV
       - Load a Parsons table from a csv file on S3
+    * - :py:meth:`~parsons.etl.tofrom.ToFrom.from_csv_string`
+      - File like object, local path, url, ftp.
+      - Load a CSV string into a Table
 
 .. [2] Requires optional installation of Pandas package by running ``pip install pandas``.
 

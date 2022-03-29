@@ -1,7 +1,7 @@
 import os
 import unittest
 import unittest.mock as mock
-from parsons.salesforce.salesforce import Salesforce, Table
+from parsons import Salesforce, Table
 
 
 class TestSalesforce(unittest.TestCase):

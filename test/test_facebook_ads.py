@@ -1,8 +1,8 @@
 import unittest
 import os
 
-from parsons.facebook_ads.facebook_ads import FacebookAds
-from parsons.etl.table import Table
+from parsons import FacebookAds, Table
+
 
 users_table = Table([
     {"first": "Bob", "middle": "J", "last": "Smith", "phone": "1234567890", "cell": None,

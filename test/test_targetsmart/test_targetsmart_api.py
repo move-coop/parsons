@@ -1,7 +1,6 @@
 import unittest
 import requests_mock
-from parsons.targetsmart.targetsmart_api import TargetSmartAPI
-from parsons.etl.table import Table
+from parsons import TargetSmartAPI, Table
 from test.utils import validate_list
 from test.responses.ts_responses import (
     address_response, district_point, district_expected, district_zip, zip_expected,

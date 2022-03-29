@@ -4,8 +4,7 @@ import paramiko
 from contextlib import contextmanager
 from copy import deepcopy
 from unittest.mock import MagicMock, patch, call
-from parsons.etl import Table
-from parsons.sftp import SFTP
+from parsons import Table, SFTP
 from parsons.utilities import files as file_util
 from test.utils import mark_live_test, assert_matching_tables
 from test.fixtures import simple_table, simple_csv_path, simple_compressed_csv_path  # noqa; F401

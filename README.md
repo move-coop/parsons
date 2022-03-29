@@ -22,7 +22,7 @@ To gain a full understanding of all of the features of Parsons, please review th
 
 
 #### PYPI
-You can install the most recent release by running: `pip install parsons`
+You can install the most recent release by running: `pip install parsons[all]`
 
 
 #### Install from Github

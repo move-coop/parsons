@@ -33,7 +33,8 @@ def main():
         THIS_DIR = os.path.abspath(os.path.dirname(__file__))
         with open(os.path.join(THIS_DIR, 'requirements.txt')) as reqs:
             install_requires = reqs.read().strip().split('\n')
-        extras_require = {}
+        # No op for forward-compatibility
+        extras_require = {"all": []}
 
     setup(
         name="parsons",

@@ -94,7 +94,7 @@ Sources
 
 Installation
 ============
-You can install the most recent release by running: ``pip install parsons``
+You can install the most recent release by running: ``pip install parsons[all]``
 
 Logging
 =======

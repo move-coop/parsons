@@ -1,7 +1,7 @@
 import unittest
 import os
 import requests_mock
-from parsons.turbovote import TurboVote
+from parsons import TurboVote
 from test.utils import validate_list
 
 _dir = os.path.dirname(__file__)

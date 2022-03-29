@@ -2,8 +2,7 @@ import unittest
 import requests_mock
 from test.utils import assert_matching_tables
 
-from parsons.etl.table import Table
-from parsons.zoom.zoom import Zoom
+from parsons import Table, Zoom
 
 API_KEY = 'fake_api_key'
 API_SECRET = 'fake_api_secret'

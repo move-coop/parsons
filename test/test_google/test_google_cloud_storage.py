@@ -1,6 +1,5 @@
 import unittest
-from parsons.google.google_cloud_storage import GoogleCloudStorage
-from parsons.etl import Table
+from parsons import GoogleCloudStorage, Table
 from test.utils import assert_matching_tables
 from parsons.utilities import files
 from google.cloud import storage

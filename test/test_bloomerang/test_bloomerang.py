@@ -3,8 +3,7 @@ import unittest
 import requests_mock
 from unittest import mock
 from test.utils import assert_matching_tables
-from parsons.bloomerang.bloomerang import Bloomerang
-from parsons.etl import Table
+from parsons import Bloomerang, Table
 
 from test.test_bloomerang.test_data import ENV_PARAMETERS, ID, TEST_DELETE, \
     TEST_CREATE_CONSTITUENT, TEST_GET_CONSTITUENT, TEST_GET_CONSTITUENTS, \

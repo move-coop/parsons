@@ -17,7 +17,7 @@ The Movement Cooperative is a member led organization focused on providing data,
 
 License and Usage
 =================
-Usage of Parsons is governed by the `TMC Parsons License <https://github.com/move-coop/parsons/blob/master/LICENSE.md>`_, a modified Apache License with author attribution statement.
+Usage of Parsons is governed by a `modified Apache License with author attribution statement <https://github.com/move-coop/parsons/blob/master/LICENSE.md>`_.
 
 Design Goals
 ============
@@ -289,3 +289,19 @@ Indices and tables
    contributing
    build_a_connector
    write_tests
+
+.. toctree::
+   :maxdepth: 1
+   :caption: Use Cases and Sample Scripts
+   :name: use_cases_and_sample_scripts
+
+   use_cases/contribute_use_cases
+   use_cases/civis_job_status_slack_alert
+   use_cases/mysql_to_googlesheets
+
+.. toctree::
+   :maxdepth: 1
+   :caption: Training Guides
+   :name: training_guides
+
+   training_guides/getting_set_up

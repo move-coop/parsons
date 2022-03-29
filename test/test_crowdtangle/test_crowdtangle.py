@@ -4,8 +4,7 @@ from test.utils import assert_matching_tables
 from test.test_crowdtangle.post import expected_posts
 from test.test_crowdtangle.leaderboard import expected_leaderboard
 from test.test_crowdtangle.link_post import expected_post
-from parsons.crowdtangle import CrowdTangle
-from parsons.etl import Table
+from parsons import CrowdTangle, Table
 
 CT_API_KEY = 'FAKE_KEY'
 

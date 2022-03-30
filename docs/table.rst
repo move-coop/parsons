@@ -53,17 +53,17 @@ From Parsons Table
       - Write a table to a local html file
     * - :py:meth:`~parsons.etl.tofrom.ToFrom.to_dataframe`
       - Pandas Dataframe [1]_
-      - Return a Pandas dataframe 
+      - Return a Pandas dataframe
     * - :py:meth:`~parsons.etl.tofrom.ToFrom.to_append_csv`
-      - CSV file 
+      - CSV file
       - Appends table to an existing CSV
     * - :py:meth:`~parsons.etl.tofrom.ToFrom.to_zip_csv`
       - ZIP file
-      - Writes a table to a CSV in a zip archive 
+      - Writes a table to a CSV in a zip archive
     * - :py:meth:`~parsons.etl.tofrom.ToFrom.to_dicts`
       - Dicts
       - Write a table as a list of dicts
-    
+
 
 .. [1] Requires optional installation of Pandas package by running ``pip install pandas``.
 
@@ -86,7 +86,7 @@ Create Parsons Table object using the following methods.
     * - :py:meth:`~parsons.etl.tofrom.ToFrom.from_json`
       - File like object, local path, url, ftp.
       - Loads a json object into a Table
-    * - :py:meth:`~parsons.etl.tofrom.ToFrom.from_columns`    
+    * - :py:meth:`~parsons.etl.tofrom.ToFrom.from_columns`
       - List object
       - Loads lists organized as columns in Table
     * - :py:meth:`~parsons.etl.tofrom.ToFrom.from_redshift`
@@ -222,7 +222,7 @@ Parsons Table Indexing
 
 To access rows and columns of data within a Parsons table, you can index on them. To access a column
 pass in the column name as a string (e.g. ``tbl['a']``) and to access a row, pass in the row index as
-an integer (e.g. ``tbl[1]``). 
+an integer (e.g. ``tbl[1]``).
 
 .. code-block:: python
 
@@ -230,7 +230,7 @@ an integer (e.g. ``tbl[1]``).
 
     # Return a column as a list
     tbl['a']
-    >> [1, 3] 
+    >> [1, 3]
 
     # Return a row as a dict
     tbl[1]

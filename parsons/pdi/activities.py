@@ -18,7 +18,7 @@ class Activities:
         """
         return self._request(self.url_activites, limit=limit)
 
-    def create_activity(self, activity_name:str, canvassing_shift:bool):
+    def create_activity(self, activity_name: str, canvassing_shift: bool):
         """
         Create a New Activity
         `Args:`

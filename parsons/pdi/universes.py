@@ -36,6 +36,3 @@ class Universes:
                 A Parsons table of all the data.
         """
         return self._request(f"{self.url_universes}/{id}")
-
-    def delete_universe(self, id:str):
-        return self._request(f"{self.url_contacts}/{id}", req_type="DELETE")

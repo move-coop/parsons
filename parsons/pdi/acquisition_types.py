@@ -49,10 +49,10 @@ class AcquisitionTypes:
             }
         """
         payload = {
-            "acquisition_type": acquisition_type,
-            "acquisition_description": acquisition_description,
-            "acquisition_method": acquisition_method,
-            "page_default": page_default
+            "acquisitionType": acquisition_type,
+            "acquisitionDescription": acquisition_description,
+            "acquisitionMethod": acquisition_method,
+            "pageDefault": page_default
         }
         return self._request(self.url_acqtypes, req_type='POST', post_data=payload)
 
@@ -108,9 +108,9 @@ class AcquisitionTypes:
             }
         """
         payload = {
-            "acquisition_type": acquisition_type,
-            "acquisition_description": acquisition_description,
-            "acquisition_method": acquisition_method,
-            "page_default": page_default
+            "acquisitionType": acquisition_type,
+            "acquisitionDescription": acquisition_description,
+            "acquisitionMethod": acquisition_method,
+            "pageDefault": page_default
         }
         return self._request(f"{self.url_acqtypes}/{id}", req_type='PUT', post_data=payload)

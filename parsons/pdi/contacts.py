@@ -97,9 +97,9 @@ class Contacts:
         return self._request(f"{self.url_contacts}/{id}")
 
 
-    def update_contact(self, id, name_prefix="", first_name="", last_name="", name_suffix="",
-        nickname="", occupation="", employer="", volunteer_status="", donor_status="",
-        member_status="", date_of_birth="", gender=None):
+    def update_contact(self, id, first_name, last_name, name_prefix="", middle_name="", 
+        name_suffix="", nickname="", occupation="", employer="", volunteer_status="", 
+        donor_status="", member_status="", date_of_birth=None, gender="U"):
         """
         Update Contact
         `Args:`
@@ -129,6 +129,7 @@ class Contacts:
         payload = {
             "namePrefix": name_prefix,
             "firstName": first_name,
+            "middleName": middle_name,
             "lastName": last_name,
             "nameSuffix": name_suffix,
             "nickname": nickname,
@@ -150,8 +151,5 @@ class Contacts:
         `Args:`
             id: str
                 The Question id 
-        `Returns:`
-            parsons.Table
-                A Parsons table of all the data.
         """
         return self._request(f"{self.url_contacts}/{id}", req_type="DELETE")

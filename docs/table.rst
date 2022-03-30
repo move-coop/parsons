@@ -54,7 +54,7 @@ From Parsons Table
     * - :py:meth:`~parsons.etl.tofrom.ToFrom.to_dataframe`
       - Pandas Dataframe [1]_
       - Return a Pandas dataframe
-    * - :py:meth:`~parsons.etl.tofrom.ToFrom.to_append_csv`
+    * - :py:meth:`~parsons.etl.tofrom.ToFrom.append_csv`
       - CSV file
       - Appends table to an existing CSV
     * - :py:meth:`~parsons.etl.tofrom.ToFrom.to_zip_csv`

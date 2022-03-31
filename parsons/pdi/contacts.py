@@ -34,9 +34,9 @@ class Contacts:
         return self._request(self.url_contacts, args=params, limit=limit)
 
 
-    def create_contact(self, name_prefix="", first_name="", last_name="", name_suffix="",
-        nickname="", occupation="", employer="", volunteer_status="", donor_status="",
-        member_status="", date_of_birth="", gender=None, pdi_id=None):
+    def create_contact(self, name_prefix="", first_name="", last_name="", middlename="",
+        name_suffix="", nickname="", occupation="", employer="", volunteer_status="",
+        donor_status="", member_status="", date_of_birth=None, gender=None, pdi_id=None):
         """
         Create new contact
         `Args:`
@@ -70,6 +70,7 @@ class Contacts:
             "lastName": last_name,
             "nameSuffix": name_suffix,
             "nickname": nickname,
+            "middleName": middlename,
             "occupation": occupation,
             "employer": employer,
             "volunteerStatus": volunteer_status,
@@ -79,7 +80,7 @@ class Contacts:
             "gender": gender,
             "pdiId": pdi_id
         }
-        return self._request(self.locations_url, req_type='POST', post_data=payload)
+        return self._request(self.url_contacts, req_type='POST', post_data=payload)
 
 
     def get_contact(self, id: str):
@@ -144,6 +145,61 @@ class Contacts:
         res = self._request(f"{self.url_contacts}/{id}", req_type='PUT', post_data=payload)
         if res["code"] == 201:
             return True
+
+    def add_phone(self, contact_id: int, phone_number: str, phone_type='Mobile', primary=True,
+                  extension=None):
+        """Add a phone number to a contact
+        `Args:`
+            contact_id: int
+                Unique ID of the contact you'd like to apply the phone_number to
+            phone_number: str
+            phone_type: str
+                Options are `Home`, `Work`, `Direct`, `Mobile`, `Fax`, and `Other. Defaults to
+                `Mobile`
+            primary: bool
+                True indicates that this phone number is the contact's primary phone number
+            extension: str
+        `Returns:`
+            dict
+                Response from PDI
+        """
+
+        payload = {
+            'phoneNumber': phone_number,
+            'phoneType': phone_type,
+            'isPrimary': primary
+        }
+
+        if extension:
+            payload['extension'] = extension
+
+        response = self._request(self.url_contacts + f'/{str(contact_id)}/phones', req_type='POST',
+                                 post_data=payload)
+
+        return response
+
+    def add_email(self, contact_id: int, email: str, primary=True):
+        """Add an email address to a contact
+        `Args:`
+            contact_id: int
+                Unique ID of the contact you'd like to apply the email to
+            email: str
+            primary: bool
+                True indicates that this email address is the contact's primary email
+        `Returns:`
+            dict
+                Response from PDI
+        """
+
+        payload = {
+            'emailAddress': email,
+            'isPrimary': primary
+        }
+
+        response = self._request(self.url_contacts + f'/{str(contact_id)}/emails', req_type='POST',
+                                 post_data=payload)
+
+        return response
 
     def delete_contact(self, id: str):
         """

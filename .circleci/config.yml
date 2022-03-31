@@ -92,8 +92,7 @@ jobs:
           command: |
             . venv/bin/activate
             cd docs/
-            chmod +x deploy_docs.sh
-             ./deploy_docs.sh
+            make deploy_docs
             cd ..
 
   docs-build-deploy:
@@ -134,8 +133,7 @@ jobs:
           command: |
             . venv/bin/activate
             cd docs/
-            chmod +x deploy_docs.sh
-             ./deploy_docs.sh
+            make deploy_docs
             cd ..
             git config user.email "ci-build@movementcooperative.org"
             git config user.name "ci-build"

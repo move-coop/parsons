@@ -5,7 +5,7 @@ Here are some ways you can contribute:
 * [submit an issue](#submitting-issues)
 * [contribute code](#contributing-code-to-parsons)
 * [contribute documentation](#documentation)
-* [add sample code to our library of examples](#contributing-sample-code) 
+* [add sample code to our library of examples](#contributing-sample-code)
 
 Every other Thursday afternoon we host 🎉 Parsons Parties 🎉 on Zoom where we work on contributions together. Reach out if you'd like to join - it's a great way to get involved.
 
@@ -51,9 +51,9 @@ Finally, you'll want to [submit a pull request](#submitting-a-pull-request). And
 If required dependencies conflict with packages or modules you need for other projects, you can create and use a [virtual environment](https://docs.python.org/3/library/venv.html).
 
 ```
-python3 -m venv .venv       # Creates a virtual environment in the .venv folder 
+python3 -m venv .venv       # Creates a virtual environment in the .venv folder
 source .venv/bin/activate  # Activate in Unix or MacOS
-.venv/Scripts/activate.bat # Activate in Windows 
+.venv/Scripts/activate.bat # Activate in Windows
 ```
 
 #### Installing Dependencies
@@ -112,7 +112,7 @@ The following is a list of best practices to consider when writing code for the 
 
 * Capitalize the word Parsons for consistency where possible, especially in documentation.
 
-If you are building a new connector or extending an existing connector, there are more best practices in the [How to Build a Connector](https://move-coop.github.io/parsons/html/build_a_connector.html) documentation. 
+If you are building a new connector or extending an existing connector, there are more best practices in the [How to Build a Connector](https://move-coop.github.io/parsons/html/build_a_connector.html) documentation.
 
 ## Documentation
 
@@ -127,7 +127,7 @@ The workflow for documentation changes is a bit simpler than for code changes:
 * Fork the Parsons project using [the “Fork” button in GitHub](https://guides.github.com/activities/forking/)
 * Clone your fork to your local computer
 * Change into the `docs` folder and install the requirements with `pip install -r requirements.txt` (you may want to set up a [virtual environment](#virtual-environments) first)
-* Make your changes and re-build the docs by running `make html`. 
+* Make your changes and re-build the docs by running `make html`. (Note: this builds only a single version of the docs, from the current files. To create docs with multiple versions like our publicly hosted docs, run `make deploy_docs`.)
 * Open these files in your web browser to check that they look as you expect.
 * [Submit a pull request](#submitting-a-pull-request)
 
@@ -152,8 +152,8 @@ You should not need to worry about the unit tests or the linter if you are only 
 
 ## Submitting a Pull Request
 
-To submit a pull request, follow [these instructions to create a Pull Request from your fork](https://help.github.com/en/github/collaborating-with-issues-and-pull-requests/creating-a-pull-request-from-a-fork) back to the original Parsons repository. 
+To submit a pull request, follow [these instructions to create a Pull Request from your fork](https://help.github.com/en/github/collaborating-with-issues-and-pull-requests/creating-a-pull-request-from-a-fork) back to the original Parsons repository.
 
-The Parsons team will review your pull request and provide feedback. Please feel free to ping us if no one's responded to your Pull Request after a few days. We may not be able to review it right away, but we should be able to tell you when we'll get to it. 
+The Parsons team will review your pull request and provide feedback. Please feel free to ping us if no one's responded to your Pull Request after a few days. We may not be able to review it right away, but we should be able to tell you when we'll get to it.
 
 Once your pull request has been approved, the Parsons team will merge your changes into the Parsons repository

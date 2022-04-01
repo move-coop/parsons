@@ -226,7 +226,7 @@ class People(object):
 
         .. note::
             Person find must include the following minimum combinations.
-            
+
               - first_name, last_name, email
               - first_name, last_name, phone
               - first_name, last_name, zip5, date_of_birth

@@ -1,0 +1,550 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Notifications &mdash; Parsons 0.5 documentation</title>
+      <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Utilities" href="utilities.html" />
+    <link rel="prev" title="Parsons Table" href="table.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="index.html" class="icon icon-home"> Parsons
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Integrations</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="action_kit.html">ActionKit</a></li>
+<li class="toctree-l1"><a class="reference internal" href="action_network.html">Action Network</a></li>
+<li class="toctree-l1"><a class="reference internal" href="airtable.html">Airtable</a></li>
+<li class="toctree-l1"><a class="reference internal" href="alchemer.html">Alchemer</a></li>
+<li class="toctree-l1"><a class="reference internal" href="aws.html">Amazon Web Services</a></li>
+<li class="toctree-l1"><a class="reference internal" href="azure.html">Azure: Blob Storage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="bill_com.html">Bill.com</a></li>
+<li class="toctree-l1"><a class="reference internal" href="bloomerang.html">Bloomerang</a></li>
+<li class="toctree-l1"><a class="reference internal" href="box.html">Box</a></li>
+<li class="toctree-l1"><a class="reference internal" href="braintree.html">Braintree</a></li>
+<li class="toctree-l1"><a class="reference internal" href="civis.html">Civis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="copper.html">Copper</a></li>
+<li class="toctree-l1"><a class="reference internal" href="crowdtangle.html">CrowdTangle</a></li>
+<li class="toctree-l1"><a class="reference internal" href="databases.html">Databases</a></li>
+<li class="toctree-l1"><a class="reference internal" href="facebook_ads.html">FacebookAds</a></li>
+<li class="toctree-l1"><a class="reference internal" href="freshdesk.html">Freshdesk</a></li>
+<li class="toctree-l1"><a class="reference internal" href="github.html">GitHub</a></li>
+<li class="toctree-l1"><a class="reference internal" href="google.html">Google</a></li>
+<li class="toctree-l1"><a class="reference internal" href="hustle.html">Hustle</a></li>
+<li class="toctree-l1"><a class="reference internal" href="mailchimp.html">Mailchimp</a></li>
+<li class="toctree-l1"><a class="reference internal" href="mobilize_america.html">Mobilize America</a></li>
+<li class="toctree-l1"><a class="reference internal" href="newmode.html">New/Mode</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ngpvan.html">NGPVAN</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pdi.html">PDI</a></li>
+<li class="toctree-l1"><a class="reference internal" href="p2a.html">Phone2Action</a></li>
+<li class="toctree-l1"><a class="reference internal" href="redash.html">Redash</a></li>
+<li class="toctree-l1"><a class="reference internal" href="rockthevote.html">Rock the Vote</a></li>
+<li class="toctree-l1"><a class="reference internal" href="salesforce.html">Salesforce</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sftp.html">SFTP</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sisense.html">Sisense</a></li>
+<li class="toctree-l1"><a class="reference internal" href="targetsmart.html">TargetSmart</a></li>
+<li class="toctree-l1"><a class="reference internal" href="turbovote.html">TurboVote</a></li>
+<li class="toctree-l1"><a class="reference internal" href="twilio.html">Twilio</a></li>
+<li class="toctree-l1"><a class="reference internal" href="zoom.html">Zoom</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Enhancements</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="census_geocoder.html">US Census Geocoder</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Framework</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="dbsync.html">Database Sync</a></li>
+<li class="toctree-l1"><a class="reference internal" href="table.html">Parsons Table</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Notifications</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#slack">Slack</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#overview">Overview</a><ul class="simple">
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#quickstart">QuickStart</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#api">API</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#gmail">Gmail</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id1">Overview</a><ul class="simple">
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#id2">QuickStart</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id3">API</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="utilities.html">Utilities</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Contributor Documentation</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="contributing.html">Contributing to Parsons</a></li>
+<li class="toctree-l1"><a class="reference internal" href="build_a_connector.html">How to Build a Connector</a></li>
+<li class="toctree-l1"><a class="reference internal" href="write_tests.html">How to Write Tests for Parsons Connectors</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">Parsons</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
+      <li>Notifications</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/notifications.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="notifications">
+<h1>Notifications<a class="headerlink" href="#notifications" title="Permalink to this headline"></a></h1>
+<section id="slack">
+<h2>Slack<a class="headerlink" href="#slack" title="Permalink to this headline"></a></h2>
+<section id="overview">
+<h3>Overview<a class="headerlink" href="#overview" title="Permalink to this headline"></a></h3>
+<p>The Slack module leverages the Slack API and provides way to easily send
+notifications through Slack. It is recommended that you reference the
+<a class="reference external" href="https://api.slack.com/">Slack API documentation</a> for additional details and
+information.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<dl>
+<dt>API Tokens</dt><dd><ul>
+<li><p>Slack API Tokens are required to use this module. To obtain an API
+Token, <a class="reference external" href="https://api.slack.com/apps">create a Slack App</a> associated
+with the desired Slack workspace. Once you create the app, navigate
+to ‘OAuth &amp; Permissions’ and add the following OAuth scopes:</p>
+<p><cite>channels:read</cite>, <cite>users:read</cite>, <cite>chat:write</cite>, and <cite>files:write</cite></p>
+<p>You can now install the Slack App, which will produce an API Token.
+Note that you can change the scopes any time, but you must reinstall
+the app each time (your API Token will stay the same).</p>
+</li>
+<li><p>Slack has rate limits on all its endpoints.</p></li>
+</ul>
+</dd>
+</dl>
+</div>
+<div class="toctree-wrapper compound">
+</div>
+</section>
+<section id="quickstart">
+<h3>QuickStart<a class="headerlink" href="#quickstart" title="Permalink to this headline"></a></h3>
+<p>To call the Slack class you can either store the API Token as an environment
+variable <cite>SLACK_API_TOKEN</cite> or pass it in as an argument.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">parsons</span> <span class="kn">import</span> <span class="n">Slack</span>
+
+<span class="n">slack</span> <span class="o">=</span> <span class="n">Slack</span><span class="p">()</span> <span class="c1"># Initiate class via environment variable api token</span>
+
+<span class="n">slack</span> <span class="o">=</span> <span class="n">Slack</span><span class="p">(</span><span class="n">api_key</span><span class="o">=</span><span class="s1">&#39;my-api-tkn&#39;</span><span class="p">)</span> <span class="c1"># Pass api token directly</span>
+</pre></div>
+</div>
+<p>You can then send messages:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">parsons</span> <span class="kn">import</span> <span class="n">Slack</span>
+
+<span class="n">slack</span> <span class="o">=</span> <span class="n">Slack</span><span class="p">()</span>
+
+<span class="c1"># send a simple messsage</span>
+<span class="n">slack</span><span class="o">.</span><span class="n">message_channel</span><span class="p">(</span><span class="s2">&quot;my_channel&quot;</span><span class="p">,</span> <span class="s2">&quot;Hello from python script&quot;</span><span class="p">)</span>
+
+<span class="c1"># share a file</span>
+<span class="n">slack</span><span class="o">.</span><span class="n">upload_file</span><span class="p">([</span><span class="s2">&quot;channel_1&quot;</span><span class="p">,</span> <span class="s2">&quot;channel_2&quot;</span><span class="p">],</span> <span class="s2">&quot;my_slack_file.txt&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="api">
+<h3>API<a class="headerlink" href="#api" title="Permalink to this headline"></a></h3>
+<dl class="py class">
+<dt class="sig sig-object py" id="parsons.Slack">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">parsons.</span></span><span class="sig-name descname"><span class="pre">Slack</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">api_key</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/notifications/slack.html#Slack"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.Slack" title="Permalink to this definition"></a></dt>
+<dd><dl class="py method">
+<dt class="sig sig-object py" id="parsons.Slack.channels">
+<span class="sig-name descname"><span class="pre">channels</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">fields</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">['id',</span> <span class="pre">'name']</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">exclude_archived</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">types</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">['public_channel']</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/notifications/slack.html#Slack.channels"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.Slack.channels" title="Permalink to this definition"></a></dt>
+<dd><p>Return a list of all channels in a Slack team.</p>
+<dl class="simple">
+<dt><cite>Args:</cite></dt><dd><dl class="simple">
+<dt>fields: list</dt><dd><p>A list of the fields to return. By default, only the channel
+<cite>id</cite> and <cite>name</cite> are returned. See
+<a class="reference external" href="https://api.slack.com/methods/conversations.list">https://api.slack.com/methods/conversations.list</a> for a full
+list of available fields. <cite>Notes:</cite> nested fields are unpacked.</p>
+</dd>
+<dt>exclude_archived: bool</dt><dd><p>Set to <cite>True</cite> to exclude archived channels from the list.
+Default is false.</p>
+</dd>
+<dt>types: list</dt><dd><p>Mix and match channel types by providing a list of any
+combination of <cite>public_channel</cite>, <cite>private_channel</cite>,
+<cite>mpim</cite> (aka group messages), or <cite>im</cite> (aka 1-1 messages).</p>
+</dd>
+</dl>
+</dd>
+<dt><cite>Returns:</cite></dt><dd><dl class="simple">
+<dt>Parsons Table</dt><dd><p>See <a class="reference internal" href="table.html#parsons-table"><span class="std std-ref">Parsons Table</span></a> for output options.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="parsons.Slack.users">
+<span class="sig-name descname"><span class="pre">users</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">fields</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">['id',</span> <span class="pre">'name',</span> <span class="pre">'deleted',</span> <span class="pre">'profile_real_name_normalized',</span> <span class="pre">'profile_email']</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/notifications/slack.html#Slack.users"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.Slack.users" title="Permalink to this definition"></a></dt>
+<dd><p>Return a list of all users in a Slack team.</p>
+<dl class="simple">
+<dt><cite>Args:</cite></dt><dd><dl class="simple">
+<dt>fields: list</dt><dd><p>A list of the fields to return. By default, only the user
+<cite>id</cite> and <cite>name</cite> and <cite>deleted</cite> status are returned. See
+<a class="reference external" href="https://api.slack.com/methods/users.list">https://api.slack.com/methods/users.list</a> for a full list of
+available fields. <cite>Notes:</cite> nested fields are unpacked.</p>
+</dd>
+</dl>
+</dd>
+<dt><cite>Returns:</cite></dt><dd><dl class="simple">
+<dt>Parsons Table</dt><dd><p>See <a class="reference internal" href="table.html#parsons-table"><span class="std std-ref">Parsons Table</span></a> for output options.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="parsons.Slack.message">
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">message</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">channel</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">text</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">webhook</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">parent_message_id</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/notifications/slack.html#Slack.message"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.Slack.message" title="Permalink to this definition"></a></dt>
+<dd><p>Send a message to a Slack channel with a webhook instead of an api_key.
+You might not have the full-access API key but still want to notify a channel
+<cite>Args:</cite></p>
+<blockquote>
+<div><dl class="simple">
+<dt>channel: str</dt><dd><p>The name or id of a <cite>public_channel</cite>, a <cite>private_channel</cite>, or
+an <cite>im</cite> (aka 1-1 message).</p>
+</dd>
+<dt>text: str</dt><dd><p>Text of the message to send.</p>
+</dd>
+<dt>webhook: str</dt><dd><p>If you have a webhook url instead of an api_key
+Looks like: <a class="reference external" href="https://hooks.slack.com/services/Txxxxxxx/Bxxxxxx/Dxxxxxxx">https://hooks.slack.com/services/Txxxxxxx/Bxxxxxx/Dxxxxxxx</a></p>
+</dd>
+<dt>parent_message_id: str</dt><dd><p>The <cite>ts</cite> value of the parent message. If used, this will thread the message.</p>
+</dd>
+</dl>
+</div></blockquote>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="parsons.Slack.message_channel">
+<span class="sig-name descname"><span class="pre">message_channel</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">channel</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">text</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">as_user</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">parent_message_id</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/notifications/slack.html#Slack.message_channel"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.Slack.message_channel" title="Permalink to this definition"></a></dt>
+<dd><p>Send a message to a Slack channel</p>
+<dl class="simple">
+<dt><cite>Args:</cite></dt><dd><dl class="simple">
+<dt>channel: str</dt><dd><p>The name or id of a <cite>public_channel</cite>, a <cite>private_channel</cite>, or
+an <cite>im</cite> (aka 1-1 message).</p>
+</dd>
+<dt>text: str</dt><dd><p>Text of the message to send.</p>
+</dd>
+<dt>as_user: str</dt><dd><p>Pass true to post the message as the authenticated user,
+instead of as a bot. Defaults to false. See
+<a class="reference external" href="https://api.slack.com/methods/chat.postMessage#authorship">https://api.slack.com/methods/chat.postMessage#authorship</a> for
+more information about Slack authorship.</p>
+</dd>
+<dt>parent_message_id: str</dt><dd><p>The <cite>ts</cite> value of the parent message. If used, this will thread the message.</p>
+</dd>
+</dl>
+</dd>
+<dt><cite>Returns:</cite></dt><dd><dl class="simple">
+<dt><cite>dict</cite>:</dt><dd><p>A response json</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="parsons.Slack.upload_file">
+<span class="sig-name descname"><span class="pre">upload_file</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">channels</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">filename</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">filetype</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">initial_comment</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">title</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">is_binary</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/notifications/slack.html#Slack.upload_file"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.Slack.upload_file" title="Permalink to this definition"></a></dt>
+<dd><p>Upload a file to Slack channel(s).</p>
+<dl class="simple">
+<dt><cite>Args:</cite></dt><dd><dl class="simple">
+<dt>channels: list</dt><dd><p>The list of channel names or IDs where the file will be shared.</p>
+</dd>
+<dt>filename: str</dt><dd><p>The path to the file to be uploaded.</p>
+</dd>
+<dt>filetype: str</dt><dd><p>A file type identifier. If None, type will be inferred base on
+file extension. This is used to determine what fields are
+available for that object. See <a class="reference external" href="https://api.slack.com/types/file">https://api.slack.com/types/file</a>
+for a list of valid types and for more information about the
+file object.</p>
+</dd>
+<dt>initial_comment: str</dt><dd><p>The text of the message to send along with the file.</p>
+</dd>
+<dt>title: str</dt><dd><p>Title of the file to be uploaded.</p>
+</dd>
+<dt>is_binary: bool</dt><dd><p>If True, open this file in binary mode. This is needed if
+uploading binary files. Defaults to False.</p>
+</dd>
+</dl>
+</dd>
+<dt><cite>Returns:</cite></dt><dd><dl class="simple">
+<dt><cite>dict</cite>:</dt><dd><p>A response json</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<p></p>
+</section>
+<section id="gmail">
+<h2>Gmail<a class="headerlink" href="#gmail" title="Permalink to this headline"></a></h2>
+<section id="id1">
+<h3>Overview<a class="headerlink" href="#id1" title="Permalink to this headline"></a></h3>
+<p>The Gmail module leverages the Gmail API and provides an way to easily send
+notifications through email. It is recommended that you reference the
+<a class="reference external" href="https://developers.google.com/gmail/api/">Gmail API documentation</a> for
+additional details and information.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<dl class="simple">
+<dt>Credentials and token</dt><dd><ul class="simple">
+<li><p>Credentials are required to use the class</p></li>
+<li><p>You will need to pass in the path to the credentials and to where a
+generated token will be saved. Typically you’ll get the credentials from
+the Google Developer Console (look for the “Gmail API”).</p></li>
+</ul>
+</dd>
+</dl>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<dl class="simple">
+<dt>6MB Attachment Size Limit</dt><dd><ul class="simple">
+<li><p>Currently there is a limit of 6MB when sending attachments.</p></li>
+</ul>
+</dd>
+</dl>
+</div>
+<div class="toctree-wrapper compound">
+</div>
+</section>
+<section id="id2">
+<h3>QuickStart<a class="headerlink" href="#id2" title="Permalink to this headline"></a></h3>
+<p>To call the Gmail class you will need to pass in the path to a
+<cite>credentials.json</cite> and the path to <cite>tokens.json</cite>.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">parsons</span> <span class="kn">import</span> <span class="n">Gmail</span>
+
+<span class="n">gmail</span> <span class="o">=</span> <span class="n">Gmail</span><span class="p">(</span>
+   <span class="n">creds_path</span><span class="o">=</span><span class="s2">&quot;~/secret_location/credentials.json&quot;</span><span class="p">,</span>
+   <span class="n">token_path</span><span class="o">=</span><span class="s2">&quot;~/secret_location/token.json&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>The easiest way to send a message:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">gmail</span><span class="o">.</span><span class="n">send_email</span><span class="p">(</span>
+  <span class="s2">&quot;sender@email.com&quot;</span><span class="p">,</span>
+  <span class="s2">&quot;recipient@email.com&quot;</span><span class="p">,</span>
+  <span class="s2">&quot;The Subject&quot;</span><span class="p">,</span>
+  <span class="s2">&quot;This is the text body of the email&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>The current version also supports sending html emails and emails with
+attachments.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">gmail</span><span class="o">.</span><span class="n">send_email</span><span class="p">(</span>
+  <span class="s2">&quot;sender@email.com&quot;</span><span class="p">,</span>
+  <span class="s2">&quot;recipient@email.com&quot;</span><span class="p">,</span>
+  <span class="s2">&quot;An html email with attachments&quot;</span><span class="p">,</span>
+  <span class="s2">&quot;This is the text body of the email&quot;</span><span class="p">,</span>
+  <span class="n">html</span><span class="o">=</span><span class="s2">&quot;&lt;p&gt;This is the html part of the email&lt;/p&gt;&quot;</span><span class="p">,</span>
+  <span class="n">files</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;file1.txt&#39;</span><span class="p">,</span> <span class="s1">&#39;file2.txt&#39;</span><span class="p">])</span>
+</pre></div>
+</div>
+<p>Additionally, you can create a raw email messages and send it. See below for
+more details.</p>
+</section>
+<section id="id3">
+<h3>API<a class="headerlink" href="#id3" title="Permalink to this headline"></a></h3>
+<dl class="py class">
+<dt class="sig sig-object py" id="parsons.Gmail">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">parsons.</span></span><span class="sig-name descname"><span class="pre">Gmail</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">creds_path</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">token_path</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">user_id</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'me'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/notifications/gmail.html#Gmail"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.Gmail" title="Permalink to this definition"></a></dt>
+<dd><p>Create a Gmail object, for sending emails.</p>
+<dl class="simple">
+<dt><cite>Args:</cite></dt><dd><dl class="simple">
+<dt>creds_path: str</dt><dd><p>The path to the credentials.json file.</p>
+</dd>
+<dt>token_path: str</dt><dd><p>The path to the token.json file.</p>
+</dd>
+<dt>user_id: str</dt><dd><p>Optional; Sender email address. Defaults to the special value
+“me” which is used to indicate the authenticated user.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="parsons.Gmail.send_email">
+<span class="sig-name descname"><span class="pre">send_email</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sender</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">to</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">subject</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">message_text</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">message_html</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">files</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#parsons.Gmail.send_email" title="Permalink to this definition"></a></dt>
+<dd><p>Send an email message.</p>
+<dl class="simple">
+<dt><cite>Args:</cite></dt><dd><dl class="simple">
+<dt>sender: str</dt><dd><p>Email address of the sender.</p>
+</dd>
+<dt>to: str or list</dt><dd><p>Email address(es) of the receiver(s). Must be in correct email
+string syntax. For example, <cite>name&#64;email.com</cite> or
+<cite>“Name” &lt;email&#64;email.com&gt;</cite>.</p>
+</dd>
+<dt>subject: str</dt><dd><p>The subject of the email message.</p>
+</dd>
+<dt>message_text: str</dt><dd><p>The text of the email message.</p>
+</dd>
+<dt>message_html: str</dt><dd><p>The html formatted text of the email message. If ommitted, the
+email is sent a text-only body.</p>
+</dd>
+<dt>files: str or list</dt><dd><p>The path to the file(s) to be attached.</p>
+</dd>
+</dl>
+</dd>
+<dt><cite>Returns:</cite></dt><dd><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="table.html" class="btn btn-neutral float-left" title="Parsons Table" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="utilities.html" class="btn btn-neutral float-right" title="Utilities" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2019, The Movement Cooperative.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  
+  <div class="rst-versions" data-toggle="rst-versions" role="note" aria-label="Versions">
+    <span class="rst-current-version" data-toggle="rst-current-version">
+      <span class="fa fa-book"> Read the Docs</span>
+      v0.17.0
+      <span class="fa fa-caret-down"></span>
+    </span>
+    <div class="rst-other-versions">
+      <dl>
+        <dt>Most Common</dt>
+        <!-- Show latest & stable first -->
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+                  <dd><a href="../latest/notifications.html">latest</a></dd>
+            
+        
+            
+                  <dd><a href="../stable/notifications.html">stable</a></dd>
+            
+        
+
+        <dt>By Version Number</dt>
+        <!-- Show other versions -->
+        
+            
+                  <dd><a href="../v0.14.0/notifications.html">v0.14.0</a></dd>
+            
+        
+            
+                  <dd><a href="../v0.15.0/notifications.html">v0.15.0</a></dd>
+            
+        
+            
+                  <dd><a href="../v0.16.0/notifications.html">v0.16.0</a></dd>
+            
+        
+            
+                  <dd><a href="notifications.html">v0.17.0</a></dd>
+            
+        
+            
+                  <dd><a href="../v0.18.0/notifications.html">v0.18.0</a></dd>
+            
+        
+            
+                  <dd><a href="../v0.18.1/notifications.html">v0.18.1</a></dd>
+            
+        
+            
+        
+            
+        
+
+      </dl>
+    </div>
+  </div>
+<script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

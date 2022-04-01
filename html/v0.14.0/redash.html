@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Redash &mdash; Parsons 0.5 documentation</title>
+      <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Rock the Vote" href="rockthevote.html" />
+    <link rel="prev" title="Phone2Action" href="p2a.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="index.html" class="icon icon-home"> Parsons
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Integrations</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="action_kit.html">ActionKit</a></li>
+<li class="toctree-l1"><a class="reference internal" href="action_network.html">Action Network</a></li>
+<li class="toctree-l1"><a class="reference internal" href="airtable.html">Airtable</a></li>
+<li class="toctree-l1"><a class="reference internal" href="aws.html">Amazon Web Services</a></li>
+<li class="toctree-l1"><a class="reference internal" href="bill_com.html">Bill.com</a></li>
+<li class="toctree-l1"><a class="reference internal" href="braintree.html">Braintree</a></li>
+<li class="toctree-l1"><a class="reference internal" href="civis.html">Civis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="copper.html">Copper</a></li>
+<li class="toctree-l1"><a class="reference internal" href="crowdtangle.html">CrowdTangle</a></li>
+<li class="toctree-l1"><a class="reference internal" href="databases.html">Databases</a></li>
+<li class="toctree-l1"><a class="reference internal" href="facebook_ads.html">FacebookAds</a></li>
+<li class="toctree-l1"><a class="reference internal" href="freshdesk.html">Freshdesk</a></li>
+<li class="toctree-l1"><a class="reference internal" href="google.html">Google</a></li>
+<li class="toctree-l1"><a class="reference internal" href="hustle.html">Hustle</a></li>
+<li class="toctree-l1"><a class="reference internal" href="mailchimp.html">Mailchimp</a></li>
+<li class="toctree-l1"><a class="reference internal" href="mobilize_america.html">Mobilize America</a></li>
+<li class="toctree-l1"><a class="reference internal" href="newmode.html">New/Mode</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ngpvan.html">NGPVAN</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pdi.html">PDI</a></li>
+<li class="toctree-l1"><a class="reference internal" href="p2a.html">Phone2Action</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Redash</a></li>
+<li class="toctree-l1"><a class="reference internal" href="rockthevote.html">Rock the Vote</a></li>
+<li class="toctree-l1"><a class="reference internal" href="salesforce.html">Salesforce</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sftp.html">SFTP</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ts.html">TargetSmart</a></li>
+<li class="toctree-l1"><a class="reference internal" href="twilio.html">Twilio</a></li>
+<li class="toctree-l1"><a class="reference internal" href="turbovote.html">TurboVote</a></li>
+<li class="toctree-l1"><a class="reference internal" href="zoom.html">Zoom</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Enhancements</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="census_geocoder.html">US Census Geocoder</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Framework</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="table.html">Parsons Table</a></li>
+<li class="toctree-l1"><a class="reference internal" href="notifications.html">Notifications</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">Parsons</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
+      <li>Redash</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/redash.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="redash">
+<h1>Redash<a class="headerlink" href="#redash" title="Permalink to this headline"></a></h1>
+<p>The Redash class allows you to interact with a Redash server to refresh queries and get query results.</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="parsons.redash.Redash">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">parsons.redash.</span></span><span class="sig-name descname"><span class="pre">Redash</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">base_url</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">user_api_key</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pause_time</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">3</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">timeout</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">verify</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/redash/redash.html#Redash"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.redash.Redash" title="Permalink to this definition"></a></dt>
+<dd><p>Instantiate Redash Class</p>
+<dl class="simple">
+<dt><cite>Args:</cite></dt><dd><dl class="simple">
+<dt>base_url: str</dt><dd><p>The base url for your redash instance (excluding the final /)</p>
+</dd>
+<dt>user_api_key: str</dt><dd><p>The user API key found in the User’s profile screen</p>
+</dd>
+<dt>pause_time int</dt><dd><p>Specify time between polling for refreshed queries (Defaults to 3 seconds)</p>
+</dd>
+<dt>verify: bool</dt><dd><p>For https requests, should the certificate be verified (Defaults to True)</p>
+</dd>
+</dl>
+</dd>
+<dt><cite>Returns:</cite></dt><dd><p>Redash Class</p>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="parsons.redash.Redash.get_fresh_query_results">
+<span class="sig-name descname"><span class="pre">get_fresh_query_results</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">query_id</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">params</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/redash/redash.html#Redash.get_fresh_query_results"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.redash.Redash.get_fresh_query_results" title="Permalink to this definition"></a></dt>
+<dd><p>Make a fresh query result and get back the CSV http response object back
+with the CSV string in result.content</p>
+<dl class="simple">
+<dt><cite>Args:</cite></dt><dd><dl class="simple">
+<dt>query_id: str or int</dt><dd><p>The query id of the query</p>
+</dd>
+<dt>params: dict</dt><dd><p>If there are values for the redash query parameters
+(described <a class="reference external" href="https://redash.io/help/user-guide/querying/query-parameters">https://redash.io/help/user-guide/querying/query-parameters</a>
+e.g. “{{datelimit}}” in the query),
+then this is a dict that will pass the parameters in the POST.
+We add the “<a href="#id1"><span class="problematic" id="id2">p_</span></a>” prefix for parameters, so if your query had ?p_datelimit=….
+in the url, you should just set ‘datelimit’ in params here.
+If you set this with REDASH_QUERY_PARAMS environment variable instead of passing
+the values, then you must include the “<a href="#id3"><span class="problematic" id="id4">p_</span></a>” prefixes and it should be a single
+url-encoded string as you would see it in the URL bar.</p>
+</dd>
+</dl>
+</dd>
+<dt><cite>Returns:</cite></dt><dd><p>Table Class</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="parsons.redash.Redash.get_cached_query_results">
+<span class="sig-name descname"><span class="pre">get_cached_query_results</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">query_id</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">query_api_key</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/redash/redash.html#Redash.get_cached_query_results"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.redash.Redash.get_cached_query_results" title="Permalink to this definition"></a></dt>
+<dd><p>Get the results from a cached query result and get back the CSV http response object back
+with the CSV string in result.content</p>
+<dl class="simple">
+<dt><cite>Args:</cite></dt><dd><dl class="simple">
+<dt>query_id: str or int</dt><dd><p>The query id of the query</p>
+</dd>
+<dt>query_api_key: str</dt><dd><p>If you did not supply a user_api_key on the Redash object, then you can
+supply a query_api_key to get cached results back anonymously.</p>
+</dd>
+</dl>
+</dd>
+<dt><cite>Returns:</cite></dt><dd><p>Table Class</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="parsons.redash.Redash.load_to_table">
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">load_to_table</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">refresh</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/redash/redash.html#Redash.load_to_table"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.redash.Redash.load_to_table" title="Permalink to this definition"></a></dt>
+<dd><p>Fast classmethod so you can get the data all at once:
+tabledata = Redash.load_to_table(base_url=’<a class="reference external" href="https://example.com">https://example.com</a>’, user_api_key=’abc123’,</p>
+<blockquote>
+<div><p>query_id=1001, params={‘datelimit’: ‘2020-01-01’})</p>
+</div></blockquote>
+<p>This instantiates the class and makes the appropriate query type (refresh or cached)
+based on which arguments are supplied.</p>
+<dl class="simple">
+<dt><cite>Args:</cite></dt><dd><dl class="simple">
+<dt>base_url: str</dt><dd><p>The base url for your redash instance (excluding the final /)</p>
+</dd>
+<dt>query_id: str or int</dt><dd><p>The query id of the query</p>
+</dd>
+<dt>user_api_key: str</dt><dd><p>The user API key found in the User’s profile screen required for refresh queries</p>
+</dd>
+<dt>query_api_key: str</dt><dd><p>If you did not supply a user_api_key on the Redash object, then you can
+supply a query_api_key to get cached results back anonymously.</p>
+</dd>
+<dt>pause_time int</dt><dd><p>Specify time between polling for refreshed queries (Defaults to 3 seconds)</p>
+</dd>
+<dt>verify: bool</dt><dd><p>For https requests, should the certificate be verified (Defaults to True)</p>
+</dd>
+<dt>refresh: bool</dt><dd><p>Refresh results or cached. (Defaults to True unless a query_api_key IS supplied)</p>
+</dd>
+<dt>params: dict</dt><dd><p>For refresh queries, if there are parameters in the query,
+then this is a dict that will pass the parameters in the POST.
+We add the “<a href="#id5"><span class="problematic" id="id6">p_</span></a>” prefix for parameters, so if your query had ?p_datelimit=….
+in the url, you should just set ‘datelimit’ in params here.</p>
+</dd>
+</dl>
+</dd>
+<dt><cite>Returns:</cite></dt><dd><p>Table Class</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="p2a.html" class="btn btn-neutral float-left" title="Phone2Action" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="rockthevote.html" class="btn btn-neutral float-right" title="Rock the Vote" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2019, The Movement Cooperative.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  
+  <div class="rst-versions" data-toggle="rst-versions" role="note" aria-label="Versions">
+    <span class="rst-current-version" data-toggle="rst-current-version">
+      <span class="fa fa-book"> Read the Docs</span>
+      v0.14.0
+      <span class="fa fa-caret-down"></span>
+    </span>
+    <div class="rst-other-versions">
+      <dl>
+        <dt>Most Common</dt>
+        <!-- Show latest & stable first -->
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+                  <dd><a href="../latest/redash.html">latest</a></dd>
+            
+        
+            
+                  <dd><a href="../stable/redash.html">stable</a></dd>
+            
+        
+
+        <dt>By Version Number</dt>
+        <!-- Show other versions -->
+        
+            
+                  <dd><a href="redash.html">v0.14.0</a></dd>
+            
+        
+            
+                  <dd><a href="../v0.15.0/redash.html">v0.15.0</a></dd>
+            
+        
+            
+                  <dd><a href="../v0.16.0/redash.html">v0.16.0</a></dd>
+            
+        
+            
+                  <dd><a href="../v0.17.0/redash.html">v0.17.0</a></dd>
+            
+        
+            
+                  <dd><a href="../v0.18.0/redash.html">v0.18.0</a></dd>
+            
+        
+            
+                  <dd><a href="../v0.18.1/redash.html">v0.18.1</a></dd>
+            
+        
+            
+        
+            
+        
+
+      </dl>
+    </div>
+  </div>
+<script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

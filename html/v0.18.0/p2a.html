@@ -1,0 +1,453 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Phone2Action &mdash; Parsons 0.5 documentation</title>
+      <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Redash" href="redash.html" />
+    <link rel="prev" title="PDI" href="pdi.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="index.html" class="icon icon-home"> Parsons
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Integrations</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="action_kit.html">ActionKit</a></li>
+<li class="toctree-l1"><a class="reference internal" href="action_network.html">Action Network</a></li>
+<li class="toctree-l1"><a class="reference internal" href="airtable.html">Airtable</a></li>
+<li class="toctree-l1"><a class="reference internal" href="alchemer.html">Alchemer</a></li>
+<li class="toctree-l1"><a class="reference internal" href="aws.html">Amazon Web Services</a></li>
+<li class="toctree-l1"><a class="reference internal" href="azure.html">Azure: Blob Storage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="bill_com.html">Bill.com</a></li>
+<li class="toctree-l1"><a class="reference internal" href="bloomerang.html">Bloomerang</a></li>
+<li class="toctree-l1"><a class="reference internal" href="bluelink.html">Bluelink</a></li>
+<li class="toctree-l1"><a class="reference internal" href="box.html">Box</a></li>
+<li class="toctree-l1"><a class="reference internal" href="braintree.html">Braintree</a></li>
+<li class="toctree-l1"><a class="reference internal" href="civis.html">Civis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="controlshift.html">Controlshift</a></li>
+<li class="toctree-l1"><a class="reference internal" href="copper.html">Copper</a></li>
+<li class="toctree-l1"><a class="reference internal" href="crowdtangle.html">CrowdTangle</a></li>
+<li class="toctree-l1"><a class="reference internal" href="databases.html">Databases</a></li>
+<li class="toctree-l1"><a class="reference internal" href="facebook_ads.html">FacebookAds</a></li>
+<li class="toctree-l1"><a class="reference internal" href="freshdesk.html">Freshdesk</a></li>
+<li class="toctree-l1"><a class="reference internal" href="github.html">GitHub</a></li>
+<li class="toctree-l1"><a class="reference internal" href="google.html">Google</a></li>
+<li class="toctree-l1"><a class="reference internal" href="hustle.html">Hustle</a></li>
+<li class="toctree-l1"><a class="reference internal" href="mailchimp.html">Mailchimp</a></li>
+<li class="toctree-l1"><a class="reference internal" href="mobilize_america.html">Mobilize America</a></li>
+<li class="toctree-l1"><a class="reference internal" href="newmode.html">New/Mode</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ngpvan.html">NGPVAN</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pdi.html">PDI</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Phone2Action</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#overview">Overview</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#quick-start">Quick Start</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id2">API</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="redash.html">Redash</a></li>
+<li class="toctree-l1"><a class="reference internal" href="rockthevote.html">Rock the Vote</a></li>
+<li class="toctree-l1"><a class="reference internal" href="salesforce.html">Salesforce</a></li>
+<li class="toctree-l1"><a class="reference internal" href="shopify.html">Shopify</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sftp.html">SFTP</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sisense.html">Sisense</a></li>
+<li class="toctree-l1"><a class="reference internal" href="targetsmart.html">TargetSmart</a></li>
+<li class="toctree-l1"><a class="reference internal" href="turbovote.html">TurboVote</a></li>
+<li class="toctree-l1"><a class="reference internal" href="twilio.html">Twilio</a></li>
+<li class="toctree-l1"><a class="reference internal" href="zoom.html">Zoom</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Enhancements</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="census_geocoder.html">US Census Geocoder</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Framework</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="dbsync.html">Database Sync</a></li>
+<li class="toctree-l1"><a class="reference internal" href="table.html">Parsons Table</a></li>
+<li class="toctree-l1"><a class="reference internal" href="notifications.html">Notifications</a></li>
+<li class="toctree-l1"><a class="reference internal" href="utilities.html">Utilities</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Contributor Documentation</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="contributing.html">Contributing to Parsons</a></li>
+<li class="toctree-l1"><a class="reference internal" href="build_a_connector.html">How to Build a Connector</a></li>
+<li class="toctree-l1"><a class="reference internal" href="write_tests.html">How to Write Tests for Parsons Connectors</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">Parsons</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
+      <li>Phone2Action</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/p2a.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="phone2action">
+<h1>Phone2Action<a class="headerlink" href="#phone2action" title="Permalink to this headline"></a></h1>
+<section id="overview">
+<h2>Overview<a class="headerlink" href="#overview" title="Permalink to this headline"></a></h2>
+<p><a class="reference external" href="https://phone2action.com/">Phone2Action</a> is a digital advocacy tool used by progressive organizations. This class
+allows you to interact with the tool by leveraging their <a class="reference external" href="http://docs.phone2action.com/#overview">API</a>.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<dl class="simple">
+<dt>Authentication</dt><dd><p>You will need to email Phone2Action to request credentials to access the API. The credentials consist of an app ID and an app key.</p>
+</dd>
+</dl>
+</div>
+</section>
+<section id="quick-start">
+<h2>Quick Start<a class="headerlink" href="#quick-start" title="Permalink to this headline"></a></h2>
+<p>To instantiate the <code class="docutils literal notranslate"><span class="pre">Phone2Action</span></code> class, you can either pass in the app ID and app key as arguments or set the
+<code class="docutils literal notranslate"><span class="pre">PHONE2ACTION_APP_ID</span></code> and <code class="docutils literal notranslate"><span class="pre">PHONE2ACTION_APP_KEY</span></code> environmental variables.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">parsons</span> <span class="kn">import</span> <span class="n">Phone2Action</span>
+
+<span class="c1"># Instantiate the class using environment variables</span>
+<span class="n">p2a</span> <span class="o">=</span> <span class="n">Phone2Action</span><span class="p">()</span>
+
+<span class="c1"># Get all advocates updated in the last day</span>
+<span class="kn">import</span> <span class="nn">datetime</span>
+<span class="n">today</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="o">.</span><span class="n">utcnow</span><span class="p">()</span>
+<span class="n">yesterday</span> <span class="o">=</span> <span class="n">today</span> <span class="o">-</span> <span class="n">datetime</span><span class="o">.</span><span class="n">timedelta</span><span class="p">(</span><span class="n">days</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+
+<span class="c1"># get_advocates returns a dictionary that maps the advocate data (e.g. phones) to a parsons</span>
+<span class="c1"># Table with the data for each advocate</span>
+<span class="n">advocates_data</span> <span class="o">=</span> <span class="n">p2a</span><span class="o">.</span><span class="n">get_advocates</span><span class="p">(</span><span class="n">updated_since</span><span class="o">=</span><span class="n">yesterday</span><span class="p">)</span>
+
+<span class="c1"># For all of our advocates&#39; phone numbers, opt them into SMS</span>
+<span class="k">for</span> <span class="n">phone</span> <span class="ow">in</span> <span class="n">advocates_data</span><span class="p">[</span><span class="s1">&#39;phones&#39;</span><span class="p">]:</span>
+    <span class="n">phone_number</span> <span class="o">=</span> <span class="n">phone</span><span class="p">[</span><span class="s1">&#39;phones_address&#39;</span><span class="p">]</span>
+    <span class="c1"># Only update phone numbers that aren&#39;t already subscribed</span>
+    <span class="k">if</span> <span class="n">phone</span><span class="p">[</span><span class="s1">&#39;subscribed&#39;</span><span class="p">]:</span>
+        <span class="n">p2a</span><span class="o">.</span><span class="n">update_advocate</span><span class="p">(</span><span class="n">phone</span><span class="p">[</span><span class="s1">&#39;advocate_id&#39;</span><span class="p">],</span> <span class="n">phone</span><span class="o">=</span><span class="n">phone_number</span><span class="p">,</span> <span class="n">sms_opt_in</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="id2">
+<h2>API<a class="headerlink" href="#id2" title="Permalink to this headline"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="parsons.Phone2Action">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">parsons.</span></span><span class="sig-name descname"><span class="pre">Phone2Action</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">app_id</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">app_key</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/phone2action/p2a.html#Phone2Action"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.Phone2Action" title="Permalink to this definition"></a></dt>
+<dd><p>Instantiate Phone2Action Class</p>
+<dl class="simple">
+<dt><cite>Args:</cite></dt><dd><dl class="simple">
+<dt>app_id: str</dt><dd><p>The Phone2Action provided application id. Not required if <code class="docutils literal notranslate"><span class="pre">PHONE2ACTION_APP_ID</span></code>
+env variable set.</p>
+</dd>
+<dt>app_key: str</dt><dd><p>The Phone2Action provided application key. Not required if <code class="docutils literal notranslate"><span class="pre">PHONE2ACTION_APP_KEY</span></code>
+env variable set.</p>
+</dd>
+</dl>
+</dd>
+<dt><cite>Returns:</cite></dt><dd><p>Phone2Action Class</p>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="parsons.Phone2Action.get_advocates">
+<span class="sig-name descname"><span class="pre">get_advocates</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">state</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">campaign_id</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">updated_since</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">page</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/phone2action/p2a.html#Phone2Action.get_advocates"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.Phone2Action.get_advocates" title="Permalink to this definition"></a></dt>
+<dd><p>Return advocates (person records).</p>
+<p>If no page is specified, the method will automatically paginate through the available
+advocates.</p>
+<dl class="simple">
+<dt><cite>Args:</cite></dt><dd><dl class="simple">
+<dt>state: str</dt><dd><p>Filter by US postal abbreviation for a state
+or territory e.g., “CA” “NY” or “DC”</p>
+</dd>
+<dt>campaign_id: int</dt><dd><p>Filter to specific campaign</p>
+</dd>
+<dt>updated_since: str or int or datetime</dt><dd><p>Fetch all advocates updated since the date provided; this can be a datetime
+object, a UNIX timestamp, or a date string (ex. ‘2014-01-05 23:59:43’)</p>
+</dd>
+<dt>page: int</dt><dd><p>Page number of data to fetch; if this is specified, call will only return one
+page.</p>
+</dd>
+</dl>
+</dd>
+<dt><cite>Returns:</cite></dt><dd><dl class="simple">
+<dt>A dict of parsons tables:</dt><dd><ul class="simple">
+<li><p>emails</p></li>
+<li><p>phones</p></li>
+<li><p>memberships</p></li>
+<li><p>tags</p></li>
+<li><p>ids</p></li>
+<li><p>fields</p></li>
+<li><p>advocates</p></li>
+</ul>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="parsons.Phone2Action.get_campaigns">
+<span class="sig-name descname"><span class="pre">get_campaigns</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">state</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">zip</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">include_generic</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">include_private</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">include_content</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/phone2action/p2a.html#Phone2Action.get_campaigns"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.Phone2Action.get_campaigns" title="Permalink to this definition"></a></dt>
+<dd><p>Returns a list of campaigns</p>
+<dl class="simple">
+<dt><cite>Args:</cite></dt><dd><dl class="simple">
+<dt>state: str</dt><dd><p>Filter by US postal abbreviation for a state or territory e.g., “CA” “NY” or “DC”</p>
+</dd>
+<dt>zip: int</dt><dd><p>Filter by 5 digit zip code</p>
+</dd>
+<dt>include_generic: boolean</dt><dd><p>When filtering by state or ZIP code, include unrestricted campaigns</p>
+</dd>
+<dt>include_private: boolean</dt><dd><p>If true, will include private campaigns in results</p>
+</dd>
+<dt>include_content: boolean</dt><dd><p>If true, include campaign content fields, which may vary. This may cause
+sync errors.</p>
+</dd>
+</dl>
+</dd>
+<dt><cite>Returns:</cite></dt><dd><dl class="simple">
+<dt>Parsons Table</dt><dd><p>See <a class="reference internal" href="table.html#parsons-table"><span class="std std-ref">Parsons Table</span></a> for output options.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="parsons.Phone2Action.create_advocate">
+<span class="sig-name descname"><span class="pre">create_advocate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">campaigns</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">first_name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">last_name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">email</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">phone</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">address1</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">address2</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">city</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">state</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">zip5</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sms_optin</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">email_optin</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sms_optout</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">email_optout</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/phone2action/p2a.html#Phone2Action.create_advocate"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.Phone2Action.create_advocate" title="Permalink to this definition"></a></dt>
+<dd><p>Create an advocate.</p>
+<p>If you want to opt an advocate into or out of SMS / email campaigns, you must provide
+the email address or phone number (accordingly).</p>
+<p>The list of arguments only partially covers the fields that can be set on the advocate.
+For a complete list of fields that can be updated, see
+<a class="reference external" href="https://docs.phone2action.com/#calls-create">the Phone2Action API documentation</a>.</p>
+<dl class="simple">
+<dt><cite>Args:</cite></dt><dd><dl class="simple">
+<dt>campaigns: list</dt><dd><p>The ID(s) of campaigns to add the advocate to</p>
+</dd>
+<dt>first_name: str</dt><dd><p><cite>Optional</cite>; The first name of the advocate</p>
+</dd>
+<dt>last_name: str</dt><dd><p><cite>Optional</cite>; The last name of the advocate</p>
+</dd>
+<dt>email: str</dt><dd><p><cite>Optional</cite>; An email address to add for the advocate. One of <code class="docutils literal notranslate"><span class="pre">email</span></code> or <code class="docutils literal notranslate"><span class="pre">phone</span></code>
+is required.</p>
+</dd>
+<dt>phone: str</dt><dd><p><cite>Optional</cite>; An phone # to add for the advocate. One of <code class="docutils literal notranslate"><span class="pre">email</span></code> or <code class="docutils literal notranslate"><span class="pre">phone</span></code> is
+required.</p>
+</dd>
+<dt>address1: str</dt><dd><p><cite>Optional</cite>; The first line of the advocates’ address</p>
+</dd>
+<dt>address2: str</dt><dd><p><cite>Optional</cite>; The second line of the advocates’ address</p>
+</dd>
+<dt>city: str</dt><dd><p><cite>Optional</cite>; The city of the advocates address</p>
+</dd>
+<dt>state: str</dt><dd><p><cite>Optional</cite>; The state of the advocates address</p>
+</dd>
+<dt>zip5: str</dt><dd><p><cite>Optional</cite>; The 5 digit Zip code of the advocate</p>
+</dd>
+<dt>sms_optin: boolean</dt><dd><p><cite>Optional</cite>; Whether to opt the advocate into receiving text messages; an SMS
+confirmation text message will be sent. You must provide values for the <code class="docutils literal notranslate"><span class="pre">phone</span></code>
+and <code class="docutils literal notranslate"><span class="pre">campaigns</span></code> arguments.</p>
+</dd>
+<dt>email_optin: boolean</dt><dd><p><cite>Optional</cite>; Whether to opt the advocate into receiving emails. You must provide
+values for the <code class="docutils literal notranslate"><span class="pre">email</span></code> and <code class="docutils literal notranslate"><span class="pre">campaigns</span></code> arguments.</p>
+</dd>
+<dt>sms_optout: boolean</dt><dd><p><cite>Optional</cite>; Whether to opt the advocate out of receiving text messages. You must
+provide values for the <code class="docutils literal notranslate"><span class="pre">phone</span></code> and <code class="docutils literal notranslate"><span class="pre">campaigns</span></code> arguments. Once an advocate is
+opted out, they cannot be opted back in.</p>
+</dd>
+<dt>email_optout: boolean</dt><dd><p><cite>Optional</cite>; Whether to opt the advocate out of receiving emails. You must
+provide values for the <code class="docutils literal notranslate"><span class="pre">email</span></code> and <code class="docutils literal notranslate"><span class="pre">campaigns</span></code> arguments. Once an advocate is
+opted out, they cannot be opted back in.</p>
+</dd>
+<dt><a href="#id3"><span class="problematic" id="id4">**</span></a>kwargs:</dt><dd><p>Additional fields on the advocate to update</p>
+</dd>
+</dl>
+</dd>
+<dt><cite>Returns:</cite></dt><dd><p>The int ID of the created advocate.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="parsons.Phone2Action.update_advocate">
+<span class="sig-name descname"><span class="pre">update_advocate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">advocate_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">campaigns</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">email</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">phone</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sms_optin</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">email_optin</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sms_optout</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">email_optout</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/phone2action/p2a.html#Phone2Action.update_advocate"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.Phone2Action.update_advocate" title="Permalink to this definition"></a></dt>
+<dd><p>Update the fields of an advocate.</p>
+<p>If you want to opt an advocate into or out of SMS / email campaigns, you must provide
+the email address or phone number along with a list of campaigns.</p>
+<p>The list of arguments only partially covers the fields that can be updated on the advocate.
+For a complete list of fields that can be updated, see
+<a class="reference external" href="https://docs.phone2action.com/#calls-create">the Phone2Action API documentation</a>.</p>
+<dl class="simple">
+<dt><cite>Args:</cite></dt><dd><dl class="simple">
+<dt>advocate_id: integer</dt><dd><p>The ID of the advocate being updates</p>
+</dd>
+<dt>campaigns: list</dt><dd><p><cite>Optional</cite>; The ID(s) of campaigns to add the user to</p>
+</dd>
+<dt>email: str</dt><dd><p><cite>Optional</cite>; An email address to add for the advocate (or to use when opting in/out)</p>
+</dd>
+<dt>phone: str</dt><dd><p><cite>Optional</cite>; An phone # to add for the advocate (or to use when opting in/out)</p>
+</dd>
+<dt>sms_optin: boolean</dt><dd><p><cite>Optional</cite>; Whether to opt the advocate into receiving text messages; an SMS
+confirmation text message will be sent. You must provide values for the <code class="docutils literal notranslate"><span class="pre">phone</span></code>
+and <code class="docutils literal notranslate"><span class="pre">campaigns</span></code> arguments.</p>
+</dd>
+<dt>email_optin: boolean</dt><dd><p><cite>Optional</cite>; Whether to opt the advocate into receiving emails. You must provide
+values for the <code class="docutils literal notranslate"><span class="pre">email</span></code> and <code class="docutils literal notranslate"><span class="pre">campaigns</span></code> arguments.</p>
+</dd>
+<dt>sms_optout: boolean</dt><dd><p><cite>Optional</cite>; Whether to opt the advocate out of receiving text messages. You must
+provide values for the <code class="docutils literal notranslate"><span class="pre">phone</span></code> and <code class="docutils literal notranslate"><span class="pre">campaigns</span></code> arguments. Once an advocate is
+opted out, they cannot be opted back in.</p>
+</dd>
+<dt>email_optout: boolean</dt><dd><p><cite>Optional</cite>; Whether to opt the advocate out of receiving emails. You must
+provide values for the <code class="docutils literal notranslate"><span class="pre">email</span></code> and <code class="docutils literal notranslate"><span class="pre">campaigns</span></code> arguments. Once an advocate is
+opted out, they cannot be opted back in.</p>
+</dd>
+<dt><a href="#id6"><span class="problematic" id="id7">**</span></a>kwargs:</dt><dd><p>Additional fields on the advocate to update</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="pdi.html" class="btn btn-neutral float-left" title="PDI" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="redash.html" class="btn btn-neutral float-right" title="Redash" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2019, The Movement Cooperative.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  
+  <div class="rst-versions" data-toggle="rst-versions" role="note" aria-label="Versions">
+    <span class="rst-current-version" data-toggle="rst-current-version">
+      <span class="fa fa-book"> Read the Docs</span>
+      v0.18.0
+      <span class="fa fa-caret-down"></span>
+    </span>
+    <div class="rst-other-versions">
+      <dl>
+        <dt>Most Common</dt>
+        <!-- Show latest & stable first -->
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+                  <dd><a href="../latest/p2a.html">latest</a></dd>
+            
+        
+            
+                  <dd><a href="../stable/p2a.html">stable</a></dd>
+            
+        
+
+        <dt>By Version Number</dt>
+        <!-- Show other versions -->
+        
+            
+                  <dd><a href="../v0.14.0/p2a.html">v0.14.0</a></dd>
+            
+        
+            
+                  <dd><a href="../v0.15.0/p2a.html">v0.15.0</a></dd>
+            
+        
+            
+                  <dd><a href="../v0.16.0/p2a.html">v0.16.0</a></dd>
+            
+        
+            
+                  <dd><a href="../v0.17.0/p2a.html">v0.17.0</a></dd>
+            
+        
+            
+                  <dd><a href="p2a.html">v0.18.0</a></dd>
+            
+        
+            
+                  <dd><a href="../v0.18.1/p2a.html">v0.18.1</a></dd>
+            
+        
+            
+        
+            
+        
+
+      </dl>
+    </div>
+  </div>
+<script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

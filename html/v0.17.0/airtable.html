@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Airtable &mdash; Parsons 0.5 documentation</title>
+      <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Alchemer" href="alchemer.html" />
+    <link rel="prev" title="Action Network" href="action_network.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="index.html" class="icon icon-home"> Parsons
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Integrations</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="action_kit.html">ActionKit</a></li>
+<li class="toctree-l1"><a class="reference internal" href="action_network.html">Action Network</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Airtable</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#overview">Overview</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#quickstart">QuickStart</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#api">API</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="alchemer.html">Alchemer</a></li>
+<li class="toctree-l1"><a class="reference internal" href="aws.html">Amazon Web Services</a></li>
+<li class="toctree-l1"><a class="reference internal" href="azure.html">Azure: Blob Storage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="bill_com.html">Bill.com</a></li>
+<li class="toctree-l1"><a class="reference internal" href="bloomerang.html">Bloomerang</a></li>
+<li class="toctree-l1"><a class="reference internal" href="box.html">Box</a></li>
+<li class="toctree-l1"><a class="reference internal" href="braintree.html">Braintree</a></li>
+<li class="toctree-l1"><a class="reference internal" href="civis.html">Civis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="copper.html">Copper</a></li>
+<li class="toctree-l1"><a class="reference internal" href="crowdtangle.html">CrowdTangle</a></li>
+<li class="toctree-l1"><a class="reference internal" href="databases.html">Databases</a></li>
+<li class="toctree-l1"><a class="reference internal" href="facebook_ads.html">FacebookAds</a></li>
+<li class="toctree-l1"><a class="reference internal" href="freshdesk.html">Freshdesk</a></li>
+<li class="toctree-l1"><a class="reference internal" href="github.html">GitHub</a></li>
+<li class="toctree-l1"><a class="reference internal" href="google.html">Google</a></li>
+<li class="toctree-l1"><a class="reference internal" href="hustle.html">Hustle</a></li>
+<li class="toctree-l1"><a class="reference internal" href="mailchimp.html">Mailchimp</a></li>
+<li class="toctree-l1"><a class="reference internal" href="mobilize_america.html">Mobilize America</a></li>
+<li class="toctree-l1"><a class="reference internal" href="newmode.html">New/Mode</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ngpvan.html">NGPVAN</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pdi.html">PDI</a></li>
+<li class="toctree-l1"><a class="reference internal" href="p2a.html">Phone2Action</a></li>
+<li class="toctree-l1"><a class="reference internal" href="redash.html">Redash</a></li>
+<li class="toctree-l1"><a class="reference internal" href="rockthevote.html">Rock the Vote</a></li>
+<li class="toctree-l1"><a class="reference internal" href="salesforce.html">Salesforce</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sftp.html">SFTP</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sisense.html">Sisense</a></li>
+<li class="toctree-l1"><a class="reference internal" href="targetsmart.html">TargetSmart</a></li>
+<li class="toctree-l1"><a class="reference internal" href="turbovote.html">TurboVote</a></li>
+<li class="toctree-l1"><a class="reference internal" href="twilio.html">Twilio</a></li>
+<li class="toctree-l1"><a class="reference internal" href="zoom.html">Zoom</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Enhancements</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="census_geocoder.html">US Census Geocoder</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Framework</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="dbsync.html">Database Sync</a></li>
+<li class="toctree-l1"><a class="reference internal" href="table.html">Parsons Table</a></li>
+<li class="toctree-l1"><a class="reference internal" href="notifications.html">Notifications</a></li>
+<li class="toctree-l1"><a class="reference internal" href="utilities.html">Utilities</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Contributor Documentation</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="contributing.html">Contributing to Parsons</a></li>
+<li class="toctree-l1"><a class="reference internal" href="build_a_connector.html">How to Build a Connector</a></li>
+<li class="toctree-l1"><a class="reference internal" href="write_tests.html">How to Write Tests for Parsons Connectors</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">Parsons</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
+      <li>Airtable</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/airtable.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="airtable">
+<h1>Airtable<a class="headerlink" href="#airtable" title="Permalink to this headline"></a></h1>
+<section id="overview">
+<h2>Overview<a class="headerlink" href="#overview" title="Permalink to this headline"></a></h2>
+<p>The Airtable class allows you to interact with an <a class="reference external" href="https://airtable.com/">Airtable</a>. base. In order to use this class
+you must generate an Airtable API Key which can be found in your Airtable <a class="reference external" href="https://airtable.com/account">account settings</a>.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<dl>
+<dt>Finding The Base Key</dt><dd><blockquote>
+<div><p>The easiest place to find the <code class="docutils literal notranslate"><span class="pre">base_key</span></code> for the base that you wish to interact with is via the Airtable API documentation.</p>
+</div></blockquote>
+<ul class="simple">
+<li><p>Go to the <a class="reference external" href="https://airtable.com/api">Airtable API Base List</a> and select the base.</p></li>
+<li><p>The url of the resulting page will contain the <code class="docutils literal notranslate"><span class="pre">base_key</span></code>.</p></li>
+<li><p>Example: <code class="docutils literal notranslate"><span class="pre">https://airtable.com/[BASE_KEY]/api/docs#curl/introduction</span></code></p></li>
+</ul>
+</dd>
+</dl>
+</div>
+</section>
+<section id="quickstart">
+<h2>QuickStart<a class="headerlink" href="#quickstart" title="Permalink to this headline"></a></h2>
+<p>To instantiate the Airtable class, you can either store your Airtable API
+<code class="docutils literal notranslate"><span class="pre">AIRTABLE_API_KEY</span></code> as an environmental variable or pass in your api key
+as an argument. You also need to pass in the base key and table name.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">parsons</span> <span class="kn">import</span> <span class="n">Airtable</span>
+
+<span class="c1"># First approach: Use API credentials via environmental variables and pass</span>
+<span class="c1"># the base key and the table as arguments.</span>
+<span class="n">at</span> <span class="o">=</span> <span class="n">Airtable</span><span class="p">(</span><span class="n">base_key</span><span class="p">,</span> <span class="s1">&#39;table01&#39;</span><span class="p">)</span>
+
+<span class="c1"># Second approach: Pass API credentials, base key and table name as arguments.</span>
+<span class="n">at</span> <span class="o">=</span> <span class="n">Airtable</span><span class="p">(</span><span class="n">base_key</span><span class="p">,</span> <span class="s1">&#39;table01&#39;</span><span class="p">,</span> <span class="n">api_key</span><span class="o">=</span><span class="s1">&#39;MYFAKEKEY&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>You can then call various endpoints:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Get records from a base</span>
+<span class="n">at</span><span class="o">.</span><span class="n">get_records</span><span class="p">(</span><span class="n">fields</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;id&#39;</span><span class="p">,</span> <span class="s1">&#39;fn&#39;</span><span class="p">,</span> <span class="s1">&#39;ln&#39;</span><span class="p">])</span>
+
+<span class="c1"># Get a single record from a base</span>
+<span class="n">at</span><span class="o">.</span><span class="n">get_record</span><span class="p">(</span><span class="mi">1233</span><span class="p">)</span>
+
+<span class="c1"># Insert records</span>
+<span class="n">tbl</span><span class="o">.</span><span class="n">from_csv</span><span class="p">(</span><span class="s1">&#39;my_new_records&#39;</span><span class="p">)</span>
+<span class="n">at</span><span class="o">.</span><span class="n">insert_records</span><span class="p">(</span><span class="n">tbl</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="api">
+<h2>API<a class="headerlink" href="#api" title="Permalink to this headline"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="parsons.Airtable">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">parsons.</span></span><span class="sig-name descname"><span class="pre">Airtable</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">base_key</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">table_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">api_key</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/airtable/airtable.html#Airtable"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.Airtable" title="Permalink to this definition"></a></dt>
+<dd><dl class="simple">
+<dt><cite>Args:</cite></dt><dd><dl class="simple">
+<dt>base_key: str</dt><dd><p>The key of the Airtable base that you will interact with.</p>
+</dd>
+<dt>table_name: str</dt><dd><p>The name of the table in the base. The table name is the equivilant of the sheet name
+in Excel or GoogleDocs.</p>
+</dd>
+<dt>api_key: str</dt><dd><p>The Airtable provided api key. Not required if <code class="docutils literal notranslate"><span class="pre">AIRTABLE_API_KEY</span></code> env variable set.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="parsons.Airtable.get_record">
+<span class="sig-name descname"><span class="pre">get_record</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">record_id</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/airtable/airtable.html#Airtable.get_record"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.Airtable.get_record" title="Permalink to this definition"></a></dt>
+<dd><p>Returns a single record.</p>
+<dl class="simple">
+<dt><cite>Args:</cite></dt><dd><dl class="simple">
+<dt>record_id: str</dt><dd><p>The Airtable record id</p>
+</dd>
+</dl>
+</dd>
+<dt><cite>Returns:</cite></dt><dd><p>A dictionary of the record</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="parsons.Airtable.get_records">
+<span class="sig-name descname"><span class="pre">get_records</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">fields</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_records</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">view</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">formula</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sort</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sample_size</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/airtable/airtable.html#Airtable.get_records"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.Airtable.get_records" title="Permalink to this definition"></a></dt>
+<dd><dl>
+<dt><cite>Args:</cite></dt><dd><dl>
+<dt>fields: str or lst</dt><dd><p>Only return specified column or list of columns. The column name is
+case sensitive</p>
+</dd>
+<dt>max_records: int</dt><dd><p>The maximum total number of records that will be returned.</p>
+</dd>
+<dt>view: str</dt><dd><p>If set, only the records in that view will be returned. The records will be
+sorted according to the order of the view.</p>
+</dd>
+<dt>formula: str</dt><dd><p>The formula will be evaluated for each record, and if the result
+is not 0, false, “”, NaN, [], or #Error! the record will be included
+in the response.</p>
+<p>If combined with view, only records in that view which satisfy the
+formula will be returned. For example, to only include records where
+<code class="docutils literal notranslate"><span class="pre">COLUMN_A</span></code> isn’t empty, pass in: <code class="docutils literal notranslate"><span class="pre">&quot;NOT({COLUMN_A}='')&quot;</span></code></p>
+<p>For more information see
+<a class="reference external" href="https://airtable.com/api">Airtable Docs on formulas.</a></p>
+<p>Usage - Text Column is not empty:</p>
+<p><code class="docutils literal notranslate"><span class="pre">airtable.get_all(formula=&quot;NOT({COLUMN_A}='')&quot;)</span></code></p>
+<p>Usage - Text Column contains:</p>
+<p><code class="docutils literal notranslate"><span class="pre">airtable.get_all(formula=&quot;FIND('SomeSubText',</span> <span class="pre">{COLUMN_STR})=1&quot;)</span></code></p>
+</dd>
+<dt>sort: str or lst</dt><dd><p>Specifies how the records will be ordered. If you set the view parameter, the
+returned records in that view will be sorted by these fields. If sorting by
+multiple columns, column names can be passed as a list. Sorting Direction is
+ascending by default, but can be reversed by prefixing the column name with a minus
+sign -.</p>
+<p>Example usage:
+<code class="docutils literal notranslate"><span class="pre">airtable.get_records(sort=['ColumnA',</span> <span class="pre">'-ColumnB'])</span></code></p>
+</dd>
+<dt>sample_size: int</dt><dd><p>Number of rows to sample before determining columns</p>
+</dd>
+</dl>
+</dd>
+<dt><cite>Returns:</cite></dt><dd><dl class="simple">
+<dt>Parsons Table</dt><dd><p>See <a class="reference internal" href="table.html#parsons-table"><span class="std std-ref">Parsons Table</span></a> for output options.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="parsons.Airtable.insert_record">
+<span class="sig-name descname"><span class="pre">insert_record</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">row</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/airtable/airtable.html#Airtable.insert_record"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.Airtable.insert_record" title="Permalink to this definition"></a></dt>
+<dd><p>Insert a single record into an Airtable.</p>
+<dl class="simple">
+<dt><cite>Args:</cite></dt><dd><dl class="simple">
+<dt>row: dict</dt><dd><p>Fields to insert. Must be dictionary with Column names as Key.</p>
+</dd>
+<dt>typecast: boolean</dt><dd><p>Automatic data conversion from string values.</p>
+</dd>
+</dl>
+</dd>
+<dt><cite>Returns:</cite></dt><dd><p>Dictionary of inserted row</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="parsons.Airtable.insert_records">
+<span class="sig-name descname"><span class="pre">insert_records</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">table</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/airtable/airtable.html#Airtable.insert_records"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.Airtable.insert_records" title="Permalink to this definition"></a></dt>
+<dd><p>Insert multiple records into an Airtable. The columns in your Parsons table must
+exist in the Airtable. The method will attempt to map based on column name, so the
+order of the columns is irrelevant.</p>
+<dl class="simple">
+<dt><cite>Args:</cite></dt><dd><dl class="simple">
+<dt>table: A Parsons Table</dt><dd><p>Insert a Parsons table</p>
+</dd>
+<dt>typecast: boolean</dt><dd><p>Automatic data conversion from string values.</p>
+</dd>
+</dl>
+</dd>
+<dt><cite>Returns:</cite></dt><dd><p>List of dictionaries of inserted rows</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="parsons.Airtable.update_record">
+<span class="sig-name descname"><span class="pre">update_record</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">record_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fields</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">typecast</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/airtable/airtable.html#Airtable.update_record"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.Airtable.update_record" title="Permalink to this definition"></a></dt>
+<dd><p>Updates a record by its record id. Only Fields passed are updated, the rest are left as
+is.</p>
+<dl class="simple">
+<dt><cite>Args:</cite></dt><dd><dl class="simple">
+<dt>record_id: str</dt><dd><p>The Airtable record id</p>
+</dd>
+<dt>fields: dict</dt><dd><p>Fields to insert. Must be dictionary with Column names as Key.</p>
+</dd>
+<dt>typecast: boolean</dt><dd><p>Automatic data conversion from string values.</p>
+</dd>
+</dl>
+</dd>
+<dt><cite>Returns:</cite></dt><dd><p><code class="docutils literal notranslate"><span class="pre">None</span></code></p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="action_network.html" class="btn btn-neutral float-left" title="Action Network" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="alchemer.html" class="btn btn-neutral float-right" title="Alchemer" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2019, The Movement Cooperative.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  
+  <div class="rst-versions" data-toggle="rst-versions" role="note" aria-label="Versions">
+    <span class="rst-current-version" data-toggle="rst-current-version">
+      <span class="fa fa-book"> Read the Docs</span>
+      v0.17.0
+      <span class="fa fa-caret-down"></span>
+    </span>
+    <div class="rst-other-versions">
+      <dl>
+        <dt>Most Common</dt>
+        <!-- Show latest & stable first -->
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+                  <dd><a href="../latest/airtable.html">latest</a></dd>
+            
+        
+            
+                  <dd><a href="../stable/airtable.html">stable</a></dd>
+            
+        
+
+        <dt>By Version Number</dt>
+        <!-- Show other versions -->
+        
+            
+                  <dd><a href="../v0.14.0/airtable.html">v0.14.0</a></dd>
+            
+        
+            
+                  <dd><a href="../v0.15.0/airtable.html">v0.15.0</a></dd>
+            
+        
+            
+                  <dd><a href="../v0.16.0/airtable.html">v0.16.0</a></dd>
+            
+        
+            
+                  <dd><a href="airtable.html">v0.17.0</a></dd>
+            
+        
+            
+                  <dd><a href="../v0.18.0/airtable.html">v0.18.0</a></dd>
+            
+        
+            
+                  <dd><a href="../v0.18.1/airtable.html">v0.18.1</a></dd>
+            
+        
+            
+        
+            
+        
+
+      </dl>
+    </div>
+  </div>
+<script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

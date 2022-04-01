@@ -1,31 +1,63 @@
+
+
 <!DOCTYPE html>
-<html class="writer-html5" lang="en" >
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>parsons.etl.tofrom &mdash; Parsons 0.5 documentation</title>
-      <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
-      <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
-  <!--[if lt IE 9]>
-    <script src="../../../_static/js/html5shiv.min.js"></script>
-  <![endif]-->
+  <meta charset="utf-8">
   
-        <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
-        <script src="../../../_static/jquery.js"></script>
-        <script src="../../../_static/underscore.js"></script>
-        <script src="../../../_static/doctools.js"></script>
-    <script src="../../../_static/js/theme.js"></script>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>parsons.etl.tofrom &mdash; Parsons 0.5 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" /> 
+
+  
+  <script src="../../../_static/js/modernizr.min.js"></script>
+
 </head>
 
-<body class="wy-body-for-nav"> 
+<body class="wy-body-for-nav">
+
+   
   <div class="wy-grid-for-nav">
+
+    
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
-        <div class="wy-side-nav-search" >
+        <div class="wy-side-nav-search">
+          
+
+          
             <a href="../../../index.html" class="icon icon-home"> Parsons
+          
+
+          
           </a>
+
+          
+            
+            
+          
+
+          
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
     <input type="text" name="q" placeholder="Search docs" />
@@ -33,23 +65,29 @@
     <input type="hidden" name="area" value="default" />
   </form>
 </div>
-        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
-              <p class="caption" role="heading"><span class="caption-text">Integrations</span></p>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Integrations</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../../../actblue.html">ActBlue</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../action_kit.html">ActionKit</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../action_network.html">Action Network</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../airtable.html">Airtable</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../alchemer.html">Alchemer</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../aws.html">Amazon Web Services</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../azure.html">Azure: Blob Storage</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../bill_com.html">Bill.com</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../bloomerang.html">Bloomerang</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../bluelink.html">Bluelink</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../box.html">Box</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../braintree.html">Braintree</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../civis.html">Civis</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../controlshift.html">Controlshift</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../copper.html">Copper</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../crowdtangle.html">CrowdTangle</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../databases.html">Databases</a></li>
@@ -64,64 +102,92 @@
 <li class="toctree-l1"><a class="reference internal" href="../../../ngpvan.html">NGPVAN</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../pdi.html">PDI</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../p2a.html">Phone2Action</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../quickbase.html">Quickbase</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../redash.html">Redash</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../rockthevote.html">Rock the Vote</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../salesforce.html">Salesforce</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../sftp.html">SFTP</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../shopify.html">Shopify</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../sisense.html">Sisense</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../targetsmart.html">TargetSmart</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../turbovote.html">TurboVote</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../twilio.html">Twilio</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../zoom.html">Zoom</a></li>
 </ul>
-<p class="caption" role="heading"><span class="caption-text">Enhancements</span></p>
+<p class="caption"><span class="caption-text">Enhancements</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../../census_geocoder.html">US Census Geocoder</a></li>
 </ul>
-<p class="caption" role="heading"><span class="caption-text">Framework</span></p>
+<p class="caption"><span class="caption-text">Framework</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../../dbsync.html">Database Sync</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../table.html">Parsons Table</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../notifications.html">Notifications</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../utilities.html">Utilities</a></li>
 </ul>
-<p class="caption" role="heading"><span class="caption-text">Contributor Documentation</span></p>
+<p class="caption"><span class="caption-text">Contributor Documentation</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../../contributing.html">Contributing to Parsons</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../build_a_connector.html">How to Build a Connector</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../write_tests.html">How to Write Tests for Parsons Connectors</a></li>
-</ul>
-<p class="caption" role="heading"><span class="caption-text">Use Cases and Sample Scripts</span></p>
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="../../../use_cases/contribute_use_cases.html">How to Contribute a Use Case &amp; Sample Script</a></li>
 </ul>
 
+            
+          
         </div>
       </div>
     </nav>
 
-    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
           <a href="../../../index.html">Parsons</a>
+        
       </nav>
 
+
       <div class="wy-nav-content">
+        
         <div class="rst-content">
-          <div role="navigation" aria-label="Page navigation">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
   <ul class="wy-breadcrumbs">
-      <li><a href="../../../index.html" class="icon icon-home"></a> &raquo;</li>
+    
+      <li><a href="../../../index.html">Docs</a> &raquo;</li>
+        
           <li><a href="../../index.html">Module code</a> &raquo;</li>
+        
       <li>parsons.etl.tofrom</li>
+    
+    
       <li class="wy-breadcrumbs-aside">
+        
       </li>
+    
   </ul>
+
+  
   <hr/>
 </div>
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
-             
+            
   <h1>Source code for parsons.etl.tofrom</h1><div class="highlight"><pre>
 <span></span><span class="kn">import</span> <span class="nn">petl</span>
 <span class="kn">import</span> <span class="nn">json</span>
@@ -519,65 +585,6 @@
         <span class="k">else</span><span class="p">:</span>
             <span class="k">return</span> <span class="kc">None</span></div>
 
-<div class="viewcode-block" id="ToFrom.to_gcs_csv"><a class="viewcode-back" href="../../../table.html#parsons.etl.tofrom.ToFrom.to_gcs_csv">[docs]</a>    <span class="k">def</span> <span class="nf">to_gcs_csv</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">bucket_name</span><span class="p">,</span> <span class="n">blob_name</span><span class="p">,</span> <span class="n">app_creds</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">project</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">compression</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-                   <span class="n">encoding</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">errors</span><span class="o">=</span><span class="s1">&#39;strict&#39;</span><span class="p">,</span> <span class="n">write_header</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">public_url</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
-                   <span class="n">public_url_expires</span><span class="o">=</span><span class="mi">60</span><span class="p">,</span> <span class="o">**</span><span class="n">csvargs</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Writes the table to a Google Cloud Storage blob as a CSV.</span>
-
-<span class="sd">        `Args:`</span>
-<span class="sd">            bucket_name: str</span>
-<span class="sd">                The bucket to upload to</span>
-<span class="sd">            blob_name: str</span>
-<span class="sd">                The blob to name the file. If it ends in &#39;.gz&#39; or &#39;.zip&#39;, the file will be</span>
-<span class="sd">                compressed.</span>
-<span class="sd">            app_creds: str</span>
-<span class="sd">                A credentials json string or a path to a json file. Not required</span>
-<span class="sd">                if ``GOOGLE_APPLICATION_CREDENTIALS`` env variable set.</span>
-<span class="sd">            project: str</span>
-<span class="sd">                The project which the client is acting on behalf of. If not passed</span>
-<span class="sd">                then will use the default inferred environment.</span>
-<span class="sd">            compression: str</span>
-<span class="sd">                The compression type for the csv. Currently &quot;None&quot;, &quot;zip&quot; and &quot;gzip&quot; are</span>
-<span class="sd">                supported. If specified, will override the key suffix.</span>
-<span class="sd">            encoding: str</span>
-<span class="sd">                The CSV encoding type for `csv.writer()</span>
-<span class="sd">                &lt;https://docs.python.org/2/library/csv.html#csv.writer/&gt;`_</span>
-<span class="sd">            errors: str</span>
-<span class="sd">                Raise an Error if encountered</span>
-<span class="sd">            write_header: boolean</span>
-<span class="sd">                Include header in output</span>
-<span class="sd">            public_url: boolean</span>
-<span class="sd">                Create a public link to the file</span>
-<span class="sd">            public_url_expire: 60</span>
-<span class="sd">                The time, in minutes, until the url expires if ``public_url`` set to ``True``.</span>
-<span class="sd">            \**csvargs: kwargs</span>
-<span class="sd">                ``csv_writer`` optional arguments</span>
-<span class="sd">        `Returns:`</span>
-<span class="sd">            Public url if specified. If not ``None``.</span>
-<span class="sd">        &quot;&quot;&quot;</span>  <span class="c1"># noqa: W605</span>
-
-        <span class="n">compression</span> <span class="o">=</span> <span class="n">compression</span> <span class="ow">or</span> <span class="n">files</span><span class="o">.</span><span class="n">compression_type_for_path</span><span class="p">(</span><span class="n">blob_name</span><span class="p">)</span>
-
-        <span class="n">csv_name</span> <span class="o">=</span> <span class="n">files</span><span class="o">.</span><span class="n">extract_file_name</span><span class="p">(</span><span class="n">blob_name</span><span class="p">,</span> <span class="n">include_suffix</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span> <span class="o">+</span> <span class="s1">&#39;.csv&#39;</span>
-
-        <span class="c1"># Save the CSV as a temp file</span>
-        <span class="n">local_path</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="n">temp_file_compression</span><span class="o">=</span><span class="n">compression</span><span class="p">,</span>
-                                 <span class="n">encoding</span><span class="o">=</span><span class="n">encoding</span><span class="p">,</span>
-                                 <span class="n">errors</span><span class="o">=</span><span class="n">errors</span><span class="p">,</span>
-                                 <span class="n">write_header</span><span class="o">=</span><span class="n">write_header</span><span class="p">,</span>
-                                 <span class="n">csv_name</span><span class="o">=</span><span class="n">csv_name</span><span class="p">,</span>
-                                 <span class="o">**</span><span class="n">csvargs</span><span class="p">)</span>
-
-        <span class="kn">from</span> <span class="nn">parsons.google.google_cloud_storage</span> <span class="kn">import</span> <span class="n">GoogleCloudStorage</span>
-        <span class="n">gcs</span> <span class="o">=</span> <span class="n">GoogleCloudStorage</span><span class="p">(</span><span class="n">app_creds</span><span class="o">=</span><span class="n">app_creds</span><span class="p">,</span> <span class="n">project</span><span class="o">=</span><span class="n">project</span><span class="p">)</span>
-        <span class="n">gcs</span><span class="o">.</span><span class="n">put_blob</span><span class="p">(</span><span class="n">bucket_name</span><span class="p">,</span> <span class="n">blob_name</span><span class="p">,</span> <span class="n">local_path</span><span class="p">)</span>
-
-        <span class="k">if</span> <span class="n">public_url</span><span class="p">:</span>
-            <span class="k">return</span> <span class="n">gcs</span><span class="o">.</span><span class="n">get_url</span><span class="p">(</span><span class="n">bucket_name</span><span class="p">,</span> <span class="n">blob_name</span><span class="p">,</span> <span class="n">expires_in</span><span class="o">=</span><span class="n">public_url_expires</span><span class="p">)</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="k">return</span> <span class="kc">None</span></div>
-
 <div class="viewcode-block" id="ToFrom.to_redshift"><a class="viewcode-back" href="../../../table.html#parsons.etl.tofrom.ToFrom.to_redshift">[docs]</a>    <span class="k">def</span> <span class="nf">to_redshift</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">table_name</span><span class="p">,</span> <span class="n">username</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">password</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">host</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
                     <span class="n">db</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">port</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">copy_args</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
@@ -682,10 +689,9 @@
         <span class="kn">from</span> <span class="nn">parsons.civis.civisclient</span> <span class="kn">import</span> <span class="n">CivisClient</span>
         <span class="n">civis</span> <span class="o">=</span> <span class="n">CivisClient</span><span class="p">(</span><span class="n">db</span><span class="o">=</span><span class="n">db</span><span class="p">,</span> <span class="n">api_key</span><span class="o">=</span><span class="n">api_key</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">civis</span><span class="o">.</span><span class="n">table_import</span><span class="p">(</span>
-            <span class="bp">self</span><span class="p">,</span> <span class="n">table</span><span class="p">,</span> <span class="n">max_errors</span><span class="o">=</span><span class="n">max_errors</span><span class="p">,</span>
-            <span class="n">existing_table_rows</span><span class="o">=</span><span class="n">existing_table_rows</span><span class="p">,</span> <span class="n">diststyle</span><span class="o">=</span><span class="n">diststyle</span><span class="p">,</span>
-            <span class="n">distkey</span><span class="o">=</span><span class="n">distkey</span><span class="p">,</span> <span class="n">sortkey1</span><span class="o">=</span><span class="n">sortkey1</span><span class="p">,</span> <span class="n">sortkey2</span><span class="o">=</span><span class="n">sortkey2</span><span class="p">,</span> <span class="n">wait</span><span class="o">=</span><span class="n">wait</span><span class="p">,</span>
-            <span class="o">**</span><span class="n">civisargs</span><span class="p">)</span></div>
+            <span class="bp">self</span><span class="p">,</span> <span class="n">table</span><span class="p">,</span> <span class="n">max_errors</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+            <span class="n">existing_table_rows</span><span class="o">=</span><span class="n">existing_table_rows</span><span class="p">,</span> <span class="n">diststyle</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+            <span class="n">distkey</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">sortkey1</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">sortkey2</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">wait</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="o">**</span><span class="n">civisargs</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="ToFrom.from_csv"><a class="viewcode-back" href="../../../table.html#parsons.etl.tofrom.ToFrom.from_csv">[docs]</a>    <span class="nd">@classmethod</span>
     <span class="k">def</span> <span class="nf">from_csv</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">local_path</span><span class="p">,</span> <span class="o">**</span><span class="n">csvargs</span><span class="p">):</span>
@@ -878,7 +884,7 @@
             <span class="n">_</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">bucket_</span><span class="p">,</span> <span class="n">key_</span> <span class="o">=</span> <span class="n">key</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;/&quot;</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
             <span class="n">file_</span> <span class="o">=</span> <span class="n">s3</span><span class="o">.</span><span class="n">get_file</span><span class="p">(</span><span class="n">bucket_</span><span class="p">,</span> <span class="n">key_</span><span class="p">)</span>
             <span class="k">if</span> <span class="n">files</span><span class="o">.</span><span class="n">compression_type_for_path</span><span class="p">(</span><span class="n">key_</span><span class="p">)</span> <span class="o">==</span> <span class="s1">&#39;zip&#39;</span><span class="p">:</span>
-                <span class="n">file_</span> <span class="o">=</span> <span class="n">zip_archive</span><span class="o">.</span><span class="n">unzip_archive</span><span class="p">(</span><span class="n">file_</span><span class="p">)</span>
+                <span class="n">file_</span> <span class="o">=</span> <span class="n">files</span><span class="o">.</span><span class="n">zip_archive</span><span class="o">.</span><span class="n">unzip_archive</span><span class="p">(</span><span class="n">file_</span><span class="p">)</span>
 
             <span class="n">tbls</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">petl</span><span class="o">.</span><span class="n">fromcsv</span><span class="p">(</span><span class="n">file_</span><span class="p">,</span> <span class="o">**</span><span class="n">csvargs</span><span class="p">))</span>
 
@@ -900,26 +906,48 @@
 </pre></div>
 
            </div>
+           
           </div>
           <footer>
+  
 
   <hr/>
 
   <div role="contentinfo">
-    <p>&#169; Copyright 2019, The Movement Cooperative.</p>
-  </div>
+    <p>
+        &copy; Copyright 2019, The Movement Cooperative
 
-  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
-    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
-    provided by <a href="https://readthedocs.org">Read the Docs</a>.
-   
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
 
 </footer>
+
         </div>
       </div>
+
     </section>
+
   </div>
-  <script>
+  
+
+
+  
+
+    
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../../../_static/jquery.js"></script>
+        <script type="text/javascript" src="../../../_static/underscore.js"></script>
+        <script type="text/javascript" src="../../../_static/doctools.js"></script>
+        <script type="text/javascript" src="../../../_static/language_data.js"></script>
+    
+
+  
+
+  <script type="text/javascript" src="../../../_static/js/theme.js"></script>
+
+  <script type="text/javascript">
       jQuery(function () {
           SphinxRtdTheme.Navigation.enable(true);
       });

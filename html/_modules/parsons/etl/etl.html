@@ -1,31 +1,63 @@
+
+
 <!DOCTYPE html>
-<html class="writer-html5" lang="en" >
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>parsons.etl.etl &mdash; Parsons 0.5 documentation</title>
-      <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
-      <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
-  <!--[if lt IE 9]>
-    <script src="../../../_static/js/html5shiv.min.js"></script>
-  <![endif]-->
+  <meta charset="utf-8">
   
-        <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
-        <script src="../../../_static/jquery.js"></script>
-        <script src="../../../_static/underscore.js"></script>
-        <script src="../../../_static/doctools.js"></script>
-    <script src="../../../_static/js/theme.js"></script>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>parsons.etl.etl &mdash; Parsons 0.5 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" /> 
+
+  
+  <script src="../../../_static/js/modernizr.min.js"></script>
+
 </head>
 
-<body class="wy-body-for-nav"> 
+<body class="wy-body-for-nav">
+
+   
   <div class="wy-grid-for-nav">
+
+    
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
-        <div class="wy-side-nav-search" >
+        <div class="wy-side-nav-search">
+          
+
+          
             <a href="../../../index.html" class="icon icon-home"> Parsons
+          
+
+          
           </a>
+
+          
+            
+            
+          
+
+          
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
     <input type="text" name="q" placeholder="Search docs" />
@@ -33,23 +65,29 @@
     <input type="hidden" name="area" value="default" />
   </form>
 </div>
-        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
-              <p class="caption" role="heading"><span class="caption-text">Integrations</span></p>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Integrations</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../../../actblue.html">ActBlue</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../action_kit.html">ActionKit</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../action_network.html">Action Network</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../airtable.html">Airtable</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../alchemer.html">Alchemer</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../aws.html">Amazon Web Services</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../azure.html">Azure: Blob Storage</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../bill_com.html">Bill.com</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../bloomerang.html">Bloomerang</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../bluelink.html">Bluelink</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../box.html">Box</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../braintree.html">Braintree</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../civis.html">Civis</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../controlshift.html">Controlshift</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../copper.html">Copper</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../crowdtangle.html">CrowdTangle</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../databases.html">Databases</a></li>
@@ -64,64 +102,92 @@
 <li class="toctree-l1"><a class="reference internal" href="../../../ngpvan.html">NGPVAN</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../pdi.html">PDI</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../p2a.html">Phone2Action</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../quickbase.html">Quickbase</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../redash.html">Redash</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../rockthevote.html">Rock the Vote</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../salesforce.html">Salesforce</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../sftp.html">SFTP</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../shopify.html">Shopify</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../sisense.html">Sisense</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../targetsmart.html">TargetSmart</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../turbovote.html">TurboVote</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../twilio.html">Twilio</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../zoom.html">Zoom</a></li>
 </ul>
-<p class="caption" role="heading"><span class="caption-text">Enhancements</span></p>
+<p class="caption"><span class="caption-text">Enhancements</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../../census_geocoder.html">US Census Geocoder</a></li>
 </ul>
-<p class="caption" role="heading"><span class="caption-text">Framework</span></p>
+<p class="caption"><span class="caption-text">Framework</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../../dbsync.html">Database Sync</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../table.html">Parsons Table</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../notifications.html">Notifications</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../utilities.html">Utilities</a></li>
 </ul>
-<p class="caption" role="heading"><span class="caption-text">Contributor Documentation</span></p>
+<p class="caption"><span class="caption-text">Contributor Documentation</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../../contributing.html">Contributing to Parsons</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../build_a_connector.html">How to Build a Connector</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../write_tests.html">How to Write Tests for Parsons Connectors</a></li>
-</ul>
-<p class="caption" role="heading"><span class="caption-text">Use Cases and Sample Scripts</span></p>
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="../../../use_cases/contribute_use_cases.html">How to Contribute a Use Case &amp; Sample Script</a></li>
 </ul>
 
+            
+          
         </div>
       </div>
     </nav>
 
-    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
           <a href="../../../index.html">Parsons</a>
+        
       </nav>
 
+
       <div class="wy-nav-content">
+        
         <div class="rst-content">
-          <div role="navigation" aria-label="Page navigation">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
   <ul class="wy-breadcrumbs">
-      <li><a href="../../../index.html" class="icon icon-home"></a> &raquo;</li>
+    
+      <li><a href="../../../index.html">Docs</a> &raquo;</li>
+        
           <li><a href="../../index.html">Module code</a> &raquo;</li>
+        
       <li>parsons.etl.etl</li>
+    
+    
       <li class="wy-breadcrumbs-aside">
+        
       </li>
+    
   </ul>
+
+  
   <hr/>
 </div>
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
-             
+            
   <h1>Source code for parsons.etl.etl</h1><div class="highlight"><pre>
 <span></span><span class="kn">import</span> <span class="nn">petl</span>
 <span class="kn">import</span> <span class="nn">logging</span>
@@ -205,11 +271,9 @@
 <span class="sd">            `Parsons Table` and also updates self</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
-        <span class="k">if</span> <span class="n">callable</span><span class="p">(</span><span class="n">fill_value</span><span class="p">):</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">table</span> <span class="o">=</span> <span class="n">petl</span><span class="o">.</span><span class="n">convert</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">table</span><span class="p">,</span> <span class="n">column_name</span><span class="p">,</span> <span class="k">lambda</span> <span class="n">_</span><span class="p">,</span> <span class="n">r</span><span class="p">:</span> <span class="n">fill_value</span><span class="p">(</span><span class="n">r</span><span class="p">),</span>
-                                      <span class="n">pass_row</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">table</span> <span class="o">=</span> <span class="n">petl</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">table</span><span class="p">,</span> <span class="n">column_name</span><span class="p">,</span> <span class="n">fill_value</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">add_column</span><span class="p">(</span><span class="n">column_name</span> <span class="o">+</span> <span class="s1">&#39;_column_fill_temp&#39;</span><span class="p">,</span> <span class="n">fill_value</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">remove_column</span><span class="p">(</span><span class="n">column_name</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">rename_column</span><span class="p">(</span><span class="n">column_name</span> <span class="o">+</span> <span class="s1">&#39;_column_fill_temp&#39;</span><span class="p">,</span> <span class="n">column_name</span><span class="p">)</span>
 
         <span class="k">return</span> <span class="bp">self</span></div>
 
@@ -221,17 +285,12 @@
 <span class="sd">            column_name: str</span>
 <span class="sd">                The column to fill</span>
 <span class="sd">            fill_value:</span>
-<span class="sd">                A fixed or calculated value</span>
+<span class="sd">                Fixed value only</span>
 <span class="sd">        `Returns:`</span>
 <span class="sd">            `Parsons Table` and also updates self</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
-        <span class="k">if</span> <span class="n">callable</span><span class="p">(</span><span class="n">fill_value</span><span class="p">):</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">table</span> <span class="o">=</span> <span class="n">petl</span><span class="o">.</span><span class="n">convert</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">table</span><span class="p">,</span> <span class="n">column_name</span><span class="p">,</span> <span class="k">lambda</span> <span class="n">_</span><span class="p">,</span> <span class="n">r</span><span class="p">:</span> <span class="n">fill_value</span><span class="p">(</span><span class="n">r</span><span class="p">),</span>
-                                      <span class="n">where</span><span class="o">=</span><span class="k">lambda</span> <span class="n">r</span><span class="p">:</span> <span class="n">r</span><span class="p">[</span><span class="n">column_name</span><span class="p">]</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">,</span> <span class="n">pass_row</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">table</span> <span class="o">=</span> <span class="n">petl</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">table</span><span class="p">,</span> <span class="n">column_name</span><span class="p">,</span> <span class="n">fill_value</span><span class="p">,</span>
-                                     <span class="n">where</span><span class="o">=</span><span class="k">lambda</span> <span class="n">r</span><span class="p">:</span> <span class="n">r</span><span class="p">[</span><span class="n">column_name</span><span class="p">]</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">fill_column</span><span class="p">(</span><span class="n">column_name</span><span class="p">,</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="p">[</span><span class="n">column_name</span><span class="p">]</span> <span class="k">if</span> <span class="n">x</span><span class="p">[</span><span class="n">column_name</span><span class="p">]</span> <span class="k">else</span> <span class="n">fill_value</span><span class="p">)</span>
 
         <span class="k">return</span> <span class="bp">self</span></div>
 
@@ -259,13 +318,13 @@
 <span class="sd">        method. Example usage can be found `here &lt;https://petl.readthedocs.io/en/v0.24/transform.html#petl.convert&gt;`_.</span>
 
 <span class="sd">        `Args:`</span>
-<span class="sd">            *column: str</span>
+<span class="sd">            \*column: str</span>
 <span class="sd">                A single column or multiple columns passed as a list</span>
-<span class="sd">            **kwargs: str, method or variable</span>
+<span class="sd">            \**kwargs: str, method or variable</span>
 <span class="sd">                The update function, method, or variable to process the update</span>
 <span class="sd">        `Returns:`</span>
 <span class="sd">            `Parsons Table` and also updates self</span>
-<span class="sd">        &quot;&quot;&quot;</span>  <span class="c1"># noqa: E501,E261</span>
+<span class="sd">        &quot;&quot;&quot;</span> <span class="c1"># noqa: E501,E261</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">table</span> <span class="o">=</span> <span class="n">petl</span><span class="o">.</span><span class="n">convert</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">table</span><span class="p">,</span> <span class="o">*</span><span class="n">column</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
 
@@ -356,7 +415,7 @@
 
         <span class="k">return</span> <span class="bp">self</span></div>
 
-<div class="viewcode-block" id="ETL.map_columns"><a class="viewcode-back" href="../../../table.html#parsons.etl.etl.ETL.map_columns">[docs]</a>    <span class="k">def</span> <span class="nf">map_columns</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">column_map</span><span class="p">,</span> <span class="n">exact_match</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+<div class="viewcode-block" id="ETL.map_columns"><a class="viewcode-back" href="../../../table.html#parsons.etl.etl.ETL.map_columns">[docs]</a>    <span class="k">def</span> <span class="nf">map_columns</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">column_map</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Standardizes column names based on multiple possible values. This method</span>
 <span class="sd">        is helpful when your input table might have multiple and unknown column</span>
@@ -365,37 +424,27 @@
 <span class="sd">        `Args:`</span>
 <span class="sd">            column_map: dict</span>
 <span class="sd">                A dictionary of columns and possible values that map to it</span>
-<span class="sd">            exact_match: boolean</span>
-<span class="sd">                If ``True`` will only map if an exact match. If ``False`` will</span>
-<span class="sd">                ignore case, spaces and underscores.</span>
 <span class="sd">        `Returns:`</span>
 <span class="sd">            `Parsons Table` and also updates self</span>
 
 <span class="sd">        .. code-block:: python</span>
 
-<span class="sd">            tbl = [{&#39;fn&#39;: &#39;Jane&#39;},</span>
-<span class="sd">                   {&#39;lastname&#39;: &#39;Doe&#39;},</span>
-<span class="sd">                   {&#39;dob&#39;: &#39;1980-01-01&#39;}]</span>
-<span class="sd">            column_map = {&#39;first_name&#39;: [&#39;fn&#39;, &#39;first&#39;, &#39;firstname&#39;],</span>
-<span class="sd">                          &#39;last_name&#39;: [&#39;ln&#39;, &#39;last&#39;, &#39;lastname&#39;],</span>
-<span class="sd">                          &#39;date_of_birth&#39;: [&#39;dob&#39;, &#39;birthday&#39;]}</span>
-
+<span class="sd">            tbl = [{fn: &#39;Jane&#39;},</span>
+<span class="sd">                   {lastname: &#39;Doe&#39;},</span>
+<span class="sd">                   {dob: &#39;1980-01-01&#39;}]</span>
+<span class="sd">            column_map = {first_name: [&#39;fn&#39;, &#39;first&#39;, &#39;firstname&#39;],</span>
+<span class="sd">                          last_name: [&#39;ln&#39;, &#39;last&#39;, &#39;lastname&#39;],</span>
+<span class="sd">                          date_of_birth: [&#39;dob&#39;, &#39;birthday&#39;]}</span>
 <span class="sd">            tbl.map_columns(column_map)</span>
 <span class="sd">            print (tbl)</span>
-<span class="sd">            &gt;&gt; {{&#39;first_name&#39;: &#39;Jane&#39;, &#39;last_name&#39;: &#39;Doe&#39;, &#39;date_of_birth&#39;: &#39;1908-01-01&#39;}}</span>
+<span class="sd">            &gt;&gt; {{first_name: &#39;Jane&#39;, last_name: &#39;Doe&#39;, &#39;date_of_birth&#39;: &#39;1908-01-01&#39;}}</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
-        <span class="k">for</span> <span class="n">col</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">columns</span><span class="p">:</span>
-
-            <span class="k">if</span> <span class="ow">not</span> <span class="n">exact_match</span><span class="p">:</span>
-                <span class="n">cleaned_col</span> <span class="o">=</span> <span class="n">col</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">&#39;_&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">&#39; &#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">)</span>
-            <span class="k">else</span><span class="p">:</span>
-                <span class="n">cleaned_col</span> <span class="o">=</span> <span class="n">col</span>
-
+        <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">columns</span><span class="p">:</span>
             <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">column_map</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
                 <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">v</span><span class="p">:</span>
-                    <span class="k">if</span> <span class="n">cleaned_col</span> <span class="o">==</span> <span class="n">i</span><span class="p">:</span>
-                        <span class="bp">self</span><span class="o">.</span><span class="n">rename_column</span><span class="p">(</span><span class="n">col</span><span class="p">,</span> <span class="n">k</span><span class="p">)</span>
+                    <span class="k">if</span> <span class="n">c</span> <span class="o">==</span> <span class="n">i</span><span class="p">:</span>
+                        <span class="bp">self</span><span class="o">.</span><span class="n">rename_column</span><span class="p">(</span><span class="n">c</span><span class="p">,</span> <span class="n">k</span><span class="p">)</span>
 
         <span class="k">return</span> <span class="bp">self</span></div>
 
@@ -416,19 +465,19 @@
 
 <span class="sd">        .. code-block:: python</span>
 
-<span class="sd">            tbl = [{&#39;first&#39;: None},</span>
-<span class="sd">                   {&#39;fn&#39;: &#39;Jane&#39;},</span>
-<span class="sd">                   {&#39;lastname&#39;: &#39;Doe&#39;},</span>
-<span class="sd">                   {&#39;dob&#39;: &#39;1980-01-01&#39;}]</span>
+<span class="sd">            tbl = [{first: None},</span>
+<span class="sd">                   {fn: &#39;Jane&#39;},</span>
+<span class="sd">                   {lastname: &#39;Doe&#39;},</span>
+<span class="sd">                   {dob: &#39;1980-01-01&#39;}]</span>
 
-<span class="sd">            column_map = {&#39;first_name&#39;: [&#39;fn&#39;, &#39;first&#39;, &#39;firstname&#39;],</span>
-<span class="sd">                          &#39;last_name&#39;: [&#39;ln&#39;, &#39;last&#39;, &#39;lastname&#39;],</span>
-<span class="sd">                          &#39;date_of_birth&#39;: [&#39;dob&#39;, &#39;birthday&#39;]}</span>
+<span class="sd">            column_map = {first_name: [&#39;fn&#39;, &#39;first&#39;, &#39;firstname&#39;],</span>
+<span class="sd">                          last_name: [&#39;ln&#39;, &#39;last&#39;, &#39;lastname&#39;],</span>
+<span class="sd">                          date_of_birth: [&#39;dob&#39;, &#39;birthday&#39;]}</span>
 
 <span class="sd">            tbl.map_and_coalesce_columns(column_map)</span>
 
 <span class="sd">            print (tbl)</span>
-<span class="sd">            &gt;&gt; {{&#39;first_name&#39;: &#39;Jane&#39;, &#39;last_name&#39;: &#39;Doe&#39;, &#39;date_of_birth&#39;: &#39;1908-01-01&#39;}}</span>
+<span class="sd">            &gt;&gt; {{first_name: &#39;Jane&#39;, last_name: &#39;Doe&#39;, &#39;date_of_birth&#39;: &#39;1908-01-01&#39;}}</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
         <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">column_map</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
@@ -497,7 +546,7 @@
         <span class="k">return</span> <span class="bp">self</span></div>
 
 <div class="viewcode-block" id="ETL.unpack_dict"><a class="viewcode-back" href="../../../table.html#parsons.etl.etl.ETL.unpack_dict">[docs]</a>    <span class="k">def</span> <span class="nf">unpack_dict</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">column</span><span class="p">,</span> <span class="n">keys</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">include_original</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
-                    <span class="n">sample_size</span><span class="o">=</span><span class="mi">5000</span><span class="p">,</span> <span class="n">missing</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">prepend</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                    <span class="n">sample_size</span><span class="o">=</span><span class="mi">1000</span><span class="p">,</span> <span class="n">missing</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">prepend</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
                     <span class="n">prepend_value</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Unpack dictionary values from one column into separate columns</span>
@@ -816,12 +865,12 @@
 <span class="sd">            # Lambda Function</span>
 <span class="sd">            tbl2 = tbl.select_rows(lambda row: row.foo == &#39;a&#39; and row.baz &gt; 88.1)</span>
 <span class="sd">            tbl2</span>
-<span class="sd">            &gt;&gt;&gt; {&#39;foo&#39;: &#39;a&#39;, &#39;bar&#39;: 2, &#39;baz&#39;: 88.1}</span>
+<span class="sd">            &gt;&gt;&gt; {foo: &#39;a&#39;, &#39;bar&#39;: 2, &#39;baz&#39;: 88.1}</span>
 
 <span class="sd">            # Expression String</span>
 <span class="sd">            tbl3 = tbl.select_rows(&quot;{foo} == &#39;a&#39; and {baz} &gt; 88.1&quot;)</span>
 <span class="sd">            tbl3</span>
-<span class="sd">            &gt;&gt;&gt; {&#39;foo&#39;: &#39;a&#39;, &#39;bar&#39;: 2, &#39;baz&#39;: 88.1}</span>
+<span class="sd">            &gt;&gt;&gt; {foo: &#39;a&#39;, &#39;bar&#39;: 2, &#39;baz&#39;: 88.1}</span>
 
 <span class="sd">        `Args:`</span>
 <span class="sd">            \*filters: function or str</span>
@@ -970,74 +1019,61 @@
 
         <span class="n">normalize_fn</span> <span class="o">=</span> <span class="n">Table</span><span class="o">.</span><span class="n">get_normalized_column_name</span> <span class="k">if</span> <span class="n">fuzzy_match</span> <span class="k">else</span> <span class="p">(</span><span class="k">lambda</span> <span class="n">s</span><span class="p">:</span> <span class="n">s</span><span class="p">)</span>
 
-        <span class="c1"># Create a mapping of our &quot;normalized&quot; name to the original column name</span>
-        <span class="n">current_columns_normalized</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="n">desired_columns_normalized</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="n">normalize_fn</span><span class="p">(</span><span class="n">col</span><span class="p">):</span> <span class="n">col</span> <span class="k">for</span> <span class="n">col</span> <span class="ow">in</span> <span class="n">desired_columns</span>
+        <span class="p">}</span>
+
+        <span class="c1"># Check for extra columns in the Table.</span>
+        <span class="k">for</span> <span class="n">orig_col</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">columns</span><span class="p">:</span>
+            <span class="n">normalized_col</span> <span class="o">=</span> <span class="n">normalize_fn</span><span class="p">(</span><span class="n">orig_col</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">normalized_col</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">desired_columns_normalized</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">if_extra_columns</span> <span class="o">==</span> <span class="s1">&#39;fail&#39;</span><span class="p">:</span>
+                    <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Table has extra column </span><span class="si">{</span><span class="n">orig_col</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+                <span class="k">elif</span> <span class="n">if_extra_columns</span> <span class="o">==</span> <span class="s1">&#39;remove&#39;</span><span class="p">:</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">remove_column</span><span class="p">(</span><span class="n">orig_col</span><span class="p">)</span>
+                <span class="k">elif</span> <span class="n">if_extra_columns</span> <span class="o">!=</span> <span class="s1">&#39;ignore&#39;</span><span class="p">:</span>
+                    <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Invalid option </span><span class="si">{</span><span class="n">if_extra_columns</span><span class="si">}</span><span class="s2"> for &quot;</span>
+                                    <span class="s2">&quot;argument `if_extra_columns`&quot;</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="c1"># We matched a desired column. Remove it from our list, so if there is another</span>
+                <span class="c1"># column in our Table that has the same normalized name, we consider it an</span>
+                <span class="c1"># extra column.</span>
+                <span class="n">desired_columns_normalized</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="n">normalized_col</span><span class="p">)</span>
+
+        <span class="c1"># Regenerate the desired columns normalized dict, since we removed any matches</span>
+        <span class="c1"># from it above.</span>
+        <span class="c1"># Note we reverse the desired columns here, to make reordering easier later.</span>
+        <span class="c1"># Cast desired_columns to a list in case someone gave us a dict or other iterable</span>
+        <span class="c1"># that can&#39;t be reversed.</span>
+        <span class="n">desired_columns_normalized</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="n">normalize_fn</span><span class="p">(</span><span class="n">col</span><span class="p">):</span> <span class="n">col</span> <span class="k">for</span> <span class="n">col</span> <span class="ow">in</span> <span class="nb">reversed</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">desired_columns</span><span class="p">))</span>
+        <span class="p">}</span>
+
+        <span class="n">tbl_columns_normalized</span> <span class="o">=</span> <span class="p">{</span>
             <span class="n">normalize_fn</span><span class="p">(</span><span class="n">col</span><span class="p">):</span> <span class="n">col</span> <span class="k">for</span> <span class="n">col</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">columns</span>
         <span class="p">}</span>
 
-        <span class="c1"># Track any columns we need to add to our current table from our desired columns</span>
-        <span class="n">columns_to_add</span> <span class="o">=</span> <span class="p">[]</span>
-        <span class="c1"># We are going to do a &quot;cut&quot; later to trim our table and re-order the columns, but</span>
-        <span class="c1"># we won&#39;t have renamed our columns yet, so we need to remember their un-normalized</span>
-        <span class="c1"># form</span>
-        <span class="n">cut_columns</span> <span class="o">=</span> <span class="p">[]</span>
-        <span class="c1"># We are going to also rename our columns AFTER we cut, so we want to remember their</span>
-        <span class="c1"># normalized names</span>
-        <span class="n">final_header</span> <span class="o">=</span> <span class="p">[]</span>
-
-        <span class="c1"># Loop through our desired columns -- the columns we want to see in our final table</span>
-        <span class="k">for</span> <span class="n">desired_column</span> <span class="ow">in</span> <span class="n">desired_columns</span><span class="p">:</span>
-            <span class="n">normalized_desired</span> <span class="o">=</span> <span class="n">normalize_fn</span><span class="p">(</span><span class="n">desired_column</span><span class="p">)</span>
-            <span class="c1"># Try to find our desired column in our Table</span>
-            <span class="k">if</span> <span class="n">normalized_desired</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">current_columns_normalized</span><span class="p">:</span>
-                <span class="c1"># If we can&#39;t find our desired column in our current columns, then it&#39;s &quot;missing&quot;</span>
+        <span class="c1"># Check for missing columns</span>
+        <span class="k">for</span> <span class="n">normalized_col</span><span class="p">,</span> <span class="n">orig_col</span> <span class="ow">in</span> <span class="n">desired_columns_normalized</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="k">if</span> <span class="n">normalized_col</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">tbl_columns_normalized</span><span class="p">:</span>
                 <span class="k">if</span> <span class="n">if_missing_columns</span> <span class="o">==</span> <span class="s1">&#39;fail&#39;</span><span class="p">:</span>
-                    <span class="c1"># If our missing strategy is to fail, raise an exception</span>
-                    <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Table is missing column </span><span class="si">{</span><span class="n">desired_column</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+                    <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Table is missing column </span><span class="si">{</span><span class="n">orig_col</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
                 <span class="k">elif</span> <span class="n">if_missing_columns</span> <span class="o">==</span> <span class="s1">&#39;add&#39;</span><span class="p">:</span>
-                    <span class="c1"># We have to add to our table</span>
-                    <span class="n">columns_to_add</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">desired_column</span><span class="p">)</span>
-                    <span class="c1"># We will need to remember this column when we cut down to desired columns</span>
-                    <span class="n">cut_columns</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">desired_column</span><span class="p">)</span>
-                    <span class="c1"># This will be in the final table</span>
-                    <span class="n">final_header</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">desired_column</span><span class="p">)</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">add_column</span><span class="p">(</span><span class="n">orig_col</span><span class="p">)</span>
+                    <span class="n">tbl_columns_normalized</span><span class="p">[</span><span class="n">normalized_col</span><span class="p">]</span> <span class="o">=</span> <span class="n">orig_col</span>
                 <span class="k">elif</span> <span class="n">if_missing_columns</span> <span class="o">!=</span> <span class="s1">&#39;ignore&#39;</span><span class="p">:</span>
-                    <span class="c1"># If it&#39;s not ignore, add, or fail, then it&#39;s not a valid strategy</span>
                     <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Invalid option </span><span class="si">{</span><span class="n">if_missing_columns</span><span class="si">}</span><span class="s2"> for &quot;</span>
                                     <span class="s2">&quot;argument `if_missing_columns`&quot;</span><span class="p">)</span>
-            <span class="k">else</span><span class="p">:</span>
-                <span class="c1"># We have found this in our current columns, so take it out of our list to search</span>
-                <span class="n">current_column</span> <span class="o">=</span> <span class="n">current_columns_normalized</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="n">normalized_desired</span><span class="p">)</span>
-                <span class="c1"># Add the column to our intermediate table as the old column name</span>
-                <span class="n">cut_columns</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">current_column</span><span class="p">)</span>
-                <span class="c1"># Add to our final header list as the &quot;desired&quot; name</span>
-                <span class="n">final_header</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">desired_column</span><span class="p">)</span>
 
-        <span class="c1"># Look for any &quot;extra&quot; columns from our current table that aren&#39;t in our desired columns</span>
-        <span class="k">for</span> <span class="n">current_column</span> <span class="ow">in</span> <span class="n">current_columns_normalized</span><span class="o">.</span><span class="n">values</span><span class="p">():</span>
-            <span class="c1"># Figure out what to do with our &quot;extra&quot; columns</span>
-            <span class="k">if</span> <span class="n">if_extra_columns</span> <span class="o">==</span> <span class="s1">&#39;fail&#39;</span><span class="p">:</span>
-                <span class="c1"># If our missing strategy is to fail, raise an exception</span>
-                <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Table has extra column </span><span class="si">{</span><span class="n">current_column</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-            <span class="k">elif</span> <span class="n">if_extra_columns</span> <span class="o">==</span> <span class="s1">&#39;ignore&#39;</span><span class="p">:</span>
-                <span class="c1"># If we&#39;re &quot;ignore&quot;ing our extra columns, we should keep them by adding them to</span>
-                <span class="c1"># our intermediate and final columns list</span>
-                <span class="n">cut_columns</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">current_column</span><span class="p">)</span>
-                <span class="n">final_header</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">current_column</span><span class="p">)</span>
-            <span class="k">elif</span> <span class="n">if_extra_columns</span> <span class="o">!=</span> <span class="s1">&#39;remove&#39;</span><span class="p">:</span>
-                <span class="c1"># If it&#39;s not ignore, add, or fail, then it&#39;s not a valid strategy</span>
-                <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Invalid option </span><span class="si">{</span><span class="n">if_extra_columns</span><span class="si">}</span><span class="s2"> for &quot;</span>
-                                <span class="s2">&quot;argument `if_extra_columns`&quot;</span><span class="p">)</span>
-
-        <span class="c1"># Add any columns we need to add</span>
-        <span class="k">for</span> <span class="n">column</span> <span class="ow">in</span> <span class="n">columns_to_add</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">table</span> <span class="o">=</span> <span class="n">petl</span><span class="o">.</span><span class="n">addfield</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">table</span><span class="p">,</span> <span class="n">column</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
-
-        <span class="c1"># Cut down to just the columns we care about</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">table</span> <span class="o">=</span> <span class="n">petl</span><span class="o">.</span><span class="n">cut</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">table</span><span class="p">,</span> <span class="o">*</span><span class="n">cut_columns</span><span class="p">)</span>
-
-        <span class="c1"># Rename any columns</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">table</span> <span class="o">=</span> <span class="n">petl</span><span class="o">.</span><span class="n">setheader</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">table</span><span class="p">,</span> <span class="n">final_header</span><span class="p">)</span>
+        <span class="c1"># Change column ordering and names to match the desired columns</span>
+        <span class="k">for</span> <span class="n">desired_normalized_col</span><span class="p">,</span> <span class="n">desired_orig_col</span> <span class="ow">in</span> <span class="n">desired_columns_normalized</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="c1"># Note that we ignore any desired columns still not in the Table, given</span>
+            <span class="c1"># that we already checked what the caller wanted to do above.</span>
+            <span class="k">if</span> <span class="n">desired_normalized_col</span> <span class="ow">in</span> <span class="n">tbl_columns_normalized</span><span class="p">:</span>
+                <span class="n">tbl_orig_col</span> <span class="o">=</span> <span class="n">tbl_columns_normalized</span><span class="p">[</span><span class="n">desired_normalized_col</span><span class="p">]</span>
+                <span class="k">if</span> <span class="n">tbl_orig_col</span> <span class="o">!=</span> <span class="n">desired_orig_col</span><span class="p">:</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">rename_column</span><span class="p">(</span><span class="n">tbl_orig_col</span><span class="p">,</span> <span class="n">desired_orig_col</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">move_column</span><span class="p">(</span><span class="n">desired_orig_col</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
 
         <span class="k">return</span> <span class="bp">self</span></div>
 
@@ -1149,92 +1185,52 @@
 <span class="sd">            `Parsons Table` and also updates self</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">table</span> <span class="o">=</span> <span class="n">petl</span><span class="o">.</span><span class="n">setheader</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">table</span><span class="p">,</span> <span class="n">new_header</span><span class="p">)</span>
-        <span class="k">return</span> <span class="bp">self</span></div>
-
-<div class="viewcode-block" id="ETL.use_petl"><a class="viewcode-back" href="../../../table.html#parsons.etl.etl.ETL.use_petl">[docs]</a>    <span class="k">def</span> <span class="nf">use_petl</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">petl_method</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Call a petl function on the current table.</span>
-
-<span class="sd">        This convenience method exposes the petl functions to the current</span>
-<span class="sd">        Table. This is useful in cases where one might need a ``petl`` function</span>
-<span class="sd">        that has not yet been implemented for ``parsons.Table``.</span>
-
-<span class="sd">        .. code-block:: python</span>
-
-<span class="sd">            &gt;&gt;&gt; # https://petl.readthedocs.io/en/v1.6.0/transform.html#petl.transform.basics.skipcomments</span>
-<span class="sd">            &gt;&gt;&gt; tbl = Table([</span>
-<span class="sd">            ...     [&#39;col1&#39;, &#39;col2&#39;],</span>
-<span class="sd">            ...     [&#39;# this is a comment row&#39;,],</span>
-<span class="sd">            ...     [&#39;a&#39;, 1],</span>
-<span class="sd">            ...     [&#39;#this is another comment&#39;, &#39;this is also ignored&#39;],</span>
-<span class="sd">            ...     [&#39;b&#39;, 2]</span>
-<span class="sd">            ... ])</span>
-<span class="sd">            &gt;&gt;&gt; tbl.use_petl(&#39;skipcomments&#39;, &#39;#&#39;, update_table=True)</span>
-
-<span class="sd">            {&#39;col1&#39;: &#39;a&#39;, &#39;col2&#39;: 1}</span>
-<span class="sd">            {&#39;col1&#39;: &#39;b&#39;, &#39;col2&#39;: 2}</span>
-
-<span class="sd">            &gt;&gt;&gt; tbl.table</span>
-
-<span class="sd">            +------+------+</span>
-<span class="sd">            | col1 | col2 |</span>
-<span class="sd">            +======+======+</span>
-<span class="sd">            | &#39;a&#39;  |    1 |</span>
-<span class="sd">            +------+------+</span>
-<span class="sd">            | &#39;b&#39;  |    2 |</span>
-<span class="sd">            +------+------+</span>
-
-<span class="sd">        `Args:`</span>
-<span class="sd">            petl_method: str</span>
-<span class="sd">                The ``petl`` function to call</span>
-<span class="sd">            update_table: bool</span>
-<span class="sd">                If ``True``, updates the ``parsons.Table``. Defaults to</span>
-<span class="sd">                ``False``.</span>
-<span class="sd">            to_petl: bool</span>
-<span class="sd">                If ``True``, returns a petl table, otherwise a ``parsons.Table``.</span>
-<span class="sd">                Defaults to ``False``.</span>
-<span class="sd">            *args: Any</span>
-<span class="sd">                The arguements to pass to the petl function.</span>
-<span class="sd">            **kwargs: Any</span>
-<span class="sd">                The keyword arguements to pass to the petl function.</span>
-<span class="sd">        `Returns:`</span>
-<span class="sd">            `parsons.Table` or `petl` table</span>
-<span class="sd">        &quot;&quot;&quot;</span>  <span class="c1"># noqa: E501</span>
-        <span class="n">update_table</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s1">&#39;update_table&#39;</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span>
-        <span class="n">to_petl</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s1">&#39;to_petl&#39;</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span>
-
-        <span class="k">if</span> <span class="n">update_table</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">table</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">petl</span><span class="p">,</span> <span class="n">petl_method</span><span class="p">)(</span><span class="bp">self</span><span class="o">.</span><span class="n">table</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
-
-        <span class="k">if</span> <span class="n">to_petl</span><span class="p">:</span>
-            <span class="k">return</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">petl</span><span class="p">,</span> <span class="n">petl_method</span><span class="p">)(</span><span class="bp">self</span><span class="o">.</span><span class="n">table</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
-
-        <span class="kn">from</span> <span class="nn">parsons.etl.table</span> <span class="kn">import</span> <span class="n">Table</span>
-
-        <span class="k">return</span> <span class="n">Table</span><span class="p">(</span><span class="nb">getattr</span><span class="p">(</span><span class="n">petl</span><span class="p">,</span> <span class="n">petl_method</span><span class="p">)(</span><span class="bp">self</span><span class="o">.</span><span class="n">table</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">))</span></div></div>
+        <span class="k">return</span> <span class="bp">self</span></div></div>
 </pre></div>
 
            </div>
+           
           </div>
           <footer>
+  
 
   <hr/>
 
   <div role="contentinfo">
-    <p>&#169; Copyright 2019, The Movement Cooperative.</p>
-  </div>
+    <p>
+        &copy; Copyright 2019, The Movement Cooperative
 
-  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
-    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
-    provided by <a href="https://readthedocs.org">Read the Docs</a>.
-   
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
 
 </footer>
+
         </div>
       </div>
+
     </section>
+
   </div>
-  <script>
+  
+
+
+  
+
+    
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../../../_static/jquery.js"></script>
+        <script type="text/javascript" src="../../../_static/underscore.js"></script>
+        <script type="text/javascript" src="../../../_static/doctools.js"></script>
+        <script type="text/javascript" src="../../../_static/language_data.js"></script>
+    
+
+  
+
+  <script type="text/javascript" src="../../../_static/js/theme.js"></script>
+
+  <script type="text/javascript">
       jQuery(function () {
           SphinxRtdTheme.Navigation.enable(true);
       });

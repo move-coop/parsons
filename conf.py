@@ -44,7 +44,8 @@ extensions = [
     'sphinx.ext.coverage',
     'sphinx.ext.imgmath',
     'sphinx.ext.viewcode',
-    'myst_parser'
+    'myst_parser',
+    'sphinx_multiversion',
 ]
 
 # Sorting of attributes
@@ -89,7 +90,9 @@ html_theme = 'sphinx_rtd_theme'
 # further.  For a list of options available for each theme, see the
 # documentation.
 #
-# html_theme_options = {}
+html_theme_options = {
+    'display_version': True,
+}
 
 # Add any paths that contain custom static files (such as style sheets) here,
 # relative to this directory. They are copied after the builtin static files,
@@ -104,7 +107,16 @@ html_static_path = ['_static']
 # default: ``['localtoc.html', 'relations.html', 'sourcelink.html',
 # 'searchbox.html']``.
 #
-# html_sidebars = {}
+html_sidebars = {
+    '**': [ 'versions.html']
+}
+
+try:
+    html_context
+except NameError:
+    html_context = dict()
+
+html_context['display_versions_lower_left'] = True
 
 
 # -- Options for HTMLHelp output ---------------------------------------------
@@ -165,3 +177,13 @@ texinfo_documents = [
 
 
 # -- Extension configuration -------------------------------------------------
+
+# sphinx-multiversion
+
+DOCUMENTED_VERSIONS = ["v0.18.1", "v0.18.0", "v0.17.0", "v0.16.0", "v0.15.0", "v0.14.0"]
+
+# Whitelist pattern for branches
+smv_branch_whitelist = r'^stable|latest$'  # creates version for latest master/main branch
+
+# Get tags to whitelist from DOCUMENTED_VERSIONS const
+smv_tag_whitelist = "|".join(["^" + version + "$" for version in DOCUMENTED_VERSIONS])

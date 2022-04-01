@@ -1,0 +1,581 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Databases &mdash; Parsons 0.5 documentation</title>
+      <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="FacebookAds" href="facebook_ads.html" />
+    <link rel="prev" title="CrowdTangle" href="crowdtangle.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="index.html" class="icon icon-home"> Parsons
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Integrations</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="action_kit.html">ActionKit</a></li>
+<li class="toctree-l1"><a class="reference internal" href="action_network.html">Action Network</a></li>
+<li class="toctree-l1"><a class="reference internal" href="airtable.html">Airtable</a></li>
+<li class="toctree-l1"><a class="reference internal" href="aws.html">Amazon Web Services</a></li>
+<li class="toctree-l1"><a class="reference internal" href="azure.html">Azure</a></li>
+<li class="toctree-l1"><a class="reference internal" href="bill_com.html">Bill.com</a></li>
+<li class="toctree-l1"><a class="reference internal" href="braintree.html">Braintree</a></li>
+<li class="toctree-l1"><a class="reference internal" href="civis.html">Civis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="copper.html">Copper</a></li>
+<li class="toctree-l1"><a class="reference internal" href="crowdtangle.html">CrowdTangle</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Databases</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#overview">Overview</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#google-bigquery">Google BigQuery</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#mysql">MySQL</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#quick-start">Quick Start</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#id4">Postgres</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id6">Quick Start</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#redshift">Redshift</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="facebook_ads.html">FacebookAds</a></li>
+<li class="toctree-l1"><a class="reference internal" href="freshdesk.html">Freshdesk</a></li>
+<li class="toctree-l1"><a class="reference internal" href="github.html">GitHub</a></li>
+<li class="toctree-l1"><a class="reference internal" href="google.html">Google</a></li>
+<li class="toctree-l1"><a class="reference internal" href="hustle.html">Hustle</a></li>
+<li class="toctree-l1"><a class="reference internal" href="mailchimp.html">Mailchimp</a></li>
+<li class="toctree-l1"><a class="reference internal" href="mobilize_america.html">Mobilize America</a></li>
+<li class="toctree-l1"><a class="reference internal" href="newmode.html">New/Mode</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ngpvan.html">NGPVAN</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pdi.html">PDI</a></li>
+<li class="toctree-l1"><a class="reference internal" href="p2a.html">Phone2Action</a></li>
+<li class="toctree-l1"><a class="reference internal" href="redash.html">Redash</a></li>
+<li class="toctree-l1"><a class="reference internal" href="rockthevote.html">Rock the Vote</a></li>
+<li class="toctree-l1"><a class="reference internal" href="salesforce.html">Salesforce</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sftp.html">SFTP</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ts.html">TargetSmart</a></li>
+<li class="toctree-l1"><a class="reference internal" href="twilio.html">Twilio</a></li>
+<li class="toctree-l1"><a class="reference internal" href="turbovote.html">TurboVote</a></li>
+<li class="toctree-l1"><a class="reference internal" href="zoom.html">Zoom</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Enhancements</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="census_geocoder.html">US Census Geocoder</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Framework</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="dbsync.html">Database Sync</a></li>
+<li class="toctree-l1"><a class="reference internal" href="table.html">Parsons Table</a></li>
+<li class="toctree-l1"><a class="reference internal" href="notifications.html">Notifications</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Contributor Documentation</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="contributing.html">Contributing to Parsons</a></li>
+<li class="toctree-l1"><a class="reference internal" href="build_a_connector.html">How to Build a Connector</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">Parsons</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
+      <li>Databases</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/databases.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="databases">
+<h1>Databases<a class="headerlink" href="#databases" title="Permalink to this headline"></a></h1>
+<section id="overview">
+<h2>Overview<a class="headerlink" href="#overview" title="Permalink to this headline"></a></h2>
+<p>Parsons offers support for a variety of popular SQL database dialects. The functionality is focused on the ability to query and upload data to SQL databases. Each database class also includes the ability to infer datatypes and data schemas from a Parsons table and automatically create new tables.</p>
+<p>Similar to other classes in Parsons, the query methods for databases all return <a class="reference internal" href="table.html#parsons-table"><span class="std std-ref">Parsons Table</span></a>, which allow them to be easily converted to other data types.</p>
+<p>There is also support for synchronization of tables between databases as part of the <a class="reference internal" href="dbsync.html"><span class="doc">Database Sync</span></a> framework.</p>
+</section>
+<section id="google-bigquery">
+<h2>Google BigQuery<a class="headerlink" href="#google-bigquery" title="Permalink to this headline"></a></h2>
+<p>See <a class="reference internal" href="google.html"><span class="doc">Google</span></a> for documentation.</p>
+</section>
+<section id="mysql">
+<h2>MySQL<a class="headerlink" href="#mysql" title="Permalink to this headline"></a></h2>
+<p>MySQL is the world’s most popular open source database. The Parsons class leverages on the <a class="reference external" href="https://github.com/farcepest/MySQLdb1">mysql</a> python package.</p>
+<section id="quick-start">
+<h3>Quick Start<a class="headerlink" href="#quick-start" title="Permalink to this headline"></a></h3>
+<p><strong>Authentication</strong></p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">parsons</span> <span class="kn">import</span> <span class="n">MySQL</span>
+
+<span class="c1"># Instantiate MySQL from environmental variables</span>
+<span class="n">mysql</span> <span class="o">=</span> <span class="n">MySQL</span><span class="p">()</span>
+
+<span class="c1"># Instantiate MySQL from passed variables</span>
+<span class="n">mysql</span> <span class="o">=</span> <span class="n">MySQL</span><span class="p">(</span><span class="n">username</span><span class="o">=</span><span class="s1">&#39;me&#39;</span><span class="p">,</span> <span class="n">password</span><span class="o">=</span><span class="s1">&#39;secret&#39;</span><span class="p">,</span> <span class="n">host</span><span class="o">=</span><span class="s1">&#39;mydb.com&#39;</span><span class="p">,</span> <span class="n">db</span><span class="o">=</span><span class="s1">&#39;dev&#39;</span><span class="p">,</span> <span class="n">port</span><span class="o">=</span><span class="mi">3306</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><strong>Quick Start</strong></p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Query database</span>
+<span class="n">tbl</span> <span class="o">=</span> <span class="n">mysql</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="s1">&#39;select * from my_schema.secret_sauce&#39;</span><span class="p">)</span>
+
+<span class="c1"># Copy data to database</span>
+<span class="n">tbl</span> <span class="o">=</span> <span class="n">Table</span><span class="o">.</span><span class="n">from_csv</span><span class="p">(</span><span class="s1">&#39;my_file.csv&#39;</span><span class="p">)</span> <span class="c1"># Load from a CSV or other source.</span>
+<span class="n">mysql</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="n">tbl</span><span class="p">,</span> <span class="s1">&#39;my_schema.winning_formula&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<dl class="py class">
+<dt class="sig sig-object py" id="parsons.MySQL">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">parsons.</span></span><span class="sig-name descname"><span class="pre">MySQL</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">host</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">username</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">password</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">db</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">port</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">3306</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/databases/mysql/mysql.html#MySQL"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.MySQL" title="Permalink to this definition"></a></dt>
+<dd><p>Connect to a MySQL database.</p>
+<dl class="simple">
+<dt><cite>Args:</cite></dt><dd><dl class="simple">
+<dt>username: str</dt><dd><p>Required if env variable <code class="docutils literal notranslate"><span class="pre">MYSQL_USERNAME</span></code> not populated</p>
+</dd>
+<dt>password: str</dt><dd><p>Required if env variable <code class="docutils literal notranslate"><span class="pre">MYSQL_PASSWORD</span></code> not populated</p>
+</dd>
+<dt>host: str</dt><dd><p>Required if env variable <code class="docutils literal notranslate"><span class="pre">MYSQL_HOST</span></code> not populated</p>
+</dd>
+<dt>db: str</dt><dd><p>Required if env variable <code class="docutils literal notranslate"><span class="pre">MYSQL_DB</span></code> not populated</p>
+</dd>
+<dt>port: int</dt><dd><p>Can be set by env variable <code class="docutils literal notranslate"><span class="pre">MYSQL_PORT</span></code> or argument.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="parsons.MySQL.connection">
+<span class="sig-name descname"><span class="pre">connection</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/databases/mysql/mysql.html#MySQL.connection"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.MySQL.connection" title="Permalink to this definition"></a></dt>
+<dd><p>Generate a MySQL connection. The connection is set up as a python “context manager”, so
+it will be closed automatically (and all queries committed) when the connection goes out
+of scope.</p>
+<p>When using the connection, make sure to put it in a <code class="docutils literal notranslate"><span class="pre">with</span></code> block (necessary for
+any context manager):
+<code class="docutils literal notranslate"><span class="pre">with</span> <span class="pre">mysql.connection()</span> <span class="pre">as</span> <span class="pre">conn:</span></code></p>
+<dl class="simple">
+<dt><cite>Returns:</cite></dt><dd><p>MySQL <cite>connection</cite> object</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="parsons.MySQL.query">
+<span class="sig-name descname"><span class="pre">query</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sql</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">parameters</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/databases/mysql/mysql.html#MySQL.query"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.MySQL.query" title="Permalink to this definition"></a></dt>
+<dd><p>Execute a query against the database. Will return <a href="#id2"><span class="problematic" id="id3">``</span></a>None``if the query returns zero rows.</p>
+<p>To include python variables in your query, it is recommended to pass them as parameters,
+following the <a class="reference external" href="https://security.openstack.org/guidelines/dg_parameterize-database-queries.html">mysql style</a>.
+Using the <code class="docutils literal notranslate"><span class="pre">parameters</span></code> argument ensures that values are escaped properly, and avoids SQL
+injection attacks.</p>
+<p><strong>Parameter Examples</strong></p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Note that the name contains a quote, which could break your query if not escaped</span>
+<span class="c1"># properly.</span>
+<span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;Beatrice O&#39;Brady&quot;</span>
+<span class="n">sql</span> <span class="o">=</span> <span class="s2">&quot;SELECT * FROM my_table WHERE name = </span><span class="si">%s</span><span class="s2">&quot;</span>
+<span class="n">mysql</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="n">sql</span><span class="p">,</span> <span class="n">parameters</span><span class="o">=</span><span class="p">[</span><span class="n">name</span><span class="p">])</span>
+</pre></div>
+</div>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">names</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;Allen Smith&quot;</span><span class="p">,</span> <span class="s2">&quot;Beatrice O&#39;Brady&quot;</span><span class="p">,</span> <span class="s2">&quot;Cathy Thompson&quot;</span><span class="p">]</span>
+<span class="n">placeholders</span> <span class="o">=</span> <span class="s1">&#39;, &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s1">&#39;</span><span class="si">%s</span><span class="s1">&#39;</span> <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">names</span><span class="p">)</span>
+<span class="n">sql</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;SELECT * FROM my_table WHERE name IN (</span><span class="si">{</span><span class="n">placeholders</span><span class="si">}</span><span class="s2">)&quot;</span>
+<span class="n">mysql</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="n">sql</span><span class="p">,</span> <span class="n">parameters</span><span class="o">=</span><span class="n">names</span><span class="p">)</span>
+</pre></div>
+</div>
+<dl class="simple">
+<dt><cite>Args:</cite></dt><dd><dl class="simple">
+<dt>sql: str</dt><dd><p>A valid SQL statement</p>
+</dd>
+<dt>parameters: list</dt><dd><p>A list of python variables to be converted into SQL values in your query</p>
+</dd>
+</dl>
+</dd>
+<dt><cite>Returns:</cite></dt><dd><dl class="simple">
+<dt>Parsons Table</dt><dd><p>See <a class="reference internal" href="table.html#parsons-table"><span class="std std-ref">Parsons Table</span></a> for output options.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="parsons.MySQL.query_with_connection">
+<span class="sig-name descname"><span class="pre">query_with_connection</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sql</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">connection</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">parameters</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">commit</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/databases/mysql/mysql.html#MySQL.query_with_connection"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.MySQL.query_with_connection" title="Permalink to this definition"></a></dt>
+<dd><p>Execute a query against the database, with an existing connection. Useful for batching
+queries together. Will return <code class="docutils literal notranslate"><span class="pre">None</span></code> if the query returns zero rows.</p>
+<dl class="simple">
+<dt><cite>Args:</cite></dt><dd><dl class="simple">
+<dt>sql: str</dt><dd><p>A valid SQL statement</p>
+</dd>
+<dt>connection: obj</dt><dd><p>A connection object obtained from <code class="docutils literal notranslate"><span class="pre">mysql.connection()</span></code></p>
+</dd>
+<dt>parameters: list</dt><dd><p>A list of python variables to be converted into SQL values in your query</p>
+</dd>
+<dt>commit: boolean</dt><dd><p>Whether to commit the transaction immediately. If <code class="docutils literal notranslate"><span class="pre">False</span></code> the transaction will
+be committed when the connection goes out of scope and is closed (or you can
+commit manually with <code class="docutils literal notranslate"><span class="pre">connection.commit()</span></code>).</p>
+</dd>
+</dl>
+</dd>
+<dt><cite>Returns:</cite></dt><dd><dl class="simple">
+<dt>Parsons Table</dt><dd><p>See <a class="reference internal" href="table.html#parsons-table"><span class="std std-ref">Parsons Table</span></a> for output options.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="parsons.MySQL.copy">
+<span class="sig-name descname"><span class="pre">copy</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">tbl</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">table_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">if_exists</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'fail'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">chunk_size</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1000</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/databases/mysql/mysql.html#MySQL.copy"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.MySQL.copy" title="Permalink to this definition"></a></dt>
+<dd><p>Copy a <a class="reference internal" href="table.html#parsons-table"><span class="std std-ref">Parsons Table</span></a> to the database.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>This method utilizes extended inserts rather <cite>LOAD DATA INFILE</cite> since
+many MySQL Database configurations do not allow data files to be
+loaded. It results in a minor performance hit compared to <cite>LOAD DATA</cite>.</p>
+</div>
+<dl class="simple">
+<dt>tbl: parsons.Table</dt><dd><p>A Parsons table object</p>
+</dd>
+<dt>table_name: str</dt><dd><p>The destination schema and table (e.g. <code class="docutils literal notranslate"><span class="pre">my_schema.my_table</span></code>)</p>
+</dd>
+<dt>if_exists: str</dt><dd><p>If the table already exists, either <code class="docutils literal notranslate"><span class="pre">fail</span></code>, <code class="docutils literal notranslate"><span class="pre">append</span></code>, <code class="docutils literal notranslate"><span class="pre">drop</span></code>
+or <code class="docutils literal notranslate"><span class="pre">truncate</span></code> the table.</p>
+</dd>
+<dt>chunk_size: int</dt><dd><p>The number of rows to insert per query.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="parsons.MySQL.table_exists">
+<span class="sig-name descname"><span class="pre">table_exists</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">table_name</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/databases/mysql/mysql.html#MySQL.table_exists"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.MySQL.table_exists" title="Permalink to this definition"></a></dt>
+<dd><p>Check if a table or view exists in the database.</p>
+<dl class="simple">
+<dt><cite>Args:</cite></dt><dd><dl class="simple">
+<dt>table_name: str</dt><dd><p>The table name</p>
+</dd>
+<dt>view: boolean</dt><dd><p>Check to see if a view exists by the same name</p>
+</dd>
+</dl>
+</dd>
+<dt><cite>Returns:</cite></dt><dd><dl class="simple">
+<dt>boolean</dt><dd><p><code class="docutils literal notranslate"><span class="pre">True</span></code> if the table exists and <code class="docutils literal notranslate"><span class="pre">False</span></code> if it does not.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+</section>
+<section id="id4">
+<h2>Postgres<a class="headerlink" href="#id4" title="Permalink to this headline"></a></h2>
+<p>Postgres is popular open source SQL database dialect. The Parsons class leverages the <a class="reference external" href="https://www.psycopg.org/">mysql</a> python package.</p>
+<section id="id6">
+<h3>Quick Start<a class="headerlink" href="#id6" title="Permalink to this headline"></a></h3>
+<p><strong>Authentication</strong></p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">parsons</span> <span class="kn">import</span> <span class="n">Postgres</span>
+
+<span class="c1"># Instantiate Postgres from environmental variables</span>
+<span class="n">mysql</span> <span class="o">=</span> <span class="n">Postgres</span><span class="p">()</span>
+
+<span class="c1"># Instantiate Postgres from passed variables</span>
+<span class="n">Postgres</span> <span class="o">=</span> <span class="n">Postgres</span><span class="p">(</span><span class="n">username</span><span class="o">=</span><span class="s1">&#39;me&#39;</span><span class="p">,</span> <span class="n">password</span><span class="o">=</span><span class="s1">&#39;secret&#39;</span><span class="p">,</span> <span class="n">host</span><span class="o">=</span><span class="s1">&#39;mydb.com&#39;</span><span class="p">,</span> <span class="n">db</span><span class="o">=</span><span class="s1">&#39;dev&#39;</span><span class="p">,</span> <span class="n">port</span><span class="o">=</span><span class="mi">3306</span><span class="p">)</span>
+
+<span class="c1"># Instantiate Postgres from a ~/.pgpass file</span>
+<span class="n">Postgres</span> <span class="o">=</span> <span class="n">Postgres</span><span class="p">()</span>
+</pre></div>
+</div>
+<p><strong>Quick Start</strong></p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Query database</span>
+<span class="n">tbl</span> <span class="o">=</span> <span class="n">postgres</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="s1">&#39;select * from my_schema.secret_sauce&#39;</span><span class="p">)</span>
+
+<span class="c1"># Copy data to database</span>
+<span class="n">tbl</span> <span class="o">=</span> <span class="n">Table</span><span class="o">.</span><span class="n">from_csv</span><span class="p">(</span><span class="s1">&#39;my_file.csv&#39;</span><span class="p">)</span> <span class="c1"># Load from a CSV or other source.</span>
+<span class="n">postgres</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="n">tbl</span><span class="p">,</span> <span class="s1">&#39;my_schema.winning_formula&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<dl class="py class">
+<dt class="sig sig-object py" id="parsons.Postgres">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">parsons.</span></span><span class="sig-name descname"><span class="pre">Postgres</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">username</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">password</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">host</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">db</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">port</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">5432</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">timeout</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">10</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/databases/postgres/postgres.html#Postgres"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.Postgres" title="Permalink to this definition"></a></dt>
+<dd><p>A Postgres class to connect to database. Credentials can be passed from a <code class="docutils literal notranslate"><span class="pre">.pgpass</span></code> file
+stored in your home directory or with environmental variables.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><dl class="simple">
+<dt>username: str</dt><dd><p>Required if env variable <code class="docutils literal notranslate"><span class="pre">PGUSER</span></code> not populated</p>
+</dd>
+<dt>password: str</dt><dd><p>Required if env variable <code class="docutils literal notranslate"><span class="pre">PGPASSWORD</span></code> not populated</p>
+</dd>
+<dt>host: str</dt><dd><p>Required if env variable <code class="docutils literal notranslate"><span class="pre">PGHOST</span></code> not populated</p>
+</dd>
+<dt>db: str</dt><dd><p>Required if env variable <code class="docutils literal notranslate"><span class="pre">PGDATABASE</span></code> not populated</p>
+</dd>
+<dt>port: int</dt><dd><p>Required if env variable <code class="docutils literal notranslate"><span class="pre">PGPORT</span></code> not populated.</p>
+</dd>
+<dt>timeout: int</dt><dd><p>Seconds to timeout if connection not established.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="parsons.Postgres.copy">
+<span class="sig-name descname"><span class="pre">copy</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">tbl</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">table_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">if_exists</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'fail'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/databases/postgres/postgres.html#Postgres.copy"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.Postgres.copy" title="Permalink to this definition"></a></dt>
+<dd><p>Copy a <a class="reference internal" href="table.html#parsons-table"><span class="std std-ref">Parsons Table</span></a> to Postgres.</p>
+<dl class="simple">
+<dt>tbl: parsons.Table</dt><dd><p>A Parsons table object</p>
+</dd>
+<dt>table_name: str</dt><dd><p>The destination schema and table (e.g. <code class="docutils literal notranslate"><span class="pre">my_schema.my_table</span></code>)</p>
+</dd>
+<dt>if_exists: str</dt><dd><p>If the table already exists, either <code class="docutils literal notranslate"><span class="pre">fail</span></code>, <code class="docutils literal notranslate"><span class="pre">append</span></code>, <code class="docutils literal notranslate"><span class="pre">drop</span></code>
+or <code class="docutils literal notranslate"><span class="pre">truncate</span></code> the table.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="parsons.Postgres.connection">
+<span class="sig-name descname"><span class="pre">connection</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#parsons.Postgres.connection" title="Permalink to this definition"></a></dt>
+<dd><p>Generate a Postgres connection.
+The connection is set up as a python “context manager”, so it will be closed
+automatically (and all queries committed) when the connection goes out of scope.</p>
+<p>When using the connection, make sure to put it in a <code class="docutils literal notranslate"><span class="pre">with</span></code> block (necessary for
+any context manager):
+<code class="docutils literal notranslate"><span class="pre">with</span> <span class="pre">pg.connection()</span> <span class="pre">as</span> <span class="pre">conn:</span></code></p>
+<dl class="simple">
+<dt><cite>Returns:</cite></dt><dd><p>Psycopg2 <cite>connection</cite> object</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="parsons.Postgres.query">
+<span class="sig-name descname"><span class="pre">query</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sql</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">parameters</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#parsons.Postgres.query" title="Permalink to this definition"></a></dt>
+<dd><p>Execute a query against the database. Will return <a href="#id7"><span class="problematic" id="id8">``</span></a>None``if the query returns zero rows.</p>
+<p>To include python variables in your query, it is recommended to pass them as parameters,
+following the <a class="reference external" href="http://initd.org/psycopg/docs/usage.html#passing-parameters-to-sql-queries">psycopg style</a>.
+Using the <code class="docutils literal notranslate"><span class="pre">parameters</span></code> argument ensures that values are escaped properly, and avoids SQL
+injection attacks.</p>
+<p><strong>Parameter Examples</strong></p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Note that the name contains a quote, which could break your query if not escaped</span>
+<span class="c1"># properly.</span>
+<span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;Beatrice O&#39;Brady&quot;</span>
+<span class="n">sql</span> <span class="o">=</span> <span class="s2">&quot;SELECT * FROM my_table WHERE name = </span><span class="si">%s</span><span class="s2">&quot;</span>
+<span class="n">rs</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="n">sql</span><span class="p">,</span> <span class="n">parameters</span><span class="o">=</span><span class="p">[</span><span class="n">name</span><span class="p">])</span>
+</pre></div>
+</div>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">names</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;Allen Smith&quot;</span><span class="p">,</span> <span class="s2">&quot;Beatrice O&#39;Brady&quot;</span><span class="p">,</span> <span class="s2">&quot;Cathy Thompson&quot;</span><span class="p">]</span>
+<span class="n">placeholders</span> <span class="o">=</span> <span class="s1">&#39;, &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s1">&#39;</span><span class="si">%s</span><span class="s1">&#39;</span> <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">names</span><span class="p">)</span>
+<span class="n">sql</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;SELECT * FROM my_table WHERE name IN (</span><span class="si">{</span><span class="n">placeholders</span><span class="si">}</span><span class="s2">)&quot;</span>
+<span class="n">rs</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="n">sql</span><span class="p">,</span> <span class="n">parameters</span><span class="o">=</span><span class="n">names</span><span class="p">)</span>
+</pre></div>
+</div>
+<dl class="simple">
+<dt><cite>Args:</cite></dt><dd><dl class="simple">
+<dt>sql: str</dt><dd><p>A valid SQL statement</p>
+</dd>
+<dt>parameters: list</dt><dd><p>A list of python variables to be converted into SQL values in your query</p>
+</dd>
+</dl>
+</dd>
+<dt><cite>Returns:</cite></dt><dd><dl class="simple">
+<dt>Parsons Table</dt><dd><p>See <a class="reference internal" href="table.html#parsons-table"><span class="std std-ref">Parsons Table</span></a> for output options.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="parsons.Postgres.query_with_connection">
+<span class="sig-name descname"><span class="pre">query_with_connection</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sql</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">connection</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">parameters</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">commit</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#parsons.Postgres.query_with_connection" title="Permalink to this definition"></a></dt>
+<dd><p>Execute a query against the database, with an existing connection. Useful for batching
+queries together. Will return <code class="docutils literal notranslate"><span class="pre">None</span></code> if the query returns zero rows.</p>
+<dl class="simple">
+<dt><cite>Args:</cite></dt><dd><dl class="simple">
+<dt>sql: str</dt><dd><p>A valid SQL statement</p>
+</dd>
+<dt>connection: obj</dt><dd><p>A connection object obtained from <code class="docutils literal notranslate"><span class="pre">redshift.connection()</span></code></p>
+</dd>
+<dt>parameters: list</dt><dd><p>A list of python variables to be converted into SQL values in your query</p>
+</dd>
+<dt>commit: boolean</dt><dd><p>Whether to commit the transaction immediately. If <code class="docutils literal notranslate"><span class="pre">False</span></code> the transaction will
+be committed when the connection goes out of scope and is closed (or you can
+commit manually with <code class="docutils literal notranslate"><span class="pre">connection.commit()</span></code>).</p>
+</dd>
+</dl>
+</dd>
+<dt><cite>Returns:</cite></dt><dd><dl class="simple">
+<dt>Parsons Table</dt><dd><p>See <a class="reference internal" href="table.html#parsons-table"><span class="std std-ref">Parsons Table</span></a> for output options.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="parsons.Postgres.table_exists">
+<span class="sig-name descname"><span class="pre">table_exists</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">table_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">view</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#parsons.Postgres.table_exists" title="Permalink to this definition"></a></dt>
+<dd><p>Check if a table or view exists in the database.</p>
+<dl class="simple">
+<dt><cite>Args:</cite></dt><dd><dl class="simple">
+<dt>table_name: str</dt><dd><p>The table name and schema (e.g. <code class="docutils literal notranslate"><span class="pre">myschema.mytable</span></code>).</p>
+</dd>
+<dt>view: boolean</dt><dd><p>Check to see if a view exists by the same name</p>
+</dd>
+</dl>
+</dd>
+<dt><cite>Returns:</cite></dt><dd><dl class="simple">
+<dt>boolean</dt><dd><p><code class="docutils literal notranslate"><span class="pre">True</span></code> if the table exists and <code class="docutils literal notranslate"><span class="pre">False</span></code> if it does not.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+</section>
+<section id="redshift">
+<h2>Redshift<a class="headerlink" href="#redshift" title="Permalink to this headline"></a></h2>
+<p>See <a class="reference internal" href="aws.html"><span class="doc">Amazon Web Services</span></a> section for documentation.</p>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="crowdtangle.html" class="btn btn-neutral float-left" title="CrowdTangle" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="facebook_ads.html" class="btn btn-neutral float-right" title="FacebookAds" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2019, The Movement Cooperative.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  
+  <div class="rst-versions" data-toggle="rst-versions" role="note" aria-label="Versions">
+    <span class="rst-current-version" data-toggle="rst-current-version">
+      <span class="fa fa-book"> Read the Docs</span>
+      v0.15.0
+      <span class="fa fa-caret-down"></span>
+    </span>
+    <div class="rst-other-versions">
+      <dl>
+        <dt>Most Common</dt>
+        <!-- Show latest & stable first -->
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+                  <dd><a href="../latest/databases.html">latest</a></dd>
+            
+        
+            
+                  <dd><a href="../stable/databases.html">stable</a></dd>
+            
+        
+
+        <dt>By Version Number</dt>
+        <!-- Show other versions -->
+        
+            
+                  <dd><a href="../v0.14.0/databases.html">v0.14.0</a></dd>
+            
+        
+            
+                  <dd><a href="databases.html">v0.15.0</a></dd>
+            
+        
+            
+                  <dd><a href="../v0.16.0/databases.html">v0.16.0</a></dd>
+            
+        
+            
+                  <dd><a href="../v0.17.0/databases.html">v0.17.0</a></dd>
+            
+        
+            
+                  <dd><a href="../v0.18.0/databases.html">v0.18.0</a></dd>
+            
+        
+            
+                  <dd><a href="../v0.18.1/databases.html">v0.18.1</a></dd>
+            
+        
+            
+        
+            
+        
+
+      </dl>
+    </div>
+  </div>
+<script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

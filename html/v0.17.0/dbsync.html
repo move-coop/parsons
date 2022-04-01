@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Database Sync &mdash; Parsons 0.5 documentation</title>
+      <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Parsons Table" href="table.html" />
+    <link rel="prev" title="US Census Geocoder" href="census_geocoder.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="index.html" class="icon icon-home"> Parsons
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Integrations</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="action_kit.html">ActionKit</a></li>
+<li class="toctree-l1"><a class="reference internal" href="action_network.html">Action Network</a></li>
+<li class="toctree-l1"><a class="reference internal" href="airtable.html">Airtable</a></li>
+<li class="toctree-l1"><a class="reference internal" href="alchemer.html">Alchemer</a></li>
+<li class="toctree-l1"><a class="reference internal" href="aws.html">Amazon Web Services</a></li>
+<li class="toctree-l1"><a class="reference internal" href="azure.html">Azure: Blob Storage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="bill_com.html">Bill.com</a></li>
+<li class="toctree-l1"><a class="reference internal" href="bloomerang.html">Bloomerang</a></li>
+<li class="toctree-l1"><a class="reference internal" href="box.html">Box</a></li>
+<li class="toctree-l1"><a class="reference internal" href="braintree.html">Braintree</a></li>
+<li class="toctree-l1"><a class="reference internal" href="civis.html">Civis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="copper.html">Copper</a></li>
+<li class="toctree-l1"><a class="reference internal" href="crowdtangle.html">CrowdTangle</a></li>
+<li class="toctree-l1"><a class="reference internal" href="databases.html">Databases</a></li>
+<li class="toctree-l1"><a class="reference internal" href="facebook_ads.html">FacebookAds</a></li>
+<li class="toctree-l1"><a class="reference internal" href="freshdesk.html">Freshdesk</a></li>
+<li class="toctree-l1"><a class="reference internal" href="github.html">GitHub</a></li>
+<li class="toctree-l1"><a class="reference internal" href="google.html">Google</a></li>
+<li class="toctree-l1"><a class="reference internal" href="hustle.html">Hustle</a></li>
+<li class="toctree-l1"><a class="reference internal" href="mailchimp.html">Mailchimp</a></li>
+<li class="toctree-l1"><a class="reference internal" href="mobilize_america.html">Mobilize America</a></li>
+<li class="toctree-l1"><a class="reference internal" href="newmode.html">New/Mode</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ngpvan.html">NGPVAN</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pdi.html">PDI</a></li>
+<li class="toctree-l1"><a class="reference internal" href="p2a.html">Phone2Action</a></li>
+<li class="toctree-l1"><a class="reference internal" href="redash.html">Redash</a></li>
+<li class="toctree-l1"><a class="reference internal" href="rockthevote.html">Rock the Vote</a></li>
+<li class="toctree-l1"><a class="reference internal" href="salesforce.html">Salesforce</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sftp.html">SFTP</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sisense.html">Sisense</a></li>
+<li class="toctree-l1"><a class="reference internal" href="targetsmart.html">TargetSmart</a></li>
+<li class="toctree-l1"><a class="reference internal" href="turbovote.html">TurboVote</a></li>
+<li class="toctree-l1"><a class="reference internal" href="twilio.html">Twilio</a></li>
+<li class="toctree-l1"><a class="reference internal" href="zoom.html">Zoom</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Enhancements</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="census_geocoder.html">US Census Geocoder</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Framework</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Database Sync</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#quick-start">Quick Start</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#api">API</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="table.html">Parsons Table</a></li>
+<li class="toctree-l1"><a class="reference internal" href="notifications.html">Notifications</a></li>
+<li class="toctree-l1"><a class="reference internal" href="utilities.html">Utilities</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Contributor Documentation</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="contributing.html">Contributing to Parsons</a></li>
+<li class="toctree-l1"><a class="reference internal" href="build_a_connector.html">How to Build a Connector</a></li>
+<li class="toctree-l1"><a class="reference internal" href="write_tests.html">How to Write Tests for Parsons Connectors</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">Parsons</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
+      <li>Database Sync</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/dbsync.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="database-sync">
+<h1>Database Sync<a class="headerlink" href="#database-sync" title="Permalink to this headline"></a></h1>
+<p>The database sync framework allows tables between two databases with just a few lines of code. Currently supported
+database types are:</p>
+<ul class="simple">
+<li><p><a class="reference internal" href="google.html#gbq"><span class="std std-ref">Google Big Query</span></a></p></li>
+<li><p><a class="reference internal" href="databases.html#my-sql"><span class="std std-ref">MySQL</span></a></p></li>
+<li><p><a class="reference internal" href="databases.html#postgres"><span class="std std-ref">Postgres</span></a></p></li>
+<li><p><a class="reference internal" href="aws.html#id7"><span class="std std-ref">Redshift</span></a></p></li>
+</ul>
+<p>The <code class="docutils literal notranslate"><span class="pre">DBSync</span></code> class is not a connector, but rather a class that joins in database classes and moves data seamlessly between them.</p>
+<section id="quick-start">
+<h2>Quick Start<a class="headerlink" href="#quick-start" title="Permalink to this headline"></a></h2>
+<p><strong>Full Sync Of Tables</strong></p>
+<p>Copy all data from a source table to a destination table.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Create source and destination database objects</span>
+<span class="n">source_rs</span> <span class="o">=</span> <span class="n">Redshift</span><span class="p">()</span>
+<span class="n">destination_rs</span> <span class="o">=</span> <span class="n">Postgres</span><span class="p">()</span>
+
+<span class="c1"># Create db sync object and run sync.</span>
+<span class="n">db_sync</span> <span class="o">=</span> <span class="n">DBSync</span><span class="p">(</span><span class="n">source_rs</span><span class="p">,</span> <span class="n">destination_rs</span><span class="p">)</span> <span class="c1"># Create DBSync Object</span>
+<span class="n">db_sync</span><span class="o">.</span><span class="n">table_sync_full</span><span class="p">(</span><span class="s1">&#39;parsons.source_data&#39;</span><span class="p">,</span> <span class="s1">&#39;parsons.destination_data&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><strong>Incremental Sync of Tables</strong></p>
+<p>Copy just new data in the table. Utilize this method for tables with
+distinct primary keys.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Create source and destination database objects</span>
+<span class="n">source_rs</span> <span class="o">=</span> <span class="n">Postgres</span><span class="p">()</span>
+<span class="n">destination_rs</span> <span class="o">=</span> <span class="n">Postgres</span><span class="p">()</span>
+
+<span class="c1"># Create db sync object and run sync.</span>
+<span class="n">db_sync</span> <span class="o">=</span> <span class="n">DBSync</span><span class="p">(</span><span class="n">source_pg</span><span class="p">,</span> <span class="n">destination_pg</span><span class="p">)</span> <span class="c1"># Create DBSync Object</span>
+<span class="n">db_sync</span><span class="o">.</span><span class="n">table_sync_incremental</span><span class="p">(</span><span class="s1">&#39;parsons.source_data&#39;</span><span class="p">,</span> <span class="s1">&#39;parsons.destination_data&#39;</span><span class="p">,</span> <span class="s1">&#39;myid&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="api">
+<h2>API<a class="headerlink" href="#api" title="Permalink to this headline"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="parsons.DBSync">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">parsons.</span></span><span class="sig-name descname"><span class="pre">DBSync</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">source_db</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">destination_db</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">read_chunk_size</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">100000</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">write_chunk_size</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">retries</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/databases/db_sync.html#DBSync"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.DBSync" title="Permalink to this definition"></a></dt>
+<dd><p>Sync tables between databases. Works with <code class="docutils literal notranslate"><span class="pre">Postgres</span></code>, <code class="docutils literal notranslate"><span class="pre">Redshift</span></code>, <code class="docutils literal notranslate"><span class="pre">MySQL</span></code>
+databases.</p>
+<dl class="simple">
+<dt><cite>Args:</cite></dt><dd><dl class="simple">
+<dt>source_db: Database connection object</dt><dd><p>A database object.</p>
+</dd>
+<dt>destination_db: Database connection object</dt><dd><p>A database object.</p>
+</dd>
+<dt>read_chunk_size: int</dt><dd><p>The number of rows to read from the source at a time when syncing a table. The
+default value is 100,000 rows.</p>
+</dd>
+<dt>write_chunk_size: int</dt><dd><p>The number of rows to batch up before writing out to the destination. This value
+defaults to whatever the read_chunk_size is.</p>
+</dd>
+<dt>retries: int</dt><dd><p>The number of times to retry if there is an error processing a
+chunk of data. The default value is 0.</p>
+</dd>
+</dl>
+</dd>
+<dt><cite>Returns:</cite></dt><dd><p>A DBSync object.</p>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="parsons.DBSync.table_sync_full">
+<span class="sig-name descname"><span class="pre">table_sync_full</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">source_table</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">destination_table</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">if_exists</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'drop'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">order_by</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">verify_row_count</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/databases/db_sync.html#DBSync.table_sync_full"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.DBSync.table_sync_full" title="Permalink to this definition"></a></dt>
+<dd><p>Full sync of table from a source database to a destination database. This will
+wipe all data from the destination table.</p>
+<dl class="simple">
+<dt><cite>Args:</cite></dt><dd><dl class="simple">
+<dt>source_table: str</dt><dd><p>Full table path (e.g. <code class="docutils literal notranslate"><span class="pre">my_schema.my_table</span></code>)</p>
+</dd>
+<dt>destination_table: str</dt><dd><p>Full table path (e.g. <code class="docutils literal notranslate"><span class="pre">my_schema.my_table</span></code>)</p>
+</dd>
+<dt>if_exists: str</dt><dd><p>If destination table exists either <code class="docutils literal notranslate"><span class="pre">drop</span></code>, <code class="docutils literal notranslate"><span class="pre">truncate</span></code>, or <code class="docutils literal notranslate"><span class="pre">drop_if_needed</span></code>.
+Truncate is useful when there are dependent views associated with the table.
+Drop if needed defaults to <code class="docutils literal notranslate"><span class="pre">truncate</span></code>, but if an error occurs (because a data
+type or length has changed), it will instead <code class="docutils literal notranslate"><span class="pre">drop</span></code>.</p>
+</dd>
+<dt>order_by: str</dt><dd><p>Name of the column to order rows by to ensure stable sorting of results across
+chunks.</p>
+</dd>
+<dt>verify_row_count: bool</dt><dd><p>Whether or not to verify the count of rows in the source and destination table
+are the same at the end of the sync.</p>
+</dd>
+<dt><a href="#id1"><span class="problematic" id="id2">**</span></a>kwargs: args</dt><dd><p>Optional copy arguments for destination database.</p>
+</dd>
+</dl>
+</dd>
+<dt><cite>Returns:</cite></dt><dd><p><code class="docutils literal notranslate"><span class="pre">None</span></code></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="parsons.DBSync.table_sync_incremental">
+<span class="sig-name descname"><span class="pre">table_sync_incremental</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">source_table</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">destination_table</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">primary_key</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">distinct_check</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">verify_row_count</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/databases/db_sync.html#DBSync.table_sync_incremental"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.DBSync.table_sync_incremental" title="Permalink to this definition"></a></dt>
+<dd><p>Incremental sync of table from a source database to a destination database
+using an incremental primary key.</p>
+<dl class="simple">
+<dt><cite>Args:</cite></dt><dd><dl class="simple">
+<dt>source_table: str</dt><dd><p>Full table path (e.g. <code class="docutils literal notranslate"><span class="pre">my_schema.my_table</span></code>)</p>
+</dd>
+<dt>destination_table: str</dt><dd><p>Full table path (e.g. <code class="docutils literal notranslate"><span class="pre">my_schema.my_table</span></code>)</p>
+</dd>
+<dt>primary_key: str</dt><dd><p>The name of the primary key. This must be the same for the source and
+destination table.</p>
+</dd>
+<dt>distinct_check: bool</dt><dd><p>Check that the source table primary key is distinct prior to running the
+sync. If it is not, an error will be raised.</p>
+</dd>
+<dt>verify_row_count: bool</dt><dd><p>Whether or not to verify the count of rows in the source and destination table
+are the same at the end of the sync.</p>
+</dd>
+<dt><a href="#id3"><span class="problematic" id="id4">**</span></a>kwargs: args</dt><dd><p>Optional copy arguments for destination database.</p>
+</dd>
+</dl>
+</dd>
+<dt><cite>Returns:</cite></dt><dd><p><code class="docutils literal notranslate"><span class="pre">None</span></code></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="parsons.DBSync.copy_rows">
+<span class="sig-name descname"><span class="pre">copy_rows</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">source_table_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">destination_table_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cutoff</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">order_by</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/databases/db_sync.html#DBSync.copy_rows"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.DBSync.copy_rows" title="Permalink to this definition"></a></dt>
+<dd><p>Copy the rows from the source to the destination.</p>
+<dl class="simple">
+<dt><cite>Args:</cite></dt><dd><dl class="simple">
+<dt>source_table_name: str</dt><dd><p>Full table path (e.g. <code class="docutils literal notranslate"><span class="pre">my_schema.my_table</span></code>)</p>
+</dd>
+<dt>destination_table_name: str</dt><dd><p>Full table path (e.g. <code class="docutils literal notranslate"><span class="pre">my_schema.my_table</span></code>)</p>
+</dd>
+<dt>cutoff:</dt><dd><p>Start value to use as a minimum for incremental updates.</p>
+</dd>
+<dt>order_by:</dt><dd><p>Column to use to order the data to ensure a stable sort.</p>
+</dd>
+<dt><a href="#id5"><span class="problematic" id="id6">**</span></a>kwargs: args</dt><dd><p>Optional copy arguments for destination database.</p>
+</dd>
+</dl>
+</dd>
+<dt><cite>Returns:</cite></dt><dd><p><code class="docutils literal notranslate"><span class="pre">None</span></code></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="parsons.DBSync.create_table">
+<span class="sig-name descname"><span class="pre">create_table</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">source_table</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">destination_table</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/databases/db_sync.html#DBSync.create_table"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.DBSync.create_table" title="Permalink to this definition"></a></dt>
+<dd><p>Create the empty table in the destination database based on the source
+database schema structure. This method utilizes the Alchemy subclass.</p>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="census_geocoder.html" class="btn btn-neutral float-left" title="US Census Geocoder" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="table.html" class="btn btn-neutral float-right" title="Parsons Table" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2019, The Movement Cooperative.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  
+  <div class="rst-versions" data-toggle="rst-versions" role="note" aria-label="Versions">
+    <span class="rst-current-version" data-toggle="rst-current-version">
+      <span class="fa fa-book"> Read the Docs</span>
+      v0.17.0
+      <span class="fa fa-caret-down"></span>
+    </span>
+    <div class="rst-other-versions">
+      <dl>
+        <dt>Most Common</dt>
+        <!-- Show latest & stable first -->
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+                  <dd><a href="../latest/dbsync.html">latest</a></dd>
+            
+        
+            
+                  <dd><a href="../stable/dbsync.html">stable</a></dd>
+            
+        
+
+        <dt>By Version Number</dt>
+        <!-- Show other versions -->
+        
+            
+                  <dd><a href="../v0.14.0/index.html">v0.14.0</a></dd>
+            
+        
+            
+                  <dd><a href="../v0.15.0/dbsync.html">v0.15.0</a></dd>
+            
+        
+            
+                  <dd><a href="../v0.16.0/dbsync.html">v0.16.0</a></dd>
+            
+        
+            
+                  <dd><a href="dbsync.html">v0.17.0</a></dd>
+            
+        
+            
+                  <dd><a href="../v0.18.0/dbsync.html">v0.18.0</a></dd>
+            
+        
+            
+                  <dd><a href="../v0.18.1/dbsync.html">v0.18.1</a></dd>
+            
+        
+            
+        
+            
+        
+
+      </dl>
+    </div>
+  </div>
+<script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

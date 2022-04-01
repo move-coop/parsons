@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>CrowdTangle &mdash; Parsons 0.5 documentation</title>
+      <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Databases" href="databases.html" />
+    <link rel="prev" title="Copper" href="copper.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="index.html" class="icon icon-home"> Parsons
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Integrations</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="action_kit.html">ActionKit</a></li>
+<li class="toctree-l1"><a class="reference internal" href="action_network.html">Action Network</a></li>
+<li class="toctree-l1"><a class="reference internal" href="airtable.html">Airtable</a></li>
+<li class="toctree-l1"><a class="reference internal" href="aws.html">Amazon Web Services</a></li>
+<li class="toctree-l1"><a class="reference internal" href="bill_com.html">Bill.com</a></li>
+<li class="toctree-l1"><a class="reference internal" href="braintree.html">Braintree</a></li>
+<li class="toctree-l1"><a class="reference internal" href="civis.html">Civis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="copper.html">Copper</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">CrowdTangle</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#overview">Overview</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#api">API</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="databases.html">Databases</a></li>
+<li class="toctree-l1"><a class="reference internal" href="facebook_ads.html">FacebookAds</a></li>
+<li class="toctree-l1"><a class="reference internal" href="freshdesk.html">Freshdesk</a></li>
+<li class="toctree-l1"><a class="reference internal" href="google.html">Google</a></li>
+<li class="toctree-l1"><a class="reference internal" href="hustle.html">Hustle</a></li>
+<li class="toctree-l1"><a class="reference internal" href="mailchimp.html">Mailchimp</a></li>
+<li class="toctree-l1"><a class="reference internal" href="mobilize_america.html">Mobilize America</a></li>
+<li class="toctree-l1"><a class="reference internal" href="newmode.html">New/Mode</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ngpvan.html">NGPVAN</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pdi.html">PDI</a></li>
+<li class="toctree-l1"><a class="reference internal" href="p2a.html">Phone2Action</a></li>
+<li class="toctree-l1"><a class="reference internal" href="redash.html">Redash</a></li>
+<li class="toctree-l1"><a class="reference internal" href="rockthevote.html">Rock the Vote</a></li>
+<li class="toctree-l1"><a class="reference internal" href="salesforce.html">Salesforce</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sftp.html">SFTP</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ts.html">TargetSmart</a></li>
+<li class="toctree-l1"><a class="reference internal" href="twilio.html">Twilio</a></li>
+<li class="toctree-l1"><a class="reference internal" href="turbovote.html">TurboVote</a></li>
+<li class="toctree-l1"><a class="reference internal" href="zoom.html">Zoom</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Enhancements</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="census_geocoder.html">US Census Geocoder</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Framework</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="table.html">Parsons Table</a></li>
+<li class="toctree-l1"><a class="reference internal" href="notifications.html">Notifications</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">Parsons</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
+      <li>CrowdTangle</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/crowdtangle.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="crowdtangle">
+<h1>CrowdTangle<a class="headerlink" href="#crowdtangle" title="Permalink to this headline"></a></h1>
+<section id="overview">
+<h2>Overview<a class="headerlink" href="#overview" title="Permalink to this headline"></a></h2>
+<p><a class="reference external" href="https://www.crowdtangle.com/">CrowdTangle</a> is a content monitoring and social monitoring platform. In order
+to access this API, you must have been issued a private API key.</p>
+</section>
+<section id="api">
+<h2>API<a class="headerlink" href="#api" title="Permalink to this headline"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="parsons.CrowdTangle">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">parsons.</span></span><span class="sig-name descname"><span class="pre">CrowdTangle</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">api_key</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/crowdtangle/crowdtangle.html#CrowdTangle"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.CrowdTangle" title="Permalink to this definition"></a></dt>
+<dd><p>Instantiate CrowdTangle Class</p>
+<dl class="simple">
+<dt><cite>Args:</cite></dt><dd><dl class="simple">
+<dt>api_key: str</dt><dd><p>A valid CrowdTangle API key. Not required if <code class="docutils literal notranslate"><span class="pre">CROWDTANGLE_API_KEY</span></code> env
+variable set.</p>
+</dd>
+</dl>
+</dd>
+<dt><cite>Returns:</cite></dt><dd><p>CrowdTangle Class</p>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="parsons.CrowdTangle.get_posts">
+<span class="sig-name descname"><span class="pre">get_posts</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">start_date</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">end_date</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">language</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">list_ids</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">min_interations</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">search_term</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">types</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/crowdtangle/crowdtangle.html#CrowdTangle.get_posts"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.CrowdTangle.get_posts" title="Permalink to this definition"></a></dt>
+<dd><p>Return advocates (person records).</p>
+<dl>
+<dt><cite>Args:</cite></dt><dd><dl>
+<dt>start_date: str</dt><dd><p>Filter to the earliest date at which a post could be posted.
+The time is formatted as UTC (e.g. <code class="docutils literal notranslate"><span class="pre">yyyy-mm-ddThh:mm:ss</span></code>).</p>
+</dd>
+<dt>end_date: str</dt><dd><p>Filter to the latest date at which a post could be posted.
+The time is formatted as UTC (e.g. <code class="docutils literal notranslate"><span class="pre">yyyy-mm-ddThh:mm:ss</span></code>).</p>
+</dd>
+<dt>language: str</dt><dd><p>Filter to 2-character Locale code. Some languages require more
+than two characters: Chinese (Simplified) is zh-CN and
+Chinese (Traditional) is zh-TW.</p>
+</dd>
+<dt>list_ids: list</dt><dd><p>Filter to the ids of lists or saved searches to retrieve.</p>
+</dd>
+<dt>min_interactions: int</dt><dd><p>Filter to posts with total interactions above this threshold.</p>
+</dd>
+<dt>search_team: str</dt><dd><p>Returns only posts that match this search term. For multiple terms, separate
+with commas for OR, use quotes for phrases.</p>
+</dd>
+<dt>types: list</dt><dd><p>Filter to post types including:
+* <code class="docutils literal notranslate"><span class="pre">episode</span></code>
+* <code class="docutils literal notranslate"><span class="pre">extra_clip</span></code>
+* <code class="docutils literal notranslate"><span class="pre">link</span></code>
+* <code class="docutils literal notranslate"><span class="pre">live_video</span></code>
+* <code class="docutils literal notranslate"><span class="pre">live_video_complete</span></code>
+* <code class="docutils literal notranslate"><span class="pre">live_video_scheduled</span></code>
+* <code class="docutils literal notranslate"><span class="pre">native_video</span></code>
+* <code class="docutils literal notranslate"><span class="pre">photo</span></code>
+* <code class="docutils literal notranslate"><span class="pre">status</span></code>
+* <code class="docutils literal notranslate"><span class="pre">trailer</span></code>
+* <code class="docutils literal notranslate"><span class="pre">tweet</span></code>
+* <code class="docutils literal notranslate"><span class="pre">vimeo</span></code>
+* <code class="docutils literal notranslate"><span class="pre">vine</span></code>
+* <code class="docutils literal notranslate"><span class="pre">youtube</span></code></p>
+<p>If you want all live videos (whether currently or formerly live),
+pass include both <code class="docutils literal notranslate"><span class="pre">live_video</span></code> and <code class="docutils literal notranslate"><span class="pre">live_video_complete</span></code>
+parameters.</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">video</span></code> type does not mean all videos, it refers to videos
+that are not <code class="docutils literal notranslate"><span class="pre">native_video</span></code>, <code class="docutils literal notranslate"><span class="pre">youtube</span></code> or <code class="docutils literal notranslate"><span class="pre">vine</span></code>.</p>
+</dd>
+</dl>
+</dd>
+<dt><cite>Returns:</cite></dt><dd><dl class="simple">
+<dt>Parsons Table</dt><dd><p>See <a class="reference internal" href="table.html#parsons-table"><span class="std std-ref">Parsons Table</span></a> for output options.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="parsons.CrowdTangle.get_leaderboard">
+<span class="sig-name descname"><span class="pre">get_leaderboard</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">start_date</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">end_date</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">list_ids</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">account_ids</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/crowdtangle/crowdtangle.html#CrowdTangle.get_leaderboard"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.CrowdTangle.get_leaderboard" title="Permalink to this definition"></a></dt>
+<dd><p>Return advocates (person records).</p>
+<dl class="simple">
+<dt><cite>Args:</cite></dt><dd><dl class="simple">
+<dt>start_date: str</dt><dd><p>Filter to the earliest date at which a post could be posted.
+The time is formatted as UTC (e.g. <code class="docutils literal notranslate"><span class="pre">yyyy-mm-ddThh:mm:ss</span></code>).</p>
+</dd>
+<dt>end_date: str</dt><dd><p>Filter to the latest date at which a post could be posted.
+The time is formatted as UTC (e.g. <code class="docutils literal notranslate"><span class="pre">yyyy-mm-ddThh:mm:ss</span></code>).</p>
+</dd>
+<dt>list_ids: list</dt><dd><p>Filter to the ids of lists or saved searches to retrieve.</p>
+</dd>
+<dt>account_ids: list</dt><dd><p>A list of CrowdTangle accountIds to retrieve leaderboard data for.
+This and <code class="docutils literal notranslate"><span class="pre">list_id</span></code> are mutually exclusive; if both are sent, the
+<code class="docutils literal notranslate"><span class="pre">account_ids</span></code> value will be used.</p>
+</dd>
+</dl>
+</dd>
+<dt><cite>Returns:</cite></dt><dd><dl class="simple">
+<dt>Parsons Table</dt><dd><p>See <a class="reference internal" href="table.html#parsons-table"><span class="std std-ref">Parsons Table</span></a> for output options.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="parsons.CrowdTangle.get_links">
+<span class="sig-name descname"><span class="pre">get_links</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">link</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">start_date</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">end_date</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">include_summary</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">platforms</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/crowdtangle/crowdtangle.html#CrowdTangle.get_links"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.CrowdTangle.get_links" title="Permalink to this definition"></a></dt>
+<dd><p>Return posts based on a specific link.</p>
+<dl class="simple">
+<dt><cite>Args:</cite></dt><dd><dl class="simple">
+<dt>link: str</dt><dd><p>The link to filter posts to.</p>
+</dd>
+<dt>start_date: str</dt><dd><p>Filter to the earliest date at which a post could be posted.
+The time is formatted as UTC (e.g. <code class="docutils literal notranslate"><span class="pre">yyyy-mm-ddThh:mm:ss</span></code>).</p>
+</dd>
+<dt>end_date: str</dt><dd><p>Filter to the latest date at which a post could be posted.
+The time is formatted as UTC (e.g. <code class="docutils literal notranslate"><span class="pre">yyyy-mm-ddThh:mm:ss</span></code>).</p>
+</dd>
+<dt>include_summary: boolean</dt><dd><p>Adds a <code class="docutils literal notranslate"><span class="pre">summary</span></code> column with account statistics for each platform
+that has posted this link. It will look beyond the count
+requested to summarize across the time searched.
+Requires a value for <code class="docutils literal notranslate"><span class="pre">start_date</span></code>.</p>
+</dd>
+<dt>platforms: list</dt><dd><p>Filter by platforms</p>
+</dd>
+</dl>
+</dd>
+<dt><cite>Returns:</cite></dt><dd><dl class="simple">
+<dt>Parsons Table</dt><dd><p>See <a class="reference internal" href="table.html#parsons-table"><span class="std std-ref">Parsons Table</span></a> for output options.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="copper.html" class="btn btn-neutral float-left" title="Copper" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="databases.html" class="btn btn-neutral float-right" title="Databases" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2019, The Movement Cooperative.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  
+  <div class="rst-versions" data-toggle="rst-versions" role="note" aria-label="Versions">
+    <span class="rst-current-version" data-toggle="rst-current-version">
+      <span class="fa fa-book"> Read the Docs</span>
+      v0.14.0
+      <span class="fa fa-caret-down"></span>
+    </span>
+    <div class="rst-other-versions">
+      <dl>
+        <dt>Most Common</dt>
+        <!-- Show latest & stable first -->
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+                  <dd><a href="../latest/crowdtangle.html">latest</a></dd>
+            
+        
+            
+                  <dd><a href="../stable/crowdtangle.html">stable</a></dd>
+            
+        
+
+        <dt>By Version Number</dt>
+        <!-- Show other versions -->
+        
+            
+                  <dd><a href="crowdtangle.html">v0.14.0</a></dd>
+            
+        
+            
+                  <dd><a href="../v0.15.0/crowdtangle.html">v0.15.0</a></dd>
+            
+        
+            
+                  <dd><a href="../v0.16.0/crowdtangle.html">v0.16.0</a></dd>
+            
+        
+            
+                  <dd><a href="../v0.17.0/crowdtangle.html">v0.17.0</a></dd>
+            
+        
+            
+                  <dd><a href="../v0.18.0/crowdtangle.html">v0.18.0</a></dd>
+            
+        
+            
+                  <dd><a href="../v0.18.1/crowdtangle.html">v0.18.1</a></dd>
+            
+        
+            
+        
+            
+        
+
+      </dl>
+    </div>
+  </div>
+<script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

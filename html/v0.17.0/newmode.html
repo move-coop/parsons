@@ -1,0 +1,539 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>New/Mode &mdash; Parsons 0.5 documentation</title>
+      <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="NGPVAN" href="ngpvan.html" />
+    <link rel="prev" title="Mobilize America" href="mobilize_america.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="index.html" class="icon icon-home"> Parsons
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Integrations</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="action_kit.html">ActionKit</a></li>
+<li class="toctree-l1"><a class="reference internal" href="action_network.html">Action Network</a></li>
+<li class="toctree-l1"><a class="reference internal" href="airtable.html">Airtable</a></li>
+<li class="toctree-l1"><a class="reference internal" href="alchemer.html">Alchemer</a></li>
+<li class="toctree-l1"><a class="reference internal" href="aws.html">Amazon Web Services</a></li>
+<li class="toctree-l1"><a class="reference internal" href="azure.html">Azure: Blob Storage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="bill_com.html">Bill.com</a></li>
+<li class="toctree-l1"><a class="reference internal" href="bloomerang.html">Bloomerang</a></li>
+<li class="toctree-l1"><a class="reference internal" href="box.html">Box</a></li>
+<li class="toctree-l1"><a class="reference internal" href="braintree.html">Braintree</a></li>
+<li class="toctree-l1"><a class="reference internal" href="civis.html">Civis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="copper.html">Copper</a></li>
+<li class="toctree-l1"><a class="reference internal" href="crowdtangle.html">CrowdTangle</a></li>
+<li class="toctree-l1"><a class="reference internal" href="databases.html">Databases</a></li>
+<li class="toctree-l1"><a class="reference internal" href="facebook_ads.html">FacebookAds</a></li>
+<li class="toctree-l1"><a class="reference internal" href="freshdesk.html">Freshdesk</a></li>
+<li class="toctree-l1"><a class="reference internal" href="github.html">GitHub</a></li>
+<li class="toctree-l1"><a class="reference internal" href="google.html">Google</a></li>
+<li class="toctree-l1"><a class="reference internal" href="hustle.html">Hustle</a></li>
+<li class="toctree-l1"><a class="reference internal" href="mailchimp.html">Mailchimp</a></li>
+<li class="toctree-l1"><a class="reference internal" href="mobilize_america.html">Mobilize America</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">New/Mode</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#overview">Overview</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#quick-start">Quick Start</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#api">API</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="ngpvan.html">NGPVAN</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pdi.html">PDI</a></li>
+<li class="toctree-l1"><a class="reference internal" href="p2a.html">Phone2Action</a></li>
+<li class="toctree-l1"><a class="reference internal" href="redash.html">Redash</a></li>
+<li class="toctree-l1"><a class="reference internal" href="rockthevote.html">Rock the Vote</a></li>
+<li class="toctree-l1"><a class="reference internal" href="salesforce.html">Salesforce</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sftp.html">SFTP</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sisense.html">Sisense</a></li>
+<li class="toctree-l1"><a class="reference internal" href="targetsmart.html">TargetSmart</a></li>
+<li class="toctree-l1"><a class="reference internal" href="turbovote.html">TurboVote</a></li>
+<li class="toctree-l1"><a class="reference internal" href="twilio.html">Twilio</a></li>
+<li class="toctree-l1"><a class="reference internal" href="zoom.html">Zoom</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Enhancements</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="census_geocoder.html">US Census Geocoder</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Framework</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="dbsync.html">Database Sync</a></li>
+<li class="toctree-l1"><a class="reference internal" href="table.html">Parsons Table</a></li>
+<li class="toctree-l1"><a class="reference internal" href="notifications.html">Notifications</a></li>
+<li class="toctree-l1"><a class="reference internal" href="utilities.html">Utilities</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Contributor Documentation</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="contributing.html">Contributing to Parsons</a></li>
+<li class="toctree-l1"><a class="reference internal" href="build_a_connector.html">How to Build a Connector</a></li>
+<li class="toctree-l1"><a class="reference internal" href="write_tests.html">How to Write Tests for Parsons Connectors</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">Parsons</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
+      <li>New/Mode</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/newmode.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="new-mode">
+<h1>New/Mode<a class="headerlink" href="#new-mode" title="Permalink to this headline"></a></h1>
+<section id="overview">
+<h2>Overview<a class="headerlink" href="#overview" title="Permalink to this headline"></a></h2>
+<p><a class="reference external" href="https://www.newmode.net/">New/Mode</a> is a multi-channel advocacy and civic engagement platform
+for organizations and campaigns. This Parsons class includes methods for fetching tools, actions, targets, campaigns,
+organizations, services, and outreaches. There are also methods for looking up targets and running actions given a
+<code class="docutils literal notranslate"><span class="pre">tool_id</span></code>. Most methods return either individual items as dictionaries or lists of items as Parsons <code class="docutils literal notranslate"><span class="pre">Table</span></code> objects.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<dl class="simple">
+<dt>Authentication</dt><dd><p>To use the class, you need to provide a New/Mode username and password. For more information,
+see <a class="reference external" href="https://blog.newmode.net/new-modes-api-is-here-4c4b70c6fce6">The New/Mode API is Here</a>.</p>
+</dd>
+</dl>
+</div>
+</section>
+<section id="quick-start">
+<h2>Quick Start<a class="headerlink" href="#quick-start" title="Permalink to this headline"></a></h2>
+<p>To instantiate the <code class="docutils literal notranslate"><span class="pre">Newmode</span></code> class, you can either store your New/Mode username
+and password as environmental variables (<code class="docutils literal notranslate"><span class="pre">NEWMODE_API_USER</span></code> and <code class="docutils literal notranslate"><span class="pre">NEWMODE_API_PASSWORD</span></code>,
+respectively) or pass in your username and password as arguments:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">parsons</span> <span class="kn">import</span> <span class="n">Newmode</span>
+
+<span class="c1"># instantiate with API credentials stored as environmental variables</span>
+<span class="n">newmode</span> <span class="o">=</span> <span class="n">Newmode</span><span class="p">()</span>
+
+<span class="c1"># instantiate with API credentials passed as arguments</span>
+<span class="n">newmode</span> <span class="o">=</span> <span class="n">Newmode</span><span class="p">(</span><span class="n">api_user</span><span class="o">=</span><span class="s1">&#39;my_username&#39;</span><span class="p">,</span> <span class="n">api_password</span><span class="o">=</span><span class="s1">&#39;my_password&#39;</span><span class="p">)</span>
+
+<span class="c1"># Get existing tools.</span>
+<span class="n">tools</span> <span class="o">=</span> <span class="n">newmode</span><span class="o">.</span><span class="n">get_tools</span><span class="p">()</span>
+
+<span class="c1"># Get specific tool.</span>
+<span class="n">tool</span> <span class="o">=</span> <span class="n">newmode</span><span class="o">.</span><span class="n">get_tool</span><span class="p">(</span><span class="n">tool_id</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="api">
+<h2>API<a class="headerlink" href="#api" title="Permalink to this headline"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="parsons.Newmode">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">parsons.</span></span><span class="sig-name descname"><span class="pre">Newmode</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">api_user</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">api_password</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">api_version</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/newmode/newmode.html#Newmode"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.Newmode" title="Permalink to this definition"></a></dt>
+<dd><dl class="py method">
+<dt class="sig sig-object py" id="parsons.Newmode.get_tools">
+<span class="sig-name descname"><span class="pre">get_tools</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">params</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">{}</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/newmode/newmode.html#Newmode.get_tools"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.Newmode.get_tools" title="Permalink to this definition"></a></dt>
+<dd><p>Get existing tools.
+Args:</p>
+<blockquote>
+<div><dl class="simple">
+<dt>params:</dt><dd><p>Extra parameters sent to New/Mode library.</p>
+</dd>
+</dl>
+</div></blockquote>
+<dl class="simple">
+<dt>Returns:</dt><dd><p>Tools information as table.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="parsons.Newmode.get_tool">
+<span class="sig-name descname"><span class="pre">get_tool</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">tool_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">params</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">{}</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/newmode/newmode.html#Newmode.get_tool"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.Newmode.get_tool" title="Permalink to this definition"></a></dt>
+<dd><p>Get specific tool.
+Args:</p>
+<blockquote>
+<div><dl class="simple">
+<dt>tool_id:</dt><dd><p>The id of the tool to return.</p>
+</dd>
+<dt>params:</dt><dd><p>Extra parameters sent to New/Mode library.</p>
+</dd>
+</dl>
+</div></blockquote>
+<dl class="simple">
+<dt>Returns:</dt><dd><p>Tool information.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="parsons.Newmode.lookup_targets">
+<span class="sig-name descname"><span class="pre">lookup_targets</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">tool_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">search</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">params</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">{}</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/newmode/newmode.html#Newmode.lookup_targets"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.Newmode.lookup_targets" title="Permalink to this definition"></a></dt>
+<dd><p>Lookup targets for a given tool
+Args:</p>
+<blockquote>
+<div><dl class="simple">
+<dt>tool_id:</dt><dd><p>The tool to lookup targets.</p>
+</dd>
+<dt>search:</dt><dd><p>The search criteria. It could be:
+- Empty: If empty, return custom targets associated to the tool.
+- Postal code: Return targets matched by postal code.
+- Lat/Long: Latitude and Longitude pair separated by ‘::’.
+Ex. 45.451596::-73.59912099999997. It will return targets
+matched for those coordinates.
+- Search term: For your csv tools, this will return targets
+matched by given valid search term.</p>
+</dd>
+</dl>
+</div></blockquote>
+<dl class="simple">
+<dt>Returns:</dt><dd><p>Targets information as table.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="parsons.Newmode.get_action">
+<span class="sig-name descname"><span class="pre">get_action</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">tool_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">params</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">{}</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/newmode/newmode.html#Newmode.get_action"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.Newmode.get_action" title="Permalink to this definition"></a></dt>
+<dd><p>Get the action information for a given tool.
+Args:</p>
+<blockquote>
+<div><dl class="simple">
+<dt>tool_id:</dt><dd><p>The id of the tool to return.</p>
+</dd>
+<dt>params:</dt><dd><p>Extra parameters sent to New/Mode library.</p>
+</dd>
+</dl>
+</div></blockquote>
+<dl class="simple">
+<dt>Returns:</dt><dd><p>Tool action information.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="parsons.Newmode.run_action">
+<span class="sig-name descname"><span class="pre">run_action</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">tool_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">payload</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">params</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">{}</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/newmode/newmode.html#Newmode.run_action"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.Newmode.run_action" title="Permalink to this definition"></a></dt>
+<dd><p>Run specific action with given payload.
+Args:</p>
+<blockquote>
+<div><dl class="simple">
+<dt>tool_id:</dt><dd><p>The id of the tool to run.</p>
+</dd>
+<dt>payload:</dt><dd><p>Payload data used to run the action. Structure will depend
+on the stuff returned by get_action.</p>
+</dd>
+<dt>params:</dt><dd><p>Extra parameters sent to New/Mode library.</p>
+</dd>
+</dl>
+</div></blockquote>
+<dl class="simple">
+<dt>Returns:</dt><dd><p>Action link (if otl) or sid.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="parsons.Newmode.get_target">
+<span class="sig-name descname"><span class="pre">get_target</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">target_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">params</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">{}</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/newmode/newmode.html#Newmode.get_target"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.Newmode.get_target" title="Permalink to this definition"></a></dt>
+<dd><p>Get specific target.
+Args:</p>
+<blockquote>
+<div><dl class="simple">
+<dt>target_id:</dt><dd><p>The id of the target to return.</p>
+</dd>
+<dt>params:</dt><dd><p>Extra parameters sent to New/Mode library.</p>
+</dd>
+</dl>
+</div></blockquote>
+<dl class="simple">
+<dt>Returns:</dt><dd><p>Target information.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="parsons.Newmode.get_campaigns">
+<span class="sig-name descname"><span class="pre">get_campaigns</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">params</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">{}</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/newmode/newmode.html#Newmode.get_campaigns"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.Newmode.get_campaigns" title="Permalink to this definition"></a></dt>
+<dd><p>Get existing campaigns.
+Args:</p>
+<blockquote>
+<div><dl class="simple">
+<dt>params:</dt><dd><p>Extra parameters sent to New/Mode library.</p>
+</dd>
+</dl>
+</div></blockquote>
+<dl class="simple">
+<dt>Returns:</dt><dd><p>Campaigns information as table.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="parsons.Newmode.get_campaign">
+<span class="sig-name descname"><span class="pre">get_campaign</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">campaign_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">params</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">{}</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/newmode/newmode.html#Newmode.get_campaign"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.Newmode.get_campaign" title="Permalink to this definition"></a></dt>
+<dd><p>Get specific campaign.
+Args:</p>
+<blockquote>
+<div><dl class="simple">
+<dt>campaign_id:</dt><dd><p>The id of the campaign to return.</p>
+</dd>
+<dt>params:</dt><dd><p>Extra parameters sent to New/Mode library.</p>
+</dd>
+</dl>
+</div></blockquote>
+<dl class="simple">
+<dt>Returns:</dt><dd><p>Campaign information.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="parsons.Newmode.get_organizations">
+<span class="sig-name descname"><span class="pre">get_organizations</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">params</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">{}</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/newmode/newmode.html#Newmode.get_organizations"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.Newmode.get_organizations" title="Permalink to this definition"></a></dt>
+<dd><p>Get existing organizations.
+Args:</p>
+<blockquote>
+<div><dl class="simple">
+<dt>params:</dt><dd><p>Extra parameters sent to New/Mode library.</p>
+</dd>
+</dl>
+</div></blockquote>
+<dl class="simple">
+<dt>Returns:</dt><dd><p>Organizations information as table.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="parsons.Newmode.get_organization">
+<span class="sig-name descname"><span class="pre">get_organization</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">organization_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">params</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">{}</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/newmode/newmode.html#Newmode.get_organization"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.Newmode.get_organization" title="Permalink to this definition"></a></dt>
+<dd><p>Get specific organization.
+Args:</p>
+<blockquote>
+<div><dl class="simple">
+<dt>organization_id:</dt><dd><p>The id of the organization to return.</p>
+</dd>
+<dt>params:</dt><dd><p>Extra parameters sent to New/Mode library.</p>
+</dd>
+</dl>
+</div></blockquote>
+<dl class="simple">
+<dt>Returns:</dt><dd><p>Organization information.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="parsons.Newmode.get_services">
+<span class="sig-name descname"><span class="pre">get_services</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">params</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">{}</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/newmode/newmode.html#Newmode.get_services"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.Newmode.get_services" title="Permalink to this definition"></a></dt>
+<dd><p>Get existing services.
+Args:</p>
+<blockquote>
+<div><dl class="simple">
+<dt>params:</dt><dd><p>Extra parameters sent to New/Mode library.</p>
+</dd>
+</dl>
+</div></blockquote>
+<dl class="simple">
+<dt>Returns:</dt><dd><p>Services information as table.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="parsons.Newmode.get_service">
+<span class="sig-name descname"><span class="pre">get_service</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">service_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">params</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">{}</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/newmode/newmode.html#Newmode.get_service"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.Newmode.get_service" title="Permalink to this definition"></a></dt>
+<dd><p>Get specific service.
+Args:</p>
+<blockquote>
+<div><dl class="simple">
+<dt>service_id:</dt><dd><p>The id of the service to return.</p>
+</dd>
+<dt>params:</dt><dd><p>Extra parameters sent to New/Mode library.</p>
+</dd>
+</dl>
+</div></blockquote>
+<dl class="simple">
+<dt>Returns:</dt><dd><p>Service information.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="parsons.Newmode.get_outreaches">
+<span class="sig-name descname"><span class="pre">get_outreaches</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">tool_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">params</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">{}</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/newmode/newmode.html#Newmode.get_outreaches"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.Newmode.get_outreaches" title="Permalink to this definition"></a></dt>
+<dd><p>Get existing outreaches for a given tool.
+Args:</p>
+<blockquote>
+<div><dl class="simple">
+<dt>tool_id:</dt><dd><p>Tool to return outreaches.</p>
+</dd>
+<dt>params:</dt><dd><p>Extra parameters sent to New/Mode library.</p>
+</dd>
+</dl>
+</div></blockquote>
+<dl class="simple">
+<dt>Returns:</dt><dd><p>Outreaches information as table.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="parsons.Newmode.get_outreach">
+<span class="sig-name descname"><span class="pre">get_outreach</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">outreach_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">params</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">{}</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/newmode/newmode.html#Newmode.get_outreach"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.Newmode.get_outreach" title="Permalink to this definition"></a></dt>
+<dd><p>Get specific outreach.
+Args:</p>
+<blockquote>
+<div><dl class="simple">
+<dt>outreach_id:</dt><dd><p>The id of the outreach to return.</p>
+</dd>
+<dt>params:</dt><dd><p>Extra parameters sent to New/Mode library.</p>
+</dd>
+</dl>
+</div></blockquote>
+<dl class="simple">
+<dt>Returns:</dt><dd><p>Outreach information.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="mobilize_america.html" class="btn btn-neutral float-left" title="Mobilize America" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="ngpvan.html" class="btn btn-neutral float-right" title="NGPVAN" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2019, The Movement Cooperative.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  
+  <div class="rst-versions" data-toggle="rst-versions" role="note" aria-label="Versions">
+    <span class="rst-current-version" data-toggle="rst-current-version">
+      <span class="fa fa-book"> Read the Docs</span>
+      v0.17.0
+      <span class="fa fa-caret-down"></span>
+    </span>
+    <div class="rst-other-versions">
+      <dl>
+        <dt>Most Common</dt>
+        <!-- Show latest & stable first -->
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+                  <dd><a href="../latest/newmode.html">latest</a></dd>
+            
+        
+            
+                  <dd><a href="../stable/newmode.html">stable</a></dd>
+            
+        
+
+        <dt>By Version Number</dt>
+        <!-- Show other versions -->
+        
+            
+                  <dd><a href="../v0.14.0/newmode.html">v0.14.0</a></dd>
+            
+        
+            
+                  <dd><a href="../v0.15.0/newmode.html">v0.15.0</a></dd>
+            
+        
+            
+                  <dd><a href="../v0.16.0/newmode.html">v0.16.0</a></dd>
+            
+        
+            
+                  <dd><a href="newmode.html">v0.17.0</a></dd>
+            
+        
+            
+                  <dd><a href="../v0.18.0/newmode.html">v0.18.0</a></dd>
+            
+        
+            
+                  <dd><a href="../v0.18.1/newmode.html">v0.18.1</a></dd>
+            
+        
+            
+        
+            
+        
+
+      </dl>
+    </div>
+  </div>
+<script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

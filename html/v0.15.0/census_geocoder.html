@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>US Census Geocoder &mdash; Parsons 0.5 documentation</title>
+      <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Database Sync" href="dbsync.html" />
+    <link rel="prev" title="Zoom" href="zoom.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="index.html" class="icon icon-home"> Parsons
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Integrations</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="action_kit.html">ActionKit</a></li>
+<li class="toctree-l1"><a class="reference internal" href="action_network.html">Action Network</a></li>
+<li class="toctree-l1"><a class="reference internal" href="airtable.html">Airtable</a></li>
+<li class="toctree-l1"><a class="reference internal" href="aws.html">Amazon Web Services</a></li>
+<li class="toctree-l1"><a class="reference internal" href="azure.html">Azure</a></li>
+<li class="toctree-l1"><a class="reference internal" href="bill_com.html">Bill.com</a></li>
+<li class="toctree-l1"><a class="reference internal" href="braintree.html">Braintree</a></li>
+<li class="toctree-l1"><a class="reference internal" href="civis.html">Civis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="copper.html">Copper</a></li>
+<li class="toctree-l1"><a class="reference internal" href="crowdtangle.html">CrowdTangle</a></li>
+<li class="toctree-l1"><a class="reference internal" href="databases.html">Databases</a></li>
+<li class="toctree-l1"><a class="reference internal" href="facebook_ads.html">FacebookAds</a></li>
+<li class="toctree-l1"><a class="reference internal" href="freshdesk.html">Freshdesk</a></li>
+<li class="toctree-l1"><a class="reference internal" href="github.html">GitHub</a></li>
+<li class="toctree-l1"><a class="reference internal" href="google.html">Google</a></li>
+<li class="toctree-l1"><a class="reference internal" href="hustle.html">Hustle</a></li>
+<li class="toctree-l1"><a class="reference internal" href="mailchimp.html">Mailchimp</a></li>
+<li class="toctree-l1"><a class="reference internal" href="mobilize_america.html">Mobilize America</a></li>
+<li class="toctree-l1"><a class="reference internal" href="newmode.html">New/Mode</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ngpvan.html">NGPVAN</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pdi.html">PDI</a></li>
+<li class="toctree-l1"><a class="reference internal" href="p2a.html">Phone2Action</a></li>
+<li class="toctree-l1"><a class="reference internal" href="redash.html">Redash</a></li>
+<li class="toctree-l1"><a class="reference internal" href="rockthevote.html">Rock the Vote</a></li>
+<li class="toctree-l1"><a class="reference internal" href="salesforce.html">Salesforce</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sftp.html">SFTP</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ts.html">TargetSmart</a></li>
+<li class="toctree-l1"><a class="reference internal" href="twilio.html">Twilio</a></li>
+<li class="toctree-l1"><a class="reference internal" href="turbovote.html">TurboVote</a></li>
+<li class="toctree-l1"><a class="reference internal" href="zoom.html">Zoom</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Enhancements</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">US Census Geocoder</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#overview">Overview</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#api">API</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Framework</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="dbsync.html">Database Sync</a></li>
+<li class="toctree-l1"><a class="reference internal" href="table.html">Parsons Table</a></li>
+<li class="toctree-l1"><a class="reference internal" href="notifications.html">Notifications</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Contributor Documentation</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="contributing.html">Contributing to Parsons</a></li>
+<li class="toctree-l1"><a class="reference internal" href="build_a_connector.html">How to Build a Connector</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">Parsons</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
+      <li>US Census Geocoder</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/census_geocoder.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="us-census-geocoder">
+<h1>US Census Geocoder<a class="headerlink" href="#us-census-geocoder" title="Permalink to this headline"></a></h1>
+<section id="overview">
+<h2>Overview<a class="headerlink" href="#overview" title="Permalink to this headline"></a></h2>
+<p>The US Census Geocoder leverages the US Census Geocoding service for single record and batch geocoding. The
+service enforces no limits and is free to US. More information can be found at the <a class="reference external" href="https://geocoding.geo.census.gov/">US Census</a>
+website. For multiple records, it is recommended that you use the <code class="xref py py-meth docutils literal notranslate"><span class="pre">CensusGeocoder.geocode_address_batch()</span></code> method.</p>
+</section>
+<section id="api">
+<h2>API<a class="headerlink" href="#api" title="Permalink to this headline"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="parsons.CensusGeocoder">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">parsons.</span></span><span class="sig-name descname"><span class="pre">CensusGeocoder</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">benchmark</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'Public_AR_Current'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">vintage</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'Current_Current'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/geocode/census_geocoder.html#CensusGeocoder"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.CensusGeocoder" title="Permalink to this definition"></a></dt>
+<dd><p>Instantiate the CensusGecoder Class</p>
+<dl class="simple">
+<dt><cite>Args:</cite></dt><dd><dl class="simple">
+<dt>benchmark: str</dt><dd><p>The US Census benchmark file to utilize. By default the current benchmark is used,
+but other options can found <a class="reference external" href="https://geocoding.geo.census.gov/geocoder/benchmarks">here</a>.</p>
+</dd>
+<dt>vintage: str</dt><dd><p>The US Census vintage file to utilize. By default the current vintage is used, but
+other options can be found <a class="reference external" href="https://geocoding.geo.census.gov/geocoder/vintages?form">here</a>.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="parsons.CensusGeocoder.geocode_onelineaddress">
+<span class="sig-name descname"><span class="pre">geocode_onelineaddress</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">address</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">return_type</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'geographies'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/geocode/census_geocoder.html#CensusGeocoder.geocode_onelineaddress"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.CensusGeocoder.geocode_onelineaddress" title="Permalink to this definition"></a></dt>
+<dd><p>Geocode a single line address. Does not require parsing of city and zipcode field. Returns
+geocode as well as other census block data. If the service is unable to geocode the address
+it will return an empty list.</p>
+<dl class="simple">
+<dt><cite>Args:</cite></dt><dd><dl class="simple">
+<dt>address: str</dt><dd><p>A valid US address</p>
+</dd>
+<dt>return_type: str</dt><dd><p><code class="docutils literal notranslate"><span class="pre">geographies</span></code> will return information about the Census geographies
+while <code class="docutils literal notranslate"><span class="pre">locations</span></code> will information about the address.</p>
+</dd>
+</dl>
+</dd>
+<dt><cite>Returns</cite>:</dt><dd><p>dict</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="parsons.CensusGeocoder.geocode_address">
+<span class="sig-name descname"><span class="pre">geocode_address</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">address_line</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">city</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">state</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">zipcode</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">return_type</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'geographies'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/geocode/census_geocoder.html#CensusGeocoder.geocode_address"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.CensusGeocoder.geocode_address" title="Permalink to this definition"></a></dt>
+<dd><p>Geocode an address by specifying address fields. Returns the geocode as well as other
+census block data.</p>
+<dl class="simple">
+<dt><cite>Args:</cite></dt><dd><dl class="simple">
+<dt>address_line: str</dt><dd><p>A valid address line</p>
+</dd>
+<dt>city: str</dt><dd><p>A valid city</p>
+</dd>
+<dt>state: str</dt><dd><p>A valid two character state abbreviation (e.g. ‘IL’)</p>
+</dd>
+<dt>zipcode: int</dt><dd><p>A valid five digit zipcode (e.g. 60622)</p>
+</dd>
+<dt>return_type: str</dt><dd><p><code class="docutils literal notranslate"><span class="pre">geographies</span></code> will return information about the Census geographies
+while <code class="docutils literal notranslate"><span class="pre">locations</span></code> will information about the address.</p>
+</dd>
+</dl>
+</dd>
+<dt><cite>Returns:</cite></dt><dd><p>dict</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="parsons.CensusGeocoder.geocode_address_batch">
+<span class="sig-name descname"><span class="pre">geocode_address_batch</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">table</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/geocode/census_geocoder.html#CensusGeocoder.geocode_address_batch"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.CensusGeocoder.geocode_address_batch" title="Permalink to this definition"></a></dt>
+<dd><p>Geocode multiple addresses from a parsons table.</p>
+<p>The table must <strong>only</strong> include the following columns in the following order.</p>
+<table class="colwidths-given docutils align-default">
+<colgroup>
+<col style="width: 100%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Column Data</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Unique ID</p></td>
+</tr>
+<tr class="row-odd"><td><p>Street</p></td>
+</tr>
+<tr class="row-even"><td><p>City</p></td>
+</tr>
+<tr class="row-odd"><td><p>State</p></td>
+</tr>
+<tr class="row-even"><td><p>Zipcode</p></td>
+</tr>
+</tbody>
+</table>
+<dl class="simple">
+<dt><cite>Args:</cite></dt><dd><dl class="simple">
+<dt>table: Parsons Table</dt><dd><p>A Parsons table</p>
+</dd>
+</dl>
+</dd>
+<dt><cite>Returns:</cite></dt><dd><p>A Parsons table</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="parsons.CensusGeocoder.get_coordinates_data">
+<span class="sig-name descname"><span class="pre">get_coordinates_data</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">latitude</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">longitude</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/geocode/census_geocoder.html#CensusGeocoder.get_coordinates_data"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.CensusGeocoder.get_coordinates_data" title="Permalink to this definition"></a></dt>
+<dd><p>Return census data on coordinates.</p>
+<dl class="simple">
+<dt><cite>Args</cite></dt><dd><dl class="simple">
+<dt>latitude: int</dt><dd><p>A valid latitude in the United States</p>
+</dd>
+<dt>longitude: int</dt><dd><p>A valid longitude in the United States</p>
+</dd>
+</dl>
+</dd>
+<dt><cite>Returns:</cite></dt><dd><p>dict</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="zoom.html" class="btn btn-neutral float-left" title="Zoom" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="dbsync.html" class="btn btn-neutral float-right" title="Database Sync" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2019, The Movement Cooperative.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  
+  <div class="rst-versions" data-toggle="rst-versions" role="note" aria-label="Versions">
+    <span class="rst-current-version" data-toggle="rst-current-version">
+      <span class="fa fa-book"> Read the Docs</span>
+      v0.15.0
+      <span class="fa fa-caret-down"></span>
+    </span>
+    <div class="rst-other-versions">
+      <dl>
+        <dt>Most Common</dt>
+        <!-- Show latest & stable first -->
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+                  <dd><a href="../latest/census_geocoder.html">latest</a></dd>
+            
+        
+            
+                  <dd><a href="../stable/census_geocoder.html">stable</a></dd>
+            
+        
+
+        <dt>By Version Number</dt>
+        <!-- Show other versions -->
+        
+            
+                  <dd><a href="../v0.14.0/census_geocoder.html">v0.14.0</a></dd>
+            
+        
+            
+                  <dd><a href="census_geocoder.html">v0.15.0</a></dd>
+            
+        
+            
+                  <dd><a href="../v0.16.0/census_geocoder.html">v0.16.0</a></dd>
+            
+        
+            
+                  <dd><a href="../v0.17.0/census_geocoder.html">v0.17.0</a></dd>
+            
+        
+            
+                  <dd><a href="../v0.18.0/census_geocoder.html">v0.18.0</a></dd>
+            
+        
+            
+                  <dd><a href="../v0.18.1/census_geocoder.html">v0.18.1</a></dd>
+            
+        
+            
+        
+            
+        
+
+      </dl>
+    </div>
+  </div>
+<script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

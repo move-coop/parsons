@@ -1,0 +1,585 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>parsons.ngpvan.bulk_import &mdash; Parsons 0.5 documentation</title>
+      <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
+        <script src="../../../_static/jquery.js"></script>
+        <script src="../../../_static/underscore.js"></script>
+        <script src="../../../_static/doctools.js"></script>
+    <script src="../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../../../index.html" class="icon icon-home"> Parsons
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Integrations</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../actblue.html">ActBlue</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../action_kit.html">ActionKit</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../action_network.html">Action Network</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../airtable.html">Airtable</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../alchemer.html">Alchemer</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../aws.html">Amazon Web Services</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../azure.html">Azure: Blob Storage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../bill_com.html">Bill.com</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../bloomerang.html">Bloomerang</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../bluelink.html">Bluelink</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../box.html">Box</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../braintree.html">Braintree</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../civis.html">Civis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../controlshift.html">Controlshift</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../copper.html">Copper</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../crowdtangle.html">CrowdTangle</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../databases.html">Databases</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../facebook_ads.html">FacebookAds</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../freshdesk.html">Freshdesk</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../github.html">GitHub</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../google.html">Google</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../hustle.html">Hustle</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../mailchimp.html">Mailchimp</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../mobilize_america.html">Mobilize America</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../newmode.html">New/Mode</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../ngpvan.html">NGPVAN</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../pdi.html">PDI</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../p2a.html">Phone2Action</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../quickbase.html">Quickbase</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../redash.html">Redash</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../rockthevote.html">Rock the Vote</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../salesforce.html">Salesforce</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../sftp.html">SFTP</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../shopify.html">Shopify</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../sisense.html">Sisense</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../targetsmart.html">TargetSmart</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../turbovote.html">TurboVote</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../twilio.html">Twilio</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../zoom.html">Zoom</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Enhancements</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../census_geocoder.html">US Census Geocoder</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Framework</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../dbsync.html">Database Sync</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../table.html">Parsons Table</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../notifications.html">Notifications</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../utilities.html">Utilities</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Contributor Documentation</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../contributing.html">Contributing to Parsons</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../build_a_connector.html">How to Build a Connector</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../write_tests.html">How to Write Tests for Parsons Connectors</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Use Cases and Sample Scripts</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../use_cases/contribute_use_cases.html">How to Contribute a Use Case &amp; Sample Script</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">Parsons</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../index.html" class="icon icon-home"></a> &raquo;</li>
+          <li><a href="../../index.html">Module code</a> &raquo;</li>
+      <li>parsons.ngpvan.bulk_import</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for parsons.ngpvan.bulk_import</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;NGPVAN Bulk Import Endpoints&quot;&quot;&quot;</span>
+<span class="kn">from</span> <span class="nn">parsons.etl.table</span> <span class="kn">import</span> <span class="n">Table</span>
+<span class="kn">from</span> <span class="nn">parsons.utilities</span> <span class="kn">import</span> <span class="n">cloud_storage</span>
+
+<span class="kn">import</span> <span class="nn">logging</span>
+<span class="kn">import</span> <span class="nn">uuid</span>
+<span class="kn">import</span> <span class="nn">csv</span>
+
+<span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
+
+
+<div class="viewcode-block" id="BulkImport"><a class="viewcode-back" href="../../../ngpvan.html#parsons.ngpvan.van.BulkImport">[docs]</a><span class="k">class</span> <span class="nc">BulkImport</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+
+        <span class="k">pass</span>
+
+<div class="viewcode-block" id="BulkImport.get_bulk_import_resources"><a class="viewcode-back" href="../../../ngpvan.html#parsons.ngpvan.van.BulkImport.get_bulk_import_resources">[docs]</a>    <span class="k">def</span> <span class="nf">get_bulk_import_resources</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Get bulk import resources that available to the user. These define</span>
+<span class="sd">        the types of bulk imports that you can run. These might include</span>
+<span class="sd">        ``Contacts``, ``ActivistCodes``, ``ContactsActivistCodes`` and others.</span>
+
+<span class="sd">        `Returns:`</span>
+<span class="sd">            list</span>
+<span class="sd">                A list of resources.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">r</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">connection</span><span class="o">.</span><span class="n">get_request</span><span class="p">(</span><span class="s1">&#39;bulkImportJobs/resources&#39;</span><span class="p">)</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Found </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">r</span><span class="p">)</span><span class="si">}</span><span class="s1"> bulk import resources.&#39;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">r</span></div>
+
+<div class="viewcode-block" id="BulkImport.get_bulk_import_job"><a class="viewcode-back" href="../../../ngpvan.html#parsons.ngpvan.van.BulkImport.get_bulk_import_job">[docs]</a>    <span class="k">def</span> <span class="nf">get_bulk_import_job</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">job_id</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Get a bulk import job status.</span>
+
+<span class="sd">        `Args:`</span>
+<span class="sd">            job_id : int</span>
+<span class="sd">                The bulk import job id.</span>
+<span class="sd">        `Returns:`</span>
+<span class="sd">            dict</span>
+<span class="sd">                The bulk import job</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">r</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">connection</span><span class="o">.</span><span class="n">get_request</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;bulkImportJobs/</span><span class="si">{</span><span class="n">job_id</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Found bulk import job </span><span class="si">{</span><span class="n">job_id</span><span class="si">}</span><span class="s1">.&#39;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">r</span></div>
+
+<div class="viewcode-block" id="BulkImport.get_bulk_import_job_results"><a class="viewcode-back" href="../../../ngpvan.html#parsons.ngpvan.van.BulkImport.get_bulk_import_job_results">[docs]</a>    <span class="k">def</span> <span class="nf">get_bulk_import_job_results</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">job_id</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Get result file of a bulk upload job. This will include one row</span>
+<span class="sd">        per record processed as well as the status of each.</span>
+
+<span class="sd">        If the job results have not been generated, either due to an error in the</span>
+<span class="sd">        process or the fact the job is still processing, it will return ``None``.</span>
+
+<span class="sd">        `Args:`</span>
+<span class="sd">            job_id: int</span>
+<span class="sd">                The bulk import job id.</span>
+<span class="sd">        `Returns:`</span>
+<span class="sd">            Parsons Table</span>
+<span class="sd">                See :ref:`parsons-table` for output options.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">r</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_bulk_import_job</span><span class="p">(</span><span class="n">job_id</span><span class="p">)</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Bulk Import Job Status: </span><span class="si">{</span><span class="n">r</span><span class="p">[</span><span class="s1">&#39;status&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">r</span><span class="p">[</span><span class="s1">&#39;status&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;Completed&#39;</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">Table</span><span class="o">.</span><span class="n">from_csv</span><span class="p">(</span><span class="n">r</span><span class="p">[</span><span class="s1">&#39;resultFiles&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="s1">&#39;url&#39;</span><span class="p">])</span>
+
+        <span class="k">return</span> <span class="kc">None</span></div>
+
+<div class="viewcode-block" id="BulkImport.get_bulk_import_mapping_types"><a class="viewcode-back" href="../../../ngpvan.html#parsons.ngpvan.van.BulkImport.get_bulk_import_mapping_types">[docs]</a>    <span class="k">def</span> <span class="nf">get_bulk_import_mapping_types</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Get bulk import mapping types.</span>
+
+<span class="sd">        `Returns:`</span>
+<span class="sd">            Parsons Table</span>
+<span class="sd">                See :ref:`parsons-table` for output options.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">tbl</span> <span class="o">=</span> <span class="n">Table</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">connection</span><span class="o">.</span><span class="n">get_request</span><span class="p">(</span><span class="s1">&#39;bulkImportMappingTypes&#39;</span><span class="p">))</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Found </span><span class="si">{</span><span class="n">tbl</span><span class="o">.</span><span class="n">num_rows</span><span class="si">}</span><span class="s1"> bulk import mapping types.&#39;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">tbl</span></div>
+
+<div class="viewcode-block" id="BulkImport.get_bulk_import_mapping_type"><a class="viewcode-back" href="../../../ngpvan.html#parsons.ngpvan.van.BulkImport.get_bulk_import_mapping_type">[docs]</a>    <span class="k">def</span> <span class="nf">get_bulk_import_mapping_type</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">type_name</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Get a single bulk import mapping type.</span>
+
+<span class="sd">        `Args:`</span>
+<span class="sd">            type_name: str</span>
+<span class="sd">        `Returns`:</span>
+<span class="sd">            dict</span>
+<span class="sd">                A mapping type json</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">r</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">connection</span><span class="o">.</span><span class="n">get_request</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;bulkImportMappingTypes/</span><span class="si">{</span><span class="n">type_name</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Found </span><span class="si">{</span><span class="n">type_name</span><span class="si">}</span><span class="s1"> bulk import mapping type.&#39;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">r</span></div>
+
+<div class="viewcode-block" id="BulkImport.get_bulk_import_mapping_type_fields"><a class="viewcode-back" href="../../../ngpvan.html#parsons.ngpvan.van.BulkImport.get_bulk_import_mapping_type_fields">[docs]</a>    <span class="k">def</span> <span class="nf">get_bulk_import_mapping_type_fields</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">type_name</span><span class="p">,</span> <span class="n">field_name</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Get data about a field in a mapping type.</span>
+
+<span class="sd">        `Args:`</span>
+<span class="sd">            type_name: str</span>
+<span class="sd">                The mapping type name</span>
+<span class="sd">            field_name: str</span>
+<span class="sd">                The field name</span>
+<span class="sd">        `Returns:`</span>
+<span class="sd">            dict</span>
+<span class="sd">                A mapping type fields json</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">r</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">connection</span><span class="o">.</span><span class="n">get_request</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;bulkImportMappingTypes/</span><span class="si">{</span><span class="n">type_name</span><span class="si">}</span><span class="s1">/</span><span class="si">{</span><span class="n">field_name</span><span class="si">}</span><span class="s1">/values&#39;</span><span class="p">)</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Found </span><span class="si">{</span><span class="n">type_name</span><span class="si">}</span><span class="s1"> bulk import mapping type field values.&#39;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">r</span></div>
+
+    <span class="k">def</span> <span class="nf">post_bulk_import</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tbl</span><span class="p">,</span> <span class="n">url_type</span><span class="p">,</span> <span class="n">resource_type</span><span class="p">,</span> <span class="n">mapping_types</span><span class="p">,</span>
+                         <span class="n">description</span><span class="p">,</span> <span class="n">result_fields</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">url_kwargs</span><span class="p">):</span>
+        <span class="c1"># Internal method to post bulk imports.</span>
+
+        <span class="c1"># Move to cloud storage</span>
+        <span class="n">file_name</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">uuid</span><span class="o">.</span><span class="n">uuid1</span><span class="p">())</span>
+        <span class="n">url</span> <span class="o">=</span> <span class="n">cloud_storage</span><span class="o">.</span><span class="n">post_file</span><span class="p">(</span><span class="n">tbl</span><span class="p">,</span>
+                                      <span class="n">url_type</span><span class="p">,</span>
+                                      <span class="n">file_path</span><span class="o">=</span><span class="n">file_name</span> <span class="o">+</span> <span class="s1">&#39;.zip&#39;</span><span class="p">,</span>
+                                      <span class="n">quoting</span><span class="o">=</span><span class="n">csv</span><span class="o">.</span><span class="n">QUOTE_ALL</span><span class="p">,</span>
+                                      <span class="o">**</span><span class="n">url_kwargs</span><span class="p">)</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Table uploaded to </span><span class="si">{</span><span class="n">url_type</span><span class="si">}</span><span class="s1">.&#39;</span><span class="p">)</span>
+
+        <span class="c1"># Generate request json</span>
+        <span class="n">json</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;description&quot;</span><span class="p">:</span> <span class="n">description</span><span class="p">,</span>
+                <span class="s2">&quot;file&quot;</span><span class="p">:</span> <span class="p">{</span>
+                    <span class="s2">&quot;columnDelimiter&quot;</span><span class="p">:</span> <span class="s1">&#39;csv&#39;</span><span class="p">,</span>
+                    <span class="s2">&quot;columns&quot;</span><span class="p">:</span> <span class="p">[{</span><span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="n">c</span><span class="p">}</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">tbl</span><span class="o">.</span><span class="n">columns</span><span class="p">],</span>
+                    <span class="s2">&quot;fileName&quot;</span><span class="p">:</span> <span class="n">file_name</span> <span class="o">+</span> <span class="s1">&#39;.csv&#39;</span><span class="p">,</span>
+                    <span class="s2">&quot;hasHeader&quot;</span><span class="p">:</span> <span class="s2">&quot;True&quot;</span><span class="p">,</span>
+                    <span class="s2">&quot;hasQuotes&quot;</span><span class="p">:</span> <span class="s2">&quot;True&quot;</span><span class="p">,</span>
+                    <span class="s2">&quot;sourceUrl&quot;</span><span class="p">:</span> <span class="n">url</span><span class="p">},</span>
+                <span class="s2">&quot;actions&quot;</span><span class="p">:</span> <span class="p">[{</span><span class="s2">&quot;resultFileSizeKbLimit&quot;</span><span class="p">:</span> <span class="mi">5000</span><span class="p">,</span>
+                             <span class="s2">&quot;resourceType&quot;</span><span class="p">:</span> <span class="n">resource_type</span><span class="p">,</span>
+                             <span class="s2">&quot;actionType&quot;</span><span class="p">:</span> <span class="s2">&quot;loadMappedFile&quot;</span><span class="p">,</span>
+                             <span class="s2">&quot;mappingTypes&quot;</span><span class="p">:</span> <span class="n">mapping_types</span><span class="p">}]</span>
+                <span class="p">}</span>
+
+        <span class="k">if</span> <span class="n">result_fields</span><span class="p">:</span>
+            <span class="n">result_fields</span> <span class="o">=</span> <span class="p">[{</span><span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="n">c</span><span class="p">}</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">result_fields</span><span class="p">]</span>
+            <span class="n">json</span><span class="p">[</span><span class="s1">&#39;actions&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="s1">&#39;columnsToIncludeInResultsFile&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">result_fields</span>
+
+        <span class="n">r</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">connection</span><span class="o">.</span><span class="n">post_request</span><span class="p">(</span><span class="s1">&#39;bulkImportJobs&#39;</span><span class="p">,</span> <span class="n">json</span><span class="o">=</span><span class="n">json</span><span class="p">)</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Bulk upload </span><span class="si">{</span><span class="n">r</span><span class="p">[</span><span class="s1">&#39;jobId&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2"> created.&quot;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">r</span><span class="p">[</span><span class="s1">&#39;jobId&#39;</span><span class="p">]</span>
+
+<div class="viewcode-block" id="BulkImport.bulk_apply_activist_codes"><a class="viewcode-back" href="../../../ngpvan.html#parsons.ngpvan.van.BulkImport.bulk_apply_activist_codes">[docs]</a>    <span class="k">def</span> <span class="nf">bulk_apply_activist_codes</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tbl</span><span class="p">,</span> <span class="n">url_type</span><span class="p">,</span> <span class="o">**</span><span class="n">url_kwargs</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Bulk apply activist codes.</span>
+
+<span class="sd">        The table may include the following columns. The first column</span>
+<span class="sd">        must be ``vanid``.</span>
+
+<span class="sd">        .. list-table::</span>
+<span class="sd">            :widths: 25 25 50</span>
+<span class="sd">            :header-rows: 1</span>
+
+<span class="sd">            * - Column Name</span>
+<span class="sd">              - Required</span>
+<span class="sd">              - Description</span>
+<span class="sd">            * - ``vanid``</span>
+<span class="sd">              - Yes</span>
+<span class="sd">              - A valid VANID primary key</span>
+<span class="sd">            * - ``activistcodeid``</span>
+<span class="sd">              - Yes</span>
+<span class="sd">              - A valid activist code id</span>
+<span class="sd">            * - ``datecanvassed``</span>
+<span class="sd">              - No</span>
+<span class="sd">              - An ISO formatted date</span>
+<span class="sd">            * - ``contacttypeid``</span>
+<span class="sd">              - No</span>
+<span class="sd">              - The method of contact.</span>
+
+<span class="sd">        `Args:`</span>
+<span class="sd">            table: Parsons table</span>
+<span class="sd">                A Parsons table.</span>
+<span class="sd">            url_type: str</span>
+<span class="sd">                The cloud file storage to use to post the file (``S3`` or ``GCS``).</span>
+<span class="sd">                See :ref:`Cloud Storage &lt;cloud-storage&gt;` for more details.</span>
+<span class="sd">            **url_kwargs: kwargs</span>
+<span class="sd">                Arguments to configure your cloud storage url type. See</span>
+<span class="sd">                :ref:`Cloud Storage &lt;cloud-storage&gt;` for more details.</span>
+<span class="sd">        `Returns:`</span>
+<span class="sd">            int</span>
+<span class="sd">                The bulk import job id</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">post_bulk_import</span><span class="p">(</span><span class="n">tbl</span><span class="p">,</span>
+                                     <span class="n">url_type</span><span class="p">,</span>
+                                     <span class="s1">&#39;ContactsActivistCodes&#39;</span><span class="p">,</span>
+                                     <span class="p">[{</span><span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;ActivistCode&quot;</span><span class="p">}],</span>
+                                     <span class="s1">&#39;Activist Code Upload&#39;</span><span class="p">,</span>
+                                     <span class="o">**</span><span class="n">url_kwargs</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="BulkImport.bulk_upsert_contacts"><a class="viewcode-back" href="../../../ngpvan.html#parsons.ngpvan.van.BulkImport.bulk_upsert_contacts">[docs]</a>    <span class="k">def</span> <span class="nf">bulk_upsert_contacts</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tbl</span><span class="p">,</span> <span class="n">url_type</span><span class="p">,</span> <span class="n">result_fields</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">url_kwargs</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Bulk create or update contact records. Provide a Parsons table of contact data to</span>
+<span class="sd">        create or update records.</span>
+
+<span class="sd">        .. note::</span>
+<span class="sd">            * The first column of the table must be VANID.</span>
+<span class="sd">            * The other columns can be a combination of the columns listed below.</span>
+<span class="sd">              The valid column names also accept permutations with underscores, spaces</span>
+<span class="sd">              and capitalization (e.g. ``phonenumber`` = ``Phone_Number``).</span>
+
+<span class="sd">        **Table Fields**</span>
+
+<span class="sd">        .. list-table::</span>
+<span class="sd">            :widths: 500 100 10</span>
+<span class="sd">            :header-rows: 1</span>
+
+<span class="sd">            * - Column</span>
+<span class="sd">              - Valid Column Names</span>
+<span class="sd">              - Notes</span>
+<span class="sd">            * - VANID</span>
+<span class="sd">              - ``vanid``</span>
+<span class="sd">              -</span>
+<span class="sd">            * - Voter VAN ID</span>
+<span class="sd">              - ``votervanid``</span>
+<span class="sd">              - The contact&#39;s MyVoters VANID</span>
+<span class="sd">            * - External ID</span>
+<span class="sd">              - ``externalid``, ``id``, ``pk``, ``voterbaseid``</span>
+<span class="sd">              - An external id to be stored.</span>
+<span class="sd">            * - **PII**</span>
+<span class="sd">              -</span>
+<span class="sd">              -</span>
+<span class="sd">            * - First Name</span>
+<span class="sd">              - ``fn``, ``firstname``, ``last``</span>
+<span class="sd">              -</span>
+<span class="sd">            * - Middle Name</span>
+<span class="sd">              - ``mn``, ``middlename``, ``middle``</span>
+<span class="sd">              -</span>
+<span class="sd">            * - Last Name</span>
+<span class="sd">              - ``ln``, ``lastname``, ``last``</span>
+<span class="sd">              -</span>
+<span class="sd">            * - Date of Birth</span>
+<span class="sd">              - ``dob``, ``dateofbirth`` ``birthdate``</span>
+<span class="sd">              - What type of thing does this need?</span>
+<span class="sd">            * - Sex</span>
+<span class="sd">              - ``sex``, ``gender``</span>
+<span class="sd">              -</span>
+<span class="sd">            * - **Physical Address**</span>
+<span class="sd">              -</span>
+<span class="sd">              -</span>
+<span class="sd">            * - Address Line 1</span>
+<span class="sd">              - ``addressline1``, ``address1``, ``address``</span>
+<span class="sd">              -</span>
+<span class="sd">            * - Address Line 2</span>
+<span class="sd">              - ``addressline2``, ``address2``</span>
+<span class="sd">              -</span>
+<span class="sd">            * - Address Line 3</span>
+<span class="sd">              - ``addressline3``, ``address3``</span>
+<span class="sd">              -</span>
+<span class="sd">            * - City</span>
+<span class="sd">              - ``city``</span>
+<span class="sd">              -</span>
+<span class="sd">            * - State Or Province</span>
+<span class="sd">              - ``state``, ``st``, ``stateorprovince``</span>
+<span class="sd">              -</span>
+<span class="sd">            * - Country Code</span>
+<span class="sd">              - ``countrycode``, ``country``</span>
+<span class="sd">              - A valid two character country code (e.g. ``US``)</span>
+<span class="sd">            * - Display As Entered</span>
+<span class="sd">              - ``displayasentered``</span>
+<span class="sd">              - Required values are ``Y`` and ``N``. Determines if the address is</span>
+<span class="sd">                processed through address correction.</span>
+<span class="sd">            * - **Phones**</span>
+<span class="sd">              -</span>
+<span class="sd">              -</span>
+<span class="sd">            * - Cell Phone</span>
+<span class="sd">              - ``cellphone``, ``cell``</span>
+<span class="sd">              -</span>
+<span class="sd">            * - Cell Phone Country Code</span>
+<span class="sd">              - ``cellcountrycode``, ``cellphonecountrycode``</span>
+<span class="sd">              - A valid two digit country code (e.g. ``01``)</span>
+<span class="sd">            * - Home Phone</span>
+<span class="sd">              - ``homephone``, ``home``, ``phone``</span>
+<span class="sd">              -</span>
+<span class="sd">            * - Home Phone Country Code</span>
+<span class="sd">              - ``homecountrycode``, ``homephonecountrycode``</span>
+<span class="sd">              -</span>
+<span class="sd">            * - **Email**</span>
+<span class="sd">              -</span>
+<span class="sd">              -</span>
+<span class="sd">            * - Email</span>
+<span class="sd">              - ``email``, ``emailaddress``</span>
+<span class="sd">              -</span>
+
+<span class="sd">        `Args:`</span>
+<span class="sd">            table: Parsons table</span>
+<span class="sd">              A Parsons table.</span>
+<span class="sd">            url_type: str</span>
+<span class="sd">              The cloud file storage to use to post the file. Currently only ``S3``.</span>
+<span class="sd">            results_fields: list</span>
+<span class="sd">              A list of fields to include in the results file.</span>
+<span class="sd">            **url_kwargs: kwargs</span>
+<span class="sd">                Arguments to configure your cloud storage url type. See</span>
+<span class="sd">                :ref:`Cloud Storage &lt;cloud-storage&gt;` for more details.</span>
+<span class="sd">        `Returns:`</span>
+<span class="sd">            int</span>
+<span class="sd">                The bulk import job id</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">tbl</span> <span class="o">=</span> <span class="n">tbl</span><span class="o">.</span><span class="n">map_columns</span><span class="p">(</span><span class="n">COLUMN_MAP</span><span class="p">,</span> <span class="n">exact_match</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">post_bulk_import</span><span class="p">(</span><span class="n">tbl</span><span class="p">,</span>
+                                     <span class="n">url_type</span><span class="p">,</span>
+                                     <span class="s1">&#39;Contacts&#39;</span><span class="p">,</span>
+                                     <span class="p">[{</span><span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="s1">&#39;CreateOrUpdateContact&#39;</span><span class="p">}],</span>
+                                     <span class="s1">&#39;Create Or Update Contact Records&#39;</span><span class="p">,</span>
+                                     <span class="n">result_fields</span><span class="o">=</span><span class="n">result_fields</span><span class="p">,</span>
+                                     <span class="o">**</span><span class="n">url_kwargs</span><span class="p">)</span></div>
+
+    <span class="k">def</span> <span class="nf">create_mapping_types</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tbl</span><span class="p">):</span>
+        <span class="c1"># Internal method to generate the correct mapping types based on</span>
+        <span class="c1"># the columns passed in the table. Not in use yet.</span>
+
+        <span class="n">mapping_types</span> <span class="o">=</span> <span class="p">[]</span>
+
+        <span class="c1"># If one of the following columns is found in the table, then add</span>
+        <span class="c1"># that mapping type.</span>
+        <span class="n">mp</span> <span class="o">=</span> <span class="p">[(</span><span class="s1">&#39;firstname&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">)</span>
+              <span class="p">(</span><span class="s1">&#39;Email&#39;</span><span class="p">,</span> <span class="s1">&#39;Email&#39;</span><span class="p">),</span>
+              <span class="p">(</span><span class="s1">&#39;MailingAddress&#39;</span><span class="p">,</span> <span class="s1">&#39;MailingAddress&#39;</span><span class="p">),</span>
+              <span class="p">(</span><span class="s1">&#39;Phone&#39;</span><span class="p">,</span> <span class="s1">&#39;Phones&#39;</span><span class="p">),</span>
+              <span class="p">(</span><span class="s1">&#39;ApplyContactCustomFields&#39;</span><span class="p">,</span> <span class="s1">&#39;CustomFieldGroupId&#39;</span><span class="p">)]</span>
+
+        <span class="k">for</span> <span class="n">col</span> <span class="ow">in</span> <span class="n">tbl</span><span class="o">.</span><span class="n">columns</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">mp</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">col</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">==</span> <span class="n">i</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">lower</span><span class="p">():</span>
+                    <span class="n">mapping_types</span><span class="o">.</span><span class="n">append</span><span class="p">({</span><span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="n">i</span><span class="p">[</span><span class="mi">1</span><span class="p">]})</span>
+
+        <span class="k">return</span> <span class="n">mapping_types</span></div>
+
+
+<span class="c1"># This is a column mapper that is used to accept additional column names and provide</span>
+<span class="c1"># flexibility for the user.</span>
+
+<span class="n">COLUMN_MAP</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;firstname&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;fn&#39;</span><span class="p">,</span> <span class="s1">&#39;first&#39;</span><span class="p">],</span>
+              <span class="s1">&#39;middlename&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;mn&#39;</span><span class="p">,</span> <span class="s1">&#39;middle&#39;</span><span class="p">],</span>
+              <span class="s1">&#39;lastname&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;ln&#39;</span><span class="p">,</span> <span class="s1">&#39;last&#39;</span><span class="p">],</span>
+              <span class="s1">&#39;dob&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;dateofbirth&#39;</span><span class="p">,</span> <span class="s1">&#39;birthdate&#39;</span><span class="p">],</span>
+              <span class="s1">&#39;sex&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;gender&#39;</span><span class="p">],</span>
+              <span class="s1">&#39;addressline1&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;address&#39;</span><span class="p">,</span> <span class="s1">&#39;addressline1&#39;</span><span class="p">,</span> <span class="s1">&#39;address1&#39;</span><span class="p">],</span>
+              <span class="s1">&#39;addressline2&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;addressline2&#39;</span><span class="p">,</span> <span class="s1">&#39;address2&#39;</span><span class="p">],</span>
+              <span class="s1">&#39;addressline3&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;addressline3&#39;</span><span class="p">,</span> <span class="s1">&#39;address3&#39;</span><span class="p">],</span>
+              <span class="s1">&#39;city&#39;</span><span class="p">:</span> <span class="p">[],</span>
+              <span class="s1">&#39;stateorprovince&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;state&#39;</span><span class="p">,</span> <span class="s1">&#39;st&#39;</span><span class="p">],</span>
+              <span class="s1">&#39;countrycode&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;country&#39;</span><span class="p">],</span>
+              <span class="s1">&#39;displayasentered&#39;</span><span class="p">:</span> <span class="p">[],</span>
+              <span class="s1">&#39;cellphone&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;cell&#39;</span><span class="p">],</span>
+              <span class="s1">&#39;cellphonecountrycode&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;cellcountrycode&#39;</span><span class="p">],</span>
+              <span class="s1">&#39;phone&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;home&#39;</span><span class="p">,</span> <span class="s1">&#39;homephone&#39;</span><span class="p">],</span>
+              <span class="s1">&#39;phonecountrycode&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;phonecountrycode&#39;</span><span class="p">],</span>
+              <span class="s1">&#39;email&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;emailaddress&#39;</span><span class="p">]}</span>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2019, The Movement Cooperative.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  
+  <div class="rst-versions" data-toggle="rst-versions" role="note" aria-label="Versions">
+    <span class="rst-current-version" data-toggle="rst-current-version">
+      <span class="fa fa-book"> Read the Docs</span>
+      stable
+      <span class="fa fa-caret-down"></span>
+    </span>
+    <div class="rst-other-versions">
+      <dl>
+        <dt>Most Common</dt>
+        <!-- Show latest & stable first -->
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+                  <dd><a href="../../../../latest/index.html">latest</a></dd>
+            
+        
+            
+                  <dd><a href="bulk_import.html">stable</a></dd>
+            
+        
+
+        <dt>By Version Number</dt>
+        <!-- Show other versions -->
+        
+            
+                  <dd><a href="../../../../v0.14.0/index.html">v0.14.0</a></dd>
+            
+        
+            
+                  <dd><a href="../../../../v0.15.0/index.html">v0.15.0</a></dd>
+            
+        
+            
+                  <dd><a href="../../../../v0.16.0/index.html">v0.16.0</a></dd>
+            
+        
+            
+                  <dd><a href="../../../../v0.17.0/index.html">v0.17.0</a></dd>
+            
+        
+            
+                  <dd><a href="../../../../v0.18.0/index.html">v0.18.0</a></dd>
+            
+        
+            
+                  <dd><a href="../../../../v0.18.1/index.html">v0.18.1</a></dd>
+            
+        
+            
+        
+            
+        
+
+      </dl>
+    </div>
+  </div>
+<script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

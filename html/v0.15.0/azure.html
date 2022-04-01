@@ -1,0 +1,566 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Azure &mdash; Parsons 0.5 documentation</title>
+      <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Bill.com" href="bill_com.html" />
+    <link rel="prev" title="Amazon Web Services" href="aws.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="index.html" class="icon icon-home"> Parsons
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Integrations</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="action_kit.html">ActionKit</a></li>
+<li class="toctree-l1"><a class="reference internal" href="action_network.html">Action Network</a></li>
+<li class="toctree-l1"><a class="reference internal" href="airtable.html">Airtable</a></li>
+<li class="toctree-l1"><a class="reference internal" href="aws.html">Amazon Web Services</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Azure</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#blob-storage">Blob Storage</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#overview">Overview</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#quickstart">Quickstart</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#api">API</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="bill_com.html">Bill.com</a></li>
+<li class="toctree-l1"><a class="reference internal" href="braintree.html">Braintree</a></li>
+<li class="toctree-l1"><a class="reference internal" href="civis.html">Civis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="copper.html">Copper</a></li>
+<li class="toctree-l1"><a class="reference internal" href="crowdtangle.html">CrowdTangle</a></li>
+<li class="toctree-l1"><a class="reference internal" href="databases.html">Databases</a></li>
+<li class="toctree-l1"><a class="reference internal" href="facebook_ads.html">FacebookAds</a></li>
+<li class="toctree-l1"><a class="reference internal" href="freshdesk.html">Freshdesk</a></li>
+<li class="toctree-l1"><a class="reference internal" href="github.html">GitHub</a></li>
+<li class="toctree-l1"><a class="reference internal" href="google.html">Google</a></li>
+<li class="toctree-l1"><a class="reference internal" href="hustle.html">Hustle</a></li>
+<li class="toctree-l1"><a class="reference internal" href="mailchimp.html">Mailchimp</a></li>
+<li class="toctree-l1"><a class="reference internal" href="mobilize_america.html">Mobilize America</a></li>
+<li class="toctree-l1"><a class="reference internal" href="newmode.html">New/Mode</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ngpvan.html">NGPVAN</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pdi.html">PDI</a></li>
+<li class="toctree-l1"><a class="reference internal" href="p2a.html">Phone2Action</a></li>
+<li class="toctree-l1"><a class="reference internal" href="redash.html">Redash</a></li>
+<li class="toctree-l1"><a class="reference internal" href="rockthevote.html">Rock the Vote</a></li>
+<li class="toctree-l1"><a class="reference internal" href="salesforce.html">Salesforce</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sftp.html">SFTP</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ts.html">TargetSmart</a></li>
+<li class="toctree-l1"><a class="reference internal" href="twilio.html">Twilio</a></li>
+<li class="toctree-l1"><a class="reference internal" href="turbovote.html">TurboVote</a></li>
+<li class="toctree-l1"><a class="reference internal" href="zoom.html">Zoom</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Enhancements</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="census_geocoder.html">US Census Geocoder</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Framework</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="dbsync.html">Database Sync</a></li>
+<li class="toctree-l1"><a class="reference internal" href="table.html">Parsons Table</a></li>
+<li class="toctree-l1"><a class="reference internal" href="notifications.html">Notifications</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Contributor Documentation</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="contributing.html">Contributing to Parsons</a></li>
+<li class="toctree-l1"><a class="reference internal" href="build_a_connector.html">How to Build a Connector</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">Parsons</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
+      <li>Azure</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/azure.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="azure">
+<h1>Azure<a class="headerlink" href="#azure" title="Permalink to this headline"></a></h1>
+<section id="blob-storage">
+<h2>Blob Storage<a class="headerlink" href="#blob-storage" title="Permalink to this headline"></a></h2>
+<section id="overview">
+<h3>Overview<a class="headerlink" href="#overview" title="Permalink to this headline"></a></h3>
+<p>Azure Blob Storage is a cloud file storage system. It uses storage accounts to organize containers (similar to
+“buckets” for other storage providers) in which to store arbitrary files referred to as blobs.</p>
+<p>This connector currently only implements block blobs and not page or append blobs.</p>
+<p>You’ll need credentials for an Azure Blob Storage storage account to use this connector. The <code class="docutils literal notranslate"><span class="pre">azure-storage-blob</span></code>
+library is used for this connector, and <a class="reference external" href="https://github.com/Azure/azure-sdk-for-python/tree/master/sdk/storage/azure-storage-blob#types-of-credentials">examples of how to create and use multiple types of credentials</a>
+are included in the documentation.</p>
+</section>
+<section id="quickstart">
+<h3>Quickstart<a class="headerlink" href="#quickstart" title="Permalink to this headline"></a></h3>
+<p><strong>List containers and blobs</strong></p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">parsons</span> <span class="kn">import</span> <span class="n">AzureBlobStorage</span>
+
+<span class="n">azure_blob</span> <span class="o">=</span> <span class="n">AzureBlobStorage</span><span class="p">()</span>
+
+<span class="c1"># Get all container names for a storage account</span>
+<span class="n">container_names</span> <span class="o">=</span> <span class="n">azure_blob</span><span class="o">.</span><span class="n">list_containers</span><span class="p">()</span>
+
+<span class="c1"># Get all blob names for a storage account and container</span>
+<span class="n">blob_names</span> <span class="o">=</span> <span class="n">azure_blob</span><span class="o">.</span><span class="n">list_blobs</span><span class="p">(</span><span class="n">container_names</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+</pre></div>
+</div>
+<p><strong>Create a blob from a file or ``Table``</strong></p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">parsons</span> <span class="kn">import</span> <span class="n">AzureBlobStorage</span><span class="p">,</span> <span class="n">Table</span>
+
+<span class="n">azure_blob</span> <span class="o">=</span> <span class="n">AzureBlobStorage</span><span class="p">()</span>
+
+<span class="n">container_name</span> <span class="o">=</span> <span class="s1">&#39;testcontainer&#39;</span>
+
+<span class="c1"># Upload a CSV file from a local file path and set the content type</span>
+<span class="n">azure_blob</span><span class="o">.</span><span class="n">put_blob</span><span class="p">(</span><span class="n">container_name</span><span class="p">,</span> <span class="s1">&#39;test1.csv&#39;</span><span class="p">,</span> <span class="s1">&#39;./test1.csv&#39;</span><span class="p">,</span> <span class="n">content_type</span><span class="o">=</span><span class="s1">&#39;text/csv&#39;</span><span class="p">)</span>
+
+<span class="c1"># Create a Table and upload it as a JSON blob</span>
+<span class="n">table</span> <span class="o">=</span> <span class="n">Table</span><span class="p">([{</span><span class="s1">&#39;first&#39;</span><span class="p">:</span> <span class="s1">&#39;Test&#39;</span><span class="p">,</span> <span class="s1">&#39;last&#39;</span><span class="p">:</span> <span class="s1">&#39;Person&#39;</span><span class="p">}])</span>
+<span class="n">azure_blob</span><span class="o">.</span><span class="n">upload_table</span><span class="p">(</span><span class="n">table</span><span class="p">,</span> <span class="n">container_name</span><span class="p">,</span> <span class="s1">&#39;test2.json&#39;</span><span class="p">,</span> <span class="n">data_type</span><span class="o">=</span><span class="s1">&#39;json&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><strong>Download a blob</strong></p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">parsons</span> <span class="kn">import</span> <span class="n">AzureBlobStorage</span>
+
+<span class="n">azure_blob</span> <span class="o">=</span> <span class="n">AzureBlobStorage</span><span class="p">()</span>
+
+<span class="n">container_name</span> <span class="o">=</span> <span class="s1">&#39;testcontainer&#39;</span>
+
+<span class="c1"># Download to a temporary file path</span>
+<span class="n">temp_file_path</span> <span class="o">=</span> <span class="n">azure_blob</span><span class="o">.</span><span class="n">download_blob</span><span class="p">(</span><span class="n">container_name</span><span class="p">,</span> <span class="s1">&#39;test.csv&#39;</span><span class="p">)</span>
+
+<span class="c1"># Download to a specific file path</span>
+<span class="n">azure_blob</span><span class="o">.</span><span class="n">download_blob</span><span class="p">(</span><span class="n">container_name</span><span class="p">,</span> <span class="s1">&#39;test.csv&#39;</span><span class="p">,</span> <span class="n">local_path</span><span class="o">=</span><span class="s1">&#39;/tmp/test.csv&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="api">
+<h3>API<a class="headerlink" href="#api" title="Permalink to this headline"></a></h3>
+<dl class="py class">
+<dt class="sig sig-object py" id="parsons.AzureBlobStorage">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">parsons.</span></span><span class="sig-name descname"><span class="pre">AzureBlobStorage</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">account_name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">credential</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">account_domain</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'blob.core.windows.net'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">account_url</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/azure/azure_blob_storage.html#AzureBlobStorage"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.AzureBlobStorage" title="Permalink to this definition"></a></dt>
+<dd><p>Instantiate AzureBlobStorage Class for a given Azure storage account.</p>
+<dl class="simple">
+<dt><cite>Args:</cite></dt><dd><dl class="simple">
+<dt>account_name: str</dt><dd><p>The name of the Azure storage account to use. Not required if <code class="docutils literal notranslate"><span class="pre">AZURE_ACCOUNT_NAME</span></code>
+environment variable is set, or if <code class="docutils literal notranslate"><span class="pre">account_url</span></code> is supplied.</p>
+</dd>
+<dt>credential: str</dt><dd><p>An account shared access key with access to the Azure storage account, an SAS token
+string, or an instance of a TokenCredentials class. Not required if <code class="docutils literal notranslate"><span class="pre">AZURE_CREDENTIAL</span></code>
+environment variable is set.</p>
+</dd>
+<dt>account_domain: str</dt><dd><p>The domain of the Azure storage account, defaults to “blob.core.windows.net”.
+Not required if <code class="docutils literal notranslate"><span class="pre">AZURE_ACCOUNT_DOMAIN</span></code> environment variable is set or if
+<code class="docutils literal notranslate"><span class="pre">account_url</span></code> is supplied.</p>
+</dd>
+<dt>account_url: str</dt><dd><p>The account URL for the Azure storage account including the account name and domain.
+Not required if <code class="docutils literal notranslate"><span class="pre">AZURE_ACCOUNT_URL</span></code> environment variable is set.</p>
+</dd>
+</dl>
+</dd>
+<dt><cite>Returns:</cite></dt><dd><p><cite>AzureBlobStorage</cite></p>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="parsons.AzureBlobStorage.list_containers">
+<span class="sig-name descname"><span class="pre">list_containers</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/azure/azure_blob_storage.html#AzureBlobStorage.list_containers"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.AzureBlobStorage.list_containers" title="Permalink to this definition"></a></dt>
+<dd><p>Returns a list of container names for the storage account</p>
+<dl class="simple">
+<dt><cite>Returns:</cite></dt><dd><dl class="simple">
+<dt>list[str]</dt><dd><p>List of container names</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="parsons.AzureBlobStorage.container_exists">
+<span class="sig-name descname"><span class="pre">container_exists</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">container_name</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/azure/azure_blob_storage.html#AzureBlobStorage.container_exists"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.AzureBlobStorage.container_exists" title="Permalink to this definition"></a></dt>
+<dd><p>Verify that a container exists within the storage account</p>
+<dl class="simple">
+<dt><cite>Args:</cite></dt><dd><dl class="simple">
+<dt>container_name: str</dt><dd><p>The name of the container</p>
+</dd>
+</dl>
+</dd>
+<dt><cite>Returns:</cite></dt><dd><p>bool</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="parsons.AzureBlobStorage.get_container">
+<span class="sig-name descname"><span class="pre">get_container</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">container_name</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/azure/azure_blob_storage.html#AzureBlobStorage.get_container"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.AzureBlobStorage.get_container" title="Permalink to this definition"></a></dt>
+<dd><p>Returns a container client</p>
+<dl class="simple">
+<dt><cite>Args:</cite></dt><dd><dl class="simple">
+<dt>container_name: str</dt><dd><p>The name of the container</p>
+</dd>
+</dl>
+</dd>
+<dt><cite>Returns:</cite></dt><dd><p><cite>ContainerClient</cite></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="parsons.AzureBlobStorage.create_container">
+<span class="sig-name descname"><span class="pre">create_container</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">container_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">metadata</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">public_access</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/azure/azure_blob_storage.html#AzureBlobStorage.create_container"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.AzureBlobStorage.create_container" title="Permalink to this definition"></a></dt>
+<dd><p>Create a container</p>
+<dl class="simple">
+<dt><cite>Args:</cite></dt><dd><dl class="simple">
+<dt>container_name: str</dt><dd><p>The name of the container</p>
+</dd>
+<dt>metadata: Optional[dict[str, str]]</dt><dd><p>A dict with metadata to associated with the container.</p>
+</dd>
+<dt>public_access: Optional[Union[PublicAccess, str]]</dt><dd><p>Settings for public access on the container, can be ‘container’ or ‘blob’ if not
+<code class="docutils literal notranslate"><span class="pre">None</span></code></p>
+</dd>
+<dt>kwargs:</dt><dd><p>Additional arguments to be supplied to the Azure Blob Storage API. See <a class="reference external" href="https://docs.microsoft.com/en-us/python/api/azure-storage-blob/azure.storage.blob.blobserviceclient?view=azure-python#create-container-name--metadata-none--public-access-none----kwargs-">Azure Blob
+Storage SDK documentation</a>
+for more info.</p>
+</dd>
+</dl>
+</dd>
+<dt><cite>Returns:</cite></dt><dd><p><cite>ContainerClient</cite></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="parsons.AzureBlobStorage.delete_container">
+<span class="sig-name descname"><span class="pre">delete_container</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">container_name</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/azure/azure_blob_storage.html#AzureBlobStorage.delete_container"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.AzureBlobStorage.delete_container" title="Permalink to this definition"></a></dt>
+<dd><p>Delete a container.</p>
+<dl class="simple">
+<dt><cite>Args:</cite></dt><dd><dl class="simple">
+<dt>container_name: str</dt><dd><p>The name of the container</p>
+</dd>
+</dl>
+</dd>
+<dt><cite>Returns:</cite></dt><dd><p><code class="docutils literal notranslate"><span class="pre">None</span></code></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="parsons.AzureBlobStorage.list_blobs">
+<span class="sig-name descname"><span class="pre">list_blobs</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">container_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name_starts_with</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/azure/azure_blob_storage.html#AzureBlobStorage.list_blobs"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.AzureBlobStorage.list_blobs" title="Permalink to this definition"></a></dt>
+<dd><p>List all of the names of blobs in a container</p>
+<dl class="simple">
+<dt><cite>Args:</cite></dt><dd><dl class="simple">
+<dt>container_name: str</dt><dd><p>The name of the container</p>
+</dd>
+<dt>name_starts_with: Optional[str]</dt><dd><p>A prefix to filter blob names</p>
+</dd>
+</dl>
+</dd>
+<dt><cite>Returns:</cite></dt><dd><dl class="simple">
+<dt>list[str]</dt><dd><p>A list of blob names</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="parsons.AzureBlobStorage.blob_exists">
+<span class="sig-name descname"><span class="pre">blob_exists</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">container_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">blob_name</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/azure/azure_blob_storage.html#AzureBlobStorage.blob_exists"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.AzureBlobStorage.blob_exists" title="Permalink to this definition"></a></dt>
+<dd><p>Verify that a blob exists in the specified container</p>
+<dl class="simple">
+<dt><cite>Args:</cite></dt><dd><dl class="simple">
+<dt>container_name: str</dt><dd><p>The container name</p>
+</dd>
+<dt>blob_name: str</dt><dd><p>The blob name</p>
+</dd>
+</dl>
+</dd>
+<dt><cite>Returns:</cite></dt><dd><p>bool</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="parsons.AzureBlobStorage.get_blob">
+<span class="sig-name descname"><span class="pre">get_blob</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">container_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">blob_name</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/azure/azure_blob_storage.html#AzureBlobStorage.get_blob"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.AzureBlobStorage.get_blob" title="Permalink to this definition"></a></dt>
+<dd><p>Get a blob object</p>
+<dl class="simple">
+<dt><cite>Args:</cite></dt><dd><dl class="simple">
+<dt>container_name: str</dt><dd><p>The container name</p>
+</dd>
+<dt>blob_name: str</dt><dd><p>The blob name</p>
+</dd>
+</dl>
+</dd>
+<dt><cite>Returns:</cite></dt><dd><p><cite>BlobClient</cite></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="parsons.AzureBlobStorage.get_blob_url">
+<span class="sig-name descname"><span class="pre">get_blob_url</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">container_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">blob_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">account_key</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">permission</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">expiry</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">start</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/azure/azure_blob_storage.html#AzureBlobStorage.get_blob_url"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.AzureBlobStorage.get_blob_url" title="Permalink to this definition"></a></dt>
+<dd><p>Get a URL with a shared access signature for a blob</p>
+<dl class="simple">
+<dt><cite>Args:</cite></dt><dd><dl class="simple">
+<dt>container_name: str</dt><dd><p>The container name</p>
+</dd>
+<dt>blob_name: str</dt><dd><p>The blob name</p>
+</dd>
+<dt>account_key: Optional[str]</dt><dd><p>An account shared access key for the storage account. Will default to the key used
+on initialization if one was provided as the credential, but required if it was not.</p>
+</dd>
+<dt>permission: Optional[Union[BlobSasPermissions, str]]</dt><dd><p>Permissions associated with the blob URL. Can be either a BlobSasPermissions object
+or a string where ‘r’, ‘a’, ‘c’, ‘w’, and ‘d’ correspond to read, add, create,
+write, and delete permissions respectively.</p>
+</dd>
+<dt>expiry: Optional[Union[datetime, str]]</dt><dd><p>The datetime when the URL should expire. Defaults to UTC.</p>
+</dd>
+<dt>start: Optional[Union[datetime, str]]</dt><dd><p>The datetime when the URL should become valid. Defaults to UTC. If it is <code class="docutils literal notranslate"><span class="pre">None</span></code>,
+the URL becomes active when it is first created.</p>
+</dd>
+</dl>
+</dd>
+<dt><cite>Returns:</cite></dt><dd><dl class="simple">
+<dt>str</dt><dd><p>URL with shared access signature for blob</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="parsons.AzureBlobStorage.put_blob">
+<span class="sig-name descname"><span class="pre">put_blob</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">container_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">blob_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">local_path</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/azure/azure_blob_storage.html#AzureBlobStorage.put_blob"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.AzureBlobStorage.put_blob" title="Permalink to this definition"></a></dt>
+<dd><p>Puts a blob (aka file) in a bucket</p>
+<dl class="simple">
+<dt><cite>Args:</cite></dt><dd><dl class="simple">
+<dt>container_name: str</dt><dd><p>The name of the container to store the blob</p>
+</dd>
+<dt>blob_name: str</dt><dd><p>The name of the blob to be stored</p>
+</dd>
+<dt>local_path: str</dt><dd><p>The local path of the file to upload</p>
+</dd>
+<dt>kwargs:</dt><dd><p>Additional arguments to be supplied to the Azure Blob Storage API. See <a class="reference external" href="https://docs.microsoft.com/en-us/python/api/azure-storage-blob/azure.storage.blob.blobclient?view=azure-python#upload-blob-data--blob-type--blobtype-blockblob---blockblob----length-none--metadata-none----kwargs-">Azure Blob
+Storage SDK documentation</a>
+for more info. Any keys that belong to the <code class="docutils literal notranslate"><span class="pre">ContentSettings</span></code> object will be
+provided to that class directly.</p>
+</dd>
+</dl>
+</dd>
+<dt><cite>Returns:</cite></dt><dd><p><cite>BlobClient</cite></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="parsons.AzureBlobStorage.download_blob">
+<span class="sig-name descname"><span class="pre">download_blob</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">container_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">blob_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">local_path</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/azure/azure_blob_storage.html#AzureBlobStorage.download_blob"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.AzureBlobStorage.download_blob" title="Permalink to this definition"></a></dt>
+<dd><p>Downloads a blob from a container into the specified file path or a temporary file path</p>
+<dl class="simple">
+<dt><cite>Args:</cite></dt><dd><dl class="simple">
+<dt>container_name: str</dt><dd><p>The container name</p>
+</dd>
+<dt>blob_name: str</dt><dd><p>The blob name</p>
+</dd>
+<dt>local_path: Optional[str]</dt><dd><p>The local path where the file will be downloaded. If not specified, a temporary
+file will be created and returned, and that file will be removed automatically
+when the script is done running.</p>
+</dd>
+</dl>
+</dd>
+<dt><cite>Returns:</cite></dt><dd><dl class="simple">
+<dt>str</dt><dd><p>The path of the downloaded file</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="parsons.AzureBlobStorage.delete_blob">
+<span class="sig-name descname"><span class="pre">delete_blob</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">container_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">blob_name</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/azure/azure_blob_storage.html#AzureBlobStorage.delete_blob"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.AzureBlobStorage.delete_blob" title="Permalink to this definition"></a></dt>
+<dd><p>Delete a blob in a specified container.</p>
+<dl class="simple">
+<dt><cite>Args:</cite></dt><dd><dl class="simple">
+<dt>container_name: str</dt><dd><p>The container name</p>
+</dd>
+<dt>blob_name: str</dt><dd><p>The blob name</p>
+</dd>
+</dl>
+</dd>
+<dt><cite>Returns:</cite></dt><dd><p><code class="docutils literal notranslate"><span class="pre">None</span></code></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="parsons.AzureBlobStorage.upload_table">
+<span class="sig-name descname"><span class="pre">upload_table</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">table</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">container_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">blob_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data_type</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'csv'</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/azure/azure_blob_storage.html#AzureBlobStorage.upload_table"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.AzureBlobStorage.upload_table" title="Permalink to this definition"></a></dt>
+<dd><p>Load the data from a Parsons table into a blob.</p>
+<dl class="simple">
+<dt><cite>Args:</cite></dt><dd><dl class="simple">
+<dt>table: obj</dt><dd><p>A <a class="reference internal" href="table.html#parsons-table"><span class="std std-ref">Parsons Table</span></a></p>
+</dd>
+<dt>container_name: str</dt><dd><p>The container name to upload the data into</p>
+</dd>
+<dt>blob_name: str</dt><dd><p>The blob name to upload the data into</p>
+</dd>
+<dt>data_type: str</dt><dd><p>The file format to use when writing the data. One of: <cite>csv</cite> or <cite>json</cite></p>
+</dd>
+<dt>kwargs:</dt><dd><p>Additional keyword arguments to supply to <code class="docutils literal notranslate"><span class="pre">put_blob</span></code></p>
+</dd>
+</dl>
+</dd>
+<dt><cite>Returns:</cite></dt><dd><p><cite>BlobClient</cite></p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="aws.html" class="btn btn-neutral float-left" title="Amazon Web Services" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="bill_com.html" class="btn btn-neutral float-right" title="Bill.com" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2019, The Movement Cooperative.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  
+  <div class="rst-versions" data-toggle="rst-versions" role="note" aria-label="Versions">
+    <span class="rst-current-version" data-toggle="rst-current-version">
+      <span class="fa fa-book"> Read the Docs</span>
+      v0.15.0
+      <span class="fa fa-caret-down"></span>
+    </span>
+    <div class="rst-other-versions">
+      <dl>
+        <dt>Most Common</dt>
+        <!-- Show latest & stable first -->
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+                  <dd><a href="../latest/azure.html">latest</a></dd>
+            
+        
+            
+                  <dd><a href="../stable/azure.html">stable</a></dd>
+            
+        
+
+        <dt>By Version Number</dt>
+        <!-- Show other versions -->
+        
+            
+                  <dd><a href="../v0.14.0/index.html">v0.14.0</a></dd>
+            
+        
+            
+                  <dd><a href="azure.html">v0.15.0</a></dd>
+            
+        
+            
+                  <dd><a href="../v0.16.0/azure.html">v0.16.0</a></dd>
+            
+        
+            
+                  <dd><a href="../v0.17.0/azure.html">v0.17.0</a></dd>
+            
+        
+            
+                  <dd><a href="../v0.18.0/azure.html">v0.18.0</a></dd>
+            
+        
+            
+                  <dd><a href="../v0.18.1/azure.html">v0.18.1</a></dd>
+            
+        
+            
+        
+            
+        
+
+      </dl>
+    </div>
+  </div>
+<script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

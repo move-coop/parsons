@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Rock the Vote &mdash; Parsons 0.5 documentation</title>
+      <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Salesforce" href="salesforce.html" />
+    <link rel="prev" title="Redash" href="redash.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="index.html" class="icon icon-home"> Parsons
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Integrations</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="action_kit.html">ActionKit</a></li>
+<li class="toctree-l1"><a class="reference internal" href="action_network.html">Action Network</a></li>
+<li class="toctree-l1"><a class="reference internal" href="airtable.html">Airtable</a></li>
+<li class="toctree-l1"><a class="reference internal" href="aws.html">Amazon Web Services</a></li>
+<li class="toctree-l1"><a class="reference internal" href="azure.html">Azure: Blob Storage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="bill_com.html">Bill.com</a></li>
+<li class="toctree-l1"><a class="reference internal" href="bloomerang.html">Bloomerang</a></li>
+<li class="toctree-l1"><a class="reference internal" href="box.html">Box</a></li>
+<li class="toctree-l1"><a class="reference internal" href="braintree.html">Braintree</a></li>
+<li class="toctree-l1"><a class="reference internal" href="civis.html">Civis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="copper.html">Copper</a></li>
+<li class="toctree-l1"><a class="reference internal" href="crowdtangle.html">CrowdTangle</a></li>
+<li class="toctree-l1"><a class="reference internal" href="databases.html">Databases</a></li>
+<li class="toctree-l1"><a class="reference internal" href="facebook_ads.html">FacebookAds</a></li>
+<li class="toctree-l1"><a class="reference internal" href="freshdesk.html">Freshdesk</a></li>
+<li class="toctree-l1"><a class="reference internal" href="github.html">GitHub</a></li>
+<li class="toctree-l1"><a class="reference internal" href="google.html">Google</a></li>
+<li class="toctree-l1"><a class="reference internal" href="hustle.html">Hustle</a></li>
+<li class="toctree-l1"><a class="reference internal" href="mailchimp.html">Mailchimp</a></li>
+<li class="toctree-l1"><a class="reference internal" href="mobilize_america.html">Mobilize America</a></li>
+<li class="toctree-l1"><a class="reference internal" href="newmode.html">New/Mode</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ngpvan.html">NGPVAN</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pdi.html">PDI</a></li>
+<li class="toctree-l1"><a class="reference internal" href="p2a.html">Phone2Action</a></li>
+<li class="toctree-l1"><a class="reference internal" href="redash.html">Redash</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Rock the Vote</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#overview">Overview</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#quickstart">QuickStart</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#api">API</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="salesforce.html">Salesforce</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sftp.html">SFTP</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sisense.html">Sisense</a></li>
+<li class="toctree-l1"><a class="reference internal" href="targetsmart.html">TargetSmart</a></li>
+<li class="toctree-l1"><a class="reference internal" href="turbovote.html">TurboVote</a></li>
+<li class="toctree-l1"><a class="reference internal" href="twilio.html">Twilio</a></li>
+<li class="toctree-l1"><a class="reference internal" href="zoom.html">Zoom</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Enhancements</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="census_geocoder.html">US Census Geocoder</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Framework</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="dbsync.html">Database Sync</a></li>
+<li class="toctree-l1"><a class="reference internal" href="table.html">Parsons Table</a></li>
+<li class="toctree-l1"><a class="reference internal" href="notifications.html">Notifications</a></li>
+<li class="toctree-l1"><a class="reference internal" href="utilities.html">Utilities</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Contributor Documentation</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="contributing.html">Contributing to Parsons</a></li>
+<li class="toctree-l1"><a class="reference internal" href="build_a_connector.html">How to Build a Connector</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">Parsons</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
+      <li>Rock the Vote</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/rockthevote.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="rock-the-vote">
+<h1>Rock the Vote<a class="headerlink" href="#rock-the-vote" title="Permalink to this headline"></a></h1>
+<section id="overview">
+<h2>Overview<a class="headerlink" href="#overview" title="Permalink to this headline"></a></h2>
+<p><a class="reference external" href="https://www.rockthevote.org/">Rock the Vote</a> is an online registration tool. This Parsons connector makes use of
+Rock the Vote’s <a class="reference external" href="https://rock-the-vote.github.io/Voter-Registration-Tool-API-Docs/">Rocky API</a>.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<dl class="simple">
+<dt>Authentication</dt><dd><p>In order to authenticate with the API, users must specify the ID and API key of the RTV partner organization for the data.</p>
+</dd>
+</dl>
+</div>
+</section>
+<section id="quickstart">
+<h2>QuickStart<a class="headerlink" href="#quickstart" title="Permalink to this headline"></a></h2>
+<p>To use the <code class="docutils literal notranslate"><span class="pre">RockTheVote</span></code> class you can either store the partner ID and API key as an
+environmental variable (<code class="docutils literal notranslate"><span class="pre">RTV_PARTNER_ID</span></code> and <code class="docutils literal notranslate"><span class="pre">RTV_PARTNER_API_KEY</span></code>, respectively), or you can
+pass them in as arguments to the class.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">parsons</span> <span class="kn">import</span> <span class="n">RockTheVote</span>
+
+<span class="c1"># If credentials are specified as environment variables, no need to pass them in</span>
+<span class="n">rtv</span> <span class="o">=</span> <span class="n">RockTheVote</span><span class="p">()</span>
+
+<span class="c1"># Pass credentials directly</span>
+<span class="n">rtv</span> <span class="o">=</span> <span class="n">RockTheVote</span><span class="p">(</span><span class="n">partner_id</span><span class="o">=</span><span class="s1">&#39;123&#39;</span><span class="p">,</span> <span class="n">partner_api_key</span><span class="o">=</span><span class="s1">&#39;supersecretkey&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>To fetch a list of registrations submitted for the partner ID, use the <cite>run_registration_report</cite>
+method. It is possible to filter the results by providing a parameter to specify a start date
+for the registrations.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Get list of registrations</span>
+<span class="n">registrants</span> <span class="o">=</span> <span class="n">rtv</span><span class="o">.</span><span class="n">run_registration_report</span><span class="p">(</span><span class="n">since</span><span class="o">=</span><span class="s1">&#39;2020-01-01&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>The <cite>run_registration_report</cite> will block as the report is being generated and downloaded from the
+Rocky API. For larger reports, this can take a long time. If you have other things you want to do
+while the report is running, you can break up the creation of the report from the fetching of the
+data.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Create report and get the ID</span>
+<span class="n">report_id</span> <span class="o">=</span> <span class="n">rtv</span><span class="o">.</span><span class="n">create_registration_report</span><span class="p">(</span><span class="n">since</span><span class="o">=</span><span class="s1">&#39;2020-01-01&#39;</span><span class="p">)</span>
+
+<span class="c1"># Get registration report</span>
+<span class="n">registrants</span> <span class="o">=</span> <span class="n">rtv</span><span class="o">.</span><span class="n">get_registration_report</span><span class="p">(</span><span class="n">report_id</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="api">
+<h2>API<a class="headerlink" href="#api" title="Permalink to this headline"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="parsons.rockthevote.rtv.RockTheVote">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">parsons.rockthevote.rtv.</span></span><span class="sig-name descname"><span class="pre">RockTheVote</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">partner_id</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">partner_api_key</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">testing</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/rockthevote/rtv.html#RockTheVote"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.rockthevote.rtv.RockTheVote" title="Permalink to this definition"></a></dt>
+<dd><p>Instantiate the RockTheVote class</p>
+<dl class="simple">
+<dt><cite>Args:</cite></dt><dd><dl class="simple">
+<dt>partner_id: str</dt><dd><p>The RockTheVote partner ID for the RTV account.
+Not required if the <code class="docutils literal notranslate"><span class="pre">RTV_PARTNER_ID</span></code> environmental variable is set.</p>
+</dd>
+<dt>partner_api_key: str</dt><dd><p>The API Key for the partner.
+Not required if the <code class="docutils literal notranslate"><span class="pre">RTV_PARTNER_API_KEY</span></code> environmental variable is set.</p>
+</dd>
+<dt>testing: bool</dt><dd><p>Whether or not to use the staging instance. Defaults to False.</p>
+</dd>
+</dl>
+</dd>
+<dt><cite>Returns</cite>:</dt><dd><p>RockTheVote class</p>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="parsons.rockthevote.rtv.RockTheVote.create_registration_report">
+<span class="sig-name descname"><span class="pre">create_registration_report</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">before</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">since</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">report_type</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/rockthevote/rtv.html#RockTheVote.create_registration_report"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.rockthevote.rtv.RockTheVote.create_registration_report" title="Permalink to this definition"></a></dt>
+<dd><p>Create a new registration report.</p>
+<dl class="simple">
+<dt><cite>Args:</cite></dt><dd><dl class="simple">
+<dt>before: str</dt><dd><p>Limit to registrations that were started before this date, in
+ISO format (e.g. 2020-01-01)</p>
+</dd>
+<dt>since: str</dt><dd><p>Limit to registrations that were started since this date, in
+ISO format (e.g. 2020-01-01)</p>
+</dd>
+<dt>report_type: str</dt><dd><p>The type of report to create. If left as None, it creates the default report. The
+<code class="docutils literal notranslate"><span class="pre">extended</span></code> report includes additional fields. Currently only accepts <code class="docutils literal notranslate"><span class="pre">extended</span></code>.</p>
+</dd>
+</dl>
+</dd>
+<dt><cite>Returns:</cite></dt><dd><dl class="simple">
+<dt>int</dt><dd><p>The ID of the created report.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="parsons.rockthevote.rtv.RockTheVote.get_registration_report">
+<span class="sig-name descname"><span class="pre">get_registration_report</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">report_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">block</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">poll_interval_seconds</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">60</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">report_timeout_seconds</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">3600</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/rockthevote/rtv.html#RockTheVote.get_registration_report"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.rockthevote.rtv.RockTheVote.get_registration_report" title="Permalink to this definition"></a></dt>
+<dd><p>Get data from an existing registration report.</p>
+<dl class="simple">
+<dt><cite>Args:</cite></dt><dd><dl class="simple">
+<dt>report_id: int</dt><dd><p>The ID of the report to get data from</p>
+</dd>
+<dt>block: bool</dt><dd><p>Whether or not to block execution until the report is complete</p>
+</dd>
+<dt>poll_interval_seconds: int</dt><dd><p>If blocking, how long to pause between attempts to check if the report is done</p>
+</dd>
+<dt>report_timeout_seconds: int</dt><dd><p>If blocking, how long to wait for the report before timing out</p>
+</dd>
+</dl>
+</dd>
+<dt><cite>Returns:</cite></dt><dd><dl class="simple">
+<dt>Parsons Table</dt><dd><p>Parsons table with the report data.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="parsons.rockthevote.rtv.RockTheVote.run_registration_report">
+<span class="sig-name descname"><span class="pre">run_registration_report</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">before</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">since</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">report_type</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">poll_interval_seconds</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">60</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">report_timeout_seconds</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">3600</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/rockthevote/rtv.html#RockTheVote.run_registration_report"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.rockthevote.rtv.RockTheVote.run_registration_report" title="Permalink to this definition"></a></dt>
+<dd><p>Run a new registration report.</p>
+<p>This method will block until the report has finished generating, or until the specified
+timeout is reached.</p>
+<dl class="simple">
+<dt><cite>Args:</cite></dt><dd><dl class="simple">
+<dt>before: str</dt><dd><p>Limit to registrations that were started before this date, in
+ISO format (e.g. 2020-01-01)</p>
+</dd>
+<dt>since: str</dt><dd><p>Limit to registrations that were started since this date, in
+ISO format (e.g. 2020-01-01)</p>
+</dd>
+<dt>report_type: str</dt><dd><p>The type of report to run. If left as None, it runs the default report. The
+<code class="docutils literal notranslate"><span class="pre">extended</span></code> report includes additional fields. Currently only accepts <code class="docutils literal notranslate"><span class="pre">extended</span></code>.</p>
+</dd>
+<dt>poll_interval_seconds: int</dt><dd><p>If blocking, how long to pause between attempts to check if the report is done</p>
+</dd>
+<dt>report_timeout_seconds: int</dt><dd><p>If blocking, how long to wait for the report before timing out</p>
+</dd>
+</dl>
+</dd>
+<dt><cite>Returns:</cite></dt><dd><dl class="simple">
+<dt>Parsons.Table</dt><dd><p>The table with the report data.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="redash.html" class="btn btn-neutral float-left" title="Redash" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="salesforce.html" class="btn btn-neutral float-right" title="Salesforce" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2019, The Movement Cooperative.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  
+  <div class="rst-versions" data-toggle="rst-versions" role="note" aria-label="Versions">
+    <span class="rst-current-version" data-toggle="rst-current-version">
+      <span class="fa fa-book"> Read the Docs</span>
+      v0.16.0
+      <span class="fa fa-caret-down"></span>
+    </span>
+    <div class="rst-other-versions">
+      <dl>
+        <dt>Most Common</dt>
+        <!-- Show latest & stable first -->
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+                  <dd><a href="../latest/rockthevote.html">latest</a></dd>
+            
+        
+            
+                  <dd><a href="../stable/rockthevote.html">stable</a></dd>
+            
+        
+
+        <dt>By Version Number</dt>
+        <!-- Show other versions -->
+        
+            
+                  <dd><a href="../v0.14.0/rockthevote.html">v0.14.0</a></dd>
+            
+        
+            
+                  <dd><a href="../v0.15.0/rockthevote.html">v0.15.0</a></dd>
+            
+        
+            
+                  <dd><a href="rockthevote.html">v0.16.0</a></dd>
+            
+        
+            
+                  <dd><a href="../v0.17.0/rockthevote.html">v0.17.0</a></dd>
+            
+        
+            
+                  <dd><a href="../v0.18.0/rockthevote.html">v0.18.0</a></dd>
+            
+        
+            
+                  <dd><a href="../v0.18.1/rockthevote.html">v0.18.1</a></dd>
+            
+        
+            
+        
+            
+        
+
+      </dl>
+    </div>
+  </div>
+<script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

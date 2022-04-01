@@ -1,0 +1,429 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>parsons.action_network.action_network &mdash; Parsons 0.5 documentation</title>
+      <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
+        <script src="../../../_static/jquery.js"></script>
+        <script src="../../../_static/underscore.js"></script>
+        <script src="../../../_static/doctools.js"></script>
+    <script src="../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../../../index.html" class="icon icon-home"> Parsons
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Integrations</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../action_kit.html">ActionKit</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../action_network.html">Action Network</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../airtable.html">Airtable</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../aws.html">Amazon Web Services</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../bill_com.html">Bill.com</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../braintree.html">Braintree</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../civis.html">Civis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../copper.html">Copper</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../crowdtangle.html">CrowdTangle</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../databases.html">Databases</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../facebook_ads.html">FacebookAds</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../freshdesk.html">Freshdesk</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../google.html">Google</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../hustle.html">Hustle</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../mailchimp.html">Mailchimp</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../mobilize_america.html">Mobilize America</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../newmode.html">New/Mode</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../ngpvan.html">NGPVAN</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../pdi.html">PDI</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../p2a.html">Phone2Action</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../redash.html">Redash</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../rockthevote.html">Rock the Vote</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../salesforce.html">Salesforce</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../sftp.html">SFTP</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../ts.html">TargetSmart</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../twilio.html">Twilio</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../turbovote.html">TurboVote</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../zoom.html">Zoom</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Enhancements</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../census_geocoder.html">US Census Geocoder</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Framework</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../table.html">Parsons Table</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../notifications.html">Notifications</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">Parsons</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../index.html" class="icon icon-home"></a> &raquo;</li>
+          <li><a href="../../index.html">Module code</a> &raquo;</li>
+      <li>parsons.action_network.action_network</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for parsons.action_network.action_network</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">json</span>
+<span class="kn">from</span> <span class="nn">parsons</span> <span class="kn">import</span> <span class="n">Table</span>
+<span class="kn">from</span> <span class="nn">parsons.utilities</span> <span class="kn">import</span> <span class="n">check_env</span>
+<span class="kn">from</span> <span class="nn">parsons.utilities.api_connector</span> <span class="kn">import</span> <span class="n">APIConnector</span>
+<span class="kn">import</span> <span class="nn">logging</span>
+
+<span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
+
+
+<div class="viewcode-block" id="ActionNetwork"><a class="viewcode-back" href="../../../action_network.html#parsons.ActionNetwork">[docs]</a><span class="k">class</span> <span class="nc">ActionNetwork</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    `Args:`</span>
+<span class="sd">        api_token: str</span>
+<span class="sd">            The OSDI API token</span>
+<span class="sd">        api_url:</span>
+<span class="sd">            The end point url</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">api_token</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">api_url</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">api_token</span> <span class="o">=</span> <span class="n">check_env</span><span class="o">.</span><span class="n">check</span><span class="p">(</span><span class="s1">&#39;AN_API_TOKEN&#39;</span><span class="p">,</span> <span class="n">api_token</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">headers</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s2">&quot;Content-Type&quot;</span><span class="p">:</span> <span class="s2">&quot;application/json&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;OSDI-API-Token&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">api_token</span>
+        <span class="p">}</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">api_url</span> <span class="o">=</span> <span class="n">check_env</span><span class="o">.</span><span class="n">check</span><span class="p">(</span><span class="s1">&#39;AN_API_URL&#39;</span><span class="p">,</span> <span class="n">api_url</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">api</span> <span class="o">=</span> <span class="n">APIConnector</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">api_url</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">headers</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_get_page</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">object_name</span><span class="p">,</span> <span class="n">page</span><span class="p">,</span> <span class="n">per_page</span><span class="o">=</span><span class="mi">25</span><span class="p">):</span>
+        <span class="c1"># returns data from one page of results</span>
+        <span class="k">if</span> <span class="n">per_page</span> <span class="o">&gt;</span> <span class="mi">25</span><span class="p">:</span>
+            <span class="n">per_page</span> <span class="o">=</span> <span class="mi">25</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Action Network&#39;s API will not return more than 25 entries per page. </span><span class="se">\</span>
+<span class="s2">            Changing per_page parameter to 25.&quot;</span><span class="p">)</span>
+        <span class="n">page_url</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">api_url</span><span class="si">}</span><span class="s2">/</span><span class="si">{</span><span class="n">object_name</span><span class="si">}</span><span class="s2">?page=</span><span class="si">{</span><span class="n">page</span><span class="si">}</span><span class="s2">&amp;per_page=</span><span class="si">{</span><span class="n">per_page</span><span class="si">}</span><span class="s2">&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">api</span><span class="o">.</span><span class="n">get_request</span><span class="p">(</span><span class="n">url</span><span class="o">=</span><span class="n">page_url</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_get_entry_list</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">object_name</span><span class="p">,</span> <span class="n">limit</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">per_page</span><span class="o">=</span><span class="mi">25</span><span class="p">):</span>
+        <span class="c1"># returns a list of entries for a given object, such as people, tags, or actions</span>
+        <span class="n">count</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="n">page</span> <span class="o">=</span> <span class="mi">1</span>
+        <span class="n">return_list</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
+            <span class="n">response</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_page</span><span class="p">(</span><span class="n">object_name</span><span class="p">,</span> <span class="n">page</span><span class="p">,</span> <span class="n">per_page</span><span class="p">)</span>
+            <span class="n">page</span> <span class="o">=</span> <span class="n">page</span> <span class="o">+</span> <span class="mi">1</span>
+            <span class="n">response_list</span> <span class="o">=</span> <span class="n">response</span><span class="p">[</span><span class="s1">&#39;_embedded&#39;</span><span class="p">][</span><span class="sa">f</span><span class="s2">&quot;osdi:</span><span class="si">{</span><span class="n">object_name</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">]</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">response_list</span><span class="p">:</span>
+                <span class="k">return</span> <span class="n">Table</span><span class="p">(</span><span class="n">return_list</span><span class="p">)</span>
+            <span class="n">return_list</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">response_list</span><span class="p">)</span>
+            <span class="n">count</span> <span class="o">=</span> <span class="n">count</span> <span class="o">+</span> <span class="nb">len</span><span class="p">(</span><span class="n">response_list</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">limit</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">count</span> <span class="o">&gt;=</span> <span class="n">limit</span><span class="p">:</span>
+                    <span class="k">return</span> <span class="n">Table</span><span class="p">(</span><span class="n">return_list</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="n">limit</span><span class="p">])</span>
+
+<div class="viewcode-block" id="ActionNetwork.get_people"><a class="viewcode-back" href="../../../action_network.html#parsons.ActionNetwork.get_people">[docs]</a>    <span class="k">def</span> <span class="nf">get_people</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">limit</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">per_page</span><span class="o">=</span><span class="mi">25</span><span class="p">,</span> <span class="n">page</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        `Args:`</span>
+<span class="sd">            limit:</span>
+<span class="sd">                The number of entries to return. When None, returns all entries.</span>
+<span class="sd">            per_page</span>
+<span class="sd">                The number of entries per page to return. 25 maximum.</span>
+<span class="sd">            page</span>
+<span class="sd">                Which page of results to return</span>
+<span class="sd">        `Returns:`</span>
+<span class="sd">            A list of JSONs of people stored in Action Network.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">page</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_get_page</span><span class="p">(</span><span class="s2">&quot;people&quot;</span><span class="p">,</span> <span class="n">page</span><span class="p">,</span> <span class="n">per_page</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_entry_list</span><span class="p">(</span><span class="s2">&quot;people&quot;</span><span class="p">,</span> <span class="n">limit</span><span class="p">,</span> <span class="n">per_page</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="ActionNetwork.get_person"><a class="viewcode-back" href="../../../action_network.html#parsons.ActionNetwork.get_person">[docs]</a>    <span class="k">def</span> <span class="nf">get_person</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">person_id</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        `Args:`</span>
+<span class="sd">            person_id:</span>
+<span class="sd">                Id of the person.</span>
+<span class="sd">        `Returns:`</span>
+<span class="sd">            A  JSON of the entry. If the entry doesn&#39;t exist, Action Network returns</span>
+<span class="sd">            ``{&#39;error&#39;: &#39;Couldn&#39;t find person with id = &lt;id&gt;&#39;}``.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">api</span><span class="o">.</span><span class="n">get_request</span><span class="p">(</span><span class="n">url</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">api_url</span><span class="si">}</span><span class="s2">/people/</span><span class="si">{</span><span class="n">person_id</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="ActionNetwork.add_person"><a class="viewcode-back" href="../../../action_network.html#parsons.ActionNetwork.add_person">[docs]</a>    <span class="k">def</span> <span class="nf">add_person</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">email_address</span><span class="p">,</span> <span class="n">given_name</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">family_name</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">tags</span><span class="o">=</span><span class="p">[],</span>
+                   <span class="n">languages_spoken</span><span class="o">=</span><span class="p">[],</span> <span class="n">postal_addresses</span><span class="o">=</span><span class="p">[],</span>
+                   <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        `Args:`</span>
+<span class="sd">            email_address:</span>
+<span class="sd">                Can be any of the following</span>
+<span class="sd">                    - a string with the person&#39;s email</span>
+<span class="sd">                    - a dictionary with the following fields</span>
+<span class="sd">                        - email_address (REQUIRED)</span>
+<span class="sd">                        - primary (OPTIONAL): Boolean indicating the user&#39;s primary email address</span>
+<span class="sd">                        - status (OPTIONAL): can taken on any of these values</span>
+<span class="sd">                            - &quot;subscribed&quot;</span>
+<span class="sd">                            - &quot;unsubscribed&quot;</span>
+<span class="sd">                            - &quot;bouncing&quot;</span>
+<span class="sd">                            - &quot;previous bounce&quot;</span>
+<span class="sd">                            - &quot;spam complaint&quot;</span>
+<span class="sd">                            - &quot;previous spam complaint&quot;</span>
+<span class="sd">            given_name:</span>
+<span class="sd">                The person&#39;s given name</span>
+<span class="sd">            family_name:</span>
+<span class="sd">                The person&#39;s family name</span>
+<span class="sd">            tags:</span>
+<span class="sd">                Any tags to be applied to the person</span>
+<span class="sd">            languages_spoken:</span>
+<span class="sd">                Optional field. A list of strings of the languages spoken by the person</span>
+<span class="sd">            postal_addresses:</span>
+<span class="sd">                Optional field. A list of dictionaries.</span>
+<span class="sd">                For details, see Action Network&#39;s documentation:</span>
+<span class="sd">                https://actionnetwork.org/docs/v2/people#put</span>
+<span class="sd">            **kwargs:</span>
+<span class="sd">                Any additional fields to store about the person. Action Network allows</span>
+<span class="sd">                any custom field.</span>
+<span class="sd">        Adds a person to Action Network</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">email_addresses_field</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">email_address</span><span class="p">)</span> <span class="o">==</span> <span class="nb">str</span><span class="p">:</span>
+            <span class="n">email_addresses_field</span> <span class="o">=</span> <span class="p">[{</span><span class="s2">&quot;address&quot;</span><span class="p">:</span> <span class="n">email_address</span><span class="p">}]</span>
+        <span class="k">elif</span> <span class="nb">type</span><span class="p">(</span><span class="n">email_address</span> <span class="o">==</span> <span class="nb">list</span><span class="p">):</span>
+            <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">email_address</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="o">==</span> <span class="nb">str</span><span class="p">:</span>
+                <span class="n">email_addresses_field</span> <span class="o">=</span> <span class="p">[{</span><span class="s2">&quot;address&quot;</span><span class="p">:</span> <span class="n">email</span><span class="p">}</span> <span class="k">for</span> <span class="n">email</span> <span class="ow">in</span> <span class="n">email_address</span><span class="p">]</span>
+                <span class="n">email_addresses_field</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s1">&#39;primary&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">True</span>
+            <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">email_address</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="o">==</span> <span class="nb">dict</span><span class="p">:</span>
+                <span class="n">email_addresses_field</span> <span class="o">=</span> <span class="n">email_address</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">email_addresses_field</span><span class="p">:</span>
+            <span class="k">raise</span><span class="p">(</span><span class="s2">&quot;email_address must be a string, list of strings, or list of dictionaries&quot;</span><span class="p">)</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s2">&quot;person&quot;</span><span class="p">:</span> <span class="p">{</span>
+                <span class="s2">&quot;email_addresses&quot;</span><span class="p">:</span> <span class="n">email_addresses_field</span><span class="p">,</span>
+                <span class="s2">&quot;given_name&quot;</span><span class="p">:</span> <span class="n">given_name</span><span class="p">,</span>
+                <span class="s2">&quot;family_name&quot;</span><span class="p">:</span> <span class="n">family_name</span><span class="p">,</span>
+                <span class="s2">&quot;languages_spoken&quot;</span><span class="p">:</span> <span class="n">languages_spoken</span><span class="p">,</span>
+                <span class="s2">&quot;postal_addresses&quot;</span><span class="p">:</span> <span class="n">postal_addresses</span><span class="p">,</span>
+                <span class="s2">&quot;custom_fields&quot;</span><span class="p">:</span> <span class="p">{</span><span class="o">**</span><span class="n">kwargs</span><span class="p">}</span>
+              <span class="p">},</span>
+            <span class="s2">&quot;add_tags&quot;</span><span class="p">:</span> <span class="n">tags</span>
+        <span class="p">}</span>
+        <span class="n">response</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">api</span><span class="o">.</span><span class="n">post_request</span><span class="p">(</span><span class="n">url</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">api_url</span><span class="si">}</span><span class="s2">/people&quot;</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">data</span><span class="p">))</span>
+        <span class="n">identifiers</span> <span class="o">=</span> <span class="n">response</span><span class="p">[</span><span class="s1">&#39;identifiers&#39;</span><span class="p">]</span>
+        <span class="n">person_id</span> <span class="o">=</span> <span class="p">[</span><span class="n">entry_id</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;:&#39;</span><span class="p">)[</span><span class="mi">1</span><span class="p">]</span>
+                     <span class="k">for</span> <span class="n">entry_id</span> <span class="ow">in</span> <span class="n">identifiers</span> <span class="k">if</span> <span class="s1">&#39;action_network:&#39;</span> <span class="ow">in</span> <span class="n">entry_id</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Entry </span><span class="si">{</span><span class="n">person_id</span><span class="si">}</span><span class="s2"> successfully added to people.&quot;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">response</span></div>
+
+<div class="viewcode-block" id="ActionNetwork.update_person"><a class="viewcode-back" href="../../../action_network.html#parsons.ActionNetwork.update_person">[docs]</a>    <span class="k">def</span> <span class="nf">update_person</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">entry_id</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        `Args:`</span>
+<span class="sd">            entry_id:</span>
+<span class="sd">                The person&#39;s Action Network id</span>
+<span class="sd">            **kwargs:</span>
+<span class="sd">                Fields to be updated. The possible fields are</span>
+<span class="sd">                    email_address:</span>
+<span class="sd">                        Can be any of the following</span>
+<span class="sd">                            - a string with the person&#39;s email</span>
+<span class="sd">                            - a dictionary with the following fields</span>
+<span class="sd">                                - email_address (REQUIRED)</span>
+<span class="sd">                                    - primary (OPTIONAL): Boolean indicating the user&#39;s</span>
+<span class="sd">                                    primary email address</span>
+<span class="sd">                                - status (OPTIONAL): can taken on any of these values</span>
+<span class="sd">                                    - &quot;subscribed&quot;</span>
+<span class="sd">                                    - &quot;unsubscribed&quot;</span>
+<span class="sd">                                    - &quot;bouncing&quot;</span>
+<span class="sd">                                    - &quot;previous bounce&quot;</span>
+<span class="sd">                                    - &quot;spam complaint&quot;</span>
+<span class="sd">                                    - &quot;previous spam complaint&quot;</span>
+<span class="sd">                    given_name:</span>
+<span class="sd">                        The person&#39;s given name</span>
+<span class="sd">                    family_name:</span>
+<span class="sd">                        The person&#39;s family name</span>
+<span class="sd">                    tags:</span>
+<span class="sd">                        Any tags to be applied to the person</span>
+<span class="sd">                    languages_spoken:</span>
+<span class="sd">                        Optional field. A list of strings of the languages spoken by the person</span>
+<span class="sd">                    postal_addresses:</span>
+<span class="sd">                        Optional field. A list of dictionaries.</span>
+<span class="sd">                        For details, see Action Network&#39;s documentation:</span>
+<span class="sd">                        https://actionnetwork.org/docs/v2/people#put</span>
+<span class="sd">                    custom_fields:</span>
+<span class="sd">                        A dictionary of any other fields to store about the person.</span>
+<span class="sd">        Updates a person&#39;s data in Action Network</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="p">{</span><span class="o">**</span><span class="n">kwargs</span><span class="p">}</span>
+        <span class="n">response</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">api</span><span class="o">.</span><span class="n">put_request</span><span class="p">(</span><span class="n">url</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">api_url</span><span class="si">}</span><span class="s2">/people/</span><span class="si">{</span><span class="n">entry_id</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
+                                        <span class="n">json</span><span class="o">=</span><span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">data</span><span class="p">),</span> <span class="n">success_codes</span><span class="o">=</span><span class="p">[</span><span class="mi">204</span><span class="p">,</span> <span class="mi">201</span><span class="p">,</span> <span class="mi">200</span><span class="p">])</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Person </span><span class="si">{</span><span class="n">entry_id</span><span class="si">}</span><span class="s2"> successfully updated&quot;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">response</span></div>
+
+<div class="viewcode-block" id="ActionNetwork.get_tags"><a class="viewcode-back" href="../../../action_network.html#parsons.ActionNetwork.get_tags">[docs]</a>    <span class="k">def</span> <span class="nf">get_tags</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">limit</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">per_page</span><span class="o">=</span><span class="mi">25</span><span class="p">,</span> <span class="n">page</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        `Args:`</span>
+<span class="sd">            limit:</span>
+<span class="sd">                The number of entries to return. When None, returns all entries.</span>
+<span class="sd">            per_page</span>
+<span class="sd">                The number of entries per page to return. 25 maximum.</span>
+<span class="sd">            page</span>
+<span class="sd">                Which page of results to return</span>
+<span class="sd">        `Returns:`</span>
+<span class="sd">            A list of JSONs of tags in Action Network.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">page</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">get_page</span><span class="p">(</span><span class="s2">&quot;tags&quot;</span><span class="p">,</span> <span class="n">page</span><span class="p">,</span> <span class="n">per_page</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_entry_list</span><span class="p">(</span><span class="s2">&quot;tags&quot;</span><span class="p">,</span> <span class="n">limit</span><span class="p">,</span> <span class="n">per_page</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="ActionNetwork.get_tag"><a class="viewcode-back" href="../../../action_network.html#parsons.ActionNetwork.get_tag">[docs]</a>    <span class="k">def</span> <span class="nf">get_tag</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tag_id</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        `Args:`</span>
+<span class="sd">            tag_id:</span>
+<span class="sd">                Id of the tag.</span>
+<span class="sd">        `Returns:`</span>
+<span class="sd">            A  JSON of the entry. If the entry doesn&#39;t exist, Action Network returns</span>
+<span class="sd">            &quot;{&#39;error&#39;: &#39;Couldn&#39;t find tag with id = &lt;id&gt;&#39;}&quot;</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">api</span><span class="o">.</span><span class="n">get_request</span><span class="p">(</span><span class="n">url</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">api_url</span><span class="si">}</span><span class="s2">/tags/</span><span class="si">{</span><span class="n">tag_id</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="ActionNetwork.add_tag"><a class="viewcode-back" href="../../../action_network.html#parsons.ActionNetwork.add_tag">[docs]</a>    <span class="k">def</span> <span class="nf">add_tag</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        `Args:`</span>
+<span class="sd">            name:</span>
+<span class="sd">                The tag&#39;s name. This is the ONLY editable field</span>
+<span class="sd">        Adds a tag to Action Network. Once created, tags CANNOT be edited or deleted.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="n">name</span>
+        <span class="p">}</span>
+        <span class="n">response</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">api</span><span class="o">.</span><span class="n">post_request</span><span class="p">(</span><span class="n">url</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">api_url</span><span class="si">}</span><span class="s2">/tags&quot;</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">data</span><span class="p">))</span>
+        <span class="n">identifiers</span> <span class="o">=</span> <span class="n">response</span><span class="p">[</span><span class="s1">&#39;identifiers&#39;</span><span class="p">]</span>
+        <span class="n">person_id</span> <span class="o">=</span> <span class="p">[</span><span class="n">entry_id</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;:&#39;</span><span class="p">)[</span><span class="mi">1</span><span class="p">]</span>
+                     <span class="k">for</span> <span class="n">entry_id</span> <span class="ow">in</span> <span class="n">identifiers</span> <span class="k">if</span> <span class="s1">&#39;action_network:&#39;</span> <span class="ow">in</span> <span class="n">entry_id</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Tag </span><span class="si">{</span><span class="n">person_id</span><span class="si">}</span><span class="s2"> successfully added to tags.&quot;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">response</span></div></div>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2019, The Movement Cooperative.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  
+  <div class="rst-versions" data-toggle="rst-versions" role="note" aria-label="Versions">
+    <span class="rst-current-version" data-toggle="rst-current-version">
+      <span class="fa fa-book"> Read the Docs</span>
+      v0.14.0
+      <span class="fa fa-caret-down"></span>
+    </span>
+    <div class="rst-other-versions">
+      <dl>
+        <dt>Most Common</dt>
+        <!-- Show latest & stable first -->
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+                  <dd><a href="../../../../latest/index.html">latest</a></dd>
+            
+        
+            
+                  <dd><a href="../../../../stable/index.html">stable</a></dd>
+            
+        
+
+        <dt>By Version Number</dt>
+        <!-- Show other versions -->
+        
+            
+                  <dd><a href="action_network.html">v0.14.0</a></dd>
+            
+        
+            
+                  <dd><a href="../../../../v0.15.0/index.html">v0.15.0</a></dd>
+            
+        
+            
+                  <dd><a href="../../../../v0.16.0/index.html">v0.16.0</a></dd>
+            
+        
+            
+                  <dd><a href="../../../../v0.17.0/index.html">v0.17.0</a></dd>
+            
+        
+            
+                  <dd><a href="../../../../v0.18.0/index.html">v0.18.0</a></dd>
+            
+        
+            
+                  <dd><a href="../../../../v0.18.1/index.html">v0.18.1</a></dd>
+            
+        
+            
+        
+            
+        
+
+      </dl>
+    </div>
+  </div>
+<script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

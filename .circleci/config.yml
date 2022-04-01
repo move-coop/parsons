@@ -7,16 +7,11 @@ workflows:
   build:
     jobs:
       - test
-      - docs-build:
-          filters:
-            branches:
-              ignore: master
+      - docs-build
       - docs-build-deploy:
           filters:
-            tags:
-              only: /^v.*/
             branches:
-              ignore: /.*/
+              only: main
 
 version: 2
 jobs:

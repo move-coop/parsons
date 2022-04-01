@@ -91,7 +91,9 @@ jobs:
           name: Build docs
           command: |
             . venv/bin/activate
-            cd docs/ && make html && cd ..
+            cd docs/
+            make deploy_docs
+            cd ..
 
   docs-build-deploy:
     docker:
@@ -130,7 +132,9 @@ jobs:
           # that start with an underscore like _static/).
           command: |
             . venv/bin/activate
-            cd docs/ && make html && cd ..
+            cd docs/
+            make deploy_docs
+            cd ..
             git config user.email "ci-build@movementcooperative.org"
             git config user.name "ci-build"
             export PATH=/home/circleci/npm/bin:$PATH

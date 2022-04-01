@@ -11,7 +11,7 @@ workflows:
       - docs-build-deploy:
           filters:
             branches:
-              only: master
+              only: main
 
 version: 2
 jobs:

@@ -191,7 +191,7 @@ about and organizing volunteers and donors. It is used primarily for digital org
 </dl>
 <dl class="py method">
 <dt class="sig sig-object py" id="parsons.ActionNetwork.get_people">
-<span class="sig-name descname"><span class="pre">get_people</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">limit</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">per_page</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">25</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">page</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/action_network/action_network.html#ActionNetwork.get_people"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.ActionNetwork.get_people" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">get_people</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">limit</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">per_page</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">25</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">page</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">filter</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/action_network/action_network.html#ActionNetwork.get_people"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.ActionNetwork.get_people" title="Permalink to this definition"></a></dt>
 <dd><dl class="simple">
 <dt><cite>Args:</cite></dt><dd><dl class="simple">
 <dt>limit:</dt><dd><p>The number of entries to return. When None, returns all entries.</p>
@@ -199,6 +199,9 @@ about and organizing volunteers and donors. It is used primarily for digital org
 <dt>per_page</dt><dd><p>The number of entries per page to return. 25 maximum.</p>
 </dd>
 <dt>page</dt><dd><p>Which page of results to return</p>
+</dd>
+<dt>filter</dt><dd><p>The OData query for filtering results. E.g. “modified_date gt ‘2014-03-25’”.
+When None, no filter is applied.</p>
 </dd>
 </dl>
 </dd>

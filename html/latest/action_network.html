@@ -141,11 +141,11 @@
 <section id="overview">
 <h2>Overview<a class="headerlink" href="#overview" title="Permalink to this headline"></a></h2>
 <p><a class="reference external" href="https://actionnetwork.org/">Action Network</a> is an online tool for storing information
-about and organizing volunteers and donors. It is used primarily for digital organizing and event mangement. For more information, see <a class="reference external" href="https://actionnetwork.org/docs">Action Network developer docs</a></p>
+and organizing volunteers and donors. It is used primarily for digital organizing and event mangement. For more information, see <a class="reference external" href="https://actionnetwork.org/docs">Action Network developer docs</a></p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
 <dl class="simple">
-<dt>Authentication</dt><dd><p>Only ActionNetwork accounts of the partner tier are able to access their API. You can generate your key from the API &amp; Sync page, located in the <em>Start Organizing</em> menu, in the right column.</p>
+<dt>Authentication</dt><dd><p>Only ActionNetwork accounts of the partner tier are able to access their API. You can generate your key from the API &amp; Sync page, located in the <em>Start Organizing</em> menu, under <em>Details</em>.</p>
 </dd>
 </dl>
 </div>
@@ -164,7 +164,7 @@ about and organizing volunteers and donors. It is used primarily for digital org
 </div>
 <p>You can then call various endpoints:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># List all people stored in Action Network</span>
-<span class="n">all_contacts</span> <span class="o">=</span> <span class="n">an</span><span class="o">.</span><span class="n">get_people_list</span><span class="p">()</span>
+<span class="n">all_contacts</span> <span class="o">=</span> <span class="n">an</span><span class="o">.</span><span class="n">get_people</span><span class="p">()</span>
 
 <span class="c1"># Add a person</span>
 <span class="n">an</span><span class="o">.</span><span class="n">add_person</span><span class="p">(</span><span class="s1">&#39;person.email@fakeemail.com&#39;</span><span class="p">)</span>

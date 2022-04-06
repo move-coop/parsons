@@ -305,3 +305,4 @@ Indices and tables
    :name: training_guides
 
    training_guides/getting_set_up
+   training_guides/etl_best_practices

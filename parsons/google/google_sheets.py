@@ -21,7 +21,8 @@ class GoogleSheets:
             by the Google Developer Console. Required if env variable
             ``GOOGLE_DRIVE_CREDENTIALS`` is not populated.
         subject: string
-            In order to use account impersonation, pass in the email address of the account to be impersonated as a string.
+            In order to use account impersonation, pass in the email address of the account to be
+            impersonated as a string.
     """
 
     def __init__(self, google_keyfile_dict=None, subject=None):

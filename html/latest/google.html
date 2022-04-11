@@ -60,28 +60,34 @@
 <li class="toctree-l1"><a class="reference internal" href="freshdesk.html">Freshdesk</a></li>
 <li class="toctree-l1"><a class="reference internal" href="github.html">GitHub</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Google</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#bigquery">BigQuery</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#google-admin">Google Admin</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#overview">Overview</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#quickstart">Quickstart</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#api">API</a></li>
 </ul>
 </li>
+<li class="toctree-l2"><a class="reference internal" href="#bigquery">BigQuery</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id2">Overview</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id3">Quickstart</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id4">API</a></li>
+</ul>
+</li>
 <li class="toctree-l2"><a class="reference internal" href="#cloud-storage">Cloud Storage</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#id3">Overview</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id5">Quickstart</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id6">API</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id7">Overview</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id9">Quickstart</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id10">API</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#civic">Civic</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#id7">Overview</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id8">Quickstart</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id9">API</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id11">Overview</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id12">Quickstart</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id13">API</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#google-sheets">Google Sheets</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#id10">Overview</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id11">Quickstart</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id12">API</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id14">Overview</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id15">Quickstart</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id16">API</a></li>
 </ul>
 </li>
 </ul>
@@ -159,18 +165,103 @@
              
   <section id="google">
 <h1>Google<a class="headerlink" href="#google" title="Permalink to this headline"></a></h1>
-<p>Google Cloud services allow you to upload and manipulate Tables as spreadsheets (via GoogleSheets) or query them as SQL database tables (via GoogleBigQuery). You can also upload/store/download them as binary objects (via GoogleCloudStorage). Finally, Google offers an API for civic information using GoogleCivic.</p>
+<p>Google Cloud services allow you to upload and manipulate Tables as spreadsheets (via GoogleSheets) or query them as SQL database tables (via GoogleBigQuery). You can also upload/store/download them as binary objects (via GoogleCloudStorage). Google also offers an API for civic information using GoogleCivic and admin information using the Google Workspace Admin SDK.</p>
 <p>For all of these services you will need to enable the APIs for your Google Cloud account and obtain authentication tokens to access them from your scripts. If you are the administrator of your Google Cloud account, you can do both of these at <a class="reference external" href="https://console.cloud.google.com/apis/credentials/serviceaccountkey?_ga=2.116342342.-1334320118.1565013288">Google Cloud Console APIs and Services</a>.</p>
-<section id="bigquery">
-<span id="gbq"></span><h2>BigQuery<a class="headerlink" href="#bigquery" title="Permalink to this headline"></a></h2>
+<section id="google-admin">
+<span id="gbq"></span><h2>Google Admin<a class="headerlink" href="#google-admin" title="Permalink to this headline"></a></h2>
 <section id="overview">
 <h3>Overview<a class="headerlink" href="#overview" title="Permalink to this headline"></a></h3>
+<p>The GoogleAdmin class allows you to get information about groups and members in Google Admin.</p>
+<p>In order to instantiate the class, you must pass Google service account credentials as a dictionary, or store the credentials as a JSON string in the <code class="docutils literal notranslate"><span class="pre">GOOGLE_APPLICATION_CREDENTIALS</span></code> environment variable. You must also provide an email address for <a class="reference external" href="https://developers.google.com/admin-sdk/directory/v1/guides/delegation">domain-wide delegation</a>.</p>
+</section>
+<section id="quickstart">
+<h3>Quickstart<a class="headerlink" href="#quickstart" title="Permalink to this headline"></a></h3>
+<p>To instantiate the GoogleAdmin class, you can either pass the constructor a dict containing your Google service account credentials or define the environment variable <code class="docutils literal notranslate"><span class="pre">GOOGLE_APPLICATION_CREDENTIALS</span></code> to contain a JSON encoding of the dict.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">parsons</span> <span class="kn">import</span> <span class="n">GoogleAdmin</span>
+
+<span class="c1"># First approach: Use API credentials via environmental variables</span>
+<span class="n">admin</span> <span class="o">=</span> <span class="n">GoogleAdmin</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="s1">&#39;fakeemail@fakedomain.com&#39;</span><span class="p">)</span>
+
+<span class="c1"># Second approach: Pass API credentials as argument</span>
+<span class="n">credential_filename</span> <span class="o">=</span> <span class="s1">&#39;google_application_credentials.json&#39;</span>
+<span class="n">credentials</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="nb">open</span><span class="p">(</span><span class="n">credential_filename</span><span class="p">))</span>
+<span class="n">sheets</span> <span class="o">=</span> <span class="n">GoogleSheets</span><span class="p">(</span><span class="n">credentials</span><span class="p">,</span> <span class="s1">&#39;fakeemail@fakedomain.com&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>You can then get information about groups and members using instance methods:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">members</span> <span class="o">=</span> <span class="n">admin</span><span class="o">.</span><span class="n">get_all_group_members</span><span class="p">(</span><span class="s1">&#39;group_key&#39;</span><span class="p">)</span>
+<span class="n">groups</span> <span class="o">=</span> <span class="n">admin</span><span class="o">.</span><span class="n">get_all_groups</span><span class="p">(</span><span class="n">domain</span><span class="o">=</span><span class="s1">&#39;fakedomain.com&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="api">
+<h3>API<a class="headerlink" href="#api" title="Permalink to this headline"></a></h3>
+<dl class="py class">
+<dt class="sig sig-object py" id="parsons.google.google_admin.GoogleAdmin">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">parsons.google.google_admin.</span></span><span class="sig-name descname"><span class="pre">GoogleAdmin</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">app_creds</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sub</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/google/google_admin.html#GoogleAdmin"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.google.google_admin.GoogleAdmin" title="Permalink to this definition"></a></dt>
+<dd><p>A connector for Google Admin.</p>
+<dl class="simple">
+<dt><cite>Args:</cite></dt><dd><dl class="simple">
+<dt>app_creds: str</dt><dd><p>A credentials json string or a path to a json file. Not required if
+<code class="docutils literal notranslate"><span class="pre">GOOGLE_APPLICATION_CREDENTIALS</span></code> env variable set.</p>
+</dd>
+<dt>sub: str</dt><dd><p>An email address that this service account will act on behalf of (via domain-wide
+delegation)</p>
+</dd>
+</dl>
+</dd>
+<dt><cite>Returns:</cite></dt><dd><p>GoogleAdmin Class</p>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="parsons.google.google_admin.GoogleAdmin.get_all_group_members">
+<span class="sig-name descname"><span class="pre">get_all_group_members</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">group_key</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">params</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/google/google_admin.html#GoogleAdmin.get_all_group_members"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.google.google_admin.GoogleAdmin.get_all_group_members" title="Permalink to this definition"></a></dt>
+<dd><p>Get all members in a group. <a class="reference external" href="https://developers.google.com/admin-sdk/directory/v1/guides/manage-group-members#get_all_members">Google Admin API Documentation</a></p>
+<dl class="simple">
+<dt><cite>Args:</cite></dt><dd><dl class="simple">
+<dt>group_key: str</dt><dd><p>The Google group id</p>
+</dd>
+<dt>params: dict</dt><dd><p>A dictionary of fields for the GET request</p>
+</dd>
+</dl>
+</dd>
+<dt><cite>Returns:</cite></dt><dd><p>Table Class</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="parsons.google.google_admin.GoogleAdmin.get_all_groups">
+<span class="sig-name descname"><span class="pre">get_all_groups</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">params</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/google/google_admin.html#GoogleAdmin.get_all_groups"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.google.google_admin.GoogleAdmin.get_all_groups" title="Permalink to this definition"></a></dt>
+<dd><p>Get all groups in a domain or account. <a class="reference external" href="https://developers.google.com/admin-sdk/directory/v1/guides/manage-groups#get_all_domain_groups">Google Admin API Documentation</a>
+<cite>Args:</cite></p>
+<blockquote>
+<div><dl class="simple">
+<dt>params: dict</dt><dd><p>A dictionary of fields for the GET request.</p>
+</dd>
+</dl>
+</div></blockquote>
+<dl class="simple">
+<dt><cite>Returns:</cite></dt><dd><p>Table Class</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<p></p>
+</section>
+<section id="bigquery">
+<h2>BigQuery<a class="headerlink" href="#bigquery" title="Permalink to this headline"></a></h2>
+<section id="id2">
+<h3>Overview<a class="headerlink" href="#id2" title="Permalink to this headline"></a></h3>
 <p>Google BigQuery is a cloud data warehouse solution. Data is stored in tables, and users can query using SQL.
 BigQuery uses datasets as top level containers for tables, and datasets are themselves contained within
 Google Cloud projects.</p>
 </section>
-<section id="quickstart">
-<h3>Quickstart<a class="headerlink" href="#quickstart" title="Permalink to this headline"></a></h3>
+<section id="id3">
+<h3>Quickstart<a class="headerlink" href="#id3" title="Permalink to this headline"></a></h3>
 <p>To instantiate the GoogleBigQuery class, you can pass the constructor a string containing either the name of the Google service account credentials file or a JSON string encoding those credentials. Alternatively, you can set the environment variable <code class="docutils literal notranslate"><span class="pre">GOOGLE_APPLICATION_CREDENTIALS</span></code> to be either of those strings and call the constructor without that argument.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">parsons</span> <span class="kn">import</span> <span class="n">GoogleBigQuery</span>
 
@@ -223,8 +314,8 @@ Google Cloud projects.</p>
 </pre></div>
 </div>
 </section>
-<section id="api">
-<h3>API<a class="headerlink" href="#api" title="Permalink to this headline"></a></h3>
+<section id="id4">
+<h3>API<a class="headerlink" href="#id4" title="Permalink to this headline"></a></h3>
 <dl class="py class">
 <dt class="sig sig-object py" id="parsons.google.google_bigquery.GoogleBigQuery">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">parsons.google.google_bigquery.</span></span><span class="sig-name descname"><span class="pre">GoogleBigQuery</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">app_creds</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">project</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">location</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/google/google_bigquery.html#GoogleBigQuery"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.google.google_bigquery.GoogleBigQuery" title="Permalink to this definition"></a></dt>
@@ -273,7 +364,7 @@ into BigQuery. Required if <cite>GCS_TEMP_BUCKET</cite> is not specified.</p>
 <dt>job_config: object</dt><dd><p>A LoadJobConfig object to provide to the underlying call to load_table_from_uri
 on the BigQuery client. The function will create its own if not provided.</p>
 </dd>
-<dt><a href="#id1"><span class="problematic" id="id2">**</span></a>load_kwargs: kwargs</dt><dd><p>Arguments to pass to the underlying load_table_from_uri call on the BigQuery
+<dt><a href="#id5"><span class="problematic" id="id6">**</span></a>load_kwargs: kwargs</dt><dd><p>Arguments to pass to the underlying load_table_from_uri call on the BigQuery
 client.</p>
 </dd>
 </dl>
@@ -364,14 +455,14 @@ injection attacks.</p>
 </section>
 <section id="cloud-storage">
 <h2>Cloud Storage<a class="headerlink" href="#cloud-storage" title="Permalink to this headline"></a></h2>
-<section id="id3">
-<h3>Overview<a class="headerlink" href="#id3" title="Permalink to this headline"></a></h3>
+<section id="id7">
+<h3>Overview<a class="headerlink" href="#id7" title="Permalink to this headline"></a></h3>
 <p>Google Cloud Storage is a cloud file storage system. It uses buckets in which to
 store arbitrary files referred to as blobs. You may use this connector to upload Parsons tables as blobs, download them to files, and list available blobs.</p>
 <p>To use the GoogleCloudStorage class, you will need Google service account credentials. If you are the administrator of your Google Cloud account, you can generate them in the <a class="reference external" href="https://console.cloud.google.com/apis/credentials/serviceaccountkey?_ga=2.116342342.-1334320118.1565013288">Google Cloud Console APIs and Services</a>.</p>
 </section>
-<section id="id5">
-<h3>Quickstart<a class="headerlink" href="#id5" title="Permalink to this headline"></a></h3>
+<section id="id9">
+<h3>Quickstart<a class="headerlink" href="#id9" title="Permalink to this headline"></a></h3>
 <p>To instantiate the GoogleBigQuery class, you can pass the constructor a string containing either the name of your Google service account credentials file or a JSON string encoding those credentials. Alternatively, you can set the environment variable <code class="docutils literal notranslate"><span class="pre">GOOGLE_APPLICATION_CREDENTIALS</span></code> to be either of those strings and call the constructor without that argument.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">parsons</span> <span class="kn">import</span> <span class="n">GoogleCloudStorage</span>
 
@@ -398,8 +489,8 @@ the available blobs.</p>
 </pre></div>
 </div>
 </section>
-<section id="id6">
-<h3>API<a class="headerlink" href="#id6" title="Permalink to this headline"></a></h3>
+<section id="id10">
+<h3>API<a class="headerlink" href="#id10" title="Permalink to this headline"></a></h3>
 <dl class="py class">
 <dt class="sig sig-object py" id="parsons.google.google_cloud_storage.GoogleCloudStorage">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">parsons.google.google_cloud_storage.</span></span><span class="sig-name descname"><span class="pre">GoogleCloudStorage</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">app_creds</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">project</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/google/google_cloud_storage.html#GoogleCloudStorage"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.google.google_cloud_storage.GoogleCloudStorage" title="Permalink to this definition"></a></dt>
@@ -666,16 +757,16 @@ when the script is done running.</p>
 </section>
 <section id="civic">
 <h2>Civic<a class="headerlink" href="#civic" title="Permalink to this headline"></a></h2>
-<section id="id7">
-<h3>Overview<a class="headerlink" href="#id7" title="Permalink to this headline"></a></h3>
+<section id="id11">
+<h3>Overview<a class="headerlink" href="#id11" title="Permalink to this headline"></a></h3>
 <p>Google Civic is an API which provides helpful information about elections. In order to access Google Civic you must
 create a Google Developer Key in their <a class="reference external" href="https://console.developers.google.com/apis/">API console</a>. In order to
 use Google Civic, you must enable this specific end point.</p>
 <p>The Google Civic API utilizes the <a class="reference external" href="https://www.votinginfoproject.org/">Voting Information Project</a> to collect
 key civic information such as personalized ballots and polling location information.</p>
 </section>
-<section id="id8">
-<h3>Quickstart<a class="headerlink" href="#id8" title="Permalink to this headline"></a></h3>
+<section id="id12">
+<h3>Quickstart<a class="headerlink" href="#id12" title="Permalink to this headline"></a></h3>
 <p>To instantiate the GoogleCivic class, you can pass the constructor a string containing the Google Civic API key you’ve generated for your project, or set the environment variable <code class="docutils literal notranslate"><span class="pre">GOOGLE_CIVIC_API_KEY</span></code> to that value.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">parsons</span> <span class="kn">import</span> <span class="n">GoogleCivic</span>
 
@@ -699,8 +790,8 @@ key civic information such as personalized ballots and polling location informat
 </pre></div>
 </div>
 </section>
-<section id="id9">
-<h3>API<a class="headerlink" href="#id9" title="Permalink to this headline"></a></h3>
+<section id="id13">
+<h3>API<a class="headerlink" href="#id13" title="Permalink to this headline"></a></h3>
 <dl class="py class">
 <dt class="sig sig-object py" id="parsons.google.google_civic.GoogleCivic">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">parsons.google.google_civic.</span></span><span class="sig-name descname"><span class="pre">GoogleCivic</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">api_key</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/google/google_civic.html#GoogleCivic"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.google.google_civic.GoogleCivic" title="Permalink to this definition"></a></dt>
@@ -778,13 +869,13 @@ env variable set.</p>
 </section>
 <section id="google-sheets">
 <h2>Google Sheets<a class="headerlink" href="#google-sheets" title="Permalink to this headline"></a></h2>
-<section id="id10">
-<h3>Overview<a class="headerlink" href="#id10" title="Permalink to this headline"></a></h3>
+<section id="id14">
+<h3>Overview<a class="headerlink" href="#id14" title="Permalink to this headline"></a></h3>
 <p>The GoogleSheets class allows you to interact with Google service account spreadsheets, called “Google Sheets.” You can create, modify, read, format, share and delete sheets with this connector.</p>
 <p>In order to instantiate the class, you must pass Google service account credentials as a dictionary, or store the credentials as a JSON string in the <code class="docutils literal notranslate"><span class="pre">GOOGLE_DRIVE_CREDENTIALS</span></code> environment variable. Typically you’ll get the credentials from the Google Developer Console (look for the “Google Drive API”).</p>
 </section>
-<section id="id11">
-<h3>Quickstart<a class="headerlink" href="#id11" title="Permalink to this headline"></a></h3>
+<section id="id15">
+<h3>Quickstart<a class="headerlink" href="#id15" title="Permalink to this headline"></a></h3>
 <p>To instantiate the GoogleSheets class, you can either pass the constructor a dict containing your Google service account credentials or define the environment variable <code class="docutils literal notranslate"><span class="pre">GOOGLE_DRIVE_CREDENTIALS</span></code> to contain a JSON encoding of the dict.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">parsons</span> <span class="kn">import</span> <span class="n">GoogleSheets</span>
 
@@ -804,17 +895,20 @@ env variable set.</p>
 </pre></div>
 </div>
 </section>
-<section id="id12">
-<h3>API<a class="headerlink" href="#id12" title="Permalink to this headline"></a></h3>
+<section id="id16">
+<h3>API<a class="headerlink" href="#id16" title="Permalink to this headline"></a></h3>
 <dl class="py class">
 <dt class="sig sig-object py" id="parsons.google.google_sheets.GoogleSheets">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">parsons.google.google_sheets.</span></span><span class="sig-name descname"><span class="pre">GoogleSheets</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">google_keyfile_dict</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/google/google_sheets.html#GoogleSheets"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.google.google_sheets.GoogleSheets" title="Permalink to this definition"></a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">parsons.google.google_sheets.</span></span><span class="sig-name descname"><span class="pre">GoogleSheets</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">google_keyfile_dict</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">subject</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/google/google_sheets.html#GoogleSheets"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.google.google_sheets.GoogleSheets" title="Permalink to this definition"></a></dt>
 <dd><p>A connector for Google Sheets, handling data import and export.</p>
 <dl class="simple">
 <dt><cite>Args:</cite></dt><dd><dl class="simple">
 <dt>google_keyfile_dict: dict</dt><dd><p>A dictionary of Google Drive API credentials, parsed from JSON provided
 by the Google Developer Console. Required if env variable
 <code class="docutils literal notranslate"><span class="pre">GOOGLE_DRIVE_CREDENTIALS</span></code> is not populated.</p>
+</dd>
+<dt>subject: string</dt><dd><p>In order to use account impersonation, pass in the email address of the account to be
+impersonated as a string.</p>
 </dd>
 </dl>
 </dd>

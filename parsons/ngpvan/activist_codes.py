@@ -106,7 +106,4 @@ class ActivistCodes(object):
             ``None``
         """
 
-        return self.toggle_activist_code(id,
-                                         activist_code_id,
-                                         'Remove',
-                                         id_type=id_type)
+        return self.toggle_activist_code(id, activist_code_id, 'Remove', id_type=id_type)

@@ -36,7 +36,7 @@ class Activities:
         Get a Activity by id.
         `Args:`
             id: str
-                The Activity id 
+                The Activity id
         `Returns:`
             parsons.Table
                 A Parsons table of all the data.
@@ -56,4 +56,3 @@ class Activities:
             "canvassingShift": canvassing_shift
         }
         return self._request(f"{self.url_activites}/{id}", req_type='PUT', post_data=payload)
-

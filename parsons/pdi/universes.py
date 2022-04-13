@@ -1,5 +1,3 @@
-from sqlalchemy import delete
-
 
 class Universes:
     """A class to access the Universes PDI API endpoint."""
@@ -24,13 +22,13 @@ class Universes:
 
         return self._request(self.url_universes, limit=limit)
 
-    def get_universe(self, id:str):
+    def get_universe(self, id: str):
         """
         Get a Universe by id.
 
         `Args:`
             id: str
-                The Universe id 
+                The Universe id
         `Returns:`
             parsons.Table
                 A Parsons table of all the data.

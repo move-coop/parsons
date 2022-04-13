@@ -10,7 +10,6 @@ class Flags:
         flags_endpoint = "/flags"
         self.url_flags = self.base_url + flags_endpoint
 
-
     def get_flags(self, start_date, end_date, limit=None):
         """Get a list of flags.
 
@@ -58,7 +57,8 @@ class Flags:
             return {}
         for flag in flag_list:
             try:
-                flag["flagEntryDate"] = str(datetime.strptime(flag["flagEntryDate"], "%Y-%m-%d").isoformat())
+                flag["flagEntryDate"] = str(
+                    datetime.strptime(flag["flagEntryDate"], "%Y-%m-%d").isoformat())
             except ValueError:
                 raise ValueError("Invalid date format.")
         print(flag_list)
@@ -69,6 +69,6 @@ class Flags:
         Delete a Flag by id.
         `Args:`
             id: str
-                The Flag id 
+                The Flag id
         """
-        return self._request(f"self.url_flags/{id}",req_type="DELETE")
+        return self._request(f"self.url_flags/{id}", req_type="DELETE")

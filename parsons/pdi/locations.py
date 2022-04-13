@@ -20,7 +20,6 @@ class Locations:
 
         return self._request(self.locations_url, limit=limit)
 
-
     def create_location(self, address: str, name: str):
         """Create a new PDI address
         `Args:`
@@ -39,10 +38,8 @@ class Locations:
         }
         return self._request(self.locations_url, req_type='POST', post_data=payload)
 
-
     def get_location(self, id: str):
         return self._request(f"{self.locations_url}/{id}")
-    
 
     def update_location(self, id: str, location_name: str, address: str):
         payload = {

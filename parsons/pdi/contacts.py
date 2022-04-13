@@ -5,14 +5,14 @@ class Contacts:
         self.url_contacts = self.base_url + "/contacts"
         super().__init__()
 
-
-    def get_contacts(self, email:str=None, phone:str=None, first_name:str=None, 
-    last_name:str=None, zip_code:str=None, search_by_email:bool=False, limit:int=None):
+    def get_contacts(self, email: str = None, phone: str = None, first_name: str = None,
+                     last_name: str = None, zip_code: str = None, search_by_email: bool = False,
+                     limit: int = None):
         """
         Get a list of Contacts.
         `Args:`
             email: str, email address
-            phone: str, phone number 
+            phone: str, phone number
             first_name: str, first name
             last_name: str, last name
             zip code: str, zip code
@@ -33,27 +33,27 @@ class Contacts:
         }
         return self._request(self.url_contacts, args=params, limit=limit)
 
-
     def create_contact(self, name_prefix="", first_name="", last_name="", middle_name="",
-        name_suffix="", nickname="", occupation="", employer="", volunteer_status="",
-        donor_status="", member_status="", date_of_birth=None, gender=None, pdi_id=None):
+                       name_suffix="", nickname="", occupation="", employer="", volunteer_status="",
+                       donor_status="", member_status="", date_of_birth=None, gender=None,
+                       pdi_id=None):
         """
         Create new contact
         `Args:`
             pdiId (string, optional): The pdi identifier. pdiId field is ignored when updating. ,
-            namePrefix (string): The name prefix. 
+            namePrefix (string): The name prefix.
             firstName (string): The first name.
             middleName (string): The middle name.
             lastName (string): The last name.
-            nameSuffix (string): The name suffix. 
-            nickname (string): The nickname. 
-            occupation (string): The occupation. 
-            employer (string): The employer. 
-            volunteerStatus (string): The volunteer status. 
+            nameSuffix (string): The name suffix.
+            nickname (string): The nickname.
+            occupation (string): The occupation.
+            employer (string): The employer.
+            volunteerStatus (string): The volunteer status.
             Options are: "Prospect", "Active", "Inactive", "None", "" ,
-            donorStatus (string): The donor status. 
+            donorStatus (string): The donor status.
             Options are: "Prospect", "Active", "Inactive", "None", "" ,
-            memberStatus (string): The member status. 
+            memberStatus (string): The member status.
             Options are: "Prospect", "Active", "Inactive", "None", "" ,
             dateOfBirth (string, optional): The date of birth.
             Format allowed: yyyy-MM-dd ,
@@ -82,14 +82,13 @@ class Contacts:
         }
         return self._request(self.url_contacts, req_type='POST', post_data=payload)
 
-
     def get_contact(self, id: str):
         """
         Get a Contact by id.
 
         `Args:`
             id: str
-                The Contact id 
+                The Contact id
         `Returns:`
             parsons.Table
                 A Parsons table of all the data.
@@ -97,32 +96,31 @@ class Contacts:
         # todo not working quite right
         return self._request(f"{self.url_contacts}/{id}")
 
-
-    def update_contact(self, id, first_name, last_name, name_prefix="", middle_name="", 
-        name_suffix="", nickname="", occupation="", employer="", volunteer_status="", 
-        donor_status="", member_status="", date_of_birth=None, gender="U"):
+    def update_contact(self, id, first_name, last_name, name_prefix="", middle_name="",
+                       name_suffix="", nickname="", occupation="", employer="", volunteer_status="",
+                       donor_status="", member_status="", date_of_birth=None, gender="U"):
         """
         Update Contact
         `Args:`
-            namePrefix (string): The name prefix. 
+            namePrefix (string): The name prefix.
             firstName (string): The first name.
-            middleName (string): The middle name. 
+            middleName (string): The middle name.
             lastName (string): The last name.
-            nameSuffix (string): The name suffix. 
-            nickname (string): The nickname. 
-            occupation (string): The occupation. 
-            employer (string): The employer. 
-            volunteerStatus (string): The volunteer status. 
+            nameSuffix (string): The name suffix.
+            nickname (string): The nickname.
+            occupation (string): The occupation.
+            employer (string): The employer.
+            volunteerStatus (string): The volunteer status.
             Options are: "Prospect", "Active", "Inactive", "None", "" ,
-            donorStatus (string): The donor status. 
+            donorStatus (string): The donor status.
             Options are: "Prospect", "Active", "Inactive", "None", "" ,
-            memberStatus (string): The member status. 
+            memberStatus (string): The member status.
             Options are: "Prospect", "Active", "Inactive", "None", "" ,
             dateOfBirth (string, optional): The date of birth.
             Format allowed: yyyy-MM-dd ,
             gender (string, optional): The gender.
             Options are: "F", "M", "U"
-        
+
         `Returns:`
             parsons.Table
                 A Parsons table of all the data.
@@ -206,6 +204,6 @@ class Contacts:
         Delete a Question by id.
         `Args:`
             id: str
-                The Question id 
+                The Question id
         """
         return self._request(f"{self.url_contacts}/{id}", req_type="DELETE")

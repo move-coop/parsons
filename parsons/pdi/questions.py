@@ -26,16 +26,16 @@ class Questions:
 
         `Args:`
             id: str
-                The Question id 
+                The Question id
         `Returns:`
             parsons.Table
                 A Parsons table of all the data.
         """
         return self._request(f"{self.url_questions}/{id}")
 
-    def create_question(self, question:str, type:str, category:str, answer_options:list,
-    question_label:str=None, question_description:str=None, candidate_issue_id:str=None, 
-    default:bool=True, *args):
+    def create_question(self, question: str, type: str, category: str, answer_options: list,
+                        question_label: str = None, question_description: str = None,
+                        candidate_issue_id: str = None, default: bool = True, *args):
         """
         answer_options:[
                 {

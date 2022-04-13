@@ -2,6 +2,7 @@ import logging
 
 logger = logging.getLogger(__name__)
 
+
 class Events:
     """A class for interacting with PDI events via PDIs API"""
 
@@ -56,7 +57,7 @@ class Events:
         return self._request(f'{self.events_url}/{event_id}/invitations', args=params, limit=limit)
 
     def create_event(self, calendar_id: str, location_id: str, event_name: str, start_datetime: str,
-                     end_datetime: str, description=None,all_day=False, recurrencetype=None,
+                     end_datetime: str, description=None, all_day=False, recurrencetype=None,
                      recurrence_end_datetime=None, host_phone=None, host_email=None, website=None):
         """Create event in a specified calendar
 
@@ -118,8 +119,9 @@ class Events:
     def create_event_with_activity(self, calendar_id: str, location_id: str, activity_id: str,
                                    event_name: str, activity_name: str, start_datetime: str,
                                    end_datetime: str, description=None, all_day=False,
-                                   recurrencetype=None, recurrence_end_datetime=None, host_phone=None,
-                                   host_email=None, website=None, signup_goal=None):
+                                   recurrencetype=None, recurrence_end_datetime=None,
+                                   host_phone=None, host_email=None, website=None,
+                                   signup_goal=None):
         """Create event in a specified calendar with an associated activity. The activty will
             be assigned the same start, end time, and recurrance settings as the event.
 
@@ -365,7 +367,6 @@ class Events:
                                  post_data=assignment_payload)
 
         return response
-
 
     def update_activity_assignment(self, activityassignementid: str, eventactivityid: str,
                                    contact_id: str, status=None, completed=None, confirmed=None,

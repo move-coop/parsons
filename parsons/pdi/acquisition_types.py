@@ -7,7 +7,7 @@ class AcquisitionTypes:
 
         super().__init__()
 
-    def get_acquisition_types(self, limit:int=None):
+    def get_acquisition_types(self, limit: int = None):
         """Get a list of Acquisition Types.
         `Args:`
             limit: int
@@ -19,8 +19,8 @@ class AcquisitionTypes:
         """
         return self._request(self.url_acqtypes, limit=limit)
 
-    def create_acquisition_type(self, acquisition_type:str, acquisition_description:str, 
-    acquisition_method:str, page_default:str=None):
+    def create_acquisition_type(self, acquisition_type: str, acquisition_description: str,
+                                acquisition_method: str, page_default: str = None):
         """
         Create a new Acquisition Type
         `Args:`
@@ -56,30 +56,29 @@ class AcquisitionTypes:
         }
         return self._request(self.url_acqtypes, req_type='POST', post_data=payload)
 
-    def get_acquisition_type(self, id:str):
+    def get_acquisition_type(self, id: str):
         """
         Get a Acquisition Type by id.
         `Args:`
             id: str
-                The Acquisition Type id 
+                The Acquisition Type id
         `Returns:`
             parsons.Table
                 A Parsons table of all the data.
         """
         return self._request(f"{self.url_acqtypes}/{id}")
 
-
     def delete_acquisition_type(self, id: str):
         """
         Delete a Acquisition Type by id.
         `Args:`
             id: str
-                The Acquisition Type id 
+                The Acquisition Type id
         """
         return self._request(f"{self.url_acqtypes}/{id}", req_type="DELETE")
 
-    def update_acquisition_type(self, id:str, acquisition_type:str, acquisition_description:str,
-    acquisition_method:str, page_default:str=None):
+    def update_acquisition_type(self, id: str, acquisition_type: str, acquisition_description: str,
+                                acquisition_method: str, page_default: str = None):
         """
         Update Acquisition Type
         `Args:`

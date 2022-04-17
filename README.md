@@ -10,7 +10,7 @@ Parsons offers simplified interactions with these services and tools, including 
 
 This project is maintained by [The Movement Cooperative](https://movementcooperative.org/) and is named after [Lucy Parsons](https://en.wikipedia.org/wiki/Lucy_Parsons). The Movement Cooperative is a member-led organization focused on providing data, tools, and strategic support for the progressive community.
 
-Parsons is only compatible with Python 3.6/7/8
+Parsons is only compatible with Python 3.7-10
 
 ### License and Usage
 Usage of Parsons is governed by a [modified Apache License with author attribution statement](https://github.com/move-coop/parsons/blob/main/LICENSE.md).

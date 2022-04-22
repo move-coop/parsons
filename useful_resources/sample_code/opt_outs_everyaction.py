@@ -9,8 +9,8 @@ from datetime import datetime
 # Credentials
 
 # The API_KEYS_STR variable contains API keys for EA committees in this format:
-# {"committee": "Committee 1 Name", "committee_id": "Committee 1 ID", "api_key": "Committee 1 API key"},
-# {"committee": "Committee 2 Name", "committee_id": "Committee 2 ID", "api_key": "Committee 2 API key"}
+# {"committee": "Comm. 1 Name", "committee_id": "Comm. 1 ID", "api_key": "Comm. 1 API key"},
+# {"committee": "Comm. 2 Name", "committee_id": "Comm. 2 ID", "api_key": "Comm. 2 API key"}
 API_KEYS_STR = os.environ['VAN_API_KEYS_PASSWORD']
 
 # Configuration Variables
@@ -36,11 +36,12 @@ ERROR_TABLE = os.environ['ERROR_TABLE']
 
 rs = Redshift()
 
+
 def attempt_optout(ea, row, applied_at, committeeid, success_log, error_log, attempts_left=3):
-    
+
     vanid = row['vanid']
     phone = row['phone']
-    
+
     # Documentation on this json construction is here: https://docs.ngpvan.com/reference/common-models
     json = {
         "phones": [
@@ -97,9 +98,13 @@ def attempt_optout(ea, row, applied_at, committeeid, success_log, error_log, att
             })
             error_tbl = Table(error_log)
             if error_tbl.num_rows() > 0:
-                error_tbl.to_redshift(ERROR_TABLE, if_exists='append', alter_table=True)
+                error_tbl.to_redshift(
+                    ERROR_TABLE,
+                    if_exists='append',
+                    alter_table=True
+                )
             raise Exception(f"Connection Error {r}")
-            
+
     return r
 
 def main():
@@ -115,7 +120,7 @@ def main():
 
     # Loop through each API key to update phones in each committee
     for k in API_KEYS:
-        
+
         api = k['api_key']
         committeeid = k['committee_id']
         committee = k['committee'] # This is the committee name
@@ -124,15 +129,15 @@ def main():
         logger.info(f"Working on opt outs in {committee} committee...")
 
         update = s.select_rows(lambda row: str(row.committeeid) == committeeid)
-        
+
         logger.info(f"Found {update.num_rows} phones to opt out in {committee} committee...")
 
         # Now we actually update the records
-        
+
         if update.num_rows > 0:
 
             for u in update:
-                
+
                 applied_at = str(datetime.now()).split(".")[0]
                 attempt_optout(ea, u, applied_at, committeeid, success_log, error_log)
 
@@ -142,14 +147,15 @@ def main():
     if len(success_log) > 0:
         success_t = Table(success_log)
         logger.info("Copying success data into log table...")
-        st = rs.copy(success_t, SUCCESS_TABLE, if_exists = 'append', alter_table = True)
+        rs.copy(success_t, SUCCESS_TABLE, if_exists='append', alter_table = True)
         logger.info("Success log complete.")
 
     if len(error_log) > 0:
         error_t = Table(error_log)
         logger.info("Copying error data into log table...")
-        et = rs.copy(error_t, ERROR_TABLE, if_exists = 'append', alter_table = True)
+        rs.copy(error_t, ERROR_TABLE, if_exists='append', alter_table = True)
         logger.info("Error log complete.")
+
 
 if __name__ == '__main__':
     main()

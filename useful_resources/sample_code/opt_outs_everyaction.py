@@ -42,17 +42,18 @@ def attempt_optout(ea, row, applied_at, committeeid, success_log, error_log, att
     vanid = row['vanid']
     phone = row['phone']
 
-    # Documentation on this json construction is here: https://docs.ngpvan.com/reference/common-models
+    # Documentation on this json construction is here
+    # https://docs.ngpvan.com/reference/common-models
     json = {
         "phones": [
             {"phoneNumber": phone,
-            "phoneOptInStatus": "O"}
+             "phoneOptInStatus": "O"}
         ]
     }
 
     try:
-        r = ea.update_person_json(id = vanid, match_json=json)
-        
+        r = ea.update_person_json(id=vanid, match_json=json)
+
         if isinstance(r, dict):
             # Response is only a dict upon success
             success_log.append({
@@ -84,11 +85,11 @@ def attempt_optout(ea, row, applied_at, committeeid, success_log, error_log, att
             # Wait 10 seconds, then try again
             time.sleep(10)
             attempt_optout(ea, row, attempts_left)
-            
+
         else:
             r = str(c)[:999]
             return r
-            
+
             error_log.append({
                 "vanid": vanid,
                 "phone": phone,
@@ -107,6 +108,7 @@ def attempt_optout(ea, row, applied_at, committeeid, success_log, error_log, att
 
     return r
 
+
 def main():
     # Creating empty lists where we'll log successes and errors
     success_log = []
@@ -116,14 +118,14 @@ def main():
     s = rs.query(f"select * from {OPT_OUT_TABLE}")
 
     # Turn the API keys into a list
-    API_KEYS = list(ast.literal_eval(API_KEYS_STR)) if '},' in API_KEYS_STR else [ast.literal_eval(API_KEYS_STR)]
+    API_KEYS = list(ast.literal_eval(API_KEYS_STR))
 
     # Loop through each API key to update phones in each committee
     for k in API_KEYS:
 
         api = k['api_key']
         committeeid = k['committee_id']
-        committee = k['committee'] # This is the committee name
+        committee = k['committee']  # This is the committee name
         ea = VAN(db='EveryAction', api_key=api)
 
         logger.info(f"Working on opt outs in {committee} committee...")
@@ -142,18 +144,18 @@ def main():
                 attempt_optout(ea, u, applied_at, committeeid, success_log, error_log)
 
     # Now we log results
-    logger.info(f"There were {len(success_log)} successes and {len(error_log)} errors updating subscription statuses.")
+    logger.info(f"There were {len(success_log)} successes and {len(error_log)} errors applying opt-outs.")
 
     if len(success_log) > 0:
         success_t = Table(success_log)
         logger.info("Copying success data into log table...")
-        rs.copy(success_t, SUCCESS_TABLE, if_exists='append', alter_table = True)
+        rs.copy(success_t, SUCCESS_TABLE, if_exists='append', alter_table=True)
         logger.info("Success log complete.")
 
     if len(error_log) > 0:
         error_t = Table(error_log)
         logger.info("Copying error data into log table...")
-        rs.copy(error_t, ERROR_TABLE, if_exists='append', alter_table = True)
+        rs.copy(error_t, ERROR_TABLE, if_exists='append', alter_table=True)
         logger.info("Error log complete.")
 
 

@@ -9,7 +9,7 @@ xmltodict==0.11.0
 gspread==3.7.0
 oauth2client==4.1.3
 google-auth==2.6.2
-facebook-business==6.0.0
+facebook-business==13.0.0
 google-api-python-client==1.7.7
 google-resumable-media==2.3.2
 grpcio==1.45.0
@@ -42,8 +42,8 @@ requests_oauthlib==1.3.0
 # Testing Requirements
 requests-mock==1.5.2
 flake8==4.0.1
-testfixtures==6.4.3
-pytest==5.2.0
+testfixtures==6.18.5
+pytest==7.1.1
 pytest-datadir==1.3.0
 
 # Stuff for TMC scripts

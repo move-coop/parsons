@@ -45,7 +45,7 @@ class ActivistCodes(object):
     def toggle_activist_code(self, id, activist_code_id, action, id_type='vanid',
                              omit_contact=True):
         # Internal method to apply/remove activist codes. Was previously a public method,
-        # but for the sake of simplicity, breaking out into two public methods.
+        # but for the sake of simplicity, breaking out into two public methods. 
 
         response = {"activistCodeId": activist_code_id,
                     "action": action_parse(action),

@@ -6,15 +6,6 @@ from parsons import Redshift, Table, VAN
 from parsons import logger
 from datetime import datetime
 
-# To use the Redshift connector, set the following environmental variables:
-# REDSHIFT_USERNAME
-# REDSHIFT_PASSWORD
-# REDSHIFT_HOST
-# REDSHIFT_DB
-# REDSHIFT_PORT
-
-rs = Redshift()
-
 # Credentials
 
 # The API_KEYS_STR variable contains API keys for EA committees in this format:
@@ -35,6 +26,15 @@ SUCCESS_TABLE = os.environ['SUCCESS_TABLE']
 # The ERROR_TABLE is a schema.table where errors will be logged.
 # This table's columns will be : vanid, phone, committeeid, errored_at, and error.
 ERROR_TABLE = os.environ['ERROR_TABLE']
+
+# To use the Redshift connector, set the following environmental variables:
+# REDSHIFT_USERNAME
+# REDSHIFT_PASSWORD
+# REDSHIFT_HOST
+# REDSHIFT_DB
+# REDSHIFT_PORT
+
+rs = Redshift()
 
 def attempt_optout(ea, row, applied_at, committeeid, success_log, error_log, attempts_left=3):
     

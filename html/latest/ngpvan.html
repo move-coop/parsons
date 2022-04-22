@@ -783,13 +783,13 @@ can be found by using the <code class="xref py py-meth docutils literal notransl
 
 <dl class="py method">
 <dt class="sig sig-object py" id="parsons.ngpvan.van.People.apply_response">
-<span class="sig-name descname"><span class="pre">apply_response</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">response</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">id_type</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'vanid'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">contact_type_id</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">input_type_id</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">date_canvassed</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">result_code_id</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/ngpvan/people.html#People.apply_response"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.ngpvan.van.People.apply_response" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">apply_response</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">response</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">id_type</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'vanid'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">contact_type_id</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">input_type_id</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">date_canvassed</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">result_code_id</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">omit_contact</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/ngpvan/people.html#People.apply_response"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.ngpvan.van.People.apply_response" title="Permalink to this definition"></a></dt>
 <dd><p>Apply responses such as survey questions, activist codes, and volunteer actions
 to a person record. This method allows you apply multiple responses (e.g. two survey
 questions) at the same time. It is a low level method that requires that you
 conform to the VAN API <a class="reference external" href="https://docs.ngpvan.com/reference/canvass-responses">response object
 format</a>.</p>
-<dl>
+<dl class="simple">
 <dt><cite>Args:</cite></dt><dd><dl class="simple">
 <dt>id: str</dt><dd><p>A valid person id</p>
 </dd>
@@ -809,8 +809,13 @@ can be found by using the <code class="xref py py-meth docutils literal notransl
 </dd>
 <dt>date_canvassed<span class="classifier">str</span></dt><dd><p><cite>Optional</cite>; ISO 8601 formatted date. Defaults to todays date</p>
 </dd>
+<dt>responses<span class="classifier">list or dict</span></dt><dd><p>The responses to apply.</p>
+</dd>
+<dt>omit_contact: boolean</dt><dd><p>Omit adding contact history to the response. This is particularly
+useful when adding activist codes that are not based on contact
+attempts.</p>
+</dd>
 </dl>
-<p>responses : list or dict</p>
 </dd>
 <dt><cite>Returns:</cite></dt><dd><p><code class="docutils literal notranslate"><span class="pre">True</span></code> if successful</p>
 </dd>
@@ -907,7 +912,7 @@ such as <code class="docutils literal notranslate"><span class="pre">dwid</span>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="parsons.ngpvan.van.ActivistCodes.apply_activist_code">
-<span class="sig-name descname"><span class="pre">apply_activist_code</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">activist_code_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">id_type</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'vanid'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/ngpvan/activist_codes.html#ActivistCodes.apply_activist_code"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.ngpvan.van.ActivistCodes.apply_activist_code" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">apply_activist_code</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">activist_code_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">id_type</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'vanid'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">omit_contact</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/ngpvan/activist_codes.html#ActivistCodes.apply_activist_code"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.ngpvan.van.ActivistCodes.apply_activist_code" title="Permalink to this definition"></a></dt>
 <dd><p>Apply an activist code to or from a person.</p>
 <dl class="simple">
 <dt><cite>Args:</cite></dt><dd><dl class="simple">
@@ -919,6 +924,9 @@ such as <code class="docutils literal notranslate"><span class="pre">dwid</span>
 </dd>
 <dt>id_type: str</dt><dd><p>A known person identifier type available on this VAN instance
 such as <code class="docutils literal notranslate"><span class="pre">dwid</span></code></p>
+</dd>
+<dt>omit_contact: boolean</dt><dd><p>If set to false the contact history will be updated with a contact
+attempt.</p>
 </dd>
 </dl>
 </dd>

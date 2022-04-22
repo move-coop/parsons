@@ -144,7 +144,7 @@ def main():
                 attempt_optout(ea, u, applied_at, committeeid, success_log, error_log)
 
     # Now we log results
-    logger.info(f"There were {len(success_log)} successes and {len(error_log)} errors applying opt-outs.")
+    logger.info(f"There were {len(success_log)} successes and {len(error_log)} errors.")
 
     if len(success_log) > 0:
         success_t = Table(success_log)

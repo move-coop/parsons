@@ -51,7 +51,7 @@ Google Sheets
 
 Setting up the Google Sheets connector takes several steps.
 
-First, you'll need to go to the `Google Developers Console <https://console.cloud.google.com/apis/api/drive.googleapis.com/overview?project=actlocal-smartmaps>`_ and select the project you want to work with, or create a new one (recommended). Following `these instructions from Google <https://developers.google.com/drive/api/guides/enable-drive-api>`_, click **APIs & Auth** and then **APIs**. Select the Drive API from among the API options, and click **enable**.
+First, you'll need to go to the `Google Developers Console <https://console.cloud.google.com/>`_ and select the project you want to work with, or create a new one (recommended). Following `these instructions from Google <https://developers.google.com/drive/api/guides/enable-drive-api>`_, click **APIs & Auth** and then **APIs**. Select the Drive API from among the API options, and click **enable**.
 
 Once you've created a project and enabled the API, you'll need to get the credentials that will allow you to access the API. Click on the **credentials** option in the left sidebar. Click **create credentials** and select the **Service Account** option. Once you have filled out the form and clicked submit, it will give you a set of credentials as a json string which you can save to a file.
 

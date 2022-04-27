@@ -114,7 +114,6 @@ class SavedLists(object):
         rando = str(uuid.uuid1())
         file_name = rando + '.csv'
         url = cloud_storage.post_file(tbl, url_type, file_path=rando + '.zip', **url_kwargs)
-        url_for_van = url.split('?')[0]  # hack around github.com/move-coop/parsons/issues/513
         logger.info(f'Table uploaded to {url_type}.')
 
         # VAN errors for this method are not particularly useful or helpful. For that reason, we
@@ -140,7 +139,7 @@ class SavedLists(object):
                     "fileName": file_name,
                     "hasHeader": header,
                     "hasQuotes": quotes,
-                    "sourceUrl": url_for_van
+                    "sourceUrl": url
                 },
                 "actions": [
                     {"actionType": "LoadSavedListFile",

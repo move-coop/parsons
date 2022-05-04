@@ -112,9 +112,9 @@ Using Pip
 
 By default, pip installs from the `Python Package Index or PyPI <https://pypi.org/>`_, but you can tell pip to install from a branch on Github or even from a folder on your machine. All you need is a package with the right files. The specifics of those files, and how to create your own package, is a `much more advanced topic <https://packaging.python.org/en/latest/tutorials/packaging-projects/>`_.
 
-Essentially when you type ``pip install parsons`` (or pip install anything!) you’re saying “Go find this project on PyPI and install it.” (Here’s `Parsons <https://pypi.org/project/parsons/>`_ on PyPI!)
+Essentially when you type ``pip install parsons[all]`` (or pip install anything!) you’re saying “Go find this project on PyPI and install it.” (Here’s `Parsons <https://pypi.org/project/parsons/>`_ on PyPI!)
 
-To install Parsons using pip, make sure your virtual environment is activated and type ``pip install parsons``. It's that simple!
+To install Parsons using pip, make sure your virtual environment is activated and type ``pip install parsons[all]``. It's that simple!
 
 .. _git-explainer:
 

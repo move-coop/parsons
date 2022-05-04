@@ -2,7 +2,7 @@
 [![Downloads](https://pepy.tech/badge/parsons)](https://pepy.tech/project/parsons)
 [![PyPI - Python Version](https://img.shields.io/pypi/pyversions/parsons)](https://pypi.org/project/parsons/)
 [![PyPI](https://img.shields.io/pypi/v/parsons?color=blue)](https://pypi.org/project/parsons/)
-[![CircleCI](https://circleci.com/gh/move-coop/parsons/tree/master.svg?style=shield)](https://circleci.com/gh/move-coop/parsons/tree/master)
+[![CircleCI](https://circleci.com/gh/move-coop/parsons/tree/main.svg?style=shield)](https://circleci.com/gh/move-coop/parsons/tree/main)
 
 A Python package that provides a simple interface to a variety of utilities and tools frequently used by progressive organizations, political and issue campaigns, activists, and other allied actors.
 
@@ -10,10 +10,10 @@ Parsons offers simplified interactions with these services and tools, including 
 
 This project is maintained by [The Movement Cooperative](https://movementcooperative.org/) and is named after [Lucy Parsons](https://en.wikipedia.org/wiki/Lucy_Parsons). The Movement Cooperative is a member-led organization focused on providing data, tools, and strategic support for the progressive community.
 
-Parsons is only compatible with Python 3.6/7/8
+Parsons is only compatible with Python 3.7-10
 
 ### License and Usage
-Usage of Parsons is governed by the [TMC Parsons License](https://github.com/move-coop/parsons/blob/master/LICENSE.md), which allows for unlimited non-commercial usage, provided that individuals and organizations adhere to our broad values statement.
+Usage of Parsons is governed by a [modified Apache License with author attribution statement](https://github.com/move-coop/parsons/blob/main/LICENSE.md).
 
 ### Documentation
 To gain a full understanding of all of the features of Parsons, please review the Parsons [documentation](https://move-coop.github.io/parsons/html/index.html).
@@ -22,7 +22,7 @@ To gain a full understanding of all of the features of Parsons, please review th
 
 
 #### PYPI
-You can install the most recent release by running: `pip install parsons`
+You can install the most recent release by running: `pip install parsons[all]`
 
 
 #### Install from Github
@@ -63,6 +63,6 @@ sheets.append_to_sheet(sheet_id, people_with_cell_phones)
 ```
 
 ### Community
-We hope to foster a strong and robust community of individuals who use and contribute to further development. Individuals are encouraged to submit issues with bugs, suggestions and feature requests. [Here](https://github.com/move-coop/parsons/blob/master/CONTRIBUTING.md) are the guidelines and best practices for contributing to Parsons.
+We hope to foster a strong and robust community of individuals who use and contribute to further development. Individuals are encouraged to submit issues with bugs, suggestions and feature requests. [Here](https://github.com/move-coop/parsons/blob/main/CONTRIBUTING.md) are the guidelines and best practices for contributing to Parsons.
 
 You can also stay up to date by joining the Parsons Slack group, an active community of Parsons contributors and progressive data engineers. For an invite, just reach out to engineering+parsons@movementcooperative.org!

@@ -3,11 +3,15 @@ import logging
 
 # Provide shortcuts to importing Parsons submodules
 
-# If you want to be more targeted in your imports, you can set the PARSONS_SKIP_IMPORT_ALL
-# environment variable and import classes directly from the Python module where they
-# are defined.
+# If you want to be more targeted in your imports, you can set the
+# PARSONS_LIMITED_DEPENDENCIES environment variable and import classes directly
+# from the Python module where they are defined.
+# PARSONS_SKIP_IMPORT_ALL is still checked for backwards compatibility
 
-if not os.environ.get('PARSONS_SKIP_IMPORT_ALL'):
+if not (
+    os.environ.get('PARSONS_LIMITED_DEPENDENCIES')
+    or os.environ.get('PARSONS_SKIP_IMPORT_ALL')
+):
     from parsons.ngpvan.van import VAN
     from parsons.targetsmart.targetsmart_api import TargetSmartAPI
     from parsons.targetsmart.targetsmart_automation import TargetSmartAutomation
@@ -20,6 +24,7 @@ if not os.environ.get('PARSONS_SKIP_IMPORT_ALL'):
     from parsons.notifications.slack import Slack
     from parsons.notifications.sendmail import SendMail
     from parsons.notifications.smtp import SMTP
+    from parsons.google.google_admin import GoogleAdmin
     from parsons.google.google_civic import GoogleCivic
     from parsons.google.google_sheets import GoogleSheets
     from parsons.google.google_cloud_storage import GoogleCloudStorage
@@ -71,6 +76,7 @@ if not os.environ.get('PARSONS_SKIP_IMPORT_ALL'):
         'DBSync',
         'Table',
         'Gmail',
+        'GoogleAdmin',
         'GoogleCivic',
         'GoogleCloudStorage',
         'GoogleBigQuery',

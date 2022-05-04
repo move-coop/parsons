@@ -155,9 +155,10 @@ class Phone2Action(object):
                 }
 
         tbl = Table(self.client.get_request('campaigns', params=args))
-        tbl.unpack_dict('updated_at')
-        if include_content:
-            tbl.unpack_dict('content')
+        if tbl:
+            tbl.unpack_dict('updated_at')
+            if include_content:
+                tbl.unpack_dict('content')
 
         return tbl
 

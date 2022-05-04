@@ -42,22 +42,26 @@ class ActivistCodes(object):
         logger.info(f'Found activist code {activist_code_id}.')
         return r
 
-    def toggle_activist_code(self, id, activist_code_id, action, id_type='vanid'):
+    def toggle_activist_code(self, id, activist_code_id, action, id_type='vanid',
+                             omit_contact=True):
         # Internal method to apply/remove activist codes. Was previously a public method,
-        # but for the sake of simplicity, breaking out into two public methods.
+        # but for the sake of simplicity, breaking out into two public  methods.
 
         response = {"activistCodeId": activist_code_id,
                     "action": action_parse(action),
-                    "type": "activistCode"}
+                    "type": "activistCode",
+                    "omitActivistCodeContactHistory": omit_contact
+                    }
 
-        r = self.apply_response(id, response, id_type)
+        r = self.apply_response(id, response, id_type, omit_contact=omit_contact)
 
         logger.info(f'{id_type.upper()} {id} {action.capitalize()} ' +
                     f'activist code {activist_code_id}')
 
         return r
 
-    def apply_activist_code(self, id, activist_code_id, id_type='vanid'):
+    def apply_activist_code(self, id, activist_code_id, id_type='vanid',
+                            omit_contact=True):
         """
         Apply an activist code to or from a person.
 
@@ -71,11 +75,18 @@ class ActivistCodes(object):
             id_type: str
                 A known person identifier type available on this VAN instance
                 such as ``dwid``
+            omit_contact: boolean
+                If set to false the contact history will be updated with a contact
+                attempt.
         Returns:
             ``None``
         """
 
-        return self.toggle_activist_code(id, activist_code_id, 'Apply', id_type=id_type)
+        return self.toggle_activist_code(id,
+                                         activist_code_id,
+                                         'Apply',
+                                         id_type=id_type,
+                                         omit_contact=omit_contact)
 
     def remove_activist_code(self, id, activist_code_id, id_type='vanid'):
         """

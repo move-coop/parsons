@@ -6,7 +6,7 @@ from parsons.etl.table import Table
 from parsons.google.utitities import setup_google_application_credentials
 
 import gspread
-from oauth2client.service_account import ServiceAccountCredentials
+from google.oauth2.service_account import Credentials
 
 logger = logging.getLogger(__name__)
 
@@ -20,9 +20,12 @@ class GoogleSheets:
             A dictionary of Google Drive API credentials, parsed from JSON provided
             by the Google Developer Console. Required if env variable
             ``GOOGLE_DRIVE_CREDENTIALS`` is not populated.
+        subject: string
+            In order to use account impersonation, pass in the email address of the account to be
+            impersonated as a string.
     """
 
-    def __init__(self, google_keyfile_dict=None):
+    def __init__(self, google_keyfile_dict=None, subject=None):
 
         scope = [
             'https://spreadsheets.google.com/feeds',
@@ -33,9 +36,10 @@ class GoogleSheets:
         google_credential_file = open(os.environ['GOOGLE_DRIVE_CREDENTIALS'])
         credentials_dict = json.load(google_credential_file)
 
-        credentials = ServiceAccountCredentials.from_json_keyfile_dict(
-            credentials_dict, scope
+        credentials = Credentials.from_service_account_info(
+            credentials_dict, scopes=scope, subject=subject
         )
+
         self.gspread_client = gspread.authorize(credentials)
 
     def _get_worksheet(self, spreadsheet_id, worksheet=0):
@@ -360,7 +364,7 @@ class GoogleSheets:
                         }
                     }, worksheet=0)
 
-        """ # noqa: E501,E261
+        """  # noqa: E501,E261
 
         ws = self._get_worksheet(spreadsheet_id, worksheet)
         ws.format(range, cell_format)

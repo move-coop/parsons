@@ -3,6 +3,10 @@ from parsons.pdi.flags import Flags
 from parsons.pdi.universes import Universes
 from parsons.pdi.questions import Questions
 from parsons.pdi.acquisition_types import AcquisitionTypes
+from parsons.pdi.events import Events
+from parsons.pdi.locations import Locations
+from parsons.pdi.contacts import Contacts
+from parsons.pdi.activities import Activities
 
 from parsons import Table
 from parsons.utilities import check_env
@@ -17,7 +21,8 @@ import requests
 logger = logging.getLogger(__name__)
 
 
-class PDI(FlagIDs, Universes, Questions, AcquisitionTypes, Flags):
+class PDI(FlagIDs, Universes, Questions, AcquisitionTypes, Flags, Events, Locations, Contacts,
+          Activities):
 
     def __init__(self, username=None, password=None, api_token=None,
                  qa_url=False):
@@ -36,7 +41,7 @@ class PDI(FlagIDs, Universes, Questions, AcquisitionTypes, Flags):
                 can be set as `PDI_API_TOKEN` environment variable.
             qa_url: bool
                 Defaults to False. If True, requests will be made to a sandbox
-                account. NOTE: This requires separate qa credentials and api
+                account. This requires separate qa credentials and api
                 token.
         """
         if qa_url:
@@ -65,10 +70,8 @@ class PDI(FlagIDs, Universes, Questions, AcquisitionTypes, Flags):
             f"{self.base_url}/sessions",
             json=login,
             headers=headers)
-
         logger.debug(f"{res.status_code} - {res.url}")
         res.raise_for_status()
-
         # status_code == 200
         data = res.json()
         self.session_token = data["AccessToken"]
@@ -112,10 +115,7 @@ class PDI(FlagIDs, Universes, Questions, AcquisitionTypes, Flags):
 
         args = self._clean_dict(args) if args else args
         post_data = self._clean_dict(post_data) if post_data else post_data
-
-        res = request_fn[req_type](
-            url, headers=headers, json=post_data, params=args)
-
+        res = request_fn[req_type](url, headers=headers, json=post_data, params=args)
         logger.debug(f"{res.url} - {res.status_code}")
         logger.debug(res.request.body)
 

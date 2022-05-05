@@ -183,7 +183,7 @@ Let's convert these unix timestamps to something more readable. To do this, we d
 
 Here, we're using the ``datetime`` library mentioned above. The ``strftime`` method is what determines the new format. For example, ``%Y`` means "Year with century as a decimal number" (like, say, 1970), and ``%m`` means "Month as a zero-padded decimal number" (like, say, 01). Here's a `cheatsheet <https://strftime.org/>`_ in case you want to play around with the formatting.
 
-Once we've got our function, we can apply it to all the rows in a column by using the `convert_column` function::
+Once we've got our function, we can apply it to all the rows in a column by using the ``convert_column`` function::
 
     attendance_records.convert_column('timeslot_start_date', convert_to_legible_date)
 
@@ -289,9 +289,9 @@ The Parsons Google Sheets connector only exposes a few very common functions dir
     
     Many big software companies, such as Google, maintain clients in various languages to encourage people to use their APIs. We use `Google's Python client <https://googleapis.github.io/google-api-python-client/docs/>`_, which means we have access to all the cool features that Google developers have added to that client. 
 
-    Many smaller software companies, including most progressive organizations, do not have enough resources to maintain clients. For those connectors, we use `our own simple client <https://github.com/move-coop/parsons/blob/main/parsons/utilities/api_connector.py>`_ to make requests. It does not have any addition features. 
+    Many smaller software companies, including most progressive organizations, do not have enough resources to maintain clients. For those connectors, we use `our own simple client <https://github.com/move-coop/parsons/blob/main/parsons/utilities/api_connector.py>`_ to make requests. It does not have any additional connector-specific features. 
 
-    You can access the client on a connector, whatever kind it is, with the method ``client``, ie ``mobilize.client``. Sometimes, like in the case of Google Sheets, the client has a different, custom name (``google_sheets.gspread_client``). We're trying to make everything consistent but we haven't quite managed it yet, alas. 
+    You can access the client on a connector, whatever kind it is, with the method ``client``, ie ``mobilize.client``. (Sometimes, like in the case of Google Sheets, the client has a different, custom name such as ``google_sheets.gspread_client``. We're trying to make everything consistent but we haven't quite managed it yet, alas!)
 
 Let's just re-write the code above to show you what it would look like if we were using the client to do it::
 

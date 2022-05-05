@@ -21,3 +21,7 @@ assignees: ''
 
 ## Possible Implementation
 <!--- Not obligatory, but suggest an idea for implementing addition or change -->
+
+
+## Priority
+<!--- Please indicate whether adding this feature is high, medium, or low priority for you. If the issue is time-sensitive for you, please let us know when you want it addressed by. -->

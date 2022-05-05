@@ -451,16 +451,16 @@ We can now iterate through each of our new mobilize users. For each Mobilize use
 
 .. warning::
 
-    It is considered bad practice to "catch" a "bare Exception". You should try to reason about what kind of errors you actual are okay with. For instance, here, we might be okay with having database errors, but not with errors in our Python syntax. We probably still want our code to break if we make a typo, so that we can find and fix the typo!
+    Pythonistas refer to handling an exception as "catching" it. It is considered bad practice to catch a "bare" (generic) Exception. You should instead try to be as specific as possible. Ask yourself: what kind of errors am I expecting? For instance, here we might expect database errors and want to handle them without crashing the script, but we might not expect errors in our Python syntax. We probably still want our code to break if we make a typo, so that we can find and fix the typo!
 
-    Be as specific with exceptions as you can. For instance, if you know that you're okay with ValueErrors, you can write a try-except like this::
+    If you know that you're okay with, say, ValueErrors, you can write a try-except like this::
 
         try:
             # stuff
         except ValueError as error:
             # other stuff
 
-    This try-except catches and handles only ValueErrors. All other errors will break the code.
+    This try-except catches and handles only ValueErrors. All other errors will be "thrown" instead of "caught", which will halt/crash the script.
 
 
 Let's take a look inside the try statement. What are we trying to do?::

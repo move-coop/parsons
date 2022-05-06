@@ -28,7 +28,7 @@ Not so good for the movement, good for data engineers' job security. ;)
 
 Parsons can help us with every step of the way. We can use parsons to extract, transform, and load data! 
 
-Today we're going to be using a Parsons script to move data from Mobilize to Github. Our inspiration was an experience Shauna had managing canvassing volunteers who had signed up on Mobilize, but whose canvassing status was being tracked via Google Sheets. 
+Today we're going to be using a Parsons script to move data from Mobilize to Google Sheets. Our inspiration was an experience Shauna had managing canvassing volunteers who had signed up on Mobilize, but whose canvassing status was being tracked via Google Sheets. 
 
 The example script can be found in full `on Github <https://gist.github.com/shaunagm/d429ace958ee6ce1b71fbe7884611348>`_.
 
@@ -183,7 +183,7 @@ Let's convert these unix timestamps to something more readable. To do this, we d
 
 Here, we're using the ``datetime`` library mentioned above. The ``strftime`` method is what determines the new format. For example, ``%Y`` means "Year with century as a decimal number" (like, say, 1970), and ``%m`` means "Month as a zero-padded decimal number" (like, say, 01). Here's a `cheatsheet <https://strftime.org/>`_ in case you want to play around with the formatting.
 
-Once we've got our function, we can apply it to all the rows in a column by using the ``convert_column`` function::
+Once we've got our function, we can apply it to all the rows in a column by using the Parsons Table's ``convert_column`` function::
 
     attendance_records.convert_column('timeslot_start_date', convert_to_legible_date)
 

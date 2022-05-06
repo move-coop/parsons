@@ -12,27 +12,34 @@ This project is maintained by [The Movement Cooperative](https://movementcoopera
 
 Parsons is only compatible with Python 3.7-10
 
-### License and Usage
+## Table of Contents
+- [License and Usage](#license-and-usage)
+- [Documentation](#documentation)
+- [Installation](#installation)
+- [Quickstart](#quickstart)
+- [Community](#community) 
+
+## License and Usage
 Usage of Parsons is governed by a [modified Apache License with author attribution statement](https://github.com/move-coop/parsons/blob/main/LICENSE.md).
 
-### Documentation
+## Documentation
 To gain a full understanding of all of the features of Parsons, please review the Parsons [documentation](https://move-coop.github.io/parsons/html/index.html).
 
-### Installation
+## Installation
 
 
-#### PYPI
+### PYPI
 You can install the most recent release by running: `pip install parsons[all]`
 
 
-#### Install from Github
+### Install from Github
 
 To access the most recent code base that may contain features not yet included in the latest release, download this repository and then run `python setup.py develop`.
 
-#### Docker Container
+### Docker Container
 We have a Parsons Docker container hosted on [DockerHub](https://cloud.docker.com/u/movementcooperative/repository/docker/movementcooperative/parsons) for each release of Parsons, including the `latest`.
 
-### Quickstart
+## Quickstart
 
 For this Quickstart, we are looking to generate a list of voters with cell phones using a [dummy data file](docs/quickstart.csv). We use the `assert` statements to verify that the data has been loaded correctly.
 
@@ -62,7 +69,7 @@ sheet_id = sheets.create_spreadsheet('Voter Cell Phones')
 sheets.append_to_sheet(sheet_id, people_with_cell_phones)
 ```
 
-### Community
+## Community
 We hope to foster a strong and robust community of individuals who use and contribute to further development. Individuals are encouraged to submit issues with bugs, suggestions and feature requests. [Here](https://github.com/move-coop/parsons/blob/main/CONTRIBUTING.md) are the guidelines and best practices for contributing to Parsons.
 
 You can also stay up to date by joining the Parsons Slack group, an active community of Parsons contributors and progressive data engineers. For an invite, just reach out to engineering+parsons@movementcooperative.org!

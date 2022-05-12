@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Getting Set Up With Parsons &mdash; Parsons 0.5 documentation</title>
+      <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/doctools.js"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="prev" title="MySQL to Google Sheets Export" href="../use_cases/mysql_to_googlesheets.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../index.html" class="icon icon-home"> Parsons
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Integrations</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../actblue.html">ActBlue</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../action_kit.html">ActionKit</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../action_network.html">Action Network</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../airtable.html">Airtable</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../alchemer.html">Alchemer</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../aws.html">Amazon Web Services</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../azure.html">Azure: Blob Storage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../bill_com.html">Bill.com</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../bloomerang.html">Bloomerang</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../bluelink.html">Bluelink</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../box.html">Box</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../braintree.html">Braintree</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../civis.html">Civis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../controlshift.html">Controlshift</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../copper.html">Copper</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../crowdtangle.html">CrowdTangle</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../databases.html">Databases</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../facebook_ads.html">FacebookAds</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../freshdesk.html">Freshdesk</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../github.html">GitHub</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../google.html">Google</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../hustle.html">Hustle</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../mailchimp.html">Mailchimp</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../mobilize_america.html">Mobilize America</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../newmode.html">New/Mode</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../ngpvan.html">NGPVAN</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../pdi.html">PDI</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../p2a.html">Phone2Action</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../quickbase.html">Quickbase</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../redash.html">Redash</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../rockthevote.html">Rock the Vote</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../salesforce.html">Salesforce</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../sftp.html">SFTP</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../shopify.html">Shopify</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../sisense.html">Sisense</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../targetsmart.html">TargetSmart</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../turbovote.html">TurboVote</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../twilio.html">Twilio</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../zoom.html">Zoom</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Enhancements</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../census_geocoder.html">US Census Geocoder</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Framework</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../dbsync.html">Database Sync</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../table.html">Parsons Table</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../notifications.html">Notifications</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../utilities.html">Utilities</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Contributor Documentation</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../contributing.html">Contributing to Parsons</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../build_a_connector.html">How to Build a Connector</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../write_tests.html">How to Write Tests for Parsons Connectors</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Use Cases and Sample Scripts</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../use_cases/contribute_use_cases.html">How to Contribute a Use Case &amp; Sample Script</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../use_cases/civis_job_status_slack_alert.html">Civis Job Status Slack Alert</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../use_cases/mysql_to_googlesheets.html">MySQL to Google Sheets Export</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Training Guides</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Getting Set Up With Parsons</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#step-1-open-up-a-command-line-interface">Step 1: Open Up a Command Line Interface</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#step-2-set-up-your-virtual-environment">Step 2: Set Up Your Virtual Environment</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#mac-linux-virtual-environments">Mac/Linux Virtual Environments</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#windows-virtual-environments">Windows Virtual Environments</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#paths-vs-paths">Paths vs $PATHs</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#step-3-download-and-install-parsons">Step 3: Download and Install Parsons</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#using-pip">Using Pip</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#using-git">Using Git</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#git-basics">Git Basics</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#conclusion">Conclusion</a></li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">Parsons</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
+      <li>Getting Set Up With Parsons</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/training_guides/getting_set_up.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="getting-set-up-with-parsons">
+<h1>Getting Set Up With Parsons<a class="headerlink" href="#getting-set-up-with-parsons" title="Permalink to this headline"></a></h1>
+<p>This training guide will walk you through setting up Parsons on your computer. It provides in-depth explanations of each of the tools we recommend you use, including the command line, virtual environments, and git/version control. No prior experience should be necessary to follow this guide.</p>
+<p>You can suggest improvements to this guide or request additional guides by filing an issue in our issue tracker or telling us in Slack. To get added to our Slack, email us at <em>engineering&#64;movementcooperative.org</em>.</p>
+<section id="step-1-open-up-a-command-line-interface">
+<h2>Step 1: Open Up a Command Line Interface<a class="headerlink" href="#step-1-open-up-a-command-line-interface" title="Permalink to this headline"></a></h2>
+<p>Command line interfaces let you do a lot of different things on your computer, including installing and running programs and navigating the directory structure of your computer.</p>
+<p>On Macs/Linux the default command line interface is called a <strong>Terminal</strong> and on Windows it is called the <strong>Command Prompt</strong>. Command line interfaces are also sometimes called <em>shells</em>. Look for this program on your computer and open it up.</p>
+<p>The commands you can use in the command line differ somewhat dependning on whether you’re using Mac/Linux or windows.</p>
+<p><strong>Mac/Linux</strong>:</p>
+<ul class="simple">
+<li><p>You can use <code class="docutils literal notranslate"><span class="pre">pwd</span></code> (“print working directory”) to figure out where you currently are.</p></li>
+<li><p>To move around, use <code class="docutils literal notranslate"><span class="pre">cd</span></code> (for example <code class="docutils literal notranslate"><span class="pre">cd</span> <span class="pre">..</span></code> means “go up one directory” or <code class="docutils literal notranslate"><span class="pre">cd</span> <span class="pre">my_folder</span></code> which means “go into my_folder”).</p></li>
+<li><p>Use <code class="docutils literal notranslate"><span class="pre">ls</span></code> to list all the files and folders in your current directory.</p></li>
+<li><p>A <a class="reference external" href="https://www.guru99.com/linux-commands-cheat-sheet.html">Mac/Linux command line cheat sheet</a> can help you keep track of which commands are which.</p></li>
+</ul>
+<p><strong>Windows</strong>:</p>
+<ul class="simple">
+<li><p>You can use <code class="docutils literal notranslate"><span class="pre">cd</span></code> to figure out where you currently are.</p></li>
+<li><p>To move around, use <code class="docutils literal notranslate"><span class="pre">cd</span></code> (for example <code class="docutils literal notranslate"><span class="pre">cd</span> <span class="pre">..</span></code> means “go up one directory” or <code class="docutils literal notranslate"><span class="pre">cd</span> <span class="pre">my_folder</span></code> which means “go into my_folder”).</p></li>
+<li><p>Use <code class="docutils literal notranslate"><span class="pre">dir</span></code> to list all the files and folders in a directory.</p></li>
+<li><p>A <a class="reference external" href="http://www.cs.columbia.edu/~sedwards/classes/2017/1102-spring/Command%20Prompt%20Cheatsheet.pdf">Windows command line cheat sheet</a> can help you keep track of which commands are which.</p></li>
+</ul>
+<p>You do not have to type everything on the command line out by hand. You can auto-complete the names of files/folders in your current directory by tapping the tab key. On Mac/Linux you can also tab-complete installed programs. And you can access previous commands via the up and down arrows. Save your hands! Learn these tricks.</p>
+</section>
+<section id="step-2-set-up-your-virtual-environment">
+<h2>Step 2: Set Up Your Virtual Environment<a class="headerlink" href="#step-2-set-up-your-virtual-environment" title="Permalink to this headline"></a></h2>
+<p>Normally, tools like <a class="reference external" href="https://pip.pypa.io/en/stable/">pip</a> install Python libraries directly to your system. When your Python programs run, they look for the libraries they depend upon in your system. But this can cause problems when different programs need different versions of the same library.</p>
+<p>To handle this issue, we recommend you use virtual environments to install Parsons. Virtual environments allow you to install libraries into an isolated environment specific to a project. That way you can use different versions of the same libraries for different projects.</p>
+<section id="mac-linux-virtual-environments">
+<h3>Mac/Linux Virtual Environments<a class="headerlink" href="#mac-linux-virtual-environments" title="Permalink to this headline"></a></h3>
+<p>Before getting started, check which version of Python you’re running by typing <code class="docutils literal notranslate"><span class="pre">python</span> <span class="pre">--version</span></code> in your command line. Python 3.4+ includes a virtual environment manager called <a class="reference external" href="https://docs.python.org/3/library/venv.html">venv</a>.  If your version is lower than Python 3.4, you’ll have to install a virtual environment manager like <a class="reference external" href="https://virtualenv.pypa.io/en/latest/">virtualenv</a> if you haven’t already. You can do this by typing <code class="docutils literal notranslate"><span class="pre">pip</span> <span class="pre">install</span> <span class="pre">virtualenv</span></code> in the command line.</p>
+<p>Next, create a directory to store your virtual environments, for example at the path <em>/home/your_name/virtualenvs</em>. (Not sure what a path is?  see <a class="reference internal" href="#path-explainer"><span class="std std-ref">Paths vs $PATHs</span></a>.)</p>
+<p>You can use the <code class="docutils literal notranslate"><span class="pre">mkdir</span></code> command to create a new directory, ie: <code class="docutils literal notranslate"><span class="pre">mkdir</span> <span class="pre">/home/username/virtualenvs</span></code>. We’ll refer to the full path to this directory as <strong>$path_to_your_env</strong> below.</p>
+<p>The next step is to create your virtual environment within this directory. The commands are different based on whether you’re on Python 3.4+ and using venv, or whether you’re using an older version with the virtualenv program you just installed.</p>
+<p><strong>If you’ve got Python 3.4 or higher</strong>, type <code class="docutils literal notranslate"><span class="pre">python</span> <span class="pre">-m</span> <span class="pre">venv</span> <span class="pre">$path_to_your_env/$your_env_name</span></code>. The path should be the directory you created to store the virtual environments, and the environment name is a new name chosen by you.</p>
+<p><strong>If you’ve got a lower Python version</strong>, type <code class="docutils literal notranslate"><span class="pre">virtualenv</span> <span class="pre">$path_to_your_env/$your_env_name</span></code>. Again, the path should be the directory for storing virtual environments, and the env name is a new name.</p>
+<p>Regardless of what version you’re on, you can activate your virtual environment with the command: <code class="docutils literal notranslate"><span class="pre">source</span> <span class="pre">$path_to_your_env/$your_env_name/bin/activate</span></code>.</p>
+</section>
+<section id="windows-virtual-environments">
+<h3>Windows Virtual Environments<a class="headerlink" href="#windows-virtual-environments" title="Permalink to this headline"></a></h3>
+<p>Start by installing virtualenvwrappers from source:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">git</span> <span class="n">clone</span> <span class="n">git</span><span class="p">:</span><span class="o">//</span><span class="n">github</span><span class="o">.</span><span class="n">com</span><span class="o">/</span><span class="n">davidmarble</span><span class="o">/</span><span class="n">virtualenvwrapper</span><span class="o">-</span><span class="n">win</span><span class="o">.</span><span class="n">git</span>
+<span class="n">cd</span> <span class="n">virtualenvwrapper</span><span class="o">-</span><span class="n">win</span>
+<span class="n">python</span> <span class="n">setup</span><span class="o">.</span><span class="n">py</span> <span class="n">install</span>
+</pre></div>
+</div>
+<p>Not familiar with git? Read <a class="reference internal" href="#git-explainer"><span class="std std-ref">our intro below</span></a>.</p>
+<p>Find the Scriptsdirectory for your Python installation, such as <code class="docutils literal notranslate"><span class="pre">C:\Users\&lt;User&gt;\AppData\Local\Programs\Python\Python37\Scripts\</span></code>.</p>
+<p>Add the Scriptsdirectory to your $PATH. (Not sure what a $PATH is?  see <a class="reference internal" href="#path-explainer"><span class="std std-ref">Paths vs $PATHs</span></a>.)</p>
+<p>To create a virtual environment for Parsons, execute: <code class="docutils literal notranslate"><span class="pre">mkvirtualenv</span> <span class="pre">parsons</span></code></p>
+<p>To use this virtual environment, execute: <code class="docutils literal notranslate"><span class="pre">workon</span> <span class="pre">parsons</span></code></p>
+</section>
+<section id="paths-vs-paths">
+<span id="path-explainer"></span><h3>Paths vs $PATHs<a class="headerlink" href="#paths-vs-paths" title="Permalink to this headline"></a></h3>
+<p>Paths are how we refer to a file or program’s location in the file system. For example, <code class="docutils literal notranslate"><span class="pre">/home/janedoe/virtualenvs</span></code> says that within the top-level directory <code class="docutils literal notranslate"><span class="pre">home</span></code> there is a directory named <code class="docutils literal notranslate"><span class="pre">janedoe</span></code>, and within <code class="docutils literal notranslate"><span class="pre">janedoe</span></code> there is a directory <code class="docutils literal notranslate"><span class="pre">virtualenvs</span></code>.</p>
+<p><code class="docutils literal notranslate"><span class="pre">/home/janedoe/virtualenvs</span></code> is an <strong>absolute path</strong> because it specifies exactly how to get there no matter where you are in the system. The path <code class="docutils literal notranslate"><span class="pre">janedoe/virtualenvs</span></code> is a <strong>relative path</strong> because it only works if you use it from the home directory. Trying to use a relative path from the wrong location is a common source of command line errors!</p>
+<p>On Windows, absolute paths look a little different. They start with the letter of the hard drive they’re in, ie <code class="docutils literal notranslate"><span class="pre">C:\Users\JaneDoe\Virtualenvs</span></code>.</p>
+<p>In these instructions we try to use absolute paths, even though they’re a little wordier, because it’s less likely to cause problems for you if you run them from an unexpected place.</p>
+<p>In addition to paths, there’s an important environmental variable called <strong>$PATH</strong>. The $PATH is a list of absolute paths your computer will check when searching for installed libraries and scripts. You can check what’s currently in your $PATH by typing <code class="docutils literal notranslate"><span class="pre">echo</span> <span class="pre">$PATH</span></code> (Mac/Linux) or <code class="docutils literal notranslate"><span class="pre">echo</span> <span class="pre">%PATH%</span></code> (Windows).</p>
+<p>When you activate your virtual environment, the path to the environment is placed as the first path. Paths are checked in order from first to last. You can check what packages have been installed in your virtualenv (and thus should be available on the path when the virtualenv is activated) by looking in <code class="docutils literal notranslate"><span class="pre">lib/site-packages</span></code>.</p>
+<p>If you’re trying to run something you’ve installed, but your computer says it doesn’t exist, it may be because the computer doesn’t have the right information in its $PATH. This happens to me all the time when I forget to activate my virtual environment!</p>
+</section>
+</section>
+<section id="step-3-download-and-install-parsons">
+<h2>Step 3: Download and Install Parsons<a class="headerlink" href="#step-3-download-and-install-parsons" title="Permalink to this headline"></a></h2>
+<p>We’re going to go over two different ways to download and install Parsons: using pip, and using git. Use pip if you just want to install Parsons and start using it. Use git if you might want to change Parsons to customize its behavior and/or contribute those changes back.</p>
+<section id="using-pip">
+<h3>Using Pip<a class="headerlink" href="#using-pip" title="Permalink to this headline"></a></h3>
+<p><a class="reference external" href="https://pip.pypa.io/en/stable/">Pip</a> is the Python package manager. Packages (also commonly known as “libraries”) are Python code that have been bundled up in a certain way (“packaged”) so they can be easily installed and used.</p>
+<p>By default, pip installs from the <a class="reference external" href="https://pypi.org/">Python Package Index or PyPI</a>, but you can tell pip to install from a branch on Github or even from a folder on your machine. All you need is a package with the right files. The specifics of those files, and how to create your own package, is a <a class="reference external" href="https://packaging.python.org/en/latest/tutorials/packaging-projects/">much more advanced topic</a>.</p>
+<p>Essentially when you type <code class="docutils literal notranslate"><span class="pre">pip</span> <span class="pre">install</span> <span class="pre">parsons[all]</span></code> (or pip install anything!) you’re saying “Go find this project on PyPI and install it.” (Here’s <a class="reference external" href="https://pypi.org/project/parsons/">Parsons</a> on PyPI!)</p>
+<p>To install Parsons using pip, make sure your virtual environment is activated and type <code class="docutils literal notranslate"><span class="pre">pip</span> <span class="pre">install</span> <span class="pre">parsons[all]</span></code>. It’s that simple!</p>
+</section>
+<section id="using-git">
+<span id="git-explainer"></span><h3>Using Git<a class="headerlink" href="#using-git" title="Permalink to this headline"></a></h3>
+<p><a class="reference external" href="https://git-scm.com/">Git</a> is a popular version control system used primarily by programmers. Many people use git by way of <a class="reference external" href="https://github.com/">Github</a>, a company which provides free hosting (and other helpful features) for git repositories. Parsons, like many others, <a class="reference external" href="https://github.com/move-coop/parsons/">hosts our code</a> on Github.</p>
+<p>Start by making sure git is installed on your computer. To do this, type <code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">version</span></code> at the command line. If it gives you a version number, great! You’ve got git installed. If you get an error message of some kind, you’ll need to <a class="reference external" href="https://github.com/git-guides/install-git">install git</a>.</p>
+<p>Once you’ve installed git, you can execute the following commands:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">git</span> <span class="n">clone</span> <span class="n">https</span><span class="p">:</span><span class="o">//</span><span class="n">github</span><span class="o">.</span><span class="n">com</span><span class="o">/</span><span class="n">move</span><span class="o">-</span><span class="n">coop</span><span class="o">/</span><span class="n">parsons</span><span class="o">.</span><span class="n">git</span>
+<span class="n">cd</span> <span class="n">parsons</span>
+<span class="n">pip</span> <span class="n">install</span> <span class="o">-</span><span class="n">r</span> <span class="n">requirements</span><span class="o">.</span><span class="n">txt</span>
+<span class="n">python</span> <span class="n">setup</span><span class="o">.</span><span class="n">py</span> <span class="n">install</span>
+</pre></div>
+</div>
+<p>These commands say, in order:</p>
+<ul class="simple">
+<li><p>make a copy of the Parsons repository on my computer</p></li>
+<li><p>change directories so I’m now in the top level of that repository</p></li>
+<li><p>install all the libraries listed in the file <code class="docutils literal notranslate"><span class="pre">requirements.txt</span></code></p></li>
+<li><p>see the file in this directory named <code class="docutils literal notranslate"><span class="pre">setup.py</span></code>? run it to install this package</p></li>
+</ul>
+<p>You should now have a copy of Parsons installed locally and ready to use!</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>When you install Parsons from git, you’re getting the most up to date version of Parsons there is. When you install Parsons from PyPI via pip, you might get a slightly older version, since we have to take the extra step of making a “release” to move changes from Github to PyPI. We make releases fairly frequently, so this shouldn’t be an issue, but it’s something to keep in mind if Parsons is behaving unexpectedly.</p>
+</div>
+<section id="git-basics">
+<h4>Git Basics<a class="headerlink" href="#git-basics" title="Permalink to this headline"></a></h4>
+<p>Giving you a full tour of git is beyond the scope of this tutorial, but here’s a quick intro.</p>
+<p>Git allows you to connect the work you’re doing locally with a central shared repository. When you enter a command like <code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">clone</span> <span class="pre">https://github.com/move-coop/parsons.git</span></code>, git creates a copy of the repository on your local computer. It also keeps track of the source of your repository, by listing it as a <strong>remote</strong>. Git’s default name for remotes is <strong>origin</strong>.</p>
+<p>You can see all the remotes for a repository by typing the following command when within the repository: <code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">remote</span> <span class="pre">-v</span></code>. (The -v stands for “verbose”.) The result should look something like this:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">origin</span>      <span class="n">https</span><span class="p">:</span><span class="o">//</span><span class="n">github</span><span class="o">.</span><span class="n">com</span><span class="o">/</span><span class="n">move</span><span class="o">-</span><span class="n">coop</span><span class="o">/</span><span class="n">parsons</span><span class="o">.</span><span class="n">git</span> <span class="p">(</span><span class="n">fetch</span><span class="p">)</span>
+<span class="n">origin</span>      <span class="n">https</span><span class="p">:</span><span class="o">//</span><span class="n">github</span><span class="o">.</span><span class="n">com</span><span class="o">/</span><span class="n">move</span><span class="o">-</span><span class="n">coop</span><span class="o">/</span><span class="n">parsons</span><span class="o">.</span><span class="n">git</span> <span class="p">(</span><span class="n">push</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><em>Wait</em>, you might be asking, <em>what’s this ‘fetch’ and ‘pull’ business?</em> <strong>Fetch</strong> is the command you use to get changes from a remote. <strong>Push</strong> is the command you use to send changes to a remote. Although the locations you fetch/pull from and push to can be different, practically speaking they’re almost always the same.</p>
+<p>To get the most recent version of a remote, use the command <code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">fetch</span> <span class="pre">origin</span> <span class="pre">main</span></code>. That means “get any changes from the branch named main on the remote named origin, but don’t apply it yet”. You apply what you’ve gotten with the command <code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">merge</span> <span class="pre">origin</span> <span class="pre">main</span></code>. Many people combine these two steps with the command <code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">pull</span> <span class="pre">origin</span> <span class="pre">main</span></code>.</p>
+<p>Let’s say you’ve made some local changes you want to send back to the remote. You can add your changes to a list of things to be committed with the command <code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">add</span> <span class="pre">$filename</span></code>. You have to add at least one file, but you can add as many as you want. If you get confused about what’s available to be added, the command <code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">status</span></code> will show you what’s changed in your repository since the last commit, and whether or not its been added with <code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">add</span></code> yet.</p>
+<p>Once you’re done adding, bundle everything together with the command <code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">commit</span> <span class="pre">-m</span> <span class="pre">&quot;message&quot;</span></code>. Use the “message” to briefly summarize your changes. Once you have added and committed your code, you can send it back to the remote with the command <code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">push</span> <span class="pre">origin</span> <span class="pre">main</span></code>.</p>
+<p>Pushing might be a bit more complicated than that, dependening on who else has pushed to the origin while you were working, or whether you’re pushing to a codebase like Parsons that requires you to submit changes via Pull Requests, but that’s enough for now.</p>
+<p>Interested in learning more? Try <a class="reference external" href="https://gitimmersion.com/">this tutorial</a> or reach out on Slack to request a mentor or more advanced training.</p>
+</section>
+</section>
+</section>
+<section id="conclusion">
+<h2>Conclusion<a class="headerlink" href="#conclusion" title="Permalink to this headline"></a></h2>
+<p>You should now have Parsons installed on your computer, and hopefully you’re also more comfortable with the command line, virtual environments, paths, and git.</p>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="../use_cases/mysql_to_googlesheets.html" class="btn btn-neutral float-left" title="MySQL to Google Sheets Export" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2019, The Movement Cooperative.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  
+  <div class="rst-versions" data-toggle="rst-versions" role="note" aria-label="Versions">
+    <span class="rst-current-version" data-toggle="rst-current-version">
+      <span class="fa fa-book"> Read the Docs</span>
+      stable
+      <span class="fa fa-caret-down"></span>
+    </span>
+    <div class="rst-other-versions">
+      <dl>
+        <dt>Most Common</dt>
+        <!-- Show latest & stable first -->
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+                  <dd><a href="../../latest/training_guides/getting_set_up.html">latest</a></dd>
+            
+        
+            
+                  <dd><a href="getting_set_up.html">stable</a></dd>
+            
+        
+
+        <dt>By Version Number</dt>
+        <!-- Show other versions -->
+        
+            
+                  <dd><a href="../../v0.14.0/index.html">v0.14.0</a></dd>
+            
+        
+            
+                  <dd><a href="../../v0.15.0/index.html">v0.15.0</a></dd>
+            
+        
+            
+                  <dd><a href="../../v0.16.0/index.html">v0.16.0</a></dd>
+            
+        
+            
+                  <dd><a href="../../v0.17.0/index.html">v0.17.0</a></dd>
+            
+        
+            
+                  <dd><a href="../../v0.18.0/index.html">v0.18.0</a></dd>
+            
+        
+            
+                  <dd><a href="../../v0.18.1/index.html">v0.18.1</a></dd>
+            
+        
+            
+        
+            
+        
+
+      </dl>
+    </div>
+  </div>
+<script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

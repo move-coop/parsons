@@ -96,6 +96,12 @@
 <p class="caption" role="heading"><span class="caption-text">Use Cases and Sample Scripts</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../../use_cases/contribute_use_cases.html">How to Contribute a Use Case &amp; Sample Script</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../use_cases/civis_job_status_slack_alert.html">Civis Job Status Slack Alert</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../use_cases/mysql_to_googlesheets.html">MySQL to Google Sheets Export</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Training Guides</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../training_guides/getting_set_up.html">Getting Set Up With Parsons</a></li>
 </ul>
 
         </div>
@@ -144,11 +150,11 @@
 <span class="sd">            Person find must include the following minimum combinations to conduct</span>
 <span class="sd">            a search.</span>
 
-<span class="sd">            - first_name, last_name, email</span>
-<span class="sd">            - first_name, last_name, phone</span>
-<span class="sd">            - first_name, last_name, zip5, date_of_birth</span>
-<span class="sd">            - first_name, last_name, street_number, street_name, zip5</span>
-<span class="sd">            - email_address</span>
+<span class="sd">              - first_name, last_name, email</span>
+<span class="sd">              - first_name, last_name, phone</span>
+<span class="sd">              - first_name, last_name, zip5, date_of_birth</span>
+<span class="sd">              - first_name, last_name, street_number, street_name, zip5</span>
+<span class="sd">              - email_address</span>
 
 <span class="sd">        `Args:`</span>
 <span class="sd">            first_name: str</span>
@@ -193,11 +199,11 @@
 <span class="sd">            Person find must include the following minimum combinations to conduct</span>
 <span class="sd">            a search.</span>
 
-<span class="sd">            - first_name, last_name, email</span>
-<span class="sd">            - first_name, last_name, phone</span>
-<span class="sd">            - first_name, last_name, zip5, date_of_birth</span>
-<span class="sd">            - first_name, last_name, street_number, street_name, zip5</span>
-<span class="sd">            - email_address</span>
+<span class="sd">              - first_name, last_name, email</span>
+<span class="sd">              - first_name, last_name, phone</span>
+<span class="sd">              - first_name, last_name, zip5, date_of_birth</span>
+<span class="sd">              - first_name, last_name, street_number, street_name, zip5</span>
+<span class="sd">              - email_address</span>
 
 <span class="sd">        .. note::</span>
 <span class="sd">            A full list of possible values for the json, and its structure can be found</span>
@@ -298,11 +304,12 @@
 
 <span class="sd">        .. note::</span>
 <span class="sd">            Person find must include the following minimum combinations.</span>
-<span class="sd">            - first_name, last_name, email</span>
-<span class="sd">            - first_name, last_name, phone</span>
-<span class="sd">            - first_name, last_name, zip5, date_of_birth</span>
-<span class="sd">            - first_name, last_name, street_number, street_name, zip5</span>
-<span class="sd">            - email_address</span>
+
+<span class="sd">              - first_name, last_name, email</span>
+<span class="sd">              - first_name, last_name, phone</span>
+<span class="sd">              - first_name, last_name, zip5, date_of_birth</span>
+<span class="sd">              - first_name, last_name, street_number, street_name, zip5</span>
+<span class="sd">              - email_address</span>
 
 <span class="sd">        .. warning::</span>
 <span class="sd">            This method can only be run on MyMembers, EveryAction, MyCampaign databases.</span>
@@ -350,11 +357,12 @@
 
 <span class="sd">        .. note::</span>
 <span class="sd">            Person find must include the following minimum combinations.</span>
-<span class="sd">            - first_name, last_name, email</span>
-<span class="sd">            - first_name, last_name, phone</span>
-<span class="sd">            - first_name, last_name, zip5, date_of_birth</span>
-<span class="sd">            - first_name, last_name, street_number, street_name, zip5</span>
-<span class="sd">            - email_address</span>
+
+<span class="sd">              - first_name, last_name, email</span>
+<span class="sd">              - first_name, last_name, phone</span>
+<span class="sd">              - first_name, last_name, zip5, date_of_birth</span>
+<span class="sd">              - first_name, last_name, street_number, street_name, zip5</span>
+<span class="sd">              - email_address</span>
 
 <span class="sd">        .. note::</span>
 <span class="sd">            A full list of possible values for the json, and its structure can be found</span>
@@ -566,7 +574,8 @@
 <span class="sd">        &quot;&quot;&quot;</span></div>
 
 <div class="viewcode-block" id="People.apply_response"><a class="viewcode-back" href="../../../ngpvan.html#parsons.ngpvan.van.People.apply_response">[docs]</a>    <span class="k">def</span> <span class="nf">apply_response</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">id</span><span class="p">,</span> <span class="n">response</span><span class="p">,</span> <span class="n">id_type</span><span class="o">=</span><span class="s1">&#39;vanid&#39;</span><span class="p">,</span> <span class="n">contact_type_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-                       <span class="n">input_type_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">date_canvassed</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">result_code_id</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+                       <span class="n">input_type_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">date_canvassed</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">result_code_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                       <span class="n">omit_contact</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Apply responses such as survey questions, activist codes, and volunteer actions</span>
 <span class="sd">        to a person record. This method allows you apply multiple responses (e.g. two survey</span>
@@ -594,6 +603,11 @@
 <span class="sd">            date_canvassed : str</span>
 <span class="sd">                `Optional`; ISO 8601 formatted date. Defaults to todays date</span>
 <span class="sd">            responses : list or dict</span>
+<span class="sd">                The responses to apply.</span>
+<span class="sd">            omit_contact: boolean</span>
+<span class="sd">                Omit adding contact history to the response. This is particularly</span>
+<span class="sd">                useful when adding activist codes that are not based on contact</span>
+<span class="sd">                attempts.</span>
 <span class="sd">        `Returns:`</span>
 <span class="sd">            ``True`` if successful</span>
 
@@ -618,7 +632,8 @@
         <span class="n">json</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;canvassContext&quot;</span><span class="p">:</span> <span class="p">{</span>
             <span class="s2">&quot;contactTypeId&quot;</span><span class="p">:</span> <span class="n">contact_type_id</span><span class="p">,</span>
             <span class="s2">&quot;inputTypeId&quot;</span><span class="p">:</span> <span class="n">input_type_id</span><span class="p">,</span>
-            <span class="s2">&quot;dateCanvassed&quot;</span><span class="p">:</span> <span class="n">date_canvassed</span><span class="p">},</span>
+            <span class="s2">&quot;dateCanvassed&quot;</span><span class="p">:</span> <span class="n">date_canvassed</span><span class="p">,</span>
+            <span class="s2">&quot;omitActivistCodeContactHistory&quot;</span><span class="p">:</span> <span class="n">omit_contact</span><span class="p">},</span>
             <span class="s2">&quot;resultCodeId&quot;</span><span class="p">:</span> <span class="n">result_code_id</span><span class="p">}</span>
 
         <span class="k">if</span> <span class="n">response</span><span class="p">:</span>

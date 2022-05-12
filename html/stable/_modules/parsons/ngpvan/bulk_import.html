@@ -96,6 +96,12 @@
 <p class="caption" role="heading"><span class="caption-text">Use Cases and Sample Scripts</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../../use_cases/contribute_use_cases.html">How to Contribute a Use Case &amp; Sample Script</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../use_cases/civis_job_status_slack_alert.html">Civis Job Status Slack Alert</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../use_cases/mysql_to_googlesheets.html">MySQL to Google Sheets Export</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Training Guides</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../training_guides/getting_set_up.html">Getting Set Up With Parsons</a></li>
 </ul>
 
         </div>
@@ -441,28 +447,7 @@
                                      <span class="p">[{</span><span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="s1">&#39;CreateOrUpdateContact&#39;</span><span class="p">}],</span>
                                      <span class="s1">&#39;Create Or Update Contact Records&#39;</span><span class="p">,</span>
                                      <span class="n">result_fields</span><span class="o">=</span><span class="n">result_fields</span><span class="p">,</span>
-                                     <span class="o">**</span><span class="n">url_kwargs</span><span class="p">)</span></div>
-
-    <span class="k">def</span> <span class="nf">create_mapping_types</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tbl</span><span class="p">):</span>
-        <span class="c1"># Internal method to generate the correct mapping types based on</span>
-        <span class="c1"># the columns passed in the table. Not in use yet.</span>
-
-        <span class="n">mapping_types</span> <span class="o">=</span> <span class="p">[]</span>
-
-        <span class="c1"># If one of the following columns is found in the table, then add</span>
-        <span class="c1"># that mapping type.</span>
-        <span class="n">mp</span> <span class="o">=</span> <span class="p">[(</span><span class="s1">&#39;firstname&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">)</span>
-              <span class="p">(</span><span class="s1">&#39;Email&#39;</span><span class="p">,</span> <span class="s1">&#39;Email&#39;</span><span class="p">),</span>
-              <span class="p">(</span><span class="s1">&#39;MailingAddress&#39;</span><span class="p">,</span> <span class="s1">&#39;MailingAddress&#39;</span><span class="p">),</span>
-              <span class="p">(</span><span class="s1">&#39;Phone&#39;</span><span class="p">,</span> <span class="s1">&#39;Phones&#39;</span><span class="p">),</span>
-              <span class="p">(</span><span class="s1">&#39;ApplyContactCustomFields&#39;</span><span class="p">,</span> <span class="s1">&#39;CustomFieldGroupId&#39;</span><span class="p">)]</span>
-
-        <span class="k">for</span> <span class="n">col</span> <span class="ow">in</span> <span class="n">tbl</span><span class="o">.</span><span class="n">columns</span><span class="p">:</span>
-            <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">mp</span><span class="p">:</span>
-                <span class="k">if</span> <span class="n">col</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">==</span> <span class="n">i</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">lower</span><span class="p">():</span>
-                    <span class="n">mapping_types</span><span class="o">.</span><span class="n">append</span><span class="p">({</span><span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="n">i</span><span class="p">[</span><span class="mi">1</span><span class="p">]})</span>
-
-        <span class="k">return</span> <span class="n">mapping_types</span></div>
+                                     <span class="o">**</span><span class="n">url_kwargs</span><span class="p">)</span></div></div>
 
 
 <span class="c1"># This is a column mapper that is used to accept additional column names and provide</span>

@@ -96,6 +96,12 @@
 <p class="caption" role="heading"><span class="caption-text">Use Cases and Sample Scripts</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../../use_cases/contribute_use_cases.html">How to Contribute a Use Case &amp; Sample Script</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../use_cases/civis_job_status_slack_alert.html">Civis Job Status Slack Alert</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../use_cases/mysql_to_googlesheets.html">MySQL to Google Sheets Export</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Training Guides</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../training_guides/getting_set_up.html">Getting Set Up With Parsons</a></li>
 </ul>
 
         </div>
@@ -239,7 +245,6 @@
         <span class="n">rando</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">uuid</span><span class="o">.</span><span class="n">uuid1</span><span class="p">())</span>
         <span class="n">file_name</span> <span class="o">=</span> <span class="n">rando</span> <span class="o">+</span> <span class="s1">&#39;.csv&#39;</span>
         <span class="n">url</span> <span class="o">=</span> <span class="n">cloud_storage</span><span class="o">.</span><span class="n">post_file</span><span class="p">(</span><span class="n">tbl</span><span class="p">,</span> <span class="n">url_type</span><span class="p">,</span> <span class="n">file_path</span><span class="o">=</span><span class="n">rando</span> <span class="o">+</span> <span class="s1">&#39;.zip&#39;</span><span class="p">,</span> <span class="o">**</span><span class="n">url_kwargs</span><span class="p">)</span>
-        <span class="n">url_for_van</span> <span class="o">=</span> <span class="n">url</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;?&#39;</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>  <span class="c1"># hack around github.com/move-coop/parsons/issues/513</span>
         <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Table uploaded to </span><span class="si">{</span><span class="n">url_type</span><span class="si">}</span><span class="s1">.&#39;</span><span class="p">)</span>
 
         <span class="c1"># VAN errors for this method are not particularly useful or helpful. For that reason, we</span>
@@ -265,7 +270,7 @@
                     <span class="s2">&quot;fileName&quot;</span><span class="p">:</span> <span class="n">file_name</span><span class="p">,</span>
                     <span class="s2">&quot;hasHeader&quot;</span><span class="p">:</span> <span class="n">header</span><span class="p">,</span>
                     <span class="s2">&quot;hasQuotes&quot;</span><span class="p">:</span> <span class="n">quotes</span><span class="p">,</span>
-                    <span class="s2">&quot;sourceUrl&quot;</span><span class="p">:</span> <span class="n">url_for_van</span>
+                    <span class="s2">&quot;sourceUrl&quot;</span><span class="p">:</span> <span class="n">url</span>
                 <span class="p">},</span>
                 <span class="s2">&quot;actions&quot;</span><span class="p">:</span> <span class="p">[</span>
                     <span class="p">{</span><span class="s2">&quot;actionType&quot;</span><span class="p">:</span> <span class="s2">&quot;LoadSavedListFile&quot;</span><span class="p">,</span>

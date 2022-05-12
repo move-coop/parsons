@@ -104,6 +104,12 @@
 <p class="caption" role="heading"><span class="caption-text">Use Cases and Sample Scripts</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="use_cases/contribute_use_cases.html">How to Contribute a Use Case &amp; Sample Script</a></li>
+<li class="toctree-l1"><a class="reference internal" href="use_cases/civis_job_status_slack_alert.html">Civis Job Status Slack Alert</a></li>
+<li class="toctree-l1"><a class="reference internal" href="use_cases/mysql_to_googlesheets.html">MySQL to Google Sheets Export</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Training Guides</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="training_guides/getting_set_up.html">Getting Set Up With Parsons</a></li>
 </ul>
 
         </div>
@@ -135,11 +141,11 @@
 <section id="overview">
 <h2>Overview<a class="headerlink" href="#overview" title="Permalink to this headline"></a></h2>
 <p><a class="reference external" href="https://actionnetwork.org/">Action Network</a> is an online tool for storing information
-about and organizing volunteers and donors. It is used primarily for digital organizing and event mangement. For more information, see <a class="reference external" href="https://actionnetwork.org/docs">Action Network developer docs</a></p>
+and organizing volunteers and donors. It is used primarily for digital organizing and event mangement. For more information, see <a class="reference external" href="https://actionnetwork.org/docs">Action Network developer docs</a></p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
 <dl class="simple">
-<dt>Authentication</dt><dd><p>Only ActionNetwork accounts of the partner tier are able to access their API. You can generate your key from the API &amp; Sync page, located in the <em>Start Organizing</em> menu, in the right column.</p>
+<dt>Authentication</dt><dd><p>Only ActionNetwork accounts of the partner tier are able to access their API. You can generate your key from the API &amp; Sync page, located in the <em>Start Organizing</em> menu, under <em>Details</em>.</p>
 </dd>
 </dl>
 </div>
@@ -158,7 +164,7 @@ about and organizing volunteers and donors. It is used primarily for digital org
 </div>
 <p>You can then call various endpoints:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># List all people stored in Action Network</span>
-<span class="n">all_contacts</span> <span class="o">=</span> <span class="n">an</span><span class="o">.</span><span class="n">get_people_list</span><span class="p">()</span>
+<span class="n">all_contacts</span> <span class="o">=</span> <span class="n">an</span><span class="o">.</span><span class="n">get_people</span><span class="p">()</span>
 
 <span class="c1"># Add a person</span>
 <span class="n">an</span><span class="o">.</span><span class="n">add_person</span><span class="p">(</span><span class="s1">&#39;person.email@fakeemail.com&#39;</span><span class="p">)</span>
@@ -185,7 +191,7 @@ about and organizing volunteers and donors. It is used primarily for digital org
 </dl>
 <dl class="py method">
 <dt class="sig sig-object py" id="parsons.ActionNetwork.get_people">
-<span class="sig-name descname"><span class="pre">get_people</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">limit</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">per_page</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">25</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">page</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/action_network/action_network.html#ActionNetwork.get_people"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.ActionNetwork.get_people" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">get_people</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">limit</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">per_page</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">25</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">page</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">filter</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/action_network/action_network.html#ActionNetwork.get_people"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.ActionNetwork.get_people" title="Permalink to this definition"></a></dt>
 <dd><dl class="simple">
 <dt><cite>Args:</cite></dt><dd><dl class="simple">
 <dt>limit:</dt><dd><p>The number of entries to return. When None, returns all entries.</p>
@@ -193,6 +199,9 @@ about and organizing volunteers and donors. It is used primarily for digital org
 <dt>per_page</dt><dd><p>The number of entries per page to return. 25 maximum.</p>
 </dd>
 <dt>page</dt><dd><p>Which page of results to return</p>
+</dd>
+<dt>filter</dt><dd><p>The OData query for filtering results. E.g. “modified_date gt ‘2014-03-25’”.
+When None, no filter is applied.</p>
 </dd>
 </dl>
 </dd>

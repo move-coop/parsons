@@ -238,7 +238,7 @@ The method can return more than one record, so the results of the call to the AP
 Sandbox Access
 --------------
 
-When developing a Parsons connector, it's helpful to be able to test your changes against a non-production account. We have set up test accounts with some vendors which you can use for testing by following the steps below.
+When developing a Parsons connector, it's helpful to be able to test your changes against a non-production account. We have set up test accounts with some vendors which you can use for testing by following the steps below. We also maintain :ref:`a list of vendors with free accounts<create-sandbox>` that you can use as sandboxes.
 
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 Accessing and Using Credentials
@@ -285,7 +285,13 @@ Since the sandbox accounts are shared with multiple people, we ask contributors 
 Connector-Specific Guidance
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+##################
+API Keys Available
+##################
+
 The following connectors have sandbox API keys available. Some connectors have specific best practices or additional information to send along when you request the key from us.
+
+**ActionKit**: No additional information needed, but please be mindful that this sandbox is shared across many organizations, not just Parsons-affiliated organizations. Be extra careful not to modify existing data.
 
 **ActionNetwork**: In order to access the ActionNetwork sandbox account, we’ll need the email address associated with your ActionNetwork account. Please make an ActionNetwork account if you don’t have one already, and include the associated email in your access request to us.
 
@@ -296,6 +302,24 @@ The following connectors have sandbox API keys available. Some connectors have s
 **Mobilize**:  No connector-specific guidance.
 
 **Strive**:  No connector-specific guidance.
+
+.. _create-sandbox:
+
+#######################
+Create Your Own Sandbox
+#######################
+
+The following connectors are confirmed to have free accounts which can be used to make sandboxes.
+
+**Airtable**: You can create `free accounts <https://support.airtable.com/hc/en-us/articles/115010928147-Airtable-plans#1>`_ on the Airtable website.
+
+**Braintree**: You can create `free sandbox accounts <https://www.braintreepayments.com/sandbox>`_ on the Braintree website.
+
+**Github**: You can create `free accounts <https://github.com/pricing#compare-features>`_ on the Github website.
+
+**Salesforce**: You can create `free developer accounts <https://developer.salesforce.com/signup>`_ directly on the Salesforce website, which you can use to `create a sandbox <https://developer.salesforce.com/docs/atlas.en-us.sfdx_dev.meta/sfdx_dev/sfdx_dev_scratch_orgs.htm>`_.
+
+**Twilio**: You can create a `free account <https://www.twilio.com/pricing>`_ on the Twilio website which gets you access to their `test credentials <https://www.twilio.com/docs/iam/test-credentials>`_.
 
 ------------
 Finishing up
@@ -351,7 +375,7 @@ Adding automated tests
         def test_get_things(self, m):
 
             # Test that campaigns are returned correctly.
-            m.get(‘http://yourconnector.com/v1/things’, json=[])
+            m.get('http://yourconnector.com/v1/things', json=[])
             yc = YourConnector()
             tbl = yc.get_things()
 

@@ -117,6 +117,12 @@
 <p class="caption" role="heading"><span class="caption-text">Use Cases and Sample Scripts</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="use_cases/contribute_use_cases.html">How to Contribute a Use Case &amp; Sample Script</a></li>
+<li class="toctree-l1"><a class="reference internal" href="use_cases/civis_job_status_slack_alert.html">Civis Job Status Slack Alert</a></li>
+<li class="toctree-l1"><a class="reference internal" href="use_cases/mysql_to_googlesheets.html">MySQL to Google Sheets Export</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Training Guides</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="training_guides/getting_set_up.html">Getting Set Up With Parsons</a></li>
 </ul>
 
         </div>
@@ -179,11 +185,11 @@
 <td><p>SFTP Server</p></td>
 <td><p>Write a table to a csv stored on an SFTP server</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#parsons.etl.tofrom.ToFrom.from_csv" title="parsons.etl.tofrom.ToFrom.from_csv"><code class="xref py py-meth docutils literal notranslate"><span class="pre">from_csv()</span></code></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#parsons.etl.tofrom.ToFrom.to_redshift" title="parsons.etl.tofrom.ToFrom.to_redshift"><code class="xref py py-meth docutils literal notranslate"><span class="pre">to_redshift()</span></code></a></p></td>
 <td><p>A Redshift Database</p></td>
 <td><p>Write a table to a Redshift database</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#parsons.etl.tofrom.ToFrom.from_postgres" title="parsons.etl.tofrom.ToFrom.from_postgres"><code class="xref py py-meth docutils literal notranslate"><span class="pre">from_postgres()</span></code></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#parsons.etl.tofrom.ToFrom.to_postgres" title="parsons.etl.tofrom.ToFrom.to_postgres"><code class="xref py py-meth docutils literal notranslate"><span class="pre">to_postgres()</span></code></a></p></td>
 <td><p>A Postgres Database</p></td>
 <td><p>Write a table to a Postgres database</p></td>
 </tr>
@@ -191,7 +197,7 @@
 <td><p>Civis Redshift Database</p></td>
 <td><p>Write a table to Civis platform database</p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="xref py py-meth docutils literal notranslate"><span class="pre">from_petl()</span></code></p></td>
+<tr class="row-odd"><td><p><code class="xref py py-meth docutils literal notranslate"><span class="pre">to_petl()</span></code></p></td>
 <td><p>Petl table object</p></td>
 <td><p>Convert a table a Petl table object</p></td>
 </tr>
@@ -206,6 +212,18 @@
 <tr class="row-even"><td><p><a class="reference internal" href="#parsons.etl.tofrom.ToFrom.to_dataframe" title="parsons.etl.tofrom.ToFrom.to_dataframe"><code class="xref py py-meth docutils literal notranslate"><span class="pre">to_dataframe()</span></code></a></p></td>
 <td><p>Pandas Dataframe <a class="footnote-reference brackets" href="#id3" id="id2">1</a></p></td>
 <td><p>Return a Pandas dataframe</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#parsons.etl.tofrom.ToFrom.append_csv" title="parsons.etl.tofrom.ToFrom.append_csv"><code class="xref py py-meth docutils literal notranslate"><span class="pre">append_csv()</span></code></a></p></td>
+<td><p>CSV file</p></td>
+<td><p>Appends table to an existing CSV</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#parsons.etl.tofrom.ToFrom.to_zip_csv" title="parsons.etl.tofrom.ToFrom.to_zip_csv"><code class="xref py py-meth docutils literal notranslate"><span class="pre">to_zip_csv()</span></code></a></p></td>
+<td><p>ZIP file</p></td>
+<td><p>Writes a table to a CSV in a zip archive</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#parsons.etl.tofrom.ToFrom.to_dicts" title="parsons.etl.tofrom.ToFrom.to_dicts"><code class="xref py py-meth docutils literal notranslate"><span class="pre">to_dicts()</span></code></a></p></td>
+<td><p>Dicts</p></td>
+<td><p>Write a table as a list of dicts</p></td>
 </tr>
 </tbody>
 </table>
@@ -258,6 +276,10 @@
 <tr class="row-even"><td><p><a class="reference internal" href="#parsons.etl.tofrom.ToFrom.from_s3_csv" title="parsons.etl.tofrom.ToFrom.from_s3_csv"><code class="xref py py-meth docutils literal notranslate"><span class="pre">from_s3_csv()</span></code></a></p></td>
 <td><p>S3 CSV</p></td>
 <td><p>Load a Parsons table from a csv file on S3</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#parsons.etl.tofrom.ToFrom.from_csv_string" title="parsons.etl.tofrom.ToFrom.from_csv_string"><code class="xref py py-meth docutils literal notranslate"><span class="pre">from_csv_string()</span></code></a></p></td>
+<td><p>File like object, local path, url, ftp.</p></td>
+<td><p>Load a CSV string into a Table</p></td>
 </tr>
 </tbody>
 </table>

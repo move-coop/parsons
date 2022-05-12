@@ -103,7 +103,11 @@
 <li class="toctree-l2"><a class="reference internal" href="#sandbox-access">Sandbox Access</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#accessing-and-using-credentials">Accessing and Using Credentials</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#general-best-practices">General Best Practices</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#connector-specific-guidance">Connector-Specific Guidance</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#connector-specific-guidance">Connector-Specific Guidance</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#api-keys-available">API Keys Available</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#create-your-own-sandbox">Create Your Own Sandbox</a></li>
+</ul>
+</li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#finishing-up">Finishing up</a><ul>
@@ -120,6 +124,12 @@
 <p class="caption" role="heading"><span class="caption-text">Use Cases and Sample Scripts</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="use_cases/contribute_use_cases.html">How to Contribute a Use Case &amp; Sample Script</a></li>
+<li class="toctree-l1"><a class="reference internal" href="use_cases/civis_job_status_slack_alert.html">Civis Job Status Slack Alert</a></li>
+<li class="toctree-l1"><a class="reference internal" href="use_cases/mysql_to_googlesheets.html">MySQL to Google Sheets Export</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Training Guides</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="training_guides/getting_set_up.html">Getting Set Up With Parsons</a></li>
 </ul>
 
         </div>
@@ -338,7 +348,7 @@
 </section>
 <section id="sandbox-access">
 <h2>Sandbox Access<a class="headerlink" href="#sandbox-access" title="Permalink to this headline"></a></h2>
-<p>When developing a Parsons connector, it’s helpful to be able to test your changes against a non-production account. We have set up test accounts with some vendors which you can use for testing by following the steps below.</p>
+<p>When developing a Parsons connector, it’s helpful to be able to test your changes against a non-production account. We have set up test accounts with some vendors which you can use for testing by following the steps below. We also maintain <a class="reference internal" href="#create-sandbox"><span class="std std-ref">a list of vendors with free accounts</span></a> that you can use as sandboxes.</p>
 <section id="accessing-and-using-credentials">
 <h3>Accessing and Using Credentials<a class="headerlink" href="#accessing-and-using-credentials" title="Permalink to this headline"></a></h3>
 <p><strong>Step 1: Request Access</strong></p>
@@ -372,12 +382,25 @@
 </section>
 <section id="connector-specific-guidance">
 <span id="id1"></span><h3>Connector-Specific Guidance<a class="headerlink" href="#connector-specific-guidance" title="Permalink to this headline"></a></h3>
+<section id="api-keys-available">
+<h4>API Keys Available<a class="headerlink" href="#api-keys-available" title="Permalink to this headline"></a></h4>
 <p>The following connectors have sandbox API keys available. Some connectors have specific best practices or additional information to send along when you request the key from us.</p>
+<p><strong>ActionKit</strong>: No additional information needed, but please be mindful that this sandbox is shared across many organizations, not just Parsons-affiliated organizations. Be extra careful not to modify existing data.</p>
 <p><strong>ActionNetwork</strong>: In order to access the ActionNetwork sandbox account, we’ll need the email address associated with your ActionNetwork account. Please make an ActionNetwork account if you don’t have one already, and include the associated email in your access request to us.</p>
 <p><strong>ControlShift</strong>: Please limit your testing to pushing and pulling data in and out and do not use the account for sending mass texts. (The sandbox account has an associated phone number, but it is unnecessary for Parsons testing.)</p>
 <p><strong>Hustle</strong>: No connector-specific guidance.</p>
 <p><strong>Mobilize</strong>:  No connector-specific guidance.</p>
 <p><strong>Strive</strong>:  No connector-specific guidance.</p>
+</section>
+<section id="create-your-own-sandbox">
+<span id="create-sandbox"></span><h4>Create Your Own Sandbox<a class="headerlink" href="#create-your-own-sandbox" title="Permalink to this headline"></a></h4>
+<p>The following connectors are confirmed to have free accounts which can be used to make sandboxes.</p>
+<p><strong>Airtable</strong>: You can create <a class="reference external" href="https://support.airtable.com/hc/en-us/articles/115010928147-Airtable-plans#1">free accounts</a> on the Airtable website.</p>
+<p><strong>Braintree</strong>: You can create <a class="reference external" href="https://www.braintreepayments.com/sandbox">free sandbox accounts</a> on the Braintree website.</p>
+<p><strong>Github</strong>: You can create <a class="reference external" href="https://github.com/pricing#compare-features">free accounts</a> on the Github website.</p>
+<p><strong>Salesforce</strong>: You can create <a class="reference external" href="https://developer.salesforce.com/signup">free developer accounts</a> directly on the Salesforce website, which you can use to <a class="reference external" href="https://developer.salesforce.com/docs/atlas.en-us.sfdx_dev.meta/sfdx_dev/sfdx_dev_scratch_orgs.htm">create a sandbox</a>.</p>
+<p><strong>Twilio</strong>: You can create a <a class="reference external" href="https://www.twilio.com/pricing">free account</a> on the Twilio website which gets you access to their <a class="reference external" href="https://www.twilio.com/docs/iam/test-credentials">test credentials</a>.</p>
+</section>
 </section>
 </section>
 <section id="finishing-up">
@@ -402,35 +425,35 @@
 </ul>
 <p>For a more detailed guide on writing unit tests, see <a class="reference internal" href="write_tests.html"><span class="doc">How to Write Tests for Parsons Connectors</span></a></p>
 </div></blockquote>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span>from parsons.yourconnector.yourconnector import YourConnector
-import unittest
-import requests_mock
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">parsons.yourconnector.yourconnector</span> <span class="kn">import</span> <span class="n">YourConnector</span>
+<span class="kn">import</span> <span class="nn">unittest</span>
+<span class="kn">import</span> <span class="nn">requests_mock</span>
 
-from parsons.yourconnector.yourconnector import YourConnector
-import unittest
-import requests_mock
+<span class="kn">from</span> <span class="nn">parsons.yourconnector.yourconnector</span> <span class="kn">import</span> <span class="n">YourConnector</span>
+<span class="kn">import</span> <span class="nn">unittest</span>
+<span class="kn">import</span> <span class="nn">requests_mock</span>
 
-class TestYourConnector(unittest.TestCase):
+<span class="k">class</span> <span class="nc">TestYourConnector</span><span class="p">(</span><span class="n">unittest</span><span class="o">.</span><span class="n">TestCase</span><span class="p">):</span>
 
-    def setUp(self):
+    <span class="k">def</span> <span class="nf">setUp</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 
-        # add any setup code here to run before each test
-        pass
+        <span class="c1"># add any setup code here to run before each test</span>
+        <span class="k">pass</span>
 
-    def tearDown(self):
+    <span class="k">def</span> <span class="nf">tearDown</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 
-        # add any teardown code here to run after each test
-        pass
+        <span class="c1"># add any teardown code here to run after each test</span>
+        <span class="k">pass</span>
 
-    @requests_mock.Mocker()
-    def test_get_things(self, m):
+    <span class="nd">@requests_mock</span><span class="o">.</span><span class="n">Mocker</span><span class="p">()</span>
+    <span class="k">def</span> <span class="nf">test_get_things</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">m</span><span class="p">):</span>
 
-        # Test that campaigns are returned correctly.
-        m.get(‘http://yourconnector.com/v1/things’, json=[])
-        yc = YourConnector()
-        tbl = yc.get_things()
+        <span class="c1"># Test that campaigns are returned correctly.</span>
+        <span class="n">m</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;http://yourconnector.com/v1/things&#39;</span><span class="p">,</span> <span class="n">json</span><span class="o">=</span><span class="p">[])</span>
+        <span class="n">yc</span> <span class="o">=</span> <span class="n">YourConnector</span><span class="p">()</span>
+        <span class="n">tbl</span> <span class="o">=</span> <span class="n">yc</span><span class="o">.</span><span class="n">get_things</span><span class="p">()</span>
 
-        self.assertEqual(tbl.num_rows, 0)
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertEqual</span><span class="p">(</span><span class="n">tbl</span><span class="o">.</span><span class="n">num_rows</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
 </pre></div>
 </div>
 </section>

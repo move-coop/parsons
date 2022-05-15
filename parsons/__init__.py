@@ -30,6 +30,7 @@ if not (
     from parsons.google.google_cloud_storage import GoogleCloudStorage
     from parsons.google.google_bigquery import GoogleBigQuery
     from parsons.phone2action.p2a import Phone2Action
+    from parsons.capitol_canary.capitol_canary import CapitolCanary
     from parsons.mobilize_america.ma import MobilizeAmerica
     from parsons.facebook_ads.facebook_ads import FacebookAds
     from parsons.turbovote.turbovote import TurboVote

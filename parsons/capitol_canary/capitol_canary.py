@@ -75,7 +75,8 @@ class CapitolCanary(object):
                 See :ref:`parsons-table` for output options.
         """
 
-        return self.phone2action.get_campaigns(self, state, zip, include_generic, include_private, include_content)
+        return self.phone2action.get_campaigns(self, state, zip, include_generic, include_private,
+                                               include_content)
 
     def create_advocate(self,
                         campaigns,

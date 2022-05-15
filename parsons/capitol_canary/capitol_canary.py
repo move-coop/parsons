@@ -53,7 +53,6 @@ class CapitolCanary(object):
         """
         return self.phone2action.get_advocates(state, campaign_id, updated_since, page)
 
-
     def get_campaigns(self, state=None, zip=None, include_generic=False, include_private=False,
                       include_content=True):
         """

@@ -83,6 +83,7 @@ if not (
         'GoogleBigQuery',
         'GoogleSheets',
         'Phone2Action',
+        'CapitolCanary',
         'MobilizeAmerica',
         'FacebookAds',
         'Slack',

@@ -1,29 +1,22 @@
-from requests.auth import HTTPBasicAuth
-from parsons.etl import Table
 from parsons.phone2action import Phone2Action
-from parsons.utilities import check_env
-from parsons.utilities.api_connector import APIConnector
-from parsons.utilities.datetime import date_to_timestamp
 import logging
 
 logger = logging.getLogger(__name__)
 
-PHONE2ACTION_URI = 'https://api.phone2action.com/2.0/'
-
 
 class CapitolCanary(object):
     """
-    Instantiate CapitalCanary Class
+    Instantiate CapitolCanary Class
 
     `Args:`
         app_id: str
-            The Phone2Action provided application id. Not required if ``PHONE2ACTION_APP_ID``
+            The CapitolCanary provided application id. Not required if ``PHONE2ACTION_APP_ID``
             env variable set.
         app_key: str
-            The Phone2Action provided application key. Not required if ``PHONE2ACTION_APP_KEY``
+            The CapitolCanary provided application key. Not required if ``PHONE2ACTION_APP_KEY``
             env variable set.
     `Returns:`
-        Phone2Action Class
+        CapitolCanary Class
     """
 
     def __init__(self, app_id=None, app_key=None):
@@ -109,7 +102,7 @@ class CapitolCanary(object):
 
         The list of arguments only partially covers the fields that can be set on the advocate.
         For a complete list of fields that can be updated, see
-        `the Phone2Action API documentation <https://docs.phone2action.com/#calls-create>`_.
+        `the Capitol Canary API documentation <https://docs.phone2action.com/#calls-create>`_.
 
         `Args:`
             campaigns: list
@@ -190,7 +183,7 @@ class CapitolCanary(object):
 
         The list of arguments only partially covers the fields that can be updated on the advocate.
         For a complete list of fields that can be updated, see
-        `the Phone2Action API documentation <https://docs.phone2action.com/#calls-create>`_.
+        `the Capitol Canary API documentation <https://docs.phone2action.com/#calls-create>`_.
 
         `Args:`
             advocate_id: integer

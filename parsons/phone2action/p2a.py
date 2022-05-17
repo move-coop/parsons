@@ -1,13 +1,7 @@
-from requests.auth import HTTPBasicAuth
-from parsons.etl import Table
-from parsons.utilities import check_env
-from parsons.utilities.api_connector import APIConnector
-from parsons.utilities.datetime import date_to_timestamp
+from parsons.capitol_canary import CapitolCanary
 import logging
 
 logger = logging.getLogger(__name__)
-
-PHONE2ACTION_URI = 'https://api.phone2action.com/2.0/'
 
 
 class Phone2Action(object):
@@ -26,32 +20,7 @@ class Phone2Action(object):
     """
 
     def __init__(self, app_id=None, app_key=None):
-
-        self.app_id = check_env.check('PHONE2ACTION_APP_ID', app_id)
-        self.app_key = check_env.check('PHONE2ACTION_APP_KEY', app_key)
-        self.auth = HTTPBasicAuth(self.app_id, self.app_key)
-        self.client = APIConnector(PHONE2ACTION_URI, auth=self.auth)
-
-    def _paginate_request(self, url, args=None, page=None):
-        # Internal pagination method
-
-        if page is not None:
-            args['page'] = page
-
-        r = self.client.get_request(url, params=args)
-
-        json = r['data']
-
-        if page is not None:
-            return json
-
-        # If count of items is less than the total allowed per page, paginate
-        while r['pagination']['count'] == r['pagination']['per_page']:
-
-            r = self.client.get_request(r['pagination']['next_url'], args)
-            json.extend(r['data'])
-
-        return json
+        self.capitol_canary = CapitolCanary(app_id, app_key)
 
     def get_advocates(self, state=None, campaign_id=None, updated_since=None, page=None):
         """
@@ -82,49 +51,7 @@ class Phone2Action(object):
                 * fields
                 * advocates
         """
-
-        # Convert the passed in updated_since into a Unix timestamp (which is what the API wants)
-        updated_since = date_to_timestamp(updated_since)
-
-        args = {'state': state,
-                'campaignid': campaign_id,
-                'updatedSince': updated_since}
-
-        logger.info('Retrieving advocates...')
-        json = self._paginate_request('advocates', args=args, page=page)
-
-        return self._advocates_tables(Table(json))
-
-    def _advocates_tables(self, tbl):
-        # Convert the advocates nested table into multiple tables
-
-        tbls = {
-            'advocates': tbl,
-            'emails': Table(),
-            'phones': Table(),
-            'memberships': Table(),
-            'tags': Table(),
-            'ids': Table(),
-            'fields': Table(),
-        }
-
-        if not tbl:
-            return tbls
-
-        logger.info(f'Retrieved {tbl.num_rows} advocates...')
-
-        # Unpack all of the single objects
-        # The Phone2Action API docs says that created_at and updated_at are dictionaries, but
-        # the data returned from the server is a ISO8601 timestamp. - EHS, 05/21/2020
-        for c in ['address', 'districts']:
-            tbl.unpack_dict(c)
-
-        # Unpack all of the arrays
-        child_tables = [child for child in tbls.keys() if child != 'advocates']
-        for c in child_tables:
-            tbls[c] = tbl.long_table(['id'], c, key_rename={'id': 'advocate_id'})
-
-        return tbls
+        return self.capitol_canary.get_advocates(state, campaign_id, updated_since, page)
 
     def get_campaigns(self, state=None, zip=None, include_generic=False, include_private=False,
                       include_content=True):
@@ -148,19 +75,8 @@ class Phone2Action(object):
                 See :ref:`parsons-table` for output options.
         """
 
-        args = {'state': state,
-                'zip': zip,
-                'includeGeneric': str(include_generic),
-                'includePrivate': str(include_private)
-                }
-
-        tbl = Table(self.client.get_request('campaigns', params=args))
-        if tbl:
-            tbl.unpack_dict('updated_at')
-            if include_content:
-                tbl.unpack_dict('content')
-
-        return tbl
+        return self.capitol_canary.get_campaigns(self, state, zip, include_generic, include_private,
+                                                 include_content)
 
     def create_advocate(self,
                         campaigns,
@@ -231,61 +147,23 @@ class Phone2Action(object):
         `Returns:`
             The int ID of the created advocate.
         """
-
-        # Validate the passed in arguments
-
-        if not campaigns:
-            raise ValueError(
-                'When creating an advocate, you must specify one or more campaigns.')
-
-        if not email and not phone:
-            raise ValueError(
-                'When creating an advocate, you must provide an email address or a phone number.')
-
-        if (sms_optin or sms_optout) and not phone:
-            raise ValueError(
-                'When opting an advocate in or out of SMS messages, you must specify a valid '
-                'phone and one or more campaigns')
-
-        if (email_optin or email_optout) and not email:
-            raise ValueError(
-                'When opting an advocate in or out of email messages, you must specify a valid '
-                'email address and one or more campaigns')
-
-        # Align our arguments with the expected parameters for the API
-        payload = {
-            'email': email,
-            'phone': phone,
-            'firstname': first_name,
-            'lastname': last_name,
-            'address1': address1,
-            'address2': address2,
-            'city': city,
-            'state': state,
-            'zip5': zip5,
-            'smsOptin': 1 if sms_optin else None,
-            'emailOptin': 1 if email_optin else None,
-            'smsOptout': 1 if sms_optout else None,
-            'emailOptout': 1 if email_optout else None,
-        }
-
-        # Clean up any keys that have a "None" value
-        payload = {
-            key: val
-            for key, val in payload.items()
-            if val is not None
-        }
-
-        # Merge in any kwargs
-        payload.update(kwargs)
-
-        # Turn into a list of items so we can append multiple campaigns
-        campaign_keys = [('campaigns[]', val) for val in campaigns]
-        data = [(key, value) for key, value in payload.items()] + campaign_keys
-
-        # Call into the Phone2Action API
-        response = self.client.post_request('advocates', data=data)
-        return response['advocateid']
+        return self.capitol_canary.create_advocate(
+            campaigns,
+            first_name,
+            last_name,
+            email,
+            phone,
+            address1,
+            address2,
+            city,
+            state,
+            zip5,
+            sms_optin,
+            email_optin,
+            sms_optout,
+            email_optout,
+            **kwargs
+        )
 
     def update_advocate(self,
                         advocate_id,
@@ -334,47 +212,13 @@ class Phone2Action(object):
             **kwargs:
                 Additional fields on the advocate to update
         """
-
-        # Validate the passed in arguments
-        if (sms_optin or sms_optout) and not (phone and campaigns):
-            raise ValueError(
-                'When opting an advocate in or out of SMS messages, you must specify a valid '
-                'phone and one or more campaigns')
-
-        if (email_optin or email_optout) and not (email and campaigns):
-            raise ValueError(
-                'When opting an advocate in or out of email messages, you must specify a valid '
-                'email address and one or more campaigns')
-
-        # Align our arguments with the expected parameters for the API
-        payload = {
-            'advocateid': advocate_id,
-            'campaigns': campaigns,
-            'email': email,
-            'phone': phone,
-            'smsOptin': 1 if sms_optin else None,
-            'emailOptin': 1 if email_optin else None,
-            'smsOptout': 1 if sms_optout else None,
-            'emailOptout': 1 if email_optout else None,
-            # remap first_name / last_name to be consistent with updated_advocates
-            'firstname': kwargs.pop('first_name', None),
-            'lastname': kwargs.pop('last_name', None),
-        }
-
-        # Clean up any keys that have a "None" value
-        payload = {
-            key: val
-            for key, val in payload.items()
-            if val is not None
-        }
-
-        # Merge in any kwargs
-        payload.update(kwargs)
-
-        # Turn into a list of items so we can append multiple campaigns
-        campaigns = campaigns or []
-        campaign_keys = [('campaigns[]', val) for val in campaigns]
-        data = [(key, value) for key, value in payload.items()] + campaign_keys
-
-        # Call into the Phone2Action API
-        self.client.post_request('advocates', data=data)
+        return self.capitol_canary.update_advocate(
+            advocate_id,
+            campaigns,
+            email,
+            phone,
+            sms_optin,
+            email_optin,
+            sms_optout,
+            email_optout,
+            **kwargs)

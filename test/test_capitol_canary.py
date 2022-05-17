@@ -127,7 +127,7 @@ class TestP2A(unittest.TestCase):
 
     def setUp(self):
 
-        self.cc = CapitolCanary(app_id='an_id', app_key='app_key').phone2action
+        self.cc = CapitolCanary(app_id='an_id', app_key='app_key')
 
     def tearDown(self):
 
@@ -146,8 +146,8 @@ class TestP2A(unittest.TestCase):
         os.environ['PHONE2ACTION_APP_KEY'] = 'key'
 
         cc_envs = CapitolCanary()
-        self.assertEqual(cc_envs.phone2action.app_id, 'id')
-        self.assertEqual(cc_envs.phone2action.app_key, 'key')
+        self.assertEqual(cc_envs.app_id, 'id')
+        self.assertEqual(cc_envs.app_key, 'key')
 
     @requests_mock.Mocker()
     def test_get_advocates(self, m):

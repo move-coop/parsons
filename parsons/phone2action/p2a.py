@@ -21,6 +21,7 @@ class Phone2Action(object):
 
     def __init__(self, app_id=None, app_key=None):
         self.capitol_canary = CapitolCanary(app_id, app_key)
+        logger.warning('The Phone2Action class is being deprecated and replaced by CapitalCanary')
 
     def get_advocates(self, state=None, campaign_id=None, updated_since=None, page=None):
         """

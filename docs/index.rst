@@ -233,6 +233,7 @@ Indices and tables
    bluelink
    box
    braintree
+   capitolcanary
    civis
    controlshift
    copper

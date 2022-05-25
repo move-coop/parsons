@@ -5,7 +5,7 @@ CapitolCanary
 Overview
 ********
 
-`CapitolCanary <https://phone2action.com/>`_ is a digital advocacy tool used by progressive organizations. This class
+`CapitolCanary <https://capitolcanary.com/>`_ is a digital advocacy tool used by progressive organizations. This class
 allows you to interact with the tool by leveraging their `API <http://docs.phone2action.com/#overview>`_.
 
 .. note::
@@ -17,7 +17,7 @@ Quick Start
 ***********
 
 To instantiate the ``CapitolCanary`` class, you can either pass in the app ID and app key as arguments or set the
-``PHONE2ACTION_APP_ID`` and ``PHONE2ACTION_APP_KEY`` environmental variables.
+``CAPITOLCANARY_APP_ID`` and ``CAPITOLCANARY_APP_KEY`` environmental variables.
 
 .. code-block:: python
 

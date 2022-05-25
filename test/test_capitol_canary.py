@@ -139,11 +139,21 @@ class TestP2A(unittest.TestCase):
 
         pass
 
-    def test_init_envs(self):
-        # Test initializing class with envs
+    def test_old_init_envs(self):
+        # Test initializing class with old envs
 
         os.environ['PHONE2ACTION_APP_ID'] = 'id'
         os.environ['PHONE2ACTION_APP_KEY'] = 'key'
+
+        cc_envs = CapitolCanary()
+        self.assertEqual(cc_envs.app_id, 'id')
+        self.assertEqual(cc_envs.app_key, 'key')
+
+    def test_init_envs(self):
+        # Test initializing class with envs
+
+        os.environ['CAPITOLCANARY_APP_ID'] = 'id'
+        os.environ['CAPITOLCANARY_APP_KEY'] = 'key'
 
         cc_envs = CapitolCanary()
         self.assertEqual(cc_envs.app_id, 'id')

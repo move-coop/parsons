@@ -26,9 +26,12 @@ class CapitolCanary(object):
     """
 
     def __init__(self, app_id=None, app_key=None):
+        # check first for CapitolCanary branded app key and ID
+        cc_app_id = check_env.check('CAPITOLCANARY_APP_ID', None, optional=True)
+        cc_app_key = check_env.check('CAPITOLCANARY_APP_KEY', None, optional=True)
 
-        self.app_id = check_env.check('PHONE2ACTION_APP_ID', app_id)
-        self.app_key = check_env.check('PHONE2ACTION_APP_KEY', app_key)
+        self.app_id = cc_app_id or check_env.check('PHONE2ACTION_APP_ID', app_id)
+        self.app_key = cc_app_key or check_env.check('PHONE2ACTION_APP_KEY', app_key)
         self.auth = HTTPBasicAuth(self.app_id, self.app_key)
         self.client = APIConnector(CAPITOL_CANARY_URI, auth=self.auth)
 

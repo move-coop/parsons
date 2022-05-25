@@ -12,14 +12,14 @@ CAPITOL_CANARY_URI = 'https://api.phone2action.com/2.0/'
 
 class CapitolCanary(object):
     """
-    Instantiate Phone2Action Class
+    Instantiate CapitolCanary Class
 
     `Args:`
         app_id: str
-            The CapitolCanary provided application id. Not required if ``PHONE2ACTION_APP_ID``
+            The CapitolCanary provided application id. Not required if ``CAPITOLCANARY_APP_ID``
             env variable set.
         app_key: str
-            The CapitolCanary provided application key. Not required if ``PHONE2ACTION_APP_KEY``
+            The CapitolCanary provided application key. Not required if ``CAPITOLCANARY_APP_KEY``
             env variable set.
     `Returns:`
         CapitolCanary Class

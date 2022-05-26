@@ -65,6 +65,7 @@ if not (
     from parsons.redash.redash import Redash
     from parsons.bluelink import Bluelink
     from parsons.braintree.braintree import Braintree
+    from parsons.auth0.auth0 import Auth0
 
     __all__ = [
         'VAN',
@@ -120,7 +121,8 @@ if not (
         'Bluelink',
         'Braintree',
         'SMTP',
-        'SendMail'
+        'SendMail',
+        'Auth0'
     ]
 
 # Define the default logging config for Parsons and its submodules. For now the

@@ -15,6 +15,7 @@ from parsons.utilities.files import create_temp_file
 
 BIGQUERY_TYPE_MAP = {
     'str': 'STRING',
+    'NoneType': 'STRING',
     'float': 'FLOAT',
     'int': 'INTEGER',
     'bool': 'BOOLEAN',

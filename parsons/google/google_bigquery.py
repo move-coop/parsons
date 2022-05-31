@@ -15,7 +15,6 @@ from parsons.utilities.files import create_temp_file
 
 BIGQUERY_TYPE_MAP = {
     'str': 'STRING',
-    'NoneType': 'STRING',
     'float': 'FLOAT',
     'int': 'INTEGER',
     'bool': 'BOOLEAN',
@@ -23,6 +22,7 @@ BIGQUERY_TYPE_MAP = {
     'datetime.date': 'DATE',
     'datetime.time': 'TIME',
     'dict': 'RECORD',
+    'NoneType': 'STRING'
 }
 
 # Max number of rows that we query at a time, so we can avoid loading huge

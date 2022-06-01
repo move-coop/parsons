@@ -53,7 +53,7 @@ class Codes(object):
                 See :ref:`parsons-table` for output options.
         """
 
-        c = self.connection.request(f'codes/{code_id}')
+        c = self.connection.get_request(f'codes/{code_id}')
         logger.debug(c)
         logger.info(f'Found code {code_id}.')
         return c

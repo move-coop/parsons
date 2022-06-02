@@ -115,7 +115,7 @@ class Codes(object):
 
             se = [{'name': s['name'],
                    'isSearchable': s['is_searchable'],
-                   'is_applicable': s['is_applicable']} for s in supported_entities]
+                   'isApplicable': s['is_applicable']} for s in supported_entities]
 
             json['supportedEntities'] = se
 
@@ -175,7 +175,7 @@ class Codes(object):
 
             se = [{'name': s['name'],
                    'isSearchable': s['is_searchable'],
-                   'is_applicable': s['is_applicable']} for s in supported_entities]
+                   'isApplicable': s['is_applicable']} for s in supported_entities]
             post_data['supportedEntities'] = se
 
         r = self.connection.put_request(f'codes/{code_id}', json=post_data)

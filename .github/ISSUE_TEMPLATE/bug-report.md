@@ -1,3 +1,11 @@
+---
+name: Bug Report
+about: Tell us about a problem with the project's current functionality
+title: "[Bug]"
+labels: bug
+assignees: ''
+---
+
 <!--- Provide a general summary of the bug you're experiencing in the Title above -->
 
 

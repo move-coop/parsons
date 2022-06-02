@@ -1,3 +1,11 @@
+---
+name: Proposed Feature/Addition
+about: Suggest an addition to Parsons
+title: "[Feature/Addition]"
+labels: enhancement
+assignees: ''
+---
+
 <!--- Provide a general summary of the proposed Parsons addition in the Title above -->
 
 

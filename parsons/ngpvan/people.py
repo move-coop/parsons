@@ -360,15 +360,15 @@ class People(object):
         id_type = '' if id_type in ('vanid', None) else f"{id_type}:"
         url += id_type + str(id)
 
-        expand_fields = ','.join([json_format.arg_format(f) for f in expand_fields])
-
         # Removing the fields that are not returned in MyVoters
         NOT_IN_MYVOTERS = ['codes', 'contribution_history', 'organization_roles']
 
         if self.connection.db_code == 0:
             expand_fields = [v for v in expand_fields if v not in NOT_IN_MYVOTERS]
 
-        logger.info(f'Getting person with {id_type} of {id} at url {url}')
+        expand_fields = ','.join([json_format.arg_format(f) for f in expand_fields])
+
+        logger.info(f'Getting person with {id_type or "vanid"} of {id} at url {url}')
         return self.connection.get_request(url, params={'$expand': expand_fields})
 
     def apply_canvass_result(self, id, result_code_id, id_type='vanid', contact_type_id=None,

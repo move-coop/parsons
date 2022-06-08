@@ -12,7 +12,8 @@ def setup_google_application_credentials(app_creds, env_var_name='GOOGLE_APPLICA
     try:
         if (type(credentials) is dict):
             credentials = json.dumps(credentials)
-        creds_path = files.string_to_temp_file(credentials, suffix='.json')
+        if json.loads(credentials):
+            creds_path = files.string_to_temp_file(credentials, suffix='.json')
     except ValueError:
         creds_path = credentials
 

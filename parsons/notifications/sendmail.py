@@ -210,7 +210,7 @@ class SendMail(object):
         `Returns:`
             None
         """
-        self.log.info("Preparing to send and email...")
+        self.log.info("Preparing to send an email...")
 
         self.log.info("Validating email(s)")
         if isinstance(to, list):

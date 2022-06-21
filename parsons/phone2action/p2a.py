@@ -23,6 +23,12 @@ class Phone2Action(object):
         self.capitol_canary = CapitolCanary(app_id, app_key)
         logger.warning('The Phone2Action class is being deprecated and replaced by CapitalCanary')
 
+    def __getattr__(self, name):
+        try:
+          return getattr(self.capitol_canary, name)
+        except:
+          raise AttributeError(f"{type(self).__name__} object has no attribute {name}")
+
     def get_advocates(self, state=None, campaign_id=None, updated_since=None, page=None):
         """
         Return advocates (person records).
@@ -76,7 +82,7 @@ class Phone2Action(object):
                 See :ref:`parsons-table` for output options.
         """
 
-        return self.capitol_canary.get_campaigns(self, state, zip, include_generic, include_private,
+        return self.capitol_canary.get_campaigns(state, zip, include_generic, include_private,
                                                  include_content)
 
     def create_advocate(self,

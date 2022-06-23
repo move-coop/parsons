@@ -229,6 +229,7 @@ Indices and tables
    action_network
    airtable
    alchemer
+   auth0
    aws
    azure
    bill_com

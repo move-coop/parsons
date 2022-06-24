@@ -91,7 +91,7 @@ class TestTargets(unittest.TestCase):
     def test_get_target_export(self, m):
 
         export_job_id = 455961790
-        json = [{
+        json = {
             "targetId": 12827,
             "file": {
                 "downloadUrl": (
@@ -101,7 +101,7 @@ class TestTargets(unittest.TestCase):
                 "recordCount": 1016883},
             "webhookUrl": "null",
             "exportJobId": 455961790,
-            "jobStatus": "Complete"}]
+            "jobStatus": "Complete"}
 
         download_url = (
             'https://ngpvan.blob.core.windows.net/target-export-files/TargetExport_455961790.csv')

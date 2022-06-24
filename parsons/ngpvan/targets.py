@@ -2,7 +2,6 @@
 
 from parsons.etl.table import Table
 import logging
-import json
 import requests
 
 logger = logging.getLogger(__name__)

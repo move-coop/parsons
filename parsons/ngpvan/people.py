@@ -516,7 +516,7 @@ class People(object):
                     "phoneNumber": phone
                 }
             else:
-                raise Exception('')
+                raise Exception('A phone number must be provided if canvassed via phone call or SMS')
 
         if response:
             json['responses'] = response

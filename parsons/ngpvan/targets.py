@@ -2,7 +2,7 @@
 
 from parsons.etl.table import Table
 import logging
-import requests
+import petl
 
 logger = logging.getLogger(__name__)
 
@@ -61,9 +61,8 @@ class Targets(object):
         response = self.connection.get_request(f'targetExportJobs/{export_job_id}')
         job_status = response.get('jobStatus')
         if job_status == 'Complete':
-            csv = response['file']['downloadUrl']
-            response_csv = requests.get(csv)
-            return Table.from_csv_string(response_csv.text)
+            url = response['file']['downloadUrl']
+            return Table(petl.fromcsv(url, encoding="utf-8-sig"))
         elif job_status == 'Pending' or job_status == 'InProcess':
             logger.info(f'Target export job is pending or in process for {export_job_id}.')
         else:

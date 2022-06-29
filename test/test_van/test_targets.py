@@ -2,19 +2,13 @@ import unittest
 import os
 import requests_mock
 from parsons import VAN, Table
+import petl
 from test.utils import validate_list, assert_matching_tables
 
 os.environ['VAN_API_KEY'] = 'SOME_KEY'
 
 
 class TestTargets(unittest.TestCase):
-
-    mock_data = mock_data = (
-        '12827,Volunteer Recruitment Tiers,Tier,109957740\n'
-        '12827,Volunteer Recruitment Tiers,Tier,109957754')
-    mock_result = Table([
-        ('12827', 'Volunteer Recruitment Tiers', 'Tier', '109957740'),
-        ('12827', 'Volunteer Recruitment Tiers', 'Tier', '109957754')])
 
     def setUp(self):
 
@@ -87,8 +81,9 @@ class TestTargets(unittest.TestCase):
 
         self.assertEqual(r, export_job_id)
 
+    @unittest.mock.patch.object(petl, "fromcsv", autospec=True)
     @requests_mock.Mocker()
-    def test_get_target_export(self, m):
+    def test_get_target_export(self, fromcsv, m):
 
         export_job_id = 455961790
         json = {
@@ -105,9 +100,24 @@ class TestTargets(unittest.TestCase):
 
         download_url = (
             'https://ngpvan.blob.core.windows.net/target-export-files/TargetExport_455961790.csv')
+        fromcsv.return_value = petl.fromcolumns(
+            [
+                ['12827', '12827'],
+                ['Volunteer Recruitment Tiers', 'Volunteer Recruitment Tiers'],
+                ['1111', '1111'],
+                ['Tier', 'Tier'],
+                ['109957749', '109957754'],
+            ],
+            ['TargetID', 'TargetName', 'TargetSubgroupID', 'TargetSubgroupName', 'VanID'],
+        )
 
         m.post(self.van.connection.uri + 'targetExportJobs', json=export_job_id, status_code=204)
         m.get(self.van.connection.uri + 'targetExportJobs/455961790', json=json)
-        m.get(download_url, text=self.mock_data)
-        assert_matching_tables(self.van.get_target_export(export_job_id),
-                               self.mock_result)
+
+        expected_result = Table([
+            ('TargetID', 'TargetName', 'TargetSubgroupID', 'TargetSubgroupName', 'VanID'),
+            ('12827', 'Volunteer Recruitment Tiers', '1111', 'Tier', '109957740'),
+            ('12827', 'Volunteer Recruitment Tiers', '1111', 'Tier', '109957754')])
+
+        assert_matching_tables(self.van.get_target_export(export_job_id), expected_result)
+        self.assertEqual(fromcsv.call_args, unittest.mock.call(download_url, encoding='utf-8-sig'))

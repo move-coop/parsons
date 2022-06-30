@@ -509,9 +509,9 @@ class People(object):
             "omitActivistCodeContactHistory": omit_contact},
             "resultCodeId": result_code_id}
 
-        if input_type_id == 1 or input_type_id == 37:
+        if contact_type_id == 1 or contact_type_id == 37:
             if phone:
-                json['phone'] = {
+                json['canvassContext']['phone'] = {
                     "dialingPrefix": "1",
                     "phoneNumber": phone
                 }

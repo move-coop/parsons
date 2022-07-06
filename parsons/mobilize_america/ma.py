@@ -8,7 +8,7 @@ import logging
 
 logger = logging.getLogger(__name__)
 
-MA_URI = 'http://events.mobilizeamerica.io/api/v1/'
+MA_URI = 'https://api.mobilize.us/v1'
 
 
 class MobilizeAmerica(object):

@@ -44,6 +44,8 @@ class MobilizeAmerica(object):
 
         r = _request(req_type, url, json=post_data, params=args, headers=header)
 
+        r.raise_for_status() 
+
         if 'error' in r.json():
             raise ValueError('API Error:' + str(r.json()['error']))
 

@@ -961,7 +961,12 @@ class Redshift(RedshiftCreateTable, RedshiftCopyTable, RedshiftTableUtilities, R
         for c in set(rc.keys()).intersection(set(pc.keys())):
             if rc[c] < pc[c]:
                 logger.info(f'{c} not wide enough. Expanding column width.')
-                self.alter_table_column_type(table_name, c, 'varchar', varchar_width=pc[c])
+                # If requested size is larger than Redshift will allow,
+                # automatically set to Redshift's max varchar width
+                new_size = 65535
+                if pc[c] < new_size:
+                    new_size = pc[c]
+                self.alter_table_column_type(table_name, c, 'varchar', varchar_width=new_size)
 
     def alter_table_column_type(self, table_name, column_name, data_type, varchar_width=None):
         """

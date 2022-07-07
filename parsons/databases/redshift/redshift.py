@@ -959,7 +959,7 @@ class Redshift(RedshiftCreateTable, RedshiftCopyTable, RedshiftTableUtilities, R
         # associated Parsons table columns. If they are, then alter column types to expand
         # their width.
         for c in set(rc.keys()).intersection(set(pc.keys())):
-            if rc[c] < pc[c]:
+            if rc[c] < pc[c] and rc[c] != 65535:
                 logger.info(f'{c} not wide enough. Expanding column width.')
                 # If requested size is larger than Redshift will allow,
                 # automatically set to Redshift's max varchar width

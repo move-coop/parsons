@@ -506,7 +506,7 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">connection</span><span class="o">.</span><span class="n">get_request</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;$expand&#39;</span><span class="p">:</span> <span class="n">expand_fields</span><span class="p">})</span></div>
 
 <div class="viewcode-block" id="People.apply_canvass_result"><a class="viewcode-back" href="../../../ngpvan.html#parsons.ngpvan.van.People.apply_canvass_result">[docs]</a>    <span class="k">def</span> <span class="nf">apply_canvass_result</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">id</span><span class="p">,</span> <span class="n">result_code_id</span><span class="p">,</span> <span class="n">id_type</span><span class="o">=</span><span class="s1">&#39;vanid&#39;</span><span class="p">,</span> <span class="n">contact_type_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-                             <span class="n">input_type_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">date_canvassed</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+                             <span class="n">input_type_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">date_canvassed</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">phone</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Apply a canvass result to a person. Use this end point for attempts that do not</span>
 <span class="sd">        result in a survey response or an activist code (e.g. Not Home).</span>
@@ -526,6 +526,8 @@
 <span class="sd">                `Optional`; Defaults to 11 (API Input)</span>
 <span class="sd">            date_canvassed : str</span>
 <span class="sd">                `Optional`; ISO 8601 formatted date. Defaults to todays date</span>
+<span class="sd">            phone: str</span>
+<span class="sd">                `Optional`; Phone number of any type (Work, Cell, Home)</span>
 <span class="sd">        `Returns:`</span>
 <span class="sd">            ``None``</span>
 <span class="sd">        &quot;&quot;&quot;</span>
@@ -533,7 +535,7 @@
         <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Applying result code </span><span class="si">{</span><span class="n">result_code_id</span><span class="si">}</span><span class="s1"> to </span><span class="si">{</span><span class="n">id_type</span><span class="si">}</span><span class="s1"> </span><span class="si">{</span><span class="nb">id</span><span class="si">}</span><span class="s1">.&#39;</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">apply_response</span><span class="p">(</span><span class="nb">id</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="n">id_type</span><span class="o">=</span><span class="n">id_type</span><span class="p">,</span> <span class="n">contact_type_id</span><span class="o">=</span><span class="n">contact_type_id</span><span class="p">,</span>
                             <span class="n">input_type_id</span><span class="o">=</span><span class="n">input_type_id</span><span class="p">,</span> <span class="n">date_canvassed</span><span class="o">=</span><span class="n">date_canvassed</span><span class="p">,</span>
-                            <span class="n">result_code_id</span><span class="o">=</span><span class="n">result_code_id</span><span class="p">)</span></div>
+                            <span class="n">result_code_id</span><span class="o">=</span><span class="n">result_code_id</span><span class="p">,</span> <span class="n">phone</span><span class="o">=</span><span class="n">phone</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="People.toggle_volunteer_action"><a class="viewcode-back" href="../../../ngpvan.html#parsons.ngpvan.van.People.toggle_volunteer_action">[docs]</a>    <span class="k">def</span> <span class="nf">toggle_volunteer_action</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">id</span><span class="p">,</span> <span class="n">volunteer_activity_id</span><span class="p">,</span> <span class="n">action</span><span class="p">,</span> <span class="n">id_type</span><span class="o">=</span><span class="s1">&#39;vanid&#39;</span><span class="p">,</span>
                                 <span class="n">result_code_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">contact_type_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">input_type_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
@@ -578,7 +580,7 @@
 
 <div class="viewcode-block" id="People.apply_response"><a class="viewcode-back" href="../../../ngpvan.html#parsons.ngpvan.van.People.apply_response">[docs]</a>    <span class="k">def</span> <span class="nf">apply_response</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">id</span><span class="p">,</span> <span class="n">response</span><span class="p">,</span> <span class="n">id_type</span><span class="o">=</span><span class="s1">&#39;vanid&#39;</span><span class="p">,</span> <span class="n">contact_type_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
                        <span class="n">input_type_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">date_canvassed</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">result_code_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-                       <span class="n">omit_contact</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+                       <span class="n">omit_contact</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">phone</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Apply responses such as survey questions, activist codes, and volunteer actions</span>
 <span class="sd">        to a person record. This method allows you apply multiple responses (e.g. two survey</span>
@@ -611,6 +613,8 @@
 <span class="sd">                Omit adding contact history to the response. This is particularly</span>
 <span class="sd">                useful when adding activist codes that are not based on contact</span>
 <span class="sd">                attempts.</span>
+<span class="sd">            phone: str</span>
+<span class="sd">                `Optional`; Phone number of any type (Work, Cell, Home)</span>
 <span class="sd">        `Returns:`</span>
 <span class="sd">            ``True`` if successful</span>
 
@@ -638,6 +642,15 @@
             <span class="s2">&quot;dateCanvassed&quot;</span><span class="p">:</span> <span class="n">date_canvassed</span><span class="p">,</span>
             <span class="s2">&quot;omitActivistCodeContactHistory&quot;</span><span class="p">:</span> <span class="n">omit_contact</span><span class="p">},</span>
             <span class="s2">&quot;resultCodeId&quot;</span><span class="p">:</span> <span class="n">result_code_id</span><span class="p">}</span>
+
+        <span class="k">if</span> <span class="n">contact_type_id</span> <span class="o">==</span> <span class="mi">1</span> <span class="ow">or</span> <span class="n">contact_type_id</span> <span class="o">==</span> <span class="mi">37</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">phone</span><span class="p">:</span>
+                <span class="n">json</span><span class="p">[</span><span class="s1">&#39;canvassContext&#39;</span><span class="p">][</span><span class="s1">&#39;phone&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span>
+                    <span class="s2">&quot;dialingPrefix&quot;</span><span class="p">:</span> <span class="s2">&quot;1&quot;</span><span class="p">,</span>
+                    <span class="s2">&quot;phoneNumber&quot;</span><span class="p">:</span> <span class="n">phone</span>
+                <span class="p">}</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s1">&#39;A phone number must be provided if canvassed via phone or SMS&#39;</span><span class="p">)</span>
 
         <span class="k">if</span> <span class="n">response</span><span class="p">:</span>
             <span class="n">json</span><span class="p">[</span><span class="s1">&#39;responses&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">response</span>

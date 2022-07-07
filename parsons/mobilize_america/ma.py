@@ -59,7 +59,7 @@ class MobilizeAmerica(object):
 
         while r.json()['next']:
 
-            r = self._request(r.json()['next'], req_type=req_type)
+            r = self._request(r.json()['next'], req_type=req_type, auth=auth)
             json.extend(r.json()['data'])
 
         return json

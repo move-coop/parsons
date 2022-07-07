@@ -132,6 +132,13 @@ class TestNGPVAN(unittest.TestCase):
         m.post(self.van.connection.uri + 'people/DWID:2335282/canvassResponses', status_code=204)
         self.van.apply_canvass_result(2335282, 18, id_type='DWID')
 
+        # test canvassing via phone or sms without providing phone number
+        self.assertRaises(Exception, self.van.apply_canvass_result, 2335282, 18, contact_type_id=37)
+
+        # test canvassing via phone or sms with providing phone number
+        m.post(self.van.connection.uri + 'people/2335282/canvassResponses', status_code=204)
+        self.van.apply_canvass_result(2335282, 18, contact_type_id=37, phone='(516)-555-2342')
+
     @requests_mock.Mocker()
     def test_apply_survey_question(self, m):
 

@@ -31,7 +31,7 @@ class SendMail(object):
     log = logger
 
     def _send_message(self, message):
-        raise NotImplementedError("_send_message must be implemented in order for send_email to run")
+        raise NotImplementedError("_send_message must be implemented for send_email to run")
 
     def _create_message_simple(self, sender, to, subject, message_text):
         """Create a text-only message for an email.

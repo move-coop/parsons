@@ -115,7 +115,7 @@ class TestSendMailSendEmail:
     def test_errors_when_send_message_not_implemented(self):
         with pytest.raises(
                 NotImplementedError,
-                match="_send_message must be implemented in order for send_email to run"
+                match="_send_message must be implemented for send_email to run"
         ):
             SendMail().send_email("from@from.com", "to@to.com", "subject", "text")
 

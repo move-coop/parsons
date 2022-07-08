@@ -61,7 +61,7 @@ jobs:
 
   docs-build:
     docker:
-      - image: circleci/python:3.7
+      - image: cimg/python:3.10
     steps:
       - checkout
       # Download and cache dependencies
@@ -92,7 +92,7 @@ jobs:
 
   docs-build-deploy:
     docker:
-      - image: circleci/python:3.7-node
+      - image: cimg/python:3.10-node
     steps:
       - checkout
       # Download and cache dependencies

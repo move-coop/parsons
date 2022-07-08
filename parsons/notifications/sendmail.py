@@ -31,7 +31,7 @@ class SendMail(object):
     log = logger
 
     def _send_message(self, message):
-        raise NotImplementedError("send_message is how to send the prepared message")
+        raise NotImplementedError("_send_message must be implemented in order for send_email to run")
 
     def _create_message_simple(self, sender, to, subject, message_text):
         """Create a text-only message for an email.
@@ -210,7 +210,7 @@ class SendMail(object):
         `Returns:`
             None
         """
-        self.log.info("Preparing to send and email...")
+        self.log.info("Preparing to send an email...")
 
         self.log.info("Validating email(s)")
         if isinstance(to, list):

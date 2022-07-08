@@ -22,6 +22,7 @@ class TestSendMailCreateMessageSimple:
         assert message.get("subject") == "subject"
         assert message.get_payload() == "text"
 
+
 class TestSendMailCreateMessageHtml:
     def test_creates_multipart_message(self):
         message = SendMail()._create_message_html("from", "to", "subject", "text", "html")
@@ -54,7 +55,8 @@ class TestSendMailCreateMessageAttachments:
         assert isinstance(message, MIMEMultipart)
 
     def test_can_handle_html(self):
-        message = SendMail()._create_message_attachments("from", "to", "subject", "text", [], message_html="html")
+        message = SendMail()._create_message_attachments("from", "to", "subject", "text", [],
+                                                         message_html="html")
         assert len(message.get_payload()) == 2
         assert message.get_payload()[0].get_payload() == "text"
         assert message.get_payload()[0].get_content_type() == "text/plain"
@@ -68,13 +70,14 @@ class TestSendMailCreateMessageAttachments:
             ("application.exe", MIMEApplication),
             ("text.txt", MIMEText),
             ("audio.mp3", MIMEAudio),
-            ("video.mp4", MIMEBase)  # This will fail if the method is upgraded to properly parse video
+            ("video.mp4", MIMEBase)  # This will fail if the method is updated to parse video
         ]
     )
     def test_properly_detects_file_types(self, tmp_path, filename, expected_type):
         filename = tmp_path / filename
         filename.write_bytes(b"Parsons")
-        message = SendMail()._create_message_attachments("from", "to", "subject", "text", [filename])
+        message = SendMail()._create_message_attachments("from", "to", "subject", "text",
+                                                         [filename])
         assert len(message.get_payload()) == 2  # text body plus attachment
         assert isinstance(message.get_payload()[1], expected_type)
 
@@ -83,7 +86,8 @@ class TestSendMailCreateMessageAttachments:
         value = "Parsons"
         if buffer is io.BytesIO:
             value = b"Parsons"
-        message = SendMail()._create_message_attachments("from", "to", "subject", "text", [buffer(value)])
+        message = SendMail()._create_message_attachments("from", "to", "subject", "text",
+                                                         [buffer(value)])
         assert len(message.get_payload()) == 2  # text body plus attachment
         assert isinstance(message.get_payload()[1], MIMEApplication)
 

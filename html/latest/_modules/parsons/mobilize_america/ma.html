@@ -142,7 +142,7 @@
 
 <span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
 
-<span class="n">MA_URI</span> <span class="o">=</span> <span class="s1">&#39;http://events.mobilizeamerica.io/api/v1/&#39;</span>
+<span class="n">MA_URI</span> <span class="o">=</span> <span class="s1">&#39;https://api.mobilize.us/v1/&#39;</span>
 
 
 <div class="viewcode-block" id="MobilizeAmerica"><a class="viewcode-back" href="../../../mobilize_america.html#parsons.MobilizeAmerica">[docs]</a><span class="k">class</span> <span class="nc">MobilizeAmerica</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
@@ -178,6 +178,8 @@
 
         <span class="n">r</span> <span class="o">=</span> <span class="n">_request</span><span class="p">(</span><span class="n">req_type</span><span class="p">,</span> <span class="n">url</span><span class="p">,</span> <span class="n">json</span><span class="o">=</span><span class="n">post_data</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="n">args</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="n">header</span><span class="p">)</span>
 
+        <span class="n">r</span><span class="o">.</span><span class="n">raise_for_status</span><span class="p">()</span>
+
         <span class="k">if</span> <span class="s1">&#39;error&#39;</span> <span class="ow">in</span> <span class="n">r</span><span class="o">.</span><span class="n">json</span><span class="p">():</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;API Error:&#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">r</span><span class="o">.</span><span class="n">json</span><span class="p">()[</span><span class="s1">&#39;error&#39;</span><span class="p">]))</span>
 
@@ -191,7 +193,7 @@
 
         <span class="k">while</span> <span class="n">r</span><span class="o">.</span><span class="n">json</span><span class="p">()[</span><span class="s1">&#39;next&#39;</span><span class="p">]:</span>
 
-            <span class="n">r</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_request</span><span class="p">(</span><span class="n">r</span><span class="o">.</span><span class="n">json</span><span class="p">()[</span><span class="s1">&#39;next&#39;</span><span class="p">],</span> <span class="n">req_type</span><span class="o">=</span><span class="n">req_type</span><span class="p">)</span>
+            <span class="n">r</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_request</span><span class="p">(</span><span class="n">r</span><span class="o">.</span><span class="n">json</span><span class="p">()[</span><span class="s1">&#39;next&#39;</span><span class="p">],</span> <span class="n">req_type</span><span class="o">=</span><span class="n">req_type</span><span class="p">,</span> <span class="n">auth</span><span class="o">=</span><span class="n">auth</span><span class="p">)</span>
             <span class="n">json</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">r</span><span class="o">.</span><span class="n">json</span><span class="p">()[</span><span class="s1">&#39;data&#39;</span><span class="p">])</span>
 
         <span class="k">return</span> <span class="n">json</span>

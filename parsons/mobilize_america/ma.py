@@ -8,7 +8,7 @@ import logging
 
 logger = logging.getLogger(__name__)
 
-MA_URI = 'http://events.mobilizeamerica.io/api/v1/'
+MA_URI = 'https://api.mobilize.us/v1/'
 
 
 class MobilizeAmerica(object):
@@ -44,6 +44,8 @@ class MobilizeAmerica(object):
 
         r = _request(req_type, url, json=post_data, params=args, headers=header)
 
+        r.raise_for_status()
+
         if 'error' in r.json():
             raise ValueError('API Error:' + str(r.json()['error']))
 
@@ -57,7 +59,7 @@ class MobilizeAmerica(object):
 
         while r.json()['next']:
 
-            r = self._request(r.json()['next'], req_type=req_type)
+            r = self._request(r.json()['next'], req_type=req_type, auth=auth)
             json.extend(r.json()['data'])
 
         return json

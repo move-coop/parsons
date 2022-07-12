@@ -44,6 +44,7 @@
 <li class="toctree-l1"><a class="reference internal" href="action_network.html">Action Network</a></li>
 <li class="toctree-l1"><a class="reference internal" href="airtable.html">Airtable</a></li>
 <li class="toctree-l1"><a class="reference internal" href="alchemer.html">Alchemer</a></li>
+<li class="toctree-l1"><a class="reference internal" href="auth0.html">Auth0</a></li>
 <li class="toctree-l1"><a class="reference internal" href="aws.html">Amazon Web Services</a></li>
 <li class="toctree-l1"><a class="reference internal" href="azure.html">Azure: Blob Storage</a></li>
 <li class="toctree-l1"><a class="reference internal" href="bill_com.html">Bill.com</a></li>
@@ -51,6 +52,7 @@
 <li class="toctree-l1"><a class="reference internal" href="bluelink.html">Bluelink</a></li>
 <li class="toctree-l1"><a class="reference internal" href="box.html">Box</a></li>
 <li class="toctree-l1"><a class="reference internal" href="braintree.html">Braintree</a></li>
+<li class="toctree-l1"><a class="reference internal" href="capitolcanary.html">CapitolCanary</a></li>
 <li class="toctree-l1"><a class="reference internal" href="civis.html">Civis</a></li>
 <li class="toctree-l1"><a class="reference internal" href="controlshift.html">Controlshift</a></li>
 <li class="toctree-l1"><a class="reference internal" href="copper.html">Copper</a></li>
@@ -137,6 +139,7 @@
 <p class="caption" role="heading"><span class="caption-text">Training Guides</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="training_guides/getting_set_up.html">Getting Set Up With Parsons</a></li>
+<li class="toctree-l1"><a class="reference internal" href="training_guides/etl_best_practices.html">Introduction to ETL Best Practices</a></li>
 </ul>
 
         </div>
@@ -166,7 +169,7 @@
   <section id="google">
 <h1>Google<a class="headerlink" href="#google" title="Permalink to this headline"></a></h1>
 <p>Google Cloud services allow you to upload and manipulate Tables as spreadsheets (via GoogleSheets) or query them as SQL database tables (via GoogleBigQuery). You can also upload/store/download them as binary objects (via GoogleCloudStorage). Google also offers an API for civic information using GoogleCivic and admin information using the Google Workspace Admin SDK.</p>
-<p>For all of these services you will need to enable the APIs for your Google Cloud account and obtain authentication tokens to access them from your scripts. If you are the administrator of your Google Cloud account, you can do both of these at <a class="reference external" href="https://console.cloud.google.com/apis/credentials/serviceaccountkey?_ga=2.116342342.-1334320118.1565013288">Google Cloud Console APIs and Services</a>.</p>
+<p>For all of these services you will need to enable the APIs for your Google Cloud account and obtain authentication tokens or other credentials to access them from your scripts. If you are the administrator of your Google Cloud account, you can do both of these at <a class="reference external" href="https://console.cloud.google.com/apis/dashboard">Google Cloud Console APIs and Services</a>. The connectors below have more specific information about how to authenticate.</p>
 <section id="google-admin">
 <span id="gbq"></span><h2>Google Admin<a class="headerlink" href="#google-admin" title="Permalink to this headline"></a></h2>
 <section id="overview">
@@ -872,11 +875,19 @@ env variable set.</p>
 <section id="id14">
 <h3>Overview<a class="headerlink" href="#id14" title="Permalink to this headline"></a></h3>
 <p>The GoogleSheets class allows you to interact with Google service account spreadsheets, called “Google Sheets.” You can create, modify, read, format, share and delete sheets with this connector.</p>
-<p>In order to instantiate the class, you must pass Google service account credentials as a dictionary, or store the credentials as a JSON string in the <code class="docutils literal notranslate"><span class="pre">GOOGLE_DRIVE_CREDENTIALS</span></code> environment variable. Typically you’ll get the credentials from the Google Developer Console (look for the “Google Drive API”).</p>
+<p>In order to instantiate the class, you must pass Google service account credentials as a dictionary, or store the credentials as a JSON file locally and pass the path to the file as a string in the <code class="docutils literal notranslate"><span class="pre">GOOGLE_DRIVE_CREDENTIALS</span></code> environment variable. You can follow these steps:</p>
+<ul class="simple">
+<li><p>Go to the <a class="reference external" href="https://console.cloud.google.com/apis/dashboard">Google Developer Console</a> and make sure the “Google Drive API” and the “Google Sheets API” are both enabled.</p></li>
+<li><p>Go to the credentials page via the lefthand sidebar. On the credentials page, click “create credentials”.</p></li>
+<li><p>Choose the “Service Account” option and fill out the form provided. This should generate your credentials.</p></li>
+<li><p>Select your newly created Service Account on the credentials main page.</p></li>
+<li><p>select “keys”, then “add key”, then “create new key”. Pick the key type JSON. The credentials should start to automatically download.</p></li>
+</ul>
+<p>You can now copy and paste the data from the key into your script or (recommended) save it locally as a JSON file.</p>
 </section>
 <section id="id15">
 <h3>Quickstart<a class="headerlink" href="#id15" title="Permalink to this headline"></a></h3>
-<p>To instantiate the GoogleSheets class, you can either pass the constructor a dict containing your Google service account credentials or define the environment variable <code class="docutils literal notranslate"><span class="pre">GOOGLE_DRIVE_CREDENTIALS</span></code> to contain a JSON encoding of the dict.</p>
+<p>To instantiate the GoogleSheets class, you can either pass the constructor a dict containing your Google service account credentials or define the environment variable <code class="docutils literal notranslate"><span class="pre">GOOGLE_DRIVE_CREDENTIALS</span></code> to contain a path to the JSON file containing the dict.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">parsons</span> <span class="kn">import</span> <span class="n">GoogleSheets</span>
 
 <span class="c1"># First approach: Use API credentials via environmental variables</span>

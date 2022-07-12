@@ -161,10 +161,11 @@ these patterns trade immediate accessibility against ease of integration.
 
 In environments where Parsons is not the primary application, or in scenarios where Parsons must
 run with limited resources, we recommend users install only the dependencies they need at loose
-version constraints. To do this, simply set the `PARSONS_LIMITED_DEPENDENCIES` environment
-variable to "true" before installing Parsons and keep it while running:
+version constraints. To do this, simply set two environment variables before installing Parsons
+and keep one while running:
 
 ```
+export PIP_NO_BINARY=parsons
 export PARSONS_LIMITED_DEPENDENCIES=true
 pip install parsons
 ```
@@ -174,11 +175,12 @@ export PARSONS_LIMITED_DEPENDENCIES=true
 python myparsons_script.py
 ```
 
-When the `PARSONS_LIMITED_DEPENDENCIES` environment variable is set, pip will install the bare
-minimum dependencies needed to run Parsons. Users may also install extra dependencies
-appropriate to their environment, e.g.
+`PIP_NO_BINARY` tells pip to use the source distribution of Parsons, which then allows
+`PARSONS_LIMITED_DEPENDENCIES` to dynamically limit to the bare minimum dependencies needed to
+run Parsons.  Users may also install extra dependencies appropriate to their environment, e.g.
 
 ```
+export PIP_NO_BINARY=parsons
 export PARSONS_LIMITED_DEPENDENCIES=true
 pip install parsons[google]
 ```
@@ -186,6 +188,7 @@ pip install parsons[google]
 or
 
 ```
+export PIP_NO_BINARY=parsons
 export PARSONS_LIMITED_DEPENDENCIES=true
 pip install parsons[google,ngpvan]
 ```
@@ -226,6 +229,7 @@ Indices and tables
    action_network
    airtable
    alchemer
+   auth0
    aws
    azure
    bill_com
@@ -233,6 +237,7 @@ Indices and tables
    bluelink
    box
    braintree
+   capitolcanary
    civis
    controlshift
    copper
@@ -302,3 +307,4 @@ Indices and tables
    :name: training_guides
 
    training_guides/getting_set_up
+   training_guides/etl_best_practices

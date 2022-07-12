@@ -44,6 +44,7 @@
 <li class="toctree-l1"><a class="reference internal" href="action_network.html">Action Network</a></li>
 <li class="toctree-l1"><a class="reference internal" href="airtable.html">Airtable</a></li>
 <li class="toctree-l1"><a class="reference internal" href="alchemer.html">Alchemer</a></li>
+<li class="toctree-l1"><a class="reference internal" href="auth0.html">Auth0</a></li>
 <li class="toctree-l1"><a class="reference internal" href="aws.html">Amazon Web Services</a></li>
 <li class="toctree-l1"><a class="reference internal" href="azure.html">Azure: Blob Storage</a></li>
 <li class="toctree-l1"><a class="reference internal" href="bill_com.html">Bill.com</a></li>
@@ -51,6 +52,7 @@
 <li class="toctree-l1"><a class="reference internal" href="bluelink.html">Bluelink</a></li>
 <li class="toctree-l1"><a class="reference internal" href="box.html">Box</a></li>
 <li class="toctree-l1"><a class="reference internal" href="braintree.html">Braintree</a></li>
+<li class="toctree-l1"><a class="reference internal" href="capitolcanary.html">CapitolCanary</a></li>
 <li class="toctree-l1"><a class="reference internal" href="civis.html">Civis</a></li>
 <li class="toctree-l1"><a class="reference internal" href="controlshift.html">Controlshift</a></li>
 <li class="toctree-l1"><a class="reference internal" href="copper.html">Copper</a></li>
@@ -103,6 +105,7 @@
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#to-from-api">To &amp; From API</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#transformation-api">Transformation API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#materialize-api">Materialize API</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="notifications.html">Notifications</a></li>
@@ -123,6 +126,7 @@
 <p class="caption" role="heading"><span class="caption-text">Training Guides</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="training_guides/getting_set_up.html">Getting Set Up With Parsons</a></li>
+<li class="toctree-l1"><a class="reference internal" href="training_guides/etl_best_practices.html">Introduction to ETL Best Practices</a></li>
 </ul>
 
         </div>
@@ -507,8 +511,29 @@ allow you to perform any petl-supported ETL operations. Additionally, you can us
 <span class="n">tbl</span><span class="o">.</span><span class="n">to_redshift</span><span class="p">(</span><span class="s1">&#39;main.name_table&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
-<p>This “lazy” loading can be very convenient and performant. However, it can make issues hard to debug. Eg. if your data transformations are time-consuming, you won’t actually notice that performance hit until you try to use the data, potentially much later in your code.</p>
-<p>So just be aware of this behavior.</p>
+<p>This “lazy” loading can be very convenient and performant. However, it can make issues hard to debug. Eg. if your data transformations are time-consuming, you won’t actually notice that performance hit until you try to use the data, potentially much later in your code.
+There may also be cases where it’s possible to get faster execution by caching a table,
+especially in situations where a single table will be used as the base for several subsequent calculations.</p>
+<p>For these cases Parsons provides two utility functions to materialize a Table and all of its transformations.</p>
+<table class="colwidths-given docutils align-default">
+<colgroup>
+<col style="width: 33%" />
+<col style="width: 67%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Method</p></th>
+<th class="head"><p>Description</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><a class="reference internal" href="#parsons.etl.table.Table.materialize" title="parsons.etl.table.Table.materialize"><code class="xref py py-meth docutils literal notranslate"><span class="pre">materialize()</span></code></a></p></td>
+<td><p>Load all data from the Table into memory and apply any transformations</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#parsons.etl.table.Table.materialize_to_file" title="parsons.etl.table.Table.materialize_to_file"><code class="xref py py-meth docutils literal notranslate"><span class="pre">materialize_to_file()</span></code></a></p></td>
+<td><p>Load all data from the Table and apply any transformations, then save to a local temp file.</p></td>
+</tr>
+</tbody>
+</table>
 </section>
 </section>
 <section id="examples">
@@ -1897,6 +1922,60 @@ Defaults to <code class="docutils literal notranslate"><span class="pre">False</
 </dl>
 </dd>
 <dt><cite>Returns:</cite></dt><dd><p><cite>parsons.Table</cite> or <cite>petl</cite> table</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="materialize-api">
+<h2>Materialize API<a class="headerlink" href="#materialize-api" title="Permalink to this headline"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="parsons.etl.table.Table">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">parsons.etl.table.</span></span><span class="sig-name descname"><span class="pre">Table</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">lst</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/etl/table.html#Table"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.etl.table.Table" title="Permalink to this definition"></a></dt>
+<dd><p>Create a Parsons Table. Accepts one of the following:
+- A list of lists, with list[0] holding field names, and the other lists holding data
+- A list of dicts
+- A petl table</p>
+<dl class="simple">
+<dt><cite>Args:</cite></dt><dd><dl class="simple">
+<dt>lst: list</dt><dd><p>See above for accepted list formats</p>
+</dd>
+<dt>source: str</dt><dd><p>The original data source from which the data was pulled (optional)</p>
+</dd>
+<dt>name: str</dt><dd><p>The name of the table (optional)</p>
+</dd>
+</dl>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="parsons.etl.table.Table.materialize">
+<span class="sig-name descname"><span class="pre">materialize</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/etl/table.html#Table.materialize"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.etl.table.Table.materialize" title="Permalink to this definition"></a></dt>
+<dd><p>“Materializes” a Table, meaning all data is loaded into memory and all pending
+transformations are applied.</p>
+<p>Use this if petl’s lazy-loading behavior is causing you problems, eg. if you want to read
+data from a file immediately.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="parsons.etl.table.Table.materialize_to_file">
+<span class="sig-name descname"><span class="pre">materialize_to_file</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">file_path</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/etl/table.html#Table.materialize_to_file"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.etl.table.Table.materialize_to_file" title="Permalink to this definition"></a></dt>
+<dd><p>“Materializes” a Table, meaning all pending transformations are applied.</p>
+<p>Unlike the original materialize function, this method does not bring the data into memory,
+but instead loads the data into a local temp file.</p>
+<p>This method updates the current table in place.</p>
+<dl class="simple">
+<dt><cite>Args:</cite></dt><dd><dl class="simple">
+<dt>file_path: str</dt><dd><p>The path to the file to materialize the table to; if not specified, a temp file
+will be created.</p>
+</dd>
+</dl>
+</dd>
+<dt><cite>Returns:</cite></dt><dd><dl class="simple">
+<dt>str</dt><dd><p>Path to the temp file that now contains the table</p>
+</dd>
+</dl>
 </dd>
 </dl>
 </dd></dl>

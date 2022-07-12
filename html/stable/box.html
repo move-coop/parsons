@@ -44,6 +44,7 @@
 <li class="toctree-l1"><a class="reference internal" href="action_network.html">Action Network</a></li>
 <li class="toctree-l1"><a class="reference internal" href="airtable.html">Airtable</a></li>
 <li class="toctree-l1"><a class="reference internal" href="alchemer.html">Alchemer</a></li>
+<li class="toctree-l1"><a class="reference internal" href="auth0.html">Auth0</a></li>
 <li class="toctree-l1"><a class="reference internal" href="aws.html">Amazon Web Services</a></li>
 <li class="toctree-l1"><a class="reference internal" href="azure.html">Azure: Blob Storage</a></li>
 <li class="toctree-l1"><a class="reference internal" href="bill_com.html">Bill.com</a></li>
@@ -56,6 +57,7 @@
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="braintree.html">Braintree</a></li>
+<li class="toctree-l1"><a class="reference internal" href="capitolcanary.html">CapitolCanary</a></li>
 <li class="toctree-l1"><a class="reference internal" href="civis.html">Civis</a></li>
 <li class="toctree-l1"><a class="reference internal" href="controlshift.html">Controlshift</a></li>
 <li class="toctree-l1"><a class="reference internal" href="copper.html">Copper</a></li>
@@ -110,6 +112,7 @@
 <p class="caption" role="heading"><span class="caption-text">Training Guides</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="training_guides/getting_set_up.html">Getting Set Up With Parsons</a></li>
+<li class="toctree-l1"><a class="reference internal" href="training_guides/etl_best_practices.html">Introduction to ETL Best Practices</a></li>
 </ul>
 
         </div>
@@ -344,7 +347,7 @@ omitted, the default folder will be used.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="parsons.Box.list">
-<span class="sig-name descname"><span class="pre">list</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">item_type</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">parsons.etl.table.Table</span></span></span><a class="reference internal" href="_modules/parsons/box/box.html#Box.list"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.Box.list" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">list</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">item_type</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="table.html#parsons.etl.table.Table" title="parsons.etl.table.Table"><span class="pre">parsons.etl.table.Table</span></a></span></span><a class="reference internal" href="_modules/parsons/box/box.html#Box.list"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.Box.list" title="Permalink to this definition"></a></dt>
 <dd><p>Return a Table of Box files and/or folders found at a path.</p>
 <dl class="simple">
 <dt><cite>Args</cite>:</dt><dd><dl class="simple">
@@ -363,7 +366,7 @@ If omitted, the default folder will be used.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="parsons.Box.list_files_by_id">
-<span class="sig-name descname"><span class="pre">list_files_by_id</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">folder_id</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'0'</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">parsons.etl.table.Table</span></span></span><a class="reference internal" href="_modules/parsons/box/box.html#Box.list_files_by_id"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.Box.list_files_by_id" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">list_files_by_id</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">folder_id</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'0'</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="table.html#parsons.etl.table.Table" title="parsons.etl.table.Table"><span class="pre">parsons.etl.table.Table</span></a></span></span><a class="reference internal" href="_modules/parsons/box/box.html#Box.list_files_by_id"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.Box.list_files_by_id" title="Permalink to this definition"></a></dt>
 <dd><p>List all Box files in a folder.</p>
 <dl class="simple">
 <dt><cite>Args</cite>:</dt><dd><dl class="simple">
@@ -379,7 +382,7 @@ search in the default folder.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="parsons.Box.list_folders_by_id">
-<span class="sig-name descname"><span class="pre">list_folders_by_id</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">folder_id</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'0'</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">parsons.etl.table.Table</span></span></span><a class="reference internal" href="_modules/parsons/box/box.html#Box.list_folders_by_id"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.Box.list_folders_by_id" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">list_folders_by_id</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">folder_id</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'0'</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="table.html#parsons.etl.table.Table" title="parsons.etl.table.Table"><span class="pre">parsons.etl.table.Table</span></a></span></span><a class="reference internal" href="_modules/parsons/box/box.html#Box.list_folders_by_id"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.Box.list_folders_by_id" title="Permalink to this definition"></a></dt>
 <dd><p>List all Box folders.</p>
 <dl class="simple">
 <dt><cite>Args</cite>:</dt><dd><dl class="simple">
@@ -458,7 +461,7 @@ running.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="parsons.Box.get_table">
-<span class="sig-name descname"><span class="pre">get_table</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">format</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'csv'</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">parsons.etl.table.Table</span></span></span><a class="reference internal" href="_modules/parsons/box/box.html#Box.get_table"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.Box.get_table" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">get_table</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">format</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'csv'</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="table.html#parsons.etl.table.Table" title="parsons.etl.table.Table"><span class="pre">parsons.etl.table.Table</span></a></span></span><a class="reference internal" href="_modules/parsons/box/box.html#Box.get_table"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.Box.get_table" title="Permalink to this definition"></a></dt>
 <dd><p>Get a table that has been saved to Box in csv or JSON format.</p>
 <dl class="simple">
 <dt><cite>Args</cite>:</dt><dd><dl class="simple">
@@ -475,7 +478,7 @@ running.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="parsons.Box.get_table_by_file_id">
-<span class="sig-name descname"><span class="pre">get_table_by_file_id</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">file_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">format</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'csv'</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">parsons.etl.table.Table</span></span></span><a class="reference internal" href="_modules/parsons/box/box.html#Box.get_table_by_file_id"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.Box.get_table_by_file_id" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">get_table_by_file_id</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">file_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">format</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'csv'</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="table.html#parsons.etl.table.Table" title="parsons.etl.table.Table"><span class="pre">parsons.etl.table.Table</span></a></span></span><a class="reference internal" href="_modules/parsons/box/box.html#Box.get_table_by_file_id"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.Box.get_table_by_file_id" title="Permalink to this definition"></a></dt>
 <dd><p>Get a table that has been saved to Box in csv or JSON format.</p>
 <dl class="simple">
 <dt><cite>Args</cite>:</dt><dd><dl class="simple">

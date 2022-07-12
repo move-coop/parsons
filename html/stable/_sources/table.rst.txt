@@ -306,8 +306,21 @@ An example:
   tbl.to_redshift('main.name_table')
 
 This "lazy" loading can be very convenient and performant. However, it can make issues hard to debug. Eg. if your data transformations are time-consuming, you won't actually notice that performance hit until you try to use the data, potentially much later in your code.
+There may also be cases where it's possible to get faster execution by caching a table,
+especially in situations where a single table will be used as the base for several subsequent calculations.
 
-So just be aware of this behavior.
+For these cases Parsons provides two utility functions to materialize a Table and all of its transformations.
+
+.. list-table::
+    :widths: 25 50
+    :header-rows: 1
+
+    * - Method
+      - Description
+    * - :py:meth:`~parsons.etl.table.Table.materialize`
+      - Load all data from the Table into memory and apply any transformations
+    * - :py:meth:`~parsons.etl.table.Table.materialize_to_file`
+      - Load all data from the Table and apply any transformations, then save to a local temp file.
 
 ********
 Examples
@@ -346,3 +359,9 @@ The following methods allow you to manipulate the Parsons table data.
 
 .. autoclass:: parsons.etl.etl.ETL
    :inherited-members:
+
+*********
+Materialize API
+*********
+.. autoclass:: parsons.etl.table.Table
+   :members: materialize, materialize_to_file

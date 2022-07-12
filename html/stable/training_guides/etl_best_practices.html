@@ -1,0 +1,756 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Introduction to ETL Best Practices &mdash; Parsons 0.5 documentation</title>
+      <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/doctools.js"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="prev" title="Getting Set Up With Parsons" href="getting_set_up.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../index.html" class="icon icon-home"> Parsons
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Integrations</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../actblue.html">ActBlue</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../action_kit.html">ActionKit</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../action_network.html">Action Network</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../airtable.html">Airtable</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../alchemer.html">Alchemer</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../auth0.html">Auth0</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../aws.html">Amazon Web Services</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../azure.html">Azure: Blob Storage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../bill_com.html">Bill.com</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../bloomerang.html">Bloomerang</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../bluelink.html">Bluelink</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../box.html">Box</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../braintree.html">Braintree</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../capitolcanary.html">CapitolCanary</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../civis.html">Civis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../controlshift.html">Controlshift</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../copper.html">Copper</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../crowdtangle.html">CrowdTangle</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../databases.html">Databases</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../facebook_ads.html">FacebookAds</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../freshdesk.html">Freshdesk</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../github.html">GitHub</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../google.html">Google</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../hustle.html">Hustle</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../mailchimp.html">Mailchimp</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../mobilize_america.html">Mobilize America</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../newmode.html">New/Mode</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../ngpvan.html">NGPVAN</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../pdi.html">PDI</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../p2a.html">Phone2Action</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../quickbase.html">Quickbase</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../redash.html">Redash</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../rockthevote.html">Rock the Vote</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../salesforce.html">Salesforce</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../sftp.html">SFTP</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../shopify.html">Shopify</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../sisense.html">Sisense</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../targetsmart.html">TargetSmart</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../turbovote.html">TurboVote</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../twilio.html">Twilio</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../zoom.html">Zoom</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Enhancements</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../census_geocoder.html">US Census Geocoder</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Framework</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../dbsync.html">Database Sync</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../table.html">Parsons Table</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../notifications.html">Notifications</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../utilities.html">Utilities</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Contributor Documentation</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../contributing.html">Contributing to Parsons</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../build_a_connector.html">How to Build a Connector</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../write_tests.html">How to Write Tests for Parsons Connectors</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Use Cases and Sample Scripts</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../use_cases/contribute_use_cases.html">How to Contribute a Use Case &amp; Sample Script</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../use_cases/civis_job_status_slack_alert.html">Civis Job Status Slack Alert</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../use_cases/mysql_to_googlesheets.html">MySQL to Google Sheets Export</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Training Guides</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="getting_set_up.html">Getting Set Up With Parsons</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Introduction to ETL Best Practices</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#part-one">Part One</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#introduction">Introduction</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#authentication">Authentication</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#mobilize">Mobilize</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#google-sheets">Google Sheets</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#extracting-data-from-moblize">Extracting Data from Moblize</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#setting-up-imports-and-instances">Setting up: Imports and Instances</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#extracting">Extracting</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#transforming-data-with-parsons">Transforming Data with Parsons</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#fixing-dates-times">Fixing Dates + Times</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#unpacking-a-column">Unpacking a Column</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#aggregating-data-using-petl">Aggregating Data Using PETL</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#selecting-rows">Selecting Rows</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#loading-data-to-google-sheets">Loading Data to Google Sheets</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#part-two">Part Two</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#using-a-data-warehouse">Using a Data Warehouse</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#new-example-mobilize-civis-redshift-action-network">New Example: Mobilize ➡ Civis/Redshift ➡ Action Network</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#step-1-extracting-data-into-the-warehouse">Step 1: Extracting Data Into the Warehouse</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#step-2-transforming-data-in-warehouse-with-sql">Step 2: Transforming Data in Warehouse with SQL</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#step-3-load-data-from-warehouse-to-action-network">Step 3: Load Data from Warehouse to Action Network</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#log-tables-logging">Log Tables &amp; Logging</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#stepping-through-the-script">Stepping Through the Script</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#scheduling-jobs-with-container-scripts">Scheduling Jobs With Container Scripts</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">Parsons</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
+      <li>Introduction to ETL Best Practices</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/training_guides/etl_best_practices.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="introduction-to-etl-best-practices">
+<h1><a class="toc-backref" href="#id1">Introduction to ETL Best Practices</a><a class="headerlink" href="#introduction-to-etl-best-practices" title="Permalink to this headline"></a></h1>
+<p>This training guide will walk you through some basic ETL workflows using Parsons. It is based off of a two-part training designed by Cormac Martinez del Rio and Shauna Gordon-McKeon.</p>
+<p>It introduces the basic concepts behind the Extract, Transform and Load (ETL) process by working through two examples. First, we focus on how to write a basic Parsons script that moves data between one platform (Mobilize) and another (Google Sheets). Then, we introduce some more advanced concepts such as data warehouses, platforms like Civis, and the use of log tables and schedulers to make your workflow easier to run and debug.</p>
+<div class="contents topic" id="table-of-contents">
+<p class="topic-title">Table of Contents</p>
+<ul class="simple">
+<li><p><a class="reference internal" href="#introduction-to-etl-best-practices" id="id1">Introduction to ETL Best Practices</a></p>
+<ul>
+<li><p><a class="reference internal" href="#part-one" id="id2">Part One</a></p>
+<ul>
+<li><p><a class="reference internal" href="#introduction" id="id3">Introduction</a></p></li>
+<li><p><a class="reference internal" href="#authentication" id="id4">Authentication</a></p></li>
+<li><p><a class="reference internal" href="#extracting-data-from-moblize" id="id5">Extracting Data from Moblize</a></p></li>
+<li><p><a class="reference internal" href="#transforming-data-with-parsons" id="id6">Transforming Data with Parsons</a></p></li>
+<li><p><a class="reference internal" href="#loading-data-to-google-sheets" id="id7">Loading Data to Google Sheets</a></p></li>
+</ul>
+</li>
+<li><p><a class="reference internal" href="#part-two" id="id8">Part Two</a></p>
+<ul>
+<li><p><a class="reference internal" href="#using-a-data-warehouse" id="id9">Using a Data Warehouse</a></p></li>
+<li><p><a class="reference internal" href="#new-example-mobilize-civis-redshift-action-network" id="id10">New Example: Mobilize ➡ Civis/Redshift ➡ Action Network</a></p></li>
+<li><p><a class="reference internal" href="#step-1-extracting-data-into-the-warehouse" id="id11">Step 1: Extracting Data Into the Warehouse</a></p></li>
+<li><p><a class="reference internal" href="#step-2-transforming-data-in-warehouse-with-sql" id="id12">Step 2: Transforming Data in Warehouse with SQL</a></p></li>
+<li><p><a class="reference internal" href="#step-3-load-data-from-warehouse-to-action-network" id="id13">Step 3: Load Data from Warehouse to Action Network</a></p></li>
+<li><p><a class="reference internal" href="#scheduling-jobs-with-container-scripts" id="id14">Scheduling Jobs With Container Scripts</a></p></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+<p>You can suggest improvements to this guide or request additional guides by filing an issue in our issue tracker or telling us in Slack. To get added to our Slack, and/or to request access to the recordings of this training, email us at <em>engineering&#64;movementcooperative.org</em>.</p>
+<section id="part-one">
+<h2><a class="toc-backref" href="#id2">Part One</a><a class="headerlink" href="#part-one" title="Permalink to this headline"></a></h2>
+<section id="introduction">
+<h3><a class="toc-backref" href="#id3">Introduction</a><a class="headerlink" href="#introduction" title="Permalink to this headline"></a></h3>
+<p>Have you ever tried to get data from one platform or system to another? Doing so can be quite a pain, especially if you have to manually download and upload individual files. Luckily, websites and apps often have APIs, which stands for application programming interfaces. These are gateways that let us move data into and out of a system using code.</p>
+<p><strong>ETL</strong>, which stands for Extract, Transform, and Load is the process by which we extract data from one systems API, transform that data so that it’s compatible with a second system’s API, and then loading that data into that second system.</p>
+<p>The format that source system gives us data is often different from the format that another system likes receiving data! Everyone thinks their way is best.
+Not so good for the movement, good for data engineers’ job security. ;)</p>
+<p>Parsons can help us with every step of the way. We can use parsons to extract, transform, and load data!</p>
+<p>Today we’re going to be using a Parsons script to move data from Mobilize to Google Sheets. Our inspiration was an experience Shauna had managing canvassing volunteers who had signed up on Mobilize, but whose canvassing status was being tracked via Google Sheets.</p>
+<p>The example script can be found in full <a class="reference external" href="https://gist.github.com/shaunagm/d429ace958ee6ce1b71fbe7884611348">on Github</a>.</p>
+<p>If you need help getting set up with Parsons so that you can run this script, check out our <a class="reference external" href="getting_set_up.html">getting started training guide</a>.</p>
+<p>Okay, let’s proceed!</p>
+</section>
+<section id="authentication">
+<h3><a class="toc-backref" href="#id4">Authentication</a><a class="headerlink" href="#authentication" title="Permalink to this headline"></a></h3>
+<p>In order to access our data from Mobilize and add it to Google Sheets, we need to authenticate ourselves to these two services. We do this by getting the relevant credentials from the platform and then saving them to specific environmental variables.</p>
+<p>Each Parsons connector has a page in the documentation, and at the top of each page is a description of what credentials you need and how to get them. Sometimes this is straightforward, and sometimes it’s more complicated.</p>
+<section id="mobilize">
+<h4>Mobilize<a class="headerlink" href="#mobilize" title="Permalink to this headline"></a></h4>
+<p>To access Mobilize, you’ll need to get an API key by contacting a support representative. If you don’t have an account but would like to follow along anyway, we’ve provided some fake Mobilize data which we’ll walk you through accessing below.</p>
+<p>If you were able to get an API key, you can now save it as the environmental variable <code class="docutils literal notranslate"><span class="pre">MOBILIZE_AMERICA_API_KEY</span></code> by running this command on the command line:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>set MOBILIZE_AMERICA_API_KEY=$API_KEY       # Windows
+export MOBILIZE_AMERICA_API_KEY=$API_KEY    # Linux/Mac
+</pre></div>
+</div>
+<p>(Not comfortable with the command line? Check out our <a class="reference external" href="getting_set_up.html">training guide</a>.)</p>
+<p>And that’s it, you’re done! When you instantiate the Mobilize connector, it will look in the environment for <code class="docutils literal notranslate"><span class="pre">MOBILIZE_AMERICA_API_KEY</span></code>. If it finds the key, it can use it to handle all the authentication for you.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>What do we mean, “when you instantiate the Mobilize connector”? We’ve created the Mobilize connector class, which has general features anyone can use to work with Mobilize. But in order to actually work with that class, you need to create a “instance” of it. That instance will have data specific to you, such as your API key.</p>
+<p>“Instantiation” is just a fancy way to say “create an instance of”. In Python, you instantiate something by calling it with parentheses, ie: <code class="docutils literal notranslate"><span class="pre">mobilize_instance</span> <span class="pre">=</span> <span class="pre">Mobilize()</span></code>.</p>
+</div>
+</section>
+<section id="google-sheets">
+<h4>Google Sheets<a class="headerlink" href="#google-sheets" title="Permalink to this headline"></a></h4>
+<p>Setting up the Google Sheets connector takes several steps.</p>
+<p>First, you’ll need to go to the <a class="reference external" href="https://console.cloud.google.com/">Google Developers Console</a> and select the project you want to work with, or create a new one (recommended). Following <a class="reference external" href="https://developers.google.com/drive/api/guides/enable-drive-api">these instructions from Google</a>, click <strong>APIs &amp; Auth</strong> and then <strong>APIs</strong>. Select the Drive API from among the API options, and click <strong>enable</strong>.</p>
+<p>Once you’ve created a project and enabled the API, you’ll need to get the credentials that will allow you to access the API. Click on the <strong>credentials</strong> option in the left sidebar. Click <strong>create credentials</strong> and select the <strong>Service Account</strong> option. Once you have filled out the form and clicked submit, it will give you a set of credentials as a json string which you can save to a file.</p>
+<p>Now we need to tell Parsons where it can find the credentials. We’ll set an environmental variable <code class="docutils literal notranslate"><span class="pre">GOOGLE_DRIVE_CREDENTIALS</span></code> which is the path to where your credentials are stored (replace the paths below with your correct paths):</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="nb">set</span> <span class="n">GOOGLE_DRIVE_CREDENTIALS</span><span class="o">=</span><span class="s2">&quot;C:\Home\Projects</span><span class="se">\&quot;</span><span class="s2">      # Windows</span>
+<span class="n">export</span> <span class="n">GOOGLE_DRIVE_CREDENTIALS</span><span class="o">=</span><span class="s2">&quot;/home/projects/&quot;</span>     <span class="c1"># Linux/Mac</span>
+</pre></div>
+</div>
+<p>Learn more about paths <a class="reference internal" href="getting_set_up.html#path-explainer"><span class="std std-ref">here</span></a>.</p>
+<p>Finally, look inside the credentials file for an email address in the field <code class="docutils literal notranslate"><span class="pre">client_email</span></code>. It will look something like <code class="docutils literal notranslate"><span class="pre">service-account&#64;projectname-123456.iam.gserviceaccount.com</span></code>. Go to the Google Drive UI for the folder you want to work with and share the folder with this email address.</p>
+</section>
+</section>
+<section id="extracting-data-from-moblize">
+<h3><a class="toc-backref" href="#id5">Extracting Data from Moblize</a><a class="headerlink" href="#extracting-data-from-moblize" title="Permalink to this headline"></a></h3>
+<section id="setting-up-imports-and-instances">
+<h4>Setting up: Imports and Instances<a class="headerlink" href="#setting-up-imports-and-instances" title="Permalink to this headline"></a></h4>
+<p>Before we jump into moving data around, lets import all the things we need and instantiate our connectors.</p>
+<p>Your imports should look like this:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">json</span>
+<span class="kn">from</span> <span class="nn">datetime</span> <span class="kn">import</span> <span class="n">datetime</span>
+<span class="kn">from</span> <span class="nn">parsons</span> <span class="kn">import</span> <span class="n">Table</span><span class="p">,</span> <span class="n">MobilizeAmerica</span><span class="p">,</span> <span class="n">GoogleSheets</span>
+</pre></div>
+</div>
+<p><a class="reference external" href="https://docs.python.org/3/library/json.html">json</a> is a Python module that helps us convert between data in a JSON format (which is a popular way to store and share data) and Python data structures.</p>
+<p><a class="reference external" href="https://docs.python.org/3/library/datetime.html">datetime</a>  is a Python module that helps us work more easily with dates and times.</p>
+<p>Finally, from Parsons, we’re importing the two connectors we’re using, plus the Parsons Table object. The Parsons Table is the core data structure in Parsons. It’s a standardized way to hold data, which makes it very easy to move data between vendors even if the vendors have different structures.</p>
+<p>We instantiate our connectors with this code:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">mobilize</span> <span class="o">=</span> <span class="n">MobilizeAmerica</span><span class="p">()</span>
+<span class="n">google_sheets</span> <span class="o">=</span> <span class="n">GoogleSheets</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>And we’re ready to start extracting!</p>
+</section>
+<section id="extracting">
+<h4>Extracting<a class="headerlink" href="#extracting" title="Permalink to this headline"></a></h4>
+<p>We’re going to extract some data on attendance from Mobilize. We can do that with this code:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">attendance_records</span> <span class="o">=</span> <span class="n">mobilize</span><span class="o">.</span><span class="n">get_attendances</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>If you weren’t able to get an authenticated Mobilize account, you can use the fake Mobilize data in <a class="reference external" href="https://docs.google.com/spreadsheets/d/1YZr6gXmptxfzqb_t58frwNHhVu_KMTQzvMpnNUZd47I/">this google sheet</a>:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">spreadsheet_id</span> <span class="o">=</span> <span class="s2">&quot;1YZr6gXmptxfzqb_t58frwNHhVu_KMTQzvMpnNUZd47I&quot;</span>
+<span class="n">attendance_records</span> <span class="o">=</span> <span class="n">google_sheets</span><span class="o">.</span><span class="n">get_worksheet</span><span class="p">(</span><span class="n">spreadsheet_id</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>And…that’s it! We’ve got our data. Let’s take a look at what we’ve extracted:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">attendance_records</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>The result should look like this:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">{</span><span class="s1">&#39;id&#39;</span><span class="p">:</span> <span class="s1">&#39;46273&#39;</span><span class="p">,</span> <span class="s1">&#39;event_id&#39;</span><span class="p">:</span> <span class="s1">&#39;454545&#39;</span><span class="p">,</span> <span class="s1">&#39;event_title&#39;</span><span class="p">:</span> <span class="s1">&#39;January Canvass&#39;</span><span class="p">,</span> <span class="s1">&#39;timeslot_id&#39;</span><span class="p">:</span> <span class="s1">&#39;738375&#39;</span><span class="p">,</span> <span class="s1">&#39;timeslot_start_date&#39;</span><span class="p">:</span> <span class="s1">&#39;1642865400&#39;</span><span class="p">,</span> <span class="s1">&#39;timeslot_end_date&#39;</span><span class="p">:</span> <span class="s1">&#39;1642872600&#39;</span><span class="p">,</span> <span class="s1">&#39;status&#39;</span><span class="p">:</span> <span class="s1">&#39;REGISTERED&#39;</span><span class="p">,</span> <span class="s1">&#39;attended&#39;</span><span class="p">:</span> <span class="s1">&#39;true&#39;</span><span class="p">,</span> <span class="s1">&#39;person&#39;</span><span class="p">:</span> <span class="s1">&#39;{&quot;id&quot;: 1, &quot;given_name&quot;: &quot;Lou&quot;, &quot;family_name&quot;: &quot;Slainey&quot;, &quot;email_address&quot;: &quot;lslainey0@unicef.org&quot;, &quot;phone_number&quot;: &quot;3271326753&quot;, &quot;postal_code&quot;: &quot;78737&quot;}&#39;</span><span class="p">}</span>
+<span class="p">{</span><span class="s1">&#39;id&#39;</span><span class="p">:</span> <span class="s1">&#39;46274&#39;</span><span class="p">,</span> <span class="s1">&#39;event_id&#39;</span><span class="p">:</span> <span class="s1">&#39;454546&#39;</span><span class="p">,</span> <span class="s1">&#39;event_title&#39;</span><span class="p">:</span> <span class="s1">&#39;January Textbank&#39;</span><span class="p">,</span> <span class="s1">&#39;timeslot_id&#39;</span><span class="p">:</span> <span class="s1">&#39;239573&#39;</span><span class="p">,</span> <span class="s1">&#39;timeslot_start_date&#39;</span><span class="p">:</span> <span class="s1">&#39;1643563800&#39;</span><span class="p">,</span> <span class="s1">&#39;timeslot_end_date&#39;</span><span class="p">:</span> <span class="s1">&#39;1643527800&#39;</span><span class="p">,</span> <span class="s1">&#39;status&#39;</span><span class="p">:</span> <span class="s1">&#39;REGISTERED&#39;</span><span class="p">,</span> <span class="s1">&#39;attended&#39;</span><span class="p">:</span> <span class="s1">&#39;true&#39;</span><span class="p">,</span> <span class="s1">&#39;person&#39;</span><span class="p">:</span> <span class="s1">&#39;{&quot;id&quot;: 2, &quot;given_name&quot;: &quot;Arleyne&quot;, &quot;family_name&quot;: &quot;Ransfield&quot;, &quot;email_address&quot;: &quot;aransfield1@qq.com&quot;, &quot;phone_number&quot;: &quot;2174386332&quot;, &quot;postal_code&quot;: &quot;78737&quot;}&#39;</span><span class="p">}</span>
+<span class="p">{</span><span class="s1">&#39;id&#39;</span><span class="p">:</span> <span class="s1">&#39;46275&#39;</span><span class="p">,</span> <span class="s1">&#39;event_id&#39;</span><span class="p">:</span> <span class="s1">&#39;454547&#39;</span><span class="p">,</span> <span class="s1">&#39;event_title&#39;</span><span class="p">:</span> <span class="s1">&#39;February Canvass&#39;</span><span class="p">,</span> <span class="s1">&#39;timeslot_id&#39;</span><span class="p">:</span> <span class="s1">&#39;183743&#39;</span><span class="p">,</span> <span class="s1">&#39;timeslot_start_date&#39;</span><span class="p">:</span> <span class="s1">&#39;1644939000&#39;</span><span class="p">,</span> <span class="s1">&#39;timeslot_end_date&#39;</span><span class="p">:</span> <span class="s1">&#39;1644946200&#39;</span><span class="p">,</span> <span class="s1">&#39;status&#39;</span><span class="p">:</span> <span class="s1">&#39;REGISTERED&#39;</span><span class="p">,</span> <span class="s1">&#39;attended&#39;</span><span class="p">:</span> <span class="s1">&#39;true&#39;</span><span class="p">,</span> <span class="s1">&#39;person&#39;</span><span class="p">:</span> <span class="s1">&#39;{&quot;id&quot;: 3, &quot;given_name&quot;: &quot;Alameda&quot;, &quot;family_name&quot;: &quot;Blackmuir&quot;, &quot;email_address&quot;: &quot;ablackmuir2@wisc.edu&quot;, &quot;phone_number&quot;: &quot;3844977654&quot;, &quot;postal_code&quot;: &quot;78737&quot;}&#39;</span><span class="p">}</span>
+<span class="p">{</span><span class="s1">&#39;id&#39;</span><span class="p">:</span> <span class="s1">&#39;46276&#39;</span><span class="p">,</span> <span class="s1">&#39;event_id&#39;</span><span class="p">:</span> <span class="s1">&#39;454548&#39;</span><span class="p">,</span> <span class="s1">&#39;event_title&#39;</span><span class="p">:</span> <span class="s1">&#39;February Phonebank&#39;</span><span class="p">,</span> <span class="s1">&#39;timeslot_id&#39;</span><span class="p">:</span> <span class="s1">&#39;283666&#39;</span><span class="p">,</span> <span class="s1">&#39;timeslot_start_date&#39;</span><span class="p">:</span> <span class="s1">&#39;1645378200&#39;</span><span class="p">,</span> <span class="s1">&#39;timeslot_end_date&#39;</span><span class="p">:</span> <span class="s1">&#39;1645342200&#39;</span><span class="p">,</span> <span class="s1">&#39;status&#39;</span><span class="p">:</span> <span class="s1">&#39;REGISTERED&#39;</span><span class="p">,</span> <span class="s1">&#39;attended&#39;</span><span class="p">:</span> <span class="s1">&#39;true&#39;</span><span class="p">,</span> <span class="s1">&#39;person&#39;</span><span class="p">:</span> <span class="s1">&#39;{&quot;id&quot;: 4, &quot;given_name&quot;: &quot;Bondie&quot;, &quot;family_name&quot;: &quot;Berrow&quot;, &quot;email_address&quot;: &quot;bberrow3@discuz.net&quot;, &quot;phone_number&quot;: &quot;2275080414&quot;, &quot;postal_code&quot;: &quot;78737&quot;}&#39;</span><span class="p">}</span>
+<span class="p">{</span><span class="s1">&#39;id&#39;</span><span class="p">:</span> <span class="s1">&#39;46277&#39;</span><span class="p">,</span> <span class="s1">&#39;event_id&#39;</span><span class="p">:</span> <span class="s1">&#39;454549&#39;</span><span class="p">,</span> <span class="s1">&#39;event_title&#39;</span><span class="p">:</span> <span class="s1">&#39;March Relational Organizing Hour&#39;</span><span class="p">,</span> <span class="s1">&#39;timeslot_id&#39;</span><span class="p">:</span> <span class="s1">&#39;477483&#39;</span><span class="p">,</span> <span class="s1">&#39;timeslot_start_date&#39;</span><span class="p">:</span> <span class="s1">&#39;1648218600&#39;</span><span class="p">,</span> <span class="s1">&#39;timeslot_end_date&#39;</span><span class="p">:</span> <span class="s1">&#39;1648225800&#39;</span><span class="p">,</span> <span class="s1">&#39;status&#39;</span><span class="p">:</span> <span class="s1">&#39;REGISTERED&#39;</span><span class="p">,</span> <span class="s1">&#39;attended&#39;</span><span class="p">:</span> <span class="s1">&#39;true&#39;</span><span class="p">,</span> <span class="s1">&#39;person&#39;</span><span class="p">:</span> <span class="s1">&#39;{&quot;id&quot;: 5, &quot;given_name&quot;: &quot;Korrie&quot;, &quot;family_name&quot;: &quot;Spight&quot;, &quot;email_address&quot;: &quot;kspight4@sakura.ne.jp&quot;, &quot;phone_number&quot;: &quot;9818241063&quot;, &quot;postal_code&quot;: &quot;78737&quot;}&#39;</span><span class="p">}</span>
+ <span class="o">...</span>
+</pre></div>
+</div>
+<p>There are more than five rows in our table, but <code class="docutils literal notranslate"><span class="pre">print</span></code> only displays the first five rows by default, for readability’s sake.</p>
+<p>As you can see, this data corresponds to what’s in the Google sheet. We display the data in a Python dictionary, with the column names as keys and the actual contents of each cell as the values. You can ask for any row of a Parsons Table as a dictionary:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">attendance_records</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+<span class="o">&gt;&gt;</span> <span class="p">{</span><span class="s1">&#39;id&#39;</span><span class="p">:</span> <span class="s1">&#39;46273&#39;</span><span class="p">,</span> <span class="s1">&#39;event_id&#39;</span><span class="p">:</span> <span class="s1">&#39;454545&#39;</span><span class="p">,</span> <span class="s1">&#39;event_title&#39;</span><span class="p">:</span> <span class="s1">&#39;January Canvass&#39;</span><span class="p">,</span> <span class="s1">&#39;timeslot_id&#39;</span><span class="p">:</span> <span class="s1">&#39;738375&#39;</span><span class="p">,</span> <span class="s1">&#39;timeslot_start_date&#39;</span><span class="p">:</span> <span class="s1">&#39;1642865400&#39;</span><span class="p">,</span> <span class="s1">&#39;timeslot_end_date&#39;</span><span class="p">:</span> <span class="s1">&#39;1642872600&#39;</span><span class="p">,</span> <span class="s1">&#39;status&#39;</span><span class="p">:</span> <span class="s1">&#39;REGISTERED&#39;</span><span class="p">,</span> <span class="s1">&#39;attended&#39;</span><span class="p">:</span> <span class="s1">&#39;true&#39;</span><span class="p">,</span> <span class="s1">&#39;person&#39;</span><span class="p">:</span> <span class="s1">&#39;{&quot;id&quot;: 1, &quot;given_name&quot;: &quot;Lou&quot;, &quot;family_name&quot;: &quot;Slainey&quot;, &quot;email_address&quot;: &quot;lslainey0@unicef.org&quot;, &quot;phone_number&quot;: &quot;3271326753&quot;, &quot;postal_code&quot;: &quot;78737&quot;}&#39;</span><span class="p">}</span>
+</pre></div>
+</div>
+<p>You can also get any column of a Parsons Table as a list of values:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">attendance_records</span><span class="p">[</span><span class="s2">&quot;event_title&quot;</span><span class="p">])</span>
+<span class="o">&gt;&gt;</span> <span class="p">[</span><span class="s1">&#39;January Canvass&#39;</span><span class="p">,</span> <span class="s1">&#39;January Textbank&#39;</span><span class="p">,</span> <span class="s1">&#39;February Canvass&#39;</span><span class="p">,</span> <span class="s1">&#39;February Phonebank&#39;</span><span class="p">,</span> <span class="s1">&#39;March Relational Organizing Hour&#39;</span> <span class="o">...</span>
+</pre></div>
+</div>
+<p>Because individual rows are treated as dictionaries, and individual columns as list, that makes it easy to iterate over them with a for loop:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">index</span><span class="p">,</span> <span class="n">attendance</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">attendance_records</span><span class="p">):</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">attendance</span><span class="p">[</span><span class="s1">&#39;person&#39;</span><span class="p">])</span>
+</pre></div>
+</div>
+<p>There are also a couple of convenience methods for getting the total number of rows and the list of column names:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">attendance_records</span><span class="o">.</span><span class="n">num_rows</span>
+<span class="n">attendance_records</span><span class="o">.</span><span class="n">columns</span>
+</pre></div>
+</div>
+<p>No matter where you got your data from, these methods should always work! That’s the benefit of using a standardized format like a Parsons Table.</p>
+</section>
+</section>
+<section id="transforming-data-with-parsons">
+<h3><a class="toc-backref" href="#id6">Transforming Data with Parsons</a><a class="headerlink" href="#transforming-data-with-parsons" title="Permalink to this headline"></a></h3>
+<section id="fixing-dates-times">
+<h4>Fixing Dates + Times<a class="headerlink" href="#fixing-dates-times" title="Permalink to this headline"></a></h4>
+<p>Let’s make some fixes to our data. First off, those timeslot fields are confusing! What kind of date is <code class="docutils literal notranslate"><span class="pre">1642865400</span></code>?</p>
+<p>(It’s actually something called a <a class="reference external" href="https://www.unixtimestamp.com/">unix timestamp</a>, which measures the total number of seconds since January 1st, 1970. Why January 1st, 1970? No real reason! They just needed to pick a date and I guess that seemed like a good one.)</p>
+<p>Let’s convert these unix timestamps to something more readable. To do this, we define a function that takes in a value and returns a value:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">convert_to_legible_date</span><span class="p">(</span><span class="n">unix_date</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">datetime</span><span class="o">.</span><span class="n">utcfromtimestamp</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">unix_date</span><span class="p">))</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s1">&#39;%Y-%m-</span><span class="si">%d</span><span class="s1"> %H:%M:%S&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Here, we’re using the <code class="docutils literal notranslate"><span class="pre">datetime</span></code> library mentioned above. The <code class="docutils literal notranslate"><span class="pre">strftime</span></code> method is what determines the new format. For example, <code class="docutils literal notranslate"><span class="pre">%Y</span></code> means “Year with century as a decimal number” (like, say, 1970), and <code class="docutils literal notranslate"><span class="pre">%m</span></code> means “Month as a zero-padded decimal number” (like, say, 01). Here’s a <a class="reference external" href="https://strftime.org/">cheatsheet</a> in case you want to play around with the formatting.</p>
+<p>Once we’ve got our function, we can apply it to all the rows in a column by using the Parsons Table’s <code class="docutils literal notranslate"><span class="pre">convert_column</span></code> function:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">attendance_records</span><span class="o">.</span><span class="n">convert_column</span><span class="p">(</span><span class="s1">&#39;timeslot_start_date&#39;</span><span class="p">,</span> <span class="n">convert_to_legible_date</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Notice how the first parameter passed to the method names the column to be converted, while the second parameter is the function to be applied to each row in the column. The original value of the cell will be passed into the function, and whatever is returned will be the new value of the cell.</p>
+</section>
+<section id="unpacking-a-column">
+<h4>Unpacking a Column<a class="headerlink" href="#unpacking-a-column" title="Permalink to this headline"></a></h4>
+<p>Currently in our table, each person’s contact info is crammed into a single column, formatted as a JSON string. That’s a bummer!:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="s1">&#39;person&#39;</span><span class="p">:</span> <span class="s1">&#39;{&quot;id&quot;: 1, &quot;given_name&quot;: &quot;Lou&quot;, &quot;family_name&quot;: &quot;Slainey&quot;, &quot;email_address&quot;: &quot;lslainey0@unicef.org&quot;, &quot;phone_number&quot;: &quot;3271326753&quot;, &quot;postal_code&quot;: &quot;78737&quot;}&#39;</span>
+</pre></div>
+</div>
+<p>We can turn these fields into their own columns in two steps.</p>
+<p>First, we’re going to convert that column from a json string to a Python dictionary. As long as the string is formatted correctly, the only thing we need to do is pass in the <code class="docutils literal notranslate"><span class="pre">json.loads</span></code> method:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">attendance_records</span><span class="o">.</span><span class="n">convert_column</span><span class="p">(</span><span class="s1">&#39;person&#39;</span><span class="p">,</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Then we can use a special Parsons method, <code class="docutils literal notranslate"><span class="pre">unpack_dict</span></code>, to turn the keys of a dictionary into multiple columns!:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">attendance_records</span><span class="o">.</span><span class="n">unpack_dict</span><span class="p">(</span><span class="s1">&#39;person&#39;</span><span class="p">,</span> <span class="n">prepend</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="aggregating-data-using-petl">
+<h4>Aggregating Data Using PETL<a class="headerlink" href="#aggregating-data-using-petl" title="Permalink to this headline"></a></h4>
+<p>Parsons tables are built on top of PETL tables. <a class="reference external" href="https://petl.readthedocs.io/en/stable/">PETL</a> is a general purpose Python package for data science similar to <a class="reference external" href="https://pandas.pydata.org/">PANDAS</a>.</p>
+<p>Because Parsons tables are built on PETL tables, you can use any PETL function on a Parsons Table. Just convert your Parsons table to a PETL table with the <code class="docutils literal notranslate"><span class="pre">.table</span></code> method:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">petl_table</span> <span class="o">=</span> <span class="n">attendance_records</span><span class="o">.</span><span class="n">table</span>
+</pre></div>
+</div>
+<p>One example of a useful PETL function is <code class="docutils literal notranslate"><span class="pre">Aggregate()</span></code> which allows you to summarize data across rows. For instance, the following code gets the total number of signups by event:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">sign_ups_by_event_petl</span> <span class="o">=</span> <span class="n">petl_table</span><span class="o">.</span><span class="n">aggregate</span><span class="p">(</span><span class="s1">&#39;event_title&#39;</span><span class="p">,</span> <span class="nb">len</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>We can then convert the result back into a Parsons Table, if needed:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">sign_ups_by_event_parsons</span> <span class="o">=</span> <span class="n">Table</span><span class="p">(</span><span class="n">sign_ups_by_event_petl</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="selecting-rows">
+<h4>Selecting Rows<a class="headerlink" href="#selecting-rows" title="Permalink to this headline"></a></h4>
+<p>One last transformation! Let’s use the <code class="docutils literal notranslate"><span class="pre">select_rows</span></code> function to separate the event attendances by the month that they happened:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">jan_attendances</span> <span class="o">=</span> <span class="n">attendance_records</span><span class="o">.</span><span class="n">select_rows</span><span class="p">(</span><span class="s2">&quot;&#39;2022-01&#39; in </span><span class="si">{timeslot_start_date}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="n">feb_attendances</span> <span class="o">=</span> <span class="n">attendance_records</span><span class="o">.</span><span class="n">select_rows</span><span class="p">(</span><span class="s2">&quot;&#39;2022-02&#39; in </span><span class="si">{timeslot_start_date}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="n">mar_attendances</span> <span class="o">=</span> <span class="n">attendance_records</span><span class="o">.</span><span class="n">select_rows</span><span class="p">(</span><span class="s2">&quot;&#39;2022-03&#39; in </span><span class="si">{timeslot_start_date}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Note that this only works if we successfully transformed <code class="docutils literal notranslate"><span class="pre">timeslot_start_date</span></code> above!</p>
+</section>
+</section>
+<section id="loading-data-to-google-sheets">
+<h3><a class="toc-backref" href="#id7">Loading Data to Google Sheets</a><a class="headerlink" href="#loading-data-to-google-sheets" title="Permalink to this headline"></a></h3>
+<p>Let’s go ahead and create a new spreadsheet to load data into. We’ll put it in a folder that already exists. To get the folder ID below, look in the URL. The folder ID is the long string of letters and numbers, like so:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">folder_id</span> <span class="o">=</span> <span class="s2">&quot;1y1jgygK5YUQLVrgRgNw7A8Hf2ppqOJJZ&quot;</span>  <span class="c1"># get from URL</span>
+</pre></div>
+</div>
+<p>We also need to give our new spreadsheet a name:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">spreadsheet_name</span> <span class="o">=</span> <span class="s2">&quot;Volunteer Attendance Records&quot;</span>
+</pre></div>
+</div>
+<p>We can use these two variables with the <code class="docutils literal notranslate"><span class="pre">create_spreadsheet</span></code> command, and save the sheet_id for later use:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">sheet_id</span> <span class="o">=</span> <span class="n">google_sheets</span><span class="o">.</span><span class="n">create_spreadsheet</span><span class="p">(</span><span class="n">spreadsheet_name</span><span class="p">,</span> <span class="n">folder_id</span><span class="o">=</span><span class="n">folder_id</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>The <code class="docutils literal notranslate"><span class="pre">overwrite_sheet</span></code> overwrites an existing sheet with data:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">google_sheets</span><span class="o">.</span><span class="n">overwrite_sheet</span><span class="p">(</span><span class="n">sheet_id</span><span class="p">,</span> <span class="n">jan_attendances</span><span class="p">)</span>
+<span class="n">google_sheets</span><span class="o">.</span><span class="n">overwrite_sheet</span><span class="p">(</span><span class="n">sheet_id</span><span class="p">,</span> <span class="n">feb_attendances</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>If you run both commands, you should only see the February attendances, because they’ll have overwritten the January ones. But maybe you don’t want to do that. Maybe you want to append all the data. You can do that too:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">google_sheets</span><span class="o">.</span><span class="n">overwrite_sheet</span><span class="p">(</span><span class="n">sheet_id</span><span class="p">,</span> <span class="n">jan_attendances</span><span class="p">)</span>
+<span class="n">google_sheets</span><span class="o">.</span><span class="n">append_to_sheet</span><span class="p">(</span><span class="n">sheet_id</span><span class="p">,</span> <span class="n">feb_attendances</span><span class="p">)</span>
+<span class="n">google_sheets</span><span class="o">.</span><span class="n">append_to_sheet</span><span class="p">(</span><span class="n">sheet_id</span><span class="p">,</span> <span class="n">mar_attendances</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Note how the first command overwrites the sheet, starting us fresh, but the other two use <code class="docutils literal notranslate"><span class="pre">append_to_sheet</span></code>.</p>
+<p>You can also format cells using the <code class="docutils literal notranslate"><span class="pre">format_cells</span></code> method:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">red</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;red&quot;</span><span class="p">:</span> <span class="mf">1.0</span><span class="p">,</span> <span class="s2">&quot;green&quot;</span><span class="p">:</span> <span class="mf">0.0</span><span class="p">,</span> <span class="s2">&quot;blue&quot;</span><span class="p">:</span> <span class="mf">0.0</span><span class="p">}</span>
+<span class="n">google_sheets</span><span class="o">.</span><span class="n">format_cells</span><span class="p">(</span><span class="n">sheet_id</span><span class="p">,</span> <span class="s2">&quot;A1&quot;</span><span class="p">,</span>  <span class="p">{</span><span class="s2">&quot;backgroundColor&quot;</span><span class="p">:</span> <span class="n">red</span><span class="p">},</span> <span class="n">worksheet</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Formatting a random cell red is a bit silly though. Let’s try a more interesting example. We’re going to overwrite our attendance records, just to make sure we’re working from a fresh start. Then we’ll go through the records one by one and, if the person didn’t attend, we’ll make their background red:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">google_sheets</span><span class="o">.</span><span class="n">overwrite_sheet</span><span class="p">(</span><span class="n">sheet_id</span><span class="p">,</span> <span class="n">attendance_records</span><span class="p">)</span>  <span class="c1"># overwrite sheet</span>
+
+<span class="k">for</span> <span class="n">index</span><span class="p">,</span> <span class="n">row</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">attendance_records</span><span class="p">):</span>
+    <span class="n">adjusted_index</span> <span class="o">=</span> <span class="n">index</span> <span class="o">+</span> <span class="mi">2</span>   <span class="c1"># accounts for python zero-indexing and header row</span>
+    <span class="k">if</span> <span class="n">row</span><span class="p">[</span><span class="s2">&quot;attended&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;false&quot;</span><span class="p">:</span>
+        <span class="n">cell_range</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;A</span><span class="si">{</span><span class="n">adjusted_index</span><span class="si">}</span><span class="s2">:N</span><span class="si">{</span><span class="n">adjusted_index</span><span class="si">}</span><span class="s2">&quot;</span>
+        <span class="n">google_sheets</span><span class="o">.</span><span class="n">format_cells</span><span class="p">(</span><span class="n">sheet_id</span><span class="p">,</span> <span class="n">cell_range</span><span class="p">,</span> <span class="p">{</span><span class="s2">&quot;backgroundColor&quot;</span><span class="p">:</span> <span class="n">red</span><span class="p">},</span> <span class="n">worksheet</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>The Parsons Google Sheets connector only exposes a few very common functions directly. Everything else we’ll need to use the underlying client for. If you use a client function a lot, feel free to suggest to us that we add it to the Parsons connector directly! That will make it easier for you and others to use.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>What is a client? A client is a tool that makes is easier to access APIs by handling all the details of making <a class="reference external" href="https://wizardzines.com/comics/anatomy-http-request/">HTTP requests</a>.</p>
+<p>Many big software companies, such as Google, maintain clients in various languages to encourage people to use their APIs. We use <a class="reference external" href="https://googleapis.github.io/google-api-python-client/docs/">Google’s Python client</a>, which means we have access to all the cool features that Google developers have added to that client.</p>
+<p>Many smaller software companies, including most progressive organizations, do not have enough resources to maintain clients. For those connectors, we use <a class="reference external" href="https://github.com/move-coop/parsons/blob/main/parsons/utilities/api_connector.py">our own simple client</a> to make requests. It does not have any additional connector-specific features.</p>
+<p>You can access the client on a connector, whatever kind it is, with the method <code class="docutils literal notranslate"><span class="pre">client</span></code>, ie <code class="docutils literal notranslate"><span class="pre">mobilize.client</span></code>. (Sometimes, like in the case of Google Sheets, the client has a different, custom name such as <code class="docutils literal notranslate"><span class="pre">google_sheets.gspread_client</span></code>. We’re trying to make everything consistent but we haven’t quite managed it yet, alas!)</p>
+</div>
+<p>Let’s just re-write the code above to show you what it would look like if we were using the client to do it:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">google_sheets</span><span class="o">.</span><span class="n">overwrite_sheet</span><span class="p">(</span><span class="n">sheet_id</span><span class="p">,</span> <span class="n">attendance_records</span><span class="p">)</span>  <span class="c1"># overwrite sheet</span>
+<span class="n">worksheet</span> <span class="o">=</span> <span class="n">google_sheets</span><span class="o">.</span><span class="n">gspread_client</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="n">spreadsheet_name</span><span class="p">)</span><span class="o">.</span><span class="n">sheet1</span>  <span class="c1"># get client&#39;s worksheet object</span>
+
+<span class="k">for</span> <span class="n">index</span><span class="p">,</span> <span class="n">row</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">attendance_records</span><span class="p">):</span>
+    <span class="n">adjusted_index</span> <span class="o">=</span> <span class="n">index</span> <span class="o">+</span> <span class="mi">2</span>   <span class="c1"># accounts for python zero-indexing and header row</span>
+    <span class="k">if</span> <span class="n">row</span><span class="p">[</span><span class="s2">&quot;attended&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;false&quot;</span><span class="p">:</span>
+       <span class="n">cell_range</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;A</span><span class="si">{</span><span class="n">adjusted_index</span><span class="si">}</span><span class="s2">:N</span><span class="si">{</span><span class="n">adjusted_index</span><span class="si">}</span><span class="s2">&quot;</span>
+       <span class="n">worksheet</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">cell_range</span><span class="p">,</span> <span class="p">{</span><span class="s2">&quot;backgroundColor&quot;</span><span class="p">:</span> <span class="n">red</span><span class="p">})</span>
+</pre></div>
+</div>
+<p>As you can see, the code is pretty similar. The only difference is that we use <code class="docutils literal notranslate"><span class="pre">gspread_client</span></code> to directly call a client method (<code class="docutils literal notranslate"><span class="pre">open</span></code>) and then work with the object that the client returns (<code class="docutils literal notranslate"><span class="pre">worksheet</span></code>) when formatting the cells.</p>
+</section>
+</section>
+<section id="part-two">
+<h2><a class="toc-backref" href="#id8">Part Two</a><a class="headerlink" href="#part-two" title="Permalink to this headline"></a></h2>
+<section id="using-a-data-warehouse">
+<h3><a class="toc-backref" href="#id9">Using a Data Warehouse</a><a class="headerlink" href="#using-a-data-warehouse" title="Permalink to this headline"></a></h3>
+<p>We’ve gone over how to write a script that takes data from one place, transforms it, and then moves it to another. But many people find it helpful to store their data in a centralized location. This can be desirable for a few different reasons:</p>
+<ul class="simple">
+<li><p>Using a data warehouse can make it easier to look at your data all together and to track changes to it</p></li>
+<li><p>Most warehouses let you query data with SQL queries, whhich many people find easier or more familiar</p></li>
+<li><p>Warehouse are often optimized for dealing with very large data sources, which is helpful if you’re using large data sets.</p></li>
+</ul>
+<p>In other words, it’s convenient to extract data from your source system and load it in to your data warehouse. From there, you can do some data transformations in SQL to prepare the data for the destination system, and the push the data to your destination system.</p>
+<p>Some examples of data warehouses are BigQuery, SnowFlake, and Redshift. Low cost solutions could be Google sheets (maybe using Google Data Studio as a reporting tool.)</p>
+</section>
+<section id="new-example-mobilize-civis-redshift-action-network">
+<h3><a class="toc-backref" href="#id10">New Example: Mobilize ➡ Civis/Redshift ➡ Action Network</a><a class="headerlink" href="#new-example-mobilize-civis-redshift-action-network" title="Permalink to this headline"></a></h3>
+<p>For the second half of this training, we’re going to be focused on a new use case. We’ll be trying to move data from Mobilize to Civis/Redshift to Action Network. If you don’t have a Civis account, you won’t be able to follow along with this part of the guide at home, so we’ve included a lot of screenshots. :)</p>
+<p>The Mobilize to Action Network sync is something we’d want to run every day on an automated basis. There are various tools that can help automate syncs like ours. We’re using Civis, but we could also use Fivetran, Airflow, or chron jobs. If you’d like a guide that goes through using a different tool, please request one!</p>
+<img alt="../_images/civis_etl_workflow.png" src="../_images/civis_etl_workflow.png" />
+<p>What we’re looking at here is a Civis workflow for our sync. You can see in the schedule box to the right that the workflow is set up to run daily at 1am.</p>
+<p>The three steps of our ETL pipeline are displayed under the big letters E, T and L below:</p>
+<ul class="simple">
+<li><p>The first thing that happens is Mobilize data is imported to our data warehouse. That takes care of the E of ETL.</p></li>
+<li><p>In the second part of the workflow, we prepare the data for Action Network by writing a SQL query. That’s the T of ETL.</p></li>
+<li><p>In the final step of the workflow, a python script loads the data prepared by the SQL script into Action Network. That’s the L.</p></li>
+</ul>
+</section>
+<section id="step-1-extracting-data-into-the-warehouse">
+<h3><a class="toc-backref" href="#id11">Step 1: Extracting Data Into the Warehouse</a><a class="headerlink" href="#step-1-extracting-data-into-the-warehouse" title="Permalink to this headline"></a></h3>
+<p>Tools like Civis often have no-code solutions for getting data from your source system into your data warehouse. That makes our jobs quite a bit easier! This screenshot shows the interface for importing data from Mobilize using Civis:</p>
+<img alt="../_images/civis_mobilize_import.png" src="../_images/civis_mobilize_import.png" />
+<p>If that’s not an option, because Civis doesn’t have an importer for your tool or for some other reason, you can write a custom Python script which extracts data from the source system. You can use Parsons for this:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">Parsons</span> <span class="kn">import</span> <span class="n">Table</span><span class="p">,</span> <span class="n">MobilizeAmerica</span><span class="p">,</span> <span class="n">Redshift</span>
+
+<span class="n">mobilize</span> <span class="o">=</span> <span class="n">MobilizeAmerica</span><span class="p">()</span>
+<span class="n">redshift</span> <span class="o">=</span> <span class="n">Redshift</span><span class="p">()</span>
+
+<span class="n">attendances</span> <span class="o">=</span> <span class="n">mobilize</span><span class="o">.</span><span class="n">get_attendances</span><span class="p">()</span>
+<span class="n">rs</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="n">attendances</span><span class="p">,</span> <span class="s1">&#39;mobilize.attendances&#39;</span><span class="p">,</span> <span class="n">if_exists</span><span class="o">=</span><span class="s1">&#39;drop&#39;</span><span class="p">,</span> <span class="n">alter_table</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>The <code class="docutils literal notranslate"><span class="pre">rs.copy</span></code> used here loads data into the RedShift database you’re connected to. The <code class="docutils literal notranslate"><span class="pre">mobilize.attendances</span></code> parameter specifies which table to copy the data to. The <code class="docutils literal notranslate"><span class="pre">copy</span></code> method can also be used with the BigQuery connector.</p>
+</section>
+<section id="step-2-transforming-data-in-warehouse-with-sql">
+<h3><a class="toc-backref" href="#id12">Step 2: Transforming Data in Warehouse with SQL</a><a class="headerlink" href="#step-2-transforming-data-in-warehouse-with-sql" title="Permalink to this headline"></a></h3>
+<p>With our previous script, we transformed data using Python, but you may be more comfortable using SQL. When you’re using a data warehouse like Civis, you can run a SQL query or two (or more!) during the transformation step.</p>
+<div class="highlight-sql notranslate"><div class="highlight"><pre><span></span><span class="k">CREATE</span><span class="w"> </span><span class="k">TABLE</span><span class="w"> </span><span class="n">mobilize_schema</span><span class="p">.</span><span class="n">mobilize_users_to_sync</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="p">(</span><span class="w"></span>
+
+<span class="k">SELECT</span><span class="w"> </span><span class="k">DISTINCT</span><span class="w"></span>
+<span class="w">    </span><span class="n">user_id</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="n">mobilizeid</span><span class="w"></span>
+<span class="p">,</span><span class="w"> </span><span class="n">given_name</span><span class="w"></span>
+<span class="p">,</span><span class="w"> </span><span class="n">family_name</span><span class="w"></span>
+<span class="p">,</span><span class="w"> </span><span class="n">email_address</span><span class="w"></span>
+<span class="p">,</span><span class="w"> </span><span class="n">phone_number</span><span class="w"></span>
+<span class="p">,</span><span class="w"> </span><span class="n">postal_code</span><span class="w"></span>
+<span class="k">FROM</span><span class="w"> </span><span class="n">mobilize_schema</span><span class="p">.</span><span class="n">mobilize_participations</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="n">mob</span><span class="w"></span>
+<span class="c1">-- Joining the log table lets us know which records have been synced</span>
+<span class="c1">-- and which records still need to be synced</span>
+<span class="k">LEFT</span><span class="w"> </span><span class="k">JOIN</span><span class="w"> </span><span class="n">cormac_scratch</span><span class="p">.</span><span class="n">mobilize_to_actionnetwork_log</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="n">log</span><span class="w"></span>
+<span class="k">on</span><span class="w"> </span><span class="n">log</span><span class="p">.</span><span class="n">mobilizeid</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">mob</span><span class="p">.</span><span class="n">user_id</span><span class="w"></span>
+<span class="k">WHERE</span><span class="w"> </span><span class="n">log</span><span class="p">.</span><span class="n">synced</span><span class="w"> </span><span class="k">is</span><span class="w"> </span><span class="k">null</span><span class="w"></span>
+
+<span class="p">);</span><span class="w"></span>
+</pre></div>
+</div>
+<p>This script creates a table where each row is a unique Mobilize user that needs to be synced to Action Network. It creates this table from the participations table by using the <code class="docutils literal notranslate"><span class="pre">DISTINCT</span> <span class="pre">SQL</span></code> function.</p>
+</section>
+<section id="step-3-load-data-from-warehouse-to-action-network">
+<h3><a class="toc-backref" href="#id13">Step 3: Load Data from Warehouse to Action Network</a><a class="headerlink" href="#step-3-load-data-from-warehouse-to-action-network" title="Permalink to this headline"></a></h3>
+<p>The final step is to move data from the warehouse to Action Network. You can use <a class="reference external" href="https://github.com/cmdelrio/parsons_etl_trainings/blob/main/Mobilize_to_ActionNetwork.py">this script</a> to follow along if you have a Civis account.</p>
+<p>Before we dive into the script, let’s go over a few key concepts: log tables, and logging.</p>
+<section id="log-tables-logging">
+<h4>Log Tables &amp; Logging<a class="headerlink" href="#log-tables-logging" title="Permalink to this headline"></a></h4>
+<p>Log Tables and loging are two distinct things, but they serve the same general purpose: helping us to track what’s happening to our data, which is especially useful when something goes wrong.</p>
+<p>Log Tables are tables in our database where we store information about our attempts to sync records. When we’re saving data to log tables, it looks like this:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">log_record</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s1">&#39;mobilizeid&#39;</span><span class="p">:</span> <span class="n">mobilize_user</span><span class="p">[</span><span class="s1">&#39;mobilizeid&#39;</span><span class="p">],</span>
+    <span class="s1">&#39;actionnetworkid&#39;</span><span class="p">:</span> <span class="n">actionnetworkid</span><span class="p">,</span>
+    <span class="s1">&#39;synced&#39;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span>
+    <span class="s1">&#39;errors&#39;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="s1">&#39;date&#39;</span><span class="p">:</span> <span class="nb">str</span><span class="p">(</span><span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">())</span>
+<span class="p">}</span>
+
+<span class="c1"># Add the record of our success to the history books</span>
+<span class="n">loglist</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">log_record</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>The logging package, conversely, is a standard part of Python. Logs are usually saved as strings and saved to a single file or printed to standard output. It’s for less formal analyses, like being able to check “hey where’s my code at”. When we’re saving data via the logging package, it looks like this:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s1">&#39;Starting the sync now.&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="stepping-through-the-script">
+<h4>Stepping Through the Script<a class="headerlink" href="#stepping-through-the-script" title="Permalink to this headline"></a></h4>
+<p>We start by pulling our Mobilize data out of the Redshift table where it’s been stored, and logging (informally) that we’ve done so:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">sql_query</span> <span class="o">=</span> <span class="s1">&#39;select * from mobilize_schema.mobilize_users_to_sync limit 5;&#39;</span>
+<span class="n">new_mobilize_users</span> <span class="o">=</span> <span class="n">my_rs_warehouse</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="n">sql_query</span><span class="p">)</span>
+
+<span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;&#39;&#39;There are </span><span class="si">{</span><span class="n">new_mobilize_users</span><span class="o">.</span><span class="n">num_rows</span><span class="si">}</span><span class="s1"> new mobilize users that need to be synced to</span>
+<span class="s1">Action Network.&#39;&#39;&#39;</span><span class="p">)</span>
+
+<span class="k">if</span> <span class="n">new_mobilize_users</span><span class="o">.</span><span class="n">num_rows</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+    <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s1">&#39;Starting the sync now.&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>We can now iterate through each of our new mobilize users. For each Mobilize user, we’re going to try and sync them to Action Network. If that doesn’t work, we’ll log the errors. We’ll do this using what’s known as a try-except statement in Python:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">mobilize_user</span> <span class="ow">in</span> <span class="n">new_mobilize_users</span><span class="p">:</span>
+
+    <span class="k">try</span><span class="p">:</span>
+
+        <span class="c1"># try this code</span>
+
+    <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">error</span><span class="p">:</span>
+
+        <span class="c1"># if we get an error, do this instead</span>
+</pre></div>
+</div>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>Pythonistas refer to handling an exception as “catching” it. It is considered bad practice to catch a “bare” (generic) Exception. You should instead try to be as specific as possible. Ask yourself: what kind of errors am I expecting? For instance, here we might expect database errors and want to handle them without crashing the script, but we might not expect errors in our Python syntax. We probably still want our code to break if we make a typo, so that we can find and fix the typo!</p>
+<p>If you know that you’re okay with, say, ValueErrors, you can write a try-except like this:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">try</span><span class="p">:</span>
+    <span class="c1"># stuff</span>
+<span class="k">except</span> <span class="ne">ValueError</span> <span class="k">as</span> <span class="n">error</span><span class="p">:</span>
+    <span class="c1"># other stuff</span>
+</pre></div>
+</div>
+<p>This try-except catches and handles only ValueErrors. All other errors will be “thrown” instead of “caught”, which will halt/crash the script.</p>
+</div>
+<p>Let’s take a look inside the try statement. What are we trying to do?:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">actionnetwork_user</span> <span class="o">=</span> <span class="n">my_actionnetwork_group</span><span class="o">.</span><span class="n">add_person</span><span class="p">(</span>
+    <span class="n">email_address</span><span class="o">=</span><span class="n">mobilize_user</span><span class="p">[</span><span class="s1">&#39;email_address&#39;</span><span class="p">],</span>
+    <span class="n">given_name</span><span class="o">=</span><span class="n">mobilize_user</span><span class="p">[</span><span class="s1">&#39;given_name&#39;</span><span class="p">],</span>
+    <span class="n">family_name</span><span class="o">=</span><span class="n">mobilize_user</span><span class="p">[</span><span class="s1">&#39;family_name&#39;</span><span class="p">],</span>
+    <span class="n">mobile_number</span><span class="o">=</span><span class="n">mobilize_user</span><span class="p">[</span><span class="s1">&#39;phone_number&#39;</span><span class="p">],</span>
+    <span class="n">tag</span><span class="o">=</span><span class="s1">&#39;Mobilize Event Attendee&#39;</span><span class="p">,</span>
+    <span class="n">postal_addresses</span><span class="o">=</span><span class="p">[</span>
+        <span class="p">{</span>
+            <span class="s1">&#39;postal_code&#39;</span><span class="p">:</span> <span class="n">mobilize_user</span><span class="p">[</span><span class="s1">&#39;postal_code&#39;</span><span class="p">]</span>
+        <span class="p">}</span>
+    <span class="p">]</span>
+<span class="p">)</span>
+
+    <span class="c1"># Get Action Network ID</span>
+    <span class="n">identifiers</span> <span class="o">=</span> <span class="n">actionnetwork_user</span><span class="p">[</span><span class="s1">&#39;identifiers&#39;</span><span class="p">]</span>
+    <span class="n">actionnetworkid</span> <span class="o">=</span> <span class="p">[</span><span class="n">entry_id</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;:&#39;</span><span class="p">)[</span><span class="mi">1</span><span class="p">]</span>
+                       <span class="k">for</span> <span class="n">entry_id</span> <span class="ow">in</span> <span class="n">identifiers</span> <span class="k">if</span> <span class="s1">&#39;action_network:&#39;</span> <span class="ow">in</span> <span class="n">entry_id</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
+
+    <span class="c1"># Create a record of our great success</span>
+    <span class="n">log_record</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s1">&#39;mobilizeid&#39;</span><span class="p">:</span> <span class="n">mobilize_user</span><span class="p">[</span><span class="s1">&#39;mobilizeid&#39;</span><span class="p">],</span>
+        <span class="s1">&#39;actionnetworkid&#39;</span><span class="p">:</span> <span class="n">actionnetworkid</span><span class="p">,</span>
+        <span class="s1">&#39;synced&#39;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span>
+        <span class="s1">&#39;errors&#39;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="s1">&#39;date&#39;</span><span class="p">:</span> <span class="nb">str</span><span class="p">(</span><span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">())</span>
+    <span class="p">}</span>
+
+    <span class="c1"># Add the record of our success to the history books</span>
+    <span class="n">loglist</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">log_record</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>We get the data from each <code class="docutils literal notranslate"><span class="pre">mobilize_user</span></code> in our Parsons Table and send that data to Action Network via the <code class="docutils literal notranslate"><span class="pre">add_person</span></code> method. (There’s a little bit of fancy formatting done to send the <code class="docutils literal notranslate"><span class="pre">postal_addresses</span></code> info. You can figure out if data needs special formatting by checking out the connector’s docs. For instance, the docs for <code class="docutils literal notranslate"><span class="pre">add_person</span></code> can be found <a class="reference external" href="https://move-coop.github.io/parsons/html/stable/action_network.html#parsons.ActionNetwork.add_person">here</a>.)</p>
+<p>Action Network sends back information about the user. We do another bit offancy formatting work to extract the action network ID.</p>
+<p>If we got all the way to this point in the script without breaking on an error, then our sync was a success! We can save it as a <code class="docutils literal notranslate"><span class="pre">log_record</span></code> in our <code class="docutils literal notranslate"><span class="pre">log_list</span></code> to be stored in the database later.</p>
+<p>Now let’s look inside the except statement. What happens if things go wrong?:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;&#39;&#39;Error for mobilize user </span><span class="si">{</span><span class="n">mobilize_user</span><span class="p">[</span><span class="s1">&#39;mobilizeid&#39;</span><span class="p">]</span><span class="si">}</span><span class="s1">.</span>
+<span class="s1">    Error: </span><span class="si">{</span><span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">)</span><span class="si">}</span><span class="s1">&#39;&#39;&#39;</span><span class="p">)</span>
+
+<span class="c1"># Create a record of our failures</span>
+<span class="n">log_record</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s1">&#39;mobilizeid&#39;</span><span class="p">:</span> <span class="n">mobilize_user</span><span class="p">[</span><span class="s1">&#39;mobilizeid&#39;</span><span class="p">],</span>
+    <span class="s1">&#39;actionnetworkid&#39;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="s1">&#39;synced&#39;</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span>
+    <span class="s1">&#39;errors&#39;</span><span class="p">:</span> <span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">)[:</span><span class="mi">999</span><span class="p">],</span>
+    <span class="s1">&#39;date&#39;</span><span class="p">:</span> <span class="nb">str</span><span class="p">(</span><span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">())</span>
+<span class="p">}</span>
+
+<span class="c1"># Add the record of our greatest failures to the history books</span>
+<span class="n">loglist</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">log_record</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>If things go wrong, we log that information for later. Note that line <code class="docutils literal notranslate"><span class="pre">str(e)[:999]</span></code>. That’s us getting information about the error out of the error object, <code class="docutils literal notranslate"><span class="pre">e</span></code>.</p>
+<p>Finally, once we’ve looped through all our Mobilize users, we’re ready to save our log tables to the database:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">if</span> <span class="n">new_mobilize_users</span><span class="o">.</span><span class="n">num_rows</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+    <span class="n">logtable</span> <span class="o">=</span> <span class="n">Table</span><span class="p">(</span><span class="n">loglist</span><span class="p">)</span>
+    <span class="n">errors_count</span> <span class="o">=</span> <span class="n">logtable</span><span class="o">.</span><span class="n">select_rows</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">{synced}</span><span class="s2"> is False&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">num_rows</span>
+    <span class="n">success_count</span> <span class="o">=</span> <span class="n">logtable</span><span class="o">.</span><span class="n">select_rows</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">{synced}</span><span class="s2"> is True&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">num_rows</span>
+
+<span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;&#39;&#39;Successfully synced </span><span class="si">{</span><span class="n">success_count</span><span class="si">}</span><span class="s1"> mobilize users and failed to sync </span><span class="si">{</span><span class="n">errors_count</span><span class="si">}</span><span class="s1">&#39;&#39;&#39;</span><span class="p">)</span>
+
+<span class="n">my_rs_warehouse</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="n">tbl</span><span class="o">=</span><span class="n">logtable</span><span class="p">,</span> <span class="n">table_name</span><span class="o">=</span><span class="s1">&#39;mobilize_schema.mobilize_to_actionnetwork_log&#39;</span><span class="p">,</span> <span class="n">if_exists</span><span class="o">=</span><span class="s1">&#39;append&#39;</span><span class="p">,</span> <span class="n">alter_table</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Note that our log records can be turned into a Parsons Table just like any other kind of data! And note that we’re again using <code class="docutils literal notranslate"><span class="pre">copy</span></code> to copy data into our database.</p>
+<p>And that’s it!</p>
+</section>
+</section>
+<section id="scheduling-jobs-with-container-scripts">
+<h3><a class="toc-backref" href="#id14">Scheduling Jobs With Container Scripts</a><a class="headerlink" href="#scheduling-jobs-with-container-scripts" title="Permalink to this headline"></a></h3>
+<p>Different platforms allow you to schedule jobs in different ways. Civis lets you schedule jobs using container scripts.</p>
+<p>A Civis container script runs your Python code on a remote server for you. Under the hood, Civis takes your Python script from where it is stored in GitHub and runs it a Docker remote server environment.</p>
+<p><a class="reference external" href="https://github.com">GitHub</a> is the google docs of coding, an online service for collaborating with a team as you write scripts. It’s where we maintain <a class="reference external" href="https://github.com/move-coop/parsons/">Parsons</a> itself.</p>
+<p><a class="reference external" href="https://www.docker.com/">Docker</a> is a service that lets you create a remote environment that includes all of the Python packages your script needs to run. TMC maintains a <a class="reference external" href="https://cloud.docker.com/u/movementcooperative/repository/docker/movementcooperative/parsons">Parsons docker image</a> that you can use - or that you can tell Civis to use!</p>
+<p>Put all these pieces together and you get a virtual computer with Parsons pre-installed where you can run the specified script. Civis orchestrates this, and also allows you to pass parameters into the script - for example, the API keys for Action Network or Redshift.</p>
+<p>Let’s look at the civis container script for this project:</p>
+<img alt="../_images/civis_container_script.png" src="../_images/civis_container_script.png" />
+<p>You can see where we’re specifying the Docker Image, the Github repository where you can find our script, and the command to run our script.</p>
+<p>This container script can now be scheduled using the Civis scheduling interface.</p>
+</section>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="getting_set_up.html" class="btn btn-neutral float-left" title="Getting Set Up With Parsons" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2019, The Movement Cooperative.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  
+  <div class="rst-versions" data-toggle="rst-versions" role="note" aria-label="Versions">
+    <span class="rst-current-version" data-toggle="rst-current-version">
+      <span class="fa fa-book"> Read the Docs</span>
+      stable
+      <span class="fa fa-caret-down"></span>
+    </span>
+    <div class="rst-other-versions">
+      <dl>
+        <dt>Most Common</dt>
+        <!-- Show latest & stable first -->
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+                  <dd><a href="../../latest/training_guides/etl_best_practices.html">latest</a></dd>
+            
+        
+            
+                  <dd><a href="etl_best_practices.html">stable</a></dd>
+            
+        
+
+        <dt>By Version Number</dt>
+        <!-- Show other versions -->
+        
+            
+                  <dd><a href="../../v0.14.0/index.html">v0.14.0</a></dd>
+            
+        
+            
+                  <dd><a href="../../v0.15.0/index.html">v0.15.0</a></dd>
+            
+        
+            
+                  <dd><a href="../../v0.16.0/index.html">v0.16.0</a></dd>
+            
+        
+            
+                  <dd><a href="../../v0.17.0/index.html">v0.17.0</a></dd>
+            
+        
+            
+                  <dd><a href="../../v0.18.0/index.html">v0.18.0</a></dd>
+            
+        
+            
+                  <dd><a href="../../v0.18.1/index.html">v0.18.1</a></dd>
+            
+        
+            
+        
+            
+        
+
+      </dl>
+    </div>
+  </div>
+<script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

@@ -28,6 +28,7 @@ class RedshiftTableUtilities(object):
 
     def table_exists_with_connection(self, table_name, connection, view=True):
         table_name = table_name.lower().split('.')
+        table_name = [x.strip() for x in table_name]
 
         # Check in pg tables for the table
         sql = """select count(*) from pg_tables where schemaname='{}' and

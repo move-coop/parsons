@@ -38,7 +38,6 @@ class SendMail(ABC):
     @abstractmethod
     def _send_message(self, message):
         pass
-        #raise NotImplementedError("_send_message must be implemented for send_email to run")
 
     def _create_message_simple(self, sender, to, subject, message_text):
         """Create a text-only message for an email.

@@ -27,6 +27,17 @@ logger = logging.getLogger(__name__)
 
 class SendMail(ABC):
     """SendMail base class for sending emails.
+
+    This class is not designed to be used directly,
+    as it has useful methods for composing messages and validating emails
+    but does not contain all the required functionality in order
+    to send a message. Rather it should be subclassed for each different type of
+    email service, and those subclasses should define an __init__
+    method (to set any instance attributes such as credentials) and a _send_message
+    method (to implement the actual sending of the message).
+
+    For an example of this subclassing in practice, look at the Gmail notification
+    connector in parsons.notifications.gmail.
     """
 
     log = logger

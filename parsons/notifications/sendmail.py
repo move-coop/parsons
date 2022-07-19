@@ -1,4 +1,5 @@
 # Adapted from Gmail API tutorial https://developers.google.com/gmail/api
+from abc import ABC, abstractmethod
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
 from email.mime.image import MIMEImage
@@ -24,14 +25,20 @@ import os
 logger = logging.getLogger(__name__)
 
 
-class SendMail(object):
+class SendMail(ABC):
     """SendMail base class for sending emails.
     """
 
     log = logger
 
+    @abstractmethod
+    def __init__(self, *args, **kwargs):
+        pass
+
+    @abstractmethod
     def _send_message(self, message):
-        raise NotImplementedError("_send_message must be implemented for send_email to run")
+        pass
+        #raise NotImplementedError("_send_message must be implemented for send_email to run")
 
     def _create_message_simple(self, sender, to, subject, message_text):
         """Create a text-only message for an email.

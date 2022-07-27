@@ -248,7 +248,7 @@
 <span class="sd">            family_name:</span>
 <span class="sd">                The person&#39;s family name</span>
 <span class="sd">            tags:</span>
-<span class="sd">                Any tags to be applied to the person</span>
+<span class="sd">                Optional field. A list of strings of pre-existing tags to be applied to the person.</span>
 <span class="sd">            languages_spoken:</span>
 <span class="sd">                Optional field. A list of strings of the languages spoken by the person</span>
 <span class="sd">            postal_addresses:</span>
@@ -323,7 +323,7 @@
         <span class="k">if</span> <span class="n">languages_spoken</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">data</span><span class="p">[</span><span class="s2">&quot;person&quot;</span><span class="p">][</span><span class="s2">&quot;languages_spoken&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">languages_spoken</span>
         <span class="k">if</span> <span class="n">postal_addresses</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="n">data</span><span class="p">[</span><span class="s2">&quot;person&quot;</span><span class="p">][</span><span class="s2">&quot;postal_address&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">postal_addresses</span>
+            <span class="n">data</span><span class="p">[</span><span class="s2">&quot;person&quot;</span><span class="p">][</span><span class="s2">&quot;postal_addresses&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">postal_addresses</span>
         <span class="k">if</span> <span class="n">tags</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">data</span><span class="p">[</span><span class="s2">&quot;add_tags&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">tags</span>
         <span class="n">data</span><span class="p">[</span><span class="s2">&quot;person&quot;</span><span class="p">][</span><span class="s2">&quot;custom_fields&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="o">**</span><span class="n">kwargs</span><span class="p">}</span>

@@ -952,8 +952,6 @@ class Redshift(RedshiftCreateTable, RedshiftCopyTable, RedshiftTableUtilities, R
         s, t = self.split_full_table_name(table_name)
         cols = self.get_columns(s, t)
         rc = {k: v['max_length'] for k, v in cols.items() if v['data_type'] == 'character varying'}  # noqa: E501, E261
-        if drop_dependencies:
-            self.drop_dependencies_for_cols(s, t, rc.keys())
 
         # Figure out if any of the destination table varchar columns are smaller than the
         # associated Parsons table columns. If they are, then alter column types to expand
@@ -966,6 +964,8 @@ class Redshift(RedshiftCreateTable, RedshiftCopyTable, RedshiftTableUtilities, R
                 new_size = 65535
                 if pc[c] < new_size:
                     new_size = pc[c]
+                if drop_dependencies:
+                    self.drop_dependencies_for_cols(s, t, [c])
                 self.alter_table_column_type(table_name, c, 'varchar', varchar_width=new_size)
 
     def alter_table_column_type(self, table_name, column_name, data_type, varchar_width=None):

@@ -114,7 +114,7 @@ class ActionNetwork(object):
             family_name:
                 The person's family name
             tags:
-                Any tags to be applied to the person
+                Optional field. A list of strings of pre-existing tags to be applied to the person.
             languages_spoken:
                 Optional field. A list of strings of the languages spoken by the person
             postal_addresses:
@@ -189,7 +189,7 @@ class ActionNetwork(object):
         if languages_spoken is not None:
             data["person"]["languages_spoken"] = languages_spoken
         if postal_addresses is not None:
-            data["person"]["postal_address"] = postal_addresses
+            data["person"]["postal_addresses"] = postal_addresses
         if tags is not None:
             data["add_tags"] = tags
         data["person"]["custom_fields"] = {**kwargs}

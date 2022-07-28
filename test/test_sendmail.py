@@ -70,7 +70,7 @@ class TestSendMailCreateMessageAttachments:
 
     def test_can_handle_html(self, dummy_sendmail):
         message = dummy_sendmail._create_message_attachments("from", "to", "subject", "text", [],
-                                                         message_html="html")
+                                                             message_html="html")
         assert len(message.get_payload()) == 2
         assert message.get_payload()[0].get_payload() == "text"
         assert message.get_payload()[0].get_content_type() == "text/plain"
@@ -91,7 +91,7 @@ class TestSendMailCreateMessageAttachments:
         filename = tmp_path / filename
         filename.write_bytes(b"Parsons")
         message = dummy_sendmail._create_message_attachments("from", "to", "subject", "text",
-                                                         [filename])
+                                                             [filename])
         assert len(message.get_payload()) == 2  # text body plus attachment
         assert isinstance(message.get_payload()[1], expected_type)
 
@@ -101,7 +101,7 @@ class TestSendMailCreateMessageAttachments:
         if buffer is io.BytesIO:
             value = b"Parsons"
         message = dummy_sendmail._create_message_attachments("from", "to", "subject", "text",
-                                                         [buffer(value)])
+                                                             [buffer(value)])
         assert len(message.get_payload()) == 2  # text body plus attachment
         assert isinstance(message.get_payload()[1], MIMEApplication)
 

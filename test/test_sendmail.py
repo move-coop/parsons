@@ -10,13 +10,27 @@ from email.mime.base import MIMEBase
 from parsons.notifications.sendmail import EmptyListError, SendMail
 
 
+@pytest.fixture(scope="function")
+def dummy_sendmail():
+    """Have to create a dummy class that inherits from SendMail and defines a couple
+    of methods in order to test out the methods that aren't abstract.
+    """
+    class DummySendMail(SendMail):
+        def __init__(self):
+            pass
+
+        def _send_message(self, message):
+            pass
+    return DummySendMail()
+
+
 class TestSendMailCreateMessageSimple:
-    def test_creates_mimetext_message(self):
-        message = SendMail()._create_message_simple("from", "to", "subject", "text")
+    def test_creates_mimetext_message(self, dummy_sendmail):
+        message = dummy_sendmail._create_message_simple("from", "to", "subject", "text")
         assert isinstance(message, MIMEText)
 
-    def test_message_contents_set_appropriately(self):
-        message = SendMail()._create_message_simple("from", "to", "subject", "text")
+    def test_message_contents_set_appropriately(self, dummy_sendmail):
+        message = dummy_sendmail._create_message_simple("from", "to", "subject", "text")
         assert message.get("from") == "from"
         assert message.get("to") == "to"
         assert message.get("subject") == "subject"
@@ -24,24 +38,24 @@ class TestSendMailCreateMessageSimple:
 
 
 class TestSendMailCreateMessageHtml:
-    def test_creates_multipart_message(self):
-        message = SendMail()._create_message_html("from", "to", "subject", "text", "html")
+    def test_creates_multipart_message(self, dummy_sendmail):
+        message = dummy_sendmail._create_message_html("from", "to", "subject", "text", "html")
         assert isinstance(message, MIMEMultipart)
 
-    def test_sets_to_from_subject(self):
-        message = SendMail()._create_message_html("from", "to", "subject", "text", "html")
+    def test_sets_to_from_subject(self, dummy_sendmail):
+        message = dummy_sendmail._create_message_html("from", "to", "subject", "text", "html")
         assert message.get("from") == "from"
         assert message.get("to") == "to"
         assert message.get("subject") == "subject"
 
-    def test_works_if_no_message_text(self):
-        message = SendMail()._create_message_html("from", "to", "subject", None, "html")
+    def test_works_if_no_message_text(self, dummy_sendmail):
+        message = dummy_sendmail._create_message_html("from", "to", "subject", None, "html")
         assert len(message.get_payload()) == 1
         assert message.get_payload()[0].get_payload() == "html"
         assert message.get_payload()[0].get_content_type() == "text/html"
 
-    def test_works_with_text_and_html(self):
-        message = SendMail()._create_message_html("from", "to", "subject", "text", "html")
+    def test_works_with_text_and_html(self, dummy_sendmail):
+        message = dummy_sendmail._create_message_html("from", "to", "subject", "text", "html")
         assert len(message.get_payload()) == 2
         assert message.get_payload()[0].get_payload() == "text"
         assert message.get_payload()[0].get_content_type() == "text/plain"
@@ -50,12 +64,12 @@ class TestSendMailCreateMessageHtml:
 
 
 class TestSendMailCreateMessageAttachments:
-    def test_creates_multipart_message(self):
-        message = SendMail()._create_message_attachments("from", "to", "subject", "text", [])
+    def test_creates_multipart_message(self, dummy_sendmail):
+        message = dummy_sendmail._create_message_attachments("from", "to", "subject", "text", [])
         assert isinstance(message, MIMEMultipart)
 
-    def test_can_handle_html(self):
-        message = SendMail()._create_message_attachments("from", "to", "subject", "text", [],
+    def test_can_handle_html(self, dummy_sendmail):
+        message = dummy_sendmail._create_message_attachments("from", "to", "subject", "text", [],
                                                          message_html="html")
         assert len(message.get_payload()) == 2
         assert message.get_payload()[0].get_payload() == "text"
@@ -73,20 +87,20 @@ class TestSendMailCreateMessageAttachments:
             ("video.mp4", MIMEBase)  # This will fail if the method is updated to parse video
         ]
     )
-    def test_properly_detects_file_types(self, tmp_path, filename, expected_type):
+    def test_properly_detects_file_types(self, tmp_path, dummy_sendmail, filename, expected_type):
         filename = tmp_path / filename
         filename.write_bytes(b"Parsons")
-        message = SendMail()._create_message_attachments("from", "to", "subject", "text",
+        message = dummy_sendmail._create_message_attachments("from", "to", "subject", "text",
                                                          [filename])
         assert len(message.get_payload()) == 2  # text body plus attachment
         assert isinstance(message.get_payload()[1], expected_type)
 
     @pytest.mark.parametrize("buffer", [io.StringIO, io.BytesIO])
-    def test_works_with_buffers(self, buffer):
+    def test_works_with_buffers(self, dummy_sendmail, buffer):
         value = "Parsons"
         if buffer is io.BytesIO:
             value = b"Parsons"
-        message = SendMail()._create_message_attachments("from", "to", "subject", "text",
+        message = dummy_sendmail._create_message_attachments("from", "to", "subject", "text",
                                                          [buffer(value)])
         assert len(message.get_payload()) == 2  # text body plus attachment
         assert isinstance(message.get_payload()[1], MIMEApplication)
@@ -94,13 +108,13 @@ class TestSendMailCreateMessageAttachments:
 
 class TestSendMailValidateEmailString:
     @pytest.mark.parametrize("bad_email", ["a", "a@", "a+b", "@b.com"])
-    def test_errors_with_invalid_emails(self, bad_email):
+    def test_errors_with_invalid_emails(self, dummy_sendmail, bad_email):
         with pytest.raises(ValueError):
-            SendMail()._validate_email_string(bad_email)
+            dummy_sendmail._validate_email_string(bad_email)
 
     @pytest.mark.parametrize("good_email", ["a@b", "a+b@c", "a@d.com", "a@b.org"])
-    def test_passes_valid_emails(self, good_email):
-        SendMail()._validate_email_string(good_email)
+    def test_passes_valid_emails(self, dummy_sendmail, good_email):
+        dummy_sendmail._validate_email_string(good_email)
 
 
 class TestSendMailSendEmail:
@@ -108,14 +122,17 @@ class TestSendMailSendEmail:
     @pytest.fixture(scope="function")
     def patched_sendmail(self):
         class PatchedSendMail(SendMail):
+            def __init__(self):
+                pass
+
             def _send_message(self, message):
                 self.message = message  # Stores message for post-call introspection
         return PatchedSendMail()
 
     def test_errors_when_send_message_not_implemented(self):
         with pytest.raises(
-                NotImplementedError,
-                match="_send_message must be implemented for send_email to run"
+                TypeError,
+                match="Can't instantiate abstract class SendMail"
         ):
             SendMail().send_email("from@from.com", "to@to.com", "subject", "text")
 

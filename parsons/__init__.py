@@ -65,7 +65,6 @@ for module_path, connector_name in (
     ("parsons.newmode.newmode", "Newmode"),
     ("parsons.ngpvan.van", "VAN"),
     ("parsons.notifications.gmail", "Gmail"),
-    ("parsons.notifications.sendmail", "SendMail"),
     ("parsons.notifications.slack", "Slack"),
     ("parsons.notifications.smtp", "SMTP"),
     ("parsons.pdi.pdi", "PDI"),

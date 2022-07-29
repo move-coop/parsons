@@ -91,5 +91,5 @@ def test_smartmatch(
     )
     requests_mock.get(poll_resp["url"], content=raw_outgz)
 
-    results = ts.smartmatch(intable)
+    results = ts.smartmatch(intable).to_petl()
     assert list(final_outtable) == list(results)

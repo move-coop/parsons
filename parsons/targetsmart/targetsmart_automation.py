@@ -1,6 +1,22 @@
-"""https://docs.targetsmart.com/my_tsmart/automation/developer.html
+"""**TargetSmart Automation**
 
-For matching applications, TargetSmart SmartMatch is now the recommended
+Parsons provides methods for interacting with TargetSmart Automation Workflows,
+a solution for executing custom file processing workflows programmatically. In
+some cases, TargetSmart will provide custom list matching solutions using
+Automation Workflows. Most TargetSmart clients do not have these workflows and
+will only use the Developer API.
+
+**TargetSmart Developer API versus Automation**
+
+TargetSmart's Developer API provides an HTTP-based interface for consuming the
+general web services that TargetSmart provides. The TargetSmart Automation
+system solely provides a solution for consuming customized file processing
+workflows that are provisioned for specific client needs. TargetSmart
+Automation is based on SFTP instead of HTTP.
+
+https://docs.targetsmart.com/my_tsmart/automation/developer.html
+
+For most list matching applications, TargetSmart SmartMatch is now the recommended
 solution. See `TargetSmartAPI.smartmatch`.
 
 """
@@ -22,15 +38,9 @@ TS_SFTP_DIR = "automation"
 
 logger = logging.getLogger(__name__)
 
+
 # Automation matching documentation can be found here:
-# https://docs.targetsmart.com/developers/automation/index.html. A custom
-# matching workflow has been implemented by TargetSmart for TMC.
-
-# The columns are heavily customized by TS, so while I would like
-# to do more column validation and mapping, I'm not sure that is
-# going to be possible.
-
-
+# https://docs.targetsmart.com/my_tsmart/automation/developer.html.
 class TargetSmartAutomation(object):
     """
     * `Automation overview <https://docs.targetsmart.com/my_tsmart/automation/overview.html>`_
@@ -118,7 +128,9 @@ class TargetSmartAutomation(object):
                 call_back=call_back,
             )
             self.sftp.put_file(xml, f"{self.sftp_dir}/{job_name}.job.xml")
-            logger.info("Match configuration uploaded to TargetSmart.")
+            logger.info(
+                f"Payload uploaded to TargetSmart. Job type: {job_type}. Job name: {job_name}"
+            )
 
             # Check xml configuration status
             self.poll_config_status(job_name)
@@ -136,11 +148,16 @@ class TargetSmartAutomation(object):
             if remove_files:
                 self.remove_files(job_name)
 
-            # Log Stats
-            # TO DO: Provide some stats on the match
-
         # Return file as a Table
         return tbl
+
+    def execute(self, *args, **kwargs):
+        """Most Automation workflows perform list matching. However, it is possible that
+        a custom workflow might be provisioned for a client for other types of
+        file processing. The ``execute`` method is provided as an alias for the
+        ``match`` method which may be a confusing name in these cases.
+        """
+        self.match(*args, **kwargs)
 
     def create_job_xml(
         self, job_type, job_name, emails=None, status_key=None, call_back=None

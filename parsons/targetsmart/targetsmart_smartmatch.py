@@ -15,6 +15,8 @@ import uuid
 import petl
 import requests
 
+from parsons import Table
+
 logger = logging.getLogger(__name__)
 
 VALID_FIELDS = [
@@ -158,7 +160,7 @@ class SmartMatch:
         needed.
 
         `Args:`
-            input_table: Parsons table
+            input_table: Parsons or Petl table
                 A Parsons table with `header field names supported by SmartMatch <https://docs.targetsmart.com/developers/tsapis/v2/service/smartmatch.html#supported-field-identifiers>`_. Required.
             max_matches: int
                 By default only a single best match is returned for an input record. Increase to return additional potentially accurate matches for each input record. Value between 1-10. Default of 1.
@@ -184,6 +186,11 @@ class SmartMatch:
                 element fields based on your TargetSmart account configuration.
                 See :ref:`parsons-table` for output options.
         """  # noqa
+
+        # If `input_table` is a Parsons table, convert it to a Petl table.
+        if hasattr(input_table, "table"):
+            input_table = input_table.table
+
         url = self.connection.uri + "service/smartmatch"
         poll_url = f"{url}/poll"
 
@@ -194,7 +201,7 @@ class SmartMatch:
             )
 
         if not hasattr(input_table, "tocsv"):
-            raise ValueError("`input_table` isn't a valid Petl table.")
+            raise ValueError("`input_table` isn't a valid table.")
 
         if int(max_matches) > 10:
             raise ValueError("max_matches cannot be greater than 10")
@@ -308,4 +315,4 @@ class SmartMatch:
                         INTERNAL_JOIN_ID_CONFLICT, INTERNAL_JOIN_ID
                     )
 
-                return outtable
+                return Table(outtable)

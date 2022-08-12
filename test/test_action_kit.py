@@ -28,7 +28,7 @@ class TestActionKit(unittest.TestCase):
         pass
 
     @mock.patch.dict(os.environ, ENV_PARAMETERS)
-    def test_from_envrion(self):
+    def test_from_environ(self):
         actionkit = ActionKit()
         self.assertEqual(actionkit.domain, 'env_domain')
         self.assertEqual(actionkit.username, 'env_username')
@@ -145,6 +145,19 @@ class TestActionKit(unittest.TestCase):
         self.actionkit.conn.get.assert_called_with(
             'https://domain.actionkit.com/rest/v1/event/1/',
             params=None
+        )
+
+    def test_get_events(self):
+        # Test get events
+        resp_mock = mock.MagicMock()
+        type(resp_mock.get()).status_code = mock.PropertyMock(return_value=201)
+        type(resp_mock.get()).json = lambda x: {"meta": {"next": ""}, "objects": []}
+        self.actionkit.conn = resp_mock
+
+        self.actionkit.get_events(100, order_by='created_at')
+        self.actionkit.conn.get.assert_called_with(
+            'https://domain.actionkit.com/rest/v1/event/',
+            params={'order_by': 'created_at', '_limit': 100}
         )
 
     def test_get_event_create_page(self):
@@ -330,6 +343,53 @@ class TestActionKit(unittest.TestCase):
             'https://domain.actionkit.com/rest/v1/mailer/123/queue/',
             data=json.dumps({})
         )
+
+    def test_paginated_get(self):
+        # Test paginated_get
+        resp_mock = mock.MagicMock()
+        first_mock = mock.MagicMock()
+        second_mock = mock.MagicMock()
+        first_mock.status_code = 201
+        first_mock.json = lambda: {"meta": {"next": "/rest/v1/user/abc"},
+                                   "objects": list(map(lambda x: {"value": x}, [*range(100)]))}
+        second_mock.status_code = 201
+        second_mock.json = lambda: {"meta": {"next": "/rest/v1/user/def"},
+                                    "objects": list(map(lambda x: {"value": x},
+                                                        [*range(100, 200)]))}
+        resp_mock.get.side_effect = [first_mock, second_mock]
+        self.actionkit.conn = resp_mock
+        results = self.actionkit.paginated_get('user', 150, order_by='created_at')
+        self.assertEqual(results.num_rows, 150)
+        calls = [unittest.mock.call('https://domain.actionkit.com/rest/v1/user/',
+                                    params={'order_by': 'created_at', '_limit': 100}),
+                 unittest.mock.call('https://domain.actionkit.com/rest/v1/user/abc')
+                 ]
+        self.actionkit.conn.get.assert_has_calls(calls)
+
+    def test_paginated_get_custom_limit(self):
+        # Test paginated_get
+        resp_mock = mock.MagicMock()
+        first_mock = mock.MagicMock()
+        second_mock = mock.MagicMock()
+        first_mock.status_code = 201
+        first_mock.json = lambda: {"meta": {"next": "/rest/v1/user/abc"},
+                                   "objects": list(map(lambda x: {"value": x}, [*range(100)]))}
+        second_mock.status_code = 201
+        second_mock.json = lambda: {"meta": {"next": "/rest/v1/user/def"},
+                                    "objects": list(map(lambda x: {"value": x},
+                                                        [*range(100, 200)]))}
+        resp_mock.get.side_effect = [first_mock, second_mock]
+        self.actionkit.conn = resp_mock
+        results = self.actionkit.paginated_get_custom_limit(
+            'user', 150, 'value', 102)
+        self.assertEqual(results.num_rows, 102)
+        self.assertEqual(results.column_data('value')[0], 0)
+        self.assertEqual(results.column_data('value')[-1], 101)
+        calls = [unittest.mock.call('https://domain.actionkit.com/rest/v1/user/',
+                                    params={'order_by': 'value', '_limit': 100}),
+                 unittest.mock.call('https://domain.actionkit.com/rest/v1/user/abc')
+                 ]
+        self.actionkit.conn.get.assert_has_calls(calls)
 
     def test_update_order(self):
         # Test update order

@@ -181,11 +181,16 @@ class ETL(object):
 
         cols = self.get_columns_type_stats()
 
+        def str_or_empty(x):
+            if x is None:
+                return ""
+            return str(x)
+
         for col in cols:
             # If there's more than one type (or no types), convert to str
             # Also if there is one type and it's not str, convert to str
             if len(col['type']) != 1 or col['type'][0] != 'str':
-                self.convert_column(col['name'], str)
+                self.convert_column(col['name'], str_or_empty)
 
         return self
 

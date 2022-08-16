@@ -38,22 +38,26 @@ class MobileCommons:
         broadcast_table = Table()
 
         #MC page limit is 1000 for broadcasts
-        page_limit = 1000 if limit > 1000 or limit is None else limit
+        page_limit = 20 if limit > 20 or limit is None else limit
         params = f'limit={str(page_limit)}'
         response = self.client.request('broadcasts' + self.companyid_param, 'GET', params=params)
         if response.status_code == 200:
-            response_dict = xmltodict.parse(response.text)
+            response_dict = xmltodict.parse(response.text, attr_prefix='', cdata_key='',
+                                            dict_constructor=dict)
             response_table = Table(response_dict['response']['broadcasts']['broadcast'])
+            response_table.unpack_dict('campaign')
             broadcast_table.concat(response_table)
-            page_count = response_dict['response']['broadcasts']['page_count']
-            if page_count > 1:
-                for i in page_count:
-                    page_params = params + f'&page={str(i)}'
-                    response = self.client.request('broadcasts' + self.companyid_param, 'GET',
-                                                   params=page_params)
-                    response_dict = xmltodict.parse(response.text)
-                    response_table = Table(response_dict['response']['broadcasts']['broadcast'])
-                    broadcast_table.concat(response_table)
+            page_count = int(response_dict['response']['broadcasts']['page_count'])
+            i = 2
+            while i <= page_count:
+                page_params = params + f'&page={str(i)}'
+                response = self.client.request('broadcasts' + self.companyid_param, 'GET',
+                                               params=page_params)
+                response_dict = xmltodict.parse(response.text, attr_prefix='', cdata_key='',
+                                                dict_constructor=dict)
+                response_table = Table(response_dict['response']['broadcasts']['broadcast'])
+                broadcast_table.concat(response_table)
+                i += 1
         else:
             error = f'Response Code {str(response.status_code)}'
             error_html = BeautifulSoup(response.text, features='html.parser')

@@ -5,6 +5,7 @@ from bs4 import BeautifulSoup
 from requests import HTTPError
 import xmltodict
 import logging
+import math
 
 logger = logging.getLogger(__name__)
 
@@ -32,31 +33,34 @@ class MobileCommons:
         self.companyid_param = f'?company={companyid}' if companyid else ''
         self.client = APIConnector(uri=MC_URI, auth=(self.username,self.password))
 
-    def get_broadcasts(self, start_time=None, end_time=None, status=None, campaign_id=None,
-                       limit=None):
-
-        broadcast_table = Table()
-
-        #MC page limit is 1000 for broadcasts
-        page_limit = 20 if limit > 20 or limit is None else limit
-        params = f'limit={str(page_limit)}'
-        response = self.client.request('broadcasts' + self.companyid_param, 'GET', params=params)
+    def mc_get_request(self, endpoint, data_key, params, cols_to_unpack, limit):
+        final_table = Table()
+        page_limit = 1000 if limit > 1000 or limit is None else limit
+        logger.info(f'Working on fetching first {page_limit} rows. '
+                    f'Each 1000 rows will take aproximately 40 seconds to fetch.')
+        params += f'limit={str(page_limit)}'
+        response = self.client.request(endpoint + self.companyid_param, 'GET', params=params)
         if response.status_code == 200:
             response_dict = xmltodict.parse(response.text, attr_prefix='', cdata_key='',
                                             dict_constructor=dict)
-            response_table = Table(response_dict['response']['broadcasts']['broadcast'])
-            response_table.unpack_dict('campaign')
-            broadcast_table.concat(response_table)
-            page_count = int(response_dict['response']['broadcasts']['page_count'])
+            response_table = Table(response_dict['response'][endpoint][data_key])
+            for col in cols_to_unpack:
+                response_table.unpack_dict(col)
+            final_table.concat(response_table)
+            avail_pages = int(response_dict['response'][endpoint]['page_count'])
+            req_pages = math.ceil(limit/page_limit)
+            pages_to_get = avail_pages if avail_pages < req_pages else req_pages
             i = 2
-            while i <= page_count:
+            while i <= pages_to_get:
                 page_params = params + f'&page={str(i)}'
-                response = self.client.request('broadcasts' + self.companyid_param, 'GET',
+                logger.info(f'Fetching rows {str(i*page_limit)} - {str((i+1)*page_limit)} '
+                            f'of {limit}')
+                response = self.client.request(endpoint + self.companyid_param, 'GET',
                                                params=page_params)
                 response_dict = xmltodict.parse(response.text, attr_prefix='', cdata_key='',
                                                 dict_constructor=dict)
-                response_table = Table(response_dict['response']['broadcasts']['broadcast'])
-                broadcast_table.concat(response_table)
+                response_table = Table(response_dict['response'][endpoint][data_key])
+                final_table.concat(response_table)
                 i += 1
         else:
             error = f'Response Code {str(response.status_code)}'
@@ -65,4 +69,10 @@ class MobileCommons:
             error += '\n' + error_html.p.next
             raise HTTPError(error)
 
-        return broadcast_table
+        return final_table
+
+    def get_broadcasts(self, start_time=None, end_time=None, status=None, campaign_id=None,
+                         limit=None):
+        params = ''
+        return self.mc_get_request(endpoint='broadcasts', data_key='broadcast',
+                                   params=params, cols_to_unpack=['campaign'], limit=limit)

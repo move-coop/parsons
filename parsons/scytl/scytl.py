@@ -7,23 +7,11 @@ from dateutil.parser import parse as parsedate
 from pytz import timezone
 from io import BytesIO, StringIO
 
-
-class CountyDetails:
-    def __init__(self, state: str, county_name: str, county_election_id: str, county_version_num: str, county_update_date: datetime):
-        self.state = state
-        self.county_name = county_name
-        self.county_election_id = county_election_id
-        self.county_version_num = county_version_num
-        self.county_update_date = county_update_date
-
-
-# URLs
 get_version_url = 'https://results.enr.clarityelections.com/{state}/{election_id}/current_ver.txt'
 statewide_summary_csv_url = 'https://results.enr.clarityelections.com//{state}//{election_id}/{version_num}/reports/summary.zip'
 statewide_detail_xml_url = 'https://results.enr.clarityelections.com//{state}/{election_id}/{version_num}/reports/detailxml.zip'
 county_detail_xml_url = 'https://results.enr.clarityelections.com//{state}/{county_name}/{county_election_id}/{county_version_num}/reports/detailxml.zip'
 state_detail_settings_json_url = 'https://results.enr.clarityelections.com//{state}/{election_id}/{version_num}/json/en/electionsettings.json'
-
 
 tzinfos = {
     "EST": "UTC-5",
@@ -37,14 +25,33 @@ tzinfos = {
     "AKST": "UTC-9",
     "AKDT": "UTC-8",
     "HST": "UTC-10",
-    "HDT": "UTC-0",
+    "HDT": "UTC-9",
 }
 
 
+class CountyDetails:
+    def __init__(self, state: str, county_name: str, county_election_id: str, county_version_num: str, county_update_date: datetime):
+        self.state = state
+        self.county_name = county_name
+        self.county_election_id = county_election_id
+        self.county_version_num = county_version_num
+        self.county_update_date = county_update_date
+
+
 class Scytl(object):
+    """
+    Instantiate a Scytl connector.
 
+    `Args:`:
+        state: str
+            The short name of the government entity publishing election results, which can be found in the URL of the election's website. 
+            ex: "GA" or "TX/Dallas"
+        election_id: str
+            The numeric identifier for the election found in the url of the election's website.
+            ex: "114729"
+    """
 
-    def __init__(self, state, election_id):
+    def __init__(self, state: str, election_id: str):
         self.state = state
         self.election_id = election_id
 
@@ -254,11 +261,36 @@ class Scytl(object):
         return county_votes
 
 
-    def get_statewide_results(self):
+    def get_statewide_results(self, force_update = False):
+        """
+        Fetch the latest statewide results for the given election, across all contests.
+
+        Please note that all electoral entities administer their elections differently, so not all values will be populated if the entity doesn't provide them.
+
+        `Args:`
+            force_update: bool
+                If this is False, the connector will check to see if the current version matches the previously fetched version of the results. If the version has not been changed, no results will be fetched or returned.
+                Default: false
+        `Returns:`
+            list[dict]
+            The list should contain entries for each candidate in each office.
+            Each row will contain the following:
+            - state
+            - office
+            - ballots_cast (in the contest)
+            - reg_voters (eligible for the contest)
+            - counties_reporting
+            - total_counties
+            - precincts_reporting
+            - total_precincts
+            - candidate_name
+            - candidate_party (many states do not use this feature and instead include the party in the candidate name)
+            - recorded_votes (votes cast for the candidate)
+        """
 
         version_num = self._get_version(self.state, self.election_id)
 
-        if version_num == self.previous_statewide_version_num:
+        if not force_update and version_num == self.previous_statewide_version_num:
             return
         
         summary_csv_zip_url = statewide_summary_csv_url.format(
@@ -276,12 +308,13 @@ class Scytl(object):
                     'office': x.get('contest name'), 
                     'ballots_cast': x.get('ballots cast'),
                     'reg_voters': x.get('registered voters'),
-                    'counties_precincts_reporting': x.get('num Precinct rptg') or x.get('num Area rptg'),
-                    'total_counties_precincts': x.get('num Precinct total') or x.get('num Area total'),
+                    'counties_reporting': x.get('num Area rptg'),
+                    'total_counties': x.get('num Area total'),
+                    'precincts_reporting': x.get('num Precinct rptg'),
+                    'total_precincts': x.get('num Precinct total'),
                     'candidate_name': x.get('choice name'), 
                     'candidate_party': x.get('party name'), 
-                    'recorded_votes': x.get('total votes'),
-                    'timestamp_last_updated': x.get('ballots cast')
+                    'recorded_votes': x.get('total votes')
                 }, 
                 csv_data
             )
@@ -292,11 +325,37 @@ class Scytl(object):
         return data
 
 
-    def get_county_level_results(self):
+    def get_county_level_results(self, force_update = False):
+        """
+        Fetch the latest statewide results by county for the given election, across all contests.
+
+        Please note that all electoral entities administer their elections differently, so not all values will be populated if the entity doesn't provide them.
+
+        `Args:`
+            force_update: bool
+                If this is False, the connector will check to see if the current version matches the previously fetched version of the results. If the version has not been changed, no results will be fetched or returned.
+                Default: false
+        `Returns:`
+            list[dict]
+            The list should contain entries for each candidate in each office, per vote method and per county.
+            Each row will contain the following:
+            - state
+            - county_name
+            - office
+            - ballots_cast
+            - reg_voters
+            - precincts_reporting
+            - total_precincts
+            - vote_method (note: some states choose to differentiate results by vote method, while others do not)
+            - candidate_name
+            - candidate_party (many states do not use this feature and instead include the party in the candidate name)
+            - recorded_votes (votes cast for the candidate with this vote method in this county)
+            - timestamp_last_updated
+        """
         
         version_num = self._get_version(self.state, self.election_id)
 
-        if version_num == self.previous_county_version_num:
+        if not force_update and version_num == self.previous_county_version_num:
             return
         
         detail_xml_url = statewide_detail_xml_url.format(
@@ -317,12 +376,44 @@ class Scytl(object):
 
     def get_precinct_level_results(
         self,
-        county_names: list[str] = None
+        county_names: list[str] = None,
+        force_update = False
     ):
+        """
+        Fetch the latest results by precinct for the given election, across all contests.
+
+        Please note that all electoral entities administer their elections differently, so not all values will be populated if the entity doesn't provide them.
+
+        `Args:`
+            county_names: list[str]
+                The list of counties to get precinct-level results for.
+                Default: None (get all counties)
+            force_update: bool
+                If this is False, the connector will check to see if the current version matches the previously fetched version of the results. If the version has not been changed, no results will be fetched or returned.
+                Default: false
+
+        `Returns:`
+            list[dict]
+            The list should contain entries for each candidate in each office, per vote method, county, and precinct.
+            Each row will contain the following:
+            - state
+            - county_name
+            - county_id
+            - office
+            - ballots_cast
+            - reg_voters
+            - vote_method (note: some states choose to differentiate results by vote method, while others do not)
+            - candidate_name
+            - candidate_party (many states do not use this feature and instead include the party in the candidate name)
+            - precinct_name
+            - precinct_complete
+            - recorded_votes (votes cast for the candidate with this vote method in this county)
+            - timestamp_last_updated
+        """
 
         version_num = self._get_version(self.state, self.election_id)
 
-        if version_num == self.previous_precinct_version_num:
+        if not force_update and version_num == self.previous_precinct_version_num:
             return []
 
         county_details_list = self._get_latest_counties_scytl_info(
@@ -336,7 +427,8 @@ class Scytl(object):
             if county_names and not county_name in county_names:
                 continue
 
-            if county_name in self.previously_fetched_counties and \
+            if not force_update and \
+                county_name in self.previously_fetched_counties and \
                 self.previous_county_details_list and \
                 county_details.county_update_date <= self.previous_county_details_list[county_name].county_update_date:
                 continue

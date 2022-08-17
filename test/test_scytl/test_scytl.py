@@ -1,13 +1,11 @@
-import unittest, os, requests_mock, csv, json
-from parsons.scytl import scytl
-from parsons import Table
+import unittest, os, requests_mock, csv
+from parsons.scytl import Scytl, scytl
 
 TEST_STATE = 'GA'
 TEST_ELECTION_ID = '114729'
 TEST_VERSION_NUM = '296262'
 
 _dir = os.path.dirname(__file__)
-
 
 class TestScytl(unittest.TestCase):
 
@@ -22,25 +20,39 @@ class TestScytl(unittest.TestCase):
         with open(f'{_dir}/114729_summary.zip', 'r') as summary:
             m.get(mock_url, body=summary)
 
-        scy = scytl.Scytl(TEST_STATE, TEST_ELECTION_ID)
+        scy = Scytl(TEST_STATE, TEST_ELECTION_ID)
         result = scy.get_statewide_results()
 
         with open(f'{_dir}/114729_summary_expected.csv', 'r') as expected:
-            expectedResult = list(csv.DictReader(expected, delimiter=","))
-            self.assertListEqual(expectedResult, result)
+            expectedResult = list(csv.DictReader(expected, delimiter=",", ))
+
+            for i, row in enumerate(result):
+                expectedResultRow = expectedResult[i]
+
+                expectedResultRow['counties_reporting'] = expectedResultRow['counties_reporting'] or None
+                expectedResultRow['total_counties'] = expectedResultRow['total_counties'] or None
+
+                self.assertDictEqual(row, expectedResultRow)
 
 
     @requests_mock.Mocker()
     def test_statewide_results_skips_if_no_version_update(self, m: requests_mock.Mocker):
         self._mock_responses(m)
 
-        scy = scytl.Scytl(TEST_STATE, TEST_ELECTION_ID)
+        scy = Scytl(TEST_STATE, TEST_ELECTION_ID)
 
-        scy.previous_statewide_version_num = TEST_VERSION_NUM
+        result = scy.get_statewide_results()
+
+        assert result != None
 
         result = scy.get_statewide_results()
 
         assert result == None
+
+        result = scy.get_statewide_results(True)
+
+        assert result != None
+
 
     @requests_mock.Mocker()
     def test_county_level_results_succeeds(self, m: requests_mock.Mocker):
@@ -53,7 +65,7 @@ class TestScytl(unittest.TestCase):
         with open(f'{_dir}/114729_detailxml.zip', 'r') as detailxml:
             m.get(mock_url, body=detailxml)
 
-        scy = scytl.Scytl(TEST_STATE, TEST_ELECTION_ID)
+        scy = Scytl(TEST_STATE, TEST_ELECTION_ID)
 
         result = scy.get_county_level_results()
 
@@ -74,19 +86,26 @@ class TestScytl(unittest.TestCase):
     def test_county_level_results_skips_if_no_version_update(self, m: requests_mock.Mocker):
         self._mock_responses(m)
 
-        scy = scytl.Scytl(TEST_STATE, TEST_ELECTION_ID)
+        scy = Scytl(TEST_STATE, TEST_ELECTION_ID)
         
-        scy.previous_county_version_num = TEST_VERSION_NUM
+        result = scy.get_county_level_results()
+
+        assert result != None
 
         result = scy.get_county_level_results()
         
         assert result == None
 
+        result = scy.get_county_level_results(True)
+
+        assert result != None
+
+
     @requests_mock.Mocker()
     def test_precinct_level_results_succeeds(self, m: requests_mock.Mocker):
         self._mock_responses(m)
 
-        scy = scytl.Scytl(TEST_STATE, TEST_ELECTION_ID)
+        scy = Scytl(TEST_STATE, TEST_ELECTION_ID)
         
         result = scy.get_precinct_level_results()
 
@@ -107,7 +126,7 @@ class TestScytl(unittest.TestCase):
     def test_precinct_level_results_succeeds_for_two_counties(self, m: requests_mock.Mocker):
         self._mock_responses(m)
 
-        scy = scytl.Scytl(TEST_STATE, TEST_ELECTION_ID)
+        scy = Scytl(TEST_STATE, TEST_ELECTION_ID)
 
         counties = ['Barrow', 'Clarke']
         
@@ -133,7 +152,7 @@ class TestScytl(unittest.TestCase):
     def test_precinct_level_results_missing_counties_update(self, m: requests_mock.Mocker):
         self._mock_responses(m)
 
-        scy = scytl.Scytl(TEST_STATE, TEST_ELECTION_ID)
+        scy = Scytl(TEST_STATE, TEST_ELECTION_ID)
 
         counties = ['Barrow', 'Clarke']
         
@@ -156,7 +175,7 @@ class TestScytl(unittest.TestCase):
     def test_precinct_level_results_skips_if_no_version_update(self, m: requests_mock.Mocker):
         self._mock_responses(m)
 
-        scy = scytl.Scytl(TEST_STATE, TEST_ELECTION_ID)
+        scy = Scytl(TEST_STATE, TEST_ELECTION_ID)
 
         result = scy.get_precinct_level_results()
 
@@ -166,12 +185,16 @@ class TestScytl(unittest.TestCase):
 
         assert result == []
 
+        result = scy.get_precinct_level_results(force_update = True)
+
+        assert result != []
+
 
     @requests_mock.Mocker()
     def test_precinct_level_results_skips_if_no_county_version_update(self, m: requests_mock.Mocker):
         self._mock_responses(m)
 
-        scy = scytl.Scytl(TEST_STATE, TEST_ELECTION_ID)
+        scy = Scytl(TEST_STATE, TEST_ELECTION_ID)
         
         result = scy.get_precinct_level_results()
 
@@ -188,7 +211,7 @@ class TestScytl(unittest.TestCase):
     def test_precinct_level_results_repeats_failed_counties(self, m: requests_mock.Mocker):
         self._mock_responses(m)
 
-        scy = scytl.Scytl(TEST_STATE, TEST_ELECTION_ID)
+        scy = Scytl(TEST_STATE, TEST_ELECTION_ID)
         
         result = scy.get_precinct_level_results()
 

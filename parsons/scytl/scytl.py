@@ -1,4 +1,4 @@
-import json, urllib, zipfile, csv, requests
+import urllib, zipfile, csv, requests
 import urllib.error
 import urllib.request
 import xml.etree.ElementTree as ET
@@ -16,16 +16,13 @@ class CountyDetails:
         self.county_version_num = county_version_num
         self.county_update_date = county_update_date
 
-        self.succeeded = False
-
 
 # URLs
-get_version_url = 'https://results.enr.clarityelections.com/{state}/{county_name}/{election_id}/current_ver.txt'
+get_version_url = 'https://results.enr.clarityelections.com/{state}/{election_id}/current_ver.txt'
 statewide_summary_csv_url = 'https://results.enr.clarityelections.com//{state}//{election_id}/{version_num}/reports/summary.zip'
 statewide_detail_xml_url = 'https://results.enr.clarityelections.com//{state}/{election_id}/{version_num}/reports/detailxml.zip'
 county_detail_xml_url = 'https://results.enr.clarityelections.com//{state}/{county_name}/{county_election_id}/{county_version_num}/reports/detailxml.zip'
-state_detail_url = 'https://results.enr.clarityelections.com//{state}/{election_id}/{version}/json/en/electionsettings.json'
-county_detail_url = 'https://results.enr.clarityelections.com//{state}/{county_name}/{election_id}/{version}/json/en/electionsettings.json'
+state_detail_settings_json_url = 'https://results.enr.clarityelections.com//{state}/{election_id}/{version_num}/json/en/electionsettings.json'
 
 
 tzinfos = {
@@ -55,6 +52,7 @@ class Scytl(object):
         self.previous_county_version_num = None
         self.previous_precinct_version_num = None
         self.previous_county_details_list = None
+        self.previously_fetched_counties = set([])
 
 
     def _parse_date_to_utc(self, input_dt):
@@ -96,44 +94,31 @@ class Scytl(object):
             print ('HTTPError: {} {}'.format(e.code, detail_xml_url))
 
 
-    def _get_latest_counties_scytl_info(self, state, election_id, version, county_name = '') -> dict[str, CountyDetails]:
+    def _get_latest_counties_scytl_info(self, state, election_id, version) -> dict[str, CountyDetails]:
 
         county_dict = {}
-        
-        if county_name == '':            
-            config_state_detail_url = state_detail_url.format(state=state, election_id=election_id, version=version)
-
-            state_detail_res = requests.get(config_state_detail_url)
-            state_detail = state_detail_res.json()
                 
-            participating_counties = state_detail['settings']['electiondetails']['participatingcounties']
+        config_state_detail_url = state_detail_settings_json_url.format(
+            state=state, election_id=election_id, version_num=version
+        )
 
-            for county_row in participating_counties:
-                county_info = county_row.split('|')
-                source_county_name = county_info[0]
-                county_election_id = county_info[1]
-                county_version_num = county_info[2]
-                county_update_date = self._parse_date_to_utc(county_info[3])
-
-                county_details = CountyDetails(
-                    state, source_county_name, county_election_id, county_version_num, county_update_date
-                )
-                        
-                county_dict[source_county_name] = county_details
-                
-        else:
-            config_county_detail_url = county_detail_url.format(state=state, county_name=county_name, election_id=election_id, version=version)
-
-            county_detail_res = requests.get(config_county_detail_url)
-            county_detail = county_detail_res.json()
+        state_detail_res = requests.get(config_state_detail_url)
+        state_detail = state_detail_res.json()
             
-            county_update_date = self._parse_date_to_utc(county_detail['websiteupdatedat'])
-            
+        participating_counties = state_detail['settings']['electiondetails']['participatingcounties']
+
+        for county_row in participating_counties:
+            county_info = county_row.split('|')
+            source_county_name = county_info[0]
+            county_election_id = county_info[1]
+            county_version_num = county_info[2]
+            county_update_date = self._parse_date_to_utc(county_info[3])
+
             county_details = CountyDetails(
-                state, county_name, election_id, version, county_update_date
+                state, source_county_name, county_election_id, county_version_num, county_update_date
             )
                     
-            county_dict[county_details.key] = county_details
+            county_dict[source_county_name] = county_details
 
         return county_dict
 
@@ -335,28 +320,25 @@ class Scytl(object):
         county_names: list[str] = None
     ):
 
-        single_county = county_names[0] if county_names and len(county_names) == 1 else ''
-
-        version_num = self._get_version(self.state, self.election_id, single_county)
+        version_num = self._get_version(self.state, self.election_id)
 
         if version_num == self.previous_precinct_version_num:
-            return
+            return []
 
         county_details_list = self._get_latest_counties_scytl_info(
-            self.state, self.election_id, version_num, single_county
+            self.state, self.election_id, version_num
         )
 
         parsed_data = []
+        fetched_counties = []
 
         for county_name, county_details in county_details_list.items():
-            if county_names and county_name in county_names:
+            if county_names and not county_name in county_names:
                 continue
 
-            if self.previous_county_details_list and \
-                (
-                    self.previous_county_details_list[county_name].status == 0 or
-                    county_details.county_update_date <= self.previous_county_details_list[county_name].county_update_date
-                ):
+            if county_name in self.previously_fetched_counties and \
+                self.previous_county_details_list and \
+                county_details.county_update_date <= self.previous_county_details_list[county_name].county_update_date:
                 continue
 
             timestamp = county_details.county_update_date
@@ -372,15 +354,12 @@ class Scytl(object):
                 
             if county_data:
                 parsed_data += self._parse_county_xml_data_to_precincts(county_details, county_data, timestamp)
-                county_details.status = 1
 
-            else:
-                county_details.status = 0               
+                fetched_counties.append(county_name)
             
 
         self.previous_precinct_version_num = version_num
         self.previous_county_details_list = county_details_list
+        self.previously_fetched_counties = set(fetched_counties)
 
         return parsed_data
-
-    

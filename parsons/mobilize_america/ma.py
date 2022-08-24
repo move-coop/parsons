@@ -136,8 +136,8 @@ class MobilizeAmerica(object):
                 running and want to ensure that the column headers remain static.
 
         `Returns`
-            Parsons Table or dict or Parsons Tables
-                See :ref:`parsons-table` for output options.
+            Parsons Table or dict
+                See :ref:`timeslot_table` for output options.
         """
 
         if isinstance(organization_id, (str, int)):

@@ -53,7 +53,7 @@ class Codes(object):
                 See :ref:`parsons-table` for output options.
         """
 
-        c = self.connection.request(f'codes/{code_id}')
+        c = self.connection.get_request(f'codes/{code_id}')
         logger.debug(c)
         logger.info(f'Found code {code_id}.')
         return c
@@ -115,7 +115,7 @@ class Codes(object):
 
             se = [{'name': s['name'],
                    'isSearchable': s['is_searchable'],
-                   'is_applicable': s['is_applicable']} for s in supported_entities]
+                   'isApplicable': s['is_applicable']} for s in supported_entities]
 
             json['supportedEntities'] = se
 
@@ -175,7 +175,7 @@ class Codes(object):
 
             se = [{'name': s['name'],
                    'isSearchable': s['is_searchable'],
-                   'is_applicable': s['is_applicable']} for s in supported_entities]
+                   'isApplicable': s['is_applicable']} for s in supported_entities]
             post_data['supportedEntities'] = se
 
         r = self.connection.put_request(f'codes/{code_id}', json=post_data)

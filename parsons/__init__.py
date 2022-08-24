@@ -3,11 +3,15 @@ import logging
 
 # Provide shortcuts to importing Parsons submodules
 
-# If you want to be more targeted in your imports, you can set the PARSONS_SKIP_IMPORT_ALL
-# environment variable and import classes directly from the Python module where they
-# are defined.
+# If you want to be more targeted in your imports, you can set the
+# PARSONS_LIMITED_DEPENDENCIES environment variable and import classes directly
+# from the Python module where they are defined.
+# PARSONS_SKIP_IMPORT_ALL is still checked for backwards compatibility
 
-if not os.environ.get('PARSONS_SKIP_IMPORT_ALL'):
+if not (
+    os.environ.get('PARSONS_LIMITED_DEPENDENCIES')
+    or os.environ.get('PARSONS_SKIP_IMPORT_ALL')
+):
     from parsons.ngpvan.van import VAN
     from parsons.targetsmart.targetsmart_api import TargetSmartAPI
     from parsons.targetsmart.targetsmart_automation import TargetSmartAutomation
@@ -26,6 +30,7 @@ if not os.environ.get('PARSONS_SKIP_IMPORT_ALL'):
     from parsons.google.google_cloud_storage import GoogleCloudStorage
     from parsons.google.google_bigquery import GoogleBigQuery
     from parsons.phone2action.p2a import Phone2Action
+    from parsons.capitol_canary.capitol_canary import CapitolCanary
     from parsons.mobilize_america.ma import MobilizeAmerica
     from parsons.facebook_ads.facebook_ads import FacebookAds
     from parsons.turbovote.turbovote import TurboVote
@@ -61,6 +66,7 @@ if not os.environ.get('PARSONS_SKIP_IMPORT_ALL'):
     from parsons.redash.redash import Redash
     from parsons.bluelink import Bluelink
     from parsons.braintree.braintree import Braintree
+    from parsons.auth0.auth0 import Auth0
 
     __all__ = [
         'VAN',
@@ -78,6 +84,7 @@ if not os.environ.get('PARSONS_SKIP_IMPORT_ALL'):
         'GoogleBigQuery',
         'GoogleSheets',
         'Phone2Action',
+        'CapitolCanary',
         'MobilizeAmerica',
         'FacebookAds',
         'Slack',
@@ -116,7 +123,8 @@ if not os.environ.get('PARSONS_SKIP_IMPORT_ALL'):
         'Bluelink',
         'Braintree',
         'SMTP',
-        'SendMail'
+        'SendMail',
+        'Auth0'
     ]
 
 # Define the default logging config for Parsons and its submodules. For now the

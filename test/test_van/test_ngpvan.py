@@ -1,8 +1,7 @@
 import os
 import unittest
 import requests_mock
-from parsons.ngpvan.van import VAN
-from parsons.etl.table import Table
+from parsons import VAN, Table
 from test.utils import validate_list, assert_matching_tables
 from requests.exceptions import HTTPError
 

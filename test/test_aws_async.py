@@ -1,7 +1,7 @@
 import unittest
 from test.utils import assert_matching_tables
 
-from parsons.etl.table import Table
+from parsons import Table
 from parsons.aws.aws_async import import_and_get_task, get_func_task_path
 from parsons.aws.lambda_distribute import distribute_task
 

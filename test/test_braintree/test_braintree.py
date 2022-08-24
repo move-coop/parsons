@@ -5,8 +5,7 @@ import unittest
 import requests_mock
 from test.utils import assert_matching_tables
 
-from parsons.etl.table import Table
-from parsons.braintree.braintree import Braintree
+from parsons import Table, Braintree
 
 _dir = os.path.dirname(__file__)
 

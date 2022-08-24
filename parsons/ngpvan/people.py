@@ -19,11 +19,11 @@ class People(object):
             Person find must include the following minimum combinations to conduct
             a search.
 
-            - first_name, last_name, email
-            - first_name, last_name, phone
-            - first_name, last_name, zip5, date_of_birth
-            - first_name, last_name, street_number, street_name, zip5
-            - email_address
+              - first_name, last_name, email
+              - first_name, last_name, phone
+              - first_name, last_name, zip5, date_of_birth
+              - first_name, last_name, street_number, street_name, zip5
+              - email_address
 
         `Args:`
             first_name: str
@@ -68,11 +68,11 @@ class People(object):
             Person find must include the following minimum combinations to conduct
             a search.
 
-            - first_name, last_name, email
-            - first_name, last_name, phone
-            - first_name, last_name, zip5, date_of_birth
-            - first_name, last_name, street_number, street_name, zip5
-            - email_address
+              - first_name, last_name, email
+              - first_name, last_name, phone
+              - first_name, last_name, zip5, date_of_birth
+              - first_name, last_name, street_number, street_name, zip5
+              - email_address
 
         .. note::
             A full list of possible values for the json, and its structure can be found
@@ -173,11 +173,12 @@ class People(object):
 
         .. note::
             Person find must include the following minimum combinations.
-            - first_name, last_name, email
-            - first_name, last_name, phone
-            - first_name, last_name, zip5, date_of_birth
-            - first_name, last_name, street_number, street_name, zip5
-            - email_address
+
+              - first_name, last_name, email
+              - first_name, last_name, phone
+              - first_name, last_name, zip5, date_of_birth
+              - first_name, last_name, street_number, street_name, zip5
+              - email_address
 
         .. warning::
             This method can only be run on MyMembers, EveryAction, MyCampaign databases.
@@ -225,11 +226,12 @@ class People(object):
 
         .. note::
             Person find must include the following minimum combinations.
-            - first_name, last_name, email
-            - first_name, last_name, phone
-            - first_name, last_name, zip5, date_of_birth
-            - first_name, last_name, street_number, street_name, zip5
-            - email_address
+
+              - first_name, last_name, email
+              - first_name, last_name, phone
+              - first_name, last_name, zip5, date_of_birth
+              - first_name, last_name, street_number, street_name, zip5
+              - email_address
 
         .. note::
             A full list of possible values for the json, and its structure can be found
@@ -358,15 +360,15 @@ class People(object):
         id_type = '' if id_type in ('vanid', None) else f"{id_type}:"
         url += id_type + str(id)
 
-        expand_fields = ','.join([json_format.arg_format(f) for f in expand_fields])
-
         # Removing the fields that are not returned in MyVoters
         NOT_IN_MYVOTERS = ['codes', 'contribution_history', 'organization_roles']
 
         if self.connection.db_code == 0:
             expand_fields = [v for v in expand_fields if v not in NOT_IN_MYVOTERS]
 
-        logger.info(f'Getting person with {id_type} of {id} at url {url}')
+        expand_fields = ','.join([json_format.arg_format(f) for f in expand_fields])
+
+        logger.info(f'Getting person with {id_type or "vanid"} of {id} at url {url}')
         return self.connection.get_request(url, params={'$expand': expand_fields})
 
     def apply_canvass_result(self, id, result_code_id, id_type='vanid', contact_type_id=None,
@@ -441,7 +443,8 @@ class People(object):
         """
 
     def apply_response(self, id, response, id_type='vanid', contact_type_id=None,
-                       input_type_id=None, date_canvassed=None, result_code_id=None):
+                       input_type_id=None, date_canvassed=None, result_code_id=None,
+                       omit_contact=False):
         """
         Apply responses such as survey questions, activist codes, and volunteer actions
         to a person record. This method allows you apply multiple responses (e.g. two survey
@@ -469,6 +472,11 @@ class People(object):
             date_canvassed : str
                 `Optional`; ISO 8601 formatted date. Defaults to todays date
             responses : list or dict
+                The responses to apply.
+            omit_contact: boolean
+                Omit adding contact history to the response. This is particularly
+                useful when adding activist codes that are not based on contact
+                attempts.
         `Returns:`
             ``True`` if successful
 
@@ -493,7 +501,8 @@ class People(object):
         json = {"canvassContext": {
             "contactTypeId": contact_type_id,
             "inputTypeId": input_type_id,
-            "dateCanvassed": date_canvassed},
+            "dateCanvassed": date_canvassed,
+            "omitActivistCodeContactHistory": omit_contact},
             "resultCodeId": result_code_id}
 
         if response:

@@ -1,7 +1,7 @@
 import unittest
 import os
 import requests_mock
-from parsons.ngpvan.van import VAN
+from parsons import VAN
 from test.utils import assert_matching_tables
 from requests.exceptions import HTTPError
 
@@ -36,6 +36,24 @@ class TestCodes(unittest.TestCase):
 
         m.get(self.van.connection.uri + 'codes', json=json)
         assert_matching_tables(json['items'], self.van.get_codes())
+
+    @requests_mock.Mocker()
+    def test_get_code(self, m):
+
+        json = {'codeId': 1004916,
+                'parentCodeId': None,
+                'name': 'Data Entry',
+                'description': 'for test.',
+                'codePath': 'Data Entry',
+                'createdByName': '',
+                'dateCreated': '2018-07-13T15:16:00Z',
+                'supportedEntities': None,
+                'codeType': 'Tag',
+                'campaign': None,
+                'contactType': None}
+
+        m.get(self.van.connection.uri + 'codes/1004916', json=json)
+        self.assertEqual(json, self.van.get_code(1004916))
 
     @requests_mock.Mocker()
     def test_get_code_types(self, m):

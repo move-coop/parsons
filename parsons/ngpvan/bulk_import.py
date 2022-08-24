@@ -318,27 +318,6 @@ class BulkImport(object):
                                      result_fields=result_fields,
                                      **url_kwargs)
 
-    def create_mapping_types(self, tbl):
-        # Internal method to generate the correct mapping types based on
-        # the columns passed in the table. Not in use yet.
-
-        mapping_types = []
-
-        # If one of the following columns is found in the table, then add
-        # that mapping type.
-        mp = [('firstname', '')
-              ('Email', 'Email'),
-              ('MailingAddress', 'MailingAddress'),
-              ('Phone', 'Phones'),
-              ('ApplyContactCustomFields', 'CustomFieldGroupId')]
-
-        for col in tbl.columns:
-            for i in mp:
-                if col.lower() == i[0].lower():
-                    mapping_types.append({'name': i[1]})
-
-        return mapping_types
-
 
 # This is a column mapper that is used to accept additional column names and provide
 # flexibility for the user.

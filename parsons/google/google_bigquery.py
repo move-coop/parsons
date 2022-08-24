@@ -22,6 +22,7 @@ BIGQUERY_TYPE_MAP = {
     'datetime.date': 'DATE',
     'datetime.time': 'TIME',
     'dict': 'RECORD',
+    'NoneType': 'STRING'
 }
 
 # Max number of rows that we query at a time, so we can avoid loading huge

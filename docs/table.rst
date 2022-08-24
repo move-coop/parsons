@@ -33,16 +33,16 @@ From Parsons Table
     * - :py:meth:`~parsons.etl.tofrom.ToFrom.to_sftp_csv`
       - SFTP Server
       - Write a table to a csv stored on an SFTP server
-    * - :py:meth:`~parsons.etl.tofrom.ToFrom.from_csv`
+    * - :py:meth:`~parsons.etl.tofrom.ToFrom.to_redshift`
       - A Redshift Database
       - Write a table to a Redshift database
-    * - :py:meth:`~parsons.etl.tofrom.ToFrom.from_postgres`
+    * - :py:meth:`~parsons.etl.tofrom.ToFrom.to_postgres`
       - A Postgres Database
       - Write a table to a Postgres database
     * - :py:meth:`~parsons.etl.tofrom.ToFrom.to_civis`
       - Civis Redshift Database
       - Write a table to Civis platform database
-    * - :py:meth:`~parsons.etl.tofrom.ToFrom.from_petl`
+    * - :py:meth:`~parsons.etl.tofrom.ToFrom.to_petl`
       - Petl table object
       - Convert a table a Petl table object
     * - :py:meth:`~parsons.etl.tofrom.ToFrom.to_json`
@@ -53,7 +53,17 @@ From Parsons Table
       - Write a table to a local html file
     * - :py:meth:`~parsons.etl.tofrom.ToFrom.to_dataframe`
       - Pandas Dataframe [1]_
-      - Return a Pandas dataframe 
+      - Return a Pandas dataframe
+    * - :py:meth:`~parsons.etl.tofrom.ToFrom.append_csv`
+      - CSV file
+      - Appends table to an existing CSV
+    * - :py:meth:`~parsons.etl.tofrom.ToFrom.to_zip_csv`
+      - ZIP file
+      - Writes a table to a CSV in a zip archive
+    * - :py:meth:`~parsons.etl.tofrom.ToFrom.to_dicts`
+      - Dicts
+      - Write a table as a list of dicts
+
 
 .. [1] Requires optional installation of Pandas package by running ``pip install pandas``.
 
@@ -76,7 +86,7 @@ Create Parsons Table object using the following methods.
     * - :py:meth:`~parsons.etl.tofrom.ToFrom.from_json`
       - File like object, local path, url, ftp.
       - Loads a json object into a Table
-    * - :py:meth:`~parsons.etl.tofrom.ToFrom.from_columns`    
+    * - :py:meth:`~parsons.etl.tofrom.ToFrom.from_columns`
       - List object
       - Loads lists organized as columns in Table
     * - :py:meth:`~parsons.etl.tofrom.ToFrom.from_redshift`
@@ -91,6 +101,9 @@ Create Parsons Table object using the following methods.
     * - :py:meth:`~parsons.etl.tofrom.ToFrom.from_s3_csv`
       - S3 CSV
       - Load a Parsons table from a csv file on S3
+    * - :py:meth:`~parsons.etl.tofrom.ToFrom.from_csv_string`
+      - File like object, local path, url, ftp.
+      - Load a CSV string into a Table
 
 .. [2] Requires optional installation of Pandas package by running ``pip install pandas``.
 
@@ -209,7 +222,7 @@ Parsons Table Indexing
 
 To access rows and columns of data within a Parsons table, you can index on them. To access a column
 pass in the column name as a string (e.g. ``tbl['a']``) and to access a row, pass in the row index as
-an integer (e.g. ``tbl[1]``). 
+an integer (e.g. ``tbl[1]``).
 
 .. code-block:: python
 
@@ -217,7 +230,7 @@ an integer (e.g. ``tbl[1]``).
 
     # Return a column as a list
     tbl['a']
-    >> [1, 3] 
+    >> [1, 3]
 
     # Return a row as a dict
     tbl[1]
@@ -293,8 +306,21 @@ An example:
   tbl.to_redshift('main.name_table')
 
 This "lazy" loading can be very convenient and performant. However, it can make issues hard to debug. Eg. if your data transformations are time-consuming, you won't actually notice that performance hit until you try to use the data, potentially much later in your code.
+There may also be cases where it's possible to get faster execution by caching a table,
+especially in situations where a single table will be used as the base for several subsequent calculations.
 
-So just be aware of this behavior.
+For these cases Parsons provides two utility functions to materialize a Table and all of its transformations.
+
+.. list-table::
+    :widths: 25 50
+    :header-rows: 1
+
+    * - Method
+      - Description
+    * - :py:meth:`~parsons.etl.table.Table.materialize`
+      - Load all data from the Table into memory and apply any transformations
+    * - :py:meth:`~parsons.etl.table.Table.materialize_to_file`
+      - Load all data from the Table and apply any transformations, then save to a local temp file.
 
 ********
 Examples
@@ -333,3 +359,9 @@ The following methods allow you to manipulate the Parsons table data.
 
 .. autoclass:: parsons.etl.etl.ETL
    :inherited-members:
+
+*********
+Materialize API
+*********
+.. autoclass:: parsons.etl.table.Table
+   :members: materialize, materialize_to_file

@@ -2,7 +2,6 @@ import re
 import boto3
 from parsons.utilities import files
 import logging
-import os
 
 logger = logging.getLogger(__name__)
 
@@ -21,11 +20,8 @@ class AWSConnection(object):
         # why that's not working.
 
         if aws_access_key_id and aws_secret_access_key:
-            # The AWS session token isn't needed most of the time, so we'll check
-            # for the env variable here instead of requiring it to be passed
-            # whenever the aws_access_key_id and aws_secret_access_key are passed.
-            if aws_session_token is None:
-                aws_session_token = os.getenv('AWS_SESSION_TOKEN')
+            # Trying to grab a session token from the environment variable can break things
+            # when used in concert with Zappa asynchronous processing, so don't force it here.
 
             self.session = boto3.Session(aws_access_key_id=aws_access_key_id,
                                          aws_secret_access_key=aws_secret_access_key,

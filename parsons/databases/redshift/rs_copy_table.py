@@ -141,7 +141,7 @@ class RedshiftCopyTable(object):
 
         # Convert table to compressed CSV file, to optimize the transfers to S3 and to
         # Redshift.
-        local_path = tbl.to_csv(temp_file_compression='gzip')
+        local_path = tbl.to_csv(temp_file_compression='gzip', encoding='utf-8')
         # Copy table to bucket
         self.s3.put_file(self.s3_temp_bucket, key, local_path)
 

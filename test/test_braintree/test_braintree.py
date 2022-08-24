@@ -57,12 +57,44 @@ class TestBraintree(unittest.TestCase):
         self.assertEqual(table[0]['id'], '1234abcd')
         self.assertEqual(table[1]['id'], '0987asdf')
         self.assertEqual(len(table[0].keys()), 1)
-        self.assertEqual(len(full_table[0].keys()), 64)
+        self.assertEqual(len(full_table[0].keys()), 67)
 
         self.assertEqual(full_table[0]['disbursement_date'], datetime.date(2019, 12, 30))
         self.assertEqual(full_table[0]['credit_card_bin'], '789234')
         self.assertEqual(full_table[0]['disbursement_success'], True)
         self.assertEqual(full_table[0]['amount'], decimal.Decimal('150.00'))
+
+    @requests_mock.Mocker()
+    def test_subscription_search(self, m):
+        m.post('https://api.braintreegateway.com:443'
+               '/merchants/abcd1234abcd1234/subscriptions/advanced_search_ids',
+               text="""
+               <search-results>
+                  <page-size type="integer">50</page-size>
+                  <ids type="array"><item>aabbcc</item> <item>1a2b3c</item> </ids>
+               </search-results>
+        """)
+        table = self.braintree.get_subscriptions(start_date="2022-08-22",
+                                                 end_date="2022-08-23",
+                                                 just_ids=True)
+        assert_matching_tables(table, Table([['id'], ['aabbcc'], ['1a2b3c']]))
+        m.post('https://api.braintreegateway.com:443'
+               '/merchants/abcd1234abcd1234/subscriptions/advanced_search',
+               text=open(f'{_dir}/test_data/subscription_example.xml').read())
+        full_table = self.braintree.get_subscriptions(start_date="2020-01-01",
+                                                      end_date="2020-01-02",
+                                                      table_of_ids=table, include_transactions=True)
+        self.assertEqual(len(table.table), 3)
+        self.assertEqual(len(full_table.table), 3)
+        self.assertEqual(table[0]['id'], 'aabbcc')
+        self.assertEqual(table[1]['id'], '1a2b3c')
+        self.assertEqual(len(table[0].keys()), 1)
+        self.assertEqual(len(full_table[0].keys()), 33)
+
+        self.assertEqual(full_table[0]['first_billing_date'], datetime.date(2022, 8, 22))
+        self.assertEqual(full_table[0]['transactions'][0].credit_card_details.bin, '999')
+        self.assertEqual(full_table[0]['never_expires'], True)
+        self.assertEqual(full_table[0]['price'], decimal.Decimal('10.00'))
 
     def test_query_generation(self):
         query = self.braintree._get_query_objects(

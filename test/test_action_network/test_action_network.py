@@ -138,8 +138,8 @@ class TestActionNetwork(unittest.TestCase):
             'family_name': 'McFakerson',
             'identifiers': [self.fake_person_id_1],
             'email_address': [{'primary': True,
-                                     'address': 'fakey@mcfakerson.com',
-                                     'status': 'unsubscribed'}],
+                               'address': 'fakey@mcfakerson.com',
+                               'status': 'unsubscribed'}],
             'created_date': self.fake_datetime,
             'modified_date': self.fake_datetime
         }

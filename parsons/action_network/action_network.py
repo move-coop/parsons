@@ -90,10 +90,14 @@ class ActionNetwork(object):
         """
         return self.api.get_request(url=f"people/{person_id}")
 
-    def add_person(self, email_address=None, given_name=None, family_name=None, tags=None,
-                   languages_spoken=None, postal_addresses=None, mobile_number=None,
-                   mobile_status='subscribed', **kwargs):
+    def upsert_person(self, email_address=None, given_name=None, family_name=None, tags=None,
+                      languages_spoken=None, postal_addresses=None, mobile_number=None,
+                      mobile_status='subscribed', **kwargs):
         """
+        Creates or updates a person record. In order to update an existing record instead of
+        creating a new one, you must supply an email or mobile number which matches a record
+        in the database.
+
         `Args:`
             email_address:
                 Either email_address or mobile_number are required. Can be any of the following
@@ -200,8 +204,25 @@ class ActionNetwork(object):
         logger.info(f"Entry {person_id} successfully added to people.")
         return response
 
+    def add_person(self, email_address=None, given_name=None, family_name=None, tags=None,
+                   languages_spoken=None, postal_addresses=None, mobile_number=None,
+                   mobile_status='subscribed', **kwargs):
+        """
+        Creates a person in the database. WARNING: this endpoint has been deprecated in favor of
+        upsert_person.
+        """
+        logger.warning("Method 'add_person' has been deprecated. Please use 'upsert_person'.")
+        # Pass inputs to preferred method:
+        self.upsert_person(email_address=email_address, given_name=given_name,
+                           family_name=family_name, languages_spoken=languages_spoken,
+                           postal_addresses=postal_addresses, mobile_number=mobile_number,
+                           mobile_status=mobile_status, **kwargs)
+
     def update_person(self, entry_id, **kwargs):
         """
+        Updates a person's data in Action Network. WARNING: this endpoint has been deprecated in
+        favor of upsert_person and may not work properly.
+
         `Args:`
             entry_id:
                 The person's Action Network id
@@ -235,8 +256,8 @@ class ActionNetwork(object):
                         https://actionnetwork.org/docs/v2/people#put
                     custom_fields:
                         A dictionary of any other fields to store about the person.
-        Updates a person's data in Action Network
         """
+        logger.warning("Method 'update_person' has been deprecated. Please use 'upsert_person'.")
         data = {**kwargs}
         response = self.api.put_request(url=f"{self.api_url}/people/{entry_id}",
                                         json=json.dumps(data), success_codes=[204, 201, 200])

@@ -201,7 +201,10 @@ class ActionNetwork(object):
         identifiers = response['identifiers']
         person_id = [entry_id.split(':')[1]
                      for entry_id in identifiers if 'action_network:' in entry_id][0]
-        logger.info(f"Entry {person_id} successfully added to people.")
+        if response['created_date'] == response['modified_date']:
+            logger.info(f"Entry {person_id} successfully added.")
+        else:
+            logger.info(f"Entry {person_id} successfully updated.")
         return response
 
     def add_person(self, email_address=None, given_name=None, family_name=None, tags=None,
@@ -220,8 +223,8 @@ class ActionNetwork(object):
 
     def update_person(self, entry_id, **kwargs):
         """
-        Updates a person's data in Action Network. WARNING: this endpoint has been deprecated in
-        favor of upsert_person and may not work properly.
+        Updates a person's data in Action Network, given their Action Network ID. Note that you
+        can't alter a person's tags with this method. Instead, use upsert_person.
 
         `Args:`
             entry_id:
@@ -246,8 +249,6 @@ class ActionNetwork(object):
                         The person's given name
                     family_name:
                         The person's family name
-                    tags:
-                        Any tags to be applied to the person
                     languages_spoken:
                         Optional field. A list of strings of the languages spoken by the person
                     postal_addresses:
@@ -257,10 +258,9 @@ class ActionNetwork(object):
                     custom_fields:
                         A dictionary of any other fields to store about the person.
         """
-        logger.warning("Method 'update_person' has been deprecated. Please use 'upsert_person'.")
         data = {**kwargs}
         response = self.api.put_request(url=f"{self.api_url}/people/{entry_id}",
-                                        json=json.dumps(data), success_codes=[204, 201, 200])
+                                        data=json.dumps(data), success_codes=[204, 201, 200])
         logger.info(f"Person {entry_id} successfully updated")
         return response
 

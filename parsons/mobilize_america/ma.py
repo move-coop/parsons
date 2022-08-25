@@ -103,6 +103,19 @@ class MobilizeAmerica(object):
                                                 'updated_since': date_to_timestamp(updated_since)
                                             }))
 
+    def get_promoted_organizations(self, organization_id):
+        """
+        Return all organizations promoted by the given organization.
+        
+        `Args:`
+            organization_id: int
+                ID of the organization to query.
+        `Returns`
+            Parsons Table
+        """
+        url = self.uri + 'organizations/' + str(organization_id) + '/promoted_organizations'
+        return Table(self._request_paginate(url, auth=True))
+
     def get_events(self, organization_id=None, updated_since=None, timeslot_start=None,
                    timeslot_end=None, timeslots_table=False, max_timeslots=None):
         """

@@ -337,7 +337,7 @@ class MobilizeAmerica(object):
             args = {'updated_since': date_to_timestamp(updated_since)}
             return Table(self._request_paginate(url, args=args, auth=True))
 
-    def get_attendances(self, organization_id=None, updated_since=None):
+    def get_attendances(self, organization_id, updated_since=None):
         """
         Fetch all attendances which were either promoted by the organization or
         were for events owned by the organization.
@@ -346,15 +346,14 @@ class MobilizeAmerica(object):
             API Key Required
 
         `Args:`
-            organization_id: list of int
-                Filter events by a single or multiple organization ids
+            organization_id: int
+                Filter attendances by an organization id
             updated_since: str
-                Filter to events updated since given date (ISO Date)
+                Filter to attendances updated since given date (ISO Date)
         `Returns`
             Parsons Table
                 See :ref:`parsons-table` for output options.
         """
-
         url = self.uri + 'organizations/' + str(organization_id) + '/attendances'
         args = {'updated_since': date_to_timestamp(updated_since)}
         return Table(self._request_paginate(url, args=args, auth=True))

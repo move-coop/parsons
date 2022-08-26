@@ -148,6 +148,8 @@ class MobilizeAmerica(object):
                 This is helpful in situations where you have a regular sync
                 running and want to ensure that the column headers remain static.
 
+                If ``max_timeslots`` is 0, no timeslot columns will be included.
+
         `Returns`
             Parsons Table or dict
                 See :ref:`timeslot_table` for output options.
@@ -174,6 +176,9 @@ class MobilizeAmerica(object):
 
                 timeslots_tbl = tbl.long_table(['id'], 'timeslots', 'event_id')
                 return {'events': tbl, 'timeslots': timeslots_tbl}
+
+            elif max_timeslots == 0:
+                tbl.remove_column('timeslots')
 
             else:
                 tbl.unpack_list('timeslots', replace=True, max_columns=max_timeslots)
@@ -242,6 +247,8 @@ class MobilizeAmerica(object):
                 This is helpful in situations where you have a regular sync
                 running and want to ensure that the column headers remain static.
 
+                If ``max_timeslots`` is 0, no timeslot columns will be included.
+
         `Returns`
             Parsons Table or Dictionary
                 See :ref:`timeslot_table` for output options.
@@ -267,6 +274,9 @@ class MobilizeAmerica(object):
 
                 timeslots_tbl = tbl.long_table(['id'], 'timeslots', 'event_id')
                 return {'events': tbl, 'timeslots': timeslots_tbl}
+
+            elif max_timeslots == 0:
+                tbl.remove_column('timeslots')
 
             else:
                 tbl.unpack_list('timeslots', replace=True, max_columns=max_timeslots)

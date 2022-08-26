@@ -5,6 +5,7 @@ import petl
 import re
 import os
 import logging
+import collections.abc
 
 logger = logging.getLogger(__name__)
 
@@ -310,26 +311,31 @@ class MobilizeAmerica(object):
 
         return Table(self._request_paginate(self.uri + 'events/deleted', args=args))
 
-    def get_people(self, organization_id=None, updated_since=None):
+    def get_people(self, organization_id, updated_since=None):
         """
-        Fetch all people (volunteers) who are affiliated with the organization.
+        Fetch all people (volunteers) who are affiliated with an organization(s).
 
         .. note::
             API Key Required
 
         `Args:`
-            organization_id: list of int
-                Filter events by a single or multiple organization ids
+            organization_id: Iterable or int
+                Request people associated with a single or multiple organization ids
             updated_since: str
-                Filter to events updated since given date (ISO Date)
+                Filter to people updated since given date (ISO Date)
         `Returns`
             Parsons Table
                 See :ref:`parsons-table` for output options.
         """
-
-        url = self.uri + 'organizations/' + str(organization_id) + '/people'
-        args = {'updated_since': date_to_timestamp(updated_since)}
-        return Table(self._request_paginate(url, args=args, auth=True))
+        if isinstance(organization_id, collections.abc.Iterable):
+            data = Table()
+            for id in organization_id:
+                data.concat(self.get_people(id, updated_since))
+            return data
+        else:
+            url = self.uri + 'organizations/' + str(organization_id) + '/people'
+            args = {'updated_since': date_to_timestamp(updated_since)}
+            return Table(self._request_paginate(url, args=args, auth=True))
 
     def get_attendances(self, organization_id=None, updated_since=None):
         """

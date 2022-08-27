@@ -184,10 +184,10 @@ To initialize the SMTP class you will need to tell it how to connect to the SMTP
 
 .. note::
   Environment Variables
-  * Instead of passing in values to initialize an instance of the SMTP class, you can set environment
-    variables to hold the values. The names of the environment variables are the names of the arguments
-    capitalized and prefixed with ``SMTP_``. For example, ``SMTP_HOST`` or ``SMTP_PASSWORD``. If both
-    an environment variable and an initialization argument are present, the argument will take precedence.
+    - Instead of passing in values to initialize an instance of the SMTP class, you can set environment
+      variables to hold the values. The names of the environment variables are the names of the arguments
+      capitalized and prefixed with ``SMTP_``. For example, ``SMTP_HOST`` or ``SMTP_PASSWORD``. If both
+      an environment variable and an initialization argument are present, the argument will take precedence.
 
 The easiest way to send a message:
 

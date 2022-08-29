@@ -122,7 +122,7 @@ class RedshiftCopyTable(object):
             aws_access_key_id,
             aws_secret_access_key)
 
-    def temp_s3_copy(self, tbl, aws_access_key_id=None, aws_secret_access_key=None):
+    def temp_s3_copy(self, tbl, aws_access_key_id=None, aws_secret_access_key=None, csv_encoding='utf-8'):
 
         if not self.s3_temp_bucket:
             raise KeyError(("Missing S3_TEMP_BUCKET, needed for transferring data to Redshift. "
@@ -141,7 +141,7 @@ class RedshiftCopyTable(object):
 
         # Convert table to compressed CSV file, to optimize the transfers to S3 and to
         # Redshift.
-        local_path = tbl.to_csv(temp_file_compression='gzip', encoding='utf-8')
+        local_path = tbl.to_csv(temp_file_compression='gzip', encoding=csv_encoding)
         # Copy table to bucket
         self.s3.put_file(self.s3_temp_bucket, key, local_path)
 

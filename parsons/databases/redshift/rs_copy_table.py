@@ -122,7 +122,8 @@ class RedshiftCopyTable(object):
             aws_access_key_id,
             aws_secret_access_key)
 
-    def temp_s3_copy(self, tbl, aws_access_key_id=None, aws_secret_access_key=None, csv_encoding='utf-8'):
+    def temp_s3_copy(self, tbl, aws_access_key_id=None, aws_secret_access_key=None,
+                     csv_encoding='utf-8'):
 
         if not self.s3_temp_bucket:
             raise KeyError(("Missing S3_TEMP_BUCKET, needed for transferring data to Redshift. "

@@ -139,7 +139,7 @@ class RedshiftCopyTable(object):
         hashed_name = hash(time.time())
         key = f"{S3_TEMP_KEY_PREFIX}/{hashed_name}.csv.gz"
         if self.s3_temp_bucket_prefix:
-            key = '/' + self.s3_temp_bucket_prefix + '/' + key
+            key = self.s3_temp_bucket_prefix + '/' + key
 
         # Convert table to compressed CSV file, to optimize the transfers to S3 and to
         # Redshift.

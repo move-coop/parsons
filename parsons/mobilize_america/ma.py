@@ -152,8 +152,7 @@ class MobilizeAmerica(object):
                 If ``max_timeslots`` is 0, no timeslot columns will be included.
 
         `Returns`
-            parsons.Table or dict or list[parsons.Table]
-                See :ref:`parsons-table` for output options.
+            :ref:`parsons.Table <parsons-table>`, dict, list[:ref:`parsons.Table <parsons-table>`]
         """
 
         if isinstance(organization_id, (str, int)):
@@ -251,8 +250,7 @@ class MobilizeAmerica(object):
                 If ``max_timeslots`` is 0, no timeslot columns will be included.
 
         `Returns`
-            parsons.Table or dict or list[parsons.Table]
-                See :ref:`parsons-table` for output options.
+            :ref:`parsons.Table <parsons-table>`, dict, list[:ref:`parsons.Table <parsons-table>`]
         """
 
         args = {'updated_since': date_to_timestamp(updated_since),

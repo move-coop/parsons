@@ -132,7 +132,30 @@
            <div itemprop="articleBody">
              
   <h1>Source code for parsons.targetsmart.targetsmart_automation</h1><div class="highlight"><pre>
-<span></span><span class="kn">from</span> <span class="nn">parsons.sftp.sftp</span> <span class="kn">import</span> <span class="n">SFTP</span>
+<span></span><span class="sd">&quot;&quot;&quot;**TargetSmart Automation**</span>
+
+<span class="sd">Parsons provides methods for interacting with TargetSmart Automation Workflows,</span>
+<span class="sd">a solution for executing custom file processing workflows programmatically. In</span>
+<span class="sd">some cases, TargetSmart will provide custom list matching solutions using</span>
+<span class="sd">Automation Workflows. Most TargetSmart clients do not have these workflows and</span>
+<span class="sd">will only use the Developer API.</span>
+
+<span class="sd">**TargetSmart Developer API versus Automation**</span>
+
+<span class="sd">TargetSmart&#39;s Developer API provides an HTTP-based interface for consuming the</span>
+<span class="sd">general web services that TargetSmart provides. The TargetSmart Automation</span>
+<span class="sd">system solely provides a solution for consuming customized file processing</span>
+<span class="sd">workflows that are provisioned for specific client needs. TargetSmart</span>
+<span class="sd">Automation is based on SFTP instead of HTTP.</span>
+
+<span class="sd">https://docs.targetsmart.com/my_tsmart/automation/developer.html</span>
+
+<span class="sd">For most list matching applications, TargetSmart SmartMatch is now the recommended</span>
+<span class="sd">solution. See `TargetSmartAPI.smartmatch`.</span>
+
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">from</span> <span class="nn">parsons.sftp.sftp</span> <span class="kn">import</span> <span class="n">SFTP</span>
 <span class="kn">from</span> <span class="nn">parsons.etl.table</span> <span class="kn">import</span> <span class="n">Table</span>
 <span class="kn">from</span> <span class="nn">parsons.utilities.files</span> <span class="kn">import</span> <span class="n">create_temp_file</span>
 <span class="kn">from</span> <span class="nn">parsons.utilities</span> <span class="kn">import</span> <span class="n">check_env</span>
@@ -143,75 +166,105 @@
 <span class="kn">import</span> <span class="nn">xmltodict</span>
 
 
-<span class="n">TS_STFP_HOST</span> <span class="o">=</span> <span class="s1">&#39;transfer.targetsmart.com&#39;</span>
+<span class="n">TS_STFP_HOST</span> <span class="o">=</span> <span class="s2">&quot;transfer.targetsmart.com&quot;</span>
 <span class="n">TS_SFTP_PORT</span> <span class="o">=</span> <span class="mi">22</span>
-<span class="n">TS_SFTP_DIR</span> <span class="o">=</span> <span class="s1">&#39;automation&#39;</span>
+<span class="n">TS_SFTP_DIR</span> <span class="o">=</span> <span class="s2">&quot;automation&quot;</span>
 
 <span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
 
+
 <span class="c1"># Automation matching documentation can be found here:</span>
-<span class="c1"># https://docs.targetsmart.com/developers/automation/index.html</span>
-
-<span class="c1"># The columns are heavily customized by TS, so while I would like</span>
-<span class="c1"># to do more column validation and mapping, I&#39;m not sure that is</span>
-<span class="c1"># going to be possible.</span>
-
-
-<div class="viewcode-block" id="TargetSmartAutomation"><a class="viewcode-back" href="../../../targetsmart.html#parsons.TargetSmartAutomation">[docs]</a><span class="k">class</span> <span class="nc">TargetSmartAutomation</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+<span class="c1"># https://docs.targetsmart.com/my_tsmart/automation/developer.html.</span>
+<div class="viewcode-block" id="TargetSmartAutomation"><a class="viewcode-back" href="../../../targetsmart_automation_workflows.html#parsons.TargetSmartAutomation">[docs]</a><span class="k">class</span> <span class="nc">TargetSmartAutomation</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    * `Automation overview &lt;https://docs.targetsmart.com/my_tsmart/automation/overview.html&gt;`_</span>
+<span class="sd">    * `Automation integration doc &lt;https://docs.targetsmart.com/my_tsmart/automation/developer.html&gt;`_</span>
+<span class="sd">    &quot;&quot;&quot;</span>  <span class="c1"># noqa</span>
 
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sftp_username</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">sftp_password</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">sftp_host</span> <span class="o">=</span> <span class="n">TS_STFP_HOST</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">sftp_port</span> <span class="o">=</span> <span class="n">TS_SFTP_PORT</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">sftp_dir</span> <span class="o">=</span> <span class="n">TS_SFTP_DIR</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">sftp_username</span> <span class="o">=</span> <span class="n">check_env</span><span class="o">.</span><span class="n">check</span><span class="p">(</span><span class="s1">&#39;TS_SFTP_USERNAME&#39;</span><span class="p">,</span> <span class="n">sftp_username</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">sftp_password</span> <span class="o">=</span> <span class="n">check_env</span><span class="o">.</span><span class="n">check</span><span class="p">(</span><span class="s1">&#39;TS_SFTP_PASSWORD&#39;</span><span class="p">,</span> <span class="n">sftp_password</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">sftp</span> <span class="o">=</span> <span class="n">SFTP</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">sftp_host</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">sftp_username</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">sftp_password</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">sftp_port</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">sftp_username</span> <span class="o">=</span> <span class="n">check_env</span><span class="o">.</span><span class="n">check</span><span class="p">(</span><span class="s2">&quot;TS_SFTP_USERNAME&quot;</span><span class="p">,</span> <span class="n">sftp_username</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">sftp_password</span> <span class="o">=</span> <span class="n">check_env</span><span class="o">.</span><span class="n">check</span><span class="p">(</span><span class="s2">&quot;TS_SFTP_PASSWORD&quot;</span><span class="p">,</span> <span class="n">sftp_password</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">sftp</span> <span class="o">=</span> <span class="n">SFTP</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">sftp_host</span><span class="p">,</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">sftp_username</span><span class="p">,</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">sftp_password</span><span class="p">,</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">sftp_port</span><span class="p">,</span>
+        <span class="p">)</span>
 
-<div class="viewcode-block" id="TargetSmartAutomation.match"><a class="viewcode-back" href="../../../targetsmart.html#parsons.TargetSmartAutomation.match">[docs]</a>    <span class="k">def</span> <span class="nf">match</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">table</span><span class="p">,</span> <span class="n">job_type</span><span class="p">,</span> <span class="n">job_name</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">emails</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">call_back</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">remove_files</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Match a table to TargetSmart using their bulk matching service.</span>
+<div class="viewcode-block" id="TargetSmartAutomation.match"><a class="viewcode-back" href="../../../targetsmart_automation_workflows.html#parsons.TargetSmartAutomation.match">[docs]</a>    <span class="k">def</span> <span class="nf">match</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">table</span><span class="p">,</span>
+        <span class="n">job_type</span><span class="p">,</span>
+        <span class="n">job_name</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">emails</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">call_back</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">remove_files</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+    <span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Submit a file for custom data processing using the TargetSmart Automation workflow solution.</span>
 
 <span class="sd">        .. warning::</span>
 <span class="sd">            Table Columns</span>
-<span class="sd">              The automation job does not validates the file by column indexes</span>
-<span class="sd">              rather than columns names. So, if it expected 10 columns and you</span>
-<span class="sd">              only provide 9, it will fail. However, if you provide 10 columns that</span>
-<span class="sd">              are out of order, the job will succeed, but the records will not</span>
-<span class="sd">              match.</span>
+
+<span class="sd">              Each Automation workflow expects an input file that meets the</span>
+<span class="sd">              layout requirements provided by TargetSmart. The number of columns</span>
+<span class="sd">              and column order is significant. So, if it expected 10 columns and</span>
+<span class="sd">              you only provide 9, it will fail. However, if you provide 10</span>
+<span class="sd">              columns that are out of order, the job may succeed, but with</span>
+<span class="sd">              non-optimal results. You can obtain the layout requirements and</span>
+<span class="sd">              other information about a workflow by visiting the Automation</span>
+<span class="sd">              console in My TargetSmart. Contact `TargetSmart Client Services</span>
+<span class="sd">              &lt;mailto:support@targetsmart.com&gt;`_ for support.</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            table: Parsons Table Object</span>
-<span class="sd">                A table object with the required columns. (Required columns provided be TargetSmart)</span>
+<span class="sd">                A table object with the required columns. Each workflow type</span>
+<span class="sd">                requires the input file to meet the requirements provided by</span>
+<span class="sd">                TargetSmart. You can locate the input and output layouts for</span>
+<span class="sd">                your available workflows using the My TargetSmart Automation</span>
+<span class="sd">                console.</span>
 <span class="sd">            job_type: str</span>
-<span class="sd">                The match job type. **This is case sensitive.** (Match job names provided by TargetSmart)</span>
+<span class="sd">                The workflow name to execute. **This is case sensitive.**. You</span>
+<span class="sd">                can locate the workflow names and other information by visiting</span>
+<span class="sd">                the Automation console in My TargetSmart.</span>
 <span class="sd">            job_name: str</span>
-<span class="sd">                Optional job name.</span>
+<span class="sd">                Optional job execution name.</span>
 <span class="sd">            emails: list</span>
 <span class="sd">                A list of emails that will received status notifications. This</span>
 <span class="sd">                is useful in debugging failed jobs.</span>
 <span class="sd">            call_back: str</span>
 <span class="sd">                A callback url to which the status will be posted. See</span>
-<span class="sd">                `TargetSmart documentation &lt;https://docs.targetsmart.com/developers/automation/index.html#http-callback&gt;`_</span>
+<span class="sd">                `TargetSmart documentation &lt;https://docs.targetsmart.com/my_tsmart/automation/developer.html&gt;`_</span>
 <span class="sd">                for more details.</span>
 <span class="sd">            remove_files: boolean</span>
 <span class="sd">                Remove the configuration, file to be matched and matched file from</span>
-<span class="sd">                the TargetSmart FTP upon completion or failure of match.</span>
-<span class="sd">        &quot;&quot;&quot;</span> <span class="c1"># noqa: E501,E261</span>
+<span class="sd">                the TargetSmart SFTP upon completion or failure of match.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>  <span class="c1"># noqa: E501,E261</span>
 
         <span class="c1"># Generate a match job</span>
         <span class="n">job_name</span> <span class="o">=</span> <span class="n">job_name</span> <span class="ow">or</span> <span class="nb">str</span><span class="p">(</span><span class="n">uuid</span><span class="o">.</span><span class="n">uuid1</span><span class="p">())</span>
 
         <span class="k">try</span><span class="p">:</span>
             <span class="c1"># Upload table</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">sftp</span><span class="o">.</span><span class="n">put_file</span><span class="p">(</span><span class="n">table</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(),</span> <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">sftp_dir</span><span class="si">}</span><span class="s1">/</span><span class="si">{</span><span class="n">job_name</span><span class="si">}</span><span class="s1">_input.csv&#39;</span><span class="p">)</span>
-            <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Table with </span><span class="si">{</span><span class="n">table</span><span class="o">.</span><span class="n">num_rows</span><span class="si">}</span><span class="s1"> rows uploaded to TargetSmart.&#39;</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">sftp</span><span class="o">.</span><span class="n">put_file</span><span class="p">(</span><span class="n">table</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(),</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">sftp_dir</span><span class="si">}</span><span class="s2">/</span><span class="si">{</span><span class="n">job_name</span><span class="si">}</span><span class="s2">_input.csv&quot;</span><span class="p">)</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Table with </span><span class="si">{</span><span class="n">table</span><span class="o">.</span><span class="n">num_rows</span><span class="si">}</span><span class="s2"> rows uploaded to TargetSmart.&quot;</span><span class="p">)</span>
 
             <span class="c1"># Create/upload XML configuration</span>
-            <span class="n">xml</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">create_job_xml</span><span class="p">(</span><span class="n">job_type</span><span class="p">,</span> <span class="n">job_name</span><span class="p">,</span> <span class="n">emails</span><span class="o">=</span><span class="n">emails</span><span class="p">,</span>
-                                      <span class="n">status_key</span><span class="o">=</span><span class="n">job_name</span><span class="p">,</span> <span class="n">call_back</span><span class="o">=</span><span class="n">call_back</span><span class="p">)</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">sftp</span><span class="o">.</span><span class="n">put_file</span><span class="p">(</span><span class="n">xml</span><span class="p">,</span> <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">sftp_dir</span><span class="si">}</span><span class="s1">/</span><span class="si">{</span><span class="n">job_name</span><span class="si">}</span><span class="s1">.job.xml&#39;</span><span class="p">)</span>
-            <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s1">&#39;Match configuration uploaded to TargetSmart.&#39;</span><span class="p">)</span>
+            <span class="n">xml</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">create_job_xml</span><span class="p">(</span>
+                <span class="n">job_type</span><span class="p">,</span>
+                <span class="n">job_name</span><span class="p">,</span>
+                <span class="n">emails</span><span class="o">=</span><span class="n">emails</span><span class="p">,</span>
+                <span class="n">status_key</span><span class="o">=</span><span class="n">job_name</span><span class="p">,</span>
+                <span class="n">call_back</span><span class="o">=</span><span class="n">call_back</span><span class="p">,</span>
+            <span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">sftp</span><span class="o">.</span><span class="n">put_file</span><span class="p">(</span><span class="n">xml</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">sftp_dir</span><span class="si">}</span><span class="s2">/</span><span class="si">{</span><span class="n">job_name</span><span class="si">}</span><span class="s2">.job.xml&quot;</span><span class="p">)</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s2">&quot;Payload uploaded to TargetSmart. Job type: </span><span class="si">{</span><span class="n">job_type</span><span class="si">}</span><span class="s2">. Job name: </span><span class="si">{</span><span class="n">job_name</span><span class="si">}</span><span class="s2">&quot;</span>
+            <span class="p">)</span>
 
             <span class="c1"># Check xml configuration status</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">poll_config_status</span><span class="p">(</span><span class="n">job_name</span><span class="p">)</span>
@@ -220,30 +273,39 @@
             <span class="bp">self</span><span class="o">.</span><span class="n">match_status</span><span class="p">(</span><span class="n">job_name</span><span class="p">)</span>
 
             <span class="c1"># Download the resulting file</span>
-            <span class="n">tbl</span> <span class="o">=</span> <span class="n">Table</span><span class="o">.</span><span class="n">from_csv</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">sftp</span><span class="o">.</span><span class="n">get_file</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">sftp_dir</span><span class="si">}</span><span class="s1">/</span><span class="si">{</span><span class="n">job_name</span><span class="si">}</span><span class="s1">_output.csv&#39;</span><span class="p">))</span>
+            <span class="n">tbl</span> <span class="o">=</span> <span class="n">Table</span><span class="o">.</span><span class="n">from_csv</span><span class="p">(</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">sftp</span><span class="o">.</span><span class="n">get_file</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">sftp_dir</span><span class="si">}</span><span class="s2">/</span><span class="si">{</span><span class="n">job_name</span><span class="si">}</span><span class="s2">_output.csv&quot;</span><span class="p">)</span>
+            <span class="p">)</span>
 
         <span class="k">finally</span><span class="p">:</span>
             <span class="c1"># Clean up files</span>
             <span class="k">if</span> <span class="n">remove_files</span><span class="p">:</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">remove_files</span><span class="p">(</span><span class="n">job_name</span><span class="p">)</span>
 
-            <span class="c1"># Log Stats</span>
-            <span class="c1"># TO DO: Provide some stats on the match</span>
-
         <span class="c1"># Return file as a Table</span>
         <span class="k">return</span> <span class="n">tbl</span></div>
 
-    <span class="k">def</span> <span class="nf">create_job_xml</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">job_type</span><span class="p">,</span> <span class="n">job_name</span><span class="p">,</span> <span class="n">emails</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">status_key</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">call_back</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<div class="viewcode-block" id="TargetSmartAutomation.execute"><a class="viewcode-back" href="../../../targetsmart_automation_workflows.html#parsons.TargetSmartAutomation.execute">[docs]</a>    <span class="k">def</span> <span class="nf">execute</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Most Automation workflows perform list matching. However, it is possible that</span>
+<span class="sd">        a custom workflow might be provisioned for a client for other types of</span>
+<span class="sd">        file processing. The ``execute`` method is provided as an alias for the</span>
+<span class="sd">        ``match`` method which may be a confusing name in these cases.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
+
+    <span class="k">def</span> <span class="nf">create_job_xml</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">job_type</span><span class="p">,</span> <span class="n">job_name</span><span class="p">,</span> <span class="n">emails</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">status_key</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">call_back</span><span class="o">=</span><span class="kc">None</span>
+    <span class="p">):</span>
         <span class="c1"># Internal method to create a valid job xml</span>
 
         <span class="n">job</span> <span class="o">=</span> <span class="n">ET</span><span class="o">.</span><span class="n">Element</span><span class="p">(</span><span class="s2">&quot;job&quot;</span><span class="p">)</span>
 
         <span class="c1"># Generate Base XML</span>
-        <span class="n">input_file</span> <span class="o">=</span> <span class="n">ET</span><span class="o">.</span><span class="n">SubElement</span><span class="p">(</span><span class="n">job</span><span class="p">,</span> <span class="s1">&#39;inputfile&#39;</span><span class="p">)</span>
-        <span class="n">input_file</span><span class="o">.</span><span class="n">text</span> <span class="o">=</span> <span class="n">job_name</span> <span class="o">+</span> <span class="s1">&#39;_input.csv&#39;</span>
-        <span class="n">output_file</span> <span class="o">=</span> <span class="n">ET</span><span class="o">.</span><span class="n">SubElement</span><span class="p">(</span><span class="n">job</span><span class="p">,</span> <span class="s1">&#39;outputfile&#39;</span><span class="p">)</span>
-        <span class="n">output_file</span><span class="o">.</span><span class="n">text</span> <span class="o">=</span> <span class="n">job_name</span> <span class="o">+</span> <span class="s1">&#39;_output.csv&#39;</span>
-        <span class="n">jobtype</span> <span class="o">=</span> <span class="n">ET</span><span class="o">.</span><span class="n">SubElement</span><span class="p">(</span><span class="n">job</span><span class="p">,</span> <span class="s1">&#39;jobtype&#39;</span><span class="p">,</span> <span class="n">text</span><span class="o">=</span><span class="n">job_type</span><span class="p">)</span>
+        <span class="n">input_file</span> <span class="o">=</span> <span class="n">ET</span><span class="o">.</span><span class="n">SubElement</span><span class="p">(</span><span class="n">job</span><span class="p">,</span> <span class="s2">&quot;inputfile&quot;</span><span class="p">)</span>
+        <span class="n">input_file</span><span class="o">.</span><span class="n">text</span> <span class="o">=</span> <span class="n">job_name</span> <span class="o">+</span> <span class="s2">&quot;_input.csv&quot;</span>
+        <span class="n">output_file</span> <span class="o">=</span> <span class="n">ET</span><span class="o">.</span><span class="n">SubElement</span><span class="p">(</span><span class="n">job</span><span class="p">,</span> <span class="s2">&quot;outputfile&quot;</span><span class="p">)</span>
+        <span class="n">output_file</span><span class="o">.</span><span class="n">text</span> <span class="o">=</span> <span class="n">job_name</span> <span class="o">+</span> <span class="s2">&quot;_output.csv&quot;</span>
+        <span class="n">jobtype</span> <span class="o">=</span> <span class="n">ET</span><span class="o">.</span><span class="n">SubElement</span><span class="p">(</span><span class="n">job</span><span class="p">,</span> <span class="s2">&quot;jobtype&quot;</span><span class="p">,</span> <span class="n">text</span><span class="o">=</span><span class="n">job_type</span><span class="p">)</span>
         <span class="n">jobtype</span><span class="o">.</span><span class="n">text</span> <span class="o">=</span> <span class="n">job_type</span>
 
         <span class="c1"># Add status key</span>
@@ -258,10 +320,10 @@
 
         <span class="k">if</span> <span class="n">emails</span><span class="p">:</span>
             <span class="n">emails_el</span> <span class="o">=</span> <span class="n">ET</span><span class="o">.</span><span class="n">SubElement</span><span class="p">(</span><span class="n">args</span><span class="p">,</span> <span class="s2">&quot;arg&quot;</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;__emails&quot;</span><span class="p">)</span>
-            <span class="n">emails_el</span><span class="o">.</span><span class="n">text</span> <span class="o">=</span> <span class="s1">&#39;,&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">emails</span><span class="p">)</span>
+            <span class="n">emails_el</span><span class="o">.</span><span class="n">text</span> <span class="o">=</span> <span class="s2">&quot;,&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">emails</span><span class="p">)</span>
 
         <span class="c1"># Write xml to file object</span>
-        <span class="n">local_path</span> <span class="o">=</span> <span class="n">create_temp_file</span><span class="p">(</span><span class="n">suffix</span><span class="o">=</span><span class="s1">&#39;.xml&#39;</span><span class="p">)</span>
+        <span class="n">local_path</span> <span class="o">=</span> <span class="n">create_temp_file</span><span class="p">(</span><span class="n">suffix</span><span class="o">=</span><span class="s2">&quot;.xml&quot;</span><span class="p">)</span>
         <span class="n">tree</span> <span class="o">=</span> <span class="n">ET</span><span class="o">.</span><span class="n">ElementTree</span><span class="p">(</span><span class="n">job</span><span class="p">)</span>
         <span class="n">tree</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">local_path</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">local_path</span>
@@ -274,7 +336,7 @@
             <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="n">polling_interval</span><span class="p">)</span>
             <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">config_status</span><span class="p">(</span><span class="n">job_name</span><span class="p">):</span>
                 <span class="k">return</span> <span class="kc">True</span>
-            <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Waiting on </span><span class="si">{</span><span class="n">job_name</span><span class="si">}</span><span class="s1"> job configuration...&#39;</span><span class="p">)</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Waiting on </span><span class="si">{</span><span class="n">job_name</span><span class="si">}</span><span class="s2"> job configuration...&quot;</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">config_status</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">job_name</span><span class="p">):</span>
         <span class="c1"># Check the status of the configuration by parsing the</span>
@@ -282,15 +344,17 @@
 
         <span class="k">for</span> <span class="n">f</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">sftp</span><span class="o">.</span><span class="n">list_directory</span><span class="p">(</span><span class="n">remote_path</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">sftp_dir</span><span class="p">):</span>
 
-            <span class="k">if</span> <span class="n">f</span> <span class="o">==</span> <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">job_name</span><span class="si">}</span><span class="s1">.job.xml.good&#39;</span><span class="p">:</span>
-                <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Match job </span><span class="si">{</span><span class="n">job_name</span><span class="si">}</span><span class="s1"> configured.&#39;</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">f</span> <span class="o">==</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">job_name</span><span class="si">}</span><span class="s2">.job.xml.good&quot;</span><span class="p">:</span>
+                <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Match job </span><span class="si">{</span><span class="n">job_name</span><span class="si">}</span><span class="s2"> configured.&quot;</span><span class="p">)</span>
                 <span class="k">return</span> <span class="kc">True</span>
 
-            <span class="k">elif</span> <span class="n">f</span> <span class="o">==</span> <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">job_name</span><span class="si">}</span><span class="s1">.job.xml.bad&#39;</span><span class="p">:</span>
-                <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Match job </span><span class="si">{</span><span class="n">job_name</span><span class="si">}</span><span class="s1"> configuration error.&#39;</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="n">f</span> <span class="o">==</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">job_name</span><span class="si">}</span><span class="s2">.job.xml.bad&quot;</span><span class="p">:</span>
+                <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Match job </span><span class="si">{</span><span class="n">job_name</span><span class="si">}</span><span class="s2"> configuration error.&quot;</span><span class="p">)</span>
                 <span class="c1">#  To Do: Lift up the configuration error.</span>
-                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;Job configuration failed. If you provided an email&#39;</span>
-                                 <span class="s1">&#39;address, you will be sent more details.&#39;</span><span class="p">)</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                    <span class="s2">&quot;Job configuration failed. If you provided an email&quot;</span>
+                    <span class="s2">&quot;address, you will be sent more details.&quot;</span>
+                <span class="p">)</span>
 
             <span class="k">else</span><span class="p">:</span>
                 <span class="k">pass</span>
@@ -305,22 +369,26 @@
 
         <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
 
-            <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s1">&#39;Match running...&#39;</span><span class="p">)</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;Match running...&quot;</span><span class="p">)</span>
             <span class="k">for</span> <span class="n">file_name</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">sftp</span><span class="o">.</span><span class="n">list_directory</span><span class="p">(</span><span class="n">remote_path</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">sftp_dir</span><span class="p">):</span>
 
-                <span class="k">if</span> <span class="n">file_name</span> <span class="o">==</span> <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">job_name</span><span class="si">}</span><span class="s1">.finish.xml&#39;</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">file_name</span> <span class="o">==</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">job_name</span><span class="si">}</span><span class="s2">.finish.xml&quot;</span><span class="p">:</span>
 
-                    <span class="n">xml_file</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">sftp</span><span class="o">.</span><span class="n">get_file</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">sftp_dir</span><span class="si">}</span><span class="s1">/</span><span class="si">{</span><span class="n">job_name</span><span class="si">}</span><span class="s1">.finish.xml&#39;</span><span class="p">)</span>
-                    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">xml_file</span><span class="p">,</span> <span class="s1">&#39;rb&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">x</span><span class="p">:</span>
+                    <span class="n">xml_file</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">sftp</span><span class="o">.</span><span class="n">get_file</span><span class="p">(</span>
+                        <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">sftp_dir</span><span class="si">}</span><span class="s2">/</span><span class="si">{</span><span class="n">job_name</span><span class="si">}</span><span class="s2">.finish.xml&quot;</span>
+                    <span class="p">)</span>
+                    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">xml_file</span><span class="p">,</span> <span class="s2">&quot;rb&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">x</span><span class="p">:</span>
                         <span class="n">xml</span> <span class="o">=</span> <span class="n">xmltodict</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">dict_constructor</span><span class="o">=</span><span class="nb">dict</span><span class="p">)</span>
 
-                    <span class="k">if</span> <span class="n">xml</span><span class="p">[</span><span class="s1">&#39;jobcontext&#39;</span><span class="p">][</span><span class="s1">&#39;state&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;error&#39;</span><span class="p">:</span>
+                    <span class="k">if</span> <span class="n">xml</span><span class="p">[</span><span class="s2">&quot;jobcontext&quot;</span><span class="p">][</span><span class="s2">&quot;state&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;error&quot;</span><span class="p">:</span>
                         <span class="c1"># To Do: Parse these in a pretty way</span>
                         <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Match Error: </span><span class="si">{</span><span class="n">xml</span><span class="p">[</span><span class="s1">&#39;jobcontext&#39;</span><span class="p">][</span><span class="s1">&#39;errors&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-                        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Match job failed. </span><span class="si">{</span><span class="n">xml</span><span class="p">[</span><span class="s1">&#39;jobcontext&#39;</span><span class="p">][</span><span class="s1">&#39;errors&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+                        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                            <span class="sa">f</span><span class="s2">&quot;Match job failed. </span><span class="si">{</span><span class="n">xml</span><span class="p">[</span><span class="s1">&#39;jobcontext&#39;</span><span class="p">][</span><span class="s1">&#39;errors&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span>
+                        <span class="p">)</span>
 
-                    <span class="k">elif</span> <span class="n">xml</span><span class="p">[</span><span class="s1">&#39;jobcontext&#39;</span><span class="p">][</span><span class="s1">&#39;state&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;success&#39;</span><span class="p">:</span>
-                        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s1">&#39;Match complete.&#39;</span><span class="p">)</span>
+                    <span class="k">elif</span> <span class="n">xml</span><span class="p">[</span><span class="s2">&quot;jobcontext&quot;</span><span class="p">][</span><span class="s2">&quot;state&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;success&quot;</span><span class="p">:</span>
+                        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Match complete.&quot;</span><span class="p">)</span>
 
                         <span class="k">return</span> <span class="kc">True</span>
 
@@ -331,8 +399,8 @@
 
         <span class="k">for</span> <span class="n">file_name</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">sftp</span><span class="o">.</span><span class="n">list_directory</span><span class="p">(</span><span class="n">remote_path</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">sftp_dir</span><span class="p">):</span>
             <span class="k">if</span> <span class="n">job_name</span> <span class="ow">in</span> <span class="n">file_name</span><span class="p">:</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">sftp</span><span class="o">.</span><span class="n">remove_file</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">sftp_dir</span><span class="si">}</span><span class="s1">/</span><span class="si">{</span><span class="n">file_name</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
-                <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">file_name</span><span class="si">}</span><span class="s1"> removed from SFTP.&#39;</span><span class="p">)</span></div>
+                <span class="bp">self</span><span class="o">.</span><span class="n">sftp</span><span class="o">.</span><span class="n">remove_file</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">sftp_dir</span><span class="si">}</span><span class="s2">/</span><span class="si">{</span><span class="n">file_name</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+                <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">file_name</span><span class="si">}</span><span class="s2"> removed from SFTP.&quot;</span><span class="p">)</span></div>
 </pre></div>
 
            </div>

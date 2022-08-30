@@ -79,6 +79,12 @@ class Redshift(RedshiftCreateTable, RedshiftCopyTable, RedshiftTableUtilities, R
         self.timeout = timeout
         self.dialect = 'redshift'
         self.s3_temp_bucket = s3_temp_bucket or os.environ.get('S3_TEMP_BUCKET')
+        # Set prefix for temp S3 bucket paths that include subfolders
+        self.s3_temp_bucket_prefix = None
+        if '/' in self.s3_temp_bucket:
+            split_temp_bucket_name = self.s3_temp_bucket.split('/', 1)
+            self.s3_temp_bucket = split_temp_bucket_name[0]
+            self.s3_temp_bucket_prefix = split_temp_bucket_name[1]
         # We don't check/load the environment variables for aws_* here
         # because the logic in S3() and rs_copy_table.py does already.
         self.aws_access_key_id = aws_access_key_id

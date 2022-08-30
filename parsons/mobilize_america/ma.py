@@ -107,7 +107,7 @@ class MobilizeAmerica(object):
     def get_promoted_organizations(self, organization_id):
         """
         Return all organizations promoted by the given organization.
-        
+
         `Args:`
             organization_id: int
                 ID of the organization to query.
@@ -260,9 +260,10 @@ class MobilizeAmerica(object):
                 'timeslot_end': self._time_parse(timeslot_end),
                 }
 
-        tbl = Table(self._request_paginate(self.uri + 'organizations/' + str(organization_id) + '/events',
-                                           args=args,
-                                           auth=True))
+        tbl = Table(self._request_paginate(
+            self.uri + 'organizations/' + str(organization_id) + '/events',
+            args=args,
+            auth=True))
 
         if tbl.num_rows > 0:
 

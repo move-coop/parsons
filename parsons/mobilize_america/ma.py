@@ -152,8 +152,8 @@ class MobilizeAmerica(object):
                 If ``max_timeslots`` is 0, no timeslot columns will be included.
 
         `Returns`
-            Parsons Table or dict
-                See :ref:`timeslot_table` for output options.
+            parsons.Table or dict or list[parsons.Table]
+                See :ref:`parsons-table` for output options.
         """
 
         if isinstance(organization_id, (str, int)):
@@ -202,7 +202,7 @@ class MobilizeAmerica(object):
             API Key Required
 
         `Args:`
-            organization_id: int
+            organization_id: int or str
                 Organization ID for the organization.
             updated_since: str
                 Filter to events updated since given date (ISO Date)
@@ -251,8 +251,8 @@ class MobilizeAmerica(object):
                 If ``max_timeslots`` is 0, no timeslot columns will be included.
 
         `Returns`
-            Parsons Table or Dictionary
-                See :ref:`timeslot_table` for output options.
+            parsons.Table or dict or list[parsons.Table]
+                See :ref:`parsons-table` for output options.
         """
 
         args = {'updated_since': date_to_timestamp(updated_since),

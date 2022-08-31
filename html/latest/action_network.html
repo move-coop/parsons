@@ -229,9 +229,12 @@ When None, no filter is applied.</p>
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="parsons.ActionNetwork.add_person">
-<span class="sig-name descname"><span class="pre">add_person</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">email_address</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">given_name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">family_name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tags</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">languages_spoken</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">postal_addresses</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mobile_number</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mobile_status</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'subscribed'</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/action_network/action_network.html#ActionNetwork.add_person"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.ActionNetwork.add_person" title="Permalink to this definition"></a></dt>
-<dd><dl class="simple">
+<dt class="sig sig-object py" id="parsons.ActionNetwork.upsert_person">
+<span class="sig-name descname"><span class="pre">upsert_person</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">email_address</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">given_name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">family_name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tags</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">languages_spoken</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">postal_addresses</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mobile_number</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mobile_status</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'subscribed'</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/action_network/action_network.html#ActionNetwork.upsert_person"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.ActionNetwork.upsert_person" title="Permalink to this definition"></a></dt>
+<dd><p>Creates or updates a person record. In order to update an existing record instead of
+creating a new one, you must supply an email or mobile number which matches a record
+in the database.</p>
+<dl class="simple">
 <dt><cite>Args:</cite></dt><dd><dl class="simple">
 <dt>email_address:</dt><dd><dl class="simple">
 <dt>Either email_address or mobile_number are required. Can be any of the following</dt><dd><ul class="simple">
@@ -311,9 +314,18 @@ any custom field.</p>
 </dd></dl>
 
 <dl class="py method">
+<dt class="sig sig-object py" id="parsons.ActionNetwork.add_person">
+<span class="sig-name descname"><span class="pre">add_person</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">email_address</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">given_name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">family_name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tags</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">languages_spoken</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">postal_addresses</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mobile_number</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mobile_status</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'subscribed'</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/action_network/action_network.html#ActionNetwork.add_person"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.ActionNetwork.add_person" title="Permalink to this definition"></a></dt>
+<dd><p>Creates a person in the database. WARNING: this endpoint has been deprecated in favor of
+upsert_person.</p>
+</dd></dl>
+
+<dl class="py method">
 <dt class="sig sig-object py" id="parsons.ActionNetwork.update_person">
 <span class="sig-name descname"><span class="pre">update_person</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">entry_id</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/action_network/action_network.html#ActionNetwork.update_person"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.ActionNetwork.update_person" title="Permalink to this definition"></a></dt>
-<dd><dl>
+<dd><p>Updates a person’s data in Action Network, given their Action Network ID. Note that you
+can’t alter a person’s tags with this method. Instead, use upsert_person.</p>
+<dl>
 <dt><cite>Args:</cite></dt><dd><dl>
 <dt>entry_id:</dt><dd><p>The person’s Action Network id</p>
 </dd>
@@ -356,8 +368,6 @@ any custom field.</p>
 </dd>
 <dt>family_name:</dt><dd><p>The person’s family name</p>
 </dd>
-<dt>tags:</dt><dd><p>Any tags to be applied to the person</p>
-</dd>
 <dt>languages_spoken:</dt><dd><p>Optional field. A list of strings of the languages spoken by the person</p>
 </dd>
 <dt>postal_addresses:</dt><dd><p>Optional field. A list of dictionaries.
@@ -373,7 +383,6 @@ For details, see Action Network’s documentation:
 </dl>
 </dd>
 </dl>
-<p>Updates a person’s data in Action Network</p>
 </dd></dl>
 
 <dl class="py method">

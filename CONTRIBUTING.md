@@ -66,6 +66,8 @@ From the root of the parsons repository, use the run the following command:
 > pip install -r requirements.txt
 ```
 
+> Note for Linux users: the dependency `psycopg2` requires the `pg_config` executable to be installed on your system. Run `sudo apt install libpq-dev` (Debian/Ubuntu) or `sudo apt install libpq-devel` (Centos/Fedora/Cygwin) if you receive this error during dependency installation. Learn more at `psycopg2`'s documentation for [build prerequisites](https://www.psycopg.org/docs/install.html#build-prerequisites).
+
 #### Unit Tests
 
 When contributing code, we ask you to add to tests that can be used to verify that the code is working as expected. All of our unit tests are located in the `test/` folder at the root of the repository.

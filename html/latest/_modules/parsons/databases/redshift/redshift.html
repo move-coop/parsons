@@ -213,6 +213,12 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">timeout</span> <span class="o">=</span> <span class="n">timeout</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">dialect</span> <span class="o">=</span> <span class="s1">&#39;redshift&#39;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">s3_temp_bucket</span> <span class="o">=</span> <span class="n">s3_temp_bucket</span> <span class="ow">or</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;S3_TEMP_BUCKET&#39;</span><span class="p">)</span>
+        <span class="c1"># Set prefix for temp S3 bucket paths that include subfolders</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">s3_temp_bucket_prefix</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">s3_temp_bucket</span> <span class="ow">and</span> <span class="s1">&#39;/&#39;</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">s3_temp_bucket</span><span class="p">:</span>
+            <span class="n">split_temp_bucket_name</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">s3_temp_bucket</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;/&#39;</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">s3_temp_bucket</span> <span class="o">=</span> <span class="n">split_temp_bucket_name</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">s3_temp_bucket_prefix</span> <span class="o">=</span> <span class="n">split_temp_bucket_name</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
         <span class="c1"># We don&#39;t check/load the environment variables for aws_* here</span>
         <span class="c1"># because the logic in S3() and rs_copy_table.py does already.</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">aws_access_key_id</span> <span class="o">=</span> <span class="n">aws_access_key_id</span>

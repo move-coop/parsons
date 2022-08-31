@@ -81,7 +81,7 @@ class Redshift(RedshiftCreateTable, RedshiftCopyTable, RedshiftTableUtilities, R
         self.s3_temp_bucket = s3_temp_bucket or os.environ.get('S3_TEMP_BUCKET')
         # Set prefix for temp S3 bucket paths that include subfolders
         self.s3_temp_bucket_prefix = None
-        if '/' in self.s3_temp_bucket:
+        if self.s3_temp_bucket and '/' in self.s3_temp_bucket:
             split_temp_bucket_name = self.s3_temp_bucket.split('/', 1)
             self.s3_temp_bucket = split_temp_bucket_name[0]
             self.s3_temp_bucket_prefix = split_temp_bucket_name[1]

@@ -215,13 +215,13 @@ GET_EVENTS_ORGANIZATION_JSON = json.loads(
                 "event_feed_url": "https://www.mobilize.us/test_org_two/",
                 "state": "NY",
                 "race_type": null,
-                "logo_url": "https://mobilize-uploads-prod.s3.us-east-2.amazonaws.com/test_org_two.jpg",
+                "logo_url": "https://amazonaws.com/test_org_two.jpg",
                 "is_coordinated": true,
                 "district": "",
                 "slug": "testorgtwo",
                 "modified_date": 1654183362
             },
-            "featured_image_url": "https://mobilizeamerica.imgix.net/uploads/test_org_two.jpg",
+            "featured_image_url": "https://mobilizeamerica.imgix.net/uploads/test.jpg",
             "contact": null,
             "timezone": "America/New_York",
             "id": 421,
@@ -249,9 +249,14 @@ GET_EVENTS_DELETED_JSON = {
     'count': 2,
     'next': None,
     'previous': None,
-    'data': [{'id': 86765,
-                'deleted_date': 1546705971},
-                {'id': 86782,
-                'deleted_date': 1546912779}
-                ]
+    'data': [
+        {
+            'id': 86765,
+            'deleted_date': 1546705971
+        },
+        {
+            'id': 86782,
+            'deleted_date': 1546912779
+        }
+    ]
 }

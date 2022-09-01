@@ -9,8 +9,8 @@ logger = logging.getLogger(__name__)
 
 class AWSConnection(object):
 
-    def __init__(self, aws_access_key_id=None, aws_secret_access_key=None, aws_session_token=None,                
-                    use_env_token=True):
+    def __init__(self, aws_access_key_id=None, aws_secret_access_key=None, aws_session_token=None,
+                 use_env_token=True):
 
         # Order of operations for searching for keys:
         #   1. Look for keys passed as kwargs

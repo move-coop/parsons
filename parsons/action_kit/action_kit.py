@@ -57,7 +57,6 @@ class ActionKit(object):
         resp = self.conn.get(self._base_endpoint(endpoint, entity_id), params=params)
         if exception_message and resp.status_code == 404:
             raise Exception(self.parse_error(resp, exception_message))
-
         return resp.json()
 
     def _base_post(self, endpoint, exception_message, return_full_json=False, **kwargs):
@@ -186,28 +185,12 @@ class ActionKit(object):
 
                 .. code-block:: python
 
-                    ak.get_events(fields__name__contains="FirstName")
+                    ak.get_events(name__contains="FirstName")
         `Returns:`
             Parsons.Table
                 The events data.
         """
-        # "The maximum number of objects returned per request is 100. Use paging
-        # to get more objects."
-        # (https://roboticdogs.actionkit.com/docs//manual/api/rest/overview.html#ordering)
-        # get `limit` events if it's provided, otherwise get 100
-        kwargs["_limit"] = min(100, limit or 1_000_000_000)
-        json_data = self._base_get("event", params=kwargs)
-        data = json_data["objects"]
-
-        next_url = json_data.get("meta", {}).get("next")
-        while next_url:
-            resp = self.conn.get(f'https://{self.domain}{next_url}')
-            data += resp.json().get("objects", [])
-            next_url = resp.json().get("meta", {}).get("next")
-            if limit and len(data) >= limit:
-                break
-
-        return Table(data[:limit])
+        return self.paginated_get('event', limit=limit, **kwargs)
 
     def update_event(self, event_id, **kwargs):
         """
@@ -591,6 +574,113 @@ class ActionKit(object):
         return self._base_post(endpoint='mailer/' + str(mailing_id) + '/queue',
                                exception_message='Could not queue mailer')
 
+    def paginated_get(self, object_type, limit=None, **kwargs):
+        """Get multiple objects of a given type.
+
+        `Args:`
+            object_type: string
+                The type of object to search for.
+            limit: int
+                The number of objects to return. If omitted, all objects are returned.
+            **kwargs:
+                Optional arguments to pass to the client. A full list can be found
+                in the `ActionKit API Documentation <https://roboticdogs.actionkit.com/docs/\
+                manual/api/rest/actionprocessing.html>`_.
+
+                Additionally, expressions to filter the data can also be provided. For addition
+                info, visit `Django's docs on field lookups <https://docs.djangoproject.com/\
+                en/3.1/topics/db/queries/#field-lookups>`_.
+
+                .. code-block:: python
+
+                    ak.paginated_get(name__contains="FirstName")
+        `Returns:`
+            Parsons.Table
+                The objects data.
+        """
+        # "The maximum number of objects returned per request is 100. Use paging
+        # to get more objects."
+        # (https://roboticdogs.actionkit.com/docs//manual/api/rest/overview.html#ordering)
+        # get only `limit` objects if it's below 100, otherwise get 100 at a time
+        kwargs["_limit"] = min(100, limit or 1_000_000_000)
+        json_data = self._base_get(object_type, params=kwargs)
+        data = json_data["objects"]
+
+        next_url = json_data.get("meta", {}).get("next")
+        while next_url:
+            resp = self.conn.get(f'https://{self.domain}{next_url}')
+            data.extend(resp.json().get("objects", []))
+            next_url = resp.json().get("meta", {}).get("next")
+            if limit and len(data) >= limit:
+                break
+
+        return Table(data[:limit])
+
+    def paginated_get_custom_limit(self, object_type, limit=None,
+                                   threshold_field=None, threshold_value=None,
+                                   ascdesc='asc', **kwargs):
+        """Get multiple objects of a given type, stopping based on the value of a field.
+
+        `Args:`
+            object_type: string
+                The type of object to search for.
+            limit: int
+                The maximum number of objects to return. Even if the threshold
+                value is not reached, if the limit is set, then at most this many
+                objects will be returned.
+            threshold_field: string
+                The field used to determine when to stop.
+                Must be one of the options for ordering by.
+            threshold_value: string
+                The value of the field to stop at.
+            ascdesc: string
+                If "asc" (the default), return all objects below the threshold value.
+                If "desc", return all objects above the threshold value.
+            **kwargs:
+                You can also add expressions to filter the data beyond the limit/threshold values above. For addition
+                info, visit `Django's docs on field lookups <https://docs.djangoproject.com/\
+                en/3.1/topics/db/queries/#field-lookups>`_.
+
+                .. code-block:: python
+
+                    ak.paginated_get(name__contains="FirstName")
+        `Returns:`
+            Parsons.Table
+                The objects data.
+        """
+        # "The maximum number of objects returned per request is 100. Use paging
+        # to get more objects."
+        # (https://roboticdogs.actionkit.com/docs//manual/api/rest/overview.html#ordering)
+        kwargs["_limit"] = min(100, limit or 1_000_000_000)
+        if ascdesc == "asc":
+            kwargs["order_by"] = threshold_field
+        else:
+            kwargs["order_by"] = "-" + threshold_field
+        json_data = self._base_get(object_type, params=kwargs)
+        data = json_data["objects"]
+        next_url = json_data.get("meta", {}).get("next")
+        while next_url:
+            last = data[-1].get(threshold_field)
+            if ascdesc == "asc" and last > threshold_value:
+                break
+            if ascdesc == "desc" and last < threshold_value:
+                break
+            resp = self.conn.get(f'https://{self.domain}{next_url}')
+            data += resp.json().get("objects", [])
+            next_url = resp.json().get("meta", {}).get("next")
+            if limit and len(data) >= limit:
+                break
+        # This could be more efficient but it's still O(n) so no big deal
+        i = len(data) - 1  # start at the end; 0-indexed means the end is length - 1
+        if ascdesc == "asc":
+            while data[i].get(threshold_field) > threshold_value:
+                i = i - 1
+        else:
+            while data[i].get(threshold_field) < threshold_value:
+                i = i - 1
+        data = data[:i]
+        return Table(data[:limit])
+
     def update_order(self, order_id, **kwargs):
         """
         Update an order.
@@ -731,7 +821,7 @@ class ActionKit(object):
         `Returns`:
             dict
                 The response json
-        """ # noqa: E501,E261
+        """  # noqa: E501,E261
 
         if not email or ak_id:
             raise ValueError('One of email or ak_id is required.')
@@ -774,7 +864,7 @@ class ActionKit(object):
                 success: whether upload was successful
                 progress_url: an API URL to get progress on upload processing
                 res: requests http response object
-        """ # noqa: E501,E261
+        """  # noqa: E501,E261
 
         # self.conn defaults to JSON, but this has to be form/multi-part....
         upload_client = self._conn({'accepts': 'application/json'})
@@ -837,7 +927,7 @@ class ActionKit(object):
                 success: bool -- whether upload was successful (individual rows may not have been)
                 results: [dict] -- This is a list of the full results.
                          progress_url and res for any results
-        """ # noqa: E501,E261
+        """  # noqa: E501,E261
 
         import_page = check_env.check('ACTION_KIT_IMPORTPAGE', import_page)
         upload_tables = self._split_tables_no_empties(

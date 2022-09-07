@@ -193,6 +193,21 @@ variable <code class="docutils literal notranslate"><span class="pre">MOBILIZE_A
 </dd></dl>
 
 <dl class="py method">
+<dt class="sig sig-object py" id="parsons.MobilizeAmerica.get_promoted_organizations">
+<span class="sig-name descname"><span class="pre">get_promoted_organizations</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">organization_id</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/mobilize_america/ma.html#MobilizeAmerica.get_promoted_organizations"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.MobilizeAmerica.get_promoted_organizations" title="Permalink to this definition"></a></dt>
+<dd><p>Return all organizations promoted by the given organization.</p>
+<dl class="simple">
+<dt><cite>Args:</cite></dt><dd><dl class="simple">
+<dt>organization_id: int</dt><dd><p>ID of the organization to query.</p>
+</dd>
+</dl>
+</dd>
+<dt><cite>Returns</cite></dt><dd><p>Parsons Table</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
 <dt class="sig sig-object py" id="parsons.MobilizeAmerica.get_events">
 <span class="sig-name descname"><span class="pre">get_events</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">organization_id</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">updated_since</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">timeslot_start</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">timeslot_end</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">timeslots_table</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_timeslots</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/mobilize_america/ma.html#MobilizeAmerica.get_events"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.MobilizeAmerica.get_events" title="Permalink to this definition"></a></dt>
 <dd><p>Fetch all public events on the platform.</p>
@@ -220,20 +235,18 @@ and you set the max time slots to 5, it will only return the first 5
 time slots as <code class="docutils literal notranslate"><span class="pre">time_slot_0</span></code>, <code class="docutils literal notranslate"><span class="pre">time_slot_1</span></code> etc.</p>
 <p>This is helpful in situations where you have a regular sync
 running and want to ensure that the column headers remain static.</p>
+<p>If <code class="docutils literal notranslate"><span class="pre">max_timeslots</span></code> is 0, no timeslot columns will be included.</p>
 </dd>
 </dl>
 </dd>
-<dt><cite>Returns</cite></dt><dd><dl class="simple">
-<dt>Parsons Table or dict or Parsons Tables</dt><dd><p>See <a class="reference internal" href="table.html#parsons-table"><span class="std std-ref">Parsons Table</span></a> for output options.</p>
-</dd>
-</dl>
+<dt><cite>Returns</cite></dt><dd><p><a class="reference internal" href="table.html#parsons-table"><span class="std std-ref">parsons.Table</span></a>, dict, list[<a class="reference internal" href="table.html#parsons-table"><span class="std std-ref">parsons.Table</span></a>]</p>
 </dd>
 </dl>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="parsons.MobilizeAmerica.get_events_organization">
-<span class="sig-name descname"><span class="pre">get_events_organization</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">organization_id</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">updated_since</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">timeslot_start</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">timeslot_end</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">timeslots_table</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_timeslots</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/mobilize_america/ma.html#MobilizeAmerica.get_events_organization"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.MobilizeAmerica.get_events_organization" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">get_events_organization</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">organization_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">updated_since</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">timeslot_start</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">timeslot_end</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">timeslots_table</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_timeslots</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/mobilize_america/ma.html#MobilizeAmerica.get_events_organization"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.MobilizeAmerica.get_events_organization" title="Permalink to this definition"></a></dt>
 <dd><p>Fetch all public events for an organization. This includes both events owned
 by the organization (as indicated by the organization field on the event object)
 and events of other organizations promoted by this specified organization.</p>
@@ -243,7 +256,7 @@ and events of other organizations promoted by this specified organization.</p>
 </div>
 <dl>
 <dt><cite>Args:</cite></dt><dd><dl>
-<dt>organization_id: list or int</dt><dd><p>Filter events by a single or multiple organization ids</p>
+<dt>organization_id: int or str</dt><dd><p>Organization ID for the organization.</p>
 </dd>
 <dt>updated_since: str</dt><dd><p>Filter to events updated since given date (ISO Date)</p>
 </dd>
@@ -285,13 +298,11 @@ and you set the max time slots to 5, it will only return the first 5
 time slots as <code class="docutils literal notranslate"><span class="pre">time_slot_0</span></code>, <code class="docutils literal notranslate"><span class="pre">time_slot_1</span></code> etc.</p>
 <p>This is helpful in situations where you have a regular sync
 running and want to ensure that the column headers remain static.</p>
+<p>If <code class="docutils literal notranslate"><span class="pre">max_timeslots</span></code> is 0, no timeslot columns will be included.</p>
 </dd>
 </dl>
 </dd>
-<dt><cite>Returns</cite></dt><dd><dl class="simple">
-<dt>Parsons Table or dict or Parsons Tables</dt><dd><p>See <a class="reference internal" href="table.html#parsons-table"><span class="std std-ref">Parsons Table</span></a> for output options.</p>
-</dd>
-</dl>
+<dt><cite>Returns</cite></dt><dd><p><a class="reference internal" href="table.html#parsons-table"><span class="std std-ref">parsons.Table</span></a>, dict, list[<a class="reference internal" href="table.html#parsons-table"><span class="std std-ref">parsons.Table</span></a>]</p>
 </dd>
 </dl>
 </dd></dl>
@@ -318,17 +329,17 @@ running and want to ensure that the column headers remain static.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="parsons.MobilizeAmerica.get_people">
-<span class="sig-name descname"><span class="pre">get_people</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">organization_id</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">updated_since</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/mobilize_america/ma.html#MobilizeAmerica.get_people"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.MobilizeAmerica.get_people" title="Permalink to this definition"></a></dt>
-<dd><p>Fetch all people (volunteers) who are affiliated with the organization.</p>
+<span class="sig-name descname"><span class="pre">get_people</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">organization_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">updated_since</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/mobilize_america/ma.html#MobilizeAmerica.get_people"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.MobilizeAmerica.get_people" title="Permalink to this definition"></a></dt>
+<dd><p>Fetch all people (volunteers) who are affiliated with an organization(s).</p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
 <p>API Key Required</p>
 </div>
 <dl class="simple">
 <dt><cite>Args:</cite></dt><dd><dl class="simple">
-<dt>organization_id: list of int</dt><dd><p>Filter events by a single or multiple organization ids</p>
+<dt>organization_id: Iterable or int</dt><dd><p>Request people associated with a single or multiple organization ids</p>
 </dd>
-<dt>updated_since: str</dt><dd><p>Filter to events updated since given date (ISO Date)</p>
+<dt>updated_since: str</dt><dd><p>Filter to people updated since given date (ISO Date)</p>
 </dd>
 </dl>
 </dd>
@@ -342,7 +353,7 @@ running and want to ensure that the column headers remain static.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="parsons.MobilizeAmerica.get_attendances">
-<span class="sig-name descname"><span class="pre">get_attendances</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">organization_id</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">updated_since</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/mobilize_america/ma.html#MobilizeAmerica.get_attendances"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.MobilizeAmerica.get_attendances" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">get_attendances</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">organization_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">updated_since</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/mobilize_america/ma.html#MobilizeAmerica.get_attendances"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.MobilizeAmerica.get_attendances" title="Permalink to this definition"></a></dt>
 <dd><p>Fetch all attendances which were either promoted by the organization or
 were for events owned by the organization.</p>
 <div class="admonition note">
@@ -351,9 +362,9 @@ were for events owned by the organization.</p>
 </div>
 <dl class="simple">
 <dt><cite>Args:</cite></dt><dd><dl class="simple">
-<dt>organization_id: list of int</dt><dd><p>Filter events by a single or multiple organization ids</p>
+<dt>organization_id: int</dt><dd><p>Filter attendances by an organization id</p>
 </dd>
-<dt>updated_since: str</dt><dd><p>Filter to events updated since given date (ISO Date)</p>
+<dt>updated_since: str</dt><dd><p>Filter to attendances updated since given date (ISO Date)</p>
 </dd>
 </dl>
 </dd>

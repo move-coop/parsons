@@ -530,7 +530,7 @@
              <span class="n">columntypes</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">specifycols</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">alter_table</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">alter_table_cascade</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
              <span class="n">aws_access_key_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">aws_secret_access_key</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">iam_role</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
              <span class="n">cleanup_s3_file</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">template_table</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">temp_bucket_region</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-             <span class="n">strict_length</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+             <span class="n">strict_length</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">csv_encoding</span><span class="o">=</span><span class="s1">&#39;utf-8&#39;</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Copy a :ref:`parsons-table` to Redshift.</span>
 
@@ -640,6 +640,9 @@
 <span class="sd">            strict_length: bool</span>
 <span class="sd">                Whether or not to tightly fit the length of the table columns to the length</span>
 <span class="sd">                of the data in ``tbl``; if ``padding`` is specified, this argument is ignored</span>
+<span class="sd">            csv_ecoding: str</span>
+<span class="sd">                String encoding to use when writing the temporary CSV file that is uploaded to S3.</span>
+<span class="sd">                Defaults to &#39;utf-8&#39;.</span>
 
 <span class="sd">        `Returns`</span>
 <span class="sd">            Parsons Table or ``None``</span>
@@ -677,7 +680,8 @@
 
             <span class="c1"># Upload the table to S3</span>
             <span class="n">key</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">temp_s3_copy</span><span class="p">(</span><span class="n">tbl</span><span class="p">,</span> <span class="n">aws_access_key_id</span><span class="o">=</span><span class="n">aws_access_key_id</span><span class="p">,</span>
-                                    <span class="n">aws_secret_access_key</span><span class="o">=</span><span class="n">aws_secret_access_key</span><span class="p">)</span>
+                                    <span class="n">aws_secret_access_key</span><span class="o">=</span><span class="n">aws_secret_access_key</span><span class="p">,</span>
+                                    <span class="n">csv_encoding</span><span class="o">=</span><span class="n">csv_encoding</span><span class="p">)</span>
 
             <span class="k">try</span><span class="p">:</span>
                 <span class="c1"># Copy to Redshift database.</span>

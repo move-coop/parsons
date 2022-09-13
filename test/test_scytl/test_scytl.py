@@ -160,7 +160,7 @@ class TestScytl(unittest.TestCase):
 
         scy = Scytl(TEST_STATE, TEST_ELECTION_ID)
 
-        counties = ['Barrow', 'Clarke']
+        counties = ['Barrow']
 
         _, result = scy.get_detailed_results_for_participating_counties(county_names=counties)
 
@@ -244,10 +244,10 @@ class TestScytl(unittest.TestCase):
             state=TEST_STATE, election_id=TEST_ELECTION_ID, version_num=TEST_VERSION_NUM
         )
 
-        with open(f'{_dir}/114729_county_election_settings.json', 'r') as f:
+        with open(f'{_dir}/GA_114729_296262_county_election_settings.json', 'r') as f:
             m.get(mock_detail_url, text=f.read())
 
-        for file in os.listdir(f'{_dir}/county_precinct_details'):
-            with open(f'{_dir}/county_precinct_details/{file}') as f:
-                fn = f'https://results.enr.clarityelections.com//{file}'.replace('_', '/')
+        for file in os.listdir(f'{_dir}/mock_responses'):
+            with open(f'{_dir}/mock_responses/{file}') as f:
+                fn = f'https://results.enr.clarityelections.com/{file}'.replace('_', '/')
                 m.get(fn, body=f)

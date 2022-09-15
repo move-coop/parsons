@@ -428,13 +428,13 @@ class Scytl(object):
         """
         Fetch the latest summary results for the given election, across all contests.
 
-        Please note that all electoral entities administer their elections differently, \
+        Please note that all electoral entities administer their elections differently,
             so not all values will be populated if the entity doesn't provide them.
 
         `Args:`
             force_update: bool
-                If this is False, the connector will check to see if the current version \
-                    matches the previously fetched version of the results. \
+                If this is False, the connector will check to see if the current version
+                    matches the previously fetched version of the results.
                     If the version has not been changed, no results will be fetched or returned.
                 Default: false
         `Returns:`
@@ -473,18 +473,18 @@ class Scytl(object):
         """
         Fetch the latest detailed results by geography for the given election, across all contests.
 
-        Please note that all electoral entities administer their elections differently, \
+        Please note that all electoral entities administer their elections differently,
             so not all values will be populated if the entity doesn't provide them.
 
         `Args:`
             force_update: bool
-                If this is False, the connector will check to see if the current version \
-                    matches the previously fetched version of the results. \
+                If this is False, the connector will check to see if the current version
+                    matches the previously fetched version of the results.
                     If the version has not been changed, no results will be fetched or returned.
                 Default: false
         `Returns:`
             list[dict]
-            The list should contain entries for each candidate in each office, \
+            The list should contain entries for each candidate in each office,
                 per vote method and per county.
 
             If fetching for a state, results will look like:
@@ -558,17 +558,17 @@ class Scytl(object):
         force_update=False
     ):
         """
-        Fetch the latest detailed results for the given election for all participating counties \
+        Fetch the latest detailed results for the given election for all participating counties
             with detailed results, across all contests.
 
-        Some counties may not have detailed results. If so, this will attempt \
-            to fetch the summary results for that county. If no results exist for either, \
+        Some counties may not have detailed results. If so, this will attempt
+            to fetch the summary results for that county. If no results exist for either,
             the county name will be appended to the missing_counties list.
 
-        After the first fetch, only the counties with updates will be returned, \
+        After the first fetch, only the counties with updates will be returned,
             previous results will not be included.
 
-        Please note that all electoral entities administer their elections differently, \
+        Please note that all electoral entities administer their elections differently,
             so not all values will be populated if the entity doesn't provide them.
 
         `Args:`
@@ -576,8 +576,8 @@ class Scytl(object):
                 The list of counties to get precinct-level results for.
                 Default: None (get all counties)
             force_update: bool
-                If this is False, the connector will check to see if the current \
-                    version matches the previously fetched version of the results. \
+                If this is False, the connector will check to see if the current
+                    version matches the previously fetched version of the results.
                     If the version has not been changed, no results will be fetched or returned.
                 Default: false
 

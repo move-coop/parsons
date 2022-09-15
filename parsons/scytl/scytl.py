@@ -84,7 +84,17 @@ class Scytl(object):
         self.previous_county_details_list = None
         self.previously_fetched_counties = set([])
 
-    def _parse_date_to_utc(self, input_dt):
+    def _parse_date_to_utc(self, input_dt: str):
+        """
+        Parse datetime string as datetime in UTC
+
+        `Args`:
+            input_dt: str
+                The datetime string to be parsed
+        `Returns`:
+            datetime | None
+        """
+
         if input_dt is None:
             return None
 
@@ -93,7 +103,21 @@ class Scytl(object):
 
         return temp
 
-    def _get_version(self, administrator, election_id):
+    def _get_version(self, administrator: str, election_id: str):
+        """
+        Fetch the latest version of the election results from the Clarity site
+
+        `Args`:
+            administrator: str
+                The url code for the election administrator, either the two-letter
+                state code or the state code and the county, separated by a slash
+            election_id: str
+                The election id for the given election as a string
+        `Returns`:
+            str
+            The version id as a string
+        """
+
         config_version_url = get_version_url.format(
             administrator=administrator, election_id=election_id
         )
@@ -102,11 +126,24 @@ class Scytl(object):
 
         return res.text
 
-    def _parse_file_from_zip_url(self, detail_xml_url, file_name) -> bytes:
+    def _parse_file_from_zip_url(self, zipfile_url: str, file_name: str) -> bytes:
+        """
+        Fetch a zip file from the given url and unzip to a byte array
+
+        `Args`:
+            zipfile_url: str
+                The url where the zip file can be found
+            election_id: str
+                The expected name of the file in the zipfile to read
+        `Returns`:
+            bytes
+            The unzipped file as bytes
+        """
+
         try:
             zipdata = BytesIO()
 
-            with urllib.request.urlopen(detail_xml_url) as remote:
+            with urllib.request.urlopen(zipfile_url) as remote:
                 data = remote.read()
                 zipdata.write(data)
 
@@ -116,16 +153,31 @@ class Scytl(object):
                 return input.read()
 
         except urllib.error.HTTPError as e:
-            print('HTTPError: {} {}'.format(e.code, detail_xml_url))
+            print('HTTPError: {} {}'.format(e.code, zipfile_url))
 
     def _get_latest_counties_scytl_info(
-        self, state, election_id, version
+        self, state: str, election_id: str, version_num: str
     ) -> dict[str, CountyDetails]:
+        """
+        Fetch the settings JSON file for the election and parse the county details
+        for participating counties in a state election.
+
+        `Args`:
+            state: str
+                The two-letter state code for the state
+            election_id: str
+                The election ID for the given election
+            version_num: str
+                The latest version ID of the election as a string
+        `Returns`:
+            dict[str, CountyDetails]
+            A dictionary mapping county names to their sub-election information
+        """
 
         county_dict = {}
 
         config_settings_json_url = detail_settings_json_url_template.format(
-            state=state, election_id=election_id, version_num=version
+            state=state, election_id=election_id, version_num=version_num
         )
 
         settings_json_res = requests.get(config_settings_json_url)
@@ -153,7 +205,24 @@ class Scytl(object):
 
         return county_dict
 
-    def _parse_county_xml_data_to_precincts(self, county_data, county_details: CountyDetails):
+    def _parse_county_xml_data_to_precincts(
+        self, county_data: bytes, county_details: CountyDetails
+    ) -> list[object]:
+        """
+        Parse a detail XML file for a county into a list of election
+        results by precinct and vote method.
+
+        `Args`:
+            county_data: bytes
+                The detail XML file for a county as bytes
+            county_details: str
+                The details object for the county, including name,
+                id, and last updated datetime
+        `Returns`:
+            list[object]
+            The list of election results by precinct and vote method in the file.
+        """
+
         tree = ET.fromstring(county_data)
 
         precinct_dict = {}
@@ -222,9 +291,24 @@ class Scytl(object):
 
         return precinct_votes
 
-    def _parse_state_xml_data_to_counties(self, file, state):
+    def _parse_state_xml_data_to_counties(
+        self, state_data: bytes, state: str
+    ):
+        """
+        Parse a detail XML file for a state into a list of election
+        results by county and vote method.
 
-        root = ET.fromstring(file)
+        `Args`:
+            state_data: bytes
+                The detail XML file for a state as bytes
+            state: str
+                The two-letter state code for the state associated with the file
+        `Returns`:
+            list[object]
+            The list of election results by state and vote method in the file.
+        """
+
+        root = ET.fromstring(state_data)
 
         county_dict = {}
         county_votes = []
@@ -288,8 +372,27 @@ class Scytl(object):
         return county_votes
 
     def _fetch_and_parse_summary_results(
-        self, administrator, election_id, version_num, county=''
-    ):
+        self, administrator: str, election_id: str, version_num: str, county=''
+    ) -> list[object]:
+        """
+        Fetches the summary results CSV file from the Scytl site and parses it
+        into a list of election results by candidate.
+
+        `Args`:
+            administrator: str
+                The url code for the election administrator, either the two-letter
+                state code or the state code and the county, separated by a slash
+            election_id: str
+                The election id for the given election as a string
+            version_num: str
+                The latest version ID of the election as a string
+            county: str
+                The name of the county associated with the summary file
+        `Returns`:
+            list[object]
+            The list of election results by candidate.
+        """
+
         summary_csv_zip_url = summary_csv_url_template.format(
             administrator=administrator, election_id=election_id, version_num=version_num
         )

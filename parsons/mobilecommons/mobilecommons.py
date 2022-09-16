@@ -188,7 +188,7 @@ class MobileCommons:
 
 
     def get_profiles(self, phones: list=None, first_date: str = None, last_date: str = None,
-                     include_custom_columns: bool=True, include_subscriptions: bool=False,
+                     include_custom_columns: bool=False, include_subscriptions: bool=False,
                      limit: int = None):
         """
         A function for getting profiles, which are MobileCommons people records
@@ -218,7 +218,7 @@ class MobileCommons:
         subscriptions='true' if include_subscriptions == True else 'false'
 
         params = {
-            'phones': phones,
+            'phone_number': phones,
             'from': format_date(first_date),
             'to': format_date(last_date),
             'include_custom_columns': custom_cols,

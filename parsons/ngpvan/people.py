@@ -372,7 +372,7 @@ class People(object):
         return self.connection.get_request(url, params={'$expand': expand_fields})
 
     def apply_canvass_result(self, id, result_code_id, id_type='vanid', contact_type_id=None,
-                             input_type_id=None, date_canvassed=None):
+                             input_type_id=None, date_canvassed=None, phone=None):
         """
         Apply a canvass result to a person. Use this end point for attempts that do not
         result in a survey response or an activist code (e.g. Not Home).
@@ -392,6 +392,8 @@ class People(object):
                 `Optional`; Defaults to 11 (API Input)
             date_canvassed : str
                 `Optional`; ISO 8601 formatted date. Defaults to todays date
+            phone: str
+                `Optional`; Phone number of any type (Work, Cell, Home)
         `Returns:`
             ``None``
         """
@@ -399,7 +401,7 @@ class People(object):
         logger.info(f'Applying result code {result_code_id} to {id_type} {id}.')
         self.apply_response(id, None, id_type=id_type, contact_type_id=contact_type_id,
                             input_type_id=input_type_id, date_canvassed=date_canvassed,
-                            result_code_id=result_code_id)
+                            result_code_id=result_code_id, phone=phone)
 
     def toggle_volunteer_action(self, id, volunteer_activity_id, action, id_type='vanid',
                                 result_code_id=None, contact_type_id=None, input_type_id=None,
@@ -444,7 +446,7 @@ class People(object):
 
     def apply_response(self, id, response, id_type='vanid', contact_type_id=None,
                        input_type_id=None, date_canvassed=None, result_code_id=None,
-                       omit_contact=False):
+                       omit_contact=False, phone=None):
         """
         Apply responses such as survey questions, activist codes, and volunteer actions
         to a person record. This method allows you apply multiple responses (e.g. two survey
@@ -477,6 +479,8 @@ class People(object):
                 Omit adding contact history to the response. This is particularly
                 useful when adding activist codes that are not based on contact
                 attempts.
+            phone: str
+                `Optional`; Phone number of any type (Work, Cell, Home)
         `Returns:`
             ``True`` if successful
 
@@ -504,6 +508,15 @@ class People(object):
             "dateCanvassed": date_canvassed,
             "omitActivistCodeContactHistory": omit_contact},
             "resultCodeId": result_code_id}
+
+        if contact_type_id == 1 or contact_type_id == 37:
+            if phone:
+                json['canvassContext']['phone'] = {
+                    "dialingPrefix": "1",
+                    "phoneNumber": phone
+                }
+            else:
+                raise Exception('A phone number must be provided if canvassed via phone or SMS')
 
         if response:
             json['responses'] = response

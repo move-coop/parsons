@@ -79,6 +79,12 @@ class Redshift(RedshiftCreateTable, RedshiftCopyTable, RedshiftTableUtilities, R
         self.timeout = timeout
         self.dialect = 'redshift'
         self.s3_temp_bucket = s3_temp_bucket or os.environ.get('S3_TEMP_BUCKET')
+        # Set prefix for temp S3 bucket paths that include subfolders
+        self.s3_temp_bucket_prefix = None
+        if self.s3_temp_bucket and '/' in self.s3_temp_bucket:
+            split_temp_bucket_name = self.s3_temp_bucket.split('/', 1)
+            self.s3_temp_bucket = split_temp_bucket_name[0]
+            self.s3_temp_bucket_prefix = split_temp_bucket_name[1]
         # We don't check/load the environment variables for aws_* here
         # because the logic in S3() and rs_copy_table.py does already.
         self.aws_access_key_id = aws_access_key_id
@@ -390,7 +396,7 @@ class Redshift(RedshiftCreateTable, RedshiftCopyTable, RedshiftTableUtilities, R
              columntypes=None, specifycols=None, alter_table=False, alter_table_cascade=False,
              aws_access_key_id=None, aws_secret_access_key=None, iam_role=None,
              cleanup_s3_file=True, template_table=None, temp_bucket_region=None,
-             strict_length=True):
+             strict_length=True, csv_encoding='utf-8'):
         """
         Copy a :ref:`parsons-table` to Redshift.
 
@@ -500,6 +506,9 @@ class Redshift(RedshiftCreateTable, RedshiftCopyTable, RedshiftTableUtilities, R
             strict_length: bool
                 Whether or not to tightly fit the length of the table columns to the length
                 of the data in ``tbl``; if ``padding`` is specified, this argument is ignored
+            csv_ecoding: str
+                String encoding to use when writing the temporary CSV file that is uploaded to S3.
+                Defaults to 'utf-8'.
 
         `Returns`
             Parsons Table or ``None``
@@ -537,7 +546,8 @@ class Redshift(RedshiftCreateTable, RedshiftCopyTable, RedshiftTableUtilities, R
 
             # Upload the table to S3
             key = self.temp_s3_copy(tbl, aws_access_key_id=aws_access_key_id,
-                                    aws_secret_access_key=aws_secret_access_key)
+                                    aws_secret_access_key=aws_secret_access_key,
+                                    csv_encoding=csv_encoding)
 
             try:
                 # Copy to Redshift database.
@@ -952,16 +962,21 @@ class Redshift(RedshiftCreateTable, RedshiftCopyTable, RedshiftTableUtilities, R
         s, t = self.split_full_table_name(table_name)
         cols = self.get_columns(s, t)
         rc = {k: v['max_length'] for k, v in cols.items() if v['data_type'] == 'character varying'}  # noqa: E501, E261
-        if drop_dependencies:
-            self.drop_dependencies_for_cols(s, t, rc.keys())
 
         # Figure out if any of the destination table varchar columns are smaller than the
         # associated Parsons table columns. If they are, then alter column types to expand
         # their width.
         for c in set(rc.keys()).intersection(set(pc.keys())):
-            if rc[c] < pc[c]:
+            if rc[c] < pc[c] and rc[c] != 65535:
                 logger.info(f'{c} not wide enough. Expanding column width.')
-                self.alter_table_column_type(table_name, c, 'varchar', varchar_width=pc[c])
+                # If requested size is larger than Redshift will allow,
+                # automatically set to Redshift's max varchar width
+                new_size = 65535
+                if pc[c] < new_size:
+                    new_size = pc[c]
+                if drop_dependencies:
+                    self.drop_dependencies_for_cols(s, t, [c])
+                self.alter_table_column_type(table_name, c, 'varchar', varchar_width=new_size)
 
     def alter_table_column_type(self, table_name, column_name, data_type, varchar_width=None):
         """

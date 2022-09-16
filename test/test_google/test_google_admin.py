@@ -18,7 +18,7 @@ class TestGoogleAdmin(unittest.TestCase):
     mock_all_groups = Table([
         {'email': 'fakeemail4@fakedomain.com', 'id': 1},
         {'email': 'fakeemail5@fakedomain.com', 'id': 2},
-        {'email': 'fakeemail6@fakedomain.com', 'id': 2}
+        {'email': 'fakeemail6@fakedomain.com', 'id': 3}
     ])
 
     def setUp(self):

@@ -49,6 +49,11 @@ class S3(object):
         aws_session_token: str
             The AWS session token. Optional. Can also be stored in the ``AWS_SESSION_TOKEN``
             env variable. Used for accessing S3 with temporary credentials.
+        use_env_token: boolean
+            Controls use of the ``AWS_SESSION_TOKEN`` environment variable. Defaults
+            to ``True``. Set to ``False`` in order to ignore the ``AWS_SESSION_TOKEN`` environment
+            variable even if the ``aws_session_token`` argument was not passed in.
+
     `Returns:`
         S3 class.
     """
@@ -56,11 +61,13 @@ class S3(object):
     def __init__(self,
                  aws_access_key_id=None,
                  aws_secret_access_key=None,
-                 aws_session_token=None):
+                 aws_session_token=None,
+                 use_env_token=True):
 
         self.aws = AWSConnection(aws_access_key_id=aws_access_key_id,
                                  aws_secret_access_key=aws_secret_access_key,
-                                 aws_session_token=aws_session_token)
+                                 aws_session_token=aws_session_token,
+                                 use_env_token=use_env_token)
 
         self.s3 = self.aws.session.resource('s3')
         """Boto3 API Session Resource object. Use for more advanced boto3 features."""

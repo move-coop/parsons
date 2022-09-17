@@ -317,7 +317,7 @@ Using a Data Warehouse
 We've gone over how to write a script that takes data from one place, transforms it, and then moves it to another. But many people find it helpful to store their data in a centralized location. This can be desirable for a few different reasons:
 
 * Using a data warehouse can make it easier to look at your data all together and to track changes to it
-* Most warehouses let you query data with SQL queries, whhich many people find easier or more familiar
+* Most warehouses let you query data with SQL queries, which many people find easier or more familiar
 * Warehouse are often optimized for dealing with very large data sources, which is helpful if you're using large data sets.
 
 In other words, it's convenient to extract data from your source system and load it in to your data warehouse. From there, you can do some data transformations in SQL to prepare the data for the destination system, and the push the data to your destination system. 

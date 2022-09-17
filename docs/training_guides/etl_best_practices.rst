@@ -355,7 +355,7 @@ If that's not an option, because Civis doesn't have an importer for your tool or
     from Parsons import Table, MobilizeAmerica, Redshift
 
     mobilize = MobilizeAmerica()
-    redshift = Redshift()
+    rs = Redshift()
 
     attendances = mobilize.get_attendances()
     rs.copy(attendances, 'mobilize.attendances', if_exists='drop', alter_table=True)

@@ -8,27 +8,26 @@ TEST_STATE = 'GA'
 TEST_ELECTION_ID = '114729'
 TEST_VERSION_NUM = '296262'
 
-_dir = os.path.dirname(__file__)
+_DIR = os.path.dirname(__file__)
 
 
 class TestScytl(unittest.TestCase):
 
-    @requests_mock.Mocker()
-    def test_get_summary_results_succeeds(self, m):
-        self._mock_responses(m)
+    def setUp(self):
+        self.scy = Scytl(TEST_STATE, TEST_ELECTION_ID)
 
-        mock_url = scytl.summary_csv_url_template.format(
-            administrator=TEST_STATE, election_id=TEST_ELECTION_ID, version_num=TEST_VERSION_NUM
-        )
+        self.requests_mock = requests_mock.Mocker()
 
-        with open(f'{_dir}/114729_summary.zip', 'r') as summary:
-            m.get(mock_url, body=summary)
+        self._mock_responses(self.requests_mock)
 
-        scy = Scytl(TEST_STATE, TEST_ELECTION_ID)
-        result = scy.get_summary_results()
+    def tearDown(self) -> None:
+        self.requests_mock.stop()
 
-        with open(f'{_dir}/114729_summary_expected.csv', 'r') as expected:
-            expectedResult = list(csv.DictReader(expected, delimiter=",", ))
+    def test_get_summary_results_succeeds(self):
+        result = self.scy.get_summary_results()
+
+        with open(f'{_DIR}/114729_summary_expected.csv', 'r') as expected:
+            expectedResult = list(csv.DictReader(expected, delimiter=","))
 
             for i, row in enumerate(result):
                 expectedResultRow = expectedResult[i]
@@ -39,40 +38,23 @@ class TestScytl(unittest.TestCase):
 
                 self.assertDictEqual(row, expectedResultRow)
 
-    @requests_mock.Mocker()
-    def test_get_summary_results_skips_if_no_version_update(self, m: requests_mock.Mocker):
-        self._mock_responses(m)
+    def test_get_summary_results_skips_if_no_version_update(self):
+        result = self.scy.get_summary_results()
 
-        scy = Scytl(TEST_STATE, TEST_ELECTION_ID)
+        self.assertIsNotNone(result)
 
-        result = scy.get_summary_results()
+        result = self.scy.get_summary_results()
 
-        assert result is not None
+        self.assertIsNone(result)
 
-        result = scy.get_summary_results()
+        result = self.scy.get_summary_results(True)
 
-        assert result is None
+        self.assertIsNotNone(result)
 
-        result = scy.get_summary_results(True)
+    def test_get_detailed_results_succeeds(self):
+        result = self.scy.get_detailed_results()
 
-        assert result is not None
-
-    @requests_mock.Mocker()
-    def test_get_detailed_results_succeeds(self, m: requests_mock.Mocker):
-        self._mock_responses(m)
-
-        mock_url = scytl.detail_xml_url_template.format(
-            administrator=TEST_STATE, election_id=TEST_ELECTION_ID, version_num=TEST_VERSION_NUM
-        )
-
-        with open(f'{_dir}/114729_detailxml.zip', 'r') as detailxml:
-            m.get(mock_url, body=detailxml)
-
-        scy = Scytl(TEST_STATE, TEST_ELECTION_ID)
-
-        result = scy.get_detailed_results()
-
-        with open(f'{_dir}/114729_county_expected.csv', 'r') as expected:
+        with open(f'{_DIR}/114729_county_expected.csv', 'r') as expected:
             expectedResult = list(csv.DictReader(expected, delimiter=","))
 
             for i in range(len(result)):
@@ -80,39 +62,29 @@ class TestScytl(unittest.TestCase):
 
                 expectedResultRow['recorded_votes'] = int(expectedResultRow['recorded_votes'])
                 expectedResultRow['timestamp_last_updated'] = \
-                    scy._parse_date_to_utc(expectedResultRow['timestamp_last_updated'])
+                    self.scy._parse_date_to_utc(expectedResultRow['timestamp_last_updated'])
 
                 self.assertDictEqual(result[i], expectedResultRow)
 
-    @requests_mock.Mocker()
-    def test_get_detailed_results_skips_if_no_version_update(self, m: requests_mock.Mocker):
-        self._mock_responses(m)
+    def test_get_detailed_results_skips_if_no_version_update(self):
+        result = self.scy.get_detailed_results()
 
-        scy = Scytl(TEST_STATE, TEST_ELECTION_ID)
+        self.assertIsNotNone(result)
 
-        result = scy.get_detailed_results()
+        result = self.scy.get_detailed_results()
 
-        assert result is not None
+        self.assertIsNone(result)
 
-        result = scy.get_detailed_results()
+        result = self.scy.get_detailed_results(True)
 
-        assert result is None
+        self.assertIsNotNone(result)
 
-        result = scy.get_detailed_results(True)
-
-        assert result is not None
-
-    @requests_mock.Mocker()
     def test_get_detailed_results_for_participating_counties_succeeds(
-        self, m: requests_mock.Mocker
+        self
     ):
-        self._mock_responses(m)
+        _, result = self.scy.get_detailed_results_for_participating_counties()
 
-        scy = Scytl(TEST_STATE, TEST_ELECTION_ID)
-
-        _, result = scy.get_detailed_results_for_participating_counties()
-
-        with open(f'{_dir}/114729_precinct_expected.csv', 'r') as expected:
+        with open(f'{_DIR}/114729_precinct_expected.csv', 'r') as expected:
             expectedResult = list(csv.DictReader(expected, delimiter=","))
 
             for i in range(len(result)):
@@ -120,23 +92,18 @@ class TestScytl(unittest.TestCase):
 
                 expectedResultRow['recorded_votes'] = int(expectedResultRow['recorded_votes'])
                 expectedResultRow['timestamp_last_updated'] = \
-                    scy._parse_date_to_utc(expectedResultRow['timestamp_last_updated'])
+                    self.scy._parse_date_to_utc(expectedResultRow['timestamp_last_updated'])
 
                 self.assertDictEqual(result[i], expectedResultRow)
 
-    @requests_mock.Mocker()
     def test_get_detailed_results_for_participating_counties_succeeds_for_two_counties(
-        self, m: requests_mock.Mocker
+        self
     ):
-        self._mock_responses(m)
-
-        scy = Scytl(TEST_STATE, TEST_ELECTION_ID)
-
         counties = ['Barrow', 'Clarke']
 
-        _, result = scy.get_detailed_results_for_participating_counties(county_names=counties)
+        _, result = self.scy.get_detailed_results_for_participating_counties(county_names=counties)
 
-        with open(f'{_dir}/114729_precinct_expected.csv', 'r') as expected:
+        with open(f'{_DIR}/114729_precinct_expected.csv', 'r') as expected:
             expectedResult = csv.DictReader(expected, delimiter=",")
 
             filteredExpectedResults = list(
@@ -148,106 +115,100 @@ class TestScytl(unittest.TestCase):
 
                 expectedResultRow['recorded_votes'] = int(expectedResultRow['recorded_votes'])
                 expectedResultRow['timestamp_last_updated'] = \
-                    scy._parse_date_to_utc(expectedResultRow['timestamp_last_updated'])
+                    self.scy._parse_date_to_utc(expectedResultRow['timestamp_last_updated'])
 
                 self.assertDictEqual(row, expectedResultRow)
 
-    @requests_mock.Mocker()
     def test_get_detailed_results_for_participating_counties_missing_counties_update(
-        self, m: requests_mock.Mocker
+        self
     ):
-        self._mock_responses(m)
-
-        scy = Scytl(TEST_STATE, TEST_ELECTION_ID)
-
         counties = ['Barrow']
 
-        _, result = scy.get_detailed_results_for_participating_counties(county_names=counties)
+        _, result = self.scy.get_detailed_results_for_participating_counties(county_names=counties)
 
-        assert result != []
+        self.assertNotEqual(result, [])
 
-        self._mock_responses(m)
+        self.scy.previous_county_details_version_num = None
 
-        scy.previous_county_details_version_num = None
+        _, result = self.scy.get_detailed_results_for_participating_counties()
 
-        _, result = scy.get_detailed_results_for_participating_counties()
-
-        assert result != []
+        self.assertNotEqual(result, [])
 
         self.assertTrue(all(x['county_name'] not in counties for x in result))
 
-    @requests_mock.Mocker()
     def test_get_detailed_results_for_participating_counties_skips_if_no_version_update(
-        self, m: requests_mock.Mocker
+        self
     ):
-        self._mock_responses(m)
+        _, result = self.scy.get_detailed_results_for_participating_counties()
 
-        scy = Scytl(TEST_STATE, TEST_ELECTION_ID)
+        self.assertNotEqual(result, [])
 
-        _, result = scy.get_detailed_results_for_participating_counties()
+        _, result = self.scy.get_detailed_results_for_participating_counties()
 
-        assert result != []
+        self.assertEqual(result, [])
 
-        _, result = scy.get_detailed_results_for_participating_counties()
+        _, result = self.scy.get_detailed_results_for_participating_counties(force_update=True)
 
-        assert result == []
+        self.assertNotEqual(result, [])
 
-        _, result = scy.get_detailed_results_for_participating_counties(force_update=True)
-
-        assert result != []
-
-    @requests_mock.Mocker()
     def test_get_detailed_results_for_participating_counties_skips_if_no_county_version_update(
-        self, m: requests_mock.Mocker
+        self
     ):
-        self._mock_responses(m)
+        _, result = self.scy.get_detailed_results_for_participating_counties()
 
-        scy = Scytl(TEST_STATE, TEST_ELECTION_ID)
+        self.assertNotEqual(result, [])
 
-        _, result = scy.get_detailed_results_for_participating_counties()
+        self.scy.previous_county_details_version_num = None
 
-        assert result != []
+        _, result = self.scy.get_detailed_results_for_participating_counties()
 
-        scy.previous_county_details_version_num = None
+        self.assertEqual(result, [])
 
-        _, result = scy.get_detailed_results_for_participating_counties()
-
-        assert result == []
-
-    @requests_mock.Mocker()
     def test_get_detailed_results_for_participating_counties_repeats_failed_counties(
-        self, m: requests_mock.Mocker
+        self
     ):
-        self._mock_responses(m)
+        _, result = self.scy.get_detailed_results_for_participating_counties()
 
-        scy = Scytl(TEST_STATE, TEST_ELECTION_ID)
+        self.assertNotEqual(result, [])
 
-        _, result = scy.get_detailed_results_for_participating_counties()
+        self.scy.previous_county_details_version_num = None
+        self.scy.previously_fetched_counties.remove('Barrow')
 
-        assert result != []
+        _, result = self.scy.get_detailed_results_for_participating_counties()
 
-        scy.previous_county_details_version_num = None
-        scy.previously_fetched_counties.remove('Barrow')
-
-        _, result = scy.get_detailed_results_for_participating_counties()
-
-        assert result != []
+        self.assertNotEqual(result, [])
 
     def _mock_responses(self, m: requests_mock.Mocker):
-        mock_url = scytl.get_version_url.format(
+        mock_current_version_url = scytl.CURRENT_VERSION_URL_TEMPLATE.format(
             administrator=TEST_STATE, election_id=TEST_ELECTION_ID
         )
 
-        m.get(mock_url, text=TEST_VERSION_NUM)
+        m.get(mock_current_version_url, text=TEST_VERSION_NUM)
 
-        mock_detail_url = scytl.detail_settings_json_url_template.format(
+        mock_election_settings_url = scytl.ELECTION_SETTINGS_JSON_URL_TEMPLATE.format(
             state=TEST_STATE, election_id=TEST_ELECTION_ID, version_num=TEST_VERSION_NUM
         )
 
-        with open(f'{_dir}/GA_114729_296262_county_election_settings.json', 'r') as f:
-            m.get(mock_detail_url, text=f.read())
+        with open(f'{_DIR}/GA_114729_296262_county_election_settings.json', 'r') as f:
+            m.get(mock_election_settings_url, text=f.read())
 
-        for file in os.listdir(f'{_dir}/mock_responses'):
-            with open(f'{_dir}/mock_responses/{file}') as f:
+        for file in os.listdir(f'{_DIR}/mock_responses'):
+            with open(f'{_DIR}/mock_responses/{file}') as f:
                 fn = f'https://results.enr.clarityelections.com/{file}'.replace('_', '/')
                 m.get(fn, body=f)
+
+        mock_summary_csv_url = scytl.SUMMARY_CSV_ZIP_URL_TEMPLATE.format(
+            administrator=TEST_STATE, election_id=TEST_ELECTION_ID, version_num=TEST_VERSION_NUM
+        )
+
+        with open(f'{_DIR}/114729_summary.zip', 'r') as summary:
+            self.requests_mock.get(mock_summary_csv_url, body=summary)
+
+        mock_detail_xml_url = scytl.DETAIL_XML_ZIP_URL_TEMPLATE.format(
+            administrator=TEST_STATE, election_id=TEST_ELECTION_ID, version_num=TEST_VERSION_NUM
+        )
+
+        with open(f'{_DIR}/114729_detailxml.zip', 'r') as detailxml:
+            self.requests_mock.get(mock_detail_xml_url, body=detailxml)
+
+        m.start()

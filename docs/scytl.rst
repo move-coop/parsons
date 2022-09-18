@@ -13,6 +13,10 @@ This connector provides methods to download the latest election results from the
 
 Because this connector is can be useful for live reporting, it also contains a polling feature. As long as the class is instantiated, it will only fetch results that are new since the previous fetch of that method. To skip this feature, set force_update to true on any of the fetch methods.
 
+.. note::
+  Authentication
+    All endpoints for Scytl are public, and do not need authentication.
+
 **********
 Quickstart
 **********
@@ -20,7 +24,6 @@ Quickstart
 To get started, initialize a Scytl class with the two-letter state code, the election id, and the county name (optional).
 
 To get these details, go to the website for the given election, and look in the url. For example, if the url is "https://results.enr.clarityelections.com/TX/Dallas/114890/web.285569/", then the state is "TX", the county is "Dallas", and the election ID is "114890". If the url is "https://results.enr.clarityelections.com/GA/114729/web.285569/", the state is "GA" and the election ID is "114729".
-
 
 .. code-block:: python
 

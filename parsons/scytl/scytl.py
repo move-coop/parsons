@@ -9,6 +9,7 @@ from datetime import datetime
 from dateutil.parser import parse as parsedate
 from pytz import timezone
 from io import BytesIO, StringIO
+from dataclasses import dataclass
 
 CLARITY_URL = 'https://results.enr.clarityelections.com/'
 
@@ -39,20 +40,19 @@ TZ_INFO = {
 }
 
 
+@dataclass
 class CountyDetails:
-    def __init__(
-        self,
-        state: str,
-        county_name: str,
-        county_election_id: str,
-        county_version_num: str,
-        county_update_date: datetime = None
-    ):
-        self.state = state
-        self.county_name = county_name
-        self.county_election_id = county_election_id
-        self.county_version_num = county_version_num
-        self.county_update_date = county_update_date
+    """
+    A class for keeping track of County election details.
+
+    A dataclass is decorator that adds special functions including an
+    automatic __init__ function. See more here: https://docs.python.org/3/library/dataclasses.html
+    """
+    state: str
+    county_name: str
+    county_election_id: str
+    county_version_num: str
+    county_update_date: datetime = None
 
 
 class Scytl:

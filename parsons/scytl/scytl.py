@@ -140,16 +140,16 @@ class Scytl:
             The unzipped file as bytes
         """
 
-        zipdata = BytesIO()
+        with BytesIO() as zipdata:
+            with urllib.request.urlopen(zipfile_url) as remote:
+                data = remote.read()
+                zipdata.write(data)
+                zipdata.flush()
 
-        with urllib.request.urlopen(zipfile_url) as remote:
-            data = remote.read()
-            zipdata.write(data)
+            zf = zipfile.ZipFile(zipdata)
 
-        zf = zipfile.ZipFile(zipdata)
-
-        with zf.open(file_name) as input:
-            return input.read()
+            with zf.open(file_name) as input:
+                return input.read()
 
     def _get_latest_counties_scytl_info(
         self, state: str, election_id: str, version_num: str
@@ -634,7 +634,7 @@ class Scytl:
             try:
                 county_data = self._parse_file_from_zip_url(detail_xml_url, 'detail.xml')
 
-            except:
+            except urllib.error.HTTPError:
                 try:
                     summary_data = self._fetch_and_parse_summary_results(
                         f"{self.state}/{county_name}",
@@ -643,7 +643,7 @@ class Scytl:
                         county_name
                     )
 
-                except:
+                except urllib.error.HTTPError:
                     missing_counties.append(county_name)
 
                 else:

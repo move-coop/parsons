@@ -5,6 +5,7 @@ import requests
 import urllib.error
 import urllib.request
 import xml.etree.ElementTree as ET
+import typing as t
 from datetime import datetime
 from dateutil.parser import parse as parsedate
 from pytz import timezone
@@ -153,7 +154,7 @@ class Scytl:
 
     def _get_latest_counties_scytl_info(
         self, state: str, election_id: str, version_num: str
-    ) -> dict[str, CountyDetails]:
+    ) -> t.Dict[str, CountyDetails]:
         """
         Fetch the settings JSON file for the election and parse the county details
         for participating counties in a state election.
@@ -203,7 +204,7 @@ class Scytl:
 
     def _parse_county_xml_data_to_precincts(
         self, county_data: bytes, county_details: CountyDetails
-    ) -> list[dict]:
+    ) -> t.List[t.Dict]:
         """
         Parse a detail XML file for a county into a list of election
         results by precinct and vote method.
@@ -290,7 +291,7 @@ class Scytl:
 
     def _parse_state_xml_data_to_counties(
         self, state_data: bytes, state: str
-    ) -> list[dict]:
+    ) -> t.List[t.Dict]:
         """
         Parse a detail XML file for a state into a list of election
         results by county and vote method.
@@ -370,7 +371,7 @@ class Scytl:
 
     def _fetch_and_parse_summary_results(
         self, administrator: str, election_id: str, version_num: str, county=''
-    ) -> list[dict]:
+    ) -> t.List[t.Dict]:
         """
         Fetches the summary results CSV file from the Scytl site and parses it
         into a list of election results by candidate.
@@ -416,7 +417,7 @@ class Scytl:
 
         return data
 
-    def get_summary_results(self, force_update=False) -> list[dict]:
+    def get_summary_results(self, force_update=False) -> t.List[t.Dict]:
         """
         Fetch the latest summary results for the given election, across all contests.
 
@@ -461,7 +462,7 @@ class Scytl:
 
         return data
 
-    def get_detailed_results(self, force_update=False) -> list[dict]:
+    def get_detailed_results(self, force_update=False) -> t.List[t.Dict]:
         """
         Fetch the latest detailed results by geography for the given election, across all contests.
 
@@ -547,9 +548,9 @@ class Scytl:
 
     def get_detailed_results_for_participating_counties(
         self,
-        county_names: list[str] = None,
+        county_names: t.List[str] = None,
         force_update=False
-    ) -> tuple[list[str], list[dict]]:
+    ) -> t.Tuple[t.List[str], t.List[t.Dict]]:
         """
         Fetch the latest detailed results for the given election for all participating counties
             with detailed results, across all contests.

@@ -132,20 +132,30 @@
            <div itemprop="articleBody">
              
   <h1>Source code for parsons.targetsmart.targetsmart_api</h1><div class="highlight"><pre>
-<span></span><span class="kn">import</span> <span class="nn">requests</span>
+<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">Routines for interacting with TargetSmart&#39;s developer API.</span>
+
+<span class="sd">https://docs.targetsmart.com/developers/tsapis/v2/index.html</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="kn">import</span> <span class="nn">logging</span>
+
 <span class="kn">import</span> <span class="nn">petl</span>
+<span class="kn">import</span> <span class="nn">requests</span>
 <span class="kn">from</span> <span class="nn">parsons.etl.table</span> <span class="kn">import</span> <span class="n">Table</span>
 <span class="kn">from</span> <span class="nn">parsons.utilities</span> <span class="kn">import</span> <span class="n">check_env</span>
 
-<span class="n">URI</span> <span class="o">=</span> <span class="s1">&#39;https://api.targetsmart.com/&#39;</span>
+<span class="kn">from</span> <span class="nn">.targetsmart_smartmatch</span> <span class="kn">import</span> <span class="n">SmartMatch</span>
+
+<span class="n">URI</span> <span class="o">=</span> <span class="s2">&quot;https://api.targetsmart.com/&quot;</span>
+
+<span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
 
 
-<span class="k">class</span> <span class="nc">TargetSmartConnector</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
-
+<span class="k">class</span> <span class="nc">TargetSmartConnector</span><span class="p">:</span>
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">api_key</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">uri</span> <span class="o">=</span> <span class="n">URI</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">api_key</span> <span class="o">=</span> <span class="n">check_env</span><span class="o">.</span><span class="n">check</span><span class="p">(</span><span class="s1">&#39;TS_API_KEY&#39;</span><span class="p">,</span> <span class="n">api_key</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">headers</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;x-api-key&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">api_key</span><span class="p">}</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">api_key</span> <span class="o">=</span> <span class="n">check_env</span><span class="o">.</span><span class="n">check</span><span class="p">(</span><span class="s2">&quot;TS_API_KEY&quot;</span><span class="p">,</span> <span class="n">api_key</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">headers</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;x-api-key&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">api_key</span><span class="p">}</span>
 
     <span class="k">def</span> <span class="nf">request</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">url</span><span class="p">,</span> <span class="n">args</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">raw</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
 
@@ -156,16 +166,15 @@
 
             <span class="k">return</span> <span class="n">r</span><span class="o">.</span><span class="n">json</span><span class="p">()</span>
 
-        <span class="k">return</span> <span class="n">Table</span><span class="p">(</span><span class="n">r</span><span class="o">.</span><span class="n">json</span><span class="p">()[</span><span class="s1">&#39;output&#39;</span><span class="p">])</span>
+        <span class="k">return</span> <span class="n">Table</span><span class="p">(</span><span class="n">r</span><span class="o">.</span><span class="n">json</span><span class="p">()[</span><span class="s2">&quot;output&quot;</span><span class="p">])</span>
 
 
-<span class="k">class</span> <span class="nc">Person</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
-
+<span class="k">class</span> <span class="nc">Person</span><span class="p">:</span>
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 
         <span class="k">return</span> <span class="kc">None</span>
 
-    <span class="k">def</span> <span class="nf">data_enhance</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">search_id</span><span class="p">,</span> <span class="n">search_id_type</span><span class="o">=</span><span class="s1">&#39;voterbase&#39;</span><span class="p">,</span> <span class="n">state</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">data_enhance</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">search_id</span><span class="p">,</span> <span class="n">search_id_type</span><span class="o">=</span><span class="s2">&quot;voterbase&quot;</span><span class="p">,</span> <span class="n">state</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Searches for a record based on an id or phone or email address</span>
 
@@ -173,7 +182,7 @@
 <span class="sd">            search_id: str</span>
 <span class="sd">                The primary key or email address or phone number</span>
 <span class="sd">            search_id_type: str</span>
-<span class="sd">                One of ``voterbase``, ``exacttrack``, ``abilitec_consumer_link``, ``phone``,</span>
+<span class="sd">                One of ``voterbase``, ``exacttrack``, ``phone``,</span>
 <span class="sd">                ``email``, ``smartvan``, ``votebuilder``, ``voter``, ``household``.</span>
 <span class="sd">            state: str</span>
 <span class="sd">                Two character state code. Required if ``search_id_type`` of ``smartvan``,</span>
@@ -183,37 +192,65 @@
 <span class="sd">                See :ref:`parsons-table` for output options.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
-        <span class="k">if</span> <span class="n">search_id_type</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;smartvan&#39;</span><span class="p">,</span> <span class="s1">&#39;votebuilder&#39;</span><span class="p">,</span> <span class="s1">&#39;voter&#39;</span><span class="p">]</span> <span class="ow">and</span> <span class="n">state</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">search_id_type</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;smartvan&quot;</span><span class="p">,</span> <span class="s2">&quot;votebuilder&quot;</span><span class="p">,</span> <span class="s2">&quot;voter&quot;</span><span class="p">]</span> <span class="ow">and</span> <span class="n">state</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
 
-            <span class="k">raise</span> <span class="ne">KeyError</span><span class="p">(</span><span class="s2">&quot;Search ID type &#39;</span><span class="si">{}</span><span class="s2">&#39; requires state kwarg&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">search_id_type</span><span class="p">))</span>
+            <span class="k">raise</span> <span class="ne">KeyError</span><span class="p">(</span>
+                <span class="s2">&quot;Search ID type &#39;</span><span class="si">{}</span><span class="s2">&#39; requires state kwarg&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">search_id_type</span><span class="p">)</span>
+            <span class="p">)</span>
 
-        <span class="k">if</span> <span class="n">search_id_type</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">(</span><span class="s1">&#39;voterbase&#39;</span><span class="p">,</span> <span class="s1">&#39;exacttrack&#39;</span><span class="p">,</span> <span class="s1">&#39;abilitec_consumer_link&#39;</span><span class="p">,</span> <span class="s1">&#39;phone&#39;</span><span class="p">,</span>
-                                  <span class="s1">&#39;email&#39;</span><span class="p">,</span> <span class="s1">&#39;smartvan&#39;</span><span class="p">,</span> <span class="s1">&#39;votebuilder&#39;</span><span class="p">,</span> <span class="s1">&#39;voter&#39;</span><span class="p">,</span> <span class="s1">&#39;household&#39;</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">search_id_type</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">(</span>
+            <span class="s2">&quot;voterbase&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;exacttrack&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;phone&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;email&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;smartvan&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;votebuilder&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;voter&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;household&quot;</span><span class="p">,</span>
+        <span class="p">):</span>
 
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;Search_id_type is not valid&#39;</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Search_id_type is not valid&quot;</span><span class="p">)</span>
 
-        <span class="n">url</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">connection</span><span class="o">.</span><span class="n">uri</span> <span class="o">+</span> <span class="s1">&#39;person/data-enhance&#39;</span>
+        <span class="n">url</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">connection</span><span class="o">.</span><span class="n">uri</span> <span class="o">+</span> <span class="s2">&quot;person/data-enhance&quot;</span>
 
-        <span class="n">args</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;search_id&#39;</span><span class="p">:</span> <span class="n">search_id</span><span class="p">,</span>
-                <span class="s1">&#39;search_id_type&#39;</span><span class="p">:</span> <span class="n">search_id_type</span><span class="p">,</span>
-                <span class="s1">&#39;state&#39;</span><span class="p">:</span> <span class="n">state</span>
-                <span class="p">}</span>
+        <span class="n">args</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s2">&quot;search_id&quot;</span><span class="p">:</span> <span class="n">search_id</span><span class="p">,</span>
+            <span class="s2">&quot;search_id_type&quot;</span><span class="p">:</span> <span class="n">search_id_type</span><span class="p">,</span>
+            <span class="s2">&quot;state&quot;</span><span class="p">:</span> <span class="n">state</span><span class="p">,</span>
+        <span class="p">}</span>
 
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">connection</span><span class="o">.</span><span class="n">request</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">args</span><span class="o">=</span><span class="n">args</span><span class="p">)</span>
 
-    <span class="k">def</span> <span class="nf">radius_search</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">first_name</span><span class="p">,</span> <span class="n">last_name</span><span class="p">,</span> <span class="n">middle_name</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">name_suffix</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-                      <span class="n">latitude</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">longitude</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">address</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">radius_size</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span>
-                      <span class="n">radius_unit</span><span class="o">=</span><span class="s1">&#39;miles&#39;</span><span class="p">,</span> <span class="n">max_results</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">gender</span><span class="o">=</span><span class="s1">&#39;a&#39;</span><span class="p">,</span> <span class="n">age_min</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">age_max</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-                      <span class="n">composite_score_min</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">composite_score_max</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">last_name_exact</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
-                      <span class="n">last_name_is_prefix</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">last_name_prefix_length</span><span class="o">=</span><span class="mi">10</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">radius_search</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">first_name</span><span class="p">,</span>
+        <span class="n">last_name</span><span class="p">,</span>
+        <span class="n">middle_name</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">name_suffix</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">latitude</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">longitude</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">address</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">radius_size</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span>
+        <span class="n">radius_unit</span><span class="o">=</span><span class="s2">&quot;miles&quot;</span><span class="p">,</span>
+        <span class="n">max_results</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span>
+        <span class="n">gender</span><span class="o">=</span><span class="s2">&quot;a&quot;</span><span class="p">,</span>
+        <span class="n">age_min</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">age_max</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">composite_score_min</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+        <span class="n">composite_score_max</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span>
+        <span class="n">last_name_exact</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="n">last_name_is_prefix</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+        <span class="n">last_name_prefix_length</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span>
+        <span class="n">address_type</span><span class="o">=</span><span class="s2">&quot;reg&quot;</span><span class="p">,</span>
+    <span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Search for a person based on a specified radius</span>
 
 <span class="sd">        `Args`:</span>
 <span class="sd">            first_name: str</span>
-<span class="sd">                One or more alpha characters</span>
+<span class="sd">                One or more alpha characters. Required</span>
 <span class="sd">            last_name: str</span>
-<span class="sd">                One or more alpha characters</span>
+<span class="sd">                One or more alpha characters. Required</span>
 <span class="sd">            middle_name: str</span>
 <span class="sd">                One or more alpha characters</span>
 <span class="sd">            name_suffix: str</span>
@@ -226,6 +263,8 @@
 <span class="sd">                Any geocode-able address</span>
 <span class="sd">            address_type: str</span>
 <span class="sd">                ``reg`` for registration (default) or ``tsmart`` for TargetSmart</span>
+<span class="sd">            radius_size: int</span>
+<span class="sd">                A positive integer where combined with ``radius_unit`` does not exceed 120 miles</span>
 <span class="sd">            radius_unit: str</span>
 <span class="sd">                One of ``meters``, ``feet``, ``miles`` (default), or ``kilometers``.</span>
 <span class="sd">            max_results: int</span>
@@ -263,36 +302,46 @@
 <span class="sd">        &quot;&quot;&quot;</span>
 
         <span class="k">if</span> <span class="p">(</span><span class="n">latitude</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="n">longitude</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">)</span> <span class="ow">and</span> <span class="n">address</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;Lat/Long or Address required&#39;</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Lat/Long or Address required&quot;</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">first_name</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;First name is required&quot;</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">last_name</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Last name is required&quot;</span><span class="p">)</span>
 
         <span class="c1"># Convert booleans</span>
         <span class="k">for</span> <span class="n">a</span> <span class="ow">in</span> <span class="p">[</span><span class="n">last_name_exact</span><span class="p">,</span> <span class="n">last_name_is_prefix</span><span class="p">]:</span>
             <span class="n">a</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>
 
-        <span class="n">url</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">connection</span><span class="o">.</span><span class="n">uri</span> <span class="o">+</span> <span class="s1">&#39;person/radius-search&#39;</span>
+        <span class="n">url</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">connection</span><span class="o">.</span><span class="n">uri</span> <span class="o">+</span> <span class="s2">&quot;person/radius-search&quot;</span>
 
-        <span class="n">args</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;first_name&#39;</span><span class="p">:</span> <span class="n">first_name</span><span class="p">,</span>
-                <span class="s1">&#39;last_name&#39;</span><span class="p">:</span> <span class="n">last_name</span><span class="p">,</span>
-                <span class="s1">&#39;middle_name&#39;</span><span class="p">:</span> <span class="n">middle_name</span><span class="p">,</span>
-                <span class="s1">&#39;name_suffix&#39;</span><span class="p">:</span> <span class="n">name_suffix</span><span class="p">,</span>
-                <span class="s1">&#39;latitude&#39;</span><span class="p">:</span> <span class="n">latitude</span><span class="p">,</span>
-                <span class="s1">&#39;longitude&#39;</span><span class="p">:</span> <span class="n">longitude</span><span class="p">,</span>
-                <span class="s1">&#39;address&#39;</span><span class="p">:</span> <span class="n">address</span><span class="p">,</span>
-                <span class="s1">&#39;radius_size&#39;</span><span class="p">:</span> <span class="n">radius_size</span><span class="p">,</span>
-                <span class="s1">&#39;radius_unit&#39;</span><span class="p">:</span> <span class="n">radius_unit</span><span class="p">,</span>
-                <span class="s1">&#39;max_results&#39;</span><span class="p">:</span> <span class="n">max_results</span><span class="p">,</span>
-                <span class="s1">&#39;gender&#39;</span><span class="p">:</span> <span class="n">gender</span><span class="p">,</span>
-                <span class="s1">&#39;age_min&#39;</span><span class="p">:</span> <span class="n">age_min</span><span class="p">,</span>
-                <span class="s1">&#39;age_max&#39;</span><span class="p">:</span> <span class="n">age_max</span><span class="p">,</span>
-                <span class="s1">&#39;composite_score_min&#39;</span><span class="p">:</span> <span class="n">composite_score_min</span><span class="p">,</span>
-                <span class="s1">&#39;composite_score_max&#39;</span><span class="p">:</span> <span class="n">composite_score_max</span><span class="p">,</span>
-                <span class="s1">&#39;last_name_exact&#39;</span><span class="p">:</span> <span class="n">last_name_exact</span><span class="p">,</span>
-                <span class="s1">&#39;last_name_is_prefix&#39;</span><span class="p">:</span> <span class="n">last_name_is_prefix</span><span class="p">,</span>
-                <span class="s1">&#39;last_name_prefix_length&#39;</span><span class="p">:</span> <span class="n">last_name_prefix_length</span>
-                <span class="p">}</span>
+        <span class="n">args</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s2">&quot;first_name&quot;</span><span class="p">:</span> <span class="n">first_name</span><span class="p">,</span>
+            <span class="s2">&quot;last_name&quot;</span><span class="p">:</span> <span class="n">last_name</span><span class="p">,</span>
+            <span class="s2">&quot;middle_name&quot;</span><span class="p">:</span> <span class="n">middle_name</span><span class="p">,</span>
+            <span class="s2">&quot;name_suffix&quot;</span><span class="p">:</span> <span class="n">name_suffix</span><span class="p">,</span>
+            <span class="s2">&quot;latitude&quot;</span><span class="p">:</span> <span class="n">latitude</span><span class="p">,</span>
+            <span class="s2">&quot;longitude&quot;</span><span class="p">:</span> <span class="n">longitude</span><span class="p">,</span>
+            <span class="s2">&quot;address&quot;</span><span class="p">:</span> <span class="n">address</span><span class="p">,</span>
+            <span class="s2">&quot;address_type&quot;</span><span class="p">:</span> <span class="n">address_type</span><span class="p">,</span>
+            <span class="s2">&quot;radius_size&quot;</span><span class="p">:</span> <span class="n">radius_size</span><span class="p">,</span>
+            <span class="s2">&quot;radius_unit&quot;</span><span class="p">:</span> <span class="n">radius_unit</span><span class="p">,</span>
+            <span class="s2">&quot;max_results&quot;</span><span class="p">:</span> <span class="n">max_results</span><span class="p">,</span>
+            <span class="s2">&quot;gender&quot;</span><span class="p">:</span> <span class="n">gender</span><span class="p">,</span>
+            <span class="s2">&quot;age_min&quot;</span><span class="p">:</span> <span class="n">age_min</span><span class="p">,</span>
+            <span class="s2">&quot;age_max&quot;</span><span class="p">:</span> <span class="n">age_max</span><span class="p">,</span>
+            <span class="s2">&quot;composite_score_min&quot;</span><span class="p">:</span> <span class="n">composite_score_min</span><span class="p">,</span>
+            <span class="s2">&quot;composite_score_max&quot;</span><span class="p">:</span> <span class="n">composite_score_max</span><span class="p">,</span>
+            <span class="s2">&quot;last_name_exact&quot;</span><span class="p">:</span> <span class="n">last_name_exact</span><span class="p">,</span>
+            <span class="s2">&quot;last_name_is_prefix&quot;</span><span class="p">:</span> <span class="n">last_name_is_prefix</span><span class="p">,</span>
+            <span class="s2">&quot;last_name_prefix_length&quot;</span><span class="p">:</span> <span class="n">last_name_prefix_length</span><span class="p">,</span>
+        <span class="p">}</span>
 
         <span class="n">r</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">connection</span><span class="o">.</span><span class="n">request</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">args</span><span class="o">=</span><span class="n">args</span><span class="p">,</span> <span class="n">raw</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-        <span class="k">return</span> <span class="n">Table</span><span class="p">([</span><span class="n">itm</span> <span class="k">for</span> <span class="n">itm</span> <span class="ow">in</span> <span class="n">r</span><span class="p">[</span><span class="s1">&#39;output&#39;</span><span class="p">]])</span><span class="o">.</span><span class="n">unpack_dict</span><span class="p">(</span><span class="s1">&#39;data_fields&#39;</span><span class="p">,</span> <span class="n">prepend</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">Table</span><span class="p">([</span><span class="n">itm</span> <span class="k">for</span> <span class="n">itm</span> <span class="ow">in</span> <span class="n">r</span><span class="p">[</span><span class="s2">&quot;output&quot;</span><span class="p">]])</span><span class="o">.</span><span class="n">unpack_dict</span><span class="p">(</span>
+            <span class="s2">&quot;data_fields&quot;</span><span class="p">,</span> <span class="n">prepend</span><span class="o">=</span><span class="kc">False</span>
+        <span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">phone</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">table</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
@@ -307,21 +356,28 @@
 <span class="sd">            See :ref:`parsons-table` for output options.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
-        <span class="n">url</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">connection</span><span class="o">.</span><span class="n">uri</span> <span class="o">+</span> <span class="s1">&#39;person/phone-search&#39;</span>
+        <span class="n">url</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">connection</span><span class="o">.</span><span class="n">uri</span> <span class="o">+</span> <span class="s2">&quot;person/phone-search&quot;</span>
 
-        <span class="n">args</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;phones&#39;</span><span class="p">:</span> <span class="nb">list</span><span class="p">(</span><span class="n">petl</span><span class="o">.</span><span class="n">values</span><span class="p">(</span><span class="n">table</span><span class="o">.</span><span class="n">table</span><span class="p">,</span> <span class="mi">0</span><span class="p">))}</span>
+        <span class="n">args</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;phones&quot;</span><span class="p">:</span> <span class="nb">list</span><span class="p">(</span><span class="n">petl</span><span class="o">.</span><span class="n">values</span><span class="p">(</span><span class="n">table</span><span class="o">.</span><span class="n">table</span><span class="p">,</span> <span class="mi">0</span><span class="p">))}</span>
 
-        <span class="k">return</span> <span class="n">Table</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">connection</span><span class="o">.</span><span class="n">request</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">args</span><span class="o">=</span><span class="n">args</span><span class="p">,</span> <span class="n">raw</span><span class="o">=</span><span class="kc">True</span><span class="p">)[</span><span class="s1">&#39;result&#39;</span><span class="p">])</span>
+        <span class="k">return</span> <span class="n">Table</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">connection</span><span class="o">.</span><span class="n">request</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">args</span><span class="o">=</span><span class="n">args</span><span class="p">,</span> <span class="n">raw</span><span class="o">=</span><span class="kc">True</span><span class="p">)[</span><span class="s2">&quot;result&quot;</span><span class="p">])</span>
 
 
-<span class="k">class</span> <span class="nc">Service</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
-
+<span class="k">class</span> <span class="nc">Service</span><span class="p">:</span>
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 
         <span class="k">return</span> <span class="kc">None</span>
 
-    <span class="k">def</span> <span class="nf">district</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">search_type</span><span class="o">=</span><span class="s1">&#39;zip&#39;</span><span class="p">,</span> <span class="n">address</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">zip5</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">zip4</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">state</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-                 <span class="n">latitude</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">longitude</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">district</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">search_type</span><span class="o">=</span><span class="s2">&quot;zip&quot;</span><span class="p">,</span>
+        <span class="n">address</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">zip5</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">zip4</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">state</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">latitude</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">longitude</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Return district information based on a geographic point. The method allows you to</span>
 <span class="sd">        search based on the following:</span>
@@ -331,7 +387,7 @@
 <span class="sd">            :header-rows: 1</span>
 
 <span class="sd">            * - Search Type</span>
-<span class="sd">              - Search Type Name</span>
+<span class="sd">              - ``search_type``</span>
 <span class="sd">              - Required kwarg(s)</span>
 <span class="sd">            * - Zip Code</span>
 <span class="sd">              - ``zip``</span>
@@ -340,7 +396,7 @@
 <span class="sd">              - ``address``</span>
 <span class="sd">              - ``address``</span>
 <span class="sd">            * - Point</span>
-<span class="sd">              - point</span>
+<span class="sd">              - ``point``</span>
 <span class="sd">              - ``latitude``, ``longitude``</span>
 
 <span class="sd">        `Args`:</span>
@@ -357,53 +413,65 @@
 <span class="sd">                The two character state code</span>
 <span class="sd">            latitude: float or str</span>
 <span class="sd">                Valid latitude floating point</span>
-<span class="sd">            lontitude: float or str</span>
+<span class="sd">            longitude: float or str</span>
 <span class="sd">                Valid longitude floating point</span>
 <span class="sd">        `Returns`:</span>
 <span class="sd">            Parsons Table</span>
 <span class="sd">                See :ref:`parsons-table` for output options.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
-        <span class="k">if</span> <span class="n">search_type</span> <span class="o">==</span> <span class="s1">&#39;zip&#39;</span> <span class="ow">and</span> <span class="kc">None</span> <span class="ow">in</span> <span class="p">[</span><span class="n">zip5</span><span class="p">,</span> <span class="n">zip4</span><span class="p">]:</span>
+        <span class="k">if</span> <span class="n">search_type</span> <span class="o">==</span> <span class="s2">&quot;zip&quot;</span> <span class="ow">and</span> <span class="kc">None</span> <span class="ow">in</span> <span class="p">[</span><span class="n">zip5</span><span class="p">,</span> <span class="n">zip4</span><span class="p">]:</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Search type &#39;zip&#39; requires &#39;zip5&#39; and &#39;zip4&#39; arguments&quot;</span><span class="p">)</span>
 
-        <span class="k">elif</span> <span class="n">search_type</span> <span class="o">==</span> <span class="s1">&#39;point&#39;</span> <span class="ow">and</span> <span class="kc">None</span> <span class="ow">in</span> <span class="p">[</span><span class="n">latitude</span><span class="p">,</span> <span class="n">longitude</span><span class="p">]:</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Search type &#39;point&#39; requires &#39;latitude&#39; and &#39;longitude&#39; arguments&quot;</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">search_type</span> <span class="o">==</span> <span class="s2">&quot;point&quot;</span> <span class="ow">and</span> <span class="kc">None</span> <span class="ow">in</span> <span class="p">[</span><span class="n">latitude</span><span class="p">,</span> <span class="n">longitude</span><span class="p">]:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="s2">&quot;Search type &#39;point&#39; requires &#39;latitude&#39; and &#39;longitude&#39; arguments&quot;</span>
+            <span class="p">)</span>
 
-        <span class="k">elif</span> <span class="n">search_type</span> <span class="o">==</span> <span class="s1">&#39;address&#39;</span> <span class="ow">and</span> <span class="kc">None</span> <span class="ow">in</span> <span class="p">[</span><span class="n">address</span><span class="p">]:</span>
+        <span class="k">elif</span> <span class="n">search_type</span> <span class="o">==</span> <span class="s2">&quot;address&quot;</span> <span class="ow">and</span> <span class="kc">None</span> <span class="ow">in</span> <span class="p">[</span><span class="n">address</span><span class="p">]:</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Search type &#39;address&#39; requires &#39;address&#39; argument&quot;</span><span class="p">)</span>
 
-        <span class="k">elif</span> <span class="n">search_type</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;zip&#39;</span><span class="p">,</span> <span class="s1">&#39;point&#39;</span><span class="p">,</span> <span class="s1">&#39;address&#39;</span><span class="p">]:</span>
+        <span class="k">elif</span> <span class="n">search_type</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;zip&quot;</span><span class="p">,</span> <span class="s2">&quot;point&quot;</span><span class="p">,</span> <span class="s2">&quot;address&quot;</span><span class="p">]:</span>
             <span class="k">raise</span> <span class="ne">KeyError</span><span class="p">(</span><span class="s2">&quot;Invalid &#39;search_type&#39; provided. &quot;</span><span class="p">)</span>
 
         <span class="k">else</span><span class="p">:</span>
             <span class="k">pass</span>
 
-        <span class="n">url</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">connection</span><span class="o">.</span><span class="n">uri</span> <span class="o">+</span> <span class="s1">&#39;service/district&#39;</span>
+        <span class="n">url</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">connection</span><span class="o">.</span><span class="n">uri</span> <span class="o">+</span> <span class="s2">&quot;service/district&quot;</span>
 
-        <span class="n">args</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;search_type&#39;</span><span class="p">:</span> <span class="n">search_type</span><span class="p">,</span>
-                <span class="s1">&#39;address&#39;</span><span class="p">:</span> <span class="n">address</span><span class="p">,</span>
-                <span class="s1">&#39;zip5&#39;</span><span class="p">:</span> <span class="n">zip5</span><span class="p">,</span>
-                <span class="s1">&#39;zip4&#39;</span><span class="p">:</span> <span class="n">zip4</span><span class="p">,</span>
-                <span class="s1">&#39;state&#39;</span><span class="p">:</span> <span class="n">state</span><span class="p">,</span>
-                <span class="s1">&#39;latitude&#39;</span><span class="p">:</span> <span class="n">latitude</span><span class="p">,</span>
-                <span class="s1">&#39;longitude&#39;</span><span class="p">:</span> <span class="n">longitude</span>
-                <span class="p">}</span>
+        <span class="n">args</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s2">&quot;search_type&quot;</span><span class="p">:</span> <span class="n">search_type</span><span class="p">,</span>
+            <span class="s2">&quot;address&quot;</span><span class="p">:</span> <span class="n">address</span><span class="p">,</span>
+            <span class="s2">&quot;zip5&quot;</span><span class="p">:</span> <span class="n">zip5</span><span class="p">,</span>
+            <span class="s2">&quot;zip4&quot;</span><span class="p">:</span> <span class="n">zip4</span><span class="p">,</span>
+            <span class="s2">&quot;state&quot;</span><span class="p">:</span> <span class="n">state</span><span class="p">,</span>
+            <span class="s2">&quot;latitude&quot;</span><span class="p">:</span> <span class="n">latitude</span><span class="p">,</span>
+            <span class="s2">&quot;longitude&quot;</span><span class="p">:</span> <span class="n">longitude</span><span class="p">,</span>
+        <span class="p">}</span>
 
-        <span class="k">return</span> <span class="n">Table</span><span class="p">([</span><span class="bp">self</span><span class="o">.</span><span class="n">connection</span><span class="o">.</span><span class="n">request</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">args</span><span class="o">=</span><span class="n">args</span><span class="p">,</span> <span class="n">raw</span><span class="o">=</span><span class="kc">True</span><span class="p">)[</span><span class="s1">&#39;match_data&#39;</span><span class="p">]])</span>
+        <span class="k">return</span> <span class="n">Table</span><span class="p">([</span><span class="bp">self</span><span class="o">.</span><span class="n">connection</span><span class="o">.</span><span class="n">request</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">args</span><span class="o">=</span><span class="n">args</span><span class="p">,</span> <span class="n">raw</span><span class="o">=</span><span class="kc">True</span><span class="p">)[</span><span class="s2">&quot;match_data&quot;</span><span class="p">]])</span>
 
 
 <span class="k">class</span> <span class="nc">Voter</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
-
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">connection</span><span class="p">):</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">connection</span> <span class="o">=</span> <span class="n">connection</span>
 
-    <span class="k">def</span> <span class="nf">voter_registration_check</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">first_name</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">last_name</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-                                 <span class="n">state</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">street_number</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-                                 <span class="n">street_name</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">city</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">zip_code</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-                                 <span class="n">age</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">dob</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">phone</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">email</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-                                 <span class="n">unparsed_full_address</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">voter_registration_check</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">first_name</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">last_name</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">state</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">street_number</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">street_name</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">city</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">zip_code</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">age</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">dob</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">phone</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">email</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">unparsed_full_address</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Searches for a registered individual, returns matches.</span>
 
@@ -427,46 +495,47 @@
 <span class="sd">            age; int</span>
 <span class="sd">                Optional; One or more integers. Trailing wildcard allowed</span>
 <span class="sd">            dob; str</span>
-<span class="sd">                Numeric characters in YYYYMMDD format. Trailing wildcard allowed</span>
+<span class="sd">                Optional; Numeric characters in YYYYMMDD format. Trailing wildcard allowed</span>
 <span class="sd">            phone; str</span>
-<span class="sd">                Integer followed by 0 or more * or integers</span>
+<span class="sd">                Optional; Integer followed by 0 or more * or integers</span>
 <span class="sd">            email: str</span>
-<span class="sd">                Alphanumeric character followed by 0 or more * or legal characters</span>
+<span class="sd">                Optional; Alphanumeric character followed by 0 or more * or legal characters</span>
 <span class="sd">                (alphanumeric, @, -, .)</span>
 <span class="sd">            unparsed_full_address: str</span>
-<span class="sd">                One or more alphanumeric characters. No wildcards.</span>
+<span class="sd">                Optional; One or more alphanumeric characters. No wildcards.</span>
 <span class="sd">        `Returns`</span>
 <span class="sd">            Parsons Table</span>
 <span class="sd">                See :ref:`parsons-table` for output options.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
-        <span class="n">url</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">connection</span><span class="o">.</span><span class="n">uri</span> <span class="o">+</span> <span class="s1">&#39;voter/voter-registration-check&#39;</span>
+        <span class="n">url</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">connection</span><span class="o">.</span><span class="n">uri</span> <span class="o">+</span> <span class="s2">&quot;voter/voter-registration-check&quot;</span>
 
         <span class="k">if</span> <span class="kc">None</span> <span class="ow">in</span> <span class="p">[</span><span class="n">first_name</span><span class="p">,</span> <span class="n">last_name</span><span class="p">,</span> <span class="n">state</span><span class="p">]:</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;&quot;&quot;Function must include at least first_name,</span>
-<span class="s2">                             last_name, and state.&quot;&quot;&quot;</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="sd">&quot;&quot;&quot;Function must include at least first_name,</span>
+<span class="sd">                             last_name, and state.&quot;&quot;&quot;</span>
+            <span class="p">)</span>
 
-        <span class="n">args</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;first_name&#39;</span><span class="p">:</span> <span class="n">first_name</span><span class="p">,</span>
-                <span class="s1">&#39;last_name&#39;</span><span class="p">:</span> <span class="n">last_name</span><span class="p">,</span>
-                <span class="s1">&#39;state&#39;</span><span class="p">:</span> <span class="n">state</span><span class="p">,</span>
-                <span class="s1">&#39;street_number&#39;</span><span class="p">:</span> <span class="n">street_number</span><span class="p">,</span>
-                <span class="s1">&#39;street_name&#39;</span><span class="p">:</span> <span class="n">street_name</span><span class="p">,</span>
-                <span class="s1">&#39;city&#39;</span><span class="p">:</span> <span class="n">city</span><span class="p">,</span>
-                <span class="s1">&#39;zip_code&#39;</span><span class="p">:</span> <span class="n">zip_code</span><span class="p">,</span>
-                <span class="s1">&#39;age&#39;</span><span class="p">:</span> <span class="n">age</span><span class="p">,</span>
-                <span class="s1">&#39;dob&#39;</span><span class="p">:</span> <span class="n">dob</span><span class="p">,</span>
-                <span class="s1">&#39;phone&#39;</span><span class="p">:</span> <span class="n">phone</span><span class="p">,</span>
-                <span class="s1">&#39;email&#39;</span><span class="p">:</span> <span class="n">email</span><span class="p">,</span>
-                <span class="s1">&#39;unparsed_full_address&#39;</span><span class="p">:</span> <span class="n">unparsed_full_address</span>
-                <span class="p">}</span>
+        <span class="n">args</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s2">&quot;first_name&quot;</span><span class="p">:</span> <span class="n">first_name</span><span class="p">,</span>
+            <span class="s2">&quot;last_name&quot;</span><span class="p">:</span> <span class="n">last_name</span><span class="p">,</span>
+            <span class="s2">&quot;state&quot;</span><span class="p">:</span> <span class="n">state</span><span class="p">,</span>
+            <span class="s2">&quot;street_number&quot;</span><span class="p">:</span> <span class="n">street_number</span><span class="p">,</span>
+            <span class="s2">&quot;street_name&quot;</span><span class="p">:</span> <span class="n">street_name</span><span class="p">,</span>
+            <span class="s2">&quot;city&quot;</span><span class="p">:</span> <span class="n">city</span><span class="p">,</span>
+            <span class="s2">&quot;zip_code&quot;</span><span class="p">:</span> <span class="n">zip_code</span><span class="p">,</span>
+            <span class="s2">&quot;age&quot;</span><span class="p">:</span> <span class="n">age</span><span class="p">,</span>
+            <span class="s2">&quot;dob&quot;</span><span class="p">:</span> <span class="n">dob</span><span class="p">,</span>
+            <span class="s2">&quot;phone&quot;</span><span class="p">:</span> <span class="n">phone</span><span class="p">,</span>
+            <span class="s2">&quot;email&quot;</span><span class="p">:</span> <span class="n">email</span><span class="p">,</span>
+            <span class="s2">&quot;unparsed_full_address&quot;</span><span class="p">:</span> <span class="n">unparsed_full_address</span><span class="p">,</span>
+        <span class="p">}</span>
 
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">connection</span><span class="o">.</span><span class="n">request</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">args</span><span class="o">=</span><span class="n">args</span><span class="p">,</span> <span class="n">raw</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 
 
-<div class="viewcode-block" id="TargetSmartAPI"><a class="viewcode-back" href="../../../targetsmart.html#parsons.TargetSmartAPI">[docs]</a><span class="k">class</span> <span class="nc">TargetSmartAPI</span><span class="p">(</span><span class="n">Voter</span><span class="p">,</span> <span class="n">Person</span><span class="p">,</span> <span class="n">Service</span><span class="p">):</span>
-
+<div class="viewcode-block" id="TargetSmartAPI"><a class="viewcode-back" href="../../../targetsmart_api.html#parsons.TargetSmartAPI">[docs]</a><span class="k">class</span> <span class="nc">TargetSmartAPI</span><span class="p">(</span><span class="n">Voter</span><span class="p">,</span> <span class="n">Person</span><span class="p">,</span> <span class="n">Service</span><span class="p">,</span> <span class="n">SmartMatch</span><span class="p">):</span>
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">api_key</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-
         <span class="bp">self</span><span class="o">.</span><span class="n">connection</span> <span class="o">=</span> <span class="n">TargetSmartConnector</span><span class="p">(</span><span class="n">api_key</span><span class="o">=</span><span class="n">api_key</span><span class="p">)</span></div>
 </pre></div>
 

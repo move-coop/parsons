@@ -224,10 +224,14 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">api</span><span class="o">.</span><span class="n">get_request</span><span class="p">(</span><span class="n">url</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;people/</span><span class="si">{</span><span class="n">person_id</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="ActionNetwork.add_person"><a class="viewcode-back" href="../../../action_network.html#parsons.ActionNetwork.add_person">[docs]</a>    <span class="k">def</span> <span class="nf">add_person</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">email_address</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">given_name</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">family_name</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">tags</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-                   <span class="n">languages_spoken</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">postal_addresses</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">mobile_number</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-                   <span class="n">mobile_status</span><span class="o">=</span><span class="s1">&#39;subscribed&#39;</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<div class="viewcode-block" id="ActionNetwork.upsert_person"><a class="viewcode-back" href="../../../action_network.html#parsons.ActionNetwork.upsert_person">[docs]</a>    <span class="k">def</span> <span class="nf">upsert_person</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">email_address</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">given_name</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">family_name</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">tags</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                      <span class="n">languages_spoken</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">postal_addresses</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">mobile_number</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                      <span class="n">mobile_status</span><span class="o">=</span><span class="s1">&#39;subscribed&#39;</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Creates or updates a person record. In order to update an existing record instead of</span>
+<span class="sd">        creating a new one, you must supply an email or mobile number which matches a record</span>
+<span class="sd">        in the database.</span>
+
 <span class="sd">        `Args:`</span>
 <span class="sd">            email_address:</span>
 <span class="sd">                Either email_address or mobile_number are required. Can be any of the following</span>
@@ -248,7 +252,7 @@
 <span class="sd">            family_name:</span>
 <span class="sd">                The person&#39;s family name</span>
 <span class="sd">            tags:</span>
-<span class="sd">                Any tags to be applied to the person</span>
+<span class="sd">                Optional field. A list of strings of pre-existing tags to be applied to the person.</span>
 <span class="sd">            languages_spoken:</span>
 <span class="sd">                Optional field. A list of strings of the languages spoken by the person</span>
 <span class="sd">            postal_addresses:</span>
@@ -323,7 +327,7 @@
         <span class="k">if</span> <span class="n">languages_spoken</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">data</span><span class="p">[</span><span class="s2">&quot;person&quot;</span><span class="p">][</span><span class="s2">&quot;languages_spoken&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">languages_spoken</span>
         <span class="k">if</span> <span class="n">postal_addresses</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="n">data</span><span class="p">[</span><span class="s2">&quot;person&quot;</span><span class="p">][</span><span class="s2">&quot;postal_address&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">postal_addresses</span>
+            <span class="n">data</span><span class="p">[</span><span class="s2">&quot;person&quot;</span><span class="p">][</span><span class="s2">&quot;postal_addresses&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">postal_addresses</span>
         <span class="k">if</span> <span class="n">tags</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">data</span><span class="p">[</span><span class="s2">&quot;add_tags&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">tags</span>
         <span class="n">data</span><span class="p">[</span><span class="s2">&quot;person&quot;</span><span class="p">][</span><span class="s2">&quot;custom_fields&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="o">**</span><span class="n">kwargs</span><span class="p">}</span>
@@ -331,11 +335,31 @@
         <span class="n">identifiers</span> <span class="o">=</span> <span class="n">response</span><span class="p">[</span><span class="s1">&#39;identifiers&#39;</span><span class="p">]</span>
         <span class="n">person_id</span> <span class="o">=</span> <span class="p">[</span><span class="n">entry_id</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;:&#39;</span><span class="p">)[</span><span class="mi">1</span><span class="p">]</span>
                      <span class="k">for</span> <span class="n">entry_id</span> <span class="ow">in</span> <span class="n">identifiers</span> <span class="k">if</span> <span class="s1">&#39;action_network:&#39;</span> <span class="ow">in</span> <span class="n">entry_id</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
-        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Entry </span><span class="si">{</span><span class="n">person_id</span><span class="si">}</span><span class="s2"> successfully added to people.&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">response</span><span class="p">[</span><span class="s1">&#39;created_date&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="n">response</span><span class="p">[</span><span class="s1">&#39;modified_date&#39;</span><span class="p">]:</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Entry </span><span class="si">{</span><span class="n">person_id</span><span class="si">}</span><span class="s2"> successfully added.&quot;</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Entry </span><span class="si">{</span><span class="n">person_id</span><span class="si">}</span><span class="s2"> successfully updated.&quot;</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">response</span></div>
+
+<div class="viewcode-block" id="ActionNetwork.add_person"><a class="viewcode-back" href="../../../action_network.html#parsons.ActionNetwork.add_person">[docs]</a>    <span class="k">def</span> <span class="nf">add_person</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">email_address</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">given_name</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">family_name</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">tags</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                   <span class="n">languages_spoken</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">postal_addresses</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">mobile_number</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                   <span class="n">mobile_status</span><span class="o">=</span><span class="s1">&#39;subscribed&#39;</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Creates a person in the database. WARNING: this endpoint has been deprecated in favor of</span>
+<span class="sd">        upsert_person.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="s2">&quot;Method &#39;add_person&#39; has been deprecated. Please use &#39;upsert_person&#39;.&quot;</span><span class="p">)</span>
+        <span class="c1"># Pass inputs to preferred method:</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">upsert_person</span><span class="p">(</span><span class="n">email_address</span><span class="o">=</span><span class="n">email_address</span><span class="p">,</span> <span class="n">given_name</span><span class="o">=</span><span class="n">given_name</span><span class="p">,</span>
+                           <span class="n">family_name</span><span class="o">=</span><span class="n">family_name</span><span class="p">,</span> <span class="n">languages_spoken</span><span class="o">=</span><span class="n">languages_spoken</span><span class="p">,</span>
+                           <span class="n">postal_addresses</span><span class="o">=</span><span class="n">postal_addresses</span><span class="p">,</span> <span class="n">mobile_number</span><span class="o">=</span><span class="n">mobile_number</span><span class="p">,</span>
+                           <span class="n">mobile_status</span><span class="o">=</span><span class="n">mobile_status</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="ActionNetwork.update_person"><a class="viewcode-back" href="../../../action_network.html#parsons.ActionNetwork.update_person">[docs]</a>    <span class="k">def</span> <span class="nf">update_person</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">entry_id</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Updates a person&#39;s data in Action Network, given their Action Network ID. Note that you</span>
+<span class="sd">        can&#39;t alter a person&#39;s tags with this method. Instead, use upsert_person.</span>
+
 <span class="sd">        `Args:`</span>
 <span class="sd">            entry_id:</span>
 <span class="sd">                The person&#39;s Action Network id</span>
@@ -359,8 +383,6 @@
 <span class="sd">                        The person&#39;s given name</span>
 <span class="sd">                    family_name:</span>
 <span class="sd">                        The person&#39;s family name</span>
-<span class="sd">                    tags:</span>
-<span class="sd">                        Any tags to be applied to the person</span>
 <span class="sd">                    languages_spoken:</span>
 <span class="sd">                        Optional field. A list of strings of the languages spoken by the person</span>
 <span class="sd">                    postal_addresses:</span>
@@ -369,11 +391,10 @@
 <span class="sd">                        https://actionnetwork.org/docs/v2/people#put</span>
 <span class="sd">                    custom_fields:</span>
 <span class="sd">                        A dictionary of any other fields to store about the person.</span>
-<span class="sd">        Updates a person&#39;s data in Action Network</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">data</span> <span class="o">=</span> <span class="p">{</span><span class="o">**</span><span class="n">kwargs</span><span class="p">}</span>
         <span class="n">response</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">api</span><span class="o">.</span><span class="n">put_request</span><span class="p">(</span><span class="n">url</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">api_url</span><span class="si">}</span><span class="s2">/people/</span><span class="si">{</span><span class="n">entry_id</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
-                                        <span class="n">json</span><span class="o">=</span><span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">data</span><span class="p">),</span> <span class="n">success_codes</span><span class="o">=</span><span class="p">[</span><span class="mi">204</span><span class="p">,</span> <span class="mi">201</span><span class="p">,</span> <span class="mi">200</span><span class="p">])</span>
+                                        <span class="n">data</span><span class="o">=</span><span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">data</span><span class="p">),</span> <span class="n">success_codes</span><span class="o">=</span><span class="p">[</span><span class="mi">204</span><span class="p">,</span> <span class="mi">201</span><span class="p">,</span> <span class="mi">200</span><span class="p">])</span>
         <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Person </span><span class="si">{</span><span class="n">entry_id</span><span class="si">}</span><span class="s2"> successfully updated&quot;</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">response</span></div>
 

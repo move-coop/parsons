@@ -143,9 +143,8 @@
 
 <span class="k">class</span> <span class="nc">AWSConnection</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
 
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">aws_access_key_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-                 <span class="n">aws_secret_access_key</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-                 <span class="n">aws_session_token</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">aws_access_key_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">aws_secret_access_key</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">aws_session_token</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                 <span class="n">use_env_token</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
 
         <span class="c1"># Order of operations for searching for keys:</span>
         <span class="c1">#   1. Look for keys passed as kwargs</span>
@@ -158,7 +157,8 @@
             <span class="c1"># The AWS session token isn&#39;t needed most of the time, so we&#39;ll check</span>
             <span class="c1"># for the env variable here instead of requiring it to be passed</span>
             <span class="c1"># whenever the aws_access_key_id and aws_secret_access_key are passed.</span>
-            <span class="k">if</span> <span class="n">aws_session_token</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+
+            <span class="k">if</span> <span class="n">aws_session_token</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">use_env_token</span><span class="p">:</span>
                 <span class="n">aws_session_token</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">getenv</span><span class="p">(</span><span class="s1">&#39;AWS_SESSION_TOKEN&#39;</span><span class="p">)</span>
 
             <span class="bp">self</span><span class="o">.</span><span class="n">session</span> <span class="o">=</span> <span class="n">boto3</span><span class="o">.</span><span class="n">Session</span><span class="p">(</span><span class="n">aws_access_key_id</span><span class="o">=</span><span class="n">aws_access_key_id</span><span class="p">,</span>

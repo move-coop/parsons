@@ -27,9 +27,9 @@ jobs:
       # Download and cache dependencies
       - restore_cache:
           keys:
-            - v1-dependencies-python10-{{ checksum "requirements.txt" }}
+            - v2-dependencies-python10-{{ checksum "requirements.txt" }}
             # fallback to using the latest cache if no exact match is found
-            - v1-dependencies-python3.10-
+            - v2-dependencies-python3.10-
 
       - run:
           name: install dependencies
@@ -41,7 +41,7 @@ jobs:
       - save_cache:
           paths:
             - ./venv
-          key: v1-dependencies-python3.10-{{ checksum "requirements.txt" }}
+          key: v2-dependencies-python3.10-{{ checksum "requirements.txt" }}
 
       - run:
           name: run tests
@@ -67,9 +67,9 @@ jobs:
       # Download and cache dependencies
       - restore_cache:
           keys:
-            - v1-dependencies-python3.10-{{ checksum "./docs/requirements.txt" }}
+            - v2-dependencies-python3.10-{{ checksum "./docs/requirements.txt" }}
             # fallback to using the latest cache if no exact match is found
-            - v1-dependencies-python3.10-
+            - v2-dependencies-python3.10-
       - run:
           name: Install dependencies
           # Note that we the circleci node image installs stuff with a user "circleci", rather
@@ -81,7 +81,7 @@ jobs:
       - save_cache:
           paths:
             - ./venv
-          key: v1-dependencies-python3.10-{{ checksum "./docs/requirements.txt" }}
+          key: v2-dependencies-python3.10-{{ checksum "./docs/requirements.txt" }}
       - run:
           name: Build docs
           command: |
@@ -98,9 +98,9 @@ jobs:
       # Download and cache dependencies
       - restore_cache:
           keys:
-            - v1-dependencies-python3.10-{{ checksum "./docs/requirements.txt" }}
+            - v2-dependencies-python3.10-{{ checksum "./docs/requirements.txt" }}
             # fallback to using the latest cache if no exact match is found
-            - v1-dependencies-python3.10-
+            - v2-dependencies-python3.10-
       - run:
           name: Install dependencies
           # Note that we the circleci node image installs stuff with a user "circleci", rather
@@ -114,7 +114,7 @@ jobs:
       - save_cache:
           paths:
             - ./venv
-          key: v1-dependencies-python3.10-{{ checksum "./docs/requirements.txt" }}
+          key: v2-dependencies-python3.10-{{ checksum "./docs/requirements.txt" }}
       - add_ssh_keys:
           # This SSH key is "CircleCI Docs" in https://github.com/move-coop/parsons/settings/keys
           # We need write access to the Parsons repo, so we can push the "gh-pages" branch.

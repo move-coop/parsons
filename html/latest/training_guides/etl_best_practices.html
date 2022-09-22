@@ -451,7 +451,7 @@ export MOBILIZE_AMERICA_API_KEY=$API_KEY    # Linux/Mac
 <p>We’ve gone over how to write a script that takes data from one place, transforms it, and then moves it to another. But many people find it helpful to store their data in a centralized location. This can be desirable for a few different reasons:</p>
 <ul class="simple">
 <li><p>Using a data warehouse can make it easier to look at your data all together and to track changes to it</p></li>
-<li><p>Most warehouses let you query data with SQL queries, whhich many people find easier or more familiar</p></li>
+<li><p>Most warehouses let you query data with SQL queries, which many people find easier or more familiar</p></li>
 <li><p>Warehouse are often optimized for dealing with very large data sources, which is helpful if you’re using large data sets.</p></li>
 </ul>
 <p>In other words, it’s convenient to extract data from your source system and load it in to your data warehouse. From there, you can do some data transformations in SQL to prepare the data for the destination system, and the push the data to your destination system.</p>
@@ -478,7 +478,7 @@ export MOBILIZE_AMERICA_API_KEY=$API_KEY    # Linux/Mac
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">Parsons</span> <span class="kn">import</span> <span class="n">Table</span><span class="p">,</span> <span class="n">MobilizeAmerica</span><span class="p">,</span> <span class="n">Redshift</span>
 
 <span class="n">mobilize</span> <span class="o">=</span> <span class="n">MobilizeAmerica</span><span class="p">()</span>
-<span class="n">redshift</span> <span class="o">=</span> <span class="n">Redshift</span><span class="p">()</span>
+<span class="n">rs</span> <span class="o">=</span> <span class="n">Redshift</span><span class="p">()</span>
 
 <span class="n">attendances</span> <span class="o">=</span> <span class="n">mobilize</span><span class="o">.</span><span class="n">get_attendances</span><span class="p">()</span>
 <span class="n">rs</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="n">attendances</span><span class="p">,</span> <span class="s1">&#39;mobilize.attendances&#39;</span><span class="p">,</span> <span class="n">if_exists</span><span class="o">=</span><span class="s1">&#39;drop&#39;</span><span class="p">,</span> <span class="n">alter_table</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
@@ -572,7 +572,7 @@ export MOBILIZE_AMERICA_API_KEY=$API_KEY    # Linux/Mac
 </div>
 <p>This try-except catches and handles only ValueErrors. All other errors will be “thrown” instead of “caught”, which will halt/crash the script.</p>
 </div>
-<p>Let’s take a look inside the try statement. What are we trying to do?:</p>
+<p>Let’s take a look inside the try statement. What are we trying to do?</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">actionnetwork_user</span> <span class="o">=</span> <span class="n">my_actionnetwork_group</span><span class="o">.</span><span class="n">add_person</span><span class="p">(</span>
     <span class="n">email_address</span><span class="o">=</span><span class="n">mobilize_user</span><span class="p">[</span><span class="s1">&#39;email_address&#39;</span><span class="p">],</span>
     <span class="n">given_name</span><span class="o">=</span><span class="n">mobilize_user</span><span class="p">[</span><span class="s1">&#39;given_name&#39;</span><span class="p">],</span>

@@ -183,6 +183,11 @@
 <span class="sd">        aws_session_token: str</span>
 <span class="sd">            The AWS session token. Optional. Can also be stored in the ``AWS_SESSION_TOKEN``</span>
 <span class="sd">            env variable. Used for accessing S3 with temporary credentials.</span>
+<span class="sd">        use_env_token: boolean</span>
+<span class="sd">            Controls use of the ``AWS_SESSION_TOKEN`` environment variable. Defaults</span>
+<span class="sd">            to ``True``. Set to ``False`` in order to ignore the ``AWS_SESSION_TOKEN`` environment</span>
+<span class="sd">            variable even if the ``aws_session_token`` argument was not passed in.</span>
+
 <span class="sd">    `Returns:`</span>
 <span class="sd">        S3 class.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -190,11 +195,13 @@
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
                  <span class="n">aws_access_key_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
                  <span class="n">aws_secret_access_key</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-                 <span class="n">aws_session_token</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+                 <span class="n">aws_session_token</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                 <span class="n">use_env_token</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">aws</span> <span class="o">=</span> <span class="n">AWSConnection</span><span class="p">(</span><span class="n">aws_access_key_id</span><span class="o">=</span><span class="n">aws_access_key_id</span><span class="p">,</span>
                                  <span class="n">aws_secret_access_key</span><span class="o">=</span><span class="n">aws_secret_access_key</span><span class="p">,</span>
-                                 <span class="n">aws_session_token</span><span class="o">=</span><span class="n">aws_session_token</span><span class="p">)</span>
+                                 <span class="n">aws_session_token</span><span class="o">=</span><span class="n">aws_session_token</span><span class="p">,</span>
+                                 <span class="n">use_env_token</span><span class="o">=</span><span class="n">use_env_token</span><span class="p">)</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">s3</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">aws</span><span class="o">.</span><span class="n">session</span><span class="o">.</span><span class="n">resource</span><span class="p">(</span><span class="s1">&#39;s3&#39;</span><span class="p">)</span>
         <span class="sd">&quot;&quot;&quot;Boto3 API Session Resource object. Use for more advanced boto3 features.&quot;&quot;&quot;</span>

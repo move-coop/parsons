@@ -330,7 +330,7 @@ stored in an AWS CLI file <code class="docutils literal notranslate"><span class
 <h3>API<a class="headerlink" href="#id6" title="Permalink to this headline"></a></h3>
 <dl class="py class">
 <dt class="sig sig-object py" id="parsons.S3">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">parsons.</span></span><span class="sig-name descname"><span class="pre">S3</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">aws_access_key_id</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">aws_secret_access_key</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">aws_session_token</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/aws/s3.html#S3"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.S3" title="Permalink to this definition"></a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">parsons.</span></span><span class="sig-name descname"><span class="pre">S3</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">aws_access_key_id</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">aws_secret_access_key</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">aws_session_token</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">use_env_token</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/aws/s3.html#S3"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.S3" title="Permalink to this definition"></a></dt>
 <dd><p>Instantiate the S3 class.</p>
 <dl class="simple">
 <dt><cite>Args:</cite></dt><dd><dl class="simple">
@@ -342,6 +342,10 @@ variable is set.</p>
 </dd>
 <dt>aws_session_token: str</dt><dd><p>The AWS session token. Optional. Can also be stored in the <code class="docutils literal notranslate"><span class="pre">AWS_SESSION_TOKEN</span></code>
 env variable. Used for accessing S3 with temporary credentials.</p>
+</dd>
+<dt>use_env_token: boolean</dt><dd><p>Controls use of the <code class="docutils literal notranslate"><span class="pre">AWS_SESSION_TOKEN</span></code> environment variable. Defaults
+to <code class="docutils literal notranslate"><span class="pre">True</span></code>. Set to <code class="docutils literal notranslate"><span class="pre">False</span></code> in order to ignore the <code class="docutils literal notranslate"><span class="pre">AWS_SESSION_TOKEN</span></code> environment
+variable even if the <code class="docutils literal notranslate"><span class="pre">aws_session_token</span></code> argument was not passed in.</p>
 </dd>
 </dl>
 </dd>

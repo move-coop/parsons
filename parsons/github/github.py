@@ -13,6 +13,7 @@ logger = logging.getLogger(__name__)
 
 
 def _wrap_method(decorator, method):
+    @wraps(method)
     def _wrapper(self, *args, **kwargs):
         bound_method = partial(method.__get__(self, type(self)))
         return decorator(bound_method)(*args, **kwargs)

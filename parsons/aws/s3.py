@@ -2,6 +2,7 @@ import re
 import boto3
 from parsons.utilities import files
 import logging
+import os
 
 logger = logging.getLogger(__name__)
 

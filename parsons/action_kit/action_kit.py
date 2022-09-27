@@ -638,7 +638,7 @@ class ActionKit(object):
                 If "desc", return all objects above the threshold value.
             **kwargs:
                 You can also add expressions to filter the data beyond the limit/threshold values
-                above. For addition info, visit `Django's docs on field lookups
+                above. For additional info, visit `Django's docs on field lookups
                 <https://docs.djangoproject.com/en/3.1/topics/db/queries/#field-lookups>`_.
 
                 .. code-block:: python

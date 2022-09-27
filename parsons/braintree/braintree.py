@@ -288,9 +288,9 @@ class Braintree(object):
                 If this is true, include the full collection of transaction objects.
                 Otherwise, just return a list of transaction IDs.
             just_ids: bool
-                While querying a list of subscription ids is a single, fast query to Braintree's API,
-                getting all data for each subscription is force-paginated at 50-records per request.
-                If you just need a count or the list of ids, then set `just_ids=True` and
+                While querying a list of subscription ids is a single, fast query to Braintree's
+                API, getting all data for each subscription is force-paginated at 50-records per
+                request. If you just need a count or the list of ids, then set `just_ids=True` and
                 it will return a single column with `id` instead of all table columns.
             table_of_ids: Table with an `id` column -- i.e. a table returned from `just_ids=True`
                 Subsequently, after calling this with `just_ids`, you can prune/alter the ids table

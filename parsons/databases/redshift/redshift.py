@@ -58,11 +58,16 @@ class Redshift(RedshiftCreateTable, RedshiftCopyTable, RedshiftTableUtilities, R
         iam_role: str
             AWS IAM Role ARN string -- an optional, different way for credentials to
             be provided in the Redshift copy command that does not require an access key.
+        use_env_token: bool
+            Controls use of the ``AWS_SESSION_TOKEN`` environment variable for S3. Defaults
+            to ``True``. Set to ``False`` in order to ignore the ``AWS_SESSION_TOKEN`` environment
+            variable even if the ``aws_session_token`` argument was not passed in.
     """
 
     def __init__(self, username=None, password=None, host=None, db=None, port=None,
                  timeout=10, s3_temp_bucket=None,
-                 aws_access_key_id=None, aws_secret_access_key=None, iam_role=None):
+                 aws_access_key_id=None, aws_secret_access_key=None, iam_role=None,
+                 use_env_token=True):
         super().__init__()
 
         try:
@@ -353,7 +358,8 @@ class Redshift(RedshiftCreateTable, RedshiftCopyTable, RedshiftTableUtilities, R
                     # Grab the object from s3
                     from parsons.aws.s3 import S3
                     s3 = S3(aws_access_key_id=aws_access_key_id,
-                            aws_secret_access_key=aws_secret_access_key)
+                            aws_secret_access_key=aws_secret_access_key,
+                            use_env_token=self.use_env_token)
 
                     local_path = s3.get_file(bucket, key)
                     if data_type == 'csv':
@@ -712,7 +718,8 @@ class Redshift(RedshiftCreateTable, RedshiftCopyTable, RedshiftTableUtilities, R
 
         from parsons.aws import S3
         s3 = S3(aws_access_key_id=aws_access_key_id,
-                aws_secret_access_key=aws_secret_access_key)
+                aws_secret_access_key=aws_secret_access_key,
+                use_env_token=self.use_env_token)
 
         # Deal with a single bucket being passed, rather than list.
         if isinstance(buckets, str):

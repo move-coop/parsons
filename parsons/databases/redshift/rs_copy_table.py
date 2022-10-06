@@ -134,7 +134,7 @@ class RedshiftCopyTable(object):
         aws_secret_access_key = aws_secret_access_key or self.aws_secret_access_key
 
         self.s3 = S3(aws_access_key_id=aws_access_key_id,
-                     aws_secret_access_key=aws_secret_access_key, use_env_token)
+                     aws_secret_access_key=aws_secret_access_key, use_env_token=self.use_env_token)
 
         hashed_name = hash(time.time())
         key = f"{S3_TEMP_KEY_PREFIX}/{hashed_name}.csv.gz"

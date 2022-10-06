@@ -58,11 +58,16 @@ class Redshift(RedshiftCreateTable, RedshiftCopyTable, RedshiftTableUtilities, R
         iam_role: str
             AWS IAM Role ARN string -- an optional, different way for credentials to
             be provided in the Redshift copy command that does not require an access key.
+        use_env_token: bool
+            Controls use of the ``AWS_SESSION_TOKEN`` environment variable for S3. Defaults
+            to ``True``. Set to ``False`` in order to ignore the ``AWS_SESSION_TOKEN`` environment
+            variable even if the ``aws_session_token`` argument was not passed in.
     """
 
     def __init__(self, username=None, password=None, host=None, db=None, port=None,
                  timeout=10, s3_temp_bucket=None,
-                 aws_access_key_id=None, aws_secret_access_key=None, iam_role=None):
+                 aws_access_key_id=None, aws_secret_access_key=None, iam_role=None,
+                 use_env_token=True):
         super().__init__()
 
         try:

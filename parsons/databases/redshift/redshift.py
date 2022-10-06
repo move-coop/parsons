@@ -90,6 +90,7 @@ class Redshift(RedshiftCreateTable, RedshiftCopyTable, RedshiftTableUtilities, R
             split_temp_bucket_name = self.s3_temp_bucket.split('/', 1)
             self.s3_temp_bucket = split_temp_bucket_name[0]
             self.s3_temp_bucket_prefix = split_temp_bucket_name[1]
+        self.use_env_token = use_env_token
         # We don't check/load the environment variables for aws_* here
         # because the logic in S3() and rs_copy_table.py does already.
         self.aws_access_key_id = aws_access_key_id

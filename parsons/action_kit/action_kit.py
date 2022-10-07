@@ -700,6 +700,25 @@ class ActionKit(object):
                                data=json.dumps(kwargs))
         logger.info(f'{resp.status_code}: {order_id}')
 
+    def update_paymenttoken(self, paymenttoken_id, **kwargs):
+        """
+        Update a saved payment token.
+
+        `Args:`
+            paymenttoken_id: int
+                The id of the payment token to update
+            **kwargs:
+                Optional arguments and fields to pass to the client. A full list can be found
+                in the `ActionKit API Documentation <https://roboticdogs.actionkit.com/docs/\
+                manual/api/rest/actionprocessing.html>`_.
+        `Returns:`
+            ``None``
+        """
+
+        resp = self.conn.patch(self._base_endpoint('paymenttoken', paymenttoken_id),
+                               data=json.dumps(kwargs))
+        logger.info(f'{resp.status_code}: {paymenttoken_id}')
+
     def get_page_followup(self, page_followup_id):
         """
         Get a page followup.

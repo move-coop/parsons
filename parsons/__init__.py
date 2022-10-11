@@ -76,6 +76,7 @@ for module_path, connector_name in (
     ("parsons.sftp.sftp", "SFTP"),
     ("parsons.shopify.shopify", "Shopify"),
     ("parsons.sisense.sisense", "Sisense"),
+    ("parsons.strive.strive", "Strive"),
     ("parsons.targetsmart.targetsmart_api", "TargetSmartAPI"),
     ("parsons.targetsmart.targetsmart_automation", "TargetSmartAutomation"),
     ("parsons.turbovote.turbovote", "TurboVote"),

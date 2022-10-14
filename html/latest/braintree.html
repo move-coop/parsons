@@ -255,6 +255,57 @@ Some examples:</p>
 </dd></dl>
 
 <dl class="py method">
+<dt class="sig sig-object py" id="parsons.braintree.Braintree.get_subscriptions">
+<span class="sig-name descname"><span class="pre">get_subscriptions</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">table_of_ids</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">start_date</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">end_date</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">query_list</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">query_dict</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">include_transactions</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">just_ids</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/braintree/braintree.html#Braintree.get_subscriptions"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.braintree.Braintree.get_subscriptions" title="Permalink to this definition"></a></dt>
+<dd><p>Get a table of subscriptions based on query parameters.
+There are three ways to pass query arguments:
+Pass a disbursement_start_date and disbursement_end_date together
+for a date range, or pass a query_list or query_dict argument.</p>
+<dl>
+<dt><cite>Args:</cite></dt><dd><dl>
+<dt>start_date: date or str</dt><dd><p>Start date of the subscription range. Requires <cite>end_date</cite> arg.
+e.g. ‘2020-11-03’</p>
+</dd>
+<dt>end_date: date or str</dt><dd><p>End date of the subscription range. Requires <cite>start_date</cite> arg.
+e.g. ‘2020-11-03’</p>
+</dd>
+<dt>query_list: list of braintree.SubscriptionSearch</dt><dd><p>You can use the <a class="reference external" href="https://developers.braintreepayments.com/reference/request/subscription/search/python">braintree.SubscriptionSearch</a>
+to create a manual list of query parameters.</p>
+</dd>
+<dt>query_dict: jsonable-dict</dt><dd><p>query_dict is basically the same as query_list, except instead of using their API
+objects, you can pass it in pure dictionary form.
+Some examples:</p>
+<blockquote>
+<div><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># The start_date/end_date arguments are the same as</span>
+<span class="p">{</span><span class="s2">&quot;created_at&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;between&quot;</span><span class="p">:</span> <span class="p">[</span><span class="n">start_date</span><span class="p">,</span> <span class="n">end_date</span><span class="p">]}}</span>
+<span class="c1"># some other examples</span>
+<span class="p">{</span><span class="s2">&quot;merchant_account_id&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;in_list&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mi">123</span><span class="p">,</span> <span class="mi">456</span><span class="p">]}}</span>
+<span class="p">{</span><span class="s2">&quot;created_at&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;greater_than_or_equal&quot;</span><span class="p">:</span> <span class="s2">&quot;2020-03-10&quot;</span><span class="p">}}</span>
+</pre></div>
+</div>
+</div></blockquote>
+</dd>
+<dt>include_transactions: bool</dt><dd><p>If this is true, include the full collection of transaction objects.
+Otherwise, just return a list of transaction IDs.</p>
+</dd>
+<dt>just_ids: bool</dt><dd><p>While querying a list of subscription ids is a single, fast query to Braintree’s
+API, getting all data for each subscription is force-paginated at 50-records per
+request. If you just need a count or the list of ids, then set <cite>just_ids=True</cite> and
+it will return a single column with <cite>id</cite> instead of all table columns.</p>
+</dd>
+<dt>table_of_ids: Table with an <cite>id</cite> column – i.e. a table returned from <cite>just_ids=True</cite></dt><dd><p>Subsequently, after calling this with <cite>just_ids</cite>, you can prune/alter the ids table
+and then pass the table back to get the full data.
+These are somewhat-niche use-cases, but occasionally crucial
+when a search result returns 1000s of ids.</p>
+</dd>
+</dl>
+</dd>
+<dt><cite>Returns:</cite></dt><dd><p>Table Class</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
 <dt class="sig sig-object py" id="parsons.braintree.Braintree.get_transactions">
 <span class="sig-name descname"><span class="pre">get_transactions</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">table_of_ids</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">disbursement_start_date</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">disbursement_end_date</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">query_list</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">query_dict</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">just_ids</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/braintree/braintree.html#Braintree.get_transactions"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.braintree.Braintree.get_transactions" title="Permalink to this definition"></a></dt>
 <dd><p>Get a table of transactions based on query parameters.

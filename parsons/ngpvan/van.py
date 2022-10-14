@@ -15,11 +15,12 @@ from parsons.ngpvan.bulk_import import BulkImport
 from parsons.ngpvan.changed_entities import ChangedEntities
 from parsons.ngpvan.custom_fields import CustomFields
 from parsons.ngpvan.targets import Targets
+from parsons.ngpvan.printed_lists import PrintedLists
 
 logger = logging.getLogger(__name__)
 
 
-class VAN(People, Events, SavedLists, Folders, ExportJobs, ActivistCodes, CanvassResponses,
+class VAN(People, Events, SavedLists, PrintedLists, Folders, ExportJobs, ActivistCodes, CanvassResponses,
           SurveyQuestions, Codes, Scores, FileLoadingJobs, SupporterGroups, Signups, Locations,
           BulkImport, ChangedEntities, CustomFields, Targets):
     """

@@ -38,6 +38,7 @@ class Braintree(object):
     query_types = {
         'dispute': braintree.DisputeSearch,
         'transaction': braintree.TransactionSearch,
+        'subscription': braintree.SubscriptionSearch
     }
 
     credit_card_fields = [
@@ -133,6 +134,52 @@ class Braintree(object):
         # 'transaction.id', # DOT id -- needs to be special-cased (below)
     ]
 
+    subscription_fields = [
+        'add_ons',
+        'balance',
+        'billing_day_of_month',
+        'billing_period_end_date',
+        'billing_period_start_date',
+        'created_at',
+        'current_billing_cycle',
+        'days_past_due',
+        'description',
+        # 'descriptor',  # covered under descriptor_fields
+        'discounts',
+        'failure_count',
+        'first_billing_date',
+        'id',
+        'merchant_account_id',
+        'never_expires',
+        'next_bill_amount',
+        'next_billing_date',
+        'next_billing_period_amount',
+        'number_of_billing_cycles',
+        'paid_through_date',
+        'payment_method_token',
+        'plan_id',
+        'price',
+        'status',
+        'status_history',
+        # 'transactions', # special-cased
+        'trial_duration',
+        'trial_duration_unit',
+        'trial_period',
+        'updated_at'
+    ]
+
+    descriptor_fields = [
+        'name',
+        'phone',
+        'url'
+    ]
+
+    customer_fields = [
+        'first_name',
+        'last_name',
+        'email'
+    ]
+
     def __init__(self, merchant_id=None, public_key=None, private_key=None,
                  timeout=None, production=True):
         merchant_id = check_env('BRAINTREE_MERCHANT_ID', merchant_id)
@@ -200,6 +247,85 @@ class Braintree(object):
         return Table([
             self._dispute_header()
         ] + [self._dispute_to_row(r) for r in collection.disputes.items])
+
+    def get_subscriptions(self,
+                          table_of_ids=None,
+                          start_date=None, end_date=None,
+                          query_list=None,
+                          query_dict=None,
+                          include_transactions=False,
+                          just_ids=False):
+        """
+        Get a table of subscriptions based on query parameters.
+        There are three ways to pass query arguments:
+        Pass a disbursement_start_date and disbursement_end_date together
+        for a date range, or pass a query_list or query_dict argument.
+
+        `Args:`
+            start_date: date or str
+                Start date of the subscription range. Requires `end_date` arg.
+                e.g. '2020-11-03'
+            end_date: date or str
+                End date of the subscription range. Requires `start_date` arg.
+                e.g. '2020-11-03'
+            query_list: list of braintree.SubscriptionSearch
+                You can use the `braintree.SubscriptionSearch
+                <https://developers.braintreepayments.com/reference/request/subscription/search/python>`_
+                to create a manual list of query parameters.
+            query_dict: jsonable-dict
+                query_dict is basically the same as query_list, except instead of using their API
+                objects, you can pass it in pure dictionary form.
+                Some examples:
+                    .. highlight:: python
+                    .. code-block:: python
+
+                      # The start_date/end_date arguments are the same as
+                      {"created_at": {"between": [start_date, end_date]}}
+                      # some other examples
+                      {"merchant_account_id": {"in_list": [123, 456]}}
+                      {"created_at": {"greater_than_or_equal": "2020-03-10"}}
+            include_transactions: bool
+                If this is true, include the full collection of transaction objects.
+                Otherwise, just return a list of transaction IDs.
+            just_ids: bool
+                While querying a list of subscription ids is a single, fast query to Braintree's
+                API, getting all data for each subscription is force-paginated at 50-records per
+                request. If you just need a count or the list of ids, then set `just_ids=True` and
+                it will return a single column with `id` instead of all table columns.
+            table_of_ids: Table with an `id` column -- i.e. a table returned from `just_ids=True`
+                Subsequently, after calling this with `just_ids`, you can prune/alter the ids table
+                and then pass the table back to get the full data.
+                These are somewhat-niche use-cases, but occasionally crucial
+                when a search result returns 1000s of ids.
+        `Returns:`
+            Table Class
+        """
+        collection = self._get_collection(
+            'subscription',
+            table_of_ids=table_of_ids,
+            query_list=query_list,
+            query_dict=query_dict,
+            default_query=(
+                {'created_at': dict(
+                    between=[start_date, end_date])}
+                if start_date and end_date
+                else None
+            ))
+        query_count = len(collection.ids)
+        logger.info(
+            f'Braintree subscriptions search resulted in subscriptions count of {query_count}')
+        if just_ids:
+            return Table([('id',)]
+                         + [[item_id] for item_id in collection.ids])
+
+        # Iterating on collection.items triggers web requests in batches of 50 records
+        # This can be frustratingly slow :-(
+        # Also note: Braintree will push you to their new GraphQL API,
+        #   but it, too, paginates with a max of 50 records
+        logger.debug('Braintree subscriptions iterating to build subscriptions table')
+        return Table([
+            self._subscription_header(include_transactions)
+        ] + [self._subscription_to_row(include_transactions, r) for r in collection.items])
 
     def get_transactions(self,
                          table_of_ids=None,
@@ -290,6 +416,8 @@ class Braintree(object):
             # annoying exception in column name
             + [(f'disbursement_{k}' if k != 'disbursement_date' else k)
                for k in self.disbursement_fields]
+            + [f'customer_{k}'
+               for k in self.customer_fields]
             + self.transaction_fields)
 
     def _transaction_to_row(self, collection_item):
@@ -298,7 +426,30 @@ class Braintree(object):
               if getattr(collection_item, 'credit_card', None) else None)
              for k in self.credit_card_fields]
             + [getattr(collection_item.disbursement_details, k) for k in self.disbursement_fields]
+            + [getattr(collection_item.customer_details, k) for k in self.customer_fields]
             + [getattr(collection_item, k) for k in self.transaction_fields])
+
+    def _subscription_header(self, include_transactions):
+        if include_transactions:
+            return (
+                [f'descriptor_{k}' for k in self.descriptor_fields]
+                + self.subscription_fields + ['transactions'])
+        else:
+            return (
+                [f'descriptor_{k}' for k in self.descriptor_fields]
+                + self.subscription_fields + ['transaction_ids'])
+
+    def _subscription_to_row(self, include_transactions, collection_item):
+        if include_transactions:
+            return (
+                [getattr(collection_item.descriptor, k) for k in self.descriptor_fields]
+                + [getattr(collection_item, k) for k in self.subscription_fields]
+                + [collection_item.transactions])
+        else:
+            return (
+                [getattr(collection_item.descriptor, k) for k in self.descriptor_fields]
+                + [getattr(collection_item, k) for k in self.subscription_fields]
+                + [';'.join(t.id for t in collection_item.transactions)])
 
     def _get_collection(self, query_type,
                         table_of_ids=None,
@@ -313,7 +464,6 @@ class Braintree(object):
             collection_query = self._get_query_objects(query_type, **query_dict)
         elif default_query:
             collection_query = self._get_query_objects(query_type, **default_query)
-
         if not collection_query:
             raise ParsonsBraintreeError(
                 "You must pass some query parameters: "
@@ -321,7 +471,8 @@ class Braintree(object):
 
         if table_of_ids:
             # We don't need to re-do the query, we can just reconstruct the query object
-            collection = self._create_collection(table_of_ids.table.values('id'), collection_query)
+            collection = self._create_collection(
+                query_type, table_of_ids.table.values('id'), collection_query)
         else:
             collection = getattr(self.gateway, query_type).search(*collection_query)
         return collection
@@ -351,9 +502,16 @@ class Braintree(object):
                 raise ParsonsBraintreeError("oh no, that's not a braintree parameter")
         return queries
 
-    def _create_collection(self, ids, queries):
-        transaction_gateway = braintree.TransactionGateway(self.gateway)
-        return braintree.ResourceCollection(
-            queries,
-            {'search_results': {'ids': list(ids), 'page_size': 50}},
-            method=transaction_gateway._TransactionGateway__fetch)
+    def _create_collection(self, query_type, ids, queries):
+        if (query_type == 'transaction') or (query_type == 'disbursement'):
+            gateway = braintree.TransactionGateway(self.gateway)
+            return braintree.ResourceCollection(
+                queries,
+                {'search_results': {'ids': list(ids), 'page_size': 50}},
+                method=gateway._TransactionGateway__fetch)
+        if query_type == 'subscription':
+            gateway = braintree.SubscriptionGateway(self.gateway)
+            return braintree.ResourceCollection(
+                queries,
+                {'search_results': {'ids': list(ids), 'page_size': 50}},
+                method=gateway._SubscriptionGateway__fetch)

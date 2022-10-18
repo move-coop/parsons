@@ -2,15 +2,15 @@ import re
 import boto3
 from parsons.utilities import files
 import logging
+import os
 
 logger = logging.getLogger(__name__)
 
 
 class AWSConnection(object):
 
-    def __init__(self, aws_access_key_id=None,
-                 aws_secret_access_key=None,
-                 aws_session_token=None):
+    def __init__(self, aws_access_key_id=None, aws_secret_access_key=None, aws_session_token=None,
+                 use_env_token=True):
 
         # Order of operations for searching for keys:
         #   1. Look for keys passed as kwargs
@@ -20,8 +20,12 @@ class AWSConnection(object):
         # why that's not working.
 
         if aws_access_key_id and aws_secret_access_key:
-            # Trying to grab a session token from the environment variable can break things
-            # when used in concert with Zappa asynchronous processing, so don't force it here.
+            # The AWS session token isn't needed most of the time, so we'll check
+            # for the env variable here instead of requiring it to be passed
+            # whenever the aws_access_key_id and aws_secret_access_key are passed.
+
+            if aws_session_token is None and use_env_token:
+                aws_session_token = os.getenv('AWS_SESSION_TOKEN')
 
             self.session = boto3.Session(aws_access_key_id=aws_access_key_id,
                                          aws_secret_access_key=aws_secret_access_key,
@@ -45,6 +49,11 @@ class S3(object):
         aws_session_token: str
             The AWS session token. Optional. Can also be stored in the ``AWS_SESSION_TOKEN``
             env variable. Used for accessing S3 with temporary credentials.
+        use_env_token: boolean
+            Controls use of the ``AWS_SESSION_TOKEN`` environment variable. Defaults
+            to ``True``. Set to ``False`` in order to ignore the ``AWS_SESSION_TOKEN`` environment
+            variable even if the ``aws_session_token`` argument was not passed in.
+
     `Returns:`
         S3 class.
     """
@@ -52,11 +61,13 @@ class S3(object):
     def __init__(self,
                  aws_access_key_id=None,
                  aws_secret_access_key=None,
-                 aws_session_token=None):
+                 aws_session_token=None,
+                 use_env_token=True):
 
         self.aws = AWSConnection(aws_access_key_id=aws_access_key_id,
                                  aws_secret_access_key=aws_secret_access_key,
-                                 aws_session_token=aws_session_token)
+                                 aws_session_token=aws_session_token,
+                                 use_env_token=use_env_token)
 
         self.s3 = self.aws.session.resource('s3')
         """Boto3 API Session Resource object. Use for more advanced boto3 features."""

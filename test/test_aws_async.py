@@ -49,7 +49,7 @@ class TestAsync(unittest.TestCase):
         print('csv_str', csv_str)
         csv_renewed = import_and_get_task(csv_str)
         assert_matching_tables(csv_renewed('x,y\n1,2'),
-                               Table([('x', 'y'), (1, 2)]))
+                               Table([('x', 'y'), ('1', '2')]))
 
         # Table.to_dicts (instance)
         dicts_str = get_func_task_path(Table.to_dicts, Table)
@@ -79,7 +79,7 @@ class TestAsync(unittest.TestCase):
         assert_matching_tables(
             tableargs[0],
             Table([('x', 'y'),
-                   (11, 12), (13, 14), (15, 16), (17, 18), (19, 10)]))
+                   ('11', '12'), ('13', '14'), ('15', '16'), ('17', '18'), ('19', '10')]))
         count = 0
         tableargs = None
         distribute_task(Table(datatable + [(0, 0)]),
@@ -95,7 +95,7 @@ class TestAsync(unittest.TestCase):
         self.assertEqual(tableargs[1:], ('initx', 1, 2, 3))
         assert_matching_tables(
             tableargs[0],
-            Table([('x', 'y'), (0, 0)]))
+            Table([('x', 'y'), ('0', '0')]))
 
         # 3. catch=True (with throwing)
         count = 0

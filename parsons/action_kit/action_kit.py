@@ -712,12 +712,13 @@ class ActionKit(object):
                 in the `ActionKit API Documentation <https://roboticdogs.actionkit.com/docs/\
                 manual/api/rest/actionprocessing.html>`_.
         `Returns:`
-            ``None``
+            ``HTTP response``
         """
 
         resp = self.conn.patch(self._base_endpoint('paymenttoken', paymenttoken_id),
                                data=json.dumps(kwargs))
         logger.info(f'{resp.status_code}: {paymenttoken_id}')
+        return resp
 
     def get_page_followup(self, page_followup_id):
         """

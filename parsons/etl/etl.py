@@ -852,7 +852,7 @@ class ETL(object):
 
         # Create a mapping of our "normalized" name to the original column name
         current_columns_normalized = {
-            normalize_fn(col): col for col in self.columns
+            normalize_fn(col): col for col in reversed(self.columns)
         }
 
         # Track any columns we need to add to our current table from our desired columns

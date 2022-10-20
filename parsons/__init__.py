@@ -73,6 +73,7 @@ for module_path, connector_name in (
     ("parsons.redash.redash", "Redash"),
     ("parsons.rockthevote.rtv", "RockTheVote"),
     ("parsons.salesforce.salesforce", "Salesforce"),
+    ("parsons.scytl.scytl", "Scytl"),
     ("parsons.sftp.sftp", "SFTP"),
     ("parsons.shopify.shopify", "Shopify"),
     ("parsons.sisense.sisense", "Sisense"),

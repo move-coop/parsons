@@ -65,7 +65,8 @@ class GoogleAdmin(object):
 
     def get_aliases(self, group_key, params=None):
         """
-        Get aliases for a group. `Google Admin API Documentation <https://developers.google.com/admin-sdk/directory/reference/rest/v1/groups.aliases/list>`_
+        Get aliases for a group. `Google Admin API Documentation <https://developers.google.com/\
+        admin-sdk/directory/reference/rest/v1/groups.aliases/list>`_
 
         `Args:`
             group_key: str

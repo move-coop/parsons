@@ -140,7 +140,7 @@ class Scytl:
 
         with BytesIO() as zipdata:
             res = requests.get(zipfile_url)
-            zipdata.write(r.content)
+            zipdata.write(res.content)
             zipdata.flush()
 
             zf = zipfile.ZipFile(zipdata)

@@ -137,12 +137,10 @@ class Scytl:
             bytes
             The unzipped file as bytes
         """
+        
+        res = requests.get(zipfile_url)
 
-        with BytesIO() as zipdata:
-            res = requests.get(zipfile_url)
-            zipdata.write(res.content)
-            zipdata.flush()
-
+        with BytesIO(res.content) as zipdata:
             zf = zipfile.ZipFile(zipdata)
 
             with zf.open(file_name) as input:

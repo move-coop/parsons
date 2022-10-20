@@ -20,8 +20,8 @@ class TestActionNetwork(unittest.TestCase):
         self.fake_customer_email_1 = 'fake_customer_email_1@fake_customer_email.com'
         self.fake_customer_email_2 = 'fake_customer_email_2@fake_customer_email.com'
         self.fake_filter_by_email_1 = f"filter eq '{self.fake_customer_email_1}'"
-        self.fake_person_id_1 = "fake_person_id_1"
-        self.fake_person_id_2 = "fake_person_id_2"
+        self.fake_person_id_1 = "action_network:fake_person_id_1"
+        self.fake_person_id_2 = "action_network:fake_person_id_2"
         self.fake_tag_id_1 = "fake_tag_id_1"
         self.fake_tag_id_2 = "fake_tag_id_2"
         self.fake_tag_filter = "name eq 'fake_tag_1'"
@@ -133,6 +133,16 @@ class TestActionNetwork(unittest.TestCase):
                                       'modified_date': self.fake_datetime,
                                       'identifiers': [self.fake_tag_id_1],
                                       '_links': {'self': {'href': self.fake_tag_id_1}}}]}}
+        self.fake_upsert_person = {
+            'given_name': 'Fakey',
+            'family_name': 'McFakerson',
+            'identifiers': [self.fake_person_id_1],
+            'email_address': [{'primary': True,
+                               'address': 'fakey@mcfakerson.com',
+                               'status': 'unsubscribed'}],
+            'created_date': self.fake_datetime,
+            'modified_date': self.fake_datetime
+        }
         self.fake_person = [
                {'given_name': 'Fakey',
                 'family_name': 'McFakerson',
@@ -263,6 +273,11 @@ class TestActionNetwork(unittest.TestCase):
     def test_get_tag(self, m):
         m.get(f"{self.api_url}/tags/{self.fake_tag_id_1}", text=json.dumps(self.fake_tag))
         self.assertEqual(self.an.get_tag(self.fake_tag_id_1), self.fake_tag)
+
+    @requests_mock.Mocker()
+    def test_upsert_person(self, m):
+        m.post(f"{self.api_url}/people", text=json.dumps(self.fake_upsert_person))
+        self.assertEqual(self.an.upsert_person(**self.fake_upsert_person), self.fake_upsert_person)
 
     @requests_mock.Mocker()
     def test_update_person(self, m):

@@ -1,4 +1,5 @@
 # Adapted from Gmail API tutorial https://developers.google.com/gmail/api
+from abc import ABC, abstractmethod
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
 from email.mime.image import MIMEImage
@@ -24,14 +25,30 @@ import os
 logger = logging.getLogger(__name__)
 
 
-class SendMail(object):
+class SendMail(ABC):
     """SendMail base class for sending emails.
+
+    This class is not designed to be used directly,
+    as it has useful methods for composing messages and validating emails
+    but does not contain all the required functionality in order
+    to send a message. Rather it should be subclassed for each different type of
+    email service, and those subclasses should define an __init__
+    method (to set any instance attributes such as credentials) and a _send_message
+    method (to implement the actual sending of the message).
+
+    For an example of this subclassing in practice, look at the Gmail notification
+    connector in parsons.notifications.gmail.
     """
 
     log = logger
 
+    @abstractmethod
+    def __init__(self, *args, **kwargs):
+        pass
+
+    @abstractmethod
     def _send_message(self, message):
-        raise NotImplementedError("send_message is how to send the prepared message")
+        pass
 
     def _create_message_simple(self, sender, to, subject, message_text):
         """Create a text-only message for an email.
@@ -210,7 +227,7 @@ class SendMail(object):
         `Returns:`
             None
         """
-        self.log.info("Preparing to send and email...")
+        self.log.info("Preparing to send an email...")
 
         self.log.info("Validating email(s)")
         if isinstance(to, list):

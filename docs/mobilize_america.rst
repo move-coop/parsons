@@ -22,6 +22,7 @@ Quickstart
 If you instantiate ``MobilizeAmerica`` without an API Key, you can only use public methods:
 
 .. code-block:: python
+
    from parsons import MobilizeAmerica
 
    # Instantiate class without API key
@@ -35,6 +36,7 @@ In order to use private methods, you must provide an API key either by setting t
 variable ``MOBILIZE_AMERICA_API_KEY`` or by passing an ``api_key`` argument as shown below:
 
 .. code-block:: python
+
    # Instantiate class without API key as argument
    ma = MobilizeAmerica(api_key='my_api_key')
 

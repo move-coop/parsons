@@ -637,9 +637,9 @@ class ActionKit(object):
                 If "asc" (the default), return all objects below the threshold value.
                 If "desc", return all objects above the threshold value.
             **kwargs:
-                You can also add expressions to filter the data beyond the limit/threshold values above. For addition
-                info, visit `Django's docs on field lookups <https://docs.djangoproject.com/\
-                en/3.1/topics/db/queries/#field-lookups>`_.
+                You can also add expressions to filter the data beyond the limit/threshold values
+                above. For additional info, visit `Django's docs on field lookups
+                <https://docs.djangoproject.com/en/3.1/topics/db/queries/#field-lookups>`_.
 
                 .. code-block:: python
 
@@ -699,6 +699,26 @@ class ActionKit(object):
         resp = self.conn.patch(self._base_endpoint('order', order_id),
                                data=json.dumps(kwargs))
         logger.info(f'{resp.status_code}: {order_id}')
+
+    def update_paymenttoken(self, paymenttoken_id, **kwargs):
+        """
+        Update a saved payment token.
+
+        `Args:`
+            paymenttoken_id: int
+                The id of the payment token to update
+            **kwargs:
+                Optional arguments and fields to pass to the client. A full list can be found
+                in the `ActionKit API Documentation <https://roboticdogs.actionkit.com/docs/\
+                manual/api/rest/actionprocessing.html>`_.
+        `Returns:`
+            ``HTTP response``
+        """
+
+        resp = self.conn.patch(self._base_endpoint('paymenttoken', paymenttoken_id),
+                               data=json.dumps(kwargs))
+        logger.info(f'{resp.status_code}: {paymenttoken_id}')
+        return resp
 
     def get_page_followup(self, page_followup_id):
         """

@@ -60,13 +60,15 @@ class TestHustle(unittest.TestCase):
     @requests_mock.Mocker()
     def test_create_leads(self, m):
 
-        m.post(HUSTLE_URI + 'groups/cMCH0hxwGt/leads', json=expected_json.leads_tbl_01)
+        m.post(HUSTLE_URI + 'groups/cMCH0hxwGt/leads', [
+            {'json': expected_json.leads_tbl_01}, {'json': expected_json.leads_tbl_02}
+        ])
 
         tbl = Table([['phone_number', 'ln', 'first_name'],
-                     ['4435705355', 'Warren', 'Elizabeth'],
-                     ['5126993336', 'Obama', 'Barack']])
+                     ['4435705355', 'Johnson', 'Lyndon'],
+                     ['4435705354', 'Richard', 'Ann']])
         ids = self.hustle.create_leads(tbl, group_id='cMCH0hxwGt')
-        assert_matching_tables(ids, Table(expected_json.leads['items']))
+        assert_matching_tables(ids, Table(expected_json.created_leads))
 
     @requests_mock.Mocker()
     def test_update_lead(self, m):

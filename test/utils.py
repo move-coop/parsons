@@ -37,5 +37,11 @@ def assert_matching_tables(table1, table2, ignore_headers=False):
         assert data1.num_rows == data2.num_rows
 
     for r1, r2 in zip(data1, data2):
-        # Cast both rows to lists, in case they are different types of collections
+        # Cast both rows to lists, in case they are different types of collections. Must call
+        # .items() on dicts to compare content of collections
+        if isinstance(r1, dict):
+            r1 = r1.items()
+        if isinstance(r2, dict):
+            r2 = r2.items()
+
         assert list(r1) == list(r2)

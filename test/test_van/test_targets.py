@@ -1,4 +1,4 @@
-import unittest
+import unittest.mock
 import os
 import requests_mock
 from parsons import VAN, Table
@@ -116,7 +116,7 @@ class TestTargets(unittest.TestCase):
 
         expected_result = Table([
             ('TargetID', 'TargetName', 'TargetSubgroupID', 'TargetSubgroupName', 'VanID'),
-            ('12827', 'Volunteer Recruitment Tiers', '1111', 'Tier', '109957740'),
+            ('12827', 'Volunteer Recruitment Tiers', '1111', 'Tier', '109957749'),
             ('12827', 'Volunteer Recruitment Tiers', '1111', 'Tier', '109957754')])
 
         assert_matching_tables(self.van.get_target_export(export_job_id), expected_result)

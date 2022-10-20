@@ -41,12 +41,12 @@ class TestAirtable(unittest.TestCase):
 
         m.get(self.base_uri, json=records_response)
 
-        tbl = Table([{'id': 'recObtmLUrD5dOnmD',
-                      'createdTime': '2019-05-08T19:37:58.000Z',
-                      'Name': None},
-                     {'id': 'recaBMSHTgXREa5ef',
+        tbl = Table([{'id': 'recaBMSHTgXREa5ef',
                       'createdTime': '2019-05-08T19:37:58.000Z',
                       'Name': 'This is a row!'},
+                     {'id': 'recObtmLUrD5dOnmD',
+                      'createdTime': '2019-05-08T19:37:58.000Z',
+                      'Name': None},
                      {'id': 'recmeBNnj4cuHPOSI',
                       'createdTime': '2019-05-08T19:37:58.000Z',
                       'Name': None}])

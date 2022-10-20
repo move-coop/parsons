@@ -140,7 +140,11 @@ class Scytl:
         
         res = requests.get(zipfile_url, stream=True)
 
-        with BytesIO(res.raw) as zipdata:
+        with BytesIO() as zipdata:
+            for chunk in res.iter_content(chunk_size=8192): 
+                zipdata.write(chunk)
+                
+            zipdata.flush()
             zf = zipfile.ZipFile(zipdata)
 
             with zf.open(file_name) as input:

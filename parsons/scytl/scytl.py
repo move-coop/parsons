@@ -138,9 +138,9 @@ class Scytl:
             The unzipped file as bytes
         """
         
-        res = requests.get(zipfile_url)
+        res = requests.get(zipfile_url, stream=True)
 
-        with BytesIO(res.content) as zipdata:
+        with BytesIO(res.raw) as zipdata:
             zf = zipfile.ZipFile(zipdata)
 
             with zf.open(file_name) as input:

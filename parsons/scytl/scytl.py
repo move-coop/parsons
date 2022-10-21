@@ -1,9 +1,6 @@
-import urllib
 import zipfile
 import csv
 import requests
-import urllib.error
-import urllib.request
 import xml.etree.ElementTree as ET
 import typing as t
 from datetime import datetime
@@ -639,7 +636,7 @@ class Scytl:
             try:
                 county_data = self._parse_file_from_zip_url(detail_xml_url, 'detail.xml')
 
-            except urllib.error.HTTPError:
+            except requests.exceptions.RequestException:
                 try:
                     summary_data = self._fetch_and_parse_summary_results(
                         f"{self.state}/{county_name}",
@@ -648,7 +645,7 @@ class Scytl:
                         county_name
                     )
 
-                except urllib.error.HTTPError:
+                except requests.exceptions.RequestException:
                     missing_counties.append(county_name)
 
                 else:

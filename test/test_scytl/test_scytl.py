@@ -189,26 +189,26 @@ class TestScytl(unittest.TestCase):
             state=TEST_STATE, election_id=TEST_ELECTION_ID, version_num=TEST_VERSION_NUM
         )
 
-        with open(f'{_DIR}/GA_114729_296262_county_election_settings.json', 'r') as f:
-            m.get(mock_election_settings_url, text=f.read())
+        with open(f'{_DIR}/GA_114729_296262_county_election_settings.json', 'r') as details_file:
+            m.get(mock_election_settings_url, text=details_file.read())
 
         for file in os.listdir(f'{_DIR}/mock_responses'):
-            with open(f'{_DIR}/mock_responses/{file}') as f:
-                fn = f'https://results.enr.clarityelections.com/{file}'.replace('_', '/')
-                m.get(fn, body=f)
+            with open(f'{_DIR}/mock_responses/{file}', 'rb') as details_file:
+                file_url = f'https://results.enr.clarityelections.com/{file}'.replace('_', '/')
+                m.get(file_url, content=details_file.read())
 
         mock_summary_csv_url = scytl.SUMMARY_CSV_ZIP_URL_TEMPLATE.format(
             administrator=TEST_STATE, election_id=TEST_ELECTION_ID, version_num=TEST_VERSION_NUM
         )
 
-        with open(f'{_DIR}/114729_summary.zip', 'r') as summary:
-            self.requests_mock.get(mock_summary_csv_url, body=summary)
+        with open(f'{_DIR}/114729_summary.zip', 'rb') as summary:
+            m.get(mock_summary_csv_url, content=summary.read())
 
         mock_detail_xml_url = scytl.DETAIL_XML_ZIP_URL_TEMPLATE.format(
             administrator=TEST_STATE, election_id=TEST_ELECTION_ID, version_num=TEST_VERSION_NUM
         )
 
-        with open(f'{_DIR}/114729_detailxml.zip', 'r') as detailxml:
-            self.requests_mock.get(mock_detail_xml_url, body=detailxml)
+        with open(f'{_DIR}/114729_detailxml.zip', 'rb') as detailxml:
+            m.get(mock_detail_xml_url, content=detailxml.read())
 
         m.start()

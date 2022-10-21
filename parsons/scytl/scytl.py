@@ -1,9 +1,6 @@
-import urllib
 import zipfile
 import csv
 import requests
-import urllib.error
-import urllib.request
 import xml.etree.ElementTree as ET
 import typing as t
 from datetime import datetime
@@ -24,6 +21,11 @@ COUNTY_DETAIL_XML_ZIP_URL_TEMPLATE = CLARITY_URL + \
     '{state}/{county_name}/{county_election_id}/{county_version_num}/reports/detailxml.zip'
 ELECTION_SETTINGS_JSON_URL_TEMPLATE = \
     CLARITY_URL + '{state}/{election_id}/{version_num}/json/en/electionsettings.json'
+
+BROWSER_HEADERS = {
+    'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_5) ' +
+                  'AppleWebKit/537.36 (KHTML, like Gecko) Chrome/50.0.2661.102 Safari/537.36'
+}
 
 TZ_INFO = {
     "EST": "UTC-5",
@@ -123,7 +125,7 @@ class Scytl:
             administrator=administrator, election_id=election_id
         )
 
-        res = requests.get(config_version_url)
+        res = requests.get(config_version_url, headers=BROWSER_HEADERS)
 
         return res.text
 
@@ -142,9 +144,8 @@ class Scytl:
         """
 
         with BytesIO() as zipdata:
-            with urllib.request.urlopen(zipfile_url) as remote:
-                data = remote.read()
-                zipdata.write(data)
+            with requests.get(zipfile_url, headers=BROWSER_HEADERS) as res:
+                zipdata.write(res.content)
                 zipdata.flush()
 
             zf = zipfile.ZipFile(zipdata)
@@ -177,7 +178,7 @@ class Scytl:
             state=state, election_id=election_id, version_num=version_num
         )
 
-        settings_json_res = requests.get(config_settings_json_url)
+        settings_json_res = requests.get(config_settings_json_url, headers=BROWSER_HEADERS)
         settings_json = settings_json_res.json()
 
         participating_counties = \
@@ -635,7 +636,7 @@ class Scytl:
             try:
                 county_data = self._parse_file_from_zip_url(detail_xml_url, 'detail.xml')
 
-            except urllib.error.HTTPError:
+            except requests.exceptions.RequestException:
                 try:
                     summary_data = self._fetch_and_parse_summary_results(
                         f"{self.state}/{county_name}",
@@ -644,7 +645,7 @@ class Scytl:
                         county_name
                     )
 
-                except urllib.error.HTTPError:
+                except requests.exceptions.RequestException:
                     missing_counties.append(county_name)
 
                 else:

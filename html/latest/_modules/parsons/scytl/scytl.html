@@ -132,12 +132,9 @@
            <div itemprop="articleBody">
              
   <h1>Source code for parsons.scytl.scytl</h1><div class="highlight"><pre>
-<span></span><span class="kn">import</span> <span class="nn">urllib</span>
-<span class="kn">import</span> <span class="nn">zipfile</span>
+<span></span><span class="kn">import</span> <span class="nn">zipfile</span>
 <span class="kn">import</span> <span class="nn">csv</span>
 <span class="kn">import</span> <span class="nn">requests</span>
-<span class="kn">import</span> <span class="nn">urllib.error</span>
-<span class="kn">import</span> <span class="nn">urllib.request</span>
 <span class="kn">import</span> <span class="nn">xml.etree.ElementTree</span> <span class="k">as</span> <span class="nn">ET</span>
 <span class="kn">import</span> <span class="nn">typing</span> <span class="k">as</span> <span class="nn">t</span>
 <span class="kn">from</span> <span class="nn">datetime</span> <span class="kn">import</span> <span class="n">datetime</span>
@@ -158,6 +155,11 @@
     <span class="s1">&#39;</span><span class="si">{state}</span><span class="s1">/</span><span class="si">{county_name}</span><span class="s1">/</span><span class="si">{county_election_id}</span><span class="s1">/</span><span class="si">{county_version_num}</span><span class="s1">/reports/detailxml.zip&#39;</span>
 <span class="n">ELECTION_SETTINGS_JSON_URL_TEMPLATE</span> <span class="o">=</span> \
     <span class="n">CLARITY_URL</span> <span class="o">+</span> <span class="s1">&#39;</span><span class="si">{state}</span><span class="s1">/</span><span class="si">{election_id}</span><span class="s1">/</span><span class="si">{version_num}</span><span class="s1">/json/en/electionsettings.json&#39;</span>
+
+<span class="n">BROWSER_HEADERS</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s1">&#39;User-Agent&#39;</span><span class="p">:</span> <span class="s1">&#39;Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_5) &#39;</span> <span class="o">+</span>
+                  <span class="s1">&#39;AppleWebKit/537.36 (KHTML, like Gecko) Chrome/50.0.2661.102 Safari/537.36&#39;</span>
+<span class="p">}</span>
 
 <span class="n">TZ_INFO</span> <span class="o">=</span> <span class="p">{</span>
     <span class="s2">&quot;EST&quot;</span><span class="p">:</span> <span class="s2">&quot;UTC-5&quot;</span><span class="p">,</span>
@@ -257,7 +259,7 @@
             <span class="n">administrator</span><span class="o">=</span><span class="n">administrator</span><span class="p">,</span> <span class="n">election_id</span><span class="o">=</span><span class="n">election_id</span>
         <span class="p">)</span>
 
-        <span class="n">res</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">config_version_url</span><span class="p">)</span>
+        <span class="n">res</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">config_version_url</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="n">BROWSER_HEADERS</span><span class="p">)</span>
 
         <span class="k">return</span> <span class="n">res</span><span class="o">.</span><span class="n">text</span>
 
@@ -276,9 +278,8 @@
 <span class="sd">        &quot;&quot;&quot;</span>
 
         <span class="k">with</span> <span class="n">BytesIO</span><span class="p">()</span> <span class="k">as</span> <span class="n">zipdata</span><span class="p">:</span>
-            <span class="k">with</span> <span class="n">urllib</span><span class="o">.</span><span class="n">request</span><span class="o">.</span><span class="n">urlopen</span><span class="p">(</span><span class="n">zipfile_url</span><span class="p">)</span> <span class="k">as</span> <span class="n">remote</span><span class="p">:</span>
-                <span class="n">data</span> <span class="o">=</span> <span class="n">remote</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
-                <span class="n">zipdata</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+            <span class="k">with</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">zipfile_url</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="n">BROWSER_HEADERS</span><span class="p">)</span> <span class="k">as</span> <span class="n">res</span><span class="p">:</span>
+                <span class="n">zipdata</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">res</span><span class="o">.</span><span class="n">content</span><span class="p">)</span>
                 <span class="n">zipdata</span><span class="o">.</span><span class="n">flush</span><span class="p">()</span>
 
             <span class="n">zf</span> <span class="o">=</span> <span class="n">zipfile</span><span class="o">.</span><span class="n">ZipFile</span><span class="p">(</span><span class="n">zipdata</span><span class="p">)</span>
@@ -311,7 +312,7 @@
             <span class="n">state</span><span class="o">=</span><span class="n">state</span><span class="p">,</span> <span class="n">election_id</span><span class="o">=</span><span class="n">election_id</span><span class="p">,</span> <span class="n">version_num</span><span class="o">=</span><span class="n">version_num</span>
         <span class="p">)</span>
 
-        <span class="n">settings_json_res</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">config_settings_json_url</span><span class="p">)</span>
+        <span class="n">settings_json_res</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">config_settings_json_url</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="n">BROWSER_HEADERS</span><span class="p">)</span>
         <span class="n">settings_json</span> <span class="o">=</span> <span class="n">settings_json_res</span><span class="o">.</span><span class="n">json</span><span class="p">()</span>
 
         <span class="n">participating_counties</span> <span class="o">=</span> \
@@ -769,7 +770,7 @@
             <span class="k">try</span><span class="p">:</span>
                 <span class="n">county_data</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_parse_file_from_zip_url</span><span class="p">(</span><span class="n">detail_xml_url</span><span class="p">,</span> <span class="s1">&#39;detail.xml&#39;</span><span class="p">)</span>
 
-            <span class="k">except</span> <span class="n">urllib</span><span class="o">.</span><span class="n">error</span><span class="o">.</span><span class="n">HTTPError</span><span class="p">:</span>
+            <span class="k">except</span> <span class="n">requests</span><span class="o">.</span><span class="n">exceptions</span><span class="o">.</span><span class="n">RequestException</span><span class="p">:</span>
                 <span class="k">try</span><span class="p">:</span>
                     <span class="n">summary_data</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_fetch_and_parse_summary_results</span><span class="p">(</span>
                         <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">state</span><span class="si">}</span><span class="s2">/</span><span class="si">{</span><span class="n">county_name</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
@@ -778,7 +779,7 @@
                         <span class="n">county_name</span>
                     <span class="p">)</span>
 
-                <span class="k">except</span> <span class="n">urllib</span><span class="o">.</span><span class="n">error</span><span class="o">.</span><span class="n">HTTPError</span><span class="p">:</span>
+                <span class="k">except</span> <span class="n">requests</span><span class="o">.</span><span class="n">exceptions</span><span class="o">.</span><span class="n">RequestException</span><span class="p">:</span>
                     <span class="n">missing_counties</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">county_name</span><span class="p">)</span>
 
                 <span class="k">else</span><span class="p">:</span>

@@ -144,12 +144,8 @@ class Scytl:
         """
 
         with BytesIO() as zipdata:
-            req = urllib.request.Request(zipfile_url)
-            req.headers = BROWSER_HEADERS
-
-            with urllib.request.urlopen(req) as remote:
-                data = remote.read()
-                zipdata.write(data)
+            with requests.get(zipfile_url, headers=BROWSER_HEADERS) as res:
+                zipdata.write(res.content)
                 zipdata.flush()
 
             zf = zipfile.ZipFile(zipdata)

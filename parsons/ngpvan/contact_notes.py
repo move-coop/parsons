@@ -50,6 +50,6 @@ class ContactNotes(object):
         if note_category_id is not None:
             note['category'] = {'noteCategoryId': note_category_id}
 
-        r = self.connection.post_request(f'{van_id}/notes', json=note)
+        r = self.connection.post_request(f'people/{van_id}/notes', json=note)
         logger.info(f'Contact note {r} created.')
         return r

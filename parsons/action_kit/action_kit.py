@@ -713,6 +713,7 @@ class ActionKit(object):
 
         resp = self.conn.post(self._base_endpoint('orderrecurring', str(recurring_id)+'/cancel'))
         logger.info(f'{resp.status_code}: {recurring_id}')
+        return resp
 
     def update_paymenttoken(self, paymenttoken_id, **kwargs):
         """

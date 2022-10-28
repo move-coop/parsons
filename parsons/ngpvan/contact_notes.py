@@ -46,7 +46,7 @@ class ContactNotes(object):
             int
               The note ID.
         """
-        note = {'text': 'text', 'isViewRestricted': is_view_restricted}
+        note = {'text': text, 'isViewRestricted': is_view_restricted}
         if note_category_id is not None:
             note['category'] = {'noteCategoryId': note_category_id}
 

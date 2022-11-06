@@ -103,3 +103,67 @@ get_donations_amount_max_2 = []
 
 get_donations_date_from_valid = []
 get_donations_date_from_invalid = []
+
+donor_1_json = {
+    'id': 7508840, 'created_at': '2022-10-19T17:33:18.935Z', 'updated_at': '2022-10-20T19:34:07.127Z', 
+    'first_name': 'Elizabeth', 'last_name': 'Warren', 'email': 'elizabethwarren@senate.gov', 'phone': None, 
+    'address': None, 'city': None, 'state': None, 'zip_code': None, 'country': None, 'employer': None, 
+    'occupation': None, 'comment': None, 'donations_count': 2, 'last_donation_at': '2022-10-20T19:33:31.744Z', 
+    'total': [{'currency': 'USD', 'value': 6.0}]
+}
+
+donor_2_json = {
+    'id': 7509137, 'created_at': '2022-10-19T18:19:41.794Z', 'updated_at': '2022-10-19T18:19:41.859Z', 
+    'first_name': 'Paul', 'last_name': 'Wellstone', 'email': 'paulwellstone@senate.gov', 'phone': None, 
+    'address': None, 'city': None, 'state': None, 'zip_code': None, 'country': None, 'employer': None, 
+    'occupation': None, 'comment': None, 'donations_count': 1, 'last_donation_at': '2022-10-19T18:19:06.044Z', 
+    'total': [{'currency': 'USD', 'value': 4.0}]
+}
+
+get_donors_response_json = [donor_1_json, donor_2_json]
+
+get_donors_response_json_first_name_filter = [donor_1_json]
+get_donors_response_json_last_name_filter = [donor_1_json]
+get_donors_response_json_donor_name_filter = [donor_2_json]
+get_donors_response_json_email_filter = [donor_2_json]
+
+plan_1_json = {
+    'id': 1175651, 
+    'campaign': { 'id': 366172, 'name': 'Test Campaign', 'started_at': '2022-09-20T18:47:05.381Z'}, 
+    'donor': {
+        'id': 7508840, 'name': 'Shauna Gordon-McKeon', 'first_name': 'Shauna', 'last_name': 'Gordon-McKeon', 
+        'email': 'shaunagm@gmail.com', 'phone': None, 'address': None, 'city': None, 'state': None, 
+        'zip_code': None, 'country': None, 'employer': None, 'occupation': None
+    }, 
+    'type': 'monthly', 'amount': '3.0', 'formatted_amount': '$3', 'payment_method': 'Stripe', 
+    'started_at': '2022-10-20', 'last_donation_date': '2022-10-20T19:33:31.744Z', 
+    'next_donation_date': '2022-11-20', 'status': 'active'
+}
+
+plan_2_json = {
+    'id': 1173856, 
+    'campaign': {'id': 366172, 'name': 'Test Campaign', 'started_at': '2022-09-20T18:47:05.381Z'}, 
+    'donor': {
+        'id': 7509137, 'name': 'Shauna Gordon-McKeon', 'first_name': 'Shauna', 'last_name': 'Gordon-McKeon', 
+        'email': 'shaunagm+2@gmail.com', 'phone': None, 'address': None, 'city': None, 'state': None, 
+        'zip_code': None, 'country': None, 'employer': None, 'occupation': None
+    }, 
+    'type': 'monthly', 'amount': '4.0', 'formatted_amount': '$4', 'payment_method': 'Stripe', 
+    'started_at': '2022-10-19', 'last_donation_date': '2022-10-19T18:19:06.044Z', 
+    'next_donation_date': '2022-11-19', 'status': 'active'
+}
+
+plan_3_json = {
+    'id': 1173773, 
+    'campaign': {'id': 366172, 'name': 'Test Campaign', 'started_at': '2022-09-20T18:47:05.381Z'}, 
+    'donor': {
+        'id': 7508840, 'name': 'Shauna Gordon-McKeon', 'first_name': 'Shauna', 'last_name': 'Gordon-McKeon', 
+        'email': 'shaunagm@gmail.com', 'phone': None, 'address': None, 'city': None, 'state': None, 
+        'zip_code': None, 'country': None, 'employer': None, 'occupation': None
+    }, 
+    'type': 'monthly', 'amount': '3.0', 'formatted_amount': '$3', 'payment_method': 'Stripe', 
+    'started_at': '2022-10-19', 'last_donation_date': '2022-10-19T17:32:52.613Z', 
+    'next_donation_date': '2022-11-19', 'status': 'active'
+}
+
+get_plans_response_json = [plan_1_json, plan_2_json, plan_3_json]

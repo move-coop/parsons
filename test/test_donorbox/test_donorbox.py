@@ -12,14 +12,9 @@ from test.test_donorbox import donorbox_fake_data
 # fee to enable the live tests. I will keep the live tests commented out for now.
 
 # TODO: 
-# - add tests for get_donors
-# - add tests for get_plans
-# - check the date_from and date_to weirdness again, possibly with curl
-# - there's no real way to mock the date_from and date_to formatting stuff, but maybe actually add in a helper
-#   that emits a warning when the date_from and date_to are incorrect formats?
+# - check the date_from and date_to weirdness/inconsistency again, possibly with curl
 # - handle pagination?
-# - maybe find a way to quickly test some of the other parameters in the endpoints with lots of options like
-#   get_donations?
+# - change asserts to new style
 # docs (plus update the contributor guide)
 # comment out the live tests
 # submit
@@ -29,8 +24,6 @@ class TestDonorbox(unittest.TestCase):
 
     def setUp(self):
         self.base_uri = URI
-        self.email = "shauna.gordon-mckeon@trestle.us"
-        self.api_key = "XNUmE2eoTLlHLJSA5WF0hQT92-cbsEU_X-bBdhsqjVLd49qPoPS5pg"
         self.donorbox = Donorbox(self.email, self.api_key)
 
     @requests_mock.Mocker()
@@ -219,3 +212,110 @@ class TestDonorbox(unittest.TestCase):
         self.assertEquals(result.num_rows, 3)
         result = self.donorbox.get_donations(amount_max="2")
         self.assertEquals(result.num_rows, 0)
+
+    @requests_mock.Mocker()
+    def test_get_donors(self, m):
+
+        m.get(self.base_uri + '/donors', json=donorbox_fake_data.get_donors_response_json)
+        result = self.donorbox.get_donors()
+
+        # Assert the method returns expected dict response
+        self.assertDictEqual(result.to_dicts()[0], donorbox_fake_data.get_donors_response_json[0])
+        columns = [
+            'id', 'created_at', 'updated_at', 'first_name', 'last_name', 'email', 'phone', 'address', 'city', 
+            'state', 'zip_code', 'country', 'employer', 'occupation', 'comment', 'donations_count', 
+            'last_donation_at', 'total'
+        ]
+        self.assertCountEqual(result.columns, columns)
+
+    @mark_live_test
+    def test_get_donors_live_test(self):
+        result = self.donorbox.get_donors()
+        self.assertIsInstance(result, Table)
+        columns = [
+            'id', 'created_at', 'updated_at', 'first_name', 'last_name', 'email', 'phone', 'address', 'city', 
+            'state', 'zip_code', 'country', 'employer', 'occupation', 'comment', 'donations_count', 
+            'last_donation_at', 'total'
+        ]
+        self.assertEquals(result.columns, columns)
+        self.assertEquals(result.num_rows, 2)
+
+    @requests_mock.Mocker()
+    def test_get_donors_with_name_and_email_filters(self, m):
+        m.get(self.base_uri + '/donors', json=donorbox_fake_data.get_donors_response_json_first_name_filter)
+        result = self.donorbox.get_donors(first_name="Elizabeth")
+        self.assertEqual(result.num_rows, 1)
+        self.assertEqual(result[0]["last_name"], "Warren")
+        m.get(self.base_uri + '/donors', json=donorbox_fake_data.get_donors_response_json_last_name_filter)
+        result = self.donorbox.get_donors(last_name="Warren")
+        self.assertEqual(result.num_rows, 1)
+        self.assertEqual(result[0]["first_name"], "Elizabeth")
+        m.get(self.base_uri + '/donors', json=donorbox_fake_data.get_donors_response_json_donor_name_filter)
+        result = self.donorbox.get_donors(donor_name="Paul Wellstone")
+        self.assertEqual(result.num_rows, 1)
+        self.assertEqual(result[0]["email"], "paulwellstone@senate.gov")       
+        m.get(self.base_uri + '/donors', json=donorbox_fake_data.get_donors_response_json_email_filter)
+        result = self.donorbox.get_donors(email="paulwellstone@senate.gov")
+        self.assertEqual(result.num_rows, 1)
+        self.assertEqual(result[0]["first_name"], "Paul")
+
+    @requests_mock.Mocker()
+    def test_get_plans_live_test(self, m):
+        m.get(self.base_uri + '/plans', json=donorbox_fake_data.get_plans_response_json)
+        result = self.donorbox.get_plans()
+        assert isinstance(result, Table)
+        columns = [
+            'id', 'campaign', 'donor', 'type', 'amount', 'formatted_amount', 'payment_method', 'started_at', 
+            'last_donation_date', 'next_donation_date', 'status'
+        ]
+        assert result.columns == columns
+        assert result.num_rows == 3
+
+    @mark_live_test
+    def test_get_plans_live_test(self):
+        result = self.donorbox.get_plans()
+        assert isinstance(result, Table)
+        columns = [
+            'id', 'campaign', 'donor', 'type', 'amount', 'formatted_amount', 'payment_method', 'started_at', 
+            'last_donation_date', 'next_donation_date', 'status'
+        ]
+        assert result.columns == columns
+        assert result.num_rows == 3
+
+    @mark_live_test
+    def test_get_plans_with_date_from_filter_live_test(self):
+        # Correct formats (YYYY-mm-dd YYYY/mm/dd YYYYmmdd dd-mm-YYYY) successfully filter 
+        result = self.donorbox.get_plans(date_from="2022-10-20")
+        assert isinstance(result, Table)
+        assert result.num_rows == 1
+        assert result[0]["started_at"] == '2022-10-20'
+        # Try the other three formats quickly
+        for date_string in ["2022/10/20", "20221020", "20-10-2022"]:
+            assert self.donorbox.get_plans(date_from=date_string).num_rows == 1
+        # Incorrect formats do not successfully filter
+        result = self.donorbox.get_plans(date_from="10 20 2022")
+        assert result.num_rows == 3  
+
+    @mark_live_test
+    def test_get_plans_with_date_to_filter_live_test(self):
+        # Correct formats (YYYY-mm-dd YYYY/mm/dd YYYYmmdd dd-mm-YYYY) successfully filter 
+        result = self.donorbox.get_plans(date_to="2022-10-20")
+        assert isinstance(result, Table)
+        assert result.num_rows == 2
+        assert result[0]["started_at"] == '2022-10-19'
+        # Try the other three formats quickly
+        for date_string in ["2022/10/20", "20221020", "20-10-2022"]:
+            assert self.donorbox.get_plans(date_to=date_string).num_rows == 2
+        # Incorrect formats do not successfully filter
+        result = self.donorbox.get_plans(date_to="10 20 2022")
+        assert result.num_rows == 0
+            
+    def test_date_format_helper(self):
+        # valid formats work (should just run without error)
+        for good_format in ["2022-10-20", "2022/10/20", "20221020", "20-10-2022"]:
+            self.donorbox._date_format_helper(good_format)
+        # invalid formats raise warnings
+        for bad_format in ["10 20 2022", "October 20th, 2022", "22-10-20"]:
+            with self.assertWarns(Warning):
+                self.donorbox._date_format_helper(bad_format)
+

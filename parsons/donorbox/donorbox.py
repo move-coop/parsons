@@ -3,6 +3,8 @@ from parsons.utilities import check_env
 from parsons import Table
 
 import logging
+import warnings
+import datetime
 
 logger = logging.getLogger(__name__)
 
@@ -175,6 +177,30 @@ class Donorbox(object):
             "last_name": last_name, "donor_name": donor_name, "order": order
         }
         params = {key: value for key, value in params.items() if value is not None} # filter out Nones
-        result = self.client.request("donors", "GET", params=params)
+        result = self.client.request("plans", "GET", params=params)
         data = result.json()
         return Table(data)
+
+    def _date_format_helper(self, date_string):
+        """Checks date format and warns if invalid (internal)
+
+        Valid formats: YYYY-mm-dd YYYY/mm/dd YYYYmmdd dd-mm-YYYY
+
+        date_string: str
+            Required. Date in a string format to be checked against Donorbox's valid options.
+
+        `Returns`: None
+        """
+        valid_formats = ['%Y-%m-%d', '%d-%m-%Y', '%Y/%m/%d', '%Y%m%d']
+        for str_format in valid_formats:
+            try:
+                datetime.datetime.strptime(date_string, str_format)
+                return
+            except ValueError:
+                continue
+        warnings.warn(f"The date you supplied, {date_string}, is not a valid Donorbox format. Try " +
+                        "one of the following formats: YYYY-mm-dd YYYY/mm/dd YYYYmmdd dd-mm-YYYY")
+
+
+
+

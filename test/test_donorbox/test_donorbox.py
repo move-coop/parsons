@@ -16,7 +16,7 @@ class TestDonorbox(unittest.TestCase):
 
     def setUp(self):
         self.base_uri = URI
-        self.donorbox = Donorbox()
+        self.donorbox = Donorbox(email="testemail@examp.org", api_key="faketestapikey")
 
     @requests_mock.Mocker()
     def test_get_campaigns(self, m):

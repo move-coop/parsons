@@ -8,23 +8,15 @@ from test.utils import mark_live_test
 from test.test_donorbox import donorbox_fake_data
 
 
-# NOTE: Donorbox does not provide free sandbox accounts to developers, and it may not be worth the monthly 
-# fee to enable the live tests. I will keep the live tests commented out for now.
-
-# TODO: 
-# - check the date_from and date_to weirdness/inconsistency again, possibly with curl
-# - handle pagination?
-# - change asserts to new style
-# docs (plus update the contributor guide)
-# comment out the live tests
-# submit
+# NOTE: Donorbox does not provide free sandbox accounts to developers. To enable live tests, get a paid account
+# and remove the @skip decorators on the live tests below. 
 
 
 class TestDonorbox(unittest.TestCase):
 
     def setUp(self):
         self.base_uri = URI
-        self.donorbox = Donorbox(self.email, self.api_key)
+        self.donorbox = Donorbox()
 
     @requests_mock.Mocker()
     def test_get_campaigns(self, m):
@@ -41,6 +33,7 @@ class TestDonorbox(unittest.TestCase):
         ]
         self.assertCountEqual(result.columns, columns)
 
+    @unittest.skip("requires live account setup")
     @mark_live_test
     def test_get_campaigns_live_test(self):
         result = self.donorbox.get_campaigns()
@@ -50,7 +43,7 @@ class TestDonorbox(unittest.TestCase):
             'goal_amt', 'formatted_goal_amount', 'total_raised', 
             'formatted_total_raised', 'donations_count'
         ]
-        self.assertEquals(result.columns, columns)
+        self.assertEqual(result.columns, columns)
 
     @requests_mock.Mocker()
     def test_get_campaigns_with_id_filter(self, m):
@@ -61,6 +54,7 @@ class TestDonorbox(unittest.TestCase):
         self.assertEqual(result.to_dicts()[0]["id"], 366590)
         self.assertEqual(result.to_dicts()[0]["name"], "Membership Campaign")
 
+    @unittest.skip("requires live account setup")
     @mark_live_test
     def test_get_campaigns_with_id_filter_live_test(self):
         result = self.donorbox.get_campaigns(id=366590)
@@ -78,6 +72,7 @@ class TestDonorbox(unittest.TestCase):
         self.assertEqual(result.to_dicts()[0]["id"], 366590)
         self.assertEqual(result.to_dicts()[0]["name"], "Membership Campaign")
 
+    @unittest.skip("requires live account setup")
     @mark_live_test
     def test_get_campaigns_with_name_filter_live_test(self):
         result = self.donorbox.get_campaigns(name="Membership Campaign")
@@ -97,6 +92,7 @@ class TestDonorbox(unittest.TestCase):
         result = self.donorbox.get_campaigns(order="asc")
         self.assertEqual(result["id"], [366172, 366590])
 
+    @unittest.skip("requires live account setup")
     @mark_live_test
     def test_get_campaigns_with_order_filter_live_test(self):
         # check order of the ids without looking at IDs. or maybe look at updated/created date
@@ -126,6 +122,7 @@ class TestDonorbox(unittest.TestCase):
         ]
         self.assertCountEqual(result.columns, columns)
 
+    @unittest.skip("requires live account setup")
     @mark_live_test
     def test_get_donations_live_test(self):
         result = self.donorbox.get_donations()
@@ -139,79 +136,82 @@ class TestDonorbox(unittest.TestCase):
             'utm_term', 'utm_content', 'processing_fee', 'formatted_processing_fee', 'fee_covered', 'questions', 
             'plan_id', 'interval'
         ]
-        self.assertEquals(result.columns, columns)
-        self.assertEquals(result.num_rows, 3)
+        self.assertEqual(result.columns, columns)
+        self.assertEqual(result.num_rows, 3)
 
+    @unittest.skip("requires live account setup")
     @mark_live_test
     def test_get_donations_with_date_from_filter_live_test(self):
         # Correct formats (YYYY-mm-dd YYYY/mm/dd YYYYmmdd dd-mm-YYYY) successfully filter 
         result = self.donorbox.get_donations(date_from="2022-10-20")
         self.assertIsInstance(result, Table)
-        self.assertEquals(result.num_rows, 1)
-        self.assertEquals(result[0]["donation_date"], '2022-10-20T19:33:31.744Z')
+        self.assertEqual(result.num_rows, 1)
+        self.assertEqual(result[0]["donation_date"], '2022-10-20T19:33:31.744Z')
         # Try the other three formats quickly
         for date_string in ["2022/10/20", "20221020", "20-10-2022"]:
-            self.assertEquals(self.donorbox.get_donations(date_from=date_string).num_rows, 1)
-        # Incorrect formats do not successfully filter
-        result = self.donorbox.get_donations(date_from="10 20 2022")
-        self.assertEquals(result.num_rows, 3)  
+            self.assertEqual(self.donorbox.get_donations(date_from=date_string).num_rows, 1)
+        # Incorrect formats raise error
+        with self.assertRaises(ValueError):
+            result = self.donorbox.get_donations(date_from="10 20 2022") 
 
+    @unittest.skip("requires live account setup")
     @mark_live_test
     def test_get_donations_with_date_to_filter_live_test(self):
         # Correct formats (YYYY-mm-dd YYYY/mm/dd YYYYmmdd dd-mm-YYYY) successfully filter 
         result = self.donorbox.get_donations(date_to="2022-10-20")
         self.assertIsInstance(result, Table)
-        self.assertEquals(result.num_rows, 2)
-        self.assertEquals(result[0]["donation_date"], '2022-10-19T18:19:06.044Z')
+        self.assertEqual(result.num_rows, 2)
+        self.assertEqual(result[0]["donation_date"], '2022-10-19T18:19:06.044Z')
         # Try the other three formats quickly
         for date_string in ["2022/10/20", "20221020", "20-10-2022"]:
-            self.assertEquals(self.donorbox.get_donations(date_to=date_string).num_rows, 2)
-        # Incorrect formats do not successfully filter
-        # NOTE: weirdly, date_from and date_to seem to have different responses to incorrectly formatted dates
-        result = self.donorbox.get_donations(date_to="10 20 2022")
-        self.assertEquals(result.num_rows, 0)
+            self.assertEqual(self.donorbox.get_donations(date_to=date_string).num_rows, 2)
+        # Incorrect formats raise error
+        with self.assertRaises(ValueError):
+            result = self.donorbox.get_donations(date_to="10 20 2022")
 
     @requests_mock.Mocker()
     def test_get_donations_with_amount_min_filter(self, m):
         m.get(self.base_uri + '/donations', json=donorbox_fake_data.get_donations_amount_min_3)
         result = self.donorbox.get_donations(amount_min="3")
-        self.assertEquals(result.num_rows, 3)
+        self.assertEqual(result.num_rows, 3)
         m.get(self.base_uri + '/donations', json=donorbox_fake_data.get_donations_amount_min_4)
         result = self.donorbox.get_donations(amount_min="4")
-        self.assertEquals(result.num_rows, 1)
+        self.assertEqual(result.num_rows, 1)
         m.get(self.base_uri + '/donations', json=donorbox_fake_data.get_donations_amount_min_5)
         result = self.donorbox.get_donations(amount_min="5")
-        self.assertEquals(result.num_rows, 0)
+        self.assertEqual(result.num_rows, 0)
 
+    @unittest.skip("requires live account setup")
     @mark_live_test
     def test_get_donations_with_amount_min_filter_live_test(self):
         result = self.donorbox.get_donations(amount_min="3")
-        self.assertEquals(result.num_rows, 3)
+        self.assertEqual(result.num_rows, 3)
         result = self.donorbox.get_donations(amount_min="4")
-        self.assertEquals(result.num_rows, 1)
+        self.assertEqual(result.num_rows, 1)
         result = self.donorbox.get_donations(amount_min="5")
-        self.assertEquals(result.num_rows, 0)
+        self.assertEqual(result.num_rows, 0)
 
     @requests_mock.Mocker()
     def test_get_donations_with_amount_max_filter(self, m):
         m.get(self.base_uri + '/donations', json=donorbox_fake_data.get_donations_amount_max_3)
         result = self.donorbox.get_donations(amount_max="3")
-        self.assertEquals(result.num_rows, 2)
+        self.assertEqual(result.num_rows, 2)
         m.get(self.base_uri + '/donations', json=donorbox_fake_data.get_donations_amount_max_4)
         result = self.donorbox.get_donations(amount_max="4")
-        self.assertEquals(result.num_rows, 3)
+        self.assertEqual(result.num_rows, 3)
         m.get(self.base_uri + '/donations', json=donorbox_fake_data.get_donations_amount_max_2)
         result = self.donorbox.get_donations(amount_max="2")
-        self.assertEquals(result.num_rows, 0)
+        self.assertEqual(result.num_rows, 0)
 
+    @unittest.skip("requires live account setup")
     @mark_live_test
     def test_get_donations_with_amount_max_filter_live_test(self):
         result = self.donorbox.get_donations(amount_max="3")
-        self.assertEquals(result.num_rows, 2)
+        self.assertEqual(result.num_rows, 2)
         result = self.donorbox.get_donations(amount_max="4")
-        self.assertEquals(result.num_rows, 3)
+        self.assertEqual(result.num_rows, 3)
         result = self.donorbox.get_donations(amount_max="2")
-        self.assertEquals(result.num_rows, 0)
+        self.assertEqual(result.num_rows, 0)
 
     @requests_mock.Mocker()
     def test_get_donors(self, m):
@@ -228,6 +228,7 @@ class TestDonorbox(unittest.TestCase):
         ]
         self.assertCountEqual(result.columns, columns)
 
+    @unittest.skip("requires live account setup")
     @mark_live_test
     def test_get_donors_live_test(self):
         result = self.donorbox.get_donors()
@@ -237,8 +238,8 @@ class TestDonorbox(unittest.TestCase):
             'state', 'zip_code', 'country', 'employer', 'occupation', 'comment', 'donations_count', 
             'last_donation_at', 'total'
         ]
-        self.assertEquals(result.columns, columns)
-        self.assertEquals(result.num_rows, 2)
+        self.assertEqual(result.columns, columns)
+        self.assertEqual(result.num_rows, 2)
 
     @requests_mock.Mocker()
     def test_get_donors_with_name_and_email_filters(self, m):
@@ -271,6 +272,7 @@ class TestDonorbox(unittest.TestCase):
         assert result.columns == columns
         assert result.num_rows == 3
 
+    @unittest.skip("requires live account setup")
     @mark_live_test
     def test_get_plans_live_test(self):
         result = self.donorbox.get_plans()
@@ -282,6 +284,7 @@ class TestDonorbox(unittest.TestCase):
         assert result.columns == columns
         assert result.num_rows == 3
 
+    @unittest.skip("requires live account setup")
     @mark_live_test
     def test_get_plans_with_date_from_filter_live_test(self):
         # Correct formats (YYYY-mm-dd YYYY/mm/dd YYYYmmdd dd-mm-YYYY) successfully filter 
@@ -292,10 +295,11 @@ class TestDonorbox(unittest.TestCase):
         # Try the other three formats quickly
         for date_string in ["2022/10/20", "20221020", "20-10-2022"]:
             assert self.donorbox.get_plans(date_from=date_string).num_rows == 1
-        # Incorrect formats do not successfully filter
-        result = self.donorbox.get_plans(date_from="10 20 2022")
-        assert result.num_rows == 3  
+        # Incorrect formats raise error
+        with self.assertRaises(ValueError):
+            result = self.donorbox.get_plans(date_from="10 20 2022")
 
+    @unittest.skip("requires live account setup")
     @mark_live_test
     def test_get_plans_with_date_to_filter_live_test(self):
         # Correct formats (YYYY-mm-dd YYYY/mm/dd YYYYmmdd dd-mm-YYYY) successfully filter 
@@ -306,16 +310,16 @@ class TestDonorbox(unittest.TestCase):
         # Try the other three formats quickly
         for date_string in ["2022/10/20", "20221020", "20-10-2022"]:
             assert self.donorbox.get_plans(date_to=date_string).num_rows == 2
-        # Incorrect formats do not successfully filter
-        result = self.donorbox.get_plans(date_to="10 20 2022")
-        assert result.num_rows == 0
+        # Incorrect formats raise error
+        with self.assertRaises(ValueError):
+            result = self.donorbox.get_plans(date_to="10 20 2022")
             
     def test_date_format_helper(self):
         # valid formats work (should just run without error)
         for good_format in ["2022-10-20", "2022/10/20", "20221020", "20-10-2022"]:
             self.donorbox._date_format_helper(good_format)
-        # invalid formats raise warnings
+        # invalid formats raise errors
         for bad_format in ["10 20 2022", "October 20th, 2022", "22-10-20"]:
-            with self.assertWarns(Warning):
+            with self.assertRaises(ValueError):
                 self.donorbox._date_format_helper(bad_format)
 

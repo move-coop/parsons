@@ -1,6 +1,5 @@
 import unittest
 import requests_mock
-from unittest.mock import MagicMock
 
 from parsons import Table, Donorbox
 from parsons.donorbox.donorbox import URI
@@ -8,8 +7,8 @@ from test.utils import mark_live_test
 from test.test_donorbox import donorbox_fake_data
 
 
-# NOTE: Donorbox does not provide free sandbox accounts to developers. To enable live tests, get a paid account
-# and remove the @skip decorators on the live tests below.
+# NOTE: Donorbox does not provide free sandbox accounts to developers. To enable live tests,
+# get a paid account and remove the @skip decorators on the live tests below.
 
 
 class TestDonorbox(unittest.TestCase):
@@ -228,8 +227,8 @@ class TestDonorbox(unittest.TestCase):
         # Assert the method returns expected dict response
         self.assertDictEqual(result.to_dicts()[0], donorbox_fake_data.get_donors_response_json[0])
         columns = [
-            'id', 'created_at', 'updated_at', 'first_name', 'last_name', 'email', 'phone', 'address',
-            'city', 'state', 'zip_code', 'country', 'employer', 'occupation', 'comment',
+            'id', 'created_at', 'updated_at', 'first_name', 'last_name', 'email', 'phone',
+            'address', 'city', 'state', 'zip_code', 'country', 'employer', 'occupation', 'comment',
             'donations_count', 'last_donation_at', 'total'
         ]
         self.assertCountEqual(result.columns, columns)

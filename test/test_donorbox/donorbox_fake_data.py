@@ -58,7 +58,7 @@ donation_2_json = {
     'campaign': {'id': 366172, 'name': 'Test Campaign', 'started_at': '2022-09-20T18:47:05.381Z'},
     'donor': {
         'id': 7509137, 'name': 'Crystal Dunn', 'first_name': 'Crystal', 'last_name': 'Dunn',
-        'email': 'fake2mail2@gmail.com', 'phone': None, 'address': None, 'city': None, 
+        'email': 'fake2mail2@gmail.com', 'phone': None, 'address': None, 'city': None,
         'state': None, 'zip_code': None, 'country': None, 'employer': None, 'occupation': None
     },
     'amount': '4.0', 'formatted_amount': '$4', 'converted_amount': '4.0',
@@ -136,7 +136,7 @@ get_donors_response_json_email_filter = [donor_2_json]
 
 plan_1_json = {
     'id': 1175651,
-    'campaign': { 'id': 366172, 'name': 'Test Campaign', 'started_at': '2022-09-20T18:47:05.381Z'},
+    'campaign': {'id': 366172, 'name': 'Test Campaign', 'started_at': '2022-09-20T18:47:05.381Z'},
     'donor': {
         'id': 7508840, 'name': 'Jane Doe', 'first_name': 'Doe', 'last_name': 'Doe',
         'email': 'example@example.com', 'phone': None, 'address': None, 'city': None, 'state': None,
@@ -148,7 +148,7 @@ plan_1_json = {
 }
 
 plan_2_json = {
-    'id': 1173856, 
+    'id': 1173856,
     'campaign': {'id': 366172, 'name': 'Test Campaign', 'started_at': '2022-09-20T18:47:05.381Z'},
     'donor': {
         'id': 7509137, 'name': 'Jane Doe', 'first_name': 'Doe', 'last_name': 'Jane Doe',
@@ -161,7 +161,7 @@ plan_2_json = {
 }
 
 plan_3_json = {
-    'id': 1173773, 
+    'id': 1173773,
     'campaign': {'id': 366172, 'name': 'Test Campaign', 'started_at': '2022-09-20T18:47:05.381Z'},
     'donor': {
         'id': 7508840, 'name': 'Jane Doe', 'first_name': 'Jane', 'last_name': 'Doe',

@@ -3,7 +3,6 @@ from parsons.utilities import check_env
 from parsons import Table
 
 import logging
-import warnings
 import datetime
 
 logger = logging.getLogger(__name__)
@@ -36,13 +35,17 @@ class Donorbox(object):
 
         `Args:`
             id: int or str
-                Optional. The ID of the campaign to get. If both id and name are omitted, will return all campaigns.
+                Optional. The ID of the campaign to get. If both id and name are omitted, returns
+                all campaigns.
             name: str
-                Optional. The name of the campaign to get. If both id and name are omitted, will return all campaigns.
+                Optional. The name of the campaign to get. If both id and name are omitted, retunrs
+                all campaigns.
             order: str
-                Optional. Valid values are "asc" and "desc". If not supplied, order is descending by default.
+                Optional. Valid values are "asc" and "desc". If not supplied, order is descending
+                by default.
             page: int
-                Optional. Donorbox supports pagination for larger results. Use the page to track your progress.
+                Optional. Donorbox supports pagination for larger results. Use the page to track
+                your progress.
             per_page: int
                 Optional. Results per page when using pagination. Default is 50, maximum is 100.
 
@@ -85,22 +88,25 @@ class Donorbox(object):
             amount_max: int or str
                 Optional. Gets all donations below the provided maximum.
             order: str
-                Optional. Valid values are "asc" and "desc". If not supplied, order is descending by default.
+                Optional. Valid values are "asc" and "desc". If not supplied, order is
+                descending by default.
             page: int
-                Optional. Donorbox supports pagination for larger results. Use the page to track your progress.
+                Optional. Donorbox supports pagination for larger results. Use the page
+                to track your progress.
             per_page: int
-                Optional. Results per page when using pagination. Default is 50, maximum is 100.
+                Optional. Results per page when using pagination. Default is 50, maximum
+                is 100.
 
         `Returns`:
             Parsons Table
         """
         # switch variable names
         if "amount_max" in kwargs:
-            kwargs["amount[usd][max]"] = kwargs.pop("amount_max") 
+            kwargs["amount[usd][max]"] = kwargs.pop("amount_max")
         if "amount_min" in kwargs:
             kwargs["amount[usd][min]"] = kwargs.pop("amount_min")
-        if "donation_id" in kwargs: 
-            kwargs["id"] = kwargs.pop("donation_id") 
+        if "donation_id" in kwargs:
+            kwargs["id"] = kwargs.pop("donation_id")
         self._check_date_helper(kwargs)
         data = self.client.get_request("donations", params=kwargs)
         return Table(data)
@@ -120,19 +126,21 @@ class Donorbox(object):
             donor_name: str
                 Optional. Filter by donor's full name
             email: str
-                Optional. Filter's donations by donor's email        
+                Optional. Filter's donations by donor's email
             order: str
-                Optional. Valid values are "asc" and "desc". If not supplied, order is descending by default.
+                Optional. Valid values are "asc" and "desc". If not supplied, order is descending
+                by default.
             page: int
-                Optional. Donorbox supports pagination for larger results. Use the page to track your progress.
+                Optional. Donorbox supports pagination for larger results. Use the page to track
+                your progress.
             per_page: int
                 Optional. Results per page when using pagination. Default is 50, maximum is 100.
 
         `Returns`:
             Parsons Table
         """
-        if "donor_id" in kwargs: 
-            kwargs["id"] = kwargs.pop("donor_id")  # switch to Donorbox's (less specific) name for this param
+        if "donor_id" in kwargs:
+            kwargs["id"] = kwargs.pop("donor_id")  # switch to Donorbox's (less specific) name
         data = self.client.get_request("donors", params=kwargs)
         return Table(data)
 
@@ -143,7 +151,7 @@ class Donorbox(object):
         `Args:`
 
             email: str
-                Optional. Filter's plans by donor's email address.   
+                Optional. Filter's plans by donor's email address.
             date_from: str
                 |  Optional. Filters plans to those started on or after the provided date.
                 |  Valid formats: YYYY-mm-dd YYYY/mm/dd YYYYmmdd dd-mm-YYYY
@@ -155,7 +163,7 @@ class Donorbox(object):
             campaign_id: int or str
                 Optional. Filters by Donorbox campaign id.
             campaign_name: str
-                Optional. Filters by the campaign title that you have defined in Donorbox.            
+                Optional. Filters by the campaign title that you have defined in Donorbox.
             donor_id: str or int
                 Optional. Filters by donor ID.
             first_name: str
@@ -165,9 +173,11 @@ class Donorbox(object):
             donor_name: str
                 Optional. Filter by donor's full name
             order: str
-                Optional. Valid values are "asc" and "desc". If not supplied, order is descending by default.
+                Optional. Valid values are "asc" and "desc". If not supplied, order is descending
+                by default.
             page: int
-                Optional. Donorbox supports pagination for larger results. Use the page to track your progress.
+                Optional. Donorbox supports pagination for larger results. Use the page to track
+                your progress.
             per_page: int
                 Optional. Results per page when using pagination. Default is 50, maximum is 100.
 
@@ -180,12 +190,12 @@ class Donorbox(object):
 
     def _check_date_helper(self, params):
         """Searches through params for a date parameter and if found, calls format helper.
-        
+
         params: dictionary
             Required. Dictionary of parameters to be passed to endpoint.
 
         `Returns`: None
-        
+
         """
         if "date_from" in params and params["date_from"] is not None:
             self._date_format_helper(params["date_from"])
@@ -209,9 +219,5 @@ class Donorbox(object):
                 return
             except ValueError:
                 continue
-        raise ValueError(f"The date you supplied, {date_string}, is not a valid Donorbox format. Try " +
-                        "one of the following formats: YYYY-mm-dd YYYY/mm/dd YYYYmmdd dd-mm-YYYY")
-
-
-
-
+        raise ValueError(f"The date you supplied, {date_string}, is not a valid Donorbox format." +
+                         "Try the following formats: YYYY-mm-dd YYYY/mm/dd YYYYmmdd dd-mm-YYYY")

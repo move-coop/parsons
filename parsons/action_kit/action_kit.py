@@ -700,6 +700,41 @@ class ActionKit(object):
                                data=json.dumps(kwargs))
         logger.info(f'{resp.status_code}: {order_id}')
 
+    def cancel_orderrecurring(self, recurring_id):
+        """
+        Cancel a recurring order.
+
+        `Args:`
+            recurring_id: int
+                The id of the recurring order to update (NOT the order_id)
+        `Returns:`
+            ``None``
+        """
+
+        resp = self.conn.post(self._base_endpoint('orderrecurring', str(recurring_id)+'/cancel'))
+        logger.info(f'{resp.status_code}: {recurring_id}')
+        return resp
+
+    def update_paymenttoken(self, paymenttoken_id, **kwargs):
+        """
+        Update a saved payment token.
+
+        `Args:`
+            paymenttoken_id: int
+                The id of the payment token to update
+            **kwargs:
+                Optional arguments and fields to pass to the client. A full list can be found
+                in the `ActionKit API Documentation <https://roboticdogs.actionkit.com/docs/\
+                manual/api/rest/actionprocessing.html>`_.
+        `Returns:`
+            ``HTTP response``
+        """
+
+        resp = self.conn.patch(self._base_endpoint('paymenttoken', paymenttoken_id),
+                               data=json.dumps(kwargs))
+        logger.info(f'{resp.status_code}: {paymenttoken_id}')
+        return resp
+
     def get_page_followup(self, page_followup_id):
         """
         Get a page followup.

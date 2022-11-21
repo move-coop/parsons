@@ -63,6 +63,21 @@ class GoogleAdmin(object):
 
         return Table(ret)
 
+    def get_aliases(self, group_key, params=None):
+        """
+        Get aliases for a group. `Google Admin API Documentation <https://developers.google.com/\
+        admin-sdk/directory/reference/rest/v1/groups.aliases/list>`_
+
+        `Args:`
+            group_key: str
+                The Google group id
+            params: dict
+                A dictionary of fields for the GET request
+        `Returns:`
+            Table Class
+        """
+        return self._paginate_request('groups/' + group_key + '/aliases', 'aliases', params)
+
     def get_all_group_members(self, group_key, params=None):
         """
         Get all members in a group. `Google Admin API Documentation <https://developers.google.com/\

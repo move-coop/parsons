@@ -102,7 +102,7 @@ class SavedLists(object):
                  Whether or not fields are enclosed in quotation marks within each
                  column of the file.
             overwrite: int
-                Replace saved list if already exists. Pass in the list id of the 
+                Replace saved list if already exists. Pass in the list id of the
                 existing list that you would like to overwrite.
             **url_kwargs: kwargs
                 Arguments to configure your cloud storage url type. See

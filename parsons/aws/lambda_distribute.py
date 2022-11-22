@@ -99,7 +99,9 @@ def distribute_task_csv(csv_bytes_utf8, func_to_run, bucket,
 
     response = None
     if storage == 's3':
-        response = S3Storage(use_env_token = use_s3_env_token).put_object(bucket, storagekey, csv_bytes_utf8)
+        response = S3Storage(use_env_token=use_s3_env_token).put_object(
+            bucket, storagekey, csv_bytes_utf8
+        )
     else:
         response = FAKE_STORAGE.put_object(bucket, storagekey, csv_bytes_utf8)
 
@@ -201,7 +203,9 @@ def process_task_portion(bucket, storagekey, rangestart, rangeend, func_name, he
                  f'storagekey {storagekey}, byterange {rangestart}-{rangeend}')
     func = import_and_get_task(func_name, func_class_kwargs)
     if storage == 's3':
-        filedata = S3Storage(use_env_token=use_s3_env_token).get_range(bucket, storagekey, rangestart, rangeend)
+        filedata = S3Storage(use_env_token=use_s3_env_token).get_range(
+            bucket, storagekey, rangestart, rangeend
+        )
     else:
         filedata = FAKE_STORAGE.get_range(bucket, storagekey, rangestart, rangeend)
 

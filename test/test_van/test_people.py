@@ -3,7 +3,7 @@ import os
 import requests_mock
 from parsons import VAN
 from requests.exceptions import HTTPError
-from test.test_van.responses_people import find_people_response, get_person_response
+from test.test_van.responses_people import find_people_response, get_person_response, merge_contacts_response
 
 os.environ['VAN_API_KEY'] = 'SOME_KEY'
 
@@ -215,3 +215,14 @@ class TestNGPVAN(unittest.TestCase):
         # Test bad request
         m.post(self.van.connection.uri + f"people/{vanid}/codes", status_code=404)
         self.assertRaises(HTTPError, self.van.apply_person_code, vanid, code_id)
+
+    @requests_mock.Mocker()
+    def test_merge_contacts(self, m):
+
+        source_vanid = 12345
+
+        m.put(self.van.connection.uri + f'people/{source_vanid}/mergeInto', json=merge_contacts_response, status_code=200)
+
+        person = self.van.merge_contacts(source_vanid=source_vanid, primary_vanid=56789)
+
+        self.assertEqual(person, merge_contacts_response)

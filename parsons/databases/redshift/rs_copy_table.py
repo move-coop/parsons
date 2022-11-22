@@ -112,7 +112,7 @@ class RedshiftCopyTable(object):
 
         else:
 
-            s3 = S3(use_env_token = self.use_env_token)
+            s3 = S3(use_env_token=self.use_env_token)
             creds = s3.aws.session.get_credentials()
             aws_access_key_id = creds.access_key
             aws_secret_access_key = creds.secret_key

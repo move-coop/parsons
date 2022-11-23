@@ -878,6 +878,29 @@ such as <code class="docutils literal notranslate"><span class="pre">dwid</span>
 </dl>
 </dd></dl>
 
+<dl class="py method">
+<dt class="sig sig-object py" id="parsons.ngpvan.van.People.merge_contacts">
+<span class="sig-name descname"><span class="pre">merge_contacts</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">primary_vanid</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">source_vanid</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/ngpvan/people.html#People.merge_contacts"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.ngpvan.van.People.merge_contacts" title="Permalink to this definition"></a></dt>
+<dd><p>Merges two contacts in EveryAction. The source contact record will be
+deleted as part of the merge and its data will be moved into the primary
+contact record. In cases where fields conflict between the two contacts
+and we can’t keep both values, such as if the contacts have different
+first names, the primary contact record’s data will be retained. For
+more information see the
+<a class="reference external" href="https://docs.ngpvan.com/reference/peoplevanidmergeinto">VAN API documentation here</a></p>
+<dl class="simple">
+<dt><cite>Args:</cite></dt><dd><dl class="simple">
+<dt>primary_vanid: str</dt><dd><p>The VANID of the primary contact record.</p>
+</dd>
+<dt>source_vanid: str</dt><dd><p>The VANID of the source contact record.</p>
+</dd>
+</dl>
+</dd>
+<dt><cite>Returns:</cite></dt><dd><p>The VANID of the primary contact record.</p>
+</dd>
+</dl>
+</dd></dl>
+
 </dd></dl>
 
 </section>

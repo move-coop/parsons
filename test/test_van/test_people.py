@@ -3,8 +3,8 @@ import os
 import requests_mock
 from parsons import VAN
 from requests.exceptions import HTTPError
-from test.test_van.responses_people import find_people_response, get_person_response \
-, merge_contacts_response
+from test.test_van.responses_people import find_people_response, get_person_response,\
+    merge_contacts_response
 
 os.environ['VAN_API_KEY'] = 'SOME_KEY'
 

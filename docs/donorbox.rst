@@ -8,6 +8,8 @@ Overview
 `Donorbox <https://donorbox.org/>`_ is an online donation platform through which donors can make one-off or
 recurring donations. This Parsons class provides methods for extracting donors, campaigns, donations, and plans.
 
+The documentation for the underlying Donorbox API can be found `here <https://github.com/donorbox/donorbox-api>`_.
+
 .. note::
     To authenticate, go to your account on donorbox.org and select the "API & Zapier Integration" option 
     under Add-ons. Enable the add-on. (Note that currently Donorbox charges to enable this feature.)

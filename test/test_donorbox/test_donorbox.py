@@ -4,7 +4,7 @@ import requests_mock
 from parsons import Table, Donorbox
 from parsons.donorbox.donorbox import URI
 from test.utils import mark_live_test
-from test.test_donorbox import donorbox_fake_data
+from test.test_donorbox import donorbox_test_data
 
 
 # NOTE: Donorbox does not provide free sandbox accounts to developers. To enable live tests,

@@ -15,15 +15,22 @@ API_KEYS_STR = os.environ['VAN_API_KEYS_PASSWORD']
 
 # Configuration Variables
 
-# The OPT_OUT_TABLE is a schema.table of phones to opt out.
+# It is assumed that the tables below live in a schema in Redshift
+# Therefore, in order to interact with them, we must name them using the format schema.table.
+# More on this here: https://docs.aws.amazon.com/redshift/latest/gsg/t_creating_schema.html
+
+# The OPT_OUT_TABLE is a table of phones to opt out.
+# The variable must be a string with the format schema.table.
 # The table must contain the columns phone, committeeid, and vanid.
 OPT_OUT_TABLE = os.environ['OPT_OUT_TABLE']
 
-# The SUCCESS_TABLE is a schema.table where successful opt-outs will be logged.
+# The SUCCESS_TABLE is a table where successful opt-outs will be logged.
+# The variable must be a string with the format schema.table.
 # This table's columns will be: vanid, phone, committeeid, and applied_at.
 SUCCESS_TABLE = os.environ['SUCCESS_TABLE']
 
-# The ERROR_TABLE is a schema.table where errors will be logged.
+# The ERROR_TABLE is a table where errors will be logged.
+# The variable must be a string with the format schema.table.
 # This table's columns will be : vanid, phone, committeeid, errored_at, and error.
 ERROR_TABLE = os.environ['ERROR_TABLE']
 

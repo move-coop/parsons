@@ -51,7 +51,7 @@ def attempt_optout(ea, row, applied_at, committeeid, success_log, error_log, att
 
     # Documentation on this json construction is here
     # https://docs.ngpvan.com/reference/common-models
-    json = {
+    match_json = {
         "phones": [
             {"phoneNumber": phone,
              "phoneOptInStatus": "O"}
@@ -59,7 +59,7 @@ def attempt_optout(ea, row, applied_at, committeeid, success_log, error_log, att
     }
 
     try:
-        r = ea.update_person_json(id=vanid, match_json=json)
+        r = ea.update_person_json(id=vanid, match_json=match_json)
 
         if isinstance(r, dict):
             # Response is only a dict upon success

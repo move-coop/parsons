@@ -20,9 +20,9 @@ from parsons.ngpvan.printed_lists import PrintedLists
 logger = logging.getLogger(__name__)
 
 
-class VAN(People, Events, SavedLists, PrintedLists, Folders, ExportJobs, ActivistCodes, CanvassResponses,
-          SurveyQuestions, Codes, Scores, FileLoadingJobs, SupporterGroups, Signups, Locations,
-          BulkImport, ChangedEntities, CustomFields, Targets):
+class VAN(People, Events, SavedLists, PrintedLists, Folders, ExportJobs, ActivistCodes,
+          CanvassResponses, SurveyQuestions, Codes, Scores, FileLoadingJobs, SupporterGroups,
+          Signups, Locations, BulkImport, ChangedEntities, CustomFields, Targets):
     """
     Returns the VAN class
 

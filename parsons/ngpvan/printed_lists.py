@@ -1,10 +1,7 @@
 """NGPVAN Saved List Endpoints"""
 
 from parsons.etl.table import Table
-from parsons.utilities import cloud_storage
 import logging
-import uuid
-from suds.client import Client
 
 logger = logging.getLogger(__name__)
 
@@ -15,8 +12,8 @@ class PrintedLists(object):
 
         self.connection = van_connection
 
-    def get_printed_lists(self, generated_after = None, generated_before = None, created_by = None,
-        folder_name = None, turf_name = None):
+    def get_printed_lists(self, generated_after=None, generated_before=None, created_by=None,
+                          folder_name=None, turf_name=None):
         """
         Get printed lists.
 
@@ -29,14 +26,12 @@ class PrintedLists(object):
                 See :ref:`parsons-table` for output options.
         """
 
-        params = {'generatedAfter': generated_after, 'generatedBefore': generated_before, 'createdBy': created_by,
-        'folderName': folder_name,'turfName' : turf_name}
+        params = {'generatedAfter': generated_after, 'generatedBefore': generated_before,
+                  'createdBy': created_by, 'folderName': folder_name, 'turfName': turf_name}
 
         params = {key: value for key, value in params.items() if value is not None}
 
-        print(params)
-
-        tbl = Table(self.connection.get_request('printedLists', params= params))
+        tbl = Table(self.connection.get_request('printedLists', params=params))
 
         logger.info(f'Found {tbl.num_rows} printed lists.')
         return tbl

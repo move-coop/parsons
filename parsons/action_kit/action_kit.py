@@ -784,6 +784,21 @@ class ActionKit(object):
                                data=json.dumps(kwargs))
         logger.info(f'{resp.status_code}: {survey_question_id}')
 
+    def create_transaction(self, **kwargs):
+        """
+        Create a transaction.
+
+        `Args:`
+            **kwargs:
+                Optional arguments and fields to pass to the client.
+        `Returns:`
+            Transaction json object
+        """
+
+        return self._base_post(
+            endpoint='transaction', exception_message='Could not create transaction', **kwargs
+        )
+
     def update_transaction(self, transaction_id, **kwargs):
         """
         Update a transaction.

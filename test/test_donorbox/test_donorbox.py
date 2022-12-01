@@ -20,12 +20,12 @@ class TestDonorbox(unittest.TestCase):
     @requests_mock.Mocker()
     def test_get_campaigns(self, m):
 
-        m.get(self.base_uri + '/campaigns', json=donorbox_fake_data.get_campaigns_response_json)
+        m.get(self.base_uri + '/campaigns', json=donorbox_test_data.get_campaigns_response_json)
         result = self.donorbox.get_campaigns()
 
         # Assert the method returns expected dict response
         self.assertDictEqual(result.to_dicts()[0],
-                             donorbox_fake_data.get_campaigns_response_json[0])
+                             donorbox_test_data.get_campaigns_response_json[0])
         columns = [
             'id', 'name', 'slug', 'currency', 'created_at', 'updated_at',
             'goal_amt', 'formatted_goal_amount', 'total_raised',
@@ -48,7 +48,7 @@ class TestDonorbox(unittest.TestCase):
     @requests_mock.Mocker()
     def test_get_campaigns_with_id_filter(self, m):
         m.get(self.base_uri + '/campaigns',
-              json=donorbox_fake_data.get_campaigns_filtered_response_json)
+              json=donorbox_test_data.get_campaigns_filtered_response_json)
         result = self.donorbox.get_campaigns(id=366590)
         self.assertIsInstance(result, Table)
         self.assertEqual(result.num_rows, 1)
@@ -67,7 +67,7 @@ class TestDonorbox(unittest.TestCase):
     @requests_mock.Mocker()
     def test_get_campaigns_with_name_filter(self, m):
         m.get(self.base_uri + '/campaigns',
-              json=donorbox_fake_data.get_campaigns_filtered_response_json)
+              json=donorbox_test_data.get_campaigns_filtered_response_json)
         result = self.donorbox.get_campaigns(name="Membership Campaign")
         self.assertIsInstance(result, Table)
         self.assertEqual(result.num_rows, 1)
@@ -86,11 +86,11 @@ class TestDonorbox(unittest.TestCase):
     @requests_mock.Mocker()
     def test_get_campaigns_with_order_filter(self, m):
 
-        m.get(self.base_uri + '/campaigns', json=donorbox_fake_data.get_campaigns_desc_order)
+        m.get(self.base_uri + '/campaigns', json=donorbox_test_data.get_campaigns_desc_order)
         result = self.donorbox.get_campaigns(order="desc")
         self.assertEqual(result["id"], [366590, 366172])
 
-        m.get(self.base_uri + '/campaigns', json=donorbox_fake_data.get_campaigns_asc_order)
+        m.get(self.base_uri + '/campaigns', json=donorbox_test_data.get_campaigns_asc_order)
         result = self.donorbox.get_campaigns(order="asc")
         self.assertEqual(result["id"], [366172, 366590])
 
@@ -108,12 +108,12 @@ class TestDonorbox(unittest.TestCase):
     @requests_mock.Mocker()
     def test_get_donations(self, m):
 
-        m.get(self.base_uri + '/donations', json=donorbox_fake_data.get_donations_response_json)
+        m.get(self.base_uri + '/donations', json=donorbox_test_data.get_donations_response_json)
         result = self.donorbox.get_donations()
 
         # Assert the method returns expected dict response
         self.assertDictEqual(result.to_dicts()[0],
-                             donorbox_fake_data.get_donations_response_json[0])
+                             donorbox_test_data.get_donations_response_json[0])
         columns = [
             'campaign', 'donor', 'amount', 'formatted_amount', 'converted_amount',
             'formatted_converted_amount', 'converted_net_amount', 'formatted_converted_net_amount',
@@ -176,13 +176,13 @@ class TestDonorbox(unittest.TestCase):
 
     @requests_mock.Mocker()
     def test_get_donations_with_amount_min_filter(self, m):
-        m.get(self.base_uri + '/donations', json=donorbox_fake_data.get_donations_amount_min_3)
+        m.get(self.base_uri + '/donations', json=donorbox_test_data.get_donations_amount_min_3)
         result = self.donorbox.get_donations(amount_min="3")
         self.assertEqual(result.num_rows, 3)
-        m.get(self.base_uri + '/donations', json=donorbox_fake_data.get_donations_amount_min_4)
+        m.get(self.base_uri + '/donations', json=donorbox_test_data.get_donations_amount_min_4)
         result = self.donorbox.get_donations(amount_min="4")
         self.assertEqual(result.num_rows, 1)
-        m.get(self.base_uri + '/donations', json=donorbox_fake_data.get_donations_amount_min_5)
+        m.get(self.base_uri + '/donations', json=donorbox_test_data.get_donations_amount_min_5)
         result = self.donorbox.get_donations(amount_min="5")
         self.assertEqual(result.num_rows, 0)
 
@@ -198,13 +198,13 @@ class TestDonorbox(unittest.TestCase):
 
     @requests_mock.Mocker()
     def test_get_donations_with_amount_max_filter(self, m):
-        m.get(self.base_uri + '/donations', json=donorbox_fake_data.get_donations_amount_max_3)
+        m.get(self.base_uri + '/donations', json=donorbox_test_data.get_donations_amount_max_3)
         result = self.donorbox.get_donations(amount_max="3")
         self.assertEqual(result.num_rows, 2)
-        m.get(self.base_uri + '/donations', json=donorbox_fake_data.get_donations_amount_max_4)
+        m.get(self.base_uri + '/donations', json=donorbox_test_data.get_donations_amount_max_4)
         result = self.donorbox.get_donations(amount_max="4")
         self.assertEqual(result.num_rows, 3)
-        m.get(self.base_uri + '/donations', json=donorbox_fake_data.get_donations_amount_max_2)
+        m.get(self.base_uri + '/donations', json=donorbox_test_data.get_donations_amount_max_2)
         result = self.donorbox.get_donations(amount_max="2")
         self.assertEqual(result.num_rows, 0)
 
@@ -221,11 +221,11 @@ class TestDonorbox(unittest.TestCase):
     @requests_mock.Mocker()
     def test_get_donors(self, m):
 
-        m.get(self.base_uri + '/donors', json=donorbox_fake_data.get_donors_response_json)
+        m.get(self.base_uri + '/donors', json=donorbox_test_data.get_donors_response_json)
         result = self.donorbox.get_donors()
 
         # Assert the method returns expected dict response
-        self.assertDictEqual(result.to_dicts()[0], donorbox_fake_data.get_donors_response_json[0])
+        self.assertDictEqual(result.to_dicts()[0], donorbox_test_data.get_donors_response_json[0])
         columns = [
             'id', 'created_at', 'updated_at', 'first_name', 'last_name', 'email', 'phone',
             'address', 'city', 'state', 'zip_code', 'country', 'employer', 'occupation', 'comment',
@@ -249,29 +249,29 @@ class TestDonorbox(unittest.TestCase):
     @requests_mock.Mocker()
     def test_get_donors_with_name_and_email_filters(self, m):
         m.get(self.base_uri + '/donors',
-              json=donorbox_fake_data.get_donors_response_json_first_name_filter)
+              json=donorbox_test_data.get_donors_response_json_first_name_filter)
         result = self.donorbox.get_donors(first_name="Elizabeth")
         self.assertEqual(result.num_rows, 1)
         self.assertEqual(result[0]["last_name"], "Warren")
         m.get(self.base_uri + '/donors',
-              json=donorbox_fake_data.get_donors_response_json_last_name_filter)
+              json=donorbox_test_data.get_donors_response_json_last_name_filter)
         result = self.donorbox.get_donors(last_name="Warren")
         self.assertEqual(result.num_rows, 1)
         self.assertEqual(result[0]["first_name"], "Elizabeth")
         m.get(self.base_uri + '/donors',
-              json=donorbox_fake_data.get_donors_response_json_donor_name_filter)
+              json=donorbox_test_data.get_donors_response_json_donor_name_filter)
         result = self.donorbox.get_donors(donor_name="Paul Wellstone")
         self.assertEqual(result.num_rows, 1)
         self.assertEqual(result[0]["email"], "paulwellstone@senate.gov")
         m.get(self.base_uri + '/donors',
-              json=donorbox_fake_data.get_donors_response_json_email_filter)
+              json=donorbox_test_data.get_donors_response_json_email_filter)
         result = self.donorbox.get_donors(email="paulwellstone@senate.gov")
         self.assertEqual(result.num_rows, 1)
         self.assertEqual(result[0]["first_name"], "Paul")
 
     @requests_mock.Mocker()
     def test_get_plans(self, m):
-        m.get(self.base_uri + '/plans', json=donorbox_fake_data.get_plans_response_json)
+        m.get(self.base_uri + '/plans', json=donorbox_test_data.get_plans_response_json)
         result = self.donorbox.get_plans()
         assert isinstance(result, Table)
         columns = [

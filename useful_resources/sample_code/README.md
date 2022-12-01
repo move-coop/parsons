@@ -19,7 +19,7 @@ Please also add your new script to the table below.
 | civis_job_status_slack_alert.py | Posts Civis job and workflow status alerts in Slack                            | Slack                 | unknown                     |
 | mysql_to_googlesheets.py        | Queries a MySQL database and saves the results to a Google Sheet               | GoogleSheets, MySQL   | unknown                     |
 | ngpvan_sample_list.py           | Creates a new saved list from a random sample of an existing saved list in VAN | VAN                   | unknown                     |
-| opt_outs_everyaction.py         | Opts out phone numbers in EveryAction from a Redshift table                    | Redshift, VAN         | unknown                     |
+| opt_outs_everyaction.py         | Opts out phone numbers in EveryAction from a Redshift table                    | Redshift, VAN         | 0.21.0                     |
 | s3_to_redshift.py               | Moves files from S3 to Redshift                                                | Redshift, S3          | unknown                     |
 | s3_to_s3.py                     | Get files from vendor s3 bucket and moves to own S3 bucket                     | S3                    | unknown                     |
 | update_user_in_actionkit.py     | Adds a voterbase_id (the Targetsmart ID) to users in ActionKit                 | Redshift, ActionKit   | unknown                     |

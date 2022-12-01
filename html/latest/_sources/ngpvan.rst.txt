@@ -395,6 +395,16 @@ Locations
 =========
 .. autoclass:: parsons.ngpvan.van.Locations
    :inherited-members:
+   
+===========
+Printed Lists
+===========
+.. note::
+   A printed list must be shared with the user associated with your API key to
+   be listed.
+
+.. autoclass:: parsons.ngpvan.van.PrintedLists
+   :inherited-members:
 
 ===========
 Saved Lists

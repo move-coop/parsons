@@ -93,6 +93,7 @@
 <li class="toctree-l3"><a class="reference internal" href="#file-loading-jobs">File Loading Jobs</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#folders">Folders</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#locations">Locations</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#printed-lists">Printed Lists</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#saved-lists">Saved Lists</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#scores">Scores</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#signups">Signups</a></li>
@@ -2101,6 +2102,53 @@ be listed.</p>
 </dl>
 </dd>
 <dt><cite>Returns:</cite></dt><dd><p><code class="docutils literal notranslate"><span class="pre">None</span></code></p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="printed-lists">
+<h3>Printed Lists<a class="headerlink" href="#printed-lists" title="Permalink to this headline"></a></h3>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>A printed list must be shared with the user associated with your API key to
+be listed.</p>
+</div>
+<dl class="py class">
+<dt class="sig sig-object py" id="parsons.ngpvan.van.PrintedLists">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">parsons.ngpvan.van.</span></span><span class="sig-name descname"><span class="pre">PrintedLists</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">van_connection</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/ngpvan/printed_lists.html#PrintedLists"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.ngpvan.van.PrintedLists" title="Permalink to this definition"></a></dt>
+<dd><dl class="py method">
+<dt class="sig sig-object py" id="parsons.ngpvan.van.PrintedLists.get_printed_lists">
+<span class="sig-name descname"><span class="pre">get_printed_lists</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">generated_after</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">generated_before</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">created_by</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">folder_name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">turf_name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/ngpvan/printed_lists.html#PrintedLists.get_printed_lists"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.ngpvan.van.PrintedLists.get_printed_lists" title="Permalink to this definition"></a></dt>
+<dd><p>Get printed lists.</p>
+<dl class="simple">
+<dt><cite>Args:</cite></dt><dd><dl class="simple">
+<dt>folder_id: int</dt><dd><p>Filter by the id for a VAN folder. If included returns only
+the saved lists in the folder</p>
+</dd>
+</dl>
+</dd>
+<dt><cite>Returns:</cite></dt><dd><dl class="simple">
+<dt>Parsons Table</dt><dd><p>See <a class="reference internal" href="table.html#parsons-table"><span class="std std-ref">Parsons Table</span></a> for output options.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="parsons.ngpvan.van.PrintedLists.get_printed_list">
+<span class="sig-name descname"><span class="pre">get_printed_list</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">printed_list_number</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/ngpvan/printed_lists.html#PrintedLists.get_printed_list"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.ngpvan.van.PrintedLists.get_printed_list" title="Permalink to this definition"></a></dt>
+<dd><p>Returns a printed list object.</p>
+<dl class="simple">
+<dt><cite>Args:</cite></dt><dd><dl class="simple">
+<dt>printed_list_number: int</dt><dd><p>The printed list number</p>
+</dd>
+</dl>
+</dd>
+<dt><cite>Returns:</cite></dt><dd><p>dict</p>
 </dd>
 </dl>
 </dd></dl>

@@ -103,7 +103,7 @@ def attempt_optout(every_action, row, applied_at, committeeid, success_log, erro
 
         else:
             # If we are still getting a connection error after our maximum number of attempts
-            # we add the error to the log, load the full log to Redshift and raise the error.
+            # we add the error to the log, save our full success and error logs in Redshift, and raise the error.
             connection_error = str(c)[:999]
 
             error_log.append({
@@ -114,13 +114,17 @@ def attempt_optout(every_action, row, applied_at, committeeid, success_log, erro
                 "error": connection_error
             })
             
-            error_parsonstable = Table(error_log)
-            if error_parsonstable.num_rows() > 0:
-                error_parsonstable.to_redshift(
-                    ERROR_TABLE,
-                    if_exists='append',
-                    alter_table=True
-                )
+            if len(success_log) > 0:
+                success_parsonstable = Table(success_log)
+                logger.info("Copying success data into log table...")
+                rs.copy(success_parsonstable, SUCCESS_TABLE, if_exists='append', alter_table=True)
+                logger.info("Success log complete.")
+
+            if len(error_log) > 0:
+                error_parsonstable = Table(error_log)
+                logger.info("Copying error data into log table...")
+                rs.copy(error_parsonstable, ERROR_TABLE, if_exists='append', alter_table=True)
+                logger.info("Error log complete.")
                 
             raise Exception(f"Connection Error {connection_error}")
 

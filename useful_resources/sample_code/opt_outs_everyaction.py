@@ -48,7 +48,7 @@ ERROR_TABLE = os.environ['ERROR_TABLE']
 rs = Redshift()
 
 
-def attempt_optout(ea, row, applied_at, committeeid, success_log, error_log, attempts_left=3):
+def attempt_optout(every_action, row, applied_at, committeeid, success_log, error_log, attempts_left=3):
 
     vanid = row['vanid']
     phone = row['phone']
@@ -63,28 +63,32 @@ def attempt_optout(ea, row, applied_at, committeeid, success_log, error_log, att
     }
 
     try:
-        r = ea.update_person_json(id=vanid, match_json=match_json)
-
-        if isinstance(r, dict):
-            # Response is only a dict upon success
+        response = ea.update_person_json(id=vanid, match_json=match_json)
+        
+        # If the response is a dictionary the update was successful
+        if isinstance(response, dict):
             success_log.append({
-                "vanid": r.get('vanId'),
+                "vanid": response.get('vanId'),
                 "phone": phone,
                 "committeeid": committeeid,
                 "applied_at": applied_at
             })
+            
+            return response
 
-    # If we get an HTTP Error we log it
-    # Usually these errors are due to a vanid being deleted or merged
+    # If we get an HTTP Error add it to the error log
+    # Usually these errors mean a vanid has been deleted from EveryAction
     except requests.exceptions.HTTPError as e:
-        r = e
+        error = str(e)[:999]
         error_log.append({
             "vanid": vanid,
             "phone": phone,
             "committeeid": committeeid,
             "errored_at": applied_at,
-            "error": r
+            "error": error
         })
+        
+        return error
 
     # If we get a connection error we wait a bit and try again.
     except requests.exceptions.ConnectionError as c:
@@ -95,29 +99,30 @@ def attempt_optout(ea, row, applied_at, committeeid, success_log, error_log, att
 
             # Wait 10 seconds, then try again
             time.sleep(10)
-            attempt_optout(ea, row, attempts_left)
+            attempt_optout(every_action, row, attempts_left)
 
         else:
-            r = str(c)[:999]
-            return r
+            # If we are still getting a connection error after our maximum number of attempts
+            # we add the error to the log, load the full log to Redshift and raise the error.
+            connection_error = str(c)[:999]
 
             error_log.append({
                 "vanid": vanid,
                 "phone": phone,
                 "committeeid": committeeid,
                 "errored_at": applied_at,
-                "error": r
+                "error": connection_error
             })
-            error_tbl = Table(error_log)
-            if error_tbl.num_rows() > 0:
-                error_tbl.to_redshift(
+            
+            error_parsonstable = Table(error_log)
+            if error_parsonstable.num_rows() > 0:
+                error_parsonstable.to_redshift(
                     ERROR_TABLE,
                     if_exists='append',
                     alter_table=True
                 )
-            raise Exception(f"Connection Error {r}")
-
-    return r
+                
+            raise Exception(f"Connection Error {connection_error}")
 
 
 def main():
@@ -152,7 +157,7 @@ def main():
             for opt_out in opt_outs:
 
                 applied_at = str(datetime.now()).split(".")[0]
-                attempt_optout(ea, opt_out, applied_at, committeeid, success_log, error_log)
+                attempt_optout(every_action, opt_out, applied_at, committeeid, success_log, error_log)
 
     # Now we log results
     logger.info(f"There were {len(success_log)} successes and {len(error_log)} errors.")

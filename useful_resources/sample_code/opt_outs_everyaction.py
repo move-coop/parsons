@@ -78,20 +78,20 @@ def attempt_optout(every_action, row, applied_at, committeeid, success_log, erro
 
     # If we get an HTTP Error add it to the error log
     # Usually these errors mean a vanid has been deleted from EveryAction
-    except requests.exceptions.HTTPError as e:
-        error = str(e)[:999]
+    except requests.exceptions.HTTPError as error:
+        error_message = str(error)[:999]
         error_log.append({
             "vanid": vanid,
             "phone": phone,
             "committeeid": committeeid,
             "errored_at": applied_at,
-            "error": error
+            "error": error_message
         })
         
-        return error
+        return error_message
 
     # If we get a connection error we wait a bit and try again.
-    except requests.exceptions.ConnectionError as c:
+    except requests.exceptions.ConnectionError as connection_error:
         logger.info("Got disconnected, waiting and trying again")
 
         while attempts_left > 0:
@@ -104,14 +104,14 @@ def attempt_optout(every_action, row, applied_at, committeeid, success_log, erro
         else:
             # If we are still getting a connection error after our maximum number of attempts
             # we add the error to the log, save our full success and error logs in Redshift, and raise the error.
-            connection_error = str(c)[:999]
+            connection_error_message = str(connection_error)[:999]
 
             error_log.append({
                 "vanid": vanid,
                 "phone": phone,
                 "committeeid": committeeid,
                 "errored_at": applied_at,
-                "error": connection_error
+                "error": connection_error_message
             })
             
             if len(success_log) > 0:

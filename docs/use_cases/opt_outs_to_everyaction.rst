@@ -2,7 +2,7 @@
 Opt-outs to EveryAction
 ===============
 
-As carriers tighten restrictions on peer-to-peer texting through 10DLC rules, it becomes more and more crucial for organizations to avoid texting people who have opted out of their communications. This is a challenge for organizations who pull outreach lists from EveryAction or VAN but run their actual texting program in another tool because their opt-outs are tracked in a different system from the one where they pull their lists. A number of commonly used texting tools have integrations with EveryAction and VAN but they don't always sync opt-out dispositions back after a program.
+As carriers tighten restrictions on peer-to-peer texting through 10DLC rules, it becomes more and more crucial for organizations to avoid texting people who have opted out of their communications. This is a challenge for organizations who pull outreach lists from EveryAction or VAN but run their actual texting program in another tool because their opt-outs are tracked in a different system from the one where they pull their lists. A number of commonly used texting tools have integrations with EveryAction and VAN but they don't always sync opt-out dispositions back into EveryAction/VAN.
 
 The Movement Cooperative worked with a couple of different member organizations to create a script using Parsons that would opt-out phone numbers in EveryAction to prevent them from being pulled into future outreach lists. The script only updates existing records, it does not create new ones, so it requires you to provide a vanid and assumes that the people you want to opt out already exist in EveryAction.
 

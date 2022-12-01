@@ -1,5 +1,4 @@
 import os
-import ast
 import requests
 import time
 from parsons import Redshift, Table, VAN

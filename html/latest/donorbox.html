@@ -1,0 +1,481 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Donorbox &mdash; Parsons 0.5 documentation</title>
+      <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="FacebookAds" href="facebook_ads.html" />
+    <link rel="prev" title="Databases" href="databases.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="index.html" class="icon icon-home"> Parsons
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Integrations</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="actblue.html">ActBlue</a></li>
+<li class="toctree-l1"><a class="reference internal" href="action_kit.html">ActionKit</a></li>
+<li class="toctree-l1"><a class="reference internal" href="action_network.html">Action Network</a></li>
+<li class="toctree-l1"><a class="reference internal" href="airtable.html">Airtable</a></li>
+<li class="toctree-l1"><a class="reference internal" href="alchemer.html">Alchemer</a></li>
+<li class="toctree-l1"><a class="reference internal" href="auth0.html">Auth0</a></li>
+<li class="toctree-l1"><a class="reference internal" href="aws.html">Amazon Web Services</a></li>
+<li class="toctree-l1"><a class="reference internal" href="azure.html">Azure: Blob Storage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="bill_com.html">Bill.com</a></li>
+<li class="toctree-l1"><a class="reference internal" href="bloomerang.html">Bloomerang</a></li>
+<li class="toctree-l1"><a class="reference internal" href="bluelink.html">Bluelink</a></li>
+<li class="toctree-l1"><a class="reference internal" href="box.html">Box</a></li>
+<li class="toctree-l1"><a class="reference internal" href="braintree.html">Braintree</a></li>
+<li class="toctree-l1"><a class="reference internal" href="capitolcanary.html">CapitolCanary</a></li>
+<li class="toctree-l1"><a class="reference internal" href="civis.html">Civis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="controlshift.html">Controlshift</a></li>
+<li class="toctree-l1"><a class="reference internal" href="copper.html">Copper</a></li>
+<li class="toctree-l1"><a class="reference internal" href="crowdtangle.html">CrowdTangle</a></li>
+<li class="toctree-l1"><a class="reference internal" href="databases.html">Databases</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Donorbox</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#overview">Overview</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#quickstart">Quickstart</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#api">API</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="facebook_ads.html">FacebookAds</a></li>
+<li class="toctree-l1"><a class="reference internal" href="freshdesk.html">Freshdesk</a></li>
+<li class="toctree-l1"><a class="reference internal" href="github.html">GitHub</a></li>
+<li class="toctree-l1"><a class="reference internal" href="google.html">Google</a></li>
+<li class="toctree-l1"><a class="reference internal" href="hustle.html">Hustle</a></li>
+<li class="toctree-l1"><a class="reference internal" href="mailchimp.html">Mailchimp</a></li>
+<li class="toctree-l1"><a class="reference internal" href="mobilize_america.html">Mobilize America</a></li>
+<li class="toctree-l1"><a class="reference internal" href="newmode.html">New/Mode</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ngpvan.html">NGPVAN</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pdi.html">PDI</a></li>
+<li class="toctree-l1"><a class="reference internal" href="p2a.html">Phone2Action</a></li>
+<li class="toctree-l1"><a class="reference internal" href="quickbase.html">Quickbase</a></li>
+<li class="toctree-l1"><a class="reference internal" href="redash.html">Redash</a></li>
+<li class="toctree-l1"><a class="reference internal" href="rockthevote.html">Rock the Vote</a></li>
+<li class="toctree-l1"><a class="reference internal" href="salesforce.html">Salesforce</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sftp.html">SFTP</a></li>
+<li class="toctree-l1"><a class="reference internal" href="shopify.html">Shopify</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sisense.html">Sisense</a></li>
+<li class="toctree-l1"><a class="reference internal" href="targetsmart.html">TargetSmart</a></li>
+<li class="toctree-l1"><a class="reference internal" href="turbovote.html">TurboVote</a></li>
+<li class="toctree-l1"><a class="reference internal" href="twilio.html">Twilio</a></li>
+<li class="toctree-l1"><a class="reference internal" href="zoom.html">Zoom</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Enhancements</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="census_geocoder.html">US Census Geocoder</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Framework</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="dbsync.html">Database Sync</a></li>
+<li class="toctree-l1"><a class="reference internal" href="table.html">Parsons Table</a></li>
+<li class="toctree-l1"><a class="reference internal" href="notifications.html">Notifications</a></li>
+<li class="toctree-l1"><a class="reference internal" href="utilities.html">Utilities</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Contributor Documentation</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="contributing.html">Contributing to Parsons</a></li>
+<li class="toctree-l1"><a class="reference internal" href="build_a_connector.html">How to Build a Connector</a></li>
+<li class="toctree-l1"><a class="reference internal" href="write_tests.html">How to Write Tests for Parsons Connectors</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Use Cases and Sample Scripts</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="use_cases/contribute_use_cases.html">How to Contribute a Use Case &amp; Sample Script</a></li>
+<li class="toctree-l1"><a class="reference internal" href="use_cases/civis_job_status_slack_alert.html">Civis Job Status Slack Alert</a></li>
+<li class="toctree-l1"><a class="reference internal" href="use_cases/mysql_to_googlesheets.html">MySQL to Google Sheets Export</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Training Guides</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="training_guides/getting_set_up.html">Getting Set Up With Parsons</a></li>
+<li class="toctree-l1"><a class="reference internal" href="training_guides/etl_best_practices.html">Introduction to ETL Best Practices</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">Parsons</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
+      <li>Donorbox</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/donorbox.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="donorbox">
+<h1>Donorbox<a class="headerlink" href="#donorbox" title="Permalink to this headline"></a></h1>
+<section id="overview">
+<h2>Overview<a class="headerlink" href="#overview" title="Permalink to this headline"></a></h2>
+<p><a class="reference external" href="https://donorbox.org/">Donorbox</a> is an online donation platform through which donors can make one-off or
+recurring donations. This Parsons class provides methods for extracting donors, campaigns, donations, and plans.</p>
+<p>The documentation for the underlying Donorbox API can be found <a class="reference external" href="https://github.com/donorbox/donorbox-api">here</a>.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>To authenticate, go to your account on donorbox.org and select the “API &amp; Zapier Integration” option
+under Add-ons. Enable the add-on. (Note that currently Donorbox charges to enable this feature.)
+Once the add-on is enabled, hit the “Set new API key” button and copy the generated key.</p>
+</div>
+</section>
+<section id="quickstart">
+<h2>Quickstart<a class="headerlink" href="#quickstart" title="Permalink to this headline"></a></h2>
+<p>To instantiate the Donorbox class, you can either store the Donorbox accont email and
+API key as environmental variables (<code class="docutils literal notranslate"><span class="pre">DONORBOX_ACCOUNT_EMAIL</span></code>, <code class="docutils literal notranslate"><span class="pre">DONORBOX_API_KEY</span></code>)
+or pass them in as arguments:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">parsons</span> <span class="kn">import</span> <span class="n">Donorbox</span>
+
+<span class="c1"># First approach: Use API key and account email via environmental variables</span>
+<span class="n">donorbox</span> <span class="o">=</span> <span class="n">Donorbox</span><span class="p">()</span>
+
+<span class="c1"># Second approach: Pass API credentials and user email as arguments</span>
+<span class="n">donorbox</span> <span class="o">=</span> <span class="n">Donorbox</span><span class="p">(</span><span class="n">email</span><span class="o">=</span><span class="s1">&#39;me@myorg.com&#39;</span><span class="p">,</span> <span class="n">api_key</span><span class="o">=</span><span class="s1">&#39;MYAPIKEY&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>You can then call various endpoints:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Get campaigns</span>
+
+<span class="n">campaigns</span> <span class="o">=</span> <span class="n">donorbox</span><span class="o">.</span><span class="n">get_campaigns</span><span class="p">()</span>                                    <span class="c1"># get all campaigns</span>
+<span class="n">campaigns</span> <span class="o">=</span> <span class="n">donorbox</span><span class="o">.</span><span class="n">get_campaigns</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;My campaign&quot;</span><span class="p">)</span>                  <span class="c1"># get campaigns by name</span>
+<span class="n">campaigns</span> <span class="o">=</span> <span class="n">donorbox</span><span class="o">.</span><span class="n">get_campaigns</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;My campaign&quot;</span><span class="p">,</span> <span class="n">order</span><span class="o">=</span><span class="s2">&quot;desc&quot;</span><span class="p">)</span>    <span class="c1"># results in descending order</span>
+
+<span class="c1"># Get donations</span>
+
+<span class="n">donations</span> <span class="o">=</span> <span class="n">donorbox</span><span class="o">.</span><span class="n">get_donations</span><span class="p">()</span>                                    <span class="c1"># get all donations</span>
+<span class="n">donations</span> <span class="o">=</span> <span class="n">donorbox</span><span class="o">.</span><span class="n">get_donations</span><span class="p">(</span><span class="n">date_to</span><span class="o">=</span><span class="s2">&quot;2022-10-22&quot;</span><span class="p">)</span>                <span class="c1"># get all donations before date</span>
+<span class="n">donations</span> <span class="o">=</span> <span class="n">donorbox</span><span class="o">.</span><span class="n">get_donations</span><span class="p">(</span><span class="n">campaign_name</span><span class="o">=</span><span class="s2">&quot;My campaign&quot;</span><span class="p">)</span>         <span class="c1"># filter donations by campaign</span>
+
+<span class="c1"># Get donors</span>
+
+<span class="n">donors</span> <span class="o">=</span> <span class="n">donorbox</span><span class="o">.</span><span class="n">get_donors</span><span class="p">()</span>                                          <span class="c1"># get all donors</span>
+<span class="n">donors</span> <span class="o">=</span> <span class="n">donorbox</span><span class="o">.</span><span class="n">get_donors</span><span class="p">(</span><span class="n">email</span><span class="o">=</span><span class="s2">&quot;example@example.org&quot;</span><span class="p">)</span>               <span class="c1"># get donors by email</span>
+<span class="n">donors</span> <span class="o">=</span> <span class="n">donorbox</span><span class="o">.</span><span class="n">get_donors</span><span class="p">(</span><span class="n">page</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">per_page</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>                       <span class="c1"># use pagination</span>
+
+<span class="c1"># Get plans</span>
+
+<span class="n">plans</span> <span class="o">=</span> <span class="n">donorbox</span><span class="o">.</span><span class="n">get_plans</span><span class="p">()</span>                                            <span class="c1"># get all plans</span>
+<span class="n">plans</span> <span class="o">=</span> <span class="n">donorbox</span><span class="o">.</span><span class="n">get_plans</span><span class="p">(</span><span class="n">date_from</span><span class="o">=</span><span class="s2">&quot;2022-10-22&quot;</span><span class="p">)</span>                      <span class="c1"># get plans started after date</span>
+</pre></div>
+</div>
+</section>
+<section id="api">
+<h2>API<a class="headerlink" href="#api" title="Permalink to this headline"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="parsons.Donorbox">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">parsons.</span></span><span class="sig-name descname"><span class="pre">Donorbox</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">email</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">api_key</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/donorbox/donorbox.html#Donorbox"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.Donorbox" title="Permalink to this definition"></a></dt>
+<dd><p>Instantiate Donorbox class.</p>
+<blockquote>
+<div><dl class="simple">
+<dt><cite>Args:</cite></dt><dd><dl class="simple">
+<dt>donorbox_account_email: str</dt><dd><p>The email associated with your Donorbox account. Can be passed as
+argument or set as <code class="docutils literal notranslate"><span class="pre">DONORBOX_ACCOUNT_EMAIL</span></code> environment variable.</p>
+</dd>
+<dt>donorbox_api_key: str</dt><dd><p>The API key generated by Donorbox for your account. Can be passed as
+argument or set as <code class="docutils literal notranslate"><span class="pre">DONORBOX_API_KEY</span></code> environment variable.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</div></blockquote>
+<dl class="py method">
+<dt class="sig sig-object py" id="parsons.Donorbox.get_campaigns">
+<span class="sig-name descname"><span class="pre">get_campaigns</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/donorbox/donorbox.html#Donorbox.get_campaigns"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.Donorbox.get_campaigns" title="Permalink to this definition"></a></dt>
+<dd><p>Get information on campaigns.</p>
+<dl class="simple">
+<dt><cite>Args:</cite></dt><dd><dl class="simple">
+<dt>id: int or str</dt><dd><p>Optional. The ID of the campaign to get. If both id and name are omitted, returns
+all campaigns.</p>
+</dd>
+<dt>name: str</dt><dd><p>Optional. The name of the campaign to get. If both id and name are omitted, retunrs
+all campaigns.</p>
+</dd>
+<dt>order: str</dt><dd><p>Optional. Valid values are “asc” and “desc”. If not supplied, order is descending
+by default.</p>
+</dd>
+<dt>page: int</dt><dd><p>Optional. Donorbox supports pagination for larger results. Use the page to track
+your progress.</p>
+</dd>
+<dt>per_page: int</dt><dd><p>Optional. Results per page when using pagination. Default is 50, maximum is 100.</p>
+</dd>
+</dl>
+</dd>
+<dt><cite>Returns</cite>:</dt><dd><p>Parsons Table</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="parsons.Donorbox.get_donations">
+<span class="sig-name descname"><span class="pre">get_donations</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/donorbox/donorbox.html#Donorbox.get_donations"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.Donorbox.get_donations" title="Permalink to this definition"></a></dt>
+<dd><p>Get information on donations.</p>
+<dl>
+<dt><cite>Args:</cite></dt><dd><dl>
+<dt>email: str</dt><dd><p>Optional. Filter’s donations by donor’s email</p>
+</dd>
+<dt>date_from: str</dt><dd><div class="line-block">
+<div class="line">Optional. Filters donations to those started on or after the provided date.</div>
+<div class="line">Valid formats: YYYY-mm-dd YYYY/mm/dd YYYYmmdd dd-mm-YYYY</div>
+<div class="line">If an incorrectly formatted date is provided, an error is raised.</div>
+</div>
+</dd>
+<dt>date_to: str</dt><dd><div class="line-block">
+<div class="line">Optional. Filters donations to those started before the provided date.</div>
+<div class="line">Valid formats: YYYY-mm-dd YYYY/mm/dd YYYYmmdd dd-mm-YYYY</div>
+<div class="line">If an incorrectly formatted date is provided, an error is raised.</div>
+</div>
+</dd>
+<dt>campaign_name: str</dt><dd><p>Optional. Filters by the campaign title that you have defined in Donorbox.</p>
+</dd>
+<dt>campaign_id: int or str</dt><dd><p>Optional. Filters by Donorbox campaign id.</p>
+</dd>
+<dt>donation_id: int or str</dt><dd><p>Optional. Filters by Donorbox donations id.</p>
+</dd>
+<dt>first_name: str</dt><dd><p>Optional. Filters by donor’s first name.</p>
+</dd>
+<dt>last_name: str</dt><dd><p>Optional. Filters by donor’s last name.</p>
+</dd>
+<dt>donor_id: int or str</dt><dd><p>Optional. Filters by Donorbox donor id.</p>
+</dd>
+<dt>amount_min: int or str</dt><dd><p>Optional. Gets all donations above the provided minimum.</p>
+</dd>
+<dt>amount_max: int or str</dt><dd><p>Optional. Gets all donations below the provided maximum.</p>
+</dd>
+<dt>order: str</dt><dd><p>Optional. Valid values are “asc” and “desc”. If not supplied, order is
+descending by default.</p>
+</dd>
+<dt>page: int</dt><dd><p>Optional. Donorbox supports pagination for larger results. Use the page
+to track your progress.</p>
+</dd>
+<dt>per_page: int</dt><dd><p>Optional. Results per page when using pagination. Default is 50, maximum
+is 100.</p>
+</dd>
+</dl>
+</dd>
+<dt><cite>Returns</cite>:</dt><dd><p>Parsons Table</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="parsons.Donorbox.get_donors">
+<span class="sig-name descname"><span class="pre">get_donors</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/donorbox/donorbox.html#Donorbox.get_donors"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.Donorbox.get_donors" title="Permalink to this definition"></a></dt>
+<dd><p>Get information on donors.</p>
+<p><cite>Args:</cite></p>
+<blockquote>
+<div><dl class="simple">
+<dt>donor_id: str or int</dt><dd><p>Optional. Filters by donor ID.</p>
+</dd>
+<dt>first_name: str</dt><dd><p>Optional. Filters by donor’s first name.</p>
+</dd>
+<dt>last_name: str</dt><dd><p>Optional. Filters by donor’s last name.</p>
+</dd>
+<dt>donor_name: str</dt><dd><p>Optional. Filter by donor’s full name</p>
+</dd>
+<dt>email: str</dt><dd><p>Optional. Filter’s donations by donor’s email</p>
+</dd>
+<dt>order: str</dt><dd><p>Optional. Valid values are “asc” and “desc”. If not supplied, order is descending
+by default.</p>
+</dd>
+<dt>page: int</dt><dd><p>Optional. Donorbox supports pagination for larger results. Use the page to track
+your progress.</p>
+</dd>
+<dt>per_page: int</dt><dd><p>Optional. Results per page when using pagination. Default is 50, maximum is 100.</p>
+</dd>
+</dl>
+</div></blockquote>
+<dl class="simple">
+<dt><cite>Returns</cite>:</dt><dd><p>Parsons Table</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="parsons.Donorbox.get_plans">
+<span class="sig-name descname"><span class="pre">get_plans</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/donorbox/donorbox.html#Donorbox.get_plans"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.Donorbox.get_plans" title="Permalink to this definition"></a></dt>
+<dd><p>Get information on plans.</p>
+<p><cite>Args:</cite></p>
+<blockquote>
+<div><dl>
+<dt>email: str</dt><dd><p>Optional. Filter’s plans by donor’s email address.</p>
+</dd>
+<dt>date_from: str</dt><dd><div class="line-block">
+<div class="line">Optional. Filters plans to those started on or after the provided date.</div>
+<div class="line">Valid formats: YYYY-mm-dd YYYY/mm/dd YYYYmmdd dd-mm-YYYY</div>
+<div class="line">If an incorrectly formatted date is provided, an error is raised.</div>
+</div>
+</dd>
+<dt>date_to: str</dt><dd><div class="line-block">
+<div class="line">Optional. Filters plans to those started before the provided date.</div>
+<div class="line">Valid formats: YYYY-mm-dd YYYY/mm/dd YYYYmmdd dd-mm-YYYY</div>
+<div class="line">If an incorrectly formatted date is provided, an error is raised.</div>
+</div>
+</dd>
+<dt>campaign_id: int or str</dt><dd><p>Optional. Filters by Donorbox campaign id.</p>
+</dd>
+<dt>campaign_name: str</dt><dd><p>Optional. Filters by the campaign title that you have defined in Donorbox.</p>
+</dd>
+<dt>donor_id: str or int</dt><dd><p>Optional. Filters by donor ID.</p>
+</dd>
+<dt>first_name: str</dt><dd><p>Optional. Filters by donor’s first name.</p>
+</dd>
+<dt>last_name: str</dt><dd><p>Optional. Filters by donor’s last name.</p>
+</dd>
+<dt>donor_name: str</dt><dd><p>Optional. Filter by donor’s full name</p>
+</dd>
+<dt>order: str</dt><dd><p>Optional. Valid values are “asc” and “desc”. If not supplied, order is descending
+by default.</p>
+</dd>
+<dt>page: int</dt><dd><p>Optional. Donorbox supports pagination for larger results. Use the page to track
+your progress.</p>
+</dd>
+<dt>per_page: int</dt><dd><p>Optional. Results per page when using pagination. Default is 50, maximum is 100.</p>
+</dd>
+</dl>
+</div></blockquote>
+<dl class="simple">
+<dt><cite>Returns</cite>:</dt><dd><p>Parsons Table</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="databases.html" class="btn btn-neutral float-left" title="Databases" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="facebook_ads.html" class="btn btn-neutral float-right" title="FacebookAds" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2019, The Movement Cooperative.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  
+  <div class="rst-versions" data-toggle="rst-versions" role="note" aria-label="Versions">
+    <span class="rst-current-version" data-toggle="rst-current-version">
+      <span class="fa fa-book"> Read the Docs</span>
+      latest
+      <span class="fa fa-caret-down"></span>
+    </span>
+    <div class="rst-other-versions">
+      <dl>
+        <dt>Most Common</dt>
+        <!-- Show latest & stable first -->
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+                  <dd><a href="donorbox.html">latest</a></dd>
+            
+        
+            
+                  <dd><a href="../stable/index.html">stable</a></dd>
+            
+        
+
+        <dt>By Version Number</dt>
+        <!-- Show other versions -->
+        
+            
+                  <dd><a href="../v0.14.0/index.html">v0.14.0</a></dd>
+            
+        
+            
+                  <dd><a href="../v0.15.0/index.html">v0.15.0</a></dd>
+            
+        
+            
+                  <dd><a href="../v0.16.0/index.html">v0.16.0</a></dd>
+            
+        
+            
+                  <dd><a href="../v0.17.0/index.html">v0.17.0</a></dd>
+            
+        
+            
+                  <dd><a href="../v0.18.0/index.html">v0.18.0</a></dd>
+            
+        
+            
+                  <dd><a href="../v0.18.1/index.html">v0.18.1</a></dd>
+            
+        
+            
+        
+            
+        
+
+      </dl>
+    </div>
+  </div>
+<script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

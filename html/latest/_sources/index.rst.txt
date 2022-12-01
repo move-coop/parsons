@@ -243,6 +243,7 @@ Indices and tables
    copper
    crowdtangle
    databases
+   donorbox
    facebook_ads
    freshdesk
    github

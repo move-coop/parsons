@@ -6,12 +6,17 @@ from parsons import Redshift, Table, VAN
 from parsons import logger
 from datetime import datetime
 
-# Credentials
+# Committee Information and Credentials
 
-# The API_KEYS_STR variable contains API keys for EA committees in this format:
-# {"committee": "Comm. 1 Name", "committee_id": "Comm. 1 ID", "api_key": "Comm. 1 API key"},
-# {"committee": "Comm. 2 Name", "committee_id": "Comm. 2 ID", "api_key": "Comm. 2 API key"}
-API_KEYS_STR = os.environ['VAN_API_KEYS_PASSWORD']
+# This script can be run against multiple EveryAction committees.
+# The COMMITTEES_STR variable should be a list of committee information in JSON format.
+# The information should include the committee's name, ID, and API key.
+# [{"committee": "Committee 1", "committee_id": "12345", "api_key": "Committee 1 API key"},
+# {"committee": "Committee 2", "committee_id": "56789", "api_key": "Committee 2 API key"}]
+# This script was originally written to run in Civis Platform, which pulls environment variables
+# in as strings.
+COMMITTEES_STR = os.environ['COMMITTEES_PASSWORD']
+COMMITTEES = json.loads(COMMITTEES_STR)
 
 # Configuration Variables
 
@@ -122,47 +127,47 @@ def main():
     error_log = []
 
     # Get the opt out data
-    s = rs.query(f"select * from {OPT_OUT_TABLE}")
+    all_opt_outs = rs.query(f"select * from {OPT_OUT_TABLE}")
 
-    # Turn the API keys into a list
-    API_KEYS = list(ast.literal_eval(API_KEYS_STR))
+    # Loop through each committee to opt-out phones
+    for committee in COMMITTEES:
 
-    # Loop through each API key to update phones in each committee
-    for k in API_KEYS:
+        api_key = committee['api_key']
+        committeeid = committee['committee_id']
+        committee_name = committee['committee']
+        
+        every_action = VAN(db='EveryAction', api_key=api_key)
 
-        api = k['api_key']
-        committeeid = k['committee_id']
-        committee = k['committee']  # This is the committee name
-        ea = VAN(db='EveryAction', api_key=api)
+        logger.info(f"Working on opt outs in {committee_name} committee...")
+        
+        # Here we narrow the all_opt_outs table to only the rows that correspond
+        # to this committee.
+        opt_outs = all_opt_outs.select_rows(lambda row: str(row.committeeid) == committeeid)
 
-        logger.info(f"Working on opt outs in {committee} committee...")
-
-        update = s.select_rows(lambda row: str(row.committeeid) == committeeid)
-
-        logger.info(f"Found {update.num_rows} phones to opt out in {committee} committee...")
+        logger.info(f"Found {opt_outs.num_rows} phones to opt out in {committee_name} committee...")
 
         # Now we actually update the records
 
-        if update.num_rows > 0:
+        if opt_outs.num_rows > 0:
 
-            for u in update:
+            for opt_out in opt_outs:
 
                 applied_at = str(datetime.now()).split(".")[0]
-                attempt_optout(ea, u, applied_at, committeeid, success_log, error_log)
+                attempt_optout(ea, opt_out, applied_at, committeeid, success_log, error_log)
 
     # Now we log results
     logger.info(f"There were {len(success_log)} successes and {len(error_log)} errors.")
 
     if len(success_log) > 0:
-        success_t = Table(success_log)
+        success_parsonstable = Table(success_log)
         logger.info("Copying success data into log table...")
-        rs.copy(success_t, SUCCESS_TABLE, if_exists='append', alter_table=True)
+        rs.copy(success_parsonstable, SUCCESS_TABLE, if_exists='append', alter_table=True)
         logger.info("Success log complete.")
 
     if len(error_log) > 0:
-        error_t = Table(error_log)
+        error_parsonstable = Table(error_log)
         logger.info("Copying error data into log table...")
-        rs.copy(error_t, ERROR_TABLE, if_exists='append', alter_table=True)
+        rs.copy(error_parsonstable, ERROR_TABLE, if_exists='append', alter_table=True)
         logger.info("Error log complete.")
 
 

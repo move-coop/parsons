@@ -580,3 +580,28 @@ class People(object):
 
         self.connection.post_request(url, json=json)
         logger.info(f'Code {code_id} applied to person id {id}.')
+
+    def merge_contacts(self, primary_vanid, source_vanid):
+        """
+        Merges two contacts in EveryAction. The source contact record will be
+        deleted as part of the merge and its data will be moved into the primary
+        contact record. In cases where fields conflict between the two contacts
+        and we can't keep both values, such as if the contacts have different
+        first names, the primary contact record's data will be retained. For
+        more information see the
+        `VAN API documentation here <https://docs.ngpvan.com/reference/peoplevanidmergeinto>`_
+
+        `Args:`
+            primary_vanid: str
+                The VANID of the primary contact record.
+            source_vanid: str
+                The VANID of the source contact record.
+        `Returns:`
+            The VANID of the primary contact record.
+        """
+
+        url = f'people/{source_vanid}/mergeInto'
+        json = {"vanId": primary_vanid}
+
+        r = self.connection.put_request(url, json=json)
+        return r

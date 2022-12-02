@@ -152,3 +152,7 @@ get_person_response = {
     'organizationRoles': None,
     'districts': None
 }
+
+merge_contacts_response = {
+    'vanId': 56789
+}

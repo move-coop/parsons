@@ -402,6 +402,20 @@ class TestActionKit(unittest.TestCase):
             'https://domain.actionkit.com/rest/v1/order/123/', data=json.dumps({'account': 'test'})
         )
 
+    def test_update_paymenttoken(self):
+        # Test update payment token
+
+        # Mock resp and status code
+        resp_mock = mock.MagicMock()
+        type(resp_mock.patch()).status_code = mock.PropertyMock(return_value=202)
+        self.actionkit.conn = resp_mock
+
+        self.actionkit.update_paymenttoken(1, status='inactive')
+        self.actionkit.conn.patch.assert_called_with(
+            'https://domain.actionkit.com/rest/v1/paymenttoken/1/',
+            data=json.dumps({'status': 'inactive'})
+        )
+
     def test_get_page_followup(self):
         # Test get page followup
         self.actionkit.get_page_followup(123)
@@ -448,6 +462,19 @@ class TestActionKit(unittest.TestCase):
         self.actionkit.conn.patch.assert_called_with(
             'https://domain.actionkit.com/rest/v1/surveyquestion/123/',
             data=json.dumps({'question_html': 'test'})
+        )
+
+    def test_cancel_orderrecurring(self):
+        # Test cancel recurring order
+
+        # Mock resp and status code
+        resp_mock = mock.MagicMock()
+        type(resp_mock.post()).status_code = mock.PropertyMock(return_value=201)
+        self.actionkit.conn = resp_mock
+
+        self.actionkit.cancel_orderrecurring(1)
+        self.actionkit.conn.post.assert_called_with(
+            'https://domain.actionkit.com/rest/v1/orderrecurring/1/cancel/'
         )
 
     def test_create_transaction(self):

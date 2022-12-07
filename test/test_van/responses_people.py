@@ -144,7 +144,11 @@ get_person_response = {
     'caseworkCases': None,
     'caseworkIssues': None,
     'caseworkStories': None,
-    'notes': None,
+    'notes': [{
+        'id': 1,
+        'isViewRestricted': True,
+        'text': 'a'
+    }],
     'scores': None,
     'customProperties': None,
     'electionRecords': None,

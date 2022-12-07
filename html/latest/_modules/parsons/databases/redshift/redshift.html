@@ -193,11 +193,16 @@
 <span class="sd">        iam_role: str</span>
 <span class="sd">            AWS IAM Role ARN string -- an optional, different way for credentials to</span>
 <span class="sd">            be provided in the Redshift copy command that does not require an access key.</span>
+<span class="sd">        use_env_token: bool</span>
+<span class="sd">            Controls use of the ``AWS_SESSION_TOKEN`` environment variable for S3. Defaults</span>
+<span class="sd">            to ``True``. Set to ``False`` in order to ignore the ``AWS_SESSION_TOKEN`` environment</span>
+<span class="sd">            variable even if the ``aws_session_token`` argument was not passed in.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">username</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">password</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">host</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">db</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">port</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
                  <span class="n">timeout</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">s3_temp_bucket</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-                 <span class="n">aws_access_key_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">aws_secret_access_key</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">iam_role</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+                 <span class="n">aws_access_key_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">aws_secret_access_key</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">iam_role</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                 <span class="n">use_env_token</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
 
         <span class="k">try</span><span class="p">:</span>
@@ -220,6 +225,7 @@
             <span class="n">split_temp_bucket_name</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">s3_temp_bucket</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;/&#39;</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">s3_temp_bucket</span> <span class="o">=</span> <span class="n">split_temp_bucket_name</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">s3_temp_bucket_prefix</span> <span class="o">=</span> <span class="n">split_temp_bucket_name</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">use_env_token</span> <span class="o">=</span> <span class="n">use_env_token</span>
         <span class="c1"># We don&#39;t check/load the environment variables for aws_* here</span>
         <span class="c1"># because the logic in S3() and rs_copy_table.py does already.</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">aws_access_key_id</span> <span class="o">=</span> <span class="n">aws_access_key_id</span>
@@ -488,7 +494,8 @@
                     <span class="c1"># Grab the object from s3</span>
                     <span class="kn">from</span> <span class="nn">parsons.aws.s3</span> <span class="kn">import</span> <span class="n">S3</span>
                     <span class="n">s3</span> <span class="o">=</span> <span class="n">S3</span><span class="p">(</span><span class="n">aws_access_key_id</span><span class="o">=</span><span class="n">aws_access_key_id</span><span class="p">,</span>
-                            <span class="n">aws_secret_access_key</span><span class="o">=</span><span class="n">aws_secret_access_key</span><span class="p">)</span>
+                            <span class="n">aws_secret_access_key</span><span class="o">=</span><span class="n">aws_secret_access_key</span><span class="p">,</span>
+                            <span class="n">use_env_token</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">use_env_token</span><span class="p">)</span>
 
                     <span class="n">local_path</span> <span class="o">=</span> <span class="n">s3</span><span class="o">.</span><span class="n">get_file</span><span class="p">(</span><span class="n">bucket</span><span class="p">,</span> <span class="n">key</span><span class="p">)</span>
                     <span class="k">if</span> <span class="n">data_type</span> <span class="o">==</span> <span class="s1">&#39;csv&#39;</span><span class="p">:</span>
@@ -847,7 +854,8 @@
 
         <span class="kn">from</span> <span class="nn">parsons.aws</span> <span class="kn">import</span> <span class="n">S3</span>
         <span class="n">s3</span> <span class="o">=</span> <span class="n">S3</span><span class="p">(</span><span class="n">aws_access_key_id</span><span class="o">=</span><span class="n">aws_access_key_id</span><span class="p">,</span>
-                <span class="n">aws_secret_access_key</span><span class="o">=</span><span class="n">aws_secret_access_key</span><span class="p">)</span>
+                <span class="n">aws_secret_access_key</span><span class="o">=</span><span class="n">aws_secret_access_key</span><span class="p">,</span>
+                <span class="n">use_env_token</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">use_env_token</span><span class="p">)</span>
 
         <span class="c1"># Deal with a single bucket being passed, rather than list.</span>
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">buckets</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>

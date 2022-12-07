@@ -170,8 +170,8 @@
 <span class="sd">    inside this file rather than s3.py</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">s3</span> <span class="o">=</span> <span class="n">S3</span><span class="p">()</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">use_env_token</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">s3</span> <span class="o">=</span> <span class="n">S3</span><span class="p">(</span><span class="n">use_env_token</span><span class="o">=</span><span class="n">use_env_token</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">put_object</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">bucket</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="n">object_bytes</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">s3</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">put_object</span><span class="p">(</span><span class="n">Bucket</span><span class="o">=</span><span class="n">bucket</span><span class="p">,</span> <span class="n">Key</span><span class="o">=</span><span class="n">key</span><span class="p">,</span> <span class="n">Body</span><span class="o">=</span><span class="n">object_bytes</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
@@ -200,7 +200,8 @@
                         <span class="n">func_class_kwargs</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
                         <span class="n">catch</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
                         <span class="n">group_count</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span>
-                        <span class="n">storage</span><span class="o">=</span><span class="s1">&#39;s3&#39;</span><span class="p">):</span>
+                        <span class="n">storage</span><span class="o">=</span><span class="s1">&#39;s3&#39;</span><span class="p">,</span>
+                        <span class="n">use_s3_env_token</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    The same as distribute_task, but instead of a table, the</span>
 <span class="sd">    first argument is bytes of a csv encoded into utf8.</span>
@@ -233,7 +234,9 @@
 
     <span class="n">response</span> <span class="o">=</span> <span class="kc">None</span>
     <span class="k">if</span> <span class="n">storage</span> <span class="o">==</span> <span class="s1">&#39;s3&#39;</span><span class="p">:</span>
-        <span class="n">response</span> <span class="o">=</span> <span class="n">S3Storage</span><span class="p">()</span><span class="o">.</span><span class="n">put_object</span><span class="p">(</span><span class="n">bucket</span><span class="p">,</span> <span class="n">storagekey</span><span class="p">,</span> <span class="n">csv_bytes_utf8</span><span class="p">)</span>
+        <span class="n">response</span> <span class="o">=</span> <span class="n">S3Storage</span><span class="p">(</span><span class="n">use_env_token</span><span class="o">=</span><span class="n">use_s3_env_token</span><span class="p">)</span><span class="o">.</span><span class="n">put_object</span><span class="p">(</span>
+            <span class="n">bucket</span><span class="p">,</span> <span class="n">storagekey</span><span class="p">,</span> <span class="n">csv_bytes_utf8</span>
+        <span class="p">)</span>
     <span class="k">else</span><span class="p">:</span>
         <span class="n">response</span> <span class="o">=</span> <span class="n">FAKE_STORAGE</span><span class="o">.</span><span class="n">put_object</span><span class="p">(</span><span class="n">bucket</span><span class="p">,</span> <span class="n">storagekey</span><span class="p">,</span> <span class="n">csv_bytes_utf8</span><span class="p">)</span>
 
@@ -242,7 +245,7 @@
         <span class="n">maybe_async_run</span><span class="p">(</span>
             <span class="n">process_task_portion</span><span class="p">,</span>
             <span class="p">[</span><span class="n">bucket</span><span class="p">,</span> <span class="n">storagekey</span><span class="p">,</span> <span class="n">grp</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">grp</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">func_name</span><span class="p">,</span> <span class="n">header</span><span class="p">,</span>
-             <span class="n">storage</span><span class="p">,</span> <span class="n">func_kwargs</span><span class="p">,</span> <span class="n">catch</span><span class="p">,</span> <span class="n">func_class_kwargs</span><span class="p">],</span>
+             <span class="n">storage</span><span class="p">,</span> <span class="n">func_kwargs</span><span class="p">,</span> <span class="n">catch</span><span class="p">,</span> <span class="n">func_class_kwargs</span><span class="p">,</span> <span class="n">use_s3_env_token</span><span class="p">],</span>
             <span class="c1"># if we are using local storage, then it must be run locally, as well</span>
             <span class="c1"># (good for testing/debugging)</span>
             <span class="n">remote_aws_lambda_function_name</span><span class="o">=</span><span class="s1">&#39;FORCE_LOCAL&#39;</span> <span class="k">if</span> <span class="n">storage</span> <span class="o">==</span> <span class="s1">&#39;local&#39;</span> <span class="k">else</span> <span class="kc">None</span>
@@ -260,7 +263,8 @@
                     <span class="n">func_class_kwargs</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
                     <span class="n">catch</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
                     <span class="n">group_count</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span>
-                    <span class="n">storage</span><span class="o">=</span><span class="s1">&#39;s3&#39;</span><span class="p">):</span>
+                    <span class="n">storage</span><span class="o">=</span><span class="s1">&#39;s3&#39;</span><span class="p">,</span>
+                    <span class="n">use_s3_env_token</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Distribute processing rows in a table across multiple AWS Lambda invocations.</span>
 
@@ -300,6 +304,8 @@
 <span class="sd">        storage: str</span>
 <span class="sd">           Debugging option: Defaults to &quot;s3&quot;. To test distribution locally without s3,</span>
 <span class="sd">           set to &quot;local&quot;.</span>
+<span class="sd">        use_s3_env_token: str</span>
+<span class="sd">           If storage is set to &quot;s3&quot;, sets the use_env_token parameter on the S3 storage.</span>
 <span class="sd">    `Returns:`</span>
 <span class="sd">        Debug information -- do not rely on the output, as it will change</span>
 <span class="sd">        depending on how this method is invoked.</span>
@@ -319,19 +325,22 @@
                                <span class="n">func_class_kwargs</span><span class="o">=</span><span class="n">func_class_kwargs</span><span class="p">,</span>
                                <span class="n">catch</span><span class="o">=</span><span class="n">catch</span><span class="p">,</span>
                                <span class="n">group_count</span><span class="o">=</span><span class="n">group_count</span><span class="p">,</span>
-                               <span class="n">storage</span><span class="o">=</span><span class="n">storage</span><span class="p">)</span></div>
+                               <span class="n">storage</span><span class="o">=</span><span class="n">storage</span><span class="p">,</span>
+                               <span class="n">use_s3_env_token</span><span class="o">=</span><span class="n">use_s3_env_token</span><span class="p">)</span></div>
 
 
 <span class="k">def</span> <span class="nf">process_task_portion</span><span class="p">(</span><span class="n">bucket</span><span class="p">,</span> <span class="n">storagekey</span><span class="p">,</span> <span class="n">rangestart</span><span class="p">,</span> <span class="n">rangeend</span><span class="p">,</span> <span class="n">func_name</span><span class="p">,</span> <span class="n">header</span><span class="p">,</span>
                          <span class="n">storage</span><span class="o">=</span><span class="s1">&#39;s3&#39;</span><span class="p">,</span> <span class="n">func_kwargs</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">catch</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
-                         <span class="n">func_class_kwargs</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+                         <span class="n">func_class_kwargs</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">use_s3_env_token</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
     <span class="k">global</span> <span class="n">FAKE_STORAGE</span>
 
     <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;process_task_portion func_name </span><span class="si">{</span><span class="n">func_name</span><span class="si">}</span><span class="s1">, &#39;</span>
                  <span class="sa">f</span><span class="s1">&#39;storagekey </span><span class="si">{</span><span class="n">storagekey</span><span class="si">}</span><span class="s1">, byterange </span><span class="si">{</span><span class="n">rangestart</span><span class="si">}</span><span class="s1">-</span><span class="si">{</span><span class="n">rangeend</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
     <span class="n">func</span> <span class="o">=</span> <span class="n">import_and_get_task</span><span class="p">(</span><span class="n">func_name</span><span class="p">,</span> <span class="n">func_class_kwargs</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">storage</span> <span class="o">==</span> <span class="s1">&#39;s3&#39;</span><span class="p">:</span>
-        <span class="n">filedata</span> <span class="o">=</span> <span class="n">S3Storage</span><span class="p">()</span><span class="o">.</span><span class="n">get_range</span><span class="p">(</span><span class="n">bucket</span><span class="p">,</span> <span class="n">storagekey</span><span class="p">,</span> <span class="n">rangestart</span><span class="p">,</span> <span class="n">rangeend</span><span class="p">)</span>
+        <span class="n">filedata</span> <span class="o">=</span> <span class="n">S3Storage</span><span class="p">(</span><span class="n">use_env_token</span><span class="o">=</span><span class="n">use_s3_env_token</span><span class="p">)</span><span class="o">.</span><span class="n">get_range</span><span class="p">(</span>
+            <span class="n">bucket</span><span class="p">,</span> <span class="n">storagekey</span><span class="p">,</span> <span class="n">rangestart</span><span class="p">,</span> <span class="n">rangeend</span>
+        <span class="p">)</span>
     <span class="k">else</span><span class="p">:</span>
         <span class="n">filedata</span> <span class="o">=</span> <span class="n">FAKE_STORAGE</span><span class="o">.</span><span class="n">get_range</span><span class="p">(</span><span class="n">bucket</span><span class="p">,</span> <span class="n">storagekey</span><span class="p">,</span> <span class="n">rangestart</span><span class="p">,</span> <span class="n">rangeend</span><span class="p">)</span>
 

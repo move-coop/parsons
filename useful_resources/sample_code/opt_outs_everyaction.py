@@ -164,7 +164,8 @@ def main():
             for opt_out in opt_outs:
 
                 applied_at = str(datetime.now()).split(".")[0]
-                attempt_optout(every_action, opt_out, applied_at, committeeid, success_log, error_log)
+                attempt_optout(every_action, opt_out, applied_at,
+                    committeeid, success_log, error_log)
 
     # Now we log results
     logger.info(f"There were {len(success_log)} successes and {len(error_log)} errors.")

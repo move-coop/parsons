@@ -1,6 +1,7 @@
 import os
 import requests
 import time
+import json
 from parsons import Redshift, Table, VAN
 from parsons import logger
 from datetime import datetime
@@ -48,7 +49,8 @@ ERROR_TABLE = os.environ['ERROR_TABLE']
 rs = Redshift()
 
 
-def attempt_optout(every_action, row, applied_at, committeeid, success_log, error_log, attempts_left=3):
+def attempt_optout(every_action, row, applied_at, committeeid,
+                   success_log, error_log, attempts_left=3):
 
     vanid = row['vanid']
     phone = row['phone']
@@ -63,8 +65,8 @@ def attempt_optout(every_action, row, applied_at, committeeid, success_log, erro
     }
 
     try:
-        response = ea.update_person_json(id=vanid, match_json=match_json)
-        
+        response = every_action.update_person_json(id=vanid, match_json=match_json)
+
         # If the response is a dictionary the update was successful
         if isinstance(response, dict):
             success_log.append({
@@ -73,7 +75,7 @@ def attempt_optout(every_action, row, applied_at, committeeid, success_log, erro
                 "committeeid": committeeid,
                 "applied_at": applied_at
             })
-            
+
             return response
 
     # If we get an HTTP Error add it to the error log
@@ -87,7 +89,7 @@ def attempt_optout(every_action, row, applied_at, committeeid, success_log, erro
             "errored_at": applied_at,
             "error": error_message
         })
-        
+
         return error_message
 
     # If we get a connection error we wait a bit and try again.
@@ -103,7 +105,8 @@ def attempt_optout(every_action, row, applied_at, committeeid, success_log, erro
 
         else:
             # If we are still getting a connection error after our maximum number of attempts
-            # we add the error to the log, save our full success and error logs in Redshift, and raise the error.
+            # we add the error to the log, save our full success and error logs in Redshift,
+            # and raise the error.
             connection_error_message = str(connection_error)[:999]
 
             error_log.append({
@@ -113,7 +116,7 @@ def attempt_optout(every_action, row, applied_at, committeeid, success_log, erro
                 "errored_at": applied_at,
                 "error": connection_error_message
             })
-            
+
             if len(success_log) > 0:
                 success_parsonstable = Table(success_log)
                 logger.info("Copying success data into log table...")
@@ -125,7 +128,7 @@ def attempt_optout(every_action, row, applied_at, committeeid, success_log, erro
                 logger.info("Copying error data into log table...")
                 rs.copy(error_parsonstable, ERROR_TABLE, if_exists='append', alter_table=True)
                 logger.info("Error log complete.")
-                
+
             raise Exception(f"Connection Error {connection_error}")
 
 
@@ -143,11 +146,11 @@ def main():
         api_key = committee['api_key']
         committeeid = committee['committee_id']
         committee_name = committee['committee']
-        
+
         every_action = VAN(db='EveryAction', api_key=api_key)
 
         logger.info(f"Working on opt outs in {committee_name} committee...")
-        
+
         # Here we narrow the all_opt_outs table to only the rows that correspond
         # to this committee.
         opt_outs = all_opt_outs.select_rows(lambda row: str(row.committeeid) == committeeid)

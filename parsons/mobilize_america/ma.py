@@ -5,6 +5,7 @@ import petl
 import re
 import os
 import logging
+import collections.abc
 
 logger = logging.getLogger(__name__)
 
@@ -103,6 +104,19 @@ class MobilizeAmerica(object):
                                                 'updated_since': date_to_timestamp(updated_since)
                                             }))
 
+    def get_promoted_organizations(self, organization_id):
+        """
+        Return all organizations promoted by the given organization.
+
+        `Args:`
+            organization_id: int
+                ID of the organization to query.
+        `Returns`
+            Parsons Table
+        """
+        url = self.uri + 'organizations/' + str(organization_id) + '/promoted_organizations'
+        return Table(self._request_paginate(url, auth=True))
+
     def get_events(self, organization_id=None, updated_since=None, timeslot_start=None,
                    timeslot_end=None, timeslots_table=False, max_timeslots=None):
         """
@@ -135,9 +149,10 @@ class MobilizeAmerica(object):
                 This is helpful in situations where you have a regular sync
                 running and want to ensure that the column headers remain static.
 
+                If ``max_timeslots`` is 0, no timeslot columns will be included.
+
         `Returns`
-            Parsons Table or dict or Parsons Tables
-                See :ref:`parsons-table` for output options.
+            :ref:`parsons.Table <parsons-table>`, dict, list[:ref:`parsons.Table <parsons-table>`]
         """
 
         if isinstance(organization_id, (str, int)):
@@ -162,16 +177,20 @@ class MobilizeAmerica(object):
                 timeslots_tbl = tbl.long_table(['id'], 'timeslots', 'event_id')
                 return {'events': tbl, 'timeslots': timeslots_tbl}
 
+            elif max_timeslots == 0:
+                tbl.remove_column('timeslots')
+
             else:
                 tbl.unpack_list('timeslots', replace=True, max_columns=max_timeslots)
                 cols = tbl.columns
                 for c in cols:
                     if re.search('timeslots', c, re.IGNORECASE) is not None:
                         tbl.unpack_dict(c)
+                        tbl.materialize()
 
         return tbl
 
-    def get_events_organization(self, organization_id=None, updated_since=None, timeslot_start=None,
+    def get_events_organization(self, organization_id, updated_since=None, timeslot_start=None,
                                 timeslot_end=None, timeslots_table=False, max_timeslots=None):
         """
         Fetch all public events for an organization. This includes both events owned
@@ -182,8 +201,8 @@ class MobilizeAmerica(object):
             API Key Required
 
         `Args:`
-            organization_id: list or int
-                Filter events by a single or multiple organization ids
+            organization_id: int or str
+                Organization ID for the organization.
             updated_since: str
                 Filter to events updated since given date (ISO Date)
             timeslot_start: str
@@ -228,21 +247,21 @@ class MobilizeAmerica(object):
                 This is helpful in situations where you have a regular sync
                 running and want to ensure that the column headers remain static.
 
+                If ``max_timeslots`` is 0, no timeslot columns will be included.
+
         `Returns`
-            Parsons Table or dict or Parsons Tables
-                See :ref:`parsons-table` for output options.
+            :ref:`parsons.Table <parsons-table>`, dict, list[:ref:`parsons.Table <parsons-table>`]
         """
 
-        if isinstance(organization_id, (str, int)):
-            organization_id = [organization_id]
-
-        args = {'organization_id': organization_id,
-                'updated_since': date_to_timestamp(updated_since),
+        args = {'updated_since': date_to_timestamp(updated_since),
                 'timeslot_start': self._time_parse(timeslot_start),
                 'timeslot_end': self._time_parse(timeslot_end),
                 }
 
-        tbl = Table(self._request_paginate(self.uri + 'events', args=args, auth=True))
+        tbl = Table(self._request_paginate(
+            self.uri + 'organizations/' + str(organization_id) + '/events',
+            args=args,
+            auth=True))
 
         if tbl.num_rows > 0:
 
@@ -256,12 +275,16 @@ class MobilizeAmerica(object):
                 timeslots_tbl = tbl.long_table(['id'], 'timeslots', 'event_id')
                 return {'events': tbl, 'timeslots': timeslots_tbl}
 
+            elif max_timeslots == 0:
+                tbl.remove_column('timeslots')
+
             else:
                 tbl.unpack_list('timeslots', replace=True, max_columns=max_timeslots)
                 cols = tbl.columns
                 for c in cols:
                     if re.search('timeslots', c, re.IGNORECASE) is not None:
                         tbl.unpack_dict(c)
+                        tbl.materialize()
 
         return tbl
 
@@ -287,28 +310,33 @@ class MobilizeAmerica(object):
 
         return Table(self._request_paginate(self.uri + 'events/deleted', args=args))
 
-    def get_people(self, organization_id=None, updated_since=None):
+    def get_people(self, organization_id, updated_since=None):
         """
-        Fetch all people (volunteers) who are affiliated with the organization.
+        Fetch all people (volunteers) who are affiliated with an organization(s).
 
         .. note::
             API Key Required
 
         `Args:`
-            organization_id: list of int
-                Filter events by a single or multiple organization ids
+            organization_id: Iterable or int
+                Request people associated with a single or multiple organization ids
             updated_since: str
-                Filter to events updated since given date (ISO Date)
+                Filter to people updated since given date (ISO Date)
         `Returns`
             Parsons Table
                 See :ref:`parsons-table` for output options.
         """
+        if isinstance(organization_id, collections.abc.Iterable):
+            data = Table()
+            for id in organization_id:
+                data.concat(self.get_people(id, updated_since))
+            return data
+        else:
+            url = self.uri + 'organizations/' + str(organization_id) + '/people'
+            args = {'updated_since': date_to_timestamp(updated_since)}
+            return Table(self._request_paginate(url, args=args, auth=True))
 
-        url = self.uri + 'organizations/' + str(organization_id) + '/people'
-        args = {'updated_since': date_to_timestamp(updated_since)}
-        return Table(self._request_paginate(url, args=args, auth=True))
-
-    def get_attendances(self, organization_id=None, updated_since=None):
+    def get_attendances(self, organization_id, updated_since=None):
         """
         Fetch all attendances which were either promoted by the organization or
         were for events owned by the organization.
@@ -317,15 +345,14 @@ class MobilizeAmerica(object):
             API Key Required
 
         `Args:`
-            organization_id: list of int
-                Filter events by a single or multiple organization ids
+            organization_id: int
+                Filter attendances by an organization id
             updated_since: str
-                Filter to events updated since given date (ISO Date)
+                Filter to attendances updated since given date (ISO Date)
         `Returns`
             Parsons Table
                 See :ref:`parsons-table` for output options.
         """
-
         url = self.uri + 'organizations/' + str(organization_id) + '/attendances'
         args = {'updated_since': date_to_timestamp(updated_since)}
         return Table(self._request_paginate(url, args=args, auth=True))

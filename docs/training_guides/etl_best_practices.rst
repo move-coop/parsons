@@ -317,7 +317,7 @@ Using a Data Warehouse
 We've gone over how to write a script that takes data from one place, transforms it, and then moves it to another. But many people find it helpful to store their data in a centralized location. This can be desirable for a few different reasons:
 
 * Using a data warehouse can make it easier to look at your data all together and to track changes to it
-* Most warehouses let you query data with SQL queries, whhich many people find easier or more familiar
+* Most warehouses let you query data with SQL queries, which many people find easier or more familiar
 * Warehouse are often optimized for dealing with very large data sources, which is helpful if you're using large data sets.
 
 In other words, it's convenient to extract data from your source system and load it in to your data warehouse. From there, you can do some data transformations in SQL to prepare the data for the destination system, and the push the data to your destination system. 
@@ -355,7 +355,7 @@ If that's not an option, because Civis doesn't have an importer for your tool or
     from Parsons import Table, MobilizeAmerica, Redshift
 
     mobilize = MobilizeAmerica()
-    redshift = Redshift()
+    rs = Redshift()
 
     attendances = mobilize.get_attendances()
     rs.copy(attendances, 'mobilize.attendances', if_exists='drop', alter_table=True)
@@ -463,7 +463,7 @@ We can now iterate through each of our new mobilize users. For each Mobilize use
     This try-except catches and handles only ValueErrors. All other errors will be "thrown" instead of "caught", which will halt/crash the script.
 
 
-Let's take a look inside the try statement. What are we trying to do?::
+Let's take a look inside the try statement. What are we trying to do? ::
 
     actionnetwork_user = my_actionnetwork_group.add_person(
         email_address=mobilize_user['email_address'],

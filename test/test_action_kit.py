@@ -27,7 +27,7 @@ class TestActionKit(unittest.TestCase):
         pass
 
     @mock.patch.dict(os.environ, ENV_PARAMETERS)
-    def test_from_envrion(self):
+    def test_from_environ(self):
         actionkit = ActionKit()
         self.assertEqual(actionkit.domain, 'env_domain')
         self.assertEqual(actionkit.username, 'env_username')
@@ -144,6 +144,19 @@ class TestActionKit(unittest.TestCase):
         self.actionkit.conn.get.assert_called_with(
             'https://domain.actionkit.com/rest/v1/event/1/',
             params=None
+        )
+
+    def test_get_events(self):
+        # Test get events
+        resp_mock = mock.MagicMock()
+        type(resp_mock.get()).status_code = mock.PropertyMock(return_value=201)
+        type(resp_mock.get()).json = lambda x: {"meta": {"next": ""}, "objects": []}
+        self.actionkit.conn = resp_mock
+
+        self.actionkit.get_events(100, order_by='created_at')
+        self.actionkit.conn.get.assert_called_with(
+            'https://domain.actionkit.com/rest/v1/event/',
+            params={'order_by': 'created_at', '_limit': 100}
         )
 
     def test_get_event_create_page(self):
@@ -330,6 +343,53 @@ class TestActionKit(unittest.TestCase):
             data=json.dumps({})
         )
 
+    def test_paginated_get(self):
+        # Test paginated_get
+        resp_mock = mock.MagicMock()
+        first_mock = mock.MagicMock()
+        second_mock = mock.MagicMock()
+        first_mock.status_code = 201
+        first_mock.json = lambda: {"meta": {"next": "/rest/v1/user/abc"},
+                                   "objects": list(map(lambda x: {"value": x}, [*range(100)]))}
+        second_mock.status_code = 201
+        second_mock.json = lambda: {"meta": {"next": "/rest/v1/user/def"},
+                                    "objects": list(map(lambda x: {"value": x},
+                                                        [*range(100, 200)]))}
+        resp_mock.get.side_effect = [first_mock, second_mock]
+        self.actionkit.conn = resp_mock
+        results = self.actionkit.paginated_get('user', 150, order_by='created_at')
+        self.assertEqual(results.num_rows, 150)
+        calls = [unittest.mock.call('https://domain.actionkit.com/rest/v1/user/',
+                                    params={'order_by': 'created_at', '_limit': 100}),
+                 unittest.mock.call('https://domain.actionkit.com/rest/v1/user/abc')
+                 ]
+        self.actionkit.conn.get.assert_has_calls(calls)
+
+    def test_paginated_get_custom_limit(self):
+        # Test paginated_get
+        resp_mock = mock.MagicMock()
+        first_mock = mock.MagicMock()
+        second_mock = mock.MagicMock()
+        first_mock.status_code = 201
+        first_mock.json = lambda: {"meta": {"next": "/rest/v1/user/abc"},
+                                   "objects": list(map(lambda x: {"value": x}, [*range(100)]))}
+        second_mock.status_code = 201
+        second_mock.json = lambda: {"meta": {"next": "/rest/v1/user/def"},
+                                    "objects": list(map(lambda x: {"value": x},
+                                                        [*range(100, 200)]))}
+        resp_mock.get.side_effect = [first_mock, second_mock]
+        self.actionkit.conn = resp_mock
+        results = self.actionkit.paginated_get_custom_limit(
+            'user', 150, 'value', 102)
+        self.assertEqual(results.num_rows, 102)
+        self.assertEqual(results.column_data('value')[0], 0)
+        self.assertEqual(results.column_data('value')[-1], 101)
+        calls = [unittest.mock.call('https://domain.actionkit.com/rest/v1/user/',
+                                    params={'order_by': 'value', '_limit': 100}),
+                 unittest.mock.call('https://domain.actionkit.com/rest/v1/user/abc')
+                 ]
+        self.actionkit.conn.get.assert_has_calls(calls)
+
     def test_update_order(self):
         # Test update order
 
@@ -340,6 +400,20 @@ class TestActionKit(unittest.TestCase):
         self.actionkit.update_order(123, account='test')
         self.actionkit.conn.patch.assert_called_with(
             'https://domain.actionkit.com/rest/v1/order/123/', data=json.dumps({'account': 'test'})
+        )
+
+    def test_update_paymenttoken(self):
+        # Test update payment token
+
+        # Mock resp and status code
+        resp_mock = mock.MagicMock()
+        type(resp_mock.patch()).status_code = mock.PropertyMock(return_value=202)
+        self.actionkit.conn = resp_mock
+
+        self.actionkit.update_paymenttoken(1, status='inactive')
+        self.actionkit.conn.patch.assert_called_with(
+            'https://domain.actionkit.com/rest/v1/paymenttoken/1/',
+            data=json.dumps({'status': 'inactive'})
         )
 
     def test_get_page_followup(self):
@@ -388,6 +462,42 @@ class TestActionKit(unittest.TestCase):
         self.actionkit.conn.patch.assert_called_with(
             'https://domain.actionkit.com/rest/v1/surveyquestion/123/',
             data=json.dumps({'question_html': 'test'})
+        )
+
+    def test_cancel_orderrecurring(self):
+        # Test cancel recurring order
+
+        # Mock resp and status code
+        resp_mock = mock.MagicMock()
+        type(resp_mock.post()).status_code = mock.PropertyMock(return_value=201)
+        self.actionkit.conn = resp_mock
+
+        self.actionkit.cancel_orderrecurring(1)
+        self.actionkit.conn.post.assert_called_with(
+            'https://domain.actionkit.com/rest/v1/orderrecurring/1/cancel/'
+        )
+
+    def test_create_transaction(self):
+        # Test create transaction
+
+        # Mock resp and status code
+        resp_mock = mock.MagicMock()
+        type(resp_mock.post()).status_code = mock.PropertyMock(return_value=201)
+        self.actionkit.conn = resp_mock
+
+        self.actionkit.create_transaction(
+            account='Account', amount=1, amount_converted=1, currency='USD', failure_code='',
+            failure_description='', failure_message='', order='/rest/v1/order/1/',
+            status='completed', success=True, test_mode=False, trans_id='abc123', type='sale'
+        )
+        self.actionkit.conn.post.assert_called_with(
+            'https://domain.actionkit.com/rest/v1/transaction/',
+            data=json.dumps({
+                'account': 'Account', 'amount': 1, 'amount_converted': 1, 'currency': 'USD',
+                'failure_code': '', 'failure_description': '', 'failure_message': '',
+                'order': '/rest/v1/order/1/', 'status': 'completed', 'success': True,
+                'test_mode': False, 'trans_id': 'abc123', 'type': 'sale'
+            })
         )
 
     def test_update_transaction(self):

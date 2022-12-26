@@ -144,11 +144,19 @@ get_person_response = {
     'caseworkCases': None,
     'caseworkIssues': None,
     'caseworkStories': None,
-    'notes': None,
+    'notes': [{
+        'id': 1,
+        'isViewRestricted': True,
+        'text': 'a'
+    }],
     'scores': None,
     'customProperties': None,
     'electionRecords': None,
     'membershipStatus': None,
     'organizationRoles': None,
     'districts': None
+}
+
+merge_contacts_response = {
+    'vanId': 56789
 }

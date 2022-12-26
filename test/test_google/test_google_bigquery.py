@@ -1,15 +1,44 @@
+import json
 import os
-import unittest
 import unittest.mock as mock
+
 from google.cloud import bigquery
 from google.cloud import exceptions
+
 from parsons import GoogleBigQuery, Table
+from parsons.google.google_cloud_storage import GoogleCloudStorage
+from test.test_google.test_utilities import FakeCredentialTest
 
 
-class TestGoogleBigQuery(unittest.TestCase):
+class FakeClient:
+    """A Fake Storage Client used for monkey-patching."""
+    def __init__(self, project=None):
+        self.project = project
+
+
+class FakeGoogleCloudStorage(GoogleCloudStorage):
+    """A Fake GoogleCloudStorage object used to test setting up credentials."""
+
+    @mock.patch('google.cloud.storage.Client', FakeClient)
+    def __init__(self):
+        super().__init__(None, None)
+
+    def upload_table(self, table, bucket_name, blob_name, data_type='csv', default_acl=None):
+        pass
+
+    def delete_blob(self, bucket_name, blob_name):
+        pass
+
+
+class TestGoogleBigQuery(FakeCredentialTest):
     def setUp(self):
-        os.environ['GOOGLE_APPLICATION_CREDENTIALS'] = 'foo'
+        super().setUp()
+        os.environ['GOOGLE_APPLICATION_CREDENTIALS'] = self.cred_path
         self.tmp_gcs_bucket = 'tmp'
+
+    def tearDown(self) -> None:
+        super().tearDown()
+        del os.environ['GOOGLE_APPLICATION_CREDENTIALS']
 
     def test_query(self):
         query_string = 'select * from table'
@@ -141,6 +170,22 @@ class TestGoogleBigQuery(unittest.TestCase):
         with self.assertRaises(ValueError):
             bq.copy(self.default_table, 'dataset.table', tmp_gcs_bucket=self.tmp_gcs_bucket,
                     if_exists='foo', gcs_client=gcs_client)
+
+    def test_copy__credentials_are_correctly_set(self):
+        tbl = self.default_table
+        bq = self._build_mock_client_for_copying(table_exists=False)
+
+        # Pass in our fake GCS Client.
+        bq.copy(tbl, 'dataset.table', tmp_gcs_bucket=self.tmp_gcs_bucket,
+                gcs_client=FakeGoogleCloudStorage())
+
+        actual = os.environ['GOOGLE_APPLICATION_CREDENTIALS']
+
+        with open(actual, 'r') as factual:
+            with open(self.cred_path, 'r') as fexpected:
+                actual_str = factual.read()
+                self.assertEqual(actual_str, fexpected.read())
+                self.assertEqual(self.cred_contents, json.loads(actual_str))
 
     def _build_mock_client_for_querying(self, results):
         # Create a mock that will play the role of the cursor

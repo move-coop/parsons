@@ -35,8 +35,8 @@ class S3Storage:
     inside this file rather than s3.py
     """
 
-    def __init__(self):
-        self.s3 = S3()
+    def __init__(self, use_env_token=True):
+        self.s3 = S3(use_env_token=use_env_token)
 
     def put_object(self, bucket, key, object_bytes, **kwargs):
         return self.s3.client.put_object(Bucket=bucket, Key=key, Body=object_bytes, **kwargs)
@@ -65,7 +65,8 @@ def distribute_task_csv(csv_bytes_utf8, func_to_run, bucket,
                         func_class_kwargs=None,
                         catch=False,
                         group_count=100,
-                        storage='s3'):
+                        storage='s3',
+                        use_s3_env_token=True):
     """
     The same as distribute_task, but instead of a table, the
     first argument is bytes of a csv encoded into utf8.
@@ -98,7 +99,9 @@ def distribute_task_csv(csv_bytes_utf8, func_to_run, bucket,
 
     response = None
     if storage == 's3':
-        response = S3Storage().put_object(bucket, storagekey, csv_bytes_utf8)
+        response = S3Storage(use_env_token=use_s3_env_token).put_object(
+            bucket, storagekey, csv_bytes_utf8
+        )
     else:
         response = FAKE_STORAGE.put_object(bucket, storagekey, csv_bytes_utf8)
 
@@ -107,7 +110,7 @@ def distribute_task_csv(csv_bytes_utf8, func_to_run, bucket,
         maybe_async_run(
             process_task_portion,
             [bucket, storagekey, grp[0], grp[1], func_name, header,
-             storage, func_kwargs, catch, func_class_kwargs],
+             storage, func_kwargs, catch, func_class_kwargs, use_s3_env_token],
             # if we are using local storage, then it must be run locally, as well
             # (good for testing/debugging)
             remote_aws_lambda_function_name='FORCE_LOCAL' if storage == 'local' else None
@@ -125,7 +128,8 @@ def distribute_task(table, func_to_run,
                     func_class_kwargs=None,
                     catch=False,
                     group_count=100,
-                    storage='s3'):
+                    storage='s3',
+                    use_s3_env_token=True):
     """
     Distribute processing rows in a table across multiple AWS Lambda invocations.
 
@@ -165,6 +169,8 @@ def distribute_task(table, func_to_run,
         storage: str
            Debugging option: Defaults to "s3". To test distribution locally without s3,
            set to "local".
+        use_s3_env_token: str
+           If storage is set to "s3", sets the use_env_token parameter on the S3 storage.
     `Returns:`
         Debug information -- do not rely on the output, as it will change
         depending on how this method is invoked.
@@ -184,19 +190,22 @@ def distribute_task(table, func_to_run,
                                func_class_kwargs=func_class_kwargs,
                                catch=catch,
                                group_count=group_count,
-                               storage=storage)
+                               storage=storage,
+                               use_s3_env_token=use_s3_env_token)
 
 
 def process_task_portion(bucket, storagekey, rangestart, rangeend, func_name, header,
                          storage='s3', func_kwargs=None, catch=False,
-                         func_class_kwargs=None):
+                         func_class_kwargs=None, use_s3_env_token=True):
     global FAKE_STORAGE
 
     logger.debug(f'process_task_portion func_name {func_name}, '
                  f'storagekey {storagekey}, byterange {rangestart}-{rangeend}')
     func = import_and_get_task(func_name, func_class_kwargs)
     if storage == 's3':
-        filedata = S3Storage().get_range(bucket, storagekey, rangestart, rangeend)
+        filedata = S3Storage(use_env_token=use_s3_env_token).get_range(
+            bucket, storagekey, rangestart, rangeend
+        )
     else:
         filedata = FAKE_STORAGE.get_range(bucket, storagekey, rangestart, rangeend)
 

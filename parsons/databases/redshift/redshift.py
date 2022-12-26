@@ -58,11 +58,16 @@ class Redshift(RedshiftCreateTable, RedshiftCopyTable, RedshiftTableUtilities, R
         iam_role: str
             AWS IAM Role ARN string -- an optional, different way for credentials to
             be provided in the Redshift copy command that does not require an access key.
+        use_env_token: bool
+            Controls use of the ``AWS_SESSION_TOKEN`` environment variable for S3. Defaults
+            to ``True``. Set to ``False`` in order to ignore the ``AWS_SESSION_TOKEN`` environment
+            variable even if the ``aws_session_token`` argument was not passed in.
     """
 
     def __init__(self, username=None, password=None, host=None, db=None, port=None,
                  timeout=10, s3_temp_bucket=None,
-                 aws_access_key_id=None, aws_secret_access_key=None, iam_role=None):
+                 aws_access_key_id=None, aws_secret_access_key=None, iam_role=None,
+                 use_env_token=True):
         super().__init__()
 
         try:
@@ -79,6 +84,13 @@ class Redshift(RedshiftCreateTable, RedshiftCopyTable, RedshiftTableUtilities, R
         self.timeout = timeout
         self.dialect = 'redshift'
         self.s3_temp_bucket = s3_temp_bucket or os.environ.get('S3_TEMP_BUCKET')
+        # Set prefix for temp S3 bucket paths that include subfolders
+        self.s3_temp_bucket_prefix = None
+        if self.s3_temp_bucket and '/' in self.s3_temp_bucket:
+            split_temp_bucket_name = self.s3_temp_bucket.split('/', 1)
+            self.s3_temp_bucket = split_temp_bucket_name[0]
+            self.s3_temp_bucket_prefix = split_temp_bucket_name[1]
+        self.use_env_token = use_env_token
         # We don't check/load the environment variables for aws_* here
         # because the logic in S3() and rs_copy_table.py does already.
         self.aws_access_key_id = aws_access_key_id
@@ -347,7 +359,8 @@ class Redshift(RedshiftCreateTable, RedshiftCopyTable, RedshiftTableUtilities, R
                     # Grab the object from s3
                     from parsons.aws.s3 import S3
                     s3 = S3(aws_access_key_id=aws_access_key_id,
-                            aws_secret_access_key=aws_secret_access_key)
+                            aws_secret_access_key=aws_secret_access_key,
+                            use_env_token=self.use_env_token)
 
                     local_path = s3.get_file(bucket, key)
                     if data_type == 'csv':
@@ -390,7 +403,7 @@ class Redshift(RedshiftCreateTable, RedshiftCopyTable, RedshiftTableUtilities, R
              columntypes=None, specifycols=None, alter_table=False, alter_table_cascade=False,
              aws_access_key_id=None, aws_secret_access_key=None, iam_role=None,
              cleanup_s3_file=True, template_table=None, temp_bucket_region=None,
-             strict_length=True):
+             strict_length=True, csv_encoding='utf-8'):
         """
         Copy a :ref:`parsons-table` to Redshift.
 
@@ -500,6 +513,9 @@ class Redshift(RedshiftCreateTable, RedshiftCopyTable, RedshiftTableUtilities, R
             strict_length: bool
                 Whether or not to tightly fit the length of the table columns to the length
                 of the data in ``tbl``; if ``padding`` is specified, this argument is ignored
+            csv_ecoding: str
+                String encoding to use when writing the temporary CSV file that is uploaded to S3.
+                Defaults to 'utf-8'.
 
         `Returns`
             Parsons Table or ``None``
@@ -537,7 +553,8 @@ class Redshift(RedshiftCreateTable, RedshiftCopyTable, RedshiftTableUtilities, R
 
             # Upload the table to S3
             key = self.temp_s3_copy(tbl, aws_access_key_id=aws_access_key_id,
-                                    aws_secret_access_key=aws_secret_access_key)
+                                    aws_secret_access_key=aws_secret_access_key,
+                                    csv_encoding=csv_encoding)
 
             try:
                 # Copy to Redshift database.
@@ -702,7 +719,8 @@ class Redshift(RedshiftCreateTable, RedshiftCopyTable, RedshiftTableUtilities, R
 
         from parsons.aws import S3
         s3 = S3(aws_access_key_id=aws_access_key_id,
-                aws_secret_access_key=aws_secret_access_key)
+                aws_secret_access_key=aws_secret_access_key,
+                use_env_token=self.use_env_token)
 
         # Deal with a single bucket being passed, rather than list.
         if isinstance(buckets, str):

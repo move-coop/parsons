@@ -14,9 +14,8 @@ class RedshiftCopyTable(object):
     aws_secret_access_key = None
     iam_role = None
 
-    def __init__(self):
-
-        pass
+    def __init__(self, use_env_token=True):
+        self.use_env_token = use_env_token
 
     def copy_statement(self, table_name, bucket, key, manifest=False,
                        data_type='csv', csv_delimiter=',', max_errors=0,
@@ -113,7 +112,7 @@ class RedshiftCopyTable(object):
 
         else:
 
-            s3 = S3()
+            s3 = S3(use_env_token=self.use_env_token)
             creds = s3.aws.session.get_credentials()
             aws_access_key_id = creds.access_key
             aws_secret_access_key = creds.secret_key
@@ -122,7 +121,8 @@ class RedshiftCopyTable(object):
             aws_access_key_id,
             aws_secret_access_key)
 
-    def temp_s3_copy(self, tbl, aws_access_key_id=None, aws_secret_access_key=None):
+    def temp_s3_copy(self, tbl, aws_access_key_id=None, aws_secret_access_key=None,
+                     csv_encoding='utf-8'):
 
         if not self.s3_temp_bucket:
             raise KeyError(("Missing S3_TEMP_BUCKET, needed for transferring data to Redshift. "
@@ -134,14 +134,16 @@ class RedshiftCopyTable(object):
         aws_secret_access_key = aws_secret_access_key or self.aws_secret_access_key
 
         self.s3 = S3(aws_access_key_id=aws_access_key_id,
-                     aws_secret_access_key=aws_secret_access_key)
+                     aws_secret_access_key=aws_secret_access_key, use_env_token=self.use_env_token)
 
         hashed_name = hash(time.time())
         key = f"{S3_TEMP_KEY_PREFIX}/{hashed_name}.csv.gz"
+        if self.s3_temp_bucket_prefix:
+            key = self.s3_temp_bucket_prefix + '/' + key
 
         # Convert table to compressed CSV file, to optimize the transfers to S3 and to
         # Redshift.
-        local_path = tbl.to_csv(temp_file_compression='gzip')
+        local_path = tbl.to_csv(temp_file_compression='gzip', encoding=csv_encoding)
         # Copy table to bucket
         self.s3.put_file(self.s3_temp_bucket, key, local_path)
 

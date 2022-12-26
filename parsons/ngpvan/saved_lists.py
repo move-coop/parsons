@@ -102,7 +102,8 @@ class SavedLists(object):
                  Whether or not fields are enclosed in quotation marks within each
                  column of the file.
             overwrite: int
-                Replace saved list if already exists.
+                Replace saved list if already exists. Pass in the list id of the
+                existing list that you would like to overwrite.
             **url_kwargs: kwargs
                 Arguments to configure your cloud storage url type. See
                 :ref:`Cloud Storage <cloud-storage>` for more details.
@@ -122,7 +123,7 @@ class SavedLists(object):
         if folder_id not in [x['folderId'] for x in self.get_folders()]:
             raise ValueError("Folder does not exist or is not shared with API user.")
 
-        if list_name in [x['name'] for x in self.get_saved_lists(folder_id)]:
+        if list_name in [x['name'] for x in self.get_saved_lists(folder_id)] and not overwrite:
             raise ValueError("Saved list already exists. Set overwrite "
                              "argument to list ID or change list name.")
 
@@ -156,10 +157,9 @@ class SavedLists(object):
         if overwrite:
             json["actions"][0]["overwriteExistingListId"] = overwrite
 
-        logger.info(json)
         file_load_job_response = self.connection.post_request('fileLoadingJobs', json=json)
         job_id = file_load_job_response['jobId']
-        logger.info(f'Score loading job {job_id} created. Reference '
+        logger.info(f'Saved list job {job_id} created. Reference '
                     'callback url to check for job status')
         return file_load_job_response
 

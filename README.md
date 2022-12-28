@@ -37,7 +37,7 @@ You can install the most recent release by running: `pip install parsons[all]`
 To access the most recent code base that may contain features not yet included in the latest release, download this repository and then run `python setup.py develop`.
 
 ### Docker Container
-We have a Parsons Docker container hosted on [DockerHub](https://cloud.docker.com/u/movementcooperative/repository/docker/movementcooperative/parsons) for each release of Parsons, including the `latest`.
+We have a Parsons Docker container hosted on [DockerHub](https://hub.docker.com/r/movementcooperative/parsons) for each release of Parsons, including the `latest`.
 
 ## Quickstart
 

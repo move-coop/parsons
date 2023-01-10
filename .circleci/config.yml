@@ -119,7 +119,7 @@ jobs:
           # This SSH key is "CircleCI Docs" in https://github.com/move-coop/parsons/settings/keys
           # We need write access to the Parsons repo, so we can push the "gh-pages" branch.
           fingerprints:
-            - 'a6:b1:ec:19:86:19:8b:98:1e:b1:41:b2:e1:4a:4f:3d'
+            - '9a:ec:4d:2b:c3:45:b2:f5:55:ca:0b:2b:36:e2:7f:df'
       - run:
           name: Build and deploy docs
           # When running gh-pages, we specify to include dotfiles, so we pick up the .nojerkyll file.

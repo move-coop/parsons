@@ -131,7 +131,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">connection</span> <span class="o">=</span> <span class="n">van_connection</span>
 
 <div class="viewcode-block" id="Signups.get_signups_statuses"><a class="viewcode-back" href="../../../ngpvan.html#parsons.ngpvan.van.Signups.get_signups_statuses">[docs]</a>    <span class="k">def</span> <span class="nf">get_signups_statuses</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">event_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">event_type_id</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Get a list of valid signup statuses for a given event type</span>
 <span class="sd">        or event. You must pass one of ``event_id`` or ``event_type_id``</span>
 <span class="sd">        but not both.</span>
@@ -162,7 +162,7 @@
         <span class="k">return</span> <span class="n">tbl</span></div>
 
 <div class="viewcode-block" id="Signups.get_person_signups"><a class="viewcode-back" href="../../../ngpvan.html#parsons.ngpvan.van.Signups.get_person_signups">[docs]</a>    <span class="k">def</span> <span class="nf">get_person_signups</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">vanid</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Get the signup history of a person.</span>
 
 <span class="sd">        `Args:`</span>
@@ -178,7 +178,7 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_unpack_signups</span><span class="p">(</span><span class="n">tbl</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="Signups.get_event_signups"><a class="viewcode-back" href="../../../ngpvan.html#parsons.ngpvan.van.Signups.get_event_signups">[docs]</a>    <span class="k">def</span> <span class="nf">get_event_signups</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">event_id</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Get the signup history of an event.</span>
 
 <span class="sd">        `Args:`</span>
@@ -194,7 +194,7 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_unpack_signups</span><span class="p">(</span><span class="n">tbl</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="Signups.get_signup"><a class="viewcode-back" href="../../../ngpvan.html#parsons.ngpvan.van.Signups.get_signup">[docs]</a>    <span class="k">def</span> <span class="nf">get_signup</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">event_signup_id</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Get a single signup object.</span>
 
 <span class="sd">        `Args:`</span>
@@ -210,7 +210,7 @@
         <span class="k">return</span> <span class="n">r</span></div>
 
 <div class="viewcode-block" id="Signups.create_signup"><a class="viewcode-back" href="../../../ngpvan.html#parsons.ngpvan.van.Signups.create_signup">[docs]</a>    <span class="k">def</span> <span class="nf">create_signup</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">vanid</span><span class="p">,</span> <span class="n">event_id</span><span class="p">,</span> <span class="n">shift_id</span><span class="p">,</span> <span class="n">role_id</span><span class="p">,</span> <span class="n">status_id</span><span class="p">,</span> <span class="n">location_id</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Create a new signup for an event.</span>
 
 <span class="sd">        `Args:`</span>
@@ -245,7 +245,7 @@
 
 <div class="viewcode-block" id="Signups.update_signup"><a class="viewcode-back" href="../../../ngpvan.html#parsons.ngpvan.van.Signups.update_signup">[docs]</a>    <span class="k">def</span> <span class="nf">update_signup</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">event_signup_id</span><span class="p">,</span> <span class="n">shift_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">role_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">status_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
                       <span class="n">location_id</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Update a signup object. All of the kwargs will update the values associated</span>
 <span class="sd">        with them.</span>
 
@@ -280,7 +280,7 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">connection</span><span class="o">.</span><span class="n">put_request</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;signups/</span><span class="si">{</span><span class="n">event_signup_id</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">json</span><span class="o">=</span><span class="n">signup</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="Signups.delete_signup"><a class="viewcode-back" href="../../../ngpvan.html#parsons.ngpvan.van.Signups.delete_signup">[docs]</a>    <span class="k">def</span> <span class="nf">delete_signup</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">event_signup_id</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Delete a signup object</span>
 
 <span class="sd">        `Args:`</span>

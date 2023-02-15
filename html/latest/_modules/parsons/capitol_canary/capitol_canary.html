@@ -65,12 +65,13 @@
 <li class="toctree-l1"><a class="reference internal" href="../../../mobilize_america.html">Mobilize America</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../newmode.html">New/Mode</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../ngpvan.html">NGPVAN</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../pdi.html">PDI</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../p2a.html">Phone2Action</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../pdi.html">PDI</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../quickbase.html">Quickbase</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../redash.html">Redash</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../rockthevote.html">Rock the Vote</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../salesforce.html">Salesforce</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../scytl.html">Scytl</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../sftp.html">SFTP</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../shopify.html">Shopify</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../sisense.html">Sisense</a></li>
@@ -146,7 +147,7 @@
 
 
 <div class="viewcode-block" id="CapitolCanary"><a class="viewcode-back" href="../../../capitolcanary.html#parsons.CapitolCanary">[docs]</a><span class="k">class</span> <span class="nc">CapitolCanary</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Instantiate CapitolCanary Class</span>
 
 <span class="sd">    `Args:`</span>
@@ -192,7 +193,7 @@
         <span class="k">return</span> <span class="n">json</span>
 
 <div class="viewcode-block" id="CapitolCanary.get_advocates"><a class="viewcode-back" href="../../../capitolcanary.html#parsons.CapitolCanary.get_advocates">[docs]</a>    <span class="k">def</span> <span class="nf">get_advocates</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">state</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">campaign_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">updated_since</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">page</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Return advocates (person records).</span>
 
 <span class="sd">        If no page is specified, the method will automatically paginate through the available</span>
@@ -266,7 +267,7 @@
 
 <div class="viewcode-block" id="CapitolCanary.get_campaigns"><a class="viewcode-back" href="../../../capitolcanary.html#parsons.CapitolCanary.get_campaigns">[docs]</a>    <span class="k">def</span> <span class="nf">get_campaigns</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">state</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="nb">zip</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">include_generic</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">include_private</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
                       <span class="n">include_content</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Returns a list of campaigns</span>
 
 <span class="sd">        `Args:`</span>
@@ -316,7 +317,7 @@
                         <span class="n">sms_optout</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
                         <span class="n">email_optout</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
                         <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Create an advocate.</span>
 
 <span class="sd">        If you want to opt an advocate into or out of SMS / email campaigns, you must provide</span>
@@ -435,7 +436,7 @@
                         <span class="n">sms_optout</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
                         <span class="n">email_optout</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
                         <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Update the fields of an advocate.</span>
 
 <span class="sd">        If you want to opt an advocate into or out of SMS / email campaigns, you must provide</span>

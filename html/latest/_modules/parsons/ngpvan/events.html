@@ -65,12 +65,13 @@
 <li class="toctree-l1"><a class="reference internal" href="../../../mobilize_america.html">Mobilize America</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../newmode.html">New/Mode</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../ngpvan.html">NGPVAN</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../pdi.html">PDI</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../p2a.html">Phone2Action</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../pdi.html">PDI</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../quickbase.html">Quickbase</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../redash.html">Redash</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../rockthevote.html">Rock the Vote</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../salesforce.html">Salesforce</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../scytl.html">Scytl</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../sftp.html">SFTP</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../shopify.html">Shopify</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../sisense.html">Sisense</a></li>
@@ -152,7 +153,7 @@
                    <span class="n">expand_fields</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;locations&#39;</span><span class="p">,</span> <span class="s1">&#39;codes&#39;</span><span class="p">,</span> <span class="s1">&#39;shifts&#39;</span><span class="p">,</span> <span class="s1">&#39;roles&#39;</span><span class="p">,</span> <span class="s1">&#39;notes&#39;</span><span class="p">,</span>
                                   <span class="s1">&#39;financialProgram&#39;</span><span class="p">,</span> <span class="s1">&#39;ticketCategories&#39;</span><span class="p">,</span>
                                   <span class="s1">&#39;onlineForms&#39;</span><span class="p">]):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Get events.</span>
 
 <span class="sd">        `Args:`</span>
@@ -198,7 +199,7 @@
 <div class="viewcode-block" id="Events.get_event"><a class="viewcode-back" href="../../../ngpvan.html#parsons.ngpvan.van.Events.get_event">[docs]</a>    <span class="k">def</span> <span class="nf">get_event</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">event_id</span><span class="p">,</span> <span class="n">expand_fields</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;locations&#39;</span><span class="p">,</span> <span class="s1">&#39;codes&#39;</span><span class="p">,</span> <span class="s1">&#39;shifts&#39;</span><span class="p">,</span> <span class="s1">&#39;roles&#39;</span><span class="p">,</span>
                                                  <span class="s1">&#39;notes&#39;</span><span class="p">,</span> <span class="s1">&#39;financialProgram&#39;</span><span class="p">,</span> <span class="s1">&#39;ticketCategories&#39;</span><span class="p">,</span>
                                                  <span class="s1">&#39;voterRegistrationBatches&#39;</span><span class="p">]):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Get an event.</span>
 
 <span class="sd">        `Args:`</span>
@@ -225,7 +226,7 @@
                      <span class="n">roles</span><span class="p">,</span> <span class="n">shifts</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">editable</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
                      <span class="n">publicly_viewable</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">location_ids</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">code_ids</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">notes</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
                      <span class="n">district_field_value</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">voter_registration_batches</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Create an event</span>
 
 <span class="sd">        `Args:`</span>
@@ -316,7 +317,7 @@
         <span class="k">return</span> <span class="n">r</span></div>
 
 <div class="viewcode-block" id="Events.delete_event"><a class="viewcode-back" href="../../../ngpvan.html#parsons.ngpvan.van.Events.delete_event">[docs]</a>    <span class="k">def</span> <span class="nf">delete_event</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">event_id</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Delete an event.</span>
 
 <span class="sd">        `Args:`</span>
@@ -331,7 +332,7 @@
         <span class="k">return</span> <span class="n">r</span></div>
 
 <div class="viewcode-block" id="Events.add_event_shift"><a class="viewcode-back" href="../../../ngpvan.html#parsons.ngpvan.van.Events.add_event_shift">[docs]</a>    <span class="k">def</span> <span class="nf">add_event_shift</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">event_id</span><span class="p">,</span> <span class="n">shift_name</span><span class="p">,</span> <span class="n">start_time</span><span class="p">,</span> <span class="n">end_time</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Add shifts to an event</span>
 
 <span class="sd">        `Args:`</span>
@@ -358,7 +359,7 @@
         <span class="k">return</span> <span class="n">r</span></div>
 
 <div class="viewcode-block" id="Events.get_event_types"><a class="viewcode-back" href="../../../ngpvan.html#parsons.ngpvan.van.Events.get_event_types">[docs]</a>    <span class="k">def</span> <span class="nf">get_event_types</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Get event types.</span>
 
 <span class="sd">        `Returns:`</span>

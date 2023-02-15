@@ -123,7 +123,7 @@
 <div class="viewcode-block" id="Newmode"><a class="viewcode-back" href="../../../newmode.html#parsons.Newmode">[docs]</a><span class="k">class</span> <span class="nc">Newmode</span><span class="p">:</span>
 
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">api_user</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">api_password</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">api_version</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Args:</span>
 <span class="sd">            api_user: str</span>
 <span class="sd">                The Newmode api user. Not required if ``NEWMODE_API_USER`` env variable is</span>
@@ -158,7 +158,7 @@
         <span class="k">return</span> <span class="n">table</span>
 
 <div class="viewcode-block" id="Newmode.get_tools"><a class="viewcode-back" href="../../../newmode.html#parsons.Newmode.get_tools">[docs]</a>    <span class="k">def</span> <span class="nf">get_tools</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="p">{}):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Get existing tools.</span>
 <span class="sd">        Args:</span>
 <span class="sd">            params:</span>
@@ -174,7 +174,7 @@
             <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">convert_to_table</span><span class="p">([])</span></div>
 
 <div class="viewcode-block" id="Newmode.get_tool"><a class="viewcode-back" href="../../../newmode.html#parsons.Newmode.get_tool">[docs]</a>    <span class="k">def</span> <span class="nf">get_tool</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tool_id</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="p">{}):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Get specific tool.</span>
 <span class="sd">        Args:</span>
 <span class="sd">            tool_id:</span>
@@ -192,7 +192,7 @@
             <span class="k">return</span> <span class="kc">None</span></div>
 
 <div class="viewcode-block" id="Newmode.lookup_targets"><a class="viewcode-back" href="../../../newmode.html#parsons.Newmode.lookup_targets">[docs]</a>    <span class="k">def</span> <span class="nf">lookup_targets</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tool_id</span><span class="p">,</span> <span class="n">search</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="p">{}):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Lookup targets for a given tool</span>
 <span class="sd">        Args:</span>
 <span class="sd">            tool_id:</span>
@@ -221,7 +221,7 @@
             <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">convert_to_table</span><span class="p">([])</span></div>
 
 <div class="viewcode-block" id="Newmode.get_action"><a class="viewcode-back" href="../../../newmode.html#parsons.Newmode.get_action">[docs]</a>    <span class="k">def</span> <span class="nf">get_action</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tool_id</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="p">{}):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Get the action information for a given tool.</span>
 <span class="sd">        Args:</span>
 <span class="sd">            tool_id:</span>
@@ -239,7 +239,7 @@
             <span class="k">return</span> <span class="kc">None</span></div>
 
 <div class="viewcode-block" id="Newmode.run_action"><a class="viewcode-back" href="../../../newmode.html#parsons.Newmode.run_action">[docs]</a>    <span class="k">def</span> <span class="nf">run_action</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tool_id</span><span class="p">,</span> <span class="n">payload</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="p">{}):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Run specific action with given payload.</span>
 <span class="sd">        Args:</span>
 <span class="sd">            tool_id:</span>
@@ -263,7 +263,7 @@
             <span class="k">return</span> <span class="kc">None</span></div>
 
 <div class="viewcode-block" id="Newmode.get_target"><a class="viewcode-back" href="../../../newmode.html#parsons.Newmode.get_target">[docs]</a>    <span class="k">def</span> <span class="nf">get_target</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">target_id</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="p">{}):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Get specific target.</span>
 <span class="sd">        Args:</span>
 <span class="sd">            target_id:</span>
@@ -281,7 +281,7 @@
             <span class="k">return</span> <span class="kc">None</span></div>
 
 <div class="viewcode-block" id="Newmode.get_campaigns"><a class="viewcode-back" href="../../../newmode.html#parsons.Newmode.get_campaigns">[docs]</a>    <span class="k">def</span> <span class="nf">get_campaigns</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="p">{}):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Get existing campaigns.</span>
 <span class="sd">        Args:</span>
 <span class="sd">            params:</span>
@@ -297,7 +297,7 @@
             <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">convert_to_table</span><span class="p">([])</span></div>
 
 <div class="viewcode-block" id="Newmode.get_campaign"><a class="viewcode-back" href="../../../newmode.html#parsons.Newmode.get_campaign">[docs]</a>    <span class="k">def</span> <span class="nf">get_campaign</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">campaign_id</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="p">{}):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Get specific campaign.</span>
 <span class="sd">        Args:</span>
 <span class="sd">            campaign_id:</span>
@@ -315,7 +315,7 @@
             <span class="k">return</span> <span class="kc">None</span></div>
 
 <div class="viewcode-block" id="Newmode.get_organizations"><a class="viewcode-back" href="../../../newmode.html#parsons.Newmode.get_organizations">[docs]</a>    <span class="k">def</span> <span class="nf">get_organizations</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="p">{}):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Get existing organizations.</span>
 <span class="sd">        Args:</span>
 <span class="sd">            params:</span>
@@ -331,7 +331,7 @@
             <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">convert_to_table</span><span class="p">([])</span></div>
 
 <div class="viewcode-block" id="Newmode.get_organization"><a class="viewcode-back" href="../../../newmode.html#parsons.Newmode.get_organization">[docs]</a>    <span class="k">def</span> <span class="nf">get_organization</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">organization_id</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="p">{}):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Get specific organization.</span>
 <span class="sd">        Args:</span>
 <span class="sd">            organization_id:</span>
@@ -349,7 +349,7 @@
             <span class="k">return</span> <span class="kc">None</span></div>
 
 <div class="viewcode-block" id="Newmode.get_services"><a class="viewcode-back" href="../../../newmode.html#parsons.Newmode.get_services">[docs]</a>    <span class="k">def</span> <span class="nf">get_services</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="p">{}):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Get existing services.</span>
 <span class="sd">        Args:</span>
 <span class="sd">            params:</span>
@@ -365,7 +365,7 @@
             <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">convert_to_table</span><span class="p">([])</span></div>
 
 <div class="viewcode-block" id="Newmode.get_service"><a class="viewcode-back" href="../../../newmode.html#parsons.Newmode.get_service">[docs]</a>    <span class="k">def</span> <span class="nf">get_service</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">service_id</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="p">{}):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Get specific service.</span>
 <span class="sd">        Args:</span>
 <span class="sd">            service_id:</span>
@@ -383,7 +383,7 @@
             <span class="k">return</span> <span class="kc">None</span></div>
 
 <div class="viewcode-block" id="Newmode.get_outreaches"><a class="viewcode-back" href="../../../newmode.html#parsons.Newmode.get_outreaches">[docs]</a>    <span class="k">def</span> <span class="nf">get_outreaches</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tool_id</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="p">{}):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Get existing outreaches for a given tool.</span>
 <span class="sd">        Args:</span>
 <span class="sd">            tool_id:</span>
@@ -401,7 +401,7 @@
             <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">convert_to_table</span><span class="p">([])</span></div>
 
 <div class="viewcode-block" id="Newmode.get_outreach"><a class="viewcode-back" href="../../../newmode.html#parsons.Newmode.get_outreach">[docs]</a>    <span class="k">def</span> <span class="nf">get_outreach</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">outreach_id</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="p">{}):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Get specific outreach.</span>
 <span class="sd">        Args:</span>
 <span class="sd">            outreach_id:</span>

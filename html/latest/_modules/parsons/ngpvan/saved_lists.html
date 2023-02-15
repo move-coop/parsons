@@ -65,12 +65,13 @@
 <li class="toctree-l1"><a class="reference internal" href="../../../mobilize_america.html">Mobilize America</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../newmode.html">New/Mode</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../ngpvan.html">NGPVAN</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../pdi.html">PDI</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../p2a.html">Phone2Action</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../pdi.html">PDI</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../quickbase.html">Quickbase</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../redash.html">Redash</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../rockthevote.html">Rock the Vote</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../salesforce.html">Salesforce</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../scytl.html">Scytl</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../sftp.html">SFTP</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../shopify.html">Shopify</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../sisense.html">Sisense</a></li>
@@ -151,7 +152,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">connection</span> <span class="o">=</span> <span class="n">van_connection</span>
 
 <div class="viewcode-block" id="SavedLists.get_saved_lists"><a class="viewcode-back" href="../../../ngpvan.html#parsons.ngpvan.van.SavedLists.get_saved_lists">[docs]</a>    <span class="k">def</span> <span class="nf">get_saved_lists</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">folder_id</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Get saved lists.</span>
 
 <span class="sd">        `Args:`</span>
@@ -168,7 +169,7 @@
         <span class="k">return</span> <span class="n">tbl</span></div>
 
 <div class="viewcode-block" id="SavedLists.get_saved_list"><a class="viewcode-back" href="../../../ngpvan.html#parsons.ngpvan.van.SavedLists.get_saved_list">[docs]</a>    <span class="k">def</span> <span class="nf">get_saved_list</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">saved_list_id</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Returns a saved list object.</span>
 
 <span class="sd">        `Args:`</span>
@@ -183,7 +184,7 @@
         <span class="k">return</span> <span class="n">r</span></div>
 
 <div class="viewcode-block" id="SavedLists.download_saved_list"><a class="viewcode-back" href="../../../ngpvan.html#parsons.ngpvan.van.SavedLists.download_saved_list">[docs]</a>    <span class="k">def</span> <span class="nf">download_saved_list</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">saved_list_id</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Download the vanids associated with a saved list.</span>
 
 <span class="sd">        `Args:`</span>
@@ -206,7 +207,7 @@
                                <span class="n">description</span><span class="p">,</span> <span class="n">callback_url</span><span class="p">,</span> <span class="n">columns</span><span class="p">,</span> <span class="n">id_column</span><span class="p">,</span>
                                <span class="n">delimiter</span><span class="o">=</span><span class="s1">&#39;csv&#39;</span><span class="p">,</span> <span class="n">header</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">quotes</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
                                <span class="n">overwrite</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">url_kwargs</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Upload a saved list. Invalid or unmatched person id records will be ignored. Your api user</span>
 <span class="sd">        must be shared on the target folder.</span>
 
@@ -300,7 +301,7 @@
 
 <div class="viewcode-block" id="SavedLists.upload_saved_list"><a class="viewcode-back" href="../../../ngpvan.html#parsons.ngpvan.van.SavedLists.upload_saved_list">[docs]</a>    <span class="k">def</span> <span class="nf">upload_saved_list</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tbl</span><span class="p">,</span> <span class="n">list_name</span><span class="p">,</span> <span class="n">folder_id</span><span class="p">,</span> <span class="n">url_type</span><span class="p">,</span> <span class="n">id_type</span><span class="o">=</span><span class="s1">&#39;vanid&#39;</span><span class="p">,</span> <span class="n">replace</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
                           <span class="o">**</span><span class="n">url_kwargs</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">            .. warning::</span>
 <span class="sd">               .. deprecated:: 0.X Use :func:`parsons.VAN.upload_saved_list_rest` instead.</span>
 
@@ -391,7 +392,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">connection</span> <span class="o">=</span> <span class="n">van_connection</span>
 
 <div class="viewcode-block" id="Folders.get_folders"><a class="viewcode-back" href="../../../ngpvan.html#parsons.ngpvan.van.Folders.get_folders">[docs]</a>    <span class="k">def</span> <span class="nf">get_folders</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Get all folders owned or shared with the API user.</span>
 
 <span class="sd">        `Returns:`</span>
@@ -404,7 +405,7 @@
         <span class="k">return</span> <span class="n">tbl</span></div>
 
 <div class="viewcode-block" id="Folders.get_folder"><a class="viewcode-back" href="../../../ngpvan.html#parsons.ngpvan.van.Folders.get_folder">[docs]</a>    <span class="k">def</span> <span class="nf">get_folder</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">folder_id</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Get a folder owned by or shared with the API user.</span>
 
 <span class="sd">        `Args:`</span>
@@ -427,7 +428,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">connection</span> <span class="o">=</span> <span class="n">van_connection</span>
 
 <div class="viewcode-block" id="ExportJobs.get_export_job_types"><a class="viewcode-back" href="../../../ngpvan.html#parsons.ngpvan.van.ExportJobs.get_export_job_types">[docs]</a>    <span class="k">def</span> <span class="nf">get_export_job_types</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Get export job types</span>
 
 <span class="sd">        `Returns:`</span>
@@ -441,7 +442,7 @@
 
 <div class="viewcode-block" id="ExportJobs.export_job_create"><a class="viewcode-back" href="../../../ngpvan.html#parsons.ngpvan.van.ExportJobs.export_job_create">[docs]</a>    <span class="k">def</span> <span class="nf">export_job_create</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">list_id</span><span class="p">,</span> <span class="n">export_type</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span>
                           <span class="n">webhookUrl</span><span class="o">=</span><span class="s2">&quot;https://www.nothing.com&quot;</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Creates an export job</span>
 
 <span class="sd">        Currently, this is only used for exporting saved lists. It is</span>
@@ -470,7 +471,7 @@
         <span class="k">return</span> <span class="n">r</span></div>
 
 <div class="viewcode-block" id="ExportJobs.get_export_job"><a class="viewcode-back" href="../../../ngpvan.html#parsons.ngpvan.van.ExportJobs.get_export_job">[docs]</a>    <span class="k">def</span> <span class="nf">get_export_job</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">export_job_id</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Get an export job.</span>
 
 <span class="sd">        `Args:`</span>

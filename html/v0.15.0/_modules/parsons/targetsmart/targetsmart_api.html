@@ -150,7 +150,7 @@
         <span class="k">return</span> <span class="kc">None</span>
 
     <span class="k">def</span> <span class="nf">data_enhance</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">search_id</span><span class="p">,</span> <span class="n">search_id_type</span><span class="o">=</span><span class="s1">&#39;voterbase&#39;</span><span class="p">,</span> <span class="n">state</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Searches for a record based on an id or phone or email address</span>
 
 <span class="sd">        `Args:`</span>
@@ -190,7 +190,7 @@
                       <span class="n">radius_size</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">radius_unit</span><span class="o">=</span><span class="s1">&#39;miles&#39;</span><span class="p">,</span> <span class="n">max_results</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">gender</span><span class="o">=</span><span class="s1">&#39;a&#39;</span><span class="p">,</span>
                       <span class="n">age_min</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">age_max</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">composite_score_min</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">composite_score_max</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span>
                       <span class="n">last_name_exact</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">last_name_is_prefix</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">last_name_prefix_length</span><span class="o">=</span><span class="mi">10</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Search for a person based on a specified radius</span>
 
 <span class="sd">        `Args`:</span>
@@ -279,7 +279,7 @@
         <span class="k">return</span> <span class="n">Table</span><span class="p">([</span><span class="n">itm</span> <span class="k">for</span> <span class="n">itm</span> <span class="ow">in</span> <span class="n">r</span><span class="p">[</span><span class="s1">&#39;output&#39;</span><span class="p">]])</span><span class="o">.</span><span class="n">unpack_dict</span><span class="p">(</span><span class="s1">&#39;data_fields&#39;</span><span class="p">,</span> <span class="n">prepend</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">phone</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">table</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Match based on a list of 500 phones numbers. Table</span>
 <span class="sd">        can contain up to 500 phone numbers to match</span>
 
@@ -306,7 +306,7 @@
 
     <span class="k">def</span> <span class="nf">district</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">search_type</span><span class="o">=</span><span class="s1">&#39;zip&#39;</span><span class="p">,</span> <span class="n">address</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">zip5</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">zip4</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">state</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
                  <span class="n">latitude</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">longitude</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Return district information based on a geographic point. The method allows you to</span>
 <span class="sd">        search based on the following:</span>
 
@@ -389,7 +389,7 @@
                                  <span class="n">age</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">dob</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">phone</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">email</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
                                  <span class="n">unparsed_full_address</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
                                  <span class="n">obj_type</span><span class="o">=</span><span class="s2">&quot;dict&quot;</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Searches for a registered individual, returns matches.</span>
 
 <span class="sd">        A search must include the at minimum first name, last name and state.</span>

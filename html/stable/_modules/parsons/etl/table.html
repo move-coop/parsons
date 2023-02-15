@@ -146,7 +146,7 @@
 
 
 <div class="viewcode-block" id="Table"><a class="viewcode-back" href="../../../table.html#parsons.etl.table.Table">[docs]</a><span class="k">class</span> <span class="nc">Table</span><span class="p">(</span><span class="n">ETL</span><span class="p">,</span> <span class="n">ToFrom</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Create a Parsons Table. Accepts one of the following:</span>
 <span class="sd">    - A list of lists, with list[0] holding field names, and the other lists holding data</span>
 <span class="sd">    - A list of dicts</span>
@@ -227,7 +227,7 @@
         <span class="k">return</span> <span class="n">petl</span><span class="o">.</span><span class="n">nrows</span><span class="p">(</span><span class="n">head_one</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span>
 
     <span class="k">def</span> <span class="nf">_repr_html_</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Leverage Petl functionality to display well formatted tables in Jupyter Notebook.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
@@ -235,7 +235,7 @@
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">num_rows</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        `Returns:`</span>
 <span class="sd">            int</span>
 <span class="sd">                Number of rows in the table</span>
@@ -244,7 +244,7 @@
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">data</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Returns an iterable object for iterating over the raw data rows as tuples</span>
 <span class="sd">        (without field names)</span>
 <span class="sd">        &quot;&quot;&quot;</span>
@@ -252,7 +252,7 @@
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">columns</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        `Returns:`</span>
 <span class="sd">            list</span>
 <span class="sd">                List of the table&#39;s column names</span>
@@ -261,7 +261,7 @@
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">first</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Returns the first value in the table. Useful for database queries that only</span>
 <span class="sd">        return a single value.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
@@ -274,7 +274,7 @@
             <span class="k">return</span> <span class="kc">None</span>
 
     <span class="k">def</span> <span class="nf">row_data</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">row_index</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Returns a row in table</span>
 
 <span class="sd">        `Args:`</span>
@@ -298,7 +298,7 @@
         <span class="k">return</span> <span class="n">petl</span><span class="o">.</span><span class="n">dicts</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">table</span><span class="p">)[</span><span class="n">row_index</span><span class="p">]</span>
 
     <span class="k">def</span> <span class="nf">column_data</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">column_name</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Returns the data in the column as a list.</span>
 
 <span class="sd">        `Args:`</span>
@@ -316,7 +316,7 @@
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;Column name not found.&#39;</span><span class="p">)</span>
 
 <div class="viewcode-block" id="Table.materialize"><a class="viewcode-back" href="../../../table.html#parsons.etl.table.Table.materialize">[docs]</a>    <span class="k">def</span> <span class="nf">materialize</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        &quot;Materializes&quot; a Table, meaning all data is loaded into memory and all pending</span>
 <span class="sd">        transformations are applied.</span>
 
@@ -327,7 +327,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">table</span> <span class="o">=</span> <span class="n">petl</span><span class="o">.</span><span class="n">wrap</span><span class="p">(</span><span class="n">petl</span><span class="o">.</span><span class="n">tupleoftuples</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">table</span><span class="p">))</span></div>
 
 <div class="viewcode-block" id="Table.materialize_to_file"><a class="viewcode-back" href="../../../table.html#parsons.etl.table.Table.materialize_to_file">[docs]</a>    <span class="k">def</span> <span class="nf">materialize_to_file</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">file_path</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        &quot;Materializes&quot; a Table, meaning all pending transformations are applied.</span>
 
 <span class="sd">        Unlike the original materialize function, this method does not bring the data into memory,</span>
@@ -360,7 +360,7 @@
         <span class="k">return</span> <span class="n">file_path</span></div>
 
     <span class="k">def</span> <span class="nf">is_valid_table</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Performs some simple checks on a Table. Specifically, verifies that we have a valid petl</span>
 <span class="sd">        table within the Parsons Table.</span>
 
@@ -379,7 +379,7 @@
         <span class="k">return</span> <span class="kc">True</span>
 
     <span class="k">def</span> <span class="nf">empty_column</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">column</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Checks if a given column is empty. Returns ``True`` if empty and ``False``</span>
 <span class="sd">        if not empty.</span>
 

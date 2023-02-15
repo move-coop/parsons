@@ -161,7 +161,7 @@
 
 <div class="viewcode-block" id="GitHub"><a class="viewcode-back" href="../../../github.html#parsons.GitHub">[docs]</a><span class="nd">@decorate_methods</span><span class="p">(</span><span class="n">wrap_github_404</span><span class="p">)</span>
 <span class="k">class</span> <span class="nc">GitHub</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Creates a GitHub class for accessing the GitHub API.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Creates a GitHub class for accessing the GitHub API.</span>
 
 <span class="sd">    Uses ``parsons.utilities.check_env`` to load credentials from environment variables if not</span>
 <span class="sd">    supplied. Supports either a username and password or an access token for authentication. The</span>
@@ -193,7 +193,7 @@
             <span class="bp">self</span><span class="o">.</span><span class="n">client</span> <span class="o">=</span> <span class="n">PyGithub</span><span class="p">()</span>
 
     <span class="k">def</span> <span class="nf">_as_table</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">paginated_list</span><span class="p">,</span> <span class="n">page</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">page_size</span><span class="o">=</span><span class="mi">100</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Converts a paginated list into a Parsons ``Table``. Uses the ``_rawData`` property of</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Converts a paginated list into a Parsons ``Table``. Uses the ``_rawData`` property of</span>
 <span class="sd">        each item instead of calling ``raw_data`` to avoid making a separate request for each item</span>
 <span class="sd">        in a page for types that PyGithub doesn&#39;t consider complete.</span>
 
@@ -220,7 +220,7 @@
         <span class="k">return</span> <span class="n">Table</span><span class="p">([</span><span class="n">list_item</span><span class="o">.</span><span class="n">_rawData</span> <span class="k">for</span> <span class="n">list_item</span> <span class="ow">in</span> <span class="n">list_pages</span><span class="p">])</span>
 
     <span class="k">def</span> <span class="nf">get_user</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">username</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Loads a GitHub user by username</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Loads a GitHub user by username</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            username: str</span>
@@ -234,7 +234,7 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">get_user</span><span class="p">(</span><span class="n">username</span><span class="p">)</span><span class="o">.</span><span class="n">raw_data</span>
 
     <span class="k">def</span> <span class="nf">get_organization</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">organization_name</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Loads a GitHub organization by name</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Loads a GitHub organization by name</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            organization_name: str</span>
@@ -248,7 +248,7 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">get_organization</span><span class="p">(</span><span class="n">organization_name</span><span class="p">)</span><span class="o">.</span><span class="n">raw_data</span>
 
     <span class="k">def</span> <span class="nf">get_repo</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">repo_name</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Loads a GitHub repo by name</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Loads a GitHub repo by name</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            repo_name: str</span>
@@ -262,7 +262,7 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">get_repo</span><span class="p">(</span><span class="n">repo_name</span><span class="p">)</span><span class="o">.</span><span class="n">raw_data</span>
 
     <span class="k">def</span> <span class="nf">list_user_repos</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">username</span><span class="p">,</span> <span class="n">page</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">page_size</span><span class="o">=</span><span class="mi">100</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;List user repos with pagination, returning a ``Table``</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;List user repos with pagination, returning a ``Table``</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            username: str</span>
@@ -284,7 +284,7 @@
         <span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">list_organization_repos</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">organization_name</span><span class="p">,</span> <span class="n">page</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">page_size</span><span class="o">=</span><span class="mi">100</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;List organization repos with pagination, returning a ``Table``</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;List organization repos with pagination, returning a ``Table``</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            organization_name: str</span>
@@ -308,7 +308,7 @@
         <span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">get_issue</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">repo_name</span><span class="p">,</span> <span class="n">issue_number</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Loads a GitHub issue</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Loads a GitHub issue</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            repo_name: str</span>
@@ -326,7 +326,7 @@
     <span class="k">def</span> <span class="nf">list_repo_issues</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">repo_name</span><span class="p">,</span> <span class="n">state</span><span class="o">=</span><span class="s2">&quot;open&quot;</span><span class="p">,</span> <span class="n">assignee</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">creator</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">mentioned</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
                          <span class="n">labels</span><span class="o">=</span><span class="p">[],</span> <span class="n">sort</span><span class="o">=</span><span class="s2">&quot;created&quot;</span><span class="p">,</span> <span class="n">direction</span><span class="o">=</span><span class="s2">&quot;desc&quot;</span><span class="p">,</span> <span class="n">since</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">page</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
                          <span class="n">page_size</span><span class="o">=</span><span class="mi">100</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;List issues for a given repo</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;List issues for a given repo</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            repo_name: str</span>
@@ -379,7 +379,7 @@
         <span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">get_pull_request</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">repo_name</span><span class="p">,</span> <span class="n">pull_request_number</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Loads a GitHub pull request</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Loads a GitHub pull request</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            repo_name: str</span>
@@ -396,7 +396,7 @@
 
     <span class="k">def</span> <span class="nf">list_repo_pull_requests</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">repo_name</span><span class="p">,</span> <span class="n">state</span><span class="o">=</span><span class="s2">&quot;open&quot;</span><span class="p">,</span> <span class="n">base</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">sort</span><span class="o">=</span><span class="s2">&quot;created&quot;</span><span class="p">,</span>
                                 <span class="n">direction</span><span class="o">=</span><span class="s2">&quot;desc&quot;</span><span class="p">,</span> <span class="n">page</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">page_size</span><span class="o">=</span><span class="mi">100</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Lists pull requests for a given repo</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Lists pull requests for a given repo</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            repo_name: str</span>
@@ -431,7 +431,7 @@
         <span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">list_repo_contributors</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">repo_name</span><span class="p">,</span> <span class="n">page</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">page_size</span><span class="o">=</span><span class="mi">100</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Lists contributors for a given repo</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Lists contributors for a given repo</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            repo_name: str</span>
@@ -453,7 +453,7 @@
         <span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">download_file</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">repo_name</span><span class="p">,</span> <span class="n">path</span><span class="p">,</span> <span class="n">branch</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">local_path</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Download a file from a repo by path and branch. Defaults to the repo&#39;s default branch if</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Download a file from a repo by path and branch. Defaults to the repo&#39;s default branch if</span>
 <span class="sd">        branch is not supplied.</span>
 
 <span class="sd">        Uses the download_url directly rather than the API because the API only supports contents up</span>
@@ -510,7 +510,7 @@
         <span class="k">return</span> <span class="n">local_path</span>
 
     <span class="k">def</span> <span class="nf">download_table</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">repo_name</span><span class="p">,</span> <span class="n">path</span><span class="p">,</span> <span class="n">branch</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">local_path</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">delimiter</span><span class="o">=</span><span class="s1">&#39;,&#39;</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Download a CSV file from a repo by path and branch as a Parsons Table.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Download a CSV file from a repo by path and branch as a Parsons Table.</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            repo_name: str</span>

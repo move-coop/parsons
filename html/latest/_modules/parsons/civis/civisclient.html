@@ -65,12 +65,13 @@
 <li class="toctree-l1"><a class="reference internal" href="../../../mobilize_america.html">Mobilize America</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../newmode.html">New/Mode</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../ngpvan.html">NGPVAN</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../pdi.html">PDI</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../p2a.html">Phone2Action</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../pdi.html">PDI</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../quickbase.html">Quickbase</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../redash.html">Redash</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../rockthevote.html">Rock the Vote</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../salesforce.html">Salesforce</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../scytl.html">Scytl</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../sftp.html">SFTP</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../shopify.html">Shopify</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../sisense.html">Sisense</a></li>
@@ -139,7 +140,7 @@
 
 
 <div class="viewcode-block" id="CivisClient"><a class="viewcode-back" href="../../../civis.html#parsons.CivisClient">[docs]</a><span class="k">class</span> <span class="nc">CivisClient</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Instantiate the Civis class.</span>
 
 <span class="sd">    `Args:`</span>
@@ -159,14 +160,14 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">db</span> <span class="o">=</span> <span class="n">check_env</span><span class="o">.</span><span class="n">check</span><span class="p">(</span><span class="s1">&#39;CIVIS_DATABASE&#39;</span><span class="p">,</span> <span class="n">db</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">api_key</span> <span class="o">=</span> <span class="n">check_env</span><span class="o">.</span><span class="n">check</span><span class="p">(</span><span class="s1">&#39;CIVIS_API_KEY&#39;</span><span class="p">,</span> <span class="n">api_key</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">client</span> <span class="o">=</span> <span class="n">civis</span><span class="o">.</span><span class="n">APIClient</span><span class="p">(</span><span class="n">api_key</span><span class="o">=</span><span class="n">api_key</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        The Civis API client. Utilize this attribute to access to lower level and more</span>
 <span class="sd">        advanced methods which might not be surfaced in Parsons. A list of the methods</span>
 <span class="sd">        can be found by reading the Civis API client `documentation &lt;https://civis-python.readthedocs.io/en/stable/client.html&gt;`_.</span>
 <span class="sd">        &quot;&quot;&quot;</span>  <span class="c1"># noqa: E501</span>
 
 <div class="viewcode-block" id="CivisClient.query"><a class="viewcode-back" href="../../../civis.html#parsons.CivisClient.query">[docs]</a>    <span class="k">def</span> <span class="nf">query</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sql</span><span class="p">,</span> <span class="n">preview_rows</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">polling_interval</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">hidden</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">wait</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Execute a SQL statement as a Civis query.</span>
 
 <span class="sd">        Run a query that may return no results or where only a small</span>
@@ -209,7 +210,7 @@
 <div class="viewcode-block" id="CivisClient.table_import"><a class="viewcode-back" href="../../../civis.html#parsons.CivisClient.table_import">[docs]</a>    <span class="k">def</span> <span class="nf">table_import</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">table_obj</span><span class="p">,</span> <span class="n">table</span><span class="p">,</span> <span class="n">max_errors</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
                      <span class="n">existing_table_rows</span><span class="o">=</span><span class="s1">&#39;fail&#39;</span><span class="p">,</span> <span class="n">diststyle</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">distkey</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
                      <span class="n">sortkey1</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">sortkey2</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">wait</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="o">**</span><span class="n">civisargs</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Write the table to a Civis Redshift cluster. Additional key word</span>
 <span class="sd">        arguments can passed to `civis.io.dataframe_to_civis()  &lt;https://civis-python.readthedocs.io/en/v1.9.0/generated/civis.io.dataframe_to_civis.html#civis.io.dataframe_to_civis&gt;`_ # noqa: E501</span>
 

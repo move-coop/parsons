@@ -65,12 +65,13 @@
 <li class="toctree-l1"><a class="reference internal" href="../../../mobilize_america.html">Mobilize America</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../newmode.html">New/Mode</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../ngpvan.html">NGPVAN</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../pdi.html">PDI</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../p2a.html">Phone2Action</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../pdi.html">PDI</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../quickbase.html">Quickbase</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../redash.html">Redash</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../rockthevote.html">Rock the Vote</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../salesforce.html">Salesforce</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../scytl.html">Scytl</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../sftp.html">SFTP</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../shopify.html">Shopify</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../sisense.html">Sisense</a></li>
@@ -145,7 +146,7 @@
 
 
 <div class="viewcode-block" id="Bluelink"><a class="viewcode-back" href="../../../bluelink.html#parsons.bluelink.Bluelink">[docs]</a><span class="k">class</span> <span class="nc">Bluelink</span><span class="p">:</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Instantiate a Bluelink connector.</span>
 <span class="sd">    Allows for a simple method of inserting person data to Bluelink via a webhook.</span>
 <span class="sd">    # see: https://bluelinkdata.github.io/docs/BluelinkApiGuide#webhook</span>
@@ -166,7 +167,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">api</span> <span class="o">=</span> <span class="n">APIConnector</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">api_url</span><span class="p">,</span> <span class="n">auth</span><span class="o">=</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">user</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">password</span><span class="p">),</span> <span class="n">headers</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">headers</span><span class="p">)</span>
 
 <div class="viewcode-block" id="Bluelink.upsert_person"><a class="viewcode-back" href="../../../bluelink.html#parsons.bluelink.Bluelink.upsert_person">[docs]</a>    <span class="k">def</span> <span class="nf">upsert_person</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">source</span><span class="p">,</span> <span class="n">person</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Upsert a BluelinkPerson object into Bluelink.</span>
 <span class="sd">        Rows will update, as opposed to being inserted, if an existing person record in</span>
 <span class="sd">        Bluelink has a matching BluelinkIdentifier (same source and id) as the BluelinkPerson object</span>
@@ -193,7 +194,7 @@
         <span class="k">return</span> <span class="n">resp</span></div>
 
 <div class="viewcode-block" id="Bluelink.bulk_upsert_person"><a class="viewcode-back" href="../../../bluelink.html#parsons.bluelink.Bluelink.bulk_upsert_person">[docs]</a>    <span class="k">def</span> <span class="nf">bulk_upsert_person</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">source</span><span class="p">,</span> <span class="n">tbl</span><span class="p">,</span> <span class="n">row_to_person</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Upsert all rows into Bluelink, using the row_to_person function to</span>
 <span class="sd">        transform rows to BluelinkPerson objects.</span>
 

@@ -65,12 +65,13 @@
 <li class="toctree-l1"><a class="reference internal" href="../../../mobilize_america.html">Mobilize America</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../newmode.html">New/Mode</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../ngpvan.html">NGPVAN</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../pdi.html">PDI</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../p2a.html">Phone2Action</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../pdi.html">PDI</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../quickbase.html">Quickbase</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../redash.html">Redash</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../rockthevote.html">Rock the Vote</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../salesforce.html">Salesforce</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../scytl.html">Scytl</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../sftp.html">SFTP</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../shopify.html">Shopify</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../sisense.html">Sisense</a></li>
@@ -180,7 +181,7 @@
 
 <span class="nd">@dataclass</span>
 <span class="k">class</span> <span class="nc">CountyDetails</span><span class="p">:</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    A class for keeping track of County election details.</span>
 
 <span class="sd">    A dataclass is decorator that adds special functions including an</span>
@@ -194,7 +195,7 @@
 
 
 <div class="viewcode-block" id="Scytl"><a class="viewcode-back" href="../../../scytl.html#parsons.Scytl">[docs]</a><span class="k">class</span> <span class="nc">Scytl</span><span class="p">:</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Instantiate a Scytl connector.</span>
 
 <span class="sd">    `Args:`:</span>
@@ -223,7 +224,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">previously_fetched_counties</span> <span class="o">=</span> <span class="nb">set</span><span class="p">([])</span>
 
     <span class="k">def</span> <span class="nf">_parse_date_to_utc</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">input_dt</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">datetime</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Parse datetime string as datetime in UTC</span>
 
 <span class="sd">        `Args`:</span>
@@ -242,7 +243,7 @@
         <span class="k">return</span> <span class="n">temp</span>
 
     <span class="k">def</span> <span class="nf">_get_version</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">administrator</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">election_id</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Fetch the latest version of the election results from the Clarity site</span>
 
 <span class="sd">        `Args`:</span>
@@ -265,7 +266,7 @@
         <span class="k">return</span> <span class="n">res</span><span class="o">.</span><span class="n">text</span>
 
     <span class="k">def</span> <span class="nf">_parse_file_from_zip_url</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">zipfile_url</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">file_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bytes</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Fetch a zip file from the given url and unzip to a byte array</span>
 
 <span class="sd">        `Args`:</span>
@@ -291,7 +292,7 @@
     <span class="k">def</span> <span class="nf">_get_latest_counties_scytl_info</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span> <span class="n">state</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">election_id</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">version_num</span><span class="p">:</span> <span class="nb">str</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">t</span><span class="o">.</span><span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">CountyDetails</span><span class="p">]:</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Fetch the settings JSON file for the election and parse the county details</span>
 <span class="sd">        for participating counties in a state election.</span>
 
@@ -341,7 +342,7 @@
     <span class="k">def</span> <span class="nf">_parse_county_xml_data_to_precincts</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span> <span class="n">county_data</span><span class="p">:</span> <span class="nb">bytes</span><span class="p">,</span> <span class="n">county_details</span><span class="p">:</span> <span class="n">CountyDetails</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">t</span><span class="o">.</span><span class="n">List</span><span class="p">[</span><span class="n">t</span><span class="o">.</span><span class="n">Dict</span><span class="p">]:</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Parse a detail XML file for a county into a list of election</span>
 <span class="sd">        results by precinct and vote method.</span>
 
@@ -428,7 +429,7 @@
     <span class="k">def</span> <span class="nf">_parse_state_xml_data_to_counties</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span> <span class="n">state_data</span><span class="p">:</span> <span class="nb">bytes</span><span class="p">,</span> <span class="n">state</span><span class="p">:</span> <span class="nb">str</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">t</span><span class="o">.</span><span class="n">List</span><span class="p">[</span><span class="n">t</span><span class="o">.</span><span class="n">Dict</span><span class="p">]:</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Parse a detail XML file for a state into a list of election</span>
 <span class="sd">        results by county and vote method.</span>
 
@@ -508,7 +509,7 @@
     <span class="k">def</span> <span class="nf">_fetch_and_parse_summary_results</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span> <span class="n">administrator</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">election_id</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">version_num</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">county</span><span class="o">=</span><span class="s1">&#39;&#39;</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">t</span><span class="o">.</span><span class="n">List</span><span class="p">[</span><span class="n">t</span><span class="o">.</span><span class="n">Dict</span><span class="p">]:</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Fetches the summary results CSV file from the Scytl site and parses it</span>
 <span class="sd">        into a list of election results by candidate.</span>
 
@@ -554,7 +555,7 @@
         <span class="k">return</span> <span class="n">data</span>
 
 <div class="viewcode-block" id="Scytl.get_summary_results"><a class="viewcode-back" href="../../../scytl.html#parsons.Scytl.get_summary_results">[docs]</a>    <span class="k">def</span> <span class="nf">get_summary_results</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">force_update</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">t</span><span class="o">.</span><span class="n">List</span><span class="p">[</span><span class="n">t</span><span class="o">.</span><span class="n">Dict</span><span class="p">]:</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Fetch the latest summary results for the given election, across all contests.</span>
 
 <span class="sd">        Please note that all electoral entities administer their elections differently,</span>
@@ -599,7 +600,7 @@
         <span class="k">return</span> <span class="n">data</span></div>
 
 <div class="viewcode-block" id="Scytl.get_detailed_results"><a class="viewcode-back" href="../../../scytl.html#parsons.Scytl.get_detailed_results">[docs]</a>    <span class="k">def</span> <span class="nf">get_detailed_results</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">force_update</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">t</span><span class="o">.</span><span class="n">List</span><span class="p">[</span><span class="n">t</span><span class="o">.</span><span class="n">Dict</span><span class="p">]:</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Fetch the latest detailed results by geography for the given election, across all contests.</span>
 
 <span class="sd">        Please note that all electoral entities administer their elections differently,</span>
@@ -687,7 +688,7 @@
         <span class="n">county_names</span><span class="p">:</span> <span class="n">t</span><span class="o">.</span><span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="n">force_update</span><span class="o">=</span><span class="kc">False</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">t</span><span class="o">.</span><span class="n">Tuple</span><span class="p">[</span><span class="n">t</span><span class="o">.</span><span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span> <span class="n">t</span><span class="o">.</span><span class="n">List</span><span class="p">[</span><span class="n">t</span><span class="o">.</span><span class="n">Dict</span><span class="p">]]:</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Fetch the latest detailed results for the given election for all participating counties</span>
 <span class="sd">            with detailed results, across all contests.</span>
 

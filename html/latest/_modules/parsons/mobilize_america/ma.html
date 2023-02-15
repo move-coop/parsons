@@ -65,12 +65,13 @@
 <li class="toctree-l1"><a class="reference internal" href="../../../mobilize_america.html">Mobilize America</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../newmode.html">New/Mode</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../ngpvan.html">NGPVAN</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../pdi.html">PDI</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../p2a.html">Phone2Action</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../pdi.html">PDI</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../quickbase.html">Quickbase</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../redash.html">Redash</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../rockthevote.html">Rock the Vote</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../salesforce.html">Salesforce</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../scytl.html">Scytl</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../sftp.html">SFTP</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../shopify.html">Shopify</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../sisense.html">Sisense</a></li>
@@ -148,7 +149,7 @@
 
 
 <div class="viewcode-block" id="MobilizeAmerica"><a class="viewcode-back" href="../../../mobilize_america.html#parsons.MobilizeAmerica">[docs]</a><span class="k">class</span> <span class="nc">MobilizeAmerica</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Instantiate MobilizeAmerica Class</span>
 
 <span class="sd">    api_key: str</span>
@@ -223,7 +224,7 @@
         <span class="k">return</span> <span class="n">time_arg</span>
 
 <div class="viewcode-block" id="MobilizeAmerica.get_organizations"><a class="viewcode-back" href="../../../mobilize_america.html#parsons.MobilizeAmerica.get_organizations">[docs]</a>    <span class="k">def</span> <span class="nf">get_organizations</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">updated_since</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Return all active organizations on the platform.</span>
 
 <span class="sd">        `Args:`</span>
@@ -240,7 +241,7 @@
                                             <span class="p">}))</span></div>
 
 <div class="viewcode-block" id="MobilizeAmerica.get_promoted_organizations"><a class="viewcode-back" href="../../../mobilize_america.html#parsons.MobilizeAmerica.get_promoted_organizations">[docs]</a>    <span class="k">def</span> <span class="nf">get_promoted_organizations</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">organization_id</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Return all organizations promoted by the given organization.</span>
 
 <span class="sd">        `Args:`</span>
@@ -254,7 +255,7 @@
 
 <div class="viewcode-block" id="MobilizeAmerica.get_events"><a class="viewcode-back" href="../../../mobilize_america.html#parsons.MobilizeAmerica.get_events">[docs]</a>    <span class="k">def</span> <span class="nf">get_events</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">organization_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">updated_since</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">timeslot_start</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
                    <span class="n">timeslot_end</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">timeslots_table</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">max_timeslots</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Fetch all public events on the platform.</span>
 
 <span class="sd">        `Args:`</span>
@@ -327,7 +328,7 @@
 
 <div class="viewcode-block" id="MobilizeAmerica.get_events_organization"><a class="viewcode-back" href="../../../mobilize_america.html#parsons.MobilizeAmerica.get_events_organization">[docs]</a>    <span class="k">def</span> <span class="nf">get_events_organization</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">organization_id</span><span class="p">,</span> <span class="n">updated_since</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">timeslot_start</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
                                 <span class="n">timeslot_end</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">timeslots_table</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">max_timeslots</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Fetch all public events for an organization. This includes both events owned</span>
 <span class="sd">        by the organization (as indicated by the organization field on the event object)</span>
 <span class="sd">        and events of other organizations promoted by this specified organization.</span>
@@ -424,7 +425,7 @@
         <span class="k">return</span> <span class="n">tbl</span></div>
 
 <div class="viewcode-block" id="MobilizeAmerica.get_events_deleted"><a class="viewcode-back" href="../../../mobilize_america.html#parsons.MobilizeAmerica.get_events_deleted">[docs]</a>    <span class="k">def</span> <span class="nf">get_events_deleted</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">organization_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">updated_since</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Fetch deleted public events on the platform.</span>
 
 <span class="sd">        `Args:`</span>
@@ -446,7 +447,7 @@
         <span class="k">return</span> <span class="n">Table</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_request_paginate</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">uri</span> <span class="o">+</span> <span class="s1">&#39;events/deleted&#39;</span><span class="p">,</span> <span class="n">args</span><span class="o">=</span><span class="n">args</span><span class="p">))</span></div>
 
 <div class="viewcode-block" id="MobilizeAmerica.get_people"><a class="viewcode-back" href="../../../mobilize_america.html#parsons.MobilizeAmerica.get_people">[docs]</a>    <span class="k">def</span> <span class="nf">get_people</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">organization_id</span><span class="p">,</span> <span class="n">updated_since</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Fetch all people (volunteers) who are affiliated with an organization(s).</span>
 
 <span class="sd">        .. note::</span>
@@ -472,7 +473,7 @@
             <span class="k">return</span> <span class="n">Table</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_request_paginate</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">args</span><span class="o">=</span><span class="n">args</span><span class="p">,</span> <span class="n">auth</span><span class="o">=</span><span class="kc">True</span><span class="p">))</span></div>
 
 <div class="viewcode-block" id="MobilizeAmerica.get_attendances"><a class="viewcode-back" href="../../../mobilize_america.html#parsons.MobilizeAmerica.get_attendances">[docs]</a>    <span class="k">def</span> <span class="nf">get_attendances</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">organization_id</span><span class="p">,</span> <span class="n">updated_since</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Fetch all attendances which were either promoted by the organization or</span>
 <span class="sd">        were for events owned by the organization.</span>
 

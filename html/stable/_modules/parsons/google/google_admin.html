@@ -141,7 +141,7 @@
 
 
 <div class="viewcode-block" id="GoogleAdmin"><a class="viewcode-back" href="../../../google.html#parsons.google.google_admin.GoogleAdmin">[docs]</a><span class="k">class</span> <span class="nc">GoogleAdmin</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    A connector for Google Admin.</span>
 
 
@@ -198,7 +198,7 @@
         <span class="k">return</span> <span class="n">Table</span><span class="p">(</span><span class="n">ret</span><span class="p">)</span>
 
 <div class="viewcode-block" id="GoogleAdmin.get_all_group_members"><a class="viewcode-back" href="../../../google.html#parsons.google.google_admin.GoogleAdmin.get_all_group_members">[docs]</a>    <span class="k">def</span> <span class="nf">get_all_group_members</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">group_key</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Get all members in a group. `Google Admin API Documentation &lt;https://developers.google.com/\</span>
 <span class="sd">        admin-sdk/directory/v1/guides/manage-group-members#get_all_members&gt;`_</span>
 
@@ -213,7 +213,7 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_paginate_request</span><span class="p">(</span><span class="s1">&#39;groups/&#39;</span> <span class="o">+</span> <span class="n">group_key</span> <span class="o">+</span> <span class="s1">&#39;/members&#39;</span><span class="p">,</span> <span class="s1">&#39;members&#39;</span><span class="p">,</span> <span class="n">params</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="GoogleAdmin.get_all_groups"><a class="viewcode-back" href="../../../google.html#parsons.google.google_admin.GoogleAdmin.get_all_groups">[docs]</a>    <span class="k">def</span> <span class="nf">get_all_groups</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Get all groups in a domain or account. `Google Admin API Documentation &lt;https://developers.\</span>
 <span class="sd">        google.com/admin-sdk/directory/v1/guides/manage-groups#get_all_domain_groups&gt;`_</span>
 <span class="sd">        `Args:`</span>

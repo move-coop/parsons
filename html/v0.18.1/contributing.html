@@ -199,7 +199,7 @@
 <h4>Installing Dependencies<a class="headerlink" href="#installing-dependencies" title="Permalink to this headline"></a></h4>
 <p>Before running or testing your code changes, be sure to install all of the required Python libraries that Parsons depends on.</p>
 <p>From the root of the parsons repository, use the run the following command:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>&gt; pip install -r requirements.txt
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>&gt;<span class="w"> </span>pip<span class="w"> </span>install<span class="w"> </span>-r<span class="w"> </span>requirements.txt
 </pre></div>
 </div>
 </section>
@@ -208,7 +208,7 @@
 <p>When contributing code, we ask you to add to tests that can be used to verify that the code is working as expected. All of our unit tests are located in the <code class="docutils literal notranslate"><span class="pre">test/</span></code> folder at the root of the repository.</p>
 <p>We use the pytest tool to run our suite of automated unit tests. The pytest command line tool is installed as part of the Parsons dependencies.</p>
 <p>To run all the entire suite of unit tests, execute the following command:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>&gt; pytest -rf test/
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>&gt;<span class="w"> </span>pytest<span class="w"> </span>-rf<span class="w"> </span>test/
 </pre></div>
 </div>
 <p>Once the pytest tool has finished running all of the tests, it will output details around any errors or test failures it encountered. If no failures are identified, then you are good to go!</p>
@@ -219,7 +219,7 @@
 <h4>Linting<a class="headerlink" href="#linting" title="Permalink to this headline"></a></h4>
 <p>We use the <a class="reference external" href="http://flake8.pycqa.org/en/latest/">flake8</a> tool to <a class="reference external" href="https://en.wikipedia.org/wiki/Lint_(software)">lint</a> the code in the repository to make sure it matches our preferred style. The flake8 command line tool is installed as part of the Parsons dependencies.</p>
 <p>Run the following command from the root of the Parsons repository to lint your code changes:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>&gt; flake8 --max-line-length<span class="o">=</span><span class="m">100</span> parsons
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>&gt;<span class="w"> </span>flake8<span class="w"> </span>--max-line-length<span class="o">=</span><span class="m">100</span><span class="w"> </span>parsons
 </pre></div>
 </div>
 </section>

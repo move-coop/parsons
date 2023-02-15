@@ -126,7 +126,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">connection</span> <span class="o">=</span> <span class="n">van_connection</span>
 
 <div class="viewcode-block" id="Scores.get_scores"><a class="viewcode-back" href="../../../ngpvan.html#parsons.ngpvan.van.Scores.get_scores">[docs]</a>    <span class="k">def</span> <span class="nf">get_scores</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Get all scores.</span>
 
 <span class="sd">        `Returns:`</span>
@@ -139,7 +139,7 @@
         <span class="k">return</span> <span class="n">tbl</span></div>
 
 <div class="viewcode-block" id="Scores.get_score"><a class="viewcode-back" href="../../../ngpvan.html#parsons.ngpvan.van.Scores.get_score">[docs]</a>    <span class="k">def</span> <span class="nf">get_score</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">score_id</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Get an individual score.</span>
 
 <span class="sd">        `Args:`</span>
@@ -154,7 +154,7 @@
         <span class="k">return</span> <span class="n">r</span></div>
 
 <div class="viewcode-block" id="Scores.get_score_updates"><a class="viewcode-back" href="../../../ngpvan.html#parsons.ngpvan.van.Scores.get_score_updates">[docs]</a>    <span class="k">def</span> <span class="nf">get_score_updates</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">created_before</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">created_after</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">score_id</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Get score updates.</span>
 
 <span class="sd">        `Args:`</span>
@@ -181,7 +181,7 @@
         <span class="k">return</span> <span class="n">tbl</span></div>
 
 <div class="viewcode-block" id="Scores.get_score_update"><a class="viewcode-back" href="../../../ngpvan.html#parsons.ngpvan.van.Scores.get_score_update">[docs]</a>    <span class="k">def</span> <span class="nf">get_score_update</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">score_update_id</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Get a score update object</span>
 
 <span class="sd">            `Args:`</span>
@@ -196,7 +196,7 @@
         <span class="k">return</span> <span class="n">r</span></div>
 
 <div class="viewcode-block" id="Scores.update_score_status"><a class="viewcode-back" href="../../../ngpvan.html#parsons.ngpvan.van.Scores.update_score_status">[docs]</a>    <span class="k">def</span> <span class="nf">update_score_status</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">score_update_id</span><span class="p">,</span> <span class="n">status</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Change the status of a score update object. This end point is used to</span>
 <span class="sd">        approve a score loading job.</span>
 
@@ -229,7 +229,7 @@
 
 <div class="viewcode-block" id="Scores.upload_scores"><a class="viewcode-back" href="../../../ngpvan.html#parsons.ngpvan.van.Scores.upload_scores">[docs]</a>    <span class="k">def</span> <span class="nf">upload_scores</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tbl</span><span class="p">,</span> <span class="n">config</span><span class="p">,</span> <span class="n">url_type</span><span class="p">,</span> <span class="n">id_type</span><span class="o">=</span><span class="s1">&#39;vanid&#39;</span><span class="p">,</span> <span class="n">email</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">auto_approve</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
                       <span class="n">approve_tolerance</span><span class="o">=</span><span class="mf">.1</span><span class="p">,</span> <span class="o">**</span><span class="n">url_kwargs</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Upload scores. Use to create or overwrite scores. Multiple score loads</span>
 <span class="sd">        should be configured in a single call. [1]_</span>
 
@@ -330,7 +330,7 @@
                          <span class="n">score_id</span><span class="p">,</span> <span class="n">score_column</span><span class="p">,</span> <span class="n">delimiter</span><span class="o">=</span><span class="s1">&#39;csv&#39;</span><span class="p">,</span> <span class="n">header</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">quotes</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
                          <span class="n">description</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">email</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">auto_average</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
                          <span class="n">auto_tolerance</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        .. warning::</span>
 <span class="sd">           .. deprecated:: 0.7 Use :func:`parsons.VAN.upload_scores` instead.</span>
 
@@ -409,7 +409,7 @@
 <div class="viewcode-block" id="FileLoadingJobs.create_file_load_multi"><a class="viewcode-back" href="../../../ngpvan.html#parsons.ngpvan.van.FileLoadingJobs.create_file_load_multi">[docs]</a>    <span class="k">def</span> <span class="nf">create_file_load_multi</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">file_name</span><span class="p">,</span> <span class="n">file_url</span><span class="p">,</span> <span class="n">columns</span><span class="p">,</span> <span class="n">id_column</span><span class="p">,</span> <span class="n">id_type</span><span class="p">,</span>
                                <span class="n">score_map</span><span class="p">,</span> <span class="n">delimiter</span><span class="o">=</span><span class="s1">&#39;csv&#39;</span><span class="p">,</span> <span class="n">header</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">quotes</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
                                <span class="n">description</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">email</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        .. warning::</span>
 <span class="sd">           .. deprecated:: 0.7 Use :func:`parsons.VAN.upload_scores` instead.</span>
 

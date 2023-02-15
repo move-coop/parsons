@@ -118,7 +118,7 @@
 
 
 <div class="viewcode-block" id="DBSync"><a class="viewcode-back" href="../../../dbsync.html#parsons.DBSync">[docs]</a><span class="k">class</span> <span class="nc">DBSync</span><span class="p">:</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Sync tables between databases. Works with ``Postgres``, ``Redshift``, ``MySQL``</span>
 <span class="sd">    databases.</span>
 
@@ -142,7 +142,7 @@
 
 <div class="viewcode-block" id="DBSync.table_sync_full"><a class="viewcode-back" href="../../../dbsync.html#parsons.DBSync.table_sync_full">[docs]</a>    <span class="k">def</span> <span class="nf">table_sync_full</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">source_table</span><span class="p">,</span> <span class="n">destination_table</span><span class="p">,</span> <span class="n">if_exists</span><span class="o">=</span><span class="s1">&#39;drop&#39;</span><span class="p">,</span>
                         <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Full sync of table from a source database to a destination database. This will</span>
 <span class="sd">        wipe all data from the destination table.</span>
 
@@ -200,7 +200,7 @@
 
 <div class="viewcode-block" id="DBSync.table_sync_incremental"><a class="viewcode-back" href="../../../dbsync.html#parsons.DBSync.table_sync_incremental">[docs]</a>    <span class="k">def</span> <span class="nf">table_sync_incremental</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">source_table</span><span class="p">,</span> <span class="n">destination_table</span><span class="p">,</span> <span class="n">primary_key</span><span class="p">,</span>
                                <span class="n">distinct_check</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Incremental sync of table from a source database to a destination database</span>
 <span class="sd">        using an incremental primary key.</span>
 
@@ -289,7 +289,7 @@
         <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">source_table</span><span class="si">}</span><span class="s1"> synced to </span><span class="si">{</span><span class="n">destination_table</span><span class="si">}</span><span class="s1">.&#39;</span><span class="p">)</span></div>
 
     <span class="k">def</span> <span class="nf">_row_count_verify</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">source_table_obj</span><span class="p">,</span> <span class="n">destination_table_obj</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Ensure the the rows of the source table and the destination table match</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
@@ -305,7 +305,7 @@
         <span class="k">return</span> <span class="kc">True</span>
 
     <span class="k">def</span> <span class="nf">_check_column_match</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">source_table_obj</span><span class="p">,</span> <span class="n">destination_table_obj</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Ensure that the columns from each table match</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 

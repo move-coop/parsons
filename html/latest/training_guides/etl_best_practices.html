@@ -67,12 +67,13 @@
 <li class="toctree-l1"><a class="reference internal" href="../mobilize_america.html">Mobilize America</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../newmode.html">New/Mode</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../ngpvan.html">NGPVAN</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../pdi.html">PDI</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../p2a.html">Phone2Action</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../pdi.html">PDI</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../quickbase.html">Quickbase</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../redash.html">Redash</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../rockthevote.html">Rock the Vote</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../salesforce.html">Salesforce</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../scytl.html">Scytl</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../sftp.html">SFTP</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../shopify.html">Shopify</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../sisense.html">Sisense</a></li>
@@ -490,23 +491,23 @@ export MOBILIZE_AMERICA_API_KEY=$API_KEY    # Linux/Mac
 <section id="step-2-transforming-data-in-warehouse-with-sql">
 <h3><a class="toc-backref" href="#id12">Step 2: Transforming Data in Warehouse with SQL</a><a class="headerlink" href="#step-2-transforming-data-in-warehouse-with-sql" title="Permalink to this headline"></a></h3>
 <p>With our previous script, we transformed data using Python, but you may be more comfortable using SQL. When you’re using a data warehouse like Civis, you can run a SQL query or two (or more!) during the transformation step.</p>
-<div class="highlight-sql notranslate"><div class="highlight"><pre><span></span><span class="k">CREATE</span><span class="w"> </span><span class="k">TABLE</span><span class="w"> </span><span class="n">mobilize_schema</span><span class="p">.</span><span class="n">mobilize_users_to_sync</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="p">(</span><span class="w"></span>
+<div class="highlight-sql notranslate"><div class="highlight"><pre><span></span><span class="k">CREATE</span><span class="w"> </span><span class="k">TABLE</span><span class="w"> </span><span class="n">mobilize_schema</span><span class="p">.</span><span class="n">mobilize_users_to_sync</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="p">(</span>
 
-<span class="k">SELECT</span><span class="w"> </span><span class="k">DISTINCT</span><span class="w"></span>
-<span class="w">    </span><span class="n">user_id</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="n">mobilizeid</span><span class="w"></span>
-<span class="p">,</span><span class="w"> </span><span class="n">given_name</span><span class="w"></span>
-<span class="p">,</span><span class="w"> </span><span class="n">family_name</span><span class="w"></span>
-<span class="p">,</span><span class="w"> </span><span class="n">email_address</span><span class="w"></span>
-<span class="p">,</span><span class="w"> </span><span class="n">phone_number</span><span class="w"></span>
-<span class="p">,</span><span class="w"> </span><span class="n">postal_code</span><span class="w"></span>
-<span class="k">FROM</span><span class="w"> </span><span class="n">mobilize_schema</span><span class="p">.</span><span class="n">mobilize_participations</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="n">mob</span><span class="w"></span>
+<span class="k">SELECT</span><span class="w"> </span><span class="k">DISTINCT</span>
+<span class="w">    </span><span class="n">user_id</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="n">mobilizeid</span>
+<span class="p">,</span><span class="w"> </span><span class="n">given_name</span>
+<span class="p">,</span><span class="w"> </span><span class="n">family_name</span>
+<span class="p">,</span><span class="w"> </span><span class="n">email_address</span>
+<span class="p">,</span><span class="w"> </span><span class="n">phone_number</span>
+<span class="p">,</span><span class="w"> </span><span class="n">postal_code</span>
+<span class="k">FROM</span><span class="w"> </span><span class="n">mobilize_schema</span><span class="p">.</span><span class="n">mobilize_participations</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="n">mob</span>
 <span class="c1">-- Joining the log table lets us know which records have been synced</span>
 <span class="c1">-- and which records still need to be synced</span>
-<span class="k">LEFT</span><span class="w"> </span><span class="k">JOIN</span><span class="w"> </span><span class="n">cormac_scratch</span><span class="p">.</span><span class="n">mobilize_to_actionnetwork_log</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="n">log</span><span class="w"></span>
-<span class="k">on</span><span class="w"> </span><span class="n">log</span><span class="p">.</span><span class="n">mobilizeid</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">mob</span><span class="p">.</span><span class="n">user_id</span><span class="w"></span>
-<span class="k">WHERE</span><span class="w"> </span><span class="n">log</span><span class="p">.</span><span class="n">synced</span><span class="w"> </span><span class="k">is</span><span class="w"> </span><span class="k">null</span><span class="w"></span>
+<span class="k">LEFT</span><span class="w"> </span><span class="k">JOIN</span><span class="w"> </span><span class="n">cormac_scratch</span><span class="p">.</span><span class="n">mobilize_to_actionnetwork_log</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="n">log</span>
+<span class="k">on</span><span class="w"> </span><span class="n">log</span><span class="p">.</span><span class="n">mobilizeid</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">mob</span><span class="p">.</span><span class="n">user_id</span>
+<span class="k">WHERE</span><span class="w"> </span><span class="n">log</span><span class="p">.</span><span class="n">synced</span><span class="w"> </span><span class="k">is</span><span class="w"> </span><span class="k">null</span>
 
-<span class="p">);</span><span class="w"></span>
+<span class="p">);</span>
 </pre></div>
 </div>
 <p>This script creates a table where each row is a unique Mobilize user that needs to be synced to Action Network. It creates this table from the participations table by using the <code class="docutils literal notranslate"><span class="pre">DISTINCT</span> <span class="pre">SQL</span></code> function.</p>

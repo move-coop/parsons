@@ -65,12 +65,13 @@
 <li class="toctree-l1"><a class="reference internal" href="../../../mobilize_america.html">Mobilize America</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../newmode.html">New/Mode</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../ngpvan.html">NGPVAN</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../pdi.html">PDI</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../p2a.html">Phone2Action</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../pdi.html">PDI</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../quickbase.html">Quickbase</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../redash.html">Redash</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../rockthevote.html">Rock the Vote</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../salesforce.html">Salesforce</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../scytl.html">Scytl</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../sftp.html">SFTP</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../shopify.html">Shopify</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../sisense.html">Sisense</a></li>
@@ -147,7 +148,7 @@
 
 
 <div class="viewcode-block" id="CensusGeocoder"><a class="viewcode-back" href="../../../census_geocoder.html#parsons.CensusGeocoder">[docs]</a><span class="k">class</span> <span class="nc">CensusGeocoder</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Instantiate the CensusGecoder Class</span>
 
 <span class="sd">    `Args:`</span>
@@ -164,7 +165,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">cg</span> <span class="o">=</span> <span class="n">censusgeocode</span><span class="o">.</span><span class="n">CensusGeocode</span><span class="p">(</span><span class="n">benchmark</span><span class="o">=</span><span class="n">benchmark</span><span class="p">,</span> <span class="n">vintage</span><span class="o">=</span><span class="n">vintage</span><span class="p">)</span>
 
 <div class="viewcode-block" id="CensusGeocoder.geocode_onelineaddress"><a class="viewcode-back" href="../../../census_geocoder.html#parsons.CensusGeocoder.geocode_onelineaddress">[docs]</a>    <span class="k">def</span> <span class="nf">geocode_onelineaddress</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">address</span><span class="p">,</span> <span class="n">return_type</span><span class="o">=</span><span class="s1">&#39;geographies&#39;</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Geocode a single line address. Does not require parsing of city and zipcode field. Returns</span>
 <span class="sd">        geocode as well as other census block data. If the service is unable to geocode the address</span>
 <span class="sd">        it will return an empty list.</span>
@@ -185,7 +186,7 @@
 
 <div class="viewcode-block" id="CensusGeocoder.geocode_address"><a class="viewcode-back" href="../../../census_geocoder.html#parsons.CensusGeocoder.geocode_address">[docs]</a>    <span class="k">def</span> <span class="nf">geocode_address</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">address_line</span><span class="p">,</span> <span class="n">city</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">state</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">zipcode</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
                         <span class="n">return_type</span><span class="o">=</span><span class="s1">&#39;geographies&#39;</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Geocode an address by specifying address fields. Returns the geocode as well as other</span>
 <span class="sd">        census block data.</span>
 
@@ -210,7 +211,7 @@
         <span class="k">return</span> <span class="n">geo</span></div>
 
 <div class="viewcode-block" id="CensusGeocoder.geocode_address_batch"><a class="viewcode-back" href="../../../census_geocoder.html#parsons.CensusGeocoder.geocode_address_batch">[docs]</a>    <span class="k">def</span> <span class="nf">geocode_address_batch</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">table</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Geocode multiple addresses from a parsons table.</span>
 
 <span class="sd">        The table must **only** include the following columns in the following order.</span>
@@ -256,7 +257,7 @@
             <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s1">&#39;Record geocoded.&#39;</span><span class="p">)</span>
 
 <div class="viewcode-block" id="CensusGeocoder.get_coordinates_data"><a class="viewcode-back" href="../../../census_geocoder.html#parsons.CensusGeocoder.get_coordinates_data">[docs]</a>    <span class="k">def</span> <span class="nf">get_coordinates_data</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">latitude</span><span class="p">,</span> <span class="n">longitude</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Return census data on coordinates.</span>
 
 <span class="sd">        `Args`</span>

@@ -131,7 +131,7 @@
 
 
 <div class="viewcode-block" id="GoogleCivic"><a class="viewcode-back" href="../../../google.html#parsons.google.google_civic.GoogleCivic">[docs]</a><span class="k">class</span> <span class="nc">GoogleCivic</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    `Args:`</span>
 <span class="sd">        api_key : str</span>
 <span class="sd">            A valid Google api key. Not required if ``GOOGLE_CIVIC_API_KEY``</span>
@@ -158,7 +158,7 @@
         <span class="k">return</span> <span class="n">r</span><span class="o">.</span><span class="n">json</span><span class="p">()</span>
 
 <div class="viewcode-block" id="GoogleCivic.get_elections"><a class="viewcode-back" href="../../../google.html#parsons.google.google_civic.GoogleCivic.get_elections">[docs]</a>    <span class="k">def</span> <span class="nf">get_elections</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Get a collection of information about elections and voter information.</span>
 
 <span class="sd">        `Returns:`</span>
@@ -181,7 +181,7 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">request</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">args</span><span class="o">=</span><span class="n">args</span><span class="p">)</span>
 
 <div class="viewcode-block" id="GoogleCivic.get_polling_location"><a class="viewcode-back" href="../../../google.html#parsons.google.google_civic.GoogleCivic.get_polling_location">[docs]</a>    <span class="k">def</span> <span class="nf">get_polling_location</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">election_id</span><span class="p">,</span> <span class="n">address</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Get polling location information for a given address.</span>
 
 <span class="sd">        `Args:`</span>
@@ -200,7 +200,7 @@
         <span class="k">return</span> <span class="n">r</span><span class="p">[</span><span class="s1">&#39;pollingLocations&#39;</span><span class="p">]</span></div>
 
 <div class="viewcode-block" id="GoogleCivic.get_polling_locations"><a class="viewcode-back" href="../../../google.html#parsons.google.google_civic.GoogleCivic.get_polling_locations">[docs]</a>    <span class="k">def</span> <span class="nf">get_polling_locations</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">election_id</span><span class="p">,</span> <span class="n">table</span><span class="p">,</span> <span class="n">address_field</span><span class="o">=</span><span class="s1">&#39;address&#39;</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Get polling location information for a table of addresses.</span>
 
 <span class="sd">        `Args:`</span>

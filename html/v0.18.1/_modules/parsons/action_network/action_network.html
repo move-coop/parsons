@@ -136,7 +136,7 @@
 
 
 <div class="viewcode-block" id="ActionNetwork"><a class="viewcode-back" href="../../../action_network.html#parsons.ActionNetwork">[docs]</a><span class="k">class</span> <span class="nc">ActionNetwork</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    `Args:`</span>
 <span class="sd">        api_token: str</span>
 <span class="sd">            The OSDI API token</span>
@@ -177,7 +177,7 @@
                     <span class="k">return</span> <span class="n">Table</span><span class="p">(</span><span class="n">return_list</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="n">limit</span><span class="p">])</span>
 
 <div class="viewcode-block" id="ActionNetwork.get_people"><a class="viewcode-back" href="../../../action_network.html#parsons.ActionNetwork.get_people">[docs]</a>    <span class="k">def</span> <span class="nf">get_people</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">limit</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">per_page</span><span class="o">=</span><span class="mi">25</span><span class="p">,</span> <span class="n">page</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        `Args:`</span>
 <span class="sd">            limit:</span>
 <span class="sd">                The number of entries to return. When None, returns all entries.</span>
@@ -193,7 +193,7 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_entry_list</span><span class="p">(</span><span class="s2">&quot;people&quot;</span><span class="p">,</span> <span class="n">limit</span><span class="p">,</span> <span class="n">per_page</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="ActionNetwork.get_person"><a class="viewcode-back" href="../../../action_network.html#parsons.ActionNetwork.get_person">[docs]</a>    <span class="k">def</span> <span class="nf">get_person</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">person_id</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        `Args:`</span>
 <span class="sd">            person_id:</span>
 <span class="sd">                Id of the person.</span>
@@ -206,7 +206,7 @@
 <div class="viewcode-block" id="ActionNetwork.add_person"><a class="viewcode-back" href="../../../action_network.html#parsons.ActionNetwork.add_person">[docs]</a>    <span class="k">def</span> <span class="nf">add_person</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">email_address</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">given_name</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">family_name</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">tags</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
                    <span class="n">languages_spoken</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">postal_addresses</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">mobile_number</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
                    <span class="n">mobile_status</span><span class="o">=</span><span class="s1">&#39;subscribed&#39;</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        `Args:`</span>
 <span class="sd">            email_address:</span>
 <span class="sd">                Either email_address or mobile_number are required. Can be any of the following</span>
@@ -314,7 +314,7 @@
         <span class="k">return</span> <span class="n">response</span></div>
 
 <div class="viewcode-block" id="ActionNetwork.update_person"><a class="viewcode-back" href="../../../action_network.html#parsons.ActionNetwork.update_person">[docs]</a>    <span class="k">def</span> <span class="nf">update_person</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">entry_id</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        `Args:`</span>
 <span class="sd">            entry_id:</span>
 <span class="sd">                The person&#39;s Action Network id</span>
@@ -357,7 +357,7 @@
         <span class="k">return</span> <span class="n">response</span></div>
 
 <div class="viewcode-block" id="ActionNetwork.get_tags"><a class="viewcode-back" href="../../../action_network.html#parsons.ActionNetwork.get_tags">[docs]</a>    <span class="k">def</span> <span class="nf">get_tags</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">limit</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">per_page</span><span class="o">=</span><span class="mi">25</span><span class="p">,</span> <span class="n">page</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        `Args:`</span>
 <span class="sd">            limit:</span>
 <span class="sd">                The number of entries to return. When None, returns all entries.</span>
@@ -373,7 +373,7 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_entry_list</span><span class="p">(</span><span class="s2">&quot;tags&quot;</span><span class="p">,</span> <span class="n">limit</span><span class="p">,</span> <span class="n">per_page</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="ActionNetwork.get_tag"><a class="viewcode-back" href="../../../action_network.html#parsons.ActionNetwork.get_tag">[docs]</a>    <span class="k">def</span> <span class="nf">get_tag</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tag_id</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        `Args:`</span>
 <span class="sd">            tag_id:</span>
 <span class="sd">                Id of the tag.</span>
@@ -384,7 +384,7 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">api</span><span class="o">.</span><span class="n">get_request</span><span class="p">(</span><span class="n">url</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;tags/</span><span class="si">{</span><span class="n">tag_id</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="ActionNetwork.add_tag"><a class="viewcode-back" href="../../../action_network.html#parsons.ActionNetwork.add_tag">[docs]</a>    <span class="k">def</span> <span class="nf">add_tag</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        `Args:`</span>
 <span class="sd">            name:</span>
 <span class="sd">                The tag&#39;s name. This is the ONLY editable field</span>
@@ -401,7 +401,7 @@
         <span class="k">return</span> <span class="n">response</span></div>
 
 <div class="viewcode-block" id="ActionNetwork.create_event"><a class="viewcode-back" href="../../../action_network.html#parsons.ActionNetwork.create_event">[docs]</a>    <span class="k">def</span> <span class="nf">create_event</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">title</span><span class="p">,</span> <span class="n">start_date</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">location</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Create an event in Action Network</span>
 
 <span class="sd">        `Args:`</span>

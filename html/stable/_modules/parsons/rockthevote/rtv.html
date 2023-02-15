@@ -170,11 +170,11 @@
 
 
 <span class="k">class</span> <span class="nc">RTVFailure</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Exception raised when there is an error with the connector.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Exception raised when there is an error with the connector.&quot;&quot;&quot;</span>
 
 
 <div class="viewcode-block" id="RockTheVote"><a class="viewcode-back" href="../../../rockthevote.html#parsons.rockthevote.rtv.RockTheVote">[docs]</a><span class="k">class</span> <span class="nc">RockTheVote</span><span class="p">:</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Instantiate the RockTheVote class</span>
 
 <span class="sd">    `Args:`</span>
@@ -200,7 +200,7 @@
             <span class="bp">self</span><span class="o">.</span><span class="n">client</span> <span class="o">=</span> <span class="n">APIConnector</span><span class="p">(</span><span class="n">PRODUCTION_URI</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="n">REQUEST_HEADERS</span><span class="p">)</span>
 
 <div class="viewcode-block" id="RockTheVote.create_registration_report"><a class="viewcode-back" href="../../../rockthevote.html#parsons.rockthevote.rtv.RockTheVote.create_registration_report">[docs]</a>    <span class="k">def</span> <span class="nf">create_registration_report</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">before</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">since</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">report_type</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Create a new registration report.</span>
 
 <span class="sd">        `Args:`</span>
@@ -267,7 +267,7 @@
 
 <div class="viewcode-block" id="RockTheVote.get_registration_report"><a class="viewcode-back" href="../../../rockthevote.html#parsons.rockthevote.rtv.RockTheVote.get_registration_report">[docs]</a>    <span class="k">def</span> <span class="nf">get_registration_report</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">report_id</span><span class="p">,</span> <span class="n">block</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">poll_interval_seconds</span><span class="o">=</span><span class="mi">60</span><span class="p">,</span>
                                 <span class="n">report_timeout_seconds</span><span class="o">=</span><span class="mi">3600</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Get data from an existing registration report.</span>
 
 <span class="sd">        `Args:`</span>
@@ -354,7 +354,7 @@
 
 <div class="viewcode-block" id="RockTheVote.run_registration_report"><a class="viewcode-back" href="../../../rockthevote.html#parsons.rockthevote.rtv.RockTheVote.run_registration_report">[docs]</a>    <span class="k">def</span> <span class="nf">run_registration_report</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">before</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">since</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">report_type</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
                                 <span class="n">poll_interval_seconds</span><span class="o">=</span><span class="mi">60</span><span class="p">,</span> <span class="n">report_timeout_seconds</span><span class="o">=</span><span class="mi">3600</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Run a new registration report.</span>
 
 <span class="sd">        This method will block until the report has finished generating, or until the specified</span>
@@ -390,7 +390,7 @@
 
 <div class="viewcode-block" id="RockTheVote.get_state_requirements"><a class="viewcode-back" href="../../../rockthevote.html#parsons.rockthevote.rtv.RockTheVote.get_state_requirements">[docs]</a>    <span class="k">def</span> <span class="nf">get_state_requirements</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">lang</span><span class="p">,</span> <span class="n">home_state_id</span><span class="p">,</span> <span class="n">home_zip_code</span><span class="p">,</span>
                                <span class="n">date_of_birth</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">callback</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Checks state eligibility and provides state specific fields information.</span>
 <span class="sd">        Args:</span>
 <span class="sd">            lang: str</span>

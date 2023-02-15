@@ -65,12 +65,13 @@
 <li class="toctree-l1"><a class="reference internal" href="../../../mobilize_america.html">Mobilize America</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../newmode.html">New/Mode</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../ngpvan.html">NGPVAN</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../pdi.html">PDI</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../p2a.html">Phone2Action</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../pdi.html">PDI</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../quickbase.html">Quickbase</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../redash.html">Redash</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../rockthevote.html">Rock the Vote</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../salesforce.html">Salesforce</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../scytl.html">Scytl</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../sftp.html">SFTP</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../shopify.html">Shopify</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../sisense.html">Sisense</a></li>
@@ -148,7 +149,7 @@
 
 
 <div class="viewcode-block" id="Bloomerang"><a class="viewcode-back" href="../../../bloomerang.html#parsons.Bloomerang">[docs]</a><span class="k">class</span> <span class="nc">Bloomerang</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Instantiate Bloomerang class</span>
 
 <span class="sd">    `Args:`</span>
@@ -244,7 +245,7 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">conn</span><span class="o">.</span><span class="n">delete_request</span><span class="p">(</span><span class="n">url</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_base_endpoint</span><span class="p">(</span><span class="n">endpoint</span><span class="p">,</span> <span class="n">entity_id</span><span class="p">))</span>
 
 <div class="viewcode-block" id="Bloomerang.create_constituent"><a class="viewcode-back" href="../../../bloomerang.html#parsons.Bloomerang.create_constituent">[docs]</a>    <span class="k">def</span> <span class="nf">create_constituent</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        `Args:`</span>
 <span class="sd">            **kwargs:`</span>
 <span class="sd">                Fields to include, e.g., FirstName = &#39;Rachel&#39;.</span>
@@ -254,7 +255,7 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_base_create</span><span class="p">(</span><span class="s1">&#39;constituent&#39;</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="Bloomerang.update_constituent"><a class="viewcode-back" href="../../../bloomerang.html#parsons.Bloomerang.update_constituent">[docs]</a>    <span class="k">def</span> <span class="nf">update_constituent</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">constituent_id</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        `Args:`</span>
 <span class="sd">            constituent_id: str or int</span>
 <span class="sd">                Constituent ID to update</span>
@@ -266,7 +267,7 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_base_update</span><span class="p">(</span><span class="s1">&#39;constituent&#39;</span><span class="p">,</span> <span class="n">entity_id</span><span class="o">=</span><span class="n">constituent_id</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="Bloomerang.get_constituent"><a class="viewcode-back" href="../../../bloomerang.html#parsons.Bloomerang.get_constituent">[docs]</a>    <span class="k">def</span> <span class="nf">get_constituent</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">constituent_id</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        `Args:`</span>
 <span class="sd">            constituent_id: str or int</span>
 <span class="sd">                Constituent ID to get fields for</span>
@@ -276,7 +277,7 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_base_get</span><span class="p">(</span><span class="s1">&#39;constituent&#39;</span><span class="p">,</span> <span class="n">entity_id</span><span class="o">=</span><span class="n">constituent_id</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="Bloomerang.delete_constituent"><a class="viewcode-back" href="../../../bloomerang.html#parsons.Bloomerang.delete_constituent">[docs]</a>    <span class="k">def</span> <span class="nf">delete_constituent</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">constituent_id</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        `Args:`</span>
 <span class="sd">            constituent_id: str or int</span>
 <span class="sd">                Constituent ID to delete</span>
@@ -285,7 +286,7 @@
 
 <div class="viewcode-block" id="Bloomerang.get_constituents"><a class="viewcode-back" href="../../../bloomerang.html#parsons.Bloomerang.get_constituents">[docs]</a>    <span class="k">def</span> <span class="nf">get_constituents</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">page_number</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">page_size</span><span class="o">=</span><span class="mi">50</span><span class="p">,</span> <span class="n">order_by</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">order_direction</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
                          <span class="n">last_modified</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        `Args:`</span>
 <span class="sd">            page_number: int</span>
 <span class="sd">                Number of the page to fetch</span>
@@ -310,7 +311,7 @@
         <span class="k">return</span> <span class="n">Table</span><span class="p">(</span><span class="n">response</span><span class="p">[</span><span class="s1">&#39;Results&#39;</span><span class="p">])</span></div>
 
 <div class="viewcode-block" id="Bloomerang.create_transaction"><a class="viewcode-back" href="../../../bloomerang.html#parsons.Bloomerang.create_transaction">[docs]</a>    <span class="k">def</span> <span class="nf">create_transaction</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        `Args:`</span>
 <span class="sd">            **kwargs:`</span>
 <span class="sd">                Fields to include, e.g., CreditCardType = &#39;Visa&#39;.</span>
@@ -320,7 +321,7 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_base_create</span><span class="p">(</span><span class="s1">&#39;transaction&#39;</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="Bloomerang.update_transaction"><a class="viewcode-back" href="../../../bloomerang.html#parsons.Bloomerang.update_transaction">[docs]</a>    <span class="k">def</span> <span class="nf">update_transaction</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">transaction_id</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        `Args:`</span>
 <span class="sd">            transaction_id: str or int</span>
 <span class="sd">                Transaction ID to update</span>
@@ -332,7 +333,7 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_base_update</span><span class="p">(</span><span class="s1">&#39;transaction&#39;</span><span class="p">,</span> <span class="n">entity_id</span><span class="o">=</span><span class="n">transaction_id</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="Bloomerang.get_transaction"><a class="viewcode-back" href="../../../bloomerang.html#parsons.Bloomerang.get_transaction">[docs]</a>    <span class="k">def</span> <span class="nf">get_transaction</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">transaction_id</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        `Args:`</span>
 <span class="sd">            transaction_id: str or int</span>
 <span class="sd">                Transaction ID to get fields for</span>
@@ -342,7 +343,7 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_base_get</span><span class="p">(</span><span class="s1">&#39;transaction&#39;</span><span class="p">,</span> <span class="n">entity_id</span><span class="o">=</span><span class="n">transaction_id</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="Bloomerang.delete_transaction"><a class="viewcode-back" href="../../../bloomerang.html#parsons.Bloomerang.delete_transaction">[docs]</a>    <span class="k">def</span> <span class="nf">delete_transaction</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">transaction_id</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        `Args:`</span>
 <span class="sd">            transaction_id: str or int</span>
 <span class="sd">                Transaction ID to delete</span>
@@ -350,7 +351,7 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_base_delete</span><span class="p">(</span><span class="s1">&#39;transaction&#39;</span><span class="p">,</span> <span class="n">entity_id</span><span class="o">=</span><span class="n">transaction_id</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="Bloomerang.get_transactions"><a class="viewcode-back" href="../../../bloomerang.html#parsons.Bloomerang.get_transactions">[docs]</a>    <span class="k">def</span> <span class="nf">get_transactions</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">page_number</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">page_size</span><span class="o">=</span><span class="mi">50</span><span class="p">,</span> <span class="n">order_by</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">order_direction</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        `Args:`</span>
 <span class="sd">            page_number: int</span>
 <span class="sd">                Number of the page to fetch</span>
@@ -370,7 +371,7 @@
         <span class="k">return</span> <span class="n">Table</span><span class="p">(</span><span class="n">response</span><span class="p">[</span><span class="s1">&#39;Results&#39;</span><span class="p">])</span></div>
 
 <div class="viewcode-block" id="Bloomerang.get_transaction_designation"><a class="viewcode-back" href="../../../bloomerang.html#parsons.Bloomerang.get_transaction_designation">[docs]</a>    <span class="k">def</span> <span class="nf">get_transaction_designation</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">designation_id</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        `Args:`</span>
 <span class="sd">            designation_id: str or int</span>
 <span class="sd">                Transaction Designation ID to get fields for</span>
@@ -381,7 +382,7 @@
 
 <div class="viewcode-block" id="Bloomerang.get_transaction_designations"><a class="viewcode-back" href="../../../bloomerang.html#parsons.Bloomerang.get_transaction_designations">[docs]</a>    <span class="k">def</span> <span class="nf">get_transaction_designations</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">page_number</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">page_size</span><span class="o">=</span><span class="mi">50</span><span class="p">,</span> <span class="n">order_by</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
                                      <span class="n">order_direction</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        `Args:`</span>
 <span class="sd">            page_number: int</span>
 <span class="sd">                Number of the page to fetch</span>
@@ -401,7 +402,7 @@
         <span class="k">return</span> <span class="n">Table</span><span class="p">(</span><span class="n">response</span><span class="p">[</span><span class="s1">&#39;Results&#39;</span><span class="p">])</span></div>
 
 <div class="viewcode-block" id="Bloomerang.create_interaction"><a class="viewcode-back" href="../../../bloomerang.html#parsons.Bloomerang.create_interaction">[docs]</a>    <span class="k">def</span> <span class="nf">create_interaction</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        `Args:`</span>
 <span class="sd">            **kwargs:`</span>
 <span class="sd">                Fields to include, e.g., Channel = &quot;Email&quot;.</span>
@@ -411,7 +412,7 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_base_create</span><span class="p">(</span><span class="s1">&#39;interaction&#39;</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="Bloomerang.update_interaction"><a class="viewcode-back" href="../../../bloomerang.html#parsons.Bloomerang.update_interaction">[docs]</a>    <span class="k">def</span> <span class="nf">update_interaction</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">interaction_id</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        `Args:`</span>
 <span class="sd">            interaction_id: str or int</span>
 <span class="sd">                Interaction ID to update</span>
@@ -423,7 +424,7 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_base_update</span><span class="p">(</span><span class="s1">&#39;interaction&#39;</span><span class="p">,</span> <span class="n">entity_id</span><span class="o">=</span><span class="n">interaction_id</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="Bloomerang.get_interaction"><a class="viewcode-back" href="../../../bloomerang.html#parsons.Bloomerang.get_interaction">[docs]</a>    <span class="k">def</span> <span class="nf">get_interaction</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">interaction_id</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        `Args:`</span>
 <span class="sd">            interaction_id: str or int</span>
 <span class="sd">                Interaction ID to get fields for</span>
@@ -433,7 +434,7 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_base_get</span><span class="p">(</span><span class="s1">&#39;interaction&#39;</span><span class="p">,</span> <span class="n">entity_id</span><span class="o">=</span><span class="n">interaction_id</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="Bloomerang.delete_interaction"><a class="viewcode-back" href="../../../bloomerang.html#parsons.Bloomerang.delete_interaction">[docs]</a>    <span class="k">def</span> <span class="nf">delete_interaction</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">interaction_id</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        `Args:`</span>
 <span class="sd">            interaction_id: str or int</span>
 <span class="sd">                Interaction ID to delete</span>
@@ -441,7 +442,7 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_base_delete</span><span class="p">(</span><span class="s1">&#39;interaction&#39;</span><span class="p">,</span> <span class="n">entity_id</span><span class="o">=</span><span class="n">interaction_id</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="Bloomerang.get_interactions"><a class="viewcode-back" href="../../../bloomerang.html#parsons.Bloomerang.get_interactions">[docs]</a>    <span class="k">def</span> <span class="nf">get_interactions</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">page_number</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">page_size</span><span class="o">=</span><span class="mi">50</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        `Args:`</span>
 <span class="sd">            page_number: int</span>
 <span class="sd">                Number of the page to fetch</span>

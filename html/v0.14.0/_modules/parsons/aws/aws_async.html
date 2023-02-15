@@ -128,7 +128,7 @@
 
 
 <div class="viewcode-block" id="event_command"><a class="viewcode-back" href="../../../aws.html#parsons.aws.event_command">[docs]</a><span class="k">def</span> <span class="nf">event_command</span><span class="p">(</span><span class="n">event</span><span class="p">,</span> <span class="n">context</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Minimal shim to add to the top lambda handler function</span>
 <span class="sd">    to enable distributed tasks</span>
 <span class="sd">    In your lambda handler:</span>
@@ -197,7 +197,7 @@
 <span class="c1">##</span>
 
 <span class="k">def</span> <span class="nf">import_and_get_task</span><span class="p">(</span><span class="n">task_path</span><span class="p">,</span> <span class="n">instance_init_kwargs</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Given a modular path to a function, import that module</span>
 <span class="sd">    and return the function.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -220,7 +220,7 @@
 
 
 <span class="k">def</span> <span class="nf">get_func_task_path</span><span class="p">(</span><span class="n">func</span><span class="p">,</span> <span class="n">method_class</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Format the modular task path for a function via inspection.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">module_path</span> <span class="o">=</span> <span class="n">inspect</span><span class="o">.</span><span class="n">getmodule</span><span class="p">(</span><span class="n">method_class</span> <span class="ow">or</span> <span class="n">func</span><span class="p">)</span><span class="o">.</span><span class="vm">__name__</span>

@@ -125,7 +125,7 @@
 
 <div class="viewcode-block" id="ToFrom.to_dataframe"><a class="viewcode-back" href="../../../table.html#parsons.etl.tofrom.ToFrom.to_dataframe">[docs]</a>    <span class="k">def</span> <span class="nf">to_dataframe</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">exclude</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
                      <span class="n">coerce_float</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Outputs table as a Pandas Dataframe</span>
 
 <span class="sd">        `Args:`</span>
@@ -151,7 +151,7 @@
 <div class="viewcode-block" id="ToFrom.to_html"><a class="viewcode-back" href="../../../table.html#parsons.etl.tofrom.ToFrom.to_html">[docs]</a>    <span class="k">def</span> <span class="nf">to_html</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">local_path</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">errors</span><span class="o">=</span><span class="s1">&#39;strict&#39;</span><span class="p">,</span>
                 <span class="n">index_header</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">caption</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">tr_style</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
                 <span class="n">td_styles</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">truncate</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Outputs table to html.</span>
 
 <span class="sd">        .. warning::</span>
@@ -200,7 +200,7 @@
 
 <div class="viewcode-block" id="ToFrom.to_csv"><a class="viewcode-back" href="../../../table.html#parsons.etl.tofrom.ToFrom.to_csv">[docs]</a>    <span class="k">def</span> <span class="nf">to_csv</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">local_path</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">temp_file_compression</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">errors</span><span class="o">=</span><span class="s1">&#39;strict&#39;</span><span class="p">,</span>
                <span class="n">write_header</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">csv_name</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">csvargs</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Outputs table to a CSV. Additional key word arguments are passed to ``csv.writer()``. So,</span>
 <span class="sd">        e.g., to override the delimiter from the default CSV dialect, provide the delimiter</span>
 <span class="sd">        keyword argument.</span>
@@ -260,7 +260,7 @@
         <span class="k">return</span> <span class="n">local_path</span></div>
 
 <div class="viewcode-block" id="ToFrom.append_csv"><a class="viewcode-back" href="../../../table.html#parsons.etl.tofrom.ToFrom.append_csv">[docs]</a>    <span class="k">def</span> <span class="nf">append_csv</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">local_path</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">errors</span><span class="o">=</span><span class="s1">&#39;strict&#39;</span><span class="p">,</span> <span class="o">**</span><span class="n">csvargs</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Appends table to an existing CSV.</span>
 
 <span class="sd">        Additional additional key word arguments</span>
@@ -293,7 +293,7 @@
 
 <div class="viewcode-block" id="ToFrom.to_zip_csv"><a class="viewcode-back" href="../../../table.html#parsons.etl.tofrom.ToFrom.to_zip_csv">[docs]</a>    <span class="k">def</span> <span class="nf">to_zip_csv</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">archive_path</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">csv_name</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
                    <span class="n">errors</span><span class="o">=</span><span class="s1">&#39;strict&#39;</span><span class="p">,</span> <span class="n">write_header</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">if_exists</span><span class="o">=</span><span class="s1">&#39;replace&#39;</span><span class="p">,</span> <span class="o">**</span><span class="n">csvargs</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Outputs table to a CSV in a zip archive. Additional key word arguments are passed to</span>
 <span class="sd">        ``csv.writer()``. So, e.g., to override the delimiter from the default CSV dialect,</span>
 <span class="sd">        provide the delimiter keyword argument. Use thismethod if you would like to write</span>
@@ -339,7 +339,7 @@
                                           <span class="n">if_exists</span><span class="o">=</span><span class="n">if_exists</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="ToFrom.to_json"><a class="viewcode-back" href="../../../table.html#parsons.etl.tofrom.ToFrom.to_json">[docs]</a>    <span class="k">def</span> <span class="nf">to_json</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">local_path</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">temp_file_compression</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">line_delimited</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Outputs table to a JSON file</span>
 
 <span class="sd">        .. warning::</span>
@@ -397,7 +397,7 @@
         <span class="k">return</span> <span class="n">local_path</span></div>
 
 <div class="viewcode-block" id="ToFrom.to_dicts"><a class="viewcode-back" href="../../../table.html#parsons.etl.tofrom.ToFrom.to_dicts">[docs]</a>    <span class="k">def</span> <span class="nf">to_dicts</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Output table as a list of dicts.</span>
 
 <span class="sd">        `Returns:`</span>
@@ -409,7 +409,7 @@
 <div class="viewcode-block" id="ToFrom.to_sftp_csv"><a class="viewcode-back" href="../../../table.html#parsons.etl.tofrom.ToFrom.to_sftp_csv">[docs]</a>    <span class="k">def</span> <span class="nf">to_sftp_csv</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">remote_path</span><span class="p">,</span> <span class="n">host</span><span class="p">,</span> <span class="n">username</span><span class="p">,</span> <span class="n">password</span><span class="p">,</span> <span class="n">port</span><span class="o">=</span><span class="mi">22</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
                     <span class="n">compression</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">errors</span><span class="o">=</span><span class="s1">&#39;strict&#39;</span><span class="p">,</span> <span class="n">write_header</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
                     <span class="n">rsa_private_key_file</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">csvargs</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Writes the table to a CSV file on a remote SFTP server</span>
 
 <span class="sd">        `Args:`</span>
@@ -452,7 +452,7 @@
                   <span class="n">aws_secret_access_key</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">compression</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
                   <span class="n">errors</span><span class="o">=</span><span class="s1">&#39;strict&#39;</span><span class="p">,</span> <span class="n">write_header</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">acl</span><span class="o">=</span><span class="s1">&#39;bucket-owner-full-control&#39;</span><span class="p">,</span>
                   <span class="n">public_url</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">public_url_expires</span><span class="o">=</span><span class="mi">3600</span><span class="p">,</span> <span class="o">**</span><span class="n">csvargs</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Writes the table to an s3 object as a CSV</span>
 
 <span class="sd">        `Args:`</span>
@@ -513,7 +513,7 @@
 <div class="viewcode-block" id="ToFrom.to_gcs_csv"><a class="viewcode-back" href="../../../table.html#parsons.etl.tofrom.ToFrom.to_gcs_csv">[docs]</a>    <span class="k">def</span> <span class="nf">to_gcs_csv</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">bucket_name</span><span class="p">,</span> <span class="n">blob_name</span><span class="p">,</span> <span class="n">app_creds</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">project</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">compression</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
                    <span class="n">encoding</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">errors</span><span class="o">=</span><span class="s1">&#39;strict&#39;</span><span class="p">,</span> <span class="n">write_header</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">public_url</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
                    <span class="n">public_url_expires</span><span class="o">=</span><span class="mi">60</span><span class="p">,</span> <span class="o">**</span><span class="n">csvargs</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Writes the table to a Google Cloud Storage blob as a CSV.</span>
 
 <span class="sd">        `Args:`</span>
@@ -571,7 +571,7 @@
 
 <div class="viewcode-block" id="ToFrom.to_redshift"><a class="viewcode-back" href="../../../table.html#parsons.etl.tofrom.ToFrom.to_redshift">[docs]</a>    <span class="k">def</span> <span class="nf">to_redshift</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">table_name</span><span class="p">,</span> <span class="n">username</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">password</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">host</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
                     <span class="n">db</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">port</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">copy_args</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Write a table to a Redshift database. Note, this requires you to pass</span>
 <span class="sd">        AWS S3 credentials or store them as environmental variables.</span>
 
@@ -601,7 +601,7 @@
 
 <div class="viewcode-block" id="ToFrom.to_postgres"><a class="viewcode-back" href="../../../table.html#parsons.etl.tofrom.ToFrom.to_postgres">[docs]</a>    <span class="k">def</span> <span class="nf">to_postgres</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">table_name</span><span class="p">,</span> <span class="n">username</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">password</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">host</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
                     <span class="n">db</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">port</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">copy_args</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Write a table to a Postgres database.</span>
 
 <span class="sd">        Args:</span>
@@ -635,7 +635,7 @@
 <div class="viewcode-block" id="ToFrom.to_civis"><a class="viewcode-back" href="../../../table.html#parsons.etl.tofrom.ToFrom.to_civis">[docs]</a>    <span class="k">def</span> <span class="nf">to_civis</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">table</span><span class="p">,</span> <span class="n">api_key</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">db</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">max_errors</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
                  <span class="n">existing_table_rows</span><span class="o">=</span><span class="s1">&#39;fail&#39;</span><span class="p">,</span> <span class="n">diststyle</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">distkey</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
                  <span class="n">sortkey1</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">sortkey2</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">wait</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="o">**</span><span class="n">civisargs</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Write the table to a Civis Redshift cluster. Additional key word</span>
 <span class="sd">        arguments can passed to `civis.io.dataframe_to_civis()</span>
 <span class="sd">        &lt;https://civis-python.readthedocs.io/en/v1.9.0/generated/civis.io.dataframe_to_civis.html#civis.io.dataframe_to_civis&gt;`_ # noqa: E501</span>
@@ -680,7 +680,7 @@
 
 <div class="viewcode-block" id="ToFrom.from_csv"><a class="viewcode-back" href="../../../table.html#parsons.etl.tofrom.ToFrom.from_csv">[docs]</a>    <span class="nd">@classmethod</span>
     <span class="k">def</span> <span class="nf">from_csv</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">local_path</span><span class="p">,</span> <span class="o">**</span><span class="n">csvargs</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Create a ``parsons table`` object from a CSV file</span>
 
 <span class="sd">        `Args:`</span>
@@ -707,7 +707,7 @@
 
 <div class="viewcode-block" id="ToFrom.from_csv_string"><a class="viewcode-back" href="../../../table.html#parsons.etl.tofrom.ToFrom.from_csv_string">[docs]</a>    <span class="nd">@classmethod</span>
     <span class="k">def</span> <span class="nf">from_csv_string</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="nb">str</span><span class="p">,</span> <span class="o">**</span><span class="n">csvargs</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Create a ``parsons table`` object from a string representing a CSV.</span>
 
 <span class="sd">        `Args:`</span>
@@ -726,7 +726,7 @@
 
 <div class="viewcode-block" id="ToFrom.from_columns"><a class="viewcode-back" href="../../../table.html#parsons.etl.tofrom.ToFrom.from_columns">[docs]</a>    <span class="nd">@classmethod</span>
     <span class="k">def</span> <span class="nf">from_columns</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">cols</span><span class="p">,</span> <span class="n">header</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Create a ``parsons table`` from a list of lists organized as columns</span>
 
 <span class="sd">        `Args:`</span>
@@ -743,7 +743,7 @@
 
 <div class="viewcode-block" id="ToFrom.from_json"><a class="viewcode-back" href="../../../table.html#parsons.etl.tofrom.ToFrom.from_json">[docs]</a>    <span class="nd">@classmethod</span>
     <span class="k">def</span> <span class="nf">from_json</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">local_path</span><span class="p">,</span> <span class="n">header</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">line_delimited</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Create a ``parsons table`` from a json file</span>
 
 <span class="sd">        `Args:`</span>
@@ -777,7 +777,7 @@
 <div class="viewcode-block" id="ToFrom.from_redshift"><a class="viewcode-back" href="../../../table.html#parsons.etl.tofrom.ToFrom.from_redshift">[docs]</a>    <span class="nd">@classmethod</span>
     <span class="k">def</span> <span class="nf">from_redshift</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">sql</span><span class="p">,</span> <span class="n">username</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">password</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">host</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
                       <span class="n">db</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">port</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Create a ``parsons table`` from a Redshift query.</span>
 
 <span class="sd">        To pull an entire Redshift table, use a query like ``SELECT * FROM tablename``.</span>
@@ -807,7 +807,7 @@
 
 <div class="viewcode-block" id="ToFrom.from_postgres"><a class="viewcode-back" href="../../../table.html#parsons.etl.tofrom.ToFrom.from_postgres">[docs]</a>    <span class="nd">@classmethod</span>
     <span class="k">def</span> <span class="nf">from_postgres</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">sql</span><span class="p">,</span> <span class="n">username</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">password</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">host</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">db</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">port</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Args:</span>
 <span class="sd">            sql: str</span>
 <span class="sd">                A valid SQL statement</span>
@@ -830,7 +830,7 @@
 <div class="viewcode-block" id="ToFrom.from_s3_csv"><a class="viewcode-back" href="../../../table.html#parsons.etl.tofrom.ToFrom.from_s3_csv">[docs]</a>    <span class="nd">@classmethod</span>
     <span class="k">def</span> <span class="nf">from_s3_csv</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">bucket</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="n">from_manifest</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">aws_access_key_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
                     <span class="n">aws_secret_access_key</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">csvargs</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Create a ``parsons table`` from a key in an S3 bucket.</span>
 
 <span class="sd">        `Args:`</span>
@@ -877,7 +877,7 @@
 
 <div class="viewcode-block" id="ToFrom.from_dataframe"><a class="viewcode-back" href="../../../table.html#parsons.etl.tofrom.ToFrom.from_dataframe">[docs]</a>    <span class="nd">@classmethod</span>
     <span class="k">def</span> <span class="nf">from_dataframe</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">dataframe</span><span class="p">,</span> <span class="n">include_index</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Create a ``parsons table`` from a Pandas dataframe.</span>
 
 <span class="sd">        `Args:`</span>

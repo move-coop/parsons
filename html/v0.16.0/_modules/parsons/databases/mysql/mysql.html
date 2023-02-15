@@ -133,7 +133,7 @@
 
 
 <div class="viewcode-block" id="MySQL"><a class="viewcode-back" href="../../../../databases.html#parsons.MySQL">[docs]</a><span class="k">class</span> <span class="nc">MySQL</span><span class="p">(</span><span class="n">MySQLCreateTable</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Connect to a MySQL database.</span>
 
 <span class="sd">    `Args:`</span>
@@ -159,7 +159,7 @@
 
 <div class="viewcode-block" id="MySQL.connection"><a class="viewcode-back" href="../../../../databases.html#parsons.MySQL.connection">[docs]</a>    <span class="nd">@contextmanager</span>
     <span class="k">def</span> <span class="nf">connection</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Generate a MySQL connection. The connection is set up as a python &quot;context manager&quot;, so</span>
 <span class="sd">        it will be closed automatically (and all queries committed) when the connection goes out</span>
 <span class="sd">        of scope.</span>
@@ -199,7 +199,7 @@
             <span class="n">cur</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
 
 <div class="viewcode-block" id="MySQL.query"><a class="viewcode-back" href="../../../../databases.html#parsons.MySQL.query">[docs]</a>    <span class="k">def</span> <span class="nf">query</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sql</span><span class="p">,</span> <span class="n">parameters</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Execute a query against the database. Will return ``None`` if the query returns zero rows.</span>
 
 <span class="sd">        To include python variables in your query, it is recommended to pass them as parameters,</span>
@@ -240,7 +240,7 @@
             <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">query_with_connection</span><span class="p">(</span><span class="n">sql</span><span class="p">,</span> <span class="n">connection</span><span class="p">,</span> <span class="n">parameters</span><span class="o">=</span><span class="n">parameters</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="MySQL.query_with_connection"><a class="viewcode-back" href="../../../../databases.html#parsons.MySQL.query_with_connection">[docs]</a>    <span class="k">def</span> <span class="nf">query_with_connection</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sql</span><span class="p">,</span> <span class="n">connection</span><span class="p">,</span> <span class="n">parameters</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">commit</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Execute a query against the database, with an existing connection. Useful for batching</span>
 <span class="sd">        queries together. Will return ``None`` if the query returns zero rows.</span>
 
@@ -303,7 +303,7 @@
                 <span class="k">return</span> <span class="n">final_tbl</span></div>
 
 <div class="viewcode-block" id="MySQL.copy"><a class="viewcode-back" href="../../../../databases.html#parsons.MySQL.copy">[docs]</a>    <span class="k">def</span> <span class="nf">copy</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tbl</span><span class="p">,</span> <span class="n">table_name</span><span class="p">,</span> <span class="n">if_exists</span><span class="o">=</span><span class="s1">&#39;fail&#39;</span><span class="p">,</span> <span class="n">chunk_size</span><span class="o">=</span><span class="mi">1000</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Copy a :ref:`parsons-table` to the database.</span>
 
 <span class="sd">        .. note::</span>
@@ -341,7 +341,7 @@
                 <span class="bp">self</span><span class="o">.</span><span class="n">query_with_connection</span><span class="p">(</span><span class="n">sql</span><span class="p">,</span> <span class="n">connection</span><span class="p">,</span> <span class="n">commit</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span></div>
 
     <span class="k">def</span> <span class="nf">_insert_statement</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tbl</span><span class="p">,</span> <span class="n">table_name</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Convert the table data into a string for bulk importing.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
@@ -354,14 +354,14 @@
             <span class="n">values</span> <span class="o">=</span> <span class="p">[</span><span class="nb">str</span><span class="p">(</span><span class="n">row</span><span class="p">)</span> <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">tbl</span><span class="o">.</span><span class="n">data</span><span class="p">]</span>
 
         <span class="c1"># Create full insert statement</span>
-        <span class="n">sql</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;&quot;&quot;INSERT INTO </span><span class="si">{</span><span class="n">table_name</span><span class="si">}</span><span class="s2"></span>
+        <span class="n">sql</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;&quot;&quot;INSERT INTO </span><span class="si">{</span><span class="n">table_name</span><span class="si">}</span>
 <span class="s2">                  (</span><span class="si">{</span><span class="s1">&#39;,&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">tbl</span><span class="o">.</span><span class="n">columns</span><span class="p">)</span><span class="si">}</span><span class="s2">)</span>
 <span class="s2">                  VALUES </span><span class="si">{</span><span class="s2">&quot;,&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">values</span><span class="p">)</span><span class="si">}</span><span class="s2">;&quot;&quot;&quot;</span>
 
         <span class="k">return</span> <span class="n">sql</span>
 
     <span class="k">def</span> <span class="nf">_create_table_precheck</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">connection</span><span class="p">,</span> <span class="n">table_name</span><span class="p">,</span> <span class="n">if_exists</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Helper to determine what to do when you need a table that may already exist.</span>
 
 <span class="sd">        `Args:`</span>
@@ -402,7 +402,7 @@
             <span class="k">return</span> <span class="kc">True</span>
 
 <div class="viewcode-block" id="MySQL.table_exists"><a class="viewcode-back" href="../../../../databases.html#parsons.MySQL.table_exists">[docs]</a>    <span class="k">def</span> <span class="nf">table_exists</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">table_name</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Check if a table or view exists in the database.</span>
 
 <span class="sd">        `Args:`</span>
@@ -431,7 +431,7 @@
     <span class="c1"># MySQL table object.</span>
 
     <span class="k">def</span> <span class="nf">get_rows</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">offset</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">chunk_size</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Get rows from a table.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
@@ -446,7 +446,7 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">db</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="n">sql</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">get_new_rows</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">primary_key</span><span class="p">,</span> <span class="n">cutoff_value</span><span class="p">,</span> <span class="n">offset</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">chunk_size</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Get rows that have a greater primary key value than the one</span>
 <span class="sd">        provided.</span>
 
@@ -456,8 +456,8 @@
         <span class="n">sql</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;&quot;&quot;</span>
 <span class="s2">               SELECT</span>
 <span class="s2">               *</span>
-<span class="s2">               FROM </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">table</span><span class="si">}</span><span class="s2"></span>
-<span class="s2">               WHERE </span><span class="si">{</span><span class="n">primary_key</span><span class="si">}</span><span class="s2"> &gt; </span><span class="si">{</span><span class="n">cutoff_value</span><span class="si">}</span><span class="s2"></span>
+<span class="s2">               FROM </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">table</span><span class="si">}</span>
+<span class="s2">               WHERE </span><span class="si">{</span><span class="n">primary_key</span><span class="si">}</span><span class="s2"> &gt; </span><span class="si">{</span><span class="n">cutoff_value</span><span class="si">}</span>
 <span class="s2">               &quot;&quot;&quot;</span>
 
         <span class="k">if</span> <span class="n">chunk_size</span><span class="p">:</span>

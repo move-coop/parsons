@@ -118,7 +118,7 @@
 
 
 <div class="viewcode-block" id="BillCom"><a class="viewcode-back" href="../../../bill_com.html#parsons.BillCom">[docs]</a><span class="k">class</span> <span class="nc">BillCom</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    `Args:`</span>
 <span class="sd">        user_name: str</span>
 <span class="sd">            The Bill.com username</span>
@@ -150,7 +150,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">session_id</span> <span class="o">=</span> <span class="n">response</span><span class="o">.</span><span class="n">json</span><span class="p">()[</span><span class="s1">&#39;response_data&#39;</span><span class="p">][</span><span class="s1">&#39;sessionId&#39;</span><span class="p">]</span>
 
     <span class="k">def</span> <span class="nf">_get_payload</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        `Args:`</span>
 <span class="sd">            data: dict</span>
 <span class="sd">                A dictionary containing the payload to be sent in the request.</span>
@@ -166,7 +166,7 @@
                 <span class="s2">&quot;data&quot;</span><span class="p">:</span> <span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">data</span><span class="p">)}</span>
 
     <span class="k">def</span> <span class="nf">_post_request</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="n">action</span><span class="p">,</span> <span class="n">object_name</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        `Args:`</span>
 <span class="sd">            data: dict</span>
 <span class="sd">                A dictionary containing the payload to be sent in the request.</span>
@@ -196,7 +196,7 @@
         <span class="k">return</span> <span class="n">response</span><span class="o">.</span><span class="n">json</span><span class="p">()</span>
 
     <span class="k">def</span> <span class="nf">_get_request_response</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="n">action</span><span class="p">,</span> <span class="n">object_name</span><span class="p">,</span> <span class="n">field</span><span class="o">=</span><span class="s2">&quot;response_data&quot;</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        `Args:`</span>
 <span class="sd">            data: dict</span>
 <span class="sd">                A dictionary containing the payload to be sent in the request.</span>
@@ -221,7 +221,7 @@
         <span class="k">return</span> <span class="n">r</span>
 
     <span class="k">def</span> <span class="nf">_paginate_list</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">response</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="n">object_name</span><span class="p">,</span> <span class="n">field</span><span class="o">=</span><span class="s2">&quot;response_data&quot;</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Internal method to paginate through and concatenate results of lists larger than max</span>
 <span class="sd">        `Args:`</span>
 <span class="sd">            response: list of dicts</span>
@@ -247,7 +247,7 @@
         <span class="k">return</span> <span class="n">r_table</span>
 
 <div class="viewcode-block" id="BillCom.get_user_list"><a class="viewcode-back" href="../../../bill_com.html#parsons.BillCom.get_user_list">[docs]</a>    <span class="k">def</span> <span class="nf">get_user_list</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">start_user</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">max_user</span><span class="o">=</span><span class="mi">999</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        `Args:`</span>
 <span class="sd">            start_user: int</span>
 <span class="sd">                The index of first user to return. Starts from 0 (not 1).</span>
@@ -268,7 +268,7 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_request_response</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="s2">&quot;List&quot;</span><span class="p">,</span> <span class="s2">&quot;User&quot;</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="BillCom.get_customer_list"><a class="viewcode-back" href="../../../bill_com.html#parsons.BillCom.get_customer_list">[docs]</a>    <span class="k">def</span> <span class="nf">get_customer_list</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">start_customer</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">max_customer</span><span class="o">=</span><span class="mi">999</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        `Args:`</span>
 <span class="sd">            start_customer: int</span>
 <span class="sd">                The index of first customer to return. Starts from 1 (not 0).</span>
@@ -290,7 +290,7 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_request_response</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="s2">&quot;List&quot;</span><span class="p">,</span> <span class="s2">&quot;Customer&quot;</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="BillCom.get_invoice_list"><a class="viewcode-back" href="../../../bill_com.html#parsons.BillCom.get_invoice_list">[docs]</a>    <span class="k">def</span> <span class="nf">get_invoice_list</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">start_invoice</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">max_invoice</span><span class="o">=</span><span class="mi">999</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        `Args:`</span>
 <span class="sd">            start_invoice: int</span>
 <span class="sd">                The index of first customer to return. Starts from 1 (not 0).</span>
@@ -312,7 +312,7 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_request_response</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="s2">&quot;List&quot;</span><span class="p">,</span> <span class="s2">&quot;Invoice&quot;</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="BillCom.read_customer"><a class="viewcode-back" href="../../../bill_com.html#parsons.BillCom.read_customer">[docs]</a>    <span class="k">def</span> <span class="nf">read_customer</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">customer_id</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        `Args:`</span>
 <span class="sd">            customer_id: str</span>
 <span class="sd">                The id of the customer to query</span>
@@ -326,7 +326,7 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_request_response</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="s2">&quot;Read&quot;</span><span class="p">,</span> <span class="s2">&quot;Customer&quot;</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="BillCom.read_invoice"><a class="viewcode-back" href="../../../bill_com.html#parsons.BillCom.read_invoice">[docs]</a>    <span class="k">def</span> <span class="nf">read_invoice</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">invoice_id</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        `Args:`</span>
 <span class="sd">            invoice_id: str</span>
 <span class="sd">                The id of the invoice to query</span>
@@ -340,7 +340,7 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_request_response</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="s2">&quot;Read&quot;</span><span class="p">,</span> <span class="s2">&quot;Invoice&quot;</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="BillCom.check_customer"><a class="viewcode-back" href="../../../bill_com.html#parsons.BillCom.check_customer">[docs]</a>    <span class="k">def</span> <span class="nf">check_customer</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">customer1</span><span class="p">,</span> <span class="n">customer2</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        `Args:`</span>
 <span class="sd">            customer1: dict</span>
 <span class="sd">                A dictionary of data on customer1</span>
@@ -364,7 +364,7 @@
         <span class="k">return</span> <span class="kc">False</span></div>
 
 <div class="viewcode-block" id="BillCom.get_or_create_customer"><a class="viewcode-back" href="../../../bill_com.html#parsons.BillCom.get_or_create_customer">[docs]</a>    <span class="k">def</span> <span class="nf">get_or_create_customer</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">customer_name</span><span class="p">,</span> <span class="n">customer_email</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        `Args:`</span>
 <span class="sd">            customer_name: str</span>
 <span class="sd">                The name of the customer</span>
@@ -396,7 +396,7 @@
 
 <div class="viewcode-block" id="BillCom.create_invoice"><a class="viewcode-back" href="../../../bill_com.html#parsons.BillCom.create_invoice">[docs]</a>    <span class="k">def</span> <span class="nf">create_invoice</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">customer_id</span><span class="p">,</span> <span class="n">invoice_number</span><span class="p">,</span> <span class="n">invoice_date</span><span class="p">,</span>
                        <span class="n">due_date</span><span class="p">,</span> <span class="n">invoice_line_items</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        `Args:`</span>
 <span class="sd">            customer_id: str</span>
 <span class="sd">                The customer&#39;s id</span>
@@ -433,7 +433,7 @@
 
 <div class="viewcode-block" id="BillCom.send_invoice"><a class="viewcode-back" href="../../../bill_com.html#parsons.BillCom.send_invoice">[docs]</a>    <span class="k">def</span> <span class="nf">send_invoice</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">invoice_id</span><span class="p">,</span> <span class="n">from_user_id</span><span class="p">,</span> <span class="n">to_email_addresses</span><span class="p">,</span>
                      <span class="n">message_subject</span><span class="p">,</span> <span class="n">message_body</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        `Args:`</span>
 <span class="sd">            invoice_id: str</span>
 <span class="sd">                The id of the invoice to send</span>

@@ -134,7 +134,7 @@
 
 
 <div class="viewcode-block" id="Redash"><a class="viewcode-back" href="../../../redash.html#parsons.redash.Redash">[docs]</a><span class="k">class</span> <span class="nc">Redash</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Instantiate Redash Class</span>
 
 <span class="sd">    `Args:`</span>
@@ -187,7 +187,7 @@
             <span class="k">raise</span> <span class="n">RedashQueryFailed</span><span class="p">(</span><span class="s1">&#39;Redash Query </span><span class="si">{}</span><span class="s1"> failed: </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">query_id</span><span class="p">,</span> <span class="n">job</span><span class="p">[</span><span class="s1">&#39;error&#39;</span><span class="p">]))</span>
 
 <div class="viewcode-block" id="Redash.get_fresh_query_results"><a class="viewcode-back" href="../../../redash.html#parsons.redash.Redash.get_fresh_query_results">[docs]</a>    <span class="k">def</span> <span class="nf">get_fresh_query_results</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">query_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Make a fresh query result and get back the CSV http response object back</span>
 <span class="sd">        with the CSV string in result.content</span>
 
@@ -234,7 +234,7 @@
         <span class="k">return</span> <span class="n">Table</span><span class="o">.</span><span class="n">from_csv_string</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">text</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="Redash.get_cached_query_results"><a class="viewcode-back" href="../../../redash.html#parsons.redash.Redash.get_cached_query_results">[docs]</a>    <span class="k">def</span> <span class="nf">get_cached_query_results</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">query_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">query_api_key</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Get the results from a cached query result and get back the CSV http response object back</span>
 <span class="sd">        with the CSV string in result.content</span>
 
@@ -261,7 +261,7 @@
 
 <div class="viewcode-block" id="Redash.load_to_table"><a class="viewcode-back" href="../../../redash.html#parsons.redash.Redash.load_to_table">[docs]</a>    <span class="nd">@classmethod</span>
     <span class="k">def</span> <span class="nf">load_to_table</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">refresh</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Fast classmethod makes the appropriate query type (refresh or cached)</span>
 <span class="sd">        based on which arguments are supplied.</span>
 

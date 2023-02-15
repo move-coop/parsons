@@ -73,12 +73,13 @@
 <li class="toctree-l1"><a class="reference internal" href="mobilize_america.html">Mobilize America</a></li>
 <li class="toctree-l1"><a class="reference internal" href="newmode.html">New/Mode</a></li>
 <li class="toctree-l1"><a class="reference internal" href="ngpvan.html">NGPVAN</a></li>
-<li class="toctree-l1"><a class="reference internal" href="pdi.html">PDI</a></li>
 <li class="toctree-l1"><a class="reference internal" href="p2a.html">Phone2Action</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pdi.html">PDI</a></li>
 <li class="toctree-l1"><a class="reference internal" href="quickbase.html">Quickbase</a></li>
 <li class="toctree-l1"><a class="reference internal" href="redash.html">Redash</a></li>
 <li class="toctree-l1"><a class="reference internal" href="rockthevote.html">Rock the Vote</a></li>
 <li class="toctree-l1"><a class="reference internal" href="salesforce.html">Salesforce</a></li>
+<li class="toctree-l1"><a class="reference internal" href="scytl.html">Scytl</a></li>
 <li class="toctree-l1"><a class="reference internal" href="sftp.html">SFTP</a></li>
 <li class="toctree-l1"><a class="reference internal" href="shopify.html">Shopify</a></li>
 <li class="toctree-l1"><a class="reference internal" href="sisense.html">Sisense</a></li>
@@ -157,9 +158,9 @@
 <h2>Quickstart<a class="headerlink" href="#quickstart" title="Permalink to this headline"></a></h2>
 <p>This class requires credentials in the form three strings to be either passed into the constructor or made available as environment variables:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Note: these are fake keys, provided as examples.</span>
-<span class="nb">export</span> <span class="nv">BOX_CLIENT_ID</span><span class="o">=</span>dp4rqi0cz5qckz361fziavdtdwxz
-<span class="nb">export</span> <span class="nv">BOX_CLIENT_SECRET</span><span class="o">=</span>4KHMDLVy89TeuUpSRa4CN5o35u9h
-<span class="nb">export</span> <span class="nv">BOX_ACCESS_TOKEN</span><span class="o">=</span>7B39m3ozIGyTcazbWRbi5F2SSZ5J
+<span class="nb">export</span><span class="w"> </span><span class="nv">BOX_CLIENT_ID</span><span class="o">=</span>dp4rqi0cz5qckz361fziavdtdwxz
+<span class="nb">export</span><span class="w"> </span><span class="nv">BOX_CLIENT_SECRET</span><span class="o">=</span>4KHMDLVy89TeuUpSRa4CN5o35u9h
+<span class="nb">export</span><span class="w"> </span><span class="nv">BOX_ACCESS_TOKEN</span><span class="o">=</span>7B39m3ozIGyTcazbWRbi5F2SSZ5J
 </pre></div>
 </div>
 <p><em>NOTE</em>: Most functions in this class exist both in ‘path’-based form and ‘folder_id’/’file_id’-based form. The path-based forms rely on the <cite>get_item_id()</cite> method, which navigates through subfolders with sequential API calls. This can be slow and computationally expensive if the path in question is long, or intermediate folders contain many items. If efficiency is paramount, consider using the “by_id” methods of each function.</p>

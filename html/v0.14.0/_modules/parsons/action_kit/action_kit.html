@@ -111,7 +111,7 @@
 
 
 <div class="viewcode-block" id="ActionKit"><a class="viewcode-back" href="../../../action_kit.html#parsons.ActionKit">[docs]</a><span class="k">class</span> <span class="nc">ActionKit</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Instatiate the ActionKit class</span>
 
 <span class="sd">    `Args:`</span>
@@ -196,7 +196,7 @@
         <span class="k">return</span> <span class="n">exception_message</span>
 
 <div class="viewcode-block" id="ActionKit.get_user"><a class="viewcode-back" href="../../../action_kit.html#parsons.ActionKit.get_user">[docs]</a>    <span class="k">def</span> <span class="nf">get_user</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">user_id</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Get a user.</span>
 
 <span class="sd">        `Args:`</span>
@@ -210,7 +210,7 @@
                               <span class="n">exception_message</span><span class="o">=</span><span class="s1">&#39;User not found&#39;</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="ActionKit.get_user_fields"><a class="viewcode-back" href="../../../action_kit.html#parsons.ActionKit.get_user_fields">[docs]</a>    <span class="k">def</span> <span class="nf">get_user_fields</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Get list of valid user fields that can be passed with the</span>
 <span class="sd">        :meth:`ActionKit.create_user` method.</span>
 
@@ -223,7 +223,7 @@
         <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="n">resp</span><span class="p">[</span><span class="s1">&#39;fields&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span></div>
 
 <div class="viewcode-block" id="ActionKit.create_user"><a class="viewcode-back" href="../../../action_kit.html#parsons.ActionKit.create_user">[docs]</a>    <span class="k">def</span> <span class="nf">create_user</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">email</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Create a user.</span>
 
 <span class="sd">        `Args:`</span>
@@ -239,7 +239,7 @@
                                <span class="n">email</span><span class="o">=</span><span class="n">email</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="ActionKit.update_user"><a class="viewcode-back" href="../../../action_kit.html#parsons.ActionKit.update_user">[docs]</a>    <span class="k">def</span> <span class="nf">update_user</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">user_id</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Update a user.</span>
 
 <span class="sd">        `Args:`</span>
@@ -255,7 +255,7 @@
         <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">resp</span><span class="o">.</span><span class="n">status_code</span><span class="si">}</span><span class="s1">: </span><span class="si">{</span><span class="n">user_id</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="ActionKit.delete_user"><a class="viewcode-back" href="../../../action_kit.html#parsons.ActionKit.delete_user">[docs]</a>    <span class="k">def</span> <span class="nf">delete_user</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">user_id</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Delete a user.</span>
 
 <span class="sd">        `Args:`</span>
@@ -269,7 +269,7 @@
         <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">resp</span><span class="o">.</span><span class="n">status_code</span><span class="si">}</span><span class="s1">: </span><span class="si">{</span><span class="n">user_id</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="ActionKit.get_campaign"><a class="viewcode-back" href="../../../action_kit.html#parsons.ActionKit.get_campaign">[docs]</a>    <span class="k">def</span> <span class="nf">get_campaign</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">campaign_id</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Get a campaign.</span>
 
 <span class="sd">        `Args:`</span>
@@ -283,7 +283,7 @@
                               <span class="n">exception_message</span><span class="o">=</span><span class="s1">&#39;Campaign not found&#39;</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="ActionKit.get_campaign_fields"><a class="viewcode-back" href="../../../action_kit.html#parsons.ActionKit.get_campaign_fields">[docs]</a>    <span class="k">def</span> <span class="nf">get_campaign_fields</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Get list of valid campaign fields that can be passed with the</span>
 <span class="sd">        :meth:`ActionKit.create_campaign` and :meth:`ActionKit.update_campaign` methods.</span>
 
@@ -295,7 +295,7 @@
         <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="n">resp</span><span class="p">[</span><span class="s1">&#39;fields&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span></div>
 
 <div class="viewcode-block" id="ActionKit.create_campaign"><a class="viewcode-back" href="../../../action_kit.html#parsons.ActionKit.create_campaign">[docs]</a>    <span class="k">def</span> <span class="nf">create_campaign</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Create a campaign.</span>
 
 <span class="sd">        `Args:`</span>
@@ -309,7 +309,7 @@
                                <span class="n">name</span><span class="o">=</span><span class="n">name</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="ActionKit.get_event_create_page"><a class="viewcode-back" href="../../../action_kit.html#parsons.ActionKit.get_event_create_page">[docs]</a>    <span class="k">def</span> <span class="nf">get_event_create_page</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">event_create_page_id</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Get a event create page.</span>
 
 <span class="sd">        `Args:`</span>
@@ -323,7 +323,7 @@
                               <span class="n">exception_message</span><span class="o">=</span><span class="s1">&#39;Event create page not found&#39;</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="ActionKit.get_event_create_page_fields"><a class="viewcode-back" href="../../../action_kit.html#parsons.ActionKit.get_event_create_page_fields">[docs]</a>    <span class="k">def</span> <span class="nf">get_event_create_page_fields</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Get list of event create page fields that can be passed with the</span>
 <span class="sd">        :meth:`ActionKit.create_event_create_page`.</span>
 
@@ -335,7 +335,7 @@
         <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="n">resp</span><span class="p">[</span><span class="s1">&#39;fields&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span></div>
 
 <div class="viewcode-block" id="ActionKit.create_event_create_page"><a class="viewcode-back" href="../../../action_kit.html#parsons.ActionKit.create_event_create_page">[docs]</a>    <span class="k">def</span> <span class="nf">create_event_create_page</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">campaign_id</span><span class="p">,</span> <span class="n">title</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Add an event page to a campaign.</span>
 
 <span class="sd">        `Args:`</span>
@@ -357,7 +357,7 @@
                                <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="ActionKit.get_event_create_form"><a class="viewcode-back" href="../../../action_kit.html#parsons.ActionKit.get_event_create_form">[docs]</a>    <span class="k">def</span> <span class="nf">get_event_create_form</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">event_create_form_id</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Get a event create form.</span>
 
 <span class="sd">        `Args:`</span>
@@ -371,7 +371,7 @@
                               <span class="n">exception_message</span><span class="o">=</span><span class="s1">&#39;Event create page not found&#39;</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="ActionKit.get_event_create_form_fields"><a class="viewcode-back" href="../../../action_kit.html#parsons.ActionKit.get_event_create_form_fields">[docs]</a>    <span class="k">def</span> <span class="nf">get_event_create_form_fields</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Get list of valid event create form fields that can be passed with the</span>
 <span class="sd">        :meth:`ActionKit.create_event_create_form` method.</span>
 
@@ -383,7 +383,7 @@
         <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="n">resp</span><span class="p">[</span><span class="s1">&#39;fields&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span></div>
 
 <div class="viewcode-block" id="ActionKit.create_event_create_form"><a class="viewcode-back" href="../../../action_kit.html#parsons.ActionKit.create_event_create_form">[docs]</a>    <span class="k">def</span> <span class="nf">create_event_create_form</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">page_id</span><span class="p">,</span> <span class="n">thank_you_text</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Create a event create form.</span>
 
 <span class="sd">        `Args:`</span>
@@ -402,7 +402,7 @@
                                <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="ActionKit.get_event_signup_page"><a class="viewcode-back" href="../../../action_kit.html#parsons.ActionKit.get_event_signup_page">[docs]</a>    <span class="k">def</span> <span class="nf">get_event_signup_page</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">event_signup_page_id</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Get event signup page.</span>
 
 <span class="sd">        `Args:`</span>
@@ -416,7 +416,7 @@
                               <span class="n">exception_message</span><span class="o">=</span><span class="s1">&#39;User page signup page not found&#39;</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="ActionKit.get_event_signup_page_fields"><a class="viewcode-back" href="../../../action_kit.html#parsons.ActionKit.get_event_signup_page_fields">[docs]</a>    <span class="k">def</span> <span class="nf">get_event_signup_page_fields</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Get list of valid event signup page fields that can be passed with the</span>
 <span class="sd">        :meth:`ActionKit.create_event_signup_page` method.</span>
 
@@ -428,7 +428,7 @@
         <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="n">resp</span><span class="p">[</span><span class="s1">&#39;fields&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span></div>
 
 <div class="viewcode-block" id="ActionKit.create_event_signup_page"><a class="viewcode-back" href="../../../action_kit.html#parsons.ActionKit.create_event_signup_page">[docs]</a>    <span class="k">def</span> <span class="nf">create_event_signup_page</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">campaign_id</span><span class="p">,</span> <span class="n">title</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Add an event signup page to a campaign.</span>
 
 <span class="sd">        `Args:`</span>
@@ -450,7 +450,7 @@
                                <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="ActionKit.get_event_signup_form"><a class="viewcode-back" href="../../../action_kit.html#parsons.ActionKit.get_event_signup_form">[docs]</a>    <span class="k">def</span> <span class="nf">get_event_signup_form</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">event_signup_form_id</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Get a user.</span>
 
 <span class="sd">        `Args:`</span>
@@ -464,7 +464,7 @@
                               <span class="n">exception_message</span><span class="o">=</span><span class="s1">&#39;User page signup form not found&#39;</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="ActionKit.get_event_signup_form_fields"><a class="viewcode-back" href="../../../action_kit.html#parsons.ActionKit.get_event_signup_form_fields">[docs]</a>    <span class="k">def</span> <span class="nf">get_event_signup_form_fields</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Get list of valid event signup form fields that can be passed with the</span>
 <span class="sd">        :meth:`ActionKit.create_event_signup_form` method.</span>
 
@@ -476,7 +476,7 @@
         <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="n">resp</span><span class="p">[</span><span class="s1">&#39;fields&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span></div>
 
 <div class="viewcode-block" id="ActionKit.create_event_signup_form"><a class="viewcode-back" href="../../../action_kit.html#parsons.ActionKit.create_event_signup_form">[docs]</a>    <span class="k">def</span> <span class="nf">create_event_signup_form</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">page_id</span><span class="p">,</span> <span class="n">thank_you_text</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Create a event signup form.</span>
 
 <span class="sd">        `Args:`</span>
@@ -495,7 +495,7 @@
                                <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="ActionKit.get_page_followup"><a class="viewcode-back" href="../../../action_kit.html#parsons.ActionKit.get_page_followup">[docs]</a>    <span class="k">def</span> <span class="nf">get_page_followup</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">page_followup_id</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Get a page followup.</span>
 
 <span class="sd">        `Args:`</span>
@@ -509,7 +509,7 @@
                               <span class="n">exception_message</span><span class="o">=</span><span class="s1">&#39;Page followup not found&#39;</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="ActionKit.get_page_followup_fields"><a class="viewcode-back" href="../../../action_kit.html#parsons.ActionKit.get_page_followup_fields">[docs]</a>    <span class="k">def</span> <span class="nf">get_page_followup_fields</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Get list of valid page followup fields that can be passed with the</span>
 <span class="sd">        :meth:`ActionKit.create_page_followup` method.</span>
 
@@ -521,7 +521,7 @@
         <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="n">resp</span><span class="p">[</span><span class="s1">&#39;fields&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span></div>
 
 <div class="viewcode-block" id="ActionKit.create_page_followup"><a class="viewcode-back" href="../../../action_kit.html#parsons.ActionKit.create_page_followup">[docs]</a>    <span class="k">def</span> <span class="nf">create_page_followup</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">signup_page_id</span><span class="p">,</span> <span class="n">url</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Add a page followup.</span>
 
 <span class="sd">        `Args:`</span>
@@ -540,7 +540,7 @@
                                <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="ActionKit.create_generic_action"><a class="viewcode-back" href="../../../action_kit.html#parsons.ActionKit.create_generic_action">[docs]</a>    <span class="k">def</span> <span class="nf">create_generic_action</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">page</span><span class="p">,</span> <span class="n">email</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">ak_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Post a generic action. One of ``ak_id`` or ``email`` is a required argument.</span>
 
 <span class="sd">        `Args:`</span>
@@ -570,7 +570,7 @@
 
 <div class="viewcode-block" id="ActionKit.bulk_upload_csv"><a class="viewcode-back" href="../../../action_kit.html#parsons.ActionKit.bulk_upload_csv">[docs]</a>    <span class="k">def</span> <span class="nf">bulk_upload_csv</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">csv_file</span><span class="p">,</span> <span class="n">import_page</span><span class="p">,</span>
                         <span class="n">autocreate_user_fields</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">user_fields_only</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Bulk upload a csv file of new users or user updates.</span>
 <span class="sd">        If you are uploading a table object, use bulk_upload_table instead.</span>
 <span class="sd">        See `ActionKit User Upload Documentation &lt;https://roboticdogs.actionkit.com/docs/manual/api/rest/uploads.html&gt;`_</span>
@@ -619,7 +619,7 @@
 
 <div class="viewcode-block" id="ActionKit.bulk_upload_table"><a class="viewcode-back" href="../../../action_kit.html#parsons.ActionKit.bulk_upload_table">[docs]</a>    <span class="k">def</span> <span class="nf">bulk_upload_table</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">table</span><span class="p">,</span> <span class="n">import_page</span><span class="p">,</span> <span class="n">autocreate_user_fields</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
                           <span class="n">no_overwrite_on_empty</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Bulk upload a table of new users or user updates.</span>
 <span class="sd">        See `ActionKit User Upload Documentation &lt;https://roboticdogs.actionkit.com/docs/manual/api/rest/uploads.html&gt;`_</span>
 <span class="sd">        Be careful that blank values in columns will overwrite existing data.</span>

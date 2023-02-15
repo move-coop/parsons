@@ -135,7 +135,7 @@
 
 
 <div class="viewcode-block" id="Sisense"><a class="viewcode-back" href="../../../sisense.html#parsons.Sisense">[docs]</a><span class="k">class</span> <span class="nc">Sisense</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Instantiate the Sisense class.</span>
 
 <span class="sd">    `Args:`</span>
@@ -160,7 +160,7 @@
         <span class="k">return</span> <span class="n">APIConnector</span><span class="p">(</span><span class="n">uri</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">uri</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="n">headers</span><span class="p">)</span>
 
 <div class="viewcode-block" id="Sisense.publish_shared_dashboard"><a class="viewcode-back" href="../../../sisense.html#parsons.Sisense.publish_shared_dashboard">[docs]</a>    <span class="k">def</span> <span class="nf">publish_shared_dashboard</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dashboard_id</span><span class="p">,</span> <span class="n">chart_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        This method publishes a dashboard or chart using the provided arguments.</span>
 <span class="sd">        For available options, see the `API documentation &lt;https://dtdocs.sisense.com/article/embed-api-options&gt;`_. # noqa</span>
 
@@ -178,7 +178,7 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">api</span><span class="o">.</span><span class="n">post_request</span><span class="p">(</span><span class="s1">&#39;shared_dashboard/create&#39;</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">payload</span><span class="p">))</span></div>
 
 <div class="viewcode-block" id="Sisense.list_shared_dashboards"><a class="viewcode-back" href="../../../sisense.html#parsons.Sisense.list_shared_dashboards">[docs]</a>    <span class="k">def</span> <span class="nf">list_shared_dashboards</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dashboard_id</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        List all shares of a given dashboard.</span>
 
 <span class="sd">        `Args:`</span>
@@ -191,7 +191,7 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">api</span><span class="o">.</span><span class="n">post_request</span><span class="p">(</span><span class="s1">&#39;shared_dashboard/list&#39;</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">payload</span><span class="p">))</span></div>
 
 <div class="viewcode-block" id="Sisense.delete_shared_dashboard"><a class="viewcode-back" href="../../../sisense.html#parsons.Sisense.delete_shared_dashboard">[docs]</a>    <span class="k">def</span> <span class="nf">delete_shared_dashboard</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">token</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        To delete a shared dashboard you must provide the token for the shared dashboard.</span>
 <span class="sd">        The token is the last part of the shared dashboard URL. i.e. if the shared URL is:</span>
 

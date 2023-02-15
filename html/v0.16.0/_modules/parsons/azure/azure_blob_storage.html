@@ -125,7 +125,7 @@
 
 
 <div class="viewcode-block" id="AzureBlobStorage"><a class="viewcode-back" href="../../../azure.html#parsons.AzureBlobStorage">[docs]</a><span class="k">class</span> <span class="nc">AzureBlobStorage</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Instantiate AzureBlobStorage Class for a given Azure storage account.</span>
 
 <span class="sd">    `Args:`</span>
@@ -165,7 +165,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">client</span> <span class="o">=</span> <span class="n">BlobServiceClient</span><span class="p">(</span><span class="n">account_url</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">account_url</span><span class="p">,</span> <span class="n">credential</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">credential</span><span class="p">)</span>
 
 <div class="viewcode-block" id="AzureBlobStorage.list_containers"><a class="viewcode-back" href="../../../azure.html#parsons.AzureBlobStorage.list_containers">[docs]</a>    <span class="k">def</span> <span class="nf">list_containers</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Returns a list of container names for the storage account</span>
 
 <span class="sd">        `Returns:`</span>
@@ -178,7 +178,7 @@
         <span class="k">return</span> <span class="n">container_names</span></div>
 
 <div class="viewcode-block" id="AzureBlobStorage.container_exists"><a class="viewcode-back" href="../../../azure.html#parsons.AzureBlobStorage.container_exists">[docs]</a>    <span class="k">def</span> <span class="nf">container_exists</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">container_name</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Verify that a container exists within the storage account</span>
 
 <span class="sd">        `Args:`</span>
@@ -198,7 +198,7 @@
             <span class="k">return</span> <span class="kc">False</span></div>
 
 <div class="viewcode-block" id="AzureBlobStorage.get_container"><a class="viewcode-back" href="../../../azure.html#parsons.AzureBlobStorage.get_container">[docs]</a>    <span class="k">def</span> <span class="nf">get_container</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">container_name</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Returns a container client</span>
 
 <span class="sd">        `Args:`</span>
@@ -212,7 +212,7 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">get_container_client</span><span class="p">(</span><span class="n">container_name</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="AzureBlobStorage.create_container"><a class="viewcode-back" href="../../../azure.html#parsons.AzureBlobStorage.create_container">[docs]</a>    <span class="k">def</span> <span class="nf">create_container</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">container_name</span><span class="p">,</span> <span class="n">metadata</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">public_access</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Create a container</span>
 
 <span class="sd">        `Args:`</span>
@@ -238,7 +238,7 @@
         <span class="k">return</span> <span class="n">container_client</span></div>
 
 <div class="viewcode-block" id="AzureBlobStorage.delete_container"><a class="viewcode-back" href="../../../azure.html#parsons.AzureBlobStorage.delete_container">[docs]</a>    <span class="k">def</span> <span class="nf">delete_container</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">container_name</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Delete a container.</span>
 
 <span class="sd">        `Args:`</span>
@@ -252,7 +252,7 @@
         <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">container_name</span><span class="si">}</span><span class="s1"> container deleted.&#39;</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="AzureBlobStorage.list_blobs"><a class="viewcode-back" href="../../../azure.html#parsons.AzureBlobStorage.list_blobs">[docs]</a>    <span class="k">def</span> <span class="nf">list_blobs</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">container_name</span><span class="p">,</span> <span class="n">name_starts_with</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        List all of the names of blobs in a container</span>
 
 <span class="sd">        `Args:`</span>
@@ -273,7 +273,7 @@
         <span class="k">return</span> <span class="n">blobs</span></div>
 
 <div class="viewcode-block" id="AzureBlobStorage.blob_exists"><a class="viewcode-back" href="../../../azure.html#parsons.AzureBlobStorage.blob_exists">[docs]</a>    <span class="k">def</span> <span class="nf">blob_exists</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">container_name</span><span class="p">,</span> <span class="n">blob_name</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Verify that a blob exists in the specified container</span>
 
 <span class="sd">        `Args:`</span>
@@ -295,7 +295,7 @@
             <span class="k">return</span> <span class="kc">False</span></div>
 
 <div class="viewcode-block" id="AzureBlobStorage.get_blob"><a class="viewcode-back" href="../../../azure.html#parsons.AzureBlobStorage.get_blob">[docs]</a>    <span class="k">def</span> <span class="nf">get_blob</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">container_name</span><span class="p">,</span> <span class="n">blob_name</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Get a blob object</span>
 
 <span class="sd">        `Args:`</span>
@@ -313,7 +313,7 @@
 
 <div class="viewcode-block" id="AzureBlobStorage.get_blob_url"><a class="viewcode-back" href="../../../azure.html#parsons.AzureBlobStorage.get_blob_url">[docs]</a>    <span class="k">def</span> <span class="nf">get_blob_url</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">container_name</span><span class="p">,</span> <span class="n">blob_name</span><span class="p">,</span> <span class="n">account_key</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">permission</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
                      <span class="n">expiry</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">start</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Get a URL with a shared access signature for a blob</span>
 
 <span class="sd">        `Args:`</span>
@@ -357,7 +357,7 @@
         <span class="k">return</span> <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">account_url</span><span class="si">}</span><span class="s1">/</span><span class="si">{</span><span class="n">container_name</span><span class="si">}</span><span class="s1">/</span><span class="si">{</span><span class="n">blob_name</span><span class="si">}</span><span class="s1">?sas=</span><span class="si">{</span><span class="n">sas</span><span class="si">}</span><span class="s1">&#39;</span></div>
 
     <span class="k">def</span> <span class="nf">_get_content_settings_from_dict</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">kwargs_dict</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Removes any keys for ``ContentSettings`` from a dict and returns a tuple of the generated</span>
 <span class="sd">        settings or ``None`` and a dict with the settings keys removed.</span>
 
@@ -386,7 +386,7 @@
         <span class="k">return</span> <span class="n">content_settings</span><span class="p">,</span> <span class="n">kwargs_copy</span>
 
 <div class="viewcode-block" id="AzureBlobStorage.put_blob"><a class="viewcode-back" href="../../../azure.html#parsons.AzureBlobStorage.put_blob">[docs]</a>    <span class="k">def</span> <span class="nf">put_blob</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">container_name</span><span class="p">,</span> <span class="n">blob_name</span><span class="p">,</span> <span class="n">local_path</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Puts a blob (aka file) in a bucket</span>
 
 <span class="sd">        `Args:`</span>
@@ -425,7 +425,7 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_blob</span><span class="p">(</span><span class="n">container_name</span><span class="p">,</span> <span class="n">blob_name</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="AzureBlobStorage.download_blob"><a class="viewcode-back" href="../../../azure.html#parsons.AzureBlobStorage.download_blob">[docs]</a>    <span class="k">def</span> <span class="nf">download_blob</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">container_name</span><span class="p">,</span> <span class="n">blob_name</span><span class="p">,</span> <span class="n">local_path</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Downloads a blob from a container into the specified file path or a temporary file path</span>
 
 <span class="sd">        `Args:`</span>
@@ -455,7 +455,7 @@
         <span class="k">return</span> <span class="n">local_path</span></div>
 
 <div class="viewcode-block" id="AzureBlobStorage.delete_blob"><a class="viewcode-back" href="../../../azure.html#parsons.AzureBlobStorage.delete_blob">[docs]</a>    <span class="k">def</span> <span class="nf">delete_blob</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">container_name</span><span class="p">,</span> <span class="n">blob_name</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Delete a blob in a specified container.</span>
 
 <span class="sd">        `Args:`</span>
@@ -472,7 +472,7 @@
         <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">blob_name</span><span class="si">}</span><span class="s1"> blob in </span><span class="si">{</span><span class="n">container_name</span><span class="si">}</span><span class="s1"> container deleted.&#39;</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="AzureBlobStorage.upload_table"><a class="viewcode-back" href="../../../azure.html#parsons.AzureBlobStorage.upload_table">[docs]</a>    <span class="k">def</span> <span class="nf">upload_table</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">table</span><span class="p">,</span> <span class="n">container_name</span><span class="p">,</span> <span class="n">blob_name</span><span class="p">,</span> <span class="n">data_type</span><span class="o">=</span><span class="s1">&#39;csv&#39;</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Load the data from a Parsons table into a blob.</span>
 
 <span class="sd">        `Args:`</span>

@@ -122,7 +122,7 @@
 
 
 <div class="viewcode-block" id="Salesforce"><a class="viewcode-back" href="../../../salesforce.html#parsons.Salesforce">[docs]</a><span class="k">class</span> <span class="nc">Salesforce</span><span class="p">:</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Instantiate the Salesforce class</span>
 
 <span class="sd">    `Args:`</span>
@@ -157,7 +157,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">_client</span> <span class="o">=</span> <span class="kc">None</span>
 
 <div class="viewcode-block" id="Salesforce.describe_object"><a class="viewcode-back" href="../../../salesforce.html#parsons.Salesforce.describe_object">[docs]</a>    <span class="k">def</span> <span class="nf">describe_object</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">object</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        `Args:`</span>
 <span class="sd">            object: str</span>
 <span class="sd">                The API name of the type of record to describe. Note that custom object names end</span>
@@ -169,7 +169,7 @@
         <span class="k">return</span> <span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="p">,</span> <span class="nb">object</span><span class="p">)</span><span class="o">.</span><span class="n">describe</span><span class="p">()</span></div>
 
 <div class="viewcode-block" id="Salesforce.describe_fields"><a class="viewcode-back" href="../../../salesforce.html#parsons.Salesforce.describe_fields">[docs]</a>    <span class="k">def</span> <span class="nf">describe_fields</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">object</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        `Args:`</span>
 <span class="sd">            object: str</span>
 <span class="sd">                The API name of the type of record on whose fields you want data. Note that custom</span>
@@ -181,7 +181,7 @@
         <span class="k">return</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="p">,</span> <span class="nb">object</span><span class="p">)</span><span class="o">.</span><span class="n">describe</span><span class="p">()[</span><span class="s1">&#39;fields&#39;</span><span class="p">]))</span></div>
 
 <div class="viewcode-block" id="Salesforce.query"><a class="viewcode-back" href="../../../salesforce.html#parsons.Salesforce.query">[docs]</a>    <span class="k">def</span> <span class="nf">query</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">soql</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        `Args:`</span>
 <span class="sd">            soql: str</span>
 <span class="sd">                The desired query in Salesforce SOQL language (SQL with additional limitations).</span>
@@ -195,7 +195,7 @@
         <span class="k">return</span> <span class="n">q</span></div>
 
 <div class="viewcode-block" id="Salesforce.insert_record"><a class="viewcode-back" href="../../../salesforce.html#parsons.Salesforce.insert_record">[docs]</a>    <span class="k">def</span> <span class="nf">insert_record</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">object</span><span class="p">,</span> <span class="n">data_table</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Insert new records of the desired object into Salesforce</span>
 
 <span class="sd">        `Args:`</span>
@@ -222,7 +222,7 @@
         <span class="k">return</span> <span class="n">r</span></div>
 
 <div class="viewcode-block" id="Salesforce.update_record"><a class="viewcode-back" href="../../../salesforce.html#parsons.Salesforce.update_record">[docs]</a>    <span class="k">def</span> <span class="nf">update_record</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">object</span><span class="p">,</span> <span class="n">data_table</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Update existing records of the desired object in Salesforce</span>
 
 <span class="sd">        `Args:`</span>
@@ -249,7 +249,7 @@
         <span class="k">return</span> <span class="n">r</span></div>
 
 <div class="viewcode-block" id="Salesforce.upsert_record"><a class="viewcode-back" href="../../../salesforce.html#parsons.Salesforce.upsert_record">[docs]</a>    <span class="k">def</span> <span class="nf">upsert_record</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">object</span><span class="p">,</span> <span class="n">data_table</span><span class="p">,</span> <span class="n">id_col</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Insert new records and update existing ones of the desired object in Salesforce</span>
 
 <span class="sd">        `Args:`</span>
@@ -279,7 +279,7 @@
         <span class="k">return</span> <span class="n">r</span></div>
 
 <div class="viewcode-block" id="Salesforce.delete_record"><a class="viewcode-back" href="../../../salesforce.html#parsons.Salesforce.delete_record">[docs]</a>    <span class="k">def</span> <span class="nf">delete_record</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">object</span><span class="p">,</span> <span class="n">id_table</span><span class="p">,</span> <span class="n">hard_delete</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Delete existing records of the desired object in Salesforce</span>
 
 <span class="sd">        `Args:`</span>
@@ -312,7 +312,7 @@
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">client</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Get the Salesforce client to use for making all calls. For more information, check the</span>
 <span class="sd">        `Simple Salesforce Documentation &lt;https://simple-salesforce.readthedocs.io/en/latest/&gt;`_</span>
 

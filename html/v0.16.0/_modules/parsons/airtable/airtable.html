@@ -122,7 +122,7 @@
 
 
 <div class="viewcode-block" id="Airtable"><a class="viewcode-back" href="../../../airtable.html#parsons.Airtable">[docs]</a><span class="k">class</span> <span class="nc">Airtable</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    `Args:`</span>
 <span class="sd">        base_key: str</span>
 <span class="sd">            The key of the Airtable base that you will interact with.</span>
@@ -139,7 +139,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">client</span> <span class="o">=</span> <span class="n">client</span><span class="p">(</span><span class="n">base_key</span><span class="p">,</span> <span class="n">table_name</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">api_key</span><span class="p">)</span>
 
 <div class="viewcode-block" id="Airtable.get_record"><a class="viewcode-back" href="../../../airtable.html#parsons.Airtable.get_record">[docs]</a>    <span class="k">def</span> <span class="nf">get_record</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">record_id</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Returns a single record.</span>
 
 <span class="sd">        `Args:`</span>
@@ -152,7 +152,7 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">record_id</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="Airtable.get_records"><a class="viewcode-back" href="../../../airtable.html#parsons.Airtable.get_records">[docs]</a>    <span class="k">def</span> <span class="nf">get_records</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fields</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">max_records</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">view</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">formula</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">sort</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        `Args:`</span>
 <span class="sd">            fields: str or lst</span>
 <span class="sd">                Only return specified column or list of columns. The column name is</span>
@@ -211,7 +211,7 @@
         <span class="k">return</span> <span class="n">tbl</span><span class="o">.</span><span class="n">unpack_dict</span><span class="p">(</span><span class="n">column</span><span class="o">=</span><span class="s1">&#39;fields&#39;</span><span class="p">,</span> <span class="n">prepend</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="Airtable.insert_record"><a class="viewcode-back" href="../../../airtable.html#parsons.Airtable.insert_record">[docs]</a>    <span class="k">def</span> <span class="nf">insert_record</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">row</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Insert a single record into an Airtable.</span>
 
 <span class="sd">        `Args:`</span>
@@ -229,7 +229,7 @@
         <span class="k">return</span> <span class="n">resp</span></div>
 
 <div class="viewcode-block" id="Airtable.insert_records"><a class="viewcode-back" href="../../../airtable.html#parsons.Airtable.insert_records">[docs]</a>    <span class="k">def</span> <span class="nf">insert_records</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">table</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Insert multiple records into an Airtable. The columns in your Parsons table must</span>
 <span class="sd">        exist in the Airtable. The method will attempt to map based on column name, so the</span>
 <span class="sd">        order of the columns is irrelevant.</span>
@@ -248,7 +248,7 @@
         <span class="k">return</span> <span class="n">resp</span></div>
 
 <div class="viewcode-block" id="Airtable.update_record"><a class="viewcode-back" href="../../../airtable.html#parsons.Airtable.update_record">[docs]</a>    <span class="k">def</span> <span class="nf">update_record</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">record_id</span><span class="p">,</span> <span class="n">fields</span><span class="p">,</span> <span class="n">typecast</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Updates a record by its record id. Only Fields passed are updated, the rest are left as</span>
 <span class="sd">        is.</span>
 

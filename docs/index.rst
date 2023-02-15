@@ -3,6 +3,12 @@
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
 
+.. image:: /_static/parsons_logo.png
+   :width: 250px
+   :height: 250px
+   :alt: Parsons logo
+   :align: center
+
 About
 =====
 
@@ -19,13 +25,21 @@ License and Usage
 =================
 Usage of Parsons is governed by a `modified Apache License with author attribution statement <https://github.com/move-coop/parsons/blob/main/LICENSE.md>`_.
 
-Design Goals
+Resources
+=========
+* Documentation: `<https://move-coop.github.io/parsons/html/index.html>`_
+* Source Code: `<https://github.com/move-coop/parsons>`_
+* Project Website: `<https://www.parsonsproject.org/>`_
+* Docker Image: `<https://hub.docker.com/r/movementcooperative/parsons>`_
+
+Installation
 ============
-The goal of Parsons is to make the movement of data between systems as easy and straightforward as possible. Simply put, we seek to reduce the lines of code that are written by the progressive community. Not only is this a waste of time, but we rarely have the capacity and resources to fully unittest our scripts.
 
-.. image:: /_static/parsons_diagram.png
+You can install Parsons using ``pip install parsons``. We recommend using a `virtual environment <https://www.parsonsproject.org/pub/installation#setting-up-your-virtual-environment>`_.
 
-Parsons seeks to be flexible from a data ingestion and output perspective, while providing ETL tools that recognize that our data is **always** messy. Central to this concept is the :ref:`parsons-table` the table-like object that most methods return.
+Need more detail? We have a `detailed, beginner-friendly guide to installing Parsons <https://www.parsonsproject.org/pub/installation/>`_ on our website.
+
+We also have a Parsons Docker container hosted on `DockerHub <https://hub.docker.com/r/movementcooperative/parsons>`_ for each release of Parsons.
 
 QuickStart
 ==========
@@ -66,73 +80,13 @@ QuickStart
   ts = TargetSmart(api_key='MY_KEY')
   record = ts.data_enhance(231231231, state='DC')
 
-Sources
-=======
-* Documentation: `<https://move-coop.github.io/parsons/html/index.html>`_
-* Source Code: `<https://github.com/move-coop/parsons>`_
-
-Virtual Environments
-====================
-
-Normally, tools like `pip` install Python libraries directly to your system. Python scripts
-or libraries look for their dependencies in your system. This can cause problems when you
-have two scripts/libraries installed that require different versions of the same library.
-
-To solve this problem, we recommend you use *virtual environments* to install Parsons.
-Virtual environments allow you to keep different sets of installed libraries so that you can
-use different versions of the same libraries for different purposes.
-
-Windows
-------------------------------
-
-`Source <https://pypi.org/project/virtualenvwrapper-win/>`_
-
-1. Install virtualenvwrappers from source::
-
-      git clone git://github.com/davidmarble/virtualenvwrapper-win.git
-      cd virtualenvwrapper-win
-      python setup.py install
-
-2. Find the ``Scripts\`` directory for your Python installation, such as ``C:\Users\<User>\AppData\Local\Programs\Python\Python37\Scripts\``.
-
-3. Add the ``Scripts\`` directory to your Path.
-
-4. To create a virtual environment for Parsons, execute: ``mkvirtualenv parsons``
-
-5. To use this virtual environment, execute: ``workon parsons``
-
-
-Linux / Mac OS
-------------------------------
-
-<Coming Soon>
-
-Installation
+Design Goals
 ============
+The goal of Parsons is to make the movement of data between systems as easy and straightforward as possible. Simply put, we seek to reduce the lines of code that are written by the progressive community. Not only is this a waste of time, but we rarely have the capacity and resources to fully unittest our scripts.
 
-There are two ways to install Parsons: Using pip and from source. Use pip if you just want to install Parsons and start using it. Install from source if you might want to patch Parsons to customize its behavior.
+.. image:: /_static/parsons_diagram.png
 
-Installing Parsons (pip)
------------------------------
-
-1. Make sure you're in your parsons virtual environment: ``workon parsons``.
-
-2. Execute: ``pip install parsons``
-
-Installing Parsons from Source
-----------------------------------
-
-
-1. Make sure you're in your parsons virtual environment: ``workon parsons``.
-
-2. Execute these commands::
-
-      git clone https://github.com/move-coop/parsons.git
-      pip install -r requirements.txt
-      python setup.py install
-
-
-3. To update your installation, pull the most recent branch from the Parsons GitHub repo (``git pull origin master``) and rerun ``python setup.py install``.
+Parsons seeks to be flexible from a data ingestion and output perspective, while providing ETL tools that recognize that our data is **always** messy. Central to this concept is the :ref:`parsons-table` the table-like object that most methods return.
 
 Logging
 =======
@@ -253,12 +207,13 @@ Indices and tables
    mobilize_america
    newmode
    ngpvan
-   pdi
    p2a
+   pdi
    quickbase
    redash
    rockthevote
    salesforce
+   scytl
    sftp
    shopify
    sisense

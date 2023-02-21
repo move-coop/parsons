@@ -163,14 +163,15 @@ class GoogleSheets:
 
     def create_spreadsheet(self, title, editor_email=None, folder_id=None):
         """
-        Create a Google spreadsheet from a Parsons table. Optionally shares the new doc with
+        Creates a new Google spreadsheet. Optionally shares the new doc with
         the given email address. Optionally creates the sheet in a specified folder.
 
         `Args:`
             title: str
                 The human-readable title of the new spreadsheet
             editor_email: str (optional)
-                Email address which should be given permissions on this spreadsheet
+                Email address which should be given permissions on this spreadsheet.
+                Tip: You may want to share this file with the service account.
             folder_id: str (optional)
                 ID of the Google folder where the spreadsheet should be created.
                 Tip: Get this from the folder URL.

@@ -288,6 +288,8 @@ You can then create/modify/retrieve documents using instance methods:
    sheets.append_to_sheet(sheet_id, people_with_cell_phones)
    parsons_table = sheets.get_worksheet(sheet_id)
 
+You may also want to share the document with your service or user account.
+
 ===
 API
 ===

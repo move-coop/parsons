@@ -924,6 +924,7 @@ env variable set.</p>
 <span class="n">parsons_table</span> <span class="o">=</span> <span class="n">sheets</span><span class="o">.</span><span class="n">get_worksheet</span><span class="p">(</span><span class="n">sheet_id</span><span class="p">)</span>
 </pre></div>
 </div>
+<p>You may also want to share the document with your service or user account.</p>
 </section>
 <section id="id17">
 <h3>API<a class="headerlink" href="#id17" title="Permalink to this headline"></a></h3>
@@ -1052,13 +1053,14 @@ with. To share publicly, set sharee value to <code class="docutils literal notra
 <dl class="py method">
 <dt class="sig sig-object py" id="parsons.google.google_sheets.GoogleSheets.create_spreadsheet">
 <span class="sig-name descname"><span class="pre">create_spreadsheet</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">title</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">editor_email</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">folder_id</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/google/google_sheets.html#GoogleSheets.create_spreadsheet"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.google.google_sheets.GoogleSheets.create_spreadsheet" title="Permalink to this definition"></a></dt>
-<dd><p>Create a Google spreadsheet from a Parsons table. Optionally shares the new doc with
+<dd><p>Creates a new Google spreadsheet. Optionally shares the new doc with
 the given email address. Optionally creates the sheet in a specified folder.</p>
 <dl class="simple">
 <dt><cite>Args:</cite></dt><dd><dl class="simple">
 <dt>title: str</dt><dd><p>The human-readable title of the new spreadsheet</p>
 </dd>
-<dt>editor_email: str (optional)</dt><dd><p>Email address which should be given permissions on this spreadsheet</p>
+<dt>editor_email: str (optional)</dt><dd><p>Email address which should be given permissions on this spreadsheet.
+Tip: You may want to share this file with the service account.</p>
 </dd>
 <dt>folder_id: str (optional)</dt><dd><p>ID of the Google folder where the spreadsheet should be created.
 Tip: Get this from the folder URL.

@@ -55,6 +55,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../../../copper.html">Copper</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../crowdtangle.html">CrowdTangle</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../databases.html">Databases</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../donorbox.html">Donorbox</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../facebook_ads.html">FacebookAds</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../freshdesk.html">Freshdesk</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../github.html">GitHub</a></li>
@@ -64,12 +65,13 @@
 <li class="toctree-l1"><a class="reference internal" href="../../../mobilize_america.html">Mobilize America</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../newmode.html">New/Mode</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../ngpvan.html">NGPVAN</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../pdi.html">PDI</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../p2a.html">Phone2Action</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../pdi.html">PDI</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../quickbase.html">Quickbase</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../redash.html">Redash</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../rockthevote.html">Rock the Vote</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../salesforce.html">Salesforce</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../scytl.html">Scytl</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../sftp.html">SFTP</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../shopify.html">Shopify</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../sisense.html">Sisense</a></li>
@@ -713,7 +715,32 @@
         <span class="n">json</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;codeId&quot;</span><span class="p">:</span> <span class="n">code_id</span><span class="p">}</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">connection</span><span class="o">.</span><span class="n">post_request</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">json</span><span class="o">=</span><span class="n">json</span><span class="p">)</span>
-        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Code </span><span class="si">{</span><span class="n">code_id</span><span class="si">}</span><span class="s1"> applied to person id </span><span class="si">{</span><span class="nb">id</span><span class="si">}</span><span class="s1">.&#39;</span><span class="p">)</span></div></div>
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Code </span><span class="si">{</span><span class="n">code_id</span><span class="si">}</span><span class="s1"> applied to person id </span><span class="si">{</span><span class="nb">id</span><span class="si">}</span><span class="s1">.&#39;</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="People.merge_contacts"><a class="viewcode-back" href="../../../ngpvan.html#parsons.ngpvan.van.People.merge_contacts">[docs]</a>    <span class="k">def</span> <span class="nf">merge_contacts</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">primary_vanid</span><span class="p">,</span> <span class="n">source_vanid</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Merges two contacts in EveryAction. The source contact record will be</span>
+<span class="sd">        deleted as part of the merge and its data will be moved into the primary</span>
+<span class="sd">        contact record. In cases where fields conflict between the two contacts</span>
+<span class="sd">        and we can&#39;t keep both values, such as if the contacts have different</span>
+<span class="sd">        first names, the primary contact record&#39;s data will be retained. For</span>
+<span class="sd">        more information see the</span>
+<span class="sd">        `VAN API documentation here &lt;https://docs.ngpvan.com/reference/peoplevanidmergeinto&gt;`_</span>
+
+<span class="sd">        `Args:`</span>
+<span class="sd">            primary_vanid: str</span>
+<span class="sd">                The VANID of the primary contact record.</span>
+<span class="sd">            source_vanid: str</span>
+<span class="sd">                The VANID of the source contact record.</span>
+<span class="sd">        `Returns:`</span>
+<span class="sd">            The VANID of the primary contact record.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">url</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;people/</span><span class="si">{</span><span class="n">source_vanid</span><span class="si">}</span><span class="s1">/mergeInto&#39;</span>
+        <span class="n">json</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;vanId&quot;</span><span class="p">:</span> <span class="n">primary_vanid</span><span class="p">}</span>
+
+        <span class="n">r</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">connection</span><span class="o">.</span><span class="n">put_request</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">json</span><span class="o">=</span><span class="n">json</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">r</span></div></div>
 </pre></div>
 
            </div>

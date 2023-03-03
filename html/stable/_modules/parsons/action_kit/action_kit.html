@@ -55,6 +55,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../../../copper.html">Copper</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../crowdtangle.html">CrowdTangle</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../databases.html">Databases</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../donorbox.html">Donorbox</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../facebook_ads.html">FacebookAds</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../freshdesk.html">Freshdesk</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../github.html">GitHub</a></li>
@@ -64,12 +65,13 @@
 <li class="toctree-l1"><a class="reference internal" href="../../../mobilize_america.html">Mobilize America</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../newmode.html">New/Mode</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../ngpvan.html">NGPVAN</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../pdi.html">PDI</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../p2a.html">Phone2Action</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../pdi.html">PDI</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../quickbase.html">Quickbase</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../redash.html">Redash</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../rockthevote.html">Rock the Vote</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../salesforce.html">Salesforce</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../scytl.html">Scytl</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../sftp.html">SFTP</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../shopify.html">Shopify</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../sisense.html">Sisense</a></li>
@@ -191,7 +193,6 @@
         <span class="n">resp</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">conn</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_base_endpoint</span><span class="p">(</span><span class="n">endpoint</span><span class="p">,</span> <span class="n">entity_id</span><span class="p">),</span> <span class="n">params</span><span class="o">=</span><span class="n">params</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">exception_message</span> <span class="ow">and</span> <span class="n">resp</span><span class="o">.</span><span class="n">status_code</span> <span class="o">==</span> <span class="mi">404</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">parse_error</span><span class="p">(</span><span class="n">resp</span><span class="p">,</span> <span class="n">exception_message</span><span class="p">))</span>
-
         <span class="k">return</span> <span class="n">resp</span><span class="o">.</span><span class="n">json</span><span class="p">()</span>
 
     <span class="k">def</span> <span class="nf">_base_post</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">endpoint</span><span class="p">,</span> <span class="n">exception_message</span><span class="p">,</span> <span class="n">return_full_json</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
@@ -320,28 +321,12 @@
 
 <span class="sd">                .. code-block:: python</span>
 
-<span class="sd">                    ak.get_events(fields__name__contains=&quot;FirstName&quot;)</span>
+<span class="sd">                    ak.get_events(name__contains=&quot;FirstName&quot;)</span>
 <span class="sd">        `Returns:`</span>
 <span class="sd">            Parsons.Table</span>
 <span class="sd">                The events data.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="c1"># &quot;The maximum number of objects returned per request is 100. Use paging</span>
-        <span class="c1"># to get more objects.&quot;</span>
-        <span class="c1"># (https://roboticdogs.actionkit.com/docs//manual/api/rest/overview.html#ordering)</span>
-        <span class="c1"># get `limit` events if it&#39;s provided, otherwise get 100</span>
-        <span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;_limit&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="mi">100</span><span class="p">,</span> <span class="n">limit</span> <span class="ow">or</span> <span class="mi">1_000_000_000</span><span class="p">)</span>
-        <span class="n">json_data</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_base_get</span><span class="p">(</span><span class="s2">&quot;event&quot;</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="n">kwargs</span><span class="p">)</span>
-        <span class="n">data</span> <span class="o">=</span> <span class="n">json_data</span><span class="p">[</span><span class="s2">&quot;objects&quot;</span><span class="p">]</span>
-
-        <span class="n">next_url</span> <span class="o">=</span> <span class="n">json_data</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;meta&quot;</span><span class="p">,</span> <span class="p">{})</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;next&quot;</span><span class="p">)</span>
-        <span class="k">while</span> <span class="n">next_url</span><span class="p">:</span>
-            <span class="n">resp</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">conn</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;https://</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">domain</span><span class="si">}{</span><span class="n">next_url</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
-            <span class="n">data</span> <span class="o">+=</span> <span class="n">resp</span><span class="o">.</span><span class="n">json</span><span class="p">()</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;objects&quot;</span><span class="p">,</span> <span class="p">[])</span>
-            <span class="n">next_url</span> <span class="o">=</span> <span class="n">resp</span><span class="o">.</span><span class="n">json</span><span class="p">()</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;meta&quot;</span><span class="p">,</span> <span class="p">{})</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;next&quot;</span><span class="p">)</span>
-            <span class="k">if</span> <span class="n">limit</span> <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="n">data</span><span class="p">)</span> <span class="o">&gt;=</span> <span class="n">limit</span><span class="p">:</span>
-                <span class="k">break</span>
-
-        <span class="k">return</span> <span class="n">Table</span><span class="p">(</span><span class="n">data</span><span class="p">[:</span><span class="n">limit</span><span class="p">])</span></div>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">paginated_get</span><span class="p">(</span><span class="s1">&#39;event&#39;</span><span class="p">,</span> <span class="n">limit</span><span class="o">=</span><span class="n">limit</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="ActionKit.update_event"><a class="viewcode-back" href="../../../action_kit.html#parsons.ActionKit.update_event">[docs]</a>    <span class="k">def</span> <span class="nf">update_event</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">event_id</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
@@ -725,6 +710,113 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_base_post</span><span class="p">(</span><span class="n">endpoint</span><span class="o">=</span><span class="s1">&#39;mailer/&#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">mailing_id</span><span class="p">)</span> <span class="o">+</span> <span class="s1">&#39;/queue&#39;</span><span class="p">,</span>
                                <span class="n">exception_message</span><span class="o">=</span><span class="s1">&#39;Could not queue mailer&#39;</span><span class="p">)</span></div>
 
+<div class="viewcode-block" id="ActionKit.paginated_get"><a class="viewcode-back" href="../../../action_kit.html#parsons.ActionKit.paginated_get">[docs]</a>    <span class="k">def</span> <span class="nf">paginated_get</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">object_type</span><span class="p">,</span> <span class="n">limit</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Get multiple objects of a given type.</span>
+
+<span class="sd">        `Args:`</span>
+<span class="sd">            object_type: string</span>
+<span class="sd">                The type of object to search for.</span>
+<span class="sd">            limit: int</span>
+<span class="sd">                The number of objects to return. If omitted, all objects are returned.</span>
+<span class="sd">            **kwargs:</span>
+<span class="sd">                Optional arguments to pass to the client. A full list can be found</span>
+<span class="sd">                in the `ActionKit API Documentation &lt;https://roboticdogs.actionkit.com/docs/\</span>
+<span class="sd">                manual/api/rest/actionprocessing.html&gt;`_.</span>
+
+<span class="sd">                Additionally, expressions to filter the data can also be provided. For addition</span>
+<span class="sd">                info, visit `Django&#39;s docs on field lookups &lt;https://docs.djangoproject.com/\</span>
+<span class="sd">                en/3.1/topics/db/queries/#field-lookups&gt;`_.</span>
+
+<span class="sd">                .. code-block:: python</span>
+
+<span class="sd">                    ak.paginated_get(name__contains=&quot;FirstName&quot;)</span>
+<span class="sd">        `Returns:`</span>
+<span class="sd">            Parsons.Table</span>
+<span class="sd">                The objects data.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># &quot;The maximum number of objects returned per request is 100. Use paging</span>
+        <span class="c1"># to get more objects.&quot;</span>
+        <span class="c1"># (https://roboticdogs.actionkit.com/docs//manual/api/rest/overview.html#ordering)</span>
+        <span class="c1"># get only `limit` objects if it&#39;s below 100, otherwise get 100 at a time</span>
+        <span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;_limit&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="mi">100</span><span class="p">,</span> <span class="n">limit</span> <span class="ow">or</span> <span class="mi">1_000_000_000</span><span class="p">)</span>
+        <span class="n">json_data</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_base_get</span><span class="p">(</span><span class="n">object_type</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="n">json_data</span><span class="p">[</span><span class="s2">&quot;objects&quot;</span><span class="p">]</span>
+
+        <span class="n">next_url</span> <span class="o">=</span> <span class="n">json_data</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;meta&quot;</span><span class="p">,</span> <span class="p">{})</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;next&quot;</span><span class="p">)</span>
+        <span class="k">while</span> <span class="n">next_url</span><span class="p">:</span>
+            <span class="n">resp</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">conn</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;https://</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">domain</span><span class="si">}{</span><span class="n">next_url</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+            <span class="n">data</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">resp</span><span class="o">.</span><span class="n">json</span><span class="p">()</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;objects&quot;</span><span class="p">,</span> <span class="p">[]))</span>
+            <span class="n">next_url</span> <span class="o">=</span> <span class="n">resp</span><span class="o">.</span><span class="n">json</span><span class="p">()</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;meta&quot;</span><span class="p">,</span> <span class="p">{})</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;next&quot;</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">limit</span> <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="n">data</span><span class="p">)</span> <span class="o">&gt;=</span> <span class="n">limit</span><span class="p">:</span>
+                <span class="k">break</span>
+
+        <span class="k">return</span> <span class="n">Table</span><span class="p">(</span><span class="n">data</span><span class="p">[:</span><span class="n">limit</span><span class="p">])</span></div>
+
+<div class="viewcode-block" id="ActionKit.paginated_get_custom_limit"><a class="viewcode-back" href="../../../action_kit.html#parsons.ActionKit.paginated_get_custom_limit">[docs]</a>    <span class="k">def</span> <span class="nf">paginated_get_custom_limit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">object_type</span><span class="p">,</span> <span class="n">limit</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                                   <span class="n">threshold_field</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">threshold_value</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                                   <span class="n">ascdesc</span><span class="o">=</span><span class="s1">&#39;asc&#39;</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Get multiple objects of a given type, stopping based on the value of a field.</span>
+
+<span class="sd">        `Args:`</span>
+<span class="sd">            object_type: string</span>
+<span class="sd">                The type of object to search for.</span>
+<span class="sd">            limit: int</span>
+<span class="sd">                The maximum number of objects to return. Even if the threshold</span>
+<span class="sd">                value is not reached, if the limit is set, then at most this many</span>
+<span class="sd">                objects will be returned.</span>
+<span class="sd">            threshold_field: string</span>
+<span class="sd">                The field used to determine when to stop.</span>
+<span class="sd">                Must be one of the options for ordering by.</span>
+<span class="sd">            threshold_value: string</span>
+<span class="sd">                The value of the field to stop at.</span>
+<span class="sd">            ascdesc: string</span>
+<span class="sd">                If &quot;asc&quot; (the default), return all objects below the threshold value.</span>
+<span class="sd">                If &quot;desc&quot;, return all objects above the threshold value.</span>
+<span class="sd">            **kwargs:</span>
+<span class="sd">                You can also add expressions to filter the data beyond the limit/threshold values</span>
+<span class="sd">                above. For additional info, visit `Django&#39;s docs on field lookups</span>
+<span class="sd">                &lt;https://docs.djangoproject.com/en/3.1/topics/db/queries/#field-lookups&gt;`_.</span>
+
+<span class="sd">                .. code-block:: python</span>
+
+<span class="sd">                    ak.paginated_get(name__contains=&quot;FirstName&quot;)</span>
+<span class="sd">        `Returns:`</span>
+<span class="sd">            Parsons.Table</span>
+<span class="sd">                The objects data.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># &quot;The maximum number of objects returned per request is 100. Use paging</span>
+        <span class="c1"># to get more objects.&quot;</span>
+        <span class="c1"># (https://roboticdogs.actionkit.com/docs//manual/api/rest/overview.html#ordering)</span>
+        <span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;_limit&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="mi">100</span><span class="p">,</span> <span class="n">limit</span> <span class="ow">or</span> <span class="mi">1_000_000_000</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">ascdesc</span> <span class="o">==</span> <span class="s2">&quot;asc&quot;</span><span class="p">:</span>
+            <span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;order_by&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">threshold_field</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;order_by&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;-&quot;</span> <span class="o">+</span> <span class="n">threshold_field</span>
+        <span class="n">json_data</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_base_get</span><span class="p">(</span><span class="n">object_type</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="n">json_data</span><span class="p">[</span><span class="s2">&quot;objects&quot;</span><span class="p">]</span>
+        <span class="n">next_url</span> <span class="o">=</span> <span class="n">json_data</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;meta&quot;</span><span class="p">,</span> <span class="p">{})</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;next&quot;</span><span class="p">)</span>
+        <span class="k">while</span> <span class="n">next_url</span><span class="p">:</span>
+            <span class="n">last</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">threshold_field</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">ascdesc</span> <span class="o">==</span> <span class="s2">&quot;asc&quot;</span> <span class="ow">and</span> <span class="n">last</span> <span class="o">&gt;</span> <span class="n">threshold_value</span><span class="p">:</span>
+                <span class="k">break</span>
+            <span class="k">if</span> <span class="n">ascdesc</span> <span class="o">==</span> <span class="s2">&quot;desc&quot;</span> <span class="ow">and</span> <span class="n">last</span> <span class="o">&lt;</span> <span class="n">threshold_value</span><span class="p">:</span>
+                <span class="k">break</span>
+            <span class="n">resp</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">conn</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;https://</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">domain</span><span class="si">}{</span><span class="n">next_url</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+            <span class="n">data</span> <span class="o">+=</span> <span class="n">resp</span><span class="o">.</span><span class="n">json</span><span class="p">()</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;objects&quot;</span><span class="p">,</span> <span class="p">[])</span>
+            <span class="n">next_url</span> <span class="o">=</span> <span class="n">resp</span><span class="o">.</span><span class="n">json</span><span class="p">()</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;meta&quot;</span><span class="p">,</span> <span class="p">{})</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;next&quot;</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">limit</span> <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="n">data</span><span class="p">)</span> <span class="o">&gt;=</span> <span class="n">limit</span><span class="p">:</span>
+                <span class="k">break</span>
+        <span class="c1"># This could be more efficient but it&#39;s still O(n) so no big deal</span>
+        <span class="n">i</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">data</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span>  <span class="c1"># start at the end; 0-indexed means the end is length - 1</span>
+        <span class="k">if</span> <span class="n">ascdesc</span> <span class="o">==</span> <span class="s2">&quot;asc&quot;</span><span class="p">:</span>
+            <span class="k">while</span> <span class="n">data</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">threshold_field</span><span class="p">)</span> <span class="o">&gt;</span> <span class="n">threshold_value</span><span class="p">:</span>
+                <span class="n">i</span> <span class="o">=</span> <span class="n">i</span> <span class="o">-</span> <span class="mi">1</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">while</span> <span class="n">data</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">threshold_field</span><span class="p">)</span> <span class="o">&lt;</span> <span class="n">threshold_value</span><span class="p">:</span>
+                <span class="n">i</span> <span class="o">=</span> <span class="n">i</span> <span class="o">-</span> <span class="mi">1</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="n">data</span><span class="p">[:</span><span class="n">i</span><span class="p">]</span>
+        <span class="k">return</span> <span class="n">Table</span><span class="p">(</span><span class="n">data</span><span class="p">[:</span><span class="n">limit</span><span class="p">])</span></div>
+
 <div class="viewcode-block" id="ActionKit.update_order"><a class="viewcode-back" href="../../../action_kit.html#parsons.ActionKit.update_order">[docs]</a>    <span class="k">def</span> <span class="nf">update_order</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">order_id</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Update an order.</span>
@@ -743,6 +835,41 @@
         <span class="n">resp</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">conn</span><span class="o">.</span><span class="n">patch</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_base_endpoint</span><span class="p">(</span><span class="s1">&#39;order&#39;</span><span class="p">,</span> <span class="n">order_id</span><span class="p">),</span>
                                <span class="n">data</span><span class="o">=</span><span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">kwargs</span><span class="p">))</span>
         <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">resp</span><span class="o">.</span><span class="n">status_code</span><span class="si">}</span><span class="s1">: </span><span class="si">{</span><span class="n">order_id</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="ActionKit.cancel_orderrecurring"><a class="viewcode-back" href="../../../action_kit.html#parsons.ActionKit.cancel_orderrecurring">[docs]</a>    <span class="k">def</span> <span class="nf">cancel_orderrecurring</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">recurring_id</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Cancel a recurring order.</span>
+
+<span class="sd">        `Args:`</span>
+<span class="sd">            recurring_id: int</span>
+<span class="sd">                The id of the recurring order to update (NOT the order_id)</span>
+<span class="sd">        `Returns:`</span>
+<span class="sd">            ``None``</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">resp</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">conn</span><span class="o">.</span><span class="n">post</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_base_endpoint</span><span class="p">(</span><span class="s1">&#39;orderrecurring&#39;</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">recurring_id</span><span class="p">)</span><span class="o">+</span><span class="s1">&#39;/cancel&#39;</span><span class="p">))</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">resp</span><span class="o">.</span><span class="n">status_code</span><span class="si">}</span><span class="s1">: </span><span class="si">{</span><span class="n">recurring_id</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">resp</span></div>
+
+<div class="viewcode-block" id="ActionKit.update_paymenttoken"><a class="viewcode-back" href="../../../action_kit.html#parsons.ActionKit.update_paymenttoken">[docs]</a>    <span class="k">def</span> <span class="nf">update_paymenttoken</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">paymenttoken_id</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Update a saved payment token.</span>
+
+<span class="sd">        `Args:`</span>
+<span class="sd">            paymenttoken_id: int</span>
+<span class="sd">                The id of the payment token to update</span>
+<span class="sd">            **kwargs:</span>
+<span class="sd">                Optional arguments and fields to pass to the client. A full list can be found</span>
+<span class="sd">                in the `ActionKit API Documentation &lt;https://roboticdogs.actionkit.com/docs/\</span>
+<span class="sd">                manual/api/rest/actionprocessing.html&gt;`_.</span>
+<span class="sd">        `Returns:`</span>
+<span class="sd">            ``HTTP response``</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">resp</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">conn</span><span class="o">.</span><span class="n">patch</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_base_endpoint</span><span class="p">(</span><span class="s1">&#39;paymenttoken&#39;</span><span class="p">,</span> <span class="n">paymenttoken_id</span><span class="p">),</span>
+                               <span class="n">data</span><span class="o">=</span><span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">kwargs</span><span class="p">))</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">resp</span><span class="o">.</span><span class="n">status_code</span><span class="si">}</span><span class="s1">: </span><span class="si">{</span><span class="n">paymenttoken_id</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">resp</span></div>
 
 <div class="viewcode-block" id="ActionKit.get_page_followup"><a class="viewcode-back" href="../../../action_kit.html#parsons.ActionKit.get_page_followup">[docs]</a>    <span class="k">def</span> <span class="nf">get_page_followup</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">page_followup_id</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
@@ -828,6 +955,21 @@
                                <span class="n">data</span><span class="o">=</span><span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">kwargs</span><span class="p">))</span>
         <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">resp</span><span class="o">.</span><span class="n">status_code</span><span class="si">}</span><span class="s1">: </span><span class="si">{</span><span class="n">survey_question_id</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span></div>
 
+<div class="viewcode-block" id="ActionKit.create_transaction"><a class="viewcode-back" href="../../../action_kit.html#parsons.ActionKit.create_transaction">[docs]</a>    <span class="k">def</span> <span class="nf">create_transaction</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Create a transaction.</span>
+
+<span class="sd">        `Args:`</span>
+<span class="sd">            **kwargs:</span>
+<span class="sd">                Optional arguments and fields to pass to the client.</span>
+<span class="sd">        `Returns:`</span>
+<span class="sd">            Transaction json object</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_base_post</span><span class="p">(</span>
+            <span class="n">endpoint</span><span class="o">=</span><span class="s1">&#39;transaction&#39;</span><span class="p">,</span> <span class="n">exception_message</span><span class="o">=</span><span class="s1">&#39;Could not create transaction&#39;</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span>
+        <span class="p">)</span></div>
+
 <div class="viewcode-block" id="ActionKit.update_transaction"><a class="viewcode-back" href="../../../action_kit.html#parsons.ActionKit.update_transaction">[docs]</a>    <span class="k">def</span> <span class="nf">update_transaction</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">transaction_id</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Update a transaction.</span>
@@ -865,7 +1007,7 @@
 <span class="sd">        `Returns`:</span>
 <span class="sd">            dict</span>
 <span class="sd">                The response json</span>
-<span class="sd">        &quot;&quot;&quot;</span> <span class="c1"># noqa: E501,E261</span>
+<span class="sd">        &quot;&quot;&quot;</span>  <span class="c1"># noqa: E501,E261</span>
 
         <span class="k">if</span> <span class="ow">not</span> <span class="n">email</span> <span class="ow">or</span> <span class="n">ak_id</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;One of email or ak_id is required.&#39;</span><span class="p">)</span>
@@ -908,7 +1050,7 @@
 <span class="sd">                success: whether upload was successful</span>
 <span class="sd">                progress_url: an API URL to get progress on upload processing</span>
 <span class="sd">                res: requests http response object</span>
-<span class="sd">        &quot;&quot;&quot;</span> <span class="c1"># noqa: E501,E261</span>
+<span class="sd">        &quot;&quot;&quot;</span>  <span class="c1"># noqa: E501,E261</span>
 
         <span class="c1"># self.conn defaults to JSON, but this has to be form/multi-part....</span>
         <span class="n">upload_client</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_conn</span><span class="p">({</span><span class="s1">&#39;accepts&#39;</span><span class="p">:</span> <span class="s1">&#39;application/json&#39;</span><span class="p">})</span>
@@ -971,7 +1113,7 @@
 <span class="sd">                success: bool -- whether upload was successful (individual rows may not have been)</span>
 <span class="sd">                results: [dict] -- This is a list of the full results.</span>
 <span class="sd">                         progress_url and res for any results</span>
-<span class="sd">        &quot;&quot;&quot;</span> <span class="c1"># noqa: E501,E261</span>
+<span class="sd">        &quot;&quot;&quot;</span>  <span class="c1"># noqa: E501,E261</span>
 
         <span class="n">import_page</span> <span class="o">=</span> <span class="n">check_env</span><span class="o">.</span><span class="n">check</span><span class="p">(</span><span class="s1">&#39;ACTION_KIT_IMPORTPAGE&#39;</span><span class="p">,</span> <span class="n">import_page</span><span class="p">)</span>
         <span class="n">upload_tables</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_split_tables_no_empties</span><span class="p">(</span>

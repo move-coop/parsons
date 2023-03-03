@@ -18,7 +18,7 @@
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="PDI" href="pdi.html" />
+    <link rel="next" title="Phone2Action" href="p2a.html" />
     <link rel="prev" title="New/Mode" href="newmode.html" /> 
 </head>
 
@@ -58,6 +58,7 @@
 <li class="toctree-l1"><a class="reference internal" href="copper.html">Copper</a></li>
 <li class="toctree-l1"><a class="reference internal" href="crowdtangle.html">CrowdTangle</a></li>
 <li class="toctree-l1"><a class="reference internal" href="databases.html">Databases</a></li>
+<li class="toctree-l1"><a class="reference internal" href="donorbox.html">Donorbox</a></li>
 <li class="toctree-l1"><a class="reference internal" href="facebook_ads.html">FacebookAds</a></li>
 <li class="toctree-l1"><a class="reference internal" href="freshdesk.html">Freshdesk</a></li>
 <li class="toctree-l1"><a class="reference internal" href="github.html">GitHub</a></li>
@@ -92,6 +93,7 @@
 <li class="toctree-l3"><a class="reference internal" href="#file-loading-jobs">File Loading Jobs</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#folders">Folders</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#locations">Locations</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#printed-lists">Printed Lists</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#saved-lists">Saved Lists</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#scores">Scores</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#signups">Signups</a></li>
@@ -102,12 +104,13 @@
 </li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="pdi.html">PDI</a></li>
 <li class="toctree-l1"><a class="reference internal" href="p2a.html">Phone2Action</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pdi.html">PDI</a></li>
 <li class="toctree-l1"><a class="reference internal" href="quickbase.html">Quickbase</a></li>
 <li class="toctree-l1"><a class="reference internal" href="redash.html">Redash</a></li>
 <li class="toctree-l1"><a class="reference internal" href="rockthevote.html">Rock the Vote</a></li>
 <li class="toctree-l1"><a class="reference internal" href="salesforce.html">Salesforce</a></li>
+<li class="toctree-l1"><a class="reference internal" href="scytl.html">Scytl</a></li>
 <li class="toctree-l1"><a class="reference internal" href="sftp.html">SFTP</a></li>
 <li class="toctree-l1"><a class="reference internal" href="shopify.html">Shopify</a></li>
 <li class="toctree-l1"><a class="reference internal" href="sisense.html">Sisense</a></li>
@@ -874,6 +877,29 @@ such as <code class="docutils literal notranslate"><span class="pre">dwid</span>
 </dl>
 </dd>
 <dt><cite>Returns:</cite></dt><dd><p><code class="docutils literal notranslate"><span class="pre">None</span></code></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="parsons.ngpvan.van.People.merge_contacts">
+<span class="sig-name descname"><span class="pre">merge_contacts</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">primary_vanid</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">source_vanid</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/ngpvan/people.html#People.merge_contacts"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.ngpvan.van.People.merge_contacts" title="Permalink to this definition"></a></dt>
+<dd><p>Merges two contacts in EveryAction. The source contact record will be
+deleted as part of the merge and its data will be moved into the primary
+contact record. In cases where fields conflict between the two contacts
+and we can’t keep both values, such as if the contacts have different
+first names, the primary contact record’s data will be retained. For
+more information see the
+<a class="reference external" href="https://docs.ngpvan.com/reference/peoplevanidmergeinto">VAN API documentation here</a></p>
+<dl class="simple">
+<dt><cite>Args:</cite></dt><dd><dl class="simple">
+<dt>primary_vanid: str</dt><dd><p>The VANID of the primary contact record.</p>
+</dd>
+<dt>source_vanid: str</dt><dd><p>The VANID of the source contact record.</p>
+</dd>
+</dl>
+</dd>
+<dt><cite>Returns:</cite></dt><dd><p>The VANID of the primary contact record.</p>
 </dd>
 </dl>
 </dd></dl>
@@ -2084,6 +2110,53 @@ be listed.</p>
 </dd></dl>
 
 </section>
+<section id="printed-lists">
+<h3>Printed Lists<a class="headerlink" href="#printed-lists" title="Permalink to this headline"></a></h3>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>A printed list must be shared with the user associated with your API key to
+be listed.</p>
+</div>
+<dl class="py class">
+<dt class="sig sig-object py" id="parsons.ngpvan.van.PrintedLists">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">parsons.ngpvan.van.</span></span><span class="sig-name descname"><span class="pre">PrintedLists</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">van_connection</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/ngpvan/printed_lists.html#PrintedLists"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.ngpvan.van.PrintedLists" title="Permalink to this definition"></a></dt>
+<dd><dl class="py method">
+<dt class="sig sig-object py" id="parsons.ngpvan.van.PrintedLists.get_printed_lists">
+<span class="sig-name descname"><span class="pre">get_printed_lists</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">generated_after</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">generated_before</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">created_by</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">folder_name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">turf_name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/ngpvan/printed_lists.html#PrintedLists.get_printed_lists"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.ngpvan.van.PrintedLists.get_printed_lists" title="Permalink to this definition"></a></dt>
+<dd><p>Get printed lists.</p>
+<dl class="simple">
+<dt><cite>Args:</cite></dt><dd><dl class="simple">
+<dt>folder_id: int</dt><dd><p>Filter by the id for a VAN folder. If included returns only
+the saved lists in the folder</p>
+</dd>
+</dl>
+</dd>
+<dt><cite>Returns:</cite></dt><dd><dl class="simple">
+<dt>Parsons Table</dt><dd><p>See <a class="reference internal" href="table.html#parsons-table"><span class="std std-ref">Parsons Table</span></a> for output options.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="parsons.ngpvan.van.PrintedLists.get_printed_list">
+<span class="sig-name descname"><span class="pre">get_printed_list</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">printed_list_number</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/ngpvan/printed_lists.html#PrintedLists.get_printed_list"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.ngpvan.van.PrintedLists.get_printed_list" title="Permalink to this definition"></a></dt>
+<dd><p>Returns a printed list object.</p>
+<dl class="simple">
+<dt><cite>Args:</cite></dt><dd><dl class="simple">
+<dt>printed_list_number: int</dt><dd><p>The printed list number</p>
+</dd>
+</dl>
+</dd>
+<dt><cite>Returns:</cite></dt><dd><p>dict</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
 <section id="saved-lists">
 <h3>Saved Lists<a class="headerlink" href="#saved-lists" title="Permalink to this headline"></a></h3>
 <div class="admonition note">
@@ -2178,7 +2251,8 @@ a standard webhook.</p>
 <dt>quotes: boolean</dt><dd><p>Whether or not fields are enclosed in quotation marks within each
 column of the file.</p>
 </dd>
-<dt>overwrite: int</dt><dd><p>Replace saved list if already exists.</p>
+<dt>overwrite: int</dt><dd><p>Replace saved list if already exists. Pass in the list id of the
+existing list that you would like to overwrite.</p>
 </dd>
 <dt><a href="#id10"><span class="problematic" id="id11">**</span></a>url_kwargs: kwargs</dt><dd><p>Arguments to configure your cloud storage url type. See
 <a class="reference internal" href="utilities.html#cloud-storage"><span class="std std-ref">Cloud Storage</span></a> for more details.</p>
@@ -2822,7 +2896,7 @@ can be found by using the <code class="xref py py-meth docutils literal notransl
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
         <a href="newmode.html" class="btn btn-neutral float-left" title="New/Mode" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
-        <a href="pdi.html" class="btn btn-neutral float-right" title="PDI" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="p2a.html" class="btn btn-neutral float-right" title="Phone2Action" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>

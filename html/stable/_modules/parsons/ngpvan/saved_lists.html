@@ -55,6 +55,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../../../copper.html">Copper</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../crowdtangle.html">CrowdTangle</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../databases.html">Databases</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../donorbox.html">Donorbox</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../facebook_ads.html">FacebookAds</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../freshdesk.html">Freshdesk</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../github.html">GitHub</a></li>
@@ -64,12 +65,13 @@
 <li class="toctree-l1"><a class="reference internal" href="../../../mobilize_america.html">Mobilize America</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../newmode.html">New/Mode</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../ngpvan.html">NGPVAN</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../pdi.html">PDI</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../p2a.html">Phone2Action</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../pdi.html">PDI</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../quickbase.html">Quickbase</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../redash.html">Redash</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../rockthevote.html">Rock the Vote</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../salesforce.html">Salesforce</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../scytl.html">Scytl</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../sftp.html">SFTP</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../shopify.html">Shopify</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../sisense.html">Sisense</a></li>
@@ -236,7 +238,8 @@
 <span class="sd">                 Whether or not fields are enclosed in quotation marks within each</span>
 <span class="sd">                 column of the file.</span>
 <span class="sd">            overwrite: int</span>
-<span class="sd">                Replace saved list if already exists.</span>
+<span class="sd">                Replace saved list if already exists. Pass in the list id of the</span>
+<span class="sd">                existing list that you would like to overwrite.</span>
 <span class="sd">            **url_kwargs: kwargs</span>
 <span class="sd">                Arguments to configure your cloud storage url type. See</span>
 <span class="sd">                :ref:`Cloud Storage &lt;cloud-storage&gt;` for more details.</span>
@@ -256,7 +259,7 @@
         <span class="k">if</span> <span class="n">folder_id</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">[</span><span class="n">x</span><span class="p">[</span><span class="s1">&#39;folderId&#39;</span><span class="p">]</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_folders</span><span class="p">()]:</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Folder does not exist or is not shared with API user.&quot;</span><span class="p">)</span>
 
-        <span class="k">if</span> <span class="n">list_name</span> <span class="ow">in</span> <span class="p">[</span><span class="n">x</span><span class="p">[</span><span class="s1">&#39;name&#39;</span><span class="p">]</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_saved_lists</span><span class="p">(</span><span class="n">folder_id</span><span class="p">)]:</span>
+        <span class="k">if</span> <span class="n">list_name</span> <span class="ow">in</span> <span class="p">[</span><span class="n">x</span><span class="p">[</span><span class="s1">&#39;name&#39;</span><span class="p">]</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_saved_lists</span><span class="p">(</span><span class="n">folder_id</span><span class="p">)]</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">overwrite</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Saved list already exists. Set overwrite &quot;</span>
                              <span class="s2">&quot;argument to list ID or change list name.&quot;</span><span class="p">)</span>
 
@@ -290,10 +293,9 @@
         <span class="k">if</span> <span class="n">overwrite</span><span class="p">:</span>
             <span class="n">json</span><span class="p">[</span><span class="s2">&quot;actions&quot;</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="s2">&quot;overwriteExistingListId&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">overwrite</span>
 
-        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="n">json</span><span class="p">)</span>
         <span class="n">file_load_job_response</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">connection</span><span class="o">.</span><span class="n">post_request</span><span class="p">(</span><span class="s1">&#39;fileLoadingJobs&#39;</span><span class="p">,</span> <span class="n">json</span><span class="o">=</span><span class="n">json</span><span class="p">)</span>
         <span class="n">job_id</span> <span class="o">=</span> <span class="n">file_load_job_response</span><span class="p">[</span><span class="s1">&#39;jobId&#39;</span><span class="p">]</span>
-        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Score loading job </span><span class="si">{</span><span class="n">job_id</span><span class="si">}</span><span class="s1"> created. Reference &#39;</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Saved list job </span><span class="si">{</span><span class="n">job_id</span><span class="si">}</span><span class="s1"> created. Reference &#39;</span>
                     <span class="s1">&#39;callback url to check for job status&#39;</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">file_load_job_response</span></div>
 

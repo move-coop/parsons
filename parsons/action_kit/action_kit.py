@@ -772,6 +772,30 @@ class ActionKit(object):
         logger.info(f"{resp.status_code}: {recurring_id}")
         return resp
 
+    def get_orders(self, limit=None, **kwargs):
+        """Get multiple orders.
+
+        `Args:`
+            limit: int
+                The number of orders to return. If omitted, all orders are returned.
+            **kwargs:
+                Optional arguments to pass to the client. A full list can be found
+                in the `ActionKit API Documentation <https://roboticdogs.actionkit.com/docs/\
+                manual/api/rest/actionprocessing.html>`_.
+
+                Additionally, expressions to filter the data can also be provided. For addition
+                info, visit `Django's docs on field lookups <https://docs.djangoproject.com/\
+                en/3.1/topics/db/queries/#field-lookups>`_.
+
+                .. code-block:: python
+
+                    ak.get_orders(import_id="my-import-123")
+        `Returns:`
+            Parsons.Table
+                The events data.
+        """
+        return self.paginated_get('order', limit=limit, **kwargs)
+
     def update_paymenttoken(self, paymenttoken_id, **kwargs):
         """
         Update a saved payment token.

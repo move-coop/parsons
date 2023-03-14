@@ -124,7 +124,7 @@ class MobileCommons:
             while page < req_pages and num > 0:
                 page += 1
                 page_params = {'page': str(page), **params}
-                logger.info(f'Fetching rows {page*page_limit} - {(page+1)*page_limit} '
+                logger.info(f'Fetching rows {(page - 1) * page_limit + 1} - {(page)*page_limit} '
                             f'of {limit}')
                 response = self.client.request(endpoint, 'GET', params=page_params)
                 response_dict = xmltodict.parse(response.text, attr_prefix='', cdata_key='',

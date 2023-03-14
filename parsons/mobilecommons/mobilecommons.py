@@ -160,18 +160,12 @@ class MobileCommons:
 
         response = self.client.request(endpoint, 'POST', params=params)
 
-        if response.status_code == 200:
-            response_dict = xmltodict.parse(response.text, attr_prefix='', cdata_key='',
-                                            dict_constructor=dict)
+        response_dict = xmltodict.parse(response.text, attr_prefix='', cdata_key='',
+                                        dict_constructor=dict)
+        if response_dict['response']['success'] == 'true':
             return response_dict['response']
-            # response_tree = ET.fromstring(response.text)
         else:
-            # Extract error information and log it.
-            error = f'Response Code {str(response.status_code)}'
-            error_html = BeautifulSoup(response.text)
-            error += '\n' + error_html.h4
-            error += '\n' + error_html.p
-            raise HTTPError(error)
+            raise HTTPError(response_dict['response']['error'])
 
 
     def get_broadcasts(self, first_date=None, last_date=None, status=None, campaign_id=None,

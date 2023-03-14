@@ -51,10 +51,10 @@ class MobileCommons:
                 The endpoint, which will be appended to the base URL for each request
             first_data_key: str
                 The first key used to extract the desired data from the response dictionary derived
-                from the xml response
-            first_data_key: str
+                from the xml response. E.g. 'broadcasts'
+            second_data_key: str
                 The second key used to extract the desired data from the response dictionary derived
-                from the xml response. The value of this key is a list of values
+                from the xml response. The value of this key is a list of values. E.g. 'broadcast'
             params: str
                 Parameters to be passed into GET request
             elements_to_unpack: list
@@ -100,20 +100,35 @@ class MobileCommons:
                     response_table.unpack_dict(col)
             # Append to final table
             final_table.concat(response_table)
-            # Check to see if there are more pages and determine how many to retrieve
-            avail_pages = int(response_dict['response'][first_data_key]['page_count'])
+            final_table.materialize()
+            # Calculate how many more pages we need to get in order to reach user set record limit
             req_pages = math.ceil(limit/1000)
-            pages_to_get = min(avail_pages, req_pages)
+            # Calculate how many records we need from last page to match limit exactly
+            final_page_limit = limit % 1000
+            # MC endpoints don't consistently  include page counts, and therefore must make calls
+            # until number of records on a page is 0
+            num = int(response_dict['response'][first_data_key]['num'])
             # Go fetch other pages of data
-            for i in range(2, pages_to_get + 1):
-                page_params = {'page': str(i), **{params}}
-                logger.info(f'Fetching rows {i*page_limit} - {(i+1)*page_limit} '
+            page = 1
+            while page < req_pages and num > 0:
+                page += 1
+                page_params = {'page': str(page), **params}
+                logger.info(f'Fetching rows {page*page_limit} - {(page+1)*page_limit} '
                             f'of {limit}')
                 response = self.client.request(endpoint, 'GET', params=page_params)
                 response_dict = xmltodict.parse(response.text, attr_prefix='', cdata_key='',
                                                 dict_constructor=dict)
-                response_table = Table(response_dict['response'][first_data_key][second_data_key])
-                final_table.concat(response_table)
+                # Check to see if page was empty
+                num = int(response_dict['response'][first_data_key]['num'])
+                if num > 0:
+                    # Extract data
+                    response_table = Table(response_dict['response'][first_data_key][second_data_key])
+                    # If this is the last page, grab only subset of data
+                    if page == req_pages:
+                        response_table = Table(response_table.table.rowslice(final_page_limit))
+                    # Append to final table
+                    final_table.concat(response_table)
+                    final_table.materialize()
 
         return final_table
 

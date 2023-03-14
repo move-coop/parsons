@@ -105,9 +105,20 @@ class MobileCommons:
             req_pages = math.ceil(limit/1000)
             # Calculate how many records we need from last page to match limit exactly
             final_page_limit = limit % 1000
-            # MC endpoints don't consistently  include page counts, and therefore must make calls
-            # until number of records on a page is 0
-            num = int(response_dict['response'][first_data_key]['num'])
+            # MC GET responses sometimes include a page_count parameter to indicate how many pages
+            # are left, but when the response doesn't it does include a 'num' parameter that, when
+            # no records exist for a requested page, equals 0. The following attempts to deal handle
+            # both cases
+            try:
+                num = int(response_dict['response'][first_data_key]['num'])
+                page_indicator = 'num'
+            except KeyError:
+                avail_pages = int(response_dict['response'][first_data_key]['page_count'])
+                page_indicator = 'page_count'
+                # Determine which page to finish on
+                req_pages = min(avail_pages, req_pages)
+                # Following assignment is arbitrary, just cannot be 0
+                num = 1
             # Go fetch other pages of data
             page = 1
             while page < req_pages and num > 0:
@@ -118,8 +129,9 @@ class MobileCommons:
                 response = self.client.request(endpoint, 'GET', params=page_params)
                 response_dict = xmltodict.parse(response.text, attr_prefix='', cdata_key='',
                                                 dict_constructor=dict)
-                # Check to see if page was empty
-                num = int(response_dict['response'][first_data_key]['num'])
+                # Check to see if page was empty if num parameter is available
+                if page_indicator == 'num':
+                    num = int(response_dict['response'][first_data_key]['num'])
                 if num > 0:
                     # Extract data
                     response_table = Table(response_dict['response'][first_data_key][second_data_key])

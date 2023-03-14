@@ -55,7 +55,7 @@ class MobileCommons:
             second_data_key: str
                 The second key used to extract the desired data from the response dictionary derived
                 from the xml response. The value of this key is a list of values. E.g. 'broadcast'
-            params: str
+            params: dict
                 Parameters to be passed into GET request
             elements_to_unpack: list
                 A list of elements that contain dictionaries to be unpacked into new columns in the
@@ -143,6 +143,36 @@ class MobileCommons:
                     final_table.materialize()
 
         return final_table
+
+
+    def mc_post_request(self, endpoint, params):
+        """
+        A function for POST requests that handles MobileCommons xml responses
+
+        `Args:`
+            endpoint: str
+                The endpoint, which will be appended to the base URL for each request
+            params: dict
+                Parameters to be passed into GET request
+        `Returns:`
+            xml response parsed into list or dictionary
+        """
+
+        response = self.client.request(endpoint, 'POST', params=params)
+
+        if response.status_code == 200:
+            response_dict = xmltodict.parse(response.text, attr_prefix='', cdata_key='',
+                                            dict_constructor=dict)
+            return response_dict['response']
+            # response_tree = ET.fromstring(response.text)
+        else:
+            # Extract error information and log it.
+            error = f'Response Code {str(response.status_code)}'
+            error_html = BeautifulSoup(response.text)
+            error += '\n' + error_html.h4
+            error += '\n' + error_html.p
+            raise HTTPError(error)
+
 
     def get_broadcasts(self, first_date=None, last_date=None, status=None, campaign_id=None,
                        limit=None):
@@ -257,3 +287,50 @@ class MobileCommons:
                                    second_data_key='profile',
                                    elements_to_unpack=['source', 'address'], params=params,
                                    limit=limit)
+
+
+    def create_profile(self, phone, first_name=None, last_name=None, zip=None, addressline1=None,
+                       addressline2=None, city=None, state=None, opt_in_path_id=None):
+        """
+        A function for for creating a single MobileCommons profile
+
+        `Args:`
+            phone: str
+                Phone number to assign profile
+            first_name: str
+                Profile first name
+            last_name: str
+                Profile last name
+            zip: str
+                Profile 5 digit postal code
+            addressline1: str
+                Profile address line 1
+            addressline2: str
+                Profile address line 2
+            city: str
+                Profile city
+            state: str
+                Profile state
+            opt_in_path_id: str
+                ID of the opt-in path to send new profile through. This will determine the welcome
+                text they receive.
+
+        `Returns:`
+            ID of created profile
+        """
+
+        params = {
+            'phone_number': phone,
+            'first_name': first_name,
+            'last_name': last_name,
+            'postal_code': zip,
+            'street1': addressline1,
+            'street2': addressline2,
+            'city': city,
+            'state': state,
+            'opt_in_path_id': opt_in_path_id,
+            **self.default_params
+        }
+        
+        response = self.mc_post_request('profile_update', params=params)
+        return response['profile']['id']

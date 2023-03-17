@@ -1,9 +1,9 @@
-from parsons import Redshift, S3, Table
-from test.utils import assert_matching_tables
-import unittest
 import os
 import re
-from test.utils import validate_list
+import unittest
+from test.utils import assert_matching_tables, validate_list
+
+from parsons import S3, Redshift, Table
 from testfixtures import LogCapture
 
 # The name of the schema and will be temporarily created for the tests
@@ -199,6 +199,29 @@ class TestRedshift(unittest.TestCase):
         # Reset env vars
         os.environ["AWS_ACCESS_KEY_ID"] = prior_aws_access_key_id
         os.environ["AWS_SECRET_ACCESS_KEY"] = prior_aws_secret_access_key
+
+    def test_get_creds_kwargs_with_token(self):
+
+        # Test passing kwargs
+        creds = self.rs.get_creds("kwarg_key", "kwarg_secret_key", "kwarg_token")
+        expected = """credentials 'aws_access_key_id=kwarg_key;aws_secret_access_key=kwarg_secret_key;token=kwarg_token'\n"""  # noqa: E501
+        self.assertEqual(creds, expected)
+
+        # Test grabbing from environmental variables
+        prior_aws_access_key_id = os.environ.get("AWS_ACCESS_KEY_ID", "")
+        prior_aws_secret_access_key = os.environ.get("AWS_SECRET_ACCESS_KEY", "")
+        prior_aws_session_token = os.environ.get("AWS_SESSION_TOKEN", "")
+        os.environ["AWS_ACCESS_KEY_ID"] = "env_key"
+        os.environ["AWS_SECRET_ACCESS_KEY"] = "env_secret_key"
+        os.environ["AWS_SESSION_TOKEN"] = "env_token"
+        creds = self.rs.get_creds(None, None)
+        expected = """credentials 'aws_access_key_id=env_key;aws_secret_access_key=env_secret_key;token=env_token'\n"""  # noqa: E501
+        self.assertEqual(creds, expected)
+
+        # Reset env vars
+        os.environ["AWS_ACCESS_KEY_ID"] = prior_aws_access_key_id
+        os.environ["AWS_SECRET_ACCESS_KEY"] = prior_aws_secret_access_key
+        os.environ["AWS_SESSION_TOKEN"] = prior_aws_session_token
 
     def scrub_copy_tokens(self, s):
 

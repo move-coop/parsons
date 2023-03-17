@@ -488,6 +488,8 @@ class Redshift(
         alter_table_cascade=False,
         aws_access_key_id=None,
         aws_secret_access_key=None,
+        aws_session_token=None,
+        use_env_token=False,
         iam_role=None,
         cleanup_s3_file=True,
         template_table=None,
@@ -586,6 +588,9 @@ class Redshift(
             aws_secret_access_key:
                 An AWS secret access key granted to the bucket where the file is located. Not
                 required if keys are stored as environmental variables.
+            aws_session_token:
+                An AWS session token granted to the bucket where the file is located. Not
+                required if keys are stored as environmental variables.
             iam_role: str
                 An AWS IAM Role ARN string; an alternative credential for the COPY command
                 from Redshift to S3. The IAM role must have been assigned to the Redshift
@@ -653,6 +658,8 @@ class Redshift(
                 tbl,
                 aws_access_key_id=aws_access_key_id,
                 aws_secret_access_key=aws_secret_access_key,
+                aws_session_token=aws_session_token,
+                use_env_token=use_env_token,
                 csv_encoding=csv_encoding,
             )
 
@@ -674,6 +681,7 @@ class Redshift(
                     "specifycols": cols,
                     "aws_access_key_id": aws_access_key_id,
                     "aws_secret_access_key": aws_secret_access_key,
+                    "aws_session_token": aws_session_token,
                     "compression": "gzip",
                     "bucket_region": temp_bucket_region,
                 }

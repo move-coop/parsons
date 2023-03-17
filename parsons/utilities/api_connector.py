@@ -32,11 +32,13 @@ class APIConnector(object):
         APIConnector class
     """
 
-    def __init__(self, uri, headers=None, auth=None, pagination_key=None, data_key=None):
+    def __init__(
+        self, uri, headers=None, auth=None, pagination_key=None, data_key=None
+    ):
 
         # Add a trailing slash if its missing
-        if not uri.endswith('/'):
-            uri = uri + '/'
+        if not uri.endswith("/"):
+            uri = uri + "/"
 
         self.uri = uri
         self.headers = headers
@@ -72,8 +74,15 @@ class APIConnector(object):
         """
         full_url = urllib.parse.urljoin(self.uri, url)
 
-        return _request(req_type, full_url, headers=self.headers, auth=self.auth, json=json,
-                        data=data, params=params)
+        return _request(
+            req_type,
+            full_url,
+            headers=self.headers,
+            auth=self.auth,
+            json=json,
+            data=data,
+            params=params,
+        )
 
     def get_request(self, url, params=None):
         """
@@ -88,14 +97,15 @@ class APIConnector(object):
                 A requests response object
         """
 
-        r = self.request(url, 'GET', params=params)
+        r = self.request(url, "GET", params=params)
         self.validate_response(r)
         logger.debug(r.json())
 
         return r.json()
 
-    def post_request(self, url, params=None, data=None, json=None,
-                     success_codes=[200, 201, 202, 204]):
+    def post_request(
+        self, url, params=None, data=None, json=None, success_codes=[200, 201, 202, 204]
+    ):
         """
         Make a POST request.
 
@@ -114,7 +124,7 @@ class APIConnector(object):
             A requests response object
         """
 
-        r = self.request(url, 'POST', params=params, data=data, json=json)
+        r = self.request(url, "POST", params=params, data=data, json=json)
 
         # Validate the response and lift up an errors.
         self.validate_response(r)
@@ -142,7 +152,7 @@ class APIConnector(object):
                 A requests response object or status code
         """
 
-        r = self.request(url, 'DELETE', params=params)
+        r = self.request(url, "DELETE", params=params)
 
         self.validate_response(r)
 
@@ -154,7 +164,9 @@ class APIConnector(object):
             else:
                 return r.status_code
 
-    def put_request(self, url, data=None, json=None, params=None, success_codes=[200, 201, 204]):
+    def put_request(
+        self, url, data=None, json=None, params=None, success_codes=[200, 201, 204]
+    ):
         """
         Make a PUT request.
 
@@ -171,7 +183,7 @@ class APIConnector(object):
                 A requests response object
         """
 
-        r = self.request(url, 'PUT', params=params, data=data, json=json)
+        r = self.request(url, "PUT", params=params, data=data, json=json)
 
         self.validate_response(r)
 
@@ -181,7 +193,9 @@ class APIConnector(object):
             else:
                 return r.status_code
 
-    def patch_request(self, url, params=None, data=None, json=None, success_codes=[200, 201, 204]):
+    def patch_request(
+        self, url, params=None, data=None, json=None, success_codes=[200, 201, 204]
+    ):
         """
         Make a PATCH request.
 
@@ -200,7 +214,7 @@ class APIConnector(object):
             A requests response object
         """
 
-        r = self.request(url, 'PATCH', params=params, data=data, json=json)
+        r = self.request(url, "PATCH", params=params, data=data, json=json)
 
         self.validate_response(r)
 
@@ -225,13 +239,13 @@ class APIConnector(object):
         if resp.status_code >= 400:
 
             if resp.reason:
-                message = f'HTTP error occurred ({resp.status_code}): {resp.reason}'
+                message = f"HTTP error occurred ({resp.status_code}): {resp.reason}"
             else:
-                message = f'HTTP error occurred ({resp.status_code})'
+                message = f"HTTP error occurred ({resp.status_code})"
 
             # Some errors return JSONs with useful info about the error. Return it if exists.
             if self.json_check(resp):
-                raise HTTPError(f'{message}, json: {resp.json()}')
+                raise HTTPError(f"{message}, json: {resp.json()}")
             else:
                 raise HTTPError(message)
 

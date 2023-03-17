@@ -25,14 +25,16 @@ class ActionKit(object):
             env variable set.
     """
 
-    _default_headers = {'content-type': 'application/json',
-                        'accepts': 'application/json'}
+    _default_headers = {
+        "content-type": "application/json",
+        "accepts": "application/json",
+    }
 
     def __init__(self, domain=None, username=None, password=None):
 
-        self.domain = check_env.check('ACTION_KIT_DOMAIN', domain)
-        self.username = check_env.check('ACTION_KIT_USERNAME', username)
-        self.password = check_env.check('ACTION_KIT_PASSWORD', password)
+        self.domain = check_env.check("ACTION_KIT_DOMAIN", domain)
+        self.username = check_env.check("ACTION_KIT_USERNAME", username)
+        self.password = check_env.check("ACTION_KIT_PASSWORD", password)
         self.conn = self._conn()
 
     def _conn(self, default_headers=_default_headers):
@@ -45,10 +47,10 @@ class ActionKit(object):
     def _base_endpoint(self, endpoint, entity_id=None):
         # Create the base endpoint URL
 
-        url = f'https://{self.domain}/rest/v1/{endpoint}/'
+        url = f"https://{self.domain}/rest/v1/{endpoint}/"
 
         if entity_id:
-            return url + f'{entity_id}/'
+            return url + f"{entity_id}/"
         return url
 
     def _base_get(self, endpoint, entity_id=None, exception_message=None, params=None):
@@ -69,8 +71,8 @@ class ActionKit(object):
 
         # Some of the methods should just return pointer to location of created
         # object.
-        if 'headers' in resp.__dict__ and not return_full_json:
-            return resp.__dict__['headers']['Location']
+        if "headers" in resp.__dict__ and not return_full_json:
+            return resp.__dict__["headers"]["Location"]
 
         # Not all responses return a json
         try:
@@ -83,12 +85,12 @@ class ActionKit(object):
         # AK provides some pretty robust/helpful error reporting. We should surface them with
         # our exceptions.
 
-        if 'errors' in resp.json().keys():
-            if isinstance(resp.json()['errors'], list):
-                exception_message += '\n' + ','.join(resp.json()['errors'])
+        if "errors" in resp.json().keys():
+            if isinstance(resp.json()["errors"], list):
+                exception_message += "\n" + ",".join(resp.json()["errors"])
             else:
-                for k, v in resp.json()['errors'].items():
-                    exception_message += str('\n' + k + ': ' + ','.join(v))
+                for k, v in resp.json()["errors"].items():
+                    exception_message += str("\n" + k + ": " + ",".join(v))
 
         return exception_message
 
@@ -103,8 +105,9 @@ class ActionKit(object):
             User json object
         """
 
-        return self._base_get(endpoint='user', entity_id=user_id,
-                              exception_message='User not found')
+        return self._base_get(
+            endpoint="user", entity_id=user_id, exception_message="User not found"
+        )
 
     def get_user_fields(self):
         """
@@ -115,9 +118,9 @@ class ActionKit(object):
             List of user fields
         """
 
-        resp = self._base_get(endpoint='user/schema')
+        resp = self._base_get(endpoint="user/schema")
 
-        return list(resp['fields'].keys())
+        return list(resp["fields"].keys())
 
     def create_user(self, email, **kwargs):
         """
@@ -134,8 +137,12 @@ class ActionKit(object):
             User json object
         """
 
-        return self._base_post(endpoint='user', exception_message='Could not create user',
-                               email=email, **kwargs)
+        return self._base_post(
+            endpoint="user",
+            exception_message="Could not create user",
+            email=email,
+            **kwargs,
+        )
 
     def update_user(self, user_id, **kwargs):
         """
@@ -152,8 +159,10 @@ class ActionKit(object):
             ``None``
         """
 
-        resp = self.conn.patch(self._base_endpoint('user', user_id), data=json.dumps(kwargs))
-        logger.info(f'{resp.status_code}: {user_id}')
+        resp = self.conn.patch(
+            self._base_endpoint("user", user_id), data=json.dumps(kwargs)
+        )
+        logger.info(f"{resp.status_code}: {user_id}")
 
     def get_event(self, event_id):
         """Get an event.
@@ -190,7 +199,7 @@ class ActionKit(object):
             Parsons.Table
                 The events data.
         """
-        return self.paginated_get('event', limit=limit, **kwargs)
+        return self.paginated_get("event", limit=limit, **kwargs)
 
     def update_event(self, event_id, **kwargs):
         """
@@ -207,8 +216,10 @@ class ActionKit(object):
             ``None``
         """
 
-        resp = self.conn.patch(self._base_endpoint('event', event_id), data=json.dumps(kwargs))
-        logger.info(f'{resp.status_code}: {event_id}')
+        resp = self.conn.patch(
+            self._base_endpoint("event", event_id), data=json.dumps(kwargs)
+        )
+        logger.info(f"{resp.status_code}: {event_id}")
 
     def delete_user(self, user_id):
         """
@@ -221,8 +232,8 @@ class ActionKit(object):
             ``None``
         """
 
-        resp = self.conn.delete(self._base_endpoint('user', user_id))
-        logger.info(f'{resp.status_code}: {user_id}')
+        resp = self.conn.delete(self._base_endpoint("user", user_id))
+        logger.info(f"{resp.status_code}: {user_id}")
 
     def get_campaign(self, campaign_id):
         """
@@ -235,8 +246,11 @@ class ActionKit(object):
             Campaign json object
         """
 
-        return self._base_get(endpoint='campaign', entity_id=campaign_id,
-                              exception_message='Campaign not found')
+        return self._base_get(
+            endpoint="campaign",
+            entity_id=campaign_id,
+            exception_message="Campaign not found",
+        )
 
     def get_campaign_fields(self):
         """
@@ -247,8 +261,8 @@ class ActionKit(object):
             List of campaign fields
         """
 
-        resp = self._base_get(endpoint='campaign/schema')
-        return list(resp['fields'].keys())
+        resp = self._base_get(endpoint="campaign/schema")
+        return list(resp["fields"].keys())
 
     def create_campaign(self, name, **kwargs):
         """
@@ -265,8 +279,12 @@ class ActionKit(object):
             API location of new resource
         """
 
-        return self._base_post(endpoint='campaign', exception_message='Could not create campaign',
-                               name=name, **kwargs)
+        return self._base_post(
+            endpoint="campaign",
+            exception_message="Could not create campaign",
+            name=name,
+            **kwargs,
+        )
 
     def get_event_create_page(self, event_create_page_id):
         """
@@ -279,8 +297,11 @@ class ActionKit(object):
             Event create page json object
         """
 
-        return self._base_get(endpoint='eventcreatepage', entity_id=event_create_page_id,
-                              exception_message='Event create page not found')
+        return self._base_get(
+            endpoint="eventcreatepage",
+            entity_id=event_create_page_id,
+            exception_message="Event create page not found",
+        )
 
     def get_event_create_page_fields(self):
         """
@@ -291,8 +312,8 @@ class ActionKit(object):
             List of event create page fields
         """
 
-        resp = self._base_get(endpoint='eventcreatepage/schema')
-        return list(resp['fields'].keys())
+        resp = self._base_get(endpoint="eventcreatepage/schema")
+        return list(resp["fields"].keys())
 
     def create_event_create_page(self, name, campaign_id, title, **kwargs):
         """
@@ -313,12 +334,14 @@ class ActionKit(object):
             API location of new resource
         """
 
-        return self._base_post(endpoint='eventcreatepage',
-                               exception_message='Could not create event create page',
-                               campaign=f'/rest/v1/campaign/{campaign_id}/',
-                               name=name,
-                               title=title,
-                               **kwargs)
+        return self._base_post(
+            endpoint="eventcreatepage",
+            exception_message="Could not create event create page",
+            campaign=f"/rest/v1/campaign/{campaign_id}/",
+            name=name,
+            title=title,
+            **kwargs,
+        )
 
     def get_event_create_form(self, event_create_form_id):
         """
@@ -331,8 +354,11 @@ class ActionKit(object):
             Event create form json object
         """
 
-        return self._base_get(endpoint='eventcreateform', entity_id=event_create_form_id,
-                              exception_message='Event create page not found')
+        return self._base_get(
+            endpoint="eventcreateform",
+            entity_id=event_create_form_id,
+            exception_message="Event create page not found",
+        )
 
     def get_event_create_form_fields(self):
         """
@@ -343,8 +369,8 @@ class ActionKit(object):
             List of event create form fields
         """
 
-        resp = self._base_get(endpoint='eventcreateform/schema')
-        return list(resp['fields'].keys())
+        resp = self._base_get(endpoint="eventcreateform/schema")
+        return list(resp["fields"].keys())
 
     def create_event_create_form(self, page_id, thank_you_text, **kwargs):
         """
@@ -363,11 +389,13 @@ class ActionKit(object):
             API location of new resource
         """
 
-        return self._base_post(endpoint='eventcreateform',
-                               exception_message='Could not event create form',
-                               page=f'/rest/v1/eventcreatepage/{page_id}/',
-                               thank_you_text=thank_you_text,
-                               **kwargs)
+        return self._base_post(
+            endpoint="eventcreateform",
+            exception_message="Could not event create form",
+            page=f"/rest/v1/eventcreatepage/{page_id}/",
+            thank_you_text=thank_you_text,
+            **kwargs,
+        )
 
     def get_event_signup_page(self, event_signup_page_id):
         """
@@ -380,8 +408,11 @@ class ActionKit(object):
             Event signup page json object
         """
 
-        return self._base_get(endpoint='eventsignuppage', entity_id=event_signup_page_id,
-                              exception_message='User page signup page not found')
+        return self._base_get(
+            endpoint="eventsignuppage",
+            entity_id=event_signup_page_id,
+            exception_message="User page signup page not found",
+        )
 
     def get_event_signup_page_fields(self):
         """
@@ -392,8 +423,8 @@ class ActionKit(object):
             List of event signup page fields
         """
 
-        resp = self._base_get(endpoint='eventsignuppage/schema')
-        return list(resp['fields'].keys())
+        resp = self._base_get(endpoint="eventsignuppage/schema")
+        return list(resp["fields"].keys())
 
     def create_event_signup_page(self, name, campaign_id, title, **kwargs):
         """
@@ -414,12 +445,14 @@ class ActionKit(object):
             API location of new resource
         """
 
-        return self._base_post(endpoint='eventsignuppage',
-                               exception_message='Could not create signup page',
-                               campaign=f'/rest/v1/campaign/{campaign_id}/',
-                               name=name,
-                               title=title,
-                               **kwargs)
+        return self._base_post(
+            endpoint="eventsignuppage",
+            exception_message="Could not create signup page",
+            campaign=f"/rest/v1/campaign/{campaign_id}/",
+            name=name,
+            title=title,
+            **kwargs,
+        )
 
     def get_event_signup_form(self, event_signup_form_id):
         """
@@ -432,8 +465,11 @@ class ActionKit(object):
             Event signup form json object
         """
 
-        return self._base_get(endpoint='eventsignupform', entity_id=event_signup_form_id,
-                              exception_message='User page signup form not found')
+        return self._base_get(
+            endpoint="eventsignupform",
+            entity_id=event_signup_form_id,
+            exception_message="User page signup form not found",
+        )
 
     def get_event_signup_form_fields(self):
         """
@@ -444,8 +480,8 @@ class ActionKit(object):
             List of event signup form fields
         """
 
-        resp = self._base_get(endpoint='eventsignupform/schema')
-        return list(resp['fields'].keys())
+        resp = self._base_get(endpoint="eventsignupform/schema")
+        return list(resp["fields"].keys())
 
     def create_event_signup_form(self, page_id, thank_you_text, **kwargs):
         """
@@ -464,11 +500,13 @@ class ActionKit(object):
             API location of new resource
         """
 
-        return self._base_post(endpoint='eventsignupform',
-                               exception_message='Could not event create signup form',
-                               page=f'/rest/v1/page/{page_id}/',
-                               thank_you_text=thank_you_text,
-                               **kwargs)
+        return self._base_post(
+            endpoint="eventsignupform",
+            exception_message="Could not event create signup form",
+            page=f"/rest/v1/page/{page_id}/",
+            thank_you_text=thank_you_text,
+            **kwargs,
+        )
 
     def update_event_signup(self, event_signup_id, **kwargs):
         """
@@ -487,9 +525,10 @@ class ActionKit(object):
             ``None``
         """
 
-        resp = self.conn.patch(self._base_endpoint('eventsignup', event_signup_id),
-                               data=json.dumps(kwargs))
-        logger.info(f'{resp.status_code}: {event_signup_id}')
+        resp = self.conn.patch(
+            self._base_endpoint("eventsignup", event_signup_id), data=json.dumps(kwargs)
+        )
+        logger.info(f"{resp.status_code}: {event_signup_id}")
 
     def get_mailer(self, entity_id):
         """
@@ -502,7 +541,7 @@ class ActionKit(object):
             Mailer json object
         """
 
-        return self._base_get(endpoint='mailer', entity_id=entity_id)
+        return self._base_get(endpoint="mailer", entity_id=entity_id)
 
     def create_mailer(self, **kwargs):
         """
@@ -517,16 +556,19 @@ class ActionKit(object):
             URI of new mailer
         """
 
-        return self._base_post(endpoint='mailer', exception_message='Could not create mailer',
-                               **kwargs)
+        return self._base_post(
+            endpoint="mailer", exception_message="Could not create mailer", **kwargs
+        )
 
     def copy_mailer(self, mailer_id):
         """
         copy a mailer
         returns new copy of mailer which should be updatable.
         """
-        resp = self.conn.post(self._base_endpoint('mailer', entity_id=mailer_id) + '/copy')
-        return(resp)
+        resp = self.conn.post(
+            self._base_endpoint("mailer", entity_id=mailer_id) + "/copy"
+        )
+        return resp
 
     def update_mailing(self, mailer_id, **kwargs):
         """
@@ -543,8 +585,10 @@ class ActionKit(object):
             ``None``
         """
 
-        resp = self.conn.patch(self._base_endpoint('mailer', mailer_id), data=json.dumps(kwargs))
-        logger.info(f'{resp.status_code}: {mailer_id}')
+        resp = self.conn.patch(
+            self._base_endpoint("mailer", mailer_id), data=json.dumps(kwargs)
+        )
+        logger.info(f"{resp.status_code}: {mailer_id}")
 
     def rebuild_mailer(self, mailing_id):
         """
@@ -557,8 +601,10 @@ class ActionKit(object):
             URI to poll for progress
         """
 
-        return self._base_post(endpoint='mailer/' + str(mailing_id) + '/rebuild',
-                               exception_message='Could not rebuild mailer')
+        return self._base_post(
+            endpoint="mailer/" + str(mailing_id) + "/rebuild",
+            exception_message="Could not rebuild mailer",
+        )
 
     def queue_mailer(self, mailing_id):
         """
@@ -571,8 +617,10 @@ class ActionKit(object):
             URI to poll for progress
         """
 
-        return self._base_post(endpoint='mailer/' + str(mailing_id) + '/queue',
-                               exception_message='Could not queue mailer')
+        return self._base_post(
+            endpoint="mailer/" + str(mailing_id) + "/queue",
+            exception_message="Could not queue mailer",
+        )
 
     def paginated_get(self, object_type, limit=None, **kwargs):
         """Get multiple objects of a given type.
@@ -608,7 +656,7 @@ class ActionKit(object):
 
         next_url = json_data.get("meta", {}).get("next")
         while next_url:
-            resp = self.conn.get(f'https://{self.domain}{next_url}')
+            resp = self.conn.get(f"https://{self.domain}{next_url}")
             data.extend(resp.json().get("objects", []))
             next_url = resp.json().get("meta", {}).get("next")
             if limit and len(data) >= limit:
@@ -616,9 +664,15 @@ class ActionKit(object):
 
         return Table(data[:limit])
 
-    def paginated_get_custom_limit(self, object_type, limit=None,
-                                   threshold_field=None, threshold_value=None,
-                                   ascdesc='asc', **kwargs):
+    def paginated_get_custom_limit(
+        self,
+        object_type,
+        limit=None,
+        threshold_field=None,
+        threshold_value=None,
+        ascdesc="asc",
+        **kwargs,
+    ):
         """Get multiple objects of a given type, stopping based on the value of a field.
 
         `Args:`
@@ -665,7 +719,7 @@ class ActionKit(object):
                 break
             if ascdesc == "desc" and last < threshold_value:
                 break
-            resp = self.conn.get(f'https://{self.domain}{next_url}')
+            resp = self.conn.get(f"https://{self.domain}{next_url}")
             data += resp.json().get("objects", [])
             next_url = resp.json().get("meta", {}).get("next")
             if limit and len(data) >= limit:
@@ -696,9 +750,10 @@ class ActionKit(object):
             ``None``
         """
 
-        resp = self.conn.patch(self._base_endpoint('order', order_id),
-                               data=json.dumps(kwargs))
-        logger.info(f'{resp.status_code}: {order_id}')
+        resp = self.conn.patch(
+            self._base_endpoint("order", order_id), data=json.dumps(kwargs)
+        )
+        logger.info(f"{resp.status_code}: {order_id}")
 
     def cancel_orderrecurring(self, recurring_id):
         """
@@ -711,8 +766,10 @@ class ActionKit(object):
             ``None``
         """
 
-        resp = self.conn.post(self._base_endpoint('orderrecurring', str(recurring_id)+'/cancel'))
-        logger.info(f'{resp.status_code}: {recurring_id}')
+        resp = self.conn.post(
+            self._base_endpoint("orderrecurring", str(recurring_id) + "/cancel")
+        )
+        logger.info(f"{resp.status_code}: {recurring_id}")
         return resp
 
     def update_paymenttoken(self, paymenttoken_id, **kwargs):
@@ -730,9 +787,11 @@ class ActionKit(object):
             ``HTTP response``
         """
 
-        resp = self.conn.patch(self._base_endpoint('paymenttoken', paymenttoken_id),
-                               data=json.dumps(kwargs))
-        logger.info(f'{resp.status_code}: {paymenttoken_id}')
+        resp = self.conn.patch(
+            self._base_endpoint("paymenttoken", paymenttoken_id),
+            data=json.dumps(kwargs),
+        )
+        logger.info(f"{resp.status_code}: {paymenttoken_id}")
         return resp
 
     def get_page_followup(self, page_followup_id):
@@ -746,8 +805,11 @@ class ActionKit(object):
             Page followup json object
         """
 
-        return self._base_get(endpoint='pagefollowup', entity_id=page_followup_id,
-                              exception_message='Page followup not found')
+        return self._base_get(
+            endpoint="pagefollowup",
+            entity_id=page_followup_id,
+            exception_message="Page followup not found",
+        )
 
     def get_page_followup_fields(self):
         """
@@ -758,8 +820,8 @@ class ActionKit(object):
             List of page followup fields
         """
 
-        resp = self._base_get(endpoint='pagefollowup/schema')
-        return list(resp['fields'].keys())
+        resp = self._base_get(endpoint="pagefollowup/schema")
+        return list(resp["fields"].keys())
 
     def create_page_followup(self, signup_page_id, url, **kwargs):
         """
@@ -778,11 +840,13 @@ class ActionKit(object):
             API location of new resource
         """
 
-        return self._base_post(endpoint='pagefollowup',
-                               exception_message='Could not create page followup',
-                               page=f'/rest/v1/eventsignuppage/{signup_page_id}/',
-                               url=url,
-                               **kwargs)
+        return self._base_post(
+            endpoint="pagefollowup",
+            exception_message="Could not create page followup",
+            page=f"/rest/v1/eventsignuppage/{signup_page_id}/",
+            url=url,
+            **kwargs,
+        )
 
     def get_survey_question(self, survey_question_id):
         """
@@ -795,8 +859,11 @@ class ActionKit(object):
             Survey question json object
         """
 
-        return self._base_get(endpoint='surveyquestion', entity_id=survey_question_id,
-                              exception_message='Survey question not found')
+        return self._base_get(
+            endpoint="surveyquestion",
+            entity_id=survey_question_id,
+            exception_message="Survey question not found",
+        )
 
     def update_survey_question(self, survey_question_id, **kwargs):
         """
@@ -815,9 +882,11 @@ class ActionKit(object):
             ``None``
         """
 
-        resp = self.conn.patch(self._base_endpoint('surveyquestion', survey_question_id),
-                               data=json.dumps(kwargs))
-        logger.info(f'{resp.status_code}: {survey_question_id}')
+        resp = self.conn.patch(
+            self._base_endpoint("surveyquestion", survey_question_id),
+            data=json.dumps(kwargs),
+        )
+        logger.info(f"{resp.status_code}: {survey_question_id}")
 
     def create_transaction(self, **kwargs):
         """
@@ -831,7 +900,9 @@ class ActionKit(object):
         """
 
         return self._base_post(
-            endpoint='transaction', exception_message='Could not create transaction', **kwargs
+            endpoint="transaction",
+            exception_message="Could not create transaction",
+            **kwargs,
         )
 
     def update_transaction(self, transaction_id, **kwargs):
@@ -849,9 +920,10 @@ class ActionKit(object):
             ``None``
         """
 
-        resp = self.conn.patch(self._base_endpoint('transaction', transaction_id),
-                               data=json.dumps(kwargs))
-        logger.info(f'{resp.status_code}: {transaction_id}')
+        resp = self.conn.patch(
+            self._base_endpoint("transaction", transaction_id), data=json.dumps(kwargs)
+        )
+        logger.info(f"{resp.status_code}: {transaction_id}")
 
     def create_generic_action(self, page, email=None, ak_id=None, **kwargs):
         """
@@ -874,17 +946,24 @@ class ActionKit(object):
         """  # noqa: E501,E261
 
         if not email or ak_id:
-            raise ValueError('One of email or ak_id is required.')
+            raise ValueError("One of email or ak_id is required.")
 
-        return self._base_post(endpoint='action',
-                               exception_message='Could not create action.',
-                               email=email,
-                               page=page,
-                               return_full_json=True,
-                               **kwargs)
+        return self._base_post(
+            endpoint="action",
+            exception_message="Could not create action.",
+            email=email,
+            page=page,
+            return_full_json=True,
+            **kwargs,
+        )
 
-    def bulk_upload_csv(self, csv_file, import_page,
-                        autocreate_user_fields=False, user_fields_only=False):
+    def bulk_upload_csv(
+        self,
+        csv_file,
+        import_page,
+        autocreate_user_fields=False,
+        user_fields_only=False,
+    ):
         """
         Bulk upload a csv file of new users or user updates.
         If you are uploading a table object, use bulk_upload_table instead.
@@ -917,29 +996,35 @@ class ActionKit(object):
         """  # noqa: E501,E261
 
         # self.conn defaults to JSON, but this has to be form/multi-part....
-        upload_client = self._conn({'accepts': 'application/json'})
+        upload_client = self._conn({"accepts": "application/json"})
         if isinstance(csv_file, str):
-            csv_file = open(csv_file, 'rb')
+            csv_file = open(csv_file, "rb")
 
-        url = self._base_endpoint('upload')
-        files = {'upload': csv_file}
+        url = self._base_endpoint("upload")
+        files = {"upload": csv_file}
         data = {
-            'page': import_page,
-            'autocreate_user_fields': int(autocreate_user_fields),
-            'user_fields_only': int(user_fields_only),
+            "page": import_page,
+            "autocreate_user_fields": int(autocreate_user_fields),
+            "user_fields_only": int(user_fields_only),
         }
         with upload_client.post(url, files=files, data=data) as res:
-            progress_url = res.headers.get('Location')
+            progress_url = res.headers.get("Location")
             rv = {
-                'res': res,
-                'success': res.status_code == 201,
-                'id': progress_url.split('/')[-2] if progress_url else None,
-                'progress_url': progress_url
+                "res": res,
+                "success": res.status_code == 201,
+                "id": progress_url.split("/")[-2] if progress_url else None,
+                "progress_url": progress_url,
             }
             return rv
 
-    def bulk_upload_table(self, table, import_page, autocreate_user_fields=0,
-                          no_overwrite_on_empty=False, set_only_columns=None):
+    def bulk_upload_table(
+        self,
+        table,
+        import_page,
+        autocreate_user_fields=0,
+        no_overwrite_on_empty=False,
+        set_only_columns=None,
+    ):
         """
         Bulk upload a table of new users or user updates.
         See `ActionKit User Upload Documentation <https://roboticdogs.actionkit.com/docs/manual/api/rest/uploads.html>`_
@@ -979,33 +1064,41 @@ class ActionKit(object):
                          progress_url and res for any results
         """  # noqa: E501,E261
 
-        import_page = check_env.check('ACTION_KIT_IMPORTPAGE', import_page)
+        import_page = check_env.check("ACTION_KIT_IMPORTPAGE", import_page)
         upload_tables = self._split_tables_no_empties(
-            table, no_overwrite_on_empty, set_only_columns)
+            table, no_overwrite_on_empty, set_only_columns
+        )
         results = []
         for tbl in upload_tables:
-            user_fields_only = int(not any([
-                h for h in tbl.columns
-                if h != 'email' and not h.startswith('user_')]))
-            results.append(self.bulk_upload_csv(tbl.to_csv(),
-                                                import_page,
-                                                autocreate_user_fields=autocreate_user_fields,
-                                                user_fields_only=user_fields_only))
-        return {
-            'success': all([r['success'] for r in results]),
-            'results': results
-        }
+            user_fields_only = int(
+                not any(
+                    [
+                        h
+                        for h in tbl.columns
+                        if h != "email" and not h.startswith("user_")
+                    ]
+                )
+            )
+            results.append(
+                self.bulk_upload_csv(
+                    tbl.to_csv(),
+                    import_page,
+                    autocreate_user_fields=autocreate_user_fields,
+                    user_fields_only=user_fields_only,
+                )
+            )
+        return {"success": all([r["success"] for r in results]), "results": results}
 
     def _split_tables_no_empties(self, table, no_overwrite_on_empty, set_only_columns):
         table_groups = {}
         # uploading combo of user_id and email column should be mutually exclusive
         blank_columns_test = table.columns
         if not no_overwrite_on_empty:
-            blank_columns_test = (set(['user_id', 'email'] + (set_only_columns or []))
-                                  .intersection(table.columns))
+            blank_columns_test = set(
+                ["user_id", "email"] + (set_only_columns or [])
+            ).intersection(table.columns)
         for row in table:
-            blanks = tuple(k for k in blank_columns_test
-                           if row.get(k) in (None, ''))
+            blanks = tuple(k for k in blank_columns_test if row.get(k) in (None, ""))
             grp = table_groups.setdefault(blanks, [])
             grp.append(row)
         results = []
@@ -1013,12 +1106,12 @@ class ActionKit(object):
             subset_table = Table(subset)
             if blanks:
                 subset_table.table = subset_table.table.cutout(*blanks)
-            logger.debug(f'Column Upload Blanks: {blanks}')
-            logger.debug(f'Column Upload Columns: {subset_table.columns}')
-            if not set(['user_id', 'email']).intersection(subset_table.columns):
+            logger.debug(f"Column Upload Blanks: {blanks}")
+            logger.debug(f"Column Upload Columns: {subset_table.columns}")
+            if not set(["user_id", "email"]).intersection(subset_table.columns):
                 logger.warning(
-                    f'Upload will fail without user_id or email. '
-                    f'Rows: {subset_table.num_rows}, Columns: {subset_table.columns}'
+                    f"Upload will fail without user_id or email. "
+                    f"Rows: {subset_table.num_rows}, Columns: {subset_table.columns}"
                 )
             results.append(subset_table)
         return results
@@ -1041,15 +1134,17 @@ class ActionKit(object):
         """
         errors = []
         for res in result_array:
-            upload_id = res.get('id')
+            upload_id = res.get("id")
             if upload_id:
                 while True:
-                    upload = self._base_get(endpoint='upload', entity_id=upload_id)
-                    if not upload or upload.get('status') != 'new':
+                    upload = self._base_get(endpoint="upload", entity_id=upload_id)
+                    if not upload or upload.get("status") != "new":
                         break
                     else:
                         time.sleep(1)
-                error_data = self._base_get(endpoint='uploaderror', params={'upload': upload_id})
-                logger.debug(f'error collect result: {error_data}')
-                errors.extend(error_data.get('objects') or [])
+                error_data = self._base_get(
+                    endpoint="uploaderror", params={"upload": upload_id}
+                )
+                logger.debug(f"error collect result: {error_data}")
+                errors.extend(error_data.get("objects") or [])
         return errors

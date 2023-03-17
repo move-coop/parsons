@@ -7,16 +7,29 @@ logger = logging.getLogger(__name__)
 
 
 class Events(object):
-
     def __init__(self, van_connection):
 
         self.connection = van_connection
 
-    def get_events(self, code_ids=None, event_type_ids=None, rep_event_id=None,
-                   starting_after=None, starting_before=None, district_field=None,
-                   expand_fields=['locations', 'codes', 'shifts', 'roles', 'notes',
-                                  'financialProgram', 'ticketCategories',
-                                  'onlineForms']):
+    def get_events(
+        self,
+        code_ids=None,
+        event_type_ids=None,
+        rep_event_id=None,
+        starting_after=None,
+        starting_before=None,
+        district_field=None,
+        expand_fields=[
+            "locations",
+            "codes",
+            "shifts",
+            "roles",
+            "notes",
+            "financialProgram",
+            "ticketCategories",
+            "onlineForms",
+        ],
+    ):
         """
         Get events.
 
@@ -44,25 +57,37 @@ class Events(object):
         """
 
         if expand_fields:
-            expand_fields = ','.join(expand_fields)
+            expand_fields = ",".join(expand_fields)
 
-        params = {'codeIds': code_ids,
-                  'eventTypeIds': event_type_ids,
-                  'inRepetitionWithEventId': rep_event_id,
-                  'startingAfter': starting_after,
-                  'startingBefore': starting_before,
-                  'districtFieldValue': district_field,
-                  '$top': 50,
-                  '$expand': expand_fields
-                  }
+        params = {
+            "codeIds": code_ids,
+            "eventTypeIds": event_type_ids,
+            "inRepetitionWithEventId": rep_event_id,
+            "startingAfter": starting_after,
+            "startingBefore": starting_before,
+            "districtFieldValue": district_field,
+            "$top": 50,
+            "$expand": expand_fields,
+        }
 
-        tbl = Table(self.connection.get_request('events', params=params))
-        logger.info(f'Found {tbl.num_rows} events.')
+        tbl = Table(self.connection.get_request("events", params=params))
+        logger.info(f"Found {tbl.num_rows} events.")
         return tbl
 
-    def get_event(self, event_id, expand_fields=['locations', 'codes', 'shifts', 'roles',
-                                                 'notes', 'financialProgram', 'ticketCategories',
-                                                 'voterRegistrationBatches']):
+    def get_event(
+        self,
+        event_id,
+        expand_fields=[
+            "locations",
+            "codes",
+            "shifts",
+            "roles",
+            "notes",
+            "financialProgram",
+            "ticketCategories",
+            "voterRegistrationBatches",
+        ],
+    ):
         """
         Get an event.
 
@@ -80,16 +105,32 @@ class Events(object):
         """
 
         if expand_fields:
-            expand_fields = ','.join(expand_fields)
+            expand_fields = ",".join(expand_fields)
 
-        r = self.connection.get_request(f'events/{event_id}', params={'$expand': expand_fields})
-        logger.info(f'Found event {event_id}.')
+        r = self.connection.get_request(
+            f"events/{event_id}", params={"$expand": expand_fields}
+        )
+        logger.info(f"Found event {event_id}.")
         return r
 
-    def create_event(self, name, short_name, start_date, end_date, event_type_id,
-                     roles, shifts=None, description=None, editable=False,
-                     publicly_viewable=False, location_ids=None, code_ids=None, notes=None,
-                     district_field_value=None, voter_registration_batches=None):
+    def create_event(
+        self,
+        name,
+        short_name,
+        start_date,
+        end_date,
+        event_type_id,
+        roles,
+        shifts=None,
+        description=None,
+        editable=False,
+        publicly_viewable=False,
+        location_ids=None,
+        code_ids=None,
+        notes=None,
+        district_field_value=None,
+        voter_registration_batches=None,
+    ):
         """
         Create an event
 
@@ -147,37 +188,45 @@ class Events(object):
         """
 
         if shifts is None:
-            shifts = [{'name': 'Default Shift',
-                       'startTime': start_date,
-                       'endTime': end_date}]
+            shifts = [
+                {"name": "Default Shift", "startTime": start_date, "endTime": end_date}
+            ]
         else:
-            shifts = [{'name': s['name'],
-                       'startTime': s['start_time'],
-                       'endTime': s['end_time']} for s in shifts]
+            shifts = [
+                {
+                    "name": s["name"],
+                    "startTime": s["start_time"],
+                    "endTime": s["end_time"],
+                }
+                for s in shifts
+            ]
 
-        event = {'name': name,
-                 'shortName': short_name,
-                 'description': description,
-                 'startDate': start_date,
-                 'endDate': end_date,
-                 'eventType': {'eventTypeId': event_type_id},
-                 'isOnlyEditableByCreatingUser': str(editable).lower(),
-                 'isPubliclyViewable': publicly_viewable,
-                 'notes': notes,
-                 'shifts': shifts,
-                 'roles': [{'roleId': r} for r in roles],
-                 'districtFieldValue': district_field_value,
-                 'voterRegistrationBatches': voter_registration_batches
-                 }
+        event = {
+            "name": name,
+            "shortName": short_name,
+            "description": description,
+            "startDate": start_date,
+            "endDate": end_date,
+            "eventType": {"eventTypeId": event_type_id},
+            "isOnlyEditableByCreatingUser": str(editable).lower(),
+            "isPubliclyViewable": publicly_viewable,
+            "notes": notes,
+            "shifts": shifts,
+            "roles": [{"roleId": r} for r in roles],
+            "districtFieldValue": district_field_value,
+            "voterRegistrationBatches": voter_registration_batches,
+        }
 
         if location_ids:
-            event['locations'] = [{'locationId': l} for l in location_ids],  # noqa E741
+            event["locations"] = (
+                [{"locationId": l} for l in location_ids],
+            )  # noqa E741
 
         if code_ids:
-            event['codes'] = [{'codeID': c} for c in code_ids]
+            event["codes"] = [{"codeID": c} for c in code_ids]
 
-        r = self.connection.post_request('events', json=event)
-        logger.info(f'Event {r} created.')
+        r = self.connection.post_request("events", json=event)
+        logger.info(f"Event {r} created.")
         return r
 
     def delete_event(self, event_id):
@@ -191,8 +240,8 @@ class Events(object):
             ``None``
         """
 
-        r = self.connection.delete_request(f'events/{event_id}')
-        logger.info(f'Event {event_id} deleted.')
+        r = self.connection.delete_request(f"events/{event_id}")
+        logger.info(f"Event {event_id} deleted.")
         return r
 
     def add_event_shift(self, event_id, shift_name, start_time, end_time):
@@ -213,13 +262,10 @@ class Events(object):
               The shift id.
         """
 
-        shift = {'name': shift_name,
-                 'startTime': start_time,
-                 'endTime': end_time
-                 }
+        shift = {"name": shift_name, "startTime": start_time, "endTime": end_time}
 
-        r = self.connection.post_request(f'events/{event_id}/shifts', json=shift)
-        logger.info(f'Shift {r} added.')
+        r = self.connection.post_request(f"events/{event_id}/shifts", json=shift)
+        logger.info(f"Shift {r} added.")
         return r
 
     def get_event_types(self):
@@ -231,6 +277,6 @@ class Events(object):
                 See :ref:`parsons-table` for output options.
         """
 
-        tbl = Table(self.connection.get_request('events/types'))
-        logger.info(f'Found {tbl.num_rows} events.')
+        tbl = Table(self.connection.get_request("events/types"))
+        logger.info(f"Found {tbl.num_rows} events.")
         return tbl

@@ -13,14 +13,15 @@ def test_something():
     ...
 """
 mark_live_test = pytest.mark.skipif(
-    not os.environ.get('LIVE_TEST'), reason='Skipping because not running live test')
+    not os.environ.get("LIVE_TEST"), reason="Skipping because not running live test"
+)
 
 
 # Tests whether a table has the expected structure
 def validate_list(expected_keys, table):
 
     if set(expected_keys) != set(table.columns):
-        raise KeyError('Not all expected keys found.')
+        raise KeyError("Not all expected keys found.")
 
     return True
 

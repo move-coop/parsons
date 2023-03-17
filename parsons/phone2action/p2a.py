@@ -21,15 +21,21 @@ class Phone2Action(object):
 
     def __init__(self, app_id=None, app_key=None):
         self.capitol_canary = CapitolCanary(app_id, app_key)
-        logger.warning('The Phone2Action class is being deprecated and replaced by CapitalCanary')
+        logger.warning(
+            "The Phone2Action class is being deprecated and replaced by CapitalCanary"
+        )
 
     def __getattr__(self, name):
         try:
             return getattr(self.capitol_canary, name)
         except AttributeError:
-            raise AttributeError(f"{type(self).__name__} object has no attribute {name}")
+            raise AttributeError(
+                f"{type(self).__name__} object has no attribute {name}"
+            )
 
-    def get_advocates(self, state=None, campaign_id=None, updated_since=None, page=None):
+    def get_advocates(
+        self, state=None, campaign_id=None, updated_since=None, page=None
+    ):
         """
         Return advocates (person records).
 
@@ -58,10 +64,18 @@ class Phone2Action(object):
                 * fields
                 * advocates
         """
-        return self.capitol_canary.get_advocates(state, campaign_id, updated_since, page)
+        return self.capitol_canary.get_advocates(
+            state, campaign_id, updated_since, page
+        )
 
-    def get_campaigns(self, state=None, zip=None, include_generic=False, include_private=False,
-                      include_content=True):
+    def get_campaigns(
+        self,
+        state=None,
+        zip=None,
+        include_generic=False,
+        include_private=False,
+        include_content=True,
+    ):
         """
         Returns a list of campaigns
 
@@ -82,25 +96,28 @@ class Phone2Action(object):
                 See :ref:`parsons-table` for output options.
         """
 
-        return self.capitol_canary.get_campaigns(state, zip, include_generic, include_private,
-                                                 include_content)
+        return self.capitol_canary.get_campaigns(
+            state, zip, include_generic, include_private, include_content
+        )
 
-    def create_advocate(self,
-                        campaigns,
-                        first_name=None,
-                        last_name=None,
-                        email=None,
-                        phone=None,
-                        address1=None,
-                        address2=None,
-                        city=None,
-                        state=None,
-                        zip5=None,
-                        sms_optin=None,
-                        email_optin=None,
-                        sms_optout=None,
-                        email_optout=None,
-                        **kwargs):
+    def create_advocate(
+        self,
+        campaigns,
+        first_name=None,
+        last_name=None,
+        email=None,
+        phone=None,
+        address1=None,
+        address2=None,
+        city=None,
+        state=None,
+        zip5=None,
+        sms_optin=None,
+        email_optin=None,
+        sms_optout=None,
+        email_optout=None,
+        **kwargs,
+    ):
         """
         Create an advocate.
 
@@ -169,19 +186,21 @@ class Phone2Action(object):
             email_optin,
             sms_optout,
             email_optout,
-            **kwargs
+            **kwargs,
         )
 
-    def update_advocate(self,
-                        advocate_id,
-                        campaigns=None,
-                        email=None,
-                        phone=None,
-                        sms_optin=None,
-                        email_optin=None,
-                        sms_optout=None,
-                        email_optout=None,
-                        **kwargs):
+    def update_advocate(
+        self,
+        advocate_id,
+        campaigns=None,
+        email=None,
+        phone=None,
+        sms_optin=None,
+        email_optin=None,
+        sms_optout=None,
+        email_optout=None,
+        **kwargs,
+    ):
         """
         Update the fields of an advocate.
 
@@ -228,4 +247,5 @@ class Phone2Action(object):
             email_optin,
             sms_optout,
             email_optout,
-            **kwargs)
+            **kwargs,
+        )

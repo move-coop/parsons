@@ -58,7 +58,8 @@ class Flags:
         for flag in flag_list:
             try:
                 flag["flagEntryDate"] = str(
-                    datetime.strptime(flag["flagEntryDate"], "%Y-%m-%d").isoformat())
+                    datetime.strptime(flag["flagEntryDate"], "%Y-%m-%d").isoformat()
+                )
             except ValueError:
                 raise ValueError("Invalid date format.")
         print(flag_list)

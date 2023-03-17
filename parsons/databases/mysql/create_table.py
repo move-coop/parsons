@@ -8,7 +8,6 @@ logger = logging.getLogger(__name__)
 
 
 class MySQLCreateTable(DatabaseCreateStatement):
-
     def __init__(self):
         super().__init__()
 
@@ -42,8 +41,8 @@ class MySQLCreateTable(DatabaseCreateStatement):
             col_type = self.data_type(row, col_type)
 
             # Calculate width if a varchar
-            if col_type == 'varchar':
-                row_width = len(str(row.encode('utf-8')))
+            if col_type == "varchar":
+                row_width = len(str(row.encode("utf-8")))
 
                 # Evaluate width vs. current max width
                 if row_width > col_width:
@@ -59,7 +58,7 @@ class MySQLCreateTable(DatabaseCreateStatement):
 
         for col in tbl.columns:
             col_type, col_width = self.evaluate_column(tbl.column_data(col))
-            col_map = {'name': col, 'type': col_type, 'width': col_width}
+            col_map = {"name": col, "type": col_type, "width": col_width}
             table_map.append(col_map)
 
         return table_map
@@ -77,11 +76,11 @@ class MySQLCreateTable(DatabaseCreateStatement):
         column_syntax = []
         for c in table_map:
             if strict_length:
-                col_width = int(c['width'] + (self.VARCHAR_PAD * c['width']))
+                col_width = int(c["width"] + (self.VARCHAR_PAD * c["width"]))
             else:
-                col_width = self.round_longest(c['width'])
+                col_width = self.round_longest(c["width"])
 
-            if c['type'] == 'varchar':
+            if c["type"] == "varchar":
                 column_syntax.append(f"{c['name']} {c['type']}({col_width}) \n")
             else:
                 column_syntax.append(f"{c['name']} {c['type']} \n")

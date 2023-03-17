@@ -25,8 +25,13 @@ QUERY_BATCH_SIZE = 100000
 logger = logging.getLogger(__name__)
 
 
-class Redshift(RedshiftCreateTable, RedshiftCopyTable, RedshiftTableUtilities, RedshiftSchema,
-               Alchemy):
+class Redshift(
+    RedshiftCreateTable,
+    RedshiftCopyTable,
+    RedshiftTableUtilities,
+    RedshiftSchema,
+    Alchemy,
+):
     """
     A Redshift class to connect to database.
 
@@ -64,30 +69,41 @@ class Redshift(RedshiftCreateTable, RedshiftCopyTable, RedshiftTableUtilities, R
             variable even if the ``aws_session_token`` argument was not passed in.
     """
 
-    def __init__(self, username=None, password=None, host=None, db=None, port=None,
-                 timeout=10, s3_temp_bucket=None,
-                 aws_access_key_id=None, aws_secret_access_key=None, iam_role=None,
-                 use_env_token=True):
+    def __init__(
+        self,
+        username=None,
+        password=None,
+        host=None,
+        db=None,
+        port=None,
+        timeout=10,
+        s3_temp_bucket=None,
+        aws_access_key_id=None,
+        aws_secret_access_key=None,
+        iam_role=None,
+        use_env_token=True,
+    ):
         super().__init__()
 
         try:
-            self.username = username or os.environ['REDSHIFT_USERNAME']
-            self.password = password or os.environ['REDSHIFT_PASSWORD']
-            self.host = host or os.environ['REDSHIFT_HOST']
-            self.db = db or os.environ['REDSHIFT_DB']
-            self.port = port or os.environ['REDSHIFT_PORT']
+            self.username = username or os.environ["REDSHIFT_USERNAME"]
+            self.password = password or os.environ["REDSHIFT_PASSWORD"]
+            self.host = host or os.environ["REDSHIFT_HOST"]
+            self.db = db or os.environ["REDSHIFT_DB"]
+            self.port = port or os.environ["REDSHIFT_PORT"]
         except KeyError as error:
-            logger.error("Connection info missing. Most include as kwarg or "
-                         "env variable.")
+            logger.error(
+                "Connection info missing. Most include as kwarg or " "env variable."
+            )
             raise error
 
         self.timeout = timeout
-        self.dialect = 'redshift'
-        self.s3_temp_bucket = s3_temp_bucket or os.environ.get('S3_TEMP_BUCKET')
+        self.dialect = "redshift"
+        self.s3_temp_bucket = s3_temp_bucket or os.environ.get("S3_TEMP_BUCKET")
         # Set prefix for temp S3 bucket paths that include subfolders
         self.s3_temp_bucket_prefix = None
-        if self.s3_temp_bucket and '/' in self.s3_temp_bucket:
-            split_temp_bucket_name = self.s3_temp_bucket.split('/', 1)
+        if self.s3_temp_bucket and "/" in self.s3_temp_bucket:
+            split_temp_bucket_name = self.s3_temp_bucket.split("/", 1)
             self.s3_temp_bucket = split_temp_bucket_name[0]
             self.s3_temp_bucket_prefix = split_temp_bucket_name[1]
         self.use_env_token = use_env_token
@@ -113,9 +129,14 @@ class Redshift(RedshiftCreateTable, RedshiftCopyTable, RedshiftTableUtilities, R
         """
 
         # Create a psycopg2 connection and cursor
-        conn = psycopg2.connect(user=self.username, password=self.password,
-                                host=self.host, dbname=self.db, port=self.port,
-                                connect_timeout=self.timeout)
+        conn = psycopg2.connect(
+            user=self.username,
+            password=self.password,
+            host=self.host,
+            dbname=self.db,
+            port=self.port,
+            connect_timeout=self.timeout,
+        )
         try:
             yield conn
 
@@ -201,8 +222,8 @@ class Redshift(RedshiftCreateTable, RedshiftCopyTable, RedshiftTableUtilities, R
 
         with self.cursor(connection) as cursor:
 
-            if 'credentials' not in sql:
-                logger.debug(f'SQL Query: {sql}')
+            if "credentials" not in sql:
+                logger.debug(f"SQL Query: {sql}")
             cursor.execute(sql, parameters)
 
             if commit:
@@ -210,7 +231,7 @@ class Redshift(RedshiftCreateTable, RedshiftCopyTable, RedshiftTableUtilities, R
 
             # If the cursor is empty, don't cause an error
             if not cursor.description:
-                logger.debug('Query returned 0 rows')
+                logger.debug("Query returned 0 rows")
                 return None
 
             else:
@@ -221,7 +242,7 @@ class Redshift(RedshiftCreateTable, RedshiftCopyTable, RedshiftTableUtilities, R
 
                 temp_file = files.create_temp_file()
 
-                with open(temp_file, 'wb') as f:
+                with open(temp_file, "wb") as f:
                     # Grab the header
                     header = [i[0] for i in cursor.description]
                     pickle.dump(header, f)
@@ -231,25 +252,50 @@ class Redshift(RedshiftCreateTable, RedshiftCopyTable, RedshiftTableUtilities, R
                         if not batch:
                             break
 
-                        logger.debug(f'Fetched {len(batch)} rows.')
+                        logger.debug(f"Fetched {len(batch)} rows.")
                         for row in batch:
                             pickle.dump(list(row), f)
 
                 # Load a Table from the file
                 final_tbl = Table(petl.frompickle(temp_file))
 
-                logger.debug(f'Query returned {final_tbl.num_rows} rows.')
+                logger.debug(f"Query returned {final_tbl.num_rows} rows.")
                 return final_tbl
 
-    def copy_s3(self, table_name, bucket, key, manifest=False, data_type='csv',
-                csv_delimiter=',', compression=None, if_exists='fail', max_errors=0,
-                distkey=None, sortkey=None, padding=None, varchar_max=None,
-                statupdate=True, compupdate=True, ignoreheader=1, acceptanydate=True,
-                dateformat='auto', timeformat='auto', emptyasnull=True,
-                blanksasnull=True, nullas=None, acceptinvchars=True, truncatecolumns=False,
-                columntypes=None, specifycols=None,
-                aws_access_key_id=None, aws_secret_access_key=None, bucket_region=None,
-                strict_length=True, template_table=None):
+    def copy_s3(
+        self,
+        table_name,
+        bucket,
+        key,
+        manifest=False,
+        data_type="csv",
+        csv_delimiter=",",
+        compression=None,
+        if_exists="fail",
+        max_errors=0,
+        distkey=None,
+        sortkey=None,
+        padding=None,
+        varchar_max=None,
+        statupdate=True,
+        compupdate=True,
+        ignoreheader=1,
+        acceptanydate=True,
+        dateformat="auto",
+        timeformat="auto",
+        emptyasnull=True,
+        blanksasnull=True,
+        nullas=None,
+        acceptinvchars=True,
+        truncatecolumns=False,
+        columntypes=None,
+        specifycols=None,
+        aws_access_key_id=None,
+        aws_secret_access_key=None,
+        bucket_region=None,
+        strict_length=True,
+        template_table=None,
+    ):
         """
         Copy a file from s3 to Redshift.
 
@@ -354,56 +400,101 @@ class Redshift(RedshiftCreateTable, RedshiftCopyTable, RedshiftTableUtilities, R
 
             if self._create_table_precheck(connection, table_name, if_exists):
                 if template_table:
-                    sql = f'CREATE TABLE {table_name} (LIKE {template_table})'
+                    sql = f"CREATE TABLE {table_name} (LIKE {template_table})"
                 else:
                     # Grab the object from s3
                     from parsons.aws.s3 import S3
-                    s3 = S3(aws_access_key_id=aws_access_key_id,
-                            aws_secret_access_key=aws_secret_access_key,
-                            use_env_token=self.use_env_token)
+
+                    s3 = S3(
+                        aws_access_key_id=aws_access_key_id,
+                        aws_secret_access_key=aws_secret_access_key,
+                        use_env_token=self.use_env_token,
+                    )
 
                     local_path = s3.get_file(bucket, key)
-                    if data_type == 'csv':
+                    if data_type == "csv":
                         tbl = Table.from_csv(local_path, delimiter=csv_delimiter)
                     else:
                         raise TypeError("Invalid data type provided")
 
                     # Create the table
-                    sql = self.create_statement(tbl, table_name, padding=padding,
-                                                distkey=distkey, sortkey=sortkey,
-                                                varchar_max=varchar_max,
-                                                columntypes=columntypes,
-                                                strict_length=strict_length)
+                    sql = self.create_statement(
+                        tbl,
+                        table_name,
+                        padding=padding,
+                        distkey=distkey,
+                        sortkey=sortkey,
+                        varchar_max=varchar_max,
+                        columntypes=columntypes,
+                        strict_length=strict_length,
+                    )
 
                 self.query_with_connection(sql, connection, commit=False)
-                logger.info(f'{table_name} created.')
+                logger.info(f"{table_name} created.")
 
             # Copy the table
-            copy_sql = self.copy_statement(table_name, bucket, key, manifest=manifest,
-                                           data_type=data_type, csv_delimiter=csv_delimiter,
-                                           compression=compression, max_errors=max_errors,
-                                           statupdate=statupdate, compupdate=compupdate,
-                                           aws_access_key_id=aws_access_key_id,
-                                           aws_secret_access_key=aws_secret_access_key,
-                                           ignoreheader=ignoreheader, acceptanydate=acceptanydate,
-                                           emptyasnull=emptyasnull, blanksasnull=blanksasnull,
-                                           nullas=nullas, acceptinvchars=acceptinvchars,
-                                           truncatecolumns=truncatecolumns,
-                                           specifycols=specifycols,
-                                           dateformat=dateformat, timeformat=timeformat,
-                                           bucket_region=bucket_region)
+            copy_sql = self.copy_statement(
+                table_name,
+                bucket,
+                key,
+                manifest=manifest,
+                data_type=data_type,
+                csv_delimiter=csv_delimiter,
+                compression=compression,
+                max_errors=max_errors,
+                statupdate=statupdate,
+                compupdate=compupdate,
+                aws_access_key_id=aws_access_key_id,
+                aws_secret_access_key=aws_secret_access_key,
+                ignoreheader=ignoreheader,
+                acceptanydate=acceptanydate,
+                emptyasnull=emptyasnull,
+                blanksasnull=blanksasnull,
+                nullas=nullas,
+                acceptinvchars=acceptinvchars,
+                truncatecolumns=truncatecolumns,
+                specifycols=specifycols,
+                dateformat=dateformat,
+                timeformat=timeformat,
+                bucket_region=bucket_region,
+            )
 
             self.query_with_connection(copy_sql, connection, commit=False)
-            logger.info(f'Data copied to {table_name}.')
+            logger.info(f"Data copied to {table_name}.")
 
-    def copy(self, tbl, table_name, if_exists='fail', max_errors=0, distkey=None,
-             sortkey=None, padding=None, statupdate=None, compupdate=None, acceptanydate=True,
-             emptyasnull=True, blanksasnull=True, nullas=None, acceptinvchars=True,
-             dateformat='auto', timeformat='auto', varchar_max=None, truncatecolumns=False,
-             columntypes=None, specifycols=None, alter_table=False, alter_table_cascade=False,
-             aws_access_key_id=None, aws_secret_access_key=None, iam_role=None,
-             cleanup_s3_file=True, template_table=None, temp_bucket_region=None,
-             strict_length=True, csv_encoding='utf-8'):
+    def copy(
+        self,
+        tbl,
+        table_name,
+        if_exists="fail",
+        max_errors=0,
+        distkey=None,
+        sortkey=None,
+        padding=None,
+        statupdate=None,
+        compupdate=None,
+        acceptanydate=True,
+        emptyasnull=True,
+        blanksasnull=True,
+        nullas=None,
+        acceptinvchars=True,
+        dateformat="auto",
+        timeformat="auto",
+        varchar_max=None,
+        truncatecolumns=False,
+        columntypes=None,
+        specifycols=None,
+        alter_table=False,
+        alter_table_cascade=False,
+        aws_access_key_id=None,
+        aws_secret_access_key=None,
+        iam_role=None,
+        cleanup_s3_file=True,
+        template_table=None,
+        temp_bucket_region=None,
+        strict_length=True,
+        csv_encoding="utf-8",
+    ):
         """
         Copy a :ref:`parsons-table` to Redshift.
 
@@ -535,65 +626,93 @@ class Redshift(RedshiftCreateTable, RedshiftCopyTable, RedshiftTableUtilities, R
             if self._create_table_precheck(connection, table_name, if_exists):
                 if template_table:
                     # Copy the schema from the template table
-                    sql = f'CREATE TABLE {table_name} (LIKE {template_table})'
+                    sql = f"CREATE TABLE {table_name} (LIKE {template_table})"
                 else:
-                    sql = self.create_statement(tbl, table_name, padding=padding,
-                                                distkey=distkey, sortkey=sortkey,
-                                                varchar_max=varchar_max,
-                                                columntypes=columntypes,
-                                                strict_length=strict_length)
+                    sql = self.create_statement(
+                        tbl,
+                        table_name,
+                        padding=padding,
+                        distkey=distkey,
+                        sortkey=sortkey,
+                        varchar_max=varchar_max,
+                        columntypes=columntypes,
+                        strict_length=strict_length,
+                    )
                 self.query_with_connection(sql, connection, commit=False)
-                logger.info(f'{table_name} created.')
+                logger.info(f"{table_name} created.")
 
             # If alter_table is True, then alter table if the table column widths
             # are wider than the existing table.
             if alter_table:
                 self.alter_varchar_column_widths(
-                    tbl, table_name, drop_dependencies=alter_table_cascade)
+                    tbl, table_name, drop_dependencies=alter_table_cascade
+                )
 
             # Upload the table to S3
-            key = self.temp_s3_copy(tbl, aws_access_key_id=aws_access_key_id,
-                                    aws_secret_access_key=aws_secret_access_key,
-                                    csv_encoding=csv_encoding)
+            key = self.temp_s3_copy(
+                tbl,
+                aws_access_key_id=aws_access_key_id,
+                aws_secret_access_key=aws_secret_access_key,
+                csv_encoding=csv_encoding,
+            )
 
             try:
                 # Copy to Redshift database.
-                copy_args = {'max_errors': max_errors,
-                             'ignoreheader': 1,
-                             'statupdate': statupdate,
-                             'compupdate': compupdate,
-                             'acceptanydate': acceptanydate,
-                             'dateformat': dateformat,
-                             'timeformat': timeformat,
-                             'blanksasnull': blanksasnull,
-                             'nullas': nullas,
-                             'emptyasnull': emptyasnull,
-                             'acceptinvchars': acceptinvchars,
-                             'truncatecolumns': truncatecolumns,
-                             'specifycols': cols,
-                             'aws_access_key_id': aws_access_key_id,
-                             'aws_secret_access_key': aws_secret_access_key,
-                             'compression': 'gzip',
-                             'bucket_region': temp_bucket_region}
+                copy_args = {
+                    "max_errors": max_errors,
+                    "ignoreheader": 1,
+                    "statupdate": statupdate,
+                    "compupdate": compupdate,
+                    "acceptanydate": acceptanydate,
+                    "dateformat": dateformat,
+                    "timeformat": timeformat,
+                    "blanksasnull": blanksasnull,
+                    "nullas": nullas,
+                    "emptyasnull": emptyasnull,
+                    "acceptinvchars": acceptinvchars,
+                    "truncatecolumns": truncatecolumns,
+                    "specifycols": cols,
+                    "aws_access_key_id": aws_access_key_id,
+                    "aws_secret_access_key": aws_secret_access_key,
+                    "compression": "gzip",
+                    "bucket_region": temp_bucket_region,
+                }
 
                 # Copy from S3 to Redshift
-                sql = self.copy_statement(table_name, self.s3_temp_bucket, key, **copy_args)
+                sql = self.copy_statement(
+                    table_name, self.s3_temp_bucket, key, **copy_args
+                )
                 sql_censored = sql_helpers.redact_credentials(sql)
 
-                logger.debug(f'Copy SQL command: {sql_censored}')
+                logger.debug(f"Copy SQL command: {sql_censored}")
                 self.query_with_connection(sql, connection, commit=False)
 
-                logger.info(f'Data copied to {table_name}.')
+                logger.info(f"Data copied to {table_name}.")
 
             # Clean up the S3 bucket.
             finally:
                 if key and cleanup_s3_file:
                     self.temp_s3_delete(key)
 
-    def unload(self, sql, bucket, key_prefix, manifest=True, header=True, delimiter='|',
-               compression='gzip', add_quotes=True, null_as=None, escape=True, allow_overwrite=True,
-               parallel=True, max_file_size='6.2 GB', aws_region=None, aws_access_key_id=None,
-               aws_secret_access_key=None):
+    def unload(
+        self,
+        sql,
+        bucket,
+        key_prefix,
+        manifest=True,
+        header=True,
+        delimiter="|",
+        compression="gzip",
+        add_quotes=True,
+        null_as=None,
+        escape=True,
+        allow_overwrite=True,
+        parallel=True,
+        max_file_size="6.2 GB",
+        aws_region=None,
+        aws_access_key_id=None,
+        aws_secret_access_key=None,
+    ):
         """
         Unload Redshift data to S3 Bucket. This is a more efficient method than running a query
         to export data as it can export in parallel and directly into an S3 bucket. Consider
@@ -677,16 +796,24 @@ class Redshift(RedshiftCreateTable, RedshiftCopyTable, RedshiftTableUtilities, R
         if aws_region:
             statement += f"REGION {aws_region} \n"
 
-        logger.info(f'Unloading data to s3://{bucket}/{key_prefix}')
+        logger.info(f"Unloading data to s3://{bucket}/{key_prefix}")
         # Censor sensitive data
         statement_censored = sql_helpers.redact_credentials(statement)
         logger.debug(statement_censored)
 
         return self.query(statement)
 
-    def generate_manifest(self, buckets, aws_access_key_id=None, aws_secret_access_key=None,
-                          mandatory=True, prefix=None, manifest_bucket=None, manifest_key=None,
-                          path=None):
+    def generate_manifest(
+        self,
+        buckets,
+        aws_access_key_id=None,
+        aws_secret_access_key=None,
+        mandatory=True,
+        prefix=None,
+        manifest_bucket=None,
+        manifest_key=None,
+        path=None,
+    ):
         """
         Given a list of S3 buckets, generate a manifest file (JSON format). A manifest file
         allows you to copy multiple files into a single table at once. Once the manifest is
@@ -718,45 +845,59 @@ class Redshift(RedshiftCreateTable, RedshiftCopyTable, RedshiftTableUtilities, R
         """
 
         from parsons.aws import S3
-        s3 = S3(aws_access_key_id=aws_access_key_id,
-                aws_secret_access_key=aws_secret_access_key,
-                use_env_token=self.use_env_token)
+
+        s3 = S3(
+            aws_access_key_id=aws_access_key_id,
+            aws_secret_access_key=aws_secret_access_key,
+            use_env_token=self.use_env_token,
+        )
 
         # Deal with a single bucket being passed, rather than list.
         if isinstance(buckets, str):
             buckets = [buckets]
 
         # Generate manifest file
-        manifest = {'entries': []}
+        manifest = {"entries": []}
         for bucket in buckets:
 
             # Retrieve list of files in bucket
             key_list = s3.list_keys(bucket, prefix=prefix)
             for key in key_list:
-                manifest['entries'].append({
-                    'url': '/'.join(['s3:/', bucket, key]),
-                    'mandatory': mandatory
-                })
+                manifest["entries"].append(
+                    {"url": "/".join(["s3:/", bucket, key]), "mandatory": mandatory}
+                )
 
-        logger.info('Manifest generated.')
+        logger.info("Manifest generated.")
 
         # Save the file to s3 bucket if provided
         if manifest_key and manifest_bucket:
             # Dump the manifest to a temp JSON file
             manifest_path = files.create_temp_file()
-            with open(manifest_path, 'w') as manifest_file_obj:
+            with open(manifest_path, "w") as manifest_file_obj:
                 json.dump(manifest, manifest_file_obj, sort_keys=True, indent=4)
 
             # Upload the file to S3
             s3.put_file(manifest_bucket, manifest_key, manifest_path)
 
-            logger.info(f'Manifest saved to s3://{manifest_bucket}/{manifest_key}')
+            logger.info(f"Manifest saved to s3://{manifest_bucket}/{manifest_key}")
 
         return manifest
 
-    def upsert(self, table_obj, target_table, primary_key, vacuum=True, distinct_check=True,
-               cleanup_temp_table=True, alter_table=True, alter_table_cascade=False,
-               from_s3=False, distkey=None, sortkey=None, **copy_args):
+    def upsert(
+        self,
+        table_obj,
+        target_table,
+        primary_key,
+        vacuum=True,
+        distinct_check=True,
+        cleanup_temp_table=True,
+        alter_table=True,
+        alter_table_cascade=False,
+        from_s3=False,
+        distkey=None,
+        sortkey=None,
+        **copy_args,
+    ):
         """
         Preform an upsert on an existing table. An upsert is a function in which rows
         in a table are updated and inserted at the same time.
@@ -804,24 +945,28 @@ class Redshift(RedshiftCreateTable, RedshiftCopyTable, RedshiftTableUtilities, R
         sortkey = sortkey or primary_key
 
         if not self.table_exists(target_table):
-            logger.info('Target table does not exist. Copying into newly \
-                         created target table.')
+            logger.info(
+                "Target table does not exist. Copying into newly \
+                         created target table."
+            )
             self.copy(table_obj, target_table, distkey=distkey, sortkey=sortkey)
             return None
 
         if alter_table and table_obj:
             # Make target table column widths match incoming table, if necessary
-            self.alter_varchar_column_widths(table_obj, target_table,
-                                             drop_dependencies=alter_table_cascade)
+            self.alter_varchar_column_widths(
+                table_obj, target_table, drop_dependencies=alter_table_cascade
+            )
 
-        noise = f'{random.randrange(0, 10000):04}'[:4]
-        date_stamp = datetime.datetime.now().strftime('%Y%m%d_%H%M')
+        noise = f"{random.randrange(0, 10000):04}"[:4]
+        date_stamp = datetime.datetime.now().strftime("%Y%m%d_%H%M")
         # Generate a temp table like "table_tmp_20200210_1230_14212"
-        staging_tbl = '{}_stg_{}_{}'.format(target_table, date_stamp, noise)
+        staging_tbl = "{}_stg_{}_{}".format(target_table, date_stamp, noise)
 
         if distinct_check:
-            primary_keys_statement = ', '.join(primary_keys)
-            diff = self.query(f'''
+            primary_keys_statement = ", ".join(primary_keys)
+            diff = self.query(
+                f"""
                 select (
                     select count(*)
                     from {target_table}
@@ -831,16 +976,17 @@ class Redshift(RedshiftCreateTable, RedshiftCopyTable, RedshiftTableUtilities, R
                         from {target_table}
                     )
                 ) as total_count
-            ''').first
+            """
+            ).first
             if diff > 0:
-                raise ValueError('Primary key column contains duplicate values.')
+                raise ValueError("Primary key column contains duplicate values.")
 
         with self.connection() as connection:
 
             try:
                 # Copy to a staging table
-                logger.info(f'Building staging table: {staging_tbl}')
-                if 'compupdate' not in copy_args:
+                logger.info(f"Building staging table: {staging_tbl}")
+                if "compupdate" not in copy_args:
                     # Especially with a lot of columns, compupdate=True can
                     # cause a lot of processing/analysis by Redshift before upload.
                     # Since this is a temporary table, setting compression for each
@@ -851,29 +997,30 @@ class Redshift(RedshiftCreateTable, RedshiftCopyTable, RedshiftTableUtilities, R
                 if from_s3:
                     if table_obj is not None:
                         raise ValueError(
-                            'upsert(... from_s3=True) requires the first argument (table_obj)'
-                            ' to be None. from_s3 and table_obj are mutually exclusive.'
+                            "upsert(... from_s3=True) requires the first argument (table_obj)"
+                            " to be None. from_s3 and table_obj are mutually exclusive."
                         )
-                    self.copy_s3(staging_tbl,
-                                 template_table=target_table,
-                                 **copy_args)
+                    self.copy_s3(staging_tbl, template_table=target_table, **copy_args)
                 else:
-                    self.copy(table_obj, staging_tbl,
-                              template_table=target_table,
-                              alter_table=False,  # We just did our own alter table above
-                              distkey=distkey,
-                              sortkey=sortkey,
-                              **copy_args)
+                    self.copy(
+                        table_obj,
+                        staging_tbl,
+                        template_table=target_table,
+                        alter_table=False,  # We just did our own alter table above
+                        distkey=distkey,
+                        sortkey=sortkey,
+                        **copy_args,
+                    )
 
-                staging_table_name = staging_tbl.split('.')[1]
-                target_table_name = target_table.split('.')[1]
+                staging_table_name = staging_tbl.split(".")[1]
+                target_table_name = target_table.split(".")[1]
 
                 # Delete rows
                 comparisons = [
-                    f'{staging_table_name}.{primary_key} = {target_table_name}.{primary_key}'
+                    f"{staging_table_name}.{primary_key} = {target_table_name}.{primary_key}"
                     for primary_key in primary_keys
                 ]
-                where_clause = ' and '.join(comparisons)
+                where_clause = " and ".join(comparisons)
 
                 sql = f"""
                        DELETE FROM {target_table}
@@ -881,7 +1028,7 @@ class Redshift(RedshiftCreateTable, RedshiftCopyTable, RedshiftTableUtilities, R
                        WHERE {where_clause}
                        """
                 self.query_with_connection(sql, connection, commit=False)
-                logger.debug(f'Target rows deleted from {target_table}.')
+                logger.debug(f"Target rows deleted from {target_table}.")
 
                 # Insert rows
                 # ALTER TABLE APPEND would be more efficient, but you can't run it in a
@@ -893,21 +1040,22 @@ class Redshift(RedshiftCreateTable, RedshiftCopyTable, RedshiftTableUtilities, R
                        """
 
                 self.query_with_connection(sql, connection, commit=False)
-                logger.info(f'Target rows inserted to {target_table}')
+                logger.info(f"Target rows inserted to {target_table}")
 
             finally:
                 if cleanup_temp_table:
                     # Drop the staging table
-                    self.query_with_connection(f"DROP TABLE IF EXISTS {staging_tbl};",
-                                               connection, commit=False)
-                    logger.info(f'{staging_tbl} staging table dropped.')
+                    self.query_with_connection(
+                        f"DROP TABLE IF EXISTS {staging_tbl};", connection, commit=False
+                    )
+                    logger.info(f"{staging_tbl} staging table dropped.")
 
         # Vacuum table. You must commit when running this type of transaction.
         if vacuum:
             with self.connection() as connection:
                 connection.set_session(autocommit=True)
-                self.query_with_connection(f'VACUUM {target_table};', connection)
-                logger.info(f'{target_table} vacuumed.')
+                self.query_with_connection(f"VACUUM {target_table};", connection)
+                logger.info(f"{target_table} vacuumed.")
 
     def drop_dependencies_for_cols(self, schema, table, cols):
         fmt_cols = ", ".join([f"'{c}'" for c in cols])
@@ -937,7 +1085,7 @@ class Redshift(RedshiftCreateTable, RedshiftCopyTable, RedshiftTableUtilities, R
         with self.connection() as connection:
             connection.set_session(autocommit=True)
             tbl = self.query_with_connection(sql_depend, connection)
-            dropped_views = [row['table_name'] for row in tbl]
+            dropped_views = [row["table_name"] for row in tbl]
             if dropped_views:
                 sql_drop = "\n".join([f"drop view {view};" for view in dropped_views])
                 tbl = self.query_with_connection(sql_drop, connection)
@@ -969,14 +1117,18 @@ class Redshift(RedshiftCreateTable, RedshiftCopyTable, RedshiftTableUtilities, R
         # Determine the max width of the varchar columns in the Redshift table
         s, t = self.split_full_table_name(table_name)
         cols = self.get_columns(s, t)
-        rc = {k: v['max_length'] for k, v in cols.items() if v['data_type'] == 'character varying'}  # noqa: E501, E261
+        rc = {
+            k: v["max_length"]
+            for k, v in cols.items()
+            if v["data_type"] == "character varying"
+        }  # noqa: E501, E261
 
         # Figure out if any of the destination table varchar columns are smaller than the
         # associated Parsons table columns. If they are, then alter column types to expand
         # their width.
         for c in set(rc.keys()).intersection(set(pc.keys())):
             if rc[c] < pc[c] and rc[c] != 65535:
-                logger.info(f'{c} not wide enough. Expanding column width.')
+                logger.info(f"{c} not wide enough. Expanding column width.")
                 # If requested size is larger than Redshift will allow,
                 # automatically set to Redshift's max varchar width
                 new_size = 65535
@@ -984,9 +1136,13 @@ class Redshift(RedshiftCreateTable, RedshiftCopyTable, RedshiftTableUtilities, R
                     new_size = pc[c]
                 if drop_dependencies:
                     self.drop_dependencies_for_cols(s, t, [c])
-                self.alter_table_column_type(table_name, c, 'varchar', varchar_width=new_size)
+                self.alter_table_column_type(
+                    table_name, c, "varchar", varchar_width=new_size
+                )
 
-    def alter_table_column_type(self, table_name, column_name, data_type, varchar_width=None):
+    def alter_table_column_type(
+        self, table_name, column_name, data_type, varchar_width=None
+    ):
         """
         Alter a column type of an existing table.
 
@@ -1008,7 +1164,7 @@ class Redshift(RedshiftCreateTable, RedshiftCopyTable, RedshiftTableUtilities, R
         with self.connection() as connection:
             connection.set_session(autocommit=True)
             self.query_with_connection(sql, connection)
-            logger.info(f'Altered {table_name} {column_name}.')
+            logger.info(f"Altered {table_name} {column_name}.")
 
     def table(self, table_name):
         # Return a Redshift table object

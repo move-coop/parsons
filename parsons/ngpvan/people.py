@@ -5,13 +5,22 @@ logger = logging.getLogger(__name__)
 
 
 class People(object):
-
     def __init__(self, van_connection):
 
         self.connection = van_connection
 
-    def find_person(self, first_name=None, last_name=None, date_of_birth=None, email=None,
-                    phone=None, phone_type=None, street_number=None, street_name=None, zip=None):
+    def find_person(
+        self,
+        first_name=None,
+        last_name=None,
+        date_of_birth=None,
+        email=None,
+        phone=None,
+        phone_type=None,
+        street_number=None,
+        street_name=None,
+        zip=None,
+    ):
         """
         Find a person record.
 
@@ -46,7 +55,7 @@ class People(object):
             A person dict object
         """
 
-        logger.info(f'Finding {first_name} {last_name}.')
+        logger.info(f"Finding {first_name} {last_name}.")
 
         return self._people_search(
             first_name=first_name,
@@ -57,7 +66,7 @@ class People(object):
             phone_type=phone_type,
             street_number=street_number,
             street_name=street_name,
-            zip=zip
+            zip=zip,
         )
 
     def find_person_json(self, match_json):
@@ -86,13 +95,24 @@ class People(object):
             A person dict object
         """
 
-        logger.info('Finding a match for json details.')
+        logger.info("Finding a match for json details.")
 
         return self._people_search(match_json=match_json)
 
-    def update_person(self, id=None, id_type='vanid', first_name=None, last_name=None,
-                      date_of_birth=None, email=None, phone=None, phone_type=None,
-                      street_number=None, street_name=None, zip=None):
+    def update_person(
+        self,
+        id=None,
+        id_type="vanid",
+        first_name=None,
+        last_name=None,
+        date_of_birth=None,
+        email=None,
+        phone=None,
+        phone_type=None,
+        street_number=None,
+        street_name=None,
+        zip=None,
+    ):
         """
         Update a person record based on a provided ID. All other arguments provided will be
         updated on the record.
@@ -141,10 +161,10 @@ class People(object):
             street_number=street_number,
             street_name=street_name,
             zip=zip,
-            create=True
+            create=True,
         )
 
-    def update_person_json(self, id, id_type='vanid', match_json=None):
+    def update_person_json(self, id, id_type="vanid", match_json=None):
         """
         Update a person record based on a provided ID within the match_json dict.
 
@@ -164,10 +184,22 @@ class People(object):
             A person dict
         """
 
-        return self._people_search(id=id, id_type=id_type, match_json=match_json, create=True)
+        return self._people_search(
+            id=id, id_type=id_type, match_json=match_json, create=True
+        )
 
-    def upsert_person(self, first_name=None, last_name=None, date_of_birth=None, email=None,
-                      phone=None, phone_type=None, street_number=None, street_name=None, zip=None):
+    def upsert_person(
+        self,
+        first_name=None,
+        last_name=None,
+        date_of_birth=None,
+        email=None,
+        phone=None,
+        phone_type=None,
+        street_number=None,
+        street_name=None,
+        zip=None,
+    ):
         """
         Create or update a person record.
 
@@ -217,7 +249,7 @@ class People(object):
             street_number=street_number,
             street_name=street_name,
             zip=zip,
-            create=True
+            create=True,
         )
 
     def upsert_person_json(self, match_json):
@@ -250,15 +282,27 @@ class People(object):
 
         return self._people_search(match_json=match_json, create=True)
 
-    def _people_search(self, id=None, id_type=None, first_name=None, last_name=None,
-                       date_of_birth=None, email=None, phone=None, phone_type='H',
-                       street_number=None, street_name=None, zip=None, match_json=None,
-                       create=False):
+    def _people_search(
+        self,
+        id=None,
+        id_type=None,
+        first_name=None,
+        last_name=None,
+        date_of_birth=None,
+        email=None,
+        phone=None,
+        phone_type="H",
+        street_number=None,
+        street_name=None,
+        zip=None,
+        match_json=None,
+        create=False,
+    ):
         # Internal method to hit the people find/create endpoints
 
         addressLine1 = None
         if street_name and street_number:
-            addressLine1 = f'{street_number} {street_name}'
+            addressLine1 = f"{street_number} {street_name}"
 
         # Check to see if a match map has been provided
         if not match_json:
@@ -266,37 +310,37 @@ class People(object):
 
             # Will fail if empty dicts are provided, hence needed to add if exist
             if email:
-                json['emails'] = [{'email': email}]
+                json["emails"] = [{"email": email}]
             if phone:  # To Do: Strip out non-integers from phone
-                json['phones'] = [{'phoneNumber': phone, 'phoneType': phone_type}]
+                json["phones"] = [{"phoneNumber": phone, "phoneType": phone_type}]
             if date_of_birth:
-                json['dateOfBirth'] = date_of_birth
+                json["dateOfBirth"] = date_of_birth
             if zip or addressLine1:
-                json['addresses'] = [{}]
+                json["addresses"] = [{}]
                 if zip:
-                    json['addresses'][0]['zipOrPostalCode'] = zip
+                    json["addresses"][0]["zipOrPostalCode"] = zip
                 if addressLine1:
-                    json['addresses'][0]['addressLine1'] = addressLine1
+                    json["addresses"][0]["addressLine1"] = addressLine1
         else:
             json = match_json
-            if 'vanId' in match_json:
-                id = match_json['vanId']
+            if "vanId" in match_json:
+                id = match_json["vanId"]
 
-        url = 'people/'
+        url = "people/"
 
         if id:
 
             if create:
-                id_type = '' if id_type in ('vanid', None) else f"{id_type}:"
+                id_type = "" if id_type in ("vanid", None) else f"{id_type}:"
                 url += id_type + str(id)
             else:
                 return self.get_person(id, id_type=id_type)
 
         else:
-            url += 'find'
+            url += "find"
 
             if create:
-                url += 'OrCreate'
+                url += "OrCreate"
             else:
                 # Ensure that the minimum combination of fields were passed
                 json_flat = json_format.flatten_json(json)
@@ -304,17 +348,29 @@ class People(object):
 
         return self.connection.post_request(url, json=json)
 
-    def _valid_search(self, firstName=None, lastName=None, email=None, phoneNumber=None,
-                      dateOfBirth=None, addressLine1=None, zipOrPostalCode=None, **kwargs):
+    def _valid_search(
+        self,
+        firstName=None,
+        lastName=None,
+        email=None,
+        phoneNumber=None,
+        dateOfBirth=None,
+        addressLine1=None,
+        zipOrPostalCode=None,
+        **kwargs,
+    ):
         # Internal method to check if a search is valid, kwargs are ignored
 
-        if (None in [firstName, lastName, email] and
-            None in [firstName, lastName, phoneNumber] and
-            None in [firstName, lastName, zipOrPostalCode, dateOfBirth] and
-            None in [firstName, lastName, addressLine1, zipOrPostalCode] and
-                None in [email]):
+        if (
+            None in [firstName, lastName, email]
+            and None in [firstName, lastName, phoneNumber]
+            and None in [firstName, lastName, zipOrPostalCode, dateOfBirth]
+            and None in [firstName, lastName, addressLine1, zipOrPostalCode]
+            and None in [email]
+        ):
 
-            raise ValueError("""
+            raise ValueError(
+                """
                              Person find must include the following minimum
                              combinations to conduct a search.
                                 - first_name, last_name, email
@@ -322,17 +378,37 @@ class People(object):
                                 - first_name, last_name, zip, dob
                                 - first_name, last_name, street_number, street_name, zip
                                 - email
-                            """)
+                            """
+            )
 
         return True
 
-    def get_person(self, id, id_type='vanid', expand_fields=[
-                   'contribution_history', 'addresses', 'phones', 'emails',
-                   'codes', 'custom_fields', 'external_ids', 'preferences',
-                   'recorded_addresses', 'reported_demographics', 'suppressions',
-                   'cases', 'custom_properties', 'districts', 'election_records',
-                   'membership_statuses', 'notes', 'organization_roles',
-                   'disclosure_field_values']):
+    def get_person(
+        self,
+        id,
+        id_type="vanid",
+        expand_fields=[
+            "contribution_history",
+            "addresses",
+            "phones",
+            "emails",
+            "codes",
+            "custom_fields",
+            "external_ids",
+            "preferences",
+            "recorded_addresses",
+            "reported_demographics",
+            "suppressions",
+            "cases",
+            "custom_properties",
+            "districts",
+            "election_records",
+            "membership_statuses",
+            "notes",
+            "organization_roles",
+            "disclosure_field_values",
+        ],
+    ):
         """
         Returns a single person record using their VANID or external id.
 
@@ -355,24 +431,32 @@ class People(object):
         """
 
         # Change end point based on id type
-        url = 'people/'
+        url = "people/"
 
-        id_type = '' if id_type in ('vanid', None) else f"{id_type}:"
+        id_type = "" if id_type in ("vanid", None) else f"{id_type}:"
         url += id_type + str(id)
 
         # Removing the fields that are not returned in MyVoters
-        NOT_IN_MYVOTERS = ['codes', 'contribution_history', 'organization_roles']
+        NOT_IN_MYVOTERS = ["codes", "contribution_history", "organization_roles"]
 
         if self.connection.db_code == 0:
             expand_fields = [v for v in expand_fields if v not in NOT_IN_MYVOTERS]
 
-        expand_fields = ','.join([json_format.arg_format(f) for f in expand_fields])
+        expand_fields = ",".join([json_format.arg_format(f) for f in expand_fields])
 
         logger.info(f'Getting person with {id_type or "vanid"} of {id} at url {url}')
-        return self.connection.get_request(url, params={'$expand': expand_fields})
+        return self.connection.get_request(url, params={"$expand": expand_fields})
 
-    def apply_canvass_result(self, id, result_code_id, id_type='vanid', contact_type_id=None,
-                             input_type_id=None, date_canvassed=None, phone=None):
+    def apply_canvass_result(
+        self,
+        id,
+        result_code_id,
+        id_type="vanid",
+        contact_type_id=None,
+        input_type_id=None,
+        date_canvassed=None,
+        phone=None,
+    ):
         """
         Apply a canvass result to a person. Use this end point for attempts that do not
         result in a survey response or an activist code (e.g. Not Home).
@@ -398,14 +482,29 @@ class People(object):
             ``None``
         """
 
-        logger.info(f'Applying result code {result_code_id} to {id_type} {id}.')
-        self.apply_response(id, None, id_type=id_type, contact_type_id=contact_type_id,
-                            input_type_id=input_type_id, date_canvassed=date_canvassed,
-                            result_code_id=result_code_id, phone=phone)
+        logger.info(f"Applying result code {result_code_id} to {id_type} {id}.")
+        self.apply_response(
+            id,
+            None,
+            id_type=id_type,
+            contact_type_id=contact_type_id,
+            input_type_id=input_type_id,
+            date_canvassed=date_canvassed,
+            result_code_id=result_code_id,
+            phone=phone,
+        )
 
-    def toggle_volunteer_action(self, id, volunteer_activity_id, action, id_type='vanid',
-                                result_code_id=None, contact_type_id=None, input_type_id=None,
-                                date_canvassed=None):
+    def toggle_volunteer_action(
+        self,
+        id,
+        volunteer_activity_id,
+        action,
+        id_type="vanid",
+        result_code_id=None,
+        contact_type_id=None,
+        input_type_id=None,
+        date_canvassed=None,
+    ):
         """
         Apply or remove a volunteer action to or from a person.
 
@@ -444,9 +543,18 @@ class People(object):
                             result_code_id)
         """
 
-    def apply_response(self, id, response, id_type='vanid', contact_type_id=None,
-                       input_type_id=None, date_canvassed=None, result_code_id=None,
-                       omit_contact=False, phone=None):
+    def apply_response(
+        self,
+        id,
+        response,
+        id_type="vanid",
+        contact_type_id=None,
+        input_type_id=None,
+        date_canvassed=None,
+        result_code_id=None,
+        omit_contact=False,
+        phone=None,
+    ):
         """
         Apply responses such as survey questions, activist codes, and volunteer actions
         to a person record. This method allows you apply multiple responses (e.g. two survey
@@ -497,29 +605,34 @@ class People(object):
         """  # noqa: E501,E261
 
         # Set url based on id_type
-        if id_type == 'vanid':
+        if id_type == "vanid":
             url = f"people/{id}/canvassResponses"
         else:
             url = f"people/{id_type}:{id}/canvassResponses"
 
-        json = {"canvassContext": {
-            "contactTypeId": contact_type_id,
-            "inputTypeId": input_type_id,
-            "dateCanvassed": date_canvassed,
-            "omitActivistCodeContactHistory": omit_contact},
-            "resultCodeId": result_code_id}
+        json = {
+            "canvassContext": {
+                "contactTypeId": contact_type_id,
+                "inputTypeId": input_type_id,
+                "dateCanvassed": date_canvassed,
+                "omitActivistCodeContactHistory": omit_contact,
+            },
+            "resultCodeId": result_code_id,
+        }
 
         if contact_type_id == 1 or contact_type_id == 37:
             if phone:
-                json['canvassContext']['phone'] = {
+                json["canvassContext"]["phone"] = {
                     "dialingPrefix": "1",
-                    "phoneNumber": phone
+                    "phoneNumber": phone,
                 }
             else:
-                raise Exception('A phone number must be provided if canvassed via phone or SMS')
+                raise Exception(
+                    "A phone number must be provided if canvassed via phone or SMS"
+                )
 
         if response:
-            json['responses'] = response
+            json["responses"] = response
 
         if result_code_id is not None and response is not None:
             raise ValueError("Both result_code_id and responses cannot be specified.")
@@ -528,8 +641,7 @@ class People(object):
             json["responses"] = [response]
 
         if result_code_id is not None and response is not None:
-            raise ValueError(
-                "Both result_code_id and responses cannot be specified.")
+            raise ValueError("Both result_code_id and responses cannot be specified.")
 
         return self.connection.post_request(url, json=json)
 
@@ -548,13 +660,12 @@ class People(object):
             ``None``
         """
 
-        json = {'relationshipId': relationship_id,
-                'vanId': vanid_2}
+        json = {"relationshipId": relationship_id, "vanId": vanid_2}
 
         self.connection.post_request(f"people/{vanid_1}/relationships", json=json)
-        logger.info(f'Relationship {vanid_1} to {vanid_2} created.')
+        logger.info(f"Relationship {vanid_1} to {vanid_2} created.")
 
-    def apply_person_code(self, id, code_id, id_type='vanid'):
+    def apply_person_code(self, id, code_id, id_type="vanid"):
         """
         Apply a code to a person.
 
@@ -571,7 +682,7 @@ class People(object):
         """
 
         # Set url based on id_type
-        if id_type == 'vanid':
+        if id_type == "vanid":
             url = f"people/{id}/codes"
         else:
             url = f"people/{id_type}:{id}/codes"
@@ -579,7 +690,7 @@ class People(object):
         json = {"codeId": code_id}
 
         self.connection.post_request(url, json=json)
-        logger.info(f'Code {code_id} applied to person id {id}.')
+        logger.info(f"Code {code_id} applied to person id {id}.")
 
     def merge_contacts(self, primary_vanid, source_vanid):
         """
@@ -600,7 +711,7 @@ class People(object):
             The VANID of the primary contact record.
         """
 
-        url = f'people/{source_vanid}/mergeInto'
+        url = f"people/{source_vanid}/mergeInto"
         json = {"vanId": primary_vanid}
 
         r = self.connection.put_request(url, json=json)

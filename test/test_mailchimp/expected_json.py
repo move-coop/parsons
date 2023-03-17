@@ -18,7 +18,7 @@ test_campaigns = {
                 "list_is_active": True,
                 "list_name": "Support Our Candidate List 1",
                 "segment_text": "",
-                "recipient_count": 145
+                "recipient_count": 145,
             },
             "settings": {
                 "subject_line": "Sample Campaign 1",
@@ -36,7 +36,7 @@ test_campaigns = {
                 "fb_comments": True,
                 "timewarp": False,
                 "template_id": 12345,
-                "drag_and_drop": True
+                "drag_and_drop": True,
             },
             "tracking": {
                 "opens": True,
@@ -45,7 +45,7 @@ test_campaigns = {
                 "goal_tracking": False,
                 "ecomm360": False,
                 "google_analytics": "",
-                "clicktale": ""
+                "clicktale": "",
             },
             "report_summary": {
                 "opens": 48,
@@ -54,16 +54,10 @@ test_campaigns = {
                 "clicks": 1,
                 "subscriber_clicks": 1,
                 "click_rate": 0.006993006993006993,
-                "ecommerce": {
-                    "total_orders": 0,
-                    "total_spent": 0,
-                    "total_revenue": 0
-                }
+                "ecommerce": {"total_orders": 0, "total_spent": 0, "total_revenue": 0},
             },
-            "delivery_status": {
-                "enabled": False
-            },
-            "_links": []
+            "delivery_status": {"enabled": False},
+            "_links": [],
         },
         {
             "id": "def",
@@ -83,7 +77,7 @@ test_campaigns = {
                 "list_is_active": True,
                 "list_name": "Support Our Candidate List 2",
                 "segment_text": "",
-                "recipient_count": 87
+                "recipient_count": 87,
             },
             "settings": {
                 "subject_line": "Sample Campaign 2",
@@ -101,7 +95,7 @@ test_campaigns = {
                 "fb_comments": True,
                 "timewarp": False,
                 "template_id": 67890,
-                "drag_and_drop": True
+                "drag_and_drop": True,
             },
             "tracking": {
                 "opens": True,
@@ -110,7 +104,7 @@ test_campaigns = {
                 "goal_tracking": False,
                 "ecomm360": False,
                 "google_analytics": "",
-                "clicktale": ""
+                "clicktale": "",
             },
             "report_summary": {
                 "opens": 108,
@@ -119,17 +113,13 @@ test_campaigns = {
                 "clicks": 25,
                 "subscriber_clicks": 14,
                 "click_rate": 0.16470588235294117,
-                "ecommerce": {
-                    "total_orders": 0,
-                    "total_spent": 0,
-                    "total_revenue": 0
-                }
+                "ecommerce": {"total_orders": 0, "total_spent": 0, "total_revenue": 0},
             },
-            "delivery_status": {
-                "enabled": False
-            },
-            "_links": []
-        }]}
+            "delivery_status": {"enabled": False},
+            "_links": [],
+        },
+    ]
+}
 
 test_lists = {
     "lists": [
@@ -145,17 +135,18 @@ test_lists = {
                 "state": "OH",
                 "zip": "43358",
                 "country": "US",
-                "phone": ""
+                "phone": "",
             },
             "permission_reminder": (
                 "You are receiving this email because you signed up at an event, while being "
-                "canvassed, or on our website."),
+                "canvassed, or on our website."
+            ),
             "use_archive_bar": True,
             "campaign_defaults": {
                 "from_name": "Our Candidate",
                 "from_email": "our_candidate@example.com",
                 "subject": "",
-                "language": "en"
+                "language": "en",
             },
             "notify_on_subscribe": "",
             "notify_on_unsubscribe": "",
@@ -186,9 +177,9 @@ test_lists = {
                 "open_rate": 38.40236686390532,
                 "click_rate": 4.016786570743405,
                 "last_sub_date": "2019-09-24T01:07:56+00:00",
-                "last_unsub_date": "2020-01-06T01:55:02+00:00"
+                "last_unsub_date": "2020-01-06T01:55:02+00:00",
             },
-            "_links": []
+            "_links": [],
         },
         {
             "id": "xvu",
@@ -202,17 +193,18 @@ test_lists = {
                 "state": "OH",
                 "zip": "43358",
                 "country": "US",
-                "phone": ""
+                "phone": "",
             },
             "permission_reminder": (
                 "You are receiving this email because you signed up at an event, while being "
-                "canvassed, or on our website."),
+                "canvassed, or on our website."
+            ),
             "use_archive_bar": True,
             "campaign_defaults": {
                 "from_name": "Our Candidate",
                 "from_email": "our_candidate@example.com",
                 "subject": "",
-                "language": "en"
+                "language": "en",
             },
             "notify_on_subscribe": "",
             "notify_on_unsubscribe": "",
@@ -243,143 +235,133 @@ test_lists = {
                 "open_rate": 64.19236186394533,
                 "click_rate": 3.746759370417411,
                 "last_sub_date": "2020-01-01T00:19:46+00:00",
-                "last_unsub_date": "2019-12-23T11:44:31+00:00"
+                "last_unsub_date": "2019-12-23T11:44:31+00:00",
             },
-            "_links": []
+            "_links": [],
         },
     ],
     "total_items": 1,
     "constraints": {
         "may_create": False,
         "max_instances": 1,
-        "current_total_instances": 1
+        "current_total_instances": 1,
     },
-    "_links": []
+    "_links": [],
 }
 
 test_members = {
-  "members": [
-    {
-      "id": "9eb69db8d0371811aa18803a1ae21584",
-      "email_address": "member_1@example.com",
-      "unique_email_id": "c82a25d939",
-      "web_id": 24816326,
-      "email_type": "html",
-      "status": "subscribed",
-      "merge_fields": {
-        "FNAME": "Member",
-        "LNAME": "One",
-        "ADDRESS": {
-          "addr1": "",
-          "addr2": "",
-          "city": "",
-          "state": "",
-          "zip": "",
-          "country": "US"
-        },
-        "PHONE": "",
-        "BIRTHDAY": ""
-      },
-      "stats": {
-        "avg_open_rate": 0.3571,
-        "avg_click_rate": 0
-      },
-      "ip_signup": "",
-      "timestamp_signup": "",
-      "ip_opt": "174.59.50.35",
-      "timestamp_opt": "2019-03-25T22:55:44+00:00",
-      "member_rating": 4,
-      "last_changed": "2019-03-25T22:55:44+00:00",
-      "language": "en",
-      "vip": False,
-      "email_client": "Gmail",
-      "location": {
-        "latitude": 40.0293,
-        "longitude": -76.2656,
-        "gmtoff": 0,
-        "dstoff": 0,
-        "country_code": "US",
-        "timezone": "717/223"
-      },
-      "source": "Unknown",
-      "tags_count": 0,
-      "tags": [],
-      "list_id": "67fdf4b1f4",
-      "_links": []
-    },
-    {
-      "id": "4f315641dbad7b74acc0f4a5d3741ac6",
-      "email_address": "member_2@example.com",
-      "unique_email_id": "8d308d69d3",
-      "web_id": 12233445,
-      "email_type": "html",
-      "status": "subscribed",
-      "merge_fields": {
-        "FNAME": "Member",
-        "LNAME": "Two",
-        "ADDRESS": "",
-        "PHONE": "",
-        "BIRTHDAY": ""
-      },
-      "stats": {
-        "avg_open_rate": 0.5,
-        "avg_click_rate": 0
-      },
-      "ip_signup": "",
-      "timestamp_signup": "",
-      "ip_opt": "174.59.50.35",
-      "timestamp_opt": "2019-03-25T23:04:46+00:00",
-      "member_rating": 4,
-      "last_changed": "2019-03-25T23:04:46+00:00",
-      "language": "",
-      "vip": False,
-      "email_client": "iPhone",
-      "location": {
-        "latitude": 40.0459,
-        "longitude": -76.3542,
-        "gmtoff": 0,
-        "dstoff": 0,
-        "country_code": "US",
-        "timezone": "717/223"
-      },
-      "source": "Import",
-      "tags_count": 2,
-      "tags": [
+    "members": [
         {
-          "id": 17493,
-          "name": "canvass"
+            "id": "9eb69db8d0371811aa18803a1ae21584",
+            "email_address": "member_1@example.com",
+            "unique_email_id": "c82a25d939",
+            "web_id": 24816326,
+            "email_type": "html",
+            "status": "subscribed",
+            "merge_fields": {
+                "FNAME": "Member",
+                "LNAME": "One",
+                "ADDRESS": {
+                    "addr1": "",
+                    "addr2": "",
+                    "city": "",
+                    "state": "",
+                    "zip": "",
+                    "country": "US",
+                },
+                "PHONE": "",
+                "BIRTHDAY": "",
+            },
+            "stats": {"avg_open_rate": 0.3571, "avg_click_rate": 0},
+            "ip_signup": "",
+            "timestamp_signup": "",
+            "ip_opt": "174.59.50.35",
+            "timestamp_opt": "2019-03-25T22:55:44+00:00",
+            "member_rating": 4,
+            "last_changed": "2019-03-25T22:55:44+00:00",
+            "language": "en",
+            "vip": False,
+            "email_client": "Gmail",
+            "location": {
+                "latitude": 40.0293,
+                "longitude": -76.2656,
+                "gmtoff": 0,
+                "dstoff": 0,
+                "country_code": "US",
+                "timezone": "717/223",
+            },
+            "source": "Unknown",
+            "tags_count": 0,
+            "tags": [],
+            "list_id": "67fdf4b1f4",
+            "_links": [],
         },
         {
-          "id": 17497,
-          "name": "canvass-03-17-2019"
-        }
-      ],
-      "list_id": "67fdf4b1f4",
-      "_links": []
-    }]}
+            "id": "4f315641dbad7b74acc0f4a5d3741ac6",
+            "email_address": "member_2@example.com",
+            "unique_email_id": "8d308d69d3",
+            "web_id": 12233445,
+            "email_type": "html",
+            "status": "subscribed",
+            "merge_fields": {
+                "FNAME": "Member",
+                "LNAME": "Two",
+                "ADDRESS": "",
+                "PHONE": "",
+                "BIRTHDAY": "",
+            },
+            "stats": {"avg_open_rate": 0.5, "avg_click_rate": 0},
+            "ip_signup": "",
+            "timestamp_signup": "",
+            "ip_opt": "174.59.50.35",
+            "timestamp_opt": "2019-03-25T23:04:46+00:00",
+            "member_rating": 4,
+            "last_changed": "2019-03-25T23:04:46+00:00",
+            "language": "",
+            "vip": False,
+            "email_client": "iPhone",
+            "location": {
+                "latitude": 40.0459,
+                "longitude": -76.3542,
+                "gmtoff": 0,
+                "dstoff": 0,
+                "country_code": "US",
+                "timezone": "717/223",
+            },
+            "source": "Import",
+            "tags_count": 2,
+            "tags": [
+                {"id": 17493, "name": "canvass"},
+                {"id": 17497, "name": "canvass-03-17-2019"},
+            ],
+            "list_id": "67fdf4b1f4",
+            "_links": [],
+        },
+    ]
+}
 
 test_unsubscribes = {
-  "unsubscribes": [
-    {
-      "email_id": "e542e5cd7b414e5ff8409ff57cf154be",
-      "email_address": "unsubscribe_1@exmaple.com",
-      "merge_fields": {
-        "FNAME": "Unsubscriber",
-        "LNAME": "One",
-        "ADDRESS": "",
-        "PHONE": "5558754307",
-        "BIRTHDAY": ""
-      },
-      "vip": False,
-      "timestamp": "2019-12-09T21:18:06+00:00",
-      "reason": "None given",
-      "campaign_id": "abc",
-      "list_id": "zyx",
-      "list_is_active": True,
-      "_links": []
-    }
-  ],
-  "campaign_id": "abc",
-  "total_items": 1,
-  "_links": []
+    "unsubscribes": [
+        {
+            "email_id": "e542e5cd7b414e5ff8409ff57cf154be",
+            "email_address": "unsubscribe_1@exmaple.com",
+            "merge_fields": {
+                "FNAME": "Unsubscriber",
+                "LNAME": "One",
+                "ADDRESS": "",
+                "PHONE": "5558754307",
+                "BIRTHDAY": "",
+            },
+            "vip": False,
+            "timestamp": "2019-12-09T21:18:06+00:00",
+            "reason": "None given",
+            "campaign_id": "abc",
+            "list_id": "zyx",
+            "list_is_active": True,
+            "_links": [],
+        }
+    ],
+    "campaign_id": "abc",
+    "total_items": 1,
+    "_links": [],
 }

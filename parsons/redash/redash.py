@@ -34,41 +34,55 @@ class Redash(object):
         Redash Class
     """
 
-    def __init__(self,
-                 base_url=None,
-                 user_api_key=None,
-                 pause_time=3,
-                 timeout=0,  # never timeout
-                 verify=True):
-        self.base_url = check('REDASH_BASE_URL', base_url)
-        self.user_api_key = check('REDASH_USER_API_KEY', user_api_key, optional=True)
-        self.pause = int(check('REDASH_PAUSE_TIME', pause_time, optional=True))
-        self.timeout = int(check('REDASH_TIMEOUT', timeout, optional=True))
+    def __init__(
+        self,
+        base_url=None,
+        user_api_key=None,
+        pause_time=3,
+        timeout=0,  # never timeout
+        verify=True,
+    ):
+        self.base_url = check("REDASH_BASE_URL", base_url)
+        self.user_api_key = check("REDASH_USER_API_KEY", user_api_key, optional=True)
+        self.pause = int(check("REDASH_PAUSE_TIME", pause_time, optional=True))
+        self.timeout = int(check("REDASH_TIMEOUT", timeout, optional=True))
 
         self.verify = verify  # for https requests
         self.session = requests.Session()
         if user_api_key:
-            self.session.headers.update({'Authorization': f'Key {user_api_key}'})
+            self.session.headers.update({"Authorization": f"Key {user_api_key}"})
 
     def _poll_job(self, session, job, query_id):
         start_secs = time.time()
-        while job['status'] not in (3, 4):
+        while job["status"] not in (3, 4):
             if self.timeout and start_secs + self.timeout < time.time():
-                raise RedashTimeout(f'Redash timeout: {self.timeout}')
-            poll_url = '{}/api/jobs/{}'.format(self.base_url, job['id'])
+                raise RedashTimeout(f"Redash timeout: {self.timeout}")
+            poll_url = "{}/api/jobs/{}".format(self.base_url, job["id"])
             response = session.get(poll_url, verify=self.verify)
             response_json = response.json()
             job = response_json.get(
-                'job',
-                {'status': 'Error NO JOB IN RESPONSE: {}'.format(json.dumps(response_json))})
-            logger.debug("poll url:%s id:%s status:%s err:%s",
-                         poll_url, query_id, job['status'], job.get('error'))
+                "job",
+                {
+                    "status": "Error NO JOB IN RESPONSE: {}".format(
+                        json.dumps(response_json)
+                    )
+                },
+            )
+            logger.debug(
+                "poll url:%s id:%s status:%s err:%s",
+                poll_url,
+                query_id,
+                job["status"],
+                job.get("error"),
+            )
             time.sleep(self.pause)
 
-        if job['status'] == 3:  # 3 = completed
-            return job['query_result_id']
-        elif job['status'] == 4:  # 3 = ERROR
-            raise RedashQueryFailed('Redash Query {} failed: {}'.format(query_id, job['error']))
+        if job["status"] == 3:  # 3 = completed
+            return job["query_result_id"]
+        elif job["status"] == 4:  # 3 = ERROR
+            raise RedashQueryFailed(
+                "Redash Query {} failed: {}".format(query_id, job["error"])
+            )
 
     def get_fresh_query_results(self, query_id=None, params=None):
         """
@@ -91,30 +105,40 @@ class Redash(object):
         `Returns:`
             Table Class
         """
-        query_id = check('REDASH_QUERY_ID', query_id, optional=True)
-        params_from_env = check('REDASH_QUERY_PARAMS', '', optional=True)
-        redash_params = ({'p_%s' % k: str(v).replace("'", "''") for k, v in params.items()}
-                         if params else {})
+        query_id = check("REDASH_QUERY_ID", query_id, optional=True)
+        params_from_env = check("REDASH_QUERY_PARAMS", "", optional=True)
+        redash_params = (
+            {"p_%s" % k: str(v).replace("'", "''") for k, v in params.items()}
+            if params
+            else {}
+        )
 
         response = self.session.post(
-            f'{self.base_url}/api/queries/{query_id}/refresh?{params_from_env}',
+            f"{self.base_url}/api/queries/{query_id}/refresh?{params_from_env}",
             params=redash_params,
-            verify=self.verify)
+            verify=self.verify,
+        )
 
         if response.status_code != 200:
-            raise RedashQueryFailed(f'Refresh failed for query {query_id}. {response.text}')
+            raise RedashQueryFailed(
+                f"Refresh failed for query {query_id}. {response.text}"
+            )
 
-        job = response.json()['job']
+        job = response.json()["job"]
         result_id = self._poll_job(self.session, job, query_id)
         if result_id:
             response = self.session.get(
-                f'{self.base_url}/api/queries/{query_id}/results/{result_id}.csv',
-                verify=self.verify)
+                f"{self.base_url}/api/queries/{query_id}/results/{result_id}.csv",
+                verify=self.verify,
+            )
             if response.status_code != 200:
                 raise RedashQueryFailed(
-                    f'Failed getting results for query {query_id}. {response.text}')
+                    f"Failed getting results for query {query_id}. {response.text}"
+                )
         else:
-            raise RedashQueryFailed(f'Failed getting result {query_id}. {response.text}')
+            raise RedashQueryFailed(
+                f"Failed getting result {query_id}. {response.text}"
+            )
         return Table.from_csv_string(response.text)
 
     def get_cached_query_results(self, query_id=None, query_api_key=None):
@@ -131,16 +155,20 @@ class Redash(object):
         `Returns:`
             Table Class
         """
-        query_id = check('REDASH_QUERY_ID', query_id)
-        query_api_key = check('REDASH_QUERY_API_KEY', query_api_key, optional=True)
+        query_id = check("REDASH_QUERY_ID", query_id)
+        query_api_key = check("REDASH_QUERY_API_KEY", query_api_key, optional=True)
         params = {}
         if not self.user_api_key and query_api_key:
-            params['api_key'] = query_api_key
-        response = self.session.get(f'{self.base_url}/api/queries/{query_id}/results.csv',
-                                    params=params,
-                                    verify=self.verify)
+            params["api_key"] = query_api_key
+        response = self.session.get(
+            f"{self.base_url}/api/queries/{query_id}/results.csv",
+            params=params,
+            verify=self.verify,
+        )
         if response.status_code != 200:
-            raise RedashQueryFailed(f'Failed getting results for query {query_id}. {response.text}')
+            raise RedashQueryFailed(
+                f"Failed getting results for query {query_id}. {response.text}"
+            )
         return Table.from_csv_string(response.text)
 
     @classmethod
@@ -174,11 +202,17 @@ class Redash(object):
         `Returns:`
             Table Class
         """
-        initargs = {a: kwargs.get(a)
-                    for a in ('base_url', 'user_api_key', 'pause_time', 'timeout', 'verify')
-                    if a in kwargs}
+        initargs = {
+            a: kwargs.get(a)
+            for a in ("base_url", "user_api_key", "pause_time", "timeout", "verify")
+            if a in kwargs
+        }
         obj = cls(**initargs)
-        if not refresh or kwargs.get('query_api_key'):
-            return obj.get_cached_query_results(kwargs.get('query_id'), kwargs.get('query_api_key'))
+        if not refresh or kwargs.get("query_api_key"):
+            return obj.get_cached_query_results(
+                kwargs.get("query_id"), kwargs.get("query_api_key")
+            )
         else:
-            return obj.get_fresh_query_results(kwargs.get('query_id'), kwargs.get('params'))
+            return obj.get_fresh_query_results(
+                kwargs.get("query_id"), kwargs.get("params")
+            )

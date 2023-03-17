@@ -26,14 +26,14 @@ class Controlshift(object):
 
     def __init__(self, hostname=None, client_id=None, client_secret=None):
 
-        self.hostname = check_env.check('CONTROLSHIFT_HOSTNAME', hostname)
-        token_url = f'{self.hostname}/oauth/token'
+        self.hostname = check_env.check("CONTROLSHIFT_HOSTNAME", hostname)
+        token_url = f"{self.hostname}/oauth/token"
         self.client = OAuth2APIConnector(
             self.hostname,
-            client_id=check_env.check('CONTROLSHIFT_CLIENT_ID', client_id),
-            client_secret=check_env.check('CONTROLSHIFT_CLIENT_SECRET', client_secret),
+            client_id=check_env.check("CONTROLSHIFT_CLIENT_ID", client_id),
+            client_secret=check_env.check("CONTROLSHIFT_CLIENT_SECRET", client_secret),
             token_url=token_url,
-            auto_refresh_url=token_url
+            auto_refresh_url=token_url,
         )
 
     def get_petitions(self) -> Table:
@@ -48,9 +48,10 @@ class Controlshift(object):
         petitions = []
         while next_page:
             response = self.client.get_request(
-                f'{self.hostname}/api/v1/petitions', {'page': next_page})
-            next_page = response['meta']['next_page']
-            petitions.extend(response['petitions'])
+                f"{self.hostname}/api/v1/petitions", {"page": next_page}
+            )
+            next_page = response["meta"]["next_page"]
+            petitions.extend(response["petitions"])
 
         return Table(petitions)
 

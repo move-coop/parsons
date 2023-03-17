@@ -6,7 +6,7 @@ import json
 
 logger = logging.getLogger(__name__)
 
-API_URL = 'https://api.bluelink.org/webhooks/'
+API_URL = "https://api.bluelink.org/webhooks/"
 
 
 class Bluelink:
@@ -21,14 +21,17 @@ class Bluelink:
         password: str
             Bluelink webhook password.
     """
+
     def __init__(self, user=None, password=None):
-        self.user = check_env.check('BLUELINK_WEBHOOK_USER', user)
-        self.password = check_env.check('BLUELINK_WEBHOOK_PASSWORD', password)
+        self.user = check_env.check("BLUELINK_WEBHOOK_USER", user)
+        self.password = check_env.check("BLUELINK_WEBHOOK_PASSWORD", password)
         self.headers = {
             "Content-Type": "application/json",
         }
         self.api_url = API_URL
-        self.api = APIConnector(self.api_url, auth=(self.user, self.password), headers=self.headers)
+        self.api = APIConnector(
+            self.api_url, auth=(self.user, self.password), headers=self.headers
+        )
 
     def upsert_person(self, source, person=None):
         """
@@ -48,12 +51,11 @@ class Bluelink:
             int
             An http status code from the http post request to the Bluelink webhook.
         """
-        data = {
-            'source': source,
-            'person': person
-        }
-        jdata = json.dumps(data,
-                           default=lambda o: {k: v for k, v in o.__dict__.items() if v is not None})
+        data = {"source": source, "person": person}
+        jdata = json.dumps(
+            data,
+            default=lambda o: {k: v for k, v in o.__dict__.items() if v is not None},
+        )
         resp = self.api.post_request(url=self.api_url, data=jdata)
         return resp
 

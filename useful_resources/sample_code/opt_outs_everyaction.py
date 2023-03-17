@@ -15,7 +15,7 @@ from datetime import datetime
 # {"committee": "Committee 2", "committee_id": "56789", "api_key": "Committee 2 API key"}]
 # This script was originally written to run in Civis Platform, which pulls environment variables
 # in as strings.
-COMMITTEES_STR = os.environ['COMMITTEES_PASSWORD']
+COMMITTEES_STR = os.environ["COMMITTEES_PASSWORD"]
 COMMITTEES = json.loads(COMMITTEES_STR)
 
 # Configuration Variables
@@ -27,17 +27,17 @@ COMMITTEES = json.loads(COMMITTEES_STR)
 # The OPT_OUT_TABLE is a table of phones to opt out.
 # The variable must be a string with the format schema.table.
 # The table must contain the columns phone, committeeid, and vanid.
-OPT_OUT_TABLE = os.environ['OPT_OUT_TABLE']
+OPT_OUT_TABLE = os.environ["OPT_OUT_TABLE"]
 
 # The SUCCESS_TABLE is a table where successful opt-outs will be logged.
 # The variable must be a string with the format schema.table.
 # This table's columns will be: vanid, phone, committeeid, and applied_at.
-SUCCESS_TABLE = os.environ['SUCCESS_TABLE']
+SUCCESS_TABLE = os.environ["SUCCESS_TABLE"]
 
 # The ERROR_TABLE is a table where errors will be logged.
 # The variable must be a string with the format schema.table.
 # This table's columns will be : vanid, phone, committeeid, errored_at, and error.
-ERROR_TABLE = os.environ['ERROR_TABLE']
+ERROR_TABLE = os.environ["ERROR_TABLE"]
 
 # To use the Redshift connector, set the following environmental variables:
 # REDSHIFT_USERNAME
@@ -49,32 +49,30 @@ ERROR_TABLE = os.environ['ERROR_TABLE']
 rs = Redshift()
 
 
-def attempt_optout(every_action, row, applied_at, committeeid,
-                   success_log, error_log, attempts_left=3):
+def attempt_optout(
+    every_action, row, applied_at, committeeid, success_log, error_log, attempts_left=3
+):
 
-    vanid = row['vanid']
-    phone = row['phone']
+    vanid = row["vanid"]
+    phone = row["phone"]
 
     # Documentation on this json construction is here
     # https://docs.ngpvan.com/reference/common-models
-    match_json = {
-        "phones": [
-            {"phoneNumber": phone,
-             "phoneOptInStatus": "O"}
-        ]
-    }
+    match_json = {"phones": [{"phoneNumber": phone, "phoneOptInStatus": "O"}]}
 
     try:
         response = every_action.update_person_json(id=vanid, match_json=match_json)
 
         # If the response is a dictionary the update was successful
         if isinstance(response, dict):
-            success_log.append({
-                "vanid": response.get('vanId'),
-                "phone": phone,
-                "committeeid": committeeid,
-                "applied_at": applied_at
-            })
+            success_log.append(
+                {
+                    "vanid": response.get("vanId"),
+                    "phone": phone,
+                    "committeeid": committeeid,
+                    "applied_at": applied_at,
+                }
+            )
 
             return response
 
@@ -82,13 +80,15 @@ def attempt_optout(every_action, row, applied_at, committeeid,
     # Usually these errors mean a vanid has been deleted from EveryAction
     except requests.exceptions.HTTPError as error:
         error_message = str(error)[:999]
-        error_log.append({
-            "vanid": vanid,
-            "phone": phone,
-            "committeeid": committeeid,
-            "errored_at": applied_at,
-            "error": error_message
-        })
+        error_log.append(
+            {
+                "vanid": vanid,
+                "phone": phone,
+                "committeeid": committeeid,
+                "errored_at": applied_at,
+                "error": error_message,
+            }
+        )
 
         return error_message
 
@@ -109,24 +109,36 @@ def attempt_optout(every_action, row, applied_at, committeeid,
             # and raise the error.
             connection_error_message = str(connection_error)[:999]
 
-            error_log.append({
-                "vanid": vanid,
-                "phone": phone,
-                "committeeid": committeeid,
-                "errored_at": applied_at,
-                "error": connection_error_message
-            })
+            error_log.append(
+                {
+                    "vanid": vanid,
+                    "phone": phone,
+                    "committeeid": committeeid,
+                    "errored_at": applied_at,
+                    "error": connection_error_message,
+                }
+            )
 
             if len(success_log) > 0:
                 success_parsonstable = Table(success_log)
                 logger.info("Copying success data into log table...")
-                rs.copy(success_parsonstable, SUCCESS_TABLE, if_exists='append', alter_table=True)
+                rs.copy(
+                    success_parsonstable,
+                    SUCCESS_TABLE,
+                    if_exists="append",
+                    alter_table=True,
+                )
                 logger.info("Success log complete.")
 
             if len(error_log) > 0:
                 error_parsonstable = Table(error_log)
                 logger.info("Copying error data into log table...")
-                rs.copy(error_parsonstable, ERROR_TABLE, if_exists='append', alter_table=True)
+                rs.copy(
+                    error_parsonstable,
+                    ERROR_TABLE,
+                    if_exists="append",
+                    alter_table=True,
+                )
                 logger.info("Error log complete.")
 
             raise Exception(f"Connection Error {connection_error}")
@@ -143,19 +155,23 @@ def main():
     # Loop through each committee to opt-out phones
     for committee in COMMITTEES:
 
-        api_key = committee['api_key']
-        committeeid = committee['committee_id']
-        committee_name = committee['committee']
+        api_key = committee["api_key"]
+        committeeid = committee["committee_id"]
+        committee_name = committee["committee"]
 
-        every_action = VAN(db='EveryAction', api_key=api_key)
+        every_action = VAN(db="EveryAction", api_key=api_key)
 
         logger.info(f"Working on opt outs in {committee_name} committee...")
 
         # Here we narrow the all_opt_outs table to only the rows that correspond
         # to this committee.
-        opt_outs = all_opt_outs.select_rows(lambda row: str(row.committeeid) == committeeid)
+        opt_outs = all_opt_outs.select_rows(
+            lambda row: str(row.committeeid) == committeeid
+        )
 
-        logger.info(f"Found {opt_outs.num_rows} phones to opt out in {committee_name} committee...")
+        logger.info(
+            f"Found {opt_outs.num_rows} phones to opt out in {committee_name} committee..."
+        )
 
         # Now we actually update the records
 
@@ -164,8 +180,14 @@ def main():
             for opt_out in opt_outs:
 
                 applied_at = str(datetime.now()).split(".")[0]
-                attempt_optout(every_action, opt_out, applied_at,
-                               committeeid, success_log, error_log)
+                attempt_optout(
+                    every_action,
+                    opt_out,
+                    applied_at,
+                    committeeid,
+                    success_log,
+                    error_log,
+                )
 
     # Now we log results
     logger.info(f"There were {len(success_log)} successes and {len(error_log)} errors.")
@@ -173,15 +195,17 @@ def main():
     if len(success_log) > 0:
         success_parsonstable = Table(success_log)
         logger.info("Copying success data into log table...")
-        rs.copy(success_parsonstable, SUCCESS_TABLE, if_exists='append', alter_table=True)
+        rs.copy(
+            success_parsonstable, SUCCESS_TABLE, if_exists="append", alter_table=True
+        )
         logger.info("Success log complete.")
 
     if len(error_log) > 0:
         error_parsonstable = Table(error_log)
         logger.info("Copying error data into log table...")
-        rs.copy(error_parsonstable, ERROR_TABLE, if_exists='append', alter_table=True)
+        rs.copy(error_parsonstable, ERROR_TABLE, if_exists="append", alter_table=True)
         logger.info("Error log complete.")
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     main()

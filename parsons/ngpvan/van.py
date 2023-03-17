@@ -21,9 +21,28 @@ from parsons.ngpvan.printed_lists import PrintedLists
 logger = logging.getLogger(__name__)
 
 
-class VAN(People, Events, SavedLists, PrintedLists, Folders, ExportJobs, ActivistCodes,
-          CanvassResponses, SurveyQuestions, Codes, Scores, FileLoadingJobs, SupporterGroups,
-          Signups, Locations, BulkImport, ChangedEntities, ContactNotes, CustomFields, Targets):
+class VAN(
+    People,
+    Events,
+    SavedLists,
+    PrintedLists,
+    Folders,
+    ExportJobs,
+    ActivistCodes,
+    CanvassResponses,
+    SurveyQuestions,
+    Codes,
+    Scores,
+    FileLoadingJobs,
+    SupporterGroups,
+    Signups,
+    Locations,
+    BulkImport,
+    ChangedEntities,
+    ContactNotes,
+    CustomFields,
+    Targets,
+):
     """
     Returns the VAN class
 
@@ -42,7 +61,9 @@ class VAN(People, Events, SavedLists, PrintedLists, Folders, ExportJobs, Activis
         VAN object
     """
 
-    def __init__(self, api_key=None, auth_name='default', db=None, raise_for_status=True):
+    def __init__(
+        self, api_key=None, auth_name="default", db=None, raise_for_status=True
+    ):
 
         self.connection = VANConnector(api_key=api_key, db=db)
         self.api_key = api_key

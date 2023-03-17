@@ -86,12 +86,12 @@ See the [pytest documentation](https://docs.pytest.org/en/latest/contents.html) 
 
 #### Linting
 
-We use the [flake8](http://flake8.pycqa.org/en/latest/) tool to [lint](https://en.wikipedia.org/wiki/Lint_(software)) the code in the repository to make sure it matches our preferred style. The flake8 command line tool is installed as part of the Parsons dependencies.
+We use the [black](https://github.com/psf/black) tool to [lint](https://en.wikipedia.org/wiki/Lint_(software)) the code in the repository to make sure it matches our preferred style. The black command line tool is installed as part of the Parsons dependencies.
 
 Run the following command from the root of the Parsons repository to lint your code changes:
 
 ```bash
-> flake8 --max-line-length=100 parsons
+> black parsons
 ```
 
 #### Coding Conventions

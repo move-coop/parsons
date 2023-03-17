@@ -1,7 +1,8 @@
 """NGPVAN Events Endpoints"""
 
-from parsons.etl.table import Table
 import logging
+
+from parsons.etl.table import Table
 
 logger = logging.getLogger(__name__)
 
@@ -219,8 +220,8 @@ class Events(object):
 
         if location_ids:
             event["locations"] = (
-                [{"locationId": l} for l in location_ids],
-            )  # noqa E741
+                [{"locationId": location_id} for location_id in location_ids],
+            )
 
         if code_ids:
             event["codes"] = [{"codeID": c} for c in code_ids]

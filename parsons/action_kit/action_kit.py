@@ -949,6 +949,30 @@ class ActionKit(object):
         )
         logger.info(f"{resp.status_code}: {transaction_id}")
 
+    def get_transactions(self, limit=None, **kwargs):
+        """Get multiple transactions.
+
+        `Args:`
+            limit: int
+                The number of transactions to return. If omitted, all transactions are returned.
+            **kwargs:
+                Optional arguments to pass to the client. A full list can be found
+                in the `ActionKit API Documentation <https://roboticdogs.actionkit.com/docs/\
+                manual/api/rest/actionprocessing.html>`_.
+
+                Additionally, expressions to filter the data can also be provided. For addition
+                info, visit `Django's docs on field lookups <https://docs.djangoproject.com/\
+                en/3.1/topics/db/queries/#field-lookups>`_.
+
+                .. code-block:: python
+
+                    ak.get_transactions(order="order-1")
+        `Returns:`
+            Parsons.Table
+                The events data.
+        """
+        return self.paginated_get('transaction', limit=limit, **kwargs)
+
     def create_generic_action(self, page, email=None, ak_id=None, **kwargs):
         """
         Post a generic action. One of ``ak_id`` or ``email`` is a required argument.

@@ -53,7 +53,7 @@ jobs:
           name: check linting
           command: |
             . venv/bin/activate
-            flake8 parsons/ test/ useful_resources/
+            black --check parsons/ test/ useful_resources/
 
       - store_artifacts:
           path: test-reports

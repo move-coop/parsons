@@ -162,14 +162,14 @@
 
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">hostname</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">client_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">client_secret</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
 
-        <span class="bp">self</span><span class="o">.</span><span class="n">hostname</span> <span class="o">=</span> <span class="n">check_env</span><span class="o">.</span><span class="n">check</span><span class="p">(</span><span class="s1">&#39;CONTROLSHIFT_HOSTNAME&#39;</span><span class="p">,</span> <span class="n">hostname</span><span class="p">)</span>
-        <span class="n">token_url</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">hostname</span><span class="si">}</span><span class="s1">/oauth/token&#39;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">hostname</span> <span class="o">=</span> <span class="n">check_env</span><span class="o">.</span><span class="n">check</span><span class="p">(</span><span class="s2">&quot;CONTROLSHIFT_HOSTNAME&quot;</span><span class="p">,</span> <span class="n">hostname</span><span class="p">)</span>
+        <span class="n">token_url</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">hostname</span><span class="si">}</span><span class="s2">/oauth/token&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">client</span> <span class="o">=</span> <span class="n">OAuth2APIConnector</span><span class="p">(</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">hostname</span><span class="p">,</span>
-            <span class="n">client_id</span><span class="o">=</span><span class="n">check_env</span><span class="o">.</span><span class="n">check</span><span class="p">(</span><span class="s1">&#39;CONTROLSHIFT_CLIENT_ID&#39;</span><span class="p">,</span> <span class="n">client_id</span><span class="p">),</span>
-            <span class="n">client_secret</span><span class="o">=</span><span class="n">check_env</span><span class="o">.</span><span class="n">check</span><span class="p">(</span><span class="s1">&#39;CONTROLSHIFT_CLIENT_SECRET&#39;</span><span class="p">,</span> <span class="n">client_secret</span><span class="p">),</span>
+            <span class="n">client_id</span><span class="o">=</span><span class="n">check_env</span><span class="o">.</span><span class="n">check</span><span class="p">(</span><span class="s2">&quot;CONTROLSHIFT_CLIENT_ID&quot;</span><span class="p">,</span> <span class="n">client_id</span><span class="p">),</span>
+            <span class="n">client_secret</span><span class="o">=</span><span class="n">check_env</span><span class="o">.</span><span class="n">check</span><span class="p">(</span><span class="s2">&quot;CONTROLSHIFT_CLIENT_SECRET&quot;</span><span class="p">,</span> <span class="n">client_secret</span><span class="p">),</span>
             <span class="n">token_url</span><span class="o">=</span><span class="n">token_url</span><span class="p">,</span>
-            <span class="n">auto_refresh_url</span><span class="o">=</span><span class="n">token_url</span>
+            <span class="n">auto_refresh_url</span><span class="o">=</span><span class="n">token_url</span><span class="p">,</span>
         <span class="p">)</span>
 
 <div class="viewcode-block" id="Controlshift.get_petitions"><a class="viewcode-back" href="../../../controlshift.html#parsons.Controlshift.get_petitions">[docs]</a>    <span class="k">def</span> <span class="nf">get_petitions</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Table</span><span class="p">:</span>
@@ -184,9 +184,10 @@
         <span class="n">petitions</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="k">while</span> <span class="n">next_page</span><span class="p">:</span>
             <span class="n">response</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">get_request</span><span class="p">(</span>
-                <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">hostname</span><span class="si">}</span><span class="s1">/api/v1/petitions&#39;</span><span class="p">,</span> <span class="p">{</span><span class="s1">&#39;page&#39;</span><span class="p">:</span> <span class="n">next_page</span><span class="p">})</span>
-            <span class="n">next_page</span> <span class="o">=</span> <span class="n">response</span><span class="p">[</span><span class="s1">&#39;meta&#39;</span><span class="p">][</span><span class="s1">&#39;next_page&#39;</span><span class="p">]</span>
-            <span class="n">petitions</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">response</span><span class="p">[</span><span class="s1">&#39;petitions&#39;</span><span class="p">])</span>
+                <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">hostname</span><span class="si">}</span><span class="s2">/api/v1/petitions&quot;</span><span class="p">,</span> <span class="p">{</span><span class="s2">&quot;page&quot;</span><span class="p">:</span> <span class="n">next_page</span><span class="p">}</span>
+            <span class="p">)</span>
+            <span class="n">next_page</span> <span class="o">=</span> <span class="n">response</span><span class="p">[</span><span class="s2">&quot;meta&quot;</span><span class="p">][</span><span class="s2">&quot;next_page&quot;</span><span class="p">]</span>
+            <span class="n">petitions</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">response</span><span class="p">[</span><span class="s2">&quot;petitions&quot;</span><span class="p">])</span>
 
         <span class="k">return</span> <span class="n">Table</span><span class="p">(</span><span class="n">petitions</span><span class="p">)</span>
 

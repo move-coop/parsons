@@ -142,13 +142,13 @@
 
 
 <div class="viewcode-block" id="Codes"><a class="viewcode-back" href="../../../ngpvan.html#parsons.ngpvan.van.Codes">[docs]</a><span class="k">class</span> <span class="nc">Codes</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
-
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">van_connection</span><span class="p">):</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">connection</span> <span class="o">=</span> <span class="n">van_connection</span>
 
-<div class="viewcode-block" id="Codes.get_codes"><a class="viewcode-back" href="../../../ngpvan.html#parsons.ngpvan.van.Codes.get_codes">[docs]</a>    <span class="k">def</span> <span class="nf">get_codes</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">supported_entities</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">parent_code_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-                  <span class="n">code_type</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<div class="viewcode-block" id="Codes.get_codes"><a class="viewcode-back" href="../../../ngpvan.html#parsons.ngpvan.van.Codes.get_codes">[docs]</a>    <span class="k">def</span> <span class="nf">get_codes</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">supported_entities</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">parent_code_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">code_type</span><span class="o">=</span><span class="kc">None</span>
+    <span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Get codes.</span>
 
@@ -166,15 +166,16 @@
 <span class="sd">                See :ref:`parsons-table` for output options.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
-        <span class="n">params</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="n">name</span><span class="p">,</span>
-                  <span class="s1">&#39;supportedEntities&#39;</span><span class="p">:</span> <span class="n">supported_entities</span><span class="p">,</span>
-                  <span class="s1">&#39;parentCodeId&#39;</span><span class="p">:</span> <span class="n">parent_code_id</span><span class="p">,</span>
-                  <span class="s1">&#39;codeType&#39;</span><span class="p">:</span> <span class="n">code_type</span><span class="p">,</span>
-                  <span class="s1">&#39;$top&#39;</span><span class="p">:</span> <span class="mi">200</span>
-                  <span class="p">}</span>
+        <span class="n">params</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="n">name</span><span class="p">,</span>
+            <span class="s2">&quot;supportedEntities&quot;</span><span class="p">:</span> <span class="n">supported_entities</span><span class="p">,</span>
+            <span class="s2">&quot;parentCodeId&quot;</span><span class="p">:</span> <span class="n">parent_code_id</span><span class="p">,</span>
+            <span class="s2">&quot;codeType&quot;</span><span class="p">:</span> <span class="n">code_type</span><span class="p">,</span>
+            <span class="s2">&quot;$top&quot;</span><span class="p">:</span> <span class="mi">200</span><span class="p">,</span>
+        <span class="p">}</span>
 
-        <span class="n">tbl</span> <span class="o">=</span> <span class="n">Table</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">connection</span><span class="o">.</span><span class="n">get_request</span><span class="p">(</span><span class="s1">&#39;codes&#39;</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="n">params</span><span class="p">))</span>
-        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Found </span><span class="si">{</span><span class="n">tbl</span><span class="o">.</span><span class="n">num_rows</span><span class="si">}</span><span class="s1"> codes.&#39;</span><span class="p">)</span>
+        <span class="n">tbl</span> <span class="o">=</span> <span class="n">Table</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">connection</span><span class="o">.</span><span class="n">get_request</span><span class="p">(</span><span class="s2">&quot;codes&quot;</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="n">params</span><span class="p">))</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Found </span><span class="si">{</span><span class="n">tbl</span><span class="o">.</span><span class="n">num_rows</span><span class="si">}</span><span class="s2"> codes.&quot;</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">tbl</span></div>
 
 <div class="viewcode-block" id="Codes.get_code"><a class="viewcode-back" href="../../../ngpvan.html#parsons.ngpvan.van.Codes.get_code">[docs]</a>    <span class="k">def</span> <span class="nf">get_code</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">code_id</span><span class="p">):</span>
@@ -189,9 +190,9 @@
 <span class="sd">                See :ref:`parsons-table` for output options.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
-        <span class="n">c</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">connection</span><span class="o">.</span><span class="n">get_request</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;codes/</span><span class="si">{</span><span class="n">code_id</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+        <span class="n">c</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">connection</span><span class="o">.</span><span class="n">get_request</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;codes/</span><span class="si">{</span><span class="n">code_id</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
         <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="n">c</span><span class="p">)</span>
-        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Found code </span><span class="si">{</span><span class="n">code_id</span><span class="si">}</span><span class="s1">.&#39;</span><span class="p">)</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Found code </span><span class="si">{</span><span class="n">code_id</span><span class="si">}</span><span class="s2">.&quot;</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">c</span></div>
 
 <div class="viewcode-block" id="Codes.get_code_types"><a class="viewcode-back" href="../../../ngpvan.html#parsons.ngpvan.van.Codes.get_code_types">[docs]</a>    <span class="k">def</span> <span class="nf">get_code_types</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
@@ -203,12 +204,18 @@
 <span class="sd">                A list of code types.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
-        <span class="n">lst</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">connection</span><span class="o">.</span><span class="n">get_request</span><span class="p">(</span><span class="s1">&#39;codeTypes&#39;</span><span class="p">)</span>
-        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Found </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">lst</span><span class="p">)</span><span class="si">}</span><span class="s1"> code types.&#39;</span><span class="p">)</span>
+        <span class="n">lst</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">connection</span><span class="o">.</span><span class="n">get_request</span><span class="p">(</span><span class="s2">&quot;codeTypes&quot;</span><span class="p">)</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Found </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">lst</span><span class="p">)</span><span class="si">}</span><span class="s2"> code types.&quot;</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">lst</span></div>
 
-<div class="viewcode-block" id="Codes.create_code"><a class="viewcode-back" href="../../../ngpvan.html#parsons.ngpvan.van.Codes.create_code">[docs]</a>    <span class="k">def</span> <span class="nf">create_code</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">parent_code_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-                    <span class="n">code_type</span><span class="o">=</span><span class="s1">&#39;SourceCode&#39;</span><span class="p">,</span> <span class="n">supported_entities</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<div class="viewcode-block" id="Codes.create_code"><a class="viewcode-back" href="../../../ngpvan.html#parsons.ngpvan.van.Codes.create_code">[docs]</a>    <span class="k">def</span> <span class="nf">create_code</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">name</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">parent_code_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">description</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">code_type</span><span class="o">=</span><span class="s2">&quot;SourceCode&quot;</span><span class="p">,</span>
+        <span class="n">supported_entities</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Create a code.</span>
 
@@ -242,25 +249,39 @@
 <span class="sd">                    ]</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
-        <span class="n">json</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;parentCodeId&quot;</span><span class="p">:</span> <span class="n">parent_code_id</span><span class="p">,</span>
-                <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="n">name</span><span class="p">,</span>
-                <span class="s2">&quot;codeType&quot;</span><span class="p">:</span> <span class="n">code_type</span><span class="p">,</span>
-                <span class="s2">&quot;description&quot;</span><span class="p">:</span> <span class="n">description</span><span class="p">}</span>
+        <span class="n">json</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s2">&quot;parentCodeId&quot;</span><span class="p">:</span> <span class="n">parent_code_id</span><span class="p">,</span>
+            <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="n">name</span><span class="p">,</span>
+            <span class="s2">&quot;codeType&quot;</span><span class="p">:</span> <span class="n">code_type</span><span class="p">,</span>
+            <span class="s2">&quot;description&quot;</span><span class="p">:</span> <span class="n">description</span><span class="p">,</span>
+        <span class="p">}</span>
 
         <span class="k">if</span> <span class="n">supported_entities</span><span class="p">:</span>
 
-            <span class="n">se</span> <span class="o">=</span> <span class="p">[{</span><span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="n">s</span><span class="p">[</span><span class="s1">&#39;name&#39;</span><span class="p">],</span>
-                   <span class="s1">&#39;isSearchable&#39;</span><span class="p">:</span> <span class="n">s</span><span class="p">[</span><span class="s1">&#39;is_searchable&#39;</span><span class="p">],</span>
-                   <span class="s1">&#39;isApplicable&#39;</span><span class="p">:</span> <span class="n">s</span><span class="p">[</span><span class="s1">&#39;is_applicable&#39;</span><span class="p">]}</span> <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">supported_entities</span><span class="p">]</span>
+            <span class="n">se</span> <span class="o">=</span> <span class="p">[</span>
+                <span class="p">{</span>
+                    <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="n">s</span><span class="p">[</span><span class="s2">&quot;name&quot;</span><span class="p">],</span>
+                    <span class="s2">&quot;isSearchable&quot;</span><span class="p">:</span> <span class="n">s</span><span class="p">[</span><span class="s2">&quot;is_searchable&quot;</span><span class="p">],</span>
+                    <span class="s2">&quot;isApplicable&quot;</span><span class="p">:</span> <span class="n">s</span><span class="p">[</span><span class="s2">&quot;is_applicable&quot;</span><span class="p">],</span>
+                <span class="p">}</span>
+                <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">supported_entities</span>
+            <span class="p">]</span>
 
-            <span class="n">json</span><span class="p">[</span><span class="s1">&#39;supportedEntities&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">se</span>
+            <span class="n">json</span><span class="p">[</span><span class="s2">&quot;supportedEntities&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">se</span>
 
-        <span class="n">r</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">connection</span><span class="o">.</span><span class="n">post_request</span><span class="p">(</span><span class="s1">&#39;codes&#39;</span><span class="p">,</span> <span class="n">json</span><span class="o">=</span><span class="n">json</span><span class="p">)</span>
-        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Code </span><span class="si">{</span><span class="n">r</span><span class="si">}</span><span class="s1"> created.&#39;</span><span class="p">)</span>
+        <span class="n">r</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">connection</span><span class="o">.</span><span class="n">post_request</span><span class="p">(</span><span class="s2">&quot;codes&quot;</span><span class="p">,</span> <span class="n">json</span><span class="o">=</span><span class="n">json</span><span class="p">)</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Code </span><span class="si">{</span><span class="n">r</span><span class="si">}</span><span class="s2"> created.&quot;</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">r</span></div>
 
-<div class="viewcode-block" id="Codes.update_code"><a class="viewcode-back" href="../../../ngpvan.html#parsons.ngpvan.van.Codes.update_code">[docs]</a>    <span class="k">def</span> <span class="nf">update_code</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">code_id</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">parent_code_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-                    <span class="n">code_type</span><span class="o">=</span><span class="s1">&#39;SourceCode&#39;</span><span class="p">,</span> <span class="n">supported_entities</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<div class="viewcode-block" id="Codes.update_code"><a class="viewcode-back" href="../../../ngpvan.html#parsons.ngpvan.van.Codes.update_code">[docs]</a>    <span class="k">def</span> <span class="nf">update_code</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">code_id</span><span class="p">,</span>
+        <span class="n">name</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">parent_code_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">description</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">code_type</span><span class="o">=</span><span class="s2">&quot;SourceCode&quot;</span><span class="p">,</span>
+        <span class="n">supported_entities</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Update a code.</span>
 
@@ -299,23 +320,28 @@
         <span class="n">post_data</span> <span class="o">=</span> <span class="p">{}</span>
 
         <span class="k">if</span> <span class="n">name</span><span class="p">:</span>
-            <span class="n">post_data</span><span class="p">[</span><span class="s1">&#39;name&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">name</span>
+            <span class="n">post_data</span><span class="p">[</span><span class="s2">&quot;name&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">name</span>
         <span class="k">if</span> <span class="n">parent_code_id</span><span class="p">:</span>
-            <span class="n">post_data</span><span class="p">[</span><span class="s1">&#39;parentCodeId&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">parent_code_id</span>
+            <span class="n">post_data</span><span class="p">[</span><span class="s2">&quot;parentCodeId&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">parent_code_id</span>
         <span class="k">if</span> <span class="n">code_type</span><span class="p">:</span>
-            <span class="n">post_data</span><span class="p">[</span><span class="s1">&#39;codeType&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">code_type</span>
+            <span class="n">post_data</span><span class="p">[</span><span class="s2">&quot;codeType&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">code_type</span>
         <span class="k">if</span> <span class="n">description</span><span class="p">:</span>
-            <span class="n">post_data</span><span class="p">[</span><span class="s1">&#39;description&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">description</span>
+            <span class="n">post_data</span><span class="p">[</span><span class="s2">&quot;description&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">description</span>
 
         <span class="k">if</span> <span class="n">supported_entities</span><span class="p">:</span>
 
-            <span class="n">se</span> <span class="o">=</span> <span class="p">[{</span><span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="n">s</span><span class="p">[</span><span class="s1">&#39;name&#39;</span><span class="p">],</span>
-                   <span class="s1">&#39;isSearchable&#39;</span><span class="p">:</span> <span class="n">s</span><span class="p">[</span><span class="s1">&#39;is_searchable&#39;</span><span class="p">],</span>
-                   <span class="s1">&#39;isApplicable&#39;</span><span class="p">:</span> <span class="n">s</span><span class="p">[</span><span class="s1">&#39;is_applicable&#39;</span><span class="p">]}</span> <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">supported_entities</span><span class="p">]</span>
-            <span class="n">post_data</span><span class="p">[</span><span class="s1">&#39;supportedEntities&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">se</span>
+            <span class="n">se</span> <span class="o">=</span> <span class="p">[</span>
+                <span class="p">{</span>
+                    <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="n">s</span><span class="p">[</span><span class="s2">&quot;name&quot;</span><span class="p">],</span>
+                    <span class="s2">&quot;isSearchable&quot;</span><span class="p">:</span> <span class="n">s</span><span class="p">[</span><span class="s2">&quot;is_searchable&quot;</span><span class="p">],</span>
+                    <span class="s2">&quot;isApplicable&quot;</span><span class="p">:</span> <span class="n">s</span><span class="p">[</span><span class="s2">&quot;is_applicable&quot;</span><span class="p">],</span>
+                <span class="p">}</span>
+                <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">supported_entities</span>
+            <span class="p">]</span>
+            <span class="n">post_data</span><span class="p">[</span><span class="s2">&quot;supportedEntities&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">se</span>
 
-        <span class="n">r</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">connection</span><span class="o">.</span><span class="n">put_request</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;codes/</span><span class="si">{</span><span class="n">code_id</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">json</span><span class="o">=</span><span class="n">post_data</span><span class="p">)</span>
-        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Code </span><span class="si">{</span><span class="n">code_id</span><span class="si">}</span><span class="s1"> updated.&#39;</span><span class="p">)</span>
+        <span class="n">r</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">connection</span><span class="o">.</span><span class="n">put_request</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;codes/</span><span class="si">{</span><span class="n">code_id</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">json</span><span class="o">=</span><span class="n">post_data</span><span class="p">)</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Code </span><span class="si">{</span><span class="n">code_id</span><span class="si">}</span><span class="s2"> updated.&quot;</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">r</span></div>
 
 <div class="viewcode-block" id="Codes.delete_code"><a class="viewcode-back" href="../../../ngpvan.html#parsons.ngpvan.van.Codes.delete_code">[docs]</a>    <span class="k">def</span> <span class="nf">delete_code</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">code_id</span><span class="p">):</span>
@@ -329,8 +355,8 @@
 <span class="sd">            ``None``</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
-        <span class="n">r</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">connection</span><span class="o">.</span><span class="n">delete_request</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;codes/</span><span class="si">{</span><span class="n">code_id</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
-        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Code </span><span class="si">{</span><span class="n">code_id</span><span class="si">}</span><span class="s1"> deleted.&#39;</span><span class="p">)</span>
+        <span class="n">r</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">connection</span><span class="o">.</span><span class="n">delete_request</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;codes/</span><span class="si">{</span><span class="n">code_id</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Code </span><span class="si">{</span><span class="n">code_id</span><span class="si">}</span><span class="s2"> deleted.&quot;</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">r</span></div>
 
 <div class="viewcode-block" id="Codes.get_code_supported_entities"><a class="viewcode-back" href="../../../ngpvan.html#parsons.ngpvan.van.Codes.get_code_supported_entities">[docs]</a>    <span class="k">def</span> <span class="nf">get_code_supported_entities</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
@@ -342,8 +368,8 @@
 <span class="sd">                A list of code supported entities.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
-        <span class="n">lst</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">connection</span><span class="o">.</span><span class="n">get_request</span><span class="p">(</span><span class="s1">&#39;codes/supportedEntities&#39;</span><span class="p">)</span>
-        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Found </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">lst</span><span class="p">)</span><span class="si">}</span><span class="s1"> code supported entities.&#39;</span><span class="p">)</span>
+        <span class="n">lst</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">connection</span><span class="o">.</span><span class="n">get_request</span><span class="p">(</span><span class="s2">&quot;codes/supportedEntities&quot;</span><span class="p">)</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Found </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">lst</span><span class="p">)</span><span class="si">}</span><span class="s2"> code supported entities.&quot;</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">lst</span></div></div>
 </pre></div>
 

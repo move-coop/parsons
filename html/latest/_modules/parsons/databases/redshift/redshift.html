@@ -161,8 +161,13 @@
 <span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
 
 
-<div class="viewcode-block" id="Redshift"><a class="viewcode-back" href="../../../../aws.html#parsons.Redshift">[docs]</a><span class="k">class</span> <span class="nc">Redshift</span><span class="p">(</span><span class="n">RedshiftCreateTable</span><span class="p">,</span> <span class="n">RedshiftCopyTable</span><span class="p">,</span> <span class="n">RedshiftTableUtilities</span><span class="p">,</span> <span class="n">RedshiftSchema</span><span class="p">,</span>
-               <span class="n">Alchemy</span><span class="p">):</span>
+<div class="viewcode-block" id="Redshift"><a class="viewcode-back" href="../../../../aws.html#parsons.Redshift">[docs]</a><span class="k">class</span> <span class="nc">Redshift</span><span class="p">(</span>
+    <span class="n">RedshiftCreateTable</span><span class="p">,</span>
+    <span class="n">RedshiftCopyTable</span><span class="p">,</span>
+    <span class="n">RedshiftTableUtilities</span><span class="p">,</span>
+    <span class="n">RedshiftSchema</span><span class="p">,</span>
+    <span class="n">Alchemy</span><span class="p">,</span>
+<span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    A Redshift class to connect to database.</span>
 
@@ -200,30 +205,41 @@
 <span class="sd">            variable even if the ``aws_session_token`` argument was not passed in.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">username</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">password</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">host</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">db</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">port</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-                 <span class="n">timeout</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">s3_temp_bucket</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-                 <span class="n">aws_access_key_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">aws_secret_access_key</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">iam_role</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-                 <span class="n">use_env_token</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">username</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">password</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">host</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">db</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">port</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">timeout</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span>
+        <span class="n">s3_temp_bucket</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">aws_access_key_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">aws_secret_access_key</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">iam_role</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">use_env_token</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+    <span class="p">):</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
 
         <span class="k">try</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">username</span> <span class="o">=</span> <span class="n">username</span> <span class="ow">or</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s1">&#39;REDSHIFT_USERNAME&#39;</span><span class="p">]</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">password</span> <span class="o">=</span> <span class="n">password</span> <span class="ow">or</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s1">&#39;REDSHIFT_PASSWORD&#39;</span><span class="p">]</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">host</span> <span class="o">=</span> <span class="n">host</span> <span class="ow">or</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s1">&#39;REDSHIFT_HOST&#39;</span><span class="p">]</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">db</span> <span class="o">=</span> <span class="n">db</span> <span class="ow">or</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s1">&#39;REDSHIFT_DB&#39;</span><span class="p">]</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">port</span> <span class="o">=</span> <span class="n">port</span> <span class="ow">or</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s1">&#39;REDSHIFT_PORT&#39;</span><span class="p">]</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">username</span> <span class="o">=</span> <span class="n">username</span> <span class="ow">or</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s2">&quot;REDSHIFT_USERNAME&quot;</span><span class="p">]</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">password</span> <span class="o">=</span> <span class="n">password</span> <span class="ow">or</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s2">&quot;REDSHIFT_PASSWORD&quot;</span><span class="p">]</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">host</span> <span class="o">=</span> <span class="n">host</span> <span class="ow">or</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s2">&quot;REDSHIFT_HOST&quot;</span><span class="p">]</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">db</span> <span class="o">=</span> <span class="n">db</span> <span class="ow">or</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s2">&quot;REDSHIFT_DB&quot;</span><span class="p">]</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">port</span> <span class="o">=</span> <span class="n">port</span> <span class="ow">or</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s2">&quot;REDSHIFT_PORT&quot;</span><span class="p">]</span>
         <span class="k">except</span> <span class="ne">KeyError</span> <span class="k">as</span> <span class="n">error</span><span class="p">:</span>
-            <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s2">&quot;Connection info missing. Most include as kwarg or &quot;</span>
-                         <span class="s2">&quot;env variable.&quot;</span><span class="p">)</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span>
+                <span class="s2">&quot;Connection info missing. Most include as kwarg or &quot;</span> <span class="s2">&quot;env variable.&quot;</span>
+            <span class="p">)</span>
             <span class="k">raise</span> <span class="n">error</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">timeout</span> <span class="o">=</span> <span class="n">timeout</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">dialect</span> <span class="o">=</span> <span class="s1">&#39;redshift&#39;</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">s3_temp_bucket</span> <span class="o">=</span> <span class="n">s3_temp_bucket</span> <span class="ow">or</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;S3_TEMP_BUCKET&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">dialect</span> <span class="o">=</span> <span class="s2">&quot;redshift&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">s3_temp_bucket</span> <span class="o">=</span> <span class="n">s3_temp_bucket</span> <span class="ow">or</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;S3_TEMP_BUCKET&quot;</span><span class="p">)</span>
         <span class="c1"># Set prefix for temp S3 bucket paths that include subfolders</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">s3_temp_bucket_prefix</span> <span class="o">=</span> <span class="kc">None</span>
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">s3_temp_bucket</span> <span class="ow">and</span> <span class="s1">&#39;/&#39;</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">s3_temp_bucket</span><span class="p">:</span>
-            <span class="n">split_temp_bucket_name</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">s3_temp_bucket</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;/&#39;</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">s3_temp_bucket</span> <span class="ow">and</span> <span class="s2">&quot;/&quot;</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">s3_temp_bucket</span><span class="p">:</span>
+            <span class="n">split_temp_bucket_name</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">s3_temp_bucket</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;/&quot;</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">s3_temp_bucket</span> <span class="o">=</span> <span class="n">split_temp_bucket_name</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">s3_temp_bucket_prefix</span> <span class="o">=</span> <span class="n">split_temp_bucket_name</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">use_env_token</span> <span class="o">=</span> <span class="n">use_env_token</span>
@@ -249,9 +265,14 @@
 <span class="sd">        &quot;&quot;&quot;</span>
 
         <span class="c1"># Create a psycopg2 connection and cursor</span>
-        <span class="n">conn</span> <span class="o">=</span> <span class="n">psycopg2</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">user</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">username</span><span class="p">,</span> <span class="n">password</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">password</span><span class="p">,</span>
-                                <span class="n">host</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">host</span><span class="p">,</span> <span class="n">dbname</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">db</span><span class="p">,</span> <span class="n">port</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">port</span><span class="p">,</span>
-                                <span class="n">connect_timeout</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">timeout</span><span class="p">)</span>
+        <span class="n">conn</span> <span class="o">=</span> <span class="n">psycopg2</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span>
+            <span class="n">user</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">username</span><span class="p">,</span>
+            <span class="n">password</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">password</span><span class="p">,</span>
+            <span class="n">host</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">host</span><span class="p">,</span>
+            <span class="n">dbname</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">db</span><span class="p">,</span>
+            <span class="n">port</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">port</span><span class="p">,</span>
+            <span class="n">connect_timeout</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">timeout</span><span class="p">,</span>
+        <span class="p">)</span>
         <span class="k">try</span><span class="p">:</span>
             <span class="k">yield</span> <span class="n">conn</span>
 
@@ -337,8 +358,8 @@
 
         <span class="k">with</span> <span class="bp">self</span><span class="o">.</span><span class="n">cursor</span><span class="p">(</span><span class="n">connection</span><span class="p">)</span> <span class="k">as</span> <span class="n">cursor</span><span class="p">:</span>
 
-            <span class="k">if</span> <span class="s1">&#39;credentials&#39;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">sql</span><span class="p">:</span>
-                <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;SQL Query: </span><span class="si">{</span><span class="n">sql</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+            <span class="k">if</span> <span class="s2">&quot;credentials&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">sql</span><span class="p">:</span>
+                <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;SQL Query: </span><span class="si">{</span><span class="n">sql</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
             <span class="n">cursor</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="n">sql</span><span class="p">,</span> <span class="n">parameters</span><span class="p">)</span>
 
             <span class="k">if</span> <span class="n">commit</span><span class="p">:</span>
@@ -346,7 +367,7 @@
 
             <span class="c1"># If the cursor is empty, don&#39;t cause an error</span>
             <span class="k">if</span> <span class="ow">not</span> <span class="n">cursor</span><span class="o">.</span><span class="n">description</span><span class="p">:</span>
-                <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s1">&#39;Query returned 0 rows&#39;</span><span class="p">)</span>
+                <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;Query returned 0 rows&quot;</span><span class="p">)</span>
                 <span class="k">return</span> <span class="kc">None</span>
 
             <span class="k">else</span><span class="p">:</span>
@@ -357,7 +378,7 @@
 
                 <span class="n">temp_file</span> <span class="o">=</span> <span class="n">files</span><span class="o">.</span><span class="n">create_temp_file</span><span class="p">()</span>
 
-                <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">temp_file</span><span class="p">,</span> <span class="s1">&#39;wb&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+                <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">temp_file</span><span class="p">,</span> <span class="s2">&quot;wb&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
                     <span class="c1"># Grab the header</span>
                     <span class="n">header</span> <span class="o">=</span> <span class="p">[</span><span class="n">i</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">cursor</span><span class="o">.</span><span class="n">description</span><span class="p">]</span>
                     <span class="n">pickle</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span><span class="n">header</span><span class="p">,</span> <span class="n">f</span><span class="p">)</span>
@@ -367,25 +388,50 @@
                         <span class="k">if</span> <span class="ow">not</span> <span class="n">batch</span><span class="p">:</span>
                             <span class="k">break</span>
 
-                        <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Fetched </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">batch</span><span class="p">)</span><span class="si">}</span><span class="s1"> rows.&#39;</span><span class="p">)</span>
+                        <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Fetched </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">batch</span><span class="p">)</span><span class="si">}</span><span class="s2"> rows.&quot;</span><span class="p">)</span>
                         <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">batch</span><span class="p">:</span>
                             <span class="n">pickle</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">row</span><span class="p">),</span> <span class="n">f</span><span class="p">)</span>
 
                 <span class="c1"># Load a Table from the file</span>
                 <span class="n">final_tbl</span> <span class="o">=</span> <span class="n">Table</span><span class="p">(</span><span class="n">petl</span><span class="o">.</span><span class="n">frompickle</span><span class="p">(</span><span class="n">temp_file</span><span class="p">))</span>
 
-                <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Query returned </span><span class="si">{</span><span class="n">final_tbl</span><span class="o">.</span><span class="n">num_rows</span><span class="si">}</span><span class="s1"> rows.&#39;</span><span class="p">)</span>
+                <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Query returned </span><span class="si">{</span><span class="n">final_tbl</span><span class="o">.</span><span class="n">num_rows</span><span class="si">}</span><span class="s2"> rows.&quot;</span><span class="p">)</span>
                 <span class="k">return</span> <span class="n">final_tbl</span>
 
-    <span class="k">def</span> <span class="nf">copy_s3</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">table_name</span><span class="p">,</span> <span class="n">bucket</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="n">manifest</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">data_type</span><span class="o">=</span><span class="s1">&#39;csv&#39;</span><span class="p">,</span>
-                <span class="n">csv_delimiter</span><span class="o">=</span><span class="s1">&#39;,&#39;</span><span class="p">,</span> <span class="n">compression</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">if_exists</span><span class="o">=</span><span class="s1">&#39;fail&#39;</span><span class="p">,</span> <span class="n">max_errors</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
-                <span class="n">distkey</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">sortkey</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">padding</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">varchar_max</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-                <span class="n">statupdate</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">compupdate</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">ignoreheader</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">acceptanydate</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
-                <span class="n">dateformat</span><span class="o">=</span><span class="s1">&#39;auto&#39;</span><span class="p">,</span> <span class="n">timeformat</span><span class="o">=</span><span class="s1">&#39;auto&#39;</span><span class="p">,</span> <span class="n">emptyasnull</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
-                <span class="n">blanksasnull</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">nullas</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">acceptinvchars</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">truncatecolumns</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
-                <span class="n">columntypes</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">specifycols</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-                <span class="n">aws_access_key_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">aws_secret_access_key</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">bucket_region</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-                <span class="n">strict_length</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">template_table</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">copy_s3</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">table_name</span><span class="p">,</span>
+        <span class="n">bucket</span><span class="p">,</span>
+        <span class="n">key</span><span class="p">,</span>
+        <span class="n">manifest</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+        <span class="n">data_type</span><span class="o">=</span><span class="s2">&quot;csv&quot;</span><span class="p">,</span>
+        <span class="n">csv_delimiter</span><span class="o">=</span><span class="s2">&quot;,&quot;</span><span class="p">,</span>
+        <span class="n">compression</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">if_exists</span><span class="o">=</span><span class="s2">&quot;fail&quot;</span><span class="p">,</span>
+        <span class="n">max_errors</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
+        <span class="n">distkey</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">sortkey</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">padding</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">varchar_max</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">statupdate</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="n">compupdate</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="n">ignoreheader</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+        <span class="n">acceptanydate</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="n">dateformat</span><span class="o">=</span><span class="s2">&quot;auto&quot;</span><span class="p">,</span>
+        <span class="n">timeformat</span><span class="o">=</span><span class="s2">&quot;auto&quot;</span><span class="p">,</span>
+        <span class="n">emptyasnull</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="n">blanksasnull</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="n">nullas</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">acceptinvchars</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="n">truncatecolumns</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+        <span class="n">columntypes</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">specifycols</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">aws_access_key_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">aws_secret_access_key</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">bucket_region</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">strict_length</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="n">template_table</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Copy a file from s3 to Redshift.</span>
 
@@ -490,56 +536,101 @@
 
             <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_create_table_precheck</span><span class="p">(</span><span class="n">connection</span><span class="p">,</span> <span class="n">table_name</span><span class="p">,</span> <span class="n">if_exists</span><span class="p">):</span>
                 <span class="k">if</span> <span class="n">template_table</span><span class="p">:</span>
-                    <span class="n">sql</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;CREATE TABLE </span><span class="si">{</span><span class="n">table_name</span><span class="si">}</span><span class="s1"> (LIKE </span><span class="si">{</span><span class="n">template_table</span><span class="si">}</span><span class="s1">)&#39;</span>
+                    <span class="n">sql</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;CREATE TABLE </span><span class="si">{</span><span class="n">table_name</span><span class="si">}</span><span class="s2"> (LIKE </span><span class="si">{</span><span class="n">template_table</span><span class="si">}</span><span class="s2">)&quot;</span>
                 <span class="k">else</span><span class="p">:</span>
                     <span class="c1"># Grab the object from s3</span>
                     <span class="kn">from</span> <span class="nn">parsons.aws.s3</span> <span class="kn">import</span> <span class="n">S3</span>
-                    <span class="n">s3</span> <span class="o">=</span> <span class="n">S3</span><span class="p">(</span><span class="n">aws_access_key_id</span><span class="o">=</span><span class="n">aws_access_key_id</span><span class="p">,</span>
-                            <span class="n">aws_secret_access_key</span><span class="o">=</span><span class="n">aws_secret_access_key</span><span class="p">,</span>
-                            <span class="n">use_env_token</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">use_env_token</span><span class="p">)</span>
+
+                    <span class="n">s3</span> <span class="o">=</span> <span class="n">S3</span><span class="p">(</span>
+                        <span class="n">aws_access_key_id</span><span class="o">=</span><span class="n">aws_access_key_id</span><span class="p">,</span>
+                        <span class="n">aws_secret_access_key</span><span class="o">=</span><span class="n">aws_secret_access_key</span><span class="p">,</span>
+                        <span class="n">use_env_token</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">use_env_token</span><span class="p">,</span>
+                    <span class="p">)</span>
 
                     <span class="n">local_path</span> <span class="o">=</span> <span class="n">s3</span><span class="o">.</span><span class="n">get_file</span><span class="p">(</span><span class="n">bucket</span><span class="p">,</span> <span class="n">key</span><span class="p">)</span>
-                    <span class="k">if</span> <span class="n">data_type</span> <span class="o">==</span> <span class="s1">&#39;csv&#39;</span><span class="p">:</span>
+                    <span class="k">if</span> <span class="n">data_type</span> <span class="o">==</span> <span class="s2">&quot;csv&quot;</span><span class="p">:</span>
                         <span class="n">tbl</span> <span class="o">=</span> <span class="n">Table</span><span class="o">.</span><span class="n">from_csv</span><span class="p">(</span><span class="n">local_path</span><span class="p">,</span> <span class="n">delimiter</span><span class="o">=</span><span class="n">csv_delimiter</span><span class="p">)</span>
                     <span class="k">else</span><span class="p">:</span>
                         <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;Invalid data type provided&quot;</span><span class="p">)</span>
 
                     <span class="c1"># Create the table</span>
-                    <span class="n">sql</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">create_statement</span><span class="p">(</span><span class="n">tbl</span><span class="p">,</span> <span class="n">table_name</span><span class="p">,</span> <span class="n">padding</span><span class="o">=</span><span class="n">padding</span><span class="p">,</span>
-                                                <span class="n">distkey</span><span class="o">=</span><span class="n">distkey</span><span class="p">,</span> <span class="n">sortkey</span><span class="o">=</span><span class="n">sortkey</span><span class="p">,</span>
-                                                <span class="n">varchar_max</span><span class="o">=</span><span class="n">varchar_max</span><span class="p">,</span>
-                                                <span class="n">columntypes</span><span class="o">=</span><span class="n">columntypes</span><span class="p">,</span>
-                                                <span class="n">strict_length</span><span class="o">=</span><span class="n">strict_length</span><span class="p">)</span>
+                    <span class="n">sql</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">create_statement</span><span class="p">(</span>
+                        <span class="n">tbl</span><span class="p">,</span>
+                        <span class="n">table_name</span><span class="p">,</span>
+                        <span class="n">padding</span><span class="o">=</span><span class="n">padding</span><span class="p">,</span>
+                        <span class="n">distkey</span><span class="o">=</span><span class="n">distkey</span><span class="p">,</span>
+                        <span class="n">sortkey</span><span class="o">=</span><span class="n">sortkey</span><span class="p">,</span>
+                        <span class="n">varchar_max</span><span class="o">=</span><span class="n">varchar_max</span><span class="p">,</span>
+                        <span class="n">columntypes</span><span class="o">=</span><span class="n">columntypes</span><span class="p">,</span>
+                        <span class="n">strict_length</span><span class="o">=</span><span class="n">strict_length</span><span class="p">,</span>
+                    <span class="p">)</span>
 
                 <span class="bp">self</span><span class="o">.</span><span class="n">query_with_connection</span><span class="p">(</span><span class="n">sql</span><span class="p">,</span> <span class="n">connection</span><span class="p">,</span> <span class="n">commit</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
-                <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">table_name</span><span class="si">}</span><span class="s1"> created.&#39;</span><span class="p">)</span>
+                <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">table_name</span><span class="si">}</span><span class="s2"> created.&quot;</span><span class="p">)</span>
 
             <span class="c1"># Copy the table</span>
-            <span class="n">copy_sql</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">copy_statement</span><span class="p">(</span><span class="n">table_name</span><span class="p">,</span> <span class="n">bucket</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="n">manifest</span><span class="o">=</span><span class="n">manifest</span><span class="p">,</span>
-                                           <span class="n">data_type</span><span class="o">=</span><span class="n">data_type</span><span class="p">,</span> <span class="n">csv_delimiter</span><span class="o">=</span><span class="n">csv_delimiter</span><span class="p">,</span>
-                                           <span class="n">compression</span><span class="o">=</span><span class="n">compression</span><span class="p">,</span> <span class="n">max_errors</span><span class="o">=</span><span class="n">max_errors</span><span class="p">,</span>
-                                           <span class="n">statupdate</span><span class="o">=</span><span class="n">statupdate</span><span class="p">,</span> <span class="n">compupdate</span><span class="o">=</span><span class="n">compupdate</span><span class="p">,</span>
-                                           <span class="n">aws_access_key_id</span><span class="o">=</span><span class="n">aws_access_key_id</span><span class="p">,</span>
-                                           <span class="n">aws_secret_access_key</span><span class="o">=</span><span class="n">aws_secret_access_key</span><span class="p">,</span>
-                                           <span class="n">ignoreheader</span><span class="o">=</span><span class="n">ignoreheader</span><span class="p">,</span> <span class="n">acceptanydate</span><span class="o">=</span><span class="n">acceptanydate</span><span class="p">,</span>
-                                           <span class="n">emptyasnull</span><span class="o">=</span><span class="n">emptyasnull</span><span class="p">,</span> <span class="n">blanksasnull</span><span class="o">=</span><span class="n">blanksasnull</span><span class="p">,</span>
-                                           <span class="n">nullas</span><span class="o">=</span><span class="n">nullas</span><span class="p">,</span> <span class="n">acceptinvchars</span><span class="o">=</span><span class="n">acceptinvchars</span><span class="p">,</span>
-                                           <span class="n">truncatecolumns</span><span class="o">=</span><span class="n">truncatecolumns</span><span class="p">,</span>
-                                           <span class="n">specifycols</span><span class="o">=</span><span class="n">specifycols</span><span class="p">,</span>
-                                           <span class="n">dateformat</span><span class="o">=</span><span class="n">dateformat</span><span class="p">,</span> <span class="n">timeformat</span><span class="o">=</span><span class="n">timeformat</span><span class="p">,</span>
-                                           <span class="n">bucket_region</span><span class="o">=</span><span class="n">bucket_region</span><span class="p">)</span>
+            <span class="n">copy_sql</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">copy_statement</span><span class="p">(</span>
+                <span class="n">table_name</span><span class="p">,</span>
+                <span class="n">bucket</span><span class="p">,</span>
+                <span class="n">key</span><span class="p">,</span>
+                <span class="n">manifest</span><span class="o">=</span><span class="n">manifest</span><span class="p">,</span>
+                <span class="n">data_type</span><span class="o">=</span><span class="n">data_type</span><span class="p">,</span>
+                <span class="n">csv_delimiter</span><span class="o">=</span><span class="n">csv_delimiter</span><span class="p">,</span>
+                <span class="n">compression</span><span class="o">=</span><span class="n">compression</span><span class="p">,</span>
+                <span class="n">max_errors</span><span class="o">=</span><span class="n">max_errors</span><span class="p">,</span>
+                <span class="n">statupdate</span><span class="o">=</span><span class="n">statupdate</span><span class="p">,</span>
+                <span class="n">compupdate</span><span class="o">=</span><span class="n">compupdate</span><span class="p">,</span>
+                <span class="n">aws_access_key_id</span><span class="o">=</span><span class="n">aws_access_key_id</span><span class="p">,</span>
+                <span class="n">aws_secret_access_key</span><span class="o">=</span><span class="n">aws_secret_access_key</span><span class="p">,</span>
+                <span class="n">ignoreheader</span><span class="o">=</span><span class="n">ignoreheader</span><span class="p">,</span>
+                <span class="n">acceptanydate</span><span class="o">=</span><span class="n">acceptanydate</span><span class="p">,</span>
+                <span class="n">emptyasnull</span><span class="o">=</span><span class="n">emptyasnull</span><span class="p">,</span>
+                <span class="n">blanksasnull</span><span class="o">=</span><span class="n">blanksasnull</span><span class="p">,</span>
+                <span class="n">nullas</span><span class="o">=</span><span class="n">nullas</span><span class="p">,</span>
+                <span class="n">acceptinvchars</span><span class="o">=</span><span class="n">acceptinvchars</span><span class="p">,</span>
+                <span class="n">truncatecolumns</span><span class="o">=</span><span class="n">truncatecolumns</span><span class="p">,</span>
+                <span class="n">specifycols</span><span class="o">=</span><span class="n">specifycols</span><span class="p">,</span>
+                <span class="n">dateformat</span><span class="o">=</span><span class="n">dateformat</span><span class="p">,</span>
+                <span class="n">timeformat</span><span class="o">=</span><span class="n">timeformat</span><span class="p">,</span>
+                <span class="n">bucket_region</span><span class="o">=</span><span class="n">bucket_region</span><span class="p">,</span>
+            <span class="p">)</span>
 
             <span class="bp">self</span><span class="o">.</span><span class="n">query_with_connection</span><span class="p">(</span><span class="n">copy_sql</span><span class="p">,</span> <span class="n">connection</span><span class="p">,</span> <span class="n">commit</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
-            <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Data copied to </span><span class="si">{</span><span class="n">table_name</span><span class="si">}</span><span class="s1">.&#39;</span><span class="p">)</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Data copied to </span><span class="si">{</span><span class="n">table_name</span><span class="si">}</span><span class="s2">.&quot;</span><span class="p">)</span>
 
-    <span class="k">def</span> <span class="nf">copy</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tbl</span><span class="p">,</span> <span class="n">table_name</span><span class="p">,</span> <span class="n">if_exists</span><span class="o">=</span><span class="s1">&#39;fail&#39;</span><span class="p">,</span> <span class="n">max_errors</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">distkey</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-             <span class="n">sortkey</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">padding</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">statupdate</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">compupdate</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">acceptanydate</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
-             <span class="n">emptyasnull</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">blanksasnull</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">nullas</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">acceptinvchars</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
-             <span class="n">dateformat</span><span class="o">=</span><span class="s1">&#39;auto&#39;</span><span class="p">,</span> <span class="n">timeformat</span><span class="o">=</span><span class="s1">&#39;auto&#39;</span><span class="p">,</span> <span class="n">varchar_max</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">truncatecolumns</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
-             <span class="n">columntypes</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">specifycols</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">alter_table</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">alter_table_cascade</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
-             <span class="n">aws_access_key_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">aws_secret_access_key</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">iam_role</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-             <span class="n">cleanup_s3_file</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">template_table</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">temp_bucket_region</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-             <span class="n">strict_length</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">csv_encoding</span><span class="o">=</span><span class="s1">&#39;utf-8&#39;</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">copy</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">tbl</span><span class="p">,</span>
+        <span class="n">table_name</span><span class="p">,</span>
+        <span class="n">if_exists</span><span class="o">=</span><span class="s2">&quot;fail&quot;</span><span class="p">,</span>
+        <span class="n">max_errors</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
+        <span class="n">distkey</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">sortkey</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">padding</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">statupdate</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">compupdate</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">acceptanydate</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="n">emptyasnull</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="n">blanksasnull</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="n">nullas</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">acceptinvchars</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="n">dateformat</span><span class="o">=</span><span class="s2">&quot;auto&quot;</span><span class="p">,</span>
+        <span class="n">timeformat</span><span class="o">=</span><span class="s2">&quot;auto&quot;</span><span class="p">,</span>
+        <span class="n">varchar_max</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">truncatecolumns</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+        <span class="n">columntypes</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">specifycols</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">alter_table</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+        <span class="n">alter_table_cascade</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+        <span class="n">aws_access_key_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">aws_secret_access_key</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">iam_role</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">cleanup_s3_file</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="n">template_table</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">temp_bucket_region</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">strict_length</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="n">csv_encoding</span><span class="o">=</span><span class="s2">&quot;utf-8&quot;</span><span class="p">,</span>
+    <span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Copy a :ref:`parsons-table` to Redshift.</span>
 
@@ -671,65 +762,93 @@
             <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_create_table_precheck</span><span class="p">(</span><span class="n">connection</span><span class="p">,</span> <span class="n">table_name</span><span class="p">,</span> <span class="n">if_exists</span><span class="p">):</span>
                 <span class="k">if</span> <span class="n">template_table</span><span class="p">:</span>
                     <span class="c1"># Copy the schema from the template table</span>
-                    <span class="n">sql</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;CREATE TABLE </span><span class="si">{</span><span class="n">table_name</span><span class="si">}</span><span class="s1"> (LIKE </span><span class="si">{</span><span class="n">template_table</span><span class="si">}</span><span class="s1">)&#39;</span>
+                    <span class="n">sql</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;CREATE TABLE </span><span class="si">{</span><span class="n">table_name</span><span class="si">}</span><span class="s2"> (LIKE </span><span class="si">{</span><span class="n">template_table</span><span class="si">}</span><span class="s2">)&quot;</span>
                 <span class="k">else</span><span class="p">:</span>
-                    <span class="n">sql</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">create_statement</span><span class="p">(</span><span class="n">tbl</span><span class="p">,</span> <span class="n">table_name</span><span class="p">,</span> <span class="n">padding</span><span class="o">=</span><span class="n">padding</span><span class="p">,</span>
-                                                <span class="n">distkey</span><span class="o">=</span><span class="n">distkey</span><span class="p">,</span> <span class="n">sortkey</span><span class="o">=</span><span class="n">sortkey</span><span class="p">,</span>
-                                                <span class="n">varchar_max</span><span class="o">=</span><span class="n">varchar_max</span><span class="p">,</span>
-                                                <span class="n">columntypes</span><span class="o">=</span><span class="n">columntypes</span><span class="p">,</span>
-                                                <span class="n">strict_length</span><span class="o">=</span><span class="n">strict_length</span><span class="p">)</span>
+                    <span class="n">sql</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">create_statement</span><span class="p">(</span>
+                        <span class="n">tbl</span><span class="p">,</span>
+                        <span class="n">table_name</span><span class="p">,</span>
+                        <span class="n">padding</span><span class="o">=</span><span class="n">padding</span><span class="p">,</span>
+                        <span class="n">distkey</span><span class="o">=</span><span class="n">distkey</span><span class="p">,</span>
+                        <span class="n">sortkey</span><span class="o">=</span><span class="n">sortkey</span><span class="p">,</span>
+                        <span class="n">varchar_max</span><span class="o">=</span><span class="n">varchar_max</span><span class="p">,</span>
+                        <span class="n">columntypes</span><span class="o">=</span><span class="n">columntypes</span><span class="p">,</span>
+                        <span class="n">strict_length</span><span class="o">=</span><span class="n">strict_length</span><span class="p">,</span>
+                    <span class="p">)</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">query_with_connection</span><span class="p">(</span><span class="n">sql</span><span class="p">,</span> <span class="n">connection</span><span class="p">,</span> <span class="n">commit</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
-                <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">table_name</span><span class="si">}</span><span class="s1"> created.&#39;</span><span class="p">)</span>
+                <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">table_name</span><span class="si">}</span><span class="s2"> created.&quot;</span><span class="p">)</span>
 
             <span class="c1"># If alter_table is True, then alter table if the table column widths</span>
             <span class="c1"># are wider than the existing table.</span>
             <span class="k">if</span> <span class="n">alter_table</span><span class="p">:</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">alter_varchar_column_widths</span><span class="p">(</span>
-                    <span class="n">tbl</span><span class="p">,</span> <span class="n">table_name</span><span class="p">,</span> <span class="n">drop_dependencies</span><span class="o">=</span><span class="n">alter_table_cascade</span><span class="p">)</span>
+                    <span class="n">tbl</span><span class="p">,</span> <span class="n">table_name</span><span class="p">,</span> <span class="n">drop_dependencies</span><span class="o">=</span><span class="n">alter_table_cascade</span>
+                <span class="p">)</span>
 
             <span class="c1"># Upload the table to S3</span>
-            <span class="n">key</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">temp_s3_copy</span><span class="p">(</span><span class="n">tbl</span><span class="p">,</span> <span class="n">aws_access_key_id</span><span class="o">=</span><span class="n">aws_access_key_id</span><span class="p">,</span>
-                                    <span class="n">aws_secret_access_key</span><span class="o">=</span><span class="n">aws_secret_access_key</span><span class="p">,</span>
-                                    <span class="n">csv_encoding</span><span class="o">=</span><span class="n">csv_encoding</span><span class="p">)</span>
+            <span class="n">key</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">temp_s3_copy</span><span class="p">(</span>
+                <span class="n">tbl</span><span class="p">,</span>
+                <span class="n">aws_access_key_id</span><span class="o">=</span><span class="n">aws_access_key_id</span><span class="p">,</span>
+                <span class="n">aws_secret_access_key</span><span class="o">=</span><span class="n">aws_secret_access_key</span><span class="p">,</span>
+                <span class="n">csv_encoding</span><span class="o">=</span><span class="n">csv_encoding</span><span class="p">,</span>
+            <span class="p">)</span>
 
             <span class="k">try</span><span class="p">:</span>
                 <span class="c1"># Copy to Redshift database.</span>
-                <span class="n">copy_args</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;max_errors&#39;</span><span class="p">:</span> <span class="n">max_errors</span><span class="p">,</span>
-                             <span class="s1">&#39;ignoreheader&#39;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
-                             <span class="s1">&#39;statupdate&#39;</span><span class="p">:</span> <span class="n">statupdate</span><span class="p">,</span>
-                             <span class="s1">&#39;compupdate&#39;</span><span class="p">:</span> <span class="n">compupdate</span><span class="p">,</span>
-                             <span class="s1">&#39;acceptanydate&#39;</span><span class="p">:</span> <span class="n">acceptanydate</span><span class="p">,</span>
-                             <span class="s1">&#39;dateformat&#39;</span><span class="p">:</span> <span class="n">dateformat</span><span class="p">,</span>
-                             <span class="s1">&#39;timeformat&#39;</span><span class="p">:</span> <span class="n">timeformat</span><span class="p">,</span>
-                             <span class="s1">&#39;blanksasnull&#39;</span><span class="p">:</span> <span class="n">blanksasnull</span><span class="p">,</span>
-                             <span class="s1">&#39;nullas&#39;</span><span class="p">:</span> <span class="n">nullas</span><span class="p">,</span>
-                             <span class="s1">&#39;emptyasnull&#39;</span><span class="p">:</span> <span class="n">emptyasnull</span><span class="p">,</span>
-                             <span class="s1">&#39;acceptinvchars&#39;</span><span class="p">:</span> <span class="n">acceptinvchars</span><span class="p">,</span>
-                             <span class="s1">&#39;truncatecolumns&#39;</span><span class="p">:</span> <span class="n">truncatecolumns</span><span class="p">,</span>
-                             <span class="s1">&#39;specifycols&#39;</span><span class="p">:</span> <span class="n">cols</span><span class="p">,</span>
-                             <span class="s1">&#39;aws_access_key_id&#39;</span><span class="p">:</span> <span class="n">aws_access_key_id</span><span class="p">,</span>
-                             <span class="s1">&#39;aws_secret_access_key&#39;</span><span class="p">:</span> <span class="n">aws_secret_access_key</span><span class="p">,</span>
-                             <span class="s1">&#39;compression&#39;</span><span class="p">:</span> <span class="s1">&#39;gzip&#39;</span><span class="p">,</span>
-                             <span class="s1">&#39;bucket_region&#39;</span><span class="p">:</span> <span class="n">temp_bucket_region</span><span class="p">}</span>
+                <span class="n">copy_args</span> <span class="o">=</span> <span class="p">{</span>
+                    <span class="s2">&quot;max_errors&quot;</span><span class="p">:</span> <span class="n">max_errors</span><span class="p">,</span>
+                    <span class="s2">&quot;ignoreheader&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+                    <span class="s2">&quot;statupdate&quot;</span><span class="p">:</span> <span class="n">statupdate</span><span class="p">,</span>
+                    <span class="s2">&quot;compupdate&quot;</span><span class="p">:</span> <span class="n">compupdate</span><span class="p">,</span>
+                    <span class="s2">&quot;acceptanydate&quot;</span><span class="p">:</span> <span class="n">acceptanydate</span><span class="p">,</span>
+                    <span class="s2">&quot;dateformat&quot;</span><span class="p">:</span> <span class="n">dateformat</span><span class="p">,</span>
+                    <span class="s2">&quot;timeformat&quot;</span><span class="p">:</span> <span class="n">timeformat</span><span class="p">,</span>
+                    <span class="s2">&quot;blanksasnull&quot;</span><span class="p">:</span> <span class="n">blanksasnull</span><span class="p">,</span>
+                    <span class="s2">&quot;nullas&quot;</span><span class="p">:</span> <span class="n">nullas</span><span class="p">,</span>
+                    <span class="s2">&quot;emptyasnull&quot;</span><span class="p">:</span> <span class="n">emptyasnull</span><span class="p">,</span>
+                    <span class="s2">&quot;acceptinvchars&quot;</span><span class="p">:</span> <span class="n">acceptinvchars</span><span class="p">,</span>
+                    <span class="s2">&quot;truncatecolumns&quot;</span><span class="p">:</span> <span class="n">truncatecolumns</span><span class="p">,</span>
+                    <span class="s2">&quot;specifycols&quot;</span><span class="p">:</span> <span class="n">cols</span><span class="p">,</span>
+                    <span class="s2">&quot;aws_access_key_id&quot;</span><span class="p">:</span> <span class="n">aws_access_key_id</span><span class="p">,</span>
+                    <span class="s2">&quot;aws_secret_access_key&quot;</span><span class="p">:</span> <span class="n">aws_secret_access_key</span><span class="p">,</span>
+                    <span class="s2">&quot;compression&quot;</span><span class="p">:</span> <span class="s2">&quot;gzip&quot;</span><span class="p">,</span>
+                    <span class="s2">&quot;bucket_region&quot;</span><span class="p">:</span> <span class="n">temp_bucket_region</span><span class="p">,</span>
+                <span class="p">}</span>
 
                 <span class="c1"># Copy from S3 to Redshift</span>
-                <span class="n">sql</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">copy_statement</span><span class="p">(</span><span class="n">table_name</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">s3_temp_bucket</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="o">**</span><span class="n">copy_args</span><span class="p">)</span>
+                <span class="n">sql</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">copy_statement</span><span class="p">(</span>
+                    <span class="n">table_name</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">s3_temp_bucket</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="o">**</span><span class="n">copy_args</span>
+                <span class="p">)</span>
                 <span class="n">sql_censored</span> <span class="o">=</span> <span class="n">sql_helpers</span><span class="o">.</span><span class="n">redact_credentials</span><span class="p">(</span><span class="n">sql</span><span class="p">)</span>
 
-                <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Copy SQL command: </span><span class="si">{</span><span class="n">sql_censored</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+                <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Copy SQL command: </span><span class="si">{</span><span class="n">sql_censored</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">query_with_connection</span><span class="p">(</span><span class="n">sql</span><span class="p">,</span> <span class="n">connection</span><span class="p">,</span> <span class="n">commit</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
 
-                <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Data copied to </span><span class="si">{</span><span class="n">table_name</span><span class="si">}</span><span class="s1">.&#39;</span><span class="p">)</span>
+                <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Data copied to </span><span class="si">{</span><span class="n">table_name</span><span class="si">}</span><span class="s2">.&quot;</span><span class="p">)</span>
 
             <span class="c1"># Clean up the S3 bucket.</span>
             <span class="k">finally</span><span class="p">:</span>
                 <span class="k">if</span> <span class="n">key</span> <span class="ow">and</span> <span class="n">cleanup_s3_file</span><span class="p">:</span>
                     <span class="bp">self</span><span class="o">.</span><span class="n">temp_s3_delete</span><span class="p">(</span><span class="n">key</span><span class="p">)</span>
 
-    <span class="k">def</span> <span class="nf">unload</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sql</span><span class="p">,</span> <span class="n">bucket</span><span class="p">,</span> <span class="n">key_prefix</span><span class="p">,</span> <span class="n">manifest</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">header</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">delimiter</span><span class="o">=</span><span class="s1">&#39;|&#39;</span><span class="p">,</span>
-               <span class="n">compression</span><span class="o">=</span><span class="s1">&#39;gzip&#39;</span><span class="p">,</span> <span class="n">add_quotes</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">null_as</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">escape</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">allow_overwrite</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
-               <span class="n">parallel</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">max_file_size</span><span class="o">=</span><span class="s1">&#39;6.2 GB&#39;</span><span class="p">,</span> <span class="n">aws_region</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">aws_access_key_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-               <span class="n">aws_secret_access_key</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">unload</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">sql</span><span class="p">,</span>
+        <span class="n">bucket</span><span class="p">,</span>
+        <span class="n">key_prefix</span><span class="p">,</span>
+        <span class="n">manifest</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="n">header</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="n">delimiter</span><span class="o">=</span><span class="s2">&quot;|&quot;</span><span class="p">,</span>
+        <span class="n">compression</span><span class="o">=</span><span class="s2">&quot;gzip&quot;</span><span class="p">,</span>
+        <span class="n">add_quotes</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="n">null_as</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">escape</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="n">allow_overwrite</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="n">parallel</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="n">max_file_size</span><span class="o">=</span><span class="s2">&quot;6.2 GB&quot;</span><span class="p">,</span>
+        <span class="n">aws_region</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">aws_access_key_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">aws_secret_access_key</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Unload Redshift data to S3 Bucket. This is a more efficient method than running a query</span>
 <span class="sd">        to export data as it can export in parallel and directly into an S3 bucket. Consider</span>
@@ -813,16 +932,24 @@
         <span class="k">if</span> <span class="n">aws_region</span><span class="p">:</span>
             <span class="n">statement</span> <span class="o">+=</span> <span class="sa">f</span><span class="s2">&quot;REGION </span><span class="si">{</span><span class="n">aws_region</span><span class="si">}</span><span class="s2"> </span><span class="se">\n</span><span class="s2">&quot;</span>
 
-        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Unloading data to s3://</span><span class="si">{</span><span class="n">bucket</span><span class="si">}</span><span class="s1">/</span><span class="si">{</span><span class="n">key_prefix</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Unloading data to s3://</span><span class="si">{</span><span class="n">bucket</span><span class="si">}</span><span class="s2">/</span><span class="si">{</span><span class="n">key_prefix</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
         <span class="c1"># Censor sensitive data</span>
         <span class="n">statement_censored</span> <span class="o">=</span> <span class="n">sql_helpers</span><span class="o">.</span><span class="n">redact_credentials</span><span class="p">(</span><span class="n">statement</span><span class="p">)</span>
         <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="n">statement_censored</span><span class="p">)</span>
 
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="n">statement</span><span class="p">)</span>
 
-    <span class="k">def</span> <span class="nf">generate_manifest</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">buckets</span><span class="p">,</span> <span class="n">aws_access_key_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">aws_secret_access_key</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-                          <span class="n">mandatory</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">prefix</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">manifest_bucket</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">manifest_key</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-                          <span class="n">path</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">generate_manifest</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">buckets</span><span class="p">,</span>
+        <span class="n">aws_access_key_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">aws_secret_access_key</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">mandatory</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="n">prefix</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">manifest_bucket</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">manifest_key</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">path</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Given a list of S3 buckets, generate a manifest file (JSON format). A manifest file</span>
 <span class="sd">        allows you to copy multiple files into a single table at once. Once the manifest is</span>
@@ -854,45 +981,59 @@
 <span class="sd">        &quot;&quot;&quot;</span>
 
         <span class="kn">from</span> <span class="nn">parsons.aws</span> <span class="kn">import</span> <span class="n">S3</span>
-        <span class="n">s3</span> <span class="o">=</span> <span class="n">S3</span><span class="p">(</span><span class="n">aws_access_key_id</span><span class="o">=</span><span class="n">aws_access_key_id</span><span class="p">,</span>
-                <span class="n">aws_secret_access_key</span><span class="o">=</span><span class="n">aws_secret_access_key</span><span class="p">,</span>
-                <span class="n">use_env_token</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">use_env_token</span><span class="p">)</span>
+
+        <span class="n">s3</span> <span class="o">=</span> <span class="n">S3</span><span class="p">(</span>
+            <span class="n">aws_access_key_id</span><span class="o">=</span><span class="n">aws_access_key_id</span><span class="p">,</span>
+            <span class="n">aws_secret_access_key</span><span class="o">=</span><span class="n">aws_secret_access_key</span><span class="p">,</span>
+            <span class="n">use_env_token</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">use_env_token</span><span class="p">,</span>
+        <span class="p">)</span>
 
         <span class="c1"># Deal with a single bucket being passed, rather than list.</span>
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">buckets</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
             <span class="n">buckets</span> <span class="o">=</span> <span class="p">[</span><span class="n">buckets</span><span class="p">]</span>
 
         <span class="c1"># Generate manifest file</span>
-        <span class="n">manifest</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;entries&#39;</span><span class="p">:</span> <span class="p">[]}</span>
+        <span class="n">manifest</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;entries&quot;</span><span class="p">:</span> <span class="p">[]}</span>
         <span class="k">for</span> <span class="n">bucket</span> <span class="ow">in</span> <span class="n">buckets</span><span class="p">:</span>
 
             <span class="c1"># Retrieve list of files in bucket</span>
             <span class="n">key_list</span> <span class="o">=</span> <span class="n">s3</span><span class="o">.</span><span class="n">list_keys</span><span class="p">(</span><span class="n">bucket</span><span class="p">,</span> <span class="n">prefix</span><span class="o">=</span><span class="n">prefix</span><span class="p">)</span>
             <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">key_list</span><span class="p">:</span>
-                <span class="n">manifest</span><span class="p">[</span><span class="s1">&#39;entries&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">({</span>
-                    <span class="s1">&#39;url&#39;</span><span class="p">:</span> <span class="s1">&#39;/&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="s1">&#39;s3:/&#39;</span><span class="p">,</span> <span class="n">bucket</span><span class="p">,</span> <span class="n">key</span><span class="p">]),</span>
-                    <span class="s1">&#39;mandatory&#39;</span><span class="p">:</span> <span class="n">mandatory</span>
-                <span class="p">})</span>
+                <span class="n">manifest</span><span class="p">[</span><span class="s2">&quot;entries&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+                    <span class="p">{</span><span class="s2">&quot;url&quot;</span><span class="p">:</span> <span class="s2">&quot;/&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="s2">&quot;s3:/&quot;</span><span class="p">,</span> <span class="n">bucket</span><span class="p">,</span> <span class="n">key</span><span class="p">]),</span> <span class="s2">&quot;mandatory&quot;</span><span class="p">:</span> <span class="n">mandatory</span><span class="p">}</span>
+                <span class="p">)</span>
 
-        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s1">&#39;Manifest generated.&#39;</span><span class="p">)</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Manifest generated.&quot;</span><span class="p">)</span>
 
         <span class="c1"># Save the file to s3 bucket if provided</span>
         <span class="k">if</span> <span class="n">manifest_key</span> <span class="ow">and</span> <span class="n">manifest_bucket</span><span class="p">:</span>
             <span class="c1"># Dump the manifest to a temp JSON file</span>
             <span class="n">manifest_path</span> <span class="o">=</span> <span class="n">files</span><span class="o">.</span><span class="n">create_temp_file</span><span class="p">()</span>
-            <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">manifest_path</span><span class="p">,</span> <span class="s1">&#39;w&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">manifest_file_obj</span><span class="p">:</span>
+            <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">manifest_path</span><span class="p">,</span> <span class="s2">&quot;w&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">manifest_file_obj</span><span class="p">:</span>
                 <span class="n">json</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span><span class="n">manifest</span><span class="p">,</span> <span class="n">manifest_file_obj</span><span class="p">,</span> <span class="n">sort_keys</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">indent</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span>
 
             <span class="c1"># Upload the file to S3</span>
             <span class="n">s3</span><span class="o">.</span><span class="n">put_file</span><span class="p">(</span><span class="n">manifest_bucket</span><span class="p">,</span> <span class="n">manifest_key</span><span class="p">,</span> <span class="n">manifest_path</span><span class="p">)</span>
 
-            <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Manifest saved to s3://</span><span class="si">{</span><span class="n">manifest_bucket</span><span class="si">}</span><span class="s1">/</span><span class="si">{</span><span class="n">manifest_key</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Manifest saved to s3://</span><span class="si">{</span><span class="n">manifest_bucket</span><span class="si">}</span><span class="s2">/</span><span class="si">{</span><span class="n">manifest_key</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
 
         <span class="k">return</span> <span class="n">manifest</span>
 
-    <span class="k">def</span> <span class="nf">upsert</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">table_obj</span><span class="p">,</span> <span class="n">target_table</span><span class="p">,</span> <span class="n">primary_key</span><span class="p">,</span> <span class="n">vacuum</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">distinct_check</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
-               <span class="n">cleanup_temp_table</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">alter_table</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">alter_table_cascade</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
-               <span class="n">from_s3</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">distkey</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">sortkey</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">copy_args</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">upsert</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">table_obj</span><span class="p">,</span>
+        <span class="n">target_table</span><span class="p">,</span>
+        <span class="n">primary_key</span><span class="p">,</span>
+        <span class="n">vacuum</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="n">distinct_check</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="n">cleanup_temp_table</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="n">alter_table</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="n">alter_table_cascade</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+        <span class="n">from_s3</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+        <span class="n">distkey</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">sortkey</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="o">**</span><span class="n">copy_args</span><span class="p">,</span>
+    <span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Preform an upsert on an existing table. An upsert is a function in which rows</span>
 <span class="sd">        in a table are updated and inserted at the same time.</span>
@@ -940,43 +1081,48 @@
         <span class="n">sortkey</span> <span class="o">=</span> <span class="n">sortkey</span> <span class="ow">or</span> <span class="n">primary_key</span>
 
         <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">table_exists</span><span class="p">(</span><span class="n">target_table</span><span class="p">):</span>
-            <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s1">&#39;Target table does not exist. Copying into newly </span><span class="se">\</span>
-<span class="s1">                         created target table.&#39;</span><span class="p">)</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span>
+                <span class="s2">&quot;Target table does not exist. Copying into newly </span><span class="se">\</span>
+<span class="s2">                         created target table.&quot;</span>
+            <span class="p">)</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="n">table_obj</span><span class="p">,</span> <span class="n">target_table</span><span class="p">,</span> <span class="n">distkey</span><span class="o">=</span><span class="n">distkey</span><span class="p">,</span> <span class="n">sortkey</span><span class="o">=</span><span class="n">sortkey</span><span class="p">)</span>
             <span class="k">return</span> <span class="kc">None</span>
 
         <span class="k">if</span> <span class="n">alter_table</span> <span class="ow">and</span> <span class="n">table_obj</span><span class="p">:</span>
             <span class="c1"># Make target table column widths match incoming table, if necessary</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">alter_varchar_column_widths</span><span class="p">(</span><span class="n">table_obj</span><span class="p">,</span> <span class="n">target_table</span><span class="p">,</span>
-                                             <span class="n">drop_dependencies</span><span class="o">=</span><span class="n">alter_table_cascade</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">alter_varchar_column_widths</span><span class="p">(</span>
+                <span class="n">table_obj</span><span class="p">,</span> <span class="n">target_table</span><span class="p">,</span> <span class="n">drop_dependencies</span><span class="o">=</span><span class="n">alter_table_cascade</span>
+            <span class="p">)</span>
 
-        <span class="n">noise</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">random</span><span class="o">.</span><span class="n">randrange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">10000</span><span class="p">)</span><span class="si">:</span><span class="s1">04</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">[:</span><span class="mi">4</span><span class="p">]</span>
-        <span class="n">date_stamp</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s1">&#39;%Y%m</span><span class="si">%d</span><span class="s1">_%H%M&#39;</span><span class="p">)</span>
+        <span class="n">noise</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">random</span><span class="o">.</span><span class="n">randrange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">10000</span><span class="p">)</span><span class="si">:</span><span class="s2">04</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">[:</span><span class="mi">4</span><span class="p">]</span>
+        <span class="n">date_stamp</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s2">&quot;%Y%m</span><span class="si">%d</span><span class="s2">_%H%M&quot;</span><span class="p">)</span>
         <span class="c1"># Generate a temp table like &quot;table_tmp_20200210_1230_14212&quot;</span>
-        <span class="n">staging_tbl</span> <span class="o">=</span> <span class="s1">&#39;</span><span class="si">{}</span><span class="s1">_stg_</span><span class="si">{}</span><span class="s1">_</span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">target_table</span><span class="p">,</span> <span class="n">date_stamp</span><span class="p">,</span> <span class="n">noise</span><span class="p">)</span>
+        <span class="n">staging_tbl</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="si">{}</span><span class="s2">_stg_</span><span class="si">{}</span><span class="s2">_</span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">target_table</span><span class="p">,</span> <span class="n">date_stamp</span><span class="p">,</span> <span class="n">noise</span><span class="p">)</span>
 
         <span class="k">if</span> <span class="n">distinct_check</span><span class="p">:</span>
-            <span class="n">primary_keys_statement</span> <span class="o">=</span> <span class="s1">&#39;, &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">primary_keys</span><span class="p">)</span>
-            <span class="n">diff</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;&#39;&#39;</span>
-<span class="s1">                select (</span>
-<span class="s1">                    select count(*)</span>
-<span class="s1">                    from </span><span class="si">{</span><span class="n">target_table</span><span class="si">}</span>
-<span class="s1">                ) - (</span>
-<span class="s1">                    SELECT COUNT(*) from (</span>
-<span class="s1">                        select distinct </span><span class="si">{</span><span class="n">primary_keys_statement</span><span class="si">}</span>
-<span class="s1">                        from </span><span class="si">{</span><span class="n">target_table</span><span class="si">}</span>
-<span class="s1">                    )</span>
-<span class="s1">                ) as total_count</span>
-<span class="s1">            &#39;&#39;&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">first</span>
+            <span class="n">primary_keys_statement</span> <span class="o">=</span> <span class="s2">&quot;, &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">primary_keys</span><span class="p">)</span>
+            <span class="n">diff</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">query</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">                select (</span>
+<span class="s2">                    select count(*)</span>
+<span class="s2">                    from </span><span class="si">{</span><span class="n">target_table</span><span class="si">}</span>
+<span class="s2">                ) - (</span>
+<span class="s2">                    SELECT COUNT(*) from (</span>
+<span class="s2">                        select distinct </span><span class="si">{</span><span class="n">primary_keys_statement</span><span class="si">}</span>
+<span class="s2">                        from </span><span class="si">{</span><span class="n">target_table</span><span class="si">}</span>
+<span class="s2">                    )</span>
+<span class="s2">                ) as total_count</span>
+<span class="s2">            &quot;&quot;&quot;</span>
+            <span class="p">)</span><span class="o">.</span><span class="n">first</span>
             <span class="k">if</span> <span class="n">diff</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
-                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;Primary key column contains duplicate values.&#39;</span><span class="p">)</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Primary key column contains duplicate values.&quot;</span><span class="p">)</span>
 
         <span class="k">with</span> <span class="bp">self</span><span class="o">.</span><span class="n">connection</span><span class="p">()</span> <span class="k">as</span> <span class="n">connection</span><span class="p">:</span>
 
             <span class="k">try</span><span class="p">:</span>
                 <span class="c1"># Copy to a staging table</span>
-                <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Building staging table: </span><span class="si">{</span><span class="n">staging_tbl</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
-                <span class="k">if</span> <span class="s1">&#39;compupdate&#39;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">copy_args</span><span class="p">:</span>
+                <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Building staging table: </span><span class="si">{</span><span class="n">staging_tbl</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+                <span class="k">if</span> <span class="s2">&quot;compupdate&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">copy_args</span><span class="p">:</span>
                     <span class="c1"># Especially with a lot of columns, compupdate=True can</span>
                     <span class="c1"># cause a lot of processing/analysis by Redshift before upload.</span>
                     <span class="c1"># Since this is a temporary table, setting compression for each</span>
@@ -987,29 +1133,30 @@
                 <span class="k">if</span> <span class="n">from_s3</span><span class="p">:</span>
                     <span class="k">if</span> <span class="n">table_obj</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
                         <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
-                            <span class="s1">&#39;upsert(... from_s3=True) requires the first argument (table_obj)&#39;</span>
-                            <span class="s1">&#39; to be None. from_s3 and table_obj are mutually exclusive.&#39;</span>
+                            <span class="s2">&quot;upsert(... from_s3=True) requires the first argument (table_obj)&quot;</span>
+                            <span class="s2">&quot; to be None. from_s3 and table_obj are mutually exclusive.&quot;</span>
                         <span class="p">)</span>
-                    <span class="bp">self</span><span class="o">.</span><span class="n">copy_s3</span><span class="p">(</span><span class="n">staging_tbl</span><span class="p">,</span>
-                                 <span class="n">template_table</span><span class="o">=</span><span class="n">target_table</span><span class="p">,</span>
-                                 <span class="o">**</span><span class="n">copy_args</span><span class="p">)</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">copy_s3</span><span class="p">(</span><span class="n">staging_tbl</span><span class="p">,</span> <span class="n">template_table</span><span class="o">=</span><span class="n">target_table</span><span class="p">,</span> <span class="o">**</span><span class="n">copy_args</span><span class="p">)</span>
                 <span class="k">else</span><span class="p">:</span>
-                    <span class="bp">self</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="n">table_obj</span><span class="p">,</span> <span class="n">staging_tbl</span><span class="p">,</span>
-                              <span class="n">template_table</span><span class="o">=</span><span class="n">target_table</span><span class="p">,</span>
-                              <span class="n">alter_table</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>  <span class="c1"># We just did our own alter table above</span>
-                              <span class="n">distkey</span><span class="o">=</span><span class="n">distkey</span><span class="p">,</span>
-                              <span class="n">sortkey</span><span class="o">=</span><span class="n">sortkey</span><span class="p">,</span>
-                              <span class="o">**</span><span class="n">copy_args</span><span class="p">)</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span>
+                        <span class="n">table_obj</span><span class="p">,</span>
+                        <span class="n">staging_tbl</span><span class="p">,</span>
+                        <span class="n">template_table</span><span class="o">=</span><span class="n">target_table</span><span class="p">,</span>
+                        <span class="n">alter_table</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>  <span class="c1"># We just did our own alter table above</span>
+                        <span class="n">distkey</span><span class="o">=</span><span class="n">distkey</span><span class="p">,</span>
+                        <span class="n">sortkey</span><span class="o">=</span><span class="n">sortkey</span><span class="p">,</span>
+                        <span class="o">**</span><span class="n">copy_args</span><span class="p">,</span>
+                    <span class="p">)</span>
 
-                <span class="n">staging_table_name</span> <span class="o">=</span> <span class="n">staging_tbl</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;.&#39;</span><span class="p">)[</span><span class="mi">1</span><span class="p">]</span>
-                <span class="n">target_table_name</span> <span class="o">=</span> <span class="n">target_table</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;.&#39;</span><span class="p">)[</span><span class="mi">1</span><span class="p">]</span>
+                <span class="n">staging_table_name</span> <span class="o">=</span> <span class="n">staging_tbl</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;.&quot;</span><span class="p">)[</span><span class="mi">1</span><span class="p">]</span>
+                <span class="n">target_table_name</span> <span class="o">=</span> <span class="n">target_table</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;.&quot;</span><span class="p">)[</span><span class="mi">1</span><span class="p">]</span>
 
                 <span class="c1"># Delete rows</span>
                 <span class="n">comparisons</span> <span class="o">=</span> <span class="p">[</span>
-                    <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">staging_table_name</span><span class="si">}</span><span class="s1">.</span><span class="si">{</span><span class="n">primary_key</span><span class="si">}</span><span class="s1"> = </span><span class="si">{</span><span class="n">target_table_name</span><span class="si">}</span><span class="s1">.</span><span class="si">{</span><span class="n">primary_key</span><span class="si">}</span><span class="s1">&#39;</span>
+                    <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">staging_table_name</span><span class="si">}</span><span class="s2">.</span><span class="si">{</span><span class="n">primary_key</span><span class="si">}</span><span class="s2"> = </span><span class="si">{</span><span class="n">target_table_name</span><span class="si">}</span><span class="s2">.</span><span class="si">{</span><span class="n">primary_key</span><span class="si">}</span><span class="s2">&quot;</span>
                     <span class="k">for</span> <span class="n">primary_key</span> <span class="ow">in</span> <span class="n">primary_keys</span>
                 <span class="p">]</span>
-                <span class="n">where_clause</span> <span class="o">=</span> <span class="s1">&#39; and &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">comparisons</span><span class="p">)</span>
+                <span class="n">where_clause</span> <span class="o">=</span> <span class="s2">&quot; and &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">comparisons</span><span class="p">)</span>
 
                 <span class="n">sql</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;&quot;&quot;</span>
 <span class="s2">                       DELETE FROM </span><span class="si">{</span><span class="n">target_table</span><span class="si">}</span>
@@ -1017,7 +1164,7 @@
 <span class="s2">                       WHERE </span><span class="si">{</span><span class="n">where_clause</span><span class="si">}</span>
 <span class="s2">                       &quot;&quot;&quot;</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">query_with_connection</span><span class="p">(</span><span class="n">sql</span><span class="p">,</span> <span class="n">connection</span><span class="p">,</span> <span class="n">commit</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
-                <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Target rows deleted from </span><span class="si">{</span><span class="n">target_table</span><span class="si">}</span><span class="s1">.&#39;</span><span class="p">)</span>
+                <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Target rows deleted from </span><span class="si">{</span><span class="n">target_table</span><span class="si">}</span><span class="s2">.&quot;</span><span class="p">)</span>
 
                 <span class="c1"># Insert rows</span>
                 <span class="c1"># ALTER TABLE APPEND would be more efficient, but you can&#39;t run it in a</span>
@@ -1029,21 +1176,22 @@
 <span class="s2">                       &quot;&quot;&quot;</span>
 
                 <span class="bp">self</span><span class="o">.</span><span class="n">query_with_connection</span><span class="p">(</span><span class="n">sql</span><span class="p">,</span> <span class="n">connection</span><span class="p">,</span> <span class="n">commit</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
-                <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Target rows inserted to </span><span class="si">{</span><span class="n">target_table</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+                <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Target rows inserted to </span><span class="si">{</span><span class="n">target_table</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
 
             <span class="k">finally</span><span class="p">:</span>
                 <span class="k">if</span> <span class="n">cleanup_temp_table</span><span class="p">:</span>
                     <span class="c1"># Drop the staging table</span>
-                    <span class="bp">self</span><span class="o">.</span><span class="n">query_with_connection</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;DROP TABLE IF EXISTS </span><span class="si">{</span><span class="n">staging_tbl</span><span class="si">}</span><span class="s2">;&quot;</span><span class="p">,</span>
-                                               <span class="n">connection</span><span class="p">,</span> <span class="n">commit</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
-                    <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">staging_tbl</span><span class="si">}</span><span class="s1"> staging table dropped.&#39;</span><span class="p">)</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">query_with_connection</span><span class="p">(</span>
+                        <span class="sa">f</span><span class="s2">&quot;DROP TABLE IF EXISTS </span><span class="si">{</span><span class="n">staging_tbl</span><span class="si">}</span><span class="s2">;&quot;</span><span class="p">,</span> <span class="n">connection</span><span class="p">,</span> <span class="n">commit</span><span class="o">=</span><span class="kc">False</span>
+                    <span class="p">)</span>
+                    <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">staging_tbl</span><span class="si">}</span><span class="s2"> staging table dropped.&quot;</span><span class="p">)</span>
 
         <span class="c1"># Vacuum table. You must commit when running this type of transaction.</span>
         <span class="k">if</span> <span class="n">vacuum</span><span class="p">:</span>
             <span class="k">with</span> <span class="bp">self</span><span class="o">.</span><span class="n">connection</span><span class="p">()</span> <span class="k">as</span> <span class="n">connection</span><span class="p">:</span>
                 <span class="n">connection</span><span class="o">.</span><span class="n">set_session</span><span class="p">(</span><span class="n">autocommit</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">query_with_connection</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;VACUUM </span><span class="si">{</span><span class="n">target_table</span><span class="si">}</span><span class="s1">;&#39;</span><span class="p">,</span> <span class="n">connection</span><span class="p">)</span>
-                <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">target_table</span><span class="si">}</span><span class="s1"> vacuumed.&#39;</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">query_with_connection</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;VACUUM </span><span class="si">{</span><span class="n">target_table</span><span class="si">}</span><span class="s2">;&quot;</span><span class="p">,</span> <span class="n">connection</span><span class="p">)</span>
+                <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">target_table</span><span class="si">}</span><span class="s2"> vacuumed.&quot;</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">drop_dependencies_for_cols</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">schema</span><span class="p">,</span> <span class="n">table</span><span class="p">,</span> <span class="n">cols</span><span class="p">):</span>
         <span class="n">fmt_cols</span> <span class="o">=</span> <span class="s2">&quot;, &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="sa">f</span><span class="s2">&quot;&#39;</span><span class="si">{</span><span class="n">c</span><span class="si">}</span><span class="s2">&#39;&quot;</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">cols</span><span class="p">])</span>
@@ -1073,7 +1221,7 @@
         <span class="k">with</span> <span class="bp">self</span><span class="o">.</span><span class="n">connection</span><span class="p">()</span> <span class="k">as</span> <span class="n">connection</span><span class="p">:</span>
             <span class="n">connection</span><span class="o">.</span><span class="n">set_session</span><span class="p">(</span><span class="n">autocommit</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
             <span class="n">tbl</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">query_with_connection</span><span class="p">(</span><span class="n">sql_depend</span><span class="p">,</span> <span class="n">connection</span><span class="p">)</span>
-            <span class="n">dropped_views</span> <span class="o">=</span> <span class="p">[</span><span class="n">row</span><span class="p">[</span><span class="s1">&#39;table_name&#39;</span><span class="p">]</span> <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">tbl</span><span class="p">]</span>
+            <span class="n">dropped_views</span> <span class="o">=</span> <span class="p">[</span><span class="n">row</span><span class="p">[</span><span class="s2">&quot;table_name&quot;</span><span class="p">]</span> <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">tbl</span><span class="p">]</span>
             <span class="k">if</span> <span class="n">dropped_views</span><span class="p">:</span>
                 <span class="n">sql_drop</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="sa">f</span><span class="s2">&quot;drop view </span><span class="si">{</span><span class="n">view</span><span class="si">}</span><span class="s2">;&quot;</span> <span class="k">for</span> <span class="n">view</span> <span class="ow">in</span> <span class="n">dropped_views</span><span class="p">])</span>
                 <span class="n">tbl</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">query_with_connection</span><span class="p">(</span><span class="n">sql_drop</span><span class="p">,</span> <span class="n">connection</span><span class="p">)</span>
@@ -1105,14 +1253,18 @@
         <span class="c1"># Determine the max width of the varchar columns in the Redshift table</span>
         <span class="n">s</span><span class="p">,</span> <span class="n">t</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">split_full_table_name</span><span class="p">(</span><span class="n">table_name</span><span class="p">)</span>
         <span class="n">cols</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_columns</span><span class="p">(</span><span class="n">s</span><span class="p">,</span> <span class="n">t</span><span class="p">)</span>
-        <span class="n">rc</span> <span class="o">=</span> <span class="p">{</span><span class="n">k</span><span class="p">:</span> <span class="n">v</span><span class="p">[</span><span class="s1">&#39;max_length&#39;</span><span class="p">]</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">cols</span><span class="o">.</span><span class="n">items</span><span class="p">()</span> <span class="k">if</span> <span class="n">v</span><span class="p">[</span><span class="s1">&#39;data_type&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;character varying&#39;</span><span class="p">}</span>  <span class="c1"># noqa: E501, E261</span>
+        <span class="n">rc</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="n">k</span><span class="p">:</span> <span class="n">v</span><span class="p">[</span><span class="s2">&quot;max_length&quot;</span><span class="p">]</span>
+            <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">cols</span><span class="o">.</span><span class="n">items</span><span class="p">()</span>
+            <span class="k">if</span> <span class="n">v</span><span class="p">[</span><span class="s2">&quot;data_type&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;character varying&quot;</span>
+        <span class="p">}</span>  <span class="c1"># noqa: E501, E261</span>
 
         <span class="c1"># Figure out if any of the destination table varchar columns are smaller than the</span>
         <span class="c1"># associated Parsons table columns. If they are, then alter column types to expand</span>
         <span class="c1"># their width.</span>
         <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="nb">set</span><span class="p">(</span><span class="n">rc</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span><span class="o">.</span><span class="n">intersection</span><span class="p">(</span><span class="nb">set</span><span class="p">(</span><span class="n">pc</span><span class="o">.</span><span class="n">keys</span><span class="p">())):</span>
             <span class="k">if</span> <span class="n">rc</span><span class="p">[</span><span class="n">c</span><span class="p">]</span> <span class="o">&lt;</span> <span class="n">pc</span><span class="p">[</span><span class="n">c</span><span class="p">]</span> <span class="ow">and</span> <span class="n">rc</span><span class="p">[</span><span class="n">c</span><span class="p">]</span> <span class="o">!=</span> <span class="mi">65535</span><span class="p">:</span>
-                <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">c</span><span class="si">}</span><span class="s1"> not wide enough. Expanding column width.&#39;</span><span class="p">)</span>
+                <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">c</span><span class="si">}</span><span class="s2"> not wide enough. Expanding column width.&quot;</span><span class="p">)</span>
                 <span class="c1"># If requested size is larger than Redshift will allow,</span>
                 <span class="c1"># automatically set to Redshift&#39;s max varchar width</span>
                 <span class="n">new_size</span> <span class="o">=</span> <span class="mi">65535</span>
@@ -1120,9 +1272,13 @@
                     <span class="n">new_size</span> <span class="o">=</span> <span class="n">pc</span><span class="p">[</span><span class="n">c</span><span class="p">]</span>
                 <span class="k">if</span> <span class="n">drop_dependencies</span><span class="p">:</span>
                     <span class="bp">self</span><span class="o">.</span><span class="n">drop_dependencies_for_cols</span><span class="p">(</span><span class="n">s</span><span class="p">,</span> <span class="n">t</span><span class="p">,</span> <span class="p">[</span><span class="n">c</span><span class="p">])</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">alter_table_column_type</span><span class="p">(</span><span class="n">table_name</span><span class="p">,</span> <span class="n">c</span><span class="p">,</span> <span class="s1">&#39;varchar&#39;</span><span class="p">,</span> <span class="n">varchar_width</span><span class="o">=</span><span class="n">new_size</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">alter_table_column_type</span><span class="p">(</span>
+                    <span class="n">table_name</span><span class="p">,</span> <span class="n">c</span><span class="p">,</span> <span class="s2">&quot;varchar&quot;</span><span class="p">,</span> <span class="n">varchar_width</span><span class="o">=</span><span class="n">new_size</span>
+                <span class="p">)</span>
 
-    <span class="k">def</span> <span class="nf">alter_table_column_type</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">table_name</span><span class="p">,</span> <span class="n">column_name</span><span class="p">,</span> <span class="n">data_type</span><span class="p">,</span> <span class="n">varchar_width</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">alter_table_column_type</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">table_name</span><span class="p">,</span> <span class="n">column_name</span><span class="p">,</span> <span class="n">data_type</span><span class="p">,</span> <span class="n">varchar_width</span><span class="o">=</span><span class="kc">None</span>
+    <span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Alter a column type of an existing table.</span>
 
@@ -1144,7 +1300,7 @@
         <span class="k">with</span> <span class="bp">self</span><span class="o">.</span><span class="n">connection</span><span class="p">()</span> <span class="k">as</span> <span class="n">connection</span><span class="p">:</span>
             <span class="n">connection</span><span class="o">.</span><span class="n">set_session</span><span class="p">(</span><span class="n">autocommit</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">query_with_connection</span><span class="p">(</span><span class="n">sql</span><span class="p">,</span> <span class="n">connection</span><span class="p">)</span>
-            <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Altered </span><span class="si">{</span><span class="n">table_name</span><span class="si">}</span><span class="s1"> </span><span class="si">{</span><span class="n">column_name</span><span class="si">}</span><span class="s1">.&#39;</span><span class="p">)</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Altered </span><span class="si">{</span><span class="n">table_name</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">column_name</span><span class="si">}</span><span class="s2">.&quot;</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">table</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">table_name</span><span class="p">):</span>
         <span class="c1"># Return a Redshift table object</span>

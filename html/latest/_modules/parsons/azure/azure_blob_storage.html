@@ -169,22 +169,31 @@
 <span class="sd">        `AzureBlobStorage`</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">account_name</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">credential</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">account_domain</span><span class="o">=</span><span class="s1">&#39;blob.core.windows.net&#39;</span><span class="p">,</span>
-                 <span class="n">account_url</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">account_url</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">getenv</span><span class="p">(</span><span class="s1">&#39;AZURE_ACCOUNT_URL&#39;</span><span class="p">,</span> <span class="n">account_url</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">credential</span> <span class="o">=</span> <span class="n">check_env</span><span class="o">.</span><span class="n">check</span><span class="p">(</span><span class="s1">&#39;AZURE_CREDENTIAL&#39;</span><span class="p">,</span> <span class="n">credential</span><span class="p">)</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">account_name</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">credential</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">account_domain</span><span class="o">=</span><span class="s2">&quot;blob.core.windows.net&quot;</span><span class="p">,</span>
+        <span class="n">account_url</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">account_url</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">getenv</span><span class="p">(</span><span class="s2">&quot;AZURE_ACCOUNT_URL&quot;</span><span class="p">,</span> <span class="n">account_url</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">credential</span> <span class="o">=</span> <span class="n">check_env</span><span class="o">.</span><span class="n">check</span><span class="p">(</span><span class="s2">&quot;AZURE_CREDENTIAL&quot;</span><span class="p">,</span> <span class="n">credential</span><span class="p">)</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">account_url</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">account_name</span> <span class="o">=</span> <span class="n">check_env</span><span class="o">.</span><span class="n">check</span><span class="p">(</span><span class="s1">&#39;AZURE_ACCOUNT_NAME&#39;</span><span class="p">,</span> <span class="n">account_name</span><span class="p">)</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">account_domain</span> <span class="o">=</span> <span class="n">check_env</span><span class="o">.</span><span class="n">check</span><span class="p">(</span><span class="s1">&#39;AZURE_ACCOUNT_DOMAIN&#39;</span><span class="p">,</span> <span class="n">account_domain</span><span class="p">)</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">account_url</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;https://</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">account_name</span><span class="si">}</span><span class="s1">.</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">account_domain</span><span class="si">}</span><span class="s1">/&#39;</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">account_name</span> <span class="o">=</span> <span class="n">check_env</span><span class="o">.</span><span class="n">check</span><span class="p">(</span><span class="s2">&quot;AZURE_ACCOUNT_NAME&quot;</span><span class="p">,</span> <span class="n">account_name</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">account_domain</span> <span class="o">=</span> <span class="n">check_env</span><span class="o">.</span><span class="n">check</span><span class="p">(</span>
+                <span class="s2">&quot;AZURE_ACCOUNT_DOMAIN&quot;</span><span class="p">,</span> <span class="n">account_domain</span>
+            <span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">account_url</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;https://</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">account_name</span><span class="si">}</span><span class="s2">.</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">account_domain</span><span class="si">}</span><span class="s2">/&quot;</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">account_url</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s1">&#39;http&#39;</span><span class="p">):</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">account_url</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;https://</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">account_url</span><span class="si">}</span><span class="s1">&#39;</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">account_url</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">&quot;http&quot;</span><span class="p">):</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">account_url</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;https://</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">account_url</span><span class="si">}</span><span class="s2">&quot;</span>
             <span class="c1"># Update the account name and domain if a URL is supplied</span>
             <span class="n">parsed_url</span> <span class="o">=</span> <span class="n">urlparse</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">account_url</span><span class="p">)</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">account_name</span> <span class="o">=</span> <span class="n">parsed_url</span><span class="o">.</span><span class="n">netloc</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;.&quot;</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">account_domain</span> <span class="o">=</span> <span class="s2">&quot;.&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">parsed_url</span><span class="o">.</span><span class="n">netloc</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;.&quot;</span><span class="p">)[</span><span class="mi">1</span><span class="p">:])</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">client</span> <span class="o">=</span> <span class="n">BlobServiceClient</span><span class="p">(</span><span class="n">account_url</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">account_url</span><span class="p">,</span> <span class="n">credential</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">credential</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">client</span> <span class="o">=</span> <span class="n">BlobServiceClient</span><span class="p">(</span>
+            <span class="n">account_url</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">account_url</span><span class="p">,</span> <span class="n">credential</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">credential</span>
+        <span class="p">)</span>
 
 <div class="viewcode-block" id="AzureBlobStorage.list_containers"><a class="viewcode-back" href="../../../azure.html#parsons.AzureBlobStorage.list_containers">[docs]</a>    <span class="k">def</span> <span class="nf">list_containers</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
@@ -195,8 +204,10 @@
 <span class="sd">                List of container names</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
-        <span class="n">container_names</span> <span class="o">=</span> <span class="p">[</span><span class="n">container</span><span class="o">.</span><span class="n">name</span> <span class="k">for</span> <span class="n">container</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">list_containers</span><span class="p">()]</span>
-        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Found </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">container_names</span><span class="p">)</span><span class="si">}</span><span class="s1"> containers.&#39;</span><span class="p">)</span>
+        <span class="n">container_names</span> <span class="o">=</span> <span class="p">[</span>
+            <span class="n">container</span><span class="o">.</span><span class="n">name</span> <span class="k">for</span> <span class="n">container</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">list_containers</span><span class="p">()</span>
+        <span class="p">]</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Found </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">container_names</span><span class="p">)</span><span class="si">}</span><span class="s2"> containers.&quot;</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">container_names</span></div>
 
 <div class="viewcode-block" id="AzureBlobStorage.container_exists"><a class="viewcode-back" href="../../../azure.html#parsons.AzureBlobStorage.container_exists">[docs]</a>    <span class="k">def</span> <span class="nf">container_exists</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">container_name</span><span class="p">):</span>
@@ -213,10 +224,10 @@
         <span class="n">container_client</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_container</span><span class="p">(</span><span class="n">container_name</span><span class="p">)</span>
         <span class="k">try</span><span class="p">:</span>
             <span class="n">container_client</span><span class="o">.</span><span class="n">get_container_properties</span><span class="p">()</span>
-            <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">container_name</span><span class="si">}</span><span class="s1"> exists.&#39;</span><span class="p">)</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">container_name</span><span class="si">}</span><span class="s2"> exists.&quot;</span><span class="p">)</span>
             <span class="k">return</span> <span class="kc">True</span>
         <span class="k">except</span> <span class="n">ResourceNotFoundError</span><span class="p">:</span>
-            <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">container_name</span><span class="si">}</span><span class="s1"> does not exist.&#39;</span><span class="p">)</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">container_name</span><span class="si">}</span><span class="s2"> does not exist.&quot;</span><span class="p">)</span>
             <span class="k">return</span> <span class="kc">False</span></div>
 
 <div class="viewcode-block" id="AzureBlobStorage.get_container"><a class="viewcode-back" href="../../../azure.html#parsons.AzureBlobStorage.get_container">[docs]</a>    <span class="k">def</span> <span class="nf">get_container</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">container_name</span><span class="p">):</span>
@@ -230,10 +241,12 @@
 <span class="sd">            `ContainerClient`</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
-        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Returning </span><span class="si">{</span><span class="n">container_name</span><span class="si">}</span><span class="s1"> container client&#39;</span><span class="p">)</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Returning </span><span class="si">{</span><span class="n">container_name</span><span class="si">}</span><span class="s2"> container client&quot;</span><span class="p">)</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">get_container_client</span><span class="p">(</span><span class="n">container_name</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="AzureBlobStorage.create_container"><a class="viewcode-back" href="../../../azure.html#parsons.AzureBlobStorage.create_container">[docs]</a>    <span class="k">def</span> <span class="nf">create_container</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">container_name</span><span class="p">,</span> <span class="n">metadata</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">public_access</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<div class="viewcode-block" id="AzureBlobStorage.create_container"><a class="viewcode-back" href="../../../azure.html#parsons.AzureBlobStorage.create_container">[docs]</a>    <span class="k">def</span> <span class="nf">create_container</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">container_name</span><span class="p">,</span> <span class="n">metadata</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">public_access</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span>
+    <span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Create a container</span>
 
@@ -256,7 +269,7 @@
         <span class="n">container_client</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">create_container</span><span class="p">(</span>
             <span class="n">container_name</span><span class="p">,</span> <span class="n">metadata</span><span class="o">=</span><span class="n">metadata</span><span class="p">,</span> <span class="n">public_access</span><span class="o">=</span><span class="n">public_access</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span>
         <span class="p">)</span>
-        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Created </span><span class="si">{</span><span class="n">container_name</span><span class="si">}</span><span class="s1"> container.&#39;</span><span class="p">)</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Created </span><span class="si">{</span><span class="n">container_name</span><span class="si">}</span><span class="s2"> container.&quot;</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">container_client</span></div>
 
 <div class="viewcode-block" id="AzureBlobStorage.delete_container"><a class="viewcode-back" href="../../../azure.html#parsons.AzureBlobStorage.delete_container">[docs]</a>    <span class="k">def</span> <span class="nf">delete_container</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">container_name</span><span class="p">):</span>
@@ -271,7 +284,7 @@
 <span class="sd">        &quot;&quot;&quot;</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">delete_container</span><span class="p">(</span><span class="n">container_name</span><span class="p">)</span>
-        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">container_name</span><span class="si">}</span><span class="s1"> container deleted.&#39;</span><span class="p">)</span></div>
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">container_name</span><span class="si">}</span><span class="s2"> container deleted.&quot;</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="AzureBlobStorage.list_blobs"><a class="viewcode-back" href="../../../azure.html#parsons.AzureBlobStorage.list_blobs">[docs]</a>    <span class="k">def</span> <span class="nf">list_blobs</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">container_name</span><span class="p">,</span> <span class="n">name_starts_with</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
@@ -289,9 +302,10 @@
 
         <span class="n">container_client</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_container</span><span class="p">(</span><span class="n">container_name</span><span class="p">)</span>
         <span class="n">blobs</span> <span class="o">=</span> <span class="p">[</span>
-            <span class="n">blob</span> <span class="k">for</span> <span class="n">blob</span> <span class="ow">in</span> <span class="n">container_client</span><span class="o">.</span><span class="n">list_blobs</span><span class="p">(</span><span class="n">name_starts_with</span><span class="o">=</span><span class="n">name_starts_with</span><span class="p">)</span>
+            <span class="n">blob</span>
+            <span class="k">for</span> <span class="n">blob</span> <span class="ow">in</span> <span class="n">container_client</span><span class="o">.</span><span class="n">list_blobs</span><span class="p">(</span><span class="n">name_starts_with</span><span class="o">=</span><span class="n">name_starts_with</span><span class="p">)</span>
         <span class="p">]</span>
-        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Found </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">blobs</span><span class="p">)</span><span class="si">}</span><span class="s1"> blobs in </span><span class="si">{</span><span class="n">container_name</span><span class="si">}</span><span class="s1"> container.&#39;</span><span class="p">)</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Found </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">blobs</span><span class="p">)</span><span class="si">}</span><span class="s2"> blobs in </span><span class="si">{</span><span class="n">container_name</span><span class="si">}</span><span class="s2"> container.&quot;</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">blobs</span></div>
 
 <div class="viewcode-block" id="AzureBlobStorage.blob_exists"><a class="viewcode-back" href="../../../azure.html#parsons.AzureBlobStorage.blob_exists">[docs]</a>    <span class="k">def</span> <span class="nf">blob_exists</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">container_name</span><span class="p">,</span> <span class="n">blob_name</span><span class="p">):</span>
@@ -310,10 +324,10 @@
         <span class="n">blob_client</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_blob</span><span class="p">(</span><span class="n">container_name</span><span class="p">,</span> <span class="n">blob_name</span><span class="p">)</span>
         <span class="k">try</span><span class="p">:</span>
             <span class="n">blob_client</span><span class="o">.</span><span class="n">get_blob_properties</span><span class="p">()</span>
-            <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">blob_name</span><span class="si">}</span><span class="s1"> exists in </span><span class="si">{</span><span class="n">container_name</span><span class="si">}</span><span class="s1"> container.&#39;</span><span class="p">)</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">blob_name</span><span class="si">}</span><span class="s2"> exists in </span><span class="si">{</span><span class="n">container_name</span><span class="si">}</span><span class="s2"> container.&quot;</span><span class="p">)</span>
             <span class="k">return</span> <span class="kc">True</span>
         <span class="k">except</span> <span class="n">ResourceNotFoundError</span><span class="p">:</span>
-            <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">blob_name</span><span class="si">}</span><span class="s1"> does not exist in </span><span class="si">{</span><span class="n">container_name</span><span class="si">}</span><span class="s1"> container.&#39;</span><span class="p">)</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">blob_name</span><span class="si">}</span><span class="s2"> does not exist in </span><span class="si">{</span><span class="n">container_name</span><span class="si">}</span><span class="s2"> container.&quot;</span><span class="p">)</span>
             <span class="k">return</span> <span class="kc">False</span></div>
 
 <div class="viewcode-block" id="AzureBlobStorage.get_blob"><a class="viewcode-back" href="../../../azure.html#parsons.AzureBlobStorage.get_blob">[docs]</a>    <span class="k">def</span> <span class="nf">get_blob</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">container_name</span><span class="p">,</span> <span class="n">blob_name</span><span class="p">):</span>
@@ -330,11 +344,18 @@
 <span class="sd">        &quot;&quot;&quot;</span>
 
         <span class="n">blob_client</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">get_blob_client</span><span class="p">(</span><span class="n">container_name</span><span class="p">,</span> <span class="n">blob_name</span><span class="p">)</span>
-        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Got </span><span class="si">{</span><span class="n">blob_name</span><span class="si">}</span><span class="s1"> blob from </span><span class="si">{</span><span class="n">container_name</span><span class="si">}</span><span class="s1"> container.&#39;</span><span class="p">)</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Got </span><span class="si">{</span><span class="n">blob_name</span><span class="si">}</span><span class="s2"> blob from </span><span class="si">{</span><span class="n">container_name</span><span class="si">}</span><span class="s2"> container.&quot;</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">blob_client</span></div>
 
-<div class="viewcode-block" id="AzureBlobStorage.get_blob_url"><a class="viewcode-back" href="../../../azure.html#parsons.AzureBlobStorage.get_blob_url">[docs]</a>    <span class="k">def</span> <span class="nf">get_blob_url</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">container_name</span><span class="p">,</span> <span class="n">blob_name</span><span class="p">,</span> <span class="n">account_key</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">permission</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-                     <span class="n">expiry</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">start</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<div class="viewcode-block" id="AzureBlobStorage.get_blob_url"><a class="viewcode-back" href="../../../azure.html#parsons.AzureBlobStorage.get_blob_url">[docs]</a>    <span class="k">def</span> <span class="nf">get_blob_url</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">container_name</span><span class="p">,</span>
+        <span class="n">blob_name</span><span class="p">,</span>
+        <span class="n">account_key</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">permission</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">expiry</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">start</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Get a URL with a shared access signature for a blob</span>
 
@@ -363,7 +384,7 @@
         <span class="k">if</span> <span class="ow">not</span> <span class="n">account_key</span><span class="p">:</span>
             <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">credential</span><span class="p">:</span>
                 <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
-                    <span class="s1">&#39;An account shared access key must be provided if it was not on initialization&#39;</span>
+                    <span class="s2">&quot;An account shared access key must be provided if it was not on initialization&quot;</span>
                 <span class="p">)</span>
             <span class="n">account_key</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">credential</span>
 
@@ -376,7 +397,7 @@
             <span class="n">expiry</span><span class="o">=</span><span class="n">expiry</span><span class="p">,</span>
             <span class="n">start</span><span class="o">=</span><span class="n">start</span><span class="p">,</span>
         <span class="p">)</span>
-        <span class="k">return</span> <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">account_url</span><span class="si">}</span><span class="s1">/</span><span class="si">{</span><span class="n">container_name</span><span class="si">}</span><span class="s1">/</span><span class="si">{</span><span class="n">blob_name</span><span class="si">}</span><span class="s1">?sas=</span><span class="si">{</span><span class="n">sas</span><span class="si">}</span><span class="s1">&#39;</span></div>
+        <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">account_url</span><span class="si">}</span><span class="s2">/</span><span class="si">{</span><span class="n">container_name</span><span class="si">}</span><span class="s2">/</span><span class="si">{</span><span class="n">blob_name</span><span class="si">}</span><span class="s2">?sas=</span><span class="si">{</span><span class="n">sas</span><span class="si">}</span><span class="s2">&quot;</span></div>
 
     <span class="k">def</span> <span class="nf">_get_content_settings_from_dict</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">kwargs_dict</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
@@ -395,8 +416,12 @@
         <span class="n">content_settings</span> <span class="o">=</span> <span class="kc">None</span>
         <span class="n">content_settings_dict</span> <span class="o">=</span> <span class="p">{}</span>
         <span class="n">content_settings_keys</span> <span class="o">=</span> <span class="p">[</span>
-            <span class="s1">&#39;content_type&#39;</span><span class="p">,</span> <span class="s1">&#39;content_encoding&#39;</span><span class="p">,</span> <span class="s1">&#39;content_language&#39;</span><span class="p">,</span> <span class="s1">&#39;content_disposition&#39;</span><span class="p">,</span>
-            <span class="s1">&#39;cache_control&#39;</span><span class="p">,</span> <span class="s1">&#39;content_md5&#39;</span>
+            <span class="s2">&quot;content_type&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;content_encoding&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;content_language&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;content_disposition&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;cache_control&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;content_md5&quot;</span><span class="p">,</span>
         <span class="p">]</span>
         <span class="n">kwarg_keys</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">kwargs_copy</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span>
         <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">kwarg_keys</span><span class="p">:</span>
@@ -432,7 +457,7 @@
         <span class="c1"># Move all content_settings keys into a ContentSettings object</span>
         <span class="n">content_settings</span><span class="p">,</span> <span class="n">kwargs_dict</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_content_settings_from_dict</span><span class="p">(</span><span class="n">kwargs</span><span class="p">)</span>
 
-        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">local_path</span><span class="p">,</span> <span class="s1">&#39;rb&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">local_path</span><span class="p">,</span> <span class="s2">&quot;rb&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
             <span class="n">data</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
 
         <span class="n">blob_client</span> <span class="o">=</span> <span class="n">blob_client</span><span class="o">.</span><span class="n">upload_blob</span><span class="p">(</span>
@@ -441,7 +466,7 @@
             <span class="n">content_settings</span><span class="o">=</span><span class="n">content_settings</span><span class="p">,</span>
             <span class="o">**</span><span class="n">kwargs_dict</span><span class="p">,</span>
         <span class="p">)</span>
-        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">blob_name</span><span class="si">}</span><span class="s1"> blob put in </span><span class="si">{</span><span class="n">container_name</span><span class="si">}</span><span class="s1"> container&#39;</span><span class="p">)</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">blob_name</span><span class="si">}</span><span class="s2"> blob put in </span><span class="si">{</span><span class="n">container_name</span><span class="si">}</span><span class="s2"> container&quot;</span><span class="p">)</span>
 
         <span class="c1"># Return refreshed BlobClient object</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_blob</span><span class="p">(</span><span class="n">container_name</span><span class="p">,</span> <span class="n">blob_name</span><span class="p">)</span></div>
@@ -465,14 +490,14 @@
 <span class="sd">        &quot;&quot;&quot;</span>
 
         <span class="k">if</span> <span class="ow">not</span> <span class="n">local_path</span><span class="p">:</span>
-            <span class="n">local_path</span> <span class="o">=</span> <span class="n">files</span><span class="o">.</span><span class="n">create_temp_file_for_path</span><span class="p">(</span><span class="s1">&#39;TEMPFILEAZURE&#39;</span><span class="p">)</span>
+            <span class="n">local_path</span> <span class="o">=</span> <span class="n">files</span><span class="o">.</span><span class="n">create_temp_file_for_path</span><span class="p">(</span><span class="s2">&quot;TEMPFILEAZURE&quot;</span><span class="p">)</span>
 
         <span class="n">blob_client</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_blob</span><span class="p">(</span><span class="n">container_name</span><span class="p">,</span> <span class="n">blob_name</span><span class="p">)</span>
 
-        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Downloading </span><span class="si">{</span><span class="n">blob_name</span><span class="si">}</span><span class="s1"> blob from </span><span class="si">{</span><span class="n">container_name</span><span class="si">}</span><span class="s1"> container.&#39;</span><span class="p">)</span>
-        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">local_path</span><span class="p">,</span> <span class="s1">&#39;wb&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Downloading </span><span class="si">{</span><span class="n">blob_name</span><span class="si">}</span><span class="s2"> blob from </span><span class="si">{</span><span class="n">container_name</span><span class="si">}</span><span class="s2"> container.&quot;</span><span class="p">)</span>
+        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">local_path</span><span class="p">,</span> <span class="s2">&quot;wb&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
             <span class="n">blob_client</span><span class="o">.</span><span class="n">download_blob</span><span class="p">()</span><span class="o">.</span><span class="n">readinto</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
-        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">blob_name</span><span class="si">}</span><span class="s1"> blob saved to </span><span class="si">{</span><span class="n">local_path</span><span class="si">}</span><span class="s1">.&#39;</span><span class="p">)</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">blob_name</span><span class="si">}</span><span class="s2"> blob saved to </span><span class="si">{</span><span class="n">local_path</span><span class="si">}</span><span class="s2">.&quot;</span><span class="p">)</span>
 
         <span class="k">return</span> <span class="n">local_path</span></div>
 
@@ -491,9 +516,9 @@
 
         <span class="n">blob_client</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_blob</span><span class="p">(</span><span class="n">container_name</span><span class="p">,</span> <span class="n">blob_name</span><span class="p">)</span>
         <span class="n">blob_client</span><span class="o">.</span><span class="n">delete_blob</span><span class="p">()</span>
-        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">blob_name</span><span class="si">}</span><span class="s1"> blob in </span><span class="si">{</span><span class="n">container_name</span><span class="si">}</span><span class="s1"> container deleted.&#39;</span><span class="p">)</span></div>
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">blob_name</span><span class="si">}</span><span class="s2"> blob in </span><span class="si">{</span><span class="n">container_name</span><span class="si">}</span><span class="s2"> container deleted.&quot;</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="AzureBlobStorage.upload_table"><a class="viewcode-back" href="../../../azure.html#parsons.AzureBlobStorage.upload_table">[docs]</a>    <span class="k">def</span> <span class="nf">upload_table</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">table</span><span class="p">,</span> <span class="n">container_name</span><span class="p">,</span> <span class="n">blob_name</span><span class="p">,</span> <span class="n">data_type</span><span class="o">=</span><span class="s1">&#39;csv&#39;</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<div class="viewcode-block" id="AzureBlobStorage.upload_table"><a class="viewcode-back" href="../../../azure.html#parsons.AzureBlobStorage.upload_table">[docs]</a>    <span class="k">def</span> <span class="nf">upload_table</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">table</span><span class="p">,</span> <span class="n">container_name</span><span class="p">,</span> <span class="n">blob_name</span><span class="p">,</span> <span class="n">data_type</span><span class="o">=</span><span class="s2">&quot;csv&quot;</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Load the data from a Parsons table into a blob.</span>
 
@@ -512,14 +537,16 @@
 <span class="sd">            `BlobClient`</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
-        <span class="k">if</span> <span class="n">data_type</span> <span class="o">==</span> <span class="s1">&#39;csv&#39;</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">data_type</span> <span class="o">==</span> <span class="s2">&quot;csv&quot;</span><span class="p">:</span>
             <span class="n">local_path</span> <span class="o">=</span> <span class="n">table</span><span class="o">.</span><span class="n">to_csv</span><span class="p">()</span>
-            <span class="n">content_type</span> <span class="o">=</span> <span class="s1">&#39;text/csv&#39;</span>
-        <span class="k">elif</span> <span class="n">data_type</span> <span class="o">==</span> <span class="s1">&#39;json&#39;</span><span class="p">:</span>
+            <span class="n">content_type</span> <span class="o">=</span> <span class="s2">&quot;text/csv&quot;</span>
+        <span class="k">elif</span> <span class="n">data_type</span> <span class="o">==</span> <span class="s2">&quot;json&quot;</span><span class="p">:</span>
             <span class="n">local_path</span> <span class="o">=</span> <span class="n">table</span><span class="o">.</span><span class="n">to_json</span><span class="p">()</span>
-            <span class="n">content_type</span> <span class="o">=</span> <span class="s1">&#39;application/json&#39;</span>
+            <span class="n">content_type</span> <span class="o">=</span> <span class="s2">&quot;application/json&quot;</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Unknown data_type value (</span><span class="si">{</span><span class="n">data_type</span><span class="si">}</span><span class="s1">): must be one of: csv or json&#39;</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s2">&quot;Unknown data_type value (</span><span class="si">{</span><span class="n">data_type</span><span class="si">}</span><span class="s2">): must be one of: csv or json&quot;</span>
+            <span class="p">)</span>
 
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">put_blob</span><span class="p">(</span>
             <span class="n">container_name</span><span class="p">,</span> <span class="n">blob_name</span><span class="p">,</span> <span class="n">local_path</span><span class="p">,</span> <span class="n">content_type</span><span class="o">=</span><span class="n">content_type</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span>

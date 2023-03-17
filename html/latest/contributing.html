@@ -228,9 +228,10 @@
 </section>
 <section id="linting">
 <h4>Linting<a class="headerlink" href="#linting" title="Permalink to this headline"></a></h4>
-<p>We use the <a class="reference external" href="http://flake8.pycqa.org/en/latest/">flake8</a> tool to <a class="reference external" href="https://en.wikipedia.org/wiki/Lint_(software)">lint</a> the code in the repository to make sure it matches our preferred style. The flake8 command line tool is installed as part of the Parsons dependencies.</p>
-<p>Run the following command from the root of the Parsons repository to lint your code changes:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>&gt;<span class="w"> </span>flake8<span class="w"> </span>--max-line-length<span class="o">=</span><span class="m">100</span><span class="w"> </span>parsons
+<p>We use the <a class="reference external" href="https://github.com/psf/black">black</a> and <a class="reference external" href="http://flake8.pycqa.org/en/latest/">flake8</a> tools to <a class="reference external" href="https://en.wikipedia.org/wiki/Lint_(software)">lint</a> the code in the repository to make sure it matches our preferred style. Both tools are installed as part of the Parsons dependencies.</p>
+<p>Run the following commands from the root of the Parsons repository to lint your code changes:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>&gt;<span class="w"> </span>flake8<span class="w"> </span>--max-line-length<span class="o">=</span><span class="m">100</span><span class="w"> </span>--extend-ignore<span class="o">=</span>E203,W503<span class="w"> </span>parsons
+&gt;<span class="w"> </span>black<span class="w"> </span>parsons
 </pre></div>
 </div>
 </section>

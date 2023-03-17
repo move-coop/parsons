@@ -135,7 +135,6 @@
              
   <h1>Source code for parsons.databases.redshift.rs_schema</h1><div class="highlight"><pre>
 <div class="viewcode-block" id="RedshiftSchema"><a class="viewcode-back" href="../../../../aws.html#parsons.databases.redshift.redshift.RedshiftSchema">[docs]</a><span></span><span class="k">class</span> <span class="nc">RedshiftSchema</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
-
     <span class="k">def</span> <span class="nf">schema_exists</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">schema</span><span class="p">):</span>
         <span class="n">sql</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;select * from pg_namespace where nspname = &#39;</span><span class="si">{</span><span class="n">schema</span><span class="si">}</span><span class="s2">&#39;&quot;</span>
         <span class="n">res</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="n">sql</span><span class="p">)</span>
@@ -155,13 +154,13 @@
 <span class="sd">                The type of permissions to grant. Supports `select`, `all`, etc. (For</span>
 <span class="sd">                full list, see the</span>
 <span class="sd">                `Redshift GRANT docs &lt;https://docs.aws.amazon.com/redshift/latest/dg/r_GRANT.html&gt;`_)</span>
-<span class="sd">        &quot;&quot;&quot;</span> <span class="c1"># noqa: E501,E261</span>
+<span class="sd">        &quot;&quot;&quot;</span>  <span class="c1"># noqa: E501,E261</span>
 
         <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">schema_exists</span><span class="p">(</span><span class="n">schema</span><span class="p">):</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;create schema </span><span class="si">{</span><span class="n">schema</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;grant usage on schema </span><span class="si">{</span><span class="n">schema</span><span class="si">}</span><span class="s2"> to group </span><span class="si">{</span><span class="n">group</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="RedshiftSchema.grant_schema_permissions"><a class="viewcode-back" href="../../../../aws.html#parsons.databases.redshift.redshift.RedshiftSchema.grant_schema_permissions">[docs]</a>    <span class="k">def</span> <span class="nf">grant_schema_permissions</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">schema</span><span class="p">,</span> <span class="n">group</span><span class="p">,</span> <span class="n">permissions_type</span><span class="o">=</span><span class="s1">&#39;select&#39;</span><span class="p">):</span>
+<div class="viewcode-block" id="RedshiftSchema.grant_schema_permissions"><a class="viewcode-back" href="../../../../aws.html#parsons.databases.redshift.redshift.RedshiftSchema.grant_schema_permissions">[docs]</a>    <span class="k">def</span> <span class="nf">grant_schema_permissions</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">schema</span><span class="p">,</span> <span class="n">group</span><span class="p">,</span> <span class="n">permissions_type</span><span class="o">=</span><span class="s2">&quot;select&quot;</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Grants a Redshift group permissions to all tables within an existing schema.</span>
 
@@ -174,7 +173,7 @@
 <span class="sd">                The type of permissions to grant. Supports `select`, `all`, etc. (For</span>
 <span class="sd">                full list, see the</span>
 <span class="sd">                `Redshift GRANT docs &lt;https://docs.aws.amazon.com/redshift/latest/dg/r_GRANT.html&gt;`_)</span>
-<span class="sd">        &quot;&quot;&quot;</span> <span class="c1"># noqa: E501,E261</span>
+<span class="sd">        &quot;&quot;&quot;</span>  <span class="c1"># noqa: E501,E261</span>
 
         <span class="n">sql</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;&quot;&quot;</span>
 <span class="s2">            grant usage on schema </span><span class="si">{</span><span class="n">schema</span><span class="si">}</span><span class="s2"> to group </span><span class="si">{</span><span class="n">group</span><span class="si">}</span><span class="s2">;</span>

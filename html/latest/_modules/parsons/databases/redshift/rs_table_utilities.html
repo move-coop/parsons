@@ -135,13 +135,13 @@
              
   <h1>Source code for parsons.databases.redshift.rs_table_utilities</h1><div class="highlight"><pre>
 <span></span><span class="kn">import</span> <span class="nn">logging</span>
+
 <span class="c1"># import pkgutil</span>
 
 <span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
 
 
 <div class="viewcode-block" id="RedshiftTableUtilities"><a class="viewcode-back" href="../../../../aws.html#parsons.databases.redshift.redshift.RedshiftTableUtilities">[docs]</a><span class="k">class</span> <span class="nc">RedshiftTableUtilities</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
-
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">pass</span>
 
@@ -163,12 +163,14 @@
             <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">table_exists_with_connection</span><span class="p">(</span><span class="n">table_name</span><span class="p">,</span> <span class="n">connection</span><span class="p">,</span> <span class="n">view</span><span class="p">)</span></div>
 
     <span class="k">def</span> <span class="nf">table_exists_with_connection</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">table_name</span><span class="p">,</span> <span class="n">connection</span><span class="p">,</span> <span class="n">view</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
-        <span class="n">table_name</span> <span class="o">=</span> <span class="n">table_name</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;.&#39;</span><span class="p">)</span>
+        <span class="n">table_name</span> <span class="o">=</span> <span class="n">table_name</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;.&quot;</span><span class="p">)</span>
         <span class="n">table_name</span> <span class="o">=</span> <span class="p">[</span><span class="n">x</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">table_name</span><span class="p">]</span>
 
         <span class="c1"># Check in pg tables for the table</span>
         <span class="n">sql</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;select count(*) from pg_tables where schemaname=&#39;</span><span class="si">{}</span><span class="s2">&#39; and</span>
-<span class="s2">                 tablename=&#39;</span><span class="si">{}</span><span class="s2">&#39;;&quot;&quot;&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">table_name</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">table_name</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+<span class="s2">                 tablename=&#39;</span><span class="si">{}</span><span class="s2">&#39;;&quot;&quot;&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+            <span class="n">table_name</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">table_name</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+        <span class="p">)</span>
 
         <span class="c1"># TODO maybe convert these queries to use self.query_with_connection</span>
 
@@ -180,17 +182,19 @@
             <span class="c1"># Check in the pg_views for the table</span>
             <span class="k">if</span> <span class="n">view</span><span class="p">:</span>
                 <span class="n">sql</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;select count(*) from pg_views where schemaname=&#39;</span><span class="si">{}</span><span class="s2">&#39; and</span>
-<span class="s2">                         viewname=&#39;</span><span class="si">{}</span><span class="s2">&#39;;&quot;&quot;&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">table_name</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">table_name</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+<span class="s2">                         viewname=&#39;</span><span class="si">{}</span><span class="s2">&#39;;&quot;&quot;&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+                    <span class="n">table_name</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">table_name</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+                <span class="p">)</span>
 
             <span class="n">cursor</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="n">sql</span><span class="p">)</span>
             <span class="n">result</span> <span class="o">+=</span> <span class="n">cursor</span><span class="o">.</span><span class="n">fetchone</span><span class="p">()[</span><span class="mi">0</span><span class="p">]</span>
 
         <span class="c1"># If in either, return boolean</span>
         <span class="k">if</span> <span class="n">result</span> <span class="o">&gt;=</span> <span class="mi">1</span><span class="p">:</span>
-            <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">table_name</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="si">}</span><span class="s1">.</span><span class="si">{</span><span class="n">table_name</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="si">}</span><span class="s1"> exists.&#39;</span><span class="p">)</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">table_name</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="si">}</span><span class="s2">.</span><span class="si">{</span><span class="n">table_name</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="si">}</span><span class="s2"> exists.&quot;</span><span class="p">)</span>
             <span class="k">return</span> <span class="kc">True</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">table_name</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="si">}</span><span class="s1">.</span><span class="si">{</span><span class="n">table_name</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="si">}</span><span class="s1"> does NOT exist.&#39;</span><span class="p">)</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">table_name</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="si">}</span><span class="s2">.</span><span class="si">{</span><span class="n">table_name</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="si">}</span><span class="s2"> does NOT exist.&quot;</span><span class="p">)</span>
             <span class="k">return</span> <span class="kc">False</span>
 
 <div class="viewcode-block" id="RedshiftTableUtilities.get_row_count"><a class="viewcode-back" href="../../../../aws.html#parsons.databases.redshift.redshift.RedshiftTableUtilities.get_row_count">[docs]</a>    <span class="k">def</span> <span class="nf">get_row_count</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">table_name</span><span class="p">):</span>
@@ -211,7 +215,7 @@
 <span class="sd">        &quot;&quot;&quot;</span>
 
         <span class="n">count_query</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;select count(*) from </span><span class="si">{</span><span class="n">table_name</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-        <span class="k">return</span> <span class="n">count_query</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s1">&#39;count&#39;</span><span class="p">]</span></div>
+        <span class="k">return</span> <span class="n">count_query</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s2">&quot;count&quot;</span><span class="p">]</span></div>
 
 <div class="viewcode-block" id="RedshiftTableUtilities.rename_table"><a class="viewcode-back" href="../../../../aws.html#parsons.databases.redshift.redshift.RedshiftTableUtilities.rename_table">[docs]</a>    <span class="k">def</span> <span class="nf">rename_table</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">table_name</span><span class="p">,</span> <span class="n">new_table_name</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
@@ -249,7 +253,7 @@
 <span class="sd">                Drop the source table.</span>
 <span class="sd">        Returns:</span>
 <span class="sd">                None</span>
-<span class="sd">        &quot;&quot;&quot;</span> <span class="c1"># noqa: E501,E261</span>
+<span class="sd">        &quot;&quot;&quot;</span>  <span class="c1"># noqa: E501,E261</span>
 
         <span class="c1"># To Do: Add the grants</span>
         <span class="c1"># To Do: Argument for if the table exists?</span>
@@ -258,7 +262,7 @@
         <span class="n">create_sql</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;create table </span><span class="si">{</span><span class="n">new_table</span><span class="si">}</span><span class="s2"> (like </span><span class="si">{</span><span class="n">source_table</span><span class="si">}</span><span class="s2">);&quot;</span>
         <span class="n">alter_sql</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;alter table </span><span class="si">{</span><span class="n">new_table</span><span class="si">}</span><span class="s2"> append from </span><span class="si">{</span><span class="n">source_table</span><span class="si">}</span><span class="s2">&quot;</span>
 
-        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Creating empty </span><span class="si">{</span><span class="n">new_table</span><span class="si">}</span><span class="s1"> from </span><span class="si">{</span><span class="n">source_table</span><span class="si">}</span><span class="s1">.&#39;</span><span class="p">)</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Creating empty </span><span class="si">{</span><span class="n">new_table</span><span class="si">}</span><span class="s2"> from </span><span class="si">{</span><span class="n">source_table</span><span class="si">}</span><span class="s2">.&quot;</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="n">create_sql</span><span class="p">)</span>
 
         <span class="k">with</span> <span class="bp">self</span><span class="o">.</span><span class="n">connection</span><span class="p">()</span> <span class="k">as</span> <span class="n">conn</span><span class="p">:</span>
@@ -268,14 +272,14 @@
             <span class="c1">#  the connection must be set to autocommit.</span>
 
             <span class="n">conn</span><span class="o">.</span><span class="n">set_session</span><span class="p">(</span><span class="n">autocommit</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-            <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Moving data from </span><span class="si">{</span><span class="n">source_table</span><span class="si">}</span><span class="s1"> to </span><span class="si">{</span><span class="n">new_table</span><span class="si">}</span><span class="s1">.&#39;</span><span class="p">)</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Moving data from </span><span class="si">{</span><span class="n">source_table</span><span class="si">}</span><span class="s2"> to </span><span class="si">{</span><span class="n">new_table</span><span class="si">}</span><span class="s2">.&quot;</span><span class="p">)</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">query_with_connection</span><span class="p">(</span><span class="n">alter_sql</span><span class="p">,</span> <span class="n">conn</span><span class="p">)</span>
 
         <span class="k">if</span> <span class="n">drop_source_table</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;drop table </span><span class="si">{</span><span class="n">source_table</span><span class="si">}</span><span class="s2">;&quot;</span><span class="p">)</span>
-            <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">source_table</span><span class="si">}</span><span class="s1"> dropped.&#39;</span><span class="p">)</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">source_table</span><span class="si">}</span><span class="s2"> dropped.&quot;</span><span class="p">)</span>
 
-        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">source_table</span><span class="si">}</span><span class="s1"> data moved from </span><span class="si">{</span><span class="n">new_table</span><span class="si">}</span><span class="s1">  .&#39;</span><span class="p">)</span></div>
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">source_table</span><span class="si">}</span><span class="s2"> data moved from </span><span class="si">{</span><span class="n">new_table</span><span class="si">}</span><span class="s2">  .&quot;</span><span class="p">)</span></div>
 
     <span class="k">def</span> <span class="nf">_create_table_precheck</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">connection</span><span class="p">,</span> <span class="n">table_name</span><span class="p">,</span> <span class="n">if_exists</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
@@ -294,20 +298,20 @@
 <span class="sd">                True if the table needs to be created, False otherwise.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
-        <span class="k">if</span> <span class="n">if_exists</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;fail&#39;</span><span class="p">,</span> <span class="s1">&#39;truncate&#39;</span><span class="p">,</span> <span class="s1">&#39;append&#39;</span><span class="p">,</span> <span class="s1">&#39;drop&#39;</span><span class="p">]:</span>
+        <span class="k">if</span> <span class="n">if_exists</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;fail&quot;</span><span class="p">,</span> <span class="s2">&quot;truncate&quot;</span><span class="p">,</span> <span class="s2">&quot;append&quot;</span><span class="p">,</span> <span class="s2">&quot;drop&quot;</span><span class="p">]:</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Invalid value for `if_exists` argument&quot;</span><span class="p">)</span>
 
         <span class="n">exists</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">table_exists_with_connection</span><span class="p">(</span><span class="n">table_name</span><span class="p">,</span> <span class="n">connection</span><span class="p">)</span>
 
-        <span class="k">if</span> <span class="n">exists</span> <span class="ow">and</span> <span class="n">if_exists</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;fail&#39;</span><span class="p">,</span> <span class="s1">&#39;truncate&#39;</span><span class="p">,</span> <span class="s1">&#39;append&#39;</span><span class="p">]:</span>
-            <span class="k">if</span> <span class="n">if_exists</span> <span class="o">==</span> <span class="s1">&#39;fail&#39;</span><span class="p">:</span>
-                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;Table already exists.&#39;</span><span class="p">)</span>
-            <span class="k">elif</span> <span class="n">if_exists</span> <span class="o">==</span> <span class="s1">&#39;truncate&#39;</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">exists</span> <span class="ow">and</span> <span class="n">if_exists</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;fail&quot;</span><span class="p">,</span> <span class="s2">&quot;truncate&quot;</span><span class="p">,</span> <span class="s2">&quot;append&quot;</span><span class="p">]:</span>
+            <span class="k">if</span> <span class="n">if_exists</span> <span class="o">==</span> <span class="s2">&quot;fail&quot;</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Table already exists.&quot;</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="n">if_exists</span> <span class="o">==</span> <span class="s2">&quot;truncate&quot;</span><span class="p">:</span>
                 <span class="n">truncate_sql</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;truncate table </span><span class="si">{</span><span class="n">table_name</span><span class="si">}</span><span class="s2">&quot;</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">query_with_connection</span><span class="p">(</span><span class="n">truncate_sql</span><span class="p">,</span> <span class="n">connection</span><span class="p">,</span> <span class="n">commit</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
 
         <span class="k">else</span><span class="p">:</span>
-            <span class="k">if</span> <span class="n">exists</span> <span class="ow">and</span> <span class="n">if_exists</span> <span class="o">==</span> <span class="s1">&#39;drop&#39;</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">exists</span> <span class="ow">and</span> <span class="n">if_exists</span> <span class="o">==</span> <span class="s2">&quot;drop&quot;</span><span class="p">:</span>
                 <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Table </span><span class="si">{</span><span class="n">table_name</span><span class="si">}</span><span class="s2"> exist, will drop...&quot;</span><span class="p">)</span>
                 <span class="n">drop_sql</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;drop table </span><span class="si">{</span><span class="n">table_name</span><span class="si">}</span><span class="s2">;</span><span class="se">\n</span><span class="s2">&quot;</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">query_with_connection</span><span class="p">(</span><span class="n">drop_sql</span><span class="p">,</span> <span class="n">connection</span><span class="p">,</span> <span class="n">commit</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
@@ -316,8 +320,9 @@
 
         <span class="k">return</span> <span class="kc">False</span>
 
-<div class="viewcode-block" id="RedshiftTableUtilities.populate_table_from_query"><a class="viewcode-back" href="../../../../aws.html#parsons.databases.redshift.redshift.RedshiftTableUtilities.populate_table_from_query">[docs]</a>    <span class="k">def</span> <span class="nf">populate_table_from_query</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">query</span><span class="p">,</span> <span class="n">destination_table</span><span class="p">,</span> <span class="n">if_exists</span><span class="o">=</span><span class="s1">&#39;fail&#39;</span><span class="p">,</span> <span class="n">distkey</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-                                  <span class="n">sortkey</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<div class="viewcode-block" id="RedshiftTableUtilities.populate_table_from_query"><a class="viewcode-back" href="../../../../aws.html#parsons.databases.redshift.redshift.RedshiftTableUtilities.populate_table_from_query">[docs]</a>    <span class="k">def</span> <span class="nf">populate_table_from_query</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">query</span><span class="p">,</span> <span class="n">destination_table</span><span class="p">,</span> <span class="n">if_exists</span><span class="o">=</span><span class="s2">&quot;fail&quot;</span><span class="p">,</span> <span class="n">distkey</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">sortkey</span><span class="o">=</span><span class="kc">None</span>
+    <span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Populate a Redshift table with the results of a SQL query, creating the table if it</span>
 <span class="sd">        doesn&#39;t yet exist.</span>
@@ -336,7 +341,9 @@
 <span class="sd">                The column to use as the sortkey for the table.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">with</span> <span class="bp">self</span><span class="o">.</span><span class="n">connection</span><span class="p">()</span> <span class="k">as</span> <span class="n">conn</span><span class="p">:</span>
-            <span class="n">should_create</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_create_table_precheck</span><span class="p">(</span><span class="n">conn</span><span class="p">,</span> <span class="n">destination_table</span><span class="p">,</span> <span class="n">if_exists</span><span class="p">)</span>
+            <span class="n">should_create</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_create_table_precheck</span><span class="p">(</span>
+                <span class="n">conn</span><span class="p">,</span> <span class="n">destination_table</span><span class="p">,</span> <span class="n">if_exists</span>
+            <span class="p">)</span>
 
             <span class="k">if</span> <span class="n">should_create</span><span class="p">:</span>
                 <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Creating table </span><span class="si">{</span><span class="n">destination_table</span><span class="si">}</span><span class="s2"> from query...&quot;</span><span class="p">)</span>
@@ -352,10 +359,16 @@
 
             <span class="bp">self</span><span class="o">.</span><span class="n">query_with_connection</span><span class="p">(</span><span class="n">sql</span><span class="p">,</span> <span class="n">conn</span><span class="p">,</span> <span class="n">commit</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
 
-        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">destination_table</span><span class="si">}</span><span class="s1"> created from query&#39;</span><span class="p">)</span></div>
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">destination_table</span><span class="si">}</span><span class="s2"> created from query&quot;</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="RedshiftTableUtilities.duplicate_table"><a class="viewcode-back" href="../../../../aws.html#parsons.databases.redshift.redshift.RedshiftTableUtilities.duplicate_table">[docs]</a>    <span class="k">def</span> <span class="nf">duplicate_table</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">source_table</span><span class="p">,</span> <span class="n">destination_table</span><span class="p">,</span> <span class="n">where_clause</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">,</span>
-                        <span class="n">if_exists</span><span class="o">=</span><span class="s1">&#39;fail&#39;</span><span class="p">,</span> <span class="n">drop_source_table</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+<div class="viewcode-block" id="RedshiftTableUtilities.duplicate_table"><a class="viewcode-back" href="../../../../aws.html#parsons.databases.redshift.redshift.RedshiftTableUtilities.duplicate_table">[docs]</a>    <span class="k">def</span> <span class="nf">duplicate_table</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">source_table</span><span class="p">,</span>
+        <span class="n">destination_table</span><span class="p">,</span>
+        <span class="n">where_clause</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span>
+        <span class="n">if_exists</span><span class="o">=</span><span class="s2">&quot;fail&quot;</span><span class="p">,</span>
+        <span class="n">drop_source_table</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+    <span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Create a copy of an existing table (or subset of rows) in a new</span>
 <span class="sd">        table. It will inherit encoding, sortkey and distkey.</span>
@@ -375,10 +388,12 @@
 <span class="sd">        &quot;&quot;&quot;</span>
 
         <span class="k">with</span> <span class="bp">self</span><span class="o">.</span><span class="n">connection</span><span class="p">()</span> <span class="k">as</span> <span class="n">conn</span><span class="p">:</span>
-            <span class="n">should_create</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_create_table_precheck</span><span class="p">(</span><span class="n">conn</span><span class="p">,</span> <span class="n">destination_table</span><span class="p">,</span> <span class="n">if_exists</span><span class="p">)</span>
+            <span class="n">should_create</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_create_table_precheck</span><span class="p">(</span>
+                <span class="n">conn</span><span class="p">,</span> <span class="n">destination_table</span><span class="p">,</span> <span class="n">if_exists</span>
+            <span class="p">)</span>
 
             <span class="k">if</span> <span class="n">should_create</span><span class="p">:</span>
-                <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Creating </span><span class="si">{</span><span class="n">destination_table</span><span class="si">}</span><span class="s1"> from </span><span class="si">{</span><span class="n">source_table</span><span class="si">}</span><span class="s1">...&#39;</span><span class="p">)</span>
+                <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Creating </span><span class="si">{</span><span class="n">destination_table</span><span class="si">}</span><span class="s2"> from </span><span class="si">{</span><span class="n">source_table</span><span class="si">}</span><span class="s2">...&quot;</span><span class="p">)</span>
                 <span class="n">create_sql</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;create table </span><span class="si">{</span><span class="n">destination_table</span><span class="si">}</span><span class="s2"> (like </span><span class="si">{</span><span class="n">source_table</span><span class="si">}</span><span class="s2">)&quot;</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">query_with_connection</span><span class="p">(</span><span class="n">create_sql</span><span class="p">,</span> <span class="n">conn</span><span class="p">,</span> <span class="n">commit</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
 
@@ -388,11 +403,11 @@
             <span class="bp">self</span><span class="o">.</span><span class="n">query_with_connection</span><span class="p">(</span><span class="n">insert_sql</span><span class="p">,</span> <span class="n">conn</span><span class="p">,</span> <span class="n">commit</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
 
             <span class="k">if</span> <span class="n">drop_source_table</span><span class="p">:</span>
-                <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Dropping table </span><span class="si">{</span><span class="n">source_table</span><span class="si">}</span><span class="s1">...&#39;</span><span class="p">)</span>
+                <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Dropping table </span><span class="si">{</span><span class="n">source_table</span><span class="si">}</span><span class="s2">...&quot;</span><span class="p">)</span>
                 <span class="n">drop_sql</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;drop table </span><span class="si">{</span><span class="n">source_table</span><span class="si">}</span><span class="s2">&quot;</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">query_with_connection</span><span class="p">(</span><span class="n">drop_sql</span><span class="p">,</span> <span class="n">conn</span><span class="p">,</span> <span class="n">commit</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
 
-        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">destination_table</span><span class="si">}</span><span class="s1"> created from </span><span class="si">{</span><span class="n">source_table</span><span class="si">}</span><span class="s1">.&#39;</span><span class="p">)</span></div>
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">destination_table</span><span class="si">}</span><span class="s2"> created from </span><span class="si">{</span><span class="n">source_table</span><span class="si">}</span><span class="s2">.&quot;</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="RedshiftTableUtilities.union_tables"><a class="viewcode-back" href="../../../../aws.html#parsons.databases.redshift.redshift.RedshiftTableUtilities.union_tables">[docs]</a>    <span class="k">def</span> <span class="nf">union_tables</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">new_table_name</span><span class="p">,</span> <span class="n">tables</span><span class="p">,</span> <span class="n">union_all</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">view</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
@@ -527,12 +542,12 @@
 <span class="s2">        &quot;&quot;&quot;</span>
 
         <span class="k">return</span> <span class="p">{</span>
-            <span class="n">row</span><span class="p">[</span><span class="s1">&#39;column_name&#39;</span><span class="p">]:</span> <span class="p">{</span>
-                <span class="s1">&#39;data_type&#39;</span><span class="p">:</span> <span class="n">row</span><span class="p">[</span><span class="s1">&#39;data_type&#39;</span><span class="p">],</span>
-                <span class="s1">&#39;max_length&#39;</span><span class="p">:</span> <span class="n">row</span><span class="p">[</span><span class="s1">&#39;max_length&#39;</span><span class="p">],</span>
-                <span class="s1">&#39;max_precision&#39;</span><span class="p">:</span> <span class="n">row</span><span class="p">[</span><span class="s1">&#39;max_precision&#39;</span><span class="p">],</span>
-                <span class="s1">&#39;max_scale&#39;</span><span class="p">:</span> <span class="n">row</span><span class="p">[</span><span class="s1">&#39;max_scale&#39;</span><span class="p">],</span>
-                <span class="s1">&#39;is_nullable&#39;</span><span class="p">:</span> <span class="n">row</span><span class="p">[</span><span class="s1">&#39;is_nullable&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;YES&#39;</span><span class="p">,</span>
+            <span class="n">row</span><span class="p">[</span><span class="s2">&quot;column_name&quot;</span><span class="p">]:</span> <span class="p">{</span>
+                <span class="s2">&quot;data_type&quot;</span><span class="p">:</span> <span class="n">row</span><span class="p">[</span><span class="s2">&quot;data_type&quot;</span><span class="p">],</span>
+                <span class="s2">&quot;max_length&quot;</span><span class="p">:</span> <span class="n">row</span><span class="p">[</span><span class="s2">&quot;max_length&quot;</span><span class="p">],</span>
+                <span class="s2">&quot;max_precision&quot;</span><span class="p">:</span> <span class="n">row</span><span class="p">[</span><span class="s2">&quot;max_precision&quot;</span><span class="p">],</span>
+                <span class="s2">&quot;max_scale&quot;</span><span class="p">:</span> <span class="n">row</span><span class="p">[</span><span class="s2">&quot;max_scale&quot;</span><span class="p">],</span>
+                <span class="s2">&quot;is_nullable&quot;</span><span class="p">:</span> <span class="n">row</span><span class="p">[</span><span class="s2">&quot;is_nullable&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;YES&quot;</span><span class="p">,</span>
             <span class="p">}</span>
             <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="n">query</span><span class="p">)</span>
         <span class="p">}</span></div>
@@ -594,7 +609,7 @@
 <span class="sd">                See :ref:`parsons-table` for output options.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
-        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s1">&#39;Retrieving running and queued queries.&#39;</span><span class="p">)</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Retrieving running and queued queries.&quot;</span><span class="p">)</span>
 
         <span class="c1"># Lifted from Redshift Utils https://github.com/awslabs/amazon-redshift-utils/blob/master/src/AdminScripts/running_queues.sql # noqa: E501</span>
         <span class="n">sql</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;</span>
@@ -650,7 +665,9 @@
 <span class="sd">                The column containing the values</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;SELECT MAX(</span><span class="si">{</span><span class="n">value_column</span><span class="si">}</span><span class="s1">) value from </span><span class="si">{</span><span class="n">table_name</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)[</span><span class="mi">0</span><span class="p">][</span><span class="s1">&#39;value&#39;</span><span class="p">]</span></div>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;SELECT MAX(</span><span class="si">{</span><span class="n">value_column</span><span class="si">}</span><span class="s2">) value from </span><span class="si">{</span><span class="n">table_name</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)[</span><span class="mi">0</span><span class="p">][</span>
+            <span class="s2">&quot;value&quot;</span>
+        <span class="p">]</span></div>
 
 <div class="viewcode-block" id="RedshiftTableUtilities.get_object_type"><a class="viewcode-back" href="../../../../aws.html#parsons.databases.redshift.redshift.RedshiftTableUtilities.get_object_type">[docs]</a>    <span class="k">def</span> <span class="nf">get_object_type</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">object_name</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
@@ -685,7 +702,7 @@
             <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">object_name</span><span class="si">}</span><span class="s2"> doesn&#39;t exist.&quot;</span><span class="p">)</span>
             <span class="k">return</span> <span class="kc">None</span>
 
-        <span class="k">return</span> <span class="n">tbl</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s1">&#39;object_name&#39;</span><span class="p">]</span></div>
+        <span class="k">return</span> <span class="n">tbl</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s2">&quot;object_name&quot;</span><span class="p">]</span></div>
 
 <div class="viewcode-block" id="RedshiftTableUtilities.is_view"><a class="viewcode-back" href="../../../../aws.html#parsons.databases.redshift.redshift.RedshiftTableUtilities.is_view">[docs]</a>    <span class="k">def</span> <span class="nf">is_view</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">object_name</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
@@ -762,8 +779,8 @@
         <span class="k">if</span> <span class="n">table</span><span class="p">:</span>
             <span class="n">conditions</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;tablename like &#39;</span><span class="si">{</span><span class="n">table</span><span class="si">}</span><span class="s2">&#39;&quot;</span><span class="p">)</span>
 
-        <span class="n">conditions_str</span> <span class="o">=</span> <span class="s1">&#39; and &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">conditions</span><span class="p">)</span>
-        <span class="n">where_clause</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;where </span><span class="si">{</span><span class="n">conditions_str</span><span class="si">}</span><span class="s2">&quot;</span> <span class="k">if</span> <span class="n">conditions_str</span> <span class="k">else</span> <span class="s1">&#39;&#39;</span>
+        <span class="n">conditions_str</span> <span class="o">=</span> <span class="s2">&quot; and &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">conditions</span><span class="p">)</span>
+        <span class="n">where_clause</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;where </span><span class="si">{</span><span class="n">conditions_str</span><span class="si">}</span><span class="s2">&quot;</span> <span class="k">if</span> <span class="n">conditions_str</span> <span class="k">else</span> <span class="s2">&quot;&quot;</span>
 
         <span class="c1"># ddl_query = pkgutil.get_data(</span>
         <span class="c1">#     __name__, &quot;queries/v_generate_tbl_ddl.sql&quot;).decode()</span>
@@ -779,16 +796,16 @@
             <span class="k">return</span> <span class="kc">None</span>
 
         <span class="k">def</span> <span class="nf">join_sql_parts</span><span class="p">(</span><span class="n">columns</span><span class="p">,</span> <span class="n">rows</span><span class="p">):</span>
-            <span class="k">return</span> <span class="p">[</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">columns</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="si">}</span><span class="s2">.</span><span class="si">{</span><span class="n">columns</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
-                    <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="n">row</span><span class="p">[</span><span class="mi">4</span><span class="p">]</span> <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">rows</span><span class="p">])]</span>
+            <span class="k">return</span> <span class="p">[</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">columns</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="si">}</span><span class="s2">.</span><span class="si">{</span><span class="n">columns</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="n">row</span><span class="p">[</span><span class="mi">4</span><span class="p">]</span> <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">rows</span><span class="p">])]</span>
 
         <span class="c1"># The query returns the sql over multiple rows</span>
         <span class="c1"># We need to join then into a single row</span>
         <span class="n">ddl_table</span><span class="o">.</span><span class="n">reduce_rows</span><span class="p">(</span>
-            <span class="p">[</span><span class="s1">&#39;table_id&#39;</span><span class="p">,</span> <span class="s1">&#39;schemaname&#39;</span><span class="p">,</span> <span class="s1">&#39;tablename&#39;</span><span class="p">],</span>
+            <span class="p">[</span><span class="s2">&quot;table_id&quot;</span><span class="p">,</span> <span class="s2">&quot;schemaname&quot;</span><span class="p">,</span> <span class="s2">&quot;tablename&quot;</span><span class="p">],</span>
             <span class="n">join_sql_parts</span><span class="p">,</span>
-            <span class="p">[</span><span class="s1">&#39;tablename&#39;</span><span class="p">,</span> <span class="s1">&#39;ddl&#39;</span><span class="p">],</span>
-            <span class="n">presorted</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+            <span class="p">[</span><span class="s2">&quot;tablename&quot;</span><span class="p">,</span> <span class="s2">&quot;ddl&quot;</span><span class="p">],</span>
+            <span class="n">presorted</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="p">)</span>
 
         <span class="k">return</span> <span class="n">ddl_table</span><span class="o">.</span><span class="n">to_dicts</span><span class="p">()</span></div>
 
@@ -837,8 +854,8 @@
         <span class="k">if</span> <span class="n">view</span><span class="p">:</span>
             <span class="n">conditions</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;g.viewname like &#39;</span><span class="si">{</span><span class="n">view</span><span class="si">}</span><span class="s2">&#39;&quot;</span><span class="p">)</span>
 
-        <span class="n">conditions_str</span> <span class="o">=</span> <span class="s1">&#39; and &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">conditions</span><span class="p">)</span>
-        <span class="n">where_clause</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;where </span><span class="si">{</span><span class="n">conditions_str</span><span class="si">}</span><span class="s2">&quot;</span> <span class="k">if</span> <span class="n">conditions_str</span> <span class="k">else</span> <span class="s1">&#39;&#39;</span>
+        <span class="n">conditions_str</span> <span class="o">=</span> <span class="s2">&quot; and &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">conditions</span><span class="p">)</span>
+        <span class="n">where_clause</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;where </span><span class="si">{</span><span class="n">conditions_str</span><span class="si">}</span><span class="s2">&quot;</span> <span class="k">if</span> <span class="n">conditions_str</span> <span class="k">else</span> <span class="s2">&quot;&quot;</span>
 
         <span class="c1"># ddl_query = pkgutil.get_data(</span>
         <span class="c1">#     __name__, &quot;queries/v_generate_view_ddl.sql&quot;).decode()</span>

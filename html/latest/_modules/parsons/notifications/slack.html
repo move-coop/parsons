@@ -147,7 +147,6 @@
 
 
 <div class="viewcode-block" id="Slack"><a class="viewcode-back" href="../../../notifications.html#parsons.Slack">[docs]</a><span class="k">class</span> <span class="nc">Slack</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
-
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">api_key</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
 
         <span class="k">if</span> <span class="n">api_key</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
@@ -156,8 +155,10 @@
                 <span class="bp">self</span><span class="o">.</span><span class="n">api_key</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s2">&quot;SLACK_API_TOKEN&quot;</span><span class="p">]</span>
 
             <span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
-                <span class="k">raise</span> <span class="ne">KeyError</span><span class="p">(</span><span class="s1">&#39;Missing api_key. It must be passed as an &#39;</span>
-                               <span class="s1">&#39;argument or stored as environmental variable&#39;</span><span class="p">)</span>
+                <span class="k">raise</span> <span class="ne">KeyError</span><span class="p">(</span>
+                    <span class="s2">&quot;Missing api_key. It must be passed as an &quot;</span>
+                    <span class="s2">&quot;argument or stored as environmental variable&quot;</span>
+                <span class="p">)</span>
 
         <span class="k">else</span><span class="p">:</span>
 
@@ -165,8 +166,9 @@
 
         <span class="bp">self</span><span class="o">.</span><span class="n">client</span> <span class="o">=</span> <span class="n">SlackClient</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">api_key</span><span class="p">)</span>
 
-<div class="viewcode-block" id="Slack.channels"><a class="viewcode-back" href="../../../notifications.html#parsons.Slack.channels">[docs]</a>    <span class="k">def</span> <span class="nf">channels</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fields</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;id&#39;</span><span class="p">,</span> <span class="s1">&#39;name&#39;</span><span class="p">],</span> <span class="n">exclude_archived</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
-                 <span class="n">types</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;public_channel&#39;</span><span class="p">]):</span>
+<div class="viewcode-block" id="Slack.channels"><a class="viewcode-back" href="../../../notifications.html#parsons.Slack.channels">[docs]</a>    <span class="k">def</span> <span class="nf">channels</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">fields</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;id&quot;</span><span class="p">,</span> <span class="s2">&quot;name&quot;</span><span class="p">],</span> <span class="n">exclude_archived</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">types</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;public_channel&quot;</span><span class="p">]</span>
+    <span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Return a list of all channels in a Slack team.</span>
 
@@ -188,21 +190,34 @@
 <span class="sd">                See :ref:`parsons-table` for output options.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">tbl</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_paginate_request</span><span class="p">(</span>
-            <span class="s2">&quot;conversations.list&quot;</span><span class="p">,</span> <span class="s2">&quot;channels&quot;</span><span class="p">,</span> <span class="n">types</span><span class="o">=</span><span class="n">types</span><span class="p">,</span>
-            <span class="n">exclude_archived</span><span class="o">=</span><span class="n">exclude_archived</span><span class="p">)</span>
+            <span class="s2">&quot;conversations.list&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;channels&quot;</span><span class="p">,</span>
+            <span class="n">types</span><span class="o">=</span><span class="n">types</span><span class="p">,</span>
+            <span class="n">exclude_archived</span><span class="o">=</span><span class="n">exclude_archived</span><span class="p">,</span>
+        <span class="p">)</span>
 
-        <span class="n">tbl</span><span class="o">.</span><span class="n">unpack_dict</span><span class="p">(</span><span class="s2">&quot;topic&quot;</span><span class="p">,</span> <span class="n">include_original</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">prepend</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
-                        <span class="n">prepend_value</span><span class="o">=</span><span class="s2">&quot;topic&quot;</span><span class="p">)</span>
-        <span class="n">tbl</span><span class="o">.</span><span class="n">unpack_dict</span><span class="p">(</span><span class="s2">&quot;purpose&quot;</span><span class="p">,</span> <span class="n">include_original</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
-                        <span class="n">prepend</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">prepend_value</span><span class="o">=</span><span class="s2">&quot;purpose&quot;</span><span class="p">)</span>
+        <span class="n">tbl</span><span class="o">.</span><span class="n">unpack_dict</span><span class="p">(</span>
+            <span class="s2">&quot;topic&quot;</span><span class="p">,</span> <span class="n">include_original</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">prepend</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">prepend_value</span><span class="o">=</span><span class="s2">&quot;topic&quot;</span>
+        <span class="p">)</span>
+        <span class="n">tbl</span><span class="o">.</span><span class="n">unpack_dict</span><span class="p">(</span>
+            <span class="s2">&quot;purpose&quot;</span><span class="p">,</span> <span class="n">include_original</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">prepend</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">prepend_value</span><span class="o">=</span><span class="s2">&quot;purpose&quot;</span>
+        <span class="p">)</span>
 
         <span class="n">rm_cols</span> <span class="o">=</span> <span class="p">[</span><span class="n">x</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">tbl</span><span class="o">.</span><span class="n">columns</span> <span class="k">if</span> <span class="n">x</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">fields</span><span class="p">]</span>
         <span class="n">tbl</span><span class="o">.</span><span class="n">remove_column</span><span class="p">(</span><span class="o">*</span><span class="n">rm_cols</span><span class="p">)</span>
 
         <span class="k">return</span> <span class="n">tbl</span></div>
 
-<div class="viewcode-block" id="Slack.users"><a class="viewcode-back" href="../../../notifications.html#parsons.Slack.users">[docs]</a>    <span class="k">def</span> <span class="nf">users</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fields</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;id&#39;</span><span class="p">,</span> <span class="s1">&#39;name&#39;</span><span class="p">,</span> <span class="s1">&#39;deleted&#39;</span><span class="p">,</span> <span class="s1">&#39;profile_real_name_normalized&#39;</span><span class="p">,</span>
-                            <span class="s1">&#39;profile_email&#39;</span><span class="p">]):</span>
+<div class="viewcode-block" id="Slack.users"><a class="viewcode-back" href="../../../notifications.html#parsons.Slack.users">[docs]</a>    <span class="k">def</span> <span class="nf">users</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">fields</span><span class="o">=</span><span class="p">[</span>
+            <span class="s2">&quot;id&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;name&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;deleted&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;profile_real_name_normalized&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;profile_email&quot;</span><span class="p">,</span>
+        <span class="p">],</span>
+    <span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Return a list of all users in a Slack team.</span>
 
@@ -219,8 +234,9 @@
 
         <span class="n">tbl</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_paginate_request</span><span class="p">(</span><span class="s2">&quot;users.list&quot;</span><span class="p">,</span> <span class="s2">&quot;members&quot;</span><span class="p">,</span> <span class="n">include_locale</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 
-        <span class="n">tbl</span><span class="o">.</span><span class="n">unpack_dict</span><span class="p">(</span><span class="s2">&quot;profile&quot;</span><span class="p">,</span> <span class="n">include_original</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">prepend</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
-                        <span class="n">prepend_value</span><span class="o">=</span><span class="s2">&quot;profile&quot;</span><span class="p">)</span>
+        <span class="n">tbl</span><span class="o">.</span><span class="n">unpack_dict</span><span class="p">(</span>
+            <span class="s2">&quot;profile&quot;</span><span class="p">,</span> <span class="n">include_original</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">prepend</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">prepend_value</span><span class="o">=</span><span class="s2">&quot;profile&quot;</span>
+        <span class="p">)</span>
 
         <span class="n">rm_cols</span> <span class="o">=</span> <span class="p">[</span><span class="n">x</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">tbl</span><span class="o">.</span><span class="n">columns</span> <span class="k">if</span> <span class="n">x</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">fields</span><span class="p">]</span>
         <span class="n">tbl</span><span class="o">.</span><span class="n">remove_column</span><span class="p">(</span><span class="o">*</span><span class="n">rm_cols</span><span class="p">)</span>
@@ -244,10 +260,10 @@
 <span class="sd">            parent_message_id: str</span>
 <span class="sd">                The `ts` value of the parent message. If used, this will thread the message.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">webhook</span> <span class="o">=</span> <span class="n">check</span><span class="p">(</span><span class="s1">&#39;SLACK_API_WEBHOOK&#39;</span><span class="p">,</span> <span class="n">webhook</span><span class="p">,</span> <span class="n">optional</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-        <span class="n">payload</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;channel&#39;</span><span class="p">:</span> <span class="n">channel</span><span class="p">,</span> <span class="s1">&#39;text&#39;</span><span class="p">:</span> <span class="n">text</span><span class="p">}</span>
+        <span class="n">webhook</span> <span class="o">=</span> <span class="n">check</span><span class="p">(</span><span class="s2">&quot;SLACK_API_WEBHOOK&quot;</span><span class="p">,</span> <span class="n">webhook</span><span class="p">,</span> <span class="n">optional</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="n">payload</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;channel&quot;</span><span class="p">:</span> <span class="n">channel</span><span class="p">,</span> <span class="s2">&quot;text&quot;</span><span class="p">:</span> <span class="n">text</span><span class="p">}</span>
         <span class="k">if</span> <span class="n">parent_message_id</span><span class="p">:</span>
-            <span class="n">payload</span><span class="p">[</span><span class="s1">&#39;thread_ts&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">parent_message_id</span>
+            <span class="n">payload</span><span class="p">[</span><span class="s2">&quot;thread_ts&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">parent_message_id</span>
         <span class="k">return</span> <span class="n">requests</span><span class="o">.</span><span class="n">post</span><span class="p">(</span><span class="n">webhook</span><span class="p">,</span> <span class="n">json</span><span class="o">=</span><span class="n">payload</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="Slack.message_channel"><a class="viewcode-back" href="../../../notifications.html#parsons.Slack.message_channel">[docs]</a>    <span class="k">def</span> <span class="nf">message_channel</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">channel</span><span class="p">,</span> <span class="n">text</span><span class="p">,</span> <span class="n">as_user</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">parent_message_id</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
@@ -272,24 +288,35 @@
 <span class="sd">                A response json</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">resp</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">api_call</span><span class="p">(</span>
-            <span class="s2">&quot;chat.postMessage&quot;</span><span class="p">,</span> <span class="n">channel</span><span class="o">=</span><span class="n">channel</span><span class="p">,</span> <span class="n">text</span><span class="o">=</span><span class="n">text</span><span class="p">,</span>
-            <span class="n">as_user</span><span class="o">=</span><span class="n">as_user</span><span class="p">,</span> <span class="n">thread_ts</span><span class="o">=</span><span class="n">parent_message_id</span><span class="p">)</span>
+            <span class="s2">&quot;chat.postMessage&quot;</span><span class="p">,</span>
+            <span class="n">channel</span><span class="o">=</span><span class="n">channel</span><span class="p">,</span>
+            <span class="n">text</span><span class="o">=</span><span class="n">text</span><span class="p">,</span>
+            <span class="n">as_user</span><span class="o">=</span><span class="n">as_user</span><span class="p">,</span>
+            <span class="n">thread_ts</span><span class="o">=</span><span class="n">parent_message_id</span><span class="p">,</span>
+        <span class="p">)</span>
 
-        <span class="k">if</span> <span class="ow">not</span> <span class="n">resp</span><span class="p">[</span><span class="s1">&#39;ok&#39;</span><span class="p">]:</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">resp</span><span class="p">[</span><span class="s2">&quot;ok&quot;</span><span class="p">]:</span>
 
-            <span class="k">if</span> <span class="n">resp</span><span class="p">[</span><span class="s1">&#39;error&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;ratelimited&#39;</span><span class="p">:</span>
-                <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">resp</span><span class="p">[</span><span class="s1">&#39;headers&#39;</span><span class="p">][</span><span class="s1">&#39;Retry-After&#39;</span><span class="p">]))</span>
+            <span class="k">if</span> <span class="n">resp</span><span class="p">[</span><span class="s2">&quot;error&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;ratelimited&quot;</span><span class="p">:</span>
+                <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">resp</span><span class="p">[</span><span class="s2">&quot;headers&quot;</span><span class="p">][</span><span class="s2">&quot;Retry-After&quot;</span><span class="p">]))</span>
 
                 <span class="n">resp</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">api_call</span><span class="p">(</span>
-                    <span class="s2">&quot;chat.postMessage&quot;</span><span class="p">,</span>
-                    <span class="n">channel</span><span class="o">=</span><span class="n">channel</span><span class="p">,</span> <span class="n">text</span><span class="o">=</span><span class="n">text</span><span class="p">,</span> <span class="n">as_user</span><span class="o">=</span><span class="n">as_user</span><span class="p">)</span>
+                    <span class="s2">&quot;chat.postMessage&quot;</span><span class="p">,</span> <span class="n">channel</span><span class="o">=</span><span class="n">channel</span><span class="p">,</span> <span class="n">text</span><span class="o">=</span><span class="n">text</span><span class="p">,</span> <span class="n">as_user</span><span class="o">=</span><span class="n">as_user</span>
+                <span class="p">)</span>
 
-            <span class="k">raise</span> <span class="n">SlackClientError</span><span class="p">(</span><span class="n">resp</span><span class="p">[</span><span class="s1">&#39;error&#39;</span><span class="p">])</span>
+            <span class="k">raise</span> <span class="n">SlackClientError</span><span class="p">(</span><span class="n">resp</span><span class="p">[</span><span class="s2">&quot;error&quot;</span><span class="p">])</span>
 
         <span class="k">return</span> <span class="n">resp</span></div>
 
-<div class="viewcode-block" id="Slack.upload_file"><a class="viewcode-back" href="../../../notifications.html#parsons.Slack.upload_file">[docs]</a>    <span class="k">def</span> <span class="nf">upload_file</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">channels</span><span class="p">,</span> <span class="n">filename</span><span class="p">,</span> <span class="n">filetype</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-                    <span class="n">initial_comment</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">is_binary</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+<div class="viewcode-block" id="Slack.upload_file"><a class="viewcode-back" href="../../../notifications.html#parsons.Slack.upload_file">[docs]</a>    <span class="k">def</span> <span class="nf">upload_file</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">channels</span><span class="p">,</span>
+        <span class="n">filename</span><span class="p">,</span>
+        <span class="n">filetype</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">initial_comment</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">title</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">is_binary</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+    <span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Upload a file to Slack channel(s).</span>
 
@@ -315,27 +342,35 @@
 <span class="sd">            `dict`:</span>
 <span class="sd">                A response json</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">if</span> <span class="n">filetype</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">and</span> <span class="s1">&#39;.&#39;</span> <span class="ow">in</span> <span class="n">filename</span><span class="p">:</span>
-            <span class="n">filetype</span> <span class="o">=</span> <span class="n">filename</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;.&#39;</span><span class="p">)[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+        <span class="k">if</span> <span class="n">filetype</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">and</span> <span class="s2">&quot;.&quot;</span> <span class="ow">in</span> <span class="n">filename</span><span class="p">:</span>
+            <span class="n">filetype</span> <span class="o">=</span> <span class="n">filename</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;.&quot;</span><span class="p">)[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
 
-        <span class="n">mode</span> <span class="o">=</span> <span class="s1">&#39;rb&#39;</span> <span class="k">if</span> <span class="n">is_binary</span> <span class="k">else</span> <span class="s1">&#39;r&#39;</span>
+        <span class="n">mode</span> <span class="o">=</span> <span class="s2">&quot;rb&quot;</span> <span class="k">if</span> <span class="n">is_binary</span> <span class="k">else</span> <span class="s2">&quot;r&quot;</span>
         <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="n">mode</span><span class="p">)</span> <span class="k">as</span> <span class="n">file_content</span><span class="p">:</span>
             <span class="n">resp</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">api_call</span><span class="p">(</span>
-                <span class="s2">&quot;files.upload&quot;</span><span class="p">,</span> <span class="n">channels</span><span class="o">=</span><span class="n">channels</span><span class="p">,</span> <span class="n">file</span><span class="o">=</span><span class="n">file_content</span><span class="p">,</span>
-                <span class="n">filetype</span><span class="o">=</span><span class="n">filetype</span><span class="p">,</span> <span class="n">initial_comment</span><span class="o">=</span><span class="n">initial_comment</span><span class="p">,</span>
-                <span class="n">title</span><span class="o">=</span><span class="n">title</span><span class="p">)</span>
+                <span class="s2">&quot;files.upload&quot;</span><span class="p">,</span>
+                <span class="n">channels</span><span class="o">=</span><span class="n">channels</span><span class="p">,</span>
+                <span class="n">file</span><span class="o">=</span><span class="n">file_content</span><span class="p">,</span>
+                <span class="n">filetype</span><span class="o">=</span><span class="n">filetype</span><span class="p">,</span>
+                <span class="n">initial_comment</span><span class="o">=</span><span class="n">initial_comment</span><span class="p">,</span>
+                <span class="n">title</span><span class="o">=</span><span class="n">title</span><span class="p">,</span>
+            <span class="p">)</span>
 
-            <span class="k">if</span> <span class="ow">not</span> <span class="n">resp</span><span class="p">[</span><span class="s1">&#39;ok&#39;</span><span class="p">]:</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">resp</span><span class="p">[</span><span class="s2">&quot;ok&quot;</span><span class="p">]:</span>
 
-                <span class="k">if</span> <span class="n">resp</span><span class="p">[</span><span class="s1">&#39;error&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;ratelimited&#39;</span><span class="p">:</span>
-                    <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">resp</span><span class="p">[</span><span class="s1">&#39;headers&#39;</span><span class="p">][</span><span class="s1">&#39;Retry-After&#39;</span><span class="p">]))</span>
+                <span class="k">if</span> <span class="n">resp</span><span class="p">[</span><span class="s2">&quot;error&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;ratelimited&quot;</span><span class="p">:</span>
+                    <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">resp</span><span class="p">[</span><span class="s2">&quot;headers&quot;</span><span class="p">][</span><span class="s2">&quot;Retry-After&quot;</span><span class="p">]))</span>
 
                     <span class="n">resp</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">api_call</span><span class="p">(</span>
-                        <span class="s2">&quot;files.upload&quot;</span><span class="p">,</span> <span class="n">channels</span><span class="o">=</span><span class="n">channels</span><span class="p">,</span> <span class="n">file</span><span class="o">=</span><span class="n">file_content</span><span class="p">,</span>
-                        <span class="n">filetype</span><span class="o">=</span><span class="n">filetype</span><span class="p">,</span> <span class="n">initial_comment</span><span class="o">=</span><span class="n">initial_comment</span><span class="p">,</span>
-                        <span class="n">title</span><span class="o">=</span><span class="n">title</span><span class="p">)</span>
+                        <span class="s2">&quot;files.upload&quot;</span><span class="p">,</span>
+                        <span class="n">channels</span><span class="o">=</span><span class="n">channels</span><span class="p">,</span>
+                        <span class="n">file</span><span class="o">=</span><span class="n">file_content</span><span class="p">,</span>
+                        <span class="n">filetype</span><span class="o">=</span><span class="n">filetype</span><span class="p">,</span>
+                        <span class="n">initial_comment</span><span class="o">=</span><span class="n">initial_comment</span><span class="p">,</span>
+                        <span class="n">title</span><span class="o">=</span><span class="n">title</span><span class="p">,</span>
+                    <span class="p">)</span>
 
-                <span class="k">raise</span> <span class="n">SlackClientError</span><span class="p">(</span><span class="n">resp</span><span class="p">[</span><span class="s1">&#39;error&#39;</span><span class="p">])</span>
+                <span class="k">raise</span> <span class="n">SlackClientError</span><span class="p">(</span><span class="n">resp</span><span class="p">[</span><span class="s2">&quot;error&quot;</span><span class="p">])</span>
 
         <span class="k">return</span> <span class="n">resp</span></div>
 
@@ -348,16 +383,15 @@
         <span class="n">next_page</span> <span class="o">=</span> <span class="kc">True</span>
         <span class="n">cursor</span> <span class="o">=</span> <span class="kc">None</span>
         <span class="k">while</span> <span class="n">next_page</span><span class="p">:</span>
-            <span class="n">resp</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">api_call</span><span class="p">(</span>
-                <span class="n">endpoint</span><span class="p">,</span> <span class="n">cursor</span><span class="o">=</span><span class="n">cursor</span><span class="p">,</span> <span class="n">limit</span><span class="o">=</span><span class="n">LIMIT</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+            <span class="n">resp</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">api_call</span><span class="p">(</span><span class="n">endpoint</span><span class="p">,</span> <span class="n">cursor</span><span class="o">=</span><span class="n">cursor</span><span class="p">,</span> <span class="n">limit</span><span class="o">=</span><span class="n">LIMIT</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
 
-            <span class="k">if</span> <span class="ow">not</span> <span class="n">resp</span><span class="p">[</span><span class="s1">&#39;ok&#39;</span><span class="p">]:</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">resp</span><span class="p">[</span><span class="s2">&quot;ok&quot;</span><span class="p">]:</span>
 
-                <span class="k">if</span> <span class="n">resp</span><span class="p">[</span><span class="s1">&#39;error&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;ratelimited&#39;</span><span class="p">:</span>
-                    <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">resp</span><span class="p">[</span><span class="s1">&#39;headers&#39;</span><span class="p">][</span><span class="s1">&#39;Retry-After&#39;</span><span class="p">]))</span>
+                <span class="k">if</span> <span class="n">resp</span><span class="p">[</span><span class="s2">&quot;error&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;ratelimited&quot;</span><span class="p">:</span>
+                    <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">resp</span><span class="p">[</span><span class="s2">&quot;headers&quot;</span><span class="p">][</span><span class="s2">&quot;Retry-After&quot;</span><span class="p">]))</span>
                     <span class="k">continue</span>
 
-                <span class="k">raise</span> <span class="n">SlackClientError</span><span class="p">(</span><span class="n">resp</span><span class="p">[</span><span class="s1">&#39;error&#39;</span><span class="p">])</span>
+                <span class="k">raise</span> <span class="n">SlackClientError</span><span class="p">(</span><span class="n">resp</span><span class="p">[</span><span class="s2">&quot;error&quot;</span><span class="p">])</span>
 
             <span class="n">items</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">resp</span><span class="p">[</span><span class="n">collection</span><span class="p">])</span>
 

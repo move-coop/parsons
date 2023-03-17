@@ -161,30 +161,29 @@
 
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">api_key</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
 
-        <span class="bp">self</span><span class="o">.</span><span class="n">api_key</span> <span class="o">=</span> <span class="n">check_env</span><span class="o">.</span><span class="n">check</span><span class="p">(</span><span class="s1">&#39;CT_API_KEY&#39;</span><span class="p">,</span> <span class="n">api_key</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">api_key</span> <span class="o">=</span> <span class="n">check_env</span><span class="o">.</span><span class="n">check</span><span class="p">(</span><span class="s2">&quot;CT_API_KEY&quot;</span><span class="p">,</span> <span class="n">api_key</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">uri</span> <span class="o">=</span> <span class="n">CT_URI</span>
 
-    <span class="k">def</span> <span class="nf">_base_request</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">endpoint</span><span class="p">,</span> <span class="n">req_type</span><span class="o">=</span><span class="s1">&#39;GET&#39;</span><span class="p">,</span> <span class="n">args</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">_base_request</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">endpoint</span><span class="p">,</span> <span class="n">req_type</span><span class="o">=</span><span class="s2">&quot;GET&quot;</span><span class="p">,</span> <span class="n">args</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
 
-        <span class="n">url</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">uri</span><span class="si">}</span><span class="s1">/</span><span class="si">{</span><span class="n">endpoint</span><span class="si">}</span><span class="s1">&#39;</span>
-        <span class="n">base_args</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;token&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">api_key</span><span class="p">,</span>
-                     <span class="s1">&#39;count&#39;</span><span class="p">:</span> <span class="n">PAGE_SIZE</span><span class="p">}</span>
+        <span class="n">url</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">uri</span><span class="si">}</span><span class="s2">/</span><span class="si">{</span><span class="n">endpoint</span><span class="si">}</span><span class="s2">&quot;</span>
+        <span class="n">base_args</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;token&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">api_key</span><span class="p">,</span> <span class="s2">&quot;count&quot;</span><span class="p">:</span> <span class="n">PAGE_SIZE</span><span class="p">}</span>
 
         <span class="c1"># Add any args passed through to the base args</span>
         <span class="k">if</span> <span class="n">args</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">base_args</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">args</span><span class="p">)</span>
 
         <span class="n">r</span> <span class="o">=</span> <span class="n">request</span><span class="p">(</span><span class="n">req_type</span><span class="p">,</span> <span class="n">url</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="n">base_args</span><span class="p">)</span><span class="o">.</span><span class="n">json</span><span class="p">()</span>
-        <span class="n">json</span> <span class="o">=</span> <span class="n">r</span><span class="p">[</span><span class="s1">&#39;result&#39;</span><span class="p">]</span>
+        <span class="n">json</span> <span class="o">=</span> <span class="n">r</span><span class="p">[</span><span class="s2">&quot;result&quot;</span><span class="p">]</span>
         <span class="n">keys</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">json</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span>
         <span class="n">data</span> <span class="o">=</span> <span class="n">json</span><span class="p">[</span><span class="n">keys</span><span class="p">[</span><span class="mi">0</span><span class="p">]]</span>
 
-        <span class="k">while</span> <span class="s1">&#39;nextPage&#39;</span> <span class="ow">in</span> <span class="nb">list</span><span class="p">(</span><span class="n">json</span><span class="p">[</span><span class="s1">&#39;pagination&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">keys</span><span class="p">()):</span>
+        <span class="k">while</span> <span class="s2">&quot;nextPage&quot;</span> <span class="ow">in</span> <span class="nb">list</span><span class="p">(</span><span class="n">json</span><span class="p">[</span><span class="s2">&quot;pagination&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">keys</span><span class="p">()):</span>
             <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Retrieving </span><span class="si">{</span><span class="n">PAGE_SIZE</span><span class="si">}</span><span class="s2"> rows.&quot;</span><span class="p">)</span>
             <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="n">REQUEST_SLEEP</span><span class="p">)</span>
-            <span class="n">next_url</span> <span class="o">=</span> <span class="n">json</span><span class="p">[</span><span class="s1">&#39;pagination&#39;</span><span class="p">][</span><span class="s1">&#39;nextPage&#39;</span><span class="p">]</span>
+            <span class="n">next_url</span> <span class="o">=</span> <span class="n">json</span><span class="p">[</span><span class="s2">&quot;pagination&quot;</span><span class="p">][</span><span class="s2">&quot;nextPage&quot;</span><span class="p">]</span>
             <span class="n">r</span> <span class="o">=</span> <span class="n">request</span><span class="p">(</span><span class="n">req_type</span><span class="p">,</span> <span class="n">next_url</span><span class="p">)</span><span class="o">.</span><span class="n">json</span><span class="p">()</span>
-            <span class="n">json</span> <span class="o">=</span> <span class="n">r</span><span class="p">[</span><span class="s1">&#39;result&#39;</span><span class="p">]</span>
+            <span class="n">json</span> <span class="o">=</span> <span class="n">r</span><span class="p">[</span><span class="s2">&quot;result&quot;</span><span class="p">]</span>
             <span class="n">data</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">json</span><span class="p">[</span><span class="n">keys</span><span class="p">[</span><span class="mi">0</span><span class="p">]])</span>
 
         <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Retrieved </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">data</span><span class="p">)</span><span class="si">}</span><span class="s2"> rows.&quot;</span><span class="p">)</span>
@@ -194,7 +193,7 @@
     <span class="k">def</span> <span class="nf">_base_unpack</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ParsonsTable</span><span class="p">):</span>
 
         <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;Working to unpack the Parsons Table...&quot;</span><span class="p">)</span>
-        <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Starting with </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">ParsonsTable</span><span class="o">.</span><span class="n">columns</span><span class="p">)</span><span class="si">}</span><span class="s1"> columns...&#39;</span><span class="p">)</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Starting with </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">ParsonsTable</span><span class="o">.</span><span class="n">columns</span><span class="p">)</span><span class="si">}</span><span class="s2"> columns...&quot;</span><span class="p">)</span>
         <span class="n">sample</span> <span class="o">=</span> <span class="n">ParsonsTable</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
 
         <span class="n">col_dict</span> <span class="o">=</span> <span class="p">{}</span>
@@ -207,7 +206,7 @@
             <span class="k">elif</span> <span class="n">col_dict</span><span class="p">[</span><span class="n">x</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;&lt;class &#39;list&#39;&gt;&quot;</span><span class="p">:</span>
                 <span class="n">ParsonsTable</span><span class="o">.</span><span class="n">unpack_list</span><span class="p">(</span><span class="n">col</span><span class="p">)</span>
 
-        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;There are now </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">ParsonsTable</span><span class="o">.</span><span class="n">columns</span><span class="p">)</span><span class="si">}</span><span class="s1"> columns...&#39;</span><span class="p">)</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;There are now </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">ParsonsTable</span><span class="o">.</span><span class="n">columns</span><span class="p">)</span><span class="si">}</span><span class="s2"> columns...&quot;</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">ParsonsTable</span>
 
     <span class="k">def</span> <span class="nf">_unpack</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ParsonsTable</span><span class="p">):</span>
@@ -228,12 +227,20 @@
     <span class="k">def</span> <span class="nf">_list_to_string</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">list_arg</span><span class="p">):</span>
 
         <span class="k">if</span> <span class="n">list_arg</span><span class="p">:</span>
-            <span class="k">return</span> <span class="s1">&#39;,&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">list_arg</span><span class="p">)</span>
+            <span class="k">return</span> <span class="s2">&quot;,&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">list_arg</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="k">return</span> <span class="kc">None</span>
 
-<div class="viewcode-block" id="CrowdTangle.get_posts"><a class="viewcode-back" href="../../../crowdtangle.html#parsons.CrowdTangle.get_posts">[docs]</a>    <span class="k">def</span> <span class="nf">get_posts</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">start_date</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">end_date</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">language</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">list_ids</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-                  <span class="n">min_interations</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">search_term</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">types</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<div class="viewcode-block" id="CrowdTangle.get_posts"><a class="viewcode-back" href="../../../crowdtangle.html#parsons.CrowdTangle.get_posts">[docs]</a>    <span class="k">def</span> <span class="nf">get_posts</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">start_date</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">end_date</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">language</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">list_ids</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">min_interations</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">search_term</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">types</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Return a set of posts for the given parameters.</span>
 
@@ -290,21 +297,25 @@
 <span class="sd">                See :ref:`parsons-table` for output options.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
-        <span class="n">args</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;startDate&#39;</span><span class="p">:</span> <span class="n">start_date</span><span class="p">,</span>
-                <span class="s1">&#39;endDate&#39;</span><span class="p">:</span> <span class="n">end_date</span><span class="p">,</span>
-                <span class="s1">&#39;language&#39;</span><span class="p">:</span> <span class="n">language</span><span class="p">,</span>
-                <span class="s1">&#39;listIds&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_list_to_string</span><span class="p">(</span><span class="n">list_ids</span><span class="p">),</span>
-                <span class="s1">&#39;minInteractions&#39;</span><span class="p">:</span> <span class="n">min_interations</span><span class="p">,</span>
-                <span class="s1">&#39;searchTerm&#39;</span><span class="p">:</span> <span class="n">search_term</span><span class="p">,</span>
-                <span class="s1">&#39;types&#39;</span><span class="p">:</span> <span class="n">types</span><span class="p">}</span>
+        <span class="n">args</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s2">&quot;startDate&quot;</span><span class="p">:</span> <span class="n">start_date</span><span class="p">,</span>
+            <span class="s2">&quot;endDate&quot;</span><span class="p">:</span> <span class="n">end_date</span><span class="p">,</span>
+            <span class="s2">&quot;language&quot;</span><span class="p">:</span> <span class="n">language</span><span class="p">,</span>
+            <span class="s2">&quot;listIds&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_list_to_string</span><span class="p">(</span><span class="n">list_ids</span><span class="p">),</span>
+            <span class="s2">&quot;minInteractions&quot;</span><span class="p">:</span> <span class="n">min_interations</span><span class="p">,</span>
+            <span class="s2">&quot;searchTerm&quot;</span><span class="p">:</span> <span class="n">search_term</span><span class="p">,</span>
+            <span class="s2">&quot;types&quot;</span><span class="p">:</span> <span class="n">types</span><span class="p">,</span>
+        <span class="p">}</span>
 
         <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Retrieving posts.&quot;</span><span class="p">)</span>
-        <span class="n">pt</span> <span class="o">=</span> <span class="n">Table</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_base_request</span><span class="p">(</span><span class="s1">&#39;posts&#39;</span><span class="p">,</span> <span class="n">args</span><span class="o">=</span><span class="n">args</span><span class="p">))</span>
-        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Retrieved </span><span class="si">{</span><span class="n">pt</span><span class="o">.</span><span class="n">num_rows</span><span class="si">}</span><span class="s1"> posts.&#39;</span><span class="p">)</span>
+        <span class="n">pt</span> <span class="o">=</span> <span class="n">Table</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_base_request</span><span class="p">(</span><span class="s2">&quot;posts&quot;</span><span class="p">,</span> <span class="n">args</span><span class="o">=</span><span class="n">args</span><span class="p">))</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Retrieved </span><span class="si">{</span><span class="n">pt</span><span class="o">.</span><span class="n">num_rows</span><span class="si">}</span><span class="s2"> posts.&quot;</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_unpack</span><span class="p">(</span><span class="n">pt</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">pt</span></div>
 
-<div class="viewcode-block" id="CrowdTangle.get_leaderboard"><a class="viewcode-back" href="../../../crowdtangle.html#parsons.CrowdTangle.get_leaderboard">[docs]</a>    <span class="k">def</span> <span class="nf">get_leaderboard</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">start_date</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">end_date</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">list_ids</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">account_ids</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<div class="viewcode-block" id="CrowdTangle.get_leaderboard"><a class="viewcode-back" href="../../../crowdtangle.html#parsons.CrowdTangle.get_leaderboard">[docs]</a>    <span class="k">def</span> <span class="nf">get_leaderboard</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">start_date</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">end_date</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">list_ids</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">account_ids</span><span class="o">=</span><span class="kc">None</span>
+    <span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Return leaderboard data.</span>
 
@@ -332,18 +343,21 @@
 <span class="sd">                See :ref:`parsons-table` for output options.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
-        <span class="n">args</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;startDate&#39;</span><span class="p">:</span> <span class="n">start_date</span><span class="p">,</span>
-                <span class="s1">&#39;endDate&#39;</span><span class="p">:</span> <span class="n">end_date</span><span class="p">,</span>
-                <span class="s1">&#39;listIds&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_list_to_string</span><span class="p">(</span><span class="n">list_ids</span><span class="p">),</span>
-                <span class="s1">&#39;accountIds&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_list_to_string</span><span class="p">(</span><span class="n">account_ids</span><span class="p">)}</span>
+        <span class="n">args</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s2">&quot;startDate&quot;</span><span class="p">:</span> <span class="n">start_date</span><span class="p">,</span>
+            <span class="s2">&quot;endDate&quot;</span><span class="p">:</span> <span class="n">end_date</span><span class="p">,</span>
+            <span class="s2">&quot;listIds&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_list_to_string</span><span class="p">(</span><span class="n">list_ids</span><span class="p">),</span>
+            <span class="s2">&quot;accountIds&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_list_to_string</span><span class="p">(</span><span class="n">account_ids</span><span class="p">),</span>
+        <span class="p">}</span>
 
-        <span class="n">pt</span> <span class="o">=</span> <span class="n">Table</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_base_request</span><span class="p">(</span><span class="s1">&#39;leaderboard&#39;</span><span class="p">,</span> <span class="n">args</span><span class="o">=</span><span class="n">args</span><span class="p">))</span>
-        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Retrieved </span><span class="si">{</span><span class="n">pt</span><span class="o">.</span><span class="n">num_rows</span><span class="si">}</span><span class="s1"> records from the leaderbooard.&#39;</span><span class="p">)</span>
+        <span class="n">pt</span> <span class="o">=</span> <span class="n">Table</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_base_request</span><span class="p">(</span><span class="s2">&quot;leaderboard&quot;</span><span class="p">,</span> <span class="n">args</span><span class="o">=</span><span class="n">args</span><span class="p">))</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Retrieved </span><span class="si">{</span><span class="n">pt</span><span class="o">.</span><span class="n">num_rows</span><span class="si">}</span><span class="s2"> records from the leaderbooard.&quot;</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_unpack</span><span class="p">(</span><span class="n">pt</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">pt</span></div>
 
-<div class="viewcode-block" id="CrowdTangle.get_links"><a class="viewcode-back" href="../../../crowdtangle.html#parsons.CrowdTangle.get_links">[docs]</a>    <span class="k">def</span> <span class="nf">get_links</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">link</span><span class="p">,</span> <span class="n">start_date</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">end_date</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">include_summary</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-                  <span class="n">platforms</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<div class="viewcode-block" id="CrowdTangle.get_links"><a class="viewcode-back" href="../../../crowdtangle.html#parsons.CrowdTangle.get_links">[docs]</a>    <span class="k">def</span> <span class="nf">get_links</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">link</span><span class="p">,</span> <span class="n">start_date</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">end_date</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">include_summary</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">platforms</span><span class="o">=</span><span class="kc">None</span>
+    <span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Return up to 100 posts based on a specific link. It is strongly recommended to</span>
 <span class="sd">        use the ``start_date`` parameter to limit queries to relevant dates.</span>
@@ -376,15 +390,17 @@
 <span class="sd">                See :ref:`parsons-table` for output options.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
-        <span class="n">args</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;link&#39;</span><span class="p">:</span> <span class="n">link</span><span class="p">,</span>
-                <span class="s1">&#39;startDate&#39;</span><span class="p">:</span> <span class="n">start_date</span><span class="p">,</span>
-                <span class="s1">&#39;endDate&#39;</span><span class="p">:</span> <span class="n">end_date</span><span class="p">,</span>
-                <span class="s1">&#39;includeSummary&#39;</span><span class="p">:</span> <span class="nb">str</span><span class="p">(</span><span class="n">include_summary</span><span class="p">),</span>
-                <span class="s1">&#39;platforms&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_list_to_string</span><span class="p">(</span><span class="n">platforms</span><span class="p">)}</span>
+        <span class="n">args</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s2">&quot;link&quot;</span><span class="p">:</span> <span class="n">link</span><span class="p">,</span>
+            <span class="s2">&quot;startDate&quot;</span><span class="p">:</span> <span class="n">start_date</span><span class="p">,</span>
+            <span class="s2">&quot;endDate&quot;</span><span class="p">:</span> <span class="n">end_date</span><span class="p">,</span>
+            <span class="s2">&quot;includeSummary&quot;</span><span class="p">:</span> <span class="nb">str</span><span class="p">(</span><span class="n">include_summary</span><span class="p">),</span>
+            <span class="s2">&quot;platforms&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_list_to_string</span><span class="p">(</span><span class="n">platforms</span><span class="p">),</span>
+        <span class="p">}</span>
 
         <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Retrieving posts based on link.&quot;</span><span class="p">)</span>
-        <span class="n">pt</span> <span class="o">=</span> <span class="n">Table</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_base_request</span><span class="p">(</span><span class="s1">&#39;links&#39;</span><span class="p">,</span> <span class="n">args</span><span class="o">=</span><span class="n">args</span><span class="p">))</span>
-        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Retrieved </span><span class="si">{</span><span class="n">pt</span><span class="o">.</span><span class="n">num_rows</span><span class="si">}</span><span class="s1"> links.&#39;</span><span class="p">)</span>
+        <span class="n">pt</span> <span class="o">=</span> <span class="n">Table</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_base_request</span><span class="p">(</span><span class="s2">&quot;links&quot;</span><span class="p">,</span> <span class="n">args</span><span class="o">=</span><span class="n">args</span><span class="p">))</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Retrieved </span><span class="si">{</span><span class="n">pt</span><span class="o">.</span><span class="n">num_rows</span><span class="si">}</span><span class="s2"> links.&quot;</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_unpack</span><span class="p">(</span><span class="n">pt</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">pt</span></div></div>
 </pre></div>

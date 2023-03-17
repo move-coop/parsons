@@ -146,7 +146,6 @@
 
 
 <div class="viewcode-block" id="ChangedEntities"><a class="viewcode-back" href="../../../ngpvan.html#parsons.ngpvan.van.ChangedEntities">[docs]</a><span class="k">class</span> <span class="nc">ChangedEntities</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
-
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 
         <span class="k">pass</span>
@@ -159,8 +158,8 @@
 <span class="sd">            list</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
-        <span class="n">r</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">connection</span><span class="o">.</span><span class="n">get_request</span><span class="p">(</span><span class="s1">&#39;changedEntityExportJobs/resources&#39;</span><span class="p">)</span>
-        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Found </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">r</span><span class="p">)</span><span class="si">}</span><span class="s1"> changed entity resources.&#39;</span><span class="p">)</span>
+        <span class="n">r</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">connection</span><span class="o">.</span><span class="n">get_request</span><span class="p">(</span><span class="s2">&quot;changedEntityExportJobs/resources&quot;</span><span class="p">)</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Found </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">r</span><span class="p">)</span><span class="si">}</span><span class="s2"> changed entity resources.&quot;</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">r</span></div>
 
 <div class="viewcode-block" id="ChangedEntities.get_changed_entity_resource_fields"><a class="viewcode-back" href="../../../ngpvan.html#parsons.ngpvan.van.ChangedEntities.get_changed_entity_resource_fields">[docs]</a>    <span class="k">def</span> <span class="nf">get_changed_entity_resource_fields</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">resource_type</span><span class="p">):</span>
@@ -174,12 +173,23 @@
 <span class="sd">                See :ref:`parsons-table` for output options.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
-        <span class="n">tbl</span> <span class="o">=</span> <span class="n">Table</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">connection</span><span class="o">.</span><span class="n">get_request</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;changedEntityExportJobs/fields/</span><span class="si">{</span><span class="n">resource_type</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">))</span>
-        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Found </span><span class="si">{</span><span class="n">tbl</span><span class="o">.</span><span class="n">num_rows</span><span class="si">}</span><span class="s1"> fields for </span><span class="si">{</span><span class="n">resource_type</span><span class="si">}</span><span class="s1">.&#39;</span><span class="p">)</span>
+        <span class="n">tbl</span> <span class="o">=</span> <span class="n">Table</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">connection</span><span class="o">.</span><span class="n">get_request</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s2">&quot;changedEntityExportJobs/fields/</span><span class="si">{</span><span class="n">resource_type</span><span class="si">}</span><span class="s2">&quot;</span>
+            <span class="p">)</span>
+        <span class="p">)</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Found </span><span class="si">{</span><span class="n">tbl</span><span class="o">.</span><span class="n">num_rows</span><span class="si">}</span><span class="s2"> fields for </span><span class="si">{</span><span class="n">resource_type</span><span class="si">}</span><span class="s2">.&quot;</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">tbl</span></div>
 
-<div class="viewcode-block" id="ChangedEntities.get_changed_entities"><a class="viewcode-back" href="../../../ngpvan.html#parsons.ngpvan.van.ChangedEntities.get_changed_entities">[docs]</a>    <span class="k">def</span> <span class="nf">get_changed_entities</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">resource_type</span><span class="p">,</span> <span class="n">date_from</span><span class="p">,</span> <span class="n">date_to</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">include_inactive</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
-                             <span class="n">requested_fields</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">custom_fields</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<div class="viewcode-block" id="ChangedEntities.get_changed_entities"><a class="viewcode-back" href="../../../ngpvan.html#parsons.ngpvan.van.ChangedEntities.get_changed_entities">[docs]</a>    <span class="k">def</span> <span class="nf">get_changed_entities</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">resource_type</span><span class="p">,</span>
+        <span class="n">date_from</span><span class="p">,</span>
+        <span class="n">date_to</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">include_inactive</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+        <span class="n">requested_fields</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">custom_fields</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Get modified records for VAN from up to 90 days in the past.</span>
 
@@ -214,24 +224,24 @@
             <span class="s2">&quot;requestedFields&quot;</span><span class="p">:</span> <span class="n">requested_fields</span><span class="p">,</span>
             <span class="s2">&quot;requestedCustomFieldIds&quot;</span><span class="p">:</span> <span class="n">custom_fields</span><span class="p">,</span>
             <span class="s2">&quot;fileSizeKbLimit&quot;</span><span class="p">:</span> <span class="mi">100000</span><span class="p">,</span>
-            <span class="s2">&quot;includeInactive&quot;</span><span class="p">:</span> <span class="n">include_inactive</span>
+            <span class="s2">&quot;includeInactive&quot;</span><span class="p">:</span> <span class="n">include_inactive</span><span class="p">,</span>
         <span class="p">}</span>
 
-        <span class="n">r</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">connection</span><span class="o">.</span><span class="n">post_request</span><span class="p">(</span><span class="s1">&#39;changedEntityExportJobs&#39;</span><span class="p">,</span> <span class="n">json</span><span class="o">=</span><span class="n">json</span><span class="p">)</span>
+        <span class="n">r</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">connection</span><span class="o">.</span><span class="n">post_request</span><span class="p">(</span><span class="s2">&quot;changedEntityExportJobs&quot;</span><span class="p">,</span> <span class="n">json</span><span class="o">=</span><span class="n">json</span><span class="p">)</span>
 
         <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
-            <span class="n">status</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_changed_entity_job</span><span class="p">(</span><span class="n">r</span><span class="p">[</span><span class="s1">&#39;exportJobId&#39;</span><span class="p">])</span>
-            <span class="k">if</span> <span class="n">status</span><span class="p">[</span><span class="s1">&#39;jobStatus&#39;</span><span class="p">]</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;Pending&#39;</span><span class="p">,</span> <span class="s1">&#39;InProcess&#39;</span><span class="p">]:</span>
-                <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s1">&#39;Waiting on export file.&#39;</span><span class="p">)</span>
+            <span class="n">status</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_changed_entity_job</span><span class="p">(</span><span class="n">r</span><span class="p">[</span><span class="s2">&quot;exportJobId&quot;</span><span class="p">])</span>
+            <span class="k">if</span> <span class="n">status</span><span class="p">[</span><span class="s2">&quot;jobStatus&quot;</span><span class="p">]</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;Pending&quot;</span><span class="p">,</span> <span class="s2">&quot;InProcess&quot;</span><span class="p">]:</span>
+                <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Waiting on export file.&quot;</span><span class="p">)</span>
                 <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="n">RETRY_RATE</span><span class="p">)</span>
-            <span class="k">elif</span> <span class="n">status</span><span class="p">[</span><span class="s1">&#39;jobStatus&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;Complete&#39;</span><span class="p">:</span>
-                <span class="k">return</span> <span class="n">Table</span><span class="o">.</span><span class="n">from_csv</span><span class="p">(</span><span class="n">status</span><span class="p">[</span><span class="s1">&#39;files&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="s1">&#39;downloadUrl&#39;</span><span class="p">])</span>
+            <span class="k">elif</span> <span class="n">status</span><span class="p">[</span><span class="s2">&quot;jobStatus&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;Complete&quot;</span><span class="p">:</span>
+                <span class="k">return</span> <span class="n">Table</span><span class="o">.</span><span class="n">from_csv</span><span class="p">(</span><span class="n">status</span><span class="p">[</span><span class="s2">&quot;files&quot;</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="s2">&quot;downloadUrl&quot;</span><span class="p">])</span>
             <span class="k">else</span><span class="p">:</span>
-                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="n">status</span><span class="p">[</span><span class="s1">&#39;message&#39;</span><span class="p">])</span></div>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="n">status</span><span class="p">[</span><span class="s2">&quot;message&quot;</span><span class="p">])</span></div>
 
     <span class="k">def</span> <span class="nf">_get_changed_entity_job</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">job_id</span><span class="p">):</span>
 
-        <span class="n">r</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">connection</span><span class="o">.</span><span class="n">get_request</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;changedEntityExportJobs/</span><span class="si">{</span><span class="n">job_id</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+        <span class="n">r</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">connection</span><span class="o">.</span><span class="n">get_request</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;changedEntityExportJobs/</span><span class="si">{</span><span class="n">job_id</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">r</span></div>
 </pre></div>
 

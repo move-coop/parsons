@@ -148,7 +148,6 @@
 
 
 <div class="viewcode-block" id="Targets"><a class="viewcode-back" href="../../../ngpvan.html#parsons.ngpvan.van.Targets">[docs]</a><span class="k">class</span> <span class="nc">Targets</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
-
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">van_connection</span><span class="p">):</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">connection</span> <span class="o">=</span> <span class="n">van_connection</span>
@@ -165,8 +164,8 @@
 <span class="sd">                See :ref:`parsons-table` for output options.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
-        <span class="n">tbl</span> <span class="o">=</span> <span class="n">Table</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">connection</span><span class="o">.</span><span class="n">get_request</span><span class="p">(</span><span class="s1">&#39;targets&#39;</span><span class="p">))</span>
-        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Found </span><span class="si">{</span><span class="n">tbl</span><span class="o">.</span><span class="n">num_rows</span><span class="si">}</span><span class="s1"> targets.&#39;</span><span class="p">)</span>
+        <span class="n">tbl</span> <span class="o">=</span> <span class="n">Table</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">connection</span><span class="o">.</span><span class="n">get_request</span><span class="p">(</span><span class="s2">&quot;targets&quot;</span><span class="p">))</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Found </span><span class="si">{</span><span class="n">tbl</span><span class="o">.</span><span class="n">num_rows</span><span class="si">}</span><span class="s2"> targets.&quot;</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">tbl</span></div>
 
 <div class="viewcode-block" id="Targets.get_target"><a class="viewcode-back" href="../../../ngpvan.html#parsons.ngpvan.van.Targets.get_target">[docs]</a>    <span class="k">def</span> <span class="nf">get_target</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">target_id</span><span class="p">):</span>
@@ -181,8 +180,8 @@
 <span class="sd">                The target</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
-        <span class="n">r</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">connection</span><span class="o">.</span><span class="n">get_request</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;targets/</span><span class="si">{</span><span class="n">target_id</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
-        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Found target </span><span class="si">{</span><span class="n">target_id</span><span class="si">}</span><span class="s1">.&#39;</span><span class="p">)</span>
+        <span class="n">r</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">connection</span><span class="o">.</span><span class="n">get_request</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;targets/</span><span class="si">{</span><span class="n">target_id</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Found target </span><span class="si">{</span><span class="n">target_id</span><span class="si">}</span><span class="s2">.&quot;</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">r</span></div>
 
 <div class="viewcode-block" id="Targets.get_target_export"><a class="viewcode-back" href="../../../ngpvan.html#parsons.ngpvan.van.Targets.get_target_export">[docs]</a>    <span class="k">def</span> <span class="nf">get_target_export</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">export_job_id</span><span class="p">):</span>
@@ -194,15 +193,17 @@
 <span class="sd">                See :ref:`parsons-table` for output options.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
-        <span class="n">response</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">connection</span><span class="o">.</span><span class="n">get_request</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;targetExportJobs/</span><span class="si">{</span><span class="n">export_job_id</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
-        <span class="n">job_status</span> <span class="o">=</span> <span class="n">response</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;jobStatus&#39;</span><span class="p">)</span>
-        <span class="k">if</span> <span class="n">job_status</span> <span class="o">==</span> <span class="s1">&#39;Complete&#39;</span><span class="p">:</span>
-            <span class="n">url</span> <span class="o">=</span> <span class="n">response</span><span class="p">[</span><span class="s1">&#39;file&#39;</span><span class="p">][</span><span class="s1">&#39;downloadUrl&#39;</span><span class="p">]</span>
+        <span class="n">response</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">connection</span><span class="o">.</span><span class="n">get_request</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;targetExportJobs/</span><span class="si">{</span><span class="n">export_job_id</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="n">job_status</span> <span class="o">=</span> <span class="n">response</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;jobStatus&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">job_status</span> <span class="o">==</span> <span class="s2">&quot;Complete&quot;</span><span class="p">:</span>
+            <span class="n">url</span> <span class="o">=</span> <span class="n">response</span><span class="p">[</span><span class="s2">&quot;file&quot;</span><span class="p">][</span><span class="s2">&quot;downloadUrl&quot;</span><span class="p">]</span>
             <span class="k">return</span> <span class="n">Table</span><span class="p">(</span><span class="n">petl</span><span class="o">.</span><span class="n">fromcsv</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="s2">&quot;utf-8-sig&quot;</span><span class="p">))</span>
-        <span class="k">elif</span> <span class="n">job_status</span> <span class="o">==</span> <span class="s1">&#39;Pending&#39;</span> <span class="ow">or</span> <span class="n">job_status</span> <span class="o">==</span> <span class="s1">&#39;InProcess&#39;</span><span class="p">:</span>
-            <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Target export job is pending or in process for </span><span class="si">{</span><span class="n">export_job_id</span><span class="si">}</span><span class="s1">.&#39;</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">job_status</span> <span class="o">==</span> <span class="s2">&quot;Pending&quot;</span> <span class="ow">or</span> <span class="n">job_status</span> <span class="o">==</span> <span class="s2">&quot;InProcess&quot;</span><span class="p">:</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s2">&quot;Target export job is pending or in process for </span><span class="si">{</span><span class="n">export_job_id</span><span class="si">}</span><span class="s2">.&quot;</span>
+            <span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="n">TargetsFailed</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Target export failed for </span><span class="si">{</span><span class="n">export_job_id</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span></div>
+            <span class="k">raise</span> <span class="n">TargetsFailed</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Target export failed for </span><span class="si">{</span><span class="n">export_job_id</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="Targets.create_target_export"><a class="viewcode-back" href="../../../ngpvan.html#parsons.ngpvan.van.Targets.create_target_export">[docs]</a>    <span class="k">def</span> <span class="nf">create_target_export</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">target_id</span><span class="p">,</span> <span class="n">webhook_url</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
@@ -215,12 +216,10 @@
 <span class="sd">            dict</span>
 <span class="sd">                The target export job ID</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">target_export</span> <span class="o">=</span> <span class="p">{</span>
-                        <span class="s1">&#39;targetId&#39;</span><span class="p">:</span> <span class="n">target_id</span>
-                        <span class="p">}</span>
+        <span class="n">target_export</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;targetId&quot;</span><span class="p">:</span> <span class="n">target_id</span><span class="p">}</span>
 
-        <span class="n">r</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">connection</span><span class="o">.</span><span class="n">post_request</span><span class="p">(</span><span class="s1">&#39;targetExportJobs&#39;</span><span class="p">,</span> <span class="n">json</span><span class="o">=</span><span class="n">target_export</span><span class="p">)</span>
-        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Created new target export job for </span><span class="si">{</span><span class="n">target_id</span><span class="si">}</span><span class="s1">.&#39;</span><span class="p">)</span>
+        <span class="n">r</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">connection</span><span class="o">.</span><span class="n">post_request</span><span class="p">(</span><span class="s2">&quot;targetExportJobs&quot;</span><span class="p">,</span> <span class="n">json</span><span class="o">=</span><span class="n">target_export</span><span class="p">)</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Created new target export job for </span><span class="si">{</span><span class="n">target_id</span><span class="si">}</span><span class="s2">.&quot;</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">r</span></div></div>
 </pre></div>
 

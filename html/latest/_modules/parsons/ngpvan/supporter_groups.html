@@ -142,7 +142,6 @@
 
 
 <div class="viewcode-block" id="SupporterGroups"><a class="viewcode-back" href="../../../ngpvan.html#parsons.ngpvan.van.SupporterGroups">[docs]</a><span class="k">class</span> <span class="nc">SupporterGroups</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
-
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">van_connection</span><span class="p">):</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">connection</span> <span class="o">=</span> <span class="n">van_connection</span>
@@ -156,8 +155,8 @@
 <span class="sd">                See :ref:`parsons-table` for output options.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
-        <span class="n">tbl</span> <span class="o">=</span> <span class="n">Table</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">connection</span><span class="o">.</span><span class="n">get_request</span><span class="p">(</span><span class="s1">&#39;supporterGroups&#39;</span><span class="p">))</span>
-        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Found </span><span class="si">{</span><span class="n">tbl</span><span class="o">.</span><span class="n">num_rows</span><span class="si">}</span><span class="s1"> supporter groups.&#39;</span><span class="p">)</span>
+        <span class="n">tbl</span> <span class="o">=</span> <span class="n">Table</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">connection</span><span class="o">.</span><span class="n">get_request</span><span class="p">(</span><span class="s2">&quot;supporterGroups&quot;</span><span class="p">))</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Found </span><span class="si">{</span><span class="n">tbl</span><span class="o">.</span><span class="n">num_rows</span><span class="si">}</span><span class="s2"> supporter groups.&quot;</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">tbl</span></div>
 
 <div class="viewcode-block" id="SupporterGroups.get_supporter_group"><a class="viewcode-back" href="../../../ngpvan.html#parsons.ngpvan.van.SupporterGroups.get_supporter_group">[docs]</a>    <span class="k">def</span> <span class="nf">get_supporter_group</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">supporter_group_id</span><span class="p">):</span>
@@ -171,8 +170,8 @@
 <span class="sd">            dict</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
-        <span class="n">r</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">connection</span><span class="o">.</span><span class="n">get_request</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;supporterGroups/</span><span class="si">{</span><span class="n">supporter_group_id</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
-        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Found supporter group </span><span class="si">{</span><span class="n">supporter_group_id</span><span class="si">}</span><span class="s1">.&#39;</span><span class="p">)</span>
+        <span class="n">r</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">connection</span><span class="o">.</span><span class="n">get_request</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;supporterGroups/</span><span class="si">{</span><span class="n">supporter_group_id</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Found supporter group </span><span class="si">{</span><span class="n">supporter_group_id</span><span class="si">}</span><span class="s2">.&quot;</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">r</span></div>
 
 <div class="viewcode-block" id="SupporterGroups.create_supporter_group"><a class="viewcode-back" href="../../../ngpvan.html#parsons.ngpvan.van.SupporterGroups.create_supporter_group">[docs]</a>    <span class="k">def</span> <span class="nf">create_supporter_group</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">description</span><span class="p">):</span>
@@ -189,8 +188,8 @@
 <span class="sd">            and description</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
-        <span class="n">json</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="n">name</span><span class="p">,</span> <span class="s1">&#39;description&#39;</span><span class="p">:</span> <span class="n">description</span><span class="p">}</span>
-        <span class="n">r</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">connection</span><span class="o">.</span><span class="n">post_request</span><span class="p">(</span><span class="s1">&#39;supporterGroups&#39;</span><span class="p">,</span> <span class="n">json</span><span class="o">=</span><span class="n">json</span><span class="p">)</span>
+        <span class="n">json</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="n">name</span><span class="p">,</span> <span class="s2">&quot;description&quot;</span><span class="p">:</span> <span class="n">description</span><span class="p">}</span>
+        <span class="n">r</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">connection</span><span class="o">.</span><span class="n">post_request</span><span class="p">(</span><span class="s2">&quot;supporterGroups&quot;</span><span class="p">,</span> <span class="n">json</span><span class="o">=</span><span class="n">json</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">r</span></div>
 
 <div class="viewcode-block" id="SupporterGroups.delete_supporter_group"><a class="viewcode-back" href="../../../ngpvan.html#parsons.ngpvan.van.SupporterGroups.delete_supporter_group">[docs]</a>    <span class="k">def</span> <span class="nf">delete_supporter_group</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">supporter_group_id</span><span class="p">):</span>
@@ -204,8 +203,8 @@
 <span class="sd">            ``None``</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
-        <span class="n">r</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">connection</span><span class="o">.</span><span class="n">delete_request</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;supporterGroups/</span><span class="si">{</span><span class="n">supporter_group_id</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
-        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Deleted supporter group </span><span class="si">{</span><span class="n">supporter_group_id</span><span class="si">}</span><span class="s1">.&#39;</span><span class="p">)</span>
+        <span class="n">r</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">connection</span><span class="o">.</span><span class="n">delete_request</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;supporterGroups/</span><span class="si">{</span><span class="n">supporter_group_id</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Deleted supporter group </span><span class="si">{</span><span class="n">supporter_group_id</span><span class="si">}</span><span class="s2">.&quot;</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">r</span></div>
 
 <div class="viewcode-block" id="SupporterGroups.add_person_supporter_group"><a class="viewcode-back" href="../../../ngpvan.html#parsons.ngpvan.van.SupporterGroups.add_person_supporter_group">[docs]</a>    <span class="k">def</span> <span class="nf">add_person_supporter_group</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">supporter_group_id</span><span class="p">,</span> <span class="n">vanid</span><span class="p">):</span>
@@ -221,8 +220,10 @@
 <span class="sd">            ``None``</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
-        <span class="n">r</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">connection</span><span class="o">.</span><span class="n">put_request</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;supporterGroups/</span><span class="si">{</span><span class="n">supporter_group_id</span><span class="si">}</span><span class="s1">/people/</span><span class="si">{</span><span class="n">vanid</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
-        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Added person </span><span class="si">{</span><span class="n">vanid</span><span class="si">}</span><span class="s1"> to </span><span class="si">{</span><span class="n">supporter_group_id</span><span class="si">}</span><span class="s1"> supporter group.&#39;</span><span class="p">)</span>
+        <span class="n">r</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">connection</span><span class="o">.</span><span class="n">put_request</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s2">&quot;supporterGroups/</span><span class="si">{</span><span class="n">supporter_group_id</span><span class="si">}</span><span class="s2">/people/</span><span class="si">{</span><span class="n">vanid</span><span class="si">}</span><span class="s2">&quot;</span>
+        <span class="p">)</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Added person </span><span class="si">{</span><span class="n">vanid</span><span class="si">}</span><span class="s2"> to </span><span class="si">{</span><span class="n">supporter_group_id</span><span class="si">}</span><span class="s2"> supporter group.&quot;</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">r</span></div>
 
 <div class="viewcode-block" id="SupporterGroups.delete_person_supporter_group"><a class="viewcode-back" href="../../../ngpvan.html#parsons.ngpvan.van.SupporterGroups.delete_person_supporter_group">[docs]</a>    <span class="k">def</span> <span class="nf">delete_person_supporter_group</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">supporter_group_id</span><span class="p">,</span> <span class="n">vanid</span><span class="p">):</span>
@@ -238,8 +239,12 @@
 <span class="sd">            ``None``</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
-        <span class="n">r</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">connection</span><span class="o">.</span><span class="n">delete_request</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;supporterGroups/</span><span class="si">{</span><span class="n">supporter_group_id</span><span class="si">}</span><span class="s1">/people/</span><span class="si">{</span><span class="n">vanid</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
-        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Deleted person </span><span class="si">{</span><span class="n">vanid</span><span class="si">}</span><span class="s1"> from </span><span class="si">{</span><span class="n">supporter_group_id</span><span class="si">}</span><span class="s1"> supporter group.&#39;</span><span class="p">)</span>
+        <span class="n">r</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">connection</span><span class="o">.</span><span class="n">delete_request</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s2">&quot;supporterGroups/</span><span class="si">{</span><span class="n">supporter_group_id</span><span class="si">}</span><span class="s2">/people/</span><span class="si">{</span><span class="n">vanid</span><span class="si">}</span><span class="s2">&quot;</span>
+        <span class="p">)</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s2">&quot;Deleted person </span><span class="si">{</span><span class="n">vanid</span><span class="si">}</span><span class="s2"> from </span><span class="si">{</span><span class="n">supporter_group_id</span><span class="si">}</span><span class="s2"> supporter group.&quot;</span>
+        <span class="p">)</span>
         <span class="k">return</span> <span class="n">r</span></div></div>
 </pre></div>
 

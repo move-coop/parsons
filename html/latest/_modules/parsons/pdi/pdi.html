@@ -157,11 +157,18 @@
 <span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
 
 
-<div class="viewcode-block" id="PDI"><a class="viewcode-back" href="../../../pdi.html#parsons.PDI">[docs]</a><span class="k">class</span> <span class="nc">PDI</span><span class="p">(</span><span class="n">FlagIDs</span><span class="p">,</span> <span class="n">Universes</span><span class="p">,</span> <span class="n">Questions</span><span class="p">,</span> <span class="n">AcquisitionTypes</span><span class="p">,</span> <span class="n">Flags</span><span class="p">,</span> <span class="n">Events</span><span class="p">,</span> <span class="n">Locations</span><span class="p">,</span> <span class="n">Contacts</span><span class="p">,</span>
-          <span class="n">Activities</span><span class="p">):</span>
-
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">username</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">password</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">api_token</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-                 <span class="n">qa_url</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+<div class="viewcode-block" id="PDI"><a class="viewcode-back" href="../../../pdi.html#parsons.PDI">[docs]</a><span class="k">class</span> <span class="nc">PDI</span><span class="p">(</span>
+    <span class="n">FlagIDs</span><span class="p">,</span>
+    <span class="n">Universes</span><span class="p">,</span>
+    <span class="n">Questions</span><span class="p">,</span>
+    <span class="n">AcquisitionTypes</span><span class="p">,</span>
+    <span class="n">Flags</span><span class="p">,</span>
+    <span class="n">Events</span><span class="p">,</span>
+    <span class="n">Locations</span><span class="p">,</span>
+    <span class="n">Contacts</span><span class="p">,</span>
+    <span class="n">Activities</span><span class="p">,</span>
+<span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">username</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">password</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">api_token</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">qa_url</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Instantiate the PDI class</span>
 
@@ -185,9 +192,9 @@
         <span class="k">else</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">base_url</span> <span class="o">=</span> <span class="s2">&quot;https://api.bluevote.com&quot;</span>
 
-        <span class="bp">self</span><span class="o">.</span><span class="n">username</span> <span class="o">=</span> <span class="n">check_env</span><span class="o">.</span><span class="n">check</span><span class="p">(</span><span class="s1">&#39;PDI_USERNAME&#39;</span><span class="p">,</span> <span class="n">username</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">password</span> <span class="o">=</span> <span class="n">check_env</span><span class="o">.</span><span class="n">check</span><span class="p">(</span><span class="s1">&#39;PDI_PASSWORD&#39;</span><span class="p">,</span> <span class="n">password</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">api_token</span> <span class="o">=</span> <span class="n">check_env</span><span class="o">.</span><span class="n">check</span><span class="p">(</span><span class="s1">&#39;PDI_API_TOKEN&#39;</span><span class="p">,</span> <span class="n">api_token</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">username</span> <span class="o">=</span> <span class="n">check_env</span><span class="o">.</span><span class="n">check</span><span class="p">(</span><span class="s2">&quot;PDI_USERNAME&quot;</span><span class="p">,</span> <span class="n">username</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">password</span> <span class="o">=</span> <span class="n">check_env</span><span class="o">.</span><span class="n">check</span><span class="p">(</span><span class="s2">&quot;PDI_PASSWORD&quot;</span><span class="p">,</span> <span class="n">password</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">api_token</span> <span class="o">=</span> <span class="n">check_env</span><span class="o">.</span><span class="n">check</span><span class="p">(</span><span class="s2">&quot;PDI_API_TOKEN&quot;</span><span class="p">,</span> <span class="n">api_token</span><span class="p">)</span>
 
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
 
@@ -202,10 +209,7 @@
             <span class="s2">&quot;Password&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">password</span><span class="p">,</span>
             <span class="s2">&quot;ApiToken&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">api_token</span><span class="p">,</span>
         <span class="p">}</span>
-        <span class="n">res</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">post</span><span class="p">(</span>
-            <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">base_url</span><span class="si">}</span><span class="s2">/sessions&quot;</span><span class="p">,</span>
-            <span class="n">json</span><span class="o">=</span><span class="n">login</span><span class="p">,</span>
-            <span class="n">headers</span><span class="o">=</span><span class="n">headers</span><span class="p">)</span>
+        <span class="n">res</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">post</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">base_url</span><span class="si">}</span><span class="s2">/sessions&quot;</span><span class="p">,</span> <span class="n">json</span><span class="o">=</span><span class="n">login</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="n">headers</span><span class="p">)</span>
         <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">res</span><span class="o">.</span><span class="n">status_code</span><span class="si">}</span><span class="s2"> - </span><span class="si">{</span><span class="n">res</span><span class="o">.</span><span class="n">url</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
         <span class="n">res</span><span class="o">.</span><span class="n">raise_for_status</span><span class="p">()</span>
         <span class="c1"># status_code == 200</span>
@@ -222,8 +226,7 @@
 
         <span class="k">return</span> <span class="n">dct</span>
 
-    <span class="k">def</span> <span class="nf">_request</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">url</span><span class="p">,</span> <span class="n">req_type</span><span class="o">=</span><span class="s1">&#39;GET&#39;</span><span class="p">,</span> <span class="n">post_data</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">args</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-                 <span class="n">limit</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">_request</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">url</span><span class="p">,</span> <span class="n">req_type</span><span class="o">=</span><span class="s2">&quot;GET&quot;</span><span class="p">,</span> <span class="n">post_data</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">args</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">limit</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="c1"># Make sure to have a current token before we make another request</span>
         <span class="n">now</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">(</span><span class="n">timezone</span><span class="o">.</span><span class="n">utc</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">now</span> <span class="o">&gt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">session_exp</span><span class="p">:</span>
@@ -270,8 +273,7 @@
         <span class="k">if</span> <span class="s2">&quot;data&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">res_json</span><span class="p">:</span>
             <span class="k">return</span> <span class="n">res_json</span>
 
-        <span class="n">total_count</span> <span class="o">=</span> <span class="p">(</span><span class="mi">0</span> <span class="k">if</span> <span class="s2">&quot;totalCount&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">res_json</span>
-                       <span class="k">else</span> <span class="n">res_json</span><span class="p">[</span><span class="s2">&quot;totalCount&quot;</span><span class="p">])</span>
+        <span class="n">total_count</span> <span class="o">=</span> <span class="mi">0</span> <span class="k">if</span> <span class="s2">&quot;totalCount&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">res_json</span> <span class="k">else</span> <span class="n">res_json</span><span class="p">[</span><span class="s2">&quot;totalCount&quot;</span><span class="p">]</span>
         <span class="n">data</span> <span class="o">=</span> <span class="n">res_json</span><span class="p">[</span><span class="s2">&quot;data&quot;</span><span class="p">]</span>
 
         <span class="k">if</span> <span class="ow">not</span> <span class="n">limit</span><span class="p">:</span>
@@ -283,7 +285,8 @@
                 <span class="n">args</span><span class="p">[</span><span class="s2">&quot;cursor&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">cursor</span>
                 <span class="n">args</span><span class="p">[</span><span class="s2">&quot;limit&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">LIMIT_MAX</span>
                 <span class="n">res</span> <span class="o">=</span> <span class="n">request_fn</span><span class="p">[</span><span class="n">req_type</span><span class="p">](</span>
-                    <span class="n">url</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="n">headers</span><span class="p">,</span> <span class="n">json</span><span class="o">=</span><span class="n">post_data</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="n">args</span><span class="p">)</span>
+                    <span class="n">url</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="n">headers</span><span class="p">,</span> <span class="n">json</span><span class="o">=</span><span class="n">post_data</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="n">args</span>
+                <span class="p">)</span>
 
                 <span class="n">data</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">res</span><span class="o">.</span><span class="n">json</span><span class="p">()[</span><span class="s2">&quot;data&quot;</span><span class="p">])</span>
 
@@ -300,7 +303,8 @@
                 <span class="n">args</span><span class="p">[</span><span class="s2">&quot;cursor&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">cursor</span>
                 <span class="n">args</span><span class="p">[</span><span class="s2">&quot;limit&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">LIMIT_MAX</span><span class="p">,</span> <span class="n">total_need</span> <span class="o">-</span> <span class="nb">len</span><span class="p">(</span><span class="n">data</span><span class="p">))</span>
                 <span class="n">res</span> <span class="o">=</span> <span class="n">request_fn</span><span class="p">[</span><span class="n">req_type</span><span class="p">](</span>
-                    <span class="n">url</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="n">headers</span><span class="p">,</span> <span class="n">json</span><span class="o">=</span><span class="n">post_data</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="n">args</span><span class="p">)</span>
+                    <span class="n">url</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="n">headers</span><span class="p">,</span> <span class="n">json</span><span class="o">=</span><span class="n">post_data</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="n">args</span>
+                <span class="p">)</span>
 
                 <span class="n">data</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">res</span><span class="o">.</span><span class="n">json</span><span class="p">()[</span><span class="s2">&quot;data&quot;</span><span class="p">])</span>
 

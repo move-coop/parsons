@@ -161,14 +161,16 @@
 <span class="sd">            env variable set.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="n">_default_headers</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;content-type&#39;</span><span class="p">:</span> <span class="s1">&#39;application/json&#39;</span><span class="p">,</span>
-                        <span class="s1">&#39;accepts&#39;</span><span class="p">:</span> <span class="s1">&#39;application/json&#39;</span><span class="p">}</span>
+    <span class="n">_default_headers</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s2">&quot;content-type&quot;</span><span class="p">:</span> <span class="s2">&quot;application/json&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;accepts&quot;</span><span class="p">:</span> <span class="s2">&quot;application/json&quot;</span><span class="p">,</span>
+    <span class="p">}</span>
 
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">domain</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">username</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">password</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
 
-        <span class="bp">self</span><span class="o">.</span><span class="n">domain</span> <span class="o">=</span> <span class="n">check_env</span><span class="o">.</span><span class="n">check</span><span class="p">(</span><span class="s1">&#39;ACTION_KIT_DOMAIN&#39;</span><span class="p">,</span> <span class="n">domain</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">username</span> <span class="o">=</span> <span class="n">check_env</span><span class="o">.</span><span class="n">check</span><span class="p">(</span><span class="s1">&#39;ACTION_KIT_USERNAME&#39;</span><span class="p">,</span> <span class="n">username</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">password</span> <span class="o">=</span> <span class="n">check_env</span><span class="o">.</span><span class="n">check</span><span class="p">(</span><span class="s1">&#39;ACTION_KIT_PASSWORD&#39;</span><span class="p">,</span> <span class="n">password</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">domain</span> <span class="o">=</span> <span class="n">check_env</span><span class="o">.</span><span class="n">check</span><span class="p">(</span><span class="s2">&quot;ACTION_KIT_DOMAIN&quot;</span><span class="p">,</span> <span class="n">domain</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">username</span> <span class="o">=</span> <span class="n">check_env</span><span class="o">.</span><span class="n">check</span><span class="p">(</span><span class="s2">&quot;ACTION_KIT_USERNAME&quot;</span><span class="p">,</span> <span class="n">username</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">password</span> <span class="o">=</span> <span class="n">check_env</span><span class="o">.</span><span class="n">check</span><span class="p">(</span><span class="s2">&quot;ACTION_KIT_PASSWORD&quot;</span><span class="p">,</span> <span class="n">password</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">conn</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_conn</span><span class="p">()</span>
 
     <span class="k">def</span> <span class="nf">_conn</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">default_headers</span><span class="o">=</span><span class="n">_default_headers</span><span class="p">):</span>
@@ -181,10 +183,10 @@
     <span class="k">def</span> <span class="nf">_base_endpoint</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">endpoint</span><span class="p">,</span> <span class="n">entity_id</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="c1"># Create the base endpoint URL</span>
 
-        <span class="n">url</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;https://</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">domain</span><span class="si">}</span><span class="s1">/rest/v1/</span><span class="si">{</span><span class="n">endpoint</span><span class="si">}</span><span class="s1">/&#39;</span>
+        <span class="n">url</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;https://</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">domain</span><span class="si">}</span><span class="s2">/rest/v1/</span><span class="si">{</span><span class="n">endpoint</span><span class="si">}</span><span class="s2">/&quot;</span>
 
         <span class="k">if</span> <span class="n">entity_id</span><span class="p">:</span>
-            <span class="k">return</span> <span class="n">url</span> <span class="o">+</span> <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">entity_id</span><span class="si">}</span><span class="s1">/&#39;</span>
+            <span class="k">return</span> <span class="n">url</span> <span class="o">+</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">entity_id</span><span class="si">}</span><span class="s2">/&quot;</span>
         <span class="k">return</span> <span class="n">url</span>
 
     <span class="k">def</span> <span class="nf">_base_get</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">endpoint</span><span class="p">,</span> <span class="n">entity_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">exception_message</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
@@ -205,8 +207,8 @@
 
         <span class="c1"># Some of the methods should just return pointer to location of created</span>
         <span class="c1"># object.</span>
-        <span class="k">if</span> <span class="s1">&#39;headers&#39;</span> <span class="ow">in</span> <span class="n">resp</span><span class="o">.</span><span class="vm">__dict__</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">return_full_json</span><span class="p">:</span>
-            <span class="k">return</span> <span class="n">resp</span><span class="o">.</span><span class="vm">__dict__</span><span class="p">[</span><span class="s1">&#39;headers&#39;</span><span class="p">][</span><span class="s1">&#39;Location&#39;</span><span class="p">]</span>
+        <span class="k">if</span> <span class="s2">&quot;headers&quot;</span> <span class="ow">in</span> <span class="n">resp</span><span class="o">.</span><span class="vm">__dict__</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">return_full_json</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">resp</span><span class="o">.</span><span class="vm">__dict__</span><span class="p">[</span><span class="s2">&quot;headers&quot;</span><span class="p">][</span><span class="s2">&quot;Location&quot;</span><span class="p">]</span>
 
         <span class="c1"># Not all responses return a json</span>
         <span class="k">try</span><span class="p">:</span>
@@ -219,12 +221,12 @@
         <span class="c1"># AK provides some pretty robust/helpful error reporting. We should surface them with</span>
         <span class="c1"># our exceptions.</span>
 
-        <span class="k">if</span> <span class="s1">&#39;errors&#39;</span> <span class="ow">in</span> <span class="n">resp</span><span class="o">.</span><span class="n">json</span><span class="p">()</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
-            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">resp</span><span class="o">.</span><span class="n">json</span><span class="p">()[</span><span class="s1">&#39;errors&#39;</span><span class="p">],</span> <span class="nb">list</span><span class="p">):</span>
-                <span class="n">exception_message</span> <span class="o">+=</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span> <span class="o">+</span> <span class="s1">&#39;,&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">resp</span><span class="o">.</span><span class="n">json</span><span class="p">()[</span><span class="s1">&#39;errors&#39;</span><span class="p">])</span>
+        <span class="k">if</span> <span class="s2">&quot;errors&quot;</span> <span class="ow">in</span> <span class="n">resp</span><span class="o">.</span><span class="n">json</span><span class="p">()</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">resp</span><span class="o">.</span><span class="n">json</span><span class="p">()[</span><span class="s2">&quot;errors&quot;</span><span class="p">],</span> <span class="nb">list</span><span class="p">):</span>
+                <span class="n">exception_message</span> <span class="o">+=</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span> <span class="o">+</span> <span class="s2">&quot;,&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">resp</span><span class="o">.</span><span class="n">json</span><span class="p">()[</span><span class="s2">&quot;errors&quot;</span><span class="p">])</span>
             <span class="k">else</span><span class="p">:</span>
-                <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">resp</span><span class="o">.</span><span class="n">json</span><span class="p">()[</span><span class="s1">&#39;errors&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
-                    <span class="n">exception_message</span> <span class="o">+=</span> <span class="nb">str</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span> <span class="o">+</span> <span class="n">k</span> <span class="o">+</span> <span class="s1">&#39;: &#39;</span> <span class="o">+</span> <span class="s1">&#39;,&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">v</span><span class="p">))</span>
+                <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">resp</span><span class="o">.</span><span class="n">json</span><span class="p">()[</span><span class="s2">&quot;errors&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+                    <span class="n">exception_message</span> <span class="o">+=</span> <span class="nb">str</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span> <span class="o">+</span> <span class="n">k</span> <span class="o">+</span> <span class="s2">&quot;: &quot;</span> <span class="o">+</span> <span class="s2">&quot;,&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">v</span><span class="p">))</span>
 
         <span class="k">return</span> <span class="n">exception_message</span>
 
@@ -239,8 +241,9 @@
 <span class="sd">            User json object</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_base_get</span><span class="p">(</span><span class="n">endpoint</span><span class="o">=</span><span class="s1">&#39;user&#39;</span><span class="p">,</span> <span class="n">entity_id</span><span class="o">=</span><span class="n">user_id</span><span class="p">,</span>
-                              <span class="n">exception_message</span><span class="o">=</span><span class="s1">&#39;User not found&#39;</span><span class="p">)</span></div>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_base_get</span><span class="p">(</span>
+            <span class="n">endpoint</span><span class="o">=</span><span class="s2">&quot;user&quot;</span><span class="p">,</span> <span class="n">entity_id</span><span class="o">=</span><span class="n">user_id</span><span class="p">,</span> <span class="n">exception_message</span><span class="o">=</span><span class="s2">&quot;User not found&quot;</span>
+        <span class="p">)</span></div>
 
 <div class="viewcode-block" id="ActionKit.get_user_fields"><a class="viewcode-back" href="../../../action_kit.html#parsons.ActionKit.get_user_fields">[docs]</a>    <span class="k">def</span> <span class="nf">get_user_fields</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
@@ -251,9 +254,9 @@
 <span class="sd">            List of user fields</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
-        <span class="n">resp</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_base_get</span><span class="p">(</span><span class="n">endpoint</span><span class="o">=</span><span class="s1">&#39;user/schema&#39;</span><span class="p">)</span>
+        <span class="n">resp</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_base_get</span><span class="p">(</span><span class="n">endpoint</span><span class="o">=</span><span class="s2">&quot;user/schema&quot;</span><span class="p">)</span>
 
-        <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="n">resp</span><span class="p">[</span><span class="s1">&#39;fields&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span></div>
+        <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="n">resp</span><span class="p">[</span><span class="s2">&quot;fields&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span></div>
 
 <div class="viewcode-block" id="ActionKit.create_user"><a class="viewcode-back" href="../../../action_kit.html#parsons.ActionKit.create_user">[docs]</a>    <span class="k">def</span> <span class="nf">create_user</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">email</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
@@ -270,8 +273,12 @@
 <span class="sd">            User json object</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_base_post</span><span class="p">(</span><span class="n">endpoint</span><span class="o">=</span><span class="s1">&#39;user&#39;</span><span class="p">,</span> <span class="n">exception_message</span><span class="o">=</span><span class="s1">&#39;Could not create user&#39;</span><span class="p">,</span>
-                               <span class="n">email</span><span class="o">=</span><span class="n">email</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_base_post</span><span class="p">(</span>
+            <span class="n">endpoint</span><span class="o">=</span><span class="s2">&quot;user&quot;</span><span class="p">,</span>
+            <span class="n">exception_message</span><span class="o">=</span><span class="s2">&quot;Could not create user&quot;</span><span class="p">,</span>
+            <span class="n">email</span><span class="o">=</span><span class="n">email</span><span class="p">,</span>
+            <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
+        <span class="p">)</span></div>
 
 <div class="viewcode-block" id="ActionKit.update_user"><a class="viewcode-back" href="../../../action_kit.html#parsons.ActionKit.update_user">[docs]</a>    <span class="k">def</span> <span class="nf">update_user</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">user_id</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
@@ -288,8 +295,10 @@
 <span class="sd">            ``None``</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
-        <span class="n">resp</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">conn</span><span class="o">.</span><span class="n">patch</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_base_endpoint</span><span class="p">(</span><span class="s1">&#39;user&#39;</span><span class="p">,</span> <span class="n">user_id</span><span class="p">),</span> <span class="n">data</span><span class="o">=</span><span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">kwargs</span><span class="p">))</span>
-        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">resp</span><span class="o">.</span><span class="n">status_code</span><span class="si">}</span><span class="s1">: </span><span class="si">{</span><span class="n">user_id</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span></div>
+        <span class="n">resp</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">conn</span><span class="o">.</span><span class="n">patch</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_base_endpoint</span><span class="p">(</span><span class="s2">&quot;user&quot;</span><span class="p">,</span> <span class="n">user_id</span><span class="p">),</span> <span class="n">data</span><span class="o">=</span><span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="p">)</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">resp</span><span class="o">.</span><span class="n">status_code</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">user_id</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="ActionKit.get_event"><a class="viewcode-back" href="../../../action_kit.html#parsons.ActionKit.get_event">[docs]</a>    <span class="k">def</span> <span class="nf">get_event</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">event_id</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Get an event.</span>
@@ -326,7 +335,7 @@
 <span class="sd">            Parsons.Table</span>
 <span class="sd">                The events data.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">paginated_get</span><span class="p">(</span><span class="s1">&#39;event&#39;</span><span class="p">,</span> <span class="n">limit</span><span class="o">=</span><span class="n">limit</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">paginated_get</span><span class="p">(</span><span class="s2">&quot;event&quot;</span><span class="p">,</span> <span class="n">limit</span><span class="o">=</span><span class="n">limit</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="ActionKit.update_event"><a class="viewcode-back" href="../../../action_kit.html#parsons.ActionKit.update_event">[docs]</a>    <span class="k">def</span> <span class="nf">update_event</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">event_id</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
@@ -343,8 +352,10 @@
 <span class="sd">            ``None``</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
-        <span class="n">resp</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">conn</span><span class="o">.</span><span class="n">patch</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_base_endpoint</span><span class="p">(</span><span class="s1">&#39;event&#39;</span><span class="p">,</span> <span class="n">event_id</span><span class="p">),</span> <span class="n">data</span><span class="o">=</span><span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">kwargs</span><span class="p">))</span>
-        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">resp</span><span class="o">.</span><span class="n">status_code</span><span class="si">}</span><span class="s1">: </span><span class="si">{</span><span class="n">event_id</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span></div>
+        <span class="n">resp</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">conn</span><span class="o">.</span><span class="n">patch</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_base_endpoint</span><span class="p">(</span><span class="s2">&quot;event&quot;</span><span class="p">,</span> <span class="n">event_id</span><span class="p">),</span> <span class="n">data</span><span class="o">=</span><span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="p">)</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">resp</span><span class="o">.</span><span class="n">status_code</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">event_id</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="ActionKit.delete_user"><a class="viewcode-back" href="../../../action_kit.html#parsons.ActionKit.delete_user">[docs]</a>    <span class="k">def</span> <span class="nf">delete_user</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">user_id</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
@@ -357,8 +368,8 @@
 <span class="sd">            ``None``</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
-        <span class="n">resp</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">conn</span><span class="o">.</span><span class="n">delete</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_base_endpoint</span><span class="p">(</span><span class="s1">&#39;user&#39;</span><span class="p">,</span> <span class="n">user_id</span><span class="p">))</span>
-        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">resp</span><span class="o">.</span><span class="n">status_code</span><span class="si">}</span><span class="s1">: </span><span class="si">{</span><span class="n">user_id</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span></div>
+        <span class="n">resp</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">conn</span><span class="o">.</span><span class="n">delete</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_base_endpoint</span><span class="p">(</span><span class="s2">&quot;user&quot;</span><span class="p">,</span> <span class="n">user_id</span><span class="p">))</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">resp</span><span class="o">.</span><span class="n">status_code</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">user_id</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="ActionKit.get_campaign"><a class="viewcode-back" href="../../../action_kit.html#parsons.ActionKit.get_campaign">[docs]</a>    <span class="k">def</span> <span class="nf">get_campaign</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">campaign_id</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
@@ -371,8 +382,11 @@
 <span class="sd">            Campaign json object</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_base_get</span><span class="p">(</span><span class="n">endpoint</span><span class="o">=</span><span class="s1">&#39;campaign&#39;</span><span class="p">,</span> <span class="n">entity_id</span><span class="o">=</span><span class="n">campaign_id</span><span class="p">,</span>
-                              <span class="n">exception_message</span><span class="o">=</span><span class="s1">&#39;Campaign not found&#39;</span><span class="p">)</span></div>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_base_get</span><span class="p">(</span>
+            <span class="n">endpoint</span><span class="o">=</span><span class="s2">&quot;campaign&quot;</span><span class="p">,</span>
+            <span class="n">entity_id</span><span class="o">=</span><span class="n">campaign_id</span><span class="p">,</span>
+            <span class="n">exception_message</span><span class="o">=</span><span class="s2">&quot;Campaign not found&quot;</span><span class="p">,</span>
+        <span class="p">)</span></div>
 
 <div class="viewcode-block" id="ActionKit.get_campaign_fields"><a class="viewcode-back" href="../../../action_kit.html#parsons.ActionKit.get_campaign_fields">[docs]</a>    <span class="k">def</span> <span class="nf">get_campaign_fields</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
@@ -383,8 +397,8 @@
 <span class="sd">            List of campaign fields</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
-        <span class="n">resp</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_base_get</span><span class="p">(</span><span class="n">endpoint</span><span class="o">=</span><span class="s1">&#39;campaign/schema&#39;</span><span class="p">)</span>
-        <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="n">resp</span><span class="p">[</span><span class="s1">&#39;fields&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span></div>
+        <span class="n">resp</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_base_get</span><span class="p">(</span><span class="n">endpoint</span><span class="o">=</span><span class="s2">&quot;campaign/schema&quot;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="n">resp</span><span class="p">[</span><span class="s2">&quot;fields&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span></div>
 
 <div class="viewcode-block" id="ActionKit.create_campaign"><a class="viewcode-back" href="../../../action_kit.html#parsons.ActionKit.create_campaign">[docs]</a>    <span class="k">def</span> <span class="nf">create_campaign</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
@@ -401,8 +415,12 @@
 <span class="sd">            API location of new resource</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_base_post</span><span class="p">(</span><span class="n">endpoint</span><span class="o">=</span><span class="s1">&#39;campaign&#39;</span><span class="p">,</span> <span class="n">exception_message</span><span class="o">=</span><span class="s1">&#39;Could not create campaign&#39;</span><span class="p">,</span>
-                               <span class="n">name</span><span class="o">=</span><span class="n">name</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_base_post</span><span class="p">(</span>
+            <span class="n">endpoint</span><span class="o">=</span><span class="s2">&quot;campaign&quot;</span><span class="p">,</span>
+            <span class="n">exception_message</span><span class="o">=</span><span class="s2">&quot;Could not create campaign&quot;</span><span class="p">,</span>
+            <span class="n">name</span><span class="o">=</span><span class="n">name</span><span class="p">,</span>
+            <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
+        <span class="p">)</span></div>
 
 <div class="viewcode-block" id="ActionKit.get_event_create_page"><a class="viewcode-back" href="../../../action_kit.html#parsons.ActionKit.get_event_create_page">[docs]</a>    <span class="k">def</span> <span class="nf">get_event_create_page</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">event_create_page_id</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
@@ -415,8 +433,11 @@
 <span class="sd">            Event create page json object</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_base_get</span><span class="p">(</span><span class="n">endpoint</span><span class="o">=</span><span class="s1">&#39;eventcreatepage&#39;</span><span class="p">,</span> <span class="n">entity_id</span><span class="o">=</span><span class="n">event_create_page_id</span><span class="p">,</span>
-                              <span class="n">exception_message</span><span class="o">=</span><span class="s1">&#39;Event create page not found&#39;</span><span class="p">)</span></div>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_base_get</span><span class="p">(</span>
+            <span class="n">endpoint</span><span class="o">=</span><span class="s2">&quot;eventcreatepage&quot;</span><span class="p">,</span>
+            <span class="n">entity_id</span><span class="o">=</span><span class="n">event_create_page_id</span><span class="p">,</span>
+            <span class="n">exception_message</span><span class="o">=</span><span class="s2">&quot;Event create page not found&quot;</span><span class="p">,</span>
+        <span class="p">)</span></div>
 
 <div class="viewcode-block" id="ActionKit.get_event_create_page_fields"><a class="viewcode-back" href="../../../action_kit.html#parsons.ActionKit.get_event_create_page_fields">[docs]</a>    <span class="k">def</span> <span class="nf">get_event_create_page_fields</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
@@ -427,8 +448,8 @@
 <span class="sd">            List of event create page fields</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
-        <span class="n">resp</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_base_get</span><span class="p">(</span><span class="n">endpoint</span><span class="o">=</span><span class="s1">&#39;eventcreatepage/schema&#39;</span><span class="p">)</span>
-        <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="n">resp</span><span class="p">[</span><span class="s1">&#39;fields&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span></div>
+        <span class="n">resp</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_base_get</span><span class="p">(</span><span class="n">endpoint</span><span class="o">=</span><span class="s2">&quot;eventcreatepage/schema&quot;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="n">resp</span><span class="p">[</span><span class="s2">&quot;fields&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span></div>
 
 <div class="viewcode-block" id="ActionKit.create_event_create_page"><a class="viewcode-back" href="../../../action_kit.html#parsons.ActionKit.create_event_create_page">[docs]</a>    <span class="k">def</span> <span class="nf">create_event_create_page</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">campaign_id</span><span class="p">,</span> <span class="n">title</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
@@ -449,12 +470,14 @@
 <span class="sd">            API location of new resource</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_base_post</span><span class="p">(</span><span class="n">endpoint</span><span class="o">=</span><span class="s1">&#39;eventcreatepage&#39;</span><span class="p">,</span>
-                               <span class="n">exception_message</span><span class="o">=</span><span class="s1">&#39;Could not create event create page&#39;</span><span class="p">,</span>
-                               <span class="n">campaign</span><span class="o">=</span><span class="sa">f</span><span class="s1">&#39;/rest/v1/campaign/</span><span class="si">{</span><span class="n">campaign_id</span><span class="si">}</span><span class="s1">/&#39;</span><span class="p">,</span>
-                               <span class="n">name</span><span class="o">=</span><span class="n">name</span><span class="p">,</span>
-                               <span class="n">title</span><span class="o">=</span><span class="n">title</span><span class="p">,</span>
-                               <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_base_post</span><span class="p">(</span>
+            <span class="n">endpoint</span><span class="o">=</span><span class="s2">&quot;eventcreatepage&quot;</span><span class="p">,</span>
+            <span class="n">exception_message</span><span class="o">=</span><span class="s2">&quot;Could not create event create page&quot;</span><span class="p">,</span>
+            <span class="n">campaign</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;/rest/v1/campaign/</span><span class="si">{</span><span class="n">campaign_id</span><span class="si">}</span><span class="s2">/&quot;</span><span class="p">,</span>
+            <span class="n">name</span><span class="o">=</span><span class="n">name</span><span class="p">,</span>
+            <span class="n">title</span><span class="o">=</span><span class="n">title</span><span class="p">,</span>
+            <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
+        <span class="p">)</span></div>
 
 <div class="viewcode-block" id="ActionKit.get_event_create_form"><a class="viewcode-back" href="../../../action_kit.html#parsons.ActionKit.get_event_create_form">[docs]</a>    <span class="k">def</span> <span class="nf">get_event_create_form</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">event_create_form_id</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
@@ -467,8 +490,11 @@
 <span class="sd">            Event create form json object</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_base_get</span><span class="p">(</span><span class="n">endpoint</span><span class="o">=</span><span class="s1">&#39;eventcreateform&#39;</span><span class="p">,</span> <span class="n">entity_id</span><span class="o">=</span><span class="n">event_create_form_id</span><span class="p">,</span>
-                              <span class="n">exception_message</span><span class="o">=</span><span class="s1">&#39;Event create page not found&#39;</span><span class="p">)</span></div>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_base_get</span><span class="p">(</span>
+            <span class="n">endpoint</span><span class="o">=</span><span class="s2">&quot;eventcreateform&quot;</span><span class="p">,</span>
+            <span class="n">entity_id</span><span class="o">=</span><span class="n">event_create_form_id</span><span class="p">,</span>
+            <span class="n">exception_message</span><span class="o">=</span><span class="s2">&quot;Event create page not found&quot;</span><span class="p">,</span>
+        <span class="p">)</span></div>
 
 <div class="viewcode-block" id="ActionKit.get_event_create_form_fields"><a class="viewcode-back" href="../../../action_kit.html#parsons.ActionKit.get_event_create_form_fields">[docs]</a>    <span class="k">def</span> <span class="nf">get_event_create_form_fields</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
@@ -479,8 +505,8 @@
 <span class="sd">            List of event create form fields</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
-        <span class="n">resp</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_base_get</span><span class="p">(</span><span class="n">endpoint</span><span class="o">=</span><span class="s1">&#39;eventcreateform/schema&#39;</span><span class="p">)</span>
-        <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="n">resp</span><span class="p">[</span><span class="s1">&#39;fields&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span></div>
+        <span class="n">resp</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_base_get</span><span class="p">(</span><span class="n">endpoint</span><span class="o">=</span><span class="s2">&quot;eventcreateform/schema&quot;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="n">resp</span><span class="p">[</span><span class="s2">&quot;fields&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span></div>
 
 <div class="viewcode-block" id="ActionKit.create_event_create_form"><a class="viewcode-back" href="../../../action_kit.html#parsons.ActionKit.create_event_create_form">[docs]</a>    <span class="k">def</span> <span class="nf">create_event_create_form</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">page_id</span><span class="p">,</span> <span class="n">thank_you_text</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
@@ -499,11 +525,13 @@
 <span class="sd">            API location of new resource</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_base_post</span><span class="p">(</span><span class="n">endpoint</span><span class="o">=</span><span class="s1">&#39;eventcreateform&#39;</span><span class="p">,</span>
-                               <span class="n">exception_message</span><span class="o">=</span><span class="s1">&#39;Could not event create form&#39;</span><span class="p">,</span>
-                               <span class="n">page</span><span class="o">=</span><span class="sa">f</span><span class="s1">&#39;/rest/v1/eventcreatepage/</span><span class="si">{</span><span class="n">page_id</span><span class="si">}</span><span class="s1">/&#39;</span><span class="p">,</span>
-                               <span class="n">thank_you_text</span><span class="o">=</span><span class="n">thank_you_text</span><span class="p">,</span>
-                               <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_base_post</span><span class="p">(</span>
+            <span class="n">endpoint</span><span class="o">=</span><span class="s2">&quot;eventcreateform&quot;</span><span class="p">,</span>
+            <span class="n">exception_message</span><span class="o">=</span><span class="s2">&quot;Could not event create form&quot;</span><span class="p">,</span>
+            <span class="n">page</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;/rest/v1/eventcreatepage/</span><span class="si">{</span><span class="n">page_id</span><span class="si">}</span><span class="s2">/&quot;</span><span class="p">,</span>
+            <span class="n">thank_you_text</span><span class="o">=</span><span class="n">thank_you_text</span><span class="p">,</span>
+            <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
+        <span class="p">)</span></div>
 
 <div class="viewcode-block" id="ActionKit.get_event_signup_page"><a class="viewcode-back" href="../../../action_kit.html#parsons.ActionKit.get_event_signup_page">[docs]</a>    <span class="k">def</span> <span class="nf">get_event_signup_page</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">event_signup_page_id</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
@@ -516,8 +544,11 @@
 <span class="sd">            Event signup page json object</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_base_get</span><span class="p">(</span><span class="n">endpoint</span><span class="o">=</span><span class="s1">&#39;eventsignuppage&#39;</span><span class="p">,</span> <span class="n">entity_id</span><span class="o">=</span><span class="n">event_signup_page_id</span><span class="p">,</span>
-                              <span class="n">exception_message</span><span class="o">=</span><span class="s1">&#39;User page signup page not found&#39;</span><span class="p">)</span></div>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_base_get</span><span class="p">(</span>
+            <span class="n">endpoint</span><span class="o">=</span><span class="s2">&quot;eventsignuppage&quot;</span><span class="p">,</span>
+            <span class="n">entity_id</span><span class="o">=</span><span class="n">event_signup_page_id</span><span class="p">,</span>
+            <span class="n">exception_message</span><span class="o">=</span><span class="s2">&quot;User page signup page not found&quot;</span><span class="p">,</span>
+        <span class="p">)</span></div>
 
 <div class="viewcode-block" id="ActionKit.get_event_signup_page_fields"><a class="viewcode-back" href="../../../action_kit.html#parsons.ActionKit.get_event_signup_page_fields">[docs]</a>    <span class="k">def</span> <span class="nf">get_event_signup_page_fields</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
@@ -528,8 +559,8 @@
 <span class="sd">            List of event signup page fields</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
-        <span class="n">resp</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_base_get</span><span class="p">(</span><span class="n">endpoint</span><span class="o">=</span><span class="s1">&#39;eventsignuppage/schema&#39;</span><span class="p">)</span>
-        <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="n">resp</span><span class="p">[</span><span class="s1">&#39;fields&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span></div>
+        <span class="n">resp</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_base_get</span><span class="p">(</span><span class="n">endpoint</span><span class="o">=</span><span class="s2">&quot;eventsignuppage/schema&quot;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="n">resp</span><span class="p">[</span><span class="s2">&quot;fields&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span></div>
 
 <div class="viewcode-block" id="ActionKit.create_event_signup_page"><a class="viewcode-back" href="../../../action_kit.html#parsons.ActionKit.create_event_signup_page">[docs]</a>    <span class="k">def</span> <span class="nf">create_event_signup_page</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">campaign_id</span><span class="p">,</span> <span class="n">title</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
@@ -550,12 +581,14 @@
 <span class="sd">            API location of new resource</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_base_post</span><span class="p">(</span><span class="n">endpoint</span><span class="o">=</span><span class="s1">&#39;eventsignuppage&#39;</span><span class="p">,</span>
-                               <span class="n">exception_message</span><span class="o">=</span><span class="s1">&#39;Could not create signup page&#39;</span><span class="p">,</span>
-                               <span class="n">campaign</span><span class="o">=</span><span class="sa">f</span><span class="s1">&#39;/rest/v1/campaign/</span><span class="si">{</span><span class="n">campaign_id</span><span class="si">}</span><span class="s1">/&#39;</span><span class="p">,</span>
-                               <span class="n">name</span><span class="o">=</span><span class="n">name</span><span class="p">,</span>
-                               <span class="n">title</span><span class="o">=</span><span class="n">title</span><span class="p">,</span>
-                               <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_base_post</span><span class="p">(</span>
+            <span class="n">endpoint</span><span class="o">=</span><span class="s2">&quot;eventsignuppage&quot;</span><span class="p">,</span>
+            <span class="n">exception_message</span><span class="o">=</span><span class="s2">&quot;Could not create signup page&quot;</span><span class="p">,</span>
+            <span class="n">campaign</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;/rest/v1/campaign/</span><span class="si">{</span><span class="n">campaign_id</span><span class="si">}</span><span class="s2">/&quot;</span><span class="p">,</span>
+            <span class="n">name</span><span class="o">=</span><span class="n">name</span><span class="p">,</span>
+            <span class="n">title</span><span class="o">=</span><span class="n">title</span><span class="p">,</span>
+            <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
+        <span class="p">)</span></div>
 
 <div class="viewcode-block" id="ActionKit.get_event_signup_form"><a class="viewcode-back" href="../../../action_kit.html#parsons.ActionKit.get_event_signup_form">[docs]</a>    <span class="k">def</span> <span class="nf">get_event_signup_form</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">event_signup_form_id</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
@@ -568,8 +601,11 @@
 <span class="sd">            Event signup form json object</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_base_get</span><span class="p">(</span><span class="n">endpoint</span><span class="o">=</span><span class="s1">&#39;eventsignupform&#39;</span><span class="p">,</span> <span class="n">entity_id</span><span class="o">=</span><span class="n">event_signup_form_id</span><span class="p">,</span>
-                              <span class="n">exception_message</span><span class="o">=</span><span class="s1">&#39;User page signup form not found&#39;</span><span class="p">)</span></div>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_base_get</span><span class="p">(</span>
+            <span class="n">endpoint</span><span class="o">=</span><span class="s2">&quot;eventsignupform&quot;</span><span class="p">,</span>
+            <span class="n">entity_id</span><span class="o">=</span><span class="n">event_signup_form_id</span><span class="p">,</span>
+            <span class="n">exception_message</span><span class="o">=</span><span class="s2">&quot;User page signup form not found&quot;</span><span class="p">,</span>
+        <span class="p">)</span></div>
 
 <div class="viewcode-block" id="ActionKit.get_event_signup_form_fields"><a class="viewcode-back" href="../../../action_kit.html#parsons.ActionKit.get_event_signup_form_fields">[docs]</a>    <span class="k">def</span> <span class="nf">get_event_signup_form_fields</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
@@ -580,8 +616,8 @@
 <span class="sd">            List of event signup form fields</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
-        <span class="n">resp</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_base_get</span><span class="p">(</span><span class="n">endpoint</span><span class="o">=</span><span class="s1">&#39;eventsignupform/schema&#39;</span><span class="p">)</span>
-        <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="n">resp</span><span class="p">[</span><span class="s1">&#39;fields&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span></div>
+        <span class="n">resp</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_base_get</span><span class="p">(</span><span class="n">endpoint</span><span class="o">=</span><span class="s2">&quot;eventsignupform/schema&quot;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="n">resp</span><span class="p">[</span><span class="s2">&quot;fields&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span></div>
 
 <div class="viewcode-block" id="ActionKit.create_event_signup_form"><a class="viewcode-back" href="../../../action_kit.html#parsons.ActionKit.create_event_signup_form">[docs]</a>    <span class="k">def</span> <span class="nf">create_event_signup_form</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">page_id</span><span class="p">,</span> <span class="n">thank_you_text</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
@@ -600,11 +636,13 @@
 <span class="sd">            API location of new resource</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_base_post</span><span class="p">(</span><span class="n">endpoint</span><span class="o">=</span><span class="s1">&#39;eventsignupform&#39;</span><span class="p">,</span>
-                               <span class="n">exception_message</span><span class="o">=</span><span class="s1">&#39;Could not event create signup form&#39;</span><span class="p">,</span>
-                               <span class="n">page</span><span class="o">=</span><span class="sa">f</span><span class="s1">&#39;/rest/v1/page/</span><span class="si">{</span><span class="n">page_id</span><span class="si">}</span><span class="s1">/&#39;</span><span class="p">,</span>
-                               <span class="n">thank_you_text</span><span class="o">=</span><span class="n">thank_you_text</span><span class="p">,</span>
-                               <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_base_post</span><span class="p">(</span>
+            <span class="n">endpoint</span><span class="o">=</span><span class="s2">&quot;eventsignupform&quot;</span><span class="p">,</span>
+            <span class="n">exception_message</span><span class="o">=</span><span class="s2">&quot;Could not event create signup form&quot;</span><span class="p">,</span>
+            <span class="n">page</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;/rest/v1/page/</span><span class="si">{</span><span class="n">page_id</span><span class="si">}</span><span class="s2">/&quot;</span><span class="p">,</span>
+            <span class="n">thank_you_text</span><span class="o">=</span><span class="n">thank_you_text</span><span class="p">,</span>
+            <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
+        <span class="p">)</span></div>
 
 <div class="viewcode-block" id="ActionKit.update_event_signup"><a class="viewcode-back" href="../../../action_kit.html#parsons.ActionKit.update_event_signup">[docs]</a>    <span class="k">def</span> <span class="nf">update_event_signup</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">event_signup_id</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
@@ -623,9 +661,10 @@
 <span class="sd">            ``None``</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
-        <span class="n">resp</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">conn</span><span class="o">.</span><span class="n">patch</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_base_endpoint</span><span class="p">(</span><span class="s1">&#39;eventsignup&#39;</span><span class="p">,</span> <span class="n">event_signup_id</span><span class="p">),</span>
-                               <span class="n">data</span><span class="o">=</span><span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">kwargs</span><span class="p">))</span>
-        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">resp</span><span class="o">.</span><span class="n">status_code</span><span class="si">}</span><span class="s1">: </span><span class="si">{</span><span class="n">event_signup_id</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span></div>
+        <span class="n">resp</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">conn</span><span class="o">.</span><span class="n">patch</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_base_endpoint</span><span class="p">(</span><span class="s2">&quot;eventsignup&quot;</span><span class="p">,</span> <span class="n">event_signup_id</span><span class="p">),</span> <span class="n">data</span><span class="o">=</span><span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="p">)</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">resp</span><span class="o">.</span><span class="n">status_code</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">event_signup_id</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="ActionKit.get_mailer"><a class="viewcode-back" href="../../../action_kit.html#parsons.ActionKit.get_mailer">[docs]</a>    <span class="k">def</span> <span class="nf">get_mailer</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">entity_id</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
@@ -638,7 +677,7 @@
 <span class="sd">            Mailer json object</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_base_get</span><span class="p">(</span><span class="n">endpoint</span><span class="o">=</span><span class="s1">&#39;mailer&#39;</span><span class="p">,</span> <span class="n">entity_id</span><span class="o">=</span><span class="n">entity_id</span><span class="p">)</span></div>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_base_get</span><span class="p">(</span><span class="n">endpoint</span><span class="o">=</span><span class="s2">&quot;mailer&quot;</span><span class="p">,</span> <span class="n">entity_id</span><span class="o">=</span><span class="n">entity_id</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="ActionKit.create_mailer"><a class="viewcode-back" href="../../../action_kit.html#parsons.ActionKit.create_mailer">[docs]</a>    <span class="k">def</span> <span class="nf">create_mailer</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
@@ -653,16 +692,19 @@
 <span class="sd">            URI of new mailer</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_base_post</span><span class="p">(</span><span class="n">endpoint</span><span class="o">=</span><span class="s1">&#39;mailer&#39;</span><span class="p">,</span> <span class="n">exception_message</span><span class="o">=</span><span class="s1">&#39;Could not create mailer&#39;</span><span class="p">,</span>
-                               <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_base_post</span><span class="p">(</span>
+            <span class="n">endpoint</span><span class="o">=</span><span class="s2">&quot;mailer&quot;</span><span class="p">,</span> <span class="n">exception_message</span><span class="o">=</span><span class="s2">&quot;Could not create mailer&quot;</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span>
+        <span class="p">)</span></div>
 
 <div class="viewcode-block" id="ActionKit.copy_mailer"><a class="viewcode-back" href="../../../action_kit.html#parsons.ActionKit.copy_mailer">[docs]</a>    <span class="k">def</span> <span class="nf">copy_mailer</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">mailer_id</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        copy a mailer</span>
 <span class="sd">        returns new copy of mailer which should be updatable.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">resp</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">conn</span><span class="o">.</span><span class="n">post</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_base_endpoint</span><span class="p">(</span><span class="s1">&#39;mailer&#39;</span><span class="p">,</span> <span class="n">entity_id</span><span class="o">=</span><span class="n">mailer_id</span><span class="p">)</span> <span class="o">+</span> <span class="s1">&#39;/copy&#39;</span><span class="p">)</span>
-        <span class="k">return</span><span class="p">(</span><span class="n">resp</span><span class="p">)</span></div>
+        <span class="n">resp</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">conn</span><span class="o">.</span><span class="n">post</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_base_endpoint</span><span class="p">(</span><span class="s2">&quot;mailer&quot;</span><span class="p">,</span> <span class="n">entity_id</span><span class="o">=</span><span class="n">mailer_id</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;/copy&quot;</span>
+        <span class="p">)</span>
+        <span class="k">return</span> <span class="n">resp</span></div>
 
 <div class="viewcode-block" id="ActionKit.update_mailing"><a class="viewcode-back" href="../../../action_kit.html#parsons.ActionKit.update_mailing">[docs]</a>    <span class="k">def</span> <span class="nf">update_mailing</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">mailer_id</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
@@ -679,8 +721,10 @@
 <span class="sd">            ``None``</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
-        <span class="n">resp</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">conn</span><span class="o">.</span><span class="n">patch</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_base_endpoint</span><span class="p">(</span><span class="s1">&#39;mailer&#39;</span><span class="p">,</span> <span class="n">mailer_id</span><span class="p">),</span> <span class="n">data</span><span class="o">=</span><span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">kwargs</span><span class="p">))</span>
-        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">resp</span><span class="o">.</span><span class="n">status_code</span><span class="si">}</span><span class="s1">: </span><span class="si">{</span><span class="n">mailer_id</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span></div>
+        <span class="n">resp</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">conn</span><span class="o">.</span><span class="n">patch</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_base_endpoint</span><span class="p">(</span><span class="s2">&quot;mailer&quot;</span><span class="p">,</span> <span class="n">mailer_id</span><span class="p">),</span> <span class="n">data</span><span class="o">=</span><span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="p">)</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">resp</span><span class="o">.</span><span class="n">status_code</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">mailer_id</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="ActionKit.rebuild_mailer"><a class="viewcode-back" href="../../../action_kit.html#parsons.ActionKit.rebuild_mailer">[docs]</a>    <span class="k">def</span> <span class="nf">rebuild_mailer</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">mailing_id</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
@@ -693,8 +737,10 @@
 <span class="sd">            URI to poll for progress</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_base_post</span><span class="p">(</span><span class="n">endpoint</span><span class="o">=</span><span class="s1">&#39;mailer/&#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">mailing_id</span><span class="p">)</span> <span class="o">+</span> <span class="s1">&#39;/rebuild&#39;</span><span class="p">,</span>
-                               <span class="n">exception_message</span><span class="o">=</span><span class="s1">&#39;Could not rebuild mailer&#39;</span><span class="p">)</span></div>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_base_post</span><span class="p">(</span>
+            <span class="n">endpoint</span><span class="o">=</span><span class="s2">&quot;mailer/&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">mailing_id</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;/rebuild&quot;</span><span class="p">,</span>
+            <span class="n">exception_message</span><span class="o">=</span><span class="s2">&quot;Could not rebuild mailer&quot;</span><span class="p">,</span>
+        <span class="p">)</span></div>
 
 <div class="viewcode-block" id="ActionKit.queue_mailer"><a class="viewcode-back" href="../../../action_kit.html#parsons.ActionKit.queue_mailer">[docs]</a>    <span class="k">def</span> <span class="nf">queue_mailer</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">mailing_id</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
@@ -707,8 +753,10 @@
 <span class="sd">            URI to poll for progress</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_base_post</span><span class="p">(</span><span class="n">endpoint</span><span class="o">=</span><span class="s1">&#39;mailer/&#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">mailing_id</span><span class="p">)</span> <span class="o">+</span> <span class="s1">&#39;/queue&#39;</span><span class="p">,</span>
-                               <span class="n">exception_message</span><span class="o">=</span><span class="s1">&#39;Could not queue mailer&#39;</span><span class="p">)</span></div>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_base_post</span><span class="p">(</span>
+            <span class="n">endpoint</span><span class="o">=</span><span class="s2">&quot;mailer/&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">mailing_id</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;/queue&quot;</span><span class="p">,</span>
+            <span class="n">exception_message</span><span class="o">=</span><span class="s2">&quot;Could not queue mailer&quot;</span><span class="p">,</span>
+        <span class="p">)</span></div>
 
 <div class="viewcode-block" id="ActionKit.paginated_get"><a class="viewcode-back" href="../../../action_kit.html#parsons.ActionKit.paginated_get">[docs]</a>    <span class="k">def</span> <span class="nf">paginated_get</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">object_type</span><span class="p">,</span> <span class="n">limit</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Get multiple objects of a given type.</span>
@@ -744,7 +792,7 @@
 
         <span class="n">next_url</span> <span class="o">=</span> <span class="n">json_data</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;meta&quot;</span><span class="p">,</span> <span class="p">{})</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;next&quot;</span><span class="p">)</span>
         <span class="k">while</span> <span class="n">next_url</span><span class="p">:</span>
-            <span class="n">resp</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">conn</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;https://</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">domain</span><span class="si">}{</span><span class="n">next_url</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+            <span class="n">resp</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">conn</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;https://</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">domain</span><span class="si">}{</span><span class="n">next_url</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
             <span class="n">data</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">resp</span><span class="o">.</span><span class="n">json</span><span class="p">()</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;objects&quot;</span><span class="p">,</span> <span class="p">[]))</span>
             <span class="n">next_url</span> <span class="o">=</span> <span class="n">resp</span><span class="o">.</span><span class="n">json</span><span class="p">()</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;meta&quot;</span><span class="p">,</span> <span class="p">{})</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;next&quot;</span><span class="p">)</span>
             <span class="k">if</span> <span class="n">limit</span> <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="n">data</span><span class="p">)</span> <span class="o">&gt;=</span> <span class="n">limit</span><span class="p">:</span>
@@ -752,9 +800,15 @@
 
         <span class="k">return</span> <span class="n">Table</span><span class="p">(</span><span class="n">data</span><span class="p">[:</span><span class="n">limit</span><span class="p">])</span></div>
 
-<div class="viewcode-block" id="ActionKit.paginated_get_custom_limit"><a class="viewcode-back" href="../../../action_kit.html#parsons.ActionKit.paginated_get_custom_limit">[docs]</a>    <span class="k">def</span> <span class="nf">paginated_get_custom_limit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">object_type</span><span class="p">,</span> <span class="n">limit</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-                                   <span class="n">threshold_field</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">threshold_value</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-                                   <span class="n">ascdesc</span><span class="o">=</span><span class="s1">&#39;asc&#39;</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<div class="viewcode-block" id="ActionKit.paginated_get_custom_limit"><a class="viewcode-back" href="../../../action_kit.html#parsons.ActionKit.paginated_get_custom_limit">[docs]</a>    <span class="k">def</span> <span class="nf">paginated_get_custom_limit</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">object_type</span><span class="p">,</span>
+        <span class="n">limit</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">threshold_field</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">threshold_value</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">ascdesc</span><span class="o">=</span><span class="s2">&quot;asc&quot;</span><span class="p">,</span>
+        <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
+    <span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Get multiple objects of a given type, stopping based on the value of a field.</span>
 
 <span class="sd">        `Args:`</span>
@@ -801,7 +855,7 @@
                 <span class="k">break</span>
             <span class="k">if</span> <span class="n">ascdesc</span> <span class="o">==</span> <span class="s2">&quot;desc&quot;</span> <span class="ow">and</span> <span class="n">last</span> <span class="o">&lt;</span> <span class="n">threshold_value</span><span class="p">:</span>
                 <span class="k">break</span>
-            <span class="n">resp</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">conn</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;https://</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">domain</span><span class="si">}{</span><span class="n">next_url</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+            <span class="n">resp</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">conn</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;https://</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">domain</span><span class="si">}{</span><span class="n">next_url</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
             <span class="n">data</span> <span class="o">+=</span> <span class="n">resp</span><span class="o">.</span><span class="n">json</span><span class="p">()</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;objects&quot;</span><span class="p">,</span> <span class="p">[])</span>
             <span class="n">next_url</span> <span class="o">=</span> <span class="n">resp</span><span class="o">.</span><span class="n">json</span><span class="p">()</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;meta&quot;</span><span class="p">,</span> <span class="p">{})</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;next&quot;</span><span class="p">)</span>
             <span class="k">if</span> <span class="n">limit</span> <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="n">data</span><span class="p">)</span> <span class="o">&gt;=</span> <span class="n">limit</span><span class="p">:</span>
@@ -832,9 +886,10 @@
 <span class="sd">            ``None``</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
-        <span class="n">resp</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">conn</span><span class="o">.</span><span class="n">patch</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_base_endpoint</span><span class="p">(</span><span class="s1">&#39;order&#39;</span><span class="p">,</span> <span class="n">order_id</span><span class="p">),</span>
-                               <span class="n">data</span><span class="o">=</span><span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">kwargs</span><span class="p">))</span>
-        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">resp</span><span class="o">.</span><span class="n">status_code</span><span class="si">}</span><span class="s1">: </span><span class="si">{</span><span class="n">order_id</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span></div>
+        <span class="n">resp</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">conn</span><span class="o">.</span><span class="n">patch</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_base_endpoint</span><span class="p">(</span><span class="s2">&quot;order&quot;</span><span class="p">,</span> <span class="n">order_id</span><span class="p">),</span> <span class="n">data</span><span class="o">=</span><span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="p">)</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">resp</span><span class="o">.</span><span class="n">status_code</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">order_id</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="ActionKit.cancel_orderrecurring"><a class="viewcode-back" href="../../../action_kit.html#parsons.ActionKit.cancel_orderrecurring">[docs]</a>    <span class="k">def</span> <span class="nf">cancel_orderrecurring</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">recurring_id</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
@@ -847,8 +902,10 @@
 <span class="sd">            ``None``</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
-        <span class="n">resp</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">conn</span><span class="o">.</span><span class="n">post</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_base_endpoint</span><span class="p">(</span><span class="s1">&#39;orderrecurring&#39;</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">recurring_id</span><span class="p">)</span><span class="o">+</span><span class="s1">&#39;/cancel&#39;</span><span class="p">))</span>
-        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">resp</span><span class="o">.</span><span class="n">status_code</span><span class="si">}</span><span class="s1">: </span><span class="si">{</span><span class="n">recurring_id</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+        <span class="n">resp</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">conn</span><span class="o">.</span><span class="n">post</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_base_endpoint</span><span class="p">(</span><span class="s2">&quot;orderrecurring&quot;</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">recurring_id</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;/cancel&quot;</span><span class="p">)</span>
+        <span class="p">)</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">resp</span><span class="o">.</span><span class="n">status_code</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">recurring_id</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">resp</span></div>
 
 <div class="viewcode-block" id="ActionKit.update_paymenttoken"><a class="viewcode-back" href="../../../action_kit.html#parsons.ActionKit.update_paymenttoken">[docs]</a>    <span class="k">def</span> <span class="nf">update_paymenttoken</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">paymenttoken_id</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
@@ -866,9 +923,11 @@
 <span class="sd">            ``HTTP response``</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
-        <span class="n">resp</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">conn</span><span class="o">.</span><span class="n">patch</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_base_endpoint</span><span class="p">(</span><span class="s1">&#39;paymenttoken&#39;</span><span class="p">,</span> <span class="n">paymenttoken_id</span><span class="p">),</span>
-                               <span class="n">data</span><span class="o">=</span><span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">kwargs</span><span class="p">))</span>
-        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">resp</span><span class="o">.</span><span class="n">status_code</span><span class="si">}</span><span class="s1">: </span><span class="si">{</span><span class="n">paymenttoken_id</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+        <span class="n">resp</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">conn</span><span class="o">.</span><span class="n">patch</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_base_endpoint</span><span class="p">(</span><span class="s2">&quot;paymenttoken&quot;</span><span class="p">,</span> <span class="n">paymenttoken_id</span><span class="p">),</span>
+            <span class="n">data</span><span class="o">=</span><span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">kwargs</span><span class="p">),</span>
+        <span class="p">)</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">resp</span><span class="o">.</span><span class="n">status_code</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">paymenttoken_id</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">resp</span></div>
 
 <div class="viewcode-block" id="ActionKit.get_page_followup"><a class="viewcode-back" href="../../../action_kit.html#parsons.ActionKit.get_page_followup">[docs]</a>    <span class="k">def</span> <span class="nf">get_page_followup</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">page_followup_id</span><span class="p">):</span>
@@ -882,8 +941,11 @@
 <span class="sd">            Page followup json object</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_base_get</span><span class="p">(</span><span class="n">endpoint</span><span class="o">=</span><span class="s1">&#39;pagefollowup&#39;</span><span class="p">,</span> <span class="n">entity_id</span><span class="o">=</span><span class="n">page_followup_id</span><span class="p">,</span>
-                              <span class="n">exception_message</span><span class="o">=</span><span class="s1">&#39;Page followup not found&#39;</span><span class="p">)</span></div>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_base_get</span><span class="p">(</span>
+            <span class="n">endpoint</span><span class="o">=</span><span class="s2">&quot;pagefollowup&quot;</span><span class="p">,</span>
+            <span class="n">entity_id</span><span class="o">=</span><span class="n">page_followup_id</span><span class="p">,</span>
+            <span class="n">exception_message</span><span class="o">=</span><span class="s2">&quot;Page followup not found&quot;</span><span class="p">,</span>
+        <span class="p">)</span></div>
 
 <div class="viewcode-block" id="ActionKit.get_page_followup_fields"><a class="viewcode-back" href="../../../action_kit.html#parsons.ActionKit.get_page_followup_fields">[docs]</a>    <span class="k">def</span> <span class="nf">get_page_followup_fields</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
@@ -894,8 +956,8 @@
 <span class="sd">            List of page followup fields</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
-        <span class="n">resp</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_base_get</span><span class="p">(</span><span class="n">endpoint</span><span class="o">=</span><span class="s1">&#39;pagefollowup/schema&#39;</span><span class="p">)</span>
-        <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="n">resp</span><span class="p">[</span><span class="s1">&#39;fields&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span></div>
+        <span class="n">resp</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_base_get</span><span class="p">(</span><span class="n">endpoint</span><span class="o">=</span><span class="s2">&quot;pagefollowup/schema&quot;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="n">resp</span><span class="p">[</span><span class="s2">&quot;fields&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span></div>
 
 <div class="viewcode-block" id="ActionKit.create_page_followup"><a class="viewcode-back" href="../../../action_kit.html#parsons.ActionKit.create_page_followup">[docs]</a>    <span class="k">def</span> <span class="nf">create_page_followup</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">signup_page_id</span><span class="p">,</span> <span class="n">url</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
@@ -914,11 +976,13 @@
 <span class="sd">            API location of new resource</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_base_post</span><span class="p">(</span><span class="n">endpoint</span><span class="o">=</span><span class="s1">&#39;pagefollowup&#39;</span><span class="p">,</span>
-                               <span class="n">exception_message</span><span class="o">=</span><span class="s1">&#39;Could not create page followup&#39;</span><span class="p">,</span>
-                               <span class="n">page</span><span class="o">=</span><span class="sa">f</span><span class="s1">&#39;/rest/v1/eventsignuppage/</span><span class="si">{</span><span class="n">signup_page_id</span><span class="si">}</span><span class="s1">/&#39;</span><span class="p">,</span>
-                               <span class="n">url</span><span class="o">=</span><span class="n">url</span><span class="p">,</span>
-                               <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_base_post</span><span class="p">(</span>
+            <span class="n">endpoint</span><span class="o">=</span><span class="s2">&quot;pagefollowup&quot;</span><span class="p">,</span>
+            <span class="n">exception_message</span><span class="o">=</span><span class="s2">&quot;Could not create page followup&quot;</span><span class="p">,</span>
+            <span class="n">page</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;/rest/v1/eventsignuppage/</span><span class="si">{</span><span class="n">signup_page_id</span><span class="si">}</span><span class="s2">/&quot;</span><span class="p">,</span>
+            <span class="n">url</span><span class="o">=</span><span class="n">url</span><span class="p">,</span>
+            <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
+        <span class="p">)</span></div>
 
 <div class="viewcode-block" id="ActionKit.get_survey_question"><a class="viewcode-back" href="../../../action_kit.html#parsons.ActionKit.get_survey_question">[docs]</a>    <span class="k">def</span> <span class="nf">get_survey_question</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">survey_question_id</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
@@ -931,8 +995,11 @@
 <span class="sd">            Survey question json object</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_base_get</span><span class="p">(</span><span class="n">endpoint</span><span class="o">=</span><span class="s1">&#39;surveyquestion&#39;</span><span class="p">,</span> <span class="n">entity_id</span><span class="o">=</span><span class="n">survey_question_id</span><span class="p">,</span>
-                              <span class="n">exception_message</span><span class="o">=</span><span class="s1">&#39;Survey question not found&#39;</span><span class="p">)</span></div>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_base_get</span><span class="p">(</span>
+            <span class="n">endpoint</span><span class="o">=</span><span class="s2">&quot;surveyquestion&quot;</span><span class="p">,</span>
+            <span class="n">entity_id</span><span class="o">=</span><span class="n">survey_question_id</span><span class="p">,</span>
+            <span class="n">exception_message</span><span class="o">=</span><span class="s2">&quot;Survey question not found&quot;</span><span class="p">,</span>
+        <span class="p">)</span></div>
 
 <div class="viewcode-block" id="ActionKit.update_survey_question"><a class="viewcode-back" href="../../../action_kit.html#parsons.ActionKit.update_survey_question">[docs]</a>    <span class="k">def</span> <span class="nf">update_survey_question</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">survey_question_id</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
@@ -951,9 +1018,11 @@
 <span class="sd">            ``None``</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
-        <span class="n">resp</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">conn</span><span class="o">.</span><span class="n">patch</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_base_endpoint</span><span class="p">(</span><span class="s1">&#39;surveyquestion&#39;</span><span class="p">,</span> <span class="n">survey_question_id</span><span class="p">),</span>
-                               <span class="n">data</span><span class="o">=</span><span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">kwargs</span><span class="p">))</span>
-        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">resp</span><span class="o">.</span><span class="n">status_code</span><span class="si">}</span><span class="s1">: </span><span class="si">{</span><span class="n">survey_question_id</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span></div>
+        <span class="n">resp</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">conn</span><span class="o">.</span><span class="n">patch</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_base_endpoint</span><span class="p">(</span><span class="s2">&quot;surveyquestion&quot;</span><span class="p">,</span> <span class="n">survey_question_id</span><span class="p">),</span>
+            <span class="n">data</span><span class="o">=</span><span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">kwargs</span><span class="p">),</span>
+        <span class="p">)</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">resp</span><span class="o">.</span><span class="n">status_code</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">survey_question_id</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="ActionKit.create_transaction"><a class="viewcode-back" href="../../../action_kit.html#parsons.ActionKit.create_transaction">[docs]</a>    <span class="k">def</span> <span class="nf">create_transaction</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
@@ -967,7 +1036,9 @@
 <span class="sd">        &quot;&quot;&quot;</span>
 
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_base_post</span><span class="p">(</span>
-            <span class="n">endpoint</span><span class="o">=</span><span class="s1">&#39;transaction&#39;</span><span class="p">,</span> <span class="n">exception_message</span><span class="o">=</span><span class="s1">&#39;Could not create transaction&#39;</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span>
+            <span class="n">endpoint</span><span class="o">=</span><span class="s2">&quot;transaction&quot;</span><span class="p">,</span>
+            <span class="n">exception_message</span><span class="o">=</span><span class="s2">&quot;Could not create transaction&quot;</span><span class="p">,</span>
+            <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
         <span class="p">)</span></div>
 
 <div class="viewcode-block" id="ActionKit.update_transaction"><a class="viewcode-back" href="../../../action_kit.html#parsons.ActionKit.update_transaction">[docs]</a>    <span class="k">def</span> <span class="nf">update_transaction</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">transaction_id</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
@@ -985,9 +1056,10 @@
 <span class="sd">            ``None``</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
-        <span class="n">resp</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">conn</span><span class="o">.</span><span class="n">patch</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_base_endpoint</span><span class="p">(</span><span class="s1">&#39;transaction&#39;</span><span class="p">,</span> <span class="n">transaction_id</span><span class="p">),</span>
-                               <span class="n">data</span><span class="o">=</span><span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">kwargs</span><span class="p">))</span>
-        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">resp</span><span class="o">.</span><span class="n">status_code</span><span class="si">}</span><span class="s1">: </span><span class="si">{</span><span class="n">transaction_id</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span></div>
+        <span class="n">resp</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">conn</span><span class="o">.</span><span class="n">patch</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_base_endpoint</span><span class="p">(</span><span class="s2">&quot;transaction&quot;</span><span class="p">,</span> <span class="n">transaction_id</span><span class="p">),</span> <span class="n">data</span><span class="o">=</span><span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="p">)</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">resp</span><span class="o">.</span><span class="n">status_code</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">transaction_id</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="ActionKit.create_generic_action"><a class="viewcode-back" href="../../../action_kit.html#parsons.ActionKit.create_generic_action">[docs]</a>    <span class="k">def</span> <span class="nf">create_generic_action</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">page</span><span class="p">,</span> <span class="n">email</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">ak_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
@@ -1010,17 +1082,24 @@
 <span class="sd">        &quot;&quot;&quot;</span>  <span class="c1"># noqa: E501,E261</span>
 
         <span class="k">if</span> <span class="ow">not</span> <span class="n">email</span> <span class="ow">or</span> <span class="n">ak_id</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;One of email or ak_id is required.&#39;</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;One of email or ak_id is required.&quot;</span><span class="p">)</span>
 
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_base_post</span><span class="p">(</span><span class="n">endpoint</span><span class="o">=</span><span class="s1">&#39;action&#39;</span><span class="p">,</span>
-                               <span class="n">exception_message</span><span class="o">=</span><span class="s1">&#39;Could not create action.&#39;</span><span class="p">,</span>
-                               <span class="n">email</span><span class="o">=</span><span class="n">email</span><span class="p">,</span>
-                               <span class="n">page</span><span class="o">=</span><span class="n">page</span><span class="p">,</span>
-                               <span class="n">return_full_json</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
-                               <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_base_post</span><span class="p">(</span>
+            <span class="n">endpoint</span><span class="o">=</span><span class="s2">&quot;action&quot;</span><span class="p">,</span>
+            <span class="n">exception_message</span><span class="o">=</span><span class="s2">&quot;Could not create action.&quot;</span><span class="p">,</span>
+            <span class="n">email</span><span class="o">=</span><span class="n">email</span><span class="p">,</span>
+            <span class="n">page</span><span class="o">=</span><span class="n">page</span><span class="p">,</span>
+            <span class="n">return_full_json</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+            <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
+        <span class="p">)</span></div>
 
-<div class="viewcode-block" id="ActionKit.bulk_upload_csv"><a class="viewcode-back" href="../../../action_kit.html#parsons.ActionKit.bulk_upload_csv">[docs]</a>    <span class="k">def</span> <span class="nf">bulk_upload_csv</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">csv_file</span><span class="p">,</span> <span class="n">import_page</span><span class="p">,</span>
-                        <span class="n">autocreate_user_fields</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">user_fields_only</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+<div class="viewcode-block" id="ActionKit.bulk_upload_csv"><a class="viewcode-back" href="../../../action_kit.html#parsons.ActionKit.bulk_upload_csv">[docs]</a>    <span class="k">def</span> <span class="nf">bulk_upload_csv</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">csv_file</span><span class="p">,</span>
+        <span class="n">import_page</span><span class="p">,</span>
+        <span class="n">autocreate_user_fields</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+        <span class="n">user_fields_only</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+    <span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Bulk upload a csv file of new users or user updates.</span>
 <span class="sd">        If you are uploading a table object, use bulk_upload_table instead.</span>
@@ -1053,29 +1132,35 @@
 <span class="sd">        &quot;&quot;&quot;</span>  <span class="c1"># noqa: E501,E261</span>
 
         <span class="c1"># self.conn defaults to JSON, but this has to be form/multi-part....</span>
-        <span class="n">upload_client</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_conn</span><span class="p">({</span><span class="s1">&#39;accepts&#39;</span><span class="p">:</span> <span class="s1">&#39;application/json&#39;</span><span class="p">})</span>
+        <span class="n">upload_client</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_conn</span><span class="p">({</span><span class="s2">&quot;accepts&quot;</span><span class="p">:</span> <span class="s2">&quot;application/json&quot;</span><span class="p">})</span>
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">csv_file</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
-            <span class="n">csv_file</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="n">csv_file</span><span class="p">,</span> <span class="s1">&#39;rb&#39;</span><span class="p">)</span>
+            <span class="n">csv_file</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="n">csv_file</span><span class="p">,</span> <span class="s2">&quot;rb&quot;</span><span class="p">)</span>
 
-        <span class="n">url</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_base_endpoint</span><span class="p">(</span><span class="s1">&#39;upload&#39;</span><span class="p">)</span>
-        <span class="n">files</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;upload&#39;</span><span class="p">:</span> <span class="n">csv_file</span><span class="p">}</span>
+        <span class="n">url</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_base_endpoint</span><span class="p">(</span><span class="s2">&quot;upload&quot;</span><span class="p">)</span>
+        <span class="n">files</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;upload&quot;</span><span class="p">:</span> <span class="n">csv_file</span><span class="p">}</span>
         <span class="n">data</span> <span class="o">=</span> <span class="p">{</span>
-            <span class="s1">&#39;page&#39;</span><span class="p">:</span> <span class="n">import_page</span><span class="p">,</span>
-            <span class="s1">&#39;autocreate_user_fields&#39;</span><span class="p">:</span> <span class="nb">int</span><span class="p">(</span><span class="n">autocreate_user_fields</span><span class="p">),</span>
-            <span class="s1">&#39;user_fields_only&#39;</span><span class="p">:</span> <span class="nb">int</span><span class="p">(</span><span class="n">user_fields_only</span><span class="p">),</span>
+            <span class="s2">&quot;page&quot;</span><span class="p">:</span> <span class="n">import_page</span><span class="p">,</span>
+            <span class="s2">&quot;autocreate_user_fields&quot;</span><span class="p">:</span> <span class="nb">int</span><span class="p">(</span><span class="n">autocreate_user_fields</span><span class="p">),</span>
+            <span class="s2">&quot;user_fields_only&quot;</span><span class="p">:</span> <span class="nb">int</span><span class="p">(</span><span class="n">user_fields_only</span><span class="p">),</span>
         <span class="p">}</span>
         <span class="k">with</span> <span class="n">upload_client</span><span class="o">.</span><span class="n">post</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">files</span><span class="o">=</span><span class="n">files</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">data</span><span class="p">)</span> <span class="k">as</span> <span class="n">res</span><span class="p">:</span>
-            <span class="n">progress_url</span> <span class="o">=</span> <span class="n">res</span><span class="o">.</span><span class="n">headers</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;Location&#39;</span><span class="p">)</span>
+            <span class="n">progress_url</span> <span class="o">=</span> <span class="n">res</span><span class="o">.</span><span class="n">headers</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;Location&quot;</span><span class="p">)</span>
             <span class="n">rv</span> <span class="o">=</span> <span class="p">{</span>
-                <span class="s1">&#39;res&#39;</span><span class="p">:</span> <span class="n">res</span><span class="p">,</span>
-                <span class="s1">&#39;success&#39;</span><span class="p">:</span> <span class="n">res</span><span class="o">.</span><span class="n">status_code</span> <span class="o">==</span> <span class="mi">201</span><span class="p">,</span>
-                <span class="s1">&#39;id&#39;</span><span class="p">:</span> <span class="n">progress_url</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;/&#39;</span><span class="p">)[</span><span class="o">-</span><span class="mi">2</span><span class="p">]</span> <span class="k">if</span> <span class="n">progress_url</span> <span class="k">else</span> <span class="kc">None</span><span class="p">,</span>
-                <span class="s1">&#39;progress_url&#39;</span><span class="p">:</span> <span class="n">progress_url</span>
+                <span class="s2">&quot;res&quot;</span><span class="p">:</span> <span class="n">res</span><span class="p">,</span>
+                <span class="s2">&quot;success&quot;</span><span class="p">:</span> <span class="n">res</span><span class="o">.</span><span class="n">status_code</span> <span class="o">==</span> <span class="mi">201</span><span class="p">,</span>
+                <span class="s2">&quot;id&quot;</span><span class="p">:</span> <span class="n">progress_url</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;/&quot;</span><span class="p">)[</span><span class="o">-</span><span class="mi">2</span><span class="p">]</span> <span class="k">if</span> <span class="n">progress_url</span> <span class="k">else</span> <span class="kc">None</span><span class="p">,</span>
+                <span class="s2">&quot;progress_url&quot;</span><span class="p">:</span> <span class="n">progress_url</span><span class="p">,</span>
             <span class="p">}</span>
             <span class="k">return</span> <span class="n">rv</span></div>
 
-<div class="viewcode-block" id="ActionKit.bulk_upload_table"><a class="viewcode-back" href="../../../action_kit.html#parsons.ActionKit.bulk_upload_table">[docs]</a>    <span class="k">def</span> <span class="nf">bulk_upload_table</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">table</span><span class="p">,</span> <span class="n">import_page</span><span class="p">,</span> <span class="n">autocreate_user_fields</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
-                          <span class="n">no_overwrite_on_empty</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">set_only_columns</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<div class="viewcode-block" id="ActionKit.bulk_upload_table"><a class="viewcode-back" href="../../../action_kit.html#parsons.ActionKit.bulk_upload_table">[docs]</a>    <span class="k">def</span> <span class="nf">bulk_upload_table</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">table</span><span class="p">,</span>
+        <span class="n">import_page</span><span class="p">,</span>
+        <span class="n">autocreate_user_fields</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
+        <span class="n">no_overwrite_on_empty</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+        <span class="n">set_only_columns</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Bulk upload a table of new users or user updates.</span>
 <span class="sd">        See `ActionKit User Upload Documentation &lt;https://roboticdogs.actionkit.com/docs/manual/api/rest/uploads.html&gt;`_</span>
@@ -1115,33 +1200,41 @@
 <span class="sd">                         progress_url and res for any results</span>
 <span class="sd">        &quot;&quot;&quot;</span>  <span class="c1"># noqa: E501,E261</span>
 
-        <span class="n">import_page</span> <span class="o">=</span> <span class="n">check_env</span><span class="o">.</span><span class="n">check</span><span class="p">(</span><span class="s1">&#39;ACTION_KIT_IMPORTPAGE&#39;</span><span class="p">,</span> <span class="n">import_page</span><span class="p">)</span>
+        <span class="n">import_page</span> <span class="o">=</span> <span class="n">check_env</span><span class="o">.</span><span class="n">check</span><span class="p">(</span><span class="s2">&quot;ACTION_KIT_IMPORTPAGE&quot;</span><span class="p">,</span> <span class="n">import_page</span><span class="p">)</span>
         <span class="n">upload_tables</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_split_tables_no_empties</span><span class="p">(</span>
-            <span class="n">table</span><span class="p">,</span> <span class="n">no_overwrite_on_empty</span><span class="p">,</span> <span class="n">set_only_columns</span><span class="p">)</span>
+            <span class="n">table</span><span class="p">,</span> <span class="n">no_overwrite_on_empty</span><span class="p">,</span> <span class="n">set_only_columns</span>
+        <span class="p">)</span>
         <span class="n">results</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="k">for</span> <span class="n">tbl</span> <span class="ow">in</span> <span class="n">upload_tables</span><span class="p">:</span>
-            <span class="n">user_fields_only</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="ow">not</span> <span class="nb">any</span><span class="p">([</span>
-                <span class="n">h</span> <span class="k">for</span> <span class="n">h</span> <span class="ow">in</span> <span class="n">tbl</span><span class="o">.</span><span class="n">columns</span>
-                <span class="k">if</span> <span class="n">h</span> <span class="o">!=</span> <span class="s1">&#39;email&#39;</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">h</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s1">&#39;user_&#39;</span><span class="p">)]))</span>
-            <span class="n">results</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">bulk_upload_csv</span><span class="p">(</span><span class="n">tbl</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(),</span>
-                                                <span class="n">import_page</span><span class="p">,</span>
-                                                <span class="n">autocreate_user_fields</span><span class="o">=</span><span class="n">autocreate_user_fields</span><span class="p">,</span>
-                                                <span class="n">user_fields_only</span><span class="o">=</span><span class="n">user_fields_only</span><span class="p">))</span>
-        <span class="k">return</span> <span class="p">{</span>
-            <span class="s1">&#39;success&#39;</span><span class="p">:</span> <span class="nb">all</span><span class="p">([</span><span class="n">r</span><span class="p">[</span><span class="s1">&#39;success&#39;</span><span class="p">]</span> <span class="k">for</span> <span class="n">r</span> <span class="ow">in</span> <span class="n">results</span><span class="p">]),</span>
-            <span class="s1">&#39;results&#39;</span><span class="p">:</span> <span class="n">results</span>
-        <span class="p">}</span></div>
+            <span class="n">user_fields_only</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span>
+                <span class="ow">not</span> <span class="nb">any</span><span class="p">(</span>
+                    <span class="p">[</span>
+                        <span class="n">h</span>
+                        <span class="k">for</span> <span class="n">h</span> <span class="ow">in</span> <span class="n">tbl</span><span class="o">.</span><span class="n">columns</span>
+                        <span class="k">if</span> <span class="n">h</span> <span class="o">!=</span> <span class="s2">&quot;email&quot;</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">h</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">&quot;user_&quot;</span><span class="p">)</span>
+                    <span class="p">]</span>
+                <span class="p">)</span>
+            <span class="p">)</span>
+            <span class="n">results</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">bulk_upload_csv</span><span class="p">(</span>
+                    <span class="n">tbl</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(),</span>
+                    <span class="n">import_page</span><span class="p">,</span>
+                    <span class="n">autocreate_user_fields</span><span class="o">=</span><span class="n">autocreate_user_fields</span><span class="p">,</span>
+                    <span class="n">user_fields_only</span><span class="o">=</span><span class="n">user_fields_only</span><span class="p">,</span>
+                <span class="p">)</span>
+            <span class="p">)</span>
+        <span class="k">return</span> <span class="p">{</span><span class="s2">&quot;success&quot;</span><span class="p">:</span> <span class="nb">all</span><span class="p">([</span><span class="n">r</span><span class="p">[</span><span class="s2">&quot;success&quot;</span><span class="p">]</span> <span class="k">for</span> <span class="n">r</span> <span class="ow">in</span> <span class="n">results</span><span class="p">]),</span> <span class="s2">&quot;results&quot;</span><span class="p">:</span> <span class="n">results</span><span class="p">}</span></div>
 
     <span class="k">def</span> <span class="nf">_split_tables_no_empties</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">table</span><span class="p">,</span> <span class="n">no_overwrite_on_empty</span><span class="p">,</span> <span class="n">set_only_columns</span><span class="p">):</span>
         <span class="n">table_groups</span> <span class="o">=</span> <span class="p">{}</span>
         <span class="c1"># uploading combo of user_id and email column should be mutually exclusive</span>
         <span class="n">blank_columns_test</span> <span class="o">=</span> <span class="n">table</span><span class="o">.</span><span class="n">columns</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="n">no_overwrite_on_empty</span><span class="p">:</span>
-            <span class="n">blank_columns_test</span> <span class="o">=</span> <span class="p">(</span><span class="nb">set</span><span class="p">([</span><span class="s1">&#39;user_id&#39;</span><span class="p">,</span> <span class="s1">&#39;email&#39;</span><span class="p">]</span> <span class="o">+</span> <span class="p">(</span><span class="n">set_only_columns</span> <span class="ow">or</span> <span class="p">[]))</span>
-                                  <span class="o">.</span><span class="n">intersection</span><span class="p">(</span><span class="n">table</span><span class="o">.</span><span class="n">columns</span><span class="p">))</span>
+            <span class="n">blank_columns_test</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span>
+                <span class="p">[</span><span class="s2">&quot;user_id&quot;</span><span class="p">,</span> <span class="s2">&quot;email&quot;</span><span class="p">]</span> <span class="o">+</span> <span class="p">(</span><span class="n">set_only_columns</span> <span class="ow">or</span> <span class="p">[])</span>
+            <span class="p">)</span><span class="o">.</span><span class="n">intersection</span><span class="p">(</span><span class="n">table</span><span class="o">.</span><span class="n">columns</span><span class="p">)</span>
         <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">table</span><span class="p">:</span>
-            <span class="n">blanks</span> <span class="o">=</span> <span class="nb">tuple</span><span class="p">(</span><span class="n">k</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">blank_columns_test</span>
-                           <span class="k">if</span> <span class="n">row</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">k</span><span class="p">)</span> <span class="ow">in</span> <span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">))</span>
+            <span class="n">blanks</span> <span class="o">=</span> <span class="nb">tuple</span><span class="p">(</span><span class="n">k</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">blank_columns_test</span> <span class="k">if</span> <span class="n">row</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">k</span><span class="p">)</span> <span class="ow">in</span> <span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">))</span>
             <span class="n">grp</span> <span class="o">=</span> <span class="n">table_groups</span><span class="o">.</span><span class="n">setdefault</span><span class="p">(</span><span class="n">blanks</span><span class="p">,</span> <span class="p">[])</span>
             <span class="n">grp</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">row</span><span class="p">)</span>
         <span class="n">results</span> <span class="o">=</span> <span class="p">[]</span>
@@ -1149,12 +1242,12 @@
             <span class="n">subset_table</span> <span class="o">=</span> <span class="n">Table</span><span class="p">(</span><span class="n">subset</span><span class="p">)</span>
             <span class="k">if</span> <span class="n">blanks</span><span class="p">:</span>
                 <span class="n">subset_table</span><span class="o">.</span><span class="n">table</span> <span class="o">=</span> <span class="n">subset_table</span><span class="o">.</span><span class="n">table</span><span class="o">.</span><span class="n">cutout</span><span class="p">(</span><span class="o">*</span><span class="n">blanks</span><span class="p">)</span>
-            <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Column Upload Blanks: </span><span class="si">{</span><span class="n">blanks</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
-            <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Column Upload Columns: </span><span class="si">{</span><span class="n">subset_table</span><span class="o">.</span><span class="n">columns</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
-            <span class="k">if</span> <span class="ow">not</span> <span class="nb">set</span><span class="p">([</span><span class="s1">&#39;user_id&#39;</span><span class="p">,</span> <span class="s1">&#39;email&#39;</span><span class="p">])</span><span class="o">.</span><span class="n">intersection</span><span class="p">(</span><span class="n">subset_table</span><span class="o">.</span><span class="n">columns</span><span class="p">):</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Column Upload Blanks: </span><span class="si">{</span><span class="n">blanks</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Column Upload Columns: </span><span class="si">{</span><span class="n">subset_table</span><span class="o">.</span><span class="n">columns</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="nb">set</span><span class="p">([</span><span class="s2">&quot;user_id&quot;</span><span class="p">,</span> <span class="s2">&quot;email&quot;</span><span class="p">])</span><span class="o">.</span><span class="n">intersection</span><span class="p">(</span><span class="n">subset_table</span><span class="o">.</span><span class="n">columns</span><span class="p">):</span>
                 <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span>
-                    <span class="sa">f</span><span class="s1">&#39;Upload will fail without user_id or email. &#39;</span>
-                    <span class="sa">f</span><span class="s1">&#39;Rows: </span><span class="si">{</span><span class="n">subset_table</span><span class="o">.</span><span class="n">num_rows</span><span class="si">}</span><span class="s1">, Columns: </span><span class="si">{</span><span class="n">subset_table</span><span class="o">.</span><span class="n">columns</span><span class="si">}</span><span class="s1">&#39;</span>
+                    <span class="sa">f</span><span class="s2">&quot;Upload will fail without user_id or email. &quot;</span>
+                    <span class="sa">f</span><span class="s2">&quot;Rows: </span><span class="si">{</span><span class="n">subset_table</span><span class="o">.</span><span class="n">num_rows</span><span class="si">}</span><span class="s2">, Columns: </span><span class="si">{</span><span class="n">subset_table</span><span class="o">.</span><span class="n">columns</span><span class="si">}</span><span class="s2">&quot;</span>
                 <span class="p">)</span>
             <span class="n">results</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">subset_table</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">results</span>
@@ -1177,17 +1270,19 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">errors</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="k">for</span> <span class="n">res</span> <span class="ow">in</span> <span class="n">result_array</span><span class="p">:</span>
-            <span class="n">upload_id</span> <span class="o">=</span> <span class="n">res</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;id&#39;</span><span class="p">)</span>
+            <span class="n">upload_id</span> <span class="o">=</span> <span class="n">res</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;id&quot;</span><span class="p">)</span>
             <span class="k">if</span> <span class="n">upload_id</span><span class="p">:</span>
                 <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
-                    <span class="n">upload</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_base_get</span><span class="p">(</span><span class="n">endpoint</span><span class="o">=</span><span class="s1">&#39;upload&#39;</span><span class="p">,</span> <span class="n">entity_id</span><span class="o">=</span><span class="n">upload_id</span><span class="p">)</span>
-                    <span class="k">if</span> <span class="ow">not</span> <span class="n">upload</span> <span class="ow">or</span> <span class="n">upload</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;status&#39;</span><span class="p">)</span> <span class="o">!=</span> <span class="s1">&#39;new&#39;</span><span class="p">:</span>
+                    <span class="n">upload</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_base_get</span><span class="p">(</span><span class="n">endpoint</span><span class="o">=</span><span class="s2">&quot;upload&quot;</span><span class="p">,</span> <span class="n">entity_id</span><span class="o">=</span><span class="n">upload_id</span><span class="p">)</span>
+                    <span class="k">if</span> <span class="ow">not</span> <span class="n">upload</span> <span class="ow">or</span> <span class="n">upload</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;status&quot;</span><span class="p">)</span> <span class="o">!=</span> <span class="s2">&quot;new&quot;</span><span class="p">:</span>
                         <span class="k">break</span>
                     <span class="k">else</span><span class="p">:</span>
                         <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
-                <span class="n">error_data</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_base_get</span><span class="p">(</span><span class="n">endpoint</span><span class="o">=</span><span class="s1">&#39;uploaderror&#39;</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;upload&#39;</span><span class="p">:</span> <span class="n">upload_id</span><span class="p">})</span>
-                <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;error collect result: </span><span class="si">{</span><span class="n">error_data</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
-                <span class="n">errors</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">error_data</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;objects&#39;</span><span class="p">)</span> <span class="ow">or</span> <span class="p">[])</span>
+                <span class="n">error_data</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_base_get</span><span class="p">(</span>
+                    <span class="n">endpoint</span><span class="o">=</span><span class="s2">&quot;uploaderror&quot;</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;upload&quot;</span><span class="p">:</span> <span class="n">upload_id</span><span class="p">}</span>
+                <span class="p">)</span>
+                <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;error collect result: </span><span class="si">{</span><span class="n">error_data</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+                <span class="n">errors</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">error_data</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;objects&quot;</span><span class="p">)</span> <span class="ow">or</span> <span class="p">[])</span>
         <span class="k">return</span> <span class="n">errors</span></div></div>
 </pre></div>
 

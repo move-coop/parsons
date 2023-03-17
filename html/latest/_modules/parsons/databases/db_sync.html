@@ -164,8 +164,14 @@
 <span class="sd">        A DBSync object.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">source_db</span><span class="p">,</span> <span class="n">destination_db</span><span class="p">,</span> <span class="n">read_chunk_size</span><span class="o">=</span><span class="mi">100_000</span><span class="p">,</span> <span class="n">write_chunk_size</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-                 <span class="n">retries</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">source_db</span><span class="p">,</span>
+        <span class="n">destination_db</span><span class="p">,</span>
+        <span class="n">read_chunk_size</span><span class="o">=</span><span class="mi">100_000</span><span class="p">,</span>
+        <span class="n">write_chunk_size</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">retries</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
+    <span class="p">):</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">source_db</span> <span class="o">=</span> <span class="n">source_db</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">dest_db</span> <span class="o">=</span> <span class="n">destination_db</span>
@@ -173,8 +179,15 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">write_chunk_size</span> <span class="o">=</span> <span class="n">write_chunk_size</span> <span class="ow">or</span> <span class="n">read_chunk_size</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">retries</span> <span class="o">=</span> <span class="n">retries</span>
 
-<div class="viewcode-block" id="DBSync.table_sync_full"><a class="viewcode-back" href="../../../dbsync.html#parsons.DBSync.table_sync_full">[docs]</a>    <span class="k">def</span> <span class="nf">table_sync_full</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">source_table</span><span class="p">,</span> <span class="n">destination_table</span><span class="p">,</span> <span class="n">if_exists</span><span class="o">=</span><span class="s1">&#39;drop&#39;</span><span class="p">,</span>
-                        <span class="n">order_by</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">verify_row_count</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<div class="viewcode-block" id="DBSync.table_sync_full"><a class="viewcode-back" href="../../../dbsync.html#parsons.DBSync.table_sync_full">[docs]</a>    <span class="k">def</span> <span class="nf">table_sync_full</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">source_table</span><span class="p">,</span>
+        <span class="n">destination_table</span><span class="p">,</span>
+        <span class="n">if_exists</span><span class="o">=</span><span class="s2">&quot;drop&quot;</span><span class="p">,</span>
+        <span class="n">order_by</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">verify_row_count</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
+    <span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Full sync of table from a source database to a destination database. This will</span>
 <span class="sd">        wipe all data from the destination table.</span>
@@ -205,16 +218,18 @@
         <span class="n">source_tbl</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">source_db</span><span class="o">.</span><span class="n">table</span><span class="p">(</span><span class="n">source_table</span><span class="p">)</span>
         <span class="n">destination_tbl</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">dest_db</span><span class="o">.</span><span class="n">table</span><span class="p">(</span><span class="n">destination_table</span><span class="p">)</span>
 
-        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Syncing full table data from </span><span class="si">{</span><span class="n">source_table</span><span class="si">}</span><span class="s1"> to </span><span class="si">{</span><span class="n">destination_table</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s2">&quot;Syncing full table data from </span><span class="si">{</span><span class="n">source_table</span><span class="si">}</span><span class="s2"> to </span><span class="si">{</span><span class="n">destination_table</span><span class="si">}</span><span class="s2">&quot;</span>
+        <span class="p">)</span>
 
         <span class="c1"># Drop or truncate if the destination table exists</span>
         <span class="k">if</span> <span class="n">destination_tbl</span><span class="o">.</span><span class="n">exists</span><span class="p">:</span>
-            <span class="k">if</span> <span class="n">if_exists</span> <span class="o">==</span> <span class="s1">&#39;drop&#39;</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">if_exists</span> <span class="o">==</span> <span class="s2">&quot;drop&quot;</span><span class="p">:</span>
                 <span class="n">destination_tbl</span><span class="o">.</span><span class="n">drop</span><span class="p">()</span>
-            <span class="k">elif</span> <span class="n">if_exists</span> <span class="o">==</span> <span class="s1">&#39;truncate&#39;</span><span class="p">:</span>
+            <span class="k">elif</span> <span class="n">if_exists</span> <span class="o">==</span> <span class="s2">&quot;truncate&quot;</span><span class="p">:</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">_check_column_match</span><span class="p">(</span><span class="n">source_tbl</span><span class="p">,</span> <span class="n">destination_tbl</span><span class="p">)</span>
                 <span class="n">destination_tbl</span><span class="o">.</span><span class="n">truncate</span><span class="p">()</span>
-            <span class="k">elif</span> <span class="n">if_exists</span> <span class="o">==</span> <span class="s1">&#39;drop_if_needed&#39;</span><span class="p">:</span>
+            <span class="k">elif</span> <span class="n">if_exists</span> <span class="o">==</span> <span class="s2">&quot;drop_if_needed&quot;</span><span class="p">:</span>
                 <span class="k">try</span><span class="p">:</span>
                     <span class="bp">self</span><span class="o">.</span><span class="n">_check_column_match</span><span class="p">(</span><span class="n">source_tbl</span><span class="p">,</span> <span class="n">destination_tbl</span><span class="p">)</span>
                     <span class="n">destination_tbl</span><span class="o">.</span><span class="n">truncate</span><span class="p">()</span>
@@ -222,22 +237,32 @@
                     <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;needed to drop </span><span class="si">{</span><span class="n">destination_tbl</span><span class="si">}</span><span class="s2">...&quot;</span><span class="p">)</span>
                     <span class="n">destination_tbl</span><span class="o">.</span><span class="n">drop</span><span class="p">()</span>
             <span class="k">else</span><span class="p">:</span>
-                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;Invalid if_exists argument. Must be drop or truncate.&#39;</span><span class="p">)</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                    <span class="s2">&quot;Invalid if_exists argument. Must be drop or truncate.&quot;</span>
+                <span class="p">)</span>
 
         <span class="c1"># Create the table, if needed.</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="n">destination_tbl</span><span class="o">.</span><span class="n">exists</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">create_table</span><span class="p">(</span><span class="n">source_table</span><span class="p">,</span> <span class="n">destination_table</span><span class="p">)</span>
 
-        <span class="n">copied_rows</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">copy_rows</span><span class="p">(</span><span class="n">source_table</span><span class="p">,</span> <span class="n">destination_table</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span>
-                                     <span class="n">order_by</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="n">copied_rows</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">copy_rows</span><span class="p">(</span>
+            <span class="n">source_table</span><span class="p">,</span> <span class="n">destination_table</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="n">order_by</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span>
+        <span class="p">)</span>
 
         <span class="k">if</span> <span class="n">verify_row_count</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_row_count_verify</span><span class="p">(</span><span class="n">source_tbl</span><span class="p">,</span> <span class="n">destination_tbl</span><span class="p">)</span>
 
-        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">source_table</span><span class="si">}</span><span class="s1"> synced: </span><span class="si">{</span><span class="n">copied_rows</span><span class="si">}</span><span class="s1"> total rows copied.&#39;</span><span class="p">)</span></div>
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">source_table</span><span class="si">}</span><span class="s2"> synced: </span><span class="si">{</span><span class="n">copied_rows</span><span class="si">}</span><span class="s2"> total rows copied.&quot;</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="DBSync.table_sync_incremental"><a class="viewcode-back" href="../../../dbsync.html#parsons.DBSync.table_sync_incremental">[docs]</a>    <span class="k">def</span> <span class="nf">table_sync_incremental</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">source_table</span><span class="p">,</span> <span class="n">destination_table</span><span class="p">,</span> <span class="n">primary_key</span><span class="p">,</span>
-                               <span class="n">distinct_check</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">verify_row_count</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<div class="viewcode-block" id="DBSync.table_sync_incremental"><a class="viewcode-back" href="../../../dbsync.html#parsons.DBSync.table_sync_incremental">[docs]</a>    <span class="k">def</span> <span class="nf">table_sync_incremental</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">source_table</span><span class="p">,</span>
+        <span class="n">destination_table</span><span class="p">,</span>
+        <span class="n">primary_key</span><span class="p">,</span>
+        <span class="n">distinct_check</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="n">verify_row_count</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
+    <span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Incremental sync of table from a source database to a destination database</span>
 <span class="sd">        using an incremental primary key.</span>
@@ -269,47 +294,65 @@
         <span class="c1"># Check that the destination table exists. If it does not, then run a</span>
         <span class="c1"># full sync instead.</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="n">destination_tbl</span><span class="o">.</span><span class="n">exists</span><span class="p">:</span>
-            <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s1">&#39;Destination tables </span><span class="si">%s</span><span class="s1"> does not exist, running a full sync&#39;</span><span class="p">,</span>
-                        <span class="n">destination_table</span><span class="p">)</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">table_sync_full</span><span class="p">(</span><span class="n">source_table</span><span class="p">,</span> <span class="n">destination_table</span><span class="p">,</span> <span class="n">order_by</span><span class="o">=</span><span class="n">primary_key</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span>
+                <span class="s2">&quot;Destination tables </span><span class="si">%s</span><span class="s2"> does not exist, running a full sync&quot;</span><span class="p">,</span>
+                <span class="n">destination_table</span><span class="p">,</span>
+            <span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">table_sync_full</span><span class="p">(</span>
+                <span class="n">source_table</span><span class="p">,</span> <span class="n">destination_table</span><span class="p">,</span> <span class="n">order_by</span><span class="o">=</span><span class="n">primary_key</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span>
+            <span class="p">)</span>
             <span class="k">return</span>
 
         <span class="c1"># Check that the source table primary key is distinct</span>
         <span class="k">if</span> <span class="n">distinct_check</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">source_tbl</span><span class="o">.</span><span class="n">distinct_primary_key</span><span class="p">(</span><span class="n">primary_key</span><span class="p">):</span>
-            <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s1">&#39;Checking for distinct values for column </span><span class="si">%s</span><span class="s1"> in table </span><span class="si">%s</span><span class="s1">&#39;</span><span class="p">,</span>
-                        <span class="n">primary_key</span><span class="p">,</span> <span class="n">source_table</span><span class="p">)</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;</span><span class="si">{primary_key}</span><span class="s1"> is not distinct in source table.&#39;</span><span class="p">)</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span>
+                <span class="s2">&quot;Checking for distinct values for column </span><span class="si">%s</span><span class="s2"> in table </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span>
+                <span class="n">primary_key</span><span class="p">,</span>
+                <span class="n">source_table</span><span class="p">,</span>
+            <span class="p">)</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">{primary_key}</span><span class="s2"> is not distinct in source table.&quot;</span><span class="p">)</span>
 
         <span class="c1"># Get the max source table and destination table primary key</span>
-        <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s1">&#39;Calculating the maximum value for </span><span class="si">%s</span><span class="s1"> for source table </span><span class="si">%s</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">primary_key</span><span class="p">,</span>
-                     <span class="n">source_table</span><span class="p">)</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span>
+            <span class="s2">&quot;Calculating the maximum value for </span><span class="si">%s</span><span class="s2"> for source table </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span>
+            <span class="n">primary_key</span><span class="p">,</span>
+            <span class="n">source_table</span><span class="p">,</span>
+        <span class="p">)</span>
         <span class="n">source_max_pk</span> <span class="o">=</span> <span class="n">source_tbl</span><span class="o">.</span><span class="n">max_primary_key</span><span class="p">(</span><span class="n">primary_key</span><span class="p">)</span>
-        <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s1">&#39;Calculating the maximum value for </span><span class="si">%s</span><span class="s1"> for destination table </span><span class="si">%s</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">primary_key</span><span class="p">,</span>
-                     <span class="n">destination_table</span><span class="p">)</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span>
+            <span class="s2">&quot;Calculating the maximum value for </span><span class="si">%s</span><span class="s2"> for destination table </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span>
+            <span class="n">primary_key</span><span class="p">,</span>
+            <span class="n">destination_table</span><span class="p">,</span>
+        <span class="p">)</span>
         <span class="n">dest_max_pk</span> <span class="o">=</span> <span class="n">destination_tbl</span><span class="o">.</span><span class="n">max_primary_key</span><span class="p">(</span><span class="n">primary_key</span><span class="p">)</span>
 
         <span class="c1"># Check for a mismatch in row counts; if dest_max_pk is None, or destination is empty</span>
         <span class="c1"># and we don&#39;t have to worry about this check.</span>
         <span class="k">if</span> <span class="n">dest_max_pk</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">dest_max_pk</span> <span class="o">&gt;</span> <span class="n">source_max_pk</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;Destination DB primary key greater than source DB primary key.&#39;</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="s2">&quot;Destination DB primary key greater than source DB primary key.&quot;</span>
+            <span class="p">)</span>
 
         <span class="c1"># Do not copied if row counts are equal.</span>
         <span class="k">elif</span> <span class="n">dest_max_pk</span> <span class="o">==</span> <span class="n">source_max_pk</span><span class="p">:</span>
-            <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s1">&#39;Tables are already in sync.&#39;</span><span class="p">)</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Tables are already in sync.&quot;</span><span class="p">)</span>
             <span class="k">return</span> <span class="kc">None</span>
 
         <span class="k">else</span><span class="p">:</span>
-            <span class="n">rows_copied</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">copy_rows</span><span class="p">(</span><span class="n">source_table</span><span class="p">,</span> <span class="n">destination_table</span><span class="p">,</span> <span class="n">dest_max_pk</span><span class="p">,</span>
-                                         <span class="n">primary_key</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+            <span class="n">rows_copied</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">copy_rows</span><span class="p">(</span>
+                <span class="n">source_table</span><span class="p">,</span> <span class="n">destination_table</span><span class="p">,</span> <span class="n">dest_max_pk</span><span class="p">,</span> <span class="n">primary_key</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span>
+            <span class="p">)</span>
 
-            <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s1">&#39;Copied </span><span class="si">%s</span><span class="s1"> new rows to </span><span class="si">%s</span><span class="s1">.&#39;</span><span class="p">,</span> <span class="n">rows_copied</span><span class="p">,</span> <span class="n">destination_table</span><span class="p">)</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Copied </span><span class="si">%s</span><span class="s2"> new rows to </span><span class="si">%s</span><span class="s2">.&quot;</span><span class="p">,</span> <span class="n">rows_copied</span><span class="p">,</span> <span class="n">destination_table</span><span class="p">)</span>
 
         <span class="k">if</span> <span class="n">verify_row_count</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_row_count_verify</span><span class="p">(</span><span class="n">source_tbl</span><span class="p">,</span> <span class="n">destination_tbl</span><span class="p">)</span>
 
-        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">source_table</span><span class="si">}</span><span class="s1"> synced to </span><span class="si">{</span><span class="n">destination_table</span><span class="si">}</span><span class="s1">.&#39;</span><span class="p">)</span></div>
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">source_table</span><span class="si">}</span><span class="s2"> synced to </span><span class="si">{</span><span class="n">destination_table</span><span class="si">}</span><span class="s2">.&quot;</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="DBSync.copy_rows"><a class="viewcode-back" href="../../../dbsync.html#parsons.DBSync.copy_rows">[docs]</a>    <span class="k">def</span> <span class="nf">copy_rows</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">source_table_name</span><span class="p">,</span> <span class="n">destination_table_name</span><span class="p">,</span> <span class="n">cutoff</span><span class="p">,</span> <span class="n">order_by</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<div class="viewcode-block" id="DBSync.copy_rows"><a class="viewcode-back" href="../../../dbsync.html#parsons.DBSync.copy_rows">[docs]</a>    <span class="k">def</span> <span class="nf">copy_rows</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">source_table_name</span><span class="p">,</span> <span class="n">destination_table_name</span><span class="p">,</span> <span class="n">cutoff</span><span class="p">,</span> <span class="n">order_by</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span>
+    <span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Copy the rows from the source to the destination.</span>
 
@@ -348,15 +391,19 @@
                 <span class="k">if</span> <span class="n">cutoff</span><span class="p">:</span>
                     <span class="c1"># If we have a cutoff, we are loading data incrementally -- filter out</span>
                     <span class="c1"># any data before our cutoff</span>
-                    <span class="n">rows</span> <span class="o">=</span> <span class="n">source_table</span><span class="o">.</span><span class="n">get_new_rows</span><span class="p">(</span><span class="n">primary_key</span><span class="o">=</span><span class="n">order_by</span><span class="p">,</span>
-                                                     <span class="n">cutoff_value</span><span class="o">=</span><span class="n">cutoff</span><span class="p">,</span>
-                                                     <span class="n">offset</span><span class="o">=</span><span class="n">total_rows_downloaded</span><span class="p">,</span>
-                                                     <span class="n">chunk_size</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">read_chunk_size</span><span class="p">)</span>
+                    <span class="n">rows</span> <span class="o">=</span> <span class="n">source_table</span><span class="o">.</span><span class="n">get_new_rows</span><span class="p">(</span>
+                        <span class="n">primary_key</span><span class="o">=</span><span class="n">order_by</span><span class="p">,</span>
+                        <span class="n">cutoff_value</span><span class="o">=</span><span class="n">cutoff</span><span class="p">,</span>
+                        <span class="n">offset</span><span class="o">=</span><span class="n">total_rows_downloaded</span><span class="p">,</span>
+                        <span class="n">chunk_size</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">read_chunk_size</span><span class="p">,</span>
+                    <span class="p">)</span>
                 <span class="k">else</span><span class="p">:</span>
                     <span class="c1"># Get a chunk</span>
-                    <span class="n">rows</span> <span class="o">=</span> <span class="n">source_table</span><span class="o">.</span><span class="n">get_rows</span><span class="p">(</span><span class="n">offset</span><span class="o">=</span><span class="n">total_rows_downloaded</span><span class="p">,</span>
-                                                 <span class="n">chunk_size</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">read_chunk_size</span><span class="p">,</span>
-                                                 <span class="n">order_by</span><span class="o">=</span><span class="n">order_by</span><span class="p">)</span>
+                    <span class="n">rows</span> <span class="o">=</span> <span class="n">source_table</span><span class="o">.</span><span class="n">get_rows</span><span class="p">(</span>
+                        <span class="n">offset</span><span class="o">=</span><span class="n">total_rows_downloaded</span><span class="p">,</span>
+                        <span class="n">chunk_size</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">read_chunk_size</span><span class="p">,</span>
+                        <span class="n">order_by</span><span class="o">=</span><span class="n">order_by</span><span class="p">,</span>
+                    <span class="p">)</span>
 
                 <span class="n">number_of_rows</span> <span class="o">=</span> <span class="n">rows</span><span class="o">.</span><span class="n">num_rows</span>
                 <span class="n">total_rows_downloaded</span> <span class="o">+=</span> <span class="n">number_of_rows</span>
@@ -365,9 +412,14 @@
                 <span class="k">if</span> <span class="n">number_of_rows</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
                     <span class="c1"># If we have any rows that are unwritten, flush them to the destination database</span>
                     <span class="k">if</span> <span class="n">rows_buffered</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
-                        <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s1">&#39;Copying </span><span class="si">%s</span><span class="s1"> rows to </span><span class="si">%s</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">rows_buffered</span><span class="p">,</span> <span class="n">destination_table_name</span><span class="p">)</span>
-                        <span class="bp">self</span><span class="o">.</span><span class="n">dest_db</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="n">buffer</span><span class="p">,</span> <span class="n">destination_table_name</span><span class="p">,</span> <span class="n">if_exists</span><span class="o">=</span><span class="s1">&#39;append&#39;</span><span class="p">,</span>
-                                          <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+                        <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span>
+                            <span class="s2">&quot;Copying </span><span class="si">%s</span><span class="s2"> rows to </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span>
+                            <span class="n">rows_buffered</span><span class="p">,</span>
+                            <span class="n">destination_table_name</span><span class="p">,</span>
+                        <span class="p">)</span>
+                        <span class="bp">self</span><span class="o">.</span><span class="n">dest_db</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span>
+                            <span class="n">buffer</span><span class="p">,</span> <span class="n">destination_table_name</span><span class="p">,</span> <span class="n">if_exists</span><span class="o">=</span><span class="s2">&quot;append&quot;</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span>
+                        <span class="p">)</span>
                         <span class="n">total_rows_written</span> <span class="o">+=</span> <span class="n">rows_buffered</span>
 
                         <span class="c1"># Reset the buffer</span>
@@ -382,8 +434,12 @@
 
                 <span class="c1"># If our buffer reaches our write threshold, write it out</span>
                 <span class="k">if</span> <span class="n">rows_buffered</span> <span class="o">&gt;=</span> <span class="bp">self</span><span class="o">.</span><span class="n">write_chunk_size</span><span class="p">:</span>
-                    <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s1">&#39;Copying </span><span class="si">%s</span><span class="s1"> rows to </span><span class="si">%s</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">rows_buffered</span><span class="p">,</span> <span class="n">destination_table_name</span><span class="p">)</span>
-                    <span class="bp">self</span><span class="o">.</span><span class="n">dest_db</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="n">buffer</span><span class="p">,</span> <span class="n">destination_table_name</span><span class="p">,</span> <span class="n">if_exists</span><span class="o">=</span><span class="s1">&#39;append&#39;</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+                    <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span>
+                        <span class="s2">&quot;Copying </span><span class="si">%s</span><span class="s2"> rows to </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">rows_buffered</span><span class="p">,</span> <span class="n">destination_table_name</span>
+                    <span class="p">)</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">dest_db</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span>
+                        <span class="n">buffer</span><span class="p">,</span> <span class="n">destination_table_name</span><span class="p">,</span> <span class="n">if_exists</span><span class="o">=</span><span class="s2">&quot;append&quot;</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span>
+                    <span class="p">)</span>
                     <span class="n">total_rows_written</span> <span class="o">+=</span> <span class="n">rows_buffered</span>
 
                     <span class="c1"># Reset the buffer</span>
@@ -396,11 +452,11 @@
 
                 <span class="c1"># If we are out of retries, fail</span>
                 <span class="k">if</span> <span class="n">retries_left</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
-                    <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s1">&#39;No retries remaining&#39;</span><span class="p">)</span>
+                    <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;No retries remaining&quot;</span><span class="p">)</span>
                     <span class="k">raise</span>
 
                 <span class="c1"># Otherwise, log the exception and try again</span>
-                <span class="n">logger</span><span class="o">.</span><span class="n">exception</span><span class="p">(</span><span class="s1">&#39;Unhandled error copying data; retrying&#39;</span><span class="p">)</span>
+                <span class="n">logger</span><span class="o">.</span><span class="n">exception</span><span class="p">(</span><span class="s2">&quot;Unhandled error copying data; retrying&quot;</span><span class="p">)</span>
 
         <span class="k">return</span> <span class="n">total_rows_written</span></div>
 
@@ -411,8 +467,10 @@
 <span class="sd">        &quot;&quot;&quot;</span>
 
         <span class="k">if</span> <span class="n">source_table_obj</span><span class="o">.</span><span class="n">columns</span> <span class="o">!=</span> <span class="n">destination_table_obj</span><span class="o">.</span><span class="n">columns</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;&quot;&quot;Destination table columns do not match source table columns.</span>
-<span class="s2">                             Consider dropping destination table and running a full sync.&quot;&quot;&quot;</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+<span class="w">                </span><span class="sd">&quot;&quot;&quot;Destination table columns do not match source table columns.</span>
+<span class="sd">                             Consider dropping destination table and running a full sync.&quot;&quot;&quot;</span>
+            <span class="p">)</span>
 
     <span class="nd">@staticmethod</span>
     <span class="k">def</span> <span class="nf">_row_count_verify</span><span class="p">(</span><span class="n">source_table_obj</span><span class="p">,</span> <span class="n">destination_table_obj</span><span class="p">):</span>
@@ -424,11 +482,15 @@
         <span class="n">dest_row_count</span> <span class="o">=</span> <span class="n">destination_table_obj</span><span class="o">.</span><span class="n">num_rows</span>
 
         <span class="k">if</span> <span class="n">source_row_count</span> <span class="o">!=</span> <span class="n">dest_row_count</span><span class="p">:</span>
-            <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">((</span><span class="sa">f</span><span class="s1">&#39;Table count mismatch. Source table contains </span><span class="si">{</span><span class="n">source_row_count</span><span class="si">}</span><span class="s1">.&#39;</span><span class="p">,</span>
-                           <span class="sa">f</span><span class="s1">&#39; Destination table contains </span><span class="si">{</span><span class="n">dest_row_count</span><span class="si">}</span><span class="s1">.&#39;</span><span class="p">))</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span>
+                <span class="p">(</span>
+                    <span class="sa">f</span><span class="s2">&quot;Table count mismatch. Source table contains </span><span class="si">{</span><span class="n">source_row_count</span><span class="si">}</span><span class="s2">.&quot;</span><span class="p">,</span>
+                    <span class="sa">f</span><span class="s2">&quot; Destination table contains </span><span class="si">{</span><span class="n">dest_row_count</span><span class="si">}</span><span class="s2">.&quot;</span><span class="p">,</span>
+                <span class="p">)</span>
+            <span class="p">)</span>
             <span class="k">return</span> <span class="kc">False</span>
 
-        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s1">&#39;Source and destination table row counts match.&#39;</span><span class="p">)</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Source and destination table row counts match.&quot;</span><span class="p">)</span>
         <span class="k">return</span> <span class="kc">True</span>
 
 <div class="viewcode-block" id="DBSync.create_table"><a class="viewcode-back" href="../../../dbsync.html#parsons.DBSync.create_table">[docs]</a>    <span class="k">def</span> <span class="nf">create_table</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">source_table</span><span class="p">,</span> <span class="n">destination_table</span><span class="p">):</span>
@@ -443,8 +505,10 @@
             <span class="n">source_obj</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">source_db</span><span class="o">.</span><span class="n">get_table_object</span><span class="p">(</span><span class="n">source_table</span><span class="p">)</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">dest_db</span><span class="o">.</span><span class="n">create_table</span><span class="p">(</span><span class="n">source_obj</span><span class="p">,</span> <span class="n">destination_table</span><span class="p">)</span>
         <span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>
-            <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="s1">&#39;Unable to create destination table based on source table; we will &#39;</span>
-                           <span class="s1">&#39;fallback to using &quot;copy&quot; to create the destination.&#39;</span><span class="p">)</span></div></div>
+            <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span>
+                <span class="s2">&quot;Unable to create destination table based on source table; we will &quot;</span>
+                <span class="s1">&#39;fallback to using &quot;copy&quot; to create the destination.&#39;</span>
+            <span class="p">)</span></div></div>
 </pre></div>
 
            </div>

@@ -7,11 +7,11 @@ from unittest.mock import MagicMock, patch, call
 from parsons import Table, SFTP
 from parsons.utilities import files as file_util
 from test.utils import mark_live_test, assert_matching_tables
-from test.fixtures import (
+from test.fixtures import (  # noqa: F401
     simple_table,
     simple_csv_path,
     simple_compressed_csv_path,
-)  # noqa; F401
+)
 
 #
 # Fixtures and constants
@@ -77,8 +77,8 @@ def live_sftp(simple_csv_path, simple_compressed_csv_path, simple_table):  # noq
 # mocks can be inspected.
 @pytest.fixture
 def live_sftp_with_mocked_get(
-    simple_csv_path, simple_compressed_csv_path
-):  # noqa: F811
+    simple_csv_path, simple_compressed_csv_path  # noqa: F811
+):
     SFTP_with_mocked_get = deepcopy(SFTP)
 
     # The names of temp files are long arbitrary strings. This makes them predictable.

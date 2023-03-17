@@ -56,8 +56,8 @@ class TestGoogleAdmin(unittest.TestCase):
         self.google_admin.client.request = MagicMock(
             return_value=(
                 "",
-                '{"groups": [{"aliases": ["fakeemail7@fakedomain.com", "fakeemail8@fakedomain.com"], "e'
-                'mail": "fakeemail4@fakedomain.com", "id": 1}, {"email": "fakeemail5@fakedomain.com", "'
+                '{"groups": [{"aliases": ["fakeemail7@fakedomain.com", "fakeemail8@fakedomain.com"], "e'  # noqa: E501
+                'mail": "fakeemail4@fakedomain.com", "id": 1}, {"email": "fakeemail5@fakedomain.com", "'  # noqa: E501
                 'id": 2}, {"email": "fakeemail6@fakedomain.com", "id": 3}]}'.encode(),
             )
         )

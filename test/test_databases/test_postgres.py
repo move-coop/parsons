@@ -141,15 +141,15 @@ class TestPostgresCreateStatement(unittest.TestCase):
             "a",
             "",
             "SELECT",
-            "asdfjkasjdfklasjdfklajskdfljaskldfjaklsdfjlaksdfjklasjdfklasjdkfljaskldfljkasjdkfasjlkdfjklasdfjklakjsfasjkdfljaslkdfjklasdfjklasjkldfakljsdfjalsdkfjklasjdfklasjdfklasdkljf",
-        ]  # noqa: E501
+            "asdfjkasjdfklasjdfklajskdfljaskldfjaklsdfjlaksdfjklasjdfklasjdkfljaskldfljkasjdkfasjlkdfjklasdfjklakjsfasjkdfljaslkdfjklasdfjklasjkldfakljsdfjalsdkfjklasjdfklasjdfklasdkljf",  # noqa: E501
+        ]
         fixed_cols = [
             "a",
             "a_1",
             "col_2",
             "col_3",
-            "asdfjkasjdfklasjdfklajskdfljaskldfjaklsdfjlaksdfjklasjdfklasjdkfljaskldfljkasjdkfasjlkdfjklasdfjklakjsfasjkdfljaslkdfjkl",
-        ]  # noqa: E501
+            "asdfjkasjdfklasjdfklajskdfljaskldfjaklsdfjlaksdfjklasjdfklasjdkfljaskldfljkasjdkfasjlkdfjklasdfjklakjsfasjkdfljaslkdfjkl",  # noqa: E501
+        ]
         self.assertEqual(self.pg.column_name_validate(bad_cols), fixed_cols)
 
     def test_create_statement(self):

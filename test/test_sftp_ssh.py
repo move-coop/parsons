@@ -3,11 +3,12 @@ import os
 from parsons import Table, SFTP
 from parsons.utilities import files
 from test.utils import mark_live_test, assert_matching_tables
-from test.fixtures import (
+from test.fixtures import (  # noqa: F401
     simple_table,
     simple_csv_path,
     simple_compressed_csv_path,
-)  # noqa: F401
+)
+
 
 #
 # Fixtures and constants
@@ -143,8 +144,8 @@ def test_table_to_sftp_csv(live_sftp, simple_table, compression):  # noqa: F811
 @mark_live_test
 @pytest.mark.parametrize("compression", [None, "gzip"])
 def test_table_to_sftp_csv_no_password(
-    live_sftp, simple_table, compression
-):  # noqa: F811
+    live_sftp, simple_table, compression  # noqa: F811
+):
     host = os.environ.get("SFTP_HOST")
     username = os.environ.get("SFTP_USERNAME")
     rsa_private_key_file = os.environ.get("SFTP_RSA_PRIVATE_KEY_FILE")

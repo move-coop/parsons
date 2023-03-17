@@ -124,7 +124,7 @@ class TestTargets(unittest.TestCase):
             "jobStatus": "Complete",
         }
 
-        download_url = "https://ngpvan.blob.core.windows.net/target-export-files/TargetExport_455961790.csv"
+        download_url = "https://ngpvan.blob.core.windows.net/target-export-files/TargetExport_455961790.csv"  # noqa: E501
         fromcsv.return_value = petl.fromcolumns(
             [
                 ["12827", "12827"],

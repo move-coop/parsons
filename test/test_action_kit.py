@@ -387,6 +387,14 @@ class TestActionKit(unittest.TestCase):
         ]
         self.actionkit.conn.get.assert_has_calls(calls)
 
+    def test_get_order(self):
+        # Test get order
+        self.actionkit.get_order(123)
+        self.actionkit.conn.get.assert_called_with(
+            'https://domain.actionkit.com/rest/v1/order/123/',
+            params=None
+        )
+
     def test_update_order(self):
         # Test update order
 

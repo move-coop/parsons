@@ -735,6 +735,20 @@ class ActionKit(object):
         data = data[:i]
         return Table(data[:limit])
 
+    def get_order(self, order_id):
+        """
+        Get an order.
+
+        `Args:`
+            order_id: int
+                The order id of the record to get.
+        `Returns`:
+            User json object
+        """
+
+        return self._base_get(endpoint='order', entity_id=order_id,
+                              exception_message='Order not found')
+
     def update_order(self, order_id, **kwargs):
         """
         Update an order.

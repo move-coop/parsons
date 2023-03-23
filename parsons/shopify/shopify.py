@@ -46,8 +46,8 @@ class Shopify(object):
         if self.access_token is not None:
             self.client = APIConnector(
                 self.base_url,
-                headers={'X-Shopify-Access-Token': access_token
-            })
+                headers={'X-Shopify-Access-Token': access_token}
+            )
         else:
             self.client = APIConnector(
                 self.base_url,

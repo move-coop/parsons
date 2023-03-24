@@ -31,14 +31,12 @@ class ActionKit(object):
     }
 
     def __init__(self, domain=None, username=None, password=None):
-
         self.domain = check_env.check("ACTION_KIT_DOMAIN", domain)
         self.username = check_env.check("ACTION_KIT_USERNAME", username)
         self.password = check_env.check("ACTION_KIT_PASSWORD", password)
         self.conn = self._conn()
 
     def _conn(self, default_headers=_default_headers):
-
         client = requests.Session()
         client.auth = (self.username, self.password)
         client.headers.update(default_headers)
@@ -746,8 +744,9 @@ class ActionKit(object):
             User json object
         """
 
-        return self._base_get(endpoint='order', entity_id=order_id,
-                              exception_message='Order not found')
+        return self._base_get(
+            endpoint="order", entity_id=order_id, exception_message="Order not found"
+        )
 
     def update_order(self, order_id, **kwargs):
         """
@@ -808,7 +807,7 @@ class ActionKit(object):
             Parsons.Table
                 The events data.
         """
-        return self.paginated_get('order', limit=limit, **kwargs)
+        return self.paginated_get("order", limit=limit, **kwargs)
 
     def update_paymenttoken(self, paymenttoken_id, **kwargs):
         """
@@ -985,7 +984,7 @@ class ActionKit(object):
             Parsons.Table
                 The events data.
         """
-        return self.paginated_get('transaction', limit=limit, **kwargs)
+        return self.paginated_get("transaction", limit=limit, **kwargs)
 
     def create_generic_action(self, page, email=None, ak_id=None, **kwargs):
         """

@@ -391,8 +391,7 @@ class TestActionKit(unittest.TestCase):
         # Test get order
         self.actionkit.get_order(123)
         self.actionkit.conn.get.assert_called_with(
-            'https://domain.actionkit.com/rest/v1/order/123/',
-            params=None
+            "https://domain.actionkit.com/rest/v1/order/123/", params=None
         )
 
     def test_update_order(self):
@@ -415,10 +414,10 @@ class TestActionKit(unittest.TestCase):
         type(resp_mock.get()).json = lambda x: {"meta": {"next": ""}, "objects": []}
         self.actionkit.conn = resp_mock
 
-        self.actionkit.get_orders(100, order_by='created_at')
+        self.actionkit.get_orders(100, order_by="created_at")
         self.actionkit.conn.get.assert_called_with(
-            'https://domain.actionkit.com/rest/v1/order/',
-            params={'order_by': 'created_at', '_limit': 100}
+            "https://domain.actionkit.com/rest/v1/order/",
+            params={"order_by": "created_at", "_limit": 100},
         )
 
     def test_update_paymenttoken(self):
@@ -553,10 +552,10 @@ class TestActionKit(unittest.TestCase):
         type(resp_mock.get()).json = lambda x: {"meta": {"next": ""}, "objects": []}
         self.actionkit.conn = resp_mock
 
-        self.actionkit.get_transactions(100, order_by='created_at')
+        self.actionkit.get_transactions(100, order_by="created_at")
         self.actionkit.conn.get.assert_called_with(
-            'https://domain.actionkit.com/rest/v1/transaction/',
-            params={'order_by': 'created_at', '_limit': 100}
+            "https://domain.actionkit.com/rest/v1/transaction/",
+            params={"order_by": "created_at", "_limit": 100},
         )
 
     def test_create_generic_action(self):

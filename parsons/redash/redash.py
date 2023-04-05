@@ -52,6 +52,12 @@ class Redash(object):
         if user_api_key:
             self.session.headers.update({"Authorization": f"Key {user_api_key}"})
 
+    def _catch_runtime_error(self, res):
+        if res.status_code != 200:
+            raise RuntimeError(
+                f"Error. Status code: {res.status_code}. Reason: {res.reason}"
+            )
+
     def _poll_job(self, session, job, query_id):
         start_secs = time.time()
         while job["status"] not in (3, 4):
@@ -83,6 +89,63 @@ class Redash(object):
             raise RedashQueryFailed(
                 "Redash Query {} failed: {}".format(query_id, job["error"])
             )
+
+    def get_data_source(self, data_source_id):
+        """
+        Get a data source.
+
+        `Args:`
+            data_source_id: int or str
+                ID of data source.
+        `Returns`:
+            Data source json object
+        """
+        res = self.session.get(f"{self.base_url}/api/data_sources/{data_source_id}")
+        self._catch_runtime_error(res)
+        return res.json()
+
+    def update_data_source(
+        self, data_source_id, name, type, dbName, host, password, port, user
+    ):
+        """
+        Update a data source.
+
+        `Args:`
+            data_source_id: str or int
+                ID of data source.
+            name: str
+                Name of data source.
+            type: str
+                Type of data source.
+            dbname: str
+                Database name of data source.
+            host: str
+                Host of data source.
+            password: str
+                Password of data source.
+            port: int or str
+                Port of data source.
+            user: str
+                Username of data source.
+        `Returns:`
+            ``None``
+        """
+        self._catch_runtime_error(
+            self.session.post(
+                f"{self.base_url}/api/data_sources/{data_source_id}",
+                json={
+                    "name": name,
+                    "type": type,
+                    "options": {
+                        "dbname": dbName,
+                        "host": host,
+                        "password": password,
+                        "port": port,
+                        "user": user,
+                    },
+                },
+            )
+        )
 
     def get_fresh_query_results(self, query_id=None, params=None):
         """

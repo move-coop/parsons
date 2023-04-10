@@ -177,8 +177,9 @@ class S3(object):
                 resp = self.client.list_objects_v2(**args)
 
             except ClientError as e:
+                logger.error("FAILED TO RETURN OBJECTS!")
                 logger.error(
-                    "FAILED TO RETURN OBJECTS! Double-check your permissions in this bucket, and consider providing a prefix"
+                    "Check your permissions in this bucket, and consider providing a prefix"
                 )
 
                 raise e

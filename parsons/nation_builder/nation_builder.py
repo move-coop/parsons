@@ -1,6 +1,6 @@
 import logging
 import time
-from typing import Optional
+from typing import Dict, Optional, Tuple
 from urllib.parse import parse_qs, urlparse
 
 from parsons import Table
@@ -27,14 +27,57 @@ class NationBuilder:
     def __init__(
         self, slug: Optional[str] = None, access_token: Optional[str] = None
     ) -> None:
-        self.slug = check_env.check("NB_SLUG", slug)
-        self.access_token = check_env.check("NB_ACCESS_TOKEN", access_token)
-
-        self.uri = f"https://{self.slug}.nationbuilder.com/api/v1"
+        slug = check_env.check("NB_SLUG", slug)
+        token = check_env.check("NB_ACCESS_TOKEN", access_token)
 
         self.client = APIConnector(
-            self.uri, headers={"authorization": f"Bearer {self.access_token}"}
+            NationBuilder.get_uri(slug), headers=NationBuilder.get_auth_headers(token)
         )
+
+    @classmethod
+    def get_uri(cls, slug: Optional[str]) -> str:
+        if slug is None:
+            raise ValueError("slug can't None")
+
+        if not isinstance(slug, str):
+            raise ValueError("slug must be an str")
+
+        if len(slug.strip()) == 0:
+            raise ValueError("slug can't be an empty str")
+
+        return f"https://{slug}.nationbuilder.com/api/v1"
+
+    @classmethod
+    def get_auth_headers(cls, access_token: Optional[str]) -> Dict[str, str]:
+        if access_token is None:
+            raise ValueError("access_token can't None")
+
+        if not isinstance(access_token, str):
+            raise ValueError("access_token must be an str")
+
+        if len(access_token.strip()) == 0:
+            raise ValueError("access_token can't be an empty str")
+
+        return {"authorization": f"Bearer {access_token}"}
+
+    @classmethod
+    def parse_next_params(cls, next_value: str) -> Tuple[str, str]:
+        next_params = parse_qs(urlparse(next_value).query)
+
+        if "__nonce" not in next_params:
+            raise ValueError("__nonce param not found")
+
+        if "__token" not in next_params:
+            raise ValueError("__token param not found")
+
+        nonce = next_params["__nonce"][0]
+        token = next_params["__token"][0]
+
+        return nonce, token
+
+    @classmethod
+    def make_next_url(cls, original_url: str, nonce: str, token: str) -> str:
+        return f"{original_url}?limit=100&__nonce={nonce}&__token={token}"
 
     def get_people(self):
         """
@@ -42,7 +85,7 @@ class NationBuilder:
             A Table of all people stored in Nation Builder.
         """
         data = []
-        original_url = "people?limit=100"
+        original_url = "people"
 
         url = f"{original_url}"
 
@@ -57,10 +100,8 @@ class NationBuilder:
                 data.extend(res)
 
                 if response["next"]:
-                    next_params = parse_qs(urlparse(response["next"]).query)
-                    nonce = next_params["__nonce"][0]
-                    token = next_params["__token"][0]
-                    url = f"{original_url}&__nonce={nonce}&__token={token}"
+                    nonce, token = NationBuilder.parse_next_params(response["next"])
+                    url = NationBuilder.make_next_url(original_url, nonce, token)
                 else:
                     break
             except Exception as error:

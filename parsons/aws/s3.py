@@ -158,8 +158,8 @@ class S3(object):
 
         continuation_token = None
 
-        # Confirm that prefix has trailing /
-        if not prefix.endswith("/"):
+        # Confirm that prefix has trailing / if it's provided
+        if prefix and not prefix.endswith("/"):
             prefix = f"{prefix}/"
 
         while True:

@@ -1,5 +1,6 @@
 import re
 import boto3
+from botocore.client import ClientError
 from parsons.utilities import files
 import logging
 import os
@@ -15,7 +16,6 @@ class AWSConnection(object):
         aws_session_token=None,
         use_env_token=True,
     ):
-
         # Order of operations for searching for keys:
         #   1. Look for keys passed as kwargs
         #   2. Look for env variables
@@ -71,7 +71,6 @@ class S3(object):
         aws_session_token=None,
         use_env_token=True,
     ):
-
         self.aws = AWSConnection(
             aws_access_key_id=aws_access_key_id,
             aws_secret_access_key=aws_secret_access_key,
@@ -159,18 +158,33 @@ class S3(object):
 
         continuation_token = None
 
+        # Confirm that prefix has trailing / if it's provided
+        if prefix and not prefix.endswith("/"):
+            prefix = f"{prefix}/"
+
         while True:
             args = {"Bucket": bucket}
+
             if prefix:
                 args["Prefix"] = prefix
+
             if continuation_token:
                 args["ContinuationToken"] = continuation_token
+
             args.update(kwargs)
 
-            resp = self.client.list_objects_v2(**args)
+            try:
+                resp = self.client.list_objects_v2(**args)
+
+            except ClientError as e:
+                logger.error("FAILED TO RETURN OBJECTS!")
+                logger.error(
+                    "Check your permissions in this bucket, and consider providing a prefix"
+                )
+
+                raise e
 
             for key in resp.get("Contents", []):
-
                 # Match suffix
                 if suffix and not key["Key"].endswith(suffix):
                     continue
@@ -201,10 +215,12 @@ class S3(object):
             # If more than 1000 results, continue with token
             if resp.get("NextContinuationToken"):
                 continuation_token = resp["NextContinuationToken"]
+
             else:
                 break
 
         logger.debug(f"Retrieved {len(keys_dict)} keys")
+
         return keys_dict
 
     def key_exists(self, bucket, key):

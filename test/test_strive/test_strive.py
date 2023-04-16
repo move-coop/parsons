@@ -27,11 +27,8 @@ class TestStrive(unittest.TestCase):
         data = {"apple" : "yummy"}
 
         # Testing get broadcasts with bad params 
-        import ipdb; ipdb.set_trace()
         
-        response = self.strive.get_broadcasts(params=data) 
-
-        
+        response = self.strive.get_broadcasts(params=data)
 
         print("Done")
                  
@@ -40,3 +37,13 @@ class TestStrive(unittest.TestCase):
         #     == strive_test_data.get_members_expected_output
         # )
 
+    def test_get_p2ps(self):    
+        params = { "message" : "Working" }
+        import ipdb; ipdb.set_trace()
+        response = self.strive.get_p2ps(params=params)
+
+
+    def test_get_custom_fields(self):
+        print("Testing method get_custom_fields...")
+        params = {"label" : "WFP Number"}
+        response = self.strive.get_custom_fields(params=params)

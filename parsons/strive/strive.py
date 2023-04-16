@@ -82,8 +82,8 @@ class Strive(object):
         """
     
         valid_params = {
-            "id": str,
-            "campaign_id": str,
+            "id": int,
+            "campaign_id": int,
             "phone_number": str,
             "first_name": str,
             "last_name": str,
@@ -93,7 +93,7 @@ class Strive(object):
             "email":str,
             "notes":str,
             "additional_notes":str,
-            "opt_in":str,
+            "opt_in":bool,
             "custom":str,
             "created_at":str,
             "updated_at":str,
@@ -121,7 +121,11 @@ class Strive(object):
         
         # Make the get request at the /members endpoint
         response = self.client.get_request(url="members", params=params)
-        return Table(response)
+        if response.status_code == 200:
+            return Table(response)
+        else:
+            # Handle the error
+            print(f"Error {response.status_code}: {response.text}")
 
     def get_broadcasts(self, params: dict):
         response = self.client.get_request(url="broadcasts", params=params)

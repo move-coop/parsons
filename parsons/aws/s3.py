@@ -193,8 +193,9 @@ class S3(object):
                 logger.error(
                     "Check your permissions in this bucket, and consider providing a prefix"
                 )
-
+                
                 raise e
+
 
             for key in resp.get("Contents", []):
                 # Match suffix

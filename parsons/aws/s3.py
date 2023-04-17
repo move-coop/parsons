@@ -158,22 +158,6 @@ class S3(object):
 
         continuation_token = None
 
-        """
-        Two conditions here...
-
-        * User supplied a prefix
-        * The prefix is a route OR file type
-        * We assume a '.' here specifies a file extension
-
-        If all of these conditions are met then a trailing slash is implicitly
-        added to the prefix
-        """
-
-        if prefix and not prefix.endswith("/") and "." not in prefix:
-            supplied_prefix = prefix
-            prefix = f"{supplied_prefix}/"
-            logger.info(f"BE ADVISED: Prefix {supplied_prefix} updated to {prefix}")
-
         while True:
             args = {"Bucket": bucket}
 
@@ -189,13 +173,23 @@ class S3(object):
                 resp = self.client.list_objects_v2(**args)
 
             except ClientError as e:
-                logger.error("FAILED TO RETURN OBJECTS!")
-                logger.error(
-                    "Check your permissions in this bucket, and consider providing a prefix"
-                )
-                
-                raise e
+                new_prefix = f"{prefix}/"
 
+                logger.error(
+                    f"Failed to return objects ... updating prefix={new_prefix}"
+                )
+
+                args["Prefix"] = new_prefix
+
+                try:
+                    resp = self.client.list_objects_v2(**args)
+
+                except ClientError as e:
+                    logger.error(
+                        "Failed to return objects - check your permissions on this bucket"
+                    )
+
+                    raise e
 
             for key in resp.get("Contents", []):
                 # Match suffix

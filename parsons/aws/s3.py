@@ -158,9 +158,21 @@ class S3(object):
 
         continuation_token = None
 
-        # Confirm that prefix has trailing / if it's provided
-        if prefix and not prefix.endswith("/"):
-            prefix = f"{prefix}/"
+        """
+        Two conditions here...
+
+        * User supplied a prefix
+        * The prefix is a route OR file type
+        * We assume a '.' here specifies a file extension
+
+        If all of these conditions are met then a trailing slash is implicitly
+        added to the prefix
+        """
+
+        if prefix and not prefix.endswith("/") and "." not in prefix:
+            supplied_prefix = prefix
+            prefix = f"{supplied_prefix}/"
+            logger.info(f"BE ADVISED: Prefix {supplied_prefix} updated to {prefix}")
 
         while True:
             args = {"Bucket": bucket}

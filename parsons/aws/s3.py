@@ -176,7 +176,9 @@ class S3(object):
                 error_message = """Unable to list bucket objects!
                 This may be due to a lack of permission on the requested
                 bucket. Double-check that you have sufficient READ permissions
-                on the bucket you've requested"""
+                on the bucket you've requested. If you only have permissions for
+                keys within a specific prefix, make sure you include a trailing '/' in
+                in prefix."""
 
                 logger.error(error_message)
 

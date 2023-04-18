@@ -173,23 +173,14 @@ class S3(object):
                 resp = self.client.list_objects_v2(**args)
 
             except ClientError as e:
-                new_prefix = f"{prefix}/"
+                error_message = """Unable to list bucket objects!
+                This may be due to a lack of permission on the requested
+                bucket. Double-check that you have sufficient READ permissions
+                on the bucket you've requested"""
 
-                logger.error(
-                    f"Failed to return objects ... updating prefix={new_prefix}"
-                )
+                logger.error(error_message)
 
-                args["Prefix"] = new_prefix
-
-                try:
-                    resp = self.client.list_objects_v2(**args)
-
-                except ClientError as e:
-                    logger.error(
-                        "Failed to return objects - check your permissions on this bucket"
-                    )
-
-                    raise e
+                raise e
 
             for key in resp.get("Contents", []):
                 # Match suffix

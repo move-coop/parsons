@@ -158,10 +158,6 @@ class S3(object):
 
         continuation_token = None
 
-        # Confirm that prefix has trailing / if it's provided
-        if prefix and not prefix.endswith("/"):
-            prefix = f"{prefix}/"
-
         while True:
             args = {"Bucket": bucket}
 
@@ -177,10 +173,14 @@ class S3(object):
                 resp = self.client.list_objects_v2(**args)
 
             except ClientError as e:
-                logger.error("FAILED TO RETURN OBJECTS!")
-                logger.error(
-                    "Check your permissions in this bucket, and consider providing a prefix"
-                )
+                error_message = """Unable to list bucket objects!
+                This may be due to a lack of permission on the requested
+                bucket. Double-check that you have sufficient READ permissions
+                on the bucket you've requested. If you only have permissions for
+                keys within a specific prefix, make sure you include a trailing '/' in
+                in prefix."""
+
+                logger.error(error_message)
 
                 raise e
 

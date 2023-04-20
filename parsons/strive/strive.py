@@ -30,8 +30,6 @@ class Strive(object):
         """
         # Validate filter parameters
         for param, value in params.items():
-            print(param)
-            print(value)
             if param in filter_params:
                 expected_type = filter_params[param]
                 if not isinstance(value, expected_type):

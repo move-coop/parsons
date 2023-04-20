@@ -24,112 +24,216 @@ class Strive(object):
         self.client = APIConnector(self.uri, headers=self.headers)
 
 
-    def get_members(self, **kwargs):
+    def get_members(self, id=None, campaign_id=None, phone_number=None, sent_on=None,
+                    first_name=None, last_name=None, city=None, state=None, postal_code=None,
+                    email=None, notes=None, additional_notes=None, opt_in=None, custom=None,
+                    created_at=None, updated_at=None, groups=None, carrier=None, first_sub_id=None,
+                    select=None, order=None, offset=None, limit=None):
         """
-        The get_members method sends a GET request to the /members endpoint with specified parameters, and returns the response in a Table object.
+        Sends a GET request to the /members endpoint with specified parameters,
+        and returns the response in a Table object.
+        """
 
-        `Args:`
-            id: str <integer>
-                Filter to the ID of the member
-            campaign_id: str <integer>
-                Filter to members associated with a specific `campaign_id`.
-            phone_number: str
-                Filter to members associated with the specified phone number.
-             only sent on the specified date (ex. ``2019-01-01``).
-            first_name: str
-                Filter to the first name of the member.
-            last_name: str
-                Filter to the last name of the member.
-            city: str
-                Filter to the city of the member.
-            state: str
-                Filter to the state of the member.
-            postal_code: str
-                Filter to the postal code of the member.
-            email: str
-                Filter to the email address of the member.
-            notes: str
-                Filter to the content of notes associated with the member
-            additional_notes: str
-                Filter to the content of additional notes field associated with the member
-            opt_in: str
-                Filter on whether or not the member is subscribed to recieve further messages
-            custom: str
-                Filter on the  custom fields associated with the member
-            created_at: str
-                Filter on  the member was either first imported or opted-in to recieve messages
-            updated_at: str
-                Filter on when the member was last updated with a change
-            groups: str
-                Filter on the groups the member belongs to 
-            carrier: str
-                Filter on the mobile carrier of the user
-            first_sub_id: str
-                Filter on the ID of the first subscription event retained for the member.
-            select: str
-                Select for specific columns to be returned
-            order: str
-                Order the results returned.
-            offset: str
-                Offset the results returned.
-            limit: str
-                Limit the results returned.
-        `Raises:`
-            ValueError: If an invalid parameter is passed or if a parameter's value does not match the expected data type.
-        `Returns:`
-            Parsons Table
-                See :ref:`parsons-table` for output options.
-        """
-    
-        valid_params = {
-            "id": int,
-            "campaign_id": int,
-            "phone_number": str,
-            "first_name": str,
-            "last_name": str,
-            "city": str,
-            "state": str,
-            "postal_code":str,
-            "email":str,
-            "notes":str,
-            "additional_notes":str,
-            "opt_in":bool,
-            "custom":str,
-            "created_at":str,
-            "updated_at":str,
-            "groups":str,
-            "carrier":str,
-            "first_sub_id":str,
-            "select": str,
-            "order":str,
-            "offset":str,
-            "limit":str
+        params = {}
+
+        # Build dictionary of params
+        if id:
+            params["id"] = id
+        if campaign_id:
+            params["campaign_id"] = campaign_id
+        if phone_number:
+            params["phone_number"] = phone_number
+        if sent_on:
+            params["sent_on"] = sent_on
+        if first_name:
+            params["first_name"] = first_name
+        if last_name:
+            params["last_name"] = last_name
+        if city:
+            params["city"] = city
+        if state:
+            params["state"] = state
+        if postal_code:
+            params["postal_code"] = postal_code
+        if email:
+            params["email"] = email
+        if notes:
+            params["notes"] = notes
+        if additional_notes:
+            params["additional_notes"] = additional_notes
+        if opt_in:
+            params["opt_in"] = opt_in
+        if custom:
+            params["custom"] = custom
+        if created_at:
+            params["created_at"] = created_at
+        if updated_at:
+            params["updated_at"] = updated_at
+        if groups:
+            params["groups"] = groups
+        if carrier:
+            params["carrier"] = carrier
+        if first_sub_id:
+            params["first_sub_id"] = first_sub_id
+        if select:
+            params["select"] = select
+        if order:
+            params["order"] = order
+        if offset:
+            params["offset"] = offset
+        if limit:
+            params["limit"] = limit
+
+
+        # Define valid filter parameters and their expected data types
+        filter_params = {
+            'id': int,
+            'campaign_id': int,
+            'phone_number': str,
+            'sent_on': str,
+            'first_name': str,
+            'last_name': str,
+            'city': str,
+            'state': str,
+            'postal_code': str,
+            'email': str,
+            'notes': str,
+            'additional_notes': str,
+            'opt_in': str,
+            'custom': str,
+            'created_at': str,
+            'updated_at': str,
+            'groups': str,
+            'carrier': str,
+            'first_sub_id': str,
+            'select': str,
+            'order': str,
+            'offset': str,
+            'limit': str
         }
 
-        # Check that params are in list of valid paramaters
-        invalid_params = [k for k in kwargs if k not in valid_params]
-        if invalid_params:
-            raise ValueError(f"Invalid parameter(s) passed: {', '.join(invalid_params)}")
+        # Validate filter parameters
+        for param, value in params.items():
+            print(param)
+            print(value)
+            if param in filter_params:
+                expected_type = filter_params[param]
+                if not isinstance(value, expected_type):
+                    raise ValueError(f"Invalid data type for parameter {param}: expected {expected_type.__name__}")
 
-        # Check that params match the correct data type
-        for key, value in kwargs.items():
-            if key in valid_params:
-                if not isinstance(value, valid_params[key]):
-                    raise ValueError(f"Invalid data type for parameter '{key}': expected {valid_params[key]}, got {type(value)}")
-                if value is not None:
-                    params[key] = value
-        
-        # Make the get request at the /members endpoint
-        response = self.client.get_request(url="members", params=params)
+        # Build the API request URL with filter parameters
+        params = {}
+        for param, value in params.items():
+            if param in filter_params and value is not None:
+                params[param] = value
+
+        # Build the query string for the URL
+        query_string = '&'.join([f'{key}={value}' for key, value in params.items()])
+
+        # Build the full URL with the query string
+        url = "members"
+        full_url = f'{url}?{query_string}'
+
+        # Send the GET request
+        response = self.client.get_request(url=full_url)
+
+        # Process the response
         if response.status_code == 200:
-            return Table(response)
+            # Convert the API response to a Parsons Table object
+            table = Table(response)
+            if select:
+                table = table.select(select)
+            if order:
+                table = table.order_by(order)
+            if offset:
+                table = table.offset(offset)
+            if limit:
+                table = table.limit(limit)
+            return table
         else:
-            # Handle the error
-            print(f"Error {response.status_code}: {response.text}")
+            logger.info(f'Error: {response.status_code}')
 
-    def get_broadcasts(self, params: dict):
-        response = self.client.get_request(url="broadcasts", params=params)
-        return Table(response) 
+    def get_broadcasts(self, broadcast_id=None, group_id=None, updated_at=None, campaign_id=None,
+                       select=None, order=None, offset=None, limit=None):
+        """
+        Sends a GET request to the /members endpoint with specified parameters,
+        and returns the response in a Table object.
+        """
+
+        params = {}
+
+        # Build dictionary of params
+        if broadcast_id:
+            params["broadcast_id"] = broadcast_id
+        if group_id:
+            params["group_id"] = group_id
+        if updated_at:
+            params["updated_at"] = updated_at
+        if campaign_id:
+            params["campaign_id"] = campaign_id
+        if select:
+            params["select"] = select
+        if order:
+            params["order"] = order
+        if offset:
+            params["offset"] = offset
+        if limit:
+            params["limit"] = limit
+
+
+        # Define valid filter parameters and their expected data types
+        filter_params = {
+            'broadcast_id': int,
+            'group_id': int,
+            'updated_at': str,
+            'campaign_id': str,
+            'select': str,
+            'order': str,
+            'offset': str,
+            'limit': str
+        }
+
+        # Validate filter parameters
+        for param, value in params.items():
+            print(param)
+            print(value)
+            if param in filter_params:
+                expected_type = filter_params[param]
+                if not isinstance(value, expected_type):
+                    raise ValueError(f"Invalid data type for parameter {param}: expected {expected_type.__name__}")
+ 
+        # Build the API request URL with filter parameters
+        params = {}
+        for param, value in params.items():
+            if param in filter_params and value is not None:
+                params[param] = value
+
+        # Build the query string for the URL
+        query_string = '&'.join([f'{key}={value}' for key, value in params.items()])
+
+        # Build the full URL with the query string
+        url = "broadcasts_groups"
+        full_url = f'{url}?{query_string}'
+
+        # Send the GET request
+        response = self.client.get_request(url=full_url)
+
+        # Process the response
+        if response.status_code == 200:
+            table = Table(response)
+            # Convert the API response to a Parsons Table object
+            table = Table(response)
+            if select:
+                table = table.select(select)
+            if order:
+                table = table.order_by(order)
+            if offset:
+                table = table.offset(offset)
+            if limit:
+                table = table.limit(limit)
+            return table
+        else:
+            logger.info(f'Error: {response.status_code}')
 
     def get_p2ps(self, params: list):
         response = self.client.get_request(url="p2ps", params=params)

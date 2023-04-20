@@ -173,7 +173,7 @@ class Strive(object):
         self.validate_filter_params(params, filter_params)
 
         # Get full URL with filter params
-        full_url = build_url(params, "p2ps")
+        full_url = self.build_url(params, "p2ps")
 
         # Send the GET request
         response = self.client.get_request(url=full_url)
@@ -359,7 +359,7 @@ class Strive(object):
         self.validate_filter_params(params, filter_params)
 
         # Get full URL with filter params
-        full_url = build_url(params, "p2ps")
+        full_url = self.build_url(params, "p2ps")
 
         # Send the GET request
         response = self.client.get_request(url=full_url)
@@ -455,7 +455,7 @@ class Strive(object):
         self.validate_filter_params(params, filter_params)
 
         # Get full URL with filter params
-        full_url = build_url(params, "broadcast_groups")
+        full_url = self.build_url(params, "broadcast_groups")
 
         # Send the GET request
         response = self.client.get_request(url=full_url)
@@ -586,7 +586,7 @@ class Strive(object):
         self.validate_filter_params(params, filter_params)
 
         # Get full URL with filter params
-        full_url = build_url(params, "broadcasts")
+        full_url = self.build_url(params, "broadcasts")
 
         # Send the GET request
         response = self.client.get_request(url=full_url)

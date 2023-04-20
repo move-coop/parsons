@@ -398,6 +398,7 @@ class ToFrom(object):
         acl="bucket-owner-full-control",
         public_url=False,
         public_url_expires=3600,
+        use_env_token=True,
         **csvargs,
     ):
         """
@@ -429,6 +430,10 @@ class ToFrom(object):
                 The time, in seconds, until the url expires if ``public_url`` set to ``True``.
             acl: str
                 The S3 permissions on the file
+            use_env_token: boolean
+                Controls use of the ``AWS_SESSION_TOKEN`` environment variable for S3. Defaults
+                to ``True``. Set to ``False`` in order to ignore the ``AWS_SESSION_TOKEN`` environment
+                variable even if the ``aws_session_token`` argument was not passed in.
             \**csvargs: kwargs
                 ``csv_writer`` optional arguments
         `Returns:`
@@ -455,6 +460,7 @@ class ToFrom(object):
         self.s3 = S3(
             aws_access_key_id=aws_access_key_id,
             aws_secret_access_key=aws_secret_access_key,
+            use_env_token=use_env_token,
         )
         self.s3.put_file(bucket, key, local_path, acl=acl)
 

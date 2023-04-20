@@ -21,7 +21,7 @@ class Strive(object):
         }
         self.client = APIConnector(self.uri, headers=self.headers)
 
-    def validate_filter_params(params, filter_params):
+    def validate_filter_params(self, params, filter_params):
         """
         For a given set of params and set paramter types, validate that the
         input params match the set parameter data types.
@@ -37,7 +37,7 @@ class Strive(object):
                         f"Invalid data type for parameter {param}: expected {expected_type.__name__}"
                     )
 
-    def build_url(params, endpoint):
+    def build_url(self, params, endpoint):
         """
         Takes a set of parameters and an API endpoint and builds a URL using horizontal
         filter rules.
@@ -170,7 +170,7 @@ class Strive(object):
         }
 
         # Validate filter params
-        validate_filter_params(params, filter_params)
+        self.validate_filter_params(params, filter_params)
 
         # Get full URL with filter params
         full_url = build_url(params, "p2ps")
@@ -356,7 +356,7 @@ class Strive(object):
         }
 
         # Validate filter params
-        validate_filter_params(params, filter_params)
+        self.validate_filter_params(params, filter_params)
 
         # Get full URL with filter params
         full_url = build_url(params, "p2ps")
@@ -452,7 +452,7 @@ class Strive(object):
         }
 
         # Validate filter params
-        validate_filter_params(params, filter_params)
+        self.validate_filter_params(params, filter_params)
 
         # Get full URL with filter params
         full_url = build_url(params, "broadcast_groups")
@@ -583,7 +583,7 @@ class Strive(object):
         }
         
         # Validate filter params
-        validate_filter_params(params, filter_params)
+        self.validate_filter_params(params, filter_params)
 
         # Get full URL with filter params
         full_url = build_url(params, "broadcasts")

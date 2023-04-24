@@ -106,8 +106,10 @@ class CensusGeocoder(object):
 
         logger.info(f"Geocoding {table.num_rows} records.")
         if set(table.columns) != {"street", "city", "state", "zip"}:
-            msg = "Table must ONLY include `['id', 'street', 'city', 'state', 'zip']` as" + \
-                    "columns. Tip: try using `table.cut()`"
+            msg = (
+                "Table must ONLY include `['id', 'street', 'city', 'state', 'zip']` as"
+                + "columns. Tip: try using `table.cut()`"
+            )
             raise ValueError(msg)
 
         chunked_tables = table.chunk(BATCH_SIZE)

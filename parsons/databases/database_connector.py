@@ -67,8 +67,7 @@ class DatabaseConnector(ABC):
                 or ``truncate`` the table.
             strict_length (bool, optional):
                 Whether or not to tightly fit the length of the table columns to the length
-                of the data in ``tbl``; if ``padding`` is specified, this argument is ignored.
-                Defaults to True.
+                of the data in ``tbl``. Defaults to True.
         """
         pass
 

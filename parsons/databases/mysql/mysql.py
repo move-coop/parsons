@@ -7,6 +7,7 @@ from parsons.utilities import files
 import pickle
 import logging
 import os
+from parsons.databases.database_connector import DatabaseConnector
 from parsons.databases.table import BaseTable
 from parsons.databases.mysql.create_table import MySQLCreateTable
 from parsons.databases.alchemy import Alchemy
@@ -19,7 +20,7 @@ QUERY_BATCH_SIZE = 100000
 logger = logging.getLogger(__name__)
 
 
-class MySQL(MySQLCreateTable, Alchemy):
+class MySQL(DatabaseConnector, MySQLCreateTable, Alchemy):
     """
     Connect to a MySQL database.
 
@@ -193,7 +194,12 @@ class MySQL(MySQLCreateTable, Alchemy):
                 return final_tbl
 
     def copy(
-        self, tbl, table_name, if_exists="fail", chunk_size=1000, strict_length=True
+        self,
+        tbl: Table,
+        table_name: str,
+        if_exists: str = "fail",
+        strict_length: bool = True,
+        chunk_size: int = 1000
     ):
         """
         Copy a :ref:`parsons-table` to the database.
@@ -211,13 +217,13 @@ class MySQL(MySQLCreateTable, Alchemy):
             if_exists: str
                 If the table already exists, either ``fail``, ``append``, ``drop``
                 or ``truncate`` the table.
-            chunk_size: int
-                The number of rows to insert per query.
             strict_length: bool
                 If the database table needs to be created, strict_length determines whether
                 the created table's column sizes will be sized to exactly fit the current data,
                 or if their size will be rounded up to account for future values being larger
                 then the current dataset. defaults to ``True``
+            chunk_size: int
+                The number of rows to insert per query.
         """
 
         if tbl.num_rows == 0:
@@ -301,7 +307,7 @@ class MySQL(MySQLCreateTable, Alchemy):
         else:
             return True
 
-    def table_exists(self, table_name):
+    def table_exists(self, table_name: str):
         """
         Check if a table or view exists in the database.
 

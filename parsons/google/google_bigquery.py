@@ -1,4 +1,5 @@
 import pickle
+from typing import Optional, Union
 import uuid
 
 from google.cloud import bigquery
@@ -7,6 +8,7 @@ from google.cloud import exceptions
 import petl
 
 from parsons.databases.table import BaseTable
+from parsons.databases.database_connector import DatabaseConnector
 from parsons.etl import Table
 from parsons.google.utitities import setup_google_application_credentials
 from parsons.google.google_cloud_storage import GoogleCloudStorage
@@ -56,7 +58,7 @@ def parse_table_name(table_name):
     return parsed
 
 
-class GoogleBigQuery:
+class GoogleBigQuery(DatabaseConnector):
     """
     Class for querying BigQuery table and returning the data as Parsons tables.
 
@@ -100,14 +102,17 @@ class GoogleBigQuery:
 
         self.dialect = "bigquery"
 
+    # TODO: Implement `strict_length`
+    # TODO: Find ref for `LoadJobConfig` to import
     def copy(
         self,
-        table_obj,
-        table_name,
-        if_exists="fail",
-        tmp_gcs_bucket=None,
-        gcs_client=None,
-        job_config=None,
+        tbl: Table,
+        table_name: str,
+        if_exists: str = "fail",
+        strict_length: bool = True,
+        tmp_gcs_bucket: Optional[str] = None,
+        gcs_client: Optional[GoogleCloudStorage] = None,
+        job_config: Optional[LoadJobConfig] = None,
         **load_kwargs,
     ):
         """
@@ -121,6 +126,10 @@ class GoogleBigQuery:
             if_exists: str
                 If the table already exists, either ``fail``, ``append``, ``drop``
                 or ``truncate`` the table.
+            strict_length (bool, optional): 
+                Whether or not to tightly fit the length of the table columns to the length
+                of the data in ``tbl``; if ``padding`` is specified, this argument is ignored.
+                Defaults to True.
             tmp_gcs_bucket: str
                 The name of the Google Cloud Storage bucket to use to stage the data to load
                 into BigQuery. Required if `GCS_TEMP_BUCKET` is not specified.
@@ -147,7 +156,7 @@ class GoogleBigQuery:
             job_config = bigquery.LoadJobConfig()
 
         if not job_config.schema:
-            job_config.schema = self._generate_schema(table_obj)
+            job_config.schema = self._generate_schema(tbl)
 
         if not job_config.create_disposition:
             job_config.create_disposition = bigquery.CreateDisposition.CREATE_IF_NEEDED
@@ -168,7 +177,7 @@ class GoogleBigQuery:
         gcs_client = gcs_client or GoogleCloudStorage()
         temp_blob_name = f"{uuid.uuid4()}.csv"
         temp_blob_uri = gcs_client.upload_table(
-            table_obj, tmp_gcs_bucket, temp_blob_name
+            tbl, tmp_gcs_bucket, temp_blob_name
         )
 
         # load CSV from Cloud Storage into BigQuery
@@ -195,7 +204,7 @@ class GoogleBigQuery:
         table_ref = get_table_ref(self.client, table_name)
         self.client.delete_table(table_ref)
 
-    def query(self, sql, parameters=None):
+    def query(self, sql: str, parameters: Optional[Union[list, dict]] = None) -> Optional[Table]:
         """
         Run a BigQuery query and return the results as a Parsons table.
 
@@ -268,7 +277,7 @@ class GoogleBigQuery:
 
         return final_table
 
-    def table_exists(self, table_name):
+    def table_exists(self, table_name: str) -> bool:
         """
         Check whether or not the Google BigQuery table exists in the specified dataset.
 

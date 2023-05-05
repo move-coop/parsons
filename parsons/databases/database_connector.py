@@ -65,7 +65,7 @@ class DatabaseConnector(ABC):
             if_exists (str):
                 If the table already exists, either ``fail``, ``append``, ``drop``
                 or ``truncate`` the table.
-            strict_length (bool, optional): 
+            strict_length (bool, optional):
                 Whether or not to tightly fit the length of the table columns to the length
                 of the data in ``tbl``; if ``padding`` is specified, this argument is ignored.
                 Defaults to True.

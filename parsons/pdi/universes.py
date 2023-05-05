@@ -1,4 +1,3 @@
-
 class Universes:
     """A class to access the Universes PDI API endpoint."""
 

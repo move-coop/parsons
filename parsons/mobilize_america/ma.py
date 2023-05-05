@@ -9,7 +9,7 @@ import collections.abc
 
 logger = logging.getLogger(__name__)
 
-MA_URI = 'https://api.mobilize.us/v1/'
+MA_URI = "https://api.mobilize.us/v1/"
 
 
 class MobilizeAmerica(object):
@@ -26,19 +26,21 @@ class MobilizeAmerica(object):
     def __init__(self, api_key=None):
 
         self.uri = MA_URI
-        self.api_key = api_key or os.environ.get('MOBILIZE_AMERICA_API_KEY')
+        self.api_key = api_key or os.environ.get("MOBILIZE_AMERICA_API_KEY")
 
         if not self.api_key:
-            logger.info('Mobilize America API Key missing. Calling methods that rely on private'
-                        ' endpoints will fail.')
+            logger.info(
+                "Mobilize America API Key missing. Calling methods that rely on private"
+                " endpoints will fail."
+            )
 
-    def _request(self, url, req_type='GET', post_data=None, args=None, auth=False):
+    def _request(self, url, req_type="GET", post_data=None, args=None, auth=False):
         if auth:
 
             if not self.api_key:
-                raise TypeError('This method requires an api key.')
+                raise TypeError("This method requires an api key.")
             else:
-                header = {'Authorization': 'Bearer ' + self.api_key}
+                header = {"Authorization": "Bearer " + self.api_key}
 
         else:
             header = None
@@ -47,43 +49,40 @@ class MobilizeAmerica(object):
 
         r.raise_for_status()
 
-        if 'error' in r.json():
-            raise ValueError('API Error:' + str(r.json()['error']))
+        if "error" in r.json():
+            raise ValueError("API Error:" + str(r.json()["error"]))
 
         return r
 
-    def _request_paginate(self, url, req_type='GET', args=None, auth=False):
+    def _request_paginate(self, url, req_type="GET", args=None, auth=False):
 
         r = self._request(url, req_type=req_type, args=args, auth=auth)
 
-        json = r.json()['data']
+        json = r.json()["data"]
 
-        while r.json()['next']:
+        while r.json()["next"]:
 
-            r = self._request(r.json()['next'], req_type=req_type, auth=auth)
-            json.extend(r.json()['data'])
+            r = self._request(r.json()["next"], req_type=req_type, auth=auth)
+            json.extend(r.json()["data"])
 
         return json
 
     def _time_parse(self, time_arg):
         # Parse the date filters
 
-        trans = [('>=', 'gte_'),
-                 ('>', 'gt_'),
-                 ('<=', 'lte_'),
-                 ('<', 'lt_')]
+        trans = [(">=", "gte_"), (">", "gt_"), ("<=", "lte_"), ("<", "lt_")]
 
         if time_arg:
 
-            time = re.sub('<=|<|>=|>', '', time_arg)
+            time = re.sub("<=|<|>=|>", "", time_arg)
             time = date_to_timestamp(time)
-            time_filter = re.search('<=|<|>=|>', time_arg).group()
+            time_filter = re.search("<=|<|>=|>", time_arg).group()
 
             for i in trans:
                 if time_filter == i[0]:
                     return i[1] + str(time)
 
-            raise ValueError('Invalid time operator. Must be one of >=, >, <= or >.')
+            raise ValueError("Invalid time operator. Must be one of >=, >, <= or >.")
 
         return time_arg
 
@@ -99,10 +98,12 @@ class MobilizeAmerica(object):
                 See :ref:`parsons-table` for output options.
         """
 
-        return Table(self._request_paginate(self.uri + 'organizations',
-                                            args={
-                                                'updated_since': date_to_timestamp(updated_since)
-                                            }))
+        return Table(
+            self._request_paginate(
+                self.uri + "organizations",
+                args={"updated_since": date_to_timestamp(updated_since)},
+            )
+        )
 
     def get_promoted_organizations(self, organization_id):
         """
@@ -114,11 +115,23 @@ class MobilizeAmerica(object):
         `Returns`
             Parsons Table
         """
-        url = self.uri + 'organizations/' + str(organization_id) + '/promoted_organizations'
+        url = (
+            self.uri
+            + "organizations/"
+            + str(organization_id)
+            + "/promoted_organizations"
+        )
         return Table(self._request_paginate(url, auth=True))
 
-    def get_events(self, organization_id=None, updated_since=None, timeslot_start=None,
-                   timeslot_end=None, timeslots_table=False, max_timeslots=None):
+    def get_events(
+        self,
+        organization_id=None,
+        updated_since=None,
+        timeslot_start=None,
+        timeslot_end=None,
+        timeslots_table=False,
+        max_timeslots=None,
+    ):
         """
         Fetch all public events on the platform.
 
@@ -158,40 +171,49 @@ class MobilizeAmerica(object):
         if isinstance(organization_id, (str, int)):
             organization_id = [organization_id]
 
-        args = {'organization_id': organization_id,
-                'updated_since': date_to_timestamp(updated_since),
-                'timeslot_start': self._time_parse(timeslot_start),
-                'timeslot_end': self._time_parse(timeslot_end)}
+        args = {
+            "organization_id": organization_id,
+            "updated_since": date_to_timestamp(updated_since),
+            "timeslot_start": self._time_parse(timeslot_start),
+            "timeslot_end": self._time_parse(timeslot_end),
+        }
 
-        tbl = Table(self._request_paginate(self.uri + 'events', args=args))
+        tbl = Table(self._request_paginate(self.uri + "events", args=args))
 
         if tbl.num_rows > 0:
 
-            tbl.unpack_dict('sponsor')
-            tbl.unpack_dict('location', prepend=False)
-            tbl.unpack_dict('location', prepend=False)  # Intentional duplicate
-            tbl.table = petl.convert(tbl.table, 'address_lines', lambda v: ' '.join(v))
+            tbl.unpack_dict("sponsor")
+            tbl.unpack_dict("location", prepend=False)
+            tbl.unpack_dict("location", prepend=False)  # Intentional duplicate
+            tbl.table = petl.convert(tbl.table, "address_lines", lambda v: " ".join(v))
 
             if timeslots_table:
 
-                timeslots_tbl = tbl.long_table(['id'], 'timeslots', 'event_id')
-                return {'events': tbl, 'timeslots': timeslots_tbl}
+                timeslots_tbl = tbl.long_table(["id"], "timeslots", "event_id")
+                return {"events": tbl, "timeslots": timeslots_tbl}
 
             elif max_timeslots == 0:
-                tbl.remove_column('timeslots')
+                tbl.remove_column("timeslots")
 
             else:
-                tbl.unpack_list('timeslots', replace=True, max_columns=max_timeslots)
+                tbl.unpack_list("timeslots", replace=True, max_columns=max_timeslots)
                 cols = tbl.columns
                 for c in cols:
-                    if re.search('timeslots', c, re.IGNORECASE) is not None:
+                    if re.search("timeslots", c, re.IGNORECASE) is not None:
                         tbl.unpack_dict(c)
                         tbl.materialize()
 
         return tbl
 
-    def get_events_organization(self, organization_id, updated_since=None, timeslot_start=None,
-                                timeslot_end=None, timeslots_table=False, max_timeslots=None):
+    def get_events_organization(
+        self,
+        organization_id,
+        updated_since=None,
+        timeslot_start=None,
+        timeslot_end=None,
+        timeslots_table=False,
+        max_timeslots=None,
+    ):
         """
         Fetch all public events for an organization. This includes both events owned
         by the organization (as indicated by the organization field on the event object)
@@ -253,36 +275,40 @@ class MobilizeAmerica(object):
             :ref:`parsons.Table <parsons-table>`, dict, list[:ref:`parsons.Table <parsons-table>`]
         """
 
-        args = {'updated_since': date_to_timestamp(updated_since),
-                'timeslot_start': self._time_parse(timeslot_start),
-                'timeslot_end': self._time_parse(timeslot_end),
-                }
+        args = {
+            "updated_since": date_to_timestamp(updated_since),
+            "timeslot_start": self._time_parse(timeslot_start),
+            "timeslot_end": self._time_parse(timeslot_end),
+        }
 
-        tbl = Table(self._request_paginate(
-            self.uri + 'organizations/' + str(organization_id) + '/events',
-            args=args,
-            auth=True))
+        tbl = Table(
+            self._request_paginate(
+                self.uri + "organizations/" + str(organization_id) + "/events",
+                args=args,
+                auth=True,
+            )
+        )
 
         if tbl.num_rows > 0:
 
-            tbl.unpack_dict('sponsor')
-            tbl.unpack_dict('location', prepend=False)
-            tbl.unpack_dict('location', prepend=False)  # Intentional duplicate
-            tbl.table = petl.convert(tbl.table, 'address_lines', lambda v: ' '.join(v))
+            tbl.unpack_dict("sponsor")
+            tbl.unpack_dict("location", prepend=False)
+            tbl.unpack_dict("location", prepend=False)  # Intentional duplicate
+            tbl.table = petl.convert(tbl.table, "address_lines", lambda v: " ".join(v))
 
             if timeslots_table:
 
-                timeslots_tbl = tbl.long_table(['id'], 'timeslots', 'event_id')
-                return {'events': tbl, 'timeslots': timeslots_tbl}
+                timeslots_tbl = tbl.long_table(["id"], "timeslots", "event_id")
+                return {"events": tbl, "timeslots": timeslots_tbl}
 
             elif max_timeslots == 0:
-                tbl.remove_column('timeslots')
+                tbl.remove_column("timeslots")
 
             else:
-                tbl.unpack_list('timeslots', replace=True, max_columns=max_timeslots)
+                tbl.unpack_list("timeslots", replace=True, max_columns=max_timeslots)
                 cols = tbl.columns
                 for c in cols:
-                    if re.search('timeslots', c, re.IGNORECASE) is not None:
+                    if re.search("timeslots", c, re.IGNORECASE) is not None:
                         tbl.unpack_dict(c)
                         tbl.materialize()
 
@@ -305,10 +331,12 @@ class MobilizeAmerica(object):
         if isinstance(organization_id, (str, int)):
             organization_id = [organization_id]
 
-        args = {'organization_id': organization_id,
-                'updated_since': date_to_timestamp(updated_since)}
+        args = {
+            "organization_id": organization_id,
+            "updated_since": date_to_timestamp(updated_since),
+        }
 
-        return Table(self._request_paginate(self.uri + 'events/deleted', args=args))
+        return Table(self._request_paginate(self.uri + "events/deleted", args=args))
 
     def get_people(self, organization_id, updated_since=None):
         """
@@ -332,8 +360,8 @@ class MobilizeAmerica(object):
                 data.concat(self.get_people(id, updated_since))
             return data
         else:
-            url = self.uri + 'organizations/' + str(organization_id) + '/people'
-            args = {'updated_since': date_to_timestamp(updated_since)}
+            url = self.uri + "organizations/" + str(organization_id) + "/people"
+            args = {"updated_since": date_to_timestamp(updated_since)}
             return Table(self._request_paginate(url, args=args, auth=True))
 
     def get_attendances(self, organization_id, updated_since=None):
@@ -353,6 +381,6 @@ class MobilizeAmerica(object):
             Parsons Table
                 See :ref:`parsons-table` for output options.
         """
-        url = self.uri + 'organizations/' + str(organization_id) + '/attendances'
-        args = {'updated_since': date_to_timestamp(updated_since)}
+        url = self.uri + "organizations/" + str(organization_id) + "/attendances"
+        args = {"updated_since": date_to_timestamp(updated_since)}
         return Table(self._request_paginate(url, args=args, auth=True))

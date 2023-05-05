@@ -7,7 +7,6 @@ logger = logging.getLogger(__name__)
 
 
 class CanvassResponses(object):
-
     def __init__(self, van_connection):
 
         self.connection = van_connection
@@ -21,8 +20,8 @@ class CanvassResponses(object):
                 See :ref:`parsons-table` for output options.
         """
 
-        tbl = Table(self.connection.get_request('canvassResponses/contactTypes'))
-        logger.info(f'Found {tbl.num_rows} canvass response contact types.')
+        tbl = Table(self.connection.get_request("canvassResponses/contactTypes"))
+        logger.info(f"Found {tbl.num_rows} canvass response contact types.")
         return tbl
 
     def get_canvass_responses_input_types(self):
@@ -34,8 +33,8 @@ class CanvassResponses(object):
                 See :ref:`parsons-table` for output options.
         """
 
-        tbl = Table(self.connection.get_request('canvassResponses/inputTypes'))
-        logger.info(f'Found {tbl.num_rows} canvass response input types.')
+        tbl = Table(self.connection.get_request("canvassResponses/inputTypes"))
+        logger.info(f"Found {tbl.num_rows} canvass response input types.")
         return tbl
 
     def get_canvass_responses_result_codes(self):
@@ -47,6 +46,6 @@ class CanvassResponses(object):
                 See :ref:`parsons-table` for output options.
         """
 
-        tbl = Table(self.connection.get_request('canvassResponses/resultCodes'))
-        logger.info(f'Found {tbl.num_rows} canvass response result codes.')
+        tbl = Table(self.connection.get_request("canvassResponses/resultCodes"))
+        logger.info(f"Found {tbl.num_rows} canvass response result codes.")
         return tbl

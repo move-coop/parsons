@@ -11,36 +11,38 @@ class FakeDatabase:
 
     def setup_table(self, table_name, data, failures=0):
         self.table_map[table_name] = {
-            'failures': failures,
-            'table': FakeTable(table_name, data)
+            "failures": failures,
+            "table": FakeTable(table_name, data),
         }
-        return self.table_map[table_name]['table']
+        return self.table_map[table_name]["table"]
 
     def table(self, table_name):
         if table_name not in self.table_map:
             self.setup_table(table_name, None)
 
-        return self.table_map[table_name]['table']
+        return self.table_map[table_name]["table"]
 
     def copy(self, data, table_name, **kwargs):
-        logger.info('Copying %s rows', data.num_rows)
+        logger.info("Copying %s rows", data.num_rows)
         if table_name not in self.table_map:
             self.setup_table(table_name, Table())
 
-        if self.table_map[table_name]['table'].data is None:
-            self.table_map[table_name]['table'].data = Table()
+        if self.table_map[table_name]["table"].data is None:
+            self.table_map[table_name]["table"].data = Table()
 
-        if self.table_map[table_name]['failures'] > 0:
-            self.table_map[table_name]['failures'] -= 1
-            raise ValueError('Canned error')
+        if self.table_map[table_name]["failures"] > 0:
+            self.table_map[table_name]["failures"] -= 1
+            raise ValueError("Canned error")
 
-        self.copy_call_args.append({
-            'data': data,
-            'table_name': table_name,
-            'kwargs': kwargs,
-        })
+        self.copy_call_args.append(
+            {
+                "data": data,
+                "table_name": table_name,
+                "kwargs": kwargs,
+            }
+        )
 
-        tbl = self.table_map[table_name]['table']
+        tbl = self.table_map[table_name]["table"]
 
         tbl.data.concat(data)
 
@@ -96,7 +98,7 @@ class FakeTable:
         if order_by:
             data.sort(order_by)
 
-        return Table(data[offset:chunk_size + offset])
+        return Table(data[offset : chunk_size + offset])
 
     def get_new_rows_count(self, primary_key_col, start_value=None):
         data = self.data.select_rows(lambda row: row[primary_key_col] > start_value)
@@ -106,4 +108,4 @@ class FakeTable:
         data = self.data.select_rows(lambda row: row[primary_key] > cutoff_value)
         data.sort(primary_key)
 
-        return Table(data[offset:chunk_size + offset])
+        return Table(data[offset : chunk_size + offset])

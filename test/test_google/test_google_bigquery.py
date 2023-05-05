@@ -12,6 +12,7 @@ from test.test_google.test_utilities import FakeCredentialTest
 
 class FakeClient:
     """A Fake Storage Client used for monkey-patching."""
+
     def __init__(self, project=None):
         self.project = project
 
@@ -19,11 +20,13 @@ class FakeClient:
 class FakeGoogleCloudStorage(GoogleCloudStorage):
     """A Fake GoogleCloudStorage object used to test setting up credentials."""
 
-    @mock.patch('google.cloud.storage.Client', FakeClient)
+    @mock.patch("google.cloud.storage.Client", FakeClient)
     def __init__(self):
         super().__init__(None, None)
 
-    def upload_table(self, table, bucket_name, blob_name, data_type='csv', default_acl=None):
+    def upload_table(
+        self, table, bucket_name, blob_name, data_type="csv", default_acl=None
+    ):
         pass
 
     def delete_blob(self, bucket_name, blob_name):
@@ -33,29 +36,29 @@ class FakeGoogleCloudStorage(GoogleCloudStorage):
 class TestGoogleBigQuery(FakeCredentialTest):
     def setUp(self):
         super().setUp()
-        os.environ['GOOGLE_APPLICATION_CREDENTIALS'] = self.cred_path
-        self.tmp_gcs_bucket = 'tmp'
+        os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = self.cred_path
+        self.tmp_gcs_bucket = "tmp"
 
     def tearDown(self) -> None:
         super().tearDown()
-        del os.environ['GOOGLE_APPLICATION_CREDENTIALS']
+        del os.environ["GOOGLE_APPLICATION_CREDENTIALS"]
 
     def test_query(self):
-        query_string = 'select * from table'
+        query_string = "select * from table"
 
         # Pass the mock class into our GoogleBigQuery constructor
-        bq = self._build_mock_client_for_querying([{'one': 1, 'two': 2}])
+        bq = self._build_mock_client_for_querying([{"one": 1, "two": 2}])
 
         # Run a query against our parsons GoogleBigQuery class
         result = bq.query(query_string)
 
         # Check our return value
         self.assertEqual(result.num_rows, 1)
-        self.assertEqual(result.columns, ['one', 'two'])
-        self.assertEqual(result[0], {'one': 1, 'two': 2})
+        self.assertEqual(result.columns, ["one", "two"])
+        self.assertEqual(result[0], {"one": 1, "two": 2})
 
     def test_query__no_results(self):
-        query_string = 'select * from table'
+        query_string = "select * from table"
 
         # Pass the mock class into our GoogleBigQuery constructor
         bq = self._build_mock_client_for_querying([])
@@ -68,7 +71,7 @@ class TestGoogleBigQuery(FakeCredentialTest):
 
     def test_copy(self):
         # setup dependencies / inputs
-        tmp_blob_uri = 'gs://tmp/file'
+        tmp_blob_uri = "gs://tmp/file"
 
         # set up object under test
         gcs_client = self._build_mock_cloud_storage_client(tmp_blob_uri)
@@ -76,8 +79,12 @@ class TestGoogleBigQuery(FakeCredentialTest):
         bq = self._build_mock_client_for_copying(table_exists=False)
 
         # call the method being tested
-        bq.copy(tbl, 'dataset.table', tmp_gcs_bucket=self.tmp_gcs_bucket,
-                gcs_client=gcs_client)
+        bq.copy(
+            tbl,
+            "dataset.table",
+            tmp_gcs_bucket=self.tmp_gcs_bucket,
+            gcs_client=gcs_client,
+        )
 
         # check that the method did the right things
         self.assertEqual(gcs_client.upload_table.call_count, 1)
@@ -90,9 +97,10 @@ class TestGoogleBigQuery(FakeCredentialTest):
         load_call_args = bq.client.load_table_from_uri.call_args
         self.assertEqual(load_call_args[0][0], tmp_blob_uri)
 
-        job_config = load_call_args[1]['job_config']
-        self.assertEqual(job_config.write_disposition,
-                         bigquery.WriteDisposition.WRITE_EMPTY)
+        job_config = load_call_args[1]["job_config"]
+        self.assertEqual(
+            job_config.write_disposition, bigquery.WriteDisposition.WRITE_EMPTY
+        )
 
         # make sure we cleaned up the temp file
         self.assertEqual(gcs_client.delete_blob.call_count, 1)
@@ -106,14 +114,20 @@ class TestGoogleBigQuery(FakeCredentialTest):
         bq = self._build_mock_client_for_copying()
 
         # call the method being tested
-        bq.copy(self.default_table, 'dataset.table', tmp_gcs_bucket=self.tmp_gcs_bucket,
-                if_exists='truncate', gcs_client=gcs_client)
+        bq.copy(
+            self.default_table,
+            "dataset.table",
+            tmp_gcs_bucket=self.tmp_gcs_bucket,
+            if_exists="truncate",
+            gcs_client=gcs_client,
+        )
 
         # check that the method did the right things
         call_args = bq.client.load_table_from_uri.call_args
-        job_config = call_args[1]['job_config']
-        self.assertEqual(job_config.write_disposition,
-                         bigquery.WriteDisposition.WRITE_TRUNCATE)
+        job_config = call_args[1]["job_config"]
+        self.assertEqual(
+            job_config.write_disposition, bigquery.WriteDisposition.WRITE_TRUNCATE
+        )
 
         # make sure we cleaned up the temp file
         self.assertEqual(gcs_client.delete_blob.call_count, 1)
@@ -124,14 +138,20 @@ class TestGoogleBigQuery(FakeCredentialTest):
         bq = self._build_mock_client_for_copying()
 
         # call the method being tested
-        bq.copy(self.default_table, 'dataset.table', tmp_gcs_bucket=self.tmp_gcs_bucket,
-                if_exists='append', gcs_client=gcs_client)
+        bq.copy(
+            self.default_table,
+            "dataset.table",
+            tmp_gcs_bucket=self.tmp_gcs_bucket,
+            if_exists="append",
+            gcs_client=gcs_client,
+        )
 
         # check that the method did the right things
         call_args = bq.client.load_table_from_uri.call_args
-        job_config = call_args[1]['job_config']
-        self.assertEqual(job_config.write_disposition,
-                         bigquery.WriteDisposition.WRITE_APPEND)
+        job_config = call_args[1]["job_config"]
+        self.assertEqual(
+            job_config.write_disposition, bigquery.WriteDisposition.WRITE_APPEND
+        )
 
         # make sure we cleaned up the temp file
         self.assertEqual(gcs_client.delete_blob.call_count, 1)
@@ -142,8 +162,12 @@ class TestGoogleBigQuery(FakeCredentialTest):
 
         # call the method being tested
         with self.assertRaises(Exception):
-            bq.copy(self.default_table, 'dataset.table', tmp_gcs_bucket=self.tmp_gcs_bucket,
-                    gcs_client=self._build_mock_cloud_storage_client())
+            bq.copy(
+                self.default_table,
+                "dataset.table",
+                tmp_gcs_bucket=self.tmp_gcs_bucket,
+                gcs_client=self._build_mock_cloud_storage_client(),
+            )
 
     def test_copy__if_exists_drop(self):
         gcs_client = self._build_mock_cloud_storage_client()
@@ -151,8 +175,13 @@ class TestGoogleBigQuery(FakeCredentialTest):
         bq = self._build_mock_client_for_copying()
 
         # call the method being tested
-        bq.copy(self.default_table, 'dataset.table', tmp_gcs_bucket=self.tmp_gcs_bucket,
-                if_exists='drop', gcs_client=gcs_client)
+        bq.copy(
+            self.default_table,
+            "dataset.table",
+            tmp_gcs_bucket=self.tmp_gcs_bucket,
+            if_exists="drop",
+            gcs_client=gcs_client,
+        )
 
         # check that we tried to delete the table
         self.assertEqual(bq.client.delete_table.call_count, 1)
@@ -168,21 +197,30 @@ class TestGoogleBigQuery(FakeCredentialTest):
 
         # call the method being tested
         with self.assertRaises(ValueError):
-            bq.copy(self.default_table, 'dataset.table', tmp_gcs_bucket=self.tmp_gcs_bucket,
-                    if_exists='foo', gcs_client=gcs_client)
+            bq.copy(
+                self.default_table,
+                "dataset.table",
+                tmp_gcs_bucket=self.tmp_gcs_bucket,
+                if_exists="foo",
+                gcs_client=gcs_client,
+            )
 
     def test_copy__credentials_are_correctly_set(self):
         tbl = self.default_table
         bq = self._build_mock_client_for_copying(table_exists=False)
 
         # Pass in our fake GCS Client.
-        bq.copy(tbl, 'dataset.table', tmp_gcs_bucket=self.tmp_gcs_bucket,
-                gcs_client=FakeGoogleCloudStorage())
+        bq.copy(
+            tbl,
+            "dataset.table",
+            tmp_gcs_bucket=self.tmp_gcs_bucket,
+            gcs_client=FakeGoogleCloudStorage(),
+        )
 
-        actual = os.environ['GOOGLE_APPLICATION_CREDENTIALS']
+        actual = os.environ["GOOGLE_APPLICATION_CREDENTIALS"]
 
-        with open(actual, 'r') as factual:
-            with open(self.cred_path, 'r') as fexpected:
+        with open(actual, "r") as factual:
+            with open(self.cred_path, "r") as fexpected:
                 actual_str = factual.read()
                 self.assertEqual(actual_str, fexpected.read())
                 self.assertEqual(self.cred_contents, json.loads(actual_str))
@@ -212,19 +250,21 @@ class TestGoogleBigQuery(FakeCredentialTest):
     def _build_mock_client_for_copying(self, table_exists=True):
         bq_client = mock.MagicMock()
         if not table_exists:
-            bq_client.get_table.side_effect = exceptions.NotFound('not found')
+            bq_client.get_table.side_effect = exceptions.NotFound("not found")
         bq = GoogleBigQuery()
         bq._client = bq_client
         return bq
 
-    def _build_mock_cloud_storage_client(self, tmp_blob_uri=''):
+    def _build_mock_cloud_storage_client(self, tmp_blob_uri=""):
         gcs_client = mock.MagicMock()
         gcs_client.upload_table.return_value = tmp_blob_uri
         return gcs_client
 
     @property
     def default_table(self):
-        return Table([
-            {'num': 1, 'ltr': 'a'},
-            {'num': 2, 'ltr': 'b'},
-        ])
+        return Table(
+            [
+                {"num": 1, "ltr": "a"},
+                {"num": 2, "ltr": "b"},
+            ]
+        )

@@ -7,7 +7,7 @@ import logging
 
 logger = logging.getLogger(__name__)
 
-API_URL = 'https://actionnetwork.org/api/v2'
+API_URL = "https://actionnetwork.org/api/v2"
 
 
 class ActionNetwork(object):
@@ -18,10 +18,10 @@ class ActionNetwork(object):
     """
 
     def __init__(self, api_token=None):
-        self.api_token = check_env.check('AN_API_TOKEN', api_token)
+        self.api_token = check_env.check("AN_API_TOKEN", api_token)
         self.headers = {
             "Content-Type": "application/json",
-            "OSDI-API-Token": self.api_token
+            "OSDI-API-Token": self.api_token,
         }
         self.api_url = API_URL
         self.api = APIConnector(self.api_url, headers=self.headers)
@@ -30,13 +30,11 @@ class ActionNetwork(object):
         # returns data from one page of results
         if per_page > 25:
             per_page = 25
-            logger.info("Action Network's API will not return more than 25 entries per page. \
-            Changing per_page parameter to 25.")
-        params = {
-            "page": page,
-            "per_page": per_page,
-            "filter": filter
-        }
+            logger.info(
+                "Action Network's API will not return more than 25 entries per page. \
+            Changing per_page parameter to 25."
+            )
+        params = {"page": page, "per_page": per_page, "filter": filter}
         return self.api.get_request(url=object_name, params=params)
 
     def _get_entry_list(self, object_name, limit=None, per_page=25, filter=None):
@@ -51,7 +49,7 @@ class ActionNetwork(object):
         while True:
             response = self._get_page(object_name, page, per_page, filter=filter)
             page = page + 1
-            response_list = response['_embedded'][f"osdi:{object_name}"]
+            response_list = response["_embedded"][f"osdi:{object_name}"]
             if not response_list:
                 return Table(return_list)
             return_list.extend(response_list)
@@ -90,9 +88,18 @@ class ActionNetwork(object):
         """
         return self.api.get_request(url=f"people/{person_id}")
 
-    def upsert_person(self, email_address=None, given_name=None, family_name=None, tags=None,
-                      languages_spoken=None, postal_addresses=None, mobile_number=None,
-                      mobile_status='subscribed', **kwargs):
+    def upsert_person(
+        self,
+        email_address=None,
+        given_name=None,
+        family_name=None,
+        tags=None,
+        languages_spoken=None,
+        postal_addresses=None,
+        mobile_number=None,
+        mobile_status="subscribed",
+        **kwargs,
+    ):
         """
         Creates or updates a person record. In order to update an existing record instead of
         creating a new one, you must supply an email or mobile number which matches a record
@@ -150,35 +157,42 @@ class ActionNetwork(object):
         elif type(email_address) == list:
             if type(email_address[0]) == str:
                 email_addresses_field = [{"address": email} for email in email_address]
-                email_addresses_field[0]['primary'] = True
+                email_addresses_field[0]["primary"] = True
             if type(email_address[0]) == dict:
                 email_addresses_field = email_address
 
         mobile_numbers_field = None
         if type(mobile_number) == str:
-            mobile_numbers_field = [{"number": re.sub('[^0-9]', "", mobile_number),
-                                     "status": mobile_status}]
+            mobile_numbers_field = [
+                {"number": re.sub("[^0-9]", "", mobile_number), "status": mobile_status}
+            ]
         elif type(mobile_number) == int:
-            mobile_numbers_field = [{"number": str(mobile_number), "status": mobile_status}]
+            mobile_numbers_field = [
+                {"number": str(mobile_number), "status": mobile_status}
+            ]
         elif type(mobile_number) == list:
             if len(mobile_number) > 1:
-                raise('Action Network allows only 1 phone number per activist')
+                raise ("Action Network allows only 1 phone number per activist")
             if type(mobile_number[0]) == str:
-                mobile_numbers_field = [{"number": re.sub('[^0-9]', "", cell),
-                                        "status": mobile_status}
-                                        for cell in mobile_number]
-                mobile_numbers_field[0]['primary'] = True
+                mobile_numbers_field = [
+                    {"number": re.sub("[^0-9]", "", cell), "status": mobile_status}
+                    for cell in mobile_number
+                ]
+                mobile_numbers_field[0]["primary"] = True
             if type(mobile_number[0]) == int:
-                mobile_numbers_field = [{"number": cell, "status": mobile_status}
-                                        for cell in mobile_number]
-                mobile_numbers_field[0]['primary'] = True
+                mobile_numbers_field = [
+                    {"number": cell, "status": mobile_status} for cell in mobile_number
+                ]
+                mobile_numbers_field[0]["primary"] = True
             if type(mobile_number[0]) == dict:
                 mobile_numbers_field = mobile_number
 
         if not email_addresses_field and not mobile_numbers_field:
-            raise("Either email_address or mobile_number is required and can be formatted "
-                  "as a string, list of strings, a dictionary, a list of dictionaries, or "
-                  "(for mobile_number only) an integer or list of integers")
+            raise (
+                "Either email_address or mobile_number is required and can be formatted "
+                "as a string, list of strings, a dictionary, a list of dictionaries, or "
+                "(for mobile_number only) an integer or list of integers"
+            )
 
         data = {"person": {}}
 
@@ -197,29 +211,51 @@ class ActionNetwork(object):
         if tags is not None:
             data["add_tags"] = tags
         data["person"]["custom_fields"] = {**kwargs}
-        response = self.api.post_request(url=f"{self.api_url}/people", data=json.dumps(data))
-        identifiers = response['identifiers']
-        person_id = [entry_id.split(':')[1]
-                     for entry_id in identifiers if 'action_network:' in entry_id][0]
-        if response['created_date'] == response['modified_date']:
+        response = self.api.post_request(
+            url=f"{self.api_url}/people", data=json.dumps(data)
+        )
+        identifiers = response["identifiers"]
+        person_id = [
+            entry_id.split(":")[1]
+            for entry_id in identifiers
+            if "action_network:" in entry_id
+        ][0]
+        if response["created_date"] == response["modified_date"]:
             logger.info(f"Entry {person_id} successfully added.")
         else:
             logger.info(f"Entry {person_id} successfully updated.")
         return response
 
-    def add_person(self, email_address=None, given_name=None, family_name=None, tags=None,
-                   languages_spoken=None, postal_addresses=None, mobile_number=None,
-                   mobile_status='subscribed', **kwargs):
+    def add_person(
+        self,
+        email_address=None,
+        given_name=None,
+        family_name=None,
+        tags=None,
+        languages_spoken=None,
+        postal_addresses=None,
+        mobile_number=None,
+        mobile_status="subscribed",
+        **kwargs,
+    ):
         """
         Creates a person in the database. WARNING: this endpoint has been deprecated in favor of
         upsert_person.
         """
-        logger.warning("Method 'add_person' has been deprecated. Please use 'upsert_person'.")
+        logger.warning(
+            "Method 'add_person' has been deprecated. Please use 'upsert_person'."
+        )
         # Pass inputs to preferred method:
-        self.upsert_person(email_address=email_address, given_name=given_name,
-                           family_name=family_name, languages_spoken=languages_spoken,
-                           postal_addresses=postal_addresses, mobile_number=mobile_number,
-                           mobile_status=mobile_status, **kwargs)
+        self.upsert_person(
+            email_address=email_address,
+            given_name=given_name,
+            family_name=family_name,
+            languages_spoken=languages_spoken,
+            postal_addresses=postal_addresses,
+            mobile_number=mobile_number,
+            mobile_status=mobile_status,
+            **kwargs,
+        )
 
     def update_person(self, entry_id, **kwargs):
         """
@@ -259,8 +295,11 @@ class ActionNetwork(object):
                         A dictionary of any other fields to store about the person.
         """
         data = {**kwargs}
-        response = self.api.put_request(url=f"{self.api_url}/people/{entry_id}",
-                                        data=json.dumps(data), success_codes=[204, 201, 200])
+        response = self.api.put_request(
+            url=f"{self.api_url}/people/{entry_id}",
+            data=json.dumps(data),
+            success_codes=[204, 201, 200],
+        )
         logger.info(f"Person {entry_id} successfully updated")
         return response
 
@@ -298,13 +337,16 @@ class ActionNetwork(object):
                 The tag's name. This is the ONLY editable field
         Adds a tag to Action Network. Once created, tags CANNOT be edited or deleted.
         """
-        data = {
-            "name": name
-        }
-        response = self.api.post_request(url=f"{self.api_url}/tags", data=json.dumps(data))
-        identifiers = response['identifiers']
-        person_id = [entry_id.split(':')[1]
-                     for entry_id in identifiers if 'action_network:' in entry_id][0]
+        data = {"name": name}
+        response = self.api.post_request(
+            url=f"{self.api_url}/tags", data=json.dumps(data)
+        )
+        identifiers = response["identifiers"]
+        person_id = [
+            entry_id.split(":")[1]
+            for entry_id in identifiers
+            if "action_network:" in entry_id
+        ][0]
         logger.info(f"Tag {person_id} successfully added to tags.")
         return response
 
@@ -338,9 +380,7 @@ class ActionNetwork(object):
             Dict of Action Network Event data.
         """
 
-        data = {
-            "title": title
-        }
+        data = {"title": title}
 
         if start_date:
             start_date = str(start_date)
@@ -349,9 +389,11 @@ class ActionNetwork(object):
         if isinstance(location, dict):
             data["location"] = location
 
-        event_dict = self.api.post_request(url=f"{self.api_url}/events", data=json.dumps(data))
+        event_dict = self.api.post_request(
+            url=f"{self.api_url}/events", data=json.dumps(data)
+        )
 
-        an_event_id = event_dict["_links"]["self"]["href"].split('/')[-1]
+        an_event_id = event_dict["_links"]["self"]["href"].split("/")[-1]
         event_dict["event_id"] = an_event_id
 
         return event_dict

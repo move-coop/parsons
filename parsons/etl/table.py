@@ -82,7 +82,7 @@ class Table(ETL, ToFrom):
 
         else:
 
-            raise TypeError('You must pass a string or an index as a value.')
+            raise TypeError("You must pass a string or an index as a value.")
 
     def __bool__(self):
 
@@ -153,13 +153,15 @@ class Table(ETL, ToFrom):
 
         self._index_count += 1
         if self._index_count >= DIRECT_INDEX_WARNING_COUNT:
-            logger.warning("""
+            logger.warning(
+                """
                 You have indexed directly into this Table multiple times. This can be inefficient,
                 as data transformations you've made will be computed _each time_ you index into the
                 Table. If you are accessing many rows of data, consider switching to this style of
                 iteration, which is much more efficient:
                 `for row in table:`
-                """)
+                """
+            )
 
         return petl.dicts(self.table)[row_index]
 
@@ -179,7 +181,7 @@ class Table(ETL, ToFrom):
             return list(self.table[column_name])
 
         else:
-            raise ValueError('Column name not found.')
+            raise ValueError("Column name not found.")
 
     def materialize(self):
         """
@@ -216,7 +218,7 @@ class Table(ETL, ToFrom):
 
         file_path = file_path or files.create_temp_file()
 
-        with open(file_path, 'wb') as handle:
+        with open(file_path, "wb") as handle:
             for row in self.table:
                 pickle.dump(list(row), handle)
 

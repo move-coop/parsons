@@ -14,15 +14,15 @@ from parsons.utilities import check_env
 from parsons.utilities.files import create_temp_file
 
 BIGQUERY_TYPE_MAP = {
-    'str': 'STRING',
-    'float': 'FLOAT',
-    'int': 'INTEGER',
-    'bool': 'BOOLEAN',
-    'datetime.datetime': 'DATETIME',
-    'datetime.date': 'DATE',
-    'datetime.time': 'TIME',
-    'dict': 'RECORD',
-    'NoneType': 'STRING'
+    "str": "STRING",
+    "float": "FLOAT",
+    "int": "INTEGER",
+    "bool": "BOOLEAN",
+    "datetime.datetime": "DATETIME",
+    "datetime.date": "DATE",
+    "datetime.time": "TIME",
+    "dict": "RECORD",
+    "NoneType": "STRING",
 }
 
 # Max number of rows that we query at a time, so we can avoid loading huge
@@ -34,25 +34,25 @@ QUERY_BATCH_SIZE = 100000
 def get_table_ref(client, table_name):
     # Helper function to build a TableReference for our table
     parsed = parse_table_name(table_name)
-    dataset_ref = client.dataset(parsed['dataset'])
-    return dataset_ref.table(parsed['table'])
+    dataset_ref = client.dataset(parsed["dataset"])
+    return dataset_ref.table(parsed["table"])
 
 
 def parse_table_name(table_name):
     # Helper function to parse out the different components of a table ID
-    parts = table_name.split('.')
+    parts = table_name.split(".")
     parts.reverse()
     parsed = {
-        'project': None,
-        'dataset': None,
-        'table': None,
+        "project": None,
+        "dataset": None,
+        "table": None,
     }
     if len(parts) > 0:
-        parsed['table'] = parts[0]
+        parsed["table"] = parts[0]
     if len(parts) > 1:
-        parsed['dataset'] = parts[1]
+        parsed["dataset"] = parts[1]
     if len(parts) > 2:
-        parsed['project'] = parts[2]
+        parsed["project"] = parts[2]
     return parsed
 
 
@@ -98,10 +98,18 @@ class GoogleBigQuery:
 
         self._dbapi = dbapi
 
-        self.dialect = 'bigquery'
+        self.dialect = "bigquery"
 
-    def copy(self, table_obj, table_name, if_exists='fail',
-             tmp_gcs_bucket=None, gcs_client=None, job_config=None, **load_kwargs):
+    def copy(
+        self,
+        table_obj,
+        table_name,
+        if_exists="fail",
+        tmp_gcs_bucket=None,
+        gcs_client=None,
+        job_config=None,
+        **load_kwargs,
+    ):
         """
         Copy a :ref:`parsons-table` into Google BigQuery via Google Cloud Storage.
 
@@ -125,11 +133,13 @@ class GoogleBigQuery:
                 Arguments to pass to the underlying load_table_from_uri call on the BigQuery
                 client.
         """
-        tmp_gcs_bucket = check_env.check('GCS_TEMP_BUCKET', tmp_gcs_bucket)
+        tmp_gcs_bucket = check_env.check("GCS_TEMP_BUCKET", tmp_gcs_bucket)
 
-        if if_exists not in ['fail', 'truncate', 'append', 'drop']:
-            raise ValueError(f'Unexpected value for if_exists: {if_exists}, must be one of '
-                             '"append", "drop", "truncate", or "fail"')
+        if if_exists not in ["fail", "truncate", "append", "drop"]:
+            raise ValueError(
+                f"Unexpected value for if_exists: {if_exists}, must be one of "
+                '"append", "drop", "truncate", or "fail"'
+            )
 
         table_exists = self.table_exists(table_name)
 
@@ -146,25 +156,29 @@ class GoogleBigQuery:
         job_config.write_disposition = bigquery.WriteDisposition.WRITE_EMPTY
 
         if table_exists:
-            if if_exists == 'fail':
-                raise ValueError('Table already exists.')
-            elif if_exists == 'drop':
+            if if_exists == "fail":
+                raise ValueError("Table already exists.")
+            elif if_exists == "drop":
                 self.delete_table(table_name)
-            elif if_exists == 'append':
+            elif if_exists == "append":
                 job_config.write_disposition = bigquery.WriteDisposition.WRITE_APPEND
-            elif if_exists == 'truncate':
+            elif if_exists == "truncate":
                 job_config.write_disposition = bigquery.WriteDisposition.WRITE_TRUNCATE
 
         gcs_client = gcs_client or GoogleCloudStorage()
-        temp_blob_name = f'{uuid.uuid4()}.csv'
-        temp_blob_uri = gcs_client.upload_table(table_obj, tmp_gcs_bucket, temp_blob_name)
+        temp_blob_name = f"{uuid.uuid4()}.csv"
+        temp_blob_uri = gcs_client.upload_table(
+            table_obj, tmp_gcs_bucket, temp_blob_name
+        )
 
         # load CSV from Cloud Storage into BigQuery
         table_ref = get_table_ref(self.client, table_name)
         try:
             load_job = self.client.load_table_from_uri(
-                temp_blob_uri, table_ref,
-                job_config=job_config, **load_kwargs,
+                temp_blob_uri,
+                table_ref,
+                job_config=job_config,
+                **load_kwargs,
             )
             load_job.result()
         finally:
@@ -226,7 +240,7 @@ class GoogleBigQuery:
         temp_filename = create_temp_file()
 
         wrote_header = False
-        with open(temp_filename, 'wb') as temp_file:
+        with open(temp_filename, "wb") as temp_file:
             # Track whether we got data, since if we don't get any results we need to return None
             got_results = False
             while True:
@@ -291,10 +305,10 @@ class GoogleBigQuery:
         stats = tbl.get_columns_type_stats()
         fields = []
         for stat in stats:
-            petl_types = stat['type']
-            best_type = 'str' if 'str' in petl_types else petl_types[0]
+            petl_types = stat["type"]
+            best_type = "str" if "str" in petl_types else petl_types[0]
             field_type = self._bigquery_type(best_type)
-            field = bigquery.schema.SchemaField(stat['name'], field_type)
+            field = bigquery.schema.SchemaField(stat["name"], field_type)
             fields.append(field)
         return fields
 
@@ -332,4 +346,6 @@ class BigQueryTable(BaseTable):
         job_config.schema = bq_table.schema
 
         empty_table = Table([])
-        self.db.copy(empty_table, self.table, if_exists='truncate', job_config=job_config)
+        self.db.copy(
+            empty_table, self.table, if_exists="truncate", job_config=job_config
+        )

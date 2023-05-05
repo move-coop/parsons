@@ -17,7 +17,6 @@ logger = logging.getLogger(__name__)
 
 
 class PostgresCore(PostgresCreateStatement):
-
     @contextmanager
     def connection(self):
         """
@@ -34,9 +33,14 @@ class PostgresCore(PostgresCreateStatement):
         """
 
         # Create a psycopg2 connection and cursor
-        conn = psycopg2.connect(user=self.username, password=self.password,
-                                host=self.host, dbname=self.db, port=self.port,
-                                connect_timeout=self.timeout)
+        conn = psycopg2.connect(
+            user=self.username,
+            password=self.password,
+            host=self.host,
+            dbname=self.db,
+            port=self.port,
+            connect_timeout=self.timeout,
+        )
 
         try:
             yield conn
@@ -122,7 +126,7 @@ class PostgresCore(PostgresCreateStatement):
 
         with self.cursor(connection) as cursor:
 
-            logger.debug(f'SQL Query: {sql}')
+            logger.debug(f"SQL Query: {sql}")
             cursor.execute(sql, parameters)
 
             if commit:
@@ -130,7 +134,7 @@ class PostgresCore(PostgresCreateStatement):
 
             # If the cursor is empty, don't cause an error
             if not cursor.description:
-                logger.debug('Query returned 0 rows')
+                logger.debug("Query returned 0 rows")
                 return None
 
             else:
@@ -141,7 +145,7 @@ class PostgresCore(PostgresCreateStatement):
 
                 temp_file = files.create_temp_file()
 
-                with open(temp_file, 'wb') as f:
+                with open(temp_file, "wb") as f:
                     # Grab the header
                     header = [i[0] for i in cursor.description]
                     pickle.dump(header, f)
@@ -151,14 +155,14 @@ class PostgresCore(PostgresCreateStatement):
                         if not batch:
                             break
 
-                        logger.debug(f'Fetched {len(batch)} rows.')
+                        logger.debug(f"Fetched {len(batch)} rows.")
                         for row in batch:
                             pickle.dump(list(row), f)
 
                 # Load a Table from the file
                 final_tbl = Table(petl.frompickle(temp_file))
 
-                logger.debug(f'Query returned {final_tbl.num_rows} rows.')
+                logger.debug(f"Query returned {final_tbl.num_rows} rows.")
                 return final_tbl
 
     def _create_table_precheck(self, connection, table_name, if_exists):
@@ -178,21 +182,21 @@ class PostgresCore(PostgresCreateStatement):
                 True if the table needs to be created, False otherwise.
         """
 
-        if if_exists not in ['fail', 'truncate', 'append', 'drop']:
+        if if_exists not in ["fail", "truncate", "append", "drop"]:
             raise ValueError("Invalid value for `if_exists` argument")
 
         # If the table exists, evaluate the if_exists argument for next steps.
         if self.table_exists_with_connection(table_name, connection):
 
-            if if_exists == 'fail':
-                raise ValueError('Table already exists.')
+            if if_exists == "fail":
+                raise ValueError("Table already exists.")
 
-            if if_exists == 'truncate':
+            if if_exists == "truncate":
                 truncate_sql = f"TRUNCATE TABLE {table_name};"
                 logger.info(f"Truncating {table_name}.")
                 self.query_with_connection(truncate_sql, connection, commit=False)
 
-            if if_exists == 'drop':
+            if if_exists == "drop":
                 logger.info(f"Dropping {table_name}.")
                 drop_sql = f"DROP TABLE {table_name};"
                 self.query_with_connection(drop_sql, connection, commit=False)
@@ -225,7 +229,7 @@ class PostgresCore(PostgresCreateStatement):
         # Extract the table and schema from this. If no schema is detected then
         # will default to the public schema.
         try:
-            schema, table = table_name.lower().split('.', 1)
+            schema, table = table_name.lower().split(".", 1)
         except ValueError:
             schema, table = "public", table_name.lower()
 

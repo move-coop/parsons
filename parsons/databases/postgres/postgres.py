@@ -10,7 +10,7 @@ import os
 logger = logging.getLogger(__name__)
 
 
-class Postgres(DatabaseConnector, PostgresCore, Alchemy):
+class Postgres(PostgresCore, Alchemy, DatabaseConnector):
     """
     A Postgres class to connect to database. Credentials can be passed from a ``.pgpass`` file
     stored in your home directory or with environmental variables.

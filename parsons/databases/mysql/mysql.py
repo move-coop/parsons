@@ -198,8 +198,8 @@ class MySQL(DatabaseConnector, MySQLCreateTable, Alchemy):
         tbl: Table,
         table_name: str,
         if_exists: str = "fail",
-        strict_length: bool = True,
-        chunk_size: int = 1000
+        chunk_size: int = 1000,
+        strict_length: bool = True
     ):
         """
         Copy a :ref:`parsons-table` to the database.
@@ -217,13 +217,13 @@ class MySQL(DatabaseConnector, MySQLCreateTable, Alchemy):
             if_exists: str
                 If the table already exists, either ``fail``, ``append``, ``drop``
                 or ``truncate`` the table.
+            chunk_size: int
+                The number of rows to insert per query.
             strict_length: bool
                 If the database table needs to be created, strict_length determines whether
                 the created table's column sizes will be sized to exactly fit the current data,
                 or if their size will be rounded up to account for future values being larger
                 then the current dataset. defaults to ``True``
-            chunk_size: int
-                The number of rows to insert per query.
         """
 
         if tbl.num_rows == 0:

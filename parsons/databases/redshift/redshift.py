@@ -28,12 +28,12 @@ logger = logging.getLogger(__name__)
 
 
 class Redshift(
-    DatabaseConnector,
     RedshiftCreateTable,
     RedshiftCopyTable,
     RedshiftTableUtilities,
     RedshiftSchema,
     Alchemy,
+    DatabaseConnector
 ):
     """
     A Redshift class to connect to database.

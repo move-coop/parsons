@@ -54,7 +54,7 @@ class DatabaseConnector(ABC):
         pass
 
     @abstractmethod
-    def copy(self, tbl: Table, table_name: str, if_exists: str, strict_length=True):
+    def copy(self, tbl: Table, table_name: str, if_exists: str):
         """ Copy a :ref:`parsons-table` to the database.
 
         `Args`:
@@ -65,9 +65,6 @@ class DatabaseConnector(ABC):
             if_exists (str):
                 If the table already exists, either ``fail``, ``append``, ``drop``
                 or ``truncate`` the table.
-            strict_length (bool, optional):
-                Whether or not to tightly fit the length of the table columns to the length
-                of the data in ``tbl``. Defaults to True.
         """
         pass
 

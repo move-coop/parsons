@@ -4,6 +4,7 @@ import uuid
 
 from google.cloud import bigquery
 from google.cloud.bigquery import dbapi
+from google.cloud.bigquery.job import LoadJobConfig
 from google.cloud import exceptions
 import petl
 
@@ -102,14 +103,11 @@ class GoogleBigQuery(DatabaseConnector):
 
         self.dialect = "bigquery"
 
-    # TODO: Implement `strict_length`
-    # TODO: Find ref for `LoadJobConfig` to import
     def copy(
         self,
         tbl: Table,
         table_name: str,
         if_exists: str = "fail",
-        strict_length: bool = True,
         tmp_gcs_bucket: Optional[str] = None,
         gcs_client: Optional[GoogleCloudStorage] = None,
         job_config: Optional[LoadJobConfig] = None,
@@ -126,10 +124,6 @@ class GoogleBigQuery(DatabaseConnector):
             if_exists: str
                 If the table already exists, either ``fail``, ``append``, ``drop``
                 or ``truncate`` the table.
-            strict_length (bool, optional): 
-                Whether or not to tightly fit the length of the table columns to the length
-                of the data in ``tbl``; if ``padding`` is specified, this argument is ignored.
-                Defaults to True.
             tmp_gcs_bucket: str
                 The name of the Google Cloud Storage bucket to use to stage the data to load
                 into BigQuery. Required if `GCS_TEMP_BUCKET` is not specified.

@@ -15,7 +15,7 @@ config_vars = {
     # Connector 1:
     "EXAMPLE_VARIABLE_NAME": "",
     # Connector 2:
-    "ANOTHER_EXAMPLE_VARIABLE_NAME": ""
+    "ANOTHER_EXAMPLE_VARIABLE_NAME": "",
 }
 
 

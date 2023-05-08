@@ -7,7 +7,6 @@ logger = logging.getLogger(__name__)
 
 
 class ContactNotes(object):
-
     def __init__(self, van_connection):
         self.connection = van_connection
 
@@ -23,11 +22,13 @@ class ContactNotes(object):
                 See :ref:`parsons-table` for output options.
         """
 
-        tbl = Table(self.connection.get_request(f'people/{van_id}/notes'))
-        logger.info(f'Found {tbl.num_rows} custom fields.')
+        tbl = Table(self.connection.get_request(f"people/{van_id}/notes"))
+        logger.info(f"Found {tbl.num_rows} custom fields.")
         return tbl
 
-    def create_contact_note(self, van_id, text, is_view_restricted, note_category_id=None):
+    def create_contact_note(
+        self, van_id, text, is_view_restricted, note_category_id=None
+    ):
         """
         Create a contact note
 
@@ -46,10 +47,10 @@ class ContactNotes(object):
             int
               The note ID.
         """
-        note = {'text': text, 'isViewRestricted': is_view_restricted}
+        note = {"text": text, "isViewRestricted": is_view_restricted}
         if note_category_id is not None:
-            note['category'] = {'noteCategoryId': note_category_id}
+            note["category"] = {"noteCategoryId": note_category_id}
 
-        r = self.connection.post_request(f'people/{van_id}/notes', json=note)
-        logger.info(f'Contact note {r} created.')
+        r = self.connection.post_request(f"people/{van_id}/notes", json=note)
+        logger.info(f"Contact note {r} created.")
         return r

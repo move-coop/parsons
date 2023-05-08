@@ -29,14 +29,18 @@ class Salesforce:
         Salesforce class
     """
 
-    def __init__(self, username=None, password=None, security_token=None, test_environment=False):
+    def __init__(
+        self, username=None, password=None, security_token=None, test_environment=False
+    ):
 
-        self.username = check_env.check('SALESFORCE_USERNAME', username)
-        self.password = check_env.check('SALESFORCE_PASSWORD', password)
-        self.security_token = check_env.check('SALESFORCE_SECURITY_TOKEN', security_token)
+        self.username = check_env.check("SALESFORCE_USERNAME", username)
+        self.password = check_env.check("SALESFORCE_PASSWORD", password)
+        self.security_token = check_env.check(
+            "SALESFORCE_SECURITY_TOKEN", security_token
+        )
 
         if test_environment:
-            self.domain = check_env.check('SALESFORCE_DOMAIN', 'test')
+            self.domain = check_env.check("SALESFORCE_DOMAIN", "test")
         else:
             self.domain = None
 
@@ -64,7 +68,7 @@ class Salesforce:
             Dict of all the object's field meta data in Salesforce
         """
 
-        return json.loads(json.dumps(getattr(self.client, object).describe()['fields']))
+        return json.loads(json.dumps(getattr(self.client, object).describe()["fields"]))
 
     def query(self, soql):
         """
@@ -74,10 +78,10 @@ class Salesforce:
                 For reference, see the `Salesforce SOQL documentation <https://developer.salesforce.com/docs/atlas.en-us.soql_sosl.meta/soql_sosl/sforce_api_calls_soql.htm>`_.
         `Returns:`
             list of dicts with Salesforce data
-        """ # noqa: E501,E261
+        """  # noqa: E501,E261
 
         q = Table(self.client.query_all(soql))
-        logger.info(f'Found {q.num_rows} results')
+        logger.info(f"Found {q.num_rows} results")
         return q
 
     def insert_record(self, object, data_table):
@@ -101,9 +105,9 @@ class Salesforce:
         """
 
         r = getattr(self.client.bulk, object).insert(data_table.to_dicts())
-        s = [x for x in r if x.get('success') is True]
+        s = [x for x in r if x.get("success") is True]
         logger.info(
-            f'Successfully inserted {len(s)} out of {data_table.num_rows} records to {object}'
+            f"Successfully inserted {len(s)} out of {data_table.num_rows} records to {object}"
         )
         return r
 
@@ -128,9 +132,9 @@ class Salesforce:
         """
 
         r = getattr(self.client.bulk, object).update(data_table.to_dicts())
-        s = [x for x in r if x.get('success') is True]
+        s = [x for x in r if x.get("success") is True]
         logger.info(
-            f'Successfully updated {len(s)} out of {data_table.num_rows} records in {object}'
+            f"Successfully updated {len(s)} out of {data_table.num_rows} records in {object}"
         )
         return r
 
@@ -158,9 +162,9 @@ class Salesforce:
         """
 
         r = getattr(self.client.bulk, object).upsert(data_table.to_dicts(), id_col)
-        s = [x for x in r if x.get('success') is True]
+        s = [x for x in r if x.get("success") is True]
         logger.info(
-            f'Successfully upserted {len(s)} out of {data_table.num_rows} records to {object}'
+            f"Successfully upserted {len(s)} out of {data_table.num_rows} records to {object}"
         )
         return r
 
@@ -190,9 +194,9 @@ class Salesforce:
         else:
             r = getattr(self.client.bulk, object).delete(id_table.to_dicts())
 
-        s = [x for x in r if x.get('success') is True]
+        s = [x for x in r if x.get("success") is True]
         logger.info(
-            f'Successfully deleted {len(s)} out of {id_table.num_rows} records from {object}'
+            f"Successfully deleted {len(s)} out of {id_table.num_rows} records from {object}"
         )
         return r
 
@@ -211,7 +215,7 @@ class Salesforce:
                 username=self.username,
                 password=self.password,
                 security_token=self.security_token,
-                domain=self.domain
+                domain=self.domain,
             )
 
         return self._client

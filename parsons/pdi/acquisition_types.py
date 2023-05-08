@@ -19,8 +19,13 @@ class AcquisitionTypes:
         """
         return self._request(self.url_acqtypes, limit=limit)
 
-    def create_acquisition_type(self, acquisition_type: str, acquisition_description: str,
-                                acquisition_method: str, page_default: str = None):
+    def create_acquisition_type(
+        self,
+        acquisition_type: str,
+        acquisition_description: str,
+        acquisition_method: str,
+        page_default: str = None,
+    ):
         """
         Create a new Acquisition Type
         `Args:`
@@ -52,9 +57,9 @@ class AcquisitionTypes:
             "acquisitionType": acquisition_type,
             "acquisitionDescription": acquisition_description,
             "acquisitionMethod": acquisition_method,
-            "pageDefault": page_default
+            "pageDefault": page_default,
         }
-        return self._request(self.url_acqtypes, req_type='POST', post_data=payload)
+        return self._request(self.url_acqtypes, req_type="POST", post_data=payload)
 
     def get_acquisition_type(self, id: str):
         """
@@ -77,8 +82,14 @@ class AcquisitionTypes:
         """
         return self._request(f"{self.url_acqtypes}/{id}", req_type="DELETE")
 
-    def update_acquisition_type(self, id: str, acquisition_type: str, acquisition_description: str,
-                                acquisition_method: str, page_default: str = None):
+    def update_acquisition_type(
+        self,
+        id: str,
+        acquisition_type: str,
+        acquisition_description: str,
+        acquisition_method: str,
+        page_default: str = None,
+    ):
         """
         Update Acquisition Type
         `Args:`
@@ -110,6 +121,8 @@ class AcquisitionTypes:
             "acquisitionType": acquisition_type,
             "acquisitionDescription": acquisition_description,
             "acquisitionMethod": acquisition_method,
-            "pageDefault": page_default
+            "pageDefault": page_default,
         }
-        return self._request(f"{self.url_acqtypes}/{id}", req_type='PUT', post_data=payload)
+        return self._request(
+            f"{self.url_acqtypes}/{id}", req_type="PUT", post_data=payload
+        )

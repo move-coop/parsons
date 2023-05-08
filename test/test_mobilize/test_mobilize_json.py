@@ -4,80 +4,85 @@ GET_ORGANIZATIONS_JSON = {
     "count": 38,
     "next": None,
     "previous": (
-        "https://events.mobilizeamerica.io/api/v1/organizations?updated_since=1543644000"),
+        "https://events.mobilizeamerica.io/api/v1/organizations?updated_since=1543644000"
+    ),
     "data": [
-                {
-                    "id": 1251,
-                    "name": "Mike Blake for New York City",
-                    "slug": "mikefornyc",
-                    "is_coordinated": 'True',
-                    "is_independent": 'True',
-                    "is_primary_campaign": 'False',
-                    "state": "",
-                    "district": "",
-                    "candidate_name": "",
-                    "race_type": "OTHER_LOCAL",
-                    "event_feed_url": "https://events.mobilizeamerica.io/mikefornyc/",
-                    "created_date": 1545885434,
-                    "modified_date": 1546132256
-                }
-    ]
+        {
+            "id": 1251,
+            "name": "Mike Blake for New York City",
+            "slug": "mikefornyc",
+            "is_coordinated": "True",
+            "is_independent": "True",
+            "is_primary_campaign": "False",
+            "state": "",
+            "district": "",
+            "candidate_name": "",
+            "race_type": "OTHER_LOCAL",
+            "event_feed_url": "https://events.mobilizeamerica.io/mikefornyc/",
+            "created_date": 1545885434,
+            "modified_date": 1546132256,
+        }
+    ],
 }
 
 GET_EVENTS_JSON = {
-    'count': 1, 'next': None, 'previous': None,
-    'data': [
+    "count": 1,
+    "next": None,
+    "previous": None,
+    "data": [
         {
-            'id': 86738,
-            'description': (
-                'Join our team of volunteers and learn how to engage students in local '
-                'high schools, communicate our mission, and register young voters.'),
-            'timezone': 'America/Chicago',
-            'title': 'Student Voter Initiative Training',
-            'summary': '',
-            'featured_image_url': (
-                'https://mobilizeamerica.imgix.net/uploads/event/'
-                '40667432145_6188839fe3_o_20190102224312253645.jpeg'),
-            'sponsor': {
-                'id': 1076,
-                'name': 'Battleground Texas',
-                'slug': 'battlegroundtexas',
-                'is_coordinated': True,
-                'is_independent': False,
-                'is_primary_campaign': False,
-                'state': '',
-                'district': '',
-                'candidate_name': '',
-                'race_type': None,
-                'event_feed_url': 'https://events.mobilizeamerica.io/battlegroundtexas/',
-                'created_date': 1538590930,
-                'modified_date': 1546468308
+            "id": 86738,
+            "description": (
+                "Join our team of volunteers and learn how to engage students in local "
+                "high schools, communicate our mission, and register young voters."
+            ),
+            "timezone": "America/Chicago",
+            "title": "Student Voter Initiative Training",
+            "summary": "",
+            "featured_image_url": (
+                "https://mobilizeamerica.imgix.net/uploads/event/"
+                "40667432145_6188839fe3_o_20190102224312253645.jpeg"
+            ),
+            "sponsor": {
+                "id": 1076,
+                "name": "Battleground Texas",
+                "slug": "battlegroundtexas",
+                "is_coordinated": True,
+                "is_independent": False,
+                "is_primary_campaign": False,
+                "state": "",
+                "district": "",
+                "candidate_name": "",
+                "race_type": None,
+                "event_feed_url": "https://events.mobilizeamerica.io/battlegroundtexas/",
+                "created_date": 1538590930,
+                "modified_date": 1546468308,
             },
-            'timeslots': [{
-                'id': 526226,
-                'start_date': 1547330400,
-                'end_date': 1547335800}],
-            'location': {
-                'venue': 'Harris County Democratic Party HQ',
-                'address_lines': ['4619 Lyons Ave', ''],
-                'locality': 'Houston',
-                'region': 'TX',
-                'postal_code': '77020',
-                'location': {'latitude': 29.776446, 'longitude': -95.323037},
-                'congressional_district': '18',
-                'state_leg_district': '142',
-                'state_senate_district': None
+            "timeslots": [
+                {"id": 526226, "start_date": 1547330400, "end_date": 1547335800}
+            ],
+            "location": {
+                "venue": "Harris County Democratic Party HQ",
+                "address_lines": ["4619 Lyons Ave", ""],
+                "locality": "Houston",
+                "region": "TX",
+                "postal_code": "77020",
+                "location": {"latitude": 29.776446, "longitude": -95.323037},
+                "congressional_district": "18",
+                "state_leg_district": "142",
+                "state_senate_district": None,
             },
-            'event_type': 'TRAINING',
-            'created_date': 1546469706,
-            'modified_date': 1547335800,
-            'browser_url': (
-                'https://events.mobilizeamerica.io/battlegroundtexas/event/86738/'),
-            'high_priority': None,
-            'contact': None,
-            'visibility': 'PUBLIC'
+            "event_type": "TRAINING",
+            "created_date": 1546469706,
+            "modified_date": 1547335800,
+            "browser_url": (
+                "https://events.mobilizeamerica.io/battlegroundtexas/event/86738/"
+            ),
+            "high_priority": None,
+            "contact": None,
+            "visibility": "PUBLIC",
         }
-    ]
+    ],
 }
 
 GET_EVENTS_ORGANIZATION_JSON = json.loads(
@@ -246,17 +251,11 @@ GET_EVENTS_ORGANIZATION_JSON = json.loads(
 )
 
 GET_EVENTS_DELETED_JSON = {
-    'count': 2,
-    'next': None,
-    'previous': None,
-    'data': [
-        {
-            'id': 86765,
-            'deleted_date': 1546705971
-        },
-        {
-            'id': 86782,
-            'deleted_date': 1546912779
-        }
-    ]
+    "count": 2,
+    "next": None,
+    "previous": None,
+    "data": [
+        {"id": 86765, "deleted_date": 1546705971},
+        {"id": 86782, "deleted_date": 1546912779},
+    ],
 }

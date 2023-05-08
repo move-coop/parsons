@@ -21,11 +21,18 @@ import requests
 logger = logging.getLogger(__name__)
 
 
-class PDI(FlagIDs, Universes, Questions, AcquisitionTypes, Flags, Events, Locations, Contacts,
-          Activities):
-
-    def __init__(self, username=None, password=None, api_token=None,
-                 qa_url=False):
+class PDI(
+    FlagIDs,
+    Universes,
+    Questions,
+    AcquisitionTypes,
+    Flags,
+    Events,
+    Locations,
+    Contacts,
+    Activities,
+):
+    def __init__(self, username=None, password=None, api_token=None, qa_url=False):
         """
         Instantiate the PDI class
 
@@ -49,9 +56,9 @@ class PDI(FlagIDs, Universes, Questions, AcquisitionTypes, Flags, Events, Locati
         else:
             self.base_url = "https://api.bluevote.com"
 
-        self.username = check_env.check('PDI_USERNAME', username)
-        self.password = check_env.check('PDI_PASSWORD', password)
-        self.api_token = check_env.check('PDI_API_TOKEN', api_token)
+        self.username = check_env.check("PDI_USERNAME", username)
+        self.password = check_env.check("PDI_PASSWORD", password)
+        self.api_token = check_env.check("PDI_API_TOKEN", api_token)
 
         super().__init__()
 
@@ -66,10 +73,7 @@ class PDI(FlagIDs, Universes, Questions, AcquisitionTypes, Flags, Events, Locati
             "Password": self.password,
             "ApiToken": self.api_token,
         }
-        res = requests.post(
-            f"{self.base_url}/sessions",
-            json=login,
-            headers=headers)
+        res = requests.post(f"{self.base_url}/sessions", json=login, headers=headers)
         logger.debug(f"{res.status_code} - {res.url}")
         res.raise_for_status()
         # status_code == 200
@@ -86,8 +90,7 @@ class PDI(FlagIDs, Universes, Questions, AcquisitionTypes, Flags, Events, Locati
 
         return dct
 
-    def _request(self, url, req_type='GET', post_data=None, args=None,
-                 limit=None):
+    def _request(self, url, req_type="GET", post_data=None, args=None, limit=None):
         # Make sure to have a current token before we make another request
         now = datetime.now(timezone.utc)
         if now > self.session_exp:
@@ -134,8 +137,7 @@ class PDI(FlagIDs, Universes, Questions, AcquisitionTypes, Flags, Events, Locati
         if "data" not in res_json:
             return res_json
 
-        total_count = (0 if "totalCount" not in res_json
-                       else res_json["totalCount"])
+        total_count = 0 if "totalCount" not in res_json else res_json["totalCount"]
         data = res_json["data"]
 
         if not limit:
@@ -147,7 +149,8 @@ class PDI(FlagIDs, Universes, Questions, AcquisitionTypes, Flags, Events, Locati
                 args["cursor"] = cursor
                 args["limit"] = LIMIT_MAX
                 res = request_fn[req_type](
-                    url, headers=headers, json=post_data, params=args)
+                    url, headers=headers, json=post_data, params=args
+                )
 
                 data.extend(res.json()["data"])
 
@@ -164,7 +167,8 @@ class PDI(FlagIDs, Universes, Questions, AcquisitionTypes, Flags, Events, Locati
                 args["cursor"] = cursor
                 args["limit"] = min(LIMIT_MAX, total_need - len(data))
                 res = request_fn[req_type](
-                    url, headers=headers, json=post_data, params=args)
+                    url, headers=headers, json=post_data, params=args
+                )
 
                 data.extend(res.json()["data"])
 

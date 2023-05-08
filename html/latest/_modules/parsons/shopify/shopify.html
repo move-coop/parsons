@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>parsons.shopify.shopify &mdash; Parsons 0.5 documentation</title>
+  <title>parsons.shopify.shopify &mdash; Parsons  documentation</title>
       <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
   <!--[if lt IE 9]>
@@ -145,7 +145,6 @@
 <div class="viewcode-block" id="Shopify"><a class="viewcode-back" href="../../../shopify.html#parsons.Shopify">[docs]</a><span class="k">class</span> <span class="nc">Shopify</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Instantiate the Shopify class</span>
-
 <span class="sd">    `Args:`</span>
 <span class="sd">        subdomain: str</span>
 <span class="sd">            The Shopify subdomain (e.g. ``myorg`` for myorg.myshopify.com) Not required if</span>
@@ -159,25 +158,49 @@
 <span class="sd">        api_version: str</span>
 <span class="sd">            The Shopify API version. Not required if ``SHOPIFY_API_VERSION`` env variable</span>
 <span class="sd">            set.</span>
+<span class="sd">        access_token: str</span>
+<span class="sd">            The Shopify access token.  Not required if ``SHOPIFY_ACCESS_TOKEN`` env</span>
+<span class="sd">            variable set. If argument or env variable is set, password and api_key</span>
+<span class="sd">            are ignored.</span>
 <span class="sd">    `Returns:`</span>
 <span class="sd">        Shopify Class</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">subdomain</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">password</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">api_key</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">api_version</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">subdomain</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">password</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">api_key</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">api_version</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">access_token</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">subdomain</span> <span class="o">=</span> <span class="n">check_env</span><span class="o">.</span><span class="n">check</span><span class="p">(</span><span class="s2">&quot;SHOPIFY_SUBDOMAIN&quot;</span><span class="p">,</span> <span class="n">subdomain</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">password</span> <span class="o">=</span> <span class="n">check_env</span><span class="o">.</span><span class="n">check</span><span class="p">(</span><span class="s2">&quot;SHOPIFY_PASSWORD&quot;</span><span class="p">,</span> <span class="n">password</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">api_key</span> <span class="o">=</span> <span class="n">check_env</span><span class="o">.</span><span class="n">check</span><span class="p">(</span><span class="s2">&quot;SHOPIFY_API_KEY&quot;</span><span class="p">,</span> <span class="n">api_key</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">access_token</span> <span class="o">=</span> <span class="n">check_env</span><span class="o">.</span><span class="n">check</span><span class="p">(</span>
+            <span class="s2">&quot;SHOPIFY_ACCESS_TOKEN&quot;</span><span class="p">,</span> <span class="n">access_token</span><span class="p">,</span> <span class="n">optional</span><span class="o">=</span><span class="kc">True</span>
+        <span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">password</span> <span class="o">=</span> <span class="n">check_env</span><span class="o">.</span><span class="n">check</span><span class="p">(</span><span class="s2">&quot;SHOPIFY_PASSWORD&quot;</span><span class="p">,</span> <span class="n">password</span><span class="p">,</span> <span class="n">optional</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">api_key</span> <span class="o">=</span> <span class="n">check_env</span><span class="o">.</span><span class="n">check</span><span class="p">(</span><span class="s2">&quot;SHOPIFY_API_KEY&quot;</span><span class="p">,</span> <span class="n">api_key</span><span class="p">,</span> <span class="n">optional</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">api_version</span> <span class="o">=</span> <span class="n">check_env</span><span class="o">.</span><span class="n">check</span><span class="p">(</span><span class="s2">&quot;SHOPIFY_API_VERSION&quot;</span><span class="p">,</span> <span class="n">api_version</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">base_url</span> <span class="o">=</span> <span class="s2">&quot;https://</span><span class="si">%s</span><span class="s2">.myshopify.com/admin/api/</span><span class="si">%s</span><span class="s2">/&quot;</span> <span class="o">%</span> <span class="p">(</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">subdomain</span><span class="p">,</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">api_version</span><span class="p">,</span>
         <span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">client</span> <span class="o">=</span> <span class="n">APIConnector</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">base_url</span><span class="p">,</span> <span class="n">auth</span><span class="o">=</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">api_key</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">password</span><span class="p">))</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">access_token</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">and</span> <span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">password</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">api_key</span> <span class="ow">is</span> <span class="kc">None</span>
+        <span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">KeyError</span><span class="p">(</span><span class="s2">&quot;Must set either access_token or both api_key and password.&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">access_token</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">client</span> <span class="o">=</span> <span class="n">APIConnector</span><span class="p">(</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">base_url</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;X-Shopify-Access-Token&quot;</span><span class="p">:</span> <span class="n">access_token</span><span class="p">}</span>
+            <span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">client</span> <span class="o">=</span> <span class="n">APIConnector</span><span class="p">(</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">base_url</span><span class="p">,</span> <span class="n">auth</span><span class="o">=</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">api_key</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">password</span><span class="p">)</span>
+            <span class="p">)</span>
 
 <div class="viewcode-block" id="Shopify.get_count"><a class="viewcode-back" href="../../../shopify.html#parsons.Shopify.get_count">[docs]</a>    <span class="k">def</span> <span class="nf">get_count</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">query_date</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">since_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">table_name</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Get the count of rows in a table.</span>
-
 <span class="sd">        `Args:`</span>
 <span class="sd">            query_date: str</span>
 <span class="sd">                Filter query by a date that rows were created. This filter is ignored if value</span>
@@ -200,7 +223,6 @@
 <div class="viewcode-block" id="Shopify.get_orders"><a class="viewcode-back" href="../../../shopify.html#parsons.Shopify.get_orders">[docs]</a>    <span class="k">def</span> <span class="nf">get_orders</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">query_date</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">since_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">completed</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Get Shopify orders.</span>
-
 <span class="sd">        `Args:`</span>
 <span class="sd">            query_date: str</span>
 <span class="sd">                Filter query by a date that rows were created. Format: yyyy-mm-dd. This filter</span>
@@ -263,7 +285,6 @@
     <span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Get the URL of a Shopify API request</span>
-
 <span class="sd">        `Args:`</span>
 <span class="sd">            query_date: str</span>
 <span class="sd">                Filter query by a date that rows were created. Format: yyyy-mm-dd. This filter</span>
@@ -300,7 +321,6 @@
 <div class="viewcode-block" id="Shopify.graphql"><a class="viewcode-back" href="../../../shopify.html#parsons.Shopify.graphql">[docs]</a>    <span class="k">def</span> <span class="nf">graphql</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">query</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Make GraphQL request. Reference: https://shopify.dev/api/admin-graphql</span>
-
 <span class="sd">        `Args:`</span>
 <span class="sd">            query: str</span>
 <span class="sd">                GraphQL query.</span>
@@ -328,15 +348,12 @@
     <span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Fast classmethod so you can get the data all at once:</span>
-
 <span class="sd">            tabledata = Shopify.load_to_table(subdomain=&#39;myorg&#39;, password=&#39;abc123&#39;,</span>
 <span class="sd">                                            api_key=&#39;abc123&#39;, api_version=&#39;2020-10&#39;,</span>
 <span class="sd">                                            query_date=&#39;2020-10-20&#39;, since_id=&#39;8414&#39;,</span>
 <span class="sd">                                            completed=True)</span>
-
 <span class="sd">        This instantiates the class and makes the appropriate query type to Shopify&#39;s orders</span>
 <span class="sd">        table based on which arguments are supplied.</span>
-
 <span class="sd">        `Args:`</span>
 <span class="sd">            subdomain: str</span>
 <span class="sd">                The Shopify subdomain (e.g. ``myorg`` for myorg.myshopify.com).</span>

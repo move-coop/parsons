@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>parsons.action_kit.action_kit &mdash; Parsons 0.5 documentation</title>
+  <title>parsons.action_kit.action_kit &mdash; Parsons  documentation</title>
       <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
   <!--[if lt IE 9]>
@@ -167,14 +167,12 @@
     <span class="p">}</span>
 
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">domain</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">username</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">password</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-
         <span class="bp">self</span><span class="o">.</span><span class="n">domain</span> <span class="o">=</span> <span class="n">check_env</span><span class="o">.</span><span class="n">check</span><span class="p">(</span><span class="s2">&quot;ACTION_KIT_DOMAIN&quot;</span><span class="p">,</span> <span class="n">domain</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">username</span> <span class="o">=</span> <span class="n">check_env</span><span class="o">.</span><span class="n">check</span><span class="p">(</span><span class="s2">&quot;ACTION_KIT_USERNAME&quot;</span><span class="p">,</span> <span class="n">username</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">password</span> <span class="o">=</span> <span class="n">check_env</span><span class="o">.</span><span class="n">check</span><span class="p">(</span><span class="s2">&quot;ACTION_KIT_PASSWORD&quot;</span><span class="p">,</span> <span class="n">password</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">conn</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_conn</span><span class="p">()</span>
 
     <span class="k">def</span> <span class="nf">_conn</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">default_headers</span><span class="o">=</span><span class="n">_default_headers</span><span class="p">):</span>
-
         <span class="n">client</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">Session</span><span class="p">()</span>
         <span class="n">client</span><span class="o">.</span><span class="n">auth</span> <span class="o">=</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">username</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">password</span><span class="p">)</span>
         <span class="n">client</span><span class="o">.</span><span class="n">headers</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">default_headers</span><span class="p">)</span>
@@ -871,6 +869,21 @@
         <span class="n">data</span> <span class="o">=</span> <span class="n">data</span><span class="p">[:</span><span class="n">i</span><span class="p">]</span>
         <span class="k">return</span> <span class="n">Table</span><span class="p">(</span><span class="n">data</span><span class="p">[:</span><span class="n">limit</span><span class="p">])</span></div>
 
+<div class="viewcode-block" id="ActionKit.get_order"><a class="viewcode-back" href="../../../action_kit.html#parsons.ActionKit.get_order">[docs]</a>    <span class="k">def</span> <span class="nf">get_order</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">order_id</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Get an order.</span>
+
+<span class="sd">        `Args:`</span>
+<span class="sd">            order_id: int</span>
+<span class="sd">                The order id of the record to get.</span>
+<span class="sd">        `Returns`:</span>
+<span class="sd">            User json object</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_base_get</span><span class="p">(</span>
+            <span class="n">endpoint</span><span class="o">=</span><span class="s2">&quot;order&quot;</span><span class="p">,</span> <span class="n">entity_id</span><span class="o">=</span><span class="n">order_id</span><span class="p">,</span> <span class="n">exception_message</span><span class="o">=</span><span class="s2">&quot;Order not found&quot;</span>
+        <span class="p">)</span></div>
+
 <div class="viewcode-block" id="ActionKit.update_order"><a class="viewcode-back" href="../../../action_kit.html#parsons.ActionKit.update_order">[docs]</a>    <span class="k">def</span> <span class="nf">update_order</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">order_id</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Update an order.</span>
@@ -907,6 +920,30 @@
         <span class="p">)</span>
         <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">resp</span><span class="o">.</span><span class="n">status_code</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">recurring_id</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">resp</span></div>
+
+<div class="viewcode-block" id="ActionKit.get_orders"><a class="viewcode-back" href="../../../action_kit.html#parsons.ActionKit.get_orders">[docs]</a>    <span class="k">def</span> <span class="nf">get_orders</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">limit</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Get multiple orders.</span>
+
+<span class="sd">        `Args:`</span>
+<span class="sd">            limit: int</span>
+<span class="sd">                The number of orders to return. If omitted, all orders are returned.</span>
+<span class="sd">            **kwargs:</span>
+<span class="sd">                Optional arguments to pass to the client. A full list can be found</span>
+<span class="sd">                in the `ActionKit API Documentation &lt;https://roboticdogs.actionkit.com/docs/\</span>
+<span class="sd">                manual/api/rest/actionprocessing.html&gt;`_.</span>
+
+<span class="sd">                Additionally, expressions to filter the data can also be provided. For addition</span>
+<span class="sd">                info, visit `Django&#39;s docs on field lookups &lt;https://docs.djangoproject.com/\</span>
+<span class="sd">                en/3.1/topics/db/queries/#field-lookups&gt;`_.</span>
+
+<span class="sd">                .. code-block:: python</span>
+
+<span class="sd">                    ak.get_orders(import_id=&quot;my-import-123&quot;)</span>
+<span class="sd">        `Returns:`</span>
+<span class="sd">            Parsons.Table</span>
+<span class="sd">                The events data.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">paginated_get</span><span class="p">(</span><span class="s2">&quot;order&quot;</span><span class="p">,</span> <span class="n">limit</span><span class="o">=</span><span class="n">limit</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="ActionKit.update_paymenttoken"><a class="viewcode-back" href="../../../action_kit.html#parsons.ActionKit.update_paymenttoken">[docs]</a>    <span class="k">def</span> <span class="nf">update_paymenttoken</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">paymenttoken_id</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
@@ -1060,6 +1097,30 @@
             <span class="bp">self</span><span class="o">.</span><span class="n">_base_endpoint</span><span class="p">(</span><span class="s2">&quot;transaction&quot;</span><span class="p">,</span> <span class="n">transaction_id</span><span class="p">),</span> <span class="n">data</span><span class="o">=</span><span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">kwargs</span><span class="p">)</span>
         <span class="p">)</span>
         <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">resp</span><span class="o">.</span><span class="n">status_code</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">transaction_id</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="ActionKit.get_transactions"><a class="viewcode-back" href="../../../action_kit.html#parsons.ActionKit.get_transactions">[docs]</a>    <span class="k">def</span> <span class="nf">get_transactions</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">limit</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Get multiple transactions.</span>
+
+<span class="sd">        `Args:`</span>
+<span class="sd">            limit: int</span>
+<span class="sd">                The number of transactions to return. If omitted, all transactions are returned.</span>
+<span class="sd">            **kwargs:</span>
+<span class="sd">                Optional arguments to pass to the client. A full list can be found</span>
+<span class="sd">                in the `ActionKit API Documentation &lt;https://roboticdogs.actionkit.com/docs/\</span>
+<span class="sd">                manual/api/rest/actionprocessing.html&gt;`_.</span>
+
+<span class="sd">                Additionally, expressions to filter the data can also be provided. For addition</span>
+<span class="sd">                info, visit `Django&#39;s docs on field lookups &lt;https://docs.djangoproject.com/\</span>
+<span class="sd">                en/3.1/topics/db/queries/#field-lookups&gt;`_.</span>
+
+<span class="sd">                .. code-block:: python</span>
+
+<span class="sd">                    ak.get_transactions(order=&quot;order-1&quot;)</span>
+<span class="sd">        `Returns:`</span>
+<span class="sd">            Parsons.Table</span>
+<span class="sd">                The events data.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">paginated_get</span><span class="p">(</span><span class="s2">&quot;transaction&quot;</span><span class="p">,</span> <span class="n">limit</span><span class="o">=</span><span class="n">limit</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="ActionKit.create_generic_action"><a class="viewcode-back" href="../../../action_kit.html#parsons.ActionKit.create_generic_action">[docs]</a>    <span class="k">def</span> <span class="nf">create_generic_action</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">page</span><span class="p">,</span> <span class="n">email</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">ak_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>

@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>parsons.aws.s3 &mdash; Parsons 0.5 documentation</title>
+  <title>parsons.aws.s3 &mdash; Parsons  documentation</title>
       <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
   <!--[if lt IE 9]>
@@ -136,6 +136,7 @@
   <h1>Source code for parsons.aws.s3</h1><div class="highlight"><pre>
 <span></span><span class="kn">import</span> <span class="nn">re</span>
 <span class="kn">import</span> <span class="nn">boto3</span>
+<span class="kn">from</span> <span class="nn">botocore.client</span> <span class="kn">import</span> <span class="n">ClientError</span>
 <span class="kn">from</span> <span class="nn">parsons.utilities</span> <span class="kn">import</span> <span class="n">files</span>
 <span class="kn">import</span> <span class="nn">logging</span>
 <span class="kn">import</span> <span class="nn">os</span>
@@ -151,7 +152,6 @@
         <span class="n">aws_session_token</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
         <span class="n">use_env_token</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
     <span class="p">):</span>
-
         <span class="c1"># Order of operations for searching for keys:</span>
         <span class="c1">#   1. Look for keys passed as kwargs</span>
         <span class="c1">#   2. Look for env variables</span>
@@ -207,7 +207,6 @@
         <span class="n">aws_session_token</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
         <span class="n">use_env_token</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
     <span class="p">):</span>
-
         <span class="bp">self</span><span class="o">.</span><span class="n">aws</span> <span class="o">=</span> <span class="n">AWSConnection</span><span class="p">(</span>
             <span class="n">aws_access_key_id</span><span class="o">=</span><span class="n">aws_access_key_id</span><span class="p">,</span>
             <span class="n">aws_secret_access_key</span><span class="o">=</span><span class="n">aws_secret_access_key</span><span class="p">,</span>
@@ -297,16 +296,31 @@
 
         <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
             <span class="n">args</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;Bucket&quot;</span><span class="p">:</span> <span class="n">bucket</span><span class="p">}</span>
+
             <span class="k">if</span> <span class="n">prefix</span><span class="p">:</span>
                 <span class="n">args</span><span class="p">[</span><span class="s2">&quot;Prefix&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">prefix</span>
+
             <span class="k">if</span> <span class="n">continuation_token</span><span class="p">:</span>
                 <span class="n">args</span><span class="p">[</span><span class="s2">&quot;ContinuationToken&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">continuation_token</span>
+
             <span class="n">args</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">kwargs</span><span class="p">)</span>
 
-            <span class="n">resp</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">list_objects_v2</span><span class="p">(</span><span class="o">**</span><span class="n">args</span><span class="p">)</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="n">resp</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">list_objects_v2</span><span class="p">(</span><span class="o">**</span><span class="n">args</span><span class="p">)</span>
+
+            <span class="k">except</span> <span class="n">ClientError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+                <span class="n">error_message</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;Unable to list bucket objects!</span>
+<span class="s2">                This may be due to a lack of permission on the requested</span>
+<span class="s2">                bucket. Double-check that you have sufficient READ permissions</span>
+<span class="s2">                on the bucket you&#39;ve requested. If you only have permissions for</span>
+<span class="s2">                keys within a specific prefix, make sure you include a trailing &#39;/&#39; in</span>
+<span class="s2">                in prefix.&quot;&quot;&quot;</span>
+
+                <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="n">error_message</span><span class="p">)</span>
+
+                <span class="k">raise</span> <span class="n">e</span>
 
             <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">resp</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;Contents&quot;</span><span class="p">,</span> <span class="p">[]):</span>
-
                 <span class="c1"># Match suffix</span>
                 <span class="k">if</span> <span class="n">suffix</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">key</span><span class="p">[</span><span class="s2">&quot;Key&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="n">suffix</span><span class="p">):</span>
                     <span class="k">continue</span>
@@ -337,10 +351,12 @@
             <span class="c1"># If more than 1000 results, continue with token</span>
             <span class="k">if</span> <span class="n">resp</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;NextContinuationToken&quot;</span><span class="p">):</span>
                 <span class="n">continuation_token</span> <span class="o">=</span> <span class="n">resp</span><span class="p">[</span><span class="s2">&quot;NextContinuationToken&quot;</span><span class="p">]</span>
+
             <span class="k">else</span><span class="p">:</span>
                 <span class="k">break</span>
 
         <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Retrieved </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">keys_dict</span><span class="p">)</span><span class="si">}</span><span class="s2"> keys&quot;</span><span class="p">)</span>
+
         <span class="k">return</span> <span class="n">keys_dict</span></div>
 
 <div class="viewcode-block" id="S3.key_exists"><a class="viewcode-back" href="../../../aws.html#parsons.S3.key_exists">[docs]</a>    <span class="k">def</span> <span class="nf">key_exists</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">bucket</span><span class="p">,</span> <span class="n">key</span><span class="p">):</span>

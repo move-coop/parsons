@@ -143,7 +143,7 @@
             <span class="k">if</span> <span class="n">method</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">&quot;__&quot;</span><span class="p">):</span>
                 <span class="k">continue</span>
             <span class="n">cls_method</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">method</span><span class="p">)</span>
-            <span class="k">if</span> <span class="n">callable</span><span class="p">(</span><span class="n">cls_method</span><span class="p">):</span>
+            <span class="k">if</span> <span class="nb">callable</span><span class="p">(</span><span class="n">cls_method</span><span class="p">):</span>
                 <span class="nb">setattr</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">method</span><span class="p">,</span> <span class="n">_wrap_method</span><span class="p">(</span><span class="n">decorator</span><span class="p">,</span> <span class="n">cls_method</span><span class="p">))</span>
         <span class="k">return</span> <span class="bp">cls</span>
     <span class="k">return</span> <span class="n">decorate</span>

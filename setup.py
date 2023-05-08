@@ -62,7 +62,7 @@ def main():
         version="1.0.0",
         author="The Movement Cooperative",
         author_email="info@movementcooperative.org",
-        url="https://github.com/movementcoop/parsons",
+        url="https://github.com/move-coop/parsons",
         keywords=["PROGRESSIVE", "API", "ETL"],
         packages=find_packages(),
         install_requires=install_requires,

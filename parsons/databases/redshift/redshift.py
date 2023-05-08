@@ -470,7 +470,6 @@ class Redshift(
         tbl: Table,
         table_name: str,
         if_exists: str = "fail",
-        strict_length: bool = True,
         max_errors: int = 0,
         distkey: Optional[str] = None,
         sortkey: Optional[str] = None,
@@ -496,6 +495,7 @@ class Redshift(
         cleanup_s3_file: bool = True,
         template_table: Optional[str] = None,
         temp_bucket_region: Optional[str] = None,
+        strict_length: bool = True,
         csv_encoding: str = "utf-8",
     ):
         """
@@ -509,9 +509,6 @@ class Redshift(
             if_exists: str
                 If the table already exists, either ``fail``, ``append``, ``drop``
                 or ``truncate`` the table.
-            strict_length: bool
-                Whether or not to tightly fit the length of the table columns to the length
-                of the data in ``tbl``; if ``padding`` is specified, this argument is ignored.
             max_errors: int
                 The maximum number of rows that can error and be skipped before
                 the job fails.
@@ -607,6 +604,9 @@ class Redshift(
                 The AWS region that the temp bucket (specified by the TEMP_S3_BUCKET environment
                 variable) is located in. This should be provided if the Redshift cluster is located
                 in a different region from the temp bucket.
+            strict_length: bool
+                Whether or not to tightly fit the length of the table columns to the length
+                of the data in ``tbl``; if ``padding`` is specified, this argument is ignored.
             csv_ecoding: str
                 String encoding to use when writing the temporary CSV file that is uploaded to S3.
                 Defaults to 'utf-8'.

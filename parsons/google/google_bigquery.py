@@ -170,9 +170,7 @@ class GoogleBigQuery(DatabaseConnector):
 
         gcs_client = gcs_client or GoogleCloudStorage()
         temp_blob_name = f"{uuid.uuid4()}.csv"
-        temp_blob_uri = gcs_client.upload_table(
-            tbl, tmp_gcs_bucket, temp_blob_name
-        )
+        temp_blob_uri = gcs_client.upload_table(tbl, tmp_gcs_bucket, temp_blob_name)
 
         # load CSV from Cloud Storage into BigQuery
         table_ref = get_table_ref(self.client, table_name)
@@ -198,7 +196,9 @@ class GoogleBigQuery(DatabaseConnector):
         table_ref = get_table_ref(self.client, table_name)
         self.client.delete_table(table_ref)
 
-    def query(self, sql: str, parameters: Optional[Union[list, dict]] = None) -> Optional[Table]:
+    def query(
+        self, sql: str, parameters: Optional[Union[list, dict]] = None
+    ) -> Optional[Table]:
         """
         Run a BigQuery query and return the results as a Parsons table.
 

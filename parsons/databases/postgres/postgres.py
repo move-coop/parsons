@@ -59,7 +59,7 @@ class Postgres(PostgresCore, Alchemy, DatabaseConnector):
         tbl: Table,
         table_name: str,
         if_exists: str = "fail",
-        strict_length: bool = True
+        strict_length: bool = True,
     ):
         """
         Copy a :ref:`parsons-table` to Postgres.
@@ -80,10 +80,8 @@ class Postgres(PostgresCore, Alchemy, DatabaseConnector):
         """
 
         with self.connection() as connection:
-
             # Auto-generate table
             if self._create_table_precheck(connection, table_name, if_exists):
-
                 # Create the table
                 # To Do: Pass in the advanced configuration parameters.
                 sql = self.create_statement(

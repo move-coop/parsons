@@ -33,7 +33,7 @@ class Redshift(
     RedshiftTableUtilities,
     RedshiftSchema,
     Alchemy,
-    DatabaseConnector
+    DatabaseConnector,
 ):
     """
     A Redshift class to connect to database.

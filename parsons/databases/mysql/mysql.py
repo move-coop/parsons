@@ -307,7 +307,7 @@ class MySQL(DatabaseConnector, MySQLCreateTable, Alchemy):
         else:
             return True
 
-    def table_exists(self, table_name: str):
+    def table_exists(self, table_name: str) -> bool:
         """
         Check if a table or view exists in the database.
 

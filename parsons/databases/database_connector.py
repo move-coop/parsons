@@ -41,7 +41,7 @@ class DatabaseConnector(ABC):
 
     @abstractmethod
     def table_exists(self, table_name: str) -> bool:
-        """ Check if a table or view exists in the database.
+        """Check if a table or view exists in the database.
 
         `Args:`
             table_name: str
@@ -55,7 +55,7 @@ class DatabaseConnector(ABC):
 
     @abstractmethod
     def copy(self, tbl: Table, table_name: str, if_exists: str):
-        """ Copy a :ref:`parsons-table` to the database.
+        """Copy a :ref:`parsons-table` to the database.
 
         `Args`:
             tbl (Table):
@@ -70,7 +70,7 @@ class DatabaseConnector(ABC):
 
     @abstractmethod
     def query(self, sql: str, parameters: Optional[list] = None) -> Optional[Table]:
-        """ Execute a query against the database. Will return ``None`` if the query returns empty.
+        """Execute a query against the database. Will return ``None`` if the query returns empty.
 
         To include python variables in your query, it is recommended to pass them as parameters,
         following the `psycopg style

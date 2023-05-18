@@ -1087,7 +1087,7 @@ class Redshift(
             tbl = self.query_with_connection(sql_depend, connection)
             dropped_views = [row["table_name"] for row in tbl]
             if dropped_views:
-                sql_drop = "\n".join([f"drop view {view};" for view in dropped_views])
+                sql_drop = "\n".join([f"drop view {view} CASCADE;" for view in dropped_views])
                 tbl = self.query_with_connection(sql_drop, connection)
                 logger.info(f"Dropped the following views: {dropped_views}")
 

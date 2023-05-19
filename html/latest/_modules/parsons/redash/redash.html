@@ -188,6 +188,12 @@
         <span class="k">if</span> <span class="n">user_api_key</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">session</span><span class="o">.</span><span class="n">headers</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="s2">&quot;Authorization&quot;</span><span class="p">:</span> <span class="sa">f</span><span class="s2">&quot;Key </span><span class="si">{</span><span class="n">user_api_key</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">})</span>
 
+    <span class="k">def</span> <span class="nf">_catch_runtime_error</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">res</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">res</span><span class="o">.</span><span class="n">status_code</span> <span class="o">!=</span> <span class="mi">200</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s2">&quot;Error. Status code: </span><span class="si">{</span><span class="n">res</span><span class="o">.</span><span class="n">status_code</span><span class="si">}</span><span class="s2">. Reason: </span><span class="si">{</span><span class="n">res</span><span class="o">.</span><span class="n">reason</span><span class="si">}</span><span class="s2">&quot;</span>
+            <span class="p">)</span>
+
     <span class="k">def</span> <span class="nf">_poll_job</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">session</span><span class="p">,</span> <span class="n">job</span><span class="p">,</span> <span class="n">query_id</span><span class="p">):</span>
         <span class="n">start_secs</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
         <span class="k">while</span> <span class="n">job</span><span class="p">[</span><span class="s2">&quot;status&quot;</span><span class="p">]</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">):</span>
@@ -219,6 +225,63 @@
             <span class="k">raise</span> <span class="n">RedashQueryFailed</span><span class="p">(</span>
                 <span class="s2">&quot;Redash Query </span><span class="si">{}</span><span class="s2"> failed: </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">query_id</span><span class="p">,</span> <span class="n">job</span><span class="p">[</span><span class="s2">&quot;error&quot;</span><span class="p">])</span>
             <span class="p">)</span>
+
+<div class="viewcode-block" id="Redash.get_data_source"><a class="viewcode-back" href="../../../redash.html#parsons.redash.Redash.get_data_source">[docs]</a>    <span class="k">def</span> <span class="nf">get_data_source</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data_source_id</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Get a data source.</span>
+
+<span class="sd">        `Args:`</span>
+<span class="sd">            data_source_id: int or str</span>
+<span class="sd">                ID of data source.</span>
+<span class="sd">        `Returns`:</span>
+<span class="sd">            Data source json object</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">res</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">session</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">base_url</span><span class="si">}</span><span class="s2">/api/data_sources/</span><span class="si">{</span><span class="n">data_source_id</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_catch_runtime_error</span><span class="p">(</span><span class="n">res</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">res</span><span class="o">.</span><span class="n">json</span><span class="p">()</span></div>
+
+<div class="viewcode-block" id="Redash.update_data_source"><a class="viewcode-back" href="../../../redash.html#parsons.redash.Redash.update_data_source">[docs]</a>    <span class="k">def</span> <span class="nf">update_data_source</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">data_source_id</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="nb">type</span><span class="p">,</span> <span class="n">dbName</span><span class="p">,</span> <span class="n">host</span><span class="p">,</span> <span class="n">password</span><span class="p">,</span> <span class="n">port</span><span class="p">,</span> <span class="n">user</span>
+    <span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Update a data source.</span>
+
+<span class="sd">        `Args:`</span>
+<span class="sd">            data_source_id: str or int</span>
+<span class="sd">                ID of data source.</span>
+<span class="sd">            name: str</span>
+<span class="sd">                Name of data source.</span>
+<span class="sd">            type: str</span>
+<span class="sd">                Type of data source.</span>
+<span class="sd">            dbname: str</span>
+<span class="sd">                Database name of data source.</span>
+<span class="sd">            host: str</span>
+<span class="sd">                Host of data source.</span>
+<span class="sd">            password: str</span>
+<span class="sd">                Password of data source.</span>
+<span class="sd">            port: int or str</span>
+<span class="sd">                Port of data source.</span>
+<span class="sd">            user: str</span>
+<span class="sd">                Username of data source.</span>
+<span class="sd">        `Returns:`</span>
+<span class="sd">            ``None``</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_catch_runtime_error</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">session</span><span class="o">.</span><span class="n">post</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">base_url</span><span class="si">}</span><span class="s2">/api/data_sources/</span><span class="si">{</span><span class="n">data_source_id</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
+                <span class="n">json</span><span class="o">=</span><span class="p">{</span>
+                    <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="n">name</span><span class="p">,</span>
+                    <span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="nb">type</span><span class="p">,</span>
+                    <span class="s2">&quot;options&quot;</span><span class="p">:</span> <span class="p">{</span>
+                        <span class="s2">&quot;dbname&quot;</span><span class="p">:</span> <span class="n">dbName</span><span class="p">,</span>
+                        <span class="s2">&quot;host&quot;</span><span class="p">:</span> <span class="n">host</span><span class="p">,</span>
+                        <span class="s2">&quot;password&quot;</span><span class="p">:</span> <span class="n">password</span><span class="p">,</span>
+                        <span class="s2">&quot;port&quot;</span><span class="p">:</span> <span class="n">port</span><span class="p">,</span>
+                        <span class="s2">&quot;user&quot;</span><span class="p">:</span> <span class="n">user</span><span class="p">,</span>
+                    <span class="p">},</span>
+                <span class="p">},</span>
+            <span class="p">)</span>
+        <span class="p">)</span></div>
 
 <div class="viewcode-block" id="Redash.get_fresh_query_results"><a class="viewcode-back" href="../../../redash.html#parsons.redash.Redash.get_fresh_query_results">[docs]</a>    <span class="k">def</span> <span class="nf">get_fresh_query_results</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">query_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>

@@ -308,8 +308,6 @@ class MySQL(MySQLCreateTable, Alchemy):
         `Args:`
             table_name: str
                 The table name
-            view: boolean
-                Check to see if a view exists by the same name
 
         `Returns:`
             boolean

@@ -7,6 +7,17 @@ import logging
 API_URL = 'https://{subdomain}.actionbuilder.org/api/rest/v1'
 
 class ActionBuilder(object):
+    """
+    `Args:`
+        api_token: str
+            The OSDI API token
+        subdomain: str
+            The part of the UI URL preceding '.actionbuilder.org'
+        campaign: str
+            Optional. The 36-character "interact ID" of the campaign whose data is to be retrieved
+            or edited. Can also be supplied in individual methods in case multiple campaigns need
+            to be referenced.
+    """
     
     def __init__(self, api_token=None, subdomain=None, campaign=None):
         self.api_token = check_env.check('ACTION_BUILDER_API_TOKEN', api_token)
@@ -64,16 +75,59 @@ class ActionBuilder(object):
                     return Table(return_list[0:limit])
     
     def get_campaign_tags(self, campaign=None, limit=None, per_page=25, filter=None):
+        """
+        Retrieve all tags (i.e. custom field values) within provided limit and filters
+        `Args:`
+            campaign: str
+                Optional. The 36-character "interact ID" of the campaign whose data is to be
+                retrieved or edited. Not necessary if supplied when instantiating the class.
+            limit: int
+                The number of entries to return. When None, returns all entries.
+            per_page: int
+                The number of entries per page to return. 25 maximum and default.
+            filter
+                The OData query for filtering results. E.g. "modified_date gt '2014-03-25'".
+                When None, no filter is applied.
+        `Returns:`
+            Parsons Table of full set of tags available in Action Builder.
+        """
         
         return self._get_entry_list(campaign, 'tags', limit=limit, per_page=per_page, filter=filter)
     
     def get_tag_by_name(self, tag_name, campaign=None):
+        """
+        Convenience method to retrieve data on a single tag by its name/value
+        `Args:`
+            tag_name: str
+                The value of the tag to search for.
+            campaign: str
+                Optional. The 36-character "interact ID" of the campaign whose data is to be
+                retrieved or edited. Not necessary if supplied when instantiating the class.
+        `Returns:`
+            Parsons Table of data found on tag in Action Builder from searching by name.
+        """
         
         filter = f"name eq '{tag_name}'"
         
         return self.get_campaign_tags(campaign=campaign, filter=filter)
     
     def insert_new_tag(self, tag_name, tag_field, tag_section, campaign=None):
+        """
+        Load a new tag value into Action Builder. Required before applying the value to any entity
+        records.
+        `Args:`
+            tag_name: str
+                The name of the new tag, i.e. the custom field value.
+            tag_field: str
+                The name of the tag category, i.e. the custom field name.
+            tag_section: str
+                The name of the tag section, i.e. the custom field group name.
+            campaign: str
+                Optional. The 36-character "interact ID" of the campaign whose data is to be
+                retrieved or edited. Not necessary if supplied when instantiating the class.
+        `Returns:`
+            Dict containing Action Builder tag data.
+        """
         
         campaign = self._campaign_check(campaign)
         url = f'campaigns/{campaign}/tags'
@@ -87,6 +141,30 @@ class ActionBuilder(object):
         return self.api.post_request(url=url, data=json.dumps(data))
     
     def upsert_entity(self, entity_type=None, identifiers=None, data=None, campaign=None):
+        """
+        Load or update an entity record in Action Builder based on whether any identifiers are
+        passed.
+        `Args:`
+            entity_type: str
+                The name of the record type being inserted. Required if identifiers are not
+                provided.
+            identifiers: list
+                The list of strings of unique identifiers for a record being updated. ID strings
+                will need to begin with the origin system, followed by a colon, e.g.
+                `action_builder:abc123-...`.
+            data: dict
+                The details to include on the record being upserted, to be included as the value
+                of the `person` key. See
+                [documentation for the Person Signup Helper](https://www.actionbuilder.org/docs/v1/person_signup_helper.html#post)
+                for examples, and
+                [the Person endpoint](https://www.actionbuilder.org/docs/v1/people.html#field-names)
+                for full entity object composition.
+            campaign: str
+                Optional. The 36-character "interact ID" of the campaign whose data is to be
+                retrieved or edited. Not necessary if supplied when instantiating the class.
+        `Returns:`
+            Dict containing Action Builder entity data.
+        """ # noqa: E501
         
         if {entity_type, identifiers} == {None}:
             error_msg = 'Must provide either entity_type (to insert a new record) '
@@ -119,6 +197,27 @@ class ActionBuilder(object):
         return self.api.post_request(url=url, data=json.dumps(data))
     
     def add_tags_to_record(self, identifiers, tag_name, tag_field, tag_section, campaign=None):
+        """
+        Add a tag (i.e. custom field value) to an existing entity record in Action Builder. The
+        tag, along with its category/field and section/group, must already exist unless it is a
+        date field.
+        `Args:`
+            identifiers: list
+                The list of strings of unique identifiers for a record being updated. ID strings
+                will need to begin with the origin system, followed by a colon, e.g.
+                `action_builder:abc123-...`.
+            tag_name: str
+                The name of the new tag, i.e. the custom field value.
+            tag_field: str
+                The name of the tag category, i.e. the custom field name.
+            tag_section: str
+                The name of the tag section, i.e. the custom field group name.
+            campaign: str
+                Optional. The 36-character "interact ID" of the campaign whose data is to be
+                retrieved or edited. Not necessary if supplied when instantiating the class.
+        `Returns:`
+            Dict containing Action Builder entity data of the entity being tagged.
+        """
         
         # Ensure all tag args are lists
         tag_name = tag_name if isinstance(tag_name, list) else [tag_name]
@@ -153,6 +252,25 @@ class ActionBuilder(object):
         return self.upsert_entity(identifiers=identifiers, data=data, campaign=campaign)
     
     def upsert_connection(self, identifiers, tag_data=None, campaign=None):
+        """
+        Load or update a connection record in Action Builder between two existing entity records.
+        Only one connection record is allowed per pair of entities, so if the connection already
+        exists, this method will update, but will otherwise create a new connection record.
+        `Args:`
+            identifiers: list
+                The list of strings of unique identifiers for records being connected. ID strings
+                will need to begin with the origin system, followed by a colon, e.g.
+                `action_builder:abc123-...`. Requires exactly two identifiers.
+            tag_data: list
+                List of dicts of tags to be added to the connection record (i.e. Connection Info).
+                See [documentation on Connection Helper](https://www.actionbuilder.org/docs/v1/connection_helper.html#post)
+                for examples.
+            campaign: str
+                Optional. The 36-character "interact ID" of the campaign whose data is to be
+                retrieved or edited. Not necessary if supplied when instantiating the class.
+        `Returns:`
+            Dict containing Action Builder connection data.
+        """ # noqa: E501
         
         if not isinstance(identifiers, list):
             raise ValueError('Must provide identifiers as a list')

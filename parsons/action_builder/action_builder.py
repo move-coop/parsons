@@ -12,7 +12,7 @@ class ActionBuilder(object):
         api_token: str
             The OSDI API token
         subdomain: str
-            The part of the UI URL preceding '.actionbuilder.org'
+            The part of the web app URL preceding '.actionbuilder.org'
         campaign: str
             Optional. The 36-character "interact ID" of the campaign whose data is to be retrieved
             or edited. Can also be supplied in individual methods in case multiple campaigns need
@@ -30,6 +30,8 @@ class ActionBuilder(object):
         self.campaign = campaign
         
     def _campaign_check(self, campaign):
+        # Raise an error if campaign is not provided via instatiation nor method argument
+
         final_campaign = campaign or self.campaign            
         if not final_campaign:
             raise ValueError('No campaign provided!')
@@ -37,11 +39,13 @@ class ActionBuilder(object):
         return final_campaign
     
     def _get_page(self, campaign, object_name, page, per_page=25, filter=None):
-        # returns data from one page of results
+        # Returns data from one page of results
+
         if per_page > 25:
             per_page = 25
             logger.info("Action Builder's API will not return more than 25 entries per page. \
             Changing per_page parameter to 25.")
+
         params = {
             "page": page,
             "per_page": per_page,
@@ -54,24 +58,33 @@ class ActionBuilder(object):
         return self.api.get_request(url=url, params=params)
     
     def _get_entry_list(self, campaign, object_name, limit=None, per_page=25, filter=None):
-        # returns a list of entries for a given object, such as people, tags, or actions
-        # Filter can only be applied to people, petitions, events, forms, fundraising_pages,
-        # event_campaigns, campaigns, advocacy_campaigns, signatures, attendances, submissions,
-        # donations and outreaches.
-        # See Action Builder API docs for more info: https://www.actionbuilder.org/docs/v1/index.html
+        # Returns a list of entries for a given object, such as people, tags, or connections.
+        # See Action Builder API docs for more: https://www.actionbuilder.org/docs/v1/index.html
+
         count = 0
         page = 1
         return_list = []
+
+        # Keep getting the next page until record limit is exceeded or an empty result returns
         while True:
+
+            # Get this page and increase page number to the next one
             response = self._get_page(campaign, object_name, page, per_page, filter=filter)
             page = page + 1
+
+            # Check that there's actually data
             response_list = response.get('_embedded', {}).get(f"osdi:{object_name}")
+
             if not response_list:
+                # This page has no data, so we're done
                 return Table(return_list)
+
+            # Assuming there's data, add it to the running response list
             return_list.extend(response_list)
             count = count + len(response_list)
             if limit:
                 if count >= limit:
+                    # Limit reached or exceeded, so return just the requested limit amount
                     return Table(return_list[0:limit])
     
     def get_campaign_tags(self, campaign=None, limit=None, per_page=25, filter=None):
@@ -166,6 +179,7 @@ class ActionBuilder(object):
             Dict containing Action Builder entity data.
         """ # noqa: E501
         
+        # Check that we have appropriate entity type/identifier, name, and campaign first
         if {entity_type, identifiers} == {None}:
             error_msg = 'Must provide either entity_type (to insert a new record) '
             error_msg += 'or identifiers (to update an existing record)'
@@ -183,15 +197,22 @@ class ActionBuilder(object):
         url = f'campaigns/{campaign}/people'
             
         if 'person' not in data:
+            # The POST data must live inside of person key
             data['person'] = {}
             
         if identifiers:
+            # Updating an existing record
+
             if isinstance(identifiers, str):
+                # Ensure identifiers is a list, even if it will usually just be one item
                 identifiers = [identifiers]
+
+            # Default to assuming identifier comes from Action Builder and add prefix if missing
             identifiers = [f'action_builder:{x}' if ':' not in x else x for x in identifiers]
             data['person']['identifiers'] = identifiers
         
         if entity_type:
+            # Inserting a new record
             data['person']['action_builder:entity_type'] = entity_type
 
         return self.api.post_request(url=url, data=json.dumps(data))
@@ -199,19 +220,23 @@ class ActionBuilder(object):
     def add_tags_to_record(self, identifiers, tag_name, tag_field, tag_section, campaign=None):
         """
         Add a tag (i.e. custom field value) to an existing entity record in Action Builder. The
-        tag, along with its category/field and section/group, must already exist unless it is a
-        date field.
+        tags, along with their category/field and section/group, must already exist (except for
+        date fields). If fewer fields are provided than tags, the excess tags will be applied to
+        the final field provided. Similarly, the final section will be applied to any fields or
+        tags in excess.
         `Args:`
             identifiers: list
                 The list of strings of unique identifiers for a record being updated. ID strings
                 will need to begin with the origin system, followed by a colon, e.g.
                 `action_builder:abc123-...`.
-            tag_name: str
-                The name of the new tag, i.e. the custom field value.
-            tag_field: str
-                The name of the tag category, i.e. the custom field name.
-            tag_section: str
-                The name of the tag section, i.e. the custom field group name.
+            tag_name: str or list
+                The name(s) of the new tag(s), i.e. the custom field value(s).
+            tag_field: str or list
+                The name(s) of the tag category(ies), i.e. the custom field name(s). Must have
+                equal or fewer items as `tag_name`.
+            tag_section: str or list
+                The name(s) of the tag section(s), i.e. the custom field group name(s). Must have
+                equal or fewer items as `tag_section`.
             campaign: str
                 Optional. The 36-character "interact ID" of the campaign whose data is to be
                 retrieved or edited. Not necessary if supplied when instantiating the class.
@@ -224,12 +249,13 @@ class ActionBuilder(object):
         tag_field = tag_field if isinstance(tag_field, list) else [tag_field]
         tag_section = tag_section if isinstance(tag_section, list) else [tag_section]
         
-        # Use lists of tuples to identify length ordering
+        # Use lists of tuples to identify length ordering in case amounts differ
         lengths = []
-        lengths.append(('name', len(tag_name)))
+        lengths.append(('name', len(tag_name))) # Most specific - should be >= other lengths
         lengths.append(('field', len(tag_field)))
-        lengths.append(('section', len(tag_section)))
+        lengths.append(('section', len(tag_section))) # Most generic - should be <= other lengths
 
+        # Sort by length, maintaining original order in ties
         ordered_lengths = sorted(lengths, key=lambda x: x[1], reverse=True)
         sorted_keys = [x[0] for x in ordered_lengths]
         
@@ -240,7 +266,7 @@ class ActionBuilder(object):
         if sorted_keys[1] != 'field':
             raise ValueError('Not enough tag_fields provided for tag_sections')
             
-        # Construct tag data
+        # Construct tag data, applying final generic taxonomy to any excess specific items
         tag_data = [{
             "action_builder:name": x,
             "action_builder:field": tag_field[min(i, len(tag_field) - 1)],
@@ -272,6 +298,7 @@ class ActionBuilder(object):
             Dict containing Action Builder connection data.
         """ # noqa: E501
         
+        # Check that there are exactly two identifiers and that campaign is provided first
         if not isinstance(identifiers, list):
             raise ValueError('Must provide identifiers as a list')
             
@@ -284,7 +311,7 @@ class ActionBuilder(object):
         
         data = {
             "connection": {
-                "person_id": identifiers[1]
+                "person_id": identifiers[1] # person_id is used even if entity is not Person
             }
         }
         

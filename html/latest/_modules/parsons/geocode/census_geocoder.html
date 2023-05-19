@@ -226,12 +226,12 @@
 <span class="sd">            :widths: 40</span>
 <span class="sd">            :header-rows: 1</span>
 
-<span class="sd">            * - Column Data</span>
-<span class="sd">            * - Unique ID</span>
-<span class="sd">            * - Street</span>
-<span class="sd">            * - City</span>
-<span class="sd">            * - State</span>
-<span class="sd">            * - Zipcode</span>
+<span class="sd">            * - Column Names</span>
+<span class="sd">            * - id (must be unique)</span>
+<span class="sd">            * - street</span>
+<span class="sd">            * - city</span>
+<span class="sd">            * - state</span>
+<span class="sd">            * - zip</span>
 
 <span class="sd">        `Args:`</span>
 <span class="sd">            table: Parsons Table</span>
@@ -241,12 +241,20 @@
 <span class="sd">        &quot;&quot;&quot;</span>
 
         <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Geocoding </span><span class="si">{</span><span class="n">table</span><span class="o">.</span><span class="n">num_rows</span><span class="si">}</span><span class="s2"> records.&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="nb">set</span><span class="p">(</span><span class="n">table</span><span class="o">.</span><span class="n">columns</span><span class="p">)</span> <span class="o">!=</span> <span class="p">{</span><span class="s2">&quot;street&quot;</span><span class="p">,</span> <span class="s2">&quot;city&quot;</span><span class="p">,</span> <span class="s2">&quot;state&quot;</span><span class="p">,</span> <span class="s2">&quot;zip&quot;</span><span class="p">}:</span>
+            <span class="n">msg</span> <span class="o">=</span> <span class="p">(</span>
+                <span class="s2">&quot;Table must ONLY include `[&#39;id&#39;, &#39;street&#39;, &#39;city&#39;, &#39;state&#39;, &#39;zip&#39;]` as&quot;</span>
+                <span class="o">+</span> <span class="s2">&quot;columns. Tip: try using `table.cut()`&quot;</span>
+            <span class="p">)</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
+
         <span class="n">chunked_tables</span> <span class="o">=</span> <span class="n">table</span><span class="o">.</span><span class="n">chunk</span><span class="p">(</span><span class="n">BATCH_SIZE</span><span class="p">)</span>
         <span class="n">batch_count</span> <span class="o">=</span> <span class="mi">1</span>
         <span class="n">records_processed</span> <span class="o">=</span> <span class="mi">0</span>
 
         <span class="n">geocoded_tbl</span> <span class="o">=</span> <span class="n">Table</span><span class="p">([[]])</span>
         <span class="k">for</span> <span class="n">tbl</span> <span class="ow">in</span> <span class="n">chunked_tables</span><span class="p">:</span>
+
             <span class="n">geocoded_tbl</span><span class="o">.</span><span class="n">concat</span><span class="p">(</span><span class="n">Table</span><span class="p">(</span><span class="n">petl</span><span class="o">.</span><span class="n">fromdicts</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">cg</span><span class="o">.</span><span class="n">addressbatch</span><span class="p">(</span><span class="n">tbl</span><span class="p">))))</span>
             <span class="n">records_processed</span> <span class="o">+=</span> <span class="n">tbl</span><span class="o">.</span><span class="n">num_rows</span>
             <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">records_processed</span><span class="si">}</span><span class="s2"> of </span><span class="si">{</span><span class="n">table</span><span class="o">.</span><span class="n">num_rows</span><span class="si">}</span><span class="s2"> records processed.&quot;</span><span class="p">)</span>

@@ -90,12 +90,12 @@ class CensusGeocoder(object):
             :widths: 40
             :header-rows: 1
 
-            * - Column Data
-            * - Unique ID
-            * - Street
-            * - City
-            * - State
-            * - Zipcode
+            * - Column Names
+            * - id (must be unique)
+            * - street
+            * - city
+            * - state
+            * - zip
 
         `Args:`
             table: Parsons Table
@@ -105,12 +105,20 @@ class CensusGeocoder(object):
         """
 
         logger.info(f"Geocoding {table.num_rows} records.")
+        if set(table.columns) != {"street", "city", "state", "zip"}:
+            msg = (
+                "Table must ONLY include `['id', 'street', 'city', 'state', 'zip']` as"
+                + "columns. Tip: try using `table.cut()`"
+            )
+            raise ValueError(msg)
+
         chunked_tables = table.chunk(BATCH_SIZE)
         batch_count = 1
         records_processed = 0
 
         geocoded_tbl = Table([[]])
         for tbl in chunked_tables:
+
             geocoded_tbl.concat(Table(petl.fromdicts(self.cg.addressbatch(tbl))))
             records_processed += tbl.num_rows
             logger.info(f"{records_processed} of {table.num_rows} records processed.")

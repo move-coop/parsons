@@ -11,7 +11,6 @@ logger = logging.getLogger(__name__)
 
 class BulkImport(object):
     def __init__(self):
-
         pass
 
     def get_bulk_import_resources(self):
@@ -336,6 +335,50 @@ class BulkImport(object):
             [{"name": "CreateOrUpdateContact"}],
             "Create Or Update Contact Records",
             result_fields=result_fields,
+            **url_kwargs,
+        )
+
+    def bulk_apply_suppressions(self, tbl, url_type, **url_kwargs):
+        """
+        Bulk apply contact suppressions codes.
+
+        The table may include the following columns. The first column
+        must be ``vanid``.
+
+        .. list-table::
+            :widths: 25 25
+            :header-rows: 1
+
+            * - Column Name
+              - Required
+              - Description
+            * - ``vanid``
+              - Yes
+              - A valid VANID primary key
+            * - ``suppressionid``
+              - Yes
+              - A valid suppression id
+
+        `Args:`
+            table: Parsons table
+                A Parsons table.
+            url_type: str
+                The cloud file storage to use to post the file (``S3`` or ``GCS``).
+                See :ref:`Cloud Storage <cloud-storage>` for more details.
+            **url_kwargs: kwargs
+                Arguments to configure your cloud storage url type. See
+                :ref:`Cloud Storage <cloud-storage>` for more details.
+        `Returns:`
+            int
+                The bulk import job id
+        """
+
+        return self.post_bulk_import(
+            tbl,
+            url_type,
+            "Contacts",
+            [{"name": "Suppressions"}],
+            "Apply Suppressions",
             **url_kwargs,
         )
 

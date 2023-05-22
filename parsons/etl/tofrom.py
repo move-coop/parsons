@@ -432,7 +432,7 @@ class ToFrom(object):
                 The S3 permissions on the file
             use_env_token: boolean
                 Controls use of the ``AWS_SESSION_TOKEN`` environment variable for S3. Defaults
-                to ``True``. Set to ``False`` in order to ignore the ``AWS_SESSION_TOKEN`` environment
+                to ``True``. Set to ``False`` in order to ignore the ``AWS_SESSION_TOKEN`` env
                 variable even if the ``aws_session_token`` argument was not passed in.
             \**csvargs: kwargs
                 ``csv_writer`` optional arguments

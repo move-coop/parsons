@@ -534,6 +534,7 @@
         <span class="n">acl</span><span class="o">=</span><span class="s2">&quot;bucket-owner-full-control&quot;</span><span class="p">,</span>
         <span class="n">public_url</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
         <span class="n">public_url_expires</span><span class="o">=</span><span class="mi">3600</span><span class="p">,</span>
+        <span class="n">use_env_token</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
         <span class="o">**</span><span class="n">csvargs</span><span class="p">,</span>
     <span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
@@ -565,6 +566,10 @@
 <span class="sd">                The time, in seconds, until the url expires if ``public_url`` set to ``True``.</span>
 <span class="sd">            acl: str</span>
 <span class="sd">                The S3 permissions on the file</span>
+<span class="sd">            use_env_token: boolean</span>
+<span class="sd">                Controls use of the ``AWS_SESSION_TOKEN`` environment variable for S3. Defaults</span>
+<span class="sd">                to ``True``. Set to ``False`` in order to ignore the ``AWS_SESSION_TOKEN`` env</span>
+<span class="sd">                variable even if the ``aws_session_token`` argument was not passed in.</span>
 <span class="sd">            \**csvargs: kwargs</span>
 <span class="sd">                ``csv_writer`` optional arguments</span>
 <span class="sd">        `Returns:`</span>
@@ -591,6 +596,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">s3</span> <span class="o">=</span> <span class="n">S3</span><span class="p">(</span>
             <span class="n">aws_access_key_id</span><span class="o">=</span><span class="n">aws_access_key_id</span><span class="p">,</span>
             <span class="n">aws_secret_access_key</span><span class="o">=</span><span class="n">aws_secret_access_key</span><span class="p">,</span>
+            <span class="n">use_env_token</span><span class="o">=</span><span class="n">use_env_token</span><span class="p">,</span>
         <span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">s3</span><span class="o">.</span><span class="n">put_file</span><span class="p">(</span><span class="n">bucket</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="n">local_path</span><span class="p">,</span> <span class="n">acl</span><span class="o">=</span><span class="n">acl</span><span class="p">)</span>
 

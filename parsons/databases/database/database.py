@@ -206,7 +206,6 @@ class DatabaseCreateStatement:
         # let's get its size
         # If the compare types are empty and use the types of the current value
         if type_lit == int and cmp_type in (self.INT_TYPES + [None, "", self.BOOL]):
-
             # Use smallest possible int type above TINYINT
             if self.SMALLINT_MIN < val_lit < self.SMALLINT_MAX:
                 return self.get_bigger_int(self.SMALLINT, cmp_type)

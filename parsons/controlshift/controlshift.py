@@ -25,7 +25,6 @@ class Controlshift(object):
     """
 
     def __init__(self, hostname=None, client_id=None, client_secret=None):
-
         self.hostname = check_env.check("CONTROLSHIFT_HOSTNAME", hostname)
         token_url = f"{self.hostname}/oauth/token"
         self.client = OAuth2APIConnector(

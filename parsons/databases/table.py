@@ -14,7 +14,6 @@ class BaseTable:
     """
 
     def __init__(self, database_connection, table_name):
-
         self.table = table_name
         self.db = database_connection
         self._columns = None

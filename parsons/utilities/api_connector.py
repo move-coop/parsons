@@ -35,7 +35,6 @@ class APIConnector(object):
     def __init__(
         self, uri, headers=None, auth=None, pagination_key=None, data_key=None
     ):
-
         # Add a trailing slash if its missing
         if not uri.endswith("/"):
             uri = uri + "/"
@@ -237,7 +236,6 @@ class APIConnector(object):
         """
 
         if resp.status_code >= 400:
-
             if resp.reason:
                 message = f"HTTP error occurred ({resp.status_code}): {resp.reason}"
             else:

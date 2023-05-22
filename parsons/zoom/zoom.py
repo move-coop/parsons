@@ -24,7 +24,6 @@ class Zoom:
     """
 
     def __init__(self, api_key=None, api_secret=None):
-
         self.api_key = check_env.check("ZOOM_API_KEY", api_key)
         self.api_secret = check_env.check("ZOOM_API_SECRET", api_secret)
         self.client = APIConnector(ZOOM_URI)

@@ -27,7 +27,6 @@ class Hustle(object):
     """
 
     def __init__(self, client_id, client_secret):
-
         self.uri = HUSTLE_URI
         self.client_id = check_env.check("HUSTLE_CLIENT_ID", client_id)
         self.client_secret = check_env.check("HUSTLE_CLIENT_SECRET", client_secret)
@@ -58,18 +57,15 @@ class Hustle(object):
 
         logger.debug("Checking token expiration.")
         if datetime.datetime.now() >= self.token_expiration:
-
             logger.info("Refreshing authentication token.")
             self._get_auth_token(self.client_id, self.client_secret)
 
         else:
-
             pass
 
     def _request(
         self, endpoint, req_type="GET", args=None, payload=None, raise_on_error=True
     ):
-
         url = self.uri + endpoint
         self._token_check()
 
@@ -88,7 +84,6 @@ class Hustle(object):
 
         # If a single item return the dict
         if "items" not in r.json().keys():
-
             return r.json()
 
         else:
@@ -96,7 +91,6 @@ class Hustle(object):
 
         # Pagination
         while r.json()["pagination"]["hasNextPage"] == "true":
-
             parameters["cursor"] = r.json["pagination"]["cursor"]
             r = request(req_type, url, params=parameters, headers=headers)
             self._error_check(r, raise_on_error)
@@ -108,18 +102,15 @@ class Hustle(object):
         # Check for errors
 
         if r.status_code in (200, 201):
-
             logger.debug(r.json())
             return None
 
         if raise_on_error:
-
             logger.info(r.json())
             r.raise_for_status()
             return None
 
         else:
-
             logger.info(r.json())
             return None
 
@@ -430,7 +421,6 @@ class Hustle(object):
         created_leads = []
 
         for row in table:
-
             lead = {"group_id": group_id}
             custom_fields = {}
 

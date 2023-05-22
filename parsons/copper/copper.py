@@ -27,7 +27,6 @@ class Copper(object):
     """
 
     def __init__(self, user_email=None, api_key=None):
-
         self.api_key = check_env.check("COPPER_API_KEY", api_key)
         self.user_email = check_env.check("COPPER_USER_EMAIL", user_email)
         self.uri = COPPER_URI
@@ -79,7 +78,6 @@ class Copper(object):
             filters = {}
 
         while page <= total_pages:
-
             r = self.base_request(
                 endpoint, req_type, page_size=page_size, page=page, filters=filters
             )

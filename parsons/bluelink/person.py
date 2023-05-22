@@ -56,7 +56,6 @@ class BluelinkPerson(object):
         birthdate=None,
         details=None,
     ):
-
         if not identifiers:
             raise Exception(
                 "BluelinkPerson requires list of BluelinkIdentifiers with "
@@ -190,7 +189,6 @@ class BluelinkAddress(object):
         venue=None,
         status=None,
     ):
-
         self.address_lines = address_lines or []
         self.city = city
         self.state = state

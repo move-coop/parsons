@@ -7,7 +7,6 @@ logger = logging.getLogger(__name__)
 
 class Codes(object):
     def __init__(self, van_connection):
-
         self.connection = van_connection
 
     def get_codes(
@@ -121,7 +120,6 @@ class Codes(object):
         }
 
         if supported_entities:
-
             se = [
                 {
                     "name": s["name"],
@@ -193,7 +191,6 @@ class Codes(object):
             post_data["description"] = description
 
         if supported_entities:
-
             se = [
                 {
                     "name": s["name"],

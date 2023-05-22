@@ -12,9 +12,7 @@ import requests
 
 class Slack(object):
     def __init__(self, api_key=None):
-
         if api_key is None:
-
             try:
                 self.api_key = os.environ["SLACK_API_TOKEN"]
 
@@ -25,7 +23,6 @@ class Slack(object):
                 )
 
         else:
-
             self.api_key = api_key
 
         self.client = SlackClient(self.api_key)
@@ -160,7 +157,6 @@ class Slack(object):
         )
 
         if not resp["ok"]:
-
             if resp["error"] == "ratelimited":
                 time.sleep(int(resp["headers"]["Retry-After"]))
 
@@ -221,7 +217,6 @@ class Slack(object):
             )
 
             if not resp["ok"]:
-
                 if resp["error"] == "ratelimited":
                     time.sleep(int(resp["headers"]["Retry-After"]))
 
@@ -250,7 +245,6 @@ class Slack(object):
             resp = self.client.api_call(endpoint, cursor=cursor, limit=LIMIT, **kwargs)
 
             if not resp["ok"]:
-
                 if resp["error"] == "ratelimited":
                     time.sleep(int(resp["headers"]["Retry-After"]))
                     continue

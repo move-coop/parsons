@@ -303,7 +303,6 @@ class SFTP(object):
 
     @staticmethod
     def _list_contents(remote_path, connection, dir_pattern=None, file_pattern=None):
-
         dirs_to_return = []
         files_to_return = []
         dirs_and_files = [
@@ -427,7 +426,6 @@ class SFTP(object):
         depth=0,
         max_depth=2,
     ):
-
         dir_list = []
         file_list = []
 

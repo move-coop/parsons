@@ -48,7 +48,6 @@ class TargetSmartAutomation(object):
     """  # noqa
 
     def __init__(self, sftp_username=None, sftp_password=None):
-
         self.sftp_host = TS_STFP_HOST
         self.sftp_port = TS_SFTP_PORT
         self.sftp_dir = TS_SFTP_DIR
@@ -198,7 +197,6 @@ class TargetSmartAutomation(object):
         #  Poll the configuration status
 
         while True:
-
             time.sleep(polling_interval)
             if self.config_status(job_name):
                 return True
@@ -209,7 +207,6 @@ class TargetSmartAutomation(object):
         # the files in the SFTP directory.
 
         for f in self.sftp.list_directory(remote_path=self.sftp_dir):
-
             if f == f"{job_name}.job.xml.good":
                 logger.info(f"Match job {job_name} configured.")
                 return True
@@ -234,12 +231,9 @@ class TargetSmartAutomation(object):
         # we do. However, the actually data is only exposed on the secure SFTP.
 
         while True:
-
             logger.debug("Match running...")
             for file_name in self.sftp.list_directory(remote_path=self.sftp_dir):
-
                 if file_name == f"{job_name}.finish.xml":
-
                     xml_file = self.sftp.get_file(
                         f"{self.sftp_dir}/{job_name}.finish.xml"
                     )

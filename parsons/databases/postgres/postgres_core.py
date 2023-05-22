@@ -125,7 +125,6 @@ class PostgresCore(PostgresCreateStatement):
         """
 
         with self.cursor(connection) as cursor:
-
             logger.debug(f"SQL Query: {sql}")
             cursor.execute(sql, parameters)
 
@@ -138,7 +137,6 @@ class PostgresCore(PostgresCreateStatement):
                 return None
 
             else:
-
                 # Fetch the data in batches, and "pickle" the rows to a temp file.
                 # (We pickle rather than writing to, say, a CSV, so that we maintain
                 # all the type information for each field.)
@@ -187,7 +185,6 @@ class PostgresCore(PostgresCreateStatement):
 
         # If the table exists, evaluate the if_exists argument for next steps.
         if self.table_exists_with_connection(table_name, connection):
-
             if if_exists == "fail":
                 raise ValueError("Table already exists.")
 
@@ -225,7 +222,6 @@ class PostgresCore(PostgresCreateStatement):
             return self.table_exists_with_connection(table_name, connection, view)
 
     def table_exists_with_connection(self, table_name, connection, view=True):
-
         # Extract the table and schema from this. If no schema is detected then
         # will default to the public schema.
         try:
@@ -234,7 +230,6 @@ class PostgresCore(PostgresCreateStatement):
             schema, table = "public", table_name.lower()
 
         with self.cursor(connection) as cursor:
-
             # Check in pg tables for the table
             sql = f"""select count(*) from pg_tables where schemaname='{schema}' and
                      tablename='{table}';"""

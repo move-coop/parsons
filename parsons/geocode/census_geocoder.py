@@ -25,7 +25,6 @@ class CensusGeocoder(object):
     """  # noqa E501
 
     def __init__(self, benchmark="Public_AR_Current", vintage="Current_Current"):
-
         self.cg = censusgeocode.CensusGeocode(benchmark=benchmark, vintage=vintage)
 
     def geocode_onelineaddress(self, address, return_type="geographies"):

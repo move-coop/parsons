@@ -25,7 +25,6 @@ class Freshdesk:
     """
 
     def __init__(self, domain, api_key):
-
         self.api_key = check_env.check("FRESHDESK_API_KEY", api_key)
         self.domain = check_env.check("FRESHDESK_DOMAIN", domain)
         self.uri = f"https://{self.domain}.freshdesk.com/api/v2/"

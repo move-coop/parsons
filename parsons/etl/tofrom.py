@@ -620,7 +620,6 @@ class ToFrom(object):
         pg.copy(self, table_name, **copy_args)
 
     def to_petl(self):
-
         return self.table
 
     def to_civis(

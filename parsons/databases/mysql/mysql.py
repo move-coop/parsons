@@ -151,7 +151,6 @@ class MySQL(MySQLCreateTable, Alchemy):
                 See :ref:`parsons-table` for output options.
         """
         with self.cursor(connection) as cursor:
-
             # The python connector can only execute a single sql statement, so we will
             # break up each statement and execute them separately.
             for s in sql.strip().split(";"):
@@ -225,7 +224,6 @@ class MySQL(MySQLCreateTable, Alchemy):
             return None
 
         with self.connection() as connection:
-
             # Create table if not exists
             if self._create_table_precheck(connection, table_name, if_exists):
                 sql = self.create_statement(
@@ -282,7 +280,6 @@ class MySQL(MySQLCreateTable, Alchemy):
 
         # If the table exists, evaluate the if_exists argument for next steps.
         if self.table_exists(table_name):
-
             if if_exists == "fail":
                 raise ValueError("Table already exists.")
 

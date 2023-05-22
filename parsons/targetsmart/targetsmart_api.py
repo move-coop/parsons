@@ -24,12 +24,10 @@ class TargetSmartConnector:
         self.headers = {"x-api-key": self.api_key}
 
     def request(self, url, args=None, raw=False):
-
         r = requests.get(url, headers=self.headers, params=args)
 
         # This allows me to deal with data that needs to be munged.
         if raw:
-
             return r.json()
 
         return Table(r.json()["output"])
@@ -37,7 +35,6 @@ class TargetSmartConnector:
 
 class Person:
     def __init__(self):
-
         return None
 
     def data_enhance(self, search_id, search_id_type="voterbase", state=None):
@@ -59,7 +56,6 @@ class Person:
         """
 
         if search_id_type in ["smartvan", "votebuilder", "voter"] and state is None:
-
             raise KeyError(
                 "Search ID type '{}' requires state kwarg".format(search_id_type)
             )
@@ -74,7 +70,6 @@ class Person:
             "voter",
             "household",
         ):
-
             raise ValueError("Search_id_type is not valid")
 
         url = self.connection.uri + "person/data-enhance"
@@ -231,7 +226,6 @@ class Person:
 
 class Service:
     def __init__(self):
-
         return None
 
     def district(
@@ -320,7 +314,6 @@ class Service:
 
 class Voter(object):
     def __init__(self, connection):
-
         self.connection = connection
 
     def voter_registration_check(

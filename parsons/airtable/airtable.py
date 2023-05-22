@@ -20,7 +20,6 @@ class Airtable(object):
     """
 
     def __init__(self, base_key, table_name, api_key=None):
-
         self.api_key = check_env.check("AIRTABLE_API_KEY", api_key)
         self.client = client(base_key, table_name, self.api_key)
 

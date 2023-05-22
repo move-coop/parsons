@@ -46,7 +46,6 @@ class Alchemer(object):
     """
 
     def __init__(self, api_token=None, api_token_secret=None, api_version="v5"):
-
         sg_compatibility()
 
         self.api_token = check_env.check("ALCHEMER_API_TOKEN", api_token)

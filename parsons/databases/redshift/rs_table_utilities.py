@@ -39,7 +39,6 @@ class RedshiftTableUtilities(object):
         # TODO maybe convert these queries to use self.query_with_connection
 
         with self.cursor(connection) as cursor:
-
             cursor.execute(sql)
             result = cursor.fetchone()[0]
 
@@ -130,7 +129,6 @@ class RedshiftTableUtilities(object):
         self.query(create_sql)
 
         with self.connection() as conn:
-
             #  An ALTER TABLE statement can't be run within a block, meaning
             #  that it needs to be committed on running. To enable this,
             #  the connection must be set to autocommit.

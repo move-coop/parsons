@@ -72,10 +72,8 @@ class Postgres(PostgresCore, Alchemy):
         """
 
         with self.connection() as connection:
-
             # Auto-generate table
             if self._create_table_precheck(connection, table_name, if_exists):
-
                 # Create the table
                 # To Do: Pass in the advanced configuration parameters.
                 sql = self.create_statement(

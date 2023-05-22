@@ -26,7 +26,6 @@ class GoogleSheets:
     """
 
     def __init__(self, google_keyfile_dict=None, subject=None):
-
         scope = [
             "https://spreadsheets.google.com/feeds",
             "https://www.googleapis.com/auth/drive",

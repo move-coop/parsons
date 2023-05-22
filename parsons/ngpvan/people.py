@@ -6,7 +6,6 @@ logger = logging.getLogger(__name__)
 
 class People(object):
     def __init__(self, van_connection):
-
         self.connection = van_connection
 
     def find_person(
@@ -329,7 +328,6 @@ class People(object):
         url = "people/"
 
         if id:
-
             if create:
                 id_type = "" if id_type in ("vanid", None) else f"{id_type}:"
                 url += id_type + str(id)
@@ -368,7 +366,6 @@ class People(object):
             and None in [firstName, lastName, addressLine1, zipOrPostalCode]
             and None in [email]
         ):
-
             raise ValueError(
                 """
                              Person find must include the following minimum

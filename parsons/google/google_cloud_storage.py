@@ -35,7 +35,6 @@ class GoogleCloudStorage(object):
     """
 
     def __init__(self, app_creds=None, project=None):
-
         setup_google_application_credentials(app_creds)
 
         # Throws an error if you pass project=None, so adding if/else statement.

@@ -4,15 +4,14 @@ import requests_mock
 import csv
 from parsons.scytl import Scytl, scytl
 
-TEST_STATE = 'GA'
-TEST_ELECTION_ID = '114729'
-TEST_VERSION_NUM = '296262'
+TEST_STATE = "GA"
+TEST_ELECTION_ID = "114729"
+TEST_VERSION_NUM = "296262"
 
 _DIR = os.path.dirname(__file__)
 
 
 class TestScytl(unittest.TestCase):
-
     def setUp(self):
         self.scy = Scytl(TEST_STATE, TEST_ELECTION_ID)
 
@@ -26,15 +25,18 @@ class TestScytl(unittest.TestCase):
     def test_get_summary_results_succeeds(self):
         result = self.scy.get_summary_results()
 
-        with open(f'{_DIR}/114729_summary_expected.csv', 'r') as expected:
+        with open(f"{_DIR}/114729_summary_expected.csv", "r") as expected:
             expectedResult = list(csv.DictReader(expected, delimiter=","))
 
             for i, row in enumerate(result):
                 expectedResultRow = expectedResult[i]
 
-                expectedResultRow['counties_reporting'] = \
-                    expectedResultRow['counties_reporting'] or None
-                expectedResultRow['total_counties'] = expectedResultRow['total_counties'] or None
+                expectedResultRow["counties_reporting"] = (
+                    expectedResultRow["counties_reporting"] or None
+                )
+                expectedResultRow["total_counties"] = (
+                    expectedResultRow["total_counties"] or None
+                )
 
                 self.assertDictEqual(row, expectedResultRow)
 
@@ -54,15 +56,20 @@ class TestScytl(unittest.TestCase):
     def test_get_detailed_results_succeeds(self):
         result = self.scy.get_detailed_results()
 
-        with open(f'{_DIR}/114729_county_expected.csv', 'r') as expected:
+        with open(f"{_DIR}/114729_county_expected.csv", "r") as expected:
             expectedResult = list(csv.DictReader(expected, delimiter=","))
 
             for i in range(len(result)):
                 expectedResultRow = expectedResult[i]
 
-                expectedResultRow['recorded_votes'] = int(expectedResultRow['recorded_votes'])
-                expectedResultRow['timestamp_last_updated'] = \
-                    self.scy._parse_date_to_utc(expectedResultRow['timestamp_last_updated'])
+                expectedResultRow["recorded_votes"] = int(
+                    expectedResultRow["recorded_votes"]
+                )
+                expectedResultRow[
+                    "timestamp_last_updated"
+                ] = self.scy._parse_date_to_utc(
+                    expectedResultRow["timestamp_last_updated"]
+                )
 
                 self.assertDictEqual(result[i], expectedResultRow)
 
@@ -79,52 +86,64 @@ class TestScytl(unittest.TestCase):
 
         self.assertIsNotNone(result)
 
-    def test_get_detailed_results_for_participating_counties_succeeds(
-        self
-    ):
+    def test_get_detailed_results_for_participating_counties_succeeds(self):
         _, result = self.scy.get_detailed_results_for_participating_counties()
 
-        with open(f'{_DIR}/114729_precinct_expected.csv', 'r') as expected:
+        with open(f"{_DIR}/114729_precinct_expected.csv", "r") as expected:
             expectedResult = list(csv.DictReader(expected, delimiter=","))
 
             for i in range(len(result)):
                 expectedResultRow = expectedResult[i]
 
-                expectedResultRow['recorded_votes'] = int(expectedResultRow['recorded_votes'])
-                expectedResultRow['timestamp_last_updated'] = \
-                    self.scy._parse_date_to_utc(expectedResultRow['timestamp_last_updated'])
+                expectedResultRow["recorded_votes"] = int(
+                    expectedResultRow["recorded_votes"]
+                )
+                expectedResultRow[
+                    "timestamp_last_updated"
+                ] = self.scy._parse_date_to_utc(
+                    expectedResultRow["timestamp_last_updated"]
+                )
 
                 self.assertDictEqual(result[i], expectedResultRow)
 
     def test_get_detailed_results_for_participating_counties_succeeds_for_two_counties(
-        self
+        self,
     ):
-        counties = ['Barrow', 'Clarke']
+        counties = ["Barrow", "Clarke"]
 
-        _, result = self.scy.get_detailed_results_for_participating_counties(county_names=counties)
+        _, result = self.scy.get_detailed_results_for_participating_counties(
+            county_names=counties
+        )
 
-        with open(f'{_DIR}/114729_precinct_expected.csv', 'r') as expected:
+        with open(f"{_DIR}/114729_precinct_expected.csv", "r") as expected:
             expectedResult = csv.DictReader(expected, delimiter=",")
 
             filteredExpectedResults = list(
-                filter(lambda x: x['county_name'] in counties, expectedResult)
+                filter(lambda x: x["county_name"] in counties, expectedResult)
             )
 
             for i, row in enumerate(result):
                 expectedResultRow = filteredExpectedResults[i]
 
-                expectedResultRow['recorded_votes'] = int(expectedResultRow['recorded_votes'])
-                expectedResultRow['timestamp_last_updated'] = \
-                    self.scy._parse_date_to_utc(expectedResultRow['timestamp_last_updated'])
+                expectedResultRow["recorded_votes"] = int(
+                    expectedResultRow["recorded_votes"]
+                )
+                expectedResultRow[
+                    "timestamp_last_updated"
+                ] = self.scy._parse_date_to_utc(
+                    expectedResultRow["timestamp_last_updated"]
+                )
 
                 self.assertDictEqual(row, expectedResultRow)
 
     def test_get_detailed_results_for_participating_counties_missing_counties_update(
-        self
+        self,
     ):
-        counties = ['Barrow']
+        counties = ["Barrow"]
 
-        _, result = self.scy.get_detailed_results_for_participating_counties(county_names=counties)
+        _, result = self.scy.get_detailed_results_for_participating_counties(
+            county_names=counties
+        )
 
         self.assertNotEqual(result, [])
 
@@ -134,10 +153,10 @@ class TestScytl(unittest.TestCase):
 
         self.assertNotEqual(result, [])
 
-        self.assertTrue(all(x['county_name'] not in counties for x in result))
+        self.assertTrue(all(x["county_name"] not in counties for x in result))
 
     def test_get_detailed_results_for_participating_counties_skips_if_no_version_update(
-        self
+        self,
     ):
         _, result = self.scy.get_detailed_results_for_participating_counties()
 
@@ -147,12 +166,14 @@ class TestScytl(unittest.TestCase):
 
         self.assertEqual(result, [])
 
-        _, result = self.scy.get_detailed_results_for_participating_counties(force_update=True)
+        _, result = self.scy.get_detailed_results_for_participating_counties(
+            force_update=True
+        )
 
         self.assertNotEqual(result, [])
 
     def test_get_detailed_results_for_participating_counties_skips_if_no_county_version_update(
-        self
+        self,
     ):
         _, result = self.scy.get_detailed_results_for_participating_counties()
 
@@ -165,14 +186,14 @@ class TestScytl(unittest.TestCase):
         self.assertEqual(result, [])
 
     def test_get_detailed_results_for_participating_counties_repeats_failed_counties(
-        self
+        self,
     ):
         _, result = self.scy.get_detailed_results_for_participating_counties()
 
         self.assertNotEqual(result, [])
 
         self.scy.previous_county_details_version_num = None
-        self.scy.previously_fetched_counties.remove('Barrow')
+        self.scy.previously_fetched_counties.remove("Barrow")
 
         _, result = self.scy.get_detailed_results_for_participating_counties()
 
@@ -189,26 +210,34 @@ class TestScytl(unittest.TestCase):
             state=TEST_STATE, election_id=TEST_ELECTION_ID, version_num=TEST_VERSION_NUM
         )
 
-        with open(f'{_DIR}/GA_114729_296262_county_election_settings.json', 'r') as details_file:
+        with open(
+            f"{_DIR}/GA_114729_296262_county_election_settings.json", "r"
+        ) as details_file:
             m.get(mock_election_settings_url, text=details_file.read())
 
-        for file in os.listdir(f'{_DIR}/mock_responses'):
-            with open(f'{_DIR}/mock_responses/{file}', 'rb') as details_file:
-                file_url = f'https://results.enr.clarityelections.com/{file}'.replace('_', '/')
+        for file in os.listdir(f"{_DIR}/mock_responses"):
+            with open(f"{_DIR}/mock_responses/{file}", "rb") as details_file:
+                file_url = f"https://results.enr.clarityelections.com/{file}".replace(
+                    "_", "/"
+                )
                 m.get(file_url, content=details_file.read())
 
         mock_summary_csv_url = scytl.SUMMARY_CSV_ZIP_URL_TEMPLATE.format(
-            administrator=TEST_STATE, election_id=TEST_ELECTION_ID, version_num=TEST_VERSION_NUM
+            administrator=TEST_STATE,
+            election_id=TEST_ELECTION_ID,
+            version_num=TEST_VERSION_NUM,
         )
 
-        with open(f'{_DIR}/114729_summary.zip', 'rb') as summary:
+        with open(f"{_DIR}/114729_summary.zip", "rb") as summary:
             m.get(mock_summary_csv_url, content=summary.read())
 
         mock_detail_xml_url = scytl.DETAIL_XML_ZIP_URL_TEMPLATE.format(
-            administrator=TEST_STATE, election_id=TEST_ELECTION_ID, version_num=TEST_VERSION_NUM
+            administrator=TEST_STATE,
+            election_id=TEST_ELECTION_ID,
+            version_num=TEST_VERSION_NUM,
         )
 
-        with open(f'{_DIR}/114729_detailxml.zip', 'rb') as detailxml:
+        with open(f"{_DIR}/114729_detailxml.zip", "rb") as detailxml:
             m.get(mock_detail_xml_url, content=detailxml.read())
 
         m.start()

@@ -11,17 +11,17 @@ from parsons.etl.table import Table
 
 logger = logging.getLogger(__name__)
 _handler = logging.StreamHandler()
-_formatter = logging.Formatter('%(module)s %(levelname)s %(message)s')
+_formatter = logging.Formatter("%(module)s %(levelname)s %(message)s")
 _handler.setFormatter(_formatter)
 logger.addHandler(_handler)
 
-if os.environ.get('TESTING'):
+if os.environ.get("TESTING"):
     # Log less stuff in automated tests
-    logger.setLevel('WARNING')
-elif os.environ.get('DEBUG'):
-    logger.setLevel('DEBUG')
+    logger.setLevel("WARNING")
+elif os.environ.get("DEBUG"):
+    logger.setLevel("DEBUG")
 else:
-    logger.setLevel('INFO')
+    logger.setLevel("INFO")
 
 # Table is referenced by many connectors, so we add it immediately to limit the damage
 # of circular dependencies
@@ -50,6 +50,7 @@ for module_path, connector_name in (
     ("parsons.databases.mysql.mysql", "MySQL"),
     ("parsons.databases.postgres.postgres", "Postgres"),
     ("parsons.databases.redshift.redshift", "Redshift"),
+    ("parsons.donorbox.donorbox", "Donorbox"),
     ("parsons.facebook_ads.facebook_ads", "FacebookAds"),
     ("parsons.freshdesk.freshdesk", "Freshdesk"),
     ("parsons.geocode.census_geocoder", "CensusGeocoder"),
@@ -82,12 +83,10 @@ for module_path, connector_name in (
     ("parsons.turbovote.turbovote", "TurboVote"),
     ("parsons.twilio.twilio", "Twilio"),
     ("parsons.zoom.zoom", "Zoom"),
-
 ):
     try:
         globals()[connector_name] = getattr(
-            importlib.import_module(module_path),
-            connector_name
+            importlib.import_module(module_path), connector_name
         )
         __all__.append(connector_name)
     except ImportError:

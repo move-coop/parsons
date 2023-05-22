@@ -25,11 +25,8 @@ class Activities:
             activity_name str: The activity name
             canvassing_shift bool: The canvassing shift
         """
-        payload = {
-            "activityName": activity_name,
-            "canvassingShift": canvassing_shift
-        }
-        return self._request(self.url_activites, req_type='POST', post_data=payload)
+        payload = {"activityName": activity_name, "canvassingShift": canvassing_shift}
+        return self._request(self.url_activites, req_type="POST", post_data=payload)
 
     def get_activity(self, id: str):
         """
@@ -51,8 +48,7 @@ class Activities:
             activity_name str: The activity name
             canvassing_shift bool: The canvassing shift
         """
-        payload = {
-            "activityName": activity_name,
-            "canvassingShift": canvassing_shift
-        }
-        return self._request(f"{self.url_activites}/{id}", req_type='PUT', post_data=payload)
+        payload = {"activityName": activity_name, "canvassingShift": canvassing_shift}
+        return self._request(
+            f"{self.url_activites}/{id}", req_type="PUT", post_data=payload
+        )

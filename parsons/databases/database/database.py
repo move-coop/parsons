@@ -2,8 +2,7 @@ import parsons.databases.database.constants as consts
 import ast
 
 
-class DatabaseCreateStatement():
-
+class DatabaseCreateStatement:
     def __init__(self):
         self.INT_TYPES = consts.INT_TYPES
         self.SMALLINT = consts.SMALLINT
@@ -104,8 +103,11 @@ class DatabaseCreateStatement():
         # then it's a valid sql number
         # Also check the first character is not zero
         try:
-            if ((float(val) or 1) and "_" not in val and
-                    (val in ("0", "0.0") or val[0] != "0")):
+            if (
+                (float(val) or 1)
+                and "_" not in val
+                and (val in ("0", "0.0") or val[0] != "0")
+            ):
                 return True
             else:
                 return False
@@ -132,8 +134,9 @@ class DatabaseCreateStatement():
             return
 
         if isinstance(val, bool) or (
-                type(val) in (int, str) and
-                str(val).upper() in self.TRUE_VALS + self.FALSE_VALS):
+            type(val) in (int, str)
+            and str(val).upper() in self.TRUE_VALS + self.FALSE_VALS
+        ):
             return True
         return False
 
@@ -205,11 +208,11 @@ class DatabaseCreateStatement():
         if type_lit == int and cmp_type in (self.INT_TYPES + [None, "", self.BOOL]):
 
             # Use smallest possible int type above TINYINT
-            if (self.SMALLINT_MIN < val_lit < self.SMALLINT_MAX):
+            if self.SMALLINT_MIN < val_lit < self.SMALLINT_MAX:
                 return self.get_bigger_int(self.SMALLINT, cmp_type)
-            elif (self.MEDIUMINT_MIN < val_lit < self.MEDIUMINT_MAX):
+            elif self.MEDIUMINT_MIN < val_lit < self.MEDIUMINT_MAX:
                 return self.get_bigger_int(self.MEDIUMINT, cmp_type)
-            elif (self.INT_MIN < val_lit < self.INT_MAX):
+            elif self.INT_MIN < val_lit < self.INT_MAX:
                 return self.get_bigger_int(self.INT, cmp_type)
             else:
                 return self.BIGINT
@@ -261,7 +264,7 @@ class DatabaseCreateStatement():
             col = f"x_{col}"
 
         if len(col) > self.COL_NAME_MAX_LEN:
-            col = col[:self.COL_NAME_MAX_LEN]
+            col = col[: self.COL_NAME_MAX_LEN]
 
         return col
 

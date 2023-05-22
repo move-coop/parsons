@@ -2,7 +2,7 @@ class Locations:
     """A class for getting, creating, and editing PDI locations"""
 
     def __init__(self):
-        self.locations_url = self.base_url + '/locations'
+        self.locations_url = self.base_url + "/locations"
 
         super().__init__()
 
@@ -30,22 +30,18 @@ class Locations:
         `Returns:`
             dict
                 Response from PDI in dictionary object
-            """
+        """
 
-        payload = {
-            'locationName': name,
-            'locationAddress': address
-        }
-        return self._request(self.locations_url, req_type='POST', post_data=payload)
+        payload = {"locationName": name, "locationAddress": address}
+        return self._request(self.locations_url, req_type="POST", post_data=payload)
 
     def get_location(self, id: str):
         return self._request(f"{self.locations_url}/{id}")
 
     def update_location(self, id: str, location_name: str, address: str):
-        payload = {
-            "locationName": location_name,
-            "locationAddress": address
-        }
-        res = self._request(f"{self.locations_url}/{id}", req_type='PUT', post_data=payload)
+        payload = {"locationName": location_name, "locationAddress": address}
+        res = self._request(
+            f"{self.locations_url}/{id}", req_type="PUT", post_data=payload
+        )
         if res["code"] == 201:
             return True

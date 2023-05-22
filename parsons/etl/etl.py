@@ -5,7 +5,6 @@ logger = logging.getLogger(__name__)
 
 
 class ETL(object):
-
     def __init__(self):
 
         pass
@@ -81,8 +80,9 @@ class ETL(object):
         """
 
         if callable(fill_value):
-            self.table = petl.convert(self.table, column_name, lambda _, r: fill_value(r),
-                                      pass_row=True)
+            self.table = petl.convert(
+                self.table, column_name, lambda _, r: fill_value(r), pass_row=True
+            )
         else:
             self.table = petl.update(self.table, column_name, fill_value)
 
@@ -102,11 +102,20 @@ class ETL(object):
         """
 
         if callable(fill_value):
-            self.table = petl.convert(self.table, column_name, lambda _, r: fill_value(r),
-                                      where=lambda r: r[column_name] is None, pass_row=True)
+            self.table = petl.convert(
+                self.table,
+                column_name,
+                lambda _, r: fill_value(r),
+                where=lambda r: r[column_name] is None,
+                pass_row=True,
+            )
         else:
-            self.table = petl.update(self.table, column_name, fill_value,
-                                     where=lambda r: r[column_name] is None)
+            self.table = petl.update(
+                self.table,
+                column_name,
+                fill_value,
+                where=lambda r: r[column_name] is None,
+            )
 
         return self
 
@@ -161,8 +170,8 @@ class ETL(object):
 
         for v in petl.values(self.table, column):
 
-            if len(str(v).encode('utf-8')) > max_width:
-                max_width = len(str(v).encode('utf-8'))
+            if len(str(v).encode("utf-8")) > max_width:
+                max_width = len(str(v).encode("utf-8"))
 
         return max_width
 
@@ -189,8 +198,8 @@ class ETL(object):
         for col in cols:
             # If there's more than one type (or no types), convert to str
             # Also if there is one type and it's not str, convert to str
-            if len(col['type']) != 1 or col['type'][0] != 'str':
-                self.convert_column(col['name'], str_or_empty)
+            if len(col["type"]) != 1 or col["type"][0] != "str":
+                self.convert_column(col["name"], str_or_empty)
 
         return self
 
@@ -212,6 +221,7 @@ class ETL(object):
         """
 
         if dest_column in self.columns:
+
             def convert_fn(value, row):
                 for source_col in source_columns:
                     if row.get(source_col):
@@ -221,6 +231,7 @@ class ETL(object):
             self.convert_column(dest_column, convert_fn, pass_row=True)
 
         else:
+
             def add_fn(row):
                 for source_col in source_columns:
                     if row.get(source_col):
@@ -268,7 +279,7 @@ class ETL(object):
         for col in self.columns:
 
             if not exact_match:
-                cleaned_col = col.lower().replace('_', '').replace(' ', '')
+                cleaned_col = col.lower().replace("_", "").replace(" ", "")
             else:
                 cleaned_col = col
 
@@ -321,8 +332,8 @@ class ETL(object):
             # if the key from the mapping dict already exists in the table,
             # rename it so it can be coalesced with other possible columns
             if key in self.columns:
-                self.rename_column(key, f'{key}_temp')
-                coalesce_list.insert(0, f'{key}_temp')
+                self.rename_column(key, f"{key}_temp")
+                coalesce_list.insert(0, f"{key}_temp")
 
             # coalesce columns
             self.coalesce_columns(key, coalesce_list, remove_source_columns=True)
@@ -355,8 +366,10 @@ class ETL(object):
                 A list of dicts, each containing a column 'name' and a 'type' list
         """
 
-        return [{'name': col, 'type': self.get_column_types(col)}
-                for col in self.table.columns()]
+        return [
+            {"name": col, "type": self.get_column_types(col)}
+            for col in self.table.columns()
+        ]
 
     def convert_table(self, *args):
         """
@@ -376,9 +389,16 @@ class ETL(object):
 
         return self
 
-    def unpack_dict(self, column, keys=None, include_original=False,
-                    sample_size=5000, missing=None, prepend=True,
-                    prepend_value=None):
+    def unpack_dict(
+        self,
+        column,
+        keys=None,
+        include_original=False,
+        sample_size=5000,
+        missing=None,
+        prepend=True,
+        prepend_value=None,
+    ):
         """
         Unpack dictionary values from one column into separate columns
 
@@ -407,18 +427,28 @@ class ETL(object):
                 prepend_value = column
 
             self.table = petl.convert(
-                self.table,
-                column,
-                lambda v: self._prepend_dict(v, prepend_value))
+                self.table, column, lambda v: self._prepend_dict(v, prepend_value)
+            )
 
         self.table = petl.unpackdict(
-            self.table, column, keys=keys, includeoriginal=include_original,
-            samplesize=sample_size, missing=missing)
+            self.table,
+            column,
+            keys=keys,
+            includeoriginal=include_original,
+            samplesize=sample_size,
+            missing=missing,
+        )
 
         return self
 
-    def unpack_list(self, column, include_original=False, missing=None, replace=False,
-                    max_columns=None):
+    def unpack_list(
+        self,
+        column,
+        include_original=False,
+        missing=None,
+        replace=False,
+        max_columns=None,
+    ):
         """
         Unpack list values from one column into separate columns. Numbers the
         columns.
@@ -475,10 +505,15 @@ class ETL(object):
         # Create new column names "COL_01, COL_02"
         new_cols = []
         for i in range(col_count):
-            new_cols.append(column + '_' + str(i))
+            new_cols.append(column + "_" + str(i))
 
-        tbl = petl.unpack(self.table, column, new_cols,
-                          include_original=include_original, missing=missing)
+        tbl = petl.unpack(
+            self.table,
+            column,
+            new_cols,
+            include_original=include_original,
+            missing=missing,
+        )
 
         if replace:
             self.table = tbl
@@ -486,7 +521,7 @@ class ETL(object):
         else:
             return tbl
 
-    def unpack_nested_columns_as_rows(self, column, key='id', expand_original=False):
+    def unpack_nested_columns_as_rows(self, column, key="id", expand_original=False):
         """
         Unpack list or dict values from one column into separate rows.
         Not recommended for JSON columns (i.e. lists of dicts), but can handle columns
@@ -508,7 +543,11 @@ class ETL(object):
         """
 
         if isinstance(expand_original, int) and expand_original is not True:
-            lengths = {len(row[column]) for row in self if isinstance(row[column], (dict, list))}
+            lengths = {
+                len(row[column])
+                for row in self
+                if isinstance(row[column], (dict, list))
+            }
             max_len = sorted(lengths, reverse=True)[0]
             if max_len > expand_original:
                 expand_original = False
@@ -520,7 +559,9 @@ class ETL(object):
         else:
             # Otherwise, include only key and column, but keep all non-dict types in table_list
             table = self.cut(key, column)
-            table_list = table.select_rows(lambda row: not isinstance(row[column], dict))
+            table_list = table.select_rows(
+                lambda row: not isinstance(row[column], dict)
+            )
 
         # All the columns other than column to ignore while melting
         ignore_cols = table.columns
@@ -531,8 +572,8 @@ class ETL(object):
 
         # Rename the columns to retain only the number
         for col in table_list.columns:
-            if f'{column}_' in col:
-                table_list.rename_column(col, col.replace(f'{column}_', ""))
+            if f"{column}_" in col:
+                table_list.rename_column(col, col.replace(f"{column}_", ""))
 
         # Filter dicts and unpack as separate columns
         table_dict = table.select_rows(lambda row: isinstance(row[column], dict))
@@ -544,11 +585,11 @@ class ETL(object):
         melted_list = Table(petl.melt(table_list.table, ignore_cols))
         melted_dict = Table(petl.melt(table_dict.table, ignore_cols))
 
-        melted_list.remove_null_rows('value')
-        melted_dict.remove_null_rows('value')
+        melted_list.remove_null_rows("value")
+        melted_dict.remove_null_rows("value")
 
-        melted_list.rename_column('variable', column)
-        melted_dict.rename_column('variable', column)
+        melted_list.rename_column("variable", column)
+        melted_dict.rename_column("variable", column)
 
         # Combine the list and dict Tables
         melted_list.concat(melted_dict)
@@ -557,19 +598,22 @@ class ETL(object):
 
         if expand_original:
             # Add unpacked rows to the original table (minus packed rows)
-            orig = self.select_rows(lambda row: not isinstance(row[column], (dict, list)))
+            orig = self.select_rows(
+                lambda row: not isinstance(row[column], (dict, list))
+            )
             orig.concat(melted_list)
             # Add unique id column by hashing all the other fields
-            if 'uid' not in self.columns:
-                orig.add_column('uid', lambda row: hashlib.md5(
-                    str.encode(
-                        ''.join([str(x) for x in row])
-                        )
-                    ).hexdigest())
-                orig.move_column('uid', 0)
+            if "uid" not in self.columns:
+                orig.add_column(
+                    "uid",
+                    lambda row: hashlib.md5(
+                        str.encode("".join([str(x) for x in row]))
+                    ).hexdigest(),
+                )
+                orig.move_column("uid", 0)
 
             # Rename value column in case this is done again to this Table
-            orig.rename_column('value', f'{column}_value')
+            orig.rename_column("value", f"{column}_value")
 
             # Keep column next to column_value
             orig.move_column(column, -1)
@@ -577,19 +621,27 @@ class ETL(object):
         else:
             orig = self.remove_column(column)
             # Add unique id column by hashing all the other fields
-            melted_list.add_column('uid', lambda row: hashlib.md5(
-                str.encode(
-                    ''.join([str(x) for x in row])
-                    )
-                ).hexdigest())
-            melted_list.move_column('uid', 0)
+            melted_list.add_column(
+                "uid",
+                lambda row: hashlib.md5(
+                    str.encode("".join([str(x) for x in row]))
+                ).hexdigest(),
+            )
+            melted_list.move_column("uid", 0)
             output = melted_list
 
         self = orig
         return output
 
-    def long_table(self, key, column, key_rename=None, retain_original=False,
-                   prepend=True, prepend_value=None):
+    def long_table(
+        self,
+        key,
+        column,
+        key_rename=None,
+        retain_original=False,
+        prepend=True,
+        prepend_value=None,
+    ):
         """
         Create a new long parsons table from a column, including the foreign
         key.
@@ -644,8 +696,8 @@ class ETL(object):
         lt = self.cut(*key, column)  # Create a table of key and column
         lt.unpack_list(column, replace=True)  # Unpack the list
         lt.table = petl.melt(lt.table, key)  # Melt into a long table
-        lt = lt.cut(*key, 'value')  # Get rid of column names created in unpack
-        lt.rename_column('value', column)  # Rename 'value' to old column name
+        lt = lt.cut(*key, "value")  # Get rid of column names created in unpack
+        lt.rename_column("value", column)  # Rename 'value' to old column name
         lt.remove_null_rows(column)  # Remove null values
 
         # If a new key name is specified, rename
@@ -742,7 +794,7 @@ class ETL(object):
 
         for k, v in dict_obj.items():
 
-            new_dict[prepend + '_' + k] = v
+            new_dict[prepend + "_" + k] = v
 
         return new_dict
 
@@ -804,7 +856,11 @@ class ETL(object):
         """
 
         from parsons.etl import Table
-        return [Table(petl.rowslice(self.table, i, i+rows)) for i in range(0, self.num_rows, rows)]
+
+        return [
+            Table(petl.rowslice(self.table, i, i + rows))
+            for i in range(0, self.num_rows, rows)
+        ]
 
     @staticmethod
     def get_normalized_column_name(column_name):
@@ -818,10 +874,15 @@ class ETL(object):
         """
 
         column_name = column_name.lower().strip()
-        return ''.join(c for c in column_name if c.isalnum())
+        return "".join(c for c in column_name if c.isalnum())
 
-    def match_columns(self, desired_columns, fuzzy_match=True, if_extra_columns='remove',
-                      if_missing_columns='add'):
+    def match_columns(
+        self,
+        desired_columns,
+        fuzzy_match=True,
+        if_extra_columns="remove",
+        if_missing_columns="add",
+    ):
         """
         Changes the column names and ordering in this Table to match a list of desired column
         names.
@@ -848,7 +909,9 @@ class ETL(object):
 
         from parsons.etl import Table  # Just trying to avoid recursive imports.
 
-        normalize_fn = Table.get_normalized_column_name if fuzzy_match else (lambda s: s)
+        normalize_fn = (
+            Table.get_normalized_column_name if fuzzy_match else (lambda s: s)
+        )
 
         # Create a mapping of our "normalized" name to the original column name
         current_columns_normalized = {
@@ -871,20 +934,22 @@ class ETL(object):
             # Try to find our desired column in our Table
             if normalized_desired not in current_columns_normalized:
                 # If we can't find our desired column in our current columns, then it's "missing"
-                if if_missing_columns == 'fail':
+                if if_missing_columns == "fail":
                     # If our missing strategy is to fail, raise an exception
                     raise TypeError(f"Table is missing column {desired_column}")
-                elif if_missing_columns == 'add':
+                elif if_missing_columns == "add":
                     # We have to add to our table
                     columns_to_add.append(desired_column)
                     # We will need to remember this column when we cut down to desired columns
                     cut_columns.append(desired_column)
                     # This will be in the final table
                     final_header.append(desired_column)
-                elif if_missing_columns != 'ignore':
+                elif if_missing_columns != "ignore":
                     # If it's not ignore, add, or fail, then it's not a valid strategy
-                    raise TypeError(f"Invalid option {if_missing_columns} for "
-                                    "argument `if_missing_columns`")
+                    raise TypeError(
+                        f"Invalid option {if_missing_columns} for "
+                        "argument `if_missing_columns`"
+                    )
             else:
                 # We have found this in our current columns, so take it out of our list to search
                 current_column = current_columns_normalized.pop(normalized_desired)
@@ -896,18 +961,20 @@ class ETL(object):
         # Look for any "extra" columns from our current table that aren't in our desired columns
         for current_column in current_columns_normalized.values():
             # Figure out what to do with our "extra" columns
-            if if_extra_columns == 'fail':
+            if if_extra_columns == "fail":
                 # If our missing strategy is to fail, raise an exception
                 raise TypeError(f"Table has extra column {current_column}")
-            elif if_extra_columns == 'ignore':
+            elif if_extra_columns == "ignore":
                 # If we're "ignore"ing our extra columns, we should keep them by adding them to
                 # our intermediate and final columns list
                 cut_columns.append(current_column)
                 final_header.append(current_column)
-            elif if_extra_columns != 'remove':
+            elif if_extra_columns != "remove":
                 # If it's not ignore, add, or fail, then it's not a valid strategy
-                raise TypeError(f"Invalid option {if_extra_columns} for "
-                                "argument `if_extra_columns`")
+                raise TypeError(
+                    f"Invalid option {if_extra_columns} for "
+                    "argument `if_extra_columns`"
+                )
 
         # Add any columns we need to add
         for column in columns_to_add:
@@ -921,8 +988,7 @@ class ETL(object):
 
         return self
 
-    def reduce_rows(self, columns, reduce_func, headers, presorted=False,
-                    **kwargs):
+    def reduce_rows(self, columns, reduce_func, headers, presorted=False, **kwargs):
         """
         Group rows by a column or columns, then reduce the groups to a single row.
 
@@ -988,7 +1054,7 @@ class ETL(object):
         `Returns:`
             `Parsons Table` and also updates self
 
-        """ # noqa: E501,E261
+        """  # noqa: E501,E261
 
         self.table = petl.rowreduce(
             self.table,
@@ -996,7 +1062,8 @@ class ETL(object):
             reduce_func,
             header=headers,
             presorted=presorted,
-            **kwargs)
+            **kwargs,
+        )
 
         return self
 
@@ -1080,8 +1147,8 @@ class ETL(object):
         `Returns:`
             `parsons.Table` or `petl` table
         """  # noqa: E501
-        update_table = kwargs.pop('update_table', False)
-        to_petl = kwargs.pop('to_petl', False)
+        update_table = kwargs.pop("update_table", False)
+        to_petl = kwargs.pop("to_petl", False)
 
         if update_table:
             self.table = getattr(petl, petl_method)(self.table, *args, **kwargs)

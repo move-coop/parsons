@@ -24,15 +24,15 @@ class Twilio:
 
     def __init__(self, account_sid=None, auth_token=None):
 
-        self.account_sid = check_env.check('TWILIO_ACCOUNT_SID', account_sid)
-        self.auth_token = check_env.check('TWILIO_AUTH_TOKEN', auth_token)
+        self.account_sid = check_env.check("TWILIO_ACCOUNT_SID", account_sid)
+        self.auth_token = check_env.check("TWILIO_AUTH_TOKEN", auth_token)
         self.client = Client(self.account_sid, self.auth_token)
 
     def _table_convert(self, obj):
-        tbl = Table([x.__dict__['_properties'] for x in obj])
+        tbl = Table([x.__dict__["_properties"] for x in obj])
 
-        if 'subresource_uris' in tbl.columns and 'uri' in tbl.columns:
-            tbl.remove_column('subresource_uris', 'uri')
+        if "subresource_uris" in tbl.columns and "uri" in tbl.columns:
+            tbl.remove_column("subresource_uris", "uri")
 
         return tbl
 
@@ -48,7 +48,7 @@ class Twilio:
         """
 
         r = self.client.api.accounts(account_sid)
-        logger.info(f'Retrieved {account_sid} account.')
+        logger.info(f"Retrieved {account_sid} account.")
         return r.__dict__
 
     def get_accounts(self, name=None, status=None):
@@ -68,11 +68,18 @@ class Twilio:
         r = self.client.api.accounts.list(friendly_name=name, status=status)
         tbl = self._table_convert(r)
 
-        logger.info(f'Retrieved {tbl.num_rows} accounts.')
+        logger.info(f"Retrieved {tbl.num_rows} accounts.")
         return tbl
 
-    def get_account_usage(self, category=None, start_date=None, end_date=None, time_period=None,
-                          group_by=None, exclude_null=False):
+    def get_account_usage(
+        self,
+        category=None,
+        start_date=None,
+        end_date=None,
+        time_period=None,
+        group_by=None,
+        exclude_null=False,
+    ):
         """
         Get Twilio account usage.
 
@@ -95,30 +102,28 @@ class Twilio:
         `Returns:`
             Parsons Table
                 See :ref:`parsons-table` for output options.
-        """ # noqa: E501,E261
+        """  # noqa: E501,E261
 
         # Add populated arguments
-        args = {'category': category,
-                'start_date': start_date,
-                'end_date': end_date}
+        args = {"category": category, "start_date": start_date, "end_date": end_date}
         args = json_format.remove_empty_keys(args)
 
         # Parse out the time_periods
-        if time_period == 'today':
+        if time_period == "today":
             r = self.client.usage.records.today.list(**args)
-        elif time_period == 'yesterday':
+        elif time_period == "yesterday":
             r = self.client.usage.records.yesterday.list(**args)
-        elif time_period == 'this_month':
+        elif time_period == "this_month":
             r = self.client.usage.records.this_month.list(**args)
-        elif time_period == 'last_month':
+        elif time_period == "last_month":
             r = self.client.usage.records.last_month.list(**args)
 
         # Parse out the group by
-        elif group_by == 'daily':
+        elif group_by == "daily":
             r = self.client.usage.records.daily.list(**args)
-        elif group_by == 'monthly':
+        elif group_by == "monthly":
             r = self.client.usage.records.monthly.list(**args)
-        elif group_by == 'yearly':
+        elif group_by == "yearly":
             r = self.client.usage.records.yearly.list(**args)
         else:
             r = self.client.usage.records.list(**args)
@@ -126,12 +131,18 @@ class Twilio:
         tbl = self._table_convert(r)
 
         if exclude_null:
-            tbl.remove_null_rows('count', null_value='0')
+            tbl.remove_null_rows("count", null_value="0")
 
         return tbl
 
-    def get_messages(self, to=None, from_=None, date_sent=None, date_sent_before=None,
-                     date_sent_after=None):
+    def get_messages(
+        self,
+        to=None,
+        from_=None,
+        date_sent=None,
+        date_sent_before=None,
+        date_sent_after=None,
+    ):
         """
         Get Twilio messages.
 
@@ -151,10 +162,14 @@ class Twilio:
                 See :ref:`parsons-table` for output options.
         """
 
-        r = self.client.messages.list(to=to, from_=from_, date_sent=date_sent,
-                                      date_sent_before=date_sent_before,
-                                      date_sent_after=date_sent_after)
+        r = self.client.messages.list(
+            to=to,
+            from_=from_,
+            date_sent=date_sent,
+            date_sent_before=date_sent_before,
+            date_sent_after=date_sent_after,
+        )
 
         tbl = self._table_convert(r)
-        logger.info(f'Retrieved {tbl.num_rows} messages.')
+        logger.info(f"Retrieved {tbl.num_rows} messages.")
         return tbl

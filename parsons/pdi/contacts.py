@@ -5,9 +5,16 @@ class Contacts:
         self.url_contacts = self.base_url + "/contacts"
         super().__init__()
 
-    def get_contacts(self, email: str = None, phone: str = None, first_name: str = None,
-                     last_name: str = None, zip_code: str = None, search_by_email: bool = False,
-                     limit: int = None):
+    def get_contacts(
+        self,
+        email: str = None,
+        phone: str = None,
+        first_name: str = None,
+        last_name: str = None,
+        zip_code: str = None,
+        search_by_email: bool = False,
+        limit: int = None,
+    ):
         """
         Get a list of Contacts.
         `Args:`
@@ -29,14 +36,27 @@ class Contacts:
             "firstName": first_name,
             "lastName": last_name,
             "zipCode": zip_code,
-            "searchByEmail": search_by_email
+            "searchByEmail": search_by_email,
         }
         return self._request(self.url_contacts, args=params, limit=limit)
 
-    def create_contact(self, name_prefix="", first_name="", last_name="", middle_name="",
-                       name_suffix="", nickname="", occupation="", employer="", volunteer_status="",
-                       donor_status="", member_status="", date_of_birth=None, gender=None,
-                       pdi_id=None):
+    def create_contact(
+        self,
+        name_prefix="",
+        first_name="",
+        last_name="",
+        middle_name="",
+        name_suffix="",
+        nickname="",
+        occupation="",
+        employer="",
+        volunteer_status="",
+        donor_status="",
+        member_status="",
+        date_of_birth=None,
+        gender=None,
+        pdi_id=None,
+    ):
         """
         Create new contact
         `Args:`
@@ -78,9 +98,9 @@ class Contacts:
             "memberStatus": member_status,
             "dateOfBirth": date_of_birth,
             "gender": gender,
-            "pdiId": pdi_id
+            "pdiId": pdi_id,
         }
-        return self._request(self.url_contacts, req_type='POST', post_data=payload)
+        return self._request(self.url_contacts, req_type="POST", post_data=payload)
 
     def get_contact(self, id: str):
         """
@@ -96,9 +116,23 @@ class Contacts:
         # todo not working quite right
         return self._request(f"{self.url_contacts}/{id}")
 
-    def update_contact(self, id, first_name, last_name, name_prefix="", middle_name="",
-                       name_suffix="", nickname="", occupation="", employer="", volunteer_status="",
-                       donor_status="", member_status="", date_of_birth=None, gender="U"):
+    def update_contact(
+        self,
+        id,
+        first_name,
+        last_name,
+        name_prefix="",
+        middle_name="",
+        name_suffix="",
+        nickname="",
+        occupation="",
+        employer="",
+        volunteer_status="",
+        donor_status="",
+        member_status="",
+        date_of_birth=None,
+        gender="U",
+    ):
         """
         Update Contact
         `Args:`
@@ -138,14 +172,22 @@ class Contacts:
             "donorStatus": donor_status,
             "memberStatus": member_status,
             "dateOfBirth": date_of_birth,
-            "gender": gender
+            "gender": gender,
         }
-        res = self._request(f"{self.url_contacts}/{id}", req_type='PUT', post_data=payload)
+        res = self._request(
+            f"{self.url_contacts}/{id}", req_type="PUT", post_data=payload
+        )
         if res["code"] == 201:
             return True
 
-    def add_phone(self, contact_id: int, phone_number: str, phone_type='Mobile', primary=True,
-                  extension=None):
+    def add_phone(
+        self,
+        contact_id: int,
+        phone_number: str,
+        phone_type="Mobile",
+        primary=True,
+        extension=None,
+    ):
         """Add a phone number to a contact
         `Args:`
             contact_id: int
@@ -163,16 +205,19 @@ class Contacts:
         """
 
         payload = {
-            'phoneNumber': phone_number,
-            'phoneType': phone_type,
-            'isPrimary': primary
+            "phoneNumber": phone_number,
+            "phoneType": phone_type,
+            "isPrimary": primary,
         }
 
         if extension:
-            payload['extension'] = extension
+            payload["extension"] = extension
 
-        response = self._request(self.url_contacts + f'/{str(contact_id)}/phones', req_type='POST',
-                                 post_data=payload)
+        response = self._request(
+            self.url_contacts + f"/{str(contact_id)}/phones",
+            req_type="POST",
+            post_data=payload,
+        )
 
         return response
 
@@ -189,13 +234,13 @@ class Contacts:
                 Response from PDI
         """
 
-        payload = {
-            'emailAddress': email,
-            'isPrimary': primary
-        }
+        payload = {"emailAddress": email, "isPrimary": primary}
 
-        response = self._request(self.url_contacts + f'/{str(contact_id)}/emails', req_type='POST',
-                                 post_data=payload)
+        response = self._request(
+            self.url_contacts + f"/{str(contact_id)}/emails",
+            req_type="POST",
+            post_data=payload,
+        )
 
         return response
 

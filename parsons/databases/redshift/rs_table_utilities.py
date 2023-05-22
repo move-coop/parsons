@@ -1,11 +1,11 @@
 import logging
+
 # import pkgutil
 
 logger = logging.getLogger(__name__)
 
 
 class RedshiftTableUtilities(object):
-
     def __init__(self):
         pass
 
@@ -27,12 +27,14 @@ class RedshiftTableUtilities(object):
             return self.table_exists_with_connection(table_name, connection, view)
 
     def table_exists_with_connection(self, table_name, connection, view=True):
-        table_name = table_name.lower().split('.')
+        table_name = table_name.lower().split(".")
         table_name = [x.strip() for x in table_name]
 
         # Check in pg tables for the table
         sql = """select count(*) from pg_tables where schemaname='{}' and
-                 tablename='{}';""".format(table_name[0], table_name[1])
+                 tablename='{}';""".format(
+            table_name[0], table_name[1]
+        )
 
         # TODO maybe convert these queries to use self.query_with_connection
 
@@ -44,17 +46,19 @@ class RedshiftTableUtilities(object):
             # Check in the pg_views for the table
             if view:
                 sql = """select count(*) from pg_views where schemaname='{}' and
-                         viewname='{}';""".format(table_name[0], table_name[1])
+                         viewname='{}';""".format(
+                    table_name[0], table_name[1]
+                )
 
             cursor.execute(sql)
             result += cursor.fetchone()[0]
 
         # If in either, return boolean
         if result >= 1:
-            logger.debug(f'{table_name[0]}.{table_name[1]} exists.')
+            logger.debug(f"{table_name[0]}.{table_name[1]} exists.")
             return True
         else:
-            logger.debug(f'{table_name[0]}.{table_name[1]} does NOT exist.')
+            logger.debug(f"{table_name[0]}.{table_name[1]} does NOT exist.")
             return False
 
     def get_row_count(self, table_name):
@@ -75,7 +79,7 @@ class RedshiftTableUtilities(object):
         """
 
         count_query = self.query(f"select count(*) from {table_name}")
-        return count_query[0]['count']
+        return count_query[0]["count"]
 
     def rename_table(self, table_name, new_table_name):
         """
@@ -113,7 +117,7 @@ class RedshiftTableUtilities(object):
                 Drop the source table.
         Returns:
                 None
-        """ # noqa: E501,E261
+        """  # noqa: E501,E261
 
         # To Do: Add the grants
         # To Do: Argument for if the table exists?
@@ -122,7 +126,7 @@ class RedshiftTableUtilities(object):
         create_sql = f"create table {new_table} (like {source_table});"
         alter_sql = f"alter table {new_table} append from {source_table}"
 
-        logger.info(f'Creating empty {new_table} from {source_table}.')
+        logger.info(f"Creating empty {new_table} from {source_table}.")
         self.query(create_sql)
 
         with self.connection() as conn:
@@ -132,14 +136,14 @@ class RedshiftTableUtilities(object):
             #  the connection must be set to autocommit.
 
             conn.set_session(autocommit=True)
-            logger.info(f'Moving data from {source_table} to {new_table}.')
+            logger.info(f"Moving data from {source_table} to {new_table}.")
             self.query_with_connection(alter_sql, conn)
 
         if drop_source_table:
             self.query(f"drop table {source_table};")
-            logger.info(f'{source_table} dropped.')
+            logger.info(f"{source_table} dropped.")
 
-        logger.info(f'{source_table} data moved from {new_table}  .')
+        logger.info(f"{source_table} data moved from {new_table}  .")
 
     def _create_table_precheck(self, connection, table_name, if_exists):
         """
@@ -158,20 +162,20 @@ class RedshiftTableUtilities(object):
                 True if the table needs to be created, False otherwise.
         """
 
-        if if_exists not in ['fail', 'truncate', 'append', 'drop']:
+        if if_exists not in ["fail", "truncate", "append", "drop"]:
             raise ValueError("Invalid value for `if_exists` argument")
 
         exists = self.table_exists_with_connection(table_name, connection)
 
-        if exists and if_exists in ['fail', 'truncate', 'append']:
-            if if_exists == 'fail':
-                raise ValueError('Table already exists.')
-            elif if_exists == 'truncate':
+        if exists and if_exists in ["fail", "truncate", "append"]:
+            if if_exists == "fail":
+                raise ValueError("Table already exists.")
+            elif if_exists == "truncate":
                 truncate_sql = f"truncate table {table_name}"
                 self.query_with_connection(truncate_sql, connection, commit=False)
 
         else:
-            if exists and if_exists == 'drop':
+            if exists and if_exists == "drop":
                 logger.debug(f"Table {table_name} exist, will drop...")
                 drop_sql = f"drop table {table_name};\n"
                 self.query_with_connection(drop_sql, connection, commit=False)
@@ -180,8 +184,9 @@ class RedshiftTableUtilities(object):
 
         return False
 
-    def populate_table_from_query(self, query, destination_table, if_exists='fail', distkey=None,
-                                  sortkey=None):
+    def populate_table_from_query(
+        self, query, destination_table, if_exists="fail", distkey=None, sortkey=None
+    ):
         """
         Populate a Redshift table with the results of a SQL query, creating the table if it
         doesn't yet exist.
@@ -200,7 +205,9 @@ class RedshiftTableUtilities(object):
                 The column to use as the sortkey for the table.
         """
         with self.connection() as conn:
-            should_create = self._create_table_precheck(conn, destination_table, if_exists)
+            should_create = self._create_table_precheck(
+                conn, destination_table, if_exists
+            )
 
             if should_create:
                 logger.info(f"Creating table {destination_table} from query...")
@@ -216,10 +223,16 @@ class RedshiftTableUtilities(object):
 
             self.query_with_connection(sql, conn, commit=False)
 
-        logger.info(f'{destination_table} created from query')
+        logger.info(f"{destination_table} created from query")
 
-    def duplicate_table(self, source_table, destination_table, where_clause='',
-                        if_exists='fail', drop_source_table=False):
+    def duplicate_table(
+        self,
+        source_table,
+        destination_table,
+        where_clause="",
+        if_exists="fail",
+        drop_source_table=False,
+    ):
         """
         Create a copy of an existing table (or subset of rows) in a new
         table. It will inherit encoding, sortkey and distkey.
@@ -239,10 +252,12 @@ class RedshiftTableUtilities(object):
         """
 
         with self.connection() as conn:
-            should_create = self._create_table_precheck(conn, destination_table, if_exists)
+            should_create = self._create_table_precheck(
+                conn, destination_table, if_exists
+            )
 
             if should_create:
-                logger.info(f'Creating {destination_table} from {source_table}...')
+                logger.info(f"Creating {destination_table} from {source_table}...")
                 create_sql = f"create table {destination_table} (like {source_table})"
                 self.query_with_connection(create_sql, conn, commit=False)
 
@@ -252,11 +267,11 @@ class RedshiftTableUtilities(object):
             self.query_with_connection(insert_sql, conn, commit=False)
 
             if drop_source_table:
-                logger.info(f'Dropping table {source_table}...')
+                logger.info(f"Dropping table {source_table}...")
                 drop_sql = f"drop table {source_table}"
                 self.query_with_connection(drop_sql, conn, commit=False)
 
-        logger.info(f'{destination_table} created from {source_table}.')
+        logger.info(f"{destination_table} created from {source_table}.")
 
     def union_tables(self, new_table_name, tables, union_all=True, view=False):
         """
@@ -391,12 +406,12 @@ class RedshiftTableUtilities(object):
         """
 
         return {
-            row['column_name']: {
-                'data_type': row['data_type'],
-                'max_length': row['max_length'],
-                'max_precision': row['max_precision'],
-                'max_scale': row['max_scale'],
-                'is_nullable': row['is_nullable'] == 'YES',
+            row["column_name"]: {
+                "data_type": row["data_type"],
+                "max_length": row["max_length"],
+                "max_precision": row["max_precision"],
+                "max_scale": row["max_scale"],
+                "is_nullable": row["is_nullable"] == "YES",
             }
             for row in self.query(query)
         }
@@ -458,7 +473,7 @@ class RedshiftTableUtilities(object):
                 See :ref:`parsons-table` for output options.
         """
 
-        logger.info('Retrieving running and queued queries.')
+        logger.info("Retrieving running and queued queries.")
 
         # Lifted from Redshift Utils https://github.com/awslabs/amazon-redshift-utils/blob/master/src/AdminScripts/running_queues.sql # noqa: E501
         sql = """
@@ -514,7 +529,9 @@ class RedshiftTableUtilities(object):
                 The column containing the values
         """
 
-        return self.query(f'SELECT MAX({value_column}) value from {table_name}')[0]['value']
+        return self.query(f"SELECT MAX({value_column}) value from {table_name}")[0][
+            "value"
+        ]
 
     def get_object_type(self, object_name):
         """
@@ -549,7 +566,7 @@ class RedshiftTableUtilities(object):
             logger.info(f"{object_name} doesn't exist.")
             return None
 
-        return tbl[0]['object_name']
+        return tbl[0]["object_name"]
 
     def is_view(self, object_name):
         """
@@ -626,8 +643,8 @@ class RedshiftTableUtilities(object):
         if table:
             conditions.append(f"tablename like '{table}'")
 
-        conditions_str = ' and '.join(conditions)
-        where_clause = f"where {conditions_str}" if conditions_str else ''
+        conditions_str = " and ".join(conditions)
+        where_clause = f"where {conditions_str}" if conditions_str else ""
 
         # ddl_query = pkgutil.get_data(
         #     __name__, "queries/v_generate_tbl_ddl.sql").decode()
@@ -643,16 +660,16 @@ class RedshiftTableUtilities(object):
             return None
 
         def join_sql_parts(columns, rows):
-            return [f"{columns[1]}.{columns[2]}",
-                    '\n'.join([row[4] for row in rows])]
+            return [f"{columns[1]}.{columns[2]}", "\n".join([row[4] for row in rows])]
 
         # The query returns the sql over multiple rows
         # We need to join then into a single row
         ddl_table.reduce_rows(
-            ['table_id', 'schemaname', 'tablename'],
+            ["table_id", "schemaname", "tablename"],
             join_sql_parts,
-            ['tablename', 'ddl'],
-            presorted=True)
+            ["tablename", "ddl"],
+            presorted=True,
+        )
 
         return ddl_table.to_dicts()
 
@@ -701,8 +718,8 @@ class RedshiftTableUtilities(object):
         if view:
             conditions.append(f"g.viewname like '{view}'")
 
-        conditions_str = ' and '.join(conditions)
-        where_clause = f"where {conditions_str}" if conditions_str else ''
+        conditions_str = " and ".join(conditions)
+        where_clause = f"where {conditions_str}" if conditions_str else ""
 
         # ddl_query = pkgutil.get_data(
         #     __name__, "queries/v_generate_view_ddl.sql").decode()

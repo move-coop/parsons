@@ -33,9 +33,18 @@ class Questions:
         """
         return self._request(f"{self.url_questions}/{id}")
 
-    def create_question(self, question: str, type: str, category: str, answer_options: list,
-                        question_label: str = None, question_description: str = None,
-                        candidate_issue_id: str = None, default: bool = True, *args):
+    def create_question(
+        self,
+        question: str,
+        type: str,
+        category: str,
+        answer_options: list,
+        question_label: str = None,
+        question_description: str = None,
+        candidate_issue_id: str = None,
+        default: bool = True,
+        *args,
+    ):
         """
         answer_options:[
                 {
@@ -54,9 +63,9 @@ class Questions:
             "category": category,
             "candidateIssueId": candidate_issue_id,
             "default": default,
-            "answerOptions": answer_options
+            "answerOptions": answer_options,
         }
-        return self._request(self.locations_url, req_type='POST', post_data=payload)
+        return self._request(self.locations_url, req_type="POST", post_data=payload)
 
     def delete_question(self, id: str):
         return self._request(f"{self.url_questions}/{id}", req_type="DELETE")

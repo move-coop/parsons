@@ -1305,6 +1305,32 @@ processed through address correction.</p></td>
 </dl>
 </dd></dl>
 
+<dl class="py method">
+<dt class="sig sig-object py" id="parsons.ngpvan.van.BulkImport.bulk_apply_suppressions">
+<span class="sig-name descname"><span class="pre">bulk_apply_suppressions</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">tbl</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">url_type</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">url_kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/ngpvan/bulk_import.html#BulkImport.bulk_apply_suppressions"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.ngpvan.van.BulkImport.bulk_apply_suppressions" title="Permalink to this definition"></a></dt>
+<dd><p>Bulk apply contact suppressions codes.</p>
+<p>The table may include the following columns. The first column
+must be <code class="docutils literal notranslate"><span class="pre">vanid</span></code>.</p>
+<dl class="simple">
+<dt><cite>Args:</cite></dt><dd><dl class="simple">
+<dt>table: Parsons table</dt><dd><p>A Parsons table.</p>
+</dd>
+<dt>url_type: str</dt><dd><p>The cloud file storage to use to post the file (<code class="docutils literal notranslate"><span class="pre">S3</span></code> or <code class="docutils literal notranslate"><span class="pre">GCS</span></code>).
+See <a class="reference internal" href="utilities.html#cloud-storage"><span class="std std-ref">Cloud Storage</span></a> for more details.</p>
+</dd>
+<dt><a href="#id8"><span class="problematic" id="id9">**</span></a>url_kwargs: kwargs</dt><dd><p>Arguments to configure your cloud storage url type. See
+<a class="reference internal" href="utilities.html#cloud-storage"><span class="std std-ref">Cloud Storage</span></a> for more details.</p>
+</dd>
+</dl>
+</dd>
+<dt><cite>Returns:</cite></dt><dd><dl class="simple">
+<dt>int</dt><dd><p>The bulk import job id</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
 </dd></dl>
 
 </section>
@@ -1696,7 +1722,7 @@ code. You can find supported entities with the <code class="xref py py-meth docu
 <dt>expand_fields: list</dt><dd><p>A list of fields for which to include data. If a field is omitted,
 <code class="docutils literal notranslate"><span class="pre">None</span></code> will be returned for that field. Can be <code class="docutils literal notranslate"><span class="pre">locations</span></code>,
 <code class="docutils literal notranslate"><span class="pre">codes</span></code>, <code class="docutils literal notranslate"><span class="pre">shifts</span></code>, <code class="docutils literal notranslate"><span class="pre">roles</span></code>, <code class="docutils literal notranslate"><span class="pre">notes</span></code>, <code class="docutils literal notranslate"><span class="pre">financialProgram</span></code>,
-<code class="docutils literal notranslate"><span class="pre">ticketCategories</span></code>, <a href="#id8"><span class="problematic" id="id9">``</span></a>voterRegistrationBatches`.`</p>
+<code class="docutils literal notranslate"><span class="pre">ticketCategories</span></code>, <a href="#id10"><span class="problematic" id="id11">``</span></a>voterRegistrationBatches`.`</p>
 </dd>
 </dl>
 </dd>
@@ -2254,7 +2280,7 @@ column of the file.</p>
 <dt>overwrite: int</dt><dd><p>Replace saved list if already exists. Pass in the list id of the
 existing list that you would like to overwrite.</p>
 </dd>
-<dt><a href="#id10"><span class="problematic" id="id11">**</span></a>url_kwargs: kwargs</dt><dd><p>Arguments to configure your cloud storage url type. See
+<dt><a href="#id12"><span class="problematic" id="id13">**</span></a>url_kwargs: kwargs</dt><dd><p>Arguments to configure your cloud storage url type. See
 <a class="reference internal" href="utilities.html#cloud-storage"><span class="std std-ref">Cloud Storage</span></a> for more details.</p>
 </dd>
 </dl>
@@ -2297,7 +2323,7 @@ instance of VAN.</p>
 </dd>
 <dt>replace: boolean</dt><dd><p>Replace saved list if already exists.</p>
 </dd>
-<dt><a href="#id12"><span class="problematic" id="id13">**</span></a>url_kwargs: kwargs</dt><dd><p>Arguments to configure your cloud storage url type. See
+<dt><a href="#id14"><span class="problematic" id="id15">**</span></a>url_kwargs: kwargs</dt><dd><p>Arguments to configure your cloud storage url type. See
 <a class="reference internal" href="utilities.html#cloud-storage"><span class="std std-ref">Cloud Storage</span></a> for more details.</p>
 </dd>
 </dl>
@@ -2420,7 +2446,7 @@ approve a score loading job.</p>
 <dt class="sig sig-object py" id="parsons.ngpvan.van.Scores.upload_scores">
 <span class="sig-name descname"><span class="pre">upload_scores</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">tbl</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">config</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">url_type</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">id_type</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'vanid'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">email</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">auto_approve</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">approve_tolerance</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.1</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">url_kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/ngpvan/scores.html#Scores.upload_scores"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.ngpvan.van.Scores.upload_scores" title="Permalink to this definition"></a></dt>
 <dd><p>Upload scores. Use to create or overwrite scores. Multiple score loads
-should be configured in a single call. <a class="footnote-reference brackets" href="#id17" id="id14">1</a></p>
+should be configured in a single call. <a class="footnote-reference brackets" href="#id19" id="id16">1</a></p>
 <dl>
 <dt><cite>Args:</cite></dt><dd><dl>
 <dt>tbl: object</dt><dd><p>A parsons.Table object. The table must contain the scores and first column in the
@@ -2458,7 +2484,7 @@ average values provided, then score will be automatically approved.</p>
 <dt>approve_tolderance: float</dt><dd><p>The deviation from the average scores allowed in order to automatically
 approve the score. Maximum of .1.</p>
 </dd>
-<dt><a href="#id15"><span class="problematic" id="id16">**</span></a>url_kwargs: kwargs</dt><dd><p>Arguments to configure your cloud storage url type. See
+<dt><a href="#id17"><span class="problematic" id="id18">**</span></a>url_kwargs: kwargs</dt><dd><p>Arguments to configure your cloud storage url type. See
 <a class="reference internal" href="utilities.html#cloud-storage"><span class="std std-ref">Cloud Storage</span></a> for more details.</p>
 </dd>
 </dl>
@@ -2470,7 +2496,7 @@ approve the score. Maximum of .1.</p>
 </dd>
 </dl>
 <dl class="footnote brackets">
-<dt class="label" id="id17"><span class="brackets"><a class="fn-backref" href="#id14">1</a></span></dt>
+<dt class="label" id="id19"><span class="brackets"><a class="fn-backref" href="#id16">1</a></span></dt>
 <dd><p>NGPVAN asks that you load multiple scores in a single call to reduce the load
 on their servers.</p>
 </dd>

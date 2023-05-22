@@ -147,7 +147,6 @@
 
 <div class="viewcode-block" id="BulkImport"><a class="viewcode-back" href="../../../ngpvan.html#parsons.ngpvan.van.BulkImport">[docs]</a><span class="k">class</span> <span class="nc">BulkImport</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-
         <span class="k">pass</span>
 
 <div class="viewcode-block" id="BulkImport.get_bulk_import_resources"><a class="viewcode-back" href="../../../ngpvan.html#parsons.ngpvan.van.BulkImport.get_bulk_import_resources">[docs]</a>    <span class="k">def</span> <span class="nf">get_bulk_import_resources</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
@@ -472,6 +471,50 @@
             <span class="p">[{</span><span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;CreateOrUpdateContact&quot;</span><span class="p">}],</span>
             <span class="s2">&quot;Create Or Update Contact Records&quot;</span><span class="p">,</span>
             <span class="n">result_fields</span><span class="o">=</span><span class="n">result_fields</span><span class="p">,</span>
+            <span class="o">**</span><span class="n">url_kwargs</span><span class="p">,</span>
+        <span class="p">)</span></div>
+
+<div class="viewcode-block" id="BulkImport.bulk_apply_suppressions"><a class="viewcode-back" href="../../../ngpvan.html#parsons.ngpvan.van.BulkImport.bulk_apply_suppressions">[docs]</a>    <span class="k">def</span> <span class="nf">bulk_apply_suppressions</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tbl</span><span class="p">,</span> <span class="n">url_type</span><span class="p">,</span> <span class="o">**</span><span class="n">url_kwargs</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Bulk apply contact suppressions codes.</span>
+
+<span class="sd">        The table may include the following columns. The first column</span>
+<span class="sd">        must be ``vanid``.</span>
+
+<span class="sd">        .. list-table::</span>
+<span class="sd">            :widths: 25 25</span>
+<span class="sd">            :header-rows: 1</span>
+
+<span class="sd">            * - Column Name</span>
+<span class="sd">              - Required</span>
+<span class="sd">              - Description</span>
+<span class="sd">            * - ``vanid``</span>
+<span class="sd">              - Yes</span>
+<span class="sd">              - A valid VANID primary key</span>
+<span class="sd">            * - ``suppressionid``</span>
+<span class="sd">              - Yes</span>
+<span class="sd">              - A valid suppression id</span>
+
+<span class="sd">        `Args:`</span>
+<span class="sd">            table: Parsons table</span>
+<span class="sd">                A Parsons table.</span>
+<span class="sd">            url_type: str</span>
+<span class="sd">                The cloud file storage to use to post the file (``S3`` or ``GCS``).</span>
+<span class="sd">                See :ref:`Cloud Storage &lt;cloud-storage&gt;` for more details.</span>
+<span class="sd">            **url_kwargs: kwargs</span>
+<span class="sd">                Arguments to configure your cloud storage url type. See</span>
+<span class="sd">                :ref:`Cloud Storage &lt;cloud-storage&gt;` for more details.</span>
+<span class="sd">        `Returns:`</span>
+<span class="sd">            int</span>
+<span class="sd">                The bulk import job id</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">post_bulk_import</span><span class="p">(</span>
+            <span class="n">tbl</span><span class="p">,</span>
+            <span class="n">url_type</span><span class="p">,</span>
+            <span class="s2">&quot;Contacts&quot;</span><span class="p">,</span>
+            <span class="p">[{</span><span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;Suppressions&quot;</span><span class="p">}],</span>
+            <span class="s2">&quot;Apply Suppressions&quot;</span><span class="p">,</span>
             <span class="o">**</span><span class="n">url_kwargs</span><span class="p">,</span>
         <span class="p">)</span></div></div>
 

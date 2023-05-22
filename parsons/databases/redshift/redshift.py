@@ -221,7 +221,6 @@ class Redshift(
         #        rows in the correct order
 
         with self.cursor(connection) as cursor:
-
             if "credentials" not in sql:
                 logger.debug(f"SQL Query: {sql}")
             cursor.execute(sql, parameters)
@@ -235,7 +234,6 @@ class Redshift(
                 return None
 
             else:
-
                 # Fetch the data in batches, and "pickle" the rows to a temp file.
                 # (We pickle rather than writing to, say, a CSV, so that we maintain
                 # all the type information for each field.)
@@ -397,7 +395,6 @@ class Redshift(
         """
 
         with self.connection() as connection:
-
             if self._create_table_precheck(connection, table_name, if_exists):
                 if template_table:
                     sql = f"CREATE TABLE {table_name} (LIKE {template_table})"
@@ -620,7 +617,6 @@ class Redshift(
             cols = None
 
         with self.connection() as connection:
-
             # Check to see if the table exists. If it does not or if_exists = drop, then
             # create the new table.
             if self._create_table_precheck(connection, table_name, if_exists):
@@ -859,7 +855,6 @@ class Redshift(
         # Generate manifest file
         manifest = {"entries": []}
         for bucket in buckets:
-
             # Retrieve list of files in bucket
             key_list = s3.list_keys(bucket, prefix=prefix)
             for key in key_list:
@@ -982,7 +977,6 @@ class Redshift(
                 raise ValueError("Primary key column contains duplicate values.")
 
         with self.connection() as connection:
-
             try:
                 # Copy to a staging table
                 logger.info(f"Building staging table: {staging_tbl}")
@@ -1087,7 +1081,9 @@ class Redshift(
             tbl = self.query_with_connection(sql_depend, connection)
             dropped_views = [row["table_name"] for row in tbl]
             if dropped_views:
-                sql_drop = "\n".join([f"drop view {view} CASCADE;" for view in dropped_views])
+                sql_drop = "\n".join(
+                    [f"drop view {view} CASCADE;" for view in dropped_views]
+                )
                 tbl = self.query_with_connection(sql_drop, connection)
                 logger.info(f"Dropped the following views: {dropped_views}")
 

@@ -41,7 +41,7 @@ def main():
             "s3": ["boto3"],
             "salesforce": ["simple-salesforce"],
             "sftp": ["paramiko"],
-            "slack": ["slackclient"],
+            "slack": ["slackclient==1.3.0"],
             "smtp": ["validate-email"],
             "targetsmart": ["xmltodict"],
             "twilio": ["twilio"],

@@ -180,7 +180,7 @@ class ActionBuilder(object):
         """ # noqa: E501
         
         # Check that we have appropriate entity type/identifier, name, and campaign first
-        if {entity_type, identifiers} == {None}:
+        if entity_type == identifiers == None:
             error_msg = 'Must provide either entity_type (to insert a new record) '
             error_msg += 'or identifiers (to update an existing record)'
             raise ValueError(error_msg)
@@ -303,7 +303,7 @@ class ActionBuilder(object):
             raise ValueError('Must provide identifiers as a list')
             
         if len(identifiers) != 2:
-            raise ValueError('Most provide exactly two identifiers')
+            raise ValueError('Must provide exactly two identifiers')
             
         campaign = self._campaign_check(campaign)
         
@@ -311,7 +311,8 @@ class ActionBuilder(object):
         
         data = {
             "connection": {
-                "person_id": identifiers[1] # person_id is used even if entity is not Person
+                # person_id is used even if entity is not Person
+                "person_id": identifiers[1]
             }
         }
         

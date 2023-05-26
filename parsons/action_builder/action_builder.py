@@ -4,6 +4,8 @@ from parsons.utilities import check_env
 from parsons.utilities.api_connector import APIConnector
 import logging
 
+logger = logging.getLogger(__name__)
+
 API_URL = "https://{subdomain}.actionbuilder.org/api/rest/v1"
 
 
@@ -183,10 +185,10 @@ class ActionBuilder(object):
                 retrieved or edited. Not necessary if supplied when instantiating the class.
         `Returns:`
             Dict containing Action Builder entity data.
-        """
+        """ # noqa: E501
 
         # Check that we have appropriate entity type/identifier, name, and campaign first
-        if entity_type == identifiers == None:
+        if entity_type == identifiers is None:
             error_msg = "Must provide either entity_type (to insert a new record) "
             error_msg += "or identifiers (to update an existing record)"
             raise ValueError(error_msg)
@@ -317,7 +319,7 @@ class ActionBuilder(object):
                 retrieved or edited. Not necessary if supplied when instantiating the class.
         `Returns:`
             Dict containing Action Builder connection data.
-        """
+        """ # noqa: E501
 
         # Check that there are exactly two identifiers and that campaign is provided first
         if not isinstance(identifiers, list):

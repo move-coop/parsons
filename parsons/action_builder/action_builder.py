@@ -185,7 +185,7 @@ class ActionBuilder(object):
                 retrieved or edited. Not necessary if supplied when instantiating the class.
         `Returns:`
             Dict containing Action Builder entity data.
-        """ # noqa: E501
+        """  # noqa: E501
 
         # Check that we have appropriate entity type/identifier, name, and campaign first
         if entity_type == identifiers is None:
@@ -319,7 +319,7 @@ class ActionBuilder(object):
                 retrieved or edited. Not necessary if supplied when instantiating the class.
         `Returns:`
             Dict containing Action Builder connection data.
-        """ # noqa: E501
+        """  # noqa: E501
 
         # Check that there are exactly two identifiers and that campaign is provided first
         if not isinstance(identifiers, list):

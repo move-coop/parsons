@@ -169,7 +169,7 @@ class TestActionBuilder(unittest.TestCase):
             "preferred_language": "en",
             "email_addresses": [
                 {
-                    "action_builder:identifier": f"action_builder:fake-email-id-1",
+                    "action_builder:identifier": "action_builder:fake-email-id-1",
                     "address": "fakey@mcfakerson.com",
                     "address_type": "Work",
                     "status": "unsubscribed",

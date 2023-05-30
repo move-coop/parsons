@@ -175,7 +175,27 @@ class TestActionBuilder(unittest.TestCase):
                     "status": "unsubscribed",
                     "source": "api",
                 }
-            ],
+            ]
+        }
+
+        self.fake_upsert_person = {
+            "person": {
+                "identifiers": [f"action_builder:{self.fake_entity_id}"],
+                "created_date": self.fake_datetime,
+                "modified_date": self.fake_datetime,
+                "action_builder:entity_type": "Person",
+                "given_name": "Fakey",
+                "family_name": "McFakerson",
+                "preferred_language": "en",
+                "email_addresses": [
+                    {
+                        "action_builder:identifier": "action_builder:fake-email-id-1",
+                        "address": "fakey@mcfakerson.com",
+                        "address_type": "Work",
+                        "status": "unsubscribed"
+                    }
+                ]
+            }
         }
 
         self.fake_insert_person = {
@@ -190,7 +210,7 @@ class TestActionBuilder(unittest.TestCase):
                     "created_date": self.fake_datetime,
                     "modified_date": self.fake_datetime,
                 }
-            },
+            }
         }
 
         self.fake_update_person = {
@@ -213,7 +233,7 @@ class TestActionBuilder(unittest.TestCase):
         )
 
     @requests_mock.Mocker()
-    def test_get_entry_list(self, m):
+    def test_get_all_records(self, m):
         m.get(
             f"{self.api_url}/tags?page=1&per_page=25",
             text=json.dumps(self.fake_tags_list_1),
@@ -227,7 +247,7 @@ class TestActionBuilder(unittest.TestCase):
             text=json.dumps({"_embedded": {"osdi:tags": []}}),
         )
         assert_matching_tables(
-            self.bldr._get_entry_list(self.campaign, "tags"), Table(self.fake_tags_list)
+            self.bldr._get_all_records(self.campaign, "tags"), Table(self.fake_tags_list)
         )
 
     @requests_mock.Mocker()
@@ -290,22 +310,40 @@ class TestActionBuilder(unittest.TestCase):
         m.post(f"{self.api_url}/people", text=json.dumps(self.fake_upserted_response))
 
         # Flatten and remove items added for spreadable arguments
+        upsert_flattened = self.fake_upsert_person["person"]
+        upsert_incoming, upsert_compare = self.compare_to_incoming(
+            self.bldr._upsert_entity(self.fake_upsert_person, self.campaign),
+            upsert_flattened
+        )
+
+        self.assertEqual(upsert_incoming, upsert_compare)
+
+    @requests_mock.Mocker()
+    def test_insert_entity_record(self, m):
+        m.post(f"{self.api_url}/people", text=json.dumps(self.fake_upserted_response))
+
+        # Flatten and remove items added for spreadable arguments
         insert_flattened = {
             **{k: v for k, v in self.fake_insert_person.items() if k != "data"},
             **self.fake_insert_person["data"]["person"],
         }
         insert_incoming, insert_compare = self.compare_to_incoming(
-            self.bldr.upsert_entity(**self.fake_insert_person), insert_flattened
+            self.bldr.insert_entity_record(**self.fake_insert_person), insert_flattened
         )
+        self.assertEqual(insert_incoming, insert_compare)
 
+    @requests_mock.Mocker()
+    def test_update_entity_record(self, m):
+        m.post(f"{self.api_url}/people", text=json.dumps(self.fake_upserted_response))
+
+        # Flatten and remove items added for spreadable arguments
         update_flattened = {
             **{k: v for k, v in self.fake_update_person.items() if k != "data"},
             **self.fake_update_person["data"]["person"],
         }
         update_incoming, update_compare = self.compare_to_incoming(
-            self.bldr.upsert_entity(**self.fake_update_person), update_flattened
+            self.bldr.update_entity_record(**self.fake_update_person), update_flattened
         )
-        self.assertEqual(insert_incoming, insert_compare)
         self.assertEqual(update_incoming, update_compare)
 
     def tagging_callback(self, request, context):

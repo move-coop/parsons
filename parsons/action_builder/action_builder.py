@@ -189,6 +189,17 @@ class ActionBuilder(object):
             Dict containing Action Builder entity data.
         """  # noqa: E501
 
+        error = "Must provide data with name or given_name when inserting new record"
+        if not isinstance(data, dict):
+            raise ValueError(error)
+        name_check = [
+            key for key in data.get("person", {}) if key in ("name", "given_name")
+        ]
+        if not name_check:
+            raise ValueError(error)
+
+        campaign = self._campaign_check(campaign)
+
         if not isinstance(data, dict):
             data = {}
 
@@ -223,15 +234,6 @@ class ActionBuilder(object):
             Dict containing Action Builder entity data.
         """  # noqa: E501
 
-        error = "Must provide data with name or given_name when inserting new record"
-        if not isinstance(data, dict):
-            raise ValueError(error)
-        name_check = [
-            key for key in data.get("person", {}) if key in ("name", "given_name")
-        ]
-        if not name_check:
-            raise ValueError(error)
-
         campaign = self._campaign_check(campaign)
 
         if isinstance(identifiers, str):
@@ -242,6 +244,14 @@ class ActionBuilder(object):
         identifiers = [
             f"action_builder:{id}" if ":" not in id else id for id in identifiers
         ]
+
+        if not isinstance(data, dict):
+            data = {}
+
+        if "person" not in data:
+            # The POST data must live inside of person key
+            data["person"] = {}
+
         data["person"]["identifiers"] = identifiers
 
         return self._upsert_entity(data=data, campaign=campaign)
@@ -315,7 +325,9 @@ class ActionBuilder(object):
 
         data = {"add_tags": tag_data}
 
-        return self._upsert_entity(identifiers=identifiers, data=data, campaign=campaign)
+        return self.update_entity_record(
+            identifiers=identifiers, data=data, campaign=campaign
+        )
 
     def upsert_connection(self, identifiers, tag_data=None, campaign=None):
         """

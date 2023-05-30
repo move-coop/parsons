@@ -44,6 +44,8 @@ class ActionBuilder(object):
     def _get_page(self, campaign, object_name, page, per_page=25, filter=None):
         # Returns data from one page of results
 
+        campaign = self._campaign_check(campaign)
+
         if per_page > 25:
             per_page = 25
             logger.info(
@@ -53,7 +55,6 @@ class ActionBuilder(object):
 
         params = {"page": page, "per_page": per_page, "filter": filter}
 
-        campaign = self._campaign_check(campaign)
         url = f"campaigns/{campaign}/{object_name}"
 
         return self.api.get_request(url=url, params=params)

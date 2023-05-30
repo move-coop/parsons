@@ -160,9 +160,14 @@ class ActionBuilder(object):
 
         return self.api.post_request(url=url, data=json.dumps(data))
 
-    def upsert_entity(
-        self, entity_type=None, identifiers=None, data=None, campaign=None
-    ):
+    def _upsert_entity(self, data, campaign):
+        # Internal method leveraging the record signup helper endpoint to upsert entity records
+
+        url = f"campaigns/{campaign}/people"
+
+        return self.api.post_request(url=url, data=json.dumps(data))
+
+    def insert_entity_record(self, entity_type, data=None, campaign=None):
         """
         Load or update an entity record in Action Builder based on whether any identifiers are
         passed.
@@ -170,6 +175,36 @@ class ActionBuilder(object):
             entity_type: str
                 The name of the record type being inserted. Required if identifiers are not
                 provided.
+            data: dict
+                The details to include on the record being upserted, to be included as the value
+                of the `person` key. See
+                [documentation for the Person Signup Helper](https://www.actionbuilder.org/docs/v1/person_signup_helper.html#post)
+                for examples, and
+                [the Person endpoint](https://www.actionbuilder.org/docs/v1/people.html#field-names)
+                for full entity object composition.
+            campaign: str
+                Optional. The 36-character "interact ID" of the campaign whose data is to be
+                retrieved or edited. Not necessary if supplied when instantiating the class.
+        `Returns:`
+            Dict containing Action Builder entity data.
+        """  # noqa: E501
+
+        if not isinstance(data, dict):
+            data = {}
+
+        if "person" not in data:
+            # The POST data must live inside of person key
+            data["person"] = {}
+
+        data["person"]["action_builder:entity_type"] = entity_type
+
+        return self._upsert_entity(data=data, campaign=campaign)
+
+    def update_entity_record(self, identifiers, data, campaign=None):
+        """
+        Load or update an entity record in Action Builder based on whether any identifiers are
+        passed.
+        `Args:`
             identifiers: list
                 The list of strings of unique identifiers for a record being updated. ID strings
                 will need to begin with the origin system, followed by a colon, e.g.
@@ -188,47 +223,28 @@ class ActionBuilder(object):
             Dict containing Action Builder entity data.
         """  # noqa: E501
 
-        # Check that we have appropriate entity type/identifier, name, and campaign first
-        if entity_type == identifiers is None:
-            error_msg = "Must provide either entity_type (to insert a new record) "
-            error_msg += "or identifiers (to update an existing record)"
-            raise ValueError(error_msg)
-
+        error = "Must provide data with name or given_name when inserting new record"
         if not isinstance(data, dict):
-            data = {}
-
+            raise ValueError(error)
         name_check = [
             key for key in data.get("person", {}) if key in ("name", "given_name")
         ]
-        if identifiers is None and not name_check:
-            raise ValueError("Must provide name or given name if inserting new record")
+        if not name_check:
+            raise ValueError(error)
 
         campaign = self._campaign_check(campaign)
 
-        url = f"campaigns/{campaign}/people"
+        if isinstance(identifiers, str):
+            # Ensure identifiers is a list, even if it will usually just be one item
+            identifiers = [identifiers]
 
-        if "person" not in data:
-            # The POST data must live inside of person key
-            data["person"] = {}
+        # Default to assuming identifier comes from Action Builder and add prefix if missing
+        identifiers = [
+            f"action_builder:{id}" if ":" not in id else id for id in identifiers
+        ]
+        data["person"]["identifiers"] = identifiers
 
-        if identifiers:
-            # Updating an existing record
-
-            if isinstance(identifiers, str):
-                # Ensure identifiers is a list, even if it will usually just be one item
-                identifiers = [identifiers]
-
-            # Default to assuming identifier comes from Action Builder and add prefix if missing
-            identifiers = [
-                f"action_builder:{x}" if ":" not in x else x for x in identifiers
-            ]
-            data["person"]["identifiers"] = identifiers
-
-        if entity_type:
-            # Inserting a new record
-            data["person"]["action_builder:entity_type"] = entity_type
-
-        return self.api.post_request(url=url, data=json.dumps(data))
+        return self._upsert_entity(data=data, campaign=campaign)
 
     def add_tags_to_record(
         self, identifiers, tag_name, tag_field, tag_section, campaign=None
@@ -299,7 +315,7 @@ class ActionBuilder(object):
 
         data = {"add_tags": tag_data}
 
-        return self.upsert_entity(identifiers=identifiers, data=data, campaign=campaign)
+        return self._upsert_entity(identifiers=identifiers, data=data, campaign=campaign)
 
     def upsert_connection(self, identifiers, tag_data=None, campaign=None):
         """

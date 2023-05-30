@@ -59,7 +59,7 @@ class ActionBuilder(object):
 
         return self.api.get_request(url=url, params=params)
 
-    def _get_entry_list(
+    def _get_all_records(
         self, campaign, object_name, limit=None, per_page=25, filter=None
     ):
         # Returns a list of entries for a given object, such as people, tags, or connections.
@@ -110,7 +110,7 @@ class ActionBuilder(object):
             Parsons Table of full set of tags available in Action Builder.
         """
 
-        return self._get_entry_list(
+        return self._get_all_records(
             campaign, "tags", limit=limit, per_page=per_page, filter=filter
         )
 

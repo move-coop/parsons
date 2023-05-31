@@ -28,7 +28,9 @@ class Auth0(object):
                 data={
                     "grant_type": "client_credentials",  # OAuth 2.0 flow to use
                     "client_id": check_env.check("AUTH0_CLIENT_ID", client_id),
-                    "client_secret": check_env.check("AUTH0_CLIENT_SECRET", client_secret),
+                    "client_secret": check_env.check(
+                        "AUTH0_CLIENT_SECRET", client_secret
+                    ),
                     "audience": f"{self.base_url}/api/v2/",
                 },
             )
@@ -115,10 +117,14 @@ class Auth0(object):
         if existing.num_rows > 0:
             a0id = existing[0]["user_id"]
             ret = requests.patch(
-                f"{self.base_url}/api/v2/users/{a0id}", headers=self.headers, data=payload
+                f"{self.base_url}/api/v2/users/{a0id}",
+                headers=self.headers,
+                data=payload,
             )
         else:
-            ret = requests.post(f"{self.base_url}/api/v2/users", headers=self.headers, data=payload)
+            ret = requests.post(
+                f"{self.base_url}/api/v2/users", headers=self.headers, data=payload
+            )
         if ret.status_code != 200:
             raise ValueError(f"Invalid response {ret.json()}")
         return ret

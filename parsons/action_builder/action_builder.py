@@ -262,9 +262,10 @@ class ActionBuilder(object):
         """
         Add a tag (i.e. custom field value) to an existing entity record in Action Builder. The
         tags, along with their category/field and section/group, must already exist (except for
-        date fields). If fewer fields are provided than tags, the excess tags will be applied to
-        the final field provided. Similarly, the final section will be applied to any fields or
-        tags in excess.
+        date fields). If the same number of tags, fields, and sections are supplied, they will be
+        matched up in the order provided. If fewer fields are provided than tags, final field will
+        be matched to all remaining tags. Similarly, the final section will be matched to any
+        remaining fields and tags.
         `Args:`
             identifiers: list
                 The list of strings of unique identifiers for a record being updated. ID strings
@@ -273,11 +274,11 @@ class ActionBuilder(object):
             tag_name: str or list
                 The name(s) of the new tag(s), i.e. the custom field value(s).
             tag_field: str or list
-                The name(s) of the tag category(ies), i.e. the custom field name(s). Must have
-                equal or fewer items as `tag_name`.
+                The name(s) of the tag category(ies), i.e. the custom field name(s). Cannot have
+                more items than `tag_name`.
             tag_section: str or list
-                The name(s) of the tag section(s), i.e. the custom field group name(s). Must have
-                equal or fewer items as `tag_section`.
+                The name(s) of the tag section(s), i.e. the custom field group name(s). Cannot
+                have more items than `tag_section` or than `tag_name`.
             campaign: str
                 Optional. The 36-character "interact ID" of the campaign whose data is to be
                 retrieved or edited. Not necessary if supplied when instantiating the class.
@@ -304,16 +305,19 @@ class ActionBuilder(object):
         ordered_lengths = sorted(lengths, key=lambda x: x[1], reverse=True)
         sorted_keys = [x[0] for x in ordered_lengths]
 
-        # Raise an error if there are fewer specific items provided than generic
+        # Raise an error if there are more fields than tags, or more sections than either
         if sorted_keys[0] != "name":
+            # More fields than tags
             raise ValueError(
                 "Not enough tag_names provided for tag_fields or tag_sections"
             )
 
         if sorted_keys[1] != "field":
+            # More sections than fields (given that above scenario has been cleared)
             raise ValueError("Not enough tag_fields provided for tag_sections")
 
-        # Construct tag data, applying final generic taxonomy to any excess specific items
+        # Construct tag data, for each tag. If there are more tags than fields, keep applying the
+        # last one to any remaining tags. If there are more sections, apply the last one similarly
         tag_data = [
             {
                 "action_builder:name": x,

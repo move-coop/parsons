@@ -13,8 +13,12 @@ class TestSalesforce(unittest.TestCase):
 
         self.sf = Salesforce()
         self.sf._client = mock.MagicMock()
-
-        self.sf._client.query_all.return_value = {"totalSize": 1, "done": True, "records": [{"attributes": {"type": "Contact", "url": "/services/data/v38.0/sobjects/Contact/1234567890AaBbC"}, "Id": "1234567890AaBbC"}]}
+        self.sf._client.query_all.return_value = {"totalSize": 1, "done": True, "records":
+                                                  [{"attributes": {"type": "Contact",
+                                                                   "url": "/services/data/v38.0/"
+                                                                          + "sobjects/Contact/"
+                                                                          + "1234567890AaBbC"},
+                                                    "Id": "1234567890AaBbC"}]}
         self.sf._client.bulk.Contact.insert.return_value = [
             {"success": True, "created": True, "id": "1234567890AaBbC", "errors": []}
         ]

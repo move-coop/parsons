@@ -1,6 +1,5 @@
 from simple_salesforce import Salesforce as _Salesforce
 from parsons.utilities import check_env
-from parsons.etl import Table
 import logging
 import json
 
@@ -81,7 +80,7 @@ class Salesforce:
         """  # noqa: E501,E261
 
         q = self.client.query_all(soql)
-        q=json.loads(json.dumps(q))
+        q = json.loads(json.dumps(q))
         logger.info(f"Found {q['totalSize']} results")
         return q
 

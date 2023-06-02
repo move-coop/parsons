@@ -83,6 +83,7 @@ class Salesforce:
         q = self.client.query_all(soql)
         q=json.loads(json.dumps(q))
         logger.info(f"Found {q['totalSize']} results")
+        return q
 
     def insert_record(self, object, data_table):
         """

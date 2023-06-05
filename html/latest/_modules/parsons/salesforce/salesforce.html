@@ -136,7 +136,6 @@
   <h1>Source code for parsons.salesforce.salesforce</h1><div class="highlight"><pre>
 <span></span><span class="kn">from</span> <span class="nn">simple_salesforce</span> <span class="kn">import</span> <span class="n">Salesforce</span> <span class="k">as</span> <span class="n">_Salesforce</span>
 <span class="kn">from</span> <span class="nn">parsons.utilities</span> <span class="kn">import</span> <span class="n">check_env</span>
-<span class="kn">from</span> <span class="nn">parsons.etl</span> <span class="kn">import</span> <span class="n">Table</span>
 <span class="kn">import</span> <span class="nn">logging</span>
 <span class="kn">import</span> <span class="nn">json</span>
 
@@ -216,8 +215,9 @@
 <span class="sd">            list of dicts with Salesforce data</span>
 <span class="sd">        &quot;&quot;&quot;</span>  <span class="c1"># noqa: E501,E261</span>
 
-        <span class="n">q</span> <span class="o">=</span> <span class="n">Table</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">query_all</span><span class="p">(</span><span class="n">soql</span><span class="p">))</span>
-        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Found </span><span class="si">{</span><span class="n">q</span><span class="o">.</span><span class="n">num_rows</span><span class="si">}</span><span class="s2"> results&quot;</span><span class="p">)</span>
+        <span class="n">q</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">query_all</span><span class="p">(</span><span class="n">soql</span><span class="p">)</span>
+        <span class="n">q</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">q</span><span class="p">))</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Found </span><span class="si">{</span><span class="n">q</span><span class="p">[</span><span class="s1">&#39;totalSize&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2"> results&quot;</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">q</span></div>
 
 <div class="viewcode-block" id="Salesforce.insert_record"><a class="viewcode-back" href="../../../salesforce.html#parsons.Salesforce.insert_record">[docs]</a>    <span class="k">def</span> <span class="nf">insert_record</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">object</span><span class="p">,</span> <span class="n">data_table</span><span class="p">):</span>

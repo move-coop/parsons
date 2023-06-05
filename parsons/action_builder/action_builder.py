@@ -169,8 +169,7 @@ class ActionBuilder(object):
 
     def insert_entity_record(self, entity_type, data=None, campaign=None):
         """
-        Load or update an entity record in Action Builder based on whether any identifiers are
-        passed.
+        Load a new entity record in Action Builder of the type provided.
         `Args:`
             entity_type: str
                 The name of the record type being inserted. Required if identifiers are not
@@ -211,15 +210,13 @@ class ActionBuilder(object):
 
         return self._upsert_entity(data=data, campaign=campaign)
 
-    def update_entity_record(self, identifiers, data, campaign=None):
+    def update_entity_record(self, identifier, data, campaign=None):
         """
-        Load or update an entity record in Action Builder based on whether any identifiers are
-        passed.
+        Update an entity record in Action Builder based on the identifier passed.
         `Args:`
-            identifiers: list
-                The list of strings of unique identifiers for a record being updated. ID strings
-                will need to begin with the origin system, followed by a colon, e.g.
-                `action_builder:abc123-...`.
+            identifier: str
+                The unique identifier for a record being updated. ID strings will need to begin
+                with the origin system, followed by a colon, e.g. `action_builder:abc123-...`.
             data: dict
                 The details to include on the record being upserted, to be included as the value
                 of the `person` key. See
@@ -236,13 +233,13 @@ class ActionBuilder(object):
 
         campaign = self._campaign_check(campaign)
 
-        if isinstance(identifiers, str):
-            # Ensure identifiers is a list, even if it will usually just be one item
-            identifiers = [identifiers]
+        if isinstance(identifier, str):
+            # Ensure identifier is a list, even though singular string is called for
+            identifier = [identifier]
 
         # Default to assuming identifier comes from Action Builder and add prefix if missing
         identifiers = [
-            f"action_builder:{id}" if ":" not in id else id for id in identifiers
+            f"action_builder:{id}" if ":" not in id else id for id in identifier
         ]
 
         if not isinstance(data, dict):
@@ -257,17 +254,16 @@ class ActionBuilder(object):
         return self._upsert_entity(data=data, campaign=campaign)
 
     def add_section_field_values_to_record(
-        self, identifiers, section, field_values, campaign=None
+        self, identifier, section, field_values, campaign=None
     ):
         """
         Add one or more tags (i.e. custom field value) to an existing entity record in Action
         Builder. The tags, along with their field and section, must already exist (except for
         date fields).
         `Args:`
-            identifiers: list
-                The list of strings of unique identifiers for a record being updated. ID strings
-                will need to begin with the origin system, followed by a colon, e.g.
-                `action_builder:abc123-...`.
+            identifier: str
+                The unique identifier for a record being updated. ID strings will need to begin
+                with the origin system, followed by a colon, e.g. `action_builder:abc123-...`.
             section: str
                 The name of the tag section, i.e. the custom field group name.
             field_values: dict
@@ -291,7 +287,7 @@ class ActionBuilder(object):
         data = {"add_tags": tag_data}
 
         return self.update_entity_record(
-            identifiers=identifiers, data=data, campaign=campaign
+            identifier=identifier, data=data, campaign=campaign
         )
 
     def upsert_connection(self, identifiers, tag_data=None, campaign=None):
@@ -301,7 +297,7 @@ class ActionBuilder(object):
         exists, this method will update, but will otherwise create a new connection record.
         `Args:`
             identifiers: list
-                The list of strings of unique identifiers for records being connected. ID strings
+                A list of two unique identifier strings for records being connected. ID strings
                 will need to begin with the origin system, followed by a colon, e.g.
                 `action_builder:abc123-...`. Requires exactly two identifiers.
             tag_data: list

@@ -274,14 +274,14 @@ class TestActionBuilder(unittest.TestCase):
         # Internal method to compare a reference dict to a new incoming one, keeping only common
         # keys whose values are not lists (i.e. nested).
 
-        common_keys = {key for key,value in dict1.items() if key in dict2
+        common_keys = {key for key, value in dict1.items() if key in dict2
                        and not isinstance(value, list)}
 
-        dict1_comp = {key:value for key,value in dict1.items()
-                         if key in common_keys}
+        dict1_comp = {key: value for key, value in dict1.items()
+                      if key in common_keys}
 
-        dict2_comp = {key:value for key,value in dict2.items()
-                         if key in common_keys}
+        dict2_comp = {key: value for key, value in dict2.items()
+                      if key in common_keys}
 
         return dict1_comp, dict2_comp
 

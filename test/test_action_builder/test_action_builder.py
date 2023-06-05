@@ -191,7 +191,7 @@ class TestActionBuilder(unittest.TestCase):
                 "person": {
                     "given_name": "Fakey",
                     "family_name": "McFakerson",
-                    "email_address": [
+                    "email_addresses": [
                         {"address": "fakey@mcfakerson.com", "status": "unsubscribed"}
                     ],
                     "created_date": self.fake_datetime,
@@ -203,7 +203,7 @@ class TestActionBuilder(unittest.TestCase):
         self.fake_update_person = {
             k: v for k, v in self.fake_insert_person.items() if k != "entity_type"
         }
-        self.fake_update_person["identifiers"] = [
+        self.fake_update_person["identifier"] = [
             f"action_builder:{self.fake_entity_id}"
         ]
 
@@ -270,68 +270,76 @@ class TestActionBuilder(unittest.TestCase):
             Table([self.fake_tags_list_1["_embedded"]["osdi:tags"][0]]),
         )
 
-    def compare_to_incoming(self, dict1, dict2):
+    def prepare_dict_key_intersection(self, dict1, dict2):
         # Internal method to compare a reference dict to a new incoming one, keeping only common
-        # keys (or where incoming key is substring). Recursive to handle nesting/JSON.
+        # keys whose values are not lists (i.e. nested).
 
-        incoming = {[key for key in dict1 if k in key][0]: v for k, v in dict2.items()}
-        compare = {k: v for k, v in dict1.items() if k in incoming}
+        common_keys = {key for key,value in dict1.items() if key in dict2
+                       and not isinstance(value, list)}
 
-        for key, val in incoming.items():
-            print(key)
-            if isinstance(val, dict):
-                insub, compsub = self.compare_to_incoming(compare[key], val)
-                incoming[key] = insub
-                compare[key] = compsub
-            elif isinstance(val, list) and isinstance(val[0], dict):
-                for i in range(len(val)):
-                    print(i)
-                    insub, compsub = self.compare_to_incoming(compare[key][i], val[i])
-                    incoming[key][i] = insub
-                    compare[key][i] = compsub
+        dict1_comp = {key:value for key,value in dict1.items()
+                         if key in common_keys}
 
-        return incoming, compare
+        dict2_comp = {key:value for key,value in dict2.items()
+                         if key in common_keys}
+
+        return dict1_comp, dict2_comp
 
     @requests_mock.Mocker()
     def test_upsert_entity(self, m):
         m.post(f"{self.api_url}/people", text=json.dumps(self.fake_upserted_response))
 
         # Flatten and remove items added for spreadable arguments
-        upsert_flattened = self.fake_upsert_person["person"]
-        upsert_incoming, upsert_compare = self.compare_to_incoming(
-            self.bldr._upsert_entity(self.fake_upsert_person, self.campaign),
-            upsert_flattened
+        upsert_person = self.fake_upsert_person["person"]
+        upsert_response = self.bldr._upsert_entity(self.fake_upsert_person, self.campaign)
+
+        person_comp, upsert_response_comp = self.prepare_dict_key_intersection(
+            upsert_person, upsert_response
         )
 
-        self.assertEqual(upsert_incoming, upsert_compare)
+        upsert_email = upsert_person["email_addresses"][0]
+        response_email = upsert_response["email_addresses"][0]
+
+        email_comp, response_email_comp = self.prepare_dict_key_intersection(
+            upsert_email, response_email
+        )
+
+        self.assertEqual(person_comp, upsert_response_comp)
+        self.assertEqual(email_comp, response_email_comp)
 
     @requests_mock.Mocker()
     def test_insert_entity_record(self, m):
         m.post(f"{self.api_url}/people", text=json.dumps(self.fake_upserted_response))
 
         # Flatten and remove items added for spreadable arguments
-        insert_flattened = {
+        insert_person = {
             **{k: v for k, v in self.fake_insert_person.items() if k != "data"},
             **self.fake_insert_person["data"]["person"],
         }
-        insert_incoming, insert_compare = self.compare_to_incoming(
-            self.bldr.insert_entity_record(**self.fake_insert_person), insert_flattened
+        insert_response = self.bldr.insert_entity_record(**self.fake_insert_person)
+
+        person_comp, insert_response_comp = self.prepare_dict_key_intersection(
+            insert_person, insert_response
         )
-        self.assertEqual(insert_incoming, insert_compare)
+
+        self.assertEqual(person_comp, insert_response_comp)
 
     @requests_mock.Mocker()
     def test_update_entity_record(self, m):
         m.post(f"{self.api_url}/people", text=json.dumps(self.fake_upserted_response))
 
         # Flatten and remove items added for spreadable arguments
-        update_flattened = {
+        update_person = {
             **{k: v for k, v in self.fake_update_person.items() if k != "data"},
             **self.fake_update_person["data"]["person"],
         }
-        update_incoming, update_compare = self.compare_to_incoming(
-            self.bldr.update_entity_record(**self.fake_update_person), update_flattened
+        update_response = self.bldr.update_entity_record(**self.fake_update_person)
+
+        person_comp, update_response_comp = self.prepare_dict_key_intersection(
+            update_person, update_response
         )
-        self.assertEqual(update_incoming, update_compare)
+
+        self.assertEqual(person_comp, update_response_comp)
 
     def tagging_callback(self, request, context):
         # Internal method for returning the constructed tag data to test

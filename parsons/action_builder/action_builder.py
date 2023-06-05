@@ -285,7 +285,7 @@ class ActionBuilder(object):
                 "action_builder:field": field,
                 "action_builder:section": section
             }
-            for tag, field in field_values.items()
+            for field, tag in field_values.items()
         ]
 
         data = {"add_tags": tag_data}

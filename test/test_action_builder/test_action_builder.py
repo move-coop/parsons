@@ -125,35 +125,22 @@ class TestActionBuilder(unittest.TestCase):
             + self.fake_tags_list_2["_embedded"]["osdi:tags"]
         )
 
-        self.fake_tag_names = [
-            "Fake Tag 5",
-            self.fake_tag_4,
-            self.fake_tag_3,
-            self.fake_tag_2,
-        ]
-        self.fake_tag_fields = ["Fake Field 2", self.fake_field_1]
+        self.fake_field_values = {
+            "Fake Field 2": "Fake Tag 5",
+            self.fake_field_1: self.fake_tag_4
+        }
 
         self.fake_tagging = [
-            {
-                "action_builder:name": "Fake Tag 5",
-                "action_builder:field": "Fake Field 2",
-                "action_builder:section": self.fake_section,
-            },
             {
                 "action_builder:name": self.fake_tag_4,
                 "action_builder:field": self.fake_field_1,
                 "action_builder:section": self.fake_section,
             },
             {
-                "action_builder:name": self.fake_tag_3,
-                "action_builder:field": self.fake_field_1,
+                "action_builder:name": "Fake Tag 5",
+                "action_builder:field": "Fake Field 2",
                 "action_builder:section": self.fake_section,
-            },
-            {
-                "action_builder:name": self.fake_tag_2,
-                "action_builder:field": self.fake_field_1,
-                "action_builder:section": self.fake_section,
-            },
+            }
         ]
 
         self.fake_entity_id = "fake-entity-id-1"
@@ -351,16 +338,17 @@ class TestActionBuilder(unittest.TestCase):
 
         post_data = request.json()
         tagging_data = post_data["add_tags"]
-        return tagging_data
+
+        # Force the sort to allow for predictable comparison
+        return sorted(tagging_data, key=lambda k: k['action_builder:name'])
 
     @requests_mock.Mocker()
-    def test_add_tags_to_record(self, m):
+    def test_add_section_field_values_to_record(self, m):
         m.post(f"{self.api_url}/people", json=self.tagging_callback)
-        add_tags_response = self.bldr.add_tags_to_record(
+        add_tags_response = self.bldr.add_section_field_values_to_record(
             self.fake_entity_id,
-            self.fake_tag_names,
-            self.fake_tag_fields,
             self.fake_section,
+            self.fake_field_values
         )
         self.assertEqual(add_tags_response, self.fake_tagging)
 

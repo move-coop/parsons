@@ -256,29 +256,22 @@ class ActionBuilder(object):
 
         return self._upsert_entity(data=data, campaign=campaign)
 
-    def add_tags_to_record(
-        self, identifiers, tag_name, tag_field, tag_section, campaign=None
+    def add_section_field_values_to_record(
+        self, identifiers, section, field_values, campaign=None
     ):
         """
-        Add a tag (i.e. custom field value) to an existing entity record in Action Builder. The
-        tags, along with their category/field and section/group, must already exist (except for
-        date fields). If the same number of tags, fields, and sections are supplied, they will be
-        matched up in the order provided. If fewer fields are provided than tags, final field will
-        be matched to all remaining tags. Similarly, the final section will be matched to any
-        remaining fields and tags.
+        Add one or more tags (i.e. custom field value) to an existing entity record in Action
+        Builder. The tags, along with their field and section, must already exist (except for
+        date fields).
         `Args:`
             identifiers: list
                 The list of strings of unique identifiers for a record being updated. ID strings
                 will need to begin with the origin system, followed by a colon, e.g.
                 `action_builder:abc123-...`.
-            tag_name: str or list
-                The name(s) of the new tag(s), i.e. the custom field value(s).
-            tag_field: str or list
-                The name(s) of the tag category(ies), i.e. the custom field name(s). Cannot have
-                more items than `tag_name`.
-            tag_section: str or list
-                The name(s) of the tag section(s), i.e. the custom field group name(s). Cannot
-                have more items than `tag_section` or than `tag_name`.
+            section: str
+                The name of the tag section, i.e. the custom field group name.
+            field_values: dict
+                A collection of field names and tags stored as keys and values.
             campaign: str
                 Optional. The 36-character "interact ID" of the campaign whose data is to be
                 retrieved or edited. Not necessary if supplied when instantiating the class.
@@ -286,45 +279,13 @@ class ActionBuilder(object):
             Dict containing Action Builder entity data of the entity being tagged.
         """
 
-        # Ensure all tag args are lists
-        tag_name = tag_name if isinstance(tag_name, list) else [tag_name]
-        tag_field = tag_field if isinstance(tag_field, list) else [tag_field]
-        tag_section = tag_section if isinstance(tag_section, list) else [tag_section]
-
-        # Use lists of tuples to identify length ordering in case amounts differ
-        lengths = []
-        lengths.append(
-            ("name", len(tag_name))
-        )  # Most specific - should be >= other lengths
-        lengths.append(("field", len(tag_field)))
-        lengths.append(
-            ("section", len(tag_section))
-        )  # Most generic - should be <= other lengths
-
-        # Sort by length, maintaining original order in ties
-        ordered_lengths = sorted(lengths, key=lambda x: x[1], reverse=True)
-        sorted_keys = [x[0] for x in ordered_lengths]
-
-        # Raise an error if there are more fields than tags, or more sections than either
-        if sorted_keys[0] != "name":
-            # More fields than tags
-            raise ValueError(
-                "Not enough tag_names provided for tag_fields or tag_sections"
-            )
-
-        if sorted_keys[1] != "field":
-            # More sections than fields (given that above scenario has been cleared)
-            raise ValueError("Not enough tag_fields provided for tag_sections")
-
-        # Construct tag data, for each tag. If there are more tags than fields, keep applying the
-        # last one to any remaining tags. If there are more sections, apply the last one similarly
         tag_data = [
             {
-                "action_builder:name": x,
-                "action_builder:field": tag_field[min(i, len(tag_field) - 1)],
-                "action_builder:section": tag_section[min(i, len(tag_section) - 1)],
+                "action_builder:name": tag,
+                "action_builder:field": field,
+                "action_builder:section": section
             }
-            for i, x in enumerate(tag_name)
+            for tag, field in field_values.items()
         ]
 
         data = {"add_tags": tag_data}

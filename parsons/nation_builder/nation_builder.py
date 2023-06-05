@@ -106,7 +106,9 @@ class NationBuilder:
                     break
             except Exception as error:
                 logging.error("error requesting data from Nation Builder: %s" % error)
+
                 wait_time = 30
+                logging.info("waiting %d seconds before retrying" % wait_time)
                 time.sleep(wait_time)
 
         return Table(data)

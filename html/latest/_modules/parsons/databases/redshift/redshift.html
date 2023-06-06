@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>parsons.databases.redshift.redshift &mdash; Parsons  documentation</title>
+  <title>parsons.databases.redshift.redshift &mdash; Parsons 0.5 documentation</title>
       <link rel="stylesheet" href="../../../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../../../_static/css/theme.css" type="text/css" />
   <!--[if lt IE 9]>
@@ -357,7 +357,6 @@
         <span class="c1">#        rows in the correct order</span>
 
         <span class="k">with</span> <span class="bp">self</span><span class="o">.</span><span class="n">cursor</span><span class="p">(</span><span class="n">connection</span><span class="p">)</span> <span class="k">as</span> <span class="n">cursor</span><span class="p">:</span>
-
             <span class="k">if</span> <span class="s2">&quot;credentials&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">sql</span><span class="p">:</span>
                 <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;SQL Query: </span><span class="si">{</span><span class="n">sql</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
             <span class="n">cursor</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="n">sql</span><span class="p">,</span> <span class="n">parameters</span><span class="p">)</span>
@@ -371,7 +370,6 @@
                 <span class="k">return</span> <span class="kc">None</span>
 
             <span class="k">else</span><span class="p">:</span>
-
                 <span class="c1"># Fetch the data in batches, and &quot;pickle&quot; the rows to a temp file.</span>
                 <span class="c1"># (We pickle rather than writing to, say, a CSV, so that we maintain</span>
                 <span class="c1"># all the type information for each field.)</span>
@@ -533,7 +531,6 @@
 <span class="sd">        &quot;&quot;&quot;</span>
 
         <span class="k">with</span> <span class="bp">self</span><span class="o">.</span><span class="n">connection</span><span class="p">()</span> <span class="k">as</span> <span class="n">connection</span><span class="p">:</span>
-
             <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_create_table_precheck</span><span class="p">(</span><span class="n">connection</span><span class="p">,</span> <span class="n">table_name</span><span class="p">,</span> <span class="n">if_exists</span><span class="p">):</span>
                 <span class="k">if</span> <span class="n">template_table</span><span class="p">:</span>
                     <span class="n">sql</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;CREATE TABLE </span><span class="si">{</span><span class="n">table_name</span><span class="si">}</span><span class="s2"> (LIKE </span><span class="si">{</span><span class="n">template_table</span><span class="si">}</span><span class="s2">)&quot;</span>
@@ -756,7 +753,6 @@
             <span class="n">cols</span> <span class="o">=</span> <span class="kc">None</span>
 
         <span class="k">with</span> <span class="bp">self</span><span class="o">.</span><span class="n">connection</span><span class="p">()</span> <span class="k">as</span> <span class="n">connection</span><span class="p">:</span>
-
             <span class="c1"># Check to see if the table exists. If it does not or if_exists = drop, then</span>
             <span class="c1"># create the new table.</span>
             <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_create_table_precheck</span><span class="p">(</span><span class="n">connection</span><span class="p">,</span> <span class="n">table_name</span><span class="p">,</span> <span class="n">if_exists</span><span class="p">):</span>
@@ -995,7 +991,6 @@
         <span class="c1"># Generate manifest file</span>
         <span class="n">manifest</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;entries&quot;</span><span class="p">:</span> <span class="p">[]}</span>
         <span class="k">for</span> <span class="n">bucket</span> <span class="ow">in</span> <span class="n">buckets</span><span class="p">:</span>
-
             <span class="c1"># Retrieve list of files in bucket</span>
             <span class="n">key_list</span> <span class="o">=</span> <span class="n">s3</span><span class="o">.</span><span class="n">list_keys</span><span class="p">(</span><span class="n">bucket</span><span class="p">,</span> <span class="n">prefix</span><span class="o">=</span><span class="n">prefix</span><span class="p">)</span>
             <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">key_list</span><span class="p">:</span>
@@ -1118,7 +1113,6 @@
                 <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Primary key column contains duplicate values.&quot;</span><span class="p">)</span>
 
         <span class="k">with</span> <span class="bp">self</span><span class="o">.</span><span class="n">connection</span><span class="p">()</span> <span class="k">as</span> <span class="n">connection</span><span class="p">:</span>
-
             <span class="k">try</span><span class="p">:</span>
                 <span class="c1"># Copy to a staging table</span>
                 <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Building staging table: </span><span class="si">{</span><span class="n">staging_tbl</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
@@ -1223,7 +1217,9 @@
             <span class="n">tbl</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">query_with_connection</span><span class="p">(</span><span class="n">sql_depend</span><span class="p">,</span> <span class="n">connection</span><span class="p">)</span>
             <span class="n">dropped_views</span> <span class="o">=</span> <span class="p">[</span><span class="n">row</span><span class="p">[</span><span class="s2">&quot;table_name&quot;</span><span class="p">]</span> <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">tbl</span><span class="p">]</span>
             <span class="k">if</span> <span class="n">dropped_views</span><span class="p">:</span>
-                <span class="n">sql_drop</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="sa">f</span><span class="s2">&quot;drop view </span><span class="si">{</span><span class="n">view</span><span class="si">}</span><span class="s2">;&quot;</span> <span class="k">for</span> <span class="n">view</span> <span class="ow">in</span> <span class="n">dropped_views</span><span class="p">])</span>
+                <span class="n">sql_drop</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span>
+                    <span class="p">[</span><span class="sa">f</span><span class="s2">&quot;drop view </span><span class="si">{</span><span class="n">view</span><span class="si">}</span><span class="s2"> CASCADE;&quot;</span> <span class="k">for</span> <span class="n">view</span> <span class="ow">in</span> <span class="n">dropped_views</span><span class="p">]</span>
+                <span class="p">)</span>
                 <span class="n">tbl</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">query_with_connection</span><span class="p">(</span><span class="n">sql_drop</span><span class="p">,</span> <span class="n">connection</span><span class="p">)</span>
                 <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Dropped the following views: </span><span class="si">{</span><span class="n">dropped_views</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
 

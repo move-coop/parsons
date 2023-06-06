@@ -81,7 +81,7 @@ class NationBuilder:
     def make_next_url(cls, original_url: str, nonce: str, token: str) -> str:
         return f"{original_url}?limit=100&__nonce={nonce}&__token={token}"
 
-    def get_people(self):
+    def get_people(self) -> Table:
         """
         `Returns:`
             A Table of all people stored in Nation Builder.

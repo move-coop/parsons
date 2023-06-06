@@ -1,6 +1,7 @@
+import json
 import logging
 import time
-from typing import Dict, Optional, Tuple
+from typing import Any, Dict, Optional, Tuple, cast
 from urllib.parse import parse_qs, urlparse
 
 from parsons import Table
@@ -30,9 +31,10 @@ class NationBuilder:
         slug = check_env.check("NB_SLUG", slug)
         token = check_env.check("NB_ACCESS_TOKEN", access_token)
 
-        self.client = APIConnector(
-            NationBuilder.get_uri(slug), headers=NationBuilder.get_auth_headers(token)
-        )
+        headers = {"Content-Type": "application/json", "Accept": "application/json"}
+        headers.update(NationBuilder.get_auth_headers(token))
+
+        self.client = APIConnector(NationBuilder.get_uri(slug), headers=headers)
 
     @classmethod
     def get_uri(cls, slug: Optional[str]) -> str:
@@ -112,3 +114,30 @@ class NationBuilder:
                 time.sleep(wait_time)
 
         return Table(data)
+
+    def update_person(self, person_id: str, data: Dict[str, Any]) -> dict[str, Any]:
+        """
+        `Args:`
+            person_id: str
+                Nation Builder person id.
+            data: dict
+                Nation builder person object.
+                For example {"email": "user@example.com", "tags": ["foo", "bar"]}
+                Docs: https://nationbuilder.com/people_api
+        `Returns:`
+            A person object with the updated data.
+        """
+        if person_id is None:
+            raise ValueError("person_id can't None")
+
+        if not isinstance(person_id, str):
+            raise ValueError("person_id must be an str")
+
+        if len(person_id.strip()) == 0:
+            raise ValueError("person_id can't be an empty str")
+
+        url = f"people/{person_id}"
+        response = self.client.put_request(url, data=json.dumps({"person": data}))
+        response = cast(dict[str, Any], response)
+
+        return response

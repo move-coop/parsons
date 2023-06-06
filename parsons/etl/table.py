@@ -108,6 +108,9 @@ class Table(ETL, ToFrom):
         """
         return petl.nrows(self.table)
 
+    def __len__(self):
+        return self.num_rows
+
     @property
     def data(self):
         """

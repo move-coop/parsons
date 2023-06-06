@@ -115,8 +115,10 @@ class NationBuilder:
 
         return Table(data)
 
-    def update_person(self, person_id: str, data: Dict[str, Any]) -> dict[str, Any]:
+    def update_person(self, person_id: str, person: Dict[str, Any]) -> dict[str, Any]:
         """
+        Updates a person with the provided data.
+
         `Args:`
             person_id: str
                 Nation Builder person id.
@@ -137,7 +139,54 @@ class NationBuilder:
             raise ValueError("person_id can't be an empty str")
 
         url = f"people/{person_id}"
-        response = self.client.put_request(url, data=json.dumps({"person": data}))
+        response = self.client.put_request(url, data=json.dumps({"person": person}))
         response = cast(dict[str, Any], response)
 
         return response
+
+    def upsert_person(
+        self, person: Dict[str, Any]
+    ) -> Tuple[bool, dict[str, Any] | None]:
+        """
+        Updates a matched person or creates a new one if the person doesn't exist.
+
+        This method attempts to match the input person resource to a person already in the
+        nation. If a match is found, the matched person is updated and a 200 status code is
+        returned. If a match is not found, a new person is created and a 201 status code is
+        returned. Matches are found by including one of the following IDs in the request:
+
+            - civicrm_id
+            - county_file_id
+            - dw_id
+            - external_id
+            - email
+            - facebook_username
+            - ngp_id
+            - salesforce_id
+            - twitter_login
+            - van_id
+
+        `Args:`
+            data: dict
+                Nation builder person object.
+                For example {"email": "user@example.com", "tags": ["foo", "bar"]}
+                Docs: https://nationbuilder.com/people_api
+        `Returns:`
+            A tuple of `created` and `person` object with the updated data. If the request fails
+            the method will return a tuple of `False` and `None`.
+        """
+
+        url = "people/push"
+        response = self.client.request(url, "PUT", data=json.dumps({"person": person}))
+
+        self.client.validate_response(response)
+
+        if response.status_code == 200:
+            if self.client.json_check(response):
+                return (False, response.json())
+
+        if response.status_code == 201:
+            if self.client.json_check(response):
+                return (True, response.json())
+
+        return (False, None)

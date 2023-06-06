@@ -117,7 +117,8 @@ class NationBuilder:
 
     def update_person(self, person_id: str, person: Dict[str, Any]) -> dict[str, Any]:
         """
-        Updates a person with the provided data.
+        This method updates a person with the provided id to have the provided data. It returns a
+        full representation of the updated person.
 
         `Args:`
             person_id: str
@@ -151,9 +152,8 @@ class NationBuilder:
         Updates a matched person or creates a new one if the person doesn't exist.
 
         This method attempts to match the input person resource to a person already in the
-        nation. If a match is found, the matched person is updated and a 200 status code is
-        returned. If a match is not found, a new person is created and a 201 status code is
-        returned. Matches are found by including one of the following IDs in the request:
+        nation. If a match is found, the matched person is updated. If a match is not found, a new
+        person is created. Matches are found by including one of the following IDs in the request:
 
             - civicrm_id
             - county_file_id

@@ -9,7 +9,14 @@ class TestNationBuilder(unittest.TestCase):
     def test_client(self):
         nb = NB("test-slug", "test-token")
         self.assertEqual(nb.client.uri, "https://test-slug.nationbuilder.com/api/v1/")
-        self.assertEqual(nb.client.headers, {"authorization": "Bearer test-token"})
+        self.assertEqual(
+            nb.client.headers,
+            {
+                "authorization": "Bearer test-token",
+                "Content-Type": "application/json",
+                "Accept": "application/json",
+            },
+        )
 
     def test_get_uri_success(self):
         self.assertEqual(NB.get_uri("foo"), "https://foo.nationbuilder.com/api/v1")

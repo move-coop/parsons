@@ -1,7 +1,5 @@
 import unittest
 
-import requests_mock
-
 from parsons import NationBuilder as NB
 
 

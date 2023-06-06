@@ -7,6 +7,7 @@ from test.test_van.responses_people import (
     find_people_response,
     get_person_response,
     merge_contacts_response,
+    delete_person_response
 )
 
 os.environ["VAN_API_KEY"] = "SOME_KEY"
@@ -140,6 +141,14 @@ class TestNGPVAN(unittest.TestCase):
         m.get(self.van.connection.uri + "people/19722445", json=json)
         person = self.van.get_person("19722445")
         self.assertEqual(get_person_response, person)
+
+    @requests_mock.Mocker()
+    def test_delete_person(self, m):
+        json = delete_person_response
+        # Test works with vanid
+        m.delete(self.van.connection.uri + "people/19722445", json=json)
+        response = self.van.delete_person("19722445")
+        self.assertEqual(delete_person_response, response)
 
     @requests_mock.Mocker()
     def test_apply_canvass_result(self, m):

@@ -107,6 +107,7 @@ class Auth0(object):
                 "email": email.lower(),
                 "given_name": given_name,
                 "family_name": family_name,
+                "username": username,
                 "connection": "Username-Password-Authentication",
                 "app_metadata": app_metadata,
                 "blocked": False,

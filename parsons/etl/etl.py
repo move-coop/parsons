@@ -1,5 +1,6 @@
-import petl
 import logging
+
+import petl
 
 logger = logging.getLogger(__name__)
 
@@ -9,7 +10,7 @@ class ETL(object):
 
         pass
 
-    def add_column(self, column, value=None, index=None):
+    def add_column(self, column, value=None, index=None, exists_ok=False):
         """
         Add a column to your table
 
@@ -20,11 +21,17 @@ class ETL(object):
                 A fixed or calculated value
             index: int
                 The position of the new column in the table
+            exists_ok: bool
+                If set `True`, this function will call `fill_column`
+                if the column already exists, rather than raising a `ValueError`
         `Returns:`
             `Parsons Table` and also updates self
         """
 
         if column in self.columns:
+            if exists_ok:
+                self.fill_column(column, value)
+                return self
             raise ValueError(f"Column {column} already exists")
 
         self.table = self.table.addfield(column, value, index)
@@ -907,7 +914,8 @@ class ETL(object):
             `Parsons Table` and also updates self
         """
 
-        from parsons.etl import Table  # Just trying to avoid recursive imports.
+        from parsons.etl import \
+            Table  # Just trying to avoid recursive imports.
 
         normalize_fn = (
             Table.get_normalized_column_name if fuzzy_match else (lambda s: s)

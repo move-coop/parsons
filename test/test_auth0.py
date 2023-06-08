@@ -1,5 +1,5 @@
-import json
 import unittest
+import unittest.mock
 from test.utils import assert_matching_tables
 
 import requests_mock
@@ -18,6 +18,7 @@ class TestAuth0(unittest.TestCase):
             "given_name": "Fakey",
             "family_name": "McFakerson",
             "username": "fakeusername",
+            "user_id": 3,
         }
 
     @requests_mock.Mocker()
@@ -41,10 +42,17 @@ class TestAuth0(unittest.TestCase):
     @requests_mock.Mocker()
     def test_upsert_user(self, m):
         user = self.fake_upsert_person
-        m.post(f"{self.auth0.base_url}/api/v2/users", data=json.dumps(user))
+        email = user["email"]
+        m.get(
+            f"{self.auth0.base_url}/api/v2/users-by-email?email={email}",
+            json=[user],
+        )
+        mock_resp = unittest.mock.MagicMock()
+        mock_resp.status_code = 200
+        m.patch(f"{self.auth0.base_url}/api/v2/users/{user['user_id']}", [mock_resp])
+        m.post(f"{self.auth0.base_url}/api/v2/users", mock_resp)
         ret = self.auth0.upsert_user(
-            self,
-            user["email"],
+            email,
             user["username"],
             user["given_name"],
             user["family_name"],

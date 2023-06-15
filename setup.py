@@ -20,6 +20,7 @@ def main():
             "box": ["boxsdk"],
             "braintree": ["braintree"],
             "civis": ["civis"],
+            "dbt-redshift": ["dbt-redshift", "slackclient==1.3.0"],
             "facebook": ["joblib", "facebook-business"],
             "geocode": ["censusgeocode"],
             "github": ["PyGitHub"],

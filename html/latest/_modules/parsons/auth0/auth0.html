@@ -134,9 +134,11 @@
            <div itemprop="articleBody">
              
   <h1>Source code for parsons.auth0.auth0</h1><div class="highlight"><pre>
-<span></span><span class="kn">from</span> <span class="nn">parsons.etl.table</span> <span class="kn">import</span> <span class="n">Table</span>
-<span class="kn">from</span> <span class="nn">parsons.utilities</span> <span class="kn">import</span> <span class="n">check_env</span>
+<span></span><span class="kn">import</span> <span class="nn">json</span>
+
 <span class="kn">import</span> <span class="nn">requests</span>
+<span class="kn">from</span> <span class="nn">parsons.etl.table</span> <span class="kn">import</span> <span class="n">Table</span>
+<span class="kn">from</span> <span class="nn">parsons.utilities</span> <span class="kn">import</span> <span class="n">check_env</span>
 
 
 <div class="viewcode-block" id="Auth0"><a class="viewcode-back" href="../../../auth0.html#parsons.Auth0">[docs]</a><span class="k">class</span> <span class="nc">Auth0</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
@@ -206,7 +208,63 @@
                 <span class="n">headers</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">headers</span><span class="p">,</span>
                 <span class="n">params</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;email&quot;</span><span class="p">:</span> <span class="n">email</span><span class="p">},</span>
             <span class="p">)</span><span class="o">.</span><span class="n">json</span><span class="p">()</span>
-        <span class="p">)</span></div></div>
+        <span class="p">)</span></div>
+
+<div class="viewcode-block" id="Auth0.upsert_user"><a class="viewcode-back" href="../../../auth0.html#parsons.Auth0.upsert_user">[docs]</a>    <span class="k">def</span> <span class="nf">upsert_user</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">email</span><span class="p">,</span>
+        <span class="n">username</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">given_name</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">family_name</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">app_metadata</span><span class="o">=</span><span class="p">{},</span>
+        <span class="n">user_metadata</span><span class="o">=</span><span class="p">{},</span>
+    <span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Upsert Auth0 users by email.</span>
+
+<span class="sd">        `Args:`</span>
+<span class="sd">            email: str</span>
+<span class="sd">                The user email of the record to get.</span>
+<span class="sd">            username: optional str</span>
+<span class="sd">                Username to set for user</span>
+<span class="sd">            given_name: optional str</span>
+<span class="sd">                Given to set for user</span>
+<span class="sd">            family_name: optional str</span>
+<span class="sd">                Family name to set for user</span>
+<span class="sd">            app_metadata: optional dict</span>
+<span class="sd">                App metadata to set for user</span>
+<span class="sd">            user_metadata: optional dict</span>
+<span class="sd">                User metadata to set for user</span>
+<span class="sd">        `Returns:`</span>
+<span class="sd">            Requests Response object</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">payload</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span>
+            <span class="p">{</span>
+                <span class="s2">&quot;email&quot;</span><span class="p">:</span> <span class="n">email</span><span class="o">.</span><span class="n">lower</span><span class="p">(),</span>
+                <span class="s2">&quot;given_name&quot;</span><span class="p">:</span> <span class="n">given_name</span><span class="p">,</span>
+                <span class="s2">&quot;family_name&quot;</span><span class="p">:</span> <span class="n">family_name</span><span class="p">,</span>
+                <span class="s2">&quot;username&quot;</span><span class="p">:</span> <span class="n">username</span><span class="p">,</span>
+                <span class="s2">&quot;connection&quot;</span><span class="p">:</span> <span class="s2">&quot;Username-Password-Authentication&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;app_metadata&quot;</span><span class="p">:</span> <span class="n">app_metadata</span><span class="p">,</span>
+                <span class="s2">&quot;blocked&quot;</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span>
+                <span class="s2">&quot;user_metadata&quot;</span><span class="p">:</span> <span class="n">user_metadata</span><span class="p">,</span>
+            <span class="p">}</span>
+        <span class="p">)</span>
+        <span class="n">existing</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_users_by_email</span><span class="p">(</span><span class="n">email</span><span class="o">.</span><span class="n">lower</span><span class="p">())</span>
+        <span class="k">if</span> <span class="n">existing</span><span class="o">.</span><span class="n">num_rows</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">a0id</span> <span class="o">=</span> <span class="n">existing</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s2">&quot;user_id&quot;</span><span class="p">]</span>
+            <span class="n">ret</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">patch</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">base_url</span><span class="si">}</span><span class="s2">/api/v2/users/</span><span class="si">{</span><span class="n">a0id</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
+                <span class="n">headers</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">headers</span><span class="p">,</span>
+                <span class="n">data</span><span class="o">=</span><span class="n">payload</span><span class="p">,</span>
+            <span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">ret</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">post</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">base_url</span><span class="si">}</span><span class="s2">/api/v2/users&quot;</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">headers</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">payload</span>
+            <span class="p">)</span>
+        <span class="k">if</span> <span class="n">ret</span><span class="o">.</span><span class="n">status_code</span> <span class="o">!=</span> <span class="mi">200</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Invalid response </span><span class="si">{</span><span class="n">ret</span><span class="o">.</span><span class="n">json</span><span class="p">()</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">ret</span></div></div>
 </pre></div>
 
            </div>

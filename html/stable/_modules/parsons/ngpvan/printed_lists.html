@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>parsons.ngpvan.printed_lists &mdash; Parsons 0.5 documentation</title>
+  <title>parsons.ngpvan.printed_lists &mdash; Parsons  documentation</title>
       <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
   <!--[if lt IE 9]>
@@ -143,13 +143,18 @@
 
 
 <div class="viewcode-block" id="PrintedLists"><a class="viewcode-back" href="../../../ngpvan.html#parsons.ngpvan.van.PrintedLists">[docs]</a><span class="k">class</span> <span class="nc">PrintedLists</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
-
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">van_connection</span><span class="p">):</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">connection</span> <span class="o">=</span> <span class="n">van_connection</span>
 
-<div class="viewcode-block" id="PrintedLists.get_printed_lists"><a class="viewcode-back" href="../../../ngpvan.html#parsons.ngpvan.van.PrintedLists.get_printed_lists">[docs]</a>    <span class="k">def</span> <span class="nf">get_printed_lists</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">generated_after</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">generated_before</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">created_by</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-                          <span class="n">folder_name</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">turf_name</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<div class="viewcode-block" id="PrintedLists.get_printed_lists"><a class="viewcode-back" href="../../../ngpvan.html#parsons.ngpvan.van.PrintedLists.get_printed_lists">[docs]</a>    <span class="k">def</span> <span class="nf">get_printed_lists</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">generated_after</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">generated_before</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">created_by</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">folder_name</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">turf_name</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Get printed lists.</span>
 
@@ -162,14 +167,19 @@
 <span class="sd">                See :ref:`parsons-table` for output options.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
-        <span class="n">params</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;generatedAfter&#39;</span><span class="p">:</span> <span class="n">generated_after</span><span class="p">,</span> <span class="s1">&#39;generatedBefore&#39;</span><span class="p">:</span> <span class="n">generated_before</span><span class="p">,</span>
-                  <span class="s1">&#39;createdBy&#39;</span><span class="p">:</span> <span class="n">created_by</span><span class="p">,</span> <span class="s1">&#39;folderName&#39;</span><span class="p">:</span> <span class="n">folder_name</span><span class="p">,</span> <span class="s1">&#39;turfName&#39;</span><span class="p">:</span> <span class="n">turf_name</span><span class="p">}</span>
+        <span class="n">params</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s2">&quot;generatedAfter&quot;</span><span class="p">:</span> <span class="n">generated_after</span><span class="p">,</span>
+            <span class="s2">&quot;generatedBefore&quot;</span><span class="p">:</span> <span class="n">generated_before</span><span class="p">,</span>
+            <span class="s2">&quot;createdBy&quot;</span><span class="p">:</span> <span class="n">created_by</span><span class="p">,</span>
+            <span class="s2">&quot;folderName&quot;</span><span class="p">:</span> <span class="n">folder_name</span><span class="p">,</span>
+            <span class="s2">&quot;turfName&quot;</span><span class="p">:</span> <span class="n">turf_name</span><span class="p">,</span>
+        <span class="p">}</span>
 
         <span class="n">params</span> <span class="o">=</span> <span class="p">{</span><span class="n">key</span><span class="p">:</span> <span class="n">value</span> <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">params</span><span class="o">.</span><span class="n">items</span><span class="p">()</span> <span class="k">if</span> <span class="n">value</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">}</span>
 
-        <span class="n">tbl</span> <span class="o">=</span> <span class="n">Table</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">connection</span><span class="o">.</span><span class="n">get_request</span><span class="p">(</span><span class="s1">&#39;printedLists&#39;</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="n">params</span><span class="p">))</span>
+        <span class="n">tbl</span> <span class="o">=</span> <span class="n">Table</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">connection</span><span class="o">.</span><span class="n">get_request</span><span class="p">(</span><span class="s2">&quot;printedLists&quot;</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="n">params</span><span class="p">))</span>
 
-        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Found </span><span class="si">{</span><span class="n">tbl</span><span class="o">.</span><span class="n">num_rows</span><span class="si">}</span><span class="s1"> printed lists.&#39;</span><span class="p">)</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Found </span><span class="si">{</span><span class="n">tbl</span><span class="o">.</span><span class="n">num_rows</span><span class="si">}</span><span class="s2"> printed lists.&quot;</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">tbl</span></div>
 
 <div class="viewcode-block" id="PrintedLists.get_printed_list"><a class="viewcode-back" href="../../../ngpvan.html#parsons.ngpvan.van.PrintedLists.get_printed_list">[docs]</a>    <span class="k">def</span> <span class="nf">get_printed_list</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">printed_list_number</span><span class="p">):</span>
@@ -183,8 +193,8 @@
 <span class="sd">            dict</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
-        <span class="n">r</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">connection</span><span class="o">.</span><span class="n">get_request</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;printedLists/</span><span class="si">{</span><span class="n">printed_list_number</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
-        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Found printed list </span><span class="si">{</span><span class="n">printed_list_number</span><span class="si">}</span><span class="s1">.&#39;</span><span class="p">)</span>
+        <span class="n">r</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">connection</span><span class="o">.</span><span class="n">get_request</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;printedLists/</span><span class="si">{</span><span class="n">printed_list_number</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Found printed list </span><span class="si">{</span><span class="n">printed_list_number</span><span class="si">}</span><span class="s2">.&quot;</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">r</span></div></div>
 </pre></div>
 

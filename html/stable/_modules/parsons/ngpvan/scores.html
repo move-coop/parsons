@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>parsons.ngpvan.scores &mdash; Parsons 0.5 documentation</title>
+  <title>parsons.ngpvan.scores &mdash; Parsons  documentation</title>
       <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
   <!--[if lt IE 9]>
@@ -146,7 +146,6 @@
 
 
 <div class="viewcode-block" id="Scores"><a class="viewcode-back" href="../../../ngpvan.html#parsons.ngpvan.van.Scores">[docs]</a><span class="k">class</span> <span class="nc">Scores</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
-
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">van_connection</span><span class="p">):</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">connection</span> <span class="o">=</span> <span class="n">van_connection</span>
@@ -160,8 +159,8 @@
 <span class="sd">                See :ref:`parsons-table` for output options.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
-        <span class="n">tbl</span> <span class="o">=</span> <span class="n">Table</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">connection</span><span class="o">.</span><span class="n">get_request</span><span class="p">(</span><span class="s1">&#39;scores&#39;</span><span class="p">))</span>
-        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Found </span><span class="si">{</span><span class="n">tbl</span><span class="o">.</span><span class="n">num_rows</span><span class="si">}</span><span class="s1"> scores.&#39;</span><span class="p">)</span>
+        <span class="n">tbl</span> <span class="o">=</span> <span class="n">Table</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">connection</span><span class="o">.</span><span class="n">get_request</span><span class="p">(</span><span class="s2">&quot;scores&quot;</span><span class="p">))</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Found </span><span class="si">{</span><span class="n">tbl</span><span class="o">.</span><span class="n">num_rows</span><span class="si">}</span><span class="s2"> scores.&quot;</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">tbl</span></div>
 
 <div class="viewcode-block" id="Scores.get_score"><a class="viewcode-back" href="../../../ngpvan.html#parsons.ngpvan.van.Scores.get_score">[docs]</a>    <span class="k">def</span> <span class="nf">get_score</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">score_id</span><span class="p">):</span>
@@ -175,8 +174,8 @@
 <span class="sd">            dict</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
-        <span class="n">r</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">connection</span><span class="o">.</span><span class="n">get_request</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;scores/</span><span class="si">{</span><span class="n">score_id</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
-        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Found score </span><span class="si">{</span><span class="n">score_id</span><span class="si">}</span><span class="s1">.&#39;</span><span class="p">)</span>
+        <span class="n">r</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">connection</span><span class="o">.</span><span class="n">get_request</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;scores/</span><span class="si">{</span><span class="n">score_id</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Found score </span><span class="si">{</span><span class="n">score_id</span><span class="si">}</span><span class="s2">.&quot;</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">r</span></div>
 
 <div class="viewcode-block" id="Scores.get_score_updates"><a class="viewcode-back" href="../../../ngpvan.html#parsons.ngpvan.van.Scores.get_score_updates">[docs]</a>    <span class="k">def</span> <span class="nf">get_score_updates</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">created_before</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">created_after</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">score_id</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
@@ -195,15 +194,17 @@
 <span class="sd">                See :ref:`parsons-table` for output options.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
-        <span class="n">params</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;createdBefore&#39;</span><span class="p">:</span> <span class="n">created_before</span><span class="p">,</span>
-                  <span class="s1">&#39;createdAfter&#39;</span><span class="p">:</span> <span class="n">created_after</span><span class="p">,</span>
-                  <span class="s1">&#39;scoreId&#39;</span><span class="p">:</span> <span class="n">score_id</span><span class="p">}</span>
+        <span class="n">params</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s2">&quot;createdBefore&quot;</span><span class="p">:</span> <span class="n">created_before</span><span class="p">,</span>
+            <span class="s2">&quot;createdAfter&quot;</span><span class="p">:</span> <span class="n">created_after</span><span class="p">,</span>
+            <span class="s2">&quot;scoreId&quot;</span><span class="p">:</span> <span class="n">score_id</span><span class="p">,</span>
+        <span class="p">}</span>
 
-        <span class="n">tbl</span> <span class="o">=</span> <span class="n">Table</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">connection</span><span class="o">.</span><span class="n">get_request</span><span class="p">(</span><span class="s1">&#39;scoreUpdates&#39;</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="n">params</span><span class="p">))</span>
+        <span class="n">tbl</span> <span class="o">=</span> <span class="n">Table</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">connection</span><span class="o">.</span><span class="n">get_request</span><span class="p">(</span><span class="s2">&quot;scoreUpdates&quot;</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="n">params</span><span class="p">))</span>
         <span class="k">if</span> <span class="n">tbl</span><span class="o">.</span><span class="n">num_rows</span><span class="p">:</span>
-            <span class="n">tbl</span><span class="o">.</span><span class="n">unpack_dict</span><span class="p">(</span><span class="s1">&#39;updateStatistics&#39;</span><span class="p">,</span> <span class="n">prepend</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
-            <span class="n">tbl</span><span class="o">.</span><span class="n">unpack_dict</span><span class="p">(</span><span class="s1">&#39;score&#39;</span><span class="p">,</span> <span class="n">prepend</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
-        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Found </span><span class="si">{</span><span class="n">tbl</span><span class="o">.</span><span class="n">num_rows</span><span class="si">}</span><span class="s1"> score updates.&#39;</span><span class="p">)</span>
+            <span class="n">tbl</span><span class="o">.</span><span class="n">unpack_dict</span><span class="p">(</span><span class="s2">&quot;updateStatistics&quot;</span><span class="p">,</span> <span class="n">prepend</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+            <span class="n">tbl</span><span class="o">.</span><span class="n">unpack_dict</span><span class="p">(</span><span class="s2">&quot;score&quot;</span><span class="p">,</span> <span class="n">prepend</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Found </span><span class="si">{</span><span class="n">tbl</span><span class="o">.</span><span class="n">num_rows</span><span class="si">}</span><span class="s2"> score updates.&quot;</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">tbl</span></div>
 
 <div class="viewcode-block" id="Scores.get_score_update"><a class="viewcode-back" href="../../../ngpvan.html#parsons.ngpvan.van.Scores.get_score_update">[docs]</a>    <span class="k">def</span> <span class="nf">get_score_update</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">score_update_id</span><span class="p">):</span>
@@ -217,8 +218,8 @@
 <span class="sd">                dict</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
-        <span class="n">r</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">connection</span><span class="o">.</span><span class="n">get_request</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;scoreUpdates/</span><span class="si">{</span><span class="n">score_update_id</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
-        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Returning score update </span><span class="si">{</span><span class="n">score_update_id</span><span class="si">}</span><span class="s1">.&#39;</span><span class="p">)</span>
+        <span class="n">r</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">connection</span><span class="o">.</span><span class="n">get_request</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;scoreUpdates/</span><span class="si">{</span><span class="n">score_update_id</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Returning score update </span><span class="si">{</span><span class="n">score_update_id</span><span class="si">}</span><span class="s2">.&quot;</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">r</span></div>
 
 <div class="viewcode-block" id="Scores.update_score_status"><a class="viewcode-back" href="../../../ngpvan.html#parsons.ngpvan.van.Scores.update_score_status">[docs]</a>    <span class="k">def</span> <span class="nf">update_score_status</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">score_update_id</span><span class="p">,</span> <span class="n">status</span><span class="p">):</span>
@@ -235,26 +236,36 @@
 <span class="sd">            ``None``</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
-        <span class="k">if</span> <span class="n">status</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;pending approval&#39;</span><span class="p">,</span> <span class="s1">&#39;approved&#39;</span><span class="p">,</span> <span class="s1">&#39;disapproved&#39;</span><span class="p">,</span>
-                          <span class="s1">&#39;canceled&#39;</span><span class="p">]:</span>
+        <span class="k">if</span> <span class="n">status</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;pending approval&quot;</span><span class="p">,</span> <span class="s2">&quot;approved&quot;</span><span class="p">,</span> <span class="s2">&quot;disapproved&quot;</span><span class="p">,</span> <span class="s2">&quot;canceled&quot;</span><span class="p">]:</span>
 
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;&quot;&quot;Valid inputs for status are, &#39;pending approval&#39;,</span>
-<span class="s2">                             &#39;approved&#39;,&#39;disapproved&#39;,&#39;canceled&#39;&quot;&quot;&quot;</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+<span class="w">                </span><span class="sd">&quot;&quot;&quot;Valid inputs for status are, &#39;pending approval&#39;,</span>
+<span class="sd">                             &#39;approved&#39;,&#39;disapproved&#39;,&#39;canceled&#39;&quot;&quot;&quot;</span>
+            <span class="p">)</span>
 
         <span class="k">else</span><span class="p">:</span>
-            <span class="k">if</span> <span class="n">status</span> <span class="o">==</span> <span class="s1">&#39;pending approval&#39;</span><span class="p">:</span>
-                <span class="n">status</span> <span class="o">=</span> <span class="s1">&#39;PendingApproval&#39;</span>
+            <span class="k">if</span> <span class="n">status</span> <span class="o">==</span> <span class="s2">&quot;pending approval&quot;</span><span class="p">:</span>
+                <span class="n">status</span> <span class="o">=</span> <span class="s2">&quot;PendingApproval&quot;</span>
             <span class="k">else</span><span class="p">:</span>
                 <span class="n">status</span> <span class="o">=</span> <span class="n">status</span><span class="o">.</span><span class="n">capitalize</span><span class="p">()</span>
 
         <span class="n">json</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;loadStatus&quot;</span><span class="p">:</span> <span class="n">status</span><span class="p">}</span>
 
-        <span class="n">r</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">connection</span><span class="o">.</span><span class="n">patch_request</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;scoreUpdates/</span><span class="si">{</span><span class="n">score_update_id</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">json</span><span class="o">=</span><span class="n">json</span><span class="p">)</span>
-        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Score </span><span class="si">{</span><span class="n">score_update_id</span><span class="si">}</span><span class="s1"> status updated to </span><span class="si">{</span><span class="n">status</span><span class="si">}</span><span class="s1">.&#39;</span><span class="p">)</span>
+        <span class="n">r</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">connection</span><span class="o">.</span><span class="n">patch_request</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;scoreUpdates/</span><span class="si">{</span><span class="n">score_update_id</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">json</span><span class="o">=</span><span class="n">json</span><span class="p">)</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Score </span><span class="si">{</span><span class="n">score_update_id</span><span class="si">}</span><span class="s2"> status updated to </span><span class="si">{</span><span class="n">status</span><span class="si">}</span><span class="s2">.&quot;</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">r</span></div>
 
-<div class="viewcode-block" id="Scores.upload_scores"><a class="viewcode-back" href="../../../ngpvan.html#parsons.ngpvan.van.Scores.upload_scores">[docs]</a>    <span class="k">def</span> <span class="nf">upload_scores</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tbl</span><span class="p">,</span> <span class="n">config</span><span class="p">,</span> <span class="n">url_type</span><span class="p">,</span> <span class="n">id_type</span><span class="o">=</span><span class="s1">&#39;vanid&#39;</span><span class="p">,</span> <span class="n">email</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">auto_approve</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
-                      <span class="n">approve_tolerance</span><span class="o">=</span><span class="mf">.1</span><span class="p">,</span> <span class="o">**</span><span class="n">url_kwargs</span><span class="p">):</span>
+<div class="viewcode-block" id="Scores.upload_scores"><a class="viewcode-back" href="../../../ngpvan.html#parsons.ngpvan.van.Scores.upload_scores">[docs]</a>    <span class="k">def</span> <span class="nf">upload_scores</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">tbl</span><span class="p">,</span>
+        <span class="n">config</span><span class="p">,</span>
+        <span class="n">url_type</span><span class="p">,</span>
+        <span class="n">id_type</span><span class="o">=</span><span class="s2">&quot;vanid&quot;</span><span class="p">,</span>
+        <span class="n">email</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">auto_approve</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="n">approve_tolerance</span><span class="o">=</span><span class="mf">0.1</span><span class="p">,</span>
+        <span class="o">**</span><span class="n">url_kwargs</span><span class="p">,</span>
+    <span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Upload scores. Use to create or overwrite scores. Multiple score loads</span>
 <span class="sd">        should be configured in a single call. [1]_</span>
@@ -307,55 +318,76 @@
 
         <span class="c1"># Move to cloud storage</span>
         <span class="n">file_name</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">uuid</span><span class="o">.</span><span class="n">uuid1</span><span class="p">())</span>
-        <span class="n">url</span> <span class="o">=</span> <span class="n">cloud_storage</span><span class="o">.</span><span class="n">post_file</span><span class="p">(</span><span class="n">tbl</span><span class="p">,</span> <span class="n">url_type</span><span class="p">,</span> <span class="n">file_path</span><span class="o">=</span><span class="n">file_name</span> <span class="o">+</span> <span class="s1">&#39;.zip&#39;</span><span class="p">,</span> <span class="o">**</span><span class="n">url_kwargs</span><span class="p">)</span>
-        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Table uploaded to </span><span class="si">{</span><span class="n">url_type</span><span class="si">}</span><span class="s1">.&#39;</span><span class="p">)</span>
+        <span class="n">url</span> <span class="o">=</span> <span class="n">cloud_storage</span><span class="o">.</span><span class="n">post_file</span><span class="p">(</span>
+            <span class="n">tbl</span><span class="p">,</span> <span class="n">url_type</span><span class="p">,</span> <span class="n">file_path</span><span class="o">=</span><span class="n">file_name</span> <span class="o">+</span> <span class="s2">&quot;.zip&quot;</span><span class="p">,</span> <span class="o">**</span><span class="n">url_kwargs</span>
+        <span class="p">)</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Table uploaded to </span><span class="si">{</span><span class="n">url_type</span><span class="si">}</span><span class="s2">.&quot;</span><span class="p">)</span>
 
         <span class="c1"># Generate shell request</span>
-        <span class="n">json</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;description&quot;</span><span class="p">:</span> <span class="s1">&#39;A description&#39;</span><span class="p">,</span>
-                <span class="s2">&quot;file&quot;</span><span class="p">:</span> <span class="p">{</span>
-                    <span class="s2">&quot;columnDelimiter&quot;</span><span class="p">:</span> <span class="s1">&#39;csv&#39;</span><span class="p">,</span>
-                    <span class="s2">&quot;columns&quot;</span><span class="p">:</span> <span class="p">[{</span><span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="n">c</span><span class="p">}</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">tbl</span><span class="o">.</span><span class="n">columns</span><span class="p">],</span>
-                    <span class="s2">&quot;fileName&quot;</span><span class="p">:</span> <span class="n">file_name</span> <span class="o">+</span> <span class="s1">&#39;.csv&#39;</span><span class="p">,</span>
-                    <span class="s2">&quot;hasHeader&quot;</span><span class="p">:</span> <span class="s2">&quot;True&quot;</span><span class="p">,</span>
-                    <span class="s2">&quot;hasQuotes&quot;</span><span class="p">:</span> <span class="s2">&quot;False&quot;</span><span class="p">,</span>
-                    <span class="s2">&quot;sourceUrl&quot;</span><span class="p">:</span> <span class="n">url</span><span class="p">},</span>
-                <span class="s2">&quot;actions&quot;</span><span class="p">:</span> <span class="p">[]</span>
-                <span class="p">}</span>
+        <span class="n">json</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s2">&quot;description&quot;</span><span class="p">:</span> <span class="s2">&quot;A description&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;file&quot;</span><span class="p">:</span> <span class="p">{</span>
+                <span class="s2">&quot;columnDelimiter&quot;</span><span class="p">:</span> <span class="s2">&quot;csv&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;columns&quot;</span><span class="p">:</span> <span class="p">[{</span><span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="n">c</span><span class="p">}</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">tbl</span><span class="o">.</span><span class="n">columns</span><span class="p">],</span>
+                <span class="s2">&quot;fileName&quot;</span><span class="p">:</span> <span class="n">file_name</span> <span class="o">+</span> <span class="s2">&quot;.csv&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;hasHeader&quot;</span><span class="p">:</span> <span class="s2">&quot;True&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;hasQuotes&quot;</span><span class="p">:</span> <span class="s2">&quot;False&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;sourceUrl&quot;</span><span class="p">:</span> <span class="n">url</span><span class="p">,</span>
+            <span class="p">},</span>
+            <span class="s2">&quot;actions&quot;</span><span class="p">:</span> <span class="p">[],</span>
+        <span class="p">}</span>
 
         <span class="c1"># Configure each score</span>
         <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">config</span><span class="p">:</span>
-            <span class="n">action</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;actionType&quot;</span><span class="p">:</span> <span class="s2">&quot;score&quot;</span><span class="p">,</span>
-                      <span class="s2">&quot;personIdColumn&quot;</span><span class="p">:</span> <span class="n">tbl</span><span class="o">.</span><span class="n">columns</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span>
-                      <span class="s2">&quot;personIdType&quot;</span><span class="p">:</span> <span class="n">id_type</span><span class="p">,</span>
-                      <span class="s2">&quot;scoreColumn&quot;</span><span class="p">:</span> <span class="n">i</span><span class="p">[</span><span class="s1">&#39;score_column&#39;</span><span class="p">],</span>
-                      <span class="s2">&quot;scoreId&quot;</span><span class="p">:</span> <span class="n">i</span><span class="p">[</span><span class="s1">&#39;score_id&#39;</span><span class="p">]}</span>
+            <span class="n">action</span> <span class="o">=</span> <span class="p">{</span>
+                <span class="s2">&quot;actionType&quot;</span><span class="p">:</span> <span class="s2">&quot;score&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;personIdColumn&quot;</span><span class="p">:</span> <span class="n">tbl</span><span class="o">.</span><span class="n">columns</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span>
+                <span class="s2">&quot;personIdType&quot;</span><span class="p">:</span> <span class="n">id_type</span><span class="p">,</span>
+                <span class="s2">&quot;scoreColumn&quot;</span><span class="p">:</span> <span class="n">i</span><span class="p">[</span><span class="s2">&quot;score_column&quot;</span><span class="p">],</span>
+                <span class="s2">&quot;scoreId&quot;</span><span class="p">:</span> <span class="n">i</span><span class="p">[</span><span class="s2">&quot;score_id&quot;</span><span class="p">],</span>
+            <span class="p">}</span>
 
             <span class="k">if</span> <span class="n">auto_approve</span><span class="p">:</span>
-                <span class="n">average</span> <span class="o">=</span> <span class="n">petl</span><span class="o">.</span><span class="n">stats</span><span class="p">(</span><span class="n">tbl</span><span class="o">.</span><span class="n">table</span><span class="p">,</span> <span class="n">i</span><span class="p">[</span><span class="s1">&#39;score_column&#39;</span><span class="p">])</span><span class="o">.</span><span class="n">mean</span>
-                <span class="n">action</span><span class="p">[</span><span class="s1">&#39;approvalCriteria&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;average&quot;</span><span class="p">:</span> <span class="n">average</span><span class="p">,</span> <span class="s2">&quot;tolerance&quot;</span><span class="p">:</span> <span class="n">approve_tolerance</span><span class="p">}</span>
+                <span class="n">average</span> <span class="o">=</span> <span class="n">petl</span><span class="o">.</span><span class="n">stats</span><span class="p">(</span><span class="n">tbl</span><span class="o">.</span><span class="n">table</span><span class="p">,</span> <span class="n">i</span><span class="p">[</span><span class="s2">&quot;score_column&quot;</span><span class="p">])</span><span class="o">.</span><span class="n">mean</span>
+                <span class="n">action</span><span class="p">[</span><span class="s2">&quot;approvalCriteria&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span>
+                    <span class="s2">&quot;average&quot;</span><span class="p">:</span> <span class="n">average</span><span class="p">,</span>
+                    <span class="s2">&quot;tolerance&quot;</span><span class="p">:</span> <span class="n">approve_tolerance</span><span class="p">,</span>
+                <span class="p">}</span>
 
-            <span class="n">json</span><span class="p">[</span><span class="s1">&#39;actions&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">action</span><span class="p">)</span>
+            <span class="n">json</span><span class="p">[</span><span class="s2">&quot;actions&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">action</span><span class="p">)</span>
 
         <span class="c1"># Add email listener</span>
         <span class="k">if</span> <span class="n">email</span><span class="p">:</span>
-            <span class="n">json</span><span class="p">[</span><span class="s1">&#39;listeners&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[{</span><span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;EMAIL&quot;</span><span class="p">,</span> <span class="s1">&#39;value&#39;</span><span class="p">:</span> <span class="n">email</span><span class="p">}]</span>
+            <span class="n">json</span><span class="p">[</span><span class="s2">&quot;listeners&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[{</span><span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;EMAIL&quot;</span><span class="p">,</span> <span class="s2">&quot;value&quot;</span><span class="p">:</span> <span class="n">email</span><span class="p">}]</span>
 
         <span class="c1"># Upload scores</span>
-        <span class="n">r</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">connection</span><span class="o">.</span><span class="n">post_request</span><span class="p">(</span><span class="s1">&#39;fileLoadingJobs&#39;</span><span class="p">,</span> <span class="n">json</span><span class="o">=</span><span class="n">json</span><span class="p">)</span>
+        <span class="n">r</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">connection</span><span class="o">.</span><span class="n">post_request</span><span class="p">(</span><span class="s2">&quot;fileLoadingJobs&quot;</span><span class="p">,</span> <span class="n">json</span><span class="o">=</span><span class="n">json</span><span class="p">)</span>
         <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Scores job </span><span class="si">{</span><span class="n">r</span><span class="p">[</span><span class="s1">&#39;jobId&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2"> created.&quot;</span><span class="p">)</span>
-        <span class="k">return</span> <span class="n">r</span><span class="p">[</span><span class="s1">&#39;jobId&#39;</span><span class="p">]</span></div></div>
+        <span class="k">return</span> <span class="n">r</span><span class="p">[</span><span class="s2">&quot;jobId&quot;</span><span class="p">]</span></div></div>
 
 
 <div class="viewcode-block" id="FileLoadingJobs"><a class="viewcode-back" href="../../../ngpvan.html#parsons.ngpvan.van.FileLoadingJobs">[docs]</a><span class="k">class</span> <span class="nc">FileLoadingJobs</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
-
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">van_connection</span><span class="p">):</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">connection</span> <span class="o">=</span> <span class="n">van_connection</span>
 
-<div class="viewcode-block" id="FileLoadingJobs.create_file_load"><a class="viewcode-back" href="../../../ngpvan.html#parsons.ngpvan.van.FileLoadingJobs.create_file_load">[docs]</a>    <span class="k">def</span> <span class="nf">create_file_load</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">file_name</span><span class="p">,</span> <span class="n">file_url</span><span class="p">,</span> <span class="n">columns</span><span class="p">,</span> <span class="n">id_column</span><span class="p">,</span> <span class="n">id_type</span><span class="p">,</span>
-                         <span class="n">score_id</span><span class="p">,</span> <span class="n">score_column</span><span class="p">,</span> <span class="n">delimiter</span><span class="o">=</span><span class="s1">&#39;csv&#39;</span><span class="p">,</span> <span class="n">header</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">quotes</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
-                         <span class="n">description</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">email</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">auto_average</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-                         <span class="n">auto_tolerance</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<div class="viewcode-block" id="FileLoadingJobs.create_file_load"><a class="viewcode-back" href="../../../ngpvan.html#parsons.ngpvan.van.FileLoadingJobs.create_file_load">[docs]</a>    <span class="k">def</span> <span class="nf">create_file_load</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">file_name</span><span class="p">,</span>
+        <span class="n">file_url</span><span class="p">,</span>
+        <span class="n">columns</span><span class="p">,</span>
+        <span class="n">id_column</span><span class="p">,</span>
+        <span class="n">id_type</span><span class="p">,</span>
+        <span class="n">score_id</span><span class="p">,</span>
+        <span class="n">score_column</span><span class="p">,</span>
+        <span class="n">delimiter</span><span class="o">=</span><span class="s2">&quot;csv&quot;</span><span class="p">,</span>
+        <span class="n">header</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="n">quotes</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="n">description</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">email</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">auto_average</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">auto_tolerance</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        .. warning::</span>
 <span class="sd">           .. deprecated:: 0.7 Use :func:`parsons.VAN.upload_scores` instead.</span>
@@ -393,48 +425,63 @@
 <span class="sd">                The file load id</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
-        <span class="n">columns</span> <span class="o">=</span> <span class="p">[{</span><span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="n">c</span><span class="p">}</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">columns</span><span class="p">]</span>
+        <span class="n">columns</span> <span class="o">=</span> <span class="p">[{</span><span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="n">c</span><span class="p">}</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">columns</span><span class="p">]</span>
 
         <span class="c1"># To Do: Validate that it is a .zip file. Not entirely sure if this is possible</span>
         <span class="c1"># as some urls might not end in &quot;.zip&quot;.</span>
 
-        <span class="k">if</span> <span class="n">delimiter</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;csv&#39;</span><span class="p">,</span> <span class="s1">&#39;tab&#39;</span><span class="p">,</span> <span class="s1">&#39;pipe&#39;</span><span class="p">]:</span>
+        <span class="k">if</span> <span class="n">delimiter</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;csv&quot;</span><span class="p">,</span> <span class="s2">&quot;tab&quot;</span><span class="p">,</span> <span class="s2">&quot;pipe&quot;</span><span class="p">]:</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Delimiter must be one of &#39;csv&#39;, &#39;tab&#39; or &#39;pipe&#39;&quot;</span><span class="p">)</span>
 
         <span class="n">delimiter</span> <span class="o">=</span> <span class="n">delimiter</span><span class="o">.</span><span class="n">capitalize</span><span class="p">()</span>
 
-        <span class="n">json</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;description&quot;</span><span class="p">:</span> <span class="s1">&#39;A description&#39;</span><span class="p">,</span>
-                <span class="s2">&quot;file&quot;</span><span class="p">:</span> <span class="p">{</span>
-                    <span class="s2">&quot;columnDelimiter&quot;</span><span class="p">:</span> <span class="n">delimiter</span><span class="p">,</span>
-                    <span class="s2">&quot;columns&quot;</span><span class="p">:</span> <span class="n">columns</span><span class="p">,</span>
-                    <span class="s2">&quot;fileName&quot;</span><span class="p">:</span> <span class="n">file_name</span><span class="p">,</span>
-                    <span class="s2">&quot;hasHeader&quot;</span><span class="p">:</span> <span class="n">header</span><span class="p">,</span>
-                    <span class="s2">&quot;hasQuotes&quot;</span><span class="p">:</span> <span class="n">quotes</span><span class="p">,</span>
-                    <span class="s2">&quot;sourceUrl&quot;</span><span class="p">:</span> <span class="n">file_url</span>
-                <span class="p">},</span>
-                <span class="s2">&quot;actions&quot;</span><span class="p">:</span> <span class="p">[</span>
-                    <span class="p">{</span><span class="s2">&quot;actionType&quot;</span><span class="p">:</span> <span class="s2">&quot;score&quot;</span><span class="p">,</span>
-                     <span class="s2">&quot;personIdColumn&quot;</span><span class="p">:</span> <span class="n">id_column</span><span class="p">,</span>
-                     <span class="s2">&quot;personIdType&quot;</span><span class="p">:</span> <span class="n">id_type</span><span class="p">,</span>
-                     <span class="s2">&quot;scoreColumn&quot;</span><span class="p">:</span> <span class="n">score_column</span><span class="p">,</span>
-                     <span class="s2">&quot;scoreId&quot;</span><span class="p">:</span> <span class="n">score_id</span><span class="p">}],</span>
-                <span class="s2">&quot;listeners&quot;</span><span class="p">:</span> <span class="p">[</span>
-                    <span class="p">{</span><span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;EMAIL&quot;</span><span class="p">,</span>
-                     <span class="s2">&quot;value&quot;</span><span class="p">:</span> <span class="n">email</span><span class="p">}]</span>
+        <span class="n">json</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s2">&quot;description&quot;</span><span class="p">:</span> <span class="s2">&quot;A description&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;file&quot;</span><span class="p">:</span> <span class="p">{</span>
+                <span class="s2">&quot;columnDelimiter&quot;</span><span class="p">:</span> <span class="n">delimiter</span><span class="p">,</span>
+                <span class="s2">&quot;columns&quot;</span><span class="p">:</span> <span class="n">columns</span><span class="p">,</span>
+                <span class="s2">&quot;fileName&quot;</span><span class="p">:</span> <span class="n">file_name</span><span class="p">,</span>
+                <span class="s2">&quot;hasHeader&quot;</span><span class="p">:</span> <span class="n">header</span><span class="p">,</span>
+                <span class="s2">&quot;hasQuotes&quot;</span><span class="p">:</span> <span class="n">quotes</span><span class="p">,</span>
+                <span class="s2">&quot;sourceUrl&quot;</span><span class="p">:</span> <span class="n">file_url</span><span class="p">,</span>
+            <span class="p">},</span>
+            <span class="s2">&quot;actions&quot;</span><span class="p">:</span> <span class="p">[</span>
+                <span class="p">{</span>
+                    <span class="s2">&quot;actionType&quot;</span><span class="p">:</span> <span class="s2">&quot;score&quot;</span><span class="p">,</span>
+                    <span class="s2">&quot;personIdColumn&quot;</span><span class="p">:</span> <span class="n">id_column</span><span class="p">,</span>
+                    <span class="s2">&quot;personIdType&quot;</span><span class="p">:</span> <span class="n">id_type</span><span class="p">,</span>
+                    <span class="s2">&quot;scoreColumn&quot;</span><span class="p">:</span> <span class="n">score_column</span><span class="p">,</span>
+                    <span class="s2">&quot;scoreId&quot;</span><span class="p">:</span> <span class="n">score_id</span><span class="p">,</span>
                 <span class="p">}</span>
+            <span class="p">],</span>
+            <span class="s2">&quot;listeners&quot;</span><span class="p">:</span> <span class="p">[{</span><span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;EMAIL&quot;</span><span class="p">,</span> <span class="s2">&quot;value&quot;</span><span class="p">:</span> <span class="n">email</span><span class="p">}],</span>
+        <span class="p">}</span>
 
         <span class="k">if</span> <span class="n">auto_average</span> <span class="ow">and</span> <span class="n">auto_tolerance</span><span class="p">:</span>
 
-            <span class="n">json</span><span class="p">[</span><span class="s2">&quot;actions&quot;</span><span class="p">][</span><span class="s2">&quot;approvalCriteria&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;average&quot;</span><span class="p">:</span> <span class="n">auto_average</span><span class="p">,</span>
-                                                   <span class="s2">&quot;tolerance&quot;</span><span class="p">:</span> <span class="n">auto_tolerance</span><span class="p">}</span>
+            <span class="n">json</span><span class="p">[</span><span class="s2">&quot;actions&quot;</span><span class="p">][</span><span class="s2">&quot;approvalCriteria&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span>
+                <span class="s2">&quot;average&quot;</span><span class="p">:</span> <span class="n">auto_average</span><span class="p">,</span>
+                <span class="s2">&quot;tolerance&quot;</span><span class="p">:</span> <span class="n">auto_tolerance</span><span class="p">,</span>
+            <span class="p">}</span>
 
-        <span class="n">r</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">connection</span><span class="o">.</span><span class="n">post_request</span><span class="p">(</span><span class="s1">&#39;fileLoadingJobs&#39;</span><span class="p">,</span> <span class="n">json</span><span class="o">=</span><span class="n">json</span><span class="p">)[</span><span class="s1">&#39;jobId&#39;</span><span class="p">]</span>
-        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Score loading job </span><span class="si">{</span><span class="n">r</span><span class="si">}</span><span class="s1"> created.&#39;</span><span class="p">)</span>
+        <span class="n">r</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">connection</span><span class="o">.</span><span class="n">post_request</span><span class="p">(</span><span class="s2">&quot;fileLoadingJobs&quot;</span><span class="p">,</span> <span class="n">json</span><span class="o">=</span><span class="n">json</span><span class="p">)[</span><span class="s2">&quot;jobId&quot;</span><span class="p">]</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Score loading job </span><span class="si">{</span><span class="n">r</span><span class="si">}</span><span class="s2"> created.&quot;</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">r</span></div>
 
-<div class="viewcode-block" id="FileLoadingJobs.create_file_load_multi"><a class="viewcode-back" href="../../../ngpvan.html#parsons.ngpvan.van.FileLoadingJobs.create_file_load_multi">[docs]</a>    <span class="k">def</span> <span class="nf">create_file_load_multi</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">file_name</span><span class="p">,</span> <span class="n">file_url</span><span class="p">,</span> <span class="n">columns</span><span class="p">,</span> <span class="n">id_column</span><span class="p">,</span> <span class="n">id_type</span><span class="p">,</span>
-                               <span class="n">score_map</span><span class="p">,</span> <span class="n">delimiter</span><span class="o">=</span><span class="s1">&#39;csv&#39;</span><span class="p">,</span> <span class="n">header</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">quotes</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
-                               <span class="n">description</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">email</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<div class="viewcode-block" id="FileLoadingJobs.create_file_load_multi"><a class="viewcode-back" href="../../../ngpvan.html#parsons.ngpvan.van.FileLoadingJobs.create_file_load_multi">[docs]</a>    <span class="k">def</span> <span class="nf">create_file_load_multi</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">file_name</span><span class="p">,</span>
+        <span class="n">file_url</span><span class="p">,</span>
+        <span class="n">columns</span><span class="p">,</span>
+        <span class="n">id_column</span><span class="p">,</span>
+        <span class="n">id_type</span><span class="p">,</span>
+        <span class="n">score_map</span><span class="p">,</span>
+        <span class="n">delimiter</span><span class="o">=</span><span class="s2">&quot;csv&quot;</span><span class="p">,</span>
+        <span class="n">header</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="n">quotes</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="n">description</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">email</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        .. warning::</span>
 <span class="sd">           .. deprecated:: 0.7 Use :func:`parsons.VAN.upload_scores` instead.</span>
@@ -470,51 +517,51 @@
 <span class="sd">            The file load job id</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
-        <span class="n">columns</span> <span class="o">=</span> <span class="p">[{</span><span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="n">c</span><span class="p">}</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">columns</span><span class="p">]</span>
+        <span class="n">columns</span> <span class="o">=</span> <span class="p">[{</span><span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="n">c</span><span class="p">}</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">columns</span><span class="p">]</span>
 
         <span class="c1"># To Do: Validate that it is a .zip file. Not entirely sure if this is possible</span>
         <span class="c1"># as some urls might not end in &quot;.zip&quot;.</span>
 
-        <span class="k">if</span> <span class="n">delimiter</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;csv&#39;</span><span class="p">,</span> <span class="s1">&#39;tab&#39;</span><span class="p">,</span> <span class="s1">&#39;pipe&#39;</span><span class="p">]:</span>
+        <span class="k">if</span> <span class="n">delimiter</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;csv&quot;</span><span class="p">,</span> <span class="s2">&quot;tab&quot;</span><span class="p">,</span> <span class="s2">&quot;pipe&quot;</span><span class="p">]:</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Delimiter must be one of &#39;csv&#39;, &#39;tab&#39; or &#39;pipe&#39;&quot;</span><span class="p">)</span>
 
         <span class="n">delimiter</span> <span class="o">=</span> <span class="n">delimiter</span><span class="o">.</span><span class="n">capitalize</span><span class="p">()</span>
 
-        <span class="n">json</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;description&quot;</span><span class="p">:</span> <span class="s1">&#39;A description&#39;</span><span class="p">,</span>
-                <span class="s2">&quot;file&quot;</span><span class="p">:</span> <span class="p">{</span>
-                    <span class="s2">&quot;columnDelimiter&quot;</span><span class="p">:</span> <span class="n">delimiter</span><span class="p">,</span>
-                    <span class="s2">&quot;columns&quot;</span><span class="p">:</span> <span class="n">columns</span><span class="p">,</span>
-                    <span class="s2">&quot;fileName&quot;</span><span class="p">:</span> <span class="n">file_name</span><span class="p">,</span>
-                    <span class="s2">&quot;hasHeader&quot;</span><span class="p">:</span> <span class="n">header</span><span class="p">,</span>
-                    <span class="s2">&quot;hasQuotes&quot;</span><span class="p">:</span> <span class="n">quotes</span><span class="p">,</span>
-                    <span class="s2">&quot;sourceUrl&quot;</span><span class="p">:</span> <span class="n">file_url</span>
-                <span class="p">},</span>
-                <span class="s2">&quot;listeners&quot;</span><span class="p">:</span> <span class="p">[</span>
-                    <span class="p">{</span><span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;EMAIL&quot;</span><span class="p">,</span>
-                     <span class="s2">&quot;value&quot;</span><span class="p">:</span> <span class="n">email</span><span class="p">}]</span>
-                <span class="p">}</span>
+        <span class="n">json</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s2">&quot;description&quot;</span><span class="p">:</span> <span class="s2">&quot;A description&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;file&quot;</span><span class="p">:</span> <span class="p">{</span>
+                <span class="s2">&quot;columnDelimiter&quot;</span><span class="p">:</span> <span class="n">delimiter</span><span class="p">,</span>
+                <span class="s2">&quot;columns&quot;</span><span class="p">:</span> <span class="n">columns</span><span class="p">,</span>
+                <span class="s2">&quot;fileName&quot;</span><span class="p">:</span> <span class="n">file_name</span><span class="p">,</span>
+                <span class="s2">&quot;hasHeader&quot;</span><span class="p">:</span> <span class="n">header</span><span class="p">,</span>
+                <span class="s2">&quot;hasQuotes&quot;</span><span class="p">:</span> <span class="n">quotes</span><span class="p">,</span>
+                <span class="s2">&quot;sourceUrl&quot;</span><span class="p">:</span> <span class="n">file_url</span><span class="p">,</span>
+            <span class="p">},</span>
+            <span class="s2">&quot;listeners&quot;</span><span class="p">:</span> <span class="p">[{</span><span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;EMAIL&quot;</span><span class="p">,</span> <span class="s2">&quot;value&quot;</span><span class="p">:</span> <span class="n">email</span><span class="p">}],</span>
+        <span class="p">}</span>
 
         <span class="n">actions</span> <span class="o">=</span> <span class="p">[]</span>
 
         <span class="k">for</span> <span class="n">score</span> <span class="ow">in</span> <span class="n">score_map</span><span class="p">:</span>
 
-            <span class="n">action</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;actionType&quot;</span><span class="p">:</span> <span class="s2">&quot;score&quot;</span><span class="p">,</span>
-                      <span class="s2">&quot;personIdColumn&quot;</span><span class="p">:</span> <span class="n">id_column</span><span class="p">,</span>
-                                    <span class="s2">&quot;personIdType&quot;</span><span class="p">:</span> <span class="n">id_type</span><span class="p">,</span>
-                                    <span class="s2">&quot;scoreColumn&quot;</span><span class="p">:</span> <span class="n">score</span><span class="p">[</span><span class="s1">&#39;score_column&#39;</span><span class="p">],</span>
-                                    <span class="s2">&quot;scoreId&quot;</span><span class="p">:</span> <span class="n">score</span><span class="p">[</span><span class="s1">&#39;score_id&#39;</span><span class="p">],</span>
-                                    <span class="s2">&quot;approvalCriteria&quot;</span><span class="p">:</span> <span class="p">{</span>
-                                        <span class="s2">&quot;average&quot;</span><span class="p">:</span> <span class="n">score</span><span class="p">[</span><span class="s1">&#39;auto_average&#39;</span><span class="p">],</span>
-                                        <span class="s2">&quot;tolerance&quot;</span><span class="p">:</span> <span class="n">score</span><span class="p">[</span><span class="s1">&#39;auto_tolerance&#39;</span><span class="p">]</span>
-                                    <span class="p">}</span>
-                      <span class="p">}</span>
+            <span class="n">action</span> <span class="o">=</span> <span class="p">{</span>
+                <span class="s2">&quot;actionType&quot;</span><span class="p">:</span> <span class="s2">&quot;score&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;personIdColumn&quot;</span><span class="p">:</span> <span class="n">id_column</span><span class="p">,</span>
+                <span class="s2">&quot;personIdType&quot;</span><span class="p">:</span> <span class="n">id_type</span><span class="p">,</span>
+                <span class="s2">&quot;scoreColumn&quot;</span><span class="p">:</span> <span class="n">score</span><span class="p">[</span><span class="s2">&quot;score_column&quot;</span><span class="p">],</span>
+                <span class="s2">&quot;scoreId&quot;</span><span class="p">:</span> <span class="n">score</span><span class="p">[</span><span class="s2">&quot;score_id&quot;</span><span class="p">],</span>
+                <span class="s2">&quot;approvalCriteria&quot;</span><span class="p">:</span> <span class="p">{</span>
+                    <span class="s2">&quot;average&quot;</span><span class="p">:</span> <span class="n">score</span><span class="p">[</span><span class="s2">&quot;auto_average&quot;</span><span class="p">],</span>
+                    <span class="s2">&quot;tolerance&quot;</span><span class="p">:</span> <span class="n">score</span><span class="p">[</span><span class="s2">&quot;auto_tolerance&quot;</span><span class="p">],</span>
+                <span class="p">},</span>
+            <span class="p">}</span>
 
             <span class="n">actions</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">action</span><span class="p">)</span>
 
-        <span class="n">json</span><span class="p">[</span><span class="s1">&#39;actions&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">actions</span>
+        <span class="n">json</span><span class="p">[</span><span class="s2">&quot;actions&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">actions</span>
 
-        <span class="n">r</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">connection</span><span class="o">.</span><span class="n">post_request</span><span class="p">(</span><span class="s1">&#39;fileLoadingJobs&#39;</span><span class="p">,</span> <span class="n">json</span><span class="o">=</span><span class="n">json</span><span class="p">)[</span><span class="s1">&#39;jobId&#39;</span><span class="p">]</span>
-        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Score loading job </span><span class="si">{</span><span class="n">r</span><span class="si">}</span><span class="s1"> created.&#39;</span><span class="p">)</span>
+        <span class="n">r</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">connection</span><span class="o">.</span><span class="n">post_request</span><span class="p">(</span><span class="s2">&quot;fileLoadingJobs&quot;</span><span class="p">,</span> <span class="n">json</span><span class="o">=</span><span class="n">json</span><span class="p">)[</span><span class="s2">&quot;jobId&quot;</span><span class="p">]</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Score loading job </span><span class="si">{</span><span class="n">r</span><span class="si">}</span><span class="s2"> created.&quot;</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">r</span></div></div>
 </pre></div>
 

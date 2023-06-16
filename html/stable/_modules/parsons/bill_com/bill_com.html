@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>parsons.bill_com.bill_com &mdash; Parsons 0.5 documentation</title>
+  <title>parsons.bill_com.bill_com &mdash; Parsons  documentation</title>
       <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
   <!--[if lt IE 9]>
@@ -155,21 +155,19 @@
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">user_name</span><span class="p">,</span> <span class="n">password</span><span class="p">,</span> <span class="n">org_id</span><span class="p">,</span> <span class="n">dev_key</span><span class="p">,</span> <span class="n">api_url</span><span class="p">):</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">headers</span> <span class="o">=</span> <span class="p">{</span>
-            <span class="s2">&quot;Content-Type&quot;</span><span class="p">:</span> <span class="s2">&quot;application/x-www-form-urlencoded&quot;</span>
-        <span class="p">}</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">headers</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;Content-Type&quot;</span><span class="p">:</span> <span class="s2">&quot;application/x-www-form-urlencoded&quot;</span><span class="p">}</span>
         <span class="n">params</span> <span class="o">=</span> <span class="p">{</span>
             <span class="s2">&quot;userName&quot;</span><span class="p">:</span> <span class="n">user_name</span><span class="p">,</span>
             <span class="s2">&quot;password&quot;</span><span class="p">:</span> <span class="n">password</span><span class="p">,</span>
             <span class="s2">&quot;orgId&quot;</span><span class="p">:</span> <span class="n">org_id</span><span class="p">,</span>
-            <span class="s2">&quot;devKey&quot;</span><span class="p">:</span> <span class="n">dev_key</span>
+            <span class="s2">&quot;devKey&quot;</span><span class="p">:</span> <span class="n">dev_key</span><span class="p">,</span>
         <span class="p">}</span>
-        <span class="n">response</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">post</span><span class="p">(</span><span class="n">url</span><span class="o">=</span><span class="s2">&quot;</span><span class="si">%s</span><span class="s2">Login.json&quot;</span> <span class="o">%</span> <span class="n">api_url</span><span class="p">,</span>
-                                 <span class="n">data</span><span class="o">=</span><span class="n">params</span><span class="p">,</span>
-                                 <span class="n">headers</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">headers</span><span class="p">)</span>
+        <span class="n">response</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">post</span><span class="p">(</span>
+            <span class="n">url</span><span class="o">=</span><span class="s2">&quot;</span><span class="si">%s</span><span class="s2">Login.json&quot;</span> <span class="o">%</span> <span class="n">api_url</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">params</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">headers</span>
+        <span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">dev_key</span> <span class="o">=</span> <span class="n">dev_key</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">api_url</span> <span class="o">=</span> <span class="n">api_url</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">session_id</span> <span class="o">=</span> <span class="n">response</span><span class="o">.</span><span class="n">json</span><span class="p">()[</span><span class="s1">&#39;response_data&#39;</span><span class="p">][</span><span class="s1">&#39;sessionId&#39;</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">session_id</span> <span class="o">=</span> <span class="n">response</span><span class="o">.</span><span class="n">json</span><span class="p">()[</span><span class="s2">&quot;response_data&quot;</span><span class="p">][</span><span class="s2">&quot;sessionId&quot;</span><span class="p">]</span>
 
     <span class="k">def</span> <span class="nf">_get_payload</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
@@ -183,9 +181,11 @@
 <span class="sd">            A dictionary of the payload to be sent in the request with the</span>
 <span class="sd">            dev_key and sessionId added.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="p">{</span><span class="s2">&quot;devKey&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">dev_key</span><span class="p">,</span>
-                <span class="s2">&quot;sessionId&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">session_id</span><span class="p">,</span>
-                <span class="s2">&quot;data&quot;</span><span class="p">:</span> <span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">data</span><span class="p">)}</span>
+        <span class="k">return</span> <span class="p">{</span>
+            <span class="s2">&quot;devKey&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">dev_key</span><span class="p">,</span>
+            <span class="s2">&quot;sessionId&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">session_id</span><span class="p">,</span>
+            <span class="s2">&quot;data&quot;</span><span class="p">:</span> <span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">data</span><span class="p">),</span>
+        <span class="p">}</span>
 
     <span class="k">def</span> <span class="nf">_post_request</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="n">action</span><span class="p">,</span> <span class="n">object_name</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
@@ -204,10 +204,10 @@
 <span class="sd">            A dictionary containing the JSON response from the post request.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
-        <span class="k">if</span> <span class="n">action</span> <span class="o">==</span> <span class="s1">&#39;Read&#39;</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">action</span> <span class="o">==</span> <span class="s2">&quot;Read&quot;</span><span class="p">:</span>
             <span class="n">url</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="si">%s</span><span class="s2">Crud/</span><span class="si">%s</span><span class="s2">/</span><span class="si">%s</span><span class="s2">.json&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">api_url</span><span class="p">,</span> <span class="n">action</span><span class="p">,</span> <span class="n">object_name</span><span class="p">)</span>
-        <span class="k">elif</span> <span class="n">action</span> <span class="o">==</span> <span class="s1">&#39;Create&#39;</span><span class="p">:</span>
-            <span class="n">data</span><span class="p">[</span><span class="s1">&#39;obj&#39;</span><span class="p">][</span><span class="s1">&#39;entity&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">object_name</span>
+        <span class="k">elif</span> <span class="n">action</span> <span class="o">==</span> <span class="s2">&quot;Create&quot;</span><span class="p">:</span>
+            <span class="n">data</span><span class="p">[</span><span class="s2">&quot;obj&quot;</span><span class="p">][</span><span class="s2">&quot;entity&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">object_name</span>
             <span class="n">url</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="si">%s</span><span class="s2">Crud/</span><span class="si">%s</span><span class="s2">/</span><span class="si">%s</span><span class="s2">.json&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">api_url</span><span class="p">,</span> <span class="n">action</span><span class="p">,</span> <span class="n">object_name</span><span class="p">)</span>
         <span class="k">elif</span> <span class="n">action</span> <span class="o">==</span> <span class="s2">&quot;Send&quot;</span><span class="p">:</span>
             <span class="n">url</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="si">%s%s%s</span><span class="s2">.json&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">api_url</span><span class="p">,</span> <span class="n">action</span><span class="p">,</span> <span class="n">object_name</span><span class="p">)</span>
@@ -255,10 +255,10 @@
 <span class="sd">        &quot;&quot;&quot;</span>
 
         <span class="n">r_table</span> <span class="o">=</span> <span class="n">Table</span><span class="p">(</span><span class="n">response</span><span class="p">)</span>
-        <span class="n">max_ct</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;max&#39;</span><span class="p">]</span>
+        <span class="n">max_ct</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s2">&quot;max&quot;</span><span class="p">]</span>
 
         <span class="k">while</span> <span class="nb">len</span><span class="p">(</span><span class="n">response</span><span class="p">)</span> <span class="o">==</span> <span class="n">max_ct</span><span class="p">:</span>
-            <span class="n">data</span><span class="p">[</span><span class="s1">&#39;start&#39;</span><span class="p">]</span> <span class="o">+=</span> <span class="n">max_ct</span>
+            <span class="n">data</span><span class="p">[</span><span class="s2">&quot;start&quot;</span><span class="p">]</span> <span class="o">+=</span> <span class="n">max_ct</span>
             <span class="n">response</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_post_request</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="s2">&quot;List&quot;</span><span class="p">,</span> <span class="n">object_name</span><span class="p">)[</span><span class="n">field</span><span class="p">]</span>
             <span class="n">r_table</span><span class="o">.</span><span class="n">concat</span><span class="p">(</span><span class="n">Table</span><span class="p">(</span><span class="n">response</span><span class="p">))</span>
 
@@ -277,11 +277,7 @@
 <span class="sd">        `Returns:`</span>
 <span class="sd">            A Parsons Table of user information for every user from start_user to max_user.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">data</span> <span class="o">=</span> <span class="p">{</span>
-           <span class="s2">&quot;start&quot;</span><span class="p">:</span> <span class="n">start_user</span><span class="p">,</span>
-           <span class="s2">&quot;max&quot;</span><span class="p">:</span> <span class="n">max_user</span><span class="p">,</span>
-           <span class="o">**</span><span class="n">kwargs</span>
-        <span class="p">}</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;start&quot;</span><span class="p">:</span> <span class="n">start_user</span><span class="p">,</span> <span class="s2">&quot;max&quot;</span><span class="p">:</span> <span class="n">max_user</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">}</span>
 
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_request_response</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="s2">&quot;List&quot;</span><span class="p">,</span> <span class="s2">&quot;User&quot;</span><span class="p">)</span></div>
 
@@ -299,11 +295,7 @@
 <span class="sd">            A Parsons Table of customer information for every user from start_customer</span>
 <span class="sd">            to max_customer.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">data</span> <span class="o">=</span> <span class="p">{</span>
-           <span class="s2">&quot;start&quot;</span><span class="p">:</span> <span class="n">start_customer</span><span class="p">,</span>
-           <span class="s2">&quot;max&quot;</span><span class="p">:</span> <span class="n">max_customer</span><span class="p">,</span>
-           <span class="o">**</span><span class="n">kwargs</span>
-        <span class="p">}</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;start&quot;</span><span class="p">:</span> <span class="n">start_customer</span><span class="p">,</span> <span class="s2">&quot;max&quot;</span><span class="p">:</span> <span class="n">max_customer</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">}</span>
 
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_request_response</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="s2">&quot;List&quot;</span><span class="p">,</span> <span class="s2">&quot;Customer&quot;</span><span class="p">)</span></div>
 
@@ -321,11 +313,7 @@
 <span class="sd">            A list of dictionaries of invoice information for every invoice from start_invoice</span>
 <span class="sd">            to max_invoice.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">data</span> <span class="o">=</span> <span class="p">{</span>
-           <span class="s2">&quot;start&quot;</span><span class="p">:</span> <span class="n">start_invoice</span><span class="p">,</span>
-           <span class="s2">&quot;max&quot;</span><span class="p">:</span> <span class="n">max_invoice</span><span class="p">,</span>
-           <span class="o">**</span><span class="n">kwargs</span>
-        <span class="p">}</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;start&quot;</span><span class="p">:</span> <span class="n">start_invoice</span><span class="p">,</span> <span class="s2">&quot;max&quot;</span><span class="p">:</span> <span class="n">max_invoice</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">}</span>
 
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_request_response</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="s2">&quot;List&quot;</span><span class="p">,</span> <span class="s2">&quot;Invoice&quot;</span><span class="p">)</span></div>
 
@@ -338,9 +326,7 @@
 <span class="sd">        `Returns:`</span>
 <span class="sd">            A dictionary of the customer&#39;s information.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">data</span> <span class="o">=</span> <span class="p">{</span>
-            <span class="s1">&#39;id&#39;</span><span class="p">:</span> <span class="n">customer_id</span>
-        <span class="p">}</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;id&quot;</span><span class="p">:</span> <span class="n">customer_id</span><span class="p">}</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_request_response</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="s2">&quot;Read&quot;</span><span class="p">,</span> <span class="s2">&quot;Customer&quot;</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="BillCom.read_invoice"><a class="viewcode-back" href="../../../bill_com.html#parsons.BillCom.read_invoice">[docs]</a>    <span class="k">def</span> <span class="nf">read_invoice</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">invoice_id</span><span class="p">):</span>
@@ -352,9 +338,7 @@
 <span class="sd">        `Returns:`</span>
 <span class="sd">            A dictionary of the invoice information.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">data</span> <span class="o">=</span> <span class="p">{</span>
-           <span class="s2">&quot;id&quot;</span><span class="p">:</span> <span class="n">invoice_id</span>
-        <span class="p">}</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;id&quot;</span><span class="p">:</span> <span class="n">invoice_id</span><span class="p">}</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_request_response</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="s2">&quot;Read&quot;</span><span class="p">,</span> <span class="s2">&quot;Invoice&quot;</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="BillCom.check_customer"><a class="viewcode-back" href="../../../bill_com.html#parsons.BillCom.check_customer">[docs]</a>    <span class="k">def</span> <span class="nf">check_customer</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">customer1</span><span class="p">,</span> <span class="n">customer2</span><span class="p">):</span>
@@ -376,8 +360,8 @@
         <span class="k">if</span> <span class="s2">&quot;id&quot;</span> <span class="ow">in</span> <span class="n">customer1</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
             <span class="k">if</span> <span class="n">customer1</span><span class="p">[</span><span class="s2">&quot;id&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="n">customer2</span><span class="p">[</span><span class="s2">&quot;id&quot;</span><span class="p">]:</span>
                 <span class="k">return</span> <span class="kc">True</span>
-        <span class="k">if</span> <span class="s2">&quot;id&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">customer1</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span> <span class="ow">and</span> <span class="n">customer2</span><span class="p">[</span><span class="s1">&#39;email&#39;</span><span class="p">]:</span>
-            <span class="k">if</span> <span class="n">customer1</span><span class="p">[</span><span class="s1">&#39;email&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">==</span> <span class="n">customer2</span><span class="p">[</span><span class="s1">&#39;email&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">lower</span><span class="p">():</span>
+        <span class="k">if</span> <span class="s2">&quot;id&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">customer1</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span> <span class="ow">and</span> <span class="n">customer2</span><span class="p">[</span><span class="s2">&quot;email&quot;</span><span class="p">]:</span>
+            <span class="k">if</span> <span class="n">customer1</span><span class="p">[</span><span class="s2">&quot;email&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">==</span> <span class="n">customer2</span><span class="p">[</span><span class="s2">&quot;email&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">lower</span><span class="p">():</span>
                 <span class="k">return</span> <span class="kc">True</span>
         <span class="k">return</span> <span class="kc">False</span></div>
 
@@ -397,9 +381,7 @@
 <span class="sd">            If the customer already exists, this function will not</span>
 <span class="sd">            create a new id and instead use the existing id.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">customer</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="n">customer_name</span><span class="p">,</span>
-                    <span class="s2">&quot;email&quot;</span><span class="p">:</span> <span class="n">customer_email</span><span class="p">,</span>
-                    <span class="o">**</span><span class="n">kwargs</span><span class="p">}</span>
+        <span class="n">customer</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="n">customer_name</span><span class="p">,</span> <span class="s2">&quot;email&quot;</span><span class="p">:</span> <span class="n">customer_email</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">}</span>
 
         <span class="c1"># check if customer already exists</span>
         <span class="n">customer_list</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_customer_list</span><span class="p">()</span>
@@ -407,13 +389,18 @@
             <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">check_customer</span><span class="p">(</span><span class="n">customer</span><span class="p">,</span> <span class="n">existing_customer</span><span class="p">):</span>
                 <span class="k">return</span> <span class="n">existing_customer</span>
         <span class="c1"># customer doesn&#39;t exist, create</span>
-        <span class="n">data</span> <span class="o">=</span> <span class="p">{</span>
-            <span class="s2">&quot;obj&quot;</span><span class="p">:</span> <span class="n">customer</span>
-        <span class="p">}</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;obj&quot;</span><span class="p">:</span> <span class="n">customer</span><span class="p">}</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_request_response</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="s2">&quot;Create&quot;</span><span class="p">,</span> <span class="s2">&quot;Customer&quot;</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="BillCom.create_invoice"><a class="viewcode-back" href="../../../bill_com.html#parsons.BillCom.create_invoice">[docs]</a>    <span class="k">def</span> <span class="nf">create_invoice</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">customer_id</span><span class="p">,</span> <span class="n">invoice_number</span><span class="p">,</span> <span class="n">invoice_date</span><span class="p">,</span>
-                       <span class="n">due_date</span><span class="p">,</span> <span class="n">invoice_line_items</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<div class="viewcode-block" id="BillCom.create_invoice"><a class="viewcode-back" href="../../../bill_com.html#parsons.BillCom.create_invoice">[docs]</a>    <span class="k">def</span> <span class="nf">create_invoice</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">customer_id</span><span class="p">,</span>
+        <span class="n">invoice_number</span><span class="p">,</span>
+        <span class="n">invoice_date</span><span class="p">,</span>
+        <span class="n">due_date</span><span class="p">,</span>
+        <span class="n">invoice_line_items</span><span class="p">,</span>
+        <span class="o">**</span><span class="n">kwargs</span>
+    <span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        `Args:`</span>
 <span class="sd">            customer_id: str</span>
@@ -437,20 +424,28 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">for</span> <span class="n">invoice_line_item</span> <span class="ow">in</span> <span class="n">invoice_line_items</span><span class="p">:</span>
             <span class="k">if</span> <span class="s2">&quot;entity&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">invoice_line_item</span><span class="p">:</span>
-                <span class="n">invoice_line_item</span><span class="p">[</span><span class="s1">&#39;entity&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;InvoiceLineItem&#39;</span>
+                <span class="n">invoice_line_item</span><span class="p">[</span><span class="s2">&quot;entity&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;InvoiceLineItem&quot;</span>
         <span class="n">data</span> <span class="o">=</span> <span class="p">{</span>
-            <span class="s2">&quot;obj&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;customerId&quot;</span><span class="p">:</span> <span class="n">customer_id</span><span class="p">,</span>
-                    <span class="s2">&quot;invoiceNumber&quot;</span><span class="p">:</span> <span class="n">invoice_number</span><span class="p">,</span>
-                    <span class="s2">&quot;invoiceDate&quot;</span><span class="p">:</span> <span class="n">invoice_date</span><span class="p">,</span>
-                    <span class="s2">&quot;dueDate&quot;</span><span class="p">:</span> <span class="n">due_date</span><span class="p">,</span>
-                    <span class="s2">&quot;invoiceLineItems&quot;</span><span class="p">:</span> <span class="n">invoice_line_items</span><span class="p">,</span>
-                    <span class="o">**</span><span class="n">kwargs</span>
-                    <span class="p">}</span>
+            <span class="s2">&quot;obj&quot;</span><span class="p">:</span> <span class="p">{</span>
+                <span class="s2">&quot;customerId&quot;</span><span class="p">:</span> <span class="n">customer_id</span><span class="p">,</span>
+                <span class="s2">&quot;invoiceNumber&quot;</span><span class="p">:</span> <span class="n">invoice_number</span><span class="p">,</span>
+                <span class="s2">&quot;invoiceDate&quot;</span><span class="p">:</span> <span class="n">invoice_date</span><span class="p">,</span>
+                <span class="s2">&quot;dueDate&quot;</span><span class="p">:</span> <span class="n">due_date</span><span class="p">,</span>
+                <span class="s2">&quot;invoiceLineItems&quot;</span><span class="p">:</span> <span class="n">invoice_line_items</span><span class="p">,</span>
+                <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
+            <span class="p">}</span>
         <span class="p">}</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_request_response</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="s2">&quot;Create&quot;</span><span class="p">,</span> <span class="s2">&quot;Invoice&quot;</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="BillCom.send_invoice"><a class="viewcode-back" href="../../../bill_com.html#parsons.BillCom.send_invoice">[docs]</a>    <span class="k">def</span> <span class="nf">send_invoice</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">invoice_id</span><span class="p">,</span> <span class="n">from_user_id</span><span class="p">,</span> <span class="n">to_email_addresses</span><span class="p">,</span>
-                     <span class="n">message_subject</span><span class="p">,</span> <span class="n">message_body</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<div class="viewcode-block" id="BillCom.send_invoice"><a class="viewcode-back" href="../../../bill_com.html#parsons.BillCom.send_invoice">[docs]</a>    <span class="k">def</span> <span class="nf">send_invoice</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">invoice_id</span><span class="p">,</span>
+        <span class="n">from_user_id</span><span class="p">,</span>
+        <span class="n">to_email_addresses</span><span class="p">,</span>
+        <span class="n">message_subject</span><span class="p">,</span>
+        <span class="n">message_body</span><span class="p">,</span>
+        <span class="o">**</span><span class="n">kwargs</span>
+    <span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        `Args:`</span>
 <span class="sd">            invoice_id: str</span>
@@ -470,16 +465,14 @@
 <span class="sd">            A dictionary of the sent invoice.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">data</span> <span class="o">=</span> <span class="p">{</span>
-          <span class="s2">&quot;invoiceId&quot;</span><span class="p">:</span> <span class="n">invoice_id</span><span class="p">,</span>
-          <span class="s2">&quot;headers&quot;</span><span class="p">:</span> <span class="p">{</span>
-            <span class="s2">&quot;fromUserId&quot;</span><span class="p">:</span> <span class="n">from_user_id</span><span class="p">,</span>
-            <span class="s2">&quot;toEmailAddresses&quot;</span><span class="p">:</span> <span class="n">to_email_addresses</span><span class="p">,</span>
-            <span class="s2">&quot;subject&quot;</span><span class="p">:</span> <span class="n">message_subject</span><span class="p">,</span>
-            <span class="o">**</span><span class="n">kwargs</span>
-          <span class="p">},</span>
-          <span class="s2">&quot;content&quot;</span><span class="p">:</span> <span class="p">{</span>
-            <span class="s2">&quot;body&quot;</span><span class="p">:</span> <span class="n">message_body</span>
-          <span class="p">}</span>
+            <span class="s2">&quot;invoiceId&quot;</span><span class="p">:</span> <span class="n">invoice_id</span><span class="p">,</span>
+            <span class="s2">&quot;headers&quot;</span><span class="p">:</span> <span class="p">{</span>
+                <span class="s2">&quot;fromUserId&quot;</span><span class="p">:</span> <span class="n">from_user_id</span><span class="p">,</span>
+                <span class="s2">&quot;toEmailAddresses&quot;</span><span class="p">:</span> <span class="n">to_email_addresses</span><span class="p">,</span>
+                <span class="s2">&quot;subject&quot;</span><span class="p">:</span> <span class="n">message_subject</span><span class="p">,</span>
+                <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
+            <span class="p">},</span>
+            <span class="s2">&quot;content&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;body&quot;</span><span class="p">:</span> <span class="n">message_body</span><span class="p">},</span>
         <span class="p">}</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_request_response</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="s2">&quot;Send&quot;</span><span class="p">,</span> <span class="s2">&quot;Invoice&quot;</span><span class="p">)</span></div></div>
 </pre></div>

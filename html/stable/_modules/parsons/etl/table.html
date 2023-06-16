@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>parsons.etl.table &mdash; Parsons 0.5 documentation</title>
+  <title>parsons.etl.table &mdash; Parsons  documentation</title>
       <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
   <!--[if lt IE 9]>
@@ -218,7 +218,7 @@
 
         <span class="k">else</span><span class="p">:</span>
 
-            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s1">&#39;You must pass a string or an index as a value.&#39;</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;You must pass a string or an index as a value.&quot;</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="fm">__bool__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 
@@ -243,6 +243,9 @@
 <span class="sd">                Number of rows in the table</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="n">petl</span><span class="o">.</span><span class="n">nrows</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">table</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="fm">__len__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">num_rows</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">data</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
@@ -289,13 +292,15 @@
 
         <span class="bp">self</span><span class="o">.</span><span class="n">_index_count</span> <span class="o">+=</span> <span class="mi">1</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_index_count</span> <span class="o">&gt;=</span> <span class="n">DIRECT_INDEX_WARNING_COUNT</span><span class="p">:</span>
-            <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="s2">&quot;&quot;&quot;</span>
-<span class="s2">                You have indexed directly into this Table multiple times. This can be inefficient,</span>
-<span class="s2">                as data transformations you&#39;ve made will be computed _each time_ you index into the</span>
-<span class="s2">                Table. If you are accessing many rows of data, consider switching to this style of</span>
-<span class="s2">                iteration, which is much more efficient:</span>
-<span class="s2">                `for row in table:`</span>
-<span class="s2">                &quot;&quot;&quot;</span><span class="p">)</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span>
+<span class="w">                </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">                You have indexed directly into this Table multiple times. This can be inefficient,</span>
+<span class="sd">                as data transformations you&#39;ve made will be computed _each time_ you index into the</span>
+<span class="sd">                Table. If you are accessing many rows of data, consider switching to this style of</span>
+<span class="sd">                iteration, which is much more efficient:</span>
+<span class="sd">                `for row in table:`</span>
+<span class="sd">                &quot;&quot;&quot;</span>
+            <span class="p">)</span>
 
         <span class="k">return</span> <span class="n">petl</span><span class="o">.</span><span class="n">dicts</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">table</span><span class="p">)[</span><span class="n">row_index</span><span class="p">]</span>
 
@@ -315,7 +320,7 @@
             <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">table</span><span class="p">[</span><span class="n">column_name</span><span class="p">])</span>
 
         <span class="k">else</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;Column name not found.&#39;</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Column name not found.&quot;</span><span class="p">)</span>
 
 <div class="viewcode-block" id="Table.materialize"><a class="viewcode-back" href="../../../table.html#parsons.etl.table.Table.materialize">[docs]</a>    <span class="k">def</span> <span class="nf">materialize</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
@@ -352,7 +357,7 @@
 
         <span class="n">file_path</span> <span class="o">=</span> <span class="n">file_path</span> <span class="ow">or</span> <span class="n">files</span><span class="o">.</span><span class="n">create_temp_file</span><span class="p">()</span>
 
-        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">file_path</span><span class="p">,</span> <span class="s1">&#39;wb&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">handle</span><span class="p">:</span>
+        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">file_path</span><span class="p">,</span> <span class="s2">&quot;wb&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">handle</span><span class="p">:</span>
             <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">table</span><span class="p">:</span>
                 <span class="n">pickle</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">row</span><span class="p">),</span> <span class="n">handle</span><span class="p">)</span>
 

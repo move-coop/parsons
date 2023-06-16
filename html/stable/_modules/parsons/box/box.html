@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>parsons.box.box &mdash; Parsons 0.5 documentation</title>
+  <title>parsons.box.box &mdash; Parsons  documentation</title>
       <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
   <!--[if lt IE 9]>
@@ -165,7 +165,7 @@
 
 <span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
 
-<span class="n">DEFAULT_FOLDER_ID</span> <span class="o">=</span> <span class="s1">&#39;0&#39;</span>
+<span class="n">DEFAULT_FOLDER_ID</span> <span class="o">=</span> <span class="s2">&quot;0&quot;</span>
 
 
 <div class="viewcode-block" id="Box"><a class="viewcode-back" href="../../../box.html#parsons.Box">[docs]</a><span class="k">class</span> <span class="nc">Box</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
@@ -192,18 +192,17 @@
 <span class="sd">    that contain many items. If performance is an issue, please use the</span>
 <span class="sd">    corresponding folder_id/file_id methods for each function.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
+
     <span class="c1"># In what formats can we upload/save Tables to Box? For now csv and JSON.</span>
-    <span class="n">ALLOWED_FILE_FORMATS</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;csv&#39;</span><span class="p">,</span> <span class="s1">&#39;json&#39;</span><span class="p">]</span>
+    <span class="n">ALLOWED_FILE_FORMATS</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;csv&quot;</span><span class="p">,</span> <span class="s2">&quot;json&quot;</span><span class="p">]</span>
 
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">client_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">client_secret</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">access_token</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-        <span class="n">client_id</span> <span class="o">=</span> <span class="n">check_env</span><span class="p">(</span><span class="s1">&#39;BOX_CLIENT_ID&#39;</span><span class="p">,</span> <span class="n">client_id</span><span class="p">)</span>
-        <span class="n">client_secret</span> <span class="o">=</span> <span class="n">check_env</span><span class="p">(</span><span class="s1">&#39;BOX_CLIENT_SECRET&#39;</span><span class="p">,</span> <span class="n">client_secret</span><span class="p">)</span>
-        <span class="n">access_token</span> <span class="o">=</span> <span class="n">check_env</span><span class="p">(</span><span class="s1">&#39;BOX_ACCESS_TOKEN&#39;</span><span class="p">,</span> <span class="n">access_token</span><span class="p">)</span>
+        <span class="n">client_id</span> <span class="o">=</span> <span class="n">check_env</span><span class="p">(</span><span class="s2">&quot;BOX_CLIENT_ID&quot;</span><span class="p">,</span> <span class="n">client_id</span><span class="p">)</span>
+        <span class="n">client_secret</span> <span class="o">=</span> <span class="n">check_env</span><span class="p">(</span><span class="s2">&quot;BOX_CLIENT_SECRET&quot;</span><span class="p">,</span> <span class="n">client_secret</span><span class="p">)</span>
+        <span class="n">access_token</span> <span class="o">=</span> <span class="n">check_env</span><span class="p">(</span><span class="s2">&quot;BOX_ACCESS_TOKEN&quot;</span><span class="p">,</span> <span class="n">access_token</span><span class="p">)</span>
 
         <span class="n">oauth</span> <span class="o">=</span> <span class="n">boxsdk</span><span class="o">.</span><span class="n">OAuth2</span><span class="p">(</span>
-            <span class="n">client_id</span><span class="o">=</span><span class="n">client_id</span><span class="p">,</span>
-            <span class="n">client_secret</span><span class="o">=</span><span class="n">client_secret</span><span class="p">,</span>
-            <span class="n">access_token</span><span class="o">=</span><span class="n">access_token</span>
+            <span class="n">client_id</span><span class="o">=</span><span class="n">client_id</span><span class="p">,</span> <span class="n">client_secret</span><span class="o">=</span><span class="n">client_secret</span><span class="p">,</span> <span class="n">access_token</span><span class="o">=</span><span class="n">access_token</span>
         <span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">client</span> <span class="o">=</span> <span class="n">boxsdk</span><span class="o">.</span><span class="n">Client</span><span class="p">(</span><span class="n">oauth</span><span class="p">)</span>
 
@@ -218,16 +217,17 @@
 <span class="sd">        `Returns`:</span>
 <span class="sd">            str: The Box id of the newly-created folder.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">if</span> <span class="s1">&#39;/&#39;</span> <span class="ow">in</span> <span class="n">path</span><span class="p">:</span>
-            <span class="n">parent_folder_path</span><span class="p">,</span> <span class="n">folder_name</span> <span class="o">=</span> <span class="n">path</span><span class="o">.</span><span class="n">rsplit</span><span class="p">(</span><span class="n">sep</span><span class="o">=</span><span class="s1">&#39;/&#39;</span><span class="p">,</span> <span class="n">maxsplit</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+        <span class="k">if</span> <span class="s2">&quot;/&quot;</span> <span class="ow">in</span> <span class="n">path</span><span class="p">:</span>
+            <span class="n">parent_folder_path</span><span class="p">,</span> <span class="n">folder_name</span> <span class="o">=</span> <span class="n">path</span><span class="o">.</span><span class="n">rsplit</span><span class="p">(</span><span class="n">sep</span><span class="o">=</span><span class="s2">&quot;/&quot;</span><span class="p">,</span> <span class="n">maxsplit</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
             <span class="n">parent_folder_id</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_item_id</span><span class="p">(</span><span class="n">path</span><span class="o">=</span><span class="n">parent_folder_path</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="n">folder_name</span> <span class="o">=</span> <span class="n">path</span>
             <span class="n">parent_folder_id</span> <span class="o">=</span> <span class="n">DEFAULT_FOLDER_ID</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">create_folder_by_id</span><span class="p">(</span><span class="n">folder_name</span><span class="p">,</span> <span class="n">parent_folder_id</span><span class="o">=</span><span class="n">parent_folder_id</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="Box.create_folder_by_id"><a class="viewcode-back" href="../../../box.html#parsons.Box.create_folder_by_id">[docs]</a>    <span class="k">def</span> <span class="nf">create_folder_by_id</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">folder_name</span><span class="p">,</span>
-                            <span class="n">parent_folder_id</span><span class="o">=</span><span class="n">DEFAULT_FOLDER_ID</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<div class="viewcode-block" id="Box.create_folder_by_id"><a class="viewcode-back" href="../../../box.html#parsons.Box.create_folder_by_id">[docs]</a>    <span class="k">def</span> <span class="nf">create_folder_by_id</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">folder_name</span><span class="p">,</span> <span class="n">parent_folder_id</span><span class="o">=</span><span class="n">DEFAULT_FOLDER_ID</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Create a Box folder.</span>
 
 <span class="sd">        `Args`:</span>
@@ -281,7 +281,7 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">file</span><span class="p">(</span><span class="n">file_id</span><span class="o">=</span><span class="n">file_id</span><span class="p">)</span><span class="o">.</span><span class="n">delete</span><span class="p">()</span></div>
 
-<div class="viewcode-block" id="Box.list"><a class="viewcode-back" href="../../../box.html#parsons.Box.list">[docs]</a>    <span class="k">def</span> <span class="nf">list</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">path</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="n">item_type</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Table</span><span class="p">:</span>
+<div class="viewcode-block" id="Box.list"><a class="viewcode-back" href="../../../box.html#parsons.Box.list">[docs]</a>    <span class="k">def</span> <span class="nf">list</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">path</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">item_type</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Table</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Return a Table of Box files and/or folders found at a path.</span>
 
 <span class="sd">        `Args`:</span>
@@ -302,10 +302,10 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">list_items_by_id</span><span class="p">(</span><span class="n">folder_id</span><span class="o">=</span><span class="n">folder_id</span><span class="p">,</span> <span class="n">item_type</span><span class="o">=</span><span class="n">item_type</span><span class="p">)</span></div>
 
     <span class="k">def</span> <span class="nf">list_items_by_id</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">folder_id</span><span class="o">=</span><span class="n">DEFAULT_FOLDER_ID</span><span class="p">,</span> <span class="n">item_type</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Table</span><span class="p">:</span>
-        <span class="n">url</span> <span class="o">=</span> <span class="s1">&#39;https://api.box.com/2.0/folders/&#39;</span> <span class="o">+</span> <span class="n">folder_id</span>
-        <span class="n">json_response</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">make_request</span><span class="p">(</span><span class="s1">&#39;GET&#39;</span><span class="p">,</span> <span class="n">url</span><span class="p">)</span>
+        <span class="n">url</span> <span class="o">=</span> <span class="s2">&quot;https://api.box.com/2.0/folders/&quot;</span> <span class="o">+</span> <span class="n">folder_id</span>
+        <span class="n">json_response</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">make_request</span><span class="p">(</span><span class="s2">&quot;GET&quot;</span><span class="p">,</span> <span class="n">url</span><span class="p">)</span>
 
-        <span class="n">items</span> <span class="o">=</span> <span class="n">Table</span><span class="p">(</span><span class="n">json_response</span><span class="o">.</span><span class="n">json</span><span class="p">()[</span><span class="s1">&#39;item_collection&#39;</span><span class="p">][</span><span class="s1">&#39;entries&#39;</span><span class="p">])</span>
+        <span class="n">items</span> <span class="o">=</span> <span class="n">Table</span><span class="p">(</span><span class="n">json_response</span><span class="o">.</span><span class="n">json</span><span class="p">()[</span><span class="s2">&quot;item_collection&quot;</span><span class="p">][</span><span class="s2">&quot;entries&quot;</span><span class="p">])</span>
         <span class="k">if</span> <span class="n">item_type</span><span class="p">:</span>
             <span class="n">items</span> <span class="o">=</span> <span class="n">items</span><span class="o">.</span><span class="n">select_rows</span><span class="p">(</span><span class="k">lambda</span> <span class="n">row</span><span class="p">:</span> <span class="n">row</span><span class="o">.</span><span class="n">type</span> <span class="o">==</span> <span class="n">item_type</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">items</span>
@@ -320,7 +320,7 @@
 <span class="sd">        `Returns`: Table</span>
 <span class="sd">            A Parsons table of files and their attributes.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">list_items_by_id</span><span class="p">(</span><span class="n">folder_id</span><span class="o">=</span><span class="n">folder_id</span><span class="p">,</span> <span class="n">item_type</span><span class="o">=</span><span class="s1">&#39;file&#39;</span><span class="p">)</span></div>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">list_items_by_id</span><span class="p">(</span><span class="n">folder_id</span><span class="o">=</span><span class="n">folder_id</span><span class="p">,</span> <span class="n">item_type</span><span class="o">=</span><span class="s2">&quot;file&quot;</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="Box.list_folders_by_id"><a class="viewcode-back" href="../../../box.html#parsons.Box.list_folders_by_id">[docs]</a>    <span class="k">def</span> <span class="nf">list_folders_by_id</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">folder_id</span><span class="o">=</span><span class="n">DEFAULT_FOLDER_ID</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Table</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;List all Box folders.</span>
@@ -332,9 +332,9 @@
 <span class="sd">        `Returns`: Table</span>
 <span class="sd">            A Parsons table of folders and their attributes.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">list_items_by_id</span><span class="p">(</span><span class="n">folder_id</span><span class="o">=</span><span class="n">folder_id</span><span class="p">,</span> <span class="n">item_type</span><span class="o">=</span><span class="s1">&#39;folder&#39;</span><span class="p">)</span></div>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">list_items_by_id</span><span class="p">(</span><span class="n">folder_id</span><span class="o">=</span><span class="n">folder_id</span><span class="p">,</span> <span class="n">item_type</span><span class="o">=</span><span class="s2">&quot;folder&quot;</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="Box.upload_table"><a class="viewcode-back" href="../../../box.html#parsons.Box.upload_table">[docs]</a>    <span class="k">def</span> <span class="nf">upload_table</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">table</span><span class="p">,</span> <span class="n">path</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="nb">format</span><span class="o">=</span><span class="s1">&#39;csv&#39;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">boxsdk</span><span class="o">.</span><span class="n">object</span><span class="o">.</span><span class="n">file</span><span class="o">.</span><span class="n">File</span><span class="p">:</span>
+<div class="viewcode-block" id="Box.upload_table"><a class="viewcode-back" href="../../../box.html#parsons.Box.upload_table">[docs]</a>    <span class="k">def</span> <span class="nf">upload_table</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">table</span><span class="p">,</span> <span class="n">path</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="nb">format</span><span class="o">=</span><span class="s2">&quot;csv&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">boxsdk</span><span class="o">.</span><span class="n">object</span><span class="o">.</span><span class="n">file</span><span class="o">.</span><span class="n">File</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Save the passed table to Box.</span>
 
 <span class="sd">        `Args`:</span>
@@ -348,18 +348,20 @@
 <span class="sd">        `Returns`: BoxFile</span>
 <span class="sd">            A Box File object</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">if</span> <span class="s1">&#39;/&#39;</span> <span class="ow">in</span> <span class="n">path</span><span class="p">:</span>
-            <span class="n">folder_path</span><span class="p">,</span> <span class="n">file_name</span> <span class="o">=</span> <span class="n">path</span><span class="o">.</span><span class="n">rsplit</span><span class="p">(</span><span class="n">sep</span><span class="o">=</span><span class="s1">&#39;/&#39;</span><span class="p">,</span> <span class="n">maxsplit</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+        <span class="k">if</span> <span class="s2">&quot;/&quot;</span> <span class="ow">in</span> <span class="n">path</span><span class="p">:</span>
+            <span class="n">folder_path</span><span class="p">,</span> <span class="n">file_name</span> <span class="o">=</span> <span class="n">path</span><span class="o">.</span><span class="n">rsplit</span><span class="p">(</span><span class="n">sep</span><span class="o">=</span><span class="s2">&quot;/&quot;</span><span class="p">,</span> <span class="n">maxsplit</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
             <span class="n">folder_id</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_item_id</span><span class="p">(</span><span class="n">path</span><span class="o">=</span><span class="n">folder_path</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>  <span class="c1"># pragma: no cover</span>
             <span class="n">file_name</span> <span class="o">=</span> <span class="n">path</span>
             <span class="n">folder_id</span> <span class="o">=</span> <span class="n">DEFAULT_FOLDER_ID</span>
 
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">upload_table_to_folder_id</span><span class="p">(</span><span class="n">table</span><span class="o">=</span><span class="n">table</span><span class="p">,</span> <span class="n">file_name</span><span class="o">=</span><span class="n">file_name</span><span class="p">,</span>
-                                              <span class="n">folder_id</span><span class="o">=</span><span class="n">folder_id</span><span class="p">,</span> <span class="nb">format</span><span class="o">=</span><span class="nb">format</span><span class="p">)</span></div>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">upload_table_to_folder_id</span><span class="p">(</span>
+            <span class="n">table</span><span class="o">=</span><span class="n">table</span><span class="p">,</span> <span class="n">file_name</span><span class="o">=</span><span class="n">file_name</span><span class="p">,</span> <span class="n">folder_id</span><span class="o">=</span><span class="n">folder_id</span><span class="p">,</span> <span class="nb">format</span><span class="o">=</span><span class="nb">format</span>
+        <span class="p">)</span></div>
 
-<div class="viewcode-block" id="Box.upload_table_to_folder_id"><a class="viewcode-back" href="../../../box.html#parsons.Box.upload_table_to_folder_id">[docs]</a>    <span class="k">def</span> <span class="nf">upload_table_to_folder_id</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">table</span><span class="p">,</span> <span class="n">file_name</span><span class="p">,</span> <span class="n">folder_id</span><span class="o">=</span><span class="n">DEFAULT_FOLDER_ID</span><span class="p">,</span>
-                                  <span class="nb">format</span><span class="o">=</span><span class="s1">&#39;csv&#39;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">boxsdk</span><span class="o">.</span><span class="n">object</span><span class="o">.</span><span class="n">file</span><span class="o">.</span><span class="n">File</span><span class="p">:</span>
+<div class="viewcode-block" id="Box.upload_table_to_folder_id"><a class="viewcode-back" href="../../../box.html#parsons.Box.upload_table_to_folder_id">[docs]</a>    <span class="k">def</span> <span class="nf">upload_table_to_folder_id</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">table</span><span class="p">,</span> <span class="n">file_name</span><span class="p">,</span> <span class="n">folder_id</span><span class="o">=</span><span class="n">DEFAULT_FOLDER_ID</span><span class="p">,</span> <span class="nb">format</span><span class="o">=</span><span class="s2">&quot;csv&quot;</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">boxsdk</span><span class="o">.</span><span class="n">object</span><span class="o">.</span><span class="n">file</span><span class="o">.</span><span class="n">File</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Save the passed table to Box.</span>
 
 <span class="sd">        `Args`:</span>
@@ -377,23 +379,27 @@
 <span class="sd">        &quot;&quot;&quot;</span>
 
         <span class="k">if</span> <span class="nb">format</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">ALLOWED_FILE_FORMATS</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Format argument to upload_table() must be in one &#39;</span>
-                             <span class="sa">f</span><span class="s1">&#39;of </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">ALLOWED_FILE_FORMATS</span><span class="si">}</span><span class="s1">; found &quot;</span><span class="si">{</span><span class="nb">format</span><span class="si">}</span><span class="s1">&quot;&#39;</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s2">&quot;Format argument to upload_table() must be in one &quot;</span>
+                <span class="sa">f</span><span class="s1">&#39;of </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">ALLOWED_FILE_FORMATS</span><span class="si">}</span><span class="s1">; found &quot;</span><span class="si">{</span><span class="nb">format</span><span class="si">}</span><span class="s1">&quot;&#39;</span>
+            <span class="p">)</span>
 
         <span class="c1"># Create a temp directory in which we will let Parsons create a</span>
         <span class="c1"># file. Both will go away automatically when we leave scope.</span>
         <span class="k">with</span> <span class="n">tempfile</span><span class="o">.</span><span class="n">TemporaryDirectory</span><span class="p">()</span> <span class="k">as</span> <span class="n">temp_dir_name</span><span class="p">:</span>
-            <span class="n">temp_file_path</span> <span class="o">=</span> <span class="n">temp_dir_name</span> <span class="o">+</span> <span class="s1">&#39;/table.tmp&#39;</span>
-            <span class="k">if</span> <span class="nb">format</span> <span class="o">==</span> <span class="s1">&#39;csv&#39;</span><span class="p">:</span>
+            <span class="n">temp_file_path</span> <span class="o">=</span> <span class="n">temp_dir_name</span> <span class="o">+</span> <span class="s2">&quot;/table.tmp&quot;</span>
+            <span class="k">if</span> <span class="nb">format</span> <span class="o">==</span> <span class="s2">&quot;csv&quot;</span><span class="p">:</span>
                 <span class="n">table</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="n">local_path</span><span class="o">=</span><span class="n">temp_file_path</span><span class="p">)</span>
-            <span class="k">elif</span> <span class="nb">format</span> <span class="o">==</span> <span class="s1">&#39;json&#39;</span><span class="p">:</span>
+            <span class="k">elif</span> <span class="nb">format</span> <span class="o">==</span> <span class="s2">&quot;json&quot;</span><span class="p">:</span>
                 <span class="n">table</span><span class="o">.</span><span class="n">to_json</span><span class="p">(</span><span class="n">local_path</span><span class="o">=</span><span class="n">temp_file_path</span><span class="p">)</span>
             <span class="k">else</span><span class="p">:</span>
-                <span class="k">raise</span> <span class="ne">SystemError</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Got (theoretically) impossible &#39;</span>
-                                  <span class="sa">f</span><span class="s1">&#39;format option &quot;</span><span class="si">{</span><span class="nb">format</span><span class="si">}</span><span class="s1">&quot;&#39;</span><span class="p">)</span>  <span class="c1"># pragma: no cover</span>
+                <span class="k">raise</span> <span class="ne">SystemError</span><span class="p">(</span>
+                    <span class="sa">f</span><span class="s2">&quot;Got (theoretically) impossible &quot;</span> <span class="sa">f</span><span class="s1">&#39;format option &quot;</span><span class="si">{</span><span class="nb">format</span><span class="si">}</span><span class="s1">&quot;&#39;</span>
+                <span class="p">)</span>  <span class="c1"># pragma: no cover</span>
 
-            <span class="n">new_file</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">folder</span><span class="p">(</span><span class="n">folder_id</span><span class="p">)</span><span class="o">.</span><span class="n">upload</span><span class="p">(</span><span class="n">file_path</span><span class="o">=</span><span class="n">temp_file_path</span><span class="p">,</span>
-                                                            <span class="n">file_name</span><span class="o">=</span><span class="n">file_name</span><span class="p">)</span>
+            <span class="n">new_file</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">folder</span><span class="p">(</span><span class="n">folder_id</span><span class="p">)</span><span class="o">.</span><span class="n">upload</span><span class="p">(</span>
+                <span class="n">file_path</span><span class="o">=</span><span class="n">temp_file_path</span><span class="p">,</span> <span class="n">file_name</span><span class="o">=</span><span class="n">file_name</span>
+            <span class="p">)</span>
         <span class="k">return</span> <span class="n">new_file</span></div>
 
 <div class="viewcode-block" id="Box.download_file"><a class="viewcode-back" href="../../../box.html#parsons.Box.download_file">[docs]</a>    <span class="k">def</span> <span class="nf">download_file</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">path</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">local_path</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
@@ -419,12 +425,12 @@
 
         <span class="n">file_id</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_item_id</span><span class="p">(</span><span class="n">path</span><span class="p">)</span>
 
-        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">local_path</span><span class="p">,</span> <span class="s1">&#39;wb&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">output_file</span><span class="p">:</span>
+        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">local_path</span><span class="p">,</span> <span class="s2">&quot;wb&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">output_file</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">file</span><span class="p">(</span><span class="n">file_id</span><span class="p">)</span><span class="o">.</span><span class="n">download_to</span><span class="p">(</span><span class="n">output_file</span><span class="p">)</span>
 
         <span class="k">return</span> <span class="n">local_path</span></div>
 
-<div class="viewcode-block" id="Box.get_table"><a class="viewcode-back" href="../../../box.html#parsons.Box.get_table">[docs]</a>    <span class="k">def</span> <span class="nf">get_table</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">path</span><span class="p">,</span> <span class="nb">format</span><span class="o">=</span><span class="s1">&#39;csv&#39;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Table</span><span class="p">:</span>
+<div class="viewcode-block" id="Box.get_table"><a class="viewcode-back" href="../../../box.html#parsons.Box.get_table">[docs]</a>    <span class="k">def</span> <span class="nf">get_table</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">path</span><span class="p">,</span> <span class="nb">format</span><span class="o">=</span><span class="s2">&quot;csv&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Table</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Get a table that has been saved to Box in csv or JSON format.</span>
 
 <span class="sd">        `Args`:</span>
@@ -439,7 +445,7 @@
         <span class="n">file_id</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_item_id</span><span class="p">(</span><span class="n">path</span><span class="p">)</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_table_by_file_id</span><span class="p">(</span><span class="n">file_id</span><span class="o">=</span><span class="n">file_id</span><span class="p">,</span> <span class="nb">format</span><span class="o">=</span><span class="nb">format</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="Box.get_table_by_file_id"><a class="viewcode-back" href="../../../box.html#parsons.Box.get_table_by_file_id">[docs]</a>    <span class="k">def</span> <span class="nf">get_table_by_file_id</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">file_id</span><span class="p">,</span> <span class="nb">format</span><span class="o">=</span><span class="s1">&#39;csv&#39;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Table</span><span class="p">:</span>
+<div class="viewcode-block" id="Box.get_table_by_file_id"><a class="viewcode-back" href="../../../box.html#parsons.Box.get_table_by_file_id">[docs]</a>    <span class="k">def</span> <span class="nf">get_table_by_file_id</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">file_id</span><span class="p">,</span> <span class="nb">format</span><span class="o">=</span><span class="s2">&quot;csv&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Table</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Get a table that has been saved to Box in csv or JSON format.</span>
 
 <span class="sd">        `Args`:</span>
@@ -452,22 +458,25 @@
 <span class="sd">            A Parsons Table.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="nb">format</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">ALLOWED_FILE_FORMATS</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Format argument to upload_table() must be in one &#39;</span>
-                             <span class="sa">f</span><span class="s1">&#39;of </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">ALLOWED_FILE_FORMATS</span><span class="si">}</span><span class="s1">; found &quot;</span><span class="si">{</span><span class="nb">format</span><span class="si">}</span><span class="s1">&quot;&#39;</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s2">&quot;Format argument to upload_table() must be in one &quot;</span>
+                <span class="sa">f</span><span class="s1">&#39;of </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">ALLOWED_FILE_FORMATS</span><span class="si">}</span><span class="s1">; found &quot;</span><span class="si">{</span><span class="nb">format</span><span class="si">}</span><span class="s1">&quot;&#39;</span>
+            <span class="p">)</span>
 
         <span class="c1"># Temp file will be around as long as enclosing process is running,</span>
         <span class="c1"># which we need, because the Table we return will continue to use it.</span>
         <span class="n">output_file_name</span> <span class="o">=</span> <span class="n">create_temp_file</span><span class="p">()</span>
-        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">output_file_name</span><span class="p">,</span> <span class="s1">&#39;wb&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">output_file</span><span class="p">:</span>
+        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">output_file_name</span><span class="p">,</span> <span class="s2">&quot;wb&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">output_file</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">file</span><span class="p">(</span><span class="n">file_id</span><span class="p">)</span><span class="o">.</span><span class="n">download_to</span><span class="p">(</span><span class="n">output_file</span><span class="p">)</span>
 
-        <span class="k">if</span> <span class="nb">format</span> <span class="o">==</span> <span class="s1">&#39;csv&#39;</span><span class="p">:</span>
+        <span class="k">if</span> <span class="nb">format</span> <span class="o">==</span> <span class="s2">&quot;csv&quot;</span><span class="p">:</span>
             <span class="k">return</span> <span class="n">Table</span><span class="o">.</span><span class="n">from_csv</span><span class="p">(</span><span class="n">output_file_name</span><span class="p">)</span>
-        <span class="k">elif</span> <span class="nb">format</span> <span class="o">==</span> <span class="s1">&#39;json&#39;</span><span class="p">:</span>
+        <span class="k">elif</span> <span class="nb">format</span> <span class="o">==</span> <span class="s2">&quot;json&quot;</span><span class="p">:</span>
             <span class="k">return</span> <span class="n">Table</span><span class="o">.</span><span class="n">from_json</span><span class="p">(</span><span class="n">output_file_name</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">SystemError</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Got (theoretically) impossible &#39;</span>
-                              <span class="sa">f</span><span class="s1">&#39;format option &quot;</span><span class="si">{</span><span class="nb">format</span><span class="si">}</span><span class="s1">&quot;&#39;</span><span class="p">)</span>  <span class="c1"># pragma: no cover</span></div>
+            <span class="k">raise</span> <span class="ne">SystemError</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s2">&quot;Got (theoretically) impossible &quot;</span> <span class="sa">f</span><span class="s1">&#39;format option &quot;</span><span class="si">{</span><span class="nb">format</span><span class="si">}</span><span class="s1">&quot;&#39;</span>
+            <span class="p">)</span>  <span class="c1"># pragma: no cover</span></div>
 
 <div class="viewcode-block" id="Box.get_item_id"><a class="viewcode-back" href="../../../box.html#parsons.Box.get_item_id">[docs]</a>    <span class="k">def</span> <span class="nf">get_item_id</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">path</span><span class="p">,</span> <span class="n">base_folder_id</span><span class="o">=</span><span class="n">DEFAULT_FOLDER_ID</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Given a path-like object, try to return the id for the file or</span>
@@ -492,14 +501,14 @@
         <span class="k">try</span><span class="p">:</span>
             <span class="c1"># Grab the leftmost element in the path - this is what we&#39;re</span>
             <span class="c1"># looking for in this folder.</span>
-            <span class="k">if</span> <span class="s1">&#39;/&#39;</span> <span class="ow">in</span> <span class="n">path</span><span class="p">:</span>
-                <span class="n">this_element</span><span class="p">,</span> <span class="n">path</span> <span class="o">=</span> <span class="n">path</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="n">sep</span><span class="o">=</span><span class="s1">&#39;/&#39;</span><span class="p">,</span> <span class="n">maxsplit</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
-                <span class="k">if</span> <span class="n">path</span> <span class="o">==</span> <span class="s1">&#39;&#39;</span><span class="p">:</span>
+            <span class="k">if</span> <span class="s2">&quot;/&quot;</span> <span class="ow">in</span> <span class="n">path</span><span class="p">:</span>
+                <span class="n">this_element</span><span class="p">,</span> <span class="n">path</span> <span class="o">=</span> <span class="n">path</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="n">sep</span><span class="o">=</span><span class="s2">&quot;/&quot;</span><span class="p">,</span> <span class="n">maxsplit</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">path</span> <span class="o">==</span> <span class="s2">&quot;&quot;</span><span class="p">:</span>
                     <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;Illegal trailing &quot;/&quot; in file path&#39;</span><span class="p">)</span>
 
             <span class="k">else</span><span class="p">:</span>
                 <span class="n">this_element</span> <span class="o">=</span> <span class="n">path</span>
-                <span class="n">path</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span>
+                <span class="n">path</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
 
             <span class="c1"># Look in our current base_folder for an item whose name matches the</span>
             <span class="c1"># current element. If we&#39;re at initial, non-recursed call, base_folder</span>
@@ -519,7 +528,7 @@
 
             <span class="c1"># If there *are* more elements in the path, we need to check that this item is</span>
             <span class="c1"># in fact a folder so we can recurse and search inside it.</span>
-            <span class="k">if</span> <span class="n">item</span><span class="o">.</span><span class="n">type</span> <span class="o">!=</span> <span class="s1">&#39;folder&#39;</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">item</span><span class="o">.</span><span class="n">type</span> <span class="o">!=</span> <span class="s2">&quot;folder&quot;</span><span class="p">:</span>
                 <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Invalid folder &quot;</span><span class="si">{</span><span class="n">this_element</span><span class="si">}</span><span class="s1">&quot;&#39;</span><span class="p">)</span>
 
             <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_item_id</span><span class="p">(</span><span class="n">path</span><span class="o">=</span><span class="n">path</span><span class="p">,</span> <span class="n">base_folder_id</span><span class="o">=</span><span class="n">item_id</span><span class="p">)</span>

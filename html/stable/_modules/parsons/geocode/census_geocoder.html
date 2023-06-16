@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>parsons.geocode.census_geocoder &mdash; Parsons 0.5 documentation</title>
+  <title>parsons.geocode.census_geocoder &mdash; Parsons  documentation</title>
       <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
   <!--[if lt IE 9]>
@@ -158,13 +158,13 @@
 <span class="sd">        vintage: str</span>
 <span class="sd">            The US Census vintage file to utilize. By default the current vintage is used, but</span>
 <span class="sd">            other options can be found `here &lt;https://geocoding.geo.census.gov/geocoder/vintages?form&gt;`_.</span>
-<span class="sd">    &quot;&quot;&quot;</span> <span class="c1"># noqa E501</span>
+<span class="sd">    &quot;&quot;&quot;</span>  <span class="c1"># noqa E501</span>
 
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">benchmark</span><span class="o">=</span><span class="s1">&#39;Public_AR_Current&#39;</span><span class="p">,</span> <span class="n">vintage</span><span class="o">=</span><span class="s1">&#39;Current_Current&#39;</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">benchmark</span><span class="o">=</span><span class="s2">&quot;Public_AR_Current&quot;</span><span class="p">,</span> <span class="n">vintage</span><span class="o">=</span><span class="s2">&quot;Current_Current&quot;</span><span class="p">):</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">cg</span> <span class="o">=</span> <span class="n">censusgeocode</span><span class="o">.</span><span class="n">CensusGeocode</span><span class="p">(</span><span class="n">benchmark</span><span class="o">=</span><span class="n">benchmark</span><span class="p">,</span> <span class="n">vintage</span><span class="o">=</span><span class="n">vintage</span><span class="p">)</span>
 
-<div class="viewcode-block" id="CensusGeocoder.geocode_onelineaddress"><a class="viewcode-back" href="../../../census_geocoder.html#parsons.CensusGeocoder.geocode_onelineaddress">[docs]</a>    <span class="k">def</span> <span class="nf">geocode_onelineaddress</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">address</span><span class="p">,</span> <span class="n">return_type</span><span class="o">=</span><span class="s1">&#39;geographies&#39;</span><span class="p">):</span>
+<div class="viewcode-block" id="CensusGeocoder.geocode_onelineaddress"><a class="viewcode-back" href="../../../census_geocoder.html#parsons.CensusGeocoder.geocode_onelineaddress">[docs]</a>    <span class="k">def</span> <span class="nf">geocode_onelineaddress</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">address</span><span class="p">,</span> <span class="n">return_type</span><span class="o">=</span><span class="s2">&quot;geographies&quot;</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Geocode a single line address. Does not require parsing of city and zipcode field. Returns</span>
 <span class="sd">        geocode as well as other census block data. If the service is unable to geocode the address</span>
@@ -184,8 +184,14 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">_log_result</span><span class="p">(</span><span class="n">geo</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">geo</span></div>
 
-<div class="viewcode-block" id="CensusGeocoder.geocode_address"><a class="viewcode-back" href="../../../census_geocoder.html#parsons.CensusGeocoder.geocode_address">[docs]</a>    <span class="k">def</span> <span class="nf">geocode_address</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">address_line</span><span class="p">,</span> <span class="n">city</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">state</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">zipcode</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-                        <span class="n">return_type</span><span class="o">=</span><span class="s1">&#39;geographies&#39;</span><span class="p">):</span>
+<div class="viewcode-block" id="CensusGeocoder.geocode_address"><a class="viewcode-back" href="../../../census_geocoder.html#parsons.CensusGeocoder.geocode_address">[docs]</a>    <span class="k">def</span> <span class="nf">geocode_address</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">address_line</span><span class="p">,</span>
+        <span class="n">city</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">state</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">zipcode</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">return_type</span><span class="o">=</span><span class="s2">&quot;geographies&quot;</span><span class="p">,</span>
+    <span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Geocode an address by specifying address fields. Returns the geocode as well as other</span>
 <span class="sd">        census block data.</span>
@@ -220,12 +226,12 @@
 <span class="sd">            :widths: 40</span>
 <span class="sd">            :header-rows: 1</span>
 
-<span class="sd">            * - Column Data</span>
-<span class="sd">            * - Unique ID</span>
-<span class="sd">            * - Street</span>
-<span class="sd">            * - City</span>
-<span class="sd">            * - State</span>
-<span class="sd">            * - Zipcode</span>
+<span class="sd">            * - Column Names</span>
+<span class="sd">            * - id (must be unique)</span>
+<span class="sd">            * - street</span>
+<span class="sd">            * - city</span>
+<span class="sd">            * - state</span>
+<span class="sd">            * - zip</span>
 
 <span class="sd">        `Args:`</span>
 <span class="sd">            table: Parsons Table</span>
@@ -234,16 +240,24 @@
 <span class="sd">            A Parsons table</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
-        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Geocoding </span><span class="si">{</span><span class="n">table</span><span class="o">.</span><span class="n">num_rows</span><span class="si">}</span><span class="s1"> records.&#39;</span><span class="p">)</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Geocoding </span><span class="si">{</span><span class="n">table</span><span class="o">.</span><span class="n">num_rows</span><span class="si">}</span><span class="s2"> records.&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="nb">set</span><span class="p">(</span><span class="n">table</span><span class="o">.</span><span class="n">columns</span><span class="p">)</span> <span class="o">!=</span> <span class="p">{</span><span class="s2">&quot;street&quot;</span><span class="p">,</span> <span class="s2">&quot;city&quot;</span><span class="p">,</span> <span class="s2">&quot;state&quot;</span><span class="p">,</span> <span class="s2">&quot;zip&quot;</span><span class="p">}:</span>
+            <span class="n">msg</span> <span class="o">=</span> <span class="p">(</span>
+                <span class="s2">&quot;Table must ONLY include `[&#39;id&#39;, &#39;street&#39;, &#39;city&#39;, &#39;state&#39;, &#39;zip&#39;]` as&quot;</span>
+                <span class="o">+</span> <span class="s2">&quot;columns. Tip: try using `table.cut()`&quot;</span>
+            <span class="p">)</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
+
         <span class="n">chunked_tables</span> <span class="o">=</span> <span class="n">table</span><span class="o">.</span><span class="n">chunk</span><span class="p">(</span><span class="n">BATCH_SIZE</span><span class="p">)</span>
         <span class="n">batch_count</span> <span class="o">=</span> <span class="mi">1</span>
         <span class="n">records_processed</span> <span class="o">=</span> <span class="mi">0</span>
 
         <span class="n">geocoded_tbl</span> <span class="o">=</span> <span class="n">Table</span><span class="p">([[]])</span>
         <span class="k">for</span> <span class="n">tbl</span> <span class="ow">in</span> <span class="n">chunked_tables</span><span class="p">:</span>
+
             <span class="n">geocoded_tbl</span><span class="o">.</span><span class="n">concat</span><span class="p">(</span><span class="n">Table</span><span class="p">(</span><span class="n">petl</span><span class="o">.</span><span class="n">fromdicts</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">cg</span><span class="o">.</span><span class="n">addressbatch</span><span class="p">(</span><span class="n">tbl</span><span class="p">))))</span>
             <span class="n">records_processed</span> <span class="o">+=</span> <span class="n">tbl</span><span class="o">.</span><span class="n">num_rows</span>
-            <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">records_processed</span><span class="si">}</span><span class="s1"> of </span><span class="si">{</span><span class="n">table</span><span class="o">.</span><span class="n">num_rows</span><span class="si">}</span><span class="s1"> records processed.&#39;</span><span class="p">)</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">records_processed</span><span class="si">}</span><span class="s2"> of </span><span class="si">{</span><span class="n">table</span><span class="o">.</span><span class="n">num_rows</span><span class="si">}</span><span class="s2"> records processed.&quot;</span><span class="p">)</span>
             <span class="n">batch_count</span> <span class="o">+=</span> <span class="mi">1</span>
 
         <span class="k">return</span> <span class="n">geocoded_tbl</span></div>
@@ -252,9 +266,9 @@
         <span class="c1"># Internal method to log the result of the geocode</span>
 
         <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="nb">dict</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
-            <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s1">&#39;Unable to geocode record.&#39;</span><span class="p">)</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Unable to geocode record.&quot;</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s1">&#39;Record geocoded.&#39;</span><span class="p">)</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Record geocoded.&quot;</span><span class="p">)</span>
 
 <div class="viewcode-block" id="CensusGeocoder.get_coordinates_data"><a class="viewcode-back" href="../../../census_geocoder.html#parsons.CensusGeocoder.get_coordinates_data">[docs]</a>    <span class="k">def</span> <span class="nf">get_coordinates_data</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">latitude</span><span class="p">,</span> <span class="n">longitude</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
@@ -270,10 +284,10 @@
 <span class="sd">        &quot;&quot;&quot;</span>
 
         <span class="n">geo</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">cg</span><span class="o">.</span><span class="n">coordinates</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">longitude</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="n">latitude</span><span class="p">)</span>
-        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">geo</span><span class="p">[</span><span class="s1">&#39;States&#39;</span><span class="p">])</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
-            <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s1">&#39;Coordinate not found.&#39;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">geo</span><span class="p">[</span><span class="s2">&quot;States&quot;</span><span class="p">])</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Coordinate not found.&quot;</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s1">&#39;Coordinate processed.&#39;</span><span class="p">)</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Coordinate processed.&quot;</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">geo</span></div></div>
 </pre></div>
 

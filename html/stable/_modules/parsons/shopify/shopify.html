@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>parsons.shopify.shopify &mdash; Parsons 0.5 documentation</title>
+  <title>parsons.shopify.shopify &mdash; Parsons  documentation</title>
       <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
   <!--[if lt IE 9]>
@@ -145,7 +145,6 @@
 <div class="viewcode-block" id="Shopify"><a class="viewcode-back" href="../../../shopify.html#parsons.Shopify">[docs]</a><span class="k">class</span> <span class="nc">Shopify</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Instantiate the Shopify class</span>
-
 <span class="sd">    `Args:`</span>
 <span class="sd">        subdomain: str</span>
 <span class="sd">            The Shopify subdomain (e.g. ``myorg`` for myorg.myshopify.com) Not required if</span>
@@ -159,23 +158,49 @@
 <span class="sd">        api_version: str</span>
 <span class="sd">            The Shopify API version. Not required if ``SHOPIFY_API_VERSION`` env variable</span>
 <span class="sd">            set.</span>
+<span class="sd">        access_token: str</span>
+<span class="sd">            The Shopify access token.  Not required if ``SHOPIFY_ACCESS_TOKEN`` env</span>
+<span class="sd">            variable set. If argument or env variable is set, password and api_key</span>
+<span class="sd">            are ignored.</span>
 <span class="sd">    `Returns:`</span>
 <span class="sd">        Shopify Class</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">subdomain</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">password</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">api_key</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">api_version</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">subdomain</span> <span class="o">=</span> <span class="n">check_env</span><span class="o">.</span><span class="n">check</span><span class="p">(</span><span class="s1">&#39;SHOPIFY_SUBDOMAIN&#39;</span><span class="p">,</span> <span class="n">subdomain</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">password</span> <span class="o">=</span> <span class="n">check_env</span><span class="o">.</span><span class="n">check</span><span class="p">(</span><span class="s1">&#39;SHOPIFY_PASSWORD&#39;</span><span class="p">,</span> <span class="n">password</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">api_key</span> <span class="o">=</span> <span class="n">check_env</span><span class="o">.</span><span class="n">check</span><span class="p">(</span><span class="s1">&#39;SHOPIFY_API_KEY&#39;</span><span class="p">,</span> <span class="n">api_key</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">api_version</span> <span class="o">=</span> <span class="n">check_env</span><span class="o">.</span><span class="n">check</span><span class="p">(</span><span class="s1">&#39;SHOPIFY_API_VERSION&#39;</span><span class="p">,</span> <span class="n">api_version</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">base_url</span> <span class="o">=</span> <span class="s1">&#39;https://</span><span class="si">%s</span><span class="s1">.myshopify.com/admin/api/</span><span class="si">%s</span><span class="s1">/&#39;</span> <span class="o">%</span> <span class="p">(</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">subdomain</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">api_version</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">subdomain</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">password</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">api_key</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">api_version</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">access_token</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">subdomain</span> <span class="o">=</span> <span class="n">check_env</span><span class="o">.</span><span class="n">check</span><span class="p">(</span><span class="s2">&quot;SHOPIFY_SUBDOMAIN&quot;</span><span class="p">,</span> <span class="n">subdomain</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">access_token</span> <span class="o">=</span> <span class="n">check_env</span><span class="o">.</span><span class="n">check</span><span class="p">(</span>
+            <span class="s2">&quot;SHOPIFY_ACCESS_TOKEN&quot;</span><span class="p">,</span> <span class="n">access_token</span><span class="p">,</span> <span class="n">optional</span><span class="o">=</span><span class="kc">True</span>
         <span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">client</span> <span class="o">=</span> <span class="n">APIConnector</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">base_url</span><span class="p">,</span> <span class="n">auth</span><span class="o">=</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">api_key</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">password</span><span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">password</span> <span class="o">=</span> <span class="n">check_env</span><span class="o">.</span><span class="n">check</span><span class="p">(</span><span class="s2">&quot;SHOPIFY_PASSWORD&quot;</span><span class="p">,</span> <span class="n">password</span><span class="p">,</span> <span class="n">optional</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">api_key</span> <span class="o">=</span> <span class="n">check_env</span><span class="o">.</span><span class="n">check</span><span class="p">(</span><span class="s2">&quot;SHOPIFY_API_KEY&quot;</span><span class="p">,</span> <span class="n">api_key</span><span class="p">,</span> <span class="n">optional</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">api_version</span> <span class="o">=</span> <span class="n">check_env</span><span class="o">.</span><span class="n">check</span><span class="p">(</span><span class="s2">&quot;SHOPIFY_API_VERSION&quot;</span><span class="p">,</span> <span class="n">api_version</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">base_url</span> <span class="o">=</span> <span class="s2">&quot;https://</span><span class="si">%s</span><span class="s2">.myshopify.com/admin/api/</span><span class="si">%s</span><span class="s2">/&quot;</span> <span class="o">%</span> <span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">subdomain</span><span class="p">,</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">api_version</span><span class="p">,</span>
+        <span class="p">)</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">access_token</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">and</span> <span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">password</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">api_key</span> <span class="ow">is</span> <span class="kc">None</span>
+        <span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">KeyError</span><span class="p">(</span><span class="s2">&quot;Must set either access_token or both api_key and password.&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">access_token</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">client</span> <span class="o">=</span> <span class="n">APIConnector</span><span class="p">(</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">base_url</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;X-Shopify-Access-Token&quot;</span><span class="p">:</span> <span class="n">access_token</span><span class="p">}</span>
+            <span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">client</span> <span class="o">=</span> <span class="n">APIConnector</span><span class="p">(</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">base_url</span><span class="p">,</span> <span class="n">auth</span><span class="o">=</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">api_key</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">password</span><span class="p">)</span>
+            <span class="p">)</span>
 
 <div class="viewcode-block" id="Shopify.get_count"><a class="viewcode-back" href="../../../shopify.html#parsons.Shopify.get_count">[docs]</a>    <span class="k">def</span> <span class="nf">get_count</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">query_date</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">since_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">table_name</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Get the count of rows in a table.</span>
-
 <span class="sd">        `Args:`</span>
 <span class="sd">            query_date: str</span>
 <span class="sd">                Filter query by a date that rows were created. This filter is ignored if value</span>
@@ -187,13 +212,17 @@
 <span class="sd">        `Returns:`</span>
 <span class="sd">            int</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">request</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">get_query_url</span><span class="p">(</span><span class="n">query_date</span><span class="p">,</span> <span class="n">since_id</span><span class="p">,</span> <span class="n">table_name</span><span class="p">),</span>
-                                   <span class="s1">&#39;GET&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">json</span><span class="p">()</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;count&quot;</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span></div>
+        <span class="k">return</span> <span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">request</span><span class="p">(</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">get_query_url</span><span class="p">(</span><span class="n">query_date</span><span class="p">,</span> <span class="n">since_id</span><span class="p">,</span> <span class="n">table_name</span><span class="p">),</span> <span class="s2">&quot;GET&quot;</span>
+            <span class="p">)</span>
+            <span class="o">.</span><span class="n">json</span><span class="p">()</span>
+            <span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;count&quot;</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+        <span class="p">)</span></div>
 
 <div class="viewcode-block" id="Shopify.get_orders"><a class="viewcode-back" href="../../../shopify.html#parsons.Shopify.get_orders">[docs]</a>    <span class="k">def</span> <span class="nf">get_orders</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">query_date</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">since_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">completed</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Get Shopify orders.</span>
-
 <span class="sd">        `Args:`</span>
 <span class="sd">            query_date: str</span>
 <span class="sd">                Filter query by a date that rows were created. Format: yyyy-mm-dd. This filter</span>
@@ -211,9 +240,9 @@
             <span class="k">nonlocal</span> <span class="n">orders</span>
 
             <span class="k">if</span> <span class="n">completed</span><span class="p">:</span>
-                <span class="n">url</span> <span class="o">+=</span> <span class="s1">&#39;&amp;financial_status=paid&#39;</span>
+                <span class="n">url</span> <span class="o">+=</span> <span class="s2">&quot;&amp;financial_status=paid&quot;</span>
 
-            <span class="n">res</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">request</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="s1">&#39;GET&#39;</span><span class="p">)</span>
+            <span class="n">res</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">request</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="s2">&quot;GET&quot;</span><span class="p">)</span>
 
             <span class="n">cur_orders</span> <span class="o">=</span> <span class="n">res</span><span class="o">.</span><span class="n">json</span><span class="p">()</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;orders&quot;</span><span class="p">,</span> <span class="p">[])</span>
 
@@ -225,11 +254,11 @@
                 <span class="k">for</span> <span class="n">key1</span> <span class="ow">in</span> <span class="n">order</span><span class="p">:</span>
                     <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">order</span><span class="p">[</span><span class="n">key1</span><span class="p">],</span> <span class="nb">dict</span><span class="p">):</span>
                         <span class="k">for</span> <span class="n">key2</span> <span class="ow">in</span> <span class="n">order</span><span class="p">[</span><span class="n">key1</span><span class="p">]:</span>
-                            <span class="n">keys_to_add</span><span class="p">[</span><span class="n">key1</span> <span class="o">+</span> <span class="s1">&#39;_&#39;</span> <span class="o">+</span> <span class="n">key2</span><span class="p">]</span> <span class="o">=</span> <span class="n">order</span><span class="p">[</span><span class="n">key1</span><span class="p">][</span><span class="n">key2</span><span class="p">]</span>
+                            <span class="n">keys_to_add</span><span class="p">[</span><span class="n">key1</span> <span class="o">+</span> <span class="s2">&quot;_&quot;</span> <span class="o">+</span> <span class="n">key2</span><span class="p">]</span> <span class="o">=</span> <span class="n">order</span><span class="p">[</span><span class="n">key1</span><span class="p">][</span><span class="n">key2</span><span class="p">]</span>
                         <span class="n">keys_to_delete</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">key1</span><span class="p">)</span>
-                    <span class="k">elif</span> <span class="n">key1</span> <span class="o">==</span> <span class="s1">&#39;note_attributes&#39;</span><span class="p">:</span>
+                    <span class="k">elif</span> <span class="n">key1</span> <span class="o">==</span> <span class="s2">&quot;note_attributes&quot;</span><span class="p">:</span>
                         <span class="k">for</span> <span class="n">note</span> <span class="ow">in</span> <span class="n">order</span><span class="p">[</span><span class="n">key1</span><span class="p">]:</span>
-                            <span class="n">keys_to_add</span><span class="p">[</span><span class="n">key1</span> <span class="o">+</span> <span class="s1">&#39;_&#39;</span> <span class="o">+</span> <span class="n">note</span><span class="p">[</span><span class="s1">&#39;name&#39;</span><span class="p">]]</span> <span class="o">=</span> <span class="n">note</span><span class="p">[</span><span class="s1">&#39;value&#39;</span><span class="p">]</span>
+                            <span class="n">keys_to_add</span><span class="p">[</span><span class="n">key1</span> <span class="o">+</span> <span class="s2">&quot;_&quot;</span> <span class="o">+</span> <span class="n">note</span><span class="p">[</span><span class="s2">&quot;name&quot;</span><span class="p">]]</span> <span class="o">=</span> <span class="n">note</span><span class="p">[</span><span class="s2">&quot;value&quot;</span><span class="p">]</span>
 
                 <span class="n">order</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">keys_to_add</span><span class="p">)</span>
                 <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">keys_to_delete</span><span class="p">:</span>
@@ -243,7 +272,7 @@
 
         <span class="c1"># Get next page</span>
         <span class="k">while</span> <span class="n">res</span><span class="o">.</span><span class="n">headers</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;Link&quot;</span><span class="p">):</span>
-            <span class="n">link</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;; |, &#39;</span><span class="p">,</span> <span class="n">res</span><span class="o">.</span><span class="n">headers</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;Link&quot;</span><span class="p">))</span>
+            <span class="n">link</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;; |, &quot;</span><span class="p">,</span> <span class="n">res</span><span class="o">.</span><span class="n">headers</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;Link&quot;</span><span class="p">))</span>
             <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">link</span><span class="p">)</span> <span class="ow">and</span> <span class="n">link</span><span class="p">[</span><span class="nb">len</span><span class="p">(</span><span class="n">link</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;rel=&quot;next&quot;&#39;</span><span class="p">:</span>
                 <span class="n">res</span> <span class="o">=</span> <span class="n">_append_orders</span><span class="p">(</span><span class="n">link</span><span class="p">[</span><span class="nb">len</span><span class="p">(</span><span class="n">link</span><span class="p">)</span> <span class="o">-</span> <span class="mi">2</span><span class="p">][</span><span class="mi">1</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
             <span class="k">else</span><span class="p">:</span>
@@ -251,10 +280,11 @@
 
         <span class="k">return</span> <span class="n">Table</span><span class="p">(</span><span class="n">orders</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="Shopify.get_query_url"><a class="viewcode-back" href="../../../shopify.html#parsons.Shopify.get_query_url">[docs]</a>    <span class="k">def</span> <span class="nf">get_query_url</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">query_date</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">since_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">table_name</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">count</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+<div class="viewcode-block" id="Shopify.get_query_url"><a class="viewcode-back" href="../../../shopify.html#parsons.Shopify.get_query_url">[docs]</a>    <span class="k">def</span> <span class="nf">get_query_url</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">query_date</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">since_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">table_name</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">count</span><span class="o">=</span><span class="kc">True</span>
+    <span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Get the URL of a Shopify API request</span>
-
 <span class="sd">        `Args:`</span>
 <span class="sd">            query_date: str</span>
 <span class="sd">                Filter query by a date that rows were created. Format: yyyy-mm-dd. This filter</span>
@@ -268,53 +298,62 @@
 <span class="sd">        `Returns:`</span>
 <span class="sd">            str</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">filters</span> <span class="o">=</span> <span class="s1">&#39;limit=250&amp;status=any&#39;</span>
+        <span class="n">filters</span> <span class="o">=</span> <span class="s2">&quot;limit=250&amp;status=any&quot;</span>
 
         <span class="k">if</span> <span class="n">count</span><span class="p">:</span>
-            <span class="n">table</span> <span class="o">=</span> <span class="n">table_name</span> <span class="o">+</span> <span class="s1">&#39;/count.json&#39;</span>
+            <span class="n">table</span> <span class="o">=</span> <span class="n">table_name</span> <span class="o">+</span> <span class="s2">&quot;/count.json&quot;</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="n">table</span> <span class="o">=</span> <span class="n">table_name</span> <span class="o">+</span> <span class="s1">&#39;.json&#39;</span>
+            <span class="n">table</span> <span class="o">=</span> <span class="n">table_name</span> <span class="o">+</span> <span class="s2">&quot;.json&quot;</span>
 
         <span class="k">if</span> <span class="n">query_date</span><span class="p">:</span>
             <span class="c1"># Specific date if provided</span>
             <span class="n">query_date</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">strptime</span><span class="p">(</span><span class="n">query_date</span><span class="p">,</span> <span class="s2">&quot;%Y-%m-</span><span class="si">%d</span><span class="s2">&quot;</span><span class="p">)</span>
             <span class="n">max_date</span> <span class="o">=</span> <span class="n">query_date</span> <span class="o">+</span> <span class="n">timedelta</span><span class="p">(</span><span class="n">days</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
-            <span class="n">filters</span> <span class="o">+=</span> <span class="s1">&#39;&amp;created_at_min=</span><span class="si">{}</span><span class="s1">&amp;created_at_max=</span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">query_date</span><span class="o">.</span><span class="n">isoformat</span><span class="p">(),</span>
-                                                                     <span class="n">max_date</span><span class="o">.</span><span class="n">isoformat</span><span class="p">())</span>
+            <span class="n">filters</span> <span class="o">+=</span> <span class="s2">&quot;&amp;created_at_min=</span><span class="si">{}</span><span class="s2">&amp;created_at_max=</span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+                <span class="n">query_date</span><span class="o">.</span><span class="n">isoformat</span><span class="p">(),</span> <span class="n">max_date</span><span class="o">.</span><span class="n">isoformat</span><span class="p">()</span>
+            <span class="p">)</span>
         <span class="k">elif</span> <span class="n">since_id</span><span class="p">:</span>
             <span class="c1"># Since ID if provided</span>
-            <span class="n">filters</span> <span class="o">+=</span> <span class="s1">&#39;&amp;since_id=</span><span class="si">%s</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="n">since_id</span>
+            <span class="n">filters</span> <span class="o">+=</span> <span class="s2">&quot;&amp;since_id=</span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="n">since_id</span>
 
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">base_url</span> <span class="o">+</span> <span class="s1">&#39;</span><span class="si">%s</span><span class="s1">?</span><span class="si">%s</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">table</span><span class="p">,</span> <span class="n">filters</span><span class="p">)</span></div>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">base_url</span> <span class="o">+</span> <span class="s2">&quot;</span><span class="si">%s</span><span class="s2">?</span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">table</span><span class="p">,</span> <span class="n">filters</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="Shopify.graphql"><a class="viewcode-back" href="../../../shopify.html#parsons.Shopify.graphql">[docs]</a>    <span class="k">def</span> <span class="nf">graphql</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">query</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Make GraphQL request. Reference: https://shopify.dev/api/admin-graphql</span>
-
 <span class="sd">        `Args:`</span>
 <span class="sd">            query: str</span>
 <span class="sd">                GraphQL query.</span>
 <span class="sd">        `Returns:`</span>
 <span class="sd">            dict</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">request</span><span class="p">(</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">base_url</span> <span class="o">+</span> <span class="s1">&#39;graphql.json&#39;</span><span class="p">,</span> <span class="s1">&#39;POST&#39;</span><span class="p">,</span> <span class="n">json</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;query&quot;</span><span class="p">:</span> <span class="n">query</span><span class="p">}</span>
-        <span class="p">)</span><span class="o">.</span><span class="n">json</span><span class="p">()</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;data&#39;</span><span class="p">)</span></div>
+        <span class="k">return</span> <span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">request</span><span class="p">(</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">base_url</span> <span class="o">+</span> <span class="s2">&quot;graphql.json&quot;</span><span class="p">,</span> <span class="s2">&quot;POST&quot;</span><span class="p">,</span> <span class="n">json</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;query&quot;</span><span class="p">:</span> <span class="n">query</span><span class="p">}</span>
+            <span class="p">)</span>
+            <span class="o">.</span><span class="n">json</span><span class="p">()</span>
+            <span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;data&quot;</span><span class="p">)</span>
+        <span class="p">)</span></div>
 
 <div class="viewcode-block" id="Shopify.load_to_table"><a class="viewcode-back" href="../../../shopify.html#parsons.Shopify.load_to_table">[docs]</a>    <span class="nd">@classmethod</span>
-    <span class="k">def</span> <span class="nf">load_to_table</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">subdomain</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">password</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">api_key</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">api_version</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-                      <span class="n">query_date</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">since_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">completed</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">load_to_table</span><span class="p">(</span>
+        <span class="bp">cls</span><span class="p">,</span>
+        <span class="n">subdomain</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">password</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">api_key</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">api_version</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">query_date</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">since_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">completed</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+    <span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Fast classmethod so you can get the data all at once:</span>
-
 <span class="sd">            tabledata = Shopify.load_to_table(subdomain=&#39;myorg&#39;, password=&#39;abc123&#39;,</span>
 <span class="sd">                                            api_key=&#39;abc123&#39;, api_version=&#39;2020-10&#39;,</span>
 <span class="sd">                                            query_date=&#39;2020-10-20&#39;, since_id=&#39;8414&#39;,</span>
 <span class="sd">                                            completed=True)</span>
-
 <span class="sd">        This instantiates the class and makes the appropriate query type to Shopify&#39;s orders</span>
 <span class="sd">        table based on which arguments are supplied.</span>
-
 <span class="sd">        `Args:`</span>
 <span class="sd">            subdomain: str</span>
 <span class="sd">                The Shopify subdomain (e.g. ``myorg`` for myorg.myshopify.com).</span>
@@ -335,8 +374,9 @@
 <span class="sd">        `Returns:`</span>
 <span class="sd">            Table Class</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">cls</span><span class="p">(</span><span class="n">subdomain</span><span class="p">,</span> <span class="n">password</span><span class="p">,</span> <span class="n">api_key</span><span class="p">,</span> <span class="n">api_version</span><span class="p">)</span><span class="o">.</span><span class="n">get_orders</span><span class="p">(</span><span class="n">query_date</span><span class="p">,</span> <span class="n">since_id</span><span class="p">,</span>
-                                                                         <span class="n">completed</span><span class="p">)</span></div></div>
+        <span class="k">return</span> <span class="bp">cls</span><span class="p">(</span><span class="n">subdomain</span><span class="p">,</span> <span class="n">password</span><span class="p">,</span> <span class="n">api_key</span><span class="p">,</span> <span class="n">api_version</span><span class="p">)</span><span class="o">.</span><span class="n">get_orders</span><span class="p">(</span>
+            <span class="n">query_date</span><span class="p">,</span> <span class="n">since_id</span><span class="p">,</span> <span class="n">completed</span>
+        <span class="p">)</span></div></div>
 </pre></div>
 
            </div>

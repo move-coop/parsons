@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>parsons.bloomerang.bloomerang &mdash; Parsons 0.5 documentation</title>
+  <title>parsons.bloomerang.bloomerang &mdash; Parsons  documentation</title>
       <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
   <!--[if lt IE 9]>
@@ -170,53 +170,56 @@
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">api_key</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">client_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">client_secret</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">api_key</span> <span class="o">=</span> <span class="n">check_env</span><span class="o">.</span><span class="n">check</span><span class="p">(</span><span class="s1">&#39;BLOOMERANG_API_KEY&#39;</span><span class="p">,</span> <span class="n">api_key</span><span class="p">,</span> <span class="n">optional</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">client_id</span> <span class="o">=</span> <span class="n">check_env</span><span class="o">.</span><span class="n">check</span><span class="p">(</span><span class="s1">&#39;BLOOMERANG_CLIENT_ID&#39;</span><span class="p">,</span> <span class="n">client_id</span><span class="p">,</span> <span class="n">optional</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">client_secret</span> <span class="o">=</span> <span class="n">check_env</span><span class="o">.</span><span class="n">check</span><span class="p">(</span><span class="s1">&#39;BLOOMERANG_CLIENT_SECRET&#39;</span><span class="p">,</span> <span class="n">client_secret</span><span class="p">,</span>
-                                             <span class="n">optional</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">api_key</span> <span class="o">=</span> <span class="n">check_env</span><span class="o">.</span><span class="n">check</span><span class="p">(</span><span class="s2">&quot;BLOOMERANG_API_KEY&quot;</span><span class="p">,</span> <span class="n">api_key</span><span class="p">,</span> <span class="n">optional</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">client_id</span> <span class="o">=</span> <span class="n">check_env</span><span class="o">.</span><span class="n">check</span><span class="p">(</span>
+            <span class="s2">&quot;BLOOMERANG_CLIENT_ID&quot;</span><span class="p">,</span> <span class="n">client_id</span><span class="p">,</span> <span class="n">optional</span><span class="o">=</span><span class="kc">True</span>
+        <span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">client_secret</span> <span class="o">=</span> <span class="n">check_env</span><span class="o">.</span><span class="n">check</span><span class="p">(</span>
+            <span class="s2">&quot;BLOOMERANG_CLIENT_SECRET&quot;</span><span class="p">,</span> <span class="n">client_secret</span><span class="p">,</span> <span class="n">optional</span><span class="o">=</span><span class="kc">True</span>
+        <span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">uri</span> <span class="o">=</span> <span class="n">URI</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">uri_auth</span> <span class="o">=</span> <span class="n">URI_AUTH</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">conn</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_conn</span><span class="p">()</span>
 
     <span class="k">def</span> <span class="nf">_conn</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="c1"># Instantiate APIConnector with authentication credentials</span>
-        <span class="n">headers</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;accept&quot;</span><span class="p">:</span> <span class="s2">&quot;application/json&quot;</span><span class="p">,</span>
-                   <span class="s2">&quot;Content-Type&quot;</span><span class="p">:</span> <span class="s2">&quot;application/json&quot;</span><span class="p">}</span>
+        <span class="n">headers</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;accept&quot;</span><span class="p">:</span> <span class="s2">&quot;application/json&quot;</span><span class="p">,</span> <span class="s2">&quot;Content-Type&quot;</span><span class="p">:</span> <span class="s2">&quot;application/json&quot;</span><span class="p">}</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">api_key</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Using API key authentication.&quot;</span><span class="p">)</span>
-            <span class="n">headers</span><span class="p">[</span><span class="s1">&#39;X-API-KEY&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">api_key</span><span class="si">}</span><span class="s2">&quot;</span>
+            <span class="n">headers</span><span class="p">[</span><span class="s2">&quot;X-API-KEY&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">api_key</span><span class="si">}</span><span class="s2">&quot;</span>
         <span class="k">elif</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">client_id</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">client_secret</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">):</span>
-            <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s1">&#39;Using OAuth2 authentication.&#39;</span><span class="p">)</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Using OAuth2 authentication.&quot;</span><span class="p">)</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_generate_authorization_code</span><span class="p">()</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_generate_access_token</span><span class="p">()</span>
-            <span class="n">headers</span><span class="p">[</span><span class="s1">&#39;Authorization&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;Bearer </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">access_token</span><span class="si">}</span><span class="s2">&quot;</span>
+            <span class="n">headers</span><span class="p">[</span><span class="s2">&quot;Authorization&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;Bearer </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">access_token</span><span class="si">}</span><span class="s2">&quot;</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s1">&#39;Missing authorization credentials.&#39;</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s2">&quot;Missing authorization credentials.&quot;</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">APIConnector</span><span class="p">(</span><span class="n">uri</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">uri</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="n">headers</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">_generate_authorization_code</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="n">data</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;client_id&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">client_id</span><span class="p">,</span>
-                <span class="s1">&#39;response_type&#39;</span><span class="p">:</span> <span class="s1">&#39;code&#39;</span><span class="p">}</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;client_id&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">client_id</span><span class="p">,</span> <span class="s2">&quot;response_type&quot;</span><span class="p">:</span> <span class="s2">&quot;code&quot;</span><span class="p">}</span>
         <span class="n">r</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">post</span><span class="p">(</span><span class="n">url</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">uri_auth</span><span class="p">,</span> <span class="n">json</span><span class="o">=</span><span class="n">data</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">authorization_code</span> <span class="o">=</span> <span class="n">r</span><span class="o">.</span><span class="n">json</span><span class="p">()</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;code&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">authorization_code</span> <span class="o">=</span> <span class="n">r</span><span class="o">.</span><span class="n">json</span><span class="p">()</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;code&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">_generate_access_token</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="n">data</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;client_id&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">client_id</span><span class="p">,</span>
-                <span class="s1">&#39;client_secret&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">client_secret</span><span class="p">,</span>
-                <span class="s1">&#39;grant_type&#39;</span><span class="p">:</span> <span class="s1">&#39;authorization_code&#39;</span><span class="p">,</span>
-                <span class="s1">&#39;code&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">authorization_code</span><span class="p">}</span>
-        <span class="n">r</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">post</span><span class="p">(</span><span class="n">url</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">uri</span> <span class="o">+</span> <span class="s1">&#39;oauth/token&#39;</span><span class="p">,</span> <span class="n">json</span><span class="o">=</span><span class="n">data</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">access_token</span> <span class="o">=</span> <span class="n">r</span><span class="o">.</span><span class="n">json</span><span class="p">()</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;access_token&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s2">&quot;client_id&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">client_id</span><span class="p">,</span>
+            <span class="s2">&quot;client_secret&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">client_secret</span><span class="p">,</span>
+            <span class="s2">&quot;grant_type&quot;</span><span class="p">:</span> <span class="s2">&quot;authorization_code&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;code&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">authorization_code</span><span class="p">,</span>
+        <span class="p">}</span>
+        <span class="n">r</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">post</span><span class="p">(</span><span class="n">url</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">uri</span> <span class="o">+</span> <span class="s2">&quot;oauth/token&quot;</span><span class="p">,</span> <span class="n">json</span><span class="o">=</span><span class="n">data</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">access_token</span> <span class="o">=</span> <span class="n">r</span><span class="o">.</span><span class="n">json</span><span class="p">()</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;access_token&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">_base_endpoint</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">endpoint</span><span class="p">,</span> <span class="n">entity_id</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-        <span class="n">url</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">uri</span><span class="si">}{</span><span class="n">endpoint</span><span class="si">}</span><span class="s1">/&#39;</span>
+        <span class="n">url</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">uri</span><span class="si">}{</span><span class="n">endpoint</span><span class="si">}</span><span class="s2">/&quot;</span>
         <span class="k">if</span> <span class="n">entity_id</span><span class="p">:</span>
-            <span class="n">url</span> <span class="o">=</span> <span class="n">url</span> <span class="o">+</span> <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">entity_id</span><span class="si">}</span><span class="s1">/&#39;</span>
+            <span class="n">url</span> <span class="o">=</span> <span class="n">url</span> <span class="o">+</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">entity_id</span><span class="si">}</span><span class="s2">/&quot;</span>
         <span class="k">return</span> <span class="n">url</span>
 
     <span class="nd">@staticmethod</span>
     <span class="k">def</span> <span class="nf">_base_pagination_params</span><span class="p">(</span><span class="n">page_number</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">page_size</span><span class="o">=</span><span class="mi">50</span><span class="p">):</span>
-        <span class="k">return</span> <span class="p">{</span><span class="s1">&#39;skip&#39;</span><span class="p">:</span> <span class="n">page_size</span> <span class="o">*</span> <span class="p">(</span><span class="n">page_number</span> <span class="o">-</span> <span class="mi">1</span><span class="p">),</span> <span class="s1">&#39;take&#39;</span><span class="p">:</span> <span class="nb">min</span><span class="p">(</span><span class="n">page_size</span><span class="p">,</span> <span class="mi">50</span><span class="p">)}</span>
+        <span class="k">return</span> <span class="p">{</span><span class="s2">&quot;skip&quot;</span><span class="p">:</span> <span class="n">page_size</span> <span class="o">*</span> <span class="p">(</span><span class="n">page_number</span> <span class="o">-</span> <span class="mi">1</span><span class="p">),</span> <span class="s2">&quot;take&quot;</span><span class="p">:</span> <span class="nb">min</span><span class="p">(</span><span class="n">page_size</span><span class="p">,</span> <span class="mi">50</span><span class="p">)}</span>
 
     <span class="nd">@staticmethod</span>
     <span class="k">def</span> <span class="nf">_base_ordering_params</span><span class="p">(</span><span class="n">order_by</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">order_direction</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
@@ -231,15 +234,19 @@
         <span class="k">return</span> <span class="n">params</span>
 
     <span class="k">def</span> <span class="nf">_base_create</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">endpoint</span><span class="p">,</span> <span class="n">entity_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">conn</span><span class="o">.</span><span class="n">post_request</span><span class="p">(</span><span class="n">url</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_base_endpoint</span><span class="p">(</span><span class="n">endpoint</span><span class="p">,</span> <span class="n">entity_id</span><span class="p">),</span>
-                                      <span class="n">json</span><span class="o">=</span><span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">({</span><span class="o">**</span><span class="n">kwargs</span><span class="p">}))</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">conn</span><span class="o">.</span><span class="n">post_request</span><span class="p">(</span>
+            <span class="n">url</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_base_endpoint</span><span class="p">(</span><span class="n">endpoint</span><span class="p">,</span> <span class="n">entity_id</span><span class="p">),</span> <span class="n">json</span><span class="o">=</span><span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">({</span><span class="o">**</span><span class="n">kwargs</span><span class="p">})</span>
+        <span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">_base_update</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">endpoint</span><span class="p">,</span> <span class="n">entity_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">conn</span><span class="o">.</span><span class="n">put_request</span><span class="p">(</span><span class="n">url</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_base_endpoint</span><span class="p">(</span><span class="n">endpoint</span><span class="p">,</span> <span class="n">entity_id</span><span class="p">),</span>
-                                     <span class="n">json</span><span class="o">=</span><span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">({</span><span class="o">**</span><span class="n">kwargs</span><span class="p">}))</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">conn</span><span class="o">.</span><span class="n">put_request</span><span class="p">(</span>
+            <span class="n">url</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_base_endpoint</span><span class="p">(</span><span class="n">endpoint</span><span class="p">,</span> <span class="n">entity_id</span><span class="p">),</span> <span class="n">json</span><span class="o">=</span><span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">({</span><span class="o">**</span><span class="n">kwargs</span><span class="p">})</span>
+        <span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">_base_get</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">endpoint</span><span class="p">,</span> <span class="n">entity_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">conn</span><span class="o">.</span><span class="n">get_request</span><span class="p">(</span><span class="n">url</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_base_endpoint</span><span class="p">(</span><span class="n">endpoint</span><span class="p">,</span> <span class="n">entity_id</span><span class="p">),</span> <span class="n">params</span><span class="o">=</span><span class="n">params</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">conn</span><span class="o">.</span><span class="n">get_request</span><span class="p">(</span>
+            <span class="n">url</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_base_endpoint</span><span class="p">(</span><span class="n">endpoint</span><span class="p">,</span> <span class="n">entity_id</span><span class="p">),</span> <span class="n">params</span><span class="o">=</span><span class="n">params</span>
+        <span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">_base_delete</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">endpoint</span><span class="p">,</span> <span class="n">entity_id</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">conn</span><span class="o">.</span><span class="n">delete_request</span><span class="p">(</span><span class="n">url</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_base_endpoint</span><span class="p">(</span><span class="n">endpoint</span><span class="p">,</span> <span class="n">entity_id</span><span class="p">))</span>
@@ -252,7 +259,7 @@
 
 <span class="sd">                See the Bloomerang API docs for a full list of `fields &lt;https://bloomerang.co/features/integrations/api/rest-api#/Constituents/post_constituent&gt;`_. # noqa</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_base_create</span><span class="p">(</span><span class="s1">&#39;constituent&#39;</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_base_create</span><span class="p">(</span><span class="s2">&quot;constituent&quot;</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="Bloomerang.update_constituent"><a class="viewcode-back" href="../../../bloomerang.html#parsons.Bloomerang.update_constituent">[docs]</a>    <span class="k">def</span> <span class="nf">update_constituent</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">constituent_id</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
@@ -264,7 +271,7 @@
 
 <span class="sd">                See the Bloomerang API docs for a full list of `fields &lt;https://bloomerang.co/features/integrations/api/rest-api#/Constituents/put_constituent__id_&gt;`_. # noqa</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_base_update</span><span class="p">(</span><span class="s1">&#39;constituent&#39;</span><span class="p">,</span> <span class="n">entity_id</span><span class="o">=</span><span class="n">constituent_id</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_base_update</span><span class="p">(</span><span class="s2">&quot;constituent&quot;</span><span class="p">,</span> <span class="n">entity_id</span><span class="o">=</span><span class="n">constituent_id</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="Bloomerang.get_constituent"><a class="viewcode-back" href="../../../bloomerang.html#parsons.Bloomerang.get_constituent">[docs]</a>    <span class="k">def</span> <span class="nf">get_constituent</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">constituent_id</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
@@ -274,7 +281,7 @@
 <span class="sd">        `Returns:`</span>
 <span class="sd">            A  JSON of the entry or an error.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_base_get</span><span class="p">(</span><span class="s1">&#39;constituent&#39;</span><span class="p">,</span> <span class="n">entity_id</span><span class="o">=</span><span class="n">constituent_id</span><span class="p">)</span></div>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_base_get</span><span class="p">(</span><span class="s2">&quot;constituent&quot;</span><span class="p">,</span> <span class="n">entity_id</span><span class="o">=</span><span class="n">constituent_id</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="Bloomerang.delete_constituent"><a class="viewcode-back" href="../../../bloomerang.html#parsons.Bloomerang.delete_constituent">[docs]</a>    <span class="k">def</span> <span class="nf">delete_constituent</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">constituent_id</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
@@ -282,10 +289,16 @@
 <span class="sd">            constituent_id: str or int</span>
 <span class="sd">                Constituent ID to delete</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_base_delete</span><span class="p">(</span><span class="s1">&#39;constituent&#39;</span><span class="p">,</span> <span class="n">entity_id</span><span class="o">=</span><span class="n">constituent_id</span><span class="p">)</span></div>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_base_delete</span><span class="p">(</span><span class="s2">&quot;constituent&quot;</span><span class="p">,</span> <span class="n">entity_id</span><span class="o">=</span><span class="n">constituent_id</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="Bloomerang.get_constituents"><a class="viewcode-back" href="../../../bloomerang.html#parsons.Bloomerang.get_constituents">[docs]</a>    <span class="k">def</span> <span class="nf">get_constituents</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">page_number</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">page_size</span><span class="o">=</span><span class="mi">50</span><span class="p">,</span> <span class="n">order_by</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">order_direction</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-                         <span class="n">last_modified</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<div class="viewcode-block" id="Bloomerang.get_constituents"><a class="viewcode-back" href="../../../bloomerang.html#parsons.Bloomerang.get_constituents">[docs]</a>    <span class="k">def</span> <span class="nf">get_constituents</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">page_number</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+        <span class="n">page_size</span><span class="o">=</span><span class="mi">50</span><span class="p">,</span>
+        <span class="n">order_by</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">order_direction</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">last_modified</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        `Args:`</span>
 <span class="sd">            page_number: int</span>
@@ -307,8 +320,8 @@
         <span class="k">if</span> <span class="n">last_modified</span><span class="p">:</span>
             <span class="n">params</span><span class="p">[</span><span class="s2">&quot;lastModified&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">last_modified</span>
 
-        <span class="n">response</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_base_get</span><span class="p">(</span><span class="s1">&#39;constituents&#39;</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="n">params</span><span class="p">)</span>
-        <span class="k">return</span> <span class="n">Table</span><span class="p">(</span><span class="n">response</span><span class="p">[</span><span class="s1">&#39;Results&#39;</span><span class="p">])</span></div>
+        <span class="n">response</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_base_get</span><span class="p">(</span><span class="s2">&quot;constituents&quot;</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="n">params</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">Table</span><span class="p">(</span><span class="n">response</span><span class="p">[</span><span class="s2">&quot;Results&quot;</span><span class="p">])</span></div>
 
 <div class="viewcode-block" id="Bloomerang.create_transaction"><a class="viewcode-back" href="../../../bloomerang.html#parsons.Bloomerang.create_transaction">[docs]</a>    <span class="k">def</span> <span class="nf">create_transaction</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
@@ -318,7 +331,7 @@
 
 <span class="sd">                See the Bloomerang API docs for a full list of `fields &lt;https://bloomerang.co/features/integrations/api/rest-api#/Transactions/post_transaction&gt;`_. # noqa</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_base_create</span><span class="p">(</span><span class="s1">&#39;transaction&#39;</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_base_create</span><span class="p">(</span><span class="s2">&quot;transaction&quot;</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="Bloomerang.update_transaction"><a class="viewcode-back" href="../../../bloomerang.html#parsons.Bloomerang.update_transaction">[docs]</a>    <span class="k">def</span> <span class="nf">update_transaction</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">transaction_id</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
@@ -330,7 +343,7 @@
 
 <span class="sd">                See the Bloomerang API docs for a full list of `fields &lt;https://bloomerang.co/features/integrations/api/rest-api#/Transactions/put_transaction__id_&gt;`_. # noqa</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_base_update</span><span class="p">(</span><span class="s1">&#39;transaction&#39;</span><span class="p">,</span> <span class="n">entity_id</span><span class="o">=</span><span class="n">transaction_id</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_base_update</span><span class="p">(</span><span class="s2">&quot;transaction&quot;</span><span class="p">,</span> <span class="n">entity_id</span><span class="o">=</span><span class="n">transaction_id</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="Bloomerang.get_transaction"><a class="viewcode-back" href="../../../bloomerang.html#parsons.Bloomerang.get_transaction">[docs]</a>    <span class="k">def</span> <span class="nf">get_transaction</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">transaction_id</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
@@ -340,7 +353,7 @@
 <span class="sd">        `Returns:`</span>
 <span class="sd">            A  JSON of the entry or an error.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_base_get</span><span class="p">(</span><span class="s1">&#39;transaction&#39;</span><span class="p">,</span> <span class="n">entity_id</span><span class="o">=</span><span class="n">transaction_id</span><span class="p">)</span></div>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_base_get</span><span class="p">(</span><span class="s2">&quot;transaction&quot;</span><span class="p">,</span> <span class="n">entity_id</span><span class="o">=</span><span class="n">transaction_id</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="Bloomerang.delete_transaction"><a class="viewcode-back" href="../../../bloomerang.html#parsons.Bloomerang.delete_transaction">[docs]</a>    <span class="k">def</span> <span class="nf">delete_transaction</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">transaction_id</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
@@ -348,9 +361,11 @@
 <span class="sd">            transaction_id: str or int</span>
 <span class="sd">                Transaction ID to delete</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_base_delete</span><span class="p">(</span><span class="s1">&#39;transaction&#39;</span><span class="p">,</span> <span class="n">entity_id</span><span class="o">=</span><span class="n">transaction_id</span><span class="p">)</span></div>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_base_delete</span><span class="p">(</span><span class="s2">&quot;transaction&quot;</span><span class="p">,</span> <span class="n">entity_id</span><span class="o">=</span><span class="n">transaction_id</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="Bloomerang.get_transactions"><a class="viewcode-back" href="../../../bloomerang.html#parsons.Bloomerang.get_transactions">[docs]</a>    <span class="k">def</span> <span class="nf">get_transactions</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">page_number</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">page_size</span><span class="o">=</span><span class="mi">50</span><span class="p">,</span> <span class="n">order_by</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">order_direction</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<div class="viewcode-block" id="Bloomerang.get_transactions"><a class="viewcode-back" href="../../../bloomerang.html#parsons.Bloomerang.get_transactions">[docs]</a>    <span class="k">def</span> <span class="nf">get_transactions</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">page_number</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">page_size</span><span class="o">=</span><span class="mi">50</span><span class="p">,</span> <span class="n">order_by</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">order_direction</span><span class="o">=</span><span class="kc">None</span>
+    <span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        `Args:`</span>
 <span class="sd">            page_number: int</span>
@@ -367,8 +382,8 @@
         <span class="n">params</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_base_pagination_params</span><span class="p">(</span><span class="n">page_number</span><span class="p">,</span> <span class="n">page_size</span><span class="p">)</span>
         <span class="n">params</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_base_ordering_params</span><span class="p">(</span><span class="n">order_by</span><span class="p">,</span> <span class="n">order_direction</span><span class="p">))</span>
 
-        <span class="n">response</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_base_get</span><span class="p">(</span><span class="s1">&#39;transactions&#39;</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="n">params</span><span class="p">)</span>
-        <span class="k">return</span> <span class="n">Table</span><span class="p">(</span><span class="n">response</span><span class="p">[</span><span class="s1">&#39;Results&#39;</span><span class="p">])</span></div>
+        <span class="n">response</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_base_get</span><span class="p">(</span><span class="s2">&quot;transactions&quot;</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="n">params</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">Table</span><span class="p">(</span><span class="n">response</span><span class="p">[</span><span class="s2">&quot;Results&quot;</span><span class="p">])</span></div>
 
 <div class="viewcode-block" id="Bloomerang.get_transaction_designation"><a class="viewcode-back" href="../../../bloomerang.html#parsons.Bloomerang.get_transaction_designation">[docs]</a>    <span class="k">def</span> <span class="nf">get_transaction_designation</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">designation_id</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
@@ -378,10 +393,11 @@
 <span class="sd">        `Returns:`</span>
 <span class="sd">            A  JSON of the entry or an error.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_base_get</span><span class="p">(</span><span class="s1">&#39;transaction/designation&#39;</span><span class="p">,</span> <span class="n">entity_id</span><span class="o">=</span><span class="n">designation_id</span><span class="p">)</span></div>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_base_get</span><span class="p">(</span><span class="s2">&quot;transaction/designation&quot;</span><span class="p">,</span> <span class="n">entity_id</span><span class="o">=</span><span class="n">designation_id</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="Bloomerang.get_transaction_designations"><a class="viewcode-back" href="../../../bloomerang.html#parsons.Bloomerang.get_transaction_designations">[docs]</a>    <span class="k">def</span> <span class="nf">get_transaction_designations</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">page_number</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">page_size</span><span class="o">=</span><span class="mi">50</span><span class="p">,</span> <span class="n">order_by</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-                                     <span class="n">order_direction</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<div class="viewcode-block" id="Bloomerang.get_transaction_designations"><a class="viewcode-back" href="../../../bloomerang.html#parsons.Bloomerang.get_transaction_designations">[docs]</a>    <span class="k">def</span> <span class="nf">get_transaction_designations</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">page_number</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">page_size</span><span class="o">=</span><span class="mi">50</span><span class="p">,</span> <span class="n">order_by</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">order_direction</span><span class="o">=</span><span class="kc">None</span>
+    <span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        `Args:`</span>
 <span class="sd">            page_number: int</span>
@@ -398,8 +414,8 @@
         <span class="n">params</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_base_pagination_params</span><span class="p">(</span><span class="n">page_number</span><span class="p">,</span> <span class="n">page_size</span><span class="p">)</span>
         <span class="n">params</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_base_ordering_params</span><span class="p">(</span><span class="n">order_by</span><span class="p">,</span> <span class="n">order_direction</span><span class="p">))</span>
 
-        <span class="n">response</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_base_get</span><span class="p">(</span><span class="s1">&#39;transactions/designations&#39;</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="n">params</span><span class="p">)</span>
-        <span class="k">return</span> <span class="n">Table</span><span class="p">(</span><span class="n">response</span><span class="p">[</span><span class="s1">&#39;Results&#39;</span><span class="p">])</span></div>
+        <span class="n">response</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_base_get</span><span class="p">(</span><span class="s2">&quot;transactions/designations&quot;</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="n">params</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">Table</span><span class="p">(</span><span class="n">response</span><span class="p">[</span><span class="s2">&quot;Results&quot;</span><span class="p">])</span></div>
 
 <div class="viewcode-block" id="Bloomerang.create_interaction"><a class="viewcode-back" href="../../../bloomerang.html#parsons.Bloomerang.create_interaction">[docs]</a>    <span class="k">def</span> <span class="nf">create_interaction</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
@@ -409,7 +425,7 @@
 
 <span class="sd">                See the Bloomerang API docs for a full list of `fields &lt;https://bloomerang.co/features/integrations/api/rest-api#/Interactions/post_interaction&gt;`_. # noqa</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_base_create</span><span class="p">(</span><span class="s1">&#39;interaction&#39;</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_base_create</span><span class="p">(</span><span class="s2">&quot;interaction&quot;</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="Bloomerang.update_interaction"><a class="viewcode-back" href="../../../bloomerang.html#parsons.Bloomerang.update_interaction">[docs]</a>    <span class="k">def</span> <span class="nf">update_interaction</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">interaction_id</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
@@ -421,7 +437,7 @@
 
 <span class="sd">                See the Bloomerang API docs for a full list of `fields &lt;https://bloomerang.co/features/integrations/api/rest-api#/Interactions/put_interaction__id_&gt;`_. # noqa</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_base_update</span><span class="p">(</span><span class="s1">&#39;interaction&#39;</span><span class="p">,</span> <span class="n">entity_id</span><span class="o">=</span><span class="n">interaction_id</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_base_update</span><span class="p">(</span><span class="s2">&quot;interaction&quot;</span><span class="p">,</span> <span class="n">entity_id</span><span class="o">=</span><span class="n">interaction_id</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="Bloomerang.get_interaction"><a class="viewcode-back" href="../../../bloomerang.html#parsons.Bloomerang.get_interaction">[docs]</a>    <span class="k">def</span> <span class="nf">get_interaction</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">interaction_id</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
@@ -431,7 +447,7 @@
 <span class="sd">        `Returns:`</span>
 <span class="sd">            A  JSON of the entry or an error.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_base_get</span><span class="p">(</span><span class="s1">&#39;interaction&#39;</span><span class="p">,</span> <span class="n">entity_id</span><span class="o">=</span><span class="n">interaction_id</span><span class="p">)</span></div>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_base_get</span><span class="p">(</span><span class="s2">&quot;interaction&quot;</span><span class="p">,</span> <span class="n">entity_id</span><span class="o">=</span><span class="n">interaction_id</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="Bloomerang.delete_interaction"><a class="viewcode-back" href="../../../bloomerang.html#parsons.Bloomerang.delete_interaction">[docs]</a>    <span class="k">def</span> <span class="nf">delete_interaction</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">interaction_id</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
@@ -439,7 +455,7 @@
 <span class="sd">            interaction_id: str or int</span>
 <span class="sd">                Interaction ID to delete</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_base_delete</span><span class="p">(</span><span class="s1">&#39;interaction&#39;</span><span class="p">,</span> <span class="n">entity_id</span><span class="o">=</span><span class="n">interaction_id</span><span class="p">)</span></div>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_base_delete</span><span class="p">(</span><span class="s2">&quot;interaction&quot;</span><span class="p">,</span> <span class="n">entity_id</span><span class="o">=</span><span class="n">interaction_id</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="Bloomerang.get_interactions"><a class="viewcode-back" href="../../../bloomerang.html#parsons.Bloomerang.get_interactions">[docs]</a>    <span class="k">def</span> <span class="nf">get_interactions</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">page_number</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">page_size</span><span class="o">=</span><span class="mi">50</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
@@ -452,8 +468,8 @@
 <span class="sd">            A  JSON of the entry or an error.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">params</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_base_pagination_params</span><span class="p">(</span><span class="n">page_number</span><span class="p">,</span> <span class="n">page_size</span><span class="p">)</span>
-        <span class="n">response</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_base_get</span><span class="p">(</span><span class="s1">&#39;interactions&#39;</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="n">params</span><span class="p">)</span>
-        <span class="k">return</span> <span class="n">Table</span><span class="p">(</span><span class="n">response</span><span class="p">[</span><span class="s1">&#39;Results&#39;</span><span class="p">])</span></div></div>
+        <span class="n">response</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_base_get</span><span class="p">(</span><span class="s2">&quot;interactions&quot;</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="n">params</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">Table</span><span class="p">(</span><span class="n">response</span><span class="p">[</span><span class="s2">&quot;Results&quot;</span><span class="p">])</span></div></div>
 </pre></div>
 
            </div>

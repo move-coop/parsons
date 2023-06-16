@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>parsons.airtable.airtable &mdash; Parsons 0.5 documentation</title>
+  <title>parsons.airtable.airtable &mdash; Parsons  documentation</title>
       <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
   <!--[if lt IE 9]>
@@ -157,7 +157,7 @@
 
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">base_key</span><span class="p">,</span> <span class="n">table_name</span><span class="p">,</span> <span class="n">api_key</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
 
-        <span class="bp">self</span><span class="o">.</span><span class="n">api_key</span> <span class="o">=</span> <span class="n">check_env</span><span class="o">.</span><span class="n">check</span><span class="p">(</span><span class="s1">&#39;AIRTABLE_API_KEY&#39;</span><span class="p">,</span> <span class="n">api_key</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">api_key</span> <span class="o">=</span> <span class="n">check_env</span><span class="o">.</span><span class="n">check</span><span class="p">(</span><span class="s2">&quot;AIRTABLE_API_KEY&quot;</span><span class="p">,</span> <span class="n">api_key</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">client</span> <span class="o">=</span> <span class="n">client</span><span class="p">(</span><span class="n">base_key</span><span class="p">,</span> <span class="n">table_name</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">api_key</span><span class="p">)</span>
 
 <div class="viewcode-block" id="Airtable.get_record"><a class="viewcode-back" href="../../../airtable.html#parsons.Airtable.get_record">[docs]</a>    <span class="k">def</span> <span class="nf">get_record</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">record_id</span><span class="p">):</span>
@@ -173,8 +173,15 @@
 
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">record_id</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="Airtable.get_records"><a class="viewcode-back" href="../../../airtable.html#parsons.Airtable.get_records">[docs]</a>    <span class="k">def</span> <span class="nf">get_records</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fields</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">max_records</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">view</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-                    <span class="n">formula</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">sort</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">sample_size</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<div class="viewcode-block" id="Airtable.get_records"><a class="viewcode-back" href="../../../airtable.html#parsons.Airtable.get_records">[docs]</a>    <span class="k">def</span> <span class="nf">get_records</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">fields</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">max_records</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">view</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">formula</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">sort</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">sample_size</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        `Args:`</span>
 <span class="sd">            fields: str or lst</span>
@@ -224,25 +231,30 @@
 <span class="sd">        &quot;&quot;&quot;</span>
 
         <span class="c1"># Raises an error if sort is None type. Thus, only adding if populated.</span>
-        <span class="n">kwargs</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;fields&#39;</span><span class="p">:</span> <span class="n">fields</span><span class="p">,</span> <span class="s1">&#39;max_records&#39;</span><span class="p">:</span> <span class="n">max_records</span><span class="p">,</span> <span class="s1">&#39;view&#39;</span><span class="p">:</span> <span class="n">view</span><span class="p">,</span> <span class="s1">&#39;formula&#39;</span><span class="p">:</span> <span class="n">formula</span><span class="p">}</span>
+        <span class="n">kwargs</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s2">&quot;fields&quot;</span><span class="p">:</span> <span class="n">fields</span><span class="p">,</span>
+            <span class="s2">&quot;max_records&quot;</span><span class="p">:</span> <span class="n">max_records</span><span class="p">,</span>
+            <span class="s2">&quot;view&quot;</span><span class="p">:</span> <span class="n">view</span><span class="p">,</span>
+            <span class="s2">&quot;formula&quot;</span><span class="p">:</span> <span class="n">formula</span><span class="p">,</span>
+        <span class="p">}</span>
         <span class="k">if</span> <span class="n">sort</span><span class="p">:</span>
-            <span class="n">kwargs</span><span class="p">[</span><span class="s1">&#39;sort&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">sort</span>
+            <span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;sort&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">sort</span>
 
         <span class="n">tbl</span> <span class="o">=</span> <span class="n">Table</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">get_all</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">))</span>
 
         <span class="c1"># If the results are empty, then return an empty table.</span>
-        <span class="k">if</span> <span class="s1">&#39;fields&#39;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">tbl</span><span class="o">.</span><span class="n">columns</span><span class="p">:</span>
+        <span class="k">if</span> <span class="s2">&quot;fields&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">tbl</span><span class="o">.</span><span class="n">columns</span><span class="p">:</span>
             <span class="k">return</span> <span class="n">Table</span><span class="p">([[]])</span>
 
         <span class="n">unpack_dicts_kwargs</span> <span class="o">=</span> <span class="p">{</span>
-            <span class="s1">&#39;column&#39;</span><span class="p">:</span> <span class="s1">&#39;fields&#39;</span><span class="p">,</span>
-            <span class="s1">&#39;prepend&#39;</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span>
+            <span class="s2">&quot;column&quot;</span><span class="p">:</span> <span class="s2">&quot;fields&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;prepend&quot;</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span>
         <span class="p">}</span>
         <span class="k">if</span> <span class="n">fields</span><span class="p">:</span>
-            <span class="n">unpack_dicts_kwargs</span><span class="p">[</span><span class="s1">&#39;keys&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">fields</span>
+            <span class="n">unpack_dicts_kwargs</span><span class="p">[</span><span class="s2">&quot;keys&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">fields</span>
 
         <span class="k">if</span> <span class="n">sample_size</span><span class="p">:</span>
-            <span class="n">unpack_dicts_kwargs</span><span class="p">[</span><span class="s1">&#39;sample_size&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">sample_size</span>
+            <span class="n">unpack_dicts_kwargs</span><span class="p">[</span><span class="s2">&quot;sample_size&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">sample_size</span>
 
         <span class="k">return</span> <span class="n">tbl</span><span class="o">.</span><span class="n">unpack_dict</span><span class="p">(</span><span class="o">**</span><span class="n">unpack_dicts_kwargs</span><span class="p">)</span></div>
 
@@ -261,7 +273,7 @@
 <span class="sd">        &quot;&quot;&quot;</span>
 
         <span class="n">resp</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="n">row</span><span class="p">)</span>
-        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s1">&#39;Record inserted&#39;</span><span class="p">)</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Record inserted&quot;</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">resp</span></div>
 
 <div class="viewcode-block" id="Airtable.insert_records"><a class="viewcode-back" href="../../../airtable.html#parsons.Airtable.insert_records">[docs]</a>    <span class="k">def</span> <span class="nf">insert_records</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">table</span><span class="p">,</span> <span class="n">typecast</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
@@ -280,7 +292,7 @@
 <span class="sd">        &quot;&quot;&quot;</span>
 
         <span class="n">resp</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">batch_insert</span><span class="p">(</span><span class="n">table</span><span class="p">,</span> <span class="n">typecast</span><span class="o">=</span><span class="n">typecast</span><span class="p">)</span>
-        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">table</span><span class="o">.</span><span class="n">num_rows</span><span class="si">}</span><span class="s1"> records inserted.&#39;</span><span class="p">)</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">table</span><span class="o">.</span><span class="n">num_rows</span><span class="si">}</span><span class="s2"> records inserted.&quot;</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">resp</span></div>
 
 <div class="viewcode-block" id="Airtable.update_record"><a class="viewcode-back" href="../../../airtable.html#parsons.Airtable.update_record">[docs]</a>    <span class="k">def</span> <span class="nf">update_record</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">record_id</span><span class="p">,</span> <span class="n">fields</span><span class="p">,</span> <span class="n">typecast</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
@@ -300,7 +312,7 @@
 <span class="sd">        &quot;&quot;&quot;</span>
 
         <span class="n">resp</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">record_id</span><span class="p">,</span> <span class="n">fields</span><span class="p">,</span> <span class="n">typecast</span><span class="o">=</span><span class="n">typecast</span><span class="p">)</span>
-        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">record_id</span><span class="si">}</span><span class="s1"> updated&#39;</span><span class="p">)</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">record_id</span><span class="si">}</span><span class="s2"> updated&quot;</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">resp</span></div></div>
 </pre></div>
 

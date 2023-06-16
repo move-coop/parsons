@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>parsons.civis.civisclient &mdash; Parsons 0.5 documentation</title>
+  <title>parsons.civis.civisclient &mdash; Parsons  documentation</title>
       <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
   <!--[if lt IE 9]>
@@ -157,8 +157,8 @@
 
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">db</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">api_key</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
 
-        <span class="bp">self</span><span class="o">.</span><span class="n">db</span> <span class="o">=</span> <span class="n">check_env</span><span class="o">.</span><span class="n">check</span><span class="p">(</span><span class="s1">&#39;CIVIS_DATABASE&#39;</span><span class="p">,</span> <span class="n">db</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">api_key</span> <span class="o">=</span> <span class="n">check_env</span><span class="o">.</span><span class="n">check</span><span class="p">(</span><span class="s1">&#39;CIVIS_API_KEY&#39;</span><span class="p">,</span> <span class="n">api_key</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">db</span> <span class="o">=</span> <span class="n">check_env</span><span class="o">.</span><span class="n">check</span><span class="p">(</span><span class="s2">&quot;CIVIS_DATABASE&quot;</span><span class="p">,</span> <span class="n">db</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">api_key</span> <span class="o">=</span> <span class="n">check_env</span><span class="o">.</span><span class="n">check</span><span class="p">(</span><span class="s2">&quot;CIVIS_API_KEY&quot;</span><span class="p">,</span> <span class="n">api_key</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">client</span> <span class="o">=</span> <span class="n">civis</span><span class="o">.</span><span class="n">APIClient</span><span class="p">(</span><span class="n">api_key</span><span class="o">=</span><span class="n">api_key</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        The Civis API client. Utilize this attribute to access to lower level and more</span>
@@ -166,7 +166,9 @@
 <span class="sd">        can be found by reading the Civis API client `documentation &lt;https://civis-python.readthedocs.io/en/stable/client.html&gt;`_.</span>
 <span class="sd">        &quot;&quot;&quot;</span>  <span class="c1"># noqa: E501</span>
 
-<div class="viewcode-block" id="CivisClient.query"><a class="viewcode-back" href="../../../civis.html#parsons.CivisClient.query">[docs]</a>    <span class="k">def</span> <span class="nf">query</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sql</span><span class="p">,</span> <span class="n">preview_rows</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">polling_interval</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">hidden</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">wait</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+<div class="viewcode-block" id="CivisClient.query"><a class="viewcode-back" href="../../../civis.html#parsons.CivisClient.query">[docs]</a>    <span class="k">def</span> <span class="nf">query</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">sql</span><span class="p">,</span> <span class="n">preview_rows</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">polling_interval</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">hidden</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">wait</span><span class="o">=</span><span class="kc">True</span>
+    <span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Execute a SQL statement as a Civis query.</span>
 
@@ -192,24 +194,39 @@
 <span class="sd">                See :ref:`parsons-table` for output options.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
-        <span class="n">fut</span> <span class="o">=</span> <span class="n">civis</span><span class="o">.</span><span class="n">io</span><span class="o">.</span><span class="n">query_civis</span><span class="p">(</span><span class="n">sql</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">db</span><span class="p">,</span> <span class="n">preview_rows</span><span class="o">=</span><span class="n">preview_rows</span><span class="p">,</span>
-                                   <span class="n">polling_interval</span><span class="o">=</span><span class="n">polling_interval</span><span class="p">,</span> <span class="n">hidden</span><span class="o">=</span><span class="n">hidden</span><span class="p">)</span>
+        <span class="n">fut</span> <span class="o">=</span> <span class="n">civis</span><span class="o">.</span><span class="n">io</span><span class="o">.</span><span class="n">query_civis</span><span class="p">(</span>
+            <span class="n">sql</span><span class="p">,</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">db</span><span class="p">,</span>
+            <span class="n">preview_rows</span><span class="o">=</span><span class="n">preview_rows</span><span class="p">,</span>
+            <span class="n">polling_interval</span><span class="o">=</span><span class="n">polling_interval</span><span class="p">,</span>
+            <span class="n">hidden</span><span class="o">=</span><span class="n">hidden</span><span class="p">,</span>
+        <span class="p">)</span>
 
         <span class="k">if</span> <span class="ow">not</span> <span class="n">wait</span><span class="p">:</span>
             <span class="k">return</span> <span class="n">fut</span>
 
         <span class="n">result</span> <span class="o">=</span> <span class="n">fut</span><span class="o">.</span><span class="n">result</span><span class="p">()</span>
 
-        <span class="k">if</span> <span class="n">result</span><span class="p">[</span><span class="s1">&#39;result_rows&#39;</span><span class="p">]</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">result</span><span class="p">[</span><span class="s2">&quot;result_rows&quot;</span><span class="p">]</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="k">return</span> <span class="kc">None</span>
 
-        <span class="n">result</span><span class="p">[</span><span class="s1">&#39;result_rows&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">result</span><span class="p">[</span><span class="s1">&#39;result_columns&#39;</span><span class="p">])</span>
+        <span class="n">result</span><span class="p">[</span><span class="s2">&quot;result_rows&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">result</span><span class="p">[</span><span class="s2">&quot;result_columns&quot;</span><span class="p">])</span>
 
-        <span class="k">return</span> <span class="n">Table</span><span class="p">(</span><span class="n">result</span><span class="p">[</span><span class="s1">&#39;result_rows&#39;</span><span class="p">])</span></div>
+        <span class="k">return</span> <span class="n">Table</span><span class="p">(</span><span class="n">result</span><span class="p">[</span><span class="s2">&quot;result_rows&quot;</span><span class="p">])</span></div>
 
-<div class="viewcode-block" id="CivisClient.table_import"><a class="viewcode-back" href="../../../civis.html#parsons.CivisClient.table_import">[docs]</a>    <span class="k">def</span> <span class="nf">table_import</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">table_obj</span><span class="p">,</span> <span class="n">table</span><span class="p">,</span> <span class="n">max_errors</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-                     <span class="n">existing_table_rows</span><span class="o">=</span><span class="s1">&#39;fail&#39;</span><span class="p">,</span> <span class="n">diststyle</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">distkey</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-                     <span class="n">sortkey1</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">sortkey2</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">wait</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="o">**</span><span class="n">civisargs</span><span class="p">):</span>
+<div class="viewcode-block" id="CivisClient.table_import"><a class="viewcode-back" href="../../../civis.html#parsons.CivisClient.table_import">[docs]</a>    <span class="k">def</span> <span class="nf">table_import</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">table_obj</span><span class="p">,</span>
+        <span class="n">table</span><span class="p">,</span>
+        <span class="n">max_errors</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">existing_table_rows</span><span class="o">=</span><span class="s2">&quot;fail&quot;</span><span class="p">,</span>
+        <span class="n">diststyle</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">distkey</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">sortkey1</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">sortkey2</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">wait</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="o">**</span><span class="n">civisargs</span>
+    <span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Write the table to a Civis Redshift cluster. Additional key word</span>
 <span class="sd">        arguments can passed to `civis.io.dataframe_to_civis()  &lt;https://civis-python.readthedocs.io/en/v1.9.0/generated/civis.io.dataframe_to_civis.html#civis.io.dataframe_to_civis&gt;`_ # noqa: E501</span>
@@ -243,12 +260,19 @@
 <span class="sd">            ``None`` or ``civis.CivisFuture``</span>
 <span class="sd">        &quot;&quot;&quot;</span>  <span class="c1"># noqa: E501,E261</span>
 
-        <span class="n">fut</span> <span class="o">=</span> <span class="n">civis</span><span class="o">.</span><span class="n">io</span><span class="o">.</span><span class="n">dataframe_to_civis</span><span class="p">(</span><span class="n">table_obj</span><span class="o">.</span><span class="n">to_dataframe</span><span class="p">(),</span> <span class="n">database</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">db</span><span class="p">,</span>
-                                          <span class="n">table</span><span class="o">=</span><span class="n">table</span><span class="p">,</span> <span class="n">max_errors</span><span class="o">=</span><span class="n">max_errors</span><span class="p">,</span>
-                                          <span class="n">existing_table_rows</span><span class="o">=</span><span class="n">existing_table_rows</span><span class="p">,</span>
-                                          <span class="n">diststyle</span><span class="o">=</span><span class="n">diststyle</span><span class="p">,</span> <span class="n">distkey</span><span class="o">=</span><span class="n">distkey</span><span class="p">,</span>
-                                          <span class="n">sortkey1</span><span class="o">=</span><span class="n">sortkey1</span><span class="p">,</span> <span class="n">sortkey2</span><span class="o">=</span><span class="n">sortkey2</span><span class="p">,</span>
-                                          <span class="n">headers</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="o">**</span><span class="n">civisargs</span><span class="p">)</span>
+        <span class="n">fut</span> <span class="o">=</span> <span class="n">civis</span><span class="o">.</span><span class="n">io</span><span class="o">.</span><span class="n">dataframe_to_civis</span><span class="p">(</span>
+            <span class="n">table_obj</span><span class="o">.</span><span class="n">to_dataframe</span><span class="p">(),</span>
+            <span class="n">database</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">db</span><span class="p">,</span>
+            <span class="n">table</span><span class="o">=</span><span class="n">table</span><span class="p">,</span>
+            <span class="n">max_errors</span><span class="o">=</span><span class="n">max_errors</span><span class="p">,</span>
+            <span class="n">existing_table_rows</span><span class="o">=</span><span class="n">existing_table_rows</span><span class="p">,</span>
+            <span class="n">diststyle</span><span class="o">=</span><span class="n">diststyle</span><span class="p">,</span>
+            <span class="n">distkey</span><span class="o">=</span><span class="n">distkey</span><span class="p">,</span>
+            <span class="n">sortkey1</span><span class="o">=</span><span class="n">sortkey1</span><span class="p">,</span>
+            <span class="n">sortkey2</span><span class="o">=</span><span class="n">sortkey2</span><span class="p">,</span>
+            <span class="n">headers</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+            <span class="o">**</span><span class="n">civisargs</span>
+        <span class="p">)</span>
 
         <span class="k">if</span> <span class="n">wait</span><span class="p">:</span>
             <span class="k">return</span> <span class="n">fut</span><span class="o">.</span><span class="n">result</span><span class="p">()</span>

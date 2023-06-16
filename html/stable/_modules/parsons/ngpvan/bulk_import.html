@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>parsons.ngpvan.bulk_import &mdash; Parsons 0.5 documentation</title>
+  <title>parsons.ngpvan.bulk_import &mdash; Parsons  documentation</title>
       <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
   <!--[if lt IE 9]>
@@ -146,9 +146,7 @@
 
 
 <div class="viewcode-block" id="BulkImport"><a class="viewcode-back" href="../../../ngpvan.html#parsons.ngpvan.van.BulkImport">[docs]</a><span class="k">class</span> <span class="nc">BulkImport</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
-
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-
         <span class="k">pass</span>
 
 <div class="viewcode-block" id="BulkImport.get_bulk_import_resources"><a class="viewcode-back" href="../../../ngpvan.html#parsons.ngpvan.van.BulkImport.get_bulk_import_resources">[docs]</a>    <span class="k">def</span> <span class="nf">get_bulk_import_resources</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
@@ -162,8 +160,8 @@
 <span class="sd">                A list of resources.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
-        <span class="n">r</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">connection</span><span class="o">.</span><span class="n">get_request</span><span class="p">(</span><span class="s1">&#39;bulkImportJobs/resources&#39;</span><span class="p">)</span>
-        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Found </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">r</span><span class="p">)</span><span class="si">}</span><span class="s1"> bulk import resources.&#39;</span><span class="p">)</span>
+        <span class="n">r</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">connection</span><span class="o">.</span><span class="n">get_request</span><span class="p">(</span><span class="s2">&quot;bulkImportJobs/resources&quot;</span><span class="p">)</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Found </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">r</span><span class="p">)</span><span class="si">}</span><span class="s2"> bulk import resources.&quot;</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">r</span></div>
 
 <div class="viewcode-block" id="BulkImport.get_bulk_import_job"><a class="viewcode-back" href="../../../ngpvan.html#parsons.ngpvan.van.BulkImport.get_bulk_import_job">[docs]</a>    <span class="k">def</span> <span class="nf">get_bulk_import_job</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">job_id</span><span class="p">):</span>
@@ -178,8 +176,8 @@
 <span class="sd">                The bulk import job</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
-        <span class="n">r</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">connection</span><span class="o">.</span><span class="n">get_request</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;bulkImportJobs/</span><span class="si">{</span><span class="n">job_id</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
-        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Found bulk import job </span><span class="si">{</span><span class="n">job_id</span><span class="si">}</span><span class="s1">.&#39;</span><span class="p">)</span>
+        <span class="n">r</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">connection</span><span class="o">.</span><span class="n">get_request</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;bulkImportJobs/</span><span class="si">{</span><span class="n">job_id</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Found bulk import job </span><span class="si">{</span><span class="n">job_id</span><span class="si">}</span><span class="s2">.&quot;</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">r</span></div>
 
 <div class="viewcode-block" id="BulkImport.get_bulk_import_job_results"><a class="viewcode-back" href="../../../ngpvan.html#parsons.ngpvan.van.BulkImport.get_bulk_import_job_results">[docs]</a>    <span class="k">def</span> <span class="nf">get_bulk_import_job_results</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">job_id</span><span class="p">):</span>
@@ -200,8 +198,8 @@
 
         <span class="n">r</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_bulk_import_job</span><span class="p">(</span><span class="n">job_id</span><span class="p">)</span>
         <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Bulk Import Job Status: </span><span class="si">{</span><span class="n">r</span><span class="p">[</span><span class="s1">&#39;status&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-        <span class="k">if</span> <span class="n">r</span><span class="p">[</span><span class="s1">&#39;status&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;Completed&#39;</span><span class="p">:</span>
-            <span class="k">return</span> <span class="n">Table</span><span class="o">.</span><span class="n">from_csv</span><span class="p">(</span><span class="n">r</span><span class="p">[</span><span class="s1">&#39;resultFiles&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="s1">&#39;url&#39;</span><span class="p">])</span>
+        <span class="k">if</span> <span class="n">r</span><span class="p">[</span><span class="s2">&quot;status&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;Completed&quot;</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">Table</span><span class="o">.</span><span class="n">from_csv</span><span class="p">(</span><span class="n">r</span><span class="p">[</span><span class="s2">&quot;resultFiles&quot;</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="s2">&quot;url&quot;</span><span class="p">])</span>
 
         <span class="k">return</span> <span class="kc">None</span></div>
 
@@ -214,8 +212,8 @@
 <span class="sd">                See :ref:`parsons-table` for output options.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
-        <span class="n">tbl</span> <span class="o">=</span> <span class="n">Table</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">connection</span><span class="o">.</span><span class="n">get_request</span><span class="p">(</span><span class="s1">&#39;bulkImportMappingTypes&#39;</span><span class="p">))</span>
-        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Found </span><span class="si">{</span><span class="n">tbl</span><span class="o">.</span><span class="n">num_rows</span><span class="si">}</span><span class="s1"> bulk import mapping types.&#39;</span><span class="p">)</span>
+        <span class="n">tbl</span> <span class="o">=</span> <span class="n">Table</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">connection</span><span class="o">.</span><span class="n">get_request</span><span class="p">(</span><span class="s2">&quot;bulkImportMappingTypes&quot;</span><span class="p">))</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Found </span><span class="si">{</span><span class="n">tbl</span><span class="o">.</span><span class="n">num_rows</span><span class="si">}</span><span class="s2"> bulk import mapping types.&quot;</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">tbl</span></div>
 
 <div class="viewcode-block" id="BulkImport.get_bulk_import_mapping_type"><a class="viewcode-back" href="../../../ngpvan.html#parsons.ngpvan.van.BulkImport.get_bulk_import_mapping_type">[docs]</a>    <span class="k">def</span> <span class="nf">get_bulk_import_mapping_type</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">type_name</span><span class="p">):</span>
@@ -229,8 +227,8 @@
 <span class="sd">                A mapping type json</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
-        <span class="n">r</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">connection</span><span class="o">.</span><span class="n">get_request</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;bulkImportMappingTypes/</span><span class="si">{</span><span class="n">type_name</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
-        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Found </span><span class="si">{</span><span class="n">type_name</span><span class="si">}</span><span class="s1"> bulk import mapping type.&#39;</span><span class="p">)</span>
+        <span class="n">r</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">connection</span><span class="o">.</span><span class="n">get_request</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;bulkImportMappingTypes/</span><span class="si">{</span><span class="n">type_name</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Found </span><span class="si">{</span><span class="n">type_name</span><span class="si">}</span><span class="s2"> bulk import mapping type.&quot;</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">r</span></div>
 
 <div class="viewcode-block" id="BulkImport.get_bulk_import_mapping_type_fields"><a class="viewcode-back" href="../../../ngpvan.html#parsons.ngpvan.van.BulkImport.get_bulk_import_mapping_type_fields">[docs]</a>    <span class="k">def</span> <span class="nf">get_bulk_import_mapping_type_fields</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">type_name</span><span class="p">,</span> <span class="n">field_name</span><span class="p">):</span>
@@ -247,45 +245,63 @@
 <span class="sd">                A mapping type fields json</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
-        <span class="n">r</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">connection</span><span class="o">.</span><span class="n">get_request</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;bulkImportMappingTypes/</span><span class="si">{</span><span class="n">type_name</span><span class="si">}</span><span class="s1">/</span><span class="si">{</span><span class="n">field_name</span><span class="si">}</span><span class="s1">/values&#39;</span><span class="p">)</span>
-        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Found </span><span class="si">{</span><span class="n">type_name</span><span class="si">}</span><span class="s1"> bulk import mapping type field values.&#39;</span><span class="p">)</span>
+        <span class="n">r</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">connection</span><span class="o">.</span><span class="n">get_request</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s2">&quot;bulkImportMappingTypes/</span><span class="si">{</span><span class="n">type_name</span><span class="si">}</span><span class="s2">/</span><span class="si">{</span><span class="n">field_name</span><span class="si">}</span><span class="s2">/values&quot;</span>
+        <span class="p">)</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Found </span><span class="si">{</span><span class="n">type_name</span><span class="si">}</span><span class="s2"> bulk import mapping type field values.&quot;</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">r</span></div>
 
-    <span class="k">def</span> <span class="nf">post_bulk_import</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tbl</span><span class="p">,</span> <span class="n">url_type</span><span class="p">,</span> <span class="n">resource_type</span><span class="p">,</span> <span class="n">mapping_types</span><span class="p">,</span>
-                         <span class="n">description</span><span class="p">,</span> <span class="n">result_fields</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">url_kwargs</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">post_bulk_import</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">tbl</span><span class="p">,</span>
+        <span class="n">url_type</span><span class="p">,</span>
+        <span class="n">resource_type</span><span class="p">,</span>
+        <span class="n">mapping_types</span><span class="p">,</span>
+        <span class="n">description</span><span class="p">,</span>
+        <span class="n">result_fields</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="o">**</span><span class="n">url_kwargs</span><span class="p">,</span>
+    <span class="p">):</span>
         <span class="c1"># Internal method to post bulk imports.</span>
 
         <span class="c1"># Move to cloud storage</span>
         <span class="n">file_name</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">uuid</span><span class="o">.</span><span class="n">uuid1</span><span class="p">())</span>
-        <span class="n">url</span> <span class="o">=</span> <span class="n">cloud_storage</span><span class="o">.</span><span class="n">post_file</span><span class="p">(</span><span class="n">tbl</span><span class="p">,</span>
-                                      <span class="n">url_type</span><span class="p">,</span>
-                                      <span class="n">file_path</span><span class="o">=</span><span class="n">file_name</span> <span class="o">+</span> <span class="s1">&#39;.zip&#39;</span><span class="p">,</span>
-                                      <span class="n">quoting</span><span class="o">=</span><span class="n">csv</span><span class="o">.</span><span class="n">QUOTE_ALL</span><span class="p">,</span>
-                                      <span class="o">**</span><span class="n">url_kwargs</span><span class="p">)</span>
-        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Table uploaded to </span><span class="si">{</span><span class="n">url_type</span><span class="si">}</span><span class="s1">.&#39;</span><span class="p">)</span>
+        <span class="n">url</span> <span class="o">=</span> <span class="n">cloud_storage</span><span class="o">.</span><span class="n">post_file</span><span class="p">(</span>
+            <span class="n">tbl</span><span class="p">,</span>
+            <span class="n">url_type</span><span class="p">,</span>
+            <span class="n">file_path</span><span class="o">=</span><span class="n">file_name</span> <span class="o">+</span> <span class="s2">&quot;.zip&quot;</span><span class="p">,</span>
+            <span class="n">quoting</span><span class="o">=</span><span class="n">csv</span><span class="o">.</span><span class="n">QUOTE_ALL</span><span class="p">,</span>
+            <span class="o">**</span><span class="n">url_kwargs</span><span class="p">,</span>
+        <span class="p">)</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Table uploaded to </span><span class="si">{</span><span class="n">url_type</span><span class="si">}</span><span class="s2">.&quot;</span><span class="p">)</span>
 
         <span class="c1"># Generate request json</span>
-        <span class="n">json</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;description&quot;</span><span class="p">:</span> <span class="n">description</span><span class="p">,</span>
-                <span class="s2">&quot;file&quot;</span><span class="p">:</span> <span class="p">{</span>
-                    <span class="s2">&quot;columnDelimiter&quot;</span><span class="p">:</span> <span class="s1">&#39;csv&#39;</span><span class="p">,</span>
-                    <span class="s2">&quot;columns&quot;</span><span class="p">:</span> <span class="p">[{</span><span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="n">c</span><span class="p">}</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">tbl</span><span class="o">.</span><span class="n">columns</span><span class="p">],</span>
-                    <span class="s2">&quot;fileName&quot;</span><span class="p">:</span> <span class="n">file_name</span> <span class="o">+</span> <span class="s1">&#39;.csv&#39;</span><span class="p">,</span>
-                    <span class="s2">&quot;hasHeader&quot;</span><span class="p">:</span> <span class="s2">&quot;True&quot;</span><span class="p">,</span>
-                    <span class="s2">&quot;hasQuotes&quot;</span><span class="p">:</span> <span class="s2">&quot;True&quot;</span><span class="p">,</span>
-                    <span class="s2">&quot;sourceUrl&quot;</span><span class="p">:</span> <span class="n">url</span><span class="p">},</span>
-                <span class="s2">&quot;actions&quot;</span><span class="p">:</span> <span class="p">[{</span><span class="s2">&quot;resultFileSizeKbLimit&quot;</span><span class="p">:</span> <span class="mi">5000</span><span class="p">,</span>
-                             <span class="s2">&quot;resourceType&quot;</span><span class="p">:</span> <span class="n">resource_type</span><span class="p">,</span>
-                             <span class="s2">&quot;actionType&quot;</span><span class="p">:</span> <span class="s2">&quot;loadMappedFile&quot;</span><span class="p">,</span>
-                             <span class="s2">&quot;mappingTypes&quot;</span><span class="p">:</span> <span class="n">mapping_types</span><span class="p">}]</span>
+        <span class="n">json</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s2">&quot;description&quot;</span><span class="p">:</span> <span class="n">description</span><span class="p">,</span>
+            <span class="s2">&quot;file&quot;</span><span class="p">:</span> <span class="p">{</span>
+                <span class="s2">&quot;columnDelimiter&quot;</span><span class="p">:</span> <span class="s2">&quot;csv&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;columns&quot;</span><span class="p">:</span> <span class="p">[{</span><span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="n">c</span><span class="p">}</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">tbl</span><span class="o">.</span><span class="n">columns</span><span class="p">],</span>
+                <span class="s2">&quot;fileName&quot;</span><span class="p">:</span> <span class="n">file_name</span> <span class="o">+</span> <span class="s2">&quot;.csv&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;hasHeader&quot;</span><span class="p">:</span> <span class="s2">&quot;True&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;hasQuotes&quot;</span><span class="p">:</span> <span class="s2">&quot;True&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;sourceUrl&quot;</span><span class="p">:</span> <span class="n">url</span><span class="p">,</span>
+            <span class="p">},</span>
+            <span class="s2">&quot;actions&quot;</span><span class="p">:</span> <span class="p">[</span>
+                <span class="p">{</span>
+                    <span class="s2">&quot;resultFileSizeKbLimit&quot;</span><span class="p">:</span> <span class="mi">5000</span><span class="p">,</span>
+                    <span class="s2">&quot;resourceType&quot;</span><span class="p">:</span> <span class="n">resource_type</span><span class="p">,</span>
+                    <span class="s2">&quot;actionType&quot;</span><span class="p">:</span> <span class="s2">&quot;loadMappedFile&quot;</span><span class="p">,</span>
+                    <span class="s2">&quot;mappingTypes&quot;</span><span class="p">:</span> <span class="n">mapping_types</span><span class="p">,</span>
                 <span class="p">}</span>
+            <span class="p">],</span>
+        <span class="p">}</span>
 
         <span class="k">if</span> <span class="n">result_fields</span><span class="p">:</span>
-            <span class="n">result_fields</span> <span class="o">=</span> <span class="p">[{</span><span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="n">c</span><span class="p">}</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">result_fields</span><span class="p">]</span>
-            <span class="n">json</span><span class="p">[</span><span class="s1">&#39;actions&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="s1">&#39;columnsToIncludeInResultsFile&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">result_fields</span>
+            <span class="n">result_fields</span> <span class="o">=</span> <span class="p">[{</span><span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="n">c</span><span class="p">}</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">result_fields</span><span class="p">]</span>
+            <span class="n">json</span><span class="p">[</span><span class="s2">&quot;actions&quot;</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="s2">&quot;columnsToIncludeInResultsFile&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">result_fields</span>
 
-        <span class="n">r</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">connection</span><span class="o">.</span><span class="n">post_request</span><span class="p">(</span><span class="s1">&#39;bulkImportJobs&#39;</span><span class="p">,</span> <span class="n">json</span><span class="o">=</span><span class="n">json</span><span class="p">)</span>
+        <span class="n">r</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">connection</span><span class="o">.</span><span class="n">post_request</span><span class="p">(</span><span class="s2">&quot;bulkImportJobs&quot;</span><span class="p">,</span> <span class="n">json</span><span class="o">=</span><span class="n">json</span><span class="p">)</span>
         <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Bulk upload </span><span class="si">{</span><span class="n">r</span><span class="p">[</span><span class="s1">&#39;jobId&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2"> created.&quot;</span><span class="p">)</span>
-        <span class="k">return</span> <span class="n">r</span><span class="p">[</span><span class="s1">&#39;jobId&#39;</span><span class="p">]</span>
+        <span class="k">return</span> <span class="n">r</span><span class="p">[</span><span class="s2">&quot;jobId&quot;</span><span class="p">]</span>
 
 <div class="viewcode-block" id="BulkImport.bulk_apply_activist_codes"><a class="viewcode-back" href="../../../ngpvan.html#parsons.ngpvan.van.BulkImport.bulk_apply_activist_codes">[docs]</a>    <span class="k">def</span> <span class="nf">bulk_apply_activist_codes</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tbl</span><span class="p">,</span> <span class="n">url_type</span><span class="p">,</span> <span class="o">**</span><span class="n">url_kwargs</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
@@ -328,12 +344,14 @@
 <span class="sd">                The bulk import job id</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">post_bulk_import</span><span class="p">(</span><span class="n">tbl</span><span class="p">,</span>
-                                     <span class="n">url_type</span><span class="p">,</span>
-                                     <span class="s1">&#39;ContactsActivistCodes&#39;</span><span class="p">,</span>
-                                     <span class="p">[{</span><span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;ActivistCode&quot;</span><span class="p">}],</span>
-                                     <span class="s1">&#39;Activist Code Upload&#39;</span><span class="p">,</span>
-                                     <span class="o">**</span><span class="n">url_kwargs</span><span class="p">)</span></div>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">post_bulk_import</span><span class="p">(</span>
+            <span class="n">tbl</span><span class="p">,</span>
+            <span class="n">url_type</span><span class="p">,</span>
+            <span class="s2">&quot;ContactsActivistCodes&quot;</span><span class="p">,</span>
+            <span class="p">[{</span><span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;ActivistCode&quot;</span><span class="p">}],</span>
+            <span class="s2">&quot;Activist Code Upload&quot;</span><span class="p">,</span>
+            <span class="o">**</span><span class="n">url_kwargs</span><span class="p">,</span>
+        <span class="p">)</span></div>
 
 <div class="viewcode-block" id="BulkImport.bulk_upsert_contacts"><a class="viewcode-back" href="../../../ngpvan.html#parsons.ngpvan.van.BulkImport.bulk_upsert_contacts">[docs]</a>    <span class="k">def</span> <span class="nf">bulk_upsert_contacts</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tbl</span><span class="p">,</span> <span class="n">url_type</span><span class="p">,</span> <span class="n">result_fields</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">url_kwargs</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
@@ -446,35 +464,83 @@
 
         <span class="n">tbl</span> <span class="o">=</span> <span class="n">tbl</span><span class="o">.</span><span class="n">map_columns</span><span class="p">(</span><span class="n">COLUMN_MAP</span><span class="p">,</span> <span class="n">exact_match</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
 
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">post_bulk_import</span><span class="p">(</span><span class="n">tbl</span><span class="p">,</span>
-                                     <span class="n">url_type</span><span class="p">,</span>
-                                     <span class="s1">&#39;Contacts&#39;</span><span class="p">,</span>
-                                     <span class="p">[{</span><span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="s1">&#39;CreateOrUpdateContact&#39;</span><span class="p">}],</span>
-                                     <span class="s1">&#39;Create Or Update Contact Records&#39;</span><span class="p">,</span>
-                                     <span class="n">result_fields</span><span class="o">=</span><span class="n">result_fields</span><span class="p">,</span>
-                                     <span class="o">**</span><span class="n">url_kwargs</span><span class="p">)</span></div></div>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">post_bulk_import</span><span class="p">(</span>
+            <span class="n">tbl</span><span class="p">,</span>
+            <span class="n">url_type</span><span class="p">,</span>
+            <span class="s2">&quot;Contacts&quot;</span><span class="p">,</span>
+            <span class="p">[{</span><span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;CreateOrUpdateContact&quot;</span><span class="p">}],</span>
+            <span class="s2">&quot;Create Or Update Contact Records&quot;</span><span class="p">,</span>
+            <span class="n">result_fields</span><span class="o">=</span><span class="n">result_fields</span><span class="p">,</span>
+            <span class="o">**</span><span class="n">url_kwargs</span><span class="p">,</span>
+        <span class="p">)</span></div>
+
+<div class="viewcode-block" id="BulkImport.bulk_apply_suppressions"><a class="viewcode-back" href="../../../ngpvan.html#parsons.ngpvan.van.BulkImport.bulk_apply_suppressions">[docs]</a>    <span class="k">def</span> <span class="nf">bulk_apply_suppressions</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tbl</span><span class="p">,</span> <span class="n">url_type</span><span class="p">,</span> <span class="o">**</span><span class="n">url_kwargs</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Bulk apply contact suppressions codes.</span>
+
+<span class="sd">        The table may include the following columns. The first column</span>
+<span class="sd">        must be ``vanid``.</span>
+
+<span class="sd">        .. list-table::</span>
+<span class="sd">            :widths: 25 25</span>
+<span class="sd">            :header-rows: 1</span>
+
+<span class="sd">            * - Column Name</span>
+<span class="sd">              - Required</span>
+<span class="sd">              - Description</span>
+<span class="sd">            * - ``vanid``</span>
+<span class="sd">              - Yes</span>
+<span class="sd">              - A valid VANID primary key</span>
+<span class="sd">            * - ``suppressionid``</span>
+<span class="sd">              - Yes</span>
+<span class="sd">              - A valid suppression id</span>
+
+<span class="sd">        `Args:`</span>
+<span class="sd">            table: Parsons table</span>
+<span class="sd">                A Parsons table.</span>
+<span class="sd">            url_type: str</span>
+<span class="sd">                The cloud file storage to use to post the file (``S3`` or ``GCS``).</span>
+<span class="sd">                See :ref:`Cloud Storage &lt;cloud-storage&gt;` for more details.</span>
+<span class="sd">            **url_kwargs: kwargs</span>
+<span class="sd">                Arguments to configure your cloud storage url type. See</span>
+<span class="sd">                :ref:`Cloud Storage &lt;cloud-storage&gt;` for more details.</span>
+<span class="sd">        `Returns:`</span>
+<span class="sd">            int</span>
+<span class="sd">                The bulk import job id</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">post_bulk_import</span><span class="p">(</span>
+            <span class="n">tbl</span><span class="p">,</span>
+            <span class="n">url_type</span><span class="p">,</span>
+            <span class="s2">&quot;Contacts&quot;</span><span class="p">,</span>
+            <span class="p">[{</span><span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;Suppressions&quot;</span><span class="p">}],</span>
+            <span class="s2">&quot;Apply Suppressions&quot;</span><span class="p">,</span>
+            <span class="o">**</span><span class="n">url_kwargs</span><span class="p">,</span>
+        <span class="p">)</span></div></div>
 
 
 <span class="c1"># This is a column mapper that is used to accept additional column names and provide</span>
 <span class="c1"># flexibility for the user.</span>
 
-<span class="n">COLUMN_MAP</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;firstname&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;fn&#39;</span><span class="p">,</span> <span class="s1">&#39;first&#39;</span><span class="p">],</span>
-              <span class="s1">&#39;middlename&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;mn&#39;</span><span class="p">,</span> <span class="s1">&#39;middle&#39;</span><span class="p">],</span>
-              <span class="s1">&#39;lastname&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;ln&#39;</span><span class="p">,</span> <span class="s1">&#39;last&#39;</span><span class="p">],</span>
-              <span class="s1">&#39;dob&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;dateofbirth&#39;</span><span class="p">,</span> <span class="s1">&#39;birthdate&#39;</span><span class="p">],</span>
-              <span class="s1">&#39;sex&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;gender&#39;</span><span class="p">],</span>
-              <span class="s1">&#39;addressline1&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;address&#39;</span><span class="p">,</span> <span class="s1">&#39;addressline1&#39;</span><span class="p">,</span> <span class="s1">&#39;address1&#39;</span><span class="p">],</span>
-              <span class="s1">&#39;addressline2&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;addressline2&#39;</span><span class="p">,</span> <span class="s1">&#39;address2&#39;</span><span class="p">],</span>
-              <span class="s1">&#39;addressline3&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;addressline3&#39;</span><span class="p">,</span> <span class="s1">&#39;address3&#39;</span><span class="p">],</span>
-              <span class="s1">&#39;city&#39;</span><span class="p">:</span> <span class="p">[],</span>
-              <span class="s1">&#39;stateorprovince&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;state&#39;</span><span class="p">,</span> <span class="s1">&#39;st&#39;</span><span class="p">],</span>
-              <span class="s1">&#39;countrycode&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;country&#39;</span><span class="p">],</span>
-              <span class="s1">&#39;displayasentered&#39;</span><span class="p">:</span> <span class="p">[],</span>
-              <span class="s1">&#39;cellphone&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;cell&#39;</span><span class="p">],</span>
-              <span class="s1">&#39;cellphonecountrycode&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;cellcountrycode&#39;</span><span class="p">],</span>
-              <span class="s1">&#39;phone&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;home&#39;</span><span class="p">,</span> <span class="s1">&#39;homephone&#39;</span><span class="p">],</span>
-              <span class="s1">&#39;phonecountrycode&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;phonecountrycode&#39;</span><span class="p">],</span>
-              <span class="s1">&#39;email&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;emailaddress&#39;</span><span class="p">]}</span>
+<span class="n">COLUMN_MAP</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s2">&quot;firstname&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;fn&quot;</span><span class="p">,</span> <span class="s2">&quot;first&quot;</span><span class="p">],</span>
+    <span class="s2">&quot;middlename&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;mn&quot;</span><span class="p">,</span> <span class="s2">&quot;middle&quot;</span><span class="p">],</span>
+    <span class="s2">&quot;lastname&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;ln&quot;</span><span class="p">,</span> <span class="s2">&quot;last&quot;</span><span class="p">],</span>
+    <span class="s2">&quot;dob&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;dateofbirth&quot;</span><span class="p">,</span> <span class="s2">&quot;birthdate&quot;</span><span class="p">],</span>
+    <span class="s2">&quot;sex&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;gender&quot;</span><span class="p">],</span>
+    <span class="s2">&quot;addressline1&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;address&quot;</span><span class="p">,</span> <span class="s2">&quot;addressline1&quot;</span><span class="p">,</span> <span class="s2">&quot;address1&quot;</span><span class="p">],</span>
+    <span class="s2">&quot;addressline2&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;addressline2&quot;</span><span class="p">,</span> <span class="s2">&quot;address2&quot;</span><span class="p">],</span>
+    <span class="s2">&quot;addressline3&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;addressline3&quot;</span><span class="p">,</span> <span class="s2">&quot;address3&quot;</span><span class="p">],</span>
+    <span class="s2">&quot;city&quot;</span><span class="p">:</span> <span class="p">[],</span>
+    <span class="s2">&quot;stateorprovince&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;state&quot;</span><span class="p">,</span> <span class="s2">&quot;st&quot;</span><span class="p">],</span>
+    <span class="s2">&quot;countrycode&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;country&quot;</span><span class="p">],</span>
+    <span class="s2">&quot;displayasentered&quot;</span><span class="p">:</span> <span class="p">[],</span>
+    <span class="s2">&quot;cellphone&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;cell&quot;</span><span class="p">],</span>
+    <span class="s2">&quot;cellphonecountrycode&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;cellcountrycode&quot;</span><span class="p">],</span>
+    <span class="s2">&quot;phone&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;home&quot;</span><span class="p">,</span> <span class="s2">&quot;homephone&quot;</span><span class="p">],</span>
+    <span class="s2">&quot;phonecountrycode&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;phonecountrycode&quot;</span><span class="p">],</span>
+    <span class="s2">&quot;email&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;emailaddress&quot;</span><span class="p">],</span>
+<span class="p">}</span>
 </pre></div>
 
            </div>

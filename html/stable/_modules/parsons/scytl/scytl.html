@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>parsons.scytl.scytl &mdash; Parsons 0.5 documentation</title>
+  <title>parsons.scytl.scytl &mdash; Parsons  documentation</title>
       <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
   <!--[if lt IE 9]>
@@ -145,22 +145,28 @@
 <span class="kn">from</span> <span class="nn">io</span> <span class="kn">import</span> <span class="n">BytesIO</span><span class="p">,</span> <span class="n">StringIO</span>
 <span class="kn">from</span> <span class="nn">dataclasses</span> <span class="kn">import</span> <span class="n">dataclass</span>
 
-<span class="n">CLARITY_URL</span> <span class="o">=</span> <span class="s1">&#39;https://results.enr.clarityelections.com/&#39;</span>
+<span class="n">CLARITY_URL</span> <span class="o">=</span> <span class="s2">&quot;https://results.enr.clarityelections.com/&quot;</span>
 
-<span class="n">CURRENT_VERSION_URL_TEMPLATE</span> <span class="o">=</span> \
-    <span class="n">CLARITY_URL</span> <span class="o">+</span> <span class="s1">&#39;</span><span class="si">{administrator}</span><span class="s1">/</span><span class="si">{election_id}</span><span class="s1">/current_ver.txt&#39;</span>
-<span class="n">SUMMARY_CSV_ZIP_URL_TEMPLATE</span> <span class="o">=</span> \
-    <span class="n">CLARITY_URL</span> <span class="o">+</span> <span class="s1">&#39;</span><span class="si">{administrator}</span><span class="s1">/</span><span class="si">{election_id}</span><span class="s1">/</span><span class="si">{version_num}</span><span class="s1">/reports/summary.zip&#39;</span>
-<span class="n">DETAIL_XML_ZIP_URL_TEMPLATE</span> <span class="o">=</span> \
-    <span class="n">CLARITY_URL</span> <span class="o">+</span> <span class="s1">&#39;</span><span class="si">{administrator}</span><span class="s1">/</span><span class="si">{election_id}</span><span class="s1">/</span><span class="si">{version_num}</span><span class="s1">/reports/detailxml.zip&#39;</span>
-<span class="n">COUNTY_DETAIL_XML_ZIP_URL_TEMPLATE</span> <span class="o">=</span> <span class="n">CLARITY_URL</span> <span class="o">+</span> \
-    <span class="s1">&#39;</span><span class="si">{state}</span><span class="s1">/</span><span class="si">{county_name}</span><span class="s1">/</span><span class="si">{county_election_id}</span><span class="s1">/</span><span class="si">{county_version_num}</span><span class="s1">/reports/detailxml.zip&#39;</span>
-<span class="n">ELECTION_SETTINGS_JSON_URL_TEMPLATE</span> <span class="o">=</span> \
-    <span class="n">CLARITY_URL</span> <span class="o">+</span> <span class="s1">&#39;</span><span class="si">{state}</span><span class="s1">/</span><span class="si">{election_id}</span><span class="s1">/</span><span class="si">{version_num}</span><span class="s1">/json/en/electionsettings.json&#39;</span>
+<span class="n">CURRENT_VERSION_URL_TEMPLATE</span> <span class="o">=</span> <span class="p">(</span>
+    <span class="n">CLARITY_URL</span> <span class="o">+</span> <span class="s2">&quot;</span><span class="si">{administrator}</span><span class="s2">/</span><span class="si">{election_id}</span><span class="s2">/current_ver.txt&quot;</span>
+<span class="p">)</span>
+<span class="n">SUMMARY_CSV_ZIP_URL_TEMPLATE</span> <span class="o">=</span> <span class="p">(</span>
+    <span class="n">CLARITY_URL</span> <span class="o">+</span> <span class="s2">&quot;</span><span class="si">{administrator}</span><span class="s2">/</span><span class="si">{election_id}</span><span class="s2">/</span><span class="si">{version_num}</span><span class="s2">/reports/summary.zip&quot;</span>
+<span class="p">)</span>
+<span class="n">DETAIL_XML_ZIP_URL_TEMPLATE</span> <span class="o">=</span> <span class="p">(</span>
+    <span class="n">CLARITY_URL</span> <span class="o">+</span> <span class="s2">&quot;</span><span class="si">{administrator}</span><span class="s2">/</span><span class="si">{election_id}</span><span class="s2">/</span><span class="si">{version_num}</span><span class="s2">/reports/detailxml.zip&quot;</span>
+<span class="p">)</span>
+<span class="n">COUNTY_DETAIL_XML_ZIP_URL_TEMPLATE</span> <span class="o">=</span> <span class="p">(</span>
+    <span class="n">CLARITY_URL</span>
+    <span class="o">+</span> <span class="s2">&quot;</span><span class="si">{state}</span><span class="s2">/</span><span class="si">{county_name}</span><span class="s2">/</span><span class="si">{county_election_id}</span><span class="s2">/</span><span class="si">{county_version_num}</span><span class="s2">/reports/detailxml.zip&quot;</span>
+<span class="p">)</span>
+<span class="n">ELECTION_SETTINGS_JSON_URL_TEMPLATE</span> <span class="o">=</span> <span class="p">(</span>
+    <span class="n">CLARITY_URL</span> <span class="o">+</span> <span class="s2">&quot;</span><span class="si">{state}</span><span class="s2">/</span><span class="si">{election_id}</span><span class="s2">/</span><span class="si">{version_num}</span><span class="s2">/json/en/electionsettings.json&quot;</span>
+<span class="p">)</span>
 
 <span class="n">BROWSER_HEADERS</span> <span class="o">=</span> <span class="p">{</span>
-    <span class="s1">&#39;User-Agent&#39;</span><span class="p">:</span> <span class="s1">&#39;Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_5) &#39;</span> <span class="o">+</span>
-                  <span class="s1">&#39;AppleWebKit/537.36 (KHTML, like Gecko) Chrome/50.0.2661.102 Safari/537.36&#39;</span>
+    <span class="s2">&quot;User-Agent&quot;</span><span class="p">:</span> <span class="s2">&quot;Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_5) &quot;</span>
+    <span class="o">+</span> <span class="s2">&quot;AppleWebKit/537.36 (KHTML, like Gecko) Chrome/50.0.2661.102 Safari/537.36&quot;</span>
 <span class="p">}</span>
 
 <span class="n">TZ_INFO</span> <span class="o">=</span> <span class="p">{</span>
@@ -187,6 +193,7 @@
 <span class="sd">    A dataclass is decorator that adds special functions including an</span>
 <span class="sd">    automatic __init__ function. See more here: https://docs.python.org/3/library/dataclasses.html</span>
 <span class="sd">    &quot;&quot;&quot;</span>
+
     <span class="n">state</span><span class="p">:</span> <span class="nb">str</span>
     <span class="n">county_name</span><span class="p">:</span> <span class="nb">str</span>
     <span class="n">county_election_id</span><span class="p">:</span> <span class="nb">str</span>
@@ -212,9 +219,11 @@
 
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">state</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">election_id</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">county</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">state</span> <span class="o">=</span> <span class="n">state</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">county</span> <span class="o">=</span> <span class="n">county</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">&#39; &#39;</span><span class="p">,</span> <span class="s1">&#39;_&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">county</span> <span class="o">=</span> <span class="n">county</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot; &quot;</span><span class="p">,</span> <span class="s2">&quot;_&quot;</span><span class="p">)</span>
 
-        <span class="bp">self</span><span class="o">.</span><span class="n">administrator</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">state</span><span class="si">}</span><span class="s2">/</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">county</span><span class="si">}</span><span class="s2">&quot;</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">county</span> <span class="k">else</span> <span class="bp">self</span><span class="o">.</span><span class="n">state</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">administrator</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">state</span><span class="si">}</span><span class="s2">/</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">county</span><span class="si">}</span><span class="s2">&quot;</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">county</span> <span class="k">else</span> <span class="bp">self</span><span class="o">.</span><span class="n">state</span>
+        <span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">election_id</span> <span class="o">=</span> <span class="n">election_id</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">previous_summary_version_num</span> <span class="o">=</span> <span class="kc">None</span>
@@ -238,7 +247,7 @@
             <span class="k">return</span>
 
         <span class="n">temp</span> <span class="o">=</span> <span class="n">parsedate</span><span class="p">(</span><span class="n">input_dt</span><span class="p">,</span> <span class="n">tzinfos</span><span class="o">=</span><span class="n">TZ_INFO</span><span class="p">)</span>
-        <span class="n">temp</span> <span class="o">=</span> <span class="n">temp</span><span class="o">.</span><span class="n">astimezone</span><span class="p">(</span><span class="n">timezone</span><span class="p">(</span><span class="s1">&#39;UTC&#39;</span><span class="p">))</span>
+        <span class="n">temp</span> <span class="o">=</span> <span class="n">temp</span><span class="o">.</span><span class="n">astimezone</span><span class="p">(</span><span class="n">timezone</span><span class="p">(</span><span class="s2">&quot;UTC&quot;</span><span class="p">))</span>
 
         <span class="k">return</span> <span class="n">temp</span>
 
@@ -314,14 +323,17 @@
             <span class="n">state</span><span class="o">=</span><span class="n">state</span><span class="p">,</span> <span class="n">election_id</span><span class="o">=</span><span class="n">election_id</span><span class="p">,</span> <span class="n">version_num</span><span class="o">=</span><span class="n">version_num</span>
         <span class="p">)</span>
 
-        <span class="n">settings_json_res</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">config_settings_json_url</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="n">BROWSER_HEADERS</span><span class="p">)</span>
+        <span class="n">settings_json_res</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span>
+            <span class="n">config_settings_json_url</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="n">BROWSER_HEADERS</span>
+        <span class="p">)</span>
         <span class="n">settings_json</span> <span class="o">=</span> <span class="n">settings_json_res</span><span class="o">.</span><span class="n">json</span><span class="p">()</span>
 
-        <span class="n">participating_counties</span> <span class="o">=</span> \
-            <span class="n">settings_json</span><span class="p">[</span><span class="s1">&#39;settings&#39;</span><span class="p">][</span><span class="s1">&#39;electiondetails&#39;</span><span class="p">][</span><span class="s1">&#39;participatingcounties&#39;</span><span class="p">]</span>
+        <span class="n">participating_counties</span> <span class="o">=</span> <span class="n">settings_json</span><span class="p">[</span><span class="s2">&quot;settings&quot;</span><span class="p">][</span><span class="s2">&quot;electiondetails&quot;</span><span class="p">][</span>
+            <span class="s2">&quot;participatingcounties&quot;</span>
+        <span class="p">]</span>
 
         <span class="k">for</span> <span class="n">county_row</span> <span class="ow">in</span> <span class="n">participating_counties</span><span class="p">:</span>
-            <span class="n">county_info</span> <span class="o">=</span> <span class="n">county_row</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;|&#39;</span><span class="p">)</span>
+            <span class="n">county_info</span> <span class="o">=</span> <span class="n">county_row</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;|&quot;</span><span class="p">)</span>
             <span class="n">source_county_name</span> <span class="o">=</span> <span class="n">county_info</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
             <span class="n">county_election_id</span> <span class="o">=</span> <span class="n">county_info</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
             <span class="n">county_version_num</span> <span class="o">=</span> <span class="n">county_info</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
@@ -332,7 +344,7 @@
                 <span class="n">source_county_name</span><span class="p">,</span>
                 <span class="n">county_election_id</span><span class="p">,</span>
                 <span class="n">county_version_num</span><span class="p">,</span>
-                <span class="n">county_update_date</span>
+                <span class="n">county_update_date</span><span class="p">,</span>
             <span class="p">)</span>
 
             <span class="n">county_dict</span><span class="p">[</span><span class="n">source_county_name</span><span class="p">]</span> <span class="o">=</span> <span class="n">county_details</span>
@@ -366,60 +378,62 @@
 
         <span class="k">for</span> <span class="n">child</span> <span class="ow">in</span> <span class="n">root</span><span class="p">:</span>
 
-            <span class="k">if</span> <span class="n">child</span><span class="o">.</span><span class="n">tag</span> <span class="o">==</span> <span class="s1">&#39;VoterTurnout&#39;</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">child</span><span class="o">.</span><span class="n">tag</span> <span class="o">==</span> <span class="s2">&quot;VoterTurnout&quot;</span><span class="p">:</span>
                 <span class="n">precincts</span> <span class="o">=</span> <span class="n">child</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
 
                 <span class="k">for</span> <span class="n">precinct</span> <span class="ow">in</span> <span class="n">precincts</span><span class="p">:</span>
                     <span class="n">data</span> <span class="o">=</span> <span class="n">precinct</span><span class="o">.</span><span class="n">attrib</span>
-                    <span class="n">name</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;name&#39;</span><span class="p">)</span>
+                    <span class="n">name</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;name&quot;</span><span class="p">)</span>
 
                     <span class="n">precinct_info</span> <span class="o">=</span> <span class="p">{</span>
-                        <span class="s1">&#39;total_voters&#39;</span><span class="p">:</span> <span class="n">data</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;totalVoters&#39;</span><span class="p">),</span>
-                        <span class="s1">&#39;ballots_cast&#39;</span><span class="p">:</span> <span class="n">data</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;ballotsCast&#39;</span><span class="p">),</span>
-                        <span class="s1">&#39;voter_turnout&#39;</span><span class="p">:</span>  <span class="n">data</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;voterTurnout&#39;</span><span class="p">),</span>
-                        <span class="s1">&#39;percent_reporting&#39;</span><span class="p">:</span>  <span class="n">data</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;percentReporting&#39;</span><span class="p">)</span>
+                        <span class="s2">&quot;total_voters&quot;</span><span class="p">:</span> <span class="n">data</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;totalVoters&quot;</span><span class="p">),</span>
+                        <span class="s2">&quot;ballots_cast&quot;</span><span class="p">:</span> <span class="n">data</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;ballotsCast&quot;</span><span class="p">),</span>
+                        <span class="s2">&quot;voter_turnout&quot;</span><span class="p">:</span> <span class="n">data</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;voterTurnout&quot;</span><span class="p">),</span>
+                        <span class="s2">&quot;percent_reporting&quot;</span><span class="p">:</span> <span class="n">data</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;percentReporting&quot;</span><span class="p">),</span>
                     <span class="p">}</span>
 
                     <span class="n">precinct_dict</span><span class="p">[</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="n">precinct_info</span>
 
-            <span class="k">if</span> <span class="n">child</span><span class="o">.</span><span class="n">tag</span> <span class="o">==</span> <span class="s1">&#39;Contest&#39;</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">child</span><span class="o">.</span><span class="n">tag</span> <span class="o">==</span> <span class="s2">&quot;Contest&quot;</span><span class="p">:</span>
 
-                <span class="n">office</span> <span class="o">=</span> <span class="n">child</span><span class="o">.</span><span class="n">attrib</span><span class="p">[</span><span class="s1">&#39;text&#39;</span><span class="p">]</span>
+                <span class="n">office</span> <span class="o">=</span> <span class="n">child</span><span class="o">.</span><span class="n">attrib</span><span class="p">[</span><span class="s2">&quot;text&quot;</span><span class="p">]</span>
 
                 <span class="k">for</span> <span class="n">choice</span> <span class="ow">in</span> <span class="n">child</span><span class="p">:</span>
                     <span class="n">cand_votes</span> <span class="o">=</span> <span class="p">{}</span>
 
-                    <span class="k">if</span> <span class="n">choice</span><span class="o">.</span><span class="n">tag</span> <span class="o">==</span> <span class="s1">&#39;VoteType&#39;</span><span class="p">:</span>
+                    <span class="k">if</span> <span class="n">choice</span><span class="o">.</span><span class="n">tag</span> <span class="o">==</span> <span class="s2">&quot;VoteType&quot;</span><span class="p">:</span>
                         <span class="k">continue</span>
 
                     <span class="n">source_cand_data</span> <span class="o">=</span> <span class="n">choice</span><span class="o">.</span><span class="n">attrib</span>
-                    <span class="n">cand_name</span> <span class="o">=</span> <span class="n">source_cand_data</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;text&#39;</span><span class="p">)</span>
-                    <span class="n">cand_party</span> <span class="o">=</span> <span class="n">source_cand_data</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;party&#39;</span><span class="p">)</span>
+                    <span class="n">cand_name</span> <span class="o">=</span> <span class="n">source_cand_data</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;text&quot;</span><span class="p">)</span>
+                    <span class="n">cand_party</span> <span class="o">=</span> <span class="n">source_cand_data</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;party&quot;</span><span class="p">)</span>
 
                     <span class="k">for</span> <span class="n">vote_type</span> <span class="ow">in</span> <span class="n">choice</span><span class="p">:</span>
-                        <span class="n">vote_type_label</span> <span class="o">=</span> <span class="n">vote_type</span><span class="o">.</span><span class="n">attrib</span><span class="p">[</span><span class="s1">&#39;name&#39;</span><span class="p">]</span>
+                        <span class="n">vote_type_label</span> <span class="o">=</span> <span class="n">vote_type</span><span class="o">.</span><span class="n">attrib</span><span class="p">[</span><span class="s2">&quot;name&quot;</span><span class="p">]</span>
 
                         <span class="k">for</span> <span class="n">precinct</span> <span class="ow">in</span> <span class="n">vote_type</span><span class="p">:</span>
-                            <span class="n">precinct_name</span> <span class="o">=</span> <span class="n">precinct</span><span class="o">.</span><span class="n">attrib</span><span class="p">[</span><span class="s1">&#39;name&#39;</span><span class="p">]</span>
-                            <span class="n">cand_votes</span><span class="p">[</span><span class="n">precinct_name</span><span class="p">]</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">precinct</span><span class="o">.</span><span class="n">attrib</span><span class="p">[</span><span class="s1">&#39;votes&#39;</span><span class="p">])</span>
+                            <span class="n">precinct_name</span> <span class="o">=</span> <span class="n">precinct</span><span class="o">.</span><span class="n">attrib</span><span class="p">[</span><span class="s2">&quot;name&quot;</span><span class="p">]</span>
+                            <span class="n">cand_votes</span><span class="p">[</span><span class="n">precinct_name</span><span class="p">]</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">precinct</span><span class="o">.</span><span class="n">attrib</span><span class="p">[</span><span class="s2">&quot;votes&quot;</span><span class="p">])</span>
 
                             <span class="n">precinct_turnout</span> <span class="o">=</span> <span class="n">precinct_dict</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">precinct_name</span><span class="p">,</span> <span class="p">{})</span>
 
                             <span class="n">result</span> <span class="o">=</span> <span class="p">{</span>
-                                <span class="s1">&#39;state&#39;</span><span class="p">:</span> <span class="n">county_details</span><span class="o">.</span><span class="n">state</span><span class="p">,</span>
-                                <span class="s1">&#39;county_name&#39;</span><span class="p">:</span> <span class="n">county_details</span><span class="o">.</span><span class="n">county_name</span><span class="p">,</span>
-                                <span class="s1">&#39;county_id&#39;</span><span class="p">:</span> <span class="n">county_details</span><span class="o">.</span><span class="n">county_election_id</span><span class="p">,</span>
-                                <span class="s1">&#39;office&#39;</span><span class="p">:</span> <span class="n">office</span><span class="p">,</span>
-                                <span class="s1">&#39;ballots_cast&#39;</span><span class="p">:</span> <span class="n">precinct_turnout</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;ballots_cast&#39;</span><span class="p">),</span>
-                                <span class="s1">&#39;reg_voters&#39;</span><span class="p">:</span> <span class="n">precinct_turnout</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;total_voters&#39;</span><span class="p">),</span>
-                                <span class="s1">&#39;vote_method&#39;</span><span class="p">:</span> <span class="n">vote_type_label</span><span class="p">,</span>
-                                <span class="s1">&#39;candidate_name&#39;</span><span class="p">:</span> <span class="n">cand_name</span><span class="p">,</span>
-                                <span class="s1">&#39;candidate_party&#39;</span><span class="p">:</span> <span class="n">cand_party</span><span class="p">,</span>
-                                <span class="s1">&#39;precinct_name&#39;</span><span class="p">:</span> <span class="n">precinct_name</span><span class="p">,</span>
-                                <span class="s1">&#39;recorded_votes&#39;</span><span class="p">:</span> <span class="n">cand_votes</span><span class="p">[</span><span class="n">precinct_name</span><span class="p">],</span>
-                                <span class="s1">&#39;voter_turnout&#39;</span><span class="p">:</span> <span class="n">precinct_turnout</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;voter_turnout&#39;</span><span class="p">),</span>
-                                <span class="s1">&#39;percent_reporting&#39;</span><span class="p">:</span> <span class="n">precinct_turnout</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;percent_reporting&#39;</span><span class="p">),</span>
-                                <span class="s1">&#39;timestamp_last_updated&#39;</span><span class="p">:</span> <span class="n">county_details</span><span class="o">.</span><span class="n">county_update_date</span>
+                                <span class="s2">&quot;state&quot;</span><span class="p">:</span> <span class="n">county_details</span><span class="o">.</span><span class="n">state</span><span class="p">,</span>
+                                <span class="s2">&quot;county_name&quot;</span><span class="p">:</span> <span class="n">county_details</span><span class="o">.</span><span class="n">county_name</span><span class="p">,</span>
+                                <span class="s2">&quot;county_id&quot;</span><span class="p">:</span> <span class="n">county_details</span><span class="o">.</span><span class="n">county_election_id</span><span class="p">,</span>
+                                <span class="s2">&quot;office&quot;</span><span class="p">:</span> <span class="n">office</span><span class="p">,</span>
+                                <span class="s2">&quot;ballots_cast&quot;</span><span class="p">:</span> <span class="n">precinct_turnout</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;ballots_cast&quot;</span><span class="p">),</span>
+                                <span class="s2">&quot;reg_voters&quot;</span><span class="p">:</span> <span class="n">precinct_turnout</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;total_voters&quot;</span><span class="p">),</span>
+                                <span class="s2">&quot;vote_method&quot;</span><span class="p">:</span> <span class="n">vote_type_label</span><span class="p">,</span>
+                                <span class="s2">&quot;candidate_name&quot;</span><span class="p">:</span> <span class="n">cand_name</span><span class="p">,</span>
+                                <span class="s2">&quot;candidate_party&quot;</span><span class="p">:</span> <span class="n">cand_party</span><span class="p">,</span>
+                                <span class="s2">&quot;precinct_name&quot;</span><span class="p">:</span> <span class="n">precinct_name</span><span class="p">,</span>
+                                <span class="s2">&quot;recorded_votes&quot;</span><span class="p">:</span> <span class="n">cand_votes</span><span class="p">[</span><span class="n">precinct_name</span><span class="p">],</span>
+                                <span class="s2">&quot;voter_turnout&quot;</span><span class="p">:</span> <span class="n">precinct_turnout</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;voter_turnout&quot;</span><span class="p">),</span>
+                                <span class="s2">&quot;percent_reporting&quot;</span><span class="p">:</span> <span class="n">precinct_turnout</span><span class="o">.</span><span class="n">get</span><span class="p">(</span>
+                                    <span class="s2">&quot;percent_reporting&quot;</span>
+                                <span class="p">),</span>
+                                <span class="s2">&quot;timestamp_last_updated&quot;</span><span class="p">:</span> <span class="n">county_details</span><span class="o">.</span><span class="n">county_update_date</span><span class="p">,</span>
                             <span class="p">}</span>
 
                             <span class="n">precinct_votes</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">result</span><span class="p">)</span>
@@ -452,7 +466,9 @@
 
         <span class="k">for</span> <span class="n">child</span> <span class="ow">in</span> <span class="n">root</span><span class="p">:</span>
 
-            <span class="k">if</span> <span class="n">child</span><span class="o">.</span><span class="n">tag</span> <span class="o">==</span> <span class="s2">&quot;Timestamp&quot;</span><span class="p">:</span>  <span class="c1"># &lt;Timestamp&gt;1/5/2021 3:22:30 PM EST&lt;/Timestamp&gt;</span>
+            <span class="k">if</span> <span class="p">(</span>
+                <span class="n">child</span><span class="o">.</span><span class="n">tag</span> <span class="o">==</span> <span class="s2">&quot;Timestamp&quot;</span>
+            <span class="p">):</span>  <span class="c1"># &lt;Timestamp&gt;1/5/2021 3:22:30 PM EST&lt;/Timestamp&gt;</span>
                 <span class="n">timestamp</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_parse_date_to_utc</span><span class="p">(</span><span class="n">child</span><span class="o">.</span><span class="n">text</span><span class="p">)</span>
 
             <span class="k">if</span> <span class="n">child</span><span class="o">.</span><span class="n">tag</span> <span class="o">==</span> <span class="s2">&quot;ElectionVoterTurnout&quot;</span><span class="p">:</span>
@@ -466,7 +482,7 @@
 
             <span class="k">if</span> <span class="n">child</span><span class="o">.</span><span class="n">tag</span> <span class="o">==</span> <span class="s2">&quot;Contest&quot;</span><span class="p">:</span>
 
-                <span class="n">office</span> <span class="o">=</span> <span class="n">child</span><span class="o">.</span><span class="n">attrib</span><span class="p">[</span><span class="s1">&#39;text&#39;</span><span class="p">]</span>
+                <span class="n">office</span> <span class="o">=</span> <span class="n">child</span><span class="o">.</span><span class="n">attrib</span><span class="p">[</span><span class="s2">&quot;text&quot;</span><span class="p">]</span>
 
                 <span class="k">for</span> <span class="n">choice</span> <span class="ow">in</span> <span class="n">child</span><span class="p">:</span>
                     <span class="n">cand_votes</span> <span class="o">=</span> <span class="p">{}</span>
@@ -475,11 +491,11 @@
                         <span class="k">continue</span>
 
                     <span class="n">source_cand_data</span> <span class="o">=</span> <span class="n">choice</span><span class="o">.</span><span class="n">attrib</span>
-                    <span class="n">cand_name</span> <span class="o">=</span> <span class="n">source_cand_data</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;text&#39;</span><span class="p">)</span>
-                    <span class="n">cand_party</span> <span class="o">=</span> <span class="n">source_cand_data</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;party&#39;</span><span class="p">)</span>
+                    <span class="n">cand_name</span> <span class="o">=</span> <span class="n">source_cand_data</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;text&quot;</span><span class="p">)</span>
+                    <span class="n">cand_party</span> <span class="o">=</span> <span class="n">source_cand_data</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;party&quot;</span><span class="p">)</span>
 
                     <span class="k">for</span> <span class="n">vote_type</span> <span class="ow">in</span> <span class="n">choice</span><span class="p">:</span>
-                        <span class="n">vote_type_label</span> <span class="o">=</span> <span class="n">vote_type</span><span class="o">.</span><span class="n">attrib</span><span class="p">[</span><span class="s1">&#39;name&#39;</span><span class="p">]</span>
+                        <span class="n">vote_type_label</span> <span class="o">=</span> <span class="n">vote_type</span><span class="o">.</span><span class="n">attrib</span><span class="p">[</span><span class="s2">&quot;name&quot;</span><span class="p">]</span>
 
                         <span class="k">for</span> <span class="n">county</span> <span class="ow">in</span> <span class="n">vote_type</span><span class="p">:</span>
                             <span class="n">county_name</span> <span class="o">=</span> <span class="n">county</span><span class="o">.</span><span class="n">attrib</span><span class="p">[</span><span class="s2">&quot;name&quot;</span><span class="p">]</span>
@@ -488,18 +504,22 @@
                             <span class="n">county_turnout</span> <span class="o">=</span> <span class="n">county_dict</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">county_name</span><span class="p">,</span> <span class="p">{})</span>
 
                             <span class="n">result</span> <span class="o">=</span> <span class="p">{</span>
-                                <span class="s1">&#39;state&#39;</span><span class="p">:</span> <span class="n">state</span><span class="p">,</span>
-                                <span class="s1">&#39;county_name&#39;</span><span class="p">:</span> <span class="n">county_name</span><span class="p">,</span>
-                                <span class="s1">&#39;office&#39;</span><span class="p">:</span> <span class="n">office</span><span class="p">,</span>
-                                <span class="s1">&#39;ballots_cast&#39;</span><span class="p">:</span> <span class="n">county_turnout</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;ballotsCast&#39;</span><span class="p">),</span>
-                                <span class="s1">&#39;reg_voters&#39;</span><span class="p">:</span> <span class="n">county_turnout</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;totalVoters&#39;</span><span class="p">),</span>
-                                <span class="s1">&#39;precincts_reporting&#39;</span><span class="p">:</span> <span class="n">county_turnout</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;precinctsReported&#39;</span><span class="p">),</span>
-                                <span class="s1">&#39;total_precincts&#39;</span><span class="p">:</span> <span class="n">county_turnout</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;precinctsParticipating&#39;</span><span class="p">),</span>
-                                <span class="s1">&#39;vote_method&#39;</span><span class="p">:</span> <span class="n">vote_type_label</span><span class="p">,</span>
-                                <span class="s1">&#39;candidate_name&#39;</span><span class="p">:</span> <span class="n">cand_name</span><span class="p">,</span>
-                                <span class="s1">&#39;candidate_party&#39;</span><span class="p">:</span> <span class="n">cand_party</span><span class="p">,</span>
-                                <span class="s1">&#39;recorded_votes&#39;</span><span class="p">:</span> <span class="n">cand_votes</span><span class="p">[</span><span class="n">county_name</span><span class="p">],</span>
-                                <span class="s1">&#39;timestamp_last_updated&#39;</span><span class="p">:</span> <span class="n">timestamp</span>
+                                <span class="s2">&quot;state&quot;</span><span class="p">:</span> <span class="n">state</span><span class="p">,</span>
+                                <span class="s2">&quot;county_name&quot;</span><span class="p">:</span> <span class="n">county_name</span><span class="p">,</span>
+                                <span class="s2">&quot;office&quot;</span><span class="p">:</span> <span class="n">office</span><span class="p">,</span>
+                                <span class="s2">&quot;ballots_cast&quot;</span><span class="p">:</span> <span class="n">county_turnout</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;ballotsCast&quot;</span><span class="p">),</span>
+                                <span class="s2">&quot;reg_voters&quot;</span><span class="p">:</span> <span class="n">county_turnout</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;totalVoters&quot;</span><span class="p">),</span>
+                                <span class="s2">&quot;precincts_reporting&quot;</span><span class="p">:</span> <span class="n">county_turnout</span><span class="o">.</span><span class="n">get</span><span class="p">(</span>
+                                    <span class="s2">&quot;precinctsReported&quot;</span>
+                                <span class="p">),</span>
+                                <span class="s2">&quot;total_precincts&quot;</span><span class="p">:</span> <span class="n">county_turnout</span><span class="o">.</span><span class="n">get</span><span class="p">(</span>
+                                    <span class="s2">&quot;precinctsParticipating&quot;</span>
+                                <span class="p">),</span>
+                                <span class="s2">&quot;vote_method&quot;</span><span class="p">:</span> <span class="n">vote_type_label</span><span class="p">,</span>
+                                <span class="s2">&quot;candidate_name&quot;</span><span class="p">:</span> <span class="n">cand_name</span><span class="p">,</span>
+                                <span class="s2">&quot;candidate_party&quot;</span><span class="p">:</span> <span class="n">cand_party</span><span class="p">,</span>
+                                <span class="s2">&quot;recorded_votes&quot;</span><span class="p">:</span> <span class="n">cand_votes</span><span class="p">[</span><span class="n">county_name</span><span class="p">],</span>
+                                <span class="s2">&quot;timestamp_last_updated&quot;</span><span class="p">:</span> <span class="n">timestamp</span><span class="p">,</span>
                             <span class="p">}</span>
 
                             <span class="n">county_votes</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">result</span><span class="p">)</span>
@@ -507,7 +527,7 @@
         <span class="k">return</span> <span class="n">county_votes</span>
 
     <span class="k">def</span> <span class="nf">_fetch_and_parse_summary_results</span><span class="p">(</span>
-        <span class="bp">self</span><span class="p">,</span> <span class="n">administrator</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">election_id</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">version_num</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">county</span><span class="o">=</span><span class="s1">&#39;&#39;</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">administrator</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">election_id</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">version_num</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">county</span><span class="o">=</span><span class="s2">&quot;&quot;</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">t</span><span class="o">.</span><span class="n">List</span><span class="p">[</span><span class="n">t</span><span class="o">.</span><span class="n">Dict</span><span class="p">]:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Fetches the summary results CSV file from the Scytl site and parses it</span>
@@ -529,28 +549,33 @@
 <span class="sd">        &quot;&quot;&quot;</span>
 
         <span class="n">summary_csv_zip_url</span> <span class="o">=</span> <span class="n">SUMMARY_CSV_ZIP_URL_TEMPLATE</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
-            <span class="n">administrator</span><span class="o">=</span><span class="n">administrator</span><span class="p">,</span> <span class="n">election_id</span><span class="o">=</span><span class="n">election_id</span><span class="p">,</span> <span class="n">version_num</span><span class="o">=</span><span class="n">version_num</span>
+            <span class="n">administrator</span><span class="o">=</span><span class="n">administrator</span><span class="p">,</span>
+            <span class="n">election_id</span><span class="o">=</span><span class="n">election_id</span><span class="p">,</span>
+            <span class="n">version_num</span><span class="o">=</span><span class="n">version_num</span><span class="p">,</span>
         <span class="p">)</span>
 
-        <span class="n">zip_bytes</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_parse_file_from_zip_url</span><span class="p">(</span><span class="n">summary_csv_zip_url</span><span class="p">,</span> <span class="s1">&#39;summary.csv&#39;</span><span class="p">)</span>
+        <span class="n">zip_bytes</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_parse_file_from_zip_url</span><span class="p">(</span><span class="n">summary_csv_zip_url</span><span class="p">,</span> <span class="s2">&quot;summary.csv&quot;</span><span class="p">)</span>
 
-        <span class="n">string_buffer</span> <span class="o">=</span> <span class="n">StringIO</span><span class="p">(</span><span class="n">zip_bytes</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="s1">&#39;latin-1&#39;</span><span class="p">))</span>
+        <span class="n">string_buffer</span> <span class="o">=</span> <span class="n">StringIO</span><span class="p">(</span><span class="n">zip_bytes</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="s2">&quot;latin-1&quot;</span><span class="p">))</span>
         <span class="n">csv_data</span> <span class="o">=</span> <span class="n">csv</span><span class="o">.</span><span class="n">DictReader</span><span class="p">(</span><span class="n">string_buffer</span><span class="p">,</span> <span class="n">delimiter</span><span class="o">=</span><span class="s2">&quot;,&quot;</span><span class="p">)</span>
 
-        <span class="n">data</span> <span class="o">=</span> <span class="p">[{</span>
-            <span class="s1">&#39;state&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">state</span><span class="p">,</span>
-            <span class="s1">&#39;county_name&#39;</span><span class="p">:</span> <span class="n">county</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">county</span><span class="p">,</span>
-            <span class="s1">&#39;office&#39;</span><span class="p">:</span> <span class="n">x</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;contest name&#39;</span><span class="p">),</span>
-            <span class="s1">&#39;ballots_cast&#39;</span><span class="p">:</span> <span class="n">x</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;ballots cast&#39;</span><span class="p">),</span>
-            <span class="s1">&#39;reg_voters&#39;</span><span class="p">:</span> <span class="n">x</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;registered voters&#39;</span><span class="p">),</span>
-            <span class="s1">&#39;counties_reporting&#39;</span><span class="p">:</span> <span class="n">x</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;num Area rptg&#39;</span><span class="p">),</span>
-            <span class="s1">&#39;total_counties&#39;</span><span class="p">:</span> <span class="n">x</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;num Area total&#39;</span><span class="p">),</span>
-            <span class="s1">&#39;precincts_reporting&#39;</span><span class="p">:</span> <span class="n">x</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;num Precinct rptg&#39;</span><span class="p">),</span>
-            <span class="s1">&#39;total_precincts&#39;</span><span class="p">:</span> <span class="n">x</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;num Precinct total&#39;</span><span class="p">),</span>
-            <span class="s1">&#39;candidate_name&#39;</span><span class="p">:</span> <span class="n">x</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;choice name&#39;</span><span class="p">),</span>
-            <span class="s1">&#39;candidate_party&#39;</span><span class="p">:</span> <span class="n">x</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;party name&#39;</span><span class="p">),</span>
-            <span class="s1">&#39;recorded_votes&#39;</span><span class="p">:</span> <span class="n">x</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;total votes&#39;</span><span class="p">)</span>
-        <span class="p">}</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">csv_data</span><span class="p">]</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="p">[</span>
+            <span class="p">{</span>
+                <span class="s2">&quot;state&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">state</span><span class="p">,</span>
+                <span class="s2">&quot;county_name&quot;</span><span class="p">:</span> <span class="n">county</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">county</span><span class="p">,</span>
+                <span class="s2">&quot;office&quot;</span><span class="p">:</span> <span class="n">x</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;contest name&quot;</span><span class="p">),</span>
+                <span class="s2">&quot;ballots_cast&quot;</span><span class="p">:</span> <span class="n">x</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;ballots cast&quot;</span><span class="p">),</span>
+                <span class="s2">&quot;reg_voters&quot;</span><span class="p">:</span> <span class="n">x</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;registered voters&quot;</span><span class="p">),</span>
+                <span class="s2">&quot;counties_reporting&quot;</span><span class="p">:</span> <span class="n">x</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;num Area rptg&quot;</span><span class="p">),</span>
+                <span class="s2">&quot;total_counties&quot;</span><span class="p">:</span> <span class="n">x</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;num Area total&quot;</span><span class="p">),</span>
+                <span class="s2">&quot;precincts_reporting&quot;</span><span class="p">:</span> <span class="n">x</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;num Precinct rptg&quot;</span><span class="p">),</span>
+                <span class="s2">&quot;total_precincts&quot;</span><span class="p">:</span> <span class="n">x</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;num Precinct total&quot;</span><span class="p">),</span>
+                <span class="s2">&quot;candidate_name&quot;</span><span class="p">:</span> <span class="n">x</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;choice name&quot;</span><span class="p">),</span>
+                <span class="s2">&quot;candidate_party&quot;</span><span class="p">:</span> <span class="n">x</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;party name&quot;</span><span class="p">),</span>
+                <span class="s2">&quot;recorded_votes&quot;</span><span class="p">:</span> <span class="n">x</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;total votes&quot;</span><span class="p">),</span>
+            <span class="p">}</span>
+            <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">csv_data</span>
+        <span class="p">]</span>
 
         <span class="k">return</span> <span class="n">data</span>
 
@@ -660,33 +685,34 @@
             <span class="k">return</span>
 
         <span class="n">detail_xml_url</span> <span class="o">=</span> <span class="n">DETAIL_XML_ZIP_URL_TEMPLATE</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
-            <span class="n">administrator</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">administrator</span><span class="p">,</span> <span class="n">election_id</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">election_id</span><span class="p">,</span> <span class="n">version_num</span><span class="o">=</span><span class="n">version_num</span>
+            <span class="n">administrator</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">administrator</span><span class="p">,</span>
+            <span class="n">election_id</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">election_id</span><span class="p">,</span>
+            <span class="n">version_num</span><span class="o">=</span><span class="n">version_num</span><span class="p">,</span>
         <span class="p">)</span>
 
         <span class="n">parsed_data</span> <span class="o">=</span> <span class="p">[]</span>
 
-        <span class="n">county_data</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_parse_file_from_zip_url</span><span class="p">(</span><span class="n">detail_xml_url</span><span class="p">,</span> <span class="s1">&#39;detail.xml&#39;</span><span class="p">)</span>
+        <span class="n">county_data</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_parse_file_from_zip_url</span><span class="p">(</span><span class="n">detail_xml_url</span><span class="p">,</span> <span class="s2">&quot;detail.xml&quot;</span><span class="p">)</span>
 
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">county</span><span class="p">:</span>
             <span class="n">county_details</span> <span class="o">=</span> <span class="n">CountyDetails</span><span class="p">(</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">state</span><span class="p">,</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">county</span><span class="p">,</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">election_id</span><span class="p">,</span>
-                <span class="n">version_num</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">state</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">county</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">election_id</span><span class="p">,</span> <span class="n">version_num</span>
             <span class="p">)</span>
 
-            <span class="n">parsed_data</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_parse_county_xml_data_to_precincts</span><span class="p">(</span><span class="n">county_data</span><span class="p">,</span> <span class="n">county_details</span><span class="p">)</span>
+            <span class="n">parsed_data</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_parse_county_xml_data_to_precincts</span><span class="p">(</span>
+                <span class="n">county_data</span><span class="p">,</span> <span class="n">county_details</span>
+            <span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="n">parsed_data</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_parse_state_xml_data_to_counties</span><span class="p">(</span><span class="n">county_data</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">state</span><span class="p">)</span>
+            <span class="n">parsed_data</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_parse_state_xml_data_to_counties</span><span class="p">(</span>
+                <span class="n">county_data</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">state</span>
+            <span class="p">)</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">previous_details_version_num</span> <span class="o">=</span> <span class="n">version_num</span>
 
         <span class="k">return</span> <span class="n">parsed_data</span></div>
 
 <div class="viewcode-block" id="Scytl.get_detailed_results_for_participating_counties"><a class="viewcode-back" href="../../../scytl.html#parsons.Scytl.get_detailed_results_for_participating_counties">[docs]</a>    <span class="k">def</span> <span class="nf">get_detailed_results_for_participating_counties</span><span class="p">(</span>
-        <span class="bp">self</span><span class="p">,</span>
-        <span class="n">county_names</span><span class="p">:</span> <span class="n">t</span><span class="o">.</span><span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-        <span class="n">force_update</span><span class="o">=</span><span class="kc">False</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">county_names</span><span class="p">:</span> <span class="n">t</span><span class="o">.</span><span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">force_update</span><span class="o">=</span><span class="kc">False</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">t</span><span class="o">.</span><span class="n">Tuple</span><span class="p">[</span><span class="n">t</span><span class="o">.</span><span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span> <span class="n">t</span><span class="o">.</span><span class="n">List</span><span class="p">[</span><span class="n">t</span><span class="o">.</span><span class="n">Dict</span><span class="p">]]:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Fetch the latest detailed results for the given election for all participating counties</span>
@@ -755,22 +781,26 @@
             <span class="k">if</span> <span class="n">county_names</span> <span class="ow">and</span> <span class="n">county_name</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">county_names</span><span class="p">:</span>
                 <span class="k">continue</span>
 
-            <span class="k">if</span> <span class="ow">not</span> <span class="n">force_update</span> <span class="ow">and</span> \
-                <span class="n">county_name</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">previously_fetched_counties</span> <span class="ow">and</span> \
-                <span class="bp">self</span><span class="o">.</span><span class="n">previous_county_details_list</span> <span class="ow">and</span> \
-                <span class="n">county_details</span><span class="o">.</span><span class="n">county_update_date</span> <span class="o">&lt;=</span> \
-                    <span class="bp">self</span><span class="o">.</span><span class="n">previous_county_details_list</span><span class="p">[</span><span class="n">county_name</span><span class="p">]</span><span class="o">.</span><span class="n">county_update_date</span><span class="p">:</span>
+            <span class="k">if</span> <span class="p">(</span>
+                <span class="ow">not</span> <span class="n">force_update</span>
+                <span class="ow">and</span> <span class="n">county_name</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">previously_fetched_counties</span>
+                <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">previous_county_details_list</span>
+                <span class="ow">and</span> <span class="n">county_details</span><span class="o">.</span><span class="n">county_update_date</span>
+                <span class="o">&lt;=</span> <span class="bp">self</span><span class="o">.</span><span class="n">previous_county_details_list</span><span class="p">[</span><span class="n">county_name</span><span class="p">]</span><span class="o">.</span><span class="n">county_update_date</span>
+            <span class="p">):</span>
                 <span class="k">continue</span>
 
             <span class="n">detail_xml_url</span> <span class="o">=</span> <span class="n">COUNTY_DETAIL_XML_ZIP_URL_TEMPLATE</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
                 <span class="n">state</span><span class="o">=</span><span class="n">county_details</span><span class="o">.</span><span class="n">state</span><span class="p">,</span>
                 <span class="n">county_name</span><span class="o">=</span><span class="n">county_details</span><span class="o">.</span><span class="n">county_name</span><span class="p">,</span>
                 <span class="n">county_election_id</span><span class="o">=</span><span class="n">county_details</span><span class="o">.</span><span class="n">county_election_id</span><span class="p">,</span>
-                <span class="n">county_version_num</span><span class="o">=</span><span class="n">county_details</span><span class="o">.</span><span class="n">county_version_num</span>
+                <span class="n">county_version_num</span><span class="o">=</span><span class="n">county_details</span><span class="o">.</span><span class="n">county_version_num</span><span class="p">,</span>
             <span class="p">)</span>
 
             <span class="k">try</span><span class="p">:</span>
-                <span class="n">county_data</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_parse_file_from_zip_url</span><span class="p">(</span><span class="n">detail_xml_url</span><span class="p">,</span> <span class="s1">&#39;detail.xml&#39;</span><span class="p">)</span>
+                <span class="n">county_data</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_parse_file_from_zip_url</span><span class="p">(</span>
+                    <span class="n">detail_xml_url</span><span class="p">,</span> <span class="s2">&quot;detail.xml&quot;</span>
+                <span class="p">)</span>
 
             <span class="k">except</span> <span class="n">requests</span><span class="o">.</span><span class="n">exceptions</span><span class="o">.</span><span class="n">RequestException</span><span class="p">:</span>
                 <span class="k">try</span><span class="p">:</span>
@@ -778,7 +808,7 @@
                         <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">state</span><span class="si">}</span><span class="s2">/</span><span class="si">{</span><span class="n">county_name</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
                         <span class="n">county_details</span><span class="o">.</span><span class="n">county_election_id</span><span class="p">,</span>
                         <span class="n">county_details</span><span class="o">.</span><span class="n">county_version_num</span><span class="p">,</span>
-                        <span class="n">county_name</span>
+                        <span class="n">county_name</span><span class="p">,</span>
                     <span class="p">)</span>
 
                 <span class="k">except</span> <span class="n">requests</span><span class="o">.</span><span class="n">exceptions</span><span class="o">.</span><span class="n">RequestException</span><span class="p">:</span>
@@ -789,7 +819,9 @@
                         <span class="n">parsed_data</span> <span class="o">+=</span> <span class="n">summary_data</span>
 
             <span class="k">else</span><span class="p">:</span>
-                <span class="n">parsed_data</span> <span class="o">+=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_parse_county_xml_data_to_precincts</span><span class="p">(</span><span class="n">county_data</span><span class="p">,</span> <span class="n">county_details</span><span class="p">)</span>
+                <span class="n">parsed_data</span> <span class="o">+=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_parse_county_xml_data_to_precincts</span><span class="p">(</span>
+                    <span class="n">county_data</span><span class="p">,</span> <span class="n">county_details</span>
+                <span class="p">)</span>
 
                 <span class="n">fetched_counties</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">county_name</span><span class="p">)</span>
 

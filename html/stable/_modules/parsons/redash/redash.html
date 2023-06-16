@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>parsons.redash.redash &mdash; Parsons 0.5 documentation</title>
+  <title>parsons.redash.redash &mdash; Parsons  documentation</title>
       <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
   <!--[if lt IE 9]>
@@ -170,41 +170,118 @@
 <span class="sd">        Redash Class</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
-                 <span class="n">base_url</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-                 <span class="n">user_api_key</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-                 <span class="n">pause_time</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span>
-                 <span class="n">timeout</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>  <span class="c1"># never timeout</span>
-                 <span class="n">verify</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">base_url</span> <span class="o">=</span> <span class="n">check</span><span class="p">(</span><span class="s1">&#39;REDASH_BASE_URL&#39;</span><span class="p">,</span> <span class="n">base_url</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">user_api_key</span> <span class="o">=</span> <span class="n">check</span><span class="p">(</span><span class="s1">&#39;REDASH_USER_API_KEY&#39;</span><span class="p">,</span> <span class="n">user_api_key</span><span class="p">,</span> <span class="n">optional</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">pause</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">check</span><span class="p">(</span><span class="s1">&#39;REDASH_PAUSE_TIME&#39;</span><span class="p">,</span> <span class="n">pause_time</span><span class="p">,</span> <span class="n">optional</span><span class="o">=</span><span class="kc">True</span><span class="p">))</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">timeout</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">check</span><span class="p">(</span><span class="s1">&#39;REDASH_TIMEOUT&#39;</span><span class="p">,</span> <span class="n">timeout</span><span class="p">,</span> <span class="n">optional</span><span class="o">=</span><span class="kc">True</span><span class="p">))</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">base_url</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">user_api_key</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">pause_time</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span>
+        <span class="n">timeout</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>  <span class="c1"># never timeout</span>
+        <span class="n">verify</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+    <span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">base_url</span> <span class="o">=</span> <span class="n">check</span><span class="p">(</span><span class="s2">&quot;REDASH_BASE_URL&quot;</span><span class="p">,</span> <span class="n">base_url</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">user_api_key</span> <span class="o">=</span> <span class="n">check</span><span class="p">(</span><span class="s2">&quot;REDASH_USER_API_KEY&quot;</span><span class="p">,</span> <span class="n">user_api_key</span><span class="p">,</span> <span class="n">optional</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">pause</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">check</span><span class="p">(</span><span class="s2">&quot;REDASH_PAUSE_TIME&quot;</span><span class="p">,</span> <span class="n">pause_time</span><span class="p">,</span> <span class="n">optional</span><span class="o">=</span><span class="kc">True</span><span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">timeout</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">check</span><span class="p">(</span><span class="s2">&quot;REDASH_TIMEOUT&quot;</span><span class="p">,</span> <span class="n">timeout</span><span class="p">,</span> <span class="n">optional</span><span class="o">=</span><span class="kc">True</span><span class="p">))</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">verify</span> <span class="o">=</span> <span class="n">verify</span>  <span class="c1"># for https requests</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">session</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">Session</span><span class="p">()</span>
         <span class="k">if</span> <span class="n">user_api_key</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">session</span><span class="o">.</span><span class="n">headers</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="s1">&#39;Authorization&#39;</span><span class="p">:</span> <span class="sa">f</span><span class="s1">&#39;Key </span><span class="si">{</span><span class="n">user_api_key</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">})</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">session</span><span class="o">.</span><span class="n">headers</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="s2">&quot;Authorization&quot;</span><span class="p">:</span> <span class="sa">f</span><span class="s2">&quot;Key </span><span class="si">{</span><span class="n">user_api_key</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">})</span>
+
+    <span class="k">def</span> <span class="nf">_catch_runtime_error</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">res</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">res</span><span class="o">.</span><span class="n">status_code</span> <span class="o">!=</span> <span class="mi">200</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s2">&quot;Error. Status code: </span><span class="si">{</span><span class="n">res</span><span class="o">.</span><span class="n">status_code</span><span class="si">}</span><span class="s2">. Reason: </span><span class="si">{</span><span class="n">res</span><span class="o">.</span><span class="n">reason</span><span class="si">}</span><span class="s2">&quot;</span>
+            <span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">_poll_job</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">session</span><span class="p">,</span> <span class="n">job</span><span class="p">,</span> <span class="n">query_id</span><span class="p">):</span>
         <span class="n">start_secs</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
-        <span class="k">while</span> <span class="n">job</span><span class="p">[</span><span class="s1">&#39;status&#39;</span><span class="p">]</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">):</span>
+        <span class="k">while</span> <span class="n">job</span><span class="p">[</span><span class="s2">&quot;status&quot;</span><span class="p">]</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">):</span>
             <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">timeout</span> <span class="ow">and</span> <span class="n">start_secs</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">timeout</span> <span class="o">&lt;</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">():</span>
-                <span class="k">raise</span> <span class="n">RedashTimeout</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Redash timeout: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">timeout</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
-            <span class="n">poll_url</span> <span class="o">=</span> <span class="s1">&#39;</span><span class="si">{}</span><span class="s1">/api/jobs/</span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">base_url</span><span class="p">,</span> <span class="n">job</span><span class="p">[</span><span class="s1">&#39;id&#39;</span><span class="p">])</span>
+                <span class="k">raise</span> <span class="n">RedashTimeout</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Redash timeout: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">timeout</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="n">poll_url</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="si">{}</span><span class="s2">/api/jobs/</span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">base_url</span><span class="p">,</span> <span class="n">job</span><span class="p">[</span><span class="s2">&quot;id&quot;</span><span class="p">])</span>
             <span class="n">response</span> <span class="o">=</span> <span class="n">session</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">poll_url</span><span class="p">,</span> <span class="n">verify</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">verify</span><span class="p">)</span>
             <span class="n">response_json</span> <span class="o">=</span> <span class="n">response</span><span class="o">.</span><span class="n">json</span><span class="p">()</span>
             <span class="n">job</span> <span class="o">=</span> <span class="n">response_json</span><span class="o">.</span><span class="n">get</span><span class="p">(</span>
-                <span class="s1">&#39;job&#39;</span><span class="p">,</span>
-                <span class="p">{</span><span class="s1">&#39;status&#39;</span><span class="p">:</span> <span class="s1">&#39;Error NO JOB IN RESPONSE: </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">response_json</span><span class="p">))})</span>
-            <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;poll url:</span><span class="si">%s</span><span class="s2"> id:</span><span class="si">%s</span><span class="s2"> status:</span><span class="si">%s</span><span class="s2"> err:</span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span>
-                         <span class="n">poll_url</span><span class="p">,</span> <span class="n">query_id</span><span class="p">,</span> <span class="n">job</span><span class="p">[</span><span class="s1">&#39;status&#39;</span><span class="p">],</span> <span class="n">job</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;error&#39;</span><span class="p">))</span>
+                <span class="s2">&quot;job&quot;</span><span class="p">,</span>
+                <span class="p">{</span>
+                    <span class="s2">&quot;status&quot;</span><span class="p">:</span> <span class="s2">&quot;Error NO JOB IN RESPONSE: </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+                        <span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">response_json</span><span class="p">)</span>
+                    <span class="p">)</span>
+                <span class="p">},</span>
+            <span class="p">)</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span>
+                <span class="s2">&quot;poll url:</span><span class="si">%s</span><span class="s2"> id:</span><span class="si">%s</span><span class="s2"> status:</span><span class="si">%s</span><span class="s2"> err:</span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span>
+                <span class="n">poll_url</span><span class="p">,</span>
+                <span class="n">query_id</span><span class="p">,</span>
+                <span class="n">job</span><span class="p">[</span><span class="s2">&quot;status&quot;</span><span class="p">],</span>
+                <span class="n">job</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;error&quot;</span><span class="p">),</span>
+            <span class="p">)</span>
             <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">pause</span><span class="p">)</span>
 
-        <span class="k">if</span> <span class="n">job</span><span class="p">[</span><span class="s1">&#39;status&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="mi">3</span><span class="p">:</span>  <span class="c1"># 3 = completed</span>
-            <span class="k">return</span> <span class="n">job</span><span class="p">[</span><span class="s1">&#39;query_result_id&#39;</span><span class="p">]</span>
-        <span class="k">elif</span> <span class="n">job</span><span class="p">[</span><span class="s1">&#39;status&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="mi">4</span><span class="p">:</span>  <span class="c1"># 3 = ERROR</span>
-            <span class="k">raise</span> <span class="n">RedashQueryFailed</span><span class="p">(</span><span class="s1">&#39;Redash Query </span><span class="si">{}</span><span class="s1"> failed: </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">query_id</span><span class="p">,</span> <span class="n">job</span><span class="p">[</span><span class="s1">&#39;error&#39;</span><span class="p">]))</span>
+        <span class="k">if</span> <span class="n">job</span><span class="p">[</span><span class="s2">&quot;status&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="mi">3</span><span class="p">:</span>  <span class="c1"># 3 = completed</span>
+            <span class="k">return</span> <span class="n">job</span><span class="p">[</span><span class="s2">&quot;query_result_id&quot;</span><span class="p">]</span>
+        <span class="k">elif</span> <span class="n">job</span><span class="p">[</span><span class="s2">&quot;status&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="mi">4</span><span class="p">:</span>  <span class="c1"># 3 = ERROR</span>
+            <span class="k">raise</span> <span class="n">RedashQueryFailed</span><span class="p">(</span>
+                <span class="s2">&quot;Redash Query </span><span class="si">{}</span><span class="s2"> failed: </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">query_id</span><span class="p">,</span> <span class="n">job</span><span class="p">[</span><span class="s2">&quot;error&quot;</span><span class="p">])</span>
+            <span class="p">)</span>
+
+<div class="viewcode-block" id="Redash.get_data_source"><a class="viewcode-back" href="../../../redash.html#parsons.redash.Redash.get_data_source">[docs]</a>    <span class="k">def</span> <span class="nf">get_data_source</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data_source_id</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Get a data source.</span>
+
+<span class="sd">        `Args:`</span>
+<span class="sd">            data_source_id: int or str</span>
+<span class="sd">                ID of data source.</span>
+<span class="sd">        `Returns`:</span>
+<span class="sd">            Data source json object</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">res</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">session</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">base_url</span><span class="si">}</span><span class="s2">/api/data_sources/</span><span class="si">{</span><span class="n">data_source_id</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_catch_runtime_error</span><span class="p">(</span><span class="n">res</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">res</span><span class="o">.</span><span class="n">json</span><span class="p">()</span></div>
+
+<div class="viewcode-block" id="Redash.update_data_source"><a class="viewcode-back" href="../../../redash.html#parsons.redash.Redash.update_data_source">[docs]</a>    <span class="k">def</span> <span class="nf">update_data_source</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">data_source_id</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="nb">type</span><span class="p">,</span> <span class="n">dbName</span><span class="p">,</span> <span class="n">host</span><span class="p">,</span> <span class="n">password</span><span class="p">,</span> <span class="n">port</span><span class="p">,</span> <span class="n">user</span>
+    <span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Update a data source.</span>
+
+<span class="sd">        `Args:`</span>
+<span class="sd">            data_source_id: str or int</span>
+<span class="sd">                ID of data source.</span>
+<span class="sd">            name: str</span>
+<span class="sd">                Name of data source.</span>
+<span class="sd">            type: str</span>
+<span class="sd">                Type of data source.</span>
+<span class="sd">            dbname: str</span>
+<span class="sd">                Database name of data source.</span>
+<span class="sd">            host: str</span>
+<span class="sd">                Host of data source.</span>
+<span class="sd">            password: str</span>
+<span class="sd">                Password of data source.</span>
+<span class="sd">            port: int or str</span>
+<span class="sd">                Port of data source.</span>
+<span class="sd">            user: str</span>
+<span class="sd">                Username of data source.</span>
+<span class="sd">        `Returns:`</span>
+<span class="sd">            ``None``</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_catch_runtime_error</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">session</span><span class="o">.</span><span class="n">post</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">base_url</span><span class="si">}</span><span class="s2">/api/data_sources/</span><span class="si">{</span><span class="n">data_source_id</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
+                <span class="n">json</span><span class="o">=</span><span class="p">{</span>
+                    <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="n">name</span><span class="p">,</span>
+                    <span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="nb">type</span><span class="p">,</span>
+                    <span class="s2">&quot;options&quot;</span><span class="p">:</span> <span class="p">{</span>
+                        <span class="s2">&quot;dbname&quot;</span><span class="p">:</span> <span class="n">dbName</span><span class="p">,</span>
+                        <span class="s2">&quot;host&quot;</span><span class="p">:</span> <span class="n">host</span><span class="p">,</span>
+                        <span class="s2">&quot;password&quot;</span><span class="p">:</span> <span class="n">password</span><span class="p">,</span>
+                        <span class="s2">&quot;port&quot;</span><span class="p">:</span> <span class="n">port</span><span class="p">,</span>
+                        <span class="s2">&quot;user&quot;</span><span class="p">:</span> <span class="n">user</span><span class="p">,</span>
+                    <span class="p">},</span>
+                <span class="p">},</span>
+            <span class="p">)</span>
+        <span class="p">)</span></div>
 
 <div class="viewcode-block" id="Redash.get_fresh_query_results"><a class="viewcode-back" href="../../../redash.html#parsons.redash.Redash.get_fresh_query_results">[docs]</a>    <span class="k">def</span> <span class="nf">get_fresh_query_results</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">query_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
@@ -227,30 +304,40 @@
 <span class="sd">        `Returns:`</span>
 <span class="sd">            Table Class</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">query_id</span> <span class="o">=</span> <span class="n">check</span><span class="p">(</span><span class="s1">&#39;REDASH_QUERY_ID&#39;</span><span class="p">,</span> <span class="n">query_id</span><span class="p">,</span> <span class="n">optional</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-        <span class="n">params_from_env</span> <span class="o">=</span> <span class="n">check</span><span class="p">(</span><span class="s1">&#39;REDASH_QUERY_PARAMS&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="n">optional</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-        <span class="n">redash_params</span> <span class="o">=</span> <span class="p">({</span><span class="s1">&#39;p_</span><span class="si">%s</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="n">k</span><span class="p">:</span> <span class="nb">str</span><span class="p">(</span><span class="n">v</span><span class="p">)</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;&#39;&quot;</span><span class="p">,</span> <span class="s2">&quot;&#39;&#39;&quot;</span><span class="p">)</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">params</span><span class="o">.</span><span class="n">items</span><span class="p">()}</span>
-                         <span class="k">if</span> <span class="n">params</span> <span class="k">else</span> <span class="p">{})</span>
+        <span class="n">query_id</span> <span class="o">=</span> <span class="n">check</span><span class="p">(</span><span class="s2">&quot;REDASH_QUERY_ID&quot;</span><span class="p">,</span> <span class="n">query_id</span><span class="p">,</span> <span class="n">optional</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="n">params_from_env</span> <span class="o">=</span> <span class="n">check</span><span class="p">(</span><span class="s2">&quot;REDASH_QUERY_PARAMS&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">optional</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="n">redash_params</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="p">{</span><span class="s2">&quot;p_</span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="n">k</span><span class="p">:</span> <span class="nb">str</span><span class="p">(</span><span class="n">v</span><span class="p">)</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;&#39;&quot;</span><span class="p">,</span> <span class="s2">&quot;&#39;&#39;&quot;</span><span class="p">)</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">params</span><span class="o">.</span><span class="n">items</span><span class="p">()}</span>
+            <span class="k">if</span> <span class="n">params</span>
+            <span class="k">else</span> <span class="p">{}</span>
+        <span class="p">)</span>
 
         <span class="n">response</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">session</span><span class="o">.</span><span class="n">post</span><span class="p">(</span>
-            <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">base_url</span><span class="si">}</span><span class="s1">/api/queries/</span><span class="si">{</span><span class="n">query_id</span><span class="si">}</span><span class="s1">/refresh?</span><span class="si">{</span><span class="n">params_from_env</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">,</span>
+            <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">base_url</span><span class="si">}</span><span class="s2">/api/queries/</span><span class="si">{</span><span class="n">query_id</span><span class="si">}</span><span class="s2">/refresh?</span><span class="si">{</span><span class="n">params_from_env</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
             <span class="n">params</span><span class="o">=</span><span class="n">redash_params</span><span class="p">,</span>
-            <span class="n">verify</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">verify</span><span class="p">)</span>
+            <span class="n">verify</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">verify</span><span class="p">,</span>
+        <span class="p">)</span>
 
         <span class="k">if</span> <span class="n">response</span><span class="o">.</span><span class="n">status_code</span> <span class="o">!=</span> <span class="mi">200</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="n">RedashQueryFailed</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Refresh failed for query </span><span class="si">{</span><span class="n">query_id</span><span class="si">}</span><span class="s1">. </span><span class="si">{</span><span class="n">response</span><span class="o">.</span><span class="n">text</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="n">RedashQueryFailed</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s2">&quot;Refresh failed for query </span><span class="si">{</span><span class="n">query_id</span><span class="si">}</span><span class="s2">. </span><span class="si">{</span><span class="n">response</span><span class="o">.</span><span class="n">text</span><span class="si">}</span><span class="s2">&quot;</span>
+            <span class="p">)</span>
 
-        <span class="n">job</span> <span class="o">=</span> <span class="n">response</span><span class="o">.</span><span class="n">json</span><span class="p">()[</span><span class="s1">&#39;job&#39;</span><span class="p">]</span>
+        <span class="n">job</span> <span class="o">=</span> <span class="n">response</span><span class="o">.</span><span class="n">json</span><span class="p">()[</span><span class="s2">&quot;job&quot;</span><span class="p">]</span>
         <span class="n">result_id</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_poll_job</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">session</span><span class="p">,</span> <span class="n">job</span><span class="p">,</span> <span class="n">query_id</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">result_id</span><span class="p">:</span>
             <span class="n">response</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">session</span><span class="o">.</span><span class="n">get</span><span class="p">(</span>
-                <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">base_url</span><span class="si">}</span><span class="s1">/api/queries/</span><span class="si">{</span><span class="n">query_id</span><span class="si">}</span><span class="s1">/results/</span><span class="si">{</span><span class="n">result_id</span><span class="si">}</span><span class="s1">.csv&#39;</span><span class="p">,</span>
-                <span class="n">verify</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">verify</span><span class="p">)</span>
+                <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">base_url</span><span class="si">}</span><span class="s2">/api/queries/</span><span class="si">{</span><span class="n">query_id</span><span class="si">}</span><span class="s2">/results/</span><span class="si">{</span><span class="n">result_id</span><span class="si">}</span><span class="s2">.csv&quot;</span><span class="p">,</span>
+                <span class="n">verify</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">verify</span><span class="p">,</span>
+            <span class="p">)</span>
             <span class="k">if</span> <span class="n">response</span><span class="o">.</span><span class="n">status_code</span> <span class="o">!=</span> <span class="mi">200</span><span class="p">:</span>
                 <span class="k">raise</span> <span class="n">RedashQueryFailed</span><span class="p">(</span>
-                    <span class="sa">f</span><span class="s1">&#39;Failed getting results for query </span><span class="si">{</span><span class="n">query_id</span><span class="si">}</span><span class="s1">. </span><span class="si">{</span><span class="n">response</span><span class="o">.</span><span class="n">text</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+                    <span class="sa">f</span><span class="s2">&quot;Failed getting results for query </span><span class="si">{</span><span class="n">query_id</span><span class="si">}</span><span class="s2">. </span><span class="si">{</span><span class="n">response</span><span class="o">.</span><span class="n">text</span><span class="si">}</span><span class="s2">&quot;</span>
+                <span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="n">RedashQueryFailed</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Failed getting result </span><span class="si">{</span><span class="n">query_id</span><span class="si">}</span><span class="s1">. </span><span class="si">{</span><span class="n">response</span><span class="o">.</span><span class="n">text</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="n">RedashQueryFailed</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s2">&quot;Failed getting result </span><span class="si">{</span><span class="n">query_id</span><span class="si">}</span><span class="s2">. </span><span class="si">{</span><span class="n">response</span><span class="o">.</span><span class="n">text</span><span class="si">}</span><span class="s2">&quot;</span>
+            <span class="p">)</span>
         <span class="k">return</span> <span class="n">Table</span><span class="o">.</span><span class="n">from_csv_string</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">text</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="Redash.get_cached_query_results"><a class="viewcode-back" href="../../../redash.html#parsons.redash.Redash.get_cached_query_results">[docs]</a>    <span class="k">def</span> <span class="nf">get_cached_query_results</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">query_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">query_api_key</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
@@ -267,16 +354,20 @@
 <span class="sd">        `Returns:`</span>
 <span class="sd">            Table Class</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">query_id</span> <span class="o">=</span> <span class="n">check</span><span class="p">(</span><span class="s1">&#39;REDASH_QUERY_ID&#39;</span><span class="p">,</span> <span class="n">query_id</span><span class="p">)</span>
-        <span class="n">query_api_key</span> <span class="o">=</span> <span class="n">check</span><span class="p">(</span><span class="s1">&#39;REDASH_QUERY_API_KEY&#39;</span><span class="p">,</span> <span class="n">query_api_key</span><span class="p">,</span> <span class="n">optional</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="n">query_id</span> <span class="o">=</span> <span class="n">check</span><span class="p">(</span><span class="s2">&quot;REDASH_QUERY_ID&quot;</span><span class="p">,</span> <span class="n">query_id</span><span class="p">)</span>
+        <span class="n">query_api_key</span> <span class="o">=</span> <span class="n">check</span><span class="p">(</span><span class="s2">&quot;REDASH_QUERY_API_KEY&quot;</span><span class="p">,</span> <span class="n">query_api_key</span><span class="p">,</span> <span class="n">optional</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
         <span class="n">params</span> <span class="o">=</span> <span class="p">{}</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">user_api_key</span> <span class="ow">and</span> <span class="n">query_api_key</span><span class="p">:</span>
-            <span class="n">params</span><span class="p">[</span><span class="s1">&#39;api_key&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">query_api_key</span>
-        <span class="n">response</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">session</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">base_url</span><span class="si">}</span><span class="s1">/api/queries/</span><span class="si">{</span><span class="n">query_id</span><span class="si">}</span><span class="s1">/results.csv&#39;</span><span class="p">,</span>
-                                    <span class="n">params</span><span class="o">=</span><span class="n">params</span><span class="p">,</span>
-                                    <span class="n">verify</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">verify</span><span class="p">)</span>
+            <span class="n">params</span><span class="p">[</span><span class="s2">&quot;api_key&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">query_api_key</span>
+        <span class="n">response</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">session</span><span class="o">.</span><span class="n">get</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">base_url</span><span class="si">}</span><span class="s2">/api/queries/</span><span class="si">{</span><span class="n">query_id</span><span class="si">}</span><span class="s2">/results.csv&quot;</span><span class="p">,</span>
+            <span class="n">params</span><span class="o">=</span><span class="n">params</span><span class="p">,</span>
+            <span class="n">verify</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">verify</span><span class="p">,</span>
+        <span class="p">)</span>
         <span class="k">if</span> <span class="n">response</span><span class="o">.</span><span class="n">status_code</span> <span class="o">!=</span> <span class="mi">200</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="n">RedashQueryFailed</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Failed getting results for query </span><span class="si">{</span><span class="n">query_id</span><span class="si">}</span><span class="s1">. </span><span class="si">{</span><span class="n">response</span><span class="o">.</span><span class="n">text</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="n">RedashQueryFailed</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s2">&quot;Failed getting results for query </span><span class="si">{</span><span class="n">query_id</span><span class="si">}</span><span class="s2">. </span><span class="si">{</span><span class="n">response</span><span class="o">.</span><span class="n">text</span><span class="si">}</span><span class="s2">&quot;</span>
+            <span class="p">)</span>
         <span class="k">return</span> <span class="n">Table</span><span class="o">.</span><span class="n">from_csv_string</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">text</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="Redash.load_to_table"><a class="viewcode-back" href="../../../redash.html#parsons.redash.Redash.load_to_table">[docs]</a>    <span class="nd">@classmethod</span>
@@ -310,14 +401,20 @@
 <span class="sd">        `Returns:`</span>
 <span class="sd">            Table Class</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">initargs</span> <span class="o">=</span> <span class="p">{</span><span class="n">a</span><span class="p">:</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>
-                    <span class="k">for</span> <span class="n">a</span> <span class="ow">in</span> <span class="p">(</span><span class="s1">&#39;base_url&#39;</span><span class="p">,</span> <span class="s1">&#39;user_api_key&#39;</span><span class="p">,</span> <span class="s1">&#39;pause_time&#39;</span><span class="p">,</span> <span class="s1">&#39;timeout&#39;</span><span class="p">,</span> <span class="s1">&#39;verify&#39;</span><span class="p">)</span>
-                    <span class="k">if</span> <span class="n">a</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="p">}</span>
+        <span class="n">initargs</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="n">a</span><span class="p">:</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>
+            <span class="k">for</span> <span class="n">a</span> <span class="ow">in</span> <span class="p">(</span><span class="s2">&quot;base_url&quot;</span><span class="p">,</span> <span class="s2">&quot;user_api_key&quot;</span><span class="p">,</span> <span class="s2">&quot;pause_time&quot;</span><span class="p">,</span> <span class="s2">&quot;timeout&quot;</span><span class="p">,</span> <span class="s2">&quot;verify&quot;</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">a</span> <span class="ow">in</span> <span class="n">kwargs</span>
+        <span class="p">}</span>
         <span class="n">obj</span> <span class="o">=</span> <span class="bp">cls</span><span class="p">(</span><span class="o">**</span><span class="n">initargs</span><span class="p">)</span>
-        <span class="k">if</span> <span class="ow">not</span> <span class="n">refresh</span> <span class="ow">or</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;query_api_key&#39;</span><span class="p">):</span>
-            <span class="k">return</span> <span class="n">obj</span><span class="o">.</span><span class="n">get_cached_query_results</span><span class="p">(</span><span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;query_id&#39;</span><span class="p">),</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;query_api_key&#39;</span><span class="p">))</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">refresh</span> <span class="ow">or</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;query_api_key&quot;</span><span class="p">):</span>
+            <span class="k">return</span> <span class="n">obj</span><span class="o">.</span><span class="n">get_cached_query_results</span><span class="p">(</span>
+                <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;query_id&quot;</span><span class="p">),</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;query_api_key&quot;</span><span class="p">)</span>
+            <span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="k">return</span> <span class="n">obj</span><span class="o">.</span><span class="n">get_fresh_query_results</span><span class="p">(</span><span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;query_id&#39;</span><span class="p">),</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;params&#39;</span><span class="p">))</span></div></div>
+            <span class="k">return</span> <span class="n">obj</span><span class="o">.</span><span class="n">get_fresh_query_results</span><span class="p">(</span>
+                <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;query_id&quot;</span><span class="p">),</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;params&quot;</span><span class="p">)</span>
+            <span class="p">)</span></div></div>
 </pre></div>
 
            </div>

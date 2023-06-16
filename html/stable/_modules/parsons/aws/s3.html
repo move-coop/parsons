@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>parsons.aws.s3 &mdash; Parsons 0.5 documentation</title>
+  <title>parsons.aws.s3 &mdash; Parsons  documentation</title>
       <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
   <!--[if lt IE 9]>
@@ -136,6 +136,7 @@
   <h1>Source code for parsons.aws.s3</h1><div class="highlight"><pre>
 <span></span><span class="kn">import</span> <span class="nn">re</span>
 <span class="kn">import</span> <span class="nn">boto3</span>
+<span class="kn">from</span> <span class="nn">botocore.client</span> <span class="kn">import</span> <span class="n">ClientError</span>
 <span class="kn">from</span> <span class="nn">parsons.utilities</span> <span class="kn">import</span> <span class="n">files</span>
 <span class="kn">import</span> <span class="nn">logging</span>
 <span class="kn">import</span> <span class="nn">os</span>
@@ -144,10 +145,13 @@
 
 
 <span class="k">class</span> <span class="nc">AWSConnection</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
-
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">aws_access_key_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">aws_secret_access_key</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">aws_session_token</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-                 <span class="n">use_env_token</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
-
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">aws_access_key_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">aws_secret_access_key</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">aws_session_token</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">use_env_token</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+    <span class="p">):</span>
         <span class="c1"># Order of operations for searching for keys:</span>
         <span class="c1">#   1. Look for keys passed as kwargs</span>
         <span class="c1">#   2. Look for env variables</span>
@@ -161,11 +165,13 @@
             <span class="c1"># whenever the aws_access_key_id and aws_secret_access_key are passed.</span>
 
             <span class="k">if</span> <span class="n">aws_session_token</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">use_env_token</span><span class="p">:</span>
-                <span class="n">aws_session_token</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">getenv</span><span class="p">(</span><span class="s1">&#39;AWS_SESSION_TOKEN&#39;</span><span class="p">)</span>
+                <span class="n">aws_session_token</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">getenv</span><span class="p">(</span><span class="s2">&quot;AWS_SESSION_TOKEN&quot;</span><span class="p">)</span>
 
-            <span class="bp">self</span><span class="o">.</span><span class="n">session</span> <span class="o">=</span> <span class="n">boto3</span><span class="o">.</span><span class="n">Session</span><span class="p">(</span><span class="n">aws_access_key_id</span><span class="o">=</span><span class="n">aws_access_key_id</span><span class="p">,</span>
-                                         <span class="n">aws_secret_access_key</span><span class="o">=</span><span class="n">aws_secret_access_key</span><span class="p">,</span>
-                                         <span class="n">aws_session_token</span><span class="o">=</span><span class="n">aws_session_token</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">session</span> <span class="o">=</span> <span class="n">boto3</span><span class="o">.</span><span class="n">Session</span><span class="p">(</span>
+                <span class="n">aws_access_key_id</span><span class="o">=</span><span class="n">aws_access_key_id</span><span class="p">,</span>
+                <span class="n">aws_secret_access_key</span><span class="o">=</span><span class="n">aws_secret_access_key</span><span class="p">,</span>
+                <span class="n">aws_session_token</span><span class="o">=</span><span class="n">aws_session_token</span><span class="p">,</span>
+            <span class="p">)</span>
 
         <span class="k">else</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">session</span> <span class="o">=</span> <span class="n">boto3</span><span class="o">.</span><span class="n">Session</span><span class="p">()</span>
@@ -194,18 +200,21 @@
 <span class="sd">        S3 class.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
-                 <span class="n">aws_access_key_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-                 <span class="n">aws_secret_access_key</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-                 <span class="n">aws_session_token</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-                 <span class="n">use_env_token</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">aws_access_key_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">aws_secret_access_key</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">aws_session_token</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">use_env_token</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+    <span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">aws</span> <span class="o">=</span> <span class="n">AWSConnection</span><span class="p">(</span>
+            <span class="n">aws_access_key_id</span><span class="o">=</span><span class="n">aws_access_key_id</span><span class="p">,</span>
+            <span class="n">aws_secret_access_key</span><span class="o">=</span><span class="n">aws_secret_access_key</span><span class="p">,</span>
+            <span class="n">aws_session_token</span><span class="o">=</span><span class="n">aws_session_token</span><span class="p">,</span>
+            <span class="n">use_env_token</span><span class="o">=</span><span class="n">use_env_token</span><span class="p">,</span>
+        <span class="p">)</span>
 
-        <span class="bp">self</span><span class="o">.</span><span class="n">aws</span> <span class="o">=</span> <span class="n">AWSConnection</span><span class="p">(</span><span class="n">aws_access_key_id</span><span class="o">=</span><span class="n">aws_access_key_id</span><span class="p">,</span>
-                                 <span class="n">aws_secret_access_key</span><span class="o">=</span><span class="n">aws_secret_access_key</span><span class="p">,</span>
-                                 <span class="n">aws_session_token</span><span class="o">=</span><span class="n">aws_session_token</span><span class="p">,</span>
-                                 <span class="n">use_env_token</span><span class="o">=</span><span class="n">use_env_token</span><span class="p">)</span>
-
-        <span class="bp">self</span><span class="o">.</span><span class="n">s3</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">aws</span><span class="o">.</span><span class="n">session</span><span class="o">.</span><span class="n">resource</span><span class="p">(</span><span class="s1">&#39;s3&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">s3</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">aws</span><span class="o">.</span><span class="n">session</span><span class="o">.</span><span class="n">resource</span><span class="p">(</span><span class="s2">&quot;s3&quot;</span><span class="p">)</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Boto3 API Session Resource object. Use for more advanced boto3 features.&quot;&quot;&quot;</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">client</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">s3</span><span class="o">.</span><span class="n">meta</span><span class="o">.</span><span class="n">client</span>
@@ -244,9 +253,16 @@
 
         <span class="k">return</span> <span class="n">bucket</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">list_buckets</span><span class="p">()</span></div>
 
-<div class="viewcode-block" id="S3.list_keys"><a class="viewcode-back" href="../../../aws.html#parsons.S3.list_keys">[docs]</a>    <span class="k">def</span> <span class="nf">list_keys</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">bucket</span><span class="p">,</span> <span class="n">prefix</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">suffix</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">regex</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-                  <span class="n">date_modified_before</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">date_modified_after</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-                  <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<div class="viewcode-block" id="S3.list_keys"><a class="viewcode-back" href="../../../aws.html#parsons.S3.list_keys">[docs]</a>    <span class="k">def</span> <span class="nf">list_keys</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">bucket</span><span class="p">,</span>
+        <span class="n">prefix</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">suffix</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">regex</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">date_modified_before</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">date_modified_after</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
+    <span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        List the keys in a bucket, along with extra info about each one.</span>
 
@@ -274,50 +290,73 @@
 <span class="sd">        &quot;&quot;&quot;</span>
 
         <span class="n">keys_dict</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
-        <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Fetching keys in </span><span class="si">{</span><span class="n">bucket</span><span class="si">}</span><span class="s1"> bucket&#39;</span><span class="p">)</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Fetching keys in </span><span class="si">{</span><span class="n">bucket</span><span class="si">}</span><span class="s2"> bucket&quot;</span><span class="p">)</span>
 
         <span class="n">continuation_token</span> <span class="o">=</span> <span class="kc">None</span>
 
         <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
-            <span class="n">args</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;Bucket&#39;</span><span class="p">:</span> <span class="n">bucket</span><span class="p">}</span>
+            <span class="n">args</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;Bucket&quot;</span><span class="p">:</span> <span class="n">bucket</span><span class="p">}</span>
+
             <span class="k">if</span> <span class="n">prefix</span><span class="p">:</span>
-                <span class="n">args</span><span class="p">[</span><span class="s1">&#39;Prefix&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">prefix</span>
+                <span class="n">args</span><span class="p">[</span><span class="s2">&quot;Prefix&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">prefix</span>
+
             <span class="k">if</span> <span class="n">continuation_token</span><span class="p">:</span>
-                <span class="n">args</span><span class="p">[</span><span class="s1">&#39;ContinuationToken&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">continuation_token</span>
+                <span class="n">args</span><span class="p">[</span><span class="s2">&quot;ContinuationToken&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">continuation_token</span>
+
             <span class="n">args</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">kwargs</span><span class="p">)</span>
 
-            <span class="n">resp</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">list_objects_v2</span><span class="p">(</span><span class="o">**</span><span class="n">args</span><span class="p">)</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="n">resp</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">list_objects_v2</span><span class="p">(</span><span class="o">**</span><span class="n">args</span><span class="p">)</span>
 
-            <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">resp</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;Contents&#39;</span><span class="p">,</span> <span class="p">[]):</span>
+            <span class="k">except</span> <span class="n">ClientError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+                <span class="n">error_message</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;Unable to list bucket objects!</span>
+<span class="s2">                This may be due to a lack of permission on the requested</span>
+<span class="s2">                bucket. Double-check that you have sufficient READ permissions</span>
+<span class="s2">                on the bucket you&#39;ve requested. If you only have permissions for</span>
+<span class="s2">                keys within a specific prefix, make sure you include a trailing &#39;/&#39; in</span>
+<span class="s2">                in prefix.&quot;&quot;&quot;</span>
 
+                <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="n">error_message</span><span class="p">)</span>
+
+                <span class="k">raise</span> <span class="n">e</span>
+
+            <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">resp</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;Contents&quot;</span><span class="p">,</span> <span class="p">[]):</span>
                 <span class="c1"># Match suffix</span>
-                <span class="k">if</span> <span class="n">suffix</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">key</span><span class="p">[</span><span class="s1">&#39;Key&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="n">suffix</span><span class="p">):</span>
+                <span class="k">if</span> <span class="n">suffix</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">key</span><span class="p">[</span><span class="s2">&quot;Key&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="n">suffix</span><span class="p">):</span>
                     <span class="k">continue</span>
 
                 <span class="c1"># Regex matching</span>
-                <span class="k">if</span> <span class="n">regex</span> <span class="ow">and</span> <span class="ow">not</span> <span class="nb">bool</span><span class="p">(</span><span class="n">re</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="n">regex</span><span class="p">,</span> <span class="n">key</span><span class="p">[</span><span class="s1">&#39;Key&#39;</span><span class="p">])):</span>
+                <span class="k">if</span> <span class="n">regex</span> <span class="ow">and</span> <span class="ow">not</span> <span class="nb">bool</span><span class="p">(</span><span class="n">re</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="n">regex</span><span class="p">,</span> <span class="n">key</span><span class="p">[</span><span class="s2">&quot;Key&quot;</span><span class="p">])):</span>
                     <span class="k">continue</span>
 
                 <span class="c1"># Match timestamp parsing</span>
-                <span class="k">if</span> <span class="n">date_modified_before</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">key</span><span class="p">[</span><span class="s1">&#39;LastModified&#39;</span><span class="p">]</span> <span class="o">&lt;</span> <span class="n">date_modified_before</span><span class="p">:</span>
+                <span class="k">if</span> <span class="p">(</span>
+                    <span class="n">date_modified_before</span>
+                    <span class="ow">and</span> <span class="ow">not</span> <span class="n">key</span><span class="p">[</span><span class="s2">&quot;LastModified&quot;</span><span class="p">]</span> <span class="o">&lt;</span> <span class="n">date_modified_before</span>
+                <span class="p">):</span>
                     <span class="k">continue</span>
 
-                <span class="k">if</span> <span class="n">date_modified_after</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">key</span><span class="p">[</span><span class="s1">&#39;LastModified&#39;</span><span class="p">]</span> <span class="o">&gt;</span> <span class="n">date_modified_after</span><span class="p">:</span>
+                <span class="k">if</span> <span class="p">(</span>
+                    <span class="n">date_modified_after</span>
+                    <span class="ow">and</span> <span class="ow">not</span> <span class="n">key</span><span class="p">[</span><span class="s2">&quot;LastModified&quot;</span><span class="p">]</span> <span class="o">&gt;</span> <span class="n">date_modified_after</span>
+                <span class="p">):</span>
                     <span class="k">continue</span>
 
                 <span class="c1"># Convert date to iso string</span>
-                <span class="n">key</span><span class="p">[</span><span class="s1">&#39;LastModified&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">key</span><span class="p">[</span><span class="s1">&#39;LastModified&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">isoformat</span><span class="p">()</span>
+                <span class="n">key</span><span class="p">[</span><span class="s2">&quot;LastModified&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">key</span><span class="p">[</span><span class="s2">&quot;LastModified&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">isoformat</span><span class="p">()</span>
 
                 <span class="c1"># Add to output dict</span>
-                <span class="n">keys_dict</span><span class="p">[</span><span class="n">key</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;Key&#39;</span><span class="p">)]</span> <span class="o">=</span> <span class="n">key</span>
+                <span class="n">keys_dict</span><span class="p">[</span><span class="n">key</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;Key&quot;</span><span class="p">)]</span> <span class="o">=</span> <span class="n">key</span>
 
             <span class="c1"># If more than 1000 results, continue with token</span>
-            <span class="k">if</span> <span class="n">resp</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;NextContinuationToken&#39;</span><span class="p">):</span>
-                <span class="n">continuation_token</span> <span class="o">=</span> <span class="n">resp</span><span class="p">[</span><span class="s1">&#39;NextContinuationToken&#39;</span><span class="p">]</span>
+            <span class="k">if</span> <span class="n">resp</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;NextContinuationToken&quot;</span><span class="p">):</span>
+                <span class="n">continuation_token</span> <span class="o">=</span> <span class="n">resp</span><span class="p">[</span><span class="s2">&quot;NextContinuationToken&quot;</span><span class="p">]</span>
+
             <span class="k">else</span><span class="p">:</span>
                 <span class="k">break</span>
 
-        <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Retrieved </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">keys_dict</span><span class="p">)</span><span class="si">}</span><span class="s1"> keys&#39;</span><span class="p">)</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Retrieved </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">keys_dict</span><span class="p">)</span><span class="si">}</span><span class="s2"> keys&quot;</span><span class="p">)</span>
+
         <span class="k">return</span> <span class="n">keys_dict</span></div>
 
 <div class="viewcode-block" id="S3.key_exists"><a class="viewcode-back" href="../../../aws.html#parsons.S3.key_exists">[docs]</a>    <span class="k">def</span> <span class="nf">key_exists</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">bucket</span><span class="p">,</span> <span class="n">key</span><span class="p">):</span>
@@ -337,10 +376,10 @@
         <span class="n">key_count</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">list_keys</span><span class="p">(</span><span class="n">bucket</span><span class="p">,</span> <span class="n">prefix</span><span class="o">=</span><span class="n">key</span><span class="p">))</span>
 
         <span class="k">if</span> <span class="n">key_count</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
-            <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Found </span><span class="si">{</span><span class="n">key</span><span class="si">}</span><span class="s1"> in </span><span class="si">{</span><span class="n">bucket</span><span class="si">}</span><span class="s1">.&#39;</span><span class="p">)</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Found </span><span class="si">{</span><span class="n">key</span><span class="si">}</span><span class="s2"> in </span><span class="si">{</span><span class="n">bucket</span><span class="si">}</span><span class="s2">.&quot;</span><span class="p">)</span>
             <span class="k">return</span> <span class="kc">True</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Did not find </span><span class="si">{</span><span class="n">key</span><span class="si">}</span><span class="s1"> in </span><span class="si">{</span><span class="n">bucket</span><span class="si">}</span><span class="s1">.&#39;</span><span class="p">)</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Did not find </span><span class="si">{</span><span class="n">key</span><span class="si">}</span><span class="s2"> in </span><span class="si">{</span><span class="n">bucket</span><span class="si">}</span><span class="s2">.&quot;</span><span class="p">)</span>
             <span class="k">return</span> <span class="kc">False</span></div>
 
 <div class="viewcode-block" id="S3.create_bucket"><a class="viewcode-back" href="../../../aws.html#parsons.S3.create_bucket">[docs]</a>    <span class="k">def</span> <span class="nf">create_bucket</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">bucket</span><span class="p">):</span>
@@ -371,7 +410,9 @@
 
         <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">create_bucket</span><span class="p">(</span><span class="n">Bucket</span><span class="o">=</span><span class="n">bucket</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="S3.put_file"><a class="viewcode-back" href="../../../aws.html#parsons.S3.put_file">[docs]</a>    <span class="k">def</span> <span class="nf">put_file</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">bucket</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="n">local_path</span><span class="p">,</span> <span class="n">acl</span><span class="o">=</span><span class="s1">&#39;bucket-owner-full-control&#39;</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<div class="viewcode-block" id="S3.put_file"><a class="viewcode-back" href="../../../aws.html#parsons.S3.put_file">[docs]</a>    <span class="k">def</span> <span class="nf">put_file</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">bucket</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="n">local_path</span><span class="p">,</span> <span class="n">acl</span><span class="o">=</span><span class="s2">&quot;bucket-owner-full-control&quot;</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span>
+    <span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Uploads an object to an S3 bucket</span>
 
@@ -390,7 +431,9 @@
 <span class="sd">                info.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
-        <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">upload_file</span><span class="p">(</span><span class="n">local_path</span><span class="p">,</span> <span class="n">bucket</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="n">ExtraArgs</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;ACL&#39;</span><span class="p">:</span> <span class="n">acl</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">})</span></div>
+        <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">upload_file</span><span class="p">(</span>
+            <span class="n">local_path</span><span class="p">,</span> <span class="n">bucket</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="n">ExtraArgs</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;ACL&quot;</span><span class="p">:</span> <span class="n">acl</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">}</span>
+        <span class="p">)</span></div>
 
 <div class="viewcode-block" id="S3.remove_file"><a class="viewcode-back" href="../../../aws.html#parsons.S3.remove_file">[docs]</a>    <span class="k">def</span> <span class="nf">remove_file</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">bucket</span><span class="p">,</span> <span class="n">key</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
@@ -453,15 +496,26 @@
 <span class="sd">                A link to download the object</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">generate_presigned_url</span><span class="p">(</span><span class="n">ClientMethod</span><span class="o">=</span><span class="s1">&#39;get_object&#39;</span><span class="p">,</span>
-                                                  <span class="n">Params</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;Bucket&#39;</span><span class="p">:</span> <span class="n">bucket</span><span class="p">,</span>
-                                                          <span class="s1">&#39;Key&#39;</span><span class="p">:</span> <span class="n">key</span><span class="p">},</span>
-                                                  <span class="n">ExpiresIn</span><span class="o">=</span><span class="n">expires_in</span><span class="p">)</span></div>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">generate_presigned_url</span><span class="p">(</span>
+            <span class="n">ClientMethod</span><span class="o">=</span><span class="s2">&quot;get_object&quot;</span><span class="p">,</span>
+            <span class="n">Params</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;Bucket&quot;</span><span class="p">:</span> <span class="n">bucket</span><span class="p">,</span> <span class="s2">&quot;Key&quot;</span><span class="p">:</span> <span class="n">key</span><span class="p">},</span>
+            <span class="n">ExpiresIn</span><span class="o">=</span><span class="n">expires_in</span><span class="p">,</span>
+        <span class="p">)</span></div>
 
-<div class="viewcode-block" id="S3.transfer_bucket"><a class="viewcode-back" href="../../../aws.html#parsons.S3.transfer_bucket">[docs]</a>    <span class="k">def</span> <span class="nf">transfer_bucket</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">origin_bucket</span><span class="p">,</span> <span class="n">origin_key</span><span class="p">,</span> <span class="n">destination_bucket</span><span class="p">,</span>
-                        <span class="n">destination_key</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">suffix</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">regex</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-                        <span class="n">date_modified_before</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">date_modified_after</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-                        <span class="n">public_read</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">remove_original</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<div class="viewcode-block" id="S3.transfer_bucket"><a class="viewcode-back" href="../../../aws.html#parsons.S3.transfer_bucket">[docs]</a>    <span class="k">def</span> <span class="nf">transfer_bucket</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">origin_bucket</span><span class="p">,</span>
+        <span class="n">origin_key</span><span class="p">,</span>
+        <span class="n">destination_bucket</span><span class="p">,</span>
+        <span class="n">destination_key</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">suffix</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">regex</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">date_modified_before</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">date_modified_after</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">public_read</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+        <span class="n">remove_original</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+        <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
+    <span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Transfer files between s3 buckets</span>
 
@@ -496,22 +550,22 @@
 <span class="sd">        &quot;&quot;&quot;</span>
 
         <span class="c1"># If prefix, get all files for the prefix</span>
-        <span class="k">if</span> <span class="n">origin_key</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s1">&#39;/&#39;</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">origin_key</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s2">&quot;/&quot;</span><span class="p">):</span>
             <span class="n">resp</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">list_keys</span><span class="p">(</span>
                 <span class="n">origin_bucket</span><span class="p">,</span>
                 <span class="n">prefix</span><span class="o">=</span><span class="n">origin_key</span><span class="p">,</span>
                 <span class="n">suffix</span><span class="o">=</span><span class="n">suffix</span><span class="p">,</span>
                 <span class="n">regex</span><span class="o">=</span><span class="n">regex</span><span class="p">,</span>
                 <span class="n">date_modified_before</span><span class="o">=</span><span class="n">date_modified_before</span><span class="p">,</span>
-                <span class="n">date_modified_after</span><span class="o">=</span><span class="n">date_modified_after</span>
+                <span class="n">date_modified_after</span><span class="o">=</span><span class="n">date_modified_after</span><span class="p">,</span>
             <span class="p">)</span>
-            <span class="n">key_list</span> <span class="o">=</span> <span class="p">[</span><span class="n">value</span><span class="p">[</span><span class="s1">&#39;Key&#39;</span><span class="p">]</span> <span class="k">for</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">resp</span><span class="o">.</span><span class="n">values</span><span class="p">()]</span>
+            <span class="n">key_list</span> <span class="o">=</span> <span class="p">[</span><span class="n">value</span><span class="p">[</span><span class="s2">&quot;Key&quot;</span><span class="p">]</span> <span class="k">for</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">resp</span><span class="o">.</span><span class="n">values</span><span class="p">()]</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="n">key_list</span> <span class="o">=</span> <span class="p">[</span><span class="n">origin_key</span><span class="p">]</span>
 
         <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">key_list</span><span class="p">:</span>
             <span class="c1"># If destination_key is prefix, replace</span>
-            <span class="k">if</span> <span class="n">destination_key</span> <span class="ow">and</span> <span class="n">destination_key</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s1">&#39;/&#39;</span><span class="p">):</span>
+            <span class="k">if</span> <span class="n">destination_key</span> <span class="ow">and</span> <span class="n">destination_key</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s2">&quot;/&quot;</span><span class="p">):</span>
                 <span class="n">dest_key</span> <span class="o">=</span> <span class="n">key</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="n">origin_key</span><span class="p">,</span> <span class="n">destination_key</span><span class="p">)</span>
 
             <span class="c1"># If single destination, use destination key</span>
@@ -522,19 +576,21 @@
             <span class="k">else</span><span class="p">:</span>
                 <span class="n">dest_key</span> <span class="o">=</span> <span class="n">key</span>
 
-            <span class="n">copy_source</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;Bucket&#39;</span><span class="p">:</span> <span class="n">origin_bucket</span><span class="p">,</span> <span class="s1">&#39;Key&#39;</span><span class="p">:</span> <span class="n">key</span><span class="p">}</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="n">copy_source</span><span class="p">,</span> <span class="n">destination_bucket</span><span class="p">,</span> <span class="n">dest_key</span><span class="p">,</span> <span class="n">ExtraArgs</span><span class="o">=</span><span class="n">kwargs</span><span class="p">)</span>
+            <span class="n">copy_source</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;Bucket&quot;</span><span class="p">:</span> <span class="n">origin_bucket</span><span class="p">,</span> <span class="s2">&quot;Key&quot;</span><span class="p">:</span> <span class="n">key</span><span class="p">}</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span>
+                <span class="n">copy_source</span><span class="p">,</span> <span class="n">destination_bucket</span><span class="p">,</span> <span class="n">dest_key</span><span class="p">,</span> <span class="n">ExtraArgs</span><span class="o">=</span><span class="n">kwargs</span>
+            <span class="p">)</span>
             <span class="k">if</span> <span class="n">remove_original</span><span class="p">:</span>
                 <span class="k">try</span><span class="p">:</span>
                     <span class="bp">self</span><span class="o">.</span><span class="n">remove_file</span><span class="p">(</span><span class="n">origin_bucket</span><span class="p">,</span> <span class="n">origin_key</span><span class="p">)</span>
                 <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
-                    <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s1">&#39;Failed to delete original key: &#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">))</span>
+                    <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s2">&quot;Failed to delete original key: &quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">))</span>
 
             <span class="k">if</span> <span class="n">public_read</span><span class="p">:</span>
                 <span class="n">object_acl</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">s3</span><span class="o">.</span><span class="n">ObjectAcl</span><span class="p">(</span><span class="n">destination_bucket</span><span class="p">,</span> <span class="n">destination_key</span><span class="p">)</span>
-                <span class="n">object_acl</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="n">ACL</span><span class="o">=</span><span class="s1">&#39;public-read&#39;</span><span class="p">)</span>
+                <span class="n">object_acl</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="n">ACL</span><span class="o">=</span><span class="s2">&quot;public-read&quot;</span><span class="p">)</span>
 
-        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Finished syncing </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">key_list</span><span class="p">)</span><span class="si">}</span><span class="s1"> keys&#39;</span><span class="p">)</span></div></div>
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Finished syncing </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">key_list</span><span class="p">)</span><span class="si">}</span><span class="s2"> keys&quot;</span><span class="p">)</span></div></div>
 </pre></div>
 
            </div>

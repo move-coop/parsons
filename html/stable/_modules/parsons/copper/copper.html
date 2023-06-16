@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>parsons.copper.copper &mdash; Parsons 0.5 documentation</title>
+  <title>parsons.copper.copper &mdash; Parsons  documentation</title>
       <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
   <!--[if lt IE 9]>
@@ -164,8 +164,8 @@
 
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">user_email</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">api_key</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
 
-        <span class="bp">self</span><span class="o">.</span><span class="n">api_key</span> <span class="o">=</span> <span class="n">check_env</span><span class="o">.</span><span class="n">check</span><span class="p">(</span><span class="s1">&#39;COPPER_API_KEY&#39;</span><span class="p">,</span> <span class="n">api_key</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">user_email</span> <span class="o">=</span> <span class="n">check_env</span><span class="o">.</span><span class="n">check</span><span class="p">(</span><span class="s1">&#39;COPPER_USER_EMAIL&#39;</span><span class="p">,</span> <span class="n">user_email</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">api_key</span> <span class="o">=</span> <span class="n">check_env</span><span class="o">.</span><span class="n">check</span><span class="p">(</span><span class="s2">&quot;COPPER_API_KEY&quot;</span><span class="p">,</span> <span class="n">api_key</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">user_email</span> <span class="o">=</span> <span class="n">check_env</span><span class="o">.</span><span class="n">check</span><span class="p">(</span><span class="s2">&quot;COPPER_USER_EMAIL&quot;</span><span class="p">,</span> <span class="n">user_email</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">uri</span> <span class="o">=</span> <span class="n">COPPER_URI</span>
 
     <span class="k">def</span> <span class="nf">base_request</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">endpoint</span><span class="p">,</span> <span class="n">req_type</span><span class="p">,</span> <span class="n">page</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">page_size</span><span class="o">=</span><span class="mi">200</span><span class="p">,</span> <span class="n">filters</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
@@ -175,10 +175,10 @@
 
         <span class="c1"># Authentication must be done through headers, requests HTTPBasicAuth doesn&#39;t work</span>
         <span class="n">headers</span> <span class="o">=</span> <span class="p">{</span>
-            <span class="s1">&#39;X-PW-AccessToken&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">api_key</span><span class="p">,</span>
-            <span class="s1">&#39;X-PW-Application&#39;</span><span class="p">:</span> <span class="s2">&quot;developer_api&quot;</span><span class="p">,</span>
-            <span class="s1">&#39;X-PW-UserEmail&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">user_email</span><span class="p">,</span>
-            <span class="s1">&#39;Content-Type&#39;</span><span class="p">:</span> <span class="s2">&quot;application/json&quot;</span>
+            <span class="s2">&quot;X-PW-AccessToken&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">api_key</span><span class="p">,</span>
+            <span class="s2">&quot;X-PW-Application&quot;</span><span class="p">:</span> <span class="s2">&quot;developer_api&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;X-PW-UserEmail&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">user_email</span><span class="p">,</span>
+            <span class="s2">&quot;Content-Type&quot;</span><span class="p">:</span> <span class="s2">&quot;application/json&quot;</span><span class="p">,</span>
         <span class="p">}</span>
 
         <span class="n">payload</span> <span class="o">=</span> <span class="p">{}</span>
@@ -187,7 +187,7 @@
                 <span class="n">payload</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">filters</span><span class="p">)</span>
 
         <span class="c1"># GET request with non-None data arg is malformed</span>
-        <span class="k">if</span> <span class="n">req_type</span> <span class="o">==</span> <span class="s1">&#39;GET&#39;</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">req_type</span> <span class="o">==</span> <span class="s2">&quot;GET&quot;</span><span class="p">:</span>
             <span class="k">return</span> <span class="n">request</span><span class="p">(</span><span class="n">req_type</span><span class="p">,</span> <span class="n">url</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">payload</span><span class="p">),</span> <span class="n">headers</span><span class="o">=</span><span class="n">headers</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="n">payload</span><span class="p">[</span><span class="s2">&quot;page_number&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">page</span>
@@ -205,11 +205,11 @@
 
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">filters</span><span class="p">,</span> <span class="nb">dict</span><span class="p">):</span>
             <span class="c1"># Assume user wants just that page if page_number specified in filters</span>
-            <span class="k">if</span> <span class="s1">&#39;page_number&#39;</span> <span class="ow">in</span> <span class="n">filters</span><span class="p">:</span>
-                <span class="n">page</span> <span class="o">=</span> <span class="n">filters</span><span class="p">[</span><span class="s1">&#39;page_number&#39;</span><span class="p">]</span>
+            <span class="k">if</span> <span class="s2">&quot;page_number&quot;</span> <span class="ow">in</span> <span class="n">filters</span><span class="p">:</span>
+                <span class="n">page</span> <span class="o">=</span> <span class="n">filters</span><span class="p">[</span><span class="s2">&quot;page_number&quot;</span><span class="p">]</span>
                 <span class="c1"># Ensure exactly one loop</span>
                 <span class="n">total_pages</span> <span class="o">=</span> <span class="n">page</span>
-                <span class="n">rows</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="nb">str</span><span class="p">(</span><span class="n">page_size</span><span class="p">)</span><span class="si">}</span><span class="s1"> or less&#39;</span>
+                <span class="n">rows</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="nb">str</span><span class="p">(</span><span class="n">page_size</span><span class="p">)</span><span class="si">}</span><span class="s2"> or less&quot;</span>
                 <span class="n">only_page</span> <span class="o">=</span> <span class="kc">True</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="n">filters</span> <span class="o">=</span> <span class="p">{}</span>
@@ -217,19 +217,15 @@
         <span class="k">while</span> <span class="n">page</span> <span class="o">&lt;=</span> <span class="n">total_pages</span><span class="p">:</span>
 
             <span class="n">r</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">base_request</span><span class="p">(</span>
-                <span class="n">endpoint</span><span class="p">,</span>
-                <span class="n">req_type</span><span class="p">,</span>
-                <span class="n">page_size</span><span class="o">=</span><span class="n">page_size</span><span class="p">,</span>
-                <span class="n">page</span><span class="o">=</span><span class="n">page</span><span class="p">,</span>
-                <span class="n">filters</span><span class="o">=</span><span class="n">filters</span>
+                <span class="n">endpoint</span><span class="p">,</span> <span class="n">req_type</span><span class="p">,</span> <span class="n">page_size</span><span class="o">=</span><span class="n">page_size</span><span class="p">,</span> <span class="n">page</span><span class="o">=</span><span class="n">page</span><span class="p">,</span> <span class="n">filters</span><span class="o">=</span><span class="n">filters</span>
             <span class="p">)</span>
 
             <span class="k">if</span> <span class="n">page</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
-                <span class="k">if</span> <span class="s1">&#39;X-Pw-Total&#39;</span> <span class="ow">in</span> <span class="n">r</span><span class="o">.</span><span class="n">headers</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">only_page</span><span class="p">:</span>
-                    <span class="n">rows</span> <span class="o">=</span> <span class="n">r</span><span class="o">.</span><span class="n">headers</span><span class="p">[</span><span class="s1">&#39;X-Pw-Total&#39;</span><span class="p">]</span>
-                    <span class="n">total_pages</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">math</span><span class="o">.</span><span class="n">ceil</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">rows</span><span class="p">)</span><span class="o">/</span><span class="nb">float</span><span class="p">(</span><span class="n">page_size</span><span class="p">)))</span>
+                <span class="k">if</span> <span class="s2">&quot;X-Pw-Total&quot;</span> <span class="ow">in</span> <span class="n">r</span><span class="o">.</span><span class="n">headers</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">only_page</span><span class="p">:</span>
+                    <span class="n">rows</span> <span class="o">=</span> <span class="n">r</span><span class="o">.</span><span class="n">headers</span><span class="p">[</span><span class="s2">&quot;X-Pw-Total&quot;</span><span class="p">]</span>
+                    <span class="n">total_pages</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">math</span><span class="o">.</span><span class="n">ceil</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">rows</span><span class="p">)</span> <span class="o">/</span> <span class="nb">float</span><span class="p">(</span><span class="n">page_size</span><span class="p">)))</span>
                 <span class="k">else</span><span class="p">:</span>
-                    <span class="n">rows</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="nb">str</span><span class="p">(</span><span class="n">page_size</span><span class="p">)</span><span class="si">}</span><span class="s1"> or less&#39;</span>
+                    <span class="n">rows</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="nb">str</span><span class="p">(</span><span class="n">page_size</span><span class="p">)</span><span class="si">}</span><span class="s2"> or less&quot;</span>
                     <span class="n">total_pages</span> <span class="o">=</span> <span class="mi">1</span>
             <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Retrieving page </span><span class="si">{</span><span class="n">page</span><span class="si">}</span><span class="s2"> of </span><span class="si">{</span><span class="n">total_pages</span><span class="si">}</span><span class="s2">, total rows: </span><span class="si">{</span><span class="n">rows</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
             <span class="n">page</span> <span class="o">+=</span> <span class="mi">1</span>
@@ -268,7 +264,7 @@
 <span class="sd">                * people_custom_fields</span>
 <span class="sd">                * people_socials</span>
 <span class="sd">                * people_websites</span>
-<span class="sd">        &quot;&quot;&quot;</span> <span class="c1"># noqa: E501,E261</span>
+<span class="sd">        &quot;&quot;&quot;</span>  <span class="c1"># noqa: E501,E261</span>
 
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_standard_object</span><span class="p">(</span><span class="s2">&quot;people&quot;</span><span class="p">,</span> <span class="n">filters</span><span class="o">=</span><span class="n">filters</span><span class="p">,</span> <span class="n">tidy</span><span class="o">=</span><span class="n">tidy</span><span class="p">)</span></div>
 
@@ -293,7 +289,7 @@
 <span class="sd">                * companies_custom_fields</span>
 <span class="sd">                * companies_socials</span>
 <span class="sd">                * companies_websites</span>
-<span class="sd">        &quot;&quot;&quot;</span> <span class="c1"># noqa: E501,E261</span>
+<span class="sd">        &quot;&quot;&quot;</span>  <span class="c1"># noqa: E501,E261</span>
 
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_standard_object</span><span class="p">(</span><span class="s2">&quot;companies&quot;</span><span class="p">,</span> <span class="n">filters</span><span class="o">=</span><span class="n">filters</span><span class="p">,</span> <span class="n">tidy</span><span class="o">=</span><span class="n">tidy</span><span class="p">)</span></div>
 
@@ -313,7 +309,7 @@
 <span class="sd">        `Returns:`</span>
 <span class="sd">            List of dicts of Parsons Tables:</span>
 <span class="sd">                * activities</span>
-<span class="sd">        &quot;&quot;&quot;</span> <span class="c1"># noqa: E501,E261</span>
+<span class="sd">        &quot;&quot;&quot;</span>  <span class="c1"># noqa: E501,E261</span>
 
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_standard_object</span><span class="p">(</span><span class="s2">&quot;activities&quot;</span><span class="p">,</span> <span class="n">filters</span><span class="o">=</span><span class="n">filters</span><span class="p">,</span> <span class="n">tidy</span><span class="o">=</span><span class="n">tidy</span><span class="p">)</span></div>
 
@@ -334,7 +330,7 @@
 <span class="sd">            List of dicts of Parsons Tables:</span>
 <span class="sd">                * opportunities</span>
 <span class="sd">                * opportunities_custom_fields</span>
-<span class="sd">        &quot;&quot;&quot;</span> <span class="c1"># noqa: E501,E261</span>
+<span class="sd">        &quot;&quot;&quot;</span>  <span class="c1"># noqa: E501,E261</span>
 
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_standard_object</span><span class="p">(</span><span class="s2">&quot;opportunities&quot;</span><span class="p">,</span> <span class="n">filters</span><span class="o">=</span><span class="n">filters</span><span class="p">,</span> <span class="n">tidy</span><span class="o">=</span><span class="n">tidy</span><span class="p">)</span></div>
 
@@ -342,7 +338,9 @@
         <span class="c1"># Retrieve and process a standard endpoint object (e.g. people, companies, etc.)</span>
 
         <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Retrieving </span><span class="si">{</span><span class="n">object_name</span><span class="si">}</span><span class="s2"> records.&quot;</span><span class="p">)</span>
-        <span class="n">blob</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">paginate_request</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;/</span><span class="si">{</span><span class="n">object_name</span><span class="si">}</span><span class="s2">/search&quot;</span><span class="p">,</span> <span class="n">req_type</span><span class="o">=</span><span class="s1">&#39;POST&#39;</span><span class="p">,</span> <span class="n">filters</span><span class="o">=</span><span class="n">filters</span><span class="p">)</span>
+        <span class="n">blob</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">paginate_request</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s2">&quot;/</span><span class="si">{</span><span class="n">object_name</span><span class="si">}</span><span class="s2">/search&quot;</span><span class="p">,</span> <span class="n">req_type</span><span class="o">=</span><span class="s2">&quot;POST&quot;</span><span class="p">,</span> <span class="n">filters</span><span class="o">=</span><span class="n">filters</span>
+        <span class="p">)</span>
 
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">process_json</span><span class="p">(</span><span class="n">blob</span><span class="p">,</span> <span class="n">object_name</span><span class="p">,</span> <span class="n">tidy</span><span class="o">=</span><span class="n">tidy</span><span class="p">)</span>
 
@@ -360,10 +358,10 @@
 <span class="sd">                * custom_fields</span>
 <span class="sd">                * custom_fields_available</span>
 <span class="sd">                * custom_fields_options</span>
-<span class="sd">        &quot;&quot;&quot;</span> <span class="c1"># noqa: E501,E261</span>
+<span class="sd">        &quot;&quot;&quot;</span>  <span class="c1"># noqa: E501,E261</span>
 
         <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Retrieving custom fields.&quot;</span><span class="p">)</span>
-        <span class="n">blob</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">paginate_request</span><span class="p">(</span><span class="s1">&#39;/custom_field_definitions/&#39;</span><span class="p">,</span> <span class="n">req_type</span><span class="o">=</span><span class="s1">&#39;GET&#39;</span><span class="p">)</span>
+        <span class="n">blob</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">paginate_request</span><span class="p">(</span><span class="s2">&quot;/custom_field_definitions/&quot;</span><span class="p">,</span> <span class="n">req_type</span><span class="o">=</span><span class="s2">&quot;GET&quot;</span><span class="p">)</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">process_custom_fields</span><span class="p">(</span><span class="n">blob</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="Copper.get_activity_types"><a class="viewcode-back" href="../../../copper.html#parsons.Copper.get_activity_types">[docs]</a>    <span class="k">def</span> <span class="nf">get_activity_types</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
@@ -378,17 +376,17 @@
 <span class="sd">        `Returns:`</span>
 <span class="sd">            List of dicts of Parsons Tables:</span>
 <span class="sd">                * activitiy_types</span>
-<span class="sd">        &quot;&quot;&quot;</span> <span class="c1"># noqa: E501,E261</span>
+<span class="sd">        &quot;&quot;&quot;</span>  <span class="c1"># noqa: E501,E261</span>
 
         <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Retrieving activity types.&quot;</span><span class="p">)</span>
 
-        <span class="n">response</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">paginate_request</span><span class="p">(</span><span class="s1">&#39;/activity_types/&#39;</span><span class="p">,</span> <span class="n">req_type</span><span class="o">=</span><span class="s1">&#39;GET&#39;</span><span class="p">)</span>
+        <span class="n">response</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">paginate_request</span><span class="p">(</span><span class="s2">&quot;/activity_types/&quot;</span><span class="p">,</span> <span class="n">req_type</span><span class="o">=</span><span class="s2">&quot;GET&quot;</span><span class="p">)</span>
         <span class="n">orig_table</span> <span class="o">=</span> <span class="n">Table</span><span class="p">(</span><span class="n">response</span><span class="p">)</span>
-        <span class="n">at_user</span> <span class="o">=</span> <span class="n">orig_table</span><span class="o">.</span><span class="n">long_table</span><span class="p">([],</span> <span class="s1">&#39;user&#39;</span><span class="p">,</span> <span class="n">prepend</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
-        <span class="n">at_sys</span> <span class="o">=</span> <span class="n">orig_table</span><span class="o">.</span><span class="n">long_table</span><span class="p">([],</span> <span class="s1">&#39;system&#39;</span><span class="p">,</span> <span class="n">prepend</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+        <span class="n">at_user</span> <span class="o">=</span> <span class="n">orig_table</span><span class="o">.</span><span class="n">long_table</span><span class="p">([],</span> <span class="s2">&quot;user&quot;</span><span class="p">,</span> <span class="n">prepend</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+        <span class="n">at_sys</span> <span class="o">=</span> <span class="n">orig_table</span><span class="o">.</span><span class="n">long_table</span><span class="p">([],</span> <span class="s2">&quot;system&quot;</span><span class="p">,</span> <span class="n">prepend</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
         <span class="n">Table</span><span class="o">.</span><span class="n">concat</span><span class="p">(</span><span class="n">at_sys</span><span class="p">,</span> <span class="n">at_user</span><span class="p">)</span>
 
-        <span class="k">return</span> <span class="p">[{</span><span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="s1">&#39;activity_types&#39;</span><span class="p">,</span> <span class="s1">&#39;tbl&#39;</span><span class="p">:</span> <span class="n">at_sys</span><span class="p">}]</span></div>
+        <span class="k">return</span> <span class="p">[{</span><span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;activity_types&quot;</span><span class="p">,</span> <span class="s2">&quot;tbl&quot;</span><span class="p">:</span> <span class="n">at_sys</span><span class="p">}]</span></div>
 
 <div class="viewcode-block" id="Copper.get_contact_types"><a class="viewcode-back" href="../../../copper.html#parsons.Copper.get_contact_types">[docs]</a>    <span class="k">def</span> <span class="nf">get_contact_types</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
@@ -402,9 +400,9 @@
 <span class="sd">        `Returns:`</span>
 <span class="sd">            Parsons Table</span>
 <span class="sd">                See :ref:`parsons-table` for output options.</span>
-<span class="sd">        &quot;&quot;&quot;</span> <span class="c1"># noqa: E501,E261</span>
+<span class="sd">        &quot;&quot;&quot;</span>  <span class="c1"># noqa: E501,E261</span>
 
-        <span class="n">response</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">paginate_request</span><span class="p">(</span><span class="s1">&#39;/contact_types/&#39;</span><span class="p">,</span> <span class="n">req_type</span><span class="o">=</span><span class="s1">&#39;GET&#39;</span><span class="p">)</span>
+        <span class="n">response</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">paginate_request</span><span class="p">(</span><span class="s2">&quot;/contact_types/&quot;</span><span class="p">,</span> <span class="n">req_type</span><span class="o">=</span><span class="s2">&quot;GET&quot;</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">Table</span><span class="p">(</span><span class="n">response</span><span class="p">)</span></div>
 
     <span class="k">def</span> <span class="nf">process_json</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">json_blob</span><span class="p">,</span> <span class="n">obj_type</span><span class="p">,</span> <span class="n">tidy</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
@@ -416,8 +414,8 @@
         <span class="c1"># Original table &amp; columns</span>
         <span class="n">obj_table</span> <span class="o">=</span> <span class="n">Table</span><span class="p">(</span><span class="n">json_blob</span><span class="p">)</span>
         <span class="n">cols</span> <span class="o">=</span> <span class="n">obj_table</span><span class="o">.</span><span class="n">get_columns_type_stats</span><span class="p">()</span>
-        <span class="n">list_cols</span> <span class="o">=</span> <span class="p">[</span><span class="n">x</span><span class="p">[</span><span class="s1">&#39;name&#39;</span><span class="p">]</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">cols</span> <span class="k">if</span> <span class="s1">&#39;list&#39;</span> <span class="ow">in</span> <span class="n">x</span><span class="p">[</span><span class="s1">&#39;type&#39;</span><span class="p">]]</span>
-        <span class="n">dict_cols</span> <span class="o">=</span> <span class="p">[</span><span class="n">x</span><span class="p">[</span><span class="s1">&#39;name&#39;</span><span class="p">]</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">cols</span> <span class="k">if</span> <span class="s1">&#39;dict&#39;</span> <span class="ow">in</span> <span class="n">x</span><span class="p">[</span><span class="s1">&#39;type&#39;</span><span class="p">]]</span>
+        <span class="n">list_cols</span> <span class="o">=</span> <span class="p">[</span><span class="n">x</span><span class="p">[</span><span class="s2">&quot;name&quot;</span><span class="p">]</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">cols</span> <span class="k">if</span> <span class="s2">&quot;list&quot;</span> <span class="ow">in</span> <span class="n">x</span><span class="p">[</span><span class="s2">&quot;type&quot;</span><span class="p">]]</span>
+        <span class="n">dict_cols</span> <span class="o">=</span> <span class="p">[</span><span class="n">x</span><span class="p">[</span><span class="s2">&quot;name&quot;</span><span class="p">]</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">cols</span> <span class="k">if</span> <span class="s2">&quot;dict&quot;</span> <span class="ow">in</span> <span class="n">x</span><span class="p">[</span><span class="s2">&quot;type&quot;</span><span class="p">]]</span>
 
         <span class="c1"># Unpack all list columns</span>
         <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">list_cols</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
@@ -429,46 +427,49 @@
                 <span class="p">)</span>
                 <span class="c1"># Add separate long table for each column with nested data</span>
                 <span class="k">if</span> <span class="n">list_rows</span><span class="o">.</span><span class="n">num_rows</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
-                    <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="n">l</span><span class="p">,</span> <span class="s1">&#39;is a nested column&#39;</span><span class="p">)</span>
-                    <span class="k">if</span> <span class="nb">len</span><span class="p">([</span><span class="n">x</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">cols</span> <span class="k">if</span> <span class="n">x</span><span class="p">[</span><span class="s1">&#39;name&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="n">l</span><span class="p">])</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
-                        <span class="n">table_list</span><span class="o">.</span><span class="n">append</span><span class="p">({</span>
-                            <span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">obj_type</span><span class="si">}</span><span class="s1">_</span><span class="si">{</span><span class="n">l</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">,</span>
-                            <span class="s1">&#39;tbl&#39;</span><span class="p">:</span> <span class="n">obj_table</span><span class="o">.</span><span class="n">long_table</span><span class="p">([</span><span class="s1">&#39;id&#39;</span><span class="p">],</span> <span class="n">l</span><span class="p">)</span>
-                        <span class="p">})</span>
+                    <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="n">l</span><span class="p">,</span> <span class="s2">&quot;is a nested column&quot;</span><span class="p">)</span>
+                    <span class="k">if</span> <span class="nb">len</span><span class="p">([</span><span class="n">x</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">cols</span> <span class="k">if</span> <span class="n">x</span><span class="p">[</span><span class="s2">&quot;name&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="n">l</span><span class="p">])</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+                        <span class="n">table_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+                            <span class="p">{</span>
+                                <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">obj_type</span><span class="si">}</span><span class="s2">_</span><span class="si">{</span><span class="n">l</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
+                                <span class="s2">&quot;tbl&quot;</span><span class="p">:</span> <span class="n">obj_table</span><span class="o">.</span><span class="n">long_table</span><span class="p">([</span><span class="s2">&quot;id&quot;</span><span class="p">],</span> <span class="n">l</span><span class="p">),</span>
+                            <span class="p">}</span>
+                        <span class="p">)</span>
                     <span class="k">else</span><span class="p">:</span>
                         <span class="c1"># Ignore if column doesn&#39;t exist (or has multiples)</span>
                         <span class="k">continue</span>
                 <span class="k">else</span><span class="p">:</span>
                     <span class="k">if</span> <span class="n">tidy</span> <span class="ow">is</span> <span class="kc">False</span><span class="p">:</span>
-                        <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="n">l</span><span class="p">,</span> <span class="s1">&#39;is a normal list column&#39;</span><span class="p">)</span>
+                        <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="n">l</span><span class="p">,</span> <span class="s2">&quot;is a normal list column&quot;</span><span class="p">)</span>
                         <span class="n">obj_table</span><span class="o">.</span><span class="n">unpack_list</span><span class="p">(</span><span class="n">l</span><span class="p">)</span>
 
         <span class="c1"># Unpack all dict columns</span>
         <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">dict_cols</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="ow">and</span> <span class="n">tidy</span> <span class="ow">is</span> <span class="kc">False</span><span class="p">:</span>
             <span class="k">for</span> <span class="n">d</span> <span class="ow">in</span> <span class="n">dict_cols</span><span class="p">:</span>
-                <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="n">d</span><span class="p">,</span> <span class="s1">&#39;is a dict column&#39;</span><span class="p">)</span>
+                <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="n">d</span><span class="p">,</span> <span class="s2">&quot;is a dict column&quot;</span><span class="p">)</span>
                 <span class="n">obj_table</span><span class="o">.</span><span class="n">unpack_dict</span><span class="p">(</span><span class="n">d</span><span class="p">)</span>
 
         <span class="k">if</span> <span class="n">tidy</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">False</span><span class="p">:</span>
             <span class="n">packed_cols</span> <span class="o">=</span> <span class="n">list_cols</span> <span class="o">+</span> <span class="n">dict_cols</span>
             <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">packed_cols</span><span class="p">:</span>
                 <span class="k">if</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">obj_table</span><span class="o">.</span><span class="n">columns</span><span class="p">:</span>
-                    <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="n">p</span><span class="p">,</span> <span class="s1">&#39;needs to be unpacked into rows&#39;</span><span class="p">)</span>
+                    <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="n">p</span><span class="p">,</span> <span class="s2">&quot;needs to be unpacked into rows&quot;</span><span class="p">)</span>
 
                     <span class="c1"># Determine whether or not to expand based on tidy</span>
-                    <span class="n">unpacked_tidy</span> <span class="o">=</span> <span class="n">obj_table</span><span class="o">.</span><span class="n">unpack_nested_columns_as_rows</span><span class="p">(</span><span class="n">p</span><span class="p">,</span> <span class="n">expand_original</span><span class="o">=</span><span class="n">tidy</span><span class="p">)</span>
+                    <span class="n">unpacked_tidy</span> <span class="o">=</span> <span class="n">obj_table</span><span class="o">.</span><span class="n">unpack_nested_columns_as_rows</span><span class="p">(</span>
+                        <span class="n">p</span><span class="p">,</span> <span class="n">expand_original</span><span class="o">=</span><span class="n">tidy</span>
+                    <span class="p">)</span>
                     <span class="c1"># Check if column was removed as sign it was unpacked into separate table</span>
                     <span class="k">if</span> <span class="n">p</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">obj_table</span><span class="o">.</span><span class="n">columns</span><span class="p">:</span>
-                        <span class="n">table_list</span><span class="o">.</span><span class="n">append</span><span class="p">({</span>
-                            <span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">obj_type</span><span class="si">}</span><span class="s1">_</span><span class="si">{</span><span class="n">p</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">,</span>
-                            <span class="s1">&#39;tbl&#39;</span><span class="p">:</span> <span class="n">unpacked_tidy</span>
-                        <span class="p">})</span>
+                        <span class="n">table_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+                            <span class="p">{</span><span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">obj_type</span><span class="si">}</span><span class="s2">_</span><span class="si">{</span><span class="n">p</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="s2">&quot;tbl&quot;</span><span class="p">:</span> <span class="n">unpacked_tidy</span><span class="p">}</span>
+                        <span class="p">)</span>
                     <span class="k">else</span><span class="p">:</span>
                         <span class="n">obj_table</span> <span class="o">=</span> <span class="n">unpacked_tidy</span>
 
         <span class="c1"># Original table will have had all nested columns removed</span>
         <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">obj_table</span><span class="o">.</span><span class="n">columns</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
-            <span class="n">table_list</span><span class="o">.</span><span class="n">append</span><span class="p">({</span><span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="n">obj_type</span><span class="p">,</span> <span class="s1">&#39;tbl&#39;</span><span class="p">:</span> <span class="n">obj_table</span><span class="p">})</span>
+            <span class="n">table_list</span><span class="o">.</span><span class="n">append</span><span class="p">({</span><span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="n">obj_type</span><span class="p">,</span> <span class="s2">&quot;tbl&quot;</span><span class="p">:</span> <span class="n">obj_table</span><span class="p">})</span>
 
         <span class="k">return</span> <span class="n">table_list</span>
 
@@ -479,14 +480,16 @@
         <span class="n">custom_fields</span> <span class="o">=</span> <span class="n">Table</span><span class="p">(</span><span class="n">json_blob</span><span class="p">)</span>
 
         <span class="c1"># Available On</span>
-        <span class="n">available_on</span> <span class="o">=</span> <span class="n">custom_fields</span><span class="o">.</span><span class="n">long_table</span><span class="p">([</span><span class="s1">&#39;id&#39;</span><span class="p">],</span> <span class="s1">&#39;available_on&#39;</span><span class="p">)</span>
+        <span class="n">available_on</span> <span class="o">=</span> <span class="n">custom_fields</span><span class="o">.</span><span class="n">long_table</span><span class="p">([</span><span class="s2">&quot;id&quot;</span><span class="p">],</span> <span class="s2">&quot;available_on&quot;</span><span class="p">)</span>
 
         <span class="c1"># Options</span>
-        <span class="n">options</span> <span class="o">=</span> <span class="n">custom_fields</span><span class="o">.</span><span class="n">long_table</span><span class="p">([</span><span class="s1">&#39;id&#39;</span><span class="p">,</span> <span class="s1">&#39;name&#39;</span><span class="p">],</span> <span class="s1">&#39;options&#39;</span><span class="p">)</span>
+        <span class="n">options</span> <span class="o">=</span> <span class="n">custom_fields</span><span class="o">.</span><span class="n">long_table</span><span class="p">([</span><span class="s2">&quot;id&quot;</span><span class="p">,</span> <span class="s2">&quot;name&quot;</span><span class="p">],</span> <span class="s2">&quot;options&quot;</span><span class="p">)</span>
 
-        <span class="k">return</span> <span class="p">[{</span><span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="s1">&#39;custom_fields&#39;</span><span class="p">,</span> <span class="s1">&#39;tbl&#39;</span><span class="p">:</span> <span class="n">custom_fields</span><span class="p">},</span>
-                <span class="p">{</span><span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="s1">&#39;custom_fields_available&#39;</span><span class="p">,</span> <span class="s1">&#39;tbl&#39;</span><span class="p">:</span> <span class="n">available_on</span><span class="p">},</span>
-                <span class="p">{</span><span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="s1">&#39;custom_fields_options&#39;</span><span class="p">,</span> <span class="s1">&#39;tbl&#39;</span><span class="p">:</span> <span class="n">options</span><span class="p">}]</span></div>
+        <span class="k">return</span> <span class="p">[</span>
+            <span class="p">{</span><span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;custom_fields&quot;</span><span class="p">,</span> <span class="s2">&quot;tbl&quot;</span><span class="p">:</span> <span class="n">custom_fields</span><span class="p">},</span>
+            <span class="p">{</span><span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;custom_fields_available&quot;</span><span class="p">,</span> <span class="s2">&quot;tbl&quot;</span><span class="p">:</span> <span class="n">available_on</span><span class="p">},</span>
+            <span class="p">{</span><span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;custom_fields_options&quot;</span><span class="p">,</span> <span class="s2">&quot;tbl&quot;</span><span class="p">:</span> <span class="n">options</span><span class="p">},</span>
+        <span class="p">]</span></div>
 </pre></div>
 
            </div>

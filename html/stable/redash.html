@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Redash &mdash; Parsons 0.5 documentation</title>
+  <title>Redash &mdash; Parsons  documentation</title>
       <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
   <!--[if lt IE 9]>
@@ -189,6 +189,50 @@ provided a User API Key when instantiating the class.</p>
 <dt><cite>Returns:</cite></dt><dd><p>Redash Class</p>
 </dd>
 </dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="parsons.redash.Redash.get_data_source">
+<span class="sig-name descname"><span class="pre">get_data_source</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data_source_id</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/redash/redash.html#Redash.get_data_source"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.redash.Redash.get_data_source" title="Permalink to this definition"></a></dt>
+<dd><p>Get a data source.</p>
+<dl class="simple">
+<dt><cite>Args:</cite></dt><dd><dl class="simple">
+<dt>data_source_id: int or str</dt><dd><p>ID of data source.</p>
+</dd>
+</dl>
+</dd>
+<dt><cite>Returns</cite>:</dt><dd><p>Data source json object</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="parsons.redash.Redash.update_data_source">
+<span class="sig-name descname"><span class="pre">update_data_source</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data_source_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">type</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dbName</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">host</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">password</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">port</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">user</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/redash/redash.html#Redash.update_data_source"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.redash.Redash.update_data_source" title="Permalink to this definition"></a></dt>
+<dd><p>Update a data source.</p>
+<dl class="simple">
+<dt><cite>Args:</cite></dt><dd><dl class="simple">
+<dt>data_source_id: str or int</dt><dd><p>ID of data source.</p>
+</dd>
+<dt>name: str</dt><dd><p>Name of data source.</p>
+</dd>
+<dt>type: str</dt><dd><p>Type of data source.</p>
+</dd>
+<dt>dbname: str</dt><dd><p>Database name of data source.</p>
+</dd>
+<dt>host: str</dt><dd><p>Host of data source.</p>
+</dd>
+<dt>password: str</dt><dd><p>Password of data source.</p>
+</dd>
+<dt>port: int or str</dt><dd><p>Port of data source.</p>
+</dd>
+<dt>user: str</dt><dd><p>Username of data source.</p>
+</dd>
+</dl>
+</dd>
+<dt><cite>Returns:</cite></dt><dd><p><code class="docutils literal notranslate"><span class="pre">None</span></code></p>
+</dd>
+</dl>
+</dd></dl>
+
 <dl class="py method">
 <dt class="sig sig-object py" id="parsons.redash.Redash.get_fresh_query_results">
 <span class="sig-name descname"><span class="pre">get_fresh_query_results</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">query_id</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">params</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/redash/redash.html#Redash.get_fresh_query_results"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.redash.Redash.get_fresh_query_results" title="Permalink to this definition"></a></dt>

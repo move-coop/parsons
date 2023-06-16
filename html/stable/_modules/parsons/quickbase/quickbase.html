@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>parsons.quickbase.quickbase &mdash; Parsons 0.5 documentation</title>
+  <title>parsons.quickbase.quickbase &mdash; Parsons  documentation</title>
       <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
   <!--[if lt IE 9]>
@@ -157,13 +157,18 @@
 <span class="sd">    `Returns:`</span>
 <span class="sd">        Quickbase Class</span>
 <span class="sd">    &quot;&quot;&quot;</span>
+
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">hostname</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">user_token</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">hostname</span> <span class="o">=</span> <span class="n">check_env</span><span class="o">.</span><span class="n">check</span><span class="p">(</span><span class="s1">&#39;QUICKBASE_HOSTNAME&#39;</span><span class="p">,</span> <span class="n">hostname</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">user_token</span> <span class="o">=</span> <span class="n">check_env</span><span class="o">.</span><span class="n">check</span><span class="p">(</span><span class="s1">&#39;QUICKBASE_USER_TOKEN&#39;</span><span class="p">,</span> <span class="n">user_token</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">api_hostname</span> <span class="o">=</span> <span class="s1">&#39;https://api.quickbase.com/v1&#39;</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">client</span> <span class="o">=</span> <span class="n">APIConnector</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">api_hostname</span><span class="p">,</span>
-                                   <span class="n">headers</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;QB-Realm-Hostname&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">hostname</span><span class="p">,</span>
-                                            <span class="s1">&#39;AUTHORIZATION&#39;</span><span class="p">:</span> <span class="sa">f</span><span class="s1">&#39;QB-USER-TOKEN </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">user_token</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">})</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">hostname</span> <span class="o">=</span> <span class="n">check_env</span><span class="o">.</span><span class="n">check</span><span class="p">(</span><span class="s2">&quot;QUICKBASE_HOSTNAME&quot;</span><span class="p">,</span> <span class="n">hostname</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">user_token</span> <span class="o">=</span> <span class="n">check_env</span><span class="o">.</span><span class="n">check</span><span class="p">(</span><span class="s2">&quot;QUICKBASE_USER_TOKEN&quot;</span><span class="p">,</span> <span class="n">user_token</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">api_hostname</span> <span class="o">=</span> <span class="s2">&quot;https://api.quickbase.com/v1&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">client</span> <span class="o">=</span> <span class="n">APIConnector</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">api_hostname</span><span class="p">,</span>
+            <span class="n">headers</span><span class="o">=</span><span class="p">{</span>
+                <span class="s2">&quot;QB-Realm-Hostname&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">hostname</span><span class="p">,</span>
+                <span class="s2">&quot;AUTHORIZATION&quot;</span><span class="p">:</span> <span class="sa">f</span><span class="s2">&quot;QB-USER-TOKEN </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">user_token</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
+            <span class="p">},</span>
+        <span class="p">)</span>
 
 <div class="viewcode-block" id="Quickbase.get_app_tables"><a class="viewcode-back" href="../../../quickbase.html#parsons.Quickbase.get_app_tables">[docs]</a>    <span class="k">def</span> <span class="nf">get_app_tables</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">app_id</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
@@ -177,9 +182,11 @@
 <span class="sd">        `Returns:`</span>
 <span class="sd">            Table Class</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="n">Table</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">request</span><span class="p">(</span>
-            <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">api_hostname</span><span class="si">}</span><span class="s1">/tables?appId=</span><span class="si">{</span><span class="n">app_id</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">,</span>
-            <span class="s1">&#39;GET&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">json</span><span class="p">())</span></div>
+        <span class="k">return</span> <span class="n">Table</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">request</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">api_hostname</span><span class="si">}</span><span class="s2">/tables?appId=</span><span class="si">{</span><span class="n">app_id</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="s2">&quot;GET&quot;</span>
+            <span class="p">)</span><span class="o">.</span><span class="n">json</span><span class="p">()</span>
+        <span class="p">)</span></div>
 
 <div class="viewcode-block" id="Quickbase.query_records"><a class="viewcode-back" href="../../../quickbase.html#parsons.Quickbase.query_records">[docs]</a>    <span class="k">def</span> <span class="nf">query_records</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">table_from</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
@@ -193,25 +200,24 @@
 <span class="sd">        `Returns:`</span>
 <span class="sd">            Table Class</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">req_resp</span> <span class="o">=</span> \
-            <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">request</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">api_hostname</span><span class="si">}</span><span class="s1">/records/query&#39;</span><span class="p">,</span>
-                                 <span class="s1">&#39;POST&#39;</span><span class="p">,</span>
-                                 <span class="n">json</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;from&quot;</span><span class="p">:</span> <span class="n">table_from</span><span class="p">})</span><span class="o">.</span><span class="n">json</span><span class="p">())</span>
+        <span class="n">req_resp</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">request</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">api_hostname</span><span class="si">}</span><span class="s2">/records/query&quot;</span><span class="p">,</span> <span class="s2">&quot;POST&quot;</span><span class="p">,</span> <span class="n">json</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;from&quot;</span><span class="p">:</span> <span class="n">table_from</span><span class="p">}</span>
+        <span class="p">)</span><span class="o">.</span><span class="n">json</span><span class="p">()</span>
 
-        <span class="n">resp_tbl</span> <span class="o">=</span> <span class="n">Table</span><span class="p">(</span><span class="n">req_resp</span><span class="p">[</span><span class="s1">&#39;data&#39;</span><span class="p">])</span>
+        <span class="n">resp_tbl</span> <span class="o">=</span> <span class="n">Table</span><span class="p">(</span><span class="n">req_resp</span><span class="p">[</span><span class="s2">&quot;data&quot;</span><span class="p">])</span>
         <span class="n">cleaned_tbl</span> <span class="o">=</span> <span class="n">Table</span><span class="p">()</span>
 
         <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">resp_tbl</span><span class="p">:</span>
             <span class="n">row_dict</span> <span class="o">=</span> <span class="p">{}</span>
             <span class="k">for</span> <span class="n">column</span> <span class="ow">in</span> <span class="n">resp_tbl</span><span class="o">.</span><span class="n">columns</span><span class="p">:</span>
-                <span class="n">row_dict</span><span class="p">[</span><span class="n">column</span><span class="p">]</span> <span class="o">=</span> <span class="n">row</span><span class="p">[</span><span class="n">column</span><span class="p">][</span><span class="s1">&#39;value&#39;</span><span class="p">]</span>
+                <span class="n">row_dict</span><span class="p">[</span><span class="n">column</span><span class="p">]</span> <span class="o">=</span> <span class="n">row</span><span class="p">[</span><span class="n">column</span><span class="p">][</span><span class="s2">&quot;value&quot;</span><span class="p">]</span>
             <span class="n">cleaned_tbl</span><span class="o">.</span><span class="n">concat</span><span class="p">(</span><span class="n">Table</span><span class="p">([</span><span class="n">row_dict</span><span class="p">]))</span>
             <span class="n">cleaned_tbl</span><span class="o">.</span><span class="n">materialize</span><span class="p">()</span>
 
-        <span class="n">column_resp</span> <span class="o">=</span> <span class="n">req_resp</span><span class="p">[</span><span class="s1">&#39;fields&#39;</span><span class="p">]</span>
+        <span class="n">column_resp</span> <span class="o">=</span> <span class="n">req_resp</span><span class="p">[</span><span class="s2">&quot;fields&quot;</span><span class="p">]</span>
         <span class="n">column_map</span> <span class="o">=</span> <span class="p">{}</span>
         <span class="k">for</span> <span class="n">entry</span> <span class="ow">in</span> <span class="n">column_resp</span><span class="p">:</span>
-            <span class="n">column_map</span><span class="p">[</span><span class="nb">str</span><span class="p">(</span><span class="n">entry</span><span class="p">[</span><span class="s1">&#39;id&#39;</span><span class="p">])]</span> <span class="o">=</span> <span class="n">entry</span><span class="p">[</span><span class="s1">&#39;label&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+            <span class="n">column_map</span><span class="p">[</span><span class="nb">str</span><span class="p">(</span><span class="n">entry</span><span class="p">[</span><span class="s2">&quot;id&quot;</span><span class="p">])]</span> <span class="o">=</span> <span class="n">entry</span><span class="p">[</span><span class="s2">&quot;label&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
 
         <span class="k">for</span> <span class="n">column</span> <span class="ow">in</span> <span class="n">cleaned_tbl</span><span class="o">.</span><span class="n">columns</span><span class="p">:</span>
             <span class="n">cleaned_tbl</span><span class="o">.</span><span class="n">rename_column</span><span class="p">(</span><span class="n">column</span><span class="p">,</span> <span class="n">column_map</span><span class="p">[</span><span class="n">column</span><span class="p">])</span>

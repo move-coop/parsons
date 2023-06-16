@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>parsons.notifications.gmail &mdash; Parsons 0.5 documentation</title>
+  <title>parsons.notifications.gmail &mdash; Parsons  documentation</title>
       <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
   <!--[if lt IE 9]>
@@ -141,7 +141,7 @@
 <span class="kn">from</span> <span class="nn">oauth2client</span> <span class="kn">import</span> <span class="n">file</span><span class="p">,</span> <span class="n">client</span><span class="p">,</span> <span class="n">tools</span>
 <span class="kn">from</span> <span class="nn">parsons.notifications.sendmail</span> <span class="kn">import</span> <span class="n">SendMail</span>
 
-<span class="n">SCOPES</span> <span class="o">=</span> <span class="s1">&#39;https://www.googleapis.com/auth/gmail.send&#39;</span>
+<span class="n">SCOPES</span> <span class="o">=</span> <span class="s2">&quot;https://www.googleapis.com/auth/gmail.send&quot;</span>
 
 
 <div class="viewcode-block" id="Gmail"><a class="viewcode-back" href="../../../notifications.html#parsons.Gmail">[docs]</a><span class="k">class</span> <span class="nc">Gmail</span><span class="p">(</span><span class="n">SendMail</span><span class="p">):</span>
@@ -157,7 +157,7 @@
 <span class="sd">            &quot;me&quot; which is used to indicate the authenticated user.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">creds_path</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">token_path</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">user_id</span><span class="o">=</span><span class="s1">&#39;me&#39;</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">creds_path</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">token_path</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">user_id</span><span class="o">=</span><span class="s2">&quot;me&quot;</span><span class="p">):</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">user_id</span> <span class="o">=</span> <span class="n">user_id</span>
 
@@ -180,13 +180,13 @@
             <span class="c1"># BUG-1</span>
             <span class="c1"># self.creds = self.run_flow(flow, self.store, http=http)</span>
 
-        <span class="bp">self</span><span class="o">.</span><span class="n">service</span> <span class="o">=</span> <span class="n">build</span><span class="p">(</span><span class="s1">&#39;gmail&#39;</span><span class="p">,</span> <span class="s1">&#39;v1&#39;</span><span class="p">,</span> <span class="n">http</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">creds</span><span class="o">.</span><span class="n">authorize</span><span class="p">(</span><span class="n">Http</span><span class="p">()))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">service</span> <span class="o">=</span> <span class="n">build</span><span class="p">(</span><span class="s2">&quot;gmail&quot;</span><span class="p">,</span> <span class="s2">&quot;v1&quot;</span><span class="p">,</span> <span class="n">http</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">creds</span><span class="o">.</span><span class="n">authorize</span><span class="p">(</span><span class="n">Http</span><span class="p">()))</span>
 
         <span class="c1"># BUG-1</span>
         <span class="c1"># self.service = build(&#39;gmail&#39;, &#39;v1&#39;, http=self.creds.authorize(http))</span>
 
     <span class="k">def</span> <span class="nf">_encode_raw_message</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">message</span><span class="p">):</span>
-        <span class="k">return</span> <span class="p">{</span><span class="s1">&#39;raw&#39;</span><span class="p">:</span> <span class="n">base64</span><span class="o">.</span><span class="n">urlsafe_b64encode</span><span class="p">(</span><span class="n">message</span><span class="o">.</span><span class="n">as_bytes</span><span class="p">())</span><span class="o">.</span><span class="n">decode</span><span class="p">()}</span>
+        <span class="k">return</span> <span class="p">{</span><span class="s2">&quot;raw&quot;</span><span class="p">:</span> <span class="n">base64</span><span class="o">.</span><span class="n">urlsafe_b64encode</span><span class="p">(</span><span class="n">message</span><span class="o">.</span><span class="n">as_bytes</span><span class="p">())</span><span class="o">.</span><span class="n">decode</span><span class="p">()}</span>
 
     <span class="k">def</span> <span class="nf">_send_message</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">msg</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Send an email message.</span>
@@ -207,16 +207,18 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">log</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="n">message</span><span class="p">)</span>
 
         <span class="k">try</span><span class="p">:</span>
-            <span class="n">message</span> <span class="o">=</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">service</span><span class="o">.</span><span class="n">users</span><span class="p">()</span><span class="o">.</span><span class="n">messages</span><span class="p">()</span>
-                       <span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="n">userId</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">user_id</span><span class="p">,</span> <span class="n">body</span><span class="o">=</span><span class="n">message</span><span class="p">)</span><span class="o">.</span><span class="n">execute</span><span class="p">())</span>
+            <span class="n">message</span> <span class="o">=</span> <span class="p">(</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">service</span><span class="o">.</span><span class="n">users</span><span class="p">()</span>
+                <span class="o">.</span><span class="n">messages</span><span class="p">()</span>
+                <span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="n">userId</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">user_id</span><span class="p">,</span> <span class="n">body</span><span class="o">=</span><span class="n">message</span><span class="p">)</span>
+                <span class="o">.</span><span class="n">execute</span><span class="p">()</span>
+            <span class="p">)</span>
         <span class="k">except</span> <span class="n">errors</span><span class="o">.</span><span class="n">HttpError</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">log</span><span class="o">.</span><span class="n">exception</span><span class="p">(</span>
-                <span class="s1">&#39;An error occurred: while attempting to send a message.&#39;</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">log</span><span class="o">.</span><span class="n">exception</span><span class="p">(</span><span class="s2">&quot;An error occurred: while attempting to send a message.&quot;</span><span class="p">)</span>
             <span class="k">raise</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">log</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="n">message</span><span class="p">)</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">log</span><span class="o">.</span><span class="n">info</span><span class="p">(</span>
-                <span class="sa">f</span><span class="s2">&quot;Message sent succesfully (Message Id: </span><span class="si">{</span><span class="n">message</span><span class="p">[</span><span class="s1">&#39;id&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">)&quot;</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">log</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Message sent succesfully (Message Id: </span><span class="si">{</span><span class="n">message</span><span class="p">[</span><span class="s1">&#39;id&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">)&quot;</span><span class="p">)</span>
 
             <span class="k">return</span> <span class="n">message</span></div>
 </pre></div>

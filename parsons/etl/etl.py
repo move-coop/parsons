@@ -1159,3 +1159,32 @@ class ETL(object):
         from parsons.etl.table import Table
 
         return Table(getattr(petl, petl_method)(self.table, *args, **kwargs))
+
+    def deduplicate(self, keys=None, sort=False):
+        """
+        Deduplicates table based on an optional ``keys`` argument,
+        which can contain any number of keys or None.
+
+        `Args:`
+            keys: str or list[str] or None
+                keys to deduplicate (and optionally sort) on
+            sort: bool or None
+                Whether petl should sort the data (inverse of petl's `presorted` argument)
+        `Returns`:
+            `Parsons Table` and also updates self
+
+        """
+
+        # petl's `presorted` declarative argument indicates
+        # whether the table is already sorted.
+        # This method's `sort` imperative argument indicates
+        # whether the table is NOT yet sorted.
+        # That is, petl expects presorted=True here to mean the the opposite of
+        # what sort=True means in this method.
+        # we use `presorted=not sort` to convert between these two interpretations
+        deduped = petl.transform.dedup.distinct(
+            self.table, key=keys, presorted=not sort
+        )
+        self.table = deduped
+
+        return deduped

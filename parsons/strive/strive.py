@@ -169,31 +169,19 @@ class Strive(object):
             "limit": str,
         }
 
-        # Validate filter params
+        # Type check params
         self.validate_filter_params(params, filter_params)
 
-        # Get full URL with filter params
+        # Build URL
         full_url = self.build_url(params, "p2ps")
 
         # Send the GET request
         response = self.client.get_request(url=full_url)
 
         # Process the response
-        if response.status_code == 200:
-            # Convert the API response to a Parsons Table object
-            table = Table(response)
-            if select:
-                table = table.select(select)
-            if order:
-                table = table.order_by(order)
-            if offset:
-                table = table.offset(offset)
-            if limit:
-                table = table.limit(limit)
-            return table
-        else:
-            logger.info(f"Error: {response.status_code}")
-
+        table = Table(response)
+        return table
+       
     def get_members(
         self,
         id=None,
@@ -355,30 +343,19 @@ class Strive(object):
             "limit": str,
         }
 
-        # Validate filter params
+        # Type check params 
         self.validate_filter_params(params, filter_params)
 
-        # Get full URL with filter params
-        full_url = self.build_url(params, "p2ps")
+        # Build URL 
+        full_url = self.build_url(params, "members")
 
         # Send the GET request
         response = self.client.get_request(url=full_url)
 
-        # Process the response
-        if response.status_code == 200:
-            # Convert the API response to a Parsons Table object
-            table = Table(response)
-            if select:
-                table = table.select(select)
-            if order:
-                table = table.order_by(order)
-            if offset:
-                table = table.offset(offset)
-            if limit:
-                table = table.limit(limit)
-            return table
-        else:
-            logger.info(f"Error: {response.status_code}")
+        # Convert the API response to a Parsons Table object
+        table = Table(response)
+        return table
+        
 
     def get_broadcasts_groups(
         self,
@@ -451,30 +428,18 @@ class Strive(object):
             "limit": str,
         }
 
-        # Validate filter params
+        # Type check params
         self.validate_filter_params(params, filter_params)
 
-        # Get full URL with filter params
+        # Build URL
         full_url = self.build_url(params, "broadcast_groups")
 
         # Send the GET request
         response = self.client.get_request(url=full_url)
 
-        # Process the response
-        if response.status_code == 200:
-            # Convert the API response to a Parsons Table object
-            table = Table(response)
-            if select:
-                table = table.select(select)
-            if order:
-                table = table.order_by(order)
-            if offset:
-                table = table.offset(offset)
-            if limit:
-                table = table.limit(limit)
-            return table
-        else:
-            logger.info(f"Error: {response.status_code}")
+        # Convert the API response to a Parsons Table object
+        table = Table(response)
+        return table
 
     def get_broadcasts():
         """
@@ -582,27 +547,22 @@ class Strive(object):
             "limit": str
         }
         
-        # Validate filter params
+        # Type check params
         self.validate_filter_params(params, filter_params)
 
-        # Get full URL with filter params
+        # Build URL
         full_url = self.build_url(params, "broadcasts")
 
         # Send the GET request
         response = self.client.get_request(url=full_url)
 
         # Process the response
-        if response.status_code == 200:
-            # Convert the API response to a Parsons Table object
-            table = Table(response)
-            if select:
-                table = table.select(select)
-            if order:
-                table = table.order_by(order)
-            if offset:
-                table = table.offset(offset)
-            if limit:
-                table = table.limit(limit)
-            return table
-        else:
-            logger.info(f"Error: {response.status_code}")
+        table = Table(response)
+        return table
+
+# Testing
+# strive = Strive()
+# strive.get_members(first_name = 'eq.brittany')
+
+#in the docs, youw ant to pass params like this, here is an example. 
+# then add link to their documentation 

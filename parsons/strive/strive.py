@@ -697,6 +697,58 @@ class Strive(object):
         table = Table(response)
         return table
 
+    def get_groups():
+        """
+        Sends a GET request to the /groups endpoint with specified parameters,
+        and returns the response in a Table object.
+
+        `Args:`
+            id: string <integer>
+                The ID of the group
+            name: string <character varying>
+                The name of the group
+            campaign_id: string <integer>
+                The campaign associated with the group
+            created_at: string <timestamp with time zone>
+                The outgoing messagWhen the group was first created
+            updated_at: string <timestamp with time zone>
+                When the group was last updated with a change
+            keyword: string <character varying>
+                The keyword that, when used by members, adds members to the group
+            synonyms: string <character varying>
+                The synonyms of the keyword that, when used by members, adds members to the group
+            flow_id: string <integer>
+                The flow that is sent to members when they join the group
+            groupable_type: string <app_public.groupable>
+                The type of attribute or relationship on which members are added to the group
+            groupable_id: string <integer>
+                The identifier of the attribute or relationship on which members are added to the group
+            select: string
+                The fields to include in the response. Use comma-separated values to include multiple fields.
+            order: string
+                The field to use for sorting the response. Use a minus sign (-) prefix to sort in descending order.
+            offset: string
+                The number of records to skip before returning results.
+            limit: string
+                The maximum number of records to return.
+
+        `Returns:`
+            parsons.Table: A Parsons Table object containing the response data from the /broadcasts endpoint.
+
+        `Raises:`
+            ValueError: If any of the filter parameters have an invalid data type.
+        """
+
+        # Build URL
+        full_url = self.build_url(kwargs, "groups")
+
+        # Send the GET request
+        response = self.client.get_request(url=full_url)
+
+        # Process the response
+        table = Table(response)
+        return table
+
 
 # Testing
 # strive = Strive()

@@ -21,21 +21,6 @@ class Strive(object):
         }
         self.client = APIConnector(self.uri, headers=self.headers)
 
-    def validate_filter_params(self, params, filter_params):
-        """
-        For a given set of params and set paramter types, validate that the
-        input params match the set parameter data types.
-
-        Raises an error if an invalid data type has been passed as a parameter.
-        """
-        # Validate filter parameters
-        for param, value in params.items():
-            if param in filter_params:
-                expected_type = filter_params[param]
-                if not isinstance(value, expected_type):
-                    raise ValueError(
-                        f"Invalid data type for parameter {param}: expected {expected_type.__name__}"
-                    )
 
     def build_url(self, params, endpoint):
         """
@@ -51,26 +36,21 @@ class Strive(object):
 
         return full_url
 
-    def get_p2ps(
-        self,
-        id=None,
-        user_id=None,
-        campaign_id=None,
-        message=None,
-        attachment=None,
-        scheduled_at=None,
-        cancelled_at=None,
-        sent_at=None,
-        created_at=None,
-        updated_at=None,
-        select=None,
-        order=None,
-        offset=None,
-        limit=None,
-    ):
+    def get_p2ps(self, **kwargs):
         """
         Sends a GET request to the /p2ps endpoint with specified parameters,
         and returns the response in a Table object.
+
+        The Strive connector uses horizontal filtering. You can learn more about
+        horizontal filtering here: https://postgrest.org/en/stable/references/api/tables_views.html#horizontal-filtering-rows
+
+        For example, if you want to filter on a specific `id`, you would pass `eq.12345` to the `id` param
+        where `12345` is the P2P id. 
+
+        If you want to search on a key word in a message, you would pass `like*hello*` to the `message` param
+        where `hello` is the keyword you want to search for in the message. The `*` is a wildcard operator
+        similar to `%` in SQL.
+
 
         `Args:`
             id: int
@@ -107,73 +87,10 @@ class Strive(object):
 
         `Raises:`
             ValueError: If any of the filter parameters have an invalid data type.
-
         """
 
-        params = {}
-
-        # Build dictionary of params
-        if id:
-            params["id"] = id
-        if user_id:
-            params["user_id"] = user_id
-        if campaign_id:
-            params["campaign_id"] = campaign_id
-        if message:
-            params["message"] = message
-        if attachment:
-            params["attachment"] = attachment
-        if scheduled_at:
-            params["scheduled_at"] = scheduled_at
-        if cancelled_at:
-            params["cancelled_at"] = cancelled_at
-        if sent_at:
-            params["sent_at"] = sent_at
-        if created_at:
-            params["created_at"] = created_at
-        if updated_at:
-            params["updated_at"] = updated_at
-        if select:
-            params["select"] = select
-        if order:
-            params["order"] = order
-        if offset:
-            params["offset"] = offset
-        if limit:
-            params["limit"] = limit
-
-        # Define valid filter parameters and their expected data types
-        filter_params = {
-            "id": int,
-            "campaign_id": int,
-            "phone_number": str,
-            "sent_on": str,
-            "first_name": str,
-            "last_name": str,
-            "city": str,
-            "state": str,
-            "postal_code": str,
-            "email": str,
-            "notes": str,
-            "additional_notes": str,
-            "opt_in": str,
-            "custom": str,
-            "created_at": str,
-            "updated_at": str,
-            "groups": str,
-            "carrier": str,
-            "first_sub_id": str,
-            "select": str,
-            "order": str,
-            "offset": str,
-            "limit": str,
-        }
-
-        # Type check params
-        self.validate_filter_params(params, filter_params)
-
         # Build URL
-        full_url = self.build_url(params, "p2ps")
+        full_url = self.build_url(kwargs, "p2ps")
 
         # Send the GET request
         response = self.client.get_request(url=full_url)
@@ -182,32 +99,114 @@ class Strive(object):
         table = Table(response)
         return table
        
-    def get_members(
-        self,
-        id=None,
-        campaign_id=None,
-        phone_number=None,
-        sent_on=None,
-        first_name=None,
-        last_name=None,
-        city=None,
-        state=None,
-        postal_code=None,
-        email=None,
-        notes=None,
-        additional_notes=None,
-        opt_in=None,
-        custom=None,
-        created_at=None,
-        updated_at=None,
-        groups=None,
-        carrier=None,
-        first_sub_id=None,
-        select=None,
-        order=None,
-        offset=None,
-        limit=None,
-    ):
+    def get_custom_fields(self, **kwargs):
+        """
+        Sends a GET request to the /custom_fields endpoint with specified parameters,
+        and returns the response in a Table object.
+
+        The Strive connector uses horizontal filtering. You can learn more about
+        horizontal filtering here: https://postgrest.org/en/stable/references/api/tables_views.html#horizontal-filtering-rows
+
+        For example, if you want to filter on a specific `campaign_id`, you would pass `eq.12345` to the `campaign_id` param
+        where `12345` is the campaign id. 
+
+        `Args:`
+            campaign_id: int
+                The ID of the campaign that the P2P message is associated with.
+            field: str 
+                The name of the field within the API
+            label: str
+                The name of the field within the product
+            type: str
+                The type of field the custom field is
+            updated_at: str
+                The date and time that the P2P message was last updated.
+            select: str
+                The fields to include in the response. Use comma-separated values to include multiple fields.
+            order: str
+                The field to use for sorting the response. Use a minus sign (-) prefix to sort in descending order.
+            offset: int
+                The number of records to skip before returning results.
+            limit: int
+                The maximum number of records to return.
+
+        `Returns:`
+            parsons.Table: A Parsons Table object containing the response data from the /p2ps endpoint.
+
+        `Raises:`
+            ValueError: If any of the filter parameters have an invalid data type.
+        """
+        # Build URL
+        full_url = self.build_url(kwargs, "custom_fields")
+
+        # Send the GET request
+        response = self.client.get_request(url=full_url)
+
+        # Process the response
+        table = Table(response)
+        return table
+    
+    def get_outgoing_messages(self, **kwargs):
+        """
+        Sends a GET request to the /outgoing_messages endpoint with specified parameters,
+        and returns the response in a Table object.
+
+        The Strive connector uses horizontal filtering. You can learn more about
+        horizontal filtering here: https://postgrest.org/en/stable/references/api/tables_views.html#horizontal-filtering-rows
+
+        For example, if you want to filter on a specific `campaign_id`, you would pass `eq.12345` to the `campaign_id` param
+        where `12345` is the campaign id. 
+
+        `Args:`
+            id: string <integer>
+                The ID of the outgoing message
+            campaign_id: string <integer>
+                The campaign associated with the outgoing message
+            member_id: string <integer> 
+                The member targeted by the outgoing message
+            message: string <character varying>
+                The contents of the outgoing message
+            broadcast_id: string <integer>
+                The parent broadcast that the outgoing message was part of
+            p2p_id: string <integer>
+                The ID of the inbox message the outgoing message was part of
+            flow_action_id: string <text>
+                The flow action that happened in response to the outgoing message
+            status: string <character varying>
+                That status of the outgoing message's delivery
+            error_code: string <integer>
+                The error code returned by carriers in repsonse to the outgoing message
+            sent_at: string <timestamp with time zone>
+                When the outgoing message was sent
+            queued_at: string <text>
+                When the outgoing message was added to our aggregators queue
+            select: str
+                The fields to include in the response. Use comma-separated values to include multiple fields.
+            order: str
+                The field to use for sorting the response. Use a minus sign (-) prefix to sort in descending order.
+            offset: int
+                The number of records to skip before returning results.
+            limit: int
+                The maximum number of records to return.
+
+        `Returns:`
+            parsons.Table: A Parsons Table object containing the response data from the /p2ps endpoint.
+
+        `Raises:`
+            ValueError: If any of the filter parameters have an invalid data type.
+        """
+        
+        # Build URL
+        full_url = self.build_url(kwargs, "custom_fields")
+
+        # Send the GET request
+        response = self.client.get_request(url=full_url)
+
+        # Process the response
+        table = Table(response)
+        return table
+    
+    def get_members(self, **kwargs):
         """
         Sends a GET request to the /members endpoint with specified parameters,
         and returns the response in a Table object.
@@ -266,88 +265,8 @@ class Strive(object):
 
         """
 
-        params = {}
-
-        # Build dictionary of params
-        if id:
-            params["id"] = id
-        if campaign_id:
-            params["campaign_id"] = campaign_id
-        if phone_number:
-            params["phone_number"] = phone_number
-        if sent_on:
-            params["sent_on"] = sent_on
-        if first_name:
-            params["first_name"] = first_name
-        if last_name:
-            params["last_name"] = last_name
-        if city:
-            params["city"] = city
-        if state:
-            params["state"] = state
-        if postal_code:
-            params["postal_code"] = postal_code
-        if email:
-            params["email"] = email
-        if notes:
-            params["notes"] = notes
-        if additional_notes:
-            params["additional_notes"] = additional_notes
-        if opt_in:
-            params["opt_in"] = opt_in
-        if custom:
-            params["custom"] = custom
-        if created_at:
-            params["created_at"] = created_at
-        if updated_at:
-            params["updated_at"] = updated_at
-        if groups:
-            params["groups"] = groups
-        if carrier:
-            params["carrier"] = carrier
-        if first_sub_id:
-            params["first_sub_id"] = first_sub_id
-        if select:
-            params["select"] = select
-        if order:
-            params["order"] = order
-        if offset:
-            params["offset"] = offset
-        if limit:
-            params["limit"] = limit
-
-        # Define valid filter parameters and their expected data types
-        filter_params = {
-            "id": int,
-            "campaign_id": int,
-            "phone_number": str,
-            "sent_on": str,
-            "first_name": str,
-            "last_name": str,
-            "city": str,
-            "state": str,
-            "postal_code": str,
-            "email": str,
-            "notes": str,
-            "additional_notes": str,
-            "opt_in": str,
-            "custom": str,
-            "created_at": str,
-            "updated_at": str,
-            "groups": str,
-            "carrier": str,
-            "first_sub_id": str,
-            "select": str,
-            "order": str,
-            "offset": str,
-            "limit": str,
-        }
-
-        # Type check params 
-        self.validate_filter_params(params, filter_params)
-
         # Build URL 
-        full_url = self.build_url(params, "members")
+        full_url = self.build_url(kwargs, "members")
 
         # Send the GET request
         response = self.client.get_request(url=full_url)
@@ -357,17 +276,7 @@ class Strive(object):
         return table
         
 
-    def get_broadcasts_groups(
-        self,
-        broadcast_id=None,
-        group_id=None,
-        updated_at=None,
-        campaign_id=None,
-        select=None,
-        order=None,
-        offset=None,
-        limit=None,
-    ):
+    def get_broadcasts_groups(self, **kwargs):
         """
         Sends a GET request to the /broadcasts endpoint with specified parameters,
         and returns the response in a Table object.
@@ -396,43 +305,9 @@ class Strive(object):
         `Raises:`
             ValueError: If any of the filter parameters have an invalid data type.
         """
-        params = {}
-
-        # Build dictionary of params
-        if broadcast_id:
-            params["broadcast_id"] = broadcast_id
-        if group_id:
-            params["group_id"] = group_id
-        if updated_at:
-            params["updated_at"] = updated_at
-        if campaign_id:
-            params["campaign_id"] = campaign_id
-        if select:
-            params["select"] = select
-        if order:
-            params["order"] = order
-        if offset:
-            params["offset"] = offset
-        if limit:
-            params["limit"] = limit
-
-        # Define valid filter parameters and their expected data types
-        filter_params = {
-            "broadcast_id": int,
-            "group_id": int,
-            "updated_at": str,
-            "campaign_id": str,
-            "select": str,
-            "order": str,
-            "offset": str,
-            "limit": str,
-        }
-
-        # Type check params
-        self.validate_filter_params(params, filter_params)
 
         # Build URL
-        full_url = self.build_url(params, "broadcast_groups")
+        full_url = self.build_url(kwargs, "broadcast_groups")
 
         # Send the GET request
         response = self.client.get_request(url=full_url)
@@ -488,70 +363,9 @@ class Strive(object):
         `Raises:`
             ValueError: If any of the filter parameters have an invalid data type.
         """
-        params = {}
-
-        # Build dictionary of params
-        if id:
-            params["id"] = id
-        if user_id:
-            params["user_id"] = user_id
-        if campaign_id:
-            params["campaign_id"] = campaign_id
-        if flow_id:
-            params["flow_id"] = flow_id
-        if name:
-            params["name"] = name
-        if message:
-            params["message"] = message
-        if attachment:
-            params["attachment"] = attachment
-        if recipient_count:
-            params["recipient_count"] = recipient_count
-        if scheduled_at:
-            params["scheduled_at"] = scheduled_at
-        if cancelled_at:
-            params["cancelled_at"] = cancelled_at
-        if sent_at:
-            params["sent_at"] = sent_at
-        if created_at:
-            params["created_at"] = created_at
-        if updated_at:
-            params["updated_at"] = updated_at
-        if select:
-            params["select"] = select
-        if order:
-            params["order"] = order
-        if offset:
-            params["offset"] = offset
-        if limit:
-            params["limit"] = limit
-
-        # Define valid filter parameters and their expected data types
-        filter_params = {
-            "id": int,
-            "user_id": int,
-            "campaign_id": int,
-            "flow_id": int,
-            "name": str,
-            "message": str,
-            "attachment": str,
-            "recipient_count": int,
-            "scheduled_at": str,
-            "cancelled_at": str,
-            "sent_at": str,
-            "created_at": str,
-            "updated_at": str,
-            "select": str,
-            "order": str,
-            "offset": str,
-            "limit": str
-        }
-        
-        # Type check params
-        self.validate_filter_params(params, filter_params)
 
         # Build URL
-        full_url = self.build_url(params, "broadcasts")
+        full_url = self.build_url(kwargs, "broadcasts")
 
         # Send the GET request
         response = self.client.get_request(url=full_url)

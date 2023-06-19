@@ -785,6 +785,56 @@ class Strive(object):
         table = Table(response)
         return table
 
+    def get_member_group_delete_log():
+        """
+        Sends a GET request to the /member_group_delete_log endpoint with specified parameters,
+        and returns the response in a Table object. this endpoint represents an organization's records on when members are removed from groups
+
+        `Args:`
+            group_id: string <integer>
+                The ID of the organization
+            campaign_id: string <integer>
+                The campaign associated with the group and member
+            member_id: string <integer>
+                The member that has been removed
+            member_added_on: string <integer>
+                Date that the member was added to the group
+            delete_source: string <integer>
+                The general source of the member being removed from the group
+            delete_source_id: string <integer>
+                The id of the source of the member group removal if there is one
+            removed_by: string <integer>
+                The admin/orgainzer that removed the member of the group if there was 
+            member_removed_on: string <integer>
+                Date that the member was removed from the group
+            name: string <character varying>
+                The name of the organization
+            select: string
+                The fields to include in the response. Use comma-separated values to include multiple fields.
+            order: string
+                The field to use for sorting the response. Use a minus sign (-) prefix to sort in descending order.
+            offset: string
+                The number of records to skip before returning results.
+            limit: string
+                The maximum number of records to return.
+
+        `Returns:`
+            parsons.Table: A Parsons Table object containing the response data from the /broadcasts endpoint.
+
+        `Raises:`
+            ValueError: If any of the filter parameters have an invalid data type.
+        """
+
+        # Build URL
+        full_url = self.build_url(kwargs, "member_group_delete_log")
+
+        # Send the GET request
+        response = self.client.get_request(url=full_url)
+
+        # Process the response
+        table = Table(response)
+        return table
+
 
 # Testing
 # strive = Strive()

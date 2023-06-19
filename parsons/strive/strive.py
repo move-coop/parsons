@@ -919,6 +919,54 @@ class Strive(object):
         table = Table(response)
         return table
 
+    def get_mmeber_change_log(self, **kwargs):
+        """
+        Sends a GET request to the /member_change_log endpoint with specified parameters,
+        and returns the response in a Table object. This endpoint represents Organization's change data as it relates to member fields.
+
+        `Args:`
+            member_id: string <integer>
+                The ID of the member
+            campaign_id: string <integer>
+                The campaign associated with the member
+            change_action: string <character varying>
+                The action that changed the previous value to the new value
+            previous_value: string <jsonb>
+                The previous value for the field(s) denoted in the object
+            new_value: string <jsonb>
+                The new value for the field(s) denoted in the object
+            change_type: string <text>
+                The source of the member change
+            change_value: string <text>
+                The value of the source of the member change
+            updated_at: string <timestamp with time zone>
+                The date and time at which this member value was created
+            select: string
+                The fields to include in the response. Use comma-separated values to include multiple fields.
+            order: string
+                The field to use for sorting the response. Use a minus sign (-) prefix to sort in descending order.
+            offset: string
+                The number of records to skip before returning results.
+            limit: string
+                The maximum number of records to return.
+
+        `Returns:`
+            parsons.Table: A Parsons Table object containing the response data from the /broadcasts endpoint.
+
+        `Raises:`
+            ValueError: If any of the filter parameters have an invalid data type.
+        """
+
+        # Build URL
+        full_url = self.build_url(kwargs, "member_change_log")
+
+        # Send the GET request
+        response = self.client.get_request(url=full_url)
+
+        # Process the response
+        table = Table(response)
+        return table
+
 # Testing
 # strive = Strive()
 # strive.get_members(first_name = 'eq.brittany')

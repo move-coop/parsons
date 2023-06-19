@@ -835,6 +835,89 @@ class Strive(object):
         table = Table(response)
         return table
 
+    def get_call_logs():
+        """
+        Sends a GET request to the /call_logs endpoint with specified parameters,
+        and returns the response in a Table object. This endpoint represents each call queued or connected through the campaign.
+
+        `Args:`
+            id: string <integer>
+                The ID of the call log
+            campaign_id: string <integer>
+                The ID of the campaign for which the call was connected
+            member_id: string <integer>
+                The ID of the member for whom the call was connected
+            call_target_id: string <integer>
+                The ID of the call target
+            bot_conversation_id: string <integer>
+                The ID of the bot conversation from which the call, or call invitation, was dispatched
+            call_number_id: string <integer>
+                The ID of the call number
+            from_number: string <integer>
+                The number of the member for whom the call was connected
+            to_number: string <integer>
+                The number to which the call was connected
+            machine_detected: string <character varying>
+                Whether an answering machine was detected after connecting to the target
+            successful_connection: string <integer>
+                Whether a successful connection was made to the member
+            created_at: string <integer>
+                When the target was first looked up and the call queued
+            connected_at: string <integer>
+                When the call connected to the member
+            redirected_at: string <integer>
+                When the call redirected to the target
+            ended_at: string <integer>
+                    When the call ended
+            updated_at: string <integer>
+            flow_id: string <integer>
+                The flow of which this call was a part
+            step_idx: string <integer>  
+                The step of the flow in which this call took place
+            office: string <integer>
+                The office of the target contacted
+            state: string <integer>
+                The state in which the target exists
+            party: string <integer>
+                The party of the target
+            name: string <integer>
+                The name of the target
+            member_voicemail_answered_at: string <integer>
+                The time at which the voicemail of the member picked up
+            member_call_failed_at: string <integer>
+                The time at which the call to the member failed
+            target_call_failed_at: string <integer>
+                The time at which the call to the target failed
+            last_event: string <integer>
+                The status of the call based on last event recorded
+            broadcast_id: string <integer>
+                The broadcast in which the call was made
+            call_number: string <integer>
+            select: string
+                The fields to include in the response. Use comma-separated values to include multiple fields.
+            order: string
+                The field to use for sorting the response. Use a minus sign (-) prefix to sort in descending order.
+            offset: string
+                The number of records to skip before returning results.
+            limit: string
+                The maximum number of records to return.
+
+        `Returns:`
+            parsons.Table: A Parsons Table object containing the response data from the /broadcasts endpoint.
+
+        `Raises:`
+            ValueError: If any of the filter parameters have an invalid data type.
+        """
+
+        # Build URL
+        full_url = self.build_url(kwargs, "call_logs")
+
+        # Send the GET request
+        response = self.client.get_request(url=full_url)
+
+        # Process the response
+        table = Table(response)
+        return table
 
 # Testing
 # strive = Strive()

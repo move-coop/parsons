@@ -52,33 +52,33 @@ class Strive(object):
 
 
         `Args:`
-            id: int
+            id: string <integer>
                 The ID of the P2P message.
-            user_id: int
+            user_id: string <integer>
                 The ID of the user who created the P2P message.
-            campaign_id: int
+            campaign_id: string <integer>
                 The ID of the campaign that the P2P message is associated with.
-            message: str
+            message: string <text>
                 The text content of the P2P message.
-            attachment: str
+            attachment: string <text>
                 A URL to an attachment that was sent with the P2P message.
-            scheduled_at: str
+            scheduled_at: string <timestamp with time zone>
                 The date and time that the P2P message is scheduled to be sent.
-            cancelled_at: str
+            cancelled_at: string <timestamp with time zone>
                 The date and time that the P2P message was cancelled, if applicable.
-            sent_at: str
+            sent_at: string <timestamp with time zone>
                 The date and time that the P2P message was sent, if applicable.
-            created_at: str
+            created_at: string <timestamp with time zone>
                 The date and time that the P2P message was created.
-            updated_at: str
+            updated_at: string <timestamp with time zone>
                 The date and time that the P2P message was last updated.
-            select: str
+            select: string
                 The fields to include in the response. Use comma-separated values to include multiple fields.
-            order: str
+            order: string
                 The field to use for sorting the response. Use a minus sign (-) prefix to sort in descending order.
-            offset: int
+            offset: string
                 The number of records to skip before returning results.
-            limit: int
+            limit: string
                 The maximum number of records to return.
 
         `Returns:`
@@ -110,23 +110,23 @@ class Strive(object):
         where `12345` is the campaign id.
 
         `Args:`
-            campaign_id: int
+            campaign_id: string <integer>
                 The ID of the campaign that the P2P message is associated with.
-            field: str
+            field: string <text>
                 The name of the field within the API
-            label: str
+            label: string <text>
                 The name of the field within the product
-            type: str
+            type: string <text>
                 The type of field the custom field is
-            updated_at: str
+            updated_at: string <timestamp with time zone>
                 The date and time that the P2P message was last updated.
-            select: str
+            select: string
                 The fields to include in the response. Use comma-separated values to include multiple fields.
-            order: str
+            order: string
                 The field to use for sorting the response. Use a minus sign (-) prefix to sort in descending order.
-            offset: int
+            offset: string
                 The number of records to skip before returning results.
-            limit: int
+            limit: string
                 The maximum number of records to return.
 
         `Returns:`
@@ -179,13 +179,13 @@ class Strive(object):
                 When the outgoing message was sent
             queued_at: string <text>
                 When the outgoing message was added to our aggregators queue
-            select: str
+            select: string
                 The fields to include in the response. Use comma-separated values to include multiple fields.
-            order: str
+            order: string
                 The field to use for sorting the response. Use a minus sign (-) prefix to sort in descending order.
-            offset: int
+            offset: string
                 The number of records to skip before returning results.
-            limit: int
+            limit: string
                 The maximum number of records to return.
 
         `Returns:`
@@ -233,13 +233,13 @@ class Strive(object):
                 Whether the member has been unsubscribed
             campaign_id: string <integer>
                 The ID of the campaign associated with this event
-            select: str
+            select: string
                 The fields to include in the response. Use comma-separated values to include multiple fields.
-            order: str
+            order: string
                 The field to use for sorting the response. Use a minus sign (-) prefix to sort in descending order.
-            offset: int
+            offset: string
                 The number of records to skip before returning results.
-            limit: int
+            limit: string
                 The maximum number of records to return.
 
         `Returns:`
@@ -301,13 +301,13 @@ class Strive(object):
                 The mobile carrier this member uses
             first_sub_id: string <integer>
                 The ID of the first subscription event retained for the member
-            select: str
+            select: string
                 The fields to include in the response. Use comma-separated values to include multiple fields.
-            order: str
+            order: string
                 The field to use for sorting the response. Use a minus sign (-) prefix to sort in descending order.
-            offset: int
+            offset: string
                 The number of records to skip before returning results.
-            limit: int
+            limit: string
                 The maximum number of records to return.
 
         `Returns:`
@@ -383,13 +383,13 @@ class Strive(object):
                 The step in the flow this message corresponds to
             response_to_id: string <integer>
                 The id of the broadcast the incoming message was a response to
-            select: str
+            select: string
                 Filtering Columns
-            order: str
+            order: string
                 The field to use for sorting the response. Use a minus sign (-) prefix to sort in descending order.
-            offset: int
+            offset: string
                 The number of records to skip before returning results.
-            limit: int
+            limit: string
                 The maximum number of records to return.
 
         `Returns:`
@@ -423,13 +423,13 @@ class Strive(object):
                 string <timestamp with time zone>
             campaign_id: int
                 The campaign that the broadcast belongs to
-            select: str
+            select: string
                 The fields to include in the response. Use comma-separated values to include multiple fields.
-            order: str
+            order: string
                 The field to use for sorting the response. Use a minus sign (-) prefix to sort in descending order.
-            offset: int
+            offset: string
                 The number of records to skip before returning results.
-            limit: int
+            limit: string
                 The maximum number of records to return.
 
         `Returns:`
@@ -469,13 +469,13 @@ class Strive(object):
                 The name of the campaign
             updated_at: string <timestamp with time zone>
                 When the campaign was last updated
-            select: str
+            select: string
                 The fields to include in the response. Use comma-separated values to include multiple fields.
-            order: str
+            order: string
                 The field to use for sorting the response. Use a minus sign (-) prefix to sort in descending order.
-            offset: int
+            offset: string
                 The number of records to skip before returning results.
-            limit: int
+            limit: string
                 The maximum number of records to return.
 
         `Returns:`
@@ -511,13 +511,13 @@ class Strive(object):
                 When the flow was first created
             updated_at: string <timestamp with time zone>
                 When the flow was last updated with a change
-            select: str
+            select: string
                 The fields to include in the response. Use comma-separated values to include multiple fields.
-            order: str
+            order: string
                 The field to use for sorting the response. Use a minus sign (-) prefix to sort in descending order.
-            offset: int
+            offset: string
                 The number of records to skip before returning results.
-            limit: int
+            limit: string
                 The maximum number of records to return.
 
         `Returns:`
@@ -553,13 +553,13 @@ class Strive(object):
                 When this custom value was updated
             campaign_id: string <integer>
                 The campaign the value belongs to
-           select: str
+           select: string
                 The fields to include in the response. Use comma-separated values to include multiple fields.
-            order: str
+            order: string
                 The field to use for sorting the response. Use a minus sign (-) prefix to sort in descending order.
-            offset: int
+            offset: string
                 The number of records to skip before returning results.
-            limit: int
+            limit: string
                 The maximum number of records to return.
 
         `Returns:`

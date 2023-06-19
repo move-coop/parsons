@@ -306,7 +306,7 @@ class TestParsonsTable(unittest.TestCase):
         self.assertRaises(ValueError, self.tbl.add_column, "first")
 
     def test_add_column_if_exists(self):
-        self.tbl.add_column("first", if_exists='replace')
+        self.tbl.add_column("first", if_exists="replace")
         self.assertEqual(self.tbl.columns, ["first", "last"])
 
     def test_remove_column(self):

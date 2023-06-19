@@ -21,7 +21,6 @@ class Strive(object):
         }
         self.client = APIConnector(self.uri, headers=self.headers)
 
-
     def build_url(self, params, endpoint):
         """
         Takes a set of parameters and an API endpoint and builds a URL using horizontal
@@ -45,7 +44,7 @@ class Strive(object):
         horizontal filtering here: https://postgrest.org/en/stable/references/api/tables_views.html#horizontal-filtering-rows
 
         For example, if you want to filter on a specific `id`, you would pass `eq.12345` to the `id` param
-        where `12345` is the P2P id. 
+        where `12345` is the P2P id.
 
         If you want to search on a key word in a message, you would pass `like*hello*` to the `message` param
         where `hello` is the keyword you want to search for in the message. The `*` is a wildcard operator
@@ -98,7 +97,7 @@ class Strive(object):
         # Process the response
         table = Table(response)
         return table
-       
+
     def get_custom_fields(self, **kwargs):
         """
         Sends a GET request to the /custom_fields endpoint with specified parameters,
@@ -108,12 +107,12 @@ class Strive(object):
         horizontal filtering here: https://postgrest.org/en/stable/references/api/tables_views.html#horizontal-filtering-rows
 
         For example, if you want to filter on a specific `campaign_id`, you would pass `eq.12345` to the `campaign_id` param
-        where `12345` is the campaign id. 
+        where `12345` is the campaign id.
 
         `Args:`
             campaign_id: int
                 The ID of the campaign that the P2P message is associated with.
-            field: str 
+            field: str
                 The name of the field within the API
             label: str
                 The name of the field within the product
@@ -145,7 +144,7 @@ class Strive(object):
         # Process the response
         table = Table(response)
         return table
-    
+
     def get_outgoing_messages(self, **kwargs):
         """
         Sends a GET request to the /outgoing_messages endpoint with specified parameters,
@@ -155,14 +154,14 @@ class Strive(object):
         horizontal filtering here: https://postgrest.org/en/stable/references/api/tables_views.html#horizontal-filtering-rows
 
         For example, if you want to filter on a specific `campaign_id`, you would pass `eq.12345` to the `campaign_id` param
-        where `12345` is the campaign id. 
+        where `12345` is the campaign id.
 
         `Args:`
             id: string <integer>
                 The ID of the outgoing message
             campaign_id: string <integer>
                 The campaign associated with the outgoing message
-            member_id: string <integer> 
+            member_id: string <integer>
                 The member targeted by the outgoing message
             message: string <character varying>
                 The contents of the outgoing message
@@ -195,9 +194,9 @@ class Strive(object):
         `Raises:`
             ValueError: If any of the filter parameters have an invalid data type.
         """
-        
+
         # Build URL
-        full_url = self.build_url(kwargs, "custom_fields")
+        full_url = self.build_url(kwargs, "outgoing_messages")
 
         # Send the GET request
         response = self.client.get_request(url=full_url)
@@ -205,7 +204,7 @@ class Strive(object):
         # Process the response
         table = Table(response)
         return table
-    
+
     def get_subscription_events(self, **kwargs):
         """
         Sends a GET request to the /subscription_events endpoint with specified parameters,
@@ -215,7 +214,7 @@ class Strive(object):
         horizontal filtering here: https://postgrest.org/en/stable/references/api/tables_views.html#horizontal-filtering-rows
 
         For example, if you want to filter on a specific `campaign_id`, you would pass `eq.12345` to the `campaign_id` param
-        where `12345` is the campaign id. 
+        where `12345` is the campaign id.
 
         `Args:`
             id: string <integer>
@@ -249,7 +248,7 @@ class Strive(object):
         `Raises:`
             ValueError: If any of the filter parameters have an invalid data type.
         """
-        
+
         # Build URL
         full_url = self.build_url(kwargs, "subscription_events")
 
@@ -260,47 +259,47 @@ class Strive(object):
         table = Table(response)
         return table
 
-def get_members(self, **kwargs):
+    def get_members(self, **kwargs):
         """
         Sends a GET request to the /members endpoint with specified parameters,
         and returns the response in a Table object.
 
         `Args:`
-            id: int
+            id: string <integer>
                 The ID of the member
-            campaign_id: int
+            campaign_id: string <integer>
                 The campaign associated with the member
-            phone_number: str
+            phone_number: string <character varying>
                 The member's phone number
-            first_name: str
+            first_name: string <character varying>
                 The member's first name
-            last_name: str
+            last_name: string <character varying>
                 The member's last name
-            city: str
+            city: string <character varying>
                 The City associated with the member
-            state: str
+            state: string <character varying>
                 The State assoicated with the member
-            postal_code: str
+            postal_code: string <character varying>
                 The zip or postcal code assoicated with the member
-            email: str
+            email: string <character varying>
                 The member's email address
-            notes: str
+            notes: string <text>
                 The content of notes associated with the member
-            additional_notes: str
+            additional_notes: string <text>
                 The content of additional notes field associated with the member
-            opt_in: str
+            opt_in: string <boolean>
                 Whether or not the member is subscribed to recieve further messages
-            custom: str
+            custom: string <jsonb>
                 The custom fields associated with the member
-            created_at: str
+            created_at: string <timestamp with time zone>
                 When the member was either first imported or opted-in to recieve messages
-            updated_at: str
+            updated_at: string <timestamp with time zone>
                 When the member was last updated with a change
-            group: str
+            group: string <json>
                 Groups this member belongs to (json)
-            carrier: str
+            carrier: string <text>
                 The mobile carrier this member uses
-            first_sub_id: int
+            first_sub_id: string <integer>
                 The ID of the first subscription event retained for the member
             select: str
                 The fields to include in the response. Use comma-separated values to include multiple fields.
@@ -319,7 +318,7 @@ def get_members(self, **kwargs):
 
         """
 
-        # Build URL 
+        # Build URL
         full_url = self.build_url(kwargs, "members")
 
         # Send the GET request
@@ -328,17 +327,97 @@ def get_members(self, **kwargs):
         # Convert the API response to a Parsons Table object
         table = Table(response)
         return table
-        
+
+    def post_members(self, payload):
+        """
+        Sends a POST request to the /members endpoint with a given payload.
+        To learn more about POST requests to Strive's member endpoint, go here:
+        https://developers.strivemessaging.org/#tag/members/paths/~1members/post
+
+        """
+
+        # Send the POST request
+        response = self.client.post_request(data=json.dumps(payload))
+
+        # Convert the API response to a Parsons Table object
+        table = Table(response)
+        return table
+
+    def get_incoming_messages(self, **kwargs):
+        """
+        Sends a GET request to the /incoming_messages endpoint with specified parameters,
+        and returns the response in a Table object.
+
+        The Strive connector uses horizontal filtering. You can learn more about
+        horizontal filtering here: https://postgrest.org/en/stable/references/api/tables_views.html#horizontal-filtering-rows
+
+        For example, if you want to filter on a specific `campaign_id`, you would pass `eq.12345` to the `campaign_id` param
+        where `12345` is the campaign id.
+
+        `Args:`
+            id: string <integer>
+                The ID of the incoming message
+            campaign_id: string <integer>
+                The campaign associated with the outgoing message
+            member_id: string <integer>
+                The member targeted by the outgoing message
+            from_number: string <character varying>
+                The member's phone number
+            to_number: string <character varying>
+                The phone number the member targeted
+            message: string <character varying>
+                The contents of the outgoing message
+            attachments: string <json>
+                The attachement, or MMS included in the incoming message
+            sent_at: string <timestamp with time zone>
+                When the outgoing message was sent
+            is_opt_out: string <boolean>
+                Whether or not the message was registerted as a request to unsubscribe from further messages
+            updated_at: string <timestamp with time zone>
+                When the message was updated
+            conversation_id: string <integer>
+                The id of the conversation that this message belongs to
+            flow_id: string <integer>
+                The flow that the message belongs to
+            step_idx: string <integer>
+                The step in the flow this message corresponds to
+            response_to_id: string <integer>
+                The id of the broadcast the incoming message was a response to
+            select: str
+                Filtering Columns
+            order: str
+                The field to use for sorting the response. Use a minus sign (-) prefix to sort in descending order.
+            offset: int
+                The number of records to skip before returning results.
+            limit: int
+                The maximum number of records to return.
+
+        `Returns:`
+            parsons.Table: A Parsons Table object containing the response data from the /p2ps endpoint.
+
+        `Raises:`
+            ValueError: If any of the filter parameters have an invalid data type.
+        """
+
+        # Build URL
+        full_url = self.build_url(kwargs, "outgoing_messages")
+
+        # Send the GET request
+        response = self.client.get_request(url=full_url)
+
+        # Process the response
+        table = Table(response)
+        return table
 
     def get_broadcasts_groups(self, **kwargs):
         """
-        Sends a GET request to the /broadcasts endpoint with specified parameters,
+        Sends a GET request to the /broadcasts_groups endpoint with specified parameters,
         and returns the response in a Table object.
 
         `Args:`
             broadcast_id: int
                 The ID of the Broadcast
-            group_id: int 
+            group_id: int
                 The ID of the group of members targeted by the broadcast
             updated_at: str
                 string <timestamp with time zone>
@@ -370,6 +449,136 @@ def get_members(self, **kwargs):
         table = Table(response)
         return table
 
+    def get_campaigns():
+        """
+        Sends a GET request to the /campaigns endpoint with specified parameters,
+        and returns the response in a Table object.
+
+        `Args:`
+            id: string <integer>
+                The ID of the campaign
+            primary_text_in_number: string <character varying>
+                The phone number new supporters can text to become a member
+            is_active: string <boolean>
+                The status of the campaign's subscription
+            custom_fields: string <json>
+                Custom fields added or active to the campaign
+            organization_id: string <integer>
+                The ID of the parent account, which the campaign is part of
+            name: string <character varying>
+                The name of the campaign
+            updated_at: string <timestamp with time zone>
+                When the campaign was last updated
+            select: str
+                The fields to include in the response. Use comma-separated values to include multiple fields.
+            order: str
+                The field to use for sorting the response. Use a minus sign (-) prefix to sort in descending order.
+            offset: int
+                The number of records to skip before returning results.
+            limit: int
+                The maximum number of records to return.
+
+        `Returns:`
+            parsons.Table: A Parsons Table object containing the response data from the /broadcasts endpoint.
+
+        `Raises:`
+            ValueError: If any of the filter parameters have an invalid data type.
+        """
+
+        # Build URL
+        full_url = self.build_url(kwargs, "campaigns")
+
+        # Send the GET request
+        response = self.client.get_request(url=full_url)
+
+        # Process the response
+        table = Table(response)
+        return table
+    
+    def get_flows():
+        """
+        Sends a GET request to the /campaigns endpoint with specified parameters,
+        and returns the response in a Table object.
+
+        `Args:`
+            id: string <integer>
+                The ID of the flow
+            campaign_id: string <integer>
+                The campaign associated with the flow
+            name: string <chracter varying>
+                The name of the flow
+            created_at: string <timestamp with time zone>
+                When the flow was first created
+            updated_at: string <timestamp with time zone>
+                When the flow was last updated with a change
+            select: str
+                The fields to include in the response. Use comma-separated values to include multiple fields.
+            order: str
+                The field to use for sorting the response. Use a minus sign (-) prefix to sort in descending order.
+            offset: int
+                The number of records to skip before returning results.
+            limit: int
+                The maximum number of records to return.
+
+        `Returns:`
+            parsons.Table: A Parsons Table object containing the response data from the /broadcasts endpoint.
+
+        `Raises:`
+            ValueError: If any of the filter parameters have an invalid data type.
+        """
+
+        # Build URL
+        full_url = self.build_url(kwargs, "flows")
+
+        # Send the GET request
+        response = self.client.get_request(url=full_url)
+
+        # Process the response
+        table = Table(response)
+        return table
+    
+    def get_members_custom_fields():
+        """
+        Sends a GET request to the /members_custom_fields endpoint with specified parameters,
+        and returns the response in a Table object.
+
+        `Args:`
+            id: string <integer>
+                The ID of the custom field associated with a member
+            field: string <text>
+                The name of the field in the API
+            value: string <jsonb>
+                The value of the field
+            updated_at: string <timestamp with time zone>
+                When this custom value was updated
+            campaign_id: string <integer>
+                The campaign the value belongs to
+           select: str
+                The fields to include in the response. Use comma-separated values to include multiple fields.
+            order: str
+                The field to use for sorting the response. Use a minus sign (-) prefix to sort in descending order.
+            offset: int
+                The number of records to skip before returning results.
+            limit: int
+                The maximum number of records to return.
+
+        `Returns:`
+            parsons.Table: A Parsons Table object containing the response data from the /broadcasts endpoint.
+
+        `Raises:`
+            ValueError: If any of the filter parameters have an invalid data type.
+        """
+
+        # Build URL
+        full_url = self.build_url(kwargs, "members_custom_fields")
+
+        # Send the GET request
+        response = self.client.get_request(url=full_url)
+
+        # Process the response
+        table = Table(response)
+        return table
+    
     def get_broadcasts():
         """
         Sends a GET request to the /broadcasts endpoint with specified parameters,
@@ -378,7 +587,7 @@ def get_members(self, **kwargs):
         `Args:`
             id: int
                 The ID of the Broadcast
-            user_id: int 
+            user_id: int
                 The Strive user who sent the broadcast
             campaign_id: int
                 The campaign that the broadcast belongs to
@@ -390,7 +599,7 @@ def get_members(self, **kwargs):
                 The content of the first message sent in the broadcast
             attachment: str
                 The attachment or MMS included in the broadcast
-            recipient_count: int 
+            recipient_count: int
                 How many members were targeted for the broadcast
             scheduled_at: str
                 When the broadcast is scheduled to send
@@ -428,9 +637,10 @@ def get_members(self, **kwargs):
         table = Table(response)
         return table
 
+
 # Testing
 # strive = Strive()
 # strive.get_members(first_name = 'eq.brittany')
 
-#in the docs, youw ant to pass params like this, here is an example. 
-# then add link to their documentation 
+# in the docs, youw ant to pass params like this, here is an example.
+# then add link to their documentation

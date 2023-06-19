@@ -1071,6 +1071,51 @@ class Strive(object):
         table = Table(response)
         return table
 
+    def get_group_members(self, **kwargs):
+        """
+        Sends a GET request to the /groups_members endpoint with specified parameters,
+        and returns the response in a Table object. This endpoint represents members in a group.
+
+        `Args:`
+            member_id: string <integer>
+                The ID of the member
+            group_id: string <integer>
+                The ID of ther group
+            created_at: string <timestamp with time zone>>
+                When the group membership was created
+            updated_at: string <timestamp with time zone>>
+                When the group membership was updated
+            organizer_ids: string <integer>
+            campaign_id: string <integer>
+                The campaign that the group and member belong to
+            user_id: string <integer>
+                The ID of the user that added the member to the group
+            select: string
+                The fields to include in the response. Use comma-separated values to include multiple fields.
+            order: string
+                The field to use for sorting the response. Use a minus sign (-) prefix to sort in descending order.
+            offset: string
+                The number of records to skip before returning results.
+            limit: string
+                The maximum number of records to return.
+
+        `Returns:`
+            parsons.Table: A Parsons Table object containing the response data from the /broadcasts endpoint.
+
+        `Raises:`
+            ValueError: If any of the filter parameters have an invalid data type.
+        """
+
+        # Build URL
+        full_url = self.build_url(kwargs, "groups_members")
+
+        # Send the GET request
+        response = self.client.get_request(url=full_url)
+
+        # Process the response
+        table = Table(response)
+        return table
+
 # Testing
 # strive = Strive()
 # strive.get_members(first_name = 'eq.brittany')

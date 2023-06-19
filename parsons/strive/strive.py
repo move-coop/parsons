@@ -206,7 +206,61 @@ class Strive(object):
         table = Table(response)
         return table
     
-    def get_members(self, **kwargs):
+    def get_subscription_events(self, **kwargs):
+        """
+        Sends a GET request to the /subscription_events endpoint with specified parameters,
+        and returns the response in a Table object.
+
+        The Strive connector uses horizontal filtering. You can learn more about
+        horizontal filtering here: https://postgrest.org/en/stable/references/api/tables_views.html#horizontal-filtering-rows
+
+        For example, if you want to filter on a specific `campaign_id`, you would pass `eq.12345` to the `campaign_id` param
+        where `12345` is the campaign id. 
+
+        `Args:`
+            id: string <integer>
+                The ID of the subscription event
+            member_id: string <integer>
+                The ID of the member in question
+            type: string <text>
+                The type of event which lead to the subscription or unsubscription
+            created_at: string <timestamp with time zone>
+                When the event occurred
+            ref_id: string <integer>
+                ID of upload, status code, incoming message, or other relevant artifact of subscription event
+            supplemental: string <text>
+                Supplemental information about the event
+            unsubscribe: string <boolean>
+                Whether the member has been unsubscribed
+            campaign_id: string <integer>
+                The ID of the campaign associated with this event
+            select: str
+                The fields to include in the response. Use comma-separated values to include multiple fields.
+            order: str
+                The field to use for sorting the response. Use a minus sign (-) prefix to sort in descending order.
+            offset: int
+                The number of records to skip before returning results.
+            limit: int
+                The maximum number of records to return.
+
+        `Returns:`
+            parsons.Table: A Parsons Table object containing the response data from the /p2ps endpoint.
+
+        `Raises:`
+            ValueError: If any of the filter parameters have an invalid data type.
+        """
+        
+        # Build URL
+        full_url = self.build_url(kwargs, "subscription_events")
+
+        # Send the GET request
+        response = self.client.get_request(url=full_url)
+
+        # Process the response
+        table = Table(response)
+        return table
+
+def get_members(self, **kwargs):
         """
         Sends a GET request to the /members endpoint with specified parameters,
         and returns the response in a Table object.

@@ -1020,6 +1020,57 @@ class Strive(object):
         table = Table(response)
         return table
 
+    def get_flow_actions(self, **kwargs):
+        """
+        Sends a GET request to the /flow_actions endpoint with specified parameters,
+        and returns the response in a Table object. This endpoint represents actions taken by members when interacting with flows
+
+        `Args:`
+            id: string <integer>
+            flow_id: string <integer>
+                The flow associated with the action
+            member_id: string <character varying>
+                The member who took the action
+            incoming_message_id: string <character varying>
+                The message the member responded wtih
+            step_number: string <character varying>
+                The position of the message within the flow sequence
+            is_response_valid: string <character varying>
+                Whether or not the member's response was successfully qualified
+            collected_value: string <timestamp with time zone>
+                The data successfully parsed and mapped by the flow's "Collect"
+            created_at: string <timestamp with time zone>
+                When the flow action occurred
+            updated_at: string <text>
+                When the flow action was updated, usually the same as created
+            campaign_id: string <text>
+                The campaign the flow action belongs to
+            select: string
+                The fields to include in the response. Use comma-separated values to include multiple fields.
+            order: string
+                The field to use for sorting the response. Use a minus sign (-) prefix to sort in descending order.
+            offset: string
+                The number of records to skip before returning results.
+            limit: string
+                The maximum number of records to return.
+
+        `Returns:`
+            parsons.Table: A Parsons Table object containing the response data from the /broadcasts endpoint.
+
+        `Raises:`
+            ValueError: If any of the filter parameters have an invalid data type.
+        """
+
+        # Build URL
+        full_url = self.build_url(kwargs, "flow_actions")
+
+        # Send the GET request
+        response = self.client.get_request(url=full_url)
+
+        # Process the response
+        table = Table(response)
+        return table
+
 # Testing
 # strive = Strive()
 # strive.get_members(first_name = 'eq.brittany')

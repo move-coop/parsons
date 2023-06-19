@@ -899,7 +899,7 @@ class TestParsonsTable(unittest.TestCase):
 
     def test_deduplicate(self):
         # Confirm deduplicate works with no keys for one-column duplicates
-        tbl = Table([['a'],[1], [2], [2], [3]])
+        tbl = Table([['a'], [1], [2], [2], [3]])
         tbl_expected = Table([['a'], [1], [2], [3]])
         tbl.deduplicate()
         assert_matching_tables(tbl_expected, tbl)
@@ -990,5 +990,5 @@ class TestParsonsTable(unittest.TestCase):
             [1, 3, 2],
             [2, 3, 4]
         ])
-        tbl.deduplicate(['a','b'])
+        tbl.deduplicate(['a', 'b'])
         assert_matching_tables(tbl_expected, tbl)

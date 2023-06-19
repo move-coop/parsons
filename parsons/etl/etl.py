@@ -914,8 +914,7 @@ class ETL(object):
             `Parsons Table` and also updates self
         """
 
-        from parsons.etl import \
-            Table  # Just trying to avoid recursive imports.
+        from parsons.etl import Table  # Just trying to avoid recursive imports.
 
         normalize_fn = (
             Table.get_normalized_column_name if fuzzy_match else (lambda s: s)

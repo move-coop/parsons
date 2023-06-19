@@ -585,39 +585,39 @@ class Strive(object):
         and returns the response in a Table object.
 
         `Args:`
-            id: int
+            id: string <integer>
                 The ID of the Broadcast
-            user_id: int
+            user_id: string <integer>
                 The Strive user who sent the broadcast
-            campaign_id: int
+            campaign_id: string <integer>
                 The campaign that the broadcast belongs to
-            flow_id: int
+            flow_id: string <integer>
                 The flow that was broadcasted
-            name: str
+            name: string <text>
                 The name of the Broadcast
-            message: str
+            message: string <text>
                 The content of the first message sent in the broadcast
-            attachment: str
+            attachment: string <text>
                 The attachment or MMS included in the broadcast
-            recipient_count: int
+            recipient_count: string <integer>
                 How many members were targeted for the broadcast
-            scheduled_at: str
+            scheduled_at: string <timestamp with time zone>
                 When the broadcast is scheduled to send
-            cancelled_at: str
+            cancelled_at: string <timestamp with time zone>
                 When the broadcast was cancelled
-            sent_at: str
+            sent_at: string <timestamp with time zone>
                 When the broadcast began to deliver
-            created_at: str
+            created_at: string <timestamp with time zone>
                 When the broadcast was first created
-            updated_at: str
+            updated_at: string <timestamp with time zone>
                 When the broadcast was last updated
-            select: str
+            select: string
                 The fields to include in the response. Use comma-separated values to include multiple fields.
-            order: str
+            order: string
                 The field to use for sorting the response. Use a minus sign (-) prefix to sort in descending order.
-            offset: int
+            offset: string
                 The number of records to skip before returning results.
-            limit: int
+            limit: string
                 The maximum number of records to return.
 
         `Returns:`
@@ -629,6 +629,66 @@ class Strive(object):
 
         # Build URL
         full_url = self.build_url(kwargs, "broadcasts")
+
+        # Send the GET request
+        response = self.client.get_request(url=full_url)
+
+        # Process the response
+        table = Table(response)
+        return table
+
+    def get_members_links():
+        """
+        Sends a GET request to the /members_links endpoint with specified parameters,
+        and returns the response in a Table object.
+
+        `Args:`
+            id: string <integer>
+                The ID of the member_link
+            link_id: string <integer>
+                The link this member_link references
+            member_id: string <integer>
+                The member the link was sent to
+            outgoing_message_id: string <integer>
+                The outgoing message in which this link was sent
+            broadcast_id: string <integer>
+                The broadcast in which this link was sent
+            url: string <text>
+                The url that the trackable link directed to
+            was_visited: string <boolean>
+                Whether or not the member visited the link
+            created_at: string <timestamp with time zone>
+                When the link was sent to the member
+            updated_at: string <timestamp with time zone>
+                When the link was last updated
+            visited_at: string <timestamp with time zone>
+                When the member visited the link
+            crawled_at: string <timestamp with time zone>
+                When an automated process visited the link
+            user_agent: string <text>
+                The user agent string recorded when the link was visited
+            visitor_ip: string <text>
+                The IP address recorded when the link was visited
+            campaign_id: string <integer>
+                The campaign this link belongs to
+            select: string
+                The fields to include in the response. Use comma-separated values to include multiple fields.
+            order: string
+                The field to use for sorting the response. Use a minus sign (-) prefix to sort in descending order.
+            offset: string
+                The number of records to skip before returning results.
+            limit: string
+                The maximum number of records to return.
+
+        `Returns:`
+            parsons.Table: A Parsons Table object containing the response data from the /broadcasts endpoint.
+
+        `Raises:`
+            ValueError: If any of the filter parameters have an invalid data type.
+        """
+
+        # Build URL
+        full_url = self.build_url(kwargs, "members_links")
 
         # Send the GET request
         response = self.client.get_request(url=full_url)

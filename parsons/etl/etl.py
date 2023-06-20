@@ -1,5 +1,6 @@
-import petl
 import logging
+
+import petl
 
 logger = logging.getLogger(__name__)
 
@@ -9,7 +10,7 @@ class ETL(object):
 
         pass
 
-    def add_column(self, column, value=None, index=None):
+    def add_column(self, column, value=None, index=None, if_exists="fail"):
         """
         Add a column to your table
 
@@ -20,12 +21,19 @@ class ETL(object):
                 A fixed or calculated value
             index: int
                 The position of the new column in the table
+            if_exists: str (options: 'fail', 'replace')
+                If set `replace`, this function will call `fill_column`
+                if the column already exists, rather than raising a `ValueError`
         `Returns:`
             `Parsons Table` and also updates self
         """
 
         if column in self.columns:
-            raise ValueError(f"Column {column} already exists")
+            if if_exists == "replace":
+                self.fill_column(column, value)
+                return self
+            else:
+                raise ValueError(f"Column {column} already exists")
 
         self.table = self.table.addfield(column, value, index)
 

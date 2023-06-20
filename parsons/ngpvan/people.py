@@ -447,7 +447,6 @@ class People(object):
         logger.info(f'Getting person with {id_type or "vanid"} of {id} at url {url}')
         return self.connection.get_request(url, params={"$expand": expand_fields})
 
-
     def delete_person(self, vanid):
         """
         Suppress the given VANID in databases where contact records can be suppressed.

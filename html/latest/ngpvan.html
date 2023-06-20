@@ -728,6 +728,21 @@ such as <code class="docutils literal notranslate"><span class="pre">dwid</span>
 </dd></dl>
 
 <dl class="py method">
+<dt class="sig sig-object py" id="parsons.ngpvan.van.People.delete_person">
+<span class="sig-name descname"><span class="pre">delete_person</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">vanid</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/ngpvan/people.html#People.delete_person"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.ngpvan.van.People.delete_person" title="Permalink to this definition"></a></dt>
+<dd><p>Suppress the given VANID in databases where contact records can be suppressed.</p>
+<dl class="simple">
+<dt><cite>Args:</cite></dt><dd><dl class="simple">
+<dt>vanid: str</dt><dd><p>The person’s VAN ID.</p>
+</dd>
+</dl>
+</dd>
+<dt><cite>Returns:</cite></dt><dd><p>Success or error.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
 <dt class="sig sig-object py" id="parsons.ngpvan.van.People.apply_canvass_result">
 <span class="sig-name descname"><span class="pre">apply_canvass_result</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">result_code_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">id_type</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'vanid'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">contact_type_id</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">input_type_id</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">date_canvassed</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">phone</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/ngpvan/people.html#People.apply_canvass_result"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.ngpvan.van.People.apply_canvass_result" title="Permalink to this definition"></a></dt>
 <dd><p>Apply a canvass result to a person. Use this end point for attempts that do not

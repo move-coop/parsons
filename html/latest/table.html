@@ -1178,7 +1178,7 @@ Defaults to False.</p>
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">parsons.etl.etl.</span></span><span class="sig-name descname"><span class="pre">ETL</span></span><a class="reference internal" href="_modules/parsons/etl/etl.html#ETL"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.etl.etl.ETL" title="Permalink to this definition"></a></dt>
 <dd><dl class="py method">
 <dt class="sig sig-object py" id="parsons.etl.etl.ETL.add_column">
-<span class="sig-name descname"><span class="pre">add_column</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">column</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">value</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">index</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/etl/etl.html#ETL.add_column"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.etl.etl.ETL.add_column" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">add_column</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">column</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">value</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">index</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">if_exists</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'fail'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/etl/etl.html#ETL.add_column"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.etl.etl.ETL.add_column" title="Permalink to this definition"></a></dt>
 <dd><p>Add a column to your table</p>
 <dl class="simple">
 <dt><cite>Args:</cite></dt><dd><dl class="simple">
@@ -1187,6 +1187,9 @@ Defaults to False.</p>
 <dt>value:</dt><dd><p>A fixed or calculated value</p>
 </dd>
 <dt>index: int</dt><dd><p>The position of the new column in the table</p>
+</dd>
+<dt>if_exists: str (options: ‘fail’, ‘replace’)</dt><dd><p>If set <cite>replace</cite>, this function will call <cite>fill_column</cite>
+if the column already exists, rather than raising a <cite>ValueError</cite></p>
 </dd>
 </dl>
 </dd>

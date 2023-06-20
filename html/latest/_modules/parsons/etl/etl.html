@@ -134,8 +134,9 @@
            <div itemprop="articleBody">
              
   <h1>Source code for parsons.etl.etl</h1><div class="highlight"><pre>
-<span></span><span class="kn">import</span> <span class="nn">petl</span>
-<span class="kn">import</span> <span class="nn">logging</span>
+<span></span><span class="kn">import</span> <span class="nn">logging</span>
+
+<span class="kn">import</span> <span class="nn">petl</span>
 
 <span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
 
@@ -145,7 +146,7 @@
 
         <span class="k">pass</span>
 
-<div class="viewcode-block" id="ETL.add_column"><a class="viewcode-back" href="../../../table.html#parsons.etl.etl.ETL.add_column">[docs]</a>    <span class="k">def</span> <span class="nf">add_column</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">column</span><span class="p">,</span> <span class="n">value</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<div class="viewcode-block" id="ETL.add_column"><a class="viewcode-back" href="../../../table.html#parsons.etl.etl.ETL.add_column">[docs]</a>    <span class="k">def</span> <span class="nf">add_column</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">column</span><span class="p">,</span> <span class="n">value</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">if_exists</span><span class="o">=</span><span class="s2">&quot;fail&quot;</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Add a column to your table</span>
 
@@ -156,12 +157,19 @@
 <span class="sd">                A fixed or calculated value</span>
 <span class="sd">            index: int</span>
 <span class="sd">                The position of the new column in the table</span>
+<span class="sd">            if_exists: str (options: &#39;fail&#39;, &#39;replace&#39;)</span>
+<span class="sd">                If set `replace`, this function will call `fill_column`</span>
+<span class="sd">                if the column already exists, rather than raising a `ValueError`</span>
 <span class="sd">        `Returns:`</span>
 <span class="sd">            `Parsons Table` and also updates self</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
         <span class="k">if</span> <span class="n">column</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">columns</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Column </span><span class="si">{</span><span class="n">column</span><span class="si">}</span><span class="s2"> already exists&quot;</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">if_exists</span> <span class="o">==</span> <span class="s2">&quot;replace&quot;</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">fill_column</span><span class="p">(</span><span class="n">column</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span>
+                <span class="k">return</span> <span class="bp">self</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Column </span><span class="si">{</span><span class="n">column</span><span class="si">}</span><span class="s2"> already exists&quot;</span><span class="p">)</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">table</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">table</span><span class="o">.</span><span class="n">addfield</span><span class="p">(</span><span class="n">column</span><span class="p">,</span> <span class="n">value</span><span class="p">,</span> <span class="n">index</span><span class="p">)</span>
 

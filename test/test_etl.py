@@ -1,12 +1,11 @@
-import unittest
-import petl
 import os
 import shutil
-
-from parsons import Table
+import unittest
 from test.utils import assert_matching_tables
-from parsons.utilities import zip_archive
 
+import petl
+from parsons import Table
+from parsons.utilities import zip_archive
 
 # Notes :
 # - The `Table.to_postgres()` test is housed in the Postgres tests
@@ -305,6 +304,10 @@ class TestParsonsTable(unittest.TestCase):
     def test_column_add_dupe(self):
         # Test that we can't add an existing column name
         self.assertRaises(ValueError, self.tbl.add_column, "first")
+
+    def test_add_column_if_exists(self):
+        self.tbl.add_column("first", if_exists="replace")
+        self.assertEqual(self.tbl.columns, ["first", "last"])
 
     def test_remove_column(self):
         # Test that column is removed correctly

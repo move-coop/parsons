@@ -154,4 +154,3 @@ get_person_response = {
 merge_contacts_response = {"vanId": 56789}
 
 delete_person_response = {}
-

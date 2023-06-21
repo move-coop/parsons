@@ -15,7 +15,7 @@ class TestStrive(unittest.TestCase):
         # Mock the GET request method to return the mock response
         with patch.object(self.strive, "get_members", return_value=mock_response):
             # Call the get_members method with the first_name parameter
-            result = self.strive.get_members(first_name="brittany")
+            result = self.strive.get_members(first_name="eq.brittany")
             # Verify that the result is a Table object
             assert isinstance(result, Table)
             # Verify that the result contains the expected data
@@ -28,7 +28,7 @@ class TestStrive(unittest.TestCase):
         # Mock the GET request method to return the mock response
         with patch.object(self.strive, "get_members", return_value=mock_response):
             # Call the get_members method with the first_name parameter
-            result = self.strive.get_members(first_name="bennett")
+            result = self.strive.get_members(first_name="eq.bennett")
             # Verify that the result is a Table object
             assert isinstance(result, Table)
             # Verify that the result contains the expected data

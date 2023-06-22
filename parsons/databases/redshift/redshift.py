@@ -415,6 +415,7 @@ class Redshift(
                         logger.info(f"Turning {key} into parsons table using from_json")
                         tbl = Table.from_json(local_path)
                         logger.info(tbl)
+                        logger.info(f"Table has {tbl.num_rows} rows")
                     else:
                         raise TypeError("Invalid data type provided")
 

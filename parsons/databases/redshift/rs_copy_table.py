@@ -51,7 +51,7 @@ class RedshiftCopyTable(object):
         sql = f"copy {table_name}{col_list} \nfrom '{source}' \n"
 
         # Generate credentials
-        sql += self.get_creds(aws_access_key_id, aws_secret_access_key)
+        # sql += self.get_creds(aws_access_key_id, aws_secret_access_key)
 
         # Other options
         if manifest:

@@ -447,6 +447,21 @@ class People(object):
         logger.info(f'Getting person with {id_type or "vanid"} of {id} at url {url}')
         return self.connection.get_request(url, params={"$expand": expand_fields})
 
+    def delete_person(self, vanid):
+        """
+        Suppress the given VANID in databases where contact records can be suppressed.
+
+        `Args:`
+            vanid: str
+                The person's VAN ID.
+        `Returns:`
+            Success or error.
+        """
+        url = f"people/{vanid}"
+        r = self.connection.delete_request(url)
+        logger.info(f"Van ID {vanid} suppressed.")
+        return r
+
     def apply_canvass_result(
         self,
         id,

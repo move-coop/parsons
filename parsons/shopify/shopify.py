@@ -9,7 +9,6 @@ from parsons.utilities.api_connector import APIConnector
 class Shopify(object):
     """
     Instantiate the Shopify class
-
     `Args:`
         subdomain: str
             The Shopify subdomain (e.g. ``myorg`` for myorg.myshopify.com) Not required if
@@ -23,25 +22,49 @@ class Shopify(object):
         api_version: str
             The Shopify API version. Not required if ``SHOPIFY_API_VERSION`` env variable
             set.
+        access_token: str
+            The Shopify access token.  Not required if ``SHOPIFY_ACCESS_TOKEN`` env
+            variable set. If argument or env variable is set, password and api_key
+            are ignored.
     `Returns:`
         Shopify Class
     """
 
-    def __init__(self, subdomain=None, password=None, api_key=None, api_version=None):
+    def __init__(
+        self,
+        subdomain=None,
+        password=None,
+        api_key=None,
+        api_version=None,
+        access_token=None,
+    ):
         self.subdomain = check_env.check("SHOPIFY_SUBDOMAIN", subdomain)
-        self.password = check_env.check("SHOPIFY_PASSWORD", password)
-        self.api_key = check_env.check("SHOPIFY_API_KEY", api_key)
+        self.access_token = check_env.check(
+            "SHOPIFY_ACCESS_TOKEN", access_token, optional=True
+        )
+        self.password = check_env.check("SHOPIFY_PASSWORD", password, optional=True)
+        self.api_key = check_env.check("SHOPIFY_API_KEY", api_key, optional=True)
         self.api_version = check_env.check("SHOPIFY_API_VERSION", api_version)
         self.base_url = "https://%s.myshopify.com/admin/api/%s/" % (
             self.subdomain,
             self.api_version,
         )
-        self.client = APIConnector(self.base_url, auth=(self.api_key, self.password))
+        if self.access_token is None and (
+            self.password is None or self.api_key is None
+        ):
+            raise KeyError("Must set either access_token or both api_key and password.")
+        if self.access_token is not None:
+            self.client = APIConnector(
+                self.base_url, headers={"X-Shopify-Access-Token": access_token}
+            )
+        else:
+            self.client = APIConnector(
+                self.base_url, auth=(self.api_key, self.password)
+            )
 
     def get_count(self, query_date=None, since_id=None, table_name=None):
         """
         Get the count of rows in a table.
-
         `Args:`
             query_date: str
                 Filter query by a date that rows were created. This filter is ignored if value
@@ -64,7 +87,6 @@ class Shopify(object):
     def get_orders(self, query_date=None, since_id=None, completed=True):
         """
         Get Shopify orders.
-
         `Args:`
             query_date: str
                 Filter query by a date that rows were created. Format: yyyy-mm-dd. This filter
@@ -127,7 +149,6 @@ class Shopify(object):
     ):
         """
         Get the URL of a Shopify API request
-
         `Args:`
             query_date: str
                 Filter query by a date that rows were created. Format: yyyy-mm-dd. This filter
@@ -164,7 +185,6 @@ class Shopify(object):
     def graphql(self, query):
         """
         Make GraphQL request. Reference: https://shopify.dev/api/admin-graphql
-
         `Args:`
             query: str
                 GraphQL query.
@@ -192,15 +212,12 @@ class Shopify(object):
     ):
         """
         Fast classmethod so you can get the data all at once:
-
             tabledata = Shopify.load_to_table(subdomain='myorg', password='abc123',
                                             api_key='abc123', api_version='2020-10',
                                             query_date='2020-10-20', since_id='8414',
                                             completed=True)
-
         This instantiates the class and makes the appropriate query type to Shopify's orders
         table based on which arguments are supplied.
-
         `Args:`
             subdomain: str
                 The Shopify subdomain (e.g. ``myorg`` for myorg.myshopify.com).

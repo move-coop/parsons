@@ -1,6 +1,5 @@
 from simple_salesforce import Salesforce as _Salesforce
 from parsons.utilities import check_env
-from parsons.etl import Table
 import logging
 import json
 
@@ -80,8 +79,9 @@ class Salesforce:
             list of dicts with Salesforce data
         """  # noqa: E501,E261
 
-        q = Table(self.client.query_all(soql))
-        logger.info(f"Found {q.num_rows} results")
+        q = self.client.query_all(soql)
+        q = json.loads(json.dumps(q))
+        logger.info(f"Found {q['totalSize']} results")
         return q
 
     def insert_record(self, object, data_table):

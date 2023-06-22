@@ -42,6 +42,7 @@ class RedshiftCopyTable(object):
         compression=None,
         bucket_region=None,
     ):
+        logger.info(f"Data type is {data_type}")
         # Source / Destination
         source = f"s3://{bucket}/{key}"
 

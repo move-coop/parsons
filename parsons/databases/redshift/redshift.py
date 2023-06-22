@@ -412,8 +412,9 @@ class Redshift(
                     if data_type == "csv":
                         tbl = Table.from_csv(local_path, delimiter=csv_delimiter)
                     elif data_type == "json":
+                        logger.info(f"Turning {key} into parsons table using from_json")
                         tbl = Table.from_json(local_path)
-                        logger.info(tbl.materialize())
+                        logger.info(tbl)
                     else:
                         raise TypeError("Invalid data type provided")
 

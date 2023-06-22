@@ -96,12 +96,16 @@ class NationBuilder:
                 logging.debug("sending request %s" % url)
                 response = self.client.get_request(url)
 
-                res = response["results"]
+                res = response.get("results", None)
+
+                if res is None:
+                    break
+
                 logging.debug("response got %s records" % len(res))
 
                 data.extend(res)
 
-                if response["next"]:
+                if response.get("next", None):
                     nonce, token = NationBuilder.parse_next_params(response["next"])
                     url = NationBuilder.make_next_url(original_url, nonce, token)
                 else:
@@ -134,10 +138,13 @@ class NationBuilder:
             raise ValueError("person_id can't None")
 
         if not isinstance(person_id, str):
-            raise ValueError("person_id must be an str")
+            raise ValueError("person_id must be a str")
 
         if len(person_id.strip()) == 0:
             raise ValueError("person_id can't be an empty str")
+
+        if not isinstance(person, dict):
+            raise ValueError("person must be a dict")
 
         url = f"people/{person_id}"
         response = self.client.put_request(url, data=json.dumps({"person": person}))
@@ -175,6 +182,28 @@ class NationBuilder:
             A tuple of `created` and `person` object with the updated data. If the request fails
             the method will return a tuple of `False` and `None`.
         """
+
+        _required_keys = [
+            "civicrm_id",
+            "county_file_id",
+            "dw_id",
+            "external_id",
+            "email",
+            "facebook_username",
+            "ngp_id",
+            "salesforce_id",
+            "twitter_login",
+            "van_id",
+        ]
+
+        if not isinstance(person, dict):
+            raise ValueError("person must be a dict")
+
+        has_required_key = any(x in person for x in _required_keys)
+
+        if not has_required_key:
+            _keys = ", ".join(_required_keys)
+            raise ValueError(f"person dict must contain at least one key of {_keys}")
 
         url = "people/push"
         response = self.client.request(url, "PUT", data=json.dumps({"person": person}))

@@ -413,6 +413,7 @@ class Redshift(
                         tbl = Table.from_csv(local_path, delimiter=csv_delimiter)
                     elif data_type == "json":
                         tbl = Table.from_json(local_path)
+                        logger.info(tbl)
                     else:
                         raise TypeError("Invalid data type provided")
 

@@ -102,6 +102,7 @@ class RedshiftCopyTable(object):
             sql += f"csv delimiter '{csv_delimiter}' \n"
         elif data_type == "json":
             sql += "json 'auto' \n"
+            sql += "delimiter \\n"
             logger.info("Adding json 'auto' to sql")
         else:
             raise TypeError("Invalid data type specified.")

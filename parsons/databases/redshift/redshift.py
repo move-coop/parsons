@@ -460,9 +460,7 @@ class Redshift(
                 bucket_region=bucket_region,
             )
 
-            sql_censored = sql_helpers.redact_credentials(copy_sql)
-
-            logger.info(f"Copy SQL command: {sql_censored}")
+            logger.info(f"Copy SQL command: {copy_sql}")
 
             self.query_with_connection(copy_sql, connection, commit=False)
             logger.info(f"Data copied to {table_name}.")

@@ -21,7 +21,7 @@ class Airtable(object):
 
     def __init__(self, base_key, table_name, api_key=None):
 
-        self.api_key = check_env.check('AIRTABLE_API_KEY', api_key)
+        self.api_key = check_env.check("AIRTABLE_API_KEY", api_key)
         self.client = client(base_key, table_name, self.api_key)
 
     def get_record(self, record_id):
@@ -37,8 +37,15 @@ class Airtable(object):
 
         return self.client.get(record_id)
 
-    def get_records(self, fields=None, max_records=None, view=None,
-                    formula=None, sort=None, sample_size=None):
+    def get_records(
+        self,
+        fields=None,
+        max_records=None,
+        view=None,
+        formula=None,
+        sort=None,
+        sample_size=None,
+    ):
         """
         `Args:`
             fields: str or lst
@@ -88,25 +95,30 @@ class Airtable(object):
         """
 
         # Raises an error if sort is None type. Thus, only adding if populated.
-        kwargs = {'fields': fields, 'max_records': max_records, 'view': view, 'formula': formula}
+        kwargs = {
+            "fields": fields,
+            "max_records": max_records,
+            "view": view,
+            "formula": formula,
+        }
         if sort:
-            kwargs['sort'] = sort
+            kwargs["sort"] = sort
 
         tbl = Table(self.client.get_all(**kwargs))
 
         # If the results are empty, then return an empty table.
-        if 'fields' not in tbl.columns:
+        if "fields" not in tbl.columns:
             return Table([[]])
 
         unpack_dicts_kwargs = {
-            'column': 'fields',
-            'prepend': False,
+            "column": "fields",
+            "prepend": False,
         }
         if fields:
-            unpack_dicts_kwargs['keys'] = fields
+            unpack_dicts_kwargs["keys"] = fields
 
         if sample_size:
-            unpack_dicts_kwargs['sample_size'] = sample_size
+            unpack_dicts_kwargs["sample_size"] = sample_size
 
         return tbl.unpack_dict(**unpack_dicts_kwargs)
 
@@ -125,7 +137,7 @@ class Airtable(object):
         """
 
         resp = self.client.insert(row)
-        logger.info('Record inserted')
+        logger.info("Record inserted")
         return resp
 
     def insert_records(self, table, typecast=False):
@@ -144,7 +156,7 @@ class Airtable(object):
         """
 
         resp = self.client.batch_insert(table, typecast=typecast)
-        logger.info(f'{table.num_rows} records inserted.')
+        logger.info(f"{table.num_rows} records inserted.")
         return resp
 
     def update_record(self, record_id, fields, typecast=False):
@@ -164,5 +176,5 @@ class Airtable(object):
         """
 
         resp = self.client.update(record_id, fields, typecast=typecast)
-        logger.info(f'{record_id} updated')
+        logger.info(f"{record_id} updated")
         return resp

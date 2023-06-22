@@ -24,8 +24,8 @@ class Donorbox(object):
     """
 
     def __init__(self, email=None, api_key=None):
-        self.email = check_env.check('DONORBOX_ACCOUNT_EMAIL', email)
-        self.api_key = check_env.check('DONORBOX_API_KEY', api_key)
+        self.email = check_env.check("DONORBOX_ACCOUNT_EMAIL", email)
+        self.api_key = check_env.check("DONORBOX_API_KEY", api_key)
         self.uri = URI
         self.client = APIConnector(self.uri, auth=(self.email, self.api_key))
 
@@ -140,7 +140,9 @@ class Donorbox(object):
             Parsons Table
         """
         if "donor_id" in kwargs:
-            kwargs["id"] = kwargs.pop("donor_id")  # switch to Donorbox's (less specific) name
+            kwargs["id"] = kwargs.pop(
+                "donor_id"
+            )  # switch to Donorbox's (less specific) name
         data = self.client.get_request("donors", params=kwargs)
         return Table(data)
 
@@ -212,12 +214,14 @@ class Donorbox(object):
 
         `Returns`: None
         """
-        valid_formats = ['%Y-%m-%d', '%d-%m-%Y', '%Y/%m/%d', '%Y%m%d']
+        valid_formats = ["%Y-%m-%d", "%d-%m-%Y", "%Y/%m/%d", "%Y%m%d"]
         for str_format in valid_formats:
             try:
                 datetime.datetime.strptime(date_string, str_format)
                 return
             except ValueError:
                 continue
-        raise ValueError(f"The date you supplied, {date_string}, is not a valid Donorbox format." +
-                         "Try the following formats: YYYY-mm-dd YYYY/mm/dd YYYYmmdd dd-mm-YYYY")
+        raise ValueError(
+            f"The date you supplied, {date_string}, is not a valid Donorbox format."
+            + "Try the following formats: YYYY-mm-dd YYYY/mm/dd YYYYmmdd dd-mm-YYYY"
+        )

@@ -3,7 +3,6 @@ from setuptools import find_packages
 from distutils.core import setup
 
 
-
 def main():
     limited_deps = os.environ.get("PARSONS_LIMITED_DEPENDENCIES", "")
     if limited_deps.strip().upper() in ("1", "YES", "TRUE", "ON"):
@@ -42,41 +41,39 @@ def main():
             "s3": ["boto3"],
             "salesforce": ["simple-salesforce"],
             "sftp": ["paramiko"],
-            "slack": ["slackclient"],
+            "slack": ["slackclient<2"],
             "smtp": ["validate-email"],
             "targetsmart": ["xmltodict"],
             "twilio": ["twilio"],
             "zoom": ["PyJWT"],
         }
-        extras_require["all"] = sorted({
-            lib
-            for libs in extras_require.values()
-            for lib in libs
-        })
+        extras_require["all"] = sorted(
+            {lib for libs in extras_require.values() for lib in libs}
+        )
     else:
         THIS_DIR = os.path.abspath(os.path.dirname(__file__))
-        with open(os.path.join(THIS_DIR, 'requirements.txt')) as reqs:
-            install_requires = reqs.read().strip().split('\n')
+        with open(os.path.join(THIS_DIR, "requirements.txt")) as reqs:
+            install_requires = reqs.read().strip().split("\n")
         # No op for forward-compatibility
         extras_require = {"all": []}
 
     setup(
         name="parsons",
-        version='0.21.0',
+        version="1.1.0",
         author="The Movement Cooperative",
         author_email="info@movementcooperative.org",
-        url='https://github.com/movementcoop/parsons',
-        keywords=['PROGRESSIVE', 'API', 'ETL'],
+        url="https://github.com/move-coop/parsons",
+        keywords=["PROGRESSIVE", "API", "ETL"],
         packages=find_packages(),
         install_requires=install_requires,
         extras_require=extras_require,
         classifiers=[
-            'Development Status :: 3 - Alpha',
-            'Intended Audience :: Developers',
-            'Programming Language :: Python :: 3.7',
-            'Programming Language :: Python :: 3.8',
-            'Programming Language :: Python :: 3.9',
-            'Programming Language :: Python :: 3.10'
+            "Development Status :: 3 - Alpha",
+            "Intended Audience :: Developers",
+            "Programming Language :: Python :: 3.7",
+            "Programming Language :: Python :: 3.8",
+            "Programming Language :: Python :: 3.9",
+            "Programming Language :: Python :: 3.10",
         ],
         python_requires=">=3.7.0,<3.11.0",
     )

@@ -53,7 +53,9 @@ jobs:
           name: check linting
           command: |
             . venv/bin/activate
-            flake8 parsons/ test/ useful_resources/
+            # E203 and W503 don't work well with black
+            flake8 parsons/ test/ useful_resources/ --extend-ignore=E203,W503
+            black --check parsons/ test/ useful_resources/
 
       - store_artifacts:
           path: test-reports

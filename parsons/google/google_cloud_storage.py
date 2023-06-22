@@ -56,7 +56,7 @@ class GoogleCloudStorage(object):
         """
 
         buckets = [b.name for b in self.client.list_buckets()]
-        logger.info(f'Found {len(buckets)}.')
+        logger.info(f"Found {len(buckets)}.")
         return buckets
 
     def bucket_exists(self, bucket_name):
@@ -71,10 +71,10 @@ class GoogleCloudStorage(object):
         """
 
         if bucket_name in self.list_buckets():
-            logger.info(f'{bucket_name} exists.')
+            logger.info(f"{bucket_name} exists.")
             return True
         else:
-            logger.info(f'{bucket_name} does not exist.')
+            logger.info(f"{bucket_name} does not exist.")
             return False
 
     def get_bucket(self, bucket_name):
@@ -91,9 +91,9 @@ class GoogleCloudStorage(object):
         if self.client.lookup_bucket(bucket_name):
             bucket = self.client.get_bucket(bucket_name)
         else:
-            raise google.cloud.exceptions.NotFound('Bucket not found')
+            raise google.cloud.exceptions.NotFound("Bucket not found")
 
-        logger.info(f'Returning {bucket_name} object')
+        logger.info(f"Returning {bucket_name} object")
         return bucket
 
     def create_bucket(self, bucket_name):
@@ -110,7 +110,7 @@ class GoogleCloudStorage(object):
         # To Do: Allow user to set all of the bucket parameters
 
         self.client.create_bucket(bucket_name)
-        logger.info(f'Created {bucket_name} bucket.')
+        logger.info(f"Created {bucket_name} bucket.")
 
     def delete_bucket(self, bucket_name, delete_blobs=False):
         """
@@ -128,7 +128,7 @@ class GoogleCloudStorage(object):
 
         bucket = self.get_bucket(bucket_name)
         bucket.delete(force=delete_blobs)
-        logger.info(f'{bucket_name} bucket deleted.')
+        logger.info(f"{bucket_name} bucket deleted.")
 
     def list_blobs(self, bucket_name, max_results=None, prefix=None):
         """
@@ -145,9 +145,11 @@ class GoogleCloudStorage(object):
             A list of blob names
         """
 
-        blobs = self.client.list_blobs(bucket_name, max_results=max_results, prefix=prefix)
+        blobs = self.client.list_blobs(
+            bucket_name, max_results=max_results, prefix=prefix
+        )
         lst = [b.name for b in blobs]
-        logger.info(f'Found {len(lst)} in {bucket_name} bucket.')
+        logger.info(f"Found {len(lst)} in {bucket_name} bucket.")
 
         return lst
 
@@ -165,10 +167,10 @@ class GoogleCloudStorage(object):
         """
 
         if blob_name in self.list_blobs(bucket_name):
-            logger.info(f'{blob_name} exists.')
+            logger.info(f"{blob_name} exists.")
             return True
         else:
-            logger.info(f'{blob_name} does not exist.')
+            logger.info(f"{blob_name} does not exist.")
             return False
 
     def get_blob(self, bucket_name, blob_name):
@@ -186,7 +188,7 @@ class GoogleCloudStorage(object):
 
         bucket = self.get_bucket(bucket_name)
         blob = bucket.get_blob(blob_name)
-        logger.debug(f'Got {blob_name} object from {bucket_name} bucket.')
+        logger.debug(f"Got {blob_name} object from {bucket_name} bucket.")
         return blob
 
     def put_blob(self, bucket_name, blob_name, local_path):
@@ -210,7 +212,7 @@ class GoogleCloudStorage(object):
         with open(local_path, "rb") as f:
             blob.upload_from_file(f)
 
-        logger.info(f'{blob_name} put in {bucket_name} bucket.')
+        logger.info(f"{blob_name} put in {bucket_name} bucket.")
 
     def download_blob(self, bucket_name, blob_name, local_path=None):
         """
@@ -231,15 +233,15 @@ class GoogleCloudStorage(object):
         """
 
         if not local_path:
-            local_path = files.create_temp_file_for_path('TEMPTHING')
+            local_path = files.create_temp_file_for_path("TEMPTHING")
 
         bucket = storage.Bucket(self.client, name=bucket_name)
         blob = storage.Blob(blob_name, bucket)
 
-        logger.info(f'Downloading {blob_name} from {bucket_name} bucket.')
-        with open(local_path, 'wb') as f:
+        logger.info(f"Downloading {blob_name} from {bucket_name} bucket.")
+        with open(local_path, "wb") as f:
             blob.download_to_file(f, client=self.client)
-        logger.info(f'{blob_name} saved to {local_path}.')
+        logger.info(f"{blob_name} saved to {local_path}.")
 
         return local_path
 
@@ -258,9 +260,11 @@ class GoogleCloudStorage(object):
 
         blob = self.get_blob(bucket_name, blob_name)
         blob.delete()
-        logger.info(f'{blob_name} blob in {bucket_name} bucket deleted.')
+        logger.info(f"{blob_name} blob in {bucket_name} bucket deleted.")
 
-    def upload_table(self, table, bucket_name, blob_name, data_type='csv', default_acl=None):
+    def upload_table(
+        self, table, bucket_name, blob_name, data_type="csv", default_acl=None
+    ):
         """
         Load the data from a Parsons table into a blob.
 
@@ -277,22 +281,28 @@ class GoogleCloudStorage(object):
         bucket = storage.Bucket(self.client, name=bucket_name)
         blob = storage.Blob(blob_name, bucket)
 
-        if data_type == 'csv':
+        if data_type == "csv":
             local_file = table.to_csv()
-            content_type = 'text/csv'
-        elif data_type == 'json':
+            content_type = "text/csv"
+        elif data_type == "json":
             local_file = table.to_json()
-            content_type = 'application/json'
+            content_type = "application/json"
         else:
-            raise ValueError(f'Unknown data_type value ({data_type}): must be one of: csv or json')
+            raise ValueError(
+                f"Unknown data_type value ({data_type}): must be one of: csv or json"
+            )
 
         try:
-            blob.upload_from_filename(local_file, content_type=content_type, client=self.client,
-                                      predefined_acl=default_acl)
+            blob.upload_from_filename(
+                local_file,
+                content_type=content_type,
+                client=self.client,
+                predefined_acl=default_acl,
+            )
         finally:
             files.close_temp_file(local_file)
 
-        return f'gs://{bucket_name}/{blob_name}'
+        return f"gs://{bucket_name}/{blob_name}"
 
     def get_url(self, bucket_name, blob_name, expires_in=60):
         """
@@ -312,7 +322,9 @@ class GoogleCloudStorage(object):
 
         bucket = self.client.bucket(bucket_name)
         blob = bucket.blob(blob_name)
-        url = blob.generate_signed_url(version="v4",
-                                       expiration=datetime.timedelta(minutes=expires_in),
-                                       method="GET")
+        url = blob.generate_signed_url(
+            version="v4",
+            expiration=datetime.timedelta(minutes=expires_in),
+            method="GET",
+        )
         return url

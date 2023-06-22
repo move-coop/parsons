@@ -38,52 +38,56 @@ class FacebookAds(object):
     # method!
     # TODO add support for parsing full names from one column
     KeyMatchMap = {
-        FBKeySchema.email: ['email', 'email address', 'voterbase_email'],
-        FBKeySchema.fn: ['fn', 'first', 'first name', 'vb_tsmart_first_name'],
-        FBKeySchema.ln: ['ln', 'last', 'last name', 'vb_tsmart_last_name'],
+        FBKeySchema.email: ["email", "email address", "voterbase_email"],
+        FBKeySchema.fn: ["fn", "first", "first name", "vb_tsmart_first_name"],
+        FBKeySchema.ln: ["ln", "last", "last name", "vb_tsmart_last_name"],
         FBKeySchema.phone: [
-            'phone',
-            'phone number',
-            'cell',
-            'landline',
-            'vb_voterbase_phone',
-            'vb_voterbase_phone_wireless'
-            ],
-        FBKeySchema.ct: ['ct', 'city', 'vb_vf_reg_city', 'vb_tsmart_city'],
+            "phone",
+            "phone number",
+            "cell",
+            "landline",
+            "vb_voterbase_phone",
+            "vb_voterbase_phone_wireless",
+        ],
+        FBKeySchema.ct: ["ct", "city", "vb_vf_reg_city", "vb_tsmart_city"],
         FBKeySchema.st: [
-            'st',
-            'state',
-            'state code',
-            'vb_vf_source_state',
-            'vb_tsmart_state',
-            'vb_vf_reg_state',
-            'vb_vf_reg_cass_state'
-            ],
-        FBKeySchema.zip: ['zip', 'zip code', 'vb_vf_reg_zip', 'vb_tsmart_zip'],
-        FBKeySchema.country: ['country', 'country code'],
+            "st",
+            "state",
+            "state code",
+            "vb_vf_source_state",
+            "vb_tsmart_state",
+            "vb_vf_reg_state",
+            "vb_vf_reg_cass_state",
+        ],
+        FBKeySchema.zip: ["zip", "zip code", "vb_vf_reg_zip", "vb_tsmart_zip"],
+        FBKeySchema.country: ["country", "country code"],
         # Yes, it's not kosher to confuse gender and sex. However, gender is all that FB
         # supports in their audience targeting.
-        FBKeySchema.gen: ['gen', 'gender', 'sex', 'vb_voterbase_gender'],
-        FBKeySchema.doby: ['doby', 'dob year', 'birth year'],
-        FBKeySchema.dobm: ['dobm', 'dob month', 'birth month'],
-        FBKeySchema.dobd: ['dobd', 'dob day', 'birth day'],
+        FBKeySchema.gen: ["gen", "gender", "sex", "vb_voterbase_gender"],
+        FBKeySchema.doby: ["doby", "dob year", "birth year"],
+        FBKeySchema.dobm: ["dobm", "dob month", "birth month"],
+        FBKeySchema.dobd: ["dobd", "dob day", "birth day"],
     }
 
     PreprocessKeyMatchMap = {
         # Data in this column will be parsed into the FBKeySchema.dobX keys.
-        "DOB YYYYMMDD": ['dob', 'vb_voterbase_dob', 'vb_tsmart_dob']
+        "DOB YYYYMMDD": ["dob", "vb_voterbase_dob", "vb_tsmart_dob"]
     }
 
-    def __init__(self, app_id=None, app_secret=None, access_token=None, ad_account_id=None):
+    def __init__(
+        self, app_id=None, app_secret=None, access_token=None, ad_account_id=None
+    ):
 
         try:
-            self.app_id = app_id or os.environ['FB_APP_ID']
-            self.app_secret = app_secret or os.environ['FB_APP_SECRET']
-            self.access_token = access_token or os.environ['FB_ACCESS_TOKEN']
-            self.ad_account_id = ad_account_id or os.environ['FB_AD_ACCOUNT_ID']
+            self.app_id = app_id or os.environ["FB_APP_ID"]
+            self.app_secret = app_secret or os.environ["FB_APP_SECRET"]
+            self.access_token = access_token or os.environ["FB_ACCESS_TOKEN"]
+            self.ad_account_id = ad_account_id or os.environ["FB_AD_ACCOUNT_ID"]
         except KeyError as error:
-            logger.error("FB Marketing API credentials missing. Must be specified as env vars "
-                         "or kwargs")
+            logger.error(
+                "FB Marketing API credentials missing. Must be specified as env vars "
+                "or kwargs"
+            )
             raise error
 
         FacebookAdsApi.init(self.app_id, self.app_secret, self.access_token)
@@ -117,16 +121,13 @@ class FacebookAds(object):
         # TODO Throw an error if the values are not 6 characters long?
 
         table.add_column(
-            FBKeySchema.doby,
-            lambda row: row[column][:4] if row[column] else None
+            FBKeySchema.doby, lambda row: row[column][:4] if row[column] else None
         )
         table.add_column(
-            FBKeySchema.dobm,
-            lambda row: row[column][4:6] if row[column] else None
+            FBKeySchema.dobm, lambda row: row[column][4:6] if row[column] else None
         )
         table.add_column(
-            FBKeySchema.dobd,
-            lambda row: row[column][6:8] if row[column] else None
+            FBKeySchema.dobd, lambda row: row[column][6:8] if row[column] else None
         )
         table.remove_column(column)
 
@@ -187,20 +188,20 @@ class FacebookAds(object):
 
         for fb_key, orig_cols in fb_keys_to_orig_cols.items():
             value_fn = (
-                lambda bound_cols:
-                    lambda row:
-                        FacebookAds._get_first_non_empty_value_from_dict(row, bound_cols)
+                lambda bound_cols: lambda row: FacebookAds._get_first_non_empty_value_from_dict(
+                    row, bound_cols
+                )
             )(orig_cols)
 
             # A little trickery here to handle the case where one of the "orig_cols" is already
             # named like the "fb_key".
-            t.add_column(fb_key+"_fb_temp_col", value_fn)
+            t.add_column(fb_key + "_fb_temp_col", value_fn)
             t.remove_column(*orig_cols)
-            t.rename_column(fb_key+"_fb_temp_col", fb_key)
+            t.rename_column(fb_key + "_fb_temp_col", fb_key)
 
         # Convert None values to empty strings. Otherwise the FB SDK chokes.
         petl_table = t.to_petl()
-        t = Table(petl_table.replaceall(None, ''))
+        t = Table(petl_table.replaceall(None, ""))
 
         return t
 
@@ -242,14 +243,14 @@ class FacebookAds(object):
             raise KeyError("Invalid data_source provided")
 
         params = {
-            'name': name,
-            'subtype': 'CUSTOM',
-            'description': description,
-            'customer_file_source': data_source,
+            "name": name,
+            "subtype": "CUSTOM",
+            "description": description,
+            "customer_file_source": data_source,
         }
 
         res = self.ad_account.create_custom_audience(params=params)
-        return res['id']
+        return res["id"]
 
     def delete_custom_audience(self, audience_id):
         """
@@ -263,8 +264,16 @@ class FacebookAds(object):
         CustomAudience(audience_id).api_delete()
 
     @staticmethod
-    def _add_batch_to_custom_audience(app_id, app_secret, access_token, audience_id, schema,
-                                      batch, added_so_far, total_rows):
+    def _add_batch_to_custom_audience(
+        app_id,
+        app_secret,
+        access_token,
+        audience_id,
+        schema,
+        batch,
+        added_so_far,
+        total_rows,
+    ):
         # Since this method runs in parallel, we need to re-initialize the Facebook API each time
         # to avoid SSL-related errors. Basically, the FacebookAdsApi python framework isn't
         # built to run in parallel.
@@ -272,7 +281,9 @@ class FacebookAds(object):
 
         # Note that the FB SDK handles basic normalization and hashing of the data
         CustomAudience(audience_id).add_users(schema, batch, is_raw=True)
-        logger.info(f"Added {added_so_far+len(batch)}/{total_rows} users to custom audience...")
+        logger.info(
+            f"Added {added_so_far+len(batch)}/{total_rows} users to custom audience..."
+        )
 
     def add_users_to_custom_audience(self, audience_id, users_table):
         """
@@ -347,15 +358,19 @@ class FacebookAds(object):
             users_table: obj
                 Parsons table
 
-        """ # noqa: E501,E261
+        """  # noqa: E501,E261
 
-        logger.info(f"Adding custom audience users from provided table with "
-                    f"{users_table.num_rows} rows")
+        logger.info(
+            f"Adding custom audience users from provided table with "
+            f"{users_table.num_rows} rows"
+        )
 
         match_table = FacebookAds.get_match_table_for_users_table(users_table)
         if not match_table.columns:
-            raise KeyError("No valid columns found for audience matching. "
-                           "See FacebookAds.KeyMatchMap for supported columns")
+            raise KeyError(
+                "No valid columns found for audience matching. "
+                "See FacebookAds.KeyMatchMap for supported columns"
+            )
 
         num_rows = match_table.num_rows
         logger.info(f"Found {num_rows} rows with valid FB matching keys")
@@ -370,11 +385,17 @@ class FacebookAds(object):
 
         parallel_jobs = (
             delayed(FacebookAds._add_batch_to_custom_audience)(
-                self.app_id, self.app_secret, self.access_token, audience_id, schema,
-                data[i:i+batch_size], i, num_rows
+                self.app_id,
+                self.app_secret,
+                self.access_token,
+                audience_id,
+                schema,
+                data[i : i + batch_size],
+                i,
+                num_rows,
             )
             for i in range(0, len(data), batch_size)
         )
 
-        n_jobs = os.environ.get('PARSONS_NUM_PARALLEL_JOBS', 4)
+        n_jobs = os.environ.get("PARSONS_NUM_PARALLEL_JOBS", 4)
         Parallel(n_jobs=n_jobs)(parallel_jobs)

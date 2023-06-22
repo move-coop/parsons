@@ -1,6 +1,10 @@
 import unittest
 
+import requests_mock
+
 from parsons import NationBuilder as NB
+
+from .fixtures import GET_PEOPLE_RESPONSE, PERSON_RESPONSE
 
 
 class TestNationBuilder(unittest.TestCase):
@@ -58,3 +62,114 @@ class TestNationBuilder(unittest.TestCase):
             NB.make_next_url("example.com", "bar", "baz"),
             "example.com?limit=100&__nonce=bar&__token=baz",
         )
+
+    @requests_mock.Mocker()
+    def test_get_people_handle_empty_response(self, m):
+        nb = NB("test-slug", "test-token")
+        m.get("https://test-slug.nationbuilder.com/api/v1/people", json={"results": []})
+        table = nb.get_people()
+        self.assertEqual(table.num_rows, 0)
+
+    @requests_mock.Mocker()
+    def test_get_people(self, m):
+        nb = NB("test-slug", "test-token")
+        m.get(
+            "https://test-slug.nationbuilder.com/api/v1/people",
+            json=GET_PEOPLE_RESPONSE,
+        )
+        table = nb.get_people()
+
+        self.assertEqual(table.num_rows, 2)
+        self.assertEqual(len(table.columns), 59)
+
+        self.assertEqual(table[0]["first_name"], "Foo")
+        self.assertEqual(table[0]["last_name"], "Bar")
+        self.assertEqual(table[0]["email"], "foo@example.com")
+
+    @requests_mock.Mocker()
+    def test_get_people_with_next(self, m):
+        """Make two requests and get the same data twice. This will exercise the while loop."""
+        nb = NB("test-slug", "test-token")
+
+        GET_PEOPLE_RESPONSE_WITH_NEXT = GET_PEOPLE_RESPONSE.copy()
+        GET_PEOPLE_RESPONSE_WITH_NEXT[
+            "next"
+        ] = "https://test-slug.nationbuilder.com/api/v1/people?limit=100&__nonce=bar&__token=baz"
+
+        m.get(
+            "https://test-slug.nationbuilder.com/api/v1/people",
+            json=GET_PEOPLE_RESPONSE_WITH_NEXT,
+        )
+
+        m.get(
+            "https://test-slug.nationbuilder.com/api/v1/people?limit=100&__nonce=bar&__token=baz",
+            json=GET_PEOPLE_RESPONSE,
+        )
+
+        table = nb.get_people()
+
+        self.assertEqual(table.num_rows, 4)
+        self.assertEqual(len(table.columns), 59)
+
+        self.assertEqual(table[1]["first_name"], "Zoo")
+        self.assertEqual(table[1]["last_name"], "Baz")
+        self.assertEqual(table[1]["email"], "bar@example.com")
+
+    def test_update_person_raises_with_bad_params(self):
+        nb = NB("test-slug", "test-token")
+
+        with self.assertRaises(ValueError):
+            nb.update_person(None, {})
+
+        with self.assertRaises(ValueError):
+            nb.update_person(1, {})
+
+        with self.assertRaises(ValueError):
+            nb.update_person(" ", {})
+
+        with self.assertRaises(ValueError):
+            nb.update_person("1", None)
+
+        with self.assertRaises(ValueError):
+            nb.update_person("1", "bad value")
+
+    @requests_mock.Mocker()
+    def test_update_person(self, m):
+        """Requests the correct URL, returns the correct data and doesn't raise exceptions."""
+        nb = NB("test-slug", "test-token")
+
+        m.put(
+            "https://test-slug.nationbuilder.com/api/v1/people/1",
+            json=PERSON_RESPONSE,
+        )
+
+        response = nb.update_person("1", {"tags": ["zoot", "boot"]})
+        person = response["person"]
+
+        self.assertEqual(person["id"], 1)
+        self.assertEqual(person["first_name"], "Foo")
+        self.assertEqual(person["last_name"], "Bar")
+        self.assertEqual(person["email"], "foo@example.com")
+
+    @requests_mock.Mocker()
+    def test_upsert_person(self, m):
+        """Requests the correct URL, returns the correct data and doesn't raise exceptions."""
+        nb = NB("test-slug", "test-token")
+
+        m.put(
+            "https://test-slug.nationbuilder.com/api/v1/people/push",
+            json=PERSON_RESPONSE,
+        )
+
+        with self.assertRaises(ValueError):
+            nb.upsert_person({"tags": ["zoot", "boot"]})
+
+        created, response = nb.upsert_person({"email": "foo@example.com"})
+        self.assertFalse(created)
+
+        person = response["person"]
+
+        self.assertEqual(person["id"], 1)
+        self.assertEqual(person["first_name"], "Foo")
+        self.assertEqual(person["last_name"], "Bar")
+        self.assertEqual(person["email"], "foo@example.com")

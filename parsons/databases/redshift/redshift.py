@@ -428,7 +428,6 @@ class Redshift(
                         columntypes=columntypes,
                         strict_length=strict_length,
                     )
-                    logger.info(f"Create statement: {sql}")
 
                 self.query_with_connection(sql, connection, commit=False)
                 logger.info(f"{table_name} created.")
@@ -459,7 +458,6 @@ class Redshift(
                 timeformat=timeformat,
                 bucket_region=bucket_region,
             )
-            logger.info(f"Copy statement: {copy_sql}")
 
             self.query_with_connection(copy_sql, connection, commit=False)
             logger.info(f"Data copied to {table_name}.")

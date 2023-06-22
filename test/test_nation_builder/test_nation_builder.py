@@ -151,6 +151,12 @@ class TestNationBuilder(unittest.TestCase):
         self.assertEqual(person["last_name"], "Bar")
         self.assertEqual(person["email"], "foo@example.com")
 
+    def test_upsert_person_raises_with_bad_params(self):
+        nb = NB("test-slug", "test-token")
+
+        with self.assertRaises(ValueError):
+            nb.upsert_person({"tags": ["zoot", "boot"]})
+
     @requests_mock.Mocker()
     def test_upsert_person(self, m):
         """Requests the correct URL, returns the correct data and doesn't raise exceptions."""
@@ -160,9 +166,6 @@ class TestNationBuilder(unittest.TestCase):
             "https://test-slug.nationbuilder.com/api/v1/people/push",
             json=PERSON_RESPONSE,
         )
-
-        with self.assertRaises(ValueError):
-            nb.upsert_person({"tags": ["zoot", "boot"]})
 
         created, response = nb.upsert_person({"email": "foo@example.com"})
         self.assertFalse(created)

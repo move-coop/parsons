@@ -433,6 +433,7 @@ class Redshift(
                 logger.info(f"{table_name} created.")
 
             # Copy the table
+            logger.info(f"Data type is {data_type}")
             copy_sql = self.copy_statement(
                 table_name,
                 bucket,

@@ -205,7 +205,6 @@ Indices and tables
    hustle
    mailchimp
    mobilize_america
-   nation_builder
    newmode
    ngpvan
    p2a

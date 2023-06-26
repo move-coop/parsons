@@ -1,7 +1,7 @@
 # Provide shortcuts to importing Parsons submodules and set up logging
 import importlib
-import logging
 import os
+import logging
 
 from parsons.etl.table import Table
 
@@ -63,7 +63,6 @@ for module_path, connector_name in (
     ("parsons.hustle.hustle", "Hustle"),
     ("parsons.mailchimp.mailchimp", "Mailchimp"),
     ("parsons.mobilize_america.ma", "MobilizeAmerica"),
-    ("parsons.nation_builder.nation_builder", "NationBuilder"),
     ("parsons.newmode.newmode", "Newmode"),
     ("parsons.ngpvan.van", "VAN"),
     ("parsons.notifications.gmail", "Gmail"),

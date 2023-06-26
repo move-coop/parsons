@@ -119,7 +119,7 @@ class NationBuilder:
 
         return Table(data)
 
-    def update_person(self, person_id: str, person: Dict[str, Any]) -> dict[str, Any]:
+    def update_person(self, person_id: str, person: Dict[str, Any]) -> Dict[str, Any]:
         """
         This method updates a person with the provided id to have the provided data. It returns a
         full representation of the updated person.
@@ -148,13 +148,13 @@ class NationBuilder:
 
         url = f"people/{person_id}"
         response = self.client.put_request(url, data=json.dumps({"person": person}))
-        response = cast(dict[str, Any], response)
+        response = cast(Dict[str, Any], response)
 
         return response
 
     def upsert_person(
         self, person: Dict[str, Any]
-    ) -> Tuple[bool, dict[str, Any] | None]:
+    ) -> Tuple[bool, Optional[Dict[str, Any]]]:
         """
         Updates a matched person or creates a new one if the person doesn't exist.
 

@@ -279,6 +279,20 @@
             <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
         <span class="p">)</span></div>
 
+<div class="viewcode-block" id="ActionKit.delete_actionfield"><a class="viewcode-back" href="../../../action_kit.html#parsons.ActionKit.delete_actionfield">[docs]</a>    <span class="k">def</span> <span class="nf">delete_actionfield</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">actionfield_id</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Delete an actionfield.</span>
+
+<span class="sd">        `Args:`</span>
+<span class="sd">            actionfield_id: int</span>
+<span class="sd">                The id of the actionfield to delete</span>
+<span class="sd">        `Returns:`</span>
+<span class="sd">            ``None``</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">resp</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">conn</span><span class="o">.</span><span class="n">delete</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_base_endpoint</span><span class="p">(</span><span class="s2">&quot;actionfield&quot;</span><span class="p">,</span> <span class="n">actionfield_id</span><span class="p">))</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">resp</span><span class="o">.</span><span class="n">status_code</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">actionfield_id</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span></div>
+
 <div class="viewcode-block" id="ActionKit.update_user"><a class="viewcode-back" href="../../../action_kit.html#parsons.ActionKit.update_user">[docs]</a>    <span class="k">def</span> <span class="nf">update_user</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">user_id</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Update a user.</span>

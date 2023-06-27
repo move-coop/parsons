@@ -1195,4 +1195,4 @@ class ETL(object):
         )
         self.table = deduped
 
-        return deduped
+        return self

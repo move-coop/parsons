@@ -946,7 +946,7 @@ class TestParsonsTable(unittest.TestCase):
                 [2, 3],
             ]
         )
-        tbl.deduplicate(keys=["a"], sort=True)
+        tbl.deduplicate(keys=["a"], presorted=False)
         assert_matching_tables(tbl_expected, tbl)
 
         # Confirm sorting deduplicate works for two of two columns
@@ -959,7 +959,7 @@ class TestParsonsTable(unittest.TestCase):
                 [2, 3],
             ]
         )
-        tbl.deduplicate(keys=["a", "b"], sort=True)
+        tbl.deduplicate(keys=["a", "b"], presorted=False)
         assert_matching_tables(tbl_expected, tbl)
 
         # Confirm deduplicate works for multiple keys

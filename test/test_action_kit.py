@@ -41,6 +41,19 @@ class TestActionKit(unittest.TestCase):
         url = self.actionkit._base_endpoint("user", "1234")
         self.assertEqual(url, "https://domain.actionkit.com/rest/v1/user/1234/")
 
+    def test_delete_actionfield(self):
+        # Test delete actionfield
+
+        # Mock resp and status code
+        resp_mock = mock.MagicMock()
+        type(resp_mock.patch()).status_code = mock.PropertyMock(return_value=204)
+        self.actionkit.conn = resp_mock
+
+        self.actionkit.delete_actionfield(123)
+        self.actionkit.conn.delete.assert_called_with(
+            "https://domain.actionkit.com/rest/v1/actionfield/123/",
+        )
+
     def test_get_user(self):
         # Test get user
         self.actionkit.get_user(123)

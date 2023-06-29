@@ -1,5 +1,6 @@
-
-get_profiles_response_text = '''
+class get_profiles_response:
+    status_code = 200
+    text = '''
 <?xml version="1.0" encoding="UTF-8"?>
 <response success="true">
   <profiles num="1" page="1">
@@ -64,7 +65,9 @@ Martinez del Rio        </custom_column>
 </response>
 '''
 
-get_broadcast_response_text = '''
+class get_broadcasts_response:
+    status_code = 200
+    text = '''
 <?xml version="1.0" encoding="UTF-8"?>
 <response success="true">
   <broadcasts page="1" limit="23" page_count="2">
@@ -139,7 +142,9 @@ Reply STOP to quit. Msg&amp;DataRatesMayApply</body>
 </response>
 '''
 
-post_profile_text = '''
+class post_profiles_response:
+    status_code = 200
+    text = '''
 <?xml version="1.0" encoding="UTF-8"?>
 <response success="true">
   <profile id="602169563">

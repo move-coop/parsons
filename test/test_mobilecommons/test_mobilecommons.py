@@ -4,6 +4,8 @@ import requests_mock
 from parsons.mobilecommons import MobileCommons
 from parsons.etl import Table
 from test.utils import assert_matching_tables
+from mobilecommons_responses import get_profiles_response, get_broadcasts_response, \
+    post_profiles_response
 # from airtable_responses import insert_response, insert_responses
 
 MOBILECOMMONS_USERNAME = 'MOBILECOMMONS_USERNAME'
@@ -18,6 +20,7 @@ class TestMobileCommons(unittest.TestCase):
         self.mc = MobileCommons(username=MOBILECOMMONS_USERNAME, password=MOBILECOMMONS_PASSWORD)
 
     @requests_mock.Mocker()
-    def test_get_records(self, m):
+    def test_get_profiles(self, m):
 
-        m.get()
+        m.get(self.base_uri + 'broadcasts', status_code=get_profiles_response.status_code,
+              text=get_profiles_response.text)

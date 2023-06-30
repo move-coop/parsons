@@ -899,3 +899,73 @@ class TestParsonsTable(unittest.TestCase):
 
         tbl_petl = tbl.use_petl("skipcomments", "#", to_petl=True)
         self.assertIsInstance(tbl_petl, PetlTable)
+
+    def test_deduplicate(self):
+        # Confirm deduplicate works with no keys for one-column duplicates
+        tbl = Table([["a"], [1], [2], [2], [3]])
+        tbl_expected = Table([["a"], [1], [2], [3]])
+        tbl.deduplicate()
+        assert_matching_tables(tbl_expected, tbl)
+
+        # Confirm deduplicate works with no keys for multiple columns
+        tbl = Table([["a", "b"], [1, 2], [1, 2], [1, 3], [2, 3]])
+        tbl_expected = Table(
+            [
+                ["a", "b"],
+                [1, 2],
+                [1, 3],
+                [2, 3],
+            ]
+        )
+        tbl.deduplicate()
+        assert_matching_tables(tbl_expected, tbl)
+
+        # Confirm deduplicate works with one key for multiple columns
+        tbl = Table([["a", "b"], [1, 3], [1, 2], [1, 2], [2, 3]])
+        tbl_expected = Table(
+            [
+                ["a", "b"],
+                [1, 3],
+                [2, 3],
+            ]
+        )
+        tbl.deduplicate(keys=["a"])
+        assert_matching_tables(tbl_expected, tbl)
+
+        # Confirm sorting deduplicate works with one key for multiple columns
+
+        # Note that petl sorts on the column(s) you're deduping on
+        # Meaning it will ignore the 'b' column below
+        # That is, the first row, [1,3],
+        # would not get moved to after the [1,2]
+        tbl = Table([["a", "b"], [2, 3], [1, 3], [1, 2], [1, 2]])
+        tbl_expected = Table(
+            [
+                ["a", "b"],
+                [1, 3],
+                [2, 3],
+            ]
+        )
+        tbl.deduplicate(keys=["a"], presorted=False)
+        assert_matching_tables(tbl_expected, tbl)
+
+        # Confirm sorting deduplicate works for two of two columns
+        tbl = Table([["a", "b"], [2, 3], [1, 3], [1, 2], [1, 2]])
+        tbl_expected = Table(
+            [
+                ["a", "b"],
+                [1, 2],
+                [1, 3],
+                [2, 3],
+            ]
+        )
+        tbl.deduplicate(keys=["a", "b"], presorted=False)
+        assert_matching_tables(tbl_expected, tbl)
+
+        # Confirm deduplicate works for multiple keys
+        tbl = Table(
+            [["a", "b", "c"], [1, 2, 3], [1, 2, 3], [1, 2, 4], [1, 3, 2], [2, 3, 4]]
+        )
+        tbl_expected = Table([["a", "b", "c"], [1, 2, 3], [1, 3, 2], [2, 3, 4]])
+        tbl.deduplicate(["a", "b"])
+        assert_matching_tables(tbl_expected, tbl)

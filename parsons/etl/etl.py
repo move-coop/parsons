@@ -1167,3 +1167,93 @@ class ETL(object):
         from parsons.etl.table import Table
 
         return Table(getattr(petl, petl_method)(self.table, *args, **kwargs))
+
+    def deduplicate(self, keys=None, presorted=False):
+        """
+        Deduplicates table based on an optional ``keys`` argument,
+        which can contain any number of keys or None.
+
+        Method considers all keys specified in the ``keys`` argument
+        when deduplicating, not each key individually. For example,
+        if ``keys=['a', 'b']``, the method will not remove a record
+        unless it's identical to another record in both columns ``a`` and ``b``.
+
+        .. code-block:: python
+
+            >>> tbl = Table([['a', 'b'], [1, 3], [1, 2], [1, 2], [2, 3]])
+            >>> tbl.table
+            +---+---+
+            | a | b |
+            +===+===+
+            | 1 | 3 |
+            +---+---+
+            | 1 | 2 |
+            +---+---+
+            | 1 | 2 |
+            +---+---+
+            | 2 | 3 |
+            +---+---+
+
+            >>> tbl.deduplicate('a')
+            >>> # removes all subsequent rows with {'a': 1}
+            >>> tbl.table
+            +---+---+
+            | a | b |
+            +===+===+
+            | 1 | 3 |
+            +---+---+
+            | 2 | 3 |
+            +---+---+
+
+            >>> tbl = Table([['a', 'b'], [1, 3], [1, 2], [1, 2], [2, 3]]) # reset
+            >>> tbl.deduplicate(['a', 'b'])
+            >>> # sorted on both ('a', 'b') so (1, 2) was placed before (1, 3)
+            >>> # did not remove second instance of {'a': 1} or {'b': 3}
+            >>> tbl.table
+            +---+---+
+            | a | b |
+            +===+===+
+            | 1 | 2 |
+            +---+---+
+            | 1 | 3 |
+            +---+---+
+            | 2 | 3 |
+            +---+---+
+
+
+            >>> tbl = Table([['a', 'b'], [1, 3], [1, 2], [1, 2], [2, 3]]) # reset
+            >>> tbl.deduplicate('a').deduplicate('b')
+            >>> # can chain method to sort/dedupe on 'a', then sort/dedupe on 'b'
+            >>> tbl.table
+            +---+---+
+            | a | b |
+            +===+===+
+            | 1 | 3 |
+            +---+---+
+
+            >>> tbl = Table([['a', 'b'], [1, 3], [1, 2], [1, 2], [2, 3]]) # reset
+            >>> tbl.deduplicate('b').deduplicate('a')
+            >>> # Order DOES matter when deduping on one column at a time
+            >>> tbl.table
+            +---+---+
+            | a | b |
+            +===+===+
+            | 1 | 2 |
+            +---+---+
+
+        `Args:`
+            keys: str or list[str] or None
+                keys to deduplicate (and optionally sort) on.
+            presorted: bool
+                If false, the row will be sorted.
+        `Returns`:
+            `Parsons Table` and also updates self
+
+        """
+
+        deduped = petl.transform.dedup.distinct(
+            self.table, key=keys, presorted=presorted
+        )
+        self.table = deduped
+
+        return self

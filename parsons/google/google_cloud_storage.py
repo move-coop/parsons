@@ -1,9 +1,12 @@
 import google
 from google.cloud import storage
+from google.cloud import storage_transfer
 from parsons.google.utitities import setup_google_application_credentials
 from parsons.utilities import files
 import datetime
 import logging
+import time
+import uuid
 
 logger = logging.getLogger(__name__)
 
@@ -328,3 +331,102 @@ class GoogleCloudStorage(object):
             method="GET",
         )
         return url
+
+    def copy_s3_to_gcs(
+        self,
+        aws_source_bucket: str,
+        aws_access_key_id: str,
+        aws_secret_access_key: str,
+        gcs_sink_bucket: str,
+        aws_s3_key: str = ''
+    ):
+        """Creates a one-time transfer job from Amazon S3 to Google Cloud
+        Storage. Copies all blobs within the bucket unless a key or prefix 
+        is passed.
+
+
+        # TODO: add param docs
+        aws_s3_key (str)
+        Root path to S3 transfer objects. Must be an empty string or full path name that ends with a '/'. This field is treated as an object prefix. As such, it should generally not begin with a '/'.
+        """
+
+        client = storage_transfer.StorageTransferServiceClient()
+
+        now = datetime.datetime.utcnow()
+        # Setting the start date and the end date as
+        # the same time creates a one-time transfer
+        one_time_schedule = {"day": now.day, "month": now.month, "year": now.year}
+
+        transfer_job_request = storage_transfer.CreateTransferJobRequest(
+            {
+                "transfer_job": {
+                    "project_id": self.project,
+                    "description": f"One time S3 to GCS Transfer - {uuid.uuid4()}",
+                    "status": storage_transfer.TransferJob.Status.ENABLED,
+                    "schedule": {
+                        "schedule_start_date": one_time_schedule,
+                        "schedule_end_date": one_time_schedule,
+                    },
+                    "transfer_spec": {
+                        "aws_s3_data_source": {
+                            "bucket_name": aws_source_bucket,
+                            "path": aws_s3_key,
+                            "aws_access_key": {
+                                "access_key_id": aws_access_key_id,
+                                "secret_access_key": aws_secret_access_key,
+                            },
+                        },
+                        "gcs_data_sink": {
+                            "bucket_name": gcs_sink_bucket,
+                        },
+                    },
+                }
+            }
+        )
+
+        result = client.create_transfer_job(transfer_job_request)
+        print(f"Created TransferJob: {result.name}")
+
+        success_statuses = [storage_transfer.TransferOperation.Status.SUCCESS]
+        failure_statuses = [
+            storage_transfer.TransferOperation.Status.FAILED,
+            storage_transfer.TransferOperation.Status.ABORTED,
+        ]
+
+        polling = True
+        wait_time = 0
+        wait_between_attempts_in_sec = 10
+        max_wait_in_sec = 60 * 10  # Ten Minutes
+        while polling and wait_time < max_wait_in_sec:
+            transfer_job = storage_transfer.GetTransferJobRequest(
+                {
+                    "job_name": result.name,
+                    "project_id": self.project
+                }
+            )
+            operation = client.get_operation({"name": transfer_job.latest_operation_name})
+
+            if operation.status in success_statuses:
+                print(f"TransferJob: {result.name} succeeded.")
+                return
+            if operation.status in failure_statuses:
+                error_breakdowns = operation.error_breakdowns
+                raise Exception(f"""
+                    S3 to GCS Transfer Job {result.name} failed with status: {operation.status}
+                    Errors Breakdowns: {error_breakdowns}
+                """)
+
+            wait_time += wait_between_attempts_in_sec
+            time.sleep(wait_between_attempts_in_sec)
+
+        raise Exception(f"""
+            S3 to GCS Transfer Job {result.name} timedout. Final status: {operation.status}
+        """)
+
+    def format_uri(
+        self,
+        bucket: str,
+        name: str
+    ):
+        # TODO: implement
+        return f"{bucket}/{name}"

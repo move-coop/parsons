@@ -54,7 +54,7 @@ class DatabaseConnector(ABC):
         pass
 
     @abstractmethod
-    def copy(self, tbl: Table, table_name: str, if_exists: str):
+    def copy(self, tbl: Table, table_name: str, if_exists: str, **copy_kwargs):
         """Copy a :ref:`parsons-table` to the database.
 
         `Args`:
@@ -65,6 +65,8 @@ class DatabaseConnector(ABC):
             if_exists (str):
                 If the table already exists, either ``fail``, ``append``, ``drop``
                 or ``truncate`` the table.
+            copy_kwargs (optional):
+                Generic grab bag of additional parameters, often specific to an individual database.
         """
         pass
 

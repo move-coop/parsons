@@ -7,6 +7,7 @@ from google.cloud.bigquery import dbapi
 from google.cloud.bigquery.job import LoadJobConfig
 from google.cloud import exceptions
 import petl
+from contextlib import contextmanager
 
 from parsons.databases.table import BaseTable
 from parsons.databases.database_connector import DatabaseConnector
@@ -102,6 +103,158 @@ class GoogleBigQuery(DatabaseConnector):
         self._dbapi = dbapi
 
         self.dialect = "bigquery"
+
+    @property
+    def client(self):
+        """
+        Get the Google BigQuery client to use for making queries.
+
+        `Returns:`
+            `google.cloud.bigquery.client.Client`
+        """
+        if not self._client:
+            # Create a BigQuery client to use to make the query
+            self._client = bigquery.Client(project=self.project, location=self.location)
+
+        return self._client
+
+    @contextmanager
+    def connection(self):  # TODO: Is this worth doing given the transaction thing?
+        """
+        Generate a BigQuery connection.
+        The connection is set up as a python "context manager", so it will be closed
+        automatically when the connection goes out of scope. Note that the BigQuery
+        API uses jobs to run database operations and, as such, simply has a no-op for
+        a "commit" function. If you would like to manage transactions, please use 
+        multi-statement queries as [outlined here](https://cloud.google.com/bigquery/docs/transactions)
+
+        When using the connection, make sure to put it in a ``with`` block (necessary for
+        any context manager):
+        ``with bq.connection() as conn:``
+
+        `Returns:`
+            Google BigQuery ``connection`` object
+        """
+        conn = self._dbapi.connect(self.client)
+        try:
+            yield conn
+        finally:
+            conn.close()
+
+    @contextmanager
+    def cursor(self, connection):
+        cur = connection.cursor()
+        try:
+            yield cur
+        finally:
+            cur.close()
+
+    def query(
+        self, sql: str, parameters: Optional[Union[list, dict]] = None
+    ) -> Optional[Table]:
+        """
+        Run a BigQuery query and return the results as a Parsons table.
+
+        To include python variables in your query, it is recommended to pass them as parameters,
+        following the BigQuery style where parameters are prefixed with `@`s.
+        Using the ``parameters`` argument ensures that values are escaped properly, and avoids SQL
+        injection attacks.
+
+        **Parameter Examples**
+
+        .. code-block:: python
+
+           name = "Beatrice O'Brady"
+           sql = 'SELECT * FROM my_table WHERE name = %s'
+           rs.query(sql, parameters=[name])
+
+        .. code-block:: python
+
+           name = "Beatrice O'Brady"
+           sql = "SELECT * FROM my_table WHERE name = %(name)s"
+           rs.query(sql, parameters={'name': name})
+
+        `Args:`
+            sql: str
+                A valid BigTable statement
+            parameters: dict
+                A dictionary of query parameters for BigQuery.
+
+        `Returns:`
+            Parsons Table
+                See :ref:`parsons-table` for output options.
+        """
+
+        with self.connection() as connection:
+            return self.query_with_connection(sql, connection, parameters=parameters)
+
+    def query_with_connection(self, sql, connection, parameters=None, commit=True):
+        """
+        Execute a query against the BigQuery database, with an existing connection.
+        Useful for batching queries together. Will return ``None`` if the query
+        returns zero rows.
+
+        `Args:`
+            sql: str
+                A valid SQL statement
+            connection: obj
+                A connection object obtained from ``redshift.connection()``
+            parameters: list
+                A list of python variables to be converted into SQL values in your query
+            commit: boolean
+                Must be true. BigQuery 
+
+        `Returns:`
+            Parsons Table
+                See :ref:`parsons-table` for output options.
+        """
+
+        if not commit:
+            raise ValueError("""
+                BigQuery implementation uses an API client which always auto-commits. If you wish to wrap
+                multiple queries in a transaction, use Mulit-Statement transactions within a single query
+                as outlined here: https://cloud.google.com/bigquery/docs/transactions 
+            """)
+
+        # get our connection and cursor
+        with self.cursor(connection) as cursor:
+
+            # Run the query
+            cursor.execute(sql, parameters)
+
+            # We will use a temp file to cache the results so that they are not all living
+            # in memory. We'll use pickle to serialize the results to file in order to maintain
+            # the proper data types (e.g. integer).
+            temp_filename = create_temp_file()
+
+            wrote_header = False
+            with open(temp_filename, "wb") as temp_file:
+                # Track whether we got data, since if we don't get any results we need to return None
+                got_results = False
+                while True:
+                    batch = cursor.fetchmany(QUERY_BATCH_SIZE)
+                    if len(batch) == 0:
+                        break
+
+                    got_results = True
+
+                    for row in batch:
+                        # Make sure we write out the header once and only once
+                        if not wrote_header:
+                            wrote_header = True
+                            header = list(row.keys())
+                            pickle.dump(header, temp_file)
+
+                        row_data = list(row.values())
+                        pickle.dump(row_data, temp_file)
+
+            if not got_results:
+                return None
+
+            ptable = petl.frompickle(temp_filename)
+            final_table = Table(ptable)
+
+            return final_table
 
     def copy(
         self,
@@ -289,20 +442,6 @@ class GoogleBigQuery(DatabaseConnector):
             return False
 
         return True
-
-    @property
-    def client(self):
-        """
-        Get the Google BigQuery client to use for making queries.
-
-        `Returns:`
-            `google.cloud.bigquery.client.Client`
-        """
-        if not self._client:
-            # Create a BigQuery client to use to make the query
-            self._client = bigquery.Client(project=self.project, location=self.location)
-
-        return self._client
 
     def _generate_schema(self, tbl):
         stats = tbl.get_columns_type_stats()

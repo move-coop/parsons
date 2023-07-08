@@ -1,15 +1,15 @@
 import pickle
 from typing import Optional, Union
 import uuid
+import logging
 
 from google.cloud import bigquery
 from google.cloud.bigquery import dbapi
+from google.cloud import bigquery_connection_v1
 from google.cloud.bigquery.job import LoadJobConfig
-
 from google.cloud import exceptions
 import petl
 from contextlib import contextmanager
-
 
 from parsons.databases.table import BaseTable
 from parsons.databases.database_connector import DatabaseConnector
@@ -18,6 +18,8 @@ from parsons.google.utitities import setup_google_application_credentials
 from parsons.google.google_cloud_storage import GoogleCloudStorage
 from parsons.utilities import check_env
 from parsons.utilities.files import create_temp_file
+
+logger = logging.getLogger(__name__)
 
 BIGQUERY_TYPE_MAP = {
     "str": "STRING",
@@ -263,6 +265,7 @@ class GoogleBigQuery(DatabaseConnector):
         table_name: str,
         gcs_blob_uri: str,
         if_exists: str = "fail",
+        max_errors: int = 0,
         job_config: Optional[LoadJobConfig] = None,
         **load_kwargs,
     ):
@@ -277,6 +280,9 @@ class GoogleBigQuery(DatabaseConnector):
             if_exists: str
                 If the table already exists, either ``fail``, ``append``, ``drop``
                 or ``truncate`` the table.
+            max_errors: int
+                The maximum number of rows that can error and be skipped before
+                the job fails.
             job_config: object
                 A LoadJobConfig object to provide to the underlying call to load_table_from_uri
                 on the BigQuery client. The function will create its own if not provided.
@@ -295,16 +301,17 @@ class GoogleBigQuery(DatabaseConnector):
         if not job_config:
             job_config = bigquery.LoadJobConfig()
 
-        if not job_config.schema:
-            # TODO: is this required?
-            job_config.schema = self._generate_schema_from_gcs(gcs_blob_uri=gcs_blob_uri)
-
-        if not job_config.create_disposition:
-            job_config.create_disposition = bigquery.CreateDisposition.CREATE_IF_NEEDED
+        # default job configs
         job_config.skip_leading_rows = 1
         job_config.source_format = bigquery.SourceFormat.CSV
         job_config.write_disposition = bigquery.WriteDisposition.WRITE_EMPTY
+        job_config.max_bad_records = max_errors
 
+        if not job_config.schema:
+            # TODO: is this required?
+            job_config.schema = self._generate_schema_from_gcs(gcs_blob_uri=gcs_blob_uri)
+        if not job_config.create_disposition:
+            job_config.create_disposition = bigquery.CreateDisposition.CREATE_IF_NEEDED
         if table_exists:
             if if_exists == "fail":
                 raise ValueError("Table already exists.")
@@ -335,34 +342,9 @@ class GoogleBigQuery(DatabaseConnector):
         key,
         gcs_client: Optional[GoogleCloudStorage] = None,
         tmp_gcs_bucket: Optional[str] = None,
-        manifest=False,
-        data_type="csv",
-        csv_delimiter=",",
-        compression=None,
         if_exists="fail",
-        max_errors=0,
-        distkey=None,
-        sortkey=None,
-        padding=None,
-        varchar_max=None,
-        statupdate=True,
-        compupdate=True,
-        ignoreheader=1,
-        acceptanydate=True,
-        dateformat="auto",
-        timeformat="auto",
-        emptyasnull=True,
-        blanksasnull=True,
-        nullas=None,
-        acceptinvchars=True,
-        truncatecolumns=False,
-        columntypes=None,
-        specifycols=None,
         aws_access_key_id=None,
         aws_secret_access_key=None,
-        bucket_region=None,
-        strict_length=True,
-        template_table=None,
         **load_kwargs
     ):
         """
@@ -494,8 +476,6 @@ class GoogleBigQuery(DatabaseConnector):
         finally:
             gcs_client.delete_blob(tmp_gcs_bucket, temp_blob_name)
 
-        return None
-
     def copy(
         self,
         tbl: Table,
@@ -551,6 +531,54 @@ class GoogleBigQuery(DatabaseConnector):
                 **load_kwargs)
         finally:
             gcs_client.delete_blob(tmp_gcs_bucket, temp_blob_name)
+
+    def duplicate_table(
+        self,
+        source_table,
+        destination_table,
+        if_exists="fail",
+        drop_source_table=False,
+    ):
+        """
+        Create a copy of an existing table (or subset of rows) in a new
+        table.
+
+        `Args:`
+            source_table: str
+                Name of existing schema and table (e.g. ``myschema.oldtable``)
+            destination_table: str
+                Name of destination schema and table (e.g. ``myschema.newtable``)
+            if_exists: str
+                If the table already exists, either ``fail``, ``replace``, or ``ignore`` the operation.
+            drop_source_table: boolean
+                Drop the source table
+        """
+        if if_exists not in ["fail", "replace", "ignore"]:
+            raise ValueError("Invalid value for `if_exists` argument")
+        if if_exists == 'fail' and self.table_exists(destination_table):
+            raise ValueError("Table already exists.")
+
+        query = f"""
+            CREATE {'OR REPLACE' if if_exists == 'replace' else ''} TABLE {'IF NOT EXISTS' if if_exists == 'ignore' else ''}
+            {destination_table}
+            CLONE {source_table}
+        """
+        if drop_source_table:
+            query = f"""
+                BEGIN
+                    BEGIN TRANSACTION;
+                    {query}
+                    ;
+                    DROP TABLE {source_table}
+
+                EXCEPTION WHEN ERROR THEN
+                    -- Roll back the transaction inside the exception handler.
+                    SELECT @@error.message;
+                    ROLLBACK TRANSACTION;
+                END;
+            """
+
+        return self.query(query)
 
     def delete_table(self, table_name):
         """

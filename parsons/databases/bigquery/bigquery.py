@@ -1,11 +1,10 @@
 import pickle
-from typing import Optional, Union
+from typing import Optional, Union, List
 import uuid
 import logging
 
 from google.cloud import bigquery
 from google.cloud.bigquery import dbapi
-from google.cloud import bigquery_connection_v1
 from google.cloud.bigquery.job import LoadJobConfig
 from google.cloud import exceptions
 import petl
@@ -559,24 +558,12 @@ class GoogleBigQuery(DatabaseConnector):
             raise ValueError("Table already exists.")
 
         query = f"""
-            CREATE {'OR REPLACE' if if_exists == 'replace' else ''} TABLE {'IF NOT EXISTS' if if_exists == 'ignore' else ''}
+            CREATE {'OR REPLACE ' if if_exists == 'replace' else ''}TABLE{' IF NOT EXISTS' if if_exists == 'ignore' else ''}
             {destination_table}
             CLONE {source_table}
         """
         if drop_source_table:
-            query = f"""
-                BEGIN
-                    BEGIN TRANSACTION;
-                    {query}
-                    ;
-                    DROP TABLE {source_table}
-
-                EXCEPTION WHEN ERROR THEN
-                    -- Roll back the transaction inside the exception handler.
-                    SELECT @@error.message;
-                    ROLLBACK TRANSACTION;
-                END;
-            """
+            query = self._wrap_queries_in_transaction(queries=[query, f'DROP TABLE {source_table}'])
 
         return self.query(query)
 
@@ -609,6 +596,21 @@ class GoogleBigQuery(DatabaseConnector):
             return False
 
         return True
+
+    def _wrap_queries_in_transaction(self, queries: List[str]):
+        joined_queries = queries.join('; \n')
+        wrapped_queries = f"""
+            BEGIN
+                BEGIN TRANSACTION;
+                {joined_queries}
+
+            EXCEPTION WHEN ERROR THEN
+                -- Roll back the transaction inside the exception handler.
+                SELECT @@error.message;
+                ROLLBACK TRANSACTION;
+            END;
+        """
+        return wrapped_queries
 
     def _generate_schema_from_parsons_table(self, tbl):
         stats = tbl.get_columns_type_stats()

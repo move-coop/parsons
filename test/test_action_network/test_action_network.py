@@ -1,8 +1,9 @@
-import unittest
-import requests_mock
 import json
-from parsons import Table, ActionNetwork
+import unittest
 from test.utils import assert_matching_tables
+
+import requests_mock
+from parsons import ActionNetwork, Table
 
 
 class TestActionNetwork(unittest.TestCase):
@@ -435,7 +436,10 @@ class TestActionNetwork(unittest.TestCase):
         )
         self.assertEqual(
             self.an.update_person(
-                self.fake_person_id_1, given_name="Flake", family_name="McFlakerson"
+                self.fake_person_id_1,
+                given_name="Flake",
+                family_name="McFlakerson",
+                remove_tags=["Fake Tag"],
             ),
             self.updated_fake_person,
         )

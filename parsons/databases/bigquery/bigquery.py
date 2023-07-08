@@ -2,6 +2,8 @@ import pickle
 from typing import Optional, Union, List
 import uuid
 import logging
+import datetime
+import random
 
 from google.cloud import bigquery
 from google.cloud.bigquery import dbapi
@@ -128,7 +130,7 @@ class GoogleBigQuery(DatabaseConnector):
         The connection is set up as a python "context manager", so it will be closed
         automatically when the connection goes out of scope. Note that the BigQuery
         API uses jobs to run database operations and, as such, simply has a no-op for
-        a "commit" function. If you would like to manage transactions, please use 
+        a "commit" function. If you would like to manage transactions, please use
         multi-statement queries as [outlined here](https://cloud.google.com/bigquery/docs/transactions)
 
         When using the connection, make sure to put it in a ``with`` block (necessary for
@@ -205,7 +207,7 @@ class GoogleBigQuery(DatabaseConnector):
             parameters: list
                 A list of python variables to be converted into SQL values in your query
             commit: boolean
-                Must be true. BigQuery 
+                Must be true. BigQuery
 
         `Returns:`
             Parsons Table
@@ -216,7 +218,7 @@ class GoogleBigQuery(DatabaseConnector):
             raise ValueError("""
                 BigQuery implementation uses an API client which always auto-commits. If you wish to wrap
                 multiple queries in a transaction, use Mulit-Statement transactions within a single query
-                as outlined here: https://cloud.google.com/bigquery/docs/transactions 
+                as outlined here: https://cloud.google.com/bigquery/docs/transactions
             """)
 
         # get our connection and cursor
@@ -566,6 +568,123 @@ class GoogleBigQuery(DatabaseConnector):
             query = self._wrap_queries_in_transaction(queries=[query, f'DROP TABLE {source_table}'])
 
         return self.query(query)
+
+    def upsert(
+        self,
+        table_obj,
+        target_table,
+        primary_key,
+        distinct_check=True,
+        cleanup_temp_table=True,
+        from_s3=False,
+        **copy_args,
+    ):
+        """
+        Preform an upsert on an existing table. An upsert is a function in which rows
+        in a table are updated and inserted at the same time.
+
+        `Args:`
+            table_obj: obj
+                A Parsons table object
+            target_table: str
+                The schema and table name to upsert
+            primary_key: str or list
+                The primary key column(s) of the target table
+            distinct_check: boolean
+                Check if the primary key column is distinct. Raise error if not.
+            cleanup_temp_table: boolean
+                A temp table is dropped by default on cleanup. You can set to False for debugging.
+            from_s3: boolean
+                Instead of specifying a table_obj (set the first argument to None),
+                set this to True and include :func:`~parsons.databases.Redshift.copy_s3` arguments
+                to upsert a pre-existing s3 file into the target_table
+            \**copy_args: kwargs
+                See :func:`~parsons.databases.Redshift.copy` for options.
+        """  # noqa: W605
+        if not self.table_exists(target_table):
+            logger.info(
+                "Target table does not exist. Copying into newly \
+                         created target table."
+            )
+            self.copy(table_obj, target_table, distkey=distkey, sortkey=sortkey)
+            return None
+
+        if isinstance(primary_key, str):
+            primary_keys = [primary_key]
+        else:
+            primary_keys = primary_key
+
+        if distinct_check:
+            primary_keys_statement = ", ".join(primary_keys)
+            diff = self.query(
+                f"""
+                select (
+                    select count(*)
+                    from {target_table}
+                ) - (
+                    SELECT COUNT(*) from (
+                        select distinct {primary_keys_statement}
+                        from {target_table}
+                    )
+                ) as total_count
+            """
+            ).first
+            if diff > 0:
+                raise ValueError("Primary key column contains duplicate values.")
+
+        noise = f"{random.randrange(0, 10000):04}"[:4]
+        date_stamp = datetime.datetime.now().strftime("%Y%m%d_%H%M")
+        # Generate a temp table like "table_tmp_20200210_1230_14212"
+        staging_tbl = f"{target_table}_stg_{date_stamp}_{noise}".format(, , )
+
+        # Copy to a staging table
+        logger.info(f"Building staging table: {staging_tbl}")
+
+        if from_s3:
+            if table_obj is not None:
+                raise ValueError(
+                    "upsert(... from_s3=True) requires the first argument (table_obj)"
+                    " to be None. from_s3 and table_obj are mutually exclusive."
+                )
+            # TODO: no template_table arg in bigquery implementation
+            self.copy_s3(staging_tbl, template_table=target_table, **copy_args)
+
+        else:
+            self.copy(
+                table_obj,
+                staging_tbl,
+                template_table=target_table,
+                **copy_args,
+            )
+
+        staging_table_name = staging_tbl.split(".")[1]
+        target_table_name = target_table.split(".")[1]
+
+        # Delete rows
+        comparisons = [
+            f"{staging_table_name}.{primary_key} = {target_table_name}.{primary_key}"
+            for primary_key in primary_keys
+        ]
+        where_clause = " and ".join(comparisons)
+
+        queries = [f"""
+                DELETE FROM {target_table}
+                USING {staging_tbl}
+                WHERE {where_clause}
+                """,
+                   f"""
+                INSERT INTO {target_table}
+                SELECT * FROM {staging_tbl}
+                """
+                   ]
+
+        if cleanup_temp_table:
+            # Drop the staging table
+            queries.append(f"DROP TABLE IF EXISTS {staging_tbl}")
+
+        transaction_query = self._wrap_queries_in_transaction(queries=queries)
+
+        return self.query(transaction_query)
 
     def delete_table(self, table_name):
         """

@@ -1,5 +1,6 @@
-import petl
 import logging
+
+import petl
 
 logger = logging.getLogger(__name__)
 
@@ -9,7 +10,7 @@ class ETL(object):
 
         pass
 
-    def add_column(self, column, value=None, index=None):
+    def add_column(self, column, value=None, index=None, if_exists="fail"):
         """
         Add a column to your table
 
@@ -20,12 +21,19 @@ class ETL(object):
                 A fixed or calculated value
             index: int
                 The position of the new column in the table
+            if_exists: str (options: 'fail', 'replace')
+                If set `replace`, this function will call `fill_column`
+                if the column already exists, rather than raising a `ValueError`
         `Returns:`
             `Parsons Table` and also updates self
         """
 
         if column in self.columns:
-            raise ValueError(f"Column {column} already exists")
+            if if_exists == "replace":
+                self.fill_column(column, value)
+                return self
+            else:
+                raise ValueError(f"Column {column} already exists")
 
         self.table = self.table.addfield(column, value, index)
 
@@ -1159,3 +1167,93 @@ class ETL(object):
         from parsons.etl.table import Table
 
         return Table(getattr(petl, petl_method)(self.table, *args, **kwargs))
+
+    def deduplicate(self, keys=None, presorted=False):
+        """
+        Deduplicates table based on an optional ``keys`` argument,
+        which can contain any number of keys or None.
+
+        Method considers all keys specified in the ``keys`` argument
+        when deduplicating, not each key individually. For example,
+        if ``keys=['a', 'b']``, the method will not remove a record
+        unless it's identical to another record in both columns ``a`` and ``b``.
+
+        .. code-block:: python
+
+            >>> tbl = Table([['a', 'b'], [1, 3], [1, 2], [1, 2], [2, 3]])
+            >>> tbl.table
+            +---+---+
+            | a | b |
+            +===+===+
+            | 1 | 3 |
+            +---+---+
+            | 1 | 2 |
+            +---+---+
+            | 1 | 2 |
+            +---+---+
+            | 2 | 3 |
+            +---+---+
+
+            >>> tbl.deduplicate('a')
+            >>> # removes all subsequent rows with {'a': 1}
+            >>> tbl.table
+            +---+---+
+            | a | b |
+            +===+===+
+            | 1 | 3 |
+            +---+---+
+            | 2 | 3 |
+            +---+---+
+
+            >>> tbl = Table([['a', 'b'], [1, 3], [1, 2], [1, 2], [2, 3]]) # reset
+            >>> tbl.deduplicate(['a', 'b'])
+            >>> # sorted on both ('a', 'b') so (1, 2) was placed before (1, 3)
+            >>> # did not remove second instance of {'a': 1} or {'b': 3}
+            >>> tbl.table
+            +---+---+
+            | a | b |
+            +===+===+
+            | 1 | 2 |
+            +---+---+
+            | 1 | 3 |
+            +---+---+
+            | 2 | 3 |
+            +---+---+
+
+
+            >>> tbl = Table([['a', 'b'], [1, 3], [1, 2], [1, 2], [2, 3]]) # reset
+            >>> tbl.deduplicate('a').deduplicate('b')
+            >>> # can chain method to sort/dedupe on 'a', then sort/dedupe on 'b'
+            >>> tbl.table
+            +---+---+
+            | a | b |
+            +===+===+
+            | 1 | 3 |
+            +---+---+
+
+            >>> tbl = Table([['a', 'b'], [1, 3], [1, 2], [1, 2], [2, 3]]) # reset
+            >>> tbl.deduplicate('b').deduplicate('a')
+            >>> # Order DOES matter when deduping on one column at a time
+            >>> tbl.table
+            +---+---+
+            | a | b |
+            +===+===+
+            | 1 | 2 |
+            +---+---+
+
+        `Args:`
+            keys: str or list[str] or None
+                keys to deduplicate (and optionally sort) on.
+            presorted: bool
+                If false, the row will be sorted.
+        `Returns`:
+            `Parsons Table` and also updates self
+
+        """
+
+        deduped = petl.transform.dedup.distinct(
+            self.table, key=keys, presorted=presorted
+        )
+        self.table = deduped
+
+        return self

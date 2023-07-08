@@ -142,6 +142,20 @@ class ActionKit(object):
             **kwargs,
         )
 
+    def delete_actionfield(self, actionfield_id):
+        """
+        Delete an actionfield.
+
+        `Args:`
+            actionfield_id: int
+                The id of the actionfield to delete
+        `Returns:`
+            ``None``
+        """
+
+        resp = self.conn.delete(self._base_endpoint("actionfield", actionfield_id))
+        logger.info(f"{resp.status_code}: {actionfield_id}")
+
     def update_user(self, user_id, **kwargs):
         """
         Update a user.

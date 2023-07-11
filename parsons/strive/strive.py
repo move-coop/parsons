@@ -337,7 +337,7 @@ class Strive(object):
         """
 
         # Send the POST request
-        response = self.client.post_request(data=json.dumps(payload))
+        response = self.client.post_request(data=payload)
 
         # Convert the API response to a Parsons Table object
         table = Table(response)

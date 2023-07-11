@@ -1,5 +1,6 @@
 from parsons import Table
-get_members_expected_output = Table({
+
+mock_member_data = Table({
     "id": 252025504,
     "campaign_id": 558,
     "phone_number": "+1234567891",

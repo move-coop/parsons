@@ -1,37 +1,36 @@
-from parsons import Strive
-import pytest
 import unittest
-import strive_test_data
-from parsons import Table
-from unittest.mock import patch
+from parsons import Table, Connector
+import os 
+import requests_mock
+from strive_test_data import mock_member_data
+class TestConnector(unittest.TestCase):
 
-class TestStrive(unittest.TestCase):
-    
     def setUp(self):
-        self.strive = Strive()
+        self.api_key = os.environ["STRIVE_KEY"]
+        self.connector = Connector(api_key=self.api_key)
+
+    def tearDown(self):
+        pass
     
-    def test_get_members_with_first_name(self):
-        mock_response =  strive_test_data.get_members_expected_output
-        # Mock the GET request method to return the mock response
-        with patch.object(self.strive, "get_members", return_value=mock_response):
-            # Call the get_members method with the first_name parameter
-            result = self.strive.get_members(first_name="eq.brittany")
-            # Verify that the result is a Table object
-            assert isinstance(result, Table)
-            # Verify that the result contains the expected data
-            expected_data = [{"id": 252025504, "first_name": "brittany", "last_name": "bennett", "phone_number": "+1234567891"}]
-            assert result.columns == ['id', 'first_name', 'last_name', 'phone_number']
-            assert result.data == expected_data
+    @requests_mock.Mocker()
+    def test_get_members(self, m):
+        m.get(self.base_uri + '/members', json=mock_member_data)
+        result = self.connector.get_members(params={'first_name' : 'brittany'})
+
+
+        # want to make sure that each of the functions being called is
+        # using the correct URL
+
+        # Want to be sure that Auth is being sent in the header 
+
+        # PARAMS are being passed through correctly 
+        # want to assert proper auth
+        # want to assert structure of request 
+
+        # What happens if you don't have the correct environment variables 
+        # if you don't have an API key 
+
+        # have the same test per function -- fail if the URLs ont heir end change 
+
         
-    def test_get_members_with_last_name(self):
-        mock_response =  strive_test_data.get_members_expected_output
-        # Mock the GET request method to return the mock response
-        with patch.object(self.strive, "get_members", return_value=mock_response):
-            # Call the get_members method with the first_name parameter
-            result = self.strive.get_members(first_name="eq.bennett")
-            # Verify that the result is a Table object
-            assert isinstance(result, Table)
-            # Verify that the result contains the expected data
-            expected_data = [{"id": 252025504, "first_name": "brittany", "last_name": "bennett", "phone_number": "+1234567891"}]
-            assert result.columns == ['id', 'first_name', 'last_name', 'phone_number']
-            assert result.data == expected_data
+        

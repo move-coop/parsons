@@ -1,6 +1,6 @@
 from parsons import Table
 
-mock_member_data = Table({
+mock_member_data = [{
     "id": 252025504,
     "campaign_id": 558,
     "phone_number": "+1234567891",
@@ -21,4 +21,4 @@ mock_member_data = Table({
         {"id": 555505, "name": "Election 2022 Countdown"},
     ],
     "carrier": "Verizon",
-})
+}]

@@ -21,20 +21,6 @@ class Strive(object):
         }
         self.client = APIConnector(self.uri, headers=self.headers)
 
-    def build_url(self, params, endpoint):
-        """
-        Takes a set of parameters and an API endpoint and builds a URL using horizontal
-        filter rules.
-        """
-        # Build the query string for the URL
-        query_string = "&".join([f"{key}={value}" for key, value in params.items()])
-
-        # Build the full URL with the query string
-        url = endpoint
-        full_url = f"{url}?{query_string}"
-
-        return full_url
-
     def get_p2ps(self, **kwargs):
         """
         Sends a GET request to the /p2ps endpoint with specified parameters,
@@ -88,11 +74,8 @@ class Strive(object):
             ValueError: If any of the filter parameters have an invalid data type.
         """
 
-        # Build URL
-        full_url = self.build_url(kwargs, "p2ps")
-
         # Send the GET request
-        response = self.client.get_request(url=full_url)
+        response = self.client.get_request(url="p2ps", params=kwargs)
 
         # Process the response
         table = Table(response)
@@ -135,11 +118,9 @@ class Strive(object):
         `Raises:`
             ValueError: If any of the filter parameters have an invalid data type.
         """
-        # Build URL
-        full_url = self.build_url(kwargs, "custom_fields")
 
         # Send the GET request
-        response = self.client.get_request(url=full_url)
+        response = self.client.get_request("custom_fields", params=kwargs)
 
         # Process the response
         table = Table(response)
@@ -194,12 +175,8 @@ class Strive(object):
         `Raises:`
             ValueError: If any of the filter parameters have an invalid data type.
         """
-
-        # Build URL
-        full_url = self.build_url(kwargs, "outgoing_messages")
-
         # Send the GET request
-        response = self.client.get_request(url=full_url)
+        response = self.client.get_request("outgoing_messages", params=kwargs)
 
         # Process the response
         table = Table(response)
@@ -249,11 +226,8 @@ class Strive(object):
             ValueError: If any of the filter parameters have an invalid data type.
         """
 
-        # Build URL
-        full_url = self.build_url(kwargs, "subscription_events")
-
         # Send the GET request
-        response = self.client.get_request(url=full_url)
+        response = self.client.get_request("subscription_events", params=kwargs)
 
         # Process the response
         table = Table(response)
@@ -318,12 +292,9 @@ class Strive(object):
 
         """
 
-        # Build URL
-        full_url = self.build_url(kwargs, "members")
-
         # Send the GET request
-        response = self.client.get_request(url=full_url)
-
+        response = self.client.get_request(url="members", params=kwargs)
+        
         # Convert the API response to a Parsons Table object
         table = Table(response)
         return table
@@ -399,11 +370,8 @@ class Strive(object):
             ValueError: If any of the filter parameters have an invalid data type.
         """
 
-        # Build URL
-        full_url = self.build_url(kwargs, "outgoing_messages")
-
         # Send the GET request
-        response = self.client.get_request(url=full_url)
+        response = self.client.get_request(url="outgoing_messages", params=kwargs)
 
         # Process the response
         table = Table(response)
@@ -439,11 +407,8 @@ class Strive(object):
             ValueError: If any of the filter parameters have an invalid data type.
         """
 
-        # Build URL
-        full_url = self.build_url(kwargs, "broadcast_groups")
-
         # Send the GET request
-        response = self.client.get_request(url=full_url)
+        response = self.client.get_request(url="broadcast_groups", params=kwargs)
 
         # Convert the API response to a Parsons Table object
         table = Table(response)
@@ -485,11 +450,8 @@ class Strive(object):
             ValueError: If any of the filter parameters have an invalid data type.
         """
 
-        # Build URL
-        full_url = self.build_url(kwargs, "campaigns")
-
         # Send the GET request
-        response = self.client.get_request(url=full_url)
+        response = self.client.get_request(url="campaigns", params=kwargs)
 
         # Process the response
         table = Table(response)
@@ -527,11 +489,8 @@ class Strive(object):
             ValueError: If any of the filter parameters have an invalid data type.
         """
 
-        # Build URL
-        full_url = self.build_url(kwargs, "flows")
-
         # Send the GET request
-        response = self.client.get_request(url=full_url)
+        response = self.client.get_request(url="flows", params=kwargs)
 
         # Process the response
         table = Table(response)
@@ -569,11 +528,8 @@ class Strive(object):
             ValueError: If any of the filter parameters have an invalid data type.
         """
 
-        # Build URL
-        full_url = self.build_url(kwargs, "members_custom_fields")
-
         # Send the GET request
-        response = self.client.get_request(url=full_url)
+        response = self.client.get_request(url="members_custom_fields", params=kwargs)
 
         # Process the response
         table = Table(response)
@@ -627,11 +583,8 @@ class Strive(object):
             ValueError: If any of the filter parameters have an invalid data type.
         """
 
-        # Build URL
-        full_url = self.build_url(kwargs, "broadcasts")
-
         # Send the GET request
-        response = self.client.get_request(url=full_url)
+        response = self.client.get_request(url="broadcasts", params=kwargs)
 
         # Process the response
         table = Table(response)
@@ -687,11 +640,8 @@ class Strive(object):
             ValueError: If any of the filter parameters have an invalid data type.
         """
 
-        # Build URL
-        full_url = self.build_url(kwargs, "members_links")
-
         # Send the GET request
-        response = self.client.get_request(url=full_url)
+        response = self.client.get_request(url="members_links", params=kwargs)
 
         # Process the response
         table = Table(response)
@@ -739,11 +689,8 @@ class Strive(object):
             ValueError: If any of the filter parameters have an invalid data type.
         """
 
-        # Build URL
-        full_url = self.build_url(kwargs, "groups")
-
         # Send the GET request
-        response = self.client.get_request(url=full_url)
+        response = self.client.get_request(url="groups", params=kwargs)
 
         # Process the response
         table = Table(response)
@@ -775,11 +722,8 @@ class Strive(object):
             ValueError: If any of the filter parameters have an invalid data type.
         """
 
-        # Build URL
-        full_url = self.build_url(kwargs, "organizations")
-
         # Send the GET request
-        response = self.client.get_request(url=full_url)
+        response = self.client.get_request(url="organizations", params=kwargs)
 
         # Process the response
         table = Table(response)
@@ -825,11 +769,8 @@ class Strive(object):
             ValueError: If any of the filter parameters have an invalid data type.
         """
 
-        # Build URL
-        full_url = self.build_url(kwargs, "member_group_delete_log")
-
         # Send the GET request
-        response = self.client.get_request(url=full_url)
+        response = self.client.get_request(url="member_group_delete_log", params=kwargs)
 
         # Process the response
         table = Table(response)
@@ -909,11 +850,8 @@ class Strive(object):
             ValueError: If any of the filter parameters have an invalid data type.
         """
 
-        # Build URL
-        full_url = self.build_url(kwargs, "call_logs")
-
         # Send the GET request
-        response = self.client.get_request(url=full_url)
+        response = self.client.get_request(url="call_logs", params=kwargs)
 
         # Process the response
         table = Table(response)
@@ -957,11 +895,8 @@ class Strive(object):
             ValueError: If any of the filter parameters have an invalid data type.
         """
 
-        # Build URL
-        full_url = self.build_url(kwargs, "member_change_log")
-
         # Send the GET request
-        response = self.client.get_request(url=full_url)
+        response = self.client.get_request(url="member_change_log", params=kwargs)
 
         # Process the response
         table = Table(response)
@@ -1010,11 +945,8 @@ class Strive(object):
             ValueError: If any of the filter parameters have an invalid data type.
         """
 
-        # Build URL
-        full_url = self.build_url(kwargs, "enhanced_member_data")
-
         # Send the GET request
-        response = self.client.get_request(url=full_url)
+        response = self.client.get_request(url="enhanced_member_data", params=kwargs)
 
         # Process the response
         table = Table(response)
@@ -1061,11 +993,8 @@ class Strive(object):
             ValueError: If any of the filter parameters have an invalid data type.
         """
 
-        # Build URL
-        full_url = self.build_url(kwargs, "flow_actions")
-
         # Send the GET request
-        response = self.client.get_request(url=full_url)
+        response = self.client.get_request(url="flow_actions", params=kwargs)
 
         # Process the response
         table = Table(response)
@@ -1106,11 +1035,8 @@ class Strive(object):
             ValueError: If any of the filter parameters have an invalid data type.
         """
 
-        # Build URL
-        full_url = self.build_url(kwargs, "groups_members")
-
         # Send the GET request
-        response = self.client.get_request(url=full_url)
+        response = self.client.get_request(url="groups_members", params=kwargs)
 
         # Process the response
         table = Table(response)
@@ -1150,13 +1076,9 @@ class Strive(object):
             ValueError: If any of the filter parameters have an invalid data type.
         """
 
-        # Build URL
-        full_url = self.build_url(kwargs, "flow_steps")
-
         # Send the GET request
-        response = self.client.get_request(url=full_url)
+        response = self.client.get_request(url="flow_steps", params=kwargs)
 
         # Process the response
         table = Table(response)
         return table
-

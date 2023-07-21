@@ -16,10 +16,16 @@ class TestConnector(unittest.TestCase):
 
     @requests_mock.Mocker()
     def test_get_members(self, m):
-        m.get(self.base_uri + '/members', json=mock_member_data)
+        headers = {'Authorization': 'Bearer test'}
+        m.get(self.base_uri + '/members', json=mock_member_data, headers=headers)
         response = self.connector.get_members()
+        history = m.request_history[0]
+        import pytest; pytest.set_trace()
+        print(history)
         assert m.called == True  
         assert_matching_tables(response, Table(mock_member_data))
+        assert "Bearer test" == history.headers.get("Authorization")
+
         
 
         # Want to be sure that Auth header is being passed correctly  

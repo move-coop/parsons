@@ -19,7 +19,7 @@ class TestConnector(unittest.TestCase):
     def test_get_members(self, m):
         m.get(self.base_uri + '/members', json=mock_member_data)
         response = self.connector.get_members()
-        history = m.request_history[0] # Get the first (and only) request made
+        history = m.request_history[0] # Get the first request made
         # Assert that a get request was made
         self.assertEqual(history.method, 'GET')
         # Assert mock object has been called
@@ -28,16 +28,12 @@ class TestConnector(unittest.TestCase):
         assert_matching_tables(response, Table(mock_member_data))
         # Assert headers passed correctly 
         assert f"Bearer {self.api_key}" == history.headers.get("Authorization")
-
-        
     
-        # Define the data to be returned by the mock request
-        m.get(self.base_uri + '/members', json=mock_member_data)        
-        # Call the function that makes the HTTP request (replace get_members with the actual function name)
+        # Mock a request with params, asser that params were passed successfully 
+        m.get(self.base_uri + '/members?first_name=eq.brittany&city=eq.pittsburgh', json=mock_member_data)        
         response = self.connector.get_members(first_name='eq.brittany', city='eq.Pittsburgh')
-        import pytest; pytest.set_trace()
-        history = m.request_history[0]
-        assert history.qs == {'first_name':'eq.brittany', 'city': 'eq.Pittsburgh'}
+        history = m.request_history[1] # Get the second request made
+        assert history.qs == {'first_name':['eq.brittany'], 'city': ['eq.pittsburgh']}
 
 
 

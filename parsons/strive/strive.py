@@ -293,13 +293,13 @@ class Strive(object):
         """
 
         # Send the GET request
-        response = self.client.get_request(url="members", params=kwargs)
+        response = self.client.get_request(url="/members", params=kwargs)
         
         # Convert the API response to a Parsons Table object
         table = Table(response)
         return table
 
-    def post_members(self, payload):
+    def post_members(self, data):
         """
         Sends a POST request to the /members endpoint with a given payload.
         To learn more about POST requests to Strive's member endpoint, go here:
@@ -308,7 +308,7 @@ class Strive(object):
         """
 
         # Send the POST request
-        response = self.client.post_request(data=payload)
+        response = self.client.post_request(url="/members", data=data)
 
         # Convert the API response to a Parsons Table object
         table = Table(response)

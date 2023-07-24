@@ -799,6 +799,26 @@ class ActionKit(object):
         logger.info(f"{resp.status_code}: {recurring_id}")
         return resp
 
+    def update_orderrecurring(self, orderrecurring_id, **kwargs):
+        """
+        Update a recurring order.
+
+        `Args:`
+            orderrecurring_id: int
+                The id of the orderrecurring to update
+            **kwargs:
+                Optional arguments and fields to pass to the client. A full list can be found
+                in the `ActionKit API Documentation <https://roboticdogs.actionkit.com/docs/\
+                manual/api/rest/actionprocessing.html>`_.
+        `Returns:`
+            ``None``
+        """
+
+        resp = self.conn.patch(
+            self._base_endpoint("orderrecurring", orderrecurring_id), data=json.dumps(kwargs)
+        )
+        logger.info(f"{resp.status_code}: {orderrecurring_id}")
+
     def get_orders(self, limit=None, **kwargs):
         """Get multiple orders.
 

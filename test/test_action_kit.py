@@ -501,6 +501,19 @@ class TestActionKit(unittest.TestCase):
             "https://domain.actionkit.com/rest/v1/orderrecurring/1/cancel/"
         )
 
+    def test_update_orderrecurring(self):
+        # Test update orderrecurring
+
+        # Mock resp and status code
+        resp_mock = mock.MagicMock()
+        type(resp_mock.patch()).status_code = mock.PropertyMock(return_value=202)
+        self.actionkit.conn = resp_mock
+        self.actionkit.update_orderrecurring(123, amount="1.00")
+        self.actionkit.conn.patch.assert_called_with(
+            "https://domain.actionkit.com/rest/v1/orderrecurring/123/",
+            data=json.dumps({"amount": "1.00"}),
+        )
+
     def test_create_transaction(self):
         # Test create transaction
 

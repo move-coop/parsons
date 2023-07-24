@@ -1,9 +1,10 @@
 import json
-from parsons import Table
+import logging
 import re
+
+from parsons import Table
 from parsons.utilities import check_env
 from parsons.utilities.api_connector import APIConnector
-import logging
 
 logger = logging.getLogger(__name__)
 
@@ -98,6 +99,7 @@ class ActionNetwork(object):
         postal_addresses=None,
         mobile_number=None,
         mobile_status="subscribed",
+        background_processing=False,
         **kwargs,
     ):
         """
@@ -146,6 +148,11 @@ class ActionNetwork(object):
                             - "unsubscribed"
             mobile_status:
                 'subscribed' or 'unsubscribed'
+            background_request: bool
+                If set `true`, utilize ActionNetwork's "background processing". This will return
+                an immediate success, with an empty JSON body, and send your request to the
+                background queue for eventual processing.
+                https://actionnetwork.org/docs/v2/#background-processing
             **kwargs:
                 Any additional fields to store about the person. Action Network allows
                 any custom field.
@@ -210,10 +217,13 @@ class ActionNetwork(object):
             data["person"]["postal_addresses"] = postal_addresses
         if tags is not None:
             data["add_tags"] = tags
+
         data["person"]["custom_fields"] = {**kwargs}
-        response = self.api.post_request(
-            url=f"{self.api_url}/people", data=json.dumps(data)
-        )
+        url = f"{self.api_url}/people"
+        if background_processing:
+            url = f"{url}?background_processing=true"
+        response = self.api.post_request(url, data=json.dumps(data))
+
         identifiers = response["identifiers"]
         person_id = [
             entry_id.split(":")[1]
@@ -257,7 +267,7 @@ class ActionNetwork(object):
             **kwargs,
         )
 
-    def update_person(self, entry_id, **kwargs):
+    def update_person(self, entry_id, background_processing=False, **kwargs):
         """
         Updates a person's data in Action Network, given their Action Network ID. Note that you
         can't alter a person's tags with this method. Instead, use upsert_person.
@@ -265,6 +275,11 @@ class ActionNetwork(object):
         `Args:`
             entry_id:
                 The person's Action Network id
+            background_processing: bool
+                If set `true`, utilize ActionNetwork's "background processing". This will return
+                an immediate success, with an empty JSON body, and send your request to the
+                background queue for eventual processing.
+                https://actionnetwork.org/docs/v2/#background-processing
             **kwargs:
                 Fields to be updated. The possible fields are
                     email_address:
@@ -295,8 +310,11 @@ class ActionNetwork(object):
                         A dictionary of any other fields to store about the person.
         """
         data = {**kwargs}
+        url = f"{self.api_url}/people/{entry_id}"
+        if background_processing:
+            url = f"{url}?background_processing=true"
         response = self.api.put_request(
-            url=f"{self.api_url}/people/{entry_id}",
+            url=url,
             data=json.dumps(data),
             success_codes=[204, 201, 200],
         )

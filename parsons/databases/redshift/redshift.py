@@ -395,16 +395,12 @@ class Redshift(
                 See :ref:`parsons-table` for output options.
         """
 
-        logger.info("Will any logs show?")
-
         with self.connection() as connection:
             if self._create_table_precheck(connection, table_name, if_exists):
                 if template_table:
-                    logger.info(f"Using a template table: {template_table}")
                     sql = f"CREATE TABLE {table_name} (LIKE {template_table})"
                 else:
                     # Grab the object from s3
-                    logger.info(f"Not using a template table")
                     from parsons.aws.s3 import S3
 
                     s3 = S3(

@@ -417,11 +417,13 @@ class Redshift(
                     if data_type == "csv":
                         tbl = Table.from_csv(local_path, delimiter=csv_delimiter)
                     elif data_type == "json":
+                        logger.info("Getting table from json")
                         tbl = Table.from_json(local_path, line_delimited=line_delimited)
                     else:
                         raise TypeError("Invalid data type provided")
 
                     # Create the table
+                    logger.info("Creating the create statement")
                     sql = self.create_statement(
                         tbl,
                         table_name,
@@ -432,8 +434,7 @@ class Redshift(
                         columntypes=columntypes,
                         strict_length=strict_length,
                     )
-
-                logger.info(f"Create statement: {sql}")
+                    logger.info(f"Create statement: {sql}")
 
                 self.query_with_connection(sql, connection, commit=False)
                 logger.info(f"{table_name} created.")

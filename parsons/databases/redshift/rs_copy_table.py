@@ -41,6 +41,7 @@ class RedshiftCopyTable(object):
         aws_secret_access_key=None,
         compression=None,
         bucket_region=None,
+        json_option="auto",
     ):
         logger.info(f"Data type is {data_type}")
         # Source / Destination
@@ -101,9 +102,8 @@ class RedshiftCopyTable(object):
         if data_type == "csv":
             sql += f"csv delimiter '{csv_delimiter}' \n"
         elif data_type == "json":
-            sql += "json 'auto' \n"
-            sql += "delimiter '\\n' \n"
-            logger.info("Adding json 'auto' to sql")
+            sql += f"json '{json_option}' \n"
+            logger.info(f"Adding json '{json_option}' to sql")
         else:
             raise TypeError("Invalid data type specified.")
 

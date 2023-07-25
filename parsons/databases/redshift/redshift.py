@@ -429,6 +429,8 @@ class Redshift(
                         strict_length=strict_length,
                     )
 
+                logger.info(f"Create statement: {sql}")
+
                 self.query_with_connection(sql, connection, commit=False)
                 logger.info(f"{table_name} created.")
 

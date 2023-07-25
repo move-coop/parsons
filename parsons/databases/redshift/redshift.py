@@ -395,6 +395,8 @@ class Redshift(
                 See :ref:`parsons-table` for output options.
         """
 
+        logger.info("Will any logs show?")
+
         with self.connection() as connection:
             if self._create_table_precheck(connection, table_name, if_exists):
                 if template_table:

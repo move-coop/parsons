@@ -190,6 +190,7 @@ class RedshiftCreateTable(DatabaseCreateStatement):
 
         statement += ";"
 
+        logger.info(f"Create statement: {statement}")
         return statement
 
     # This is for backwards compatability

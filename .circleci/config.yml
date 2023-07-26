@@ -26,9 +26,11 @@ template: &template
         name: install python $PYTHON_VERSION
         command: |
           apt -y update
+          echo "Installing spc"
           apt -y install software-properties-common
+          echo "Added deadsnakes"
           add-apt-repository ppa:deadsnakes/ppa
-          apt -y update
+          echo "Installing Python"
           apt -y install python$PYTHON_VERSION
 
     # Download and cache dependencies

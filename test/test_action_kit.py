@@ -488,6 +488,13 @@ class TestActionKit(unittest.TestCase):
             data=json.dumps({"question_html": "test"}),
         )
 
+    def test_get_orderrecurring(self):
+        # Test get orderrecurring
+        self.actionkit.get_orderrecurring(123)
+        self.actionkit.conn.get.assert_called_with(
+            "https://domain.actionkit.com/rest/v1/orderrecurring/123/", params=None
+        )
+
     def test_cancel_orderrecurring(self):
         # Test cancel recurring order
 

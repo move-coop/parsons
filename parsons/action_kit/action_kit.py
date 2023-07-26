@@ -782,6 +782,21 @@ class ActionKit(object):
         )
         logger.info(f"{resp.status_code}: {order_id}")
 
+    def get_orderrecurring(self, orderrecurring_id):
+        """
+        Get an orderrecurring.
+
+        `Args:`
+            orderrecurring_id: int
+                The orderrecurring id of the record to get.
+        `Returns`:
+            User json object
+        """
+
+        return self._base_get(
+            endpoint="orderrecurring", entity_id=orderrecurring_id, exception_message="Orderrecurring not found"
+        )
+
     def cancel_orderrecurring(self, recurring_id):
         """
         Cancel a recurring order.

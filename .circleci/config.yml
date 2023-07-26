@@ -71,18 +71,8 @@ jobs:
     <<: *template
     environment:
       PYTHON_VERSION: 3.10
-
-
-# Documentation CI
-
-jobs:
-  test:
-    docker:
-      - image: cimg/python:3.10
-
-    working_directory: ~/repo
-
-
+      
+  # Documentation CI
   docs-build:
     docker:
       - image: cimg/python:3.10

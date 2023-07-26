@@ -25,7 +25,7 @@ template: &template
     - run:
         name: install python $PYTHON_VERSION
         command: |
-          apt-update
+          apt update
           apt install software-properties-common
           add-apt-repository ppa:deadsnakes/ppa
           apt update

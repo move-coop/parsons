@@ -15,11 +15,23 @@ workflows:
 
 template: &template
   docker:
-    - image: ubuntu:bionic
+    - image: ubuntu:22.04
   working_directory: ~/repo
   steps:
 
     - checkout
+
+    # Install Python version
+    - run:
+        name: load latest
+        command: |
+          cd /opt/circleci/.pyenv
+          git pull
+    - run:
+        name: install python $PYTHON_VERSION
+        command: |
+          pyenv install $PYTHON_VERSION
+          pyenv global $PYTHON_VERSION
 
     # Download and cache dependencies
     - restore_cache:
@@ -71,7 +83,7 @@ jobs:
     <<: *template
     environment:
       PYTHON_VERSION: 3.10
-      
+
   # Documentation CI
   docs-build:
     docker:

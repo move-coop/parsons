@@ -25,10 +25,10 @@ template: &template
     - run:
         name: install python $PYTHON_VERSION
         command: |
-          apt update
-          apt install software-properties-common
+          apt -y update
+          apt -y install software-properties-common
           add-apt-repository ppa:deadsnakes/ppa
-          apt update
+          apt -y update
           apt -y install python$PYTHON_VERSION
 
     # Download and cache dependencies

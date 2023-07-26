@@ -29,7 +29,7 @@ template: &template
           apt install software-properties-common
           add-apt-repository ppa:deadsnakes/ppa
           apt update
-          apt install python$PYTHON_VERSION -y
+          apt -y install python$PYTHON_VERSION
 
     # Download and cache dependencies
     - restore_cache:

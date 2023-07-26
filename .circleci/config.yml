@@ -25,13 +25,11 @@ template: &template
     - run:
         name: install python $PYTHON_VERSION
         command: |
-          apt -y update
-          echo "Installing spc"
-          apt -y install software-properties-common
-          echo "Added deadsnakes"
-          add-apt-repository ppa:deadsnakes/ppa
-          echo "Installing Python"
-          apt -y install python$PYTHON_VERSION
+          echo "INSTALLING PYENV"
+          git clone git://github.com/pyenv/pyenv-update.git $(pyenv root)/plugins/pyenv-update
+          pyenv update
+          echo "INSTALLING PYTHON"
+          pyenv install $PYTHON_VERSION
 
     # Download and cache dependencies
     - restore_cache:

@@ -25,7 +25,7 @@ template: &template
     - run:
         name: install python $PYTHON_VERSION
         command: |
-          apt-get install python$PYTHON_VERSION
+          apt install python$PYTHON_VERSION
 
     # Download and cache dependencies
     - restore_cache:

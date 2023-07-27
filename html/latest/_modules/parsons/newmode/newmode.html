@@ -303,6 +303,27 @@
             <span class="n">logging</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="s2">&quot;Empty target returned&quot;</span><span class="p">)</span>
             <span class="k">return</span> <span class="kc">None</span></div>
 
+<div class="viewcode-block" id="Newmode.get_targets"><a class="viewcode-back" href="../../../newmode.html#parsons.Newmode.get_targets">[docs]</a>    <span class="k">def</span> <span class="nf">get_targets</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="p">{}):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Get all targets</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            params dict:</span>
+<span class="sd">                Extra paramaters sent to New/Mode library</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            Target information</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">targets</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">getTargets</span><span class="p">(</span><span class="n">params</span><span class="o">=</span><span class="n">params</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">targets</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">convert_to_table</span><span class="p">(</span><span class="n">targets</span><span class="p">)</span>
+
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">logging</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="s2">&quot;No targets returned&quot;</span><span class="p">)</span>
+            <span class="k">return</span> <span class="kc">None</span></div>
+
 <div class="viewcode-block" id="Newmode.get_campaigns"><a class="viewcode-back" href="../../../newmode.html#parsons.Newmode.get_campaigns">[docs]</a>    <span class="k">def</span> <span class="nf">get_campaigns</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="p">{}):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Get existing campaigns.</span>

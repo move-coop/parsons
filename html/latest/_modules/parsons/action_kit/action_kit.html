@@ -920,6 +920,23 @@
         <span class="p">)</span>
         <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">resp</span><span class="o">.</span><span class="n">status_code</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">order_id</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span></div>
 
+<div class="viewcode-block" id="ActionKit.get_orderrecurring"><a class="viewcode-back" href="../../../action_kit.html#parsons.ActionKit.get_orderrecurring">[docs]</a>    <span class="k">def</span> <span class="nf">get_orderrecurring</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">orderrecurring_id</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Get an orderrecurring.</span>
+
+<span class="sd">        `Args:`</span>
+<span class="sd">            orderrecurring_id: int</span>
+<span class="sd">                The orderrecurring id of the record to get.</span>
+<span class="sd">        `Returns`:</span>
+<span class="sd">            User json object</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_base_get</span><span class="p">(</span>
+            <span class="n">endpoint</span><span class="o">=</span><span class="s2">&quot;orderrecurring&quot;</span><span class="p">,</span>
+            <span class="n">entity_id</span><span class="o">=</span><span class="n">orderrecurring_id</span><span class="p">,</span>
+            <span class="n">exception_message</span><span class="o">=</span><span class="s2">&quot;Orderrecurring not found&quot;</span><span class="p">,</span>
+        <span class="p">)</span></div>
+
 <div class="viewcode-block" id="ActionKit.cancel_orderrecurring"><a class="viewcode-back" href="../../../action_kit.html#parsons.ActionKit.cancel_orderrecurring">[docs]</a>    <span class="k">def</span> <span class="nf">cancel_orderrecurring</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">recurring_id</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Cancel a recurring order.</span>
@@ -936,6 +953,27 @@
         <span class="p">)</span>
         <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">resp</span><span class="o">.</span><span class="n">status_code</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">recurring_id</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">resp</span></div>
+
+<div class="viewcode-block" id="ActionKit.update_orderrecurring"><a class="viewcode-back" href="../../../action_kit.html#parsons.ActionKit.update_orderrecurring">[docs]</a>    <span class="k">def</span> <span class="nf">update_orderrecurring</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">orderrecurring_id</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Update a recurring order.</span>
+
+<span class="sd">        `Args:`</span>
+<span class="sd">            orderrecurring_id: int</span>
+<span class="sd">                The id of the orderrecurring to update</span>
+<span class="sd">            **kwargs:</span>
+<span class="sd">                Optional arguments and fields to pass to the client. A full list can be found</span>
+<span class="sd">                in the `ActionKit API Documentation &lt;https://roboticdogs.actionkit.com/docs/\</span>
+<span class="sd">                manual/api/rest/actionprocessing.html&gt;`_.</span>
+<span class="sd">        `Returns:`</span>
+<span class="sd">            ``None``</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">resp</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">conn</span><span class="o">.</span><span class="n">patch</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_base_endpoint</span><span class="p">(</span><span class="s2">&quot;orderrecurring&quot;</span><span class="p">,</span> <span class="n">orderrecurring_id</span><span class="p">),</span>
+            <span class="n">data</span><span class="o">=</span><span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">kwargs</span><span class="p">),</span>
+        <span class="p">)</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">resp</span><span class="o">.</span><span class="n">status_code</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">orderrecurring_id</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="ActionKit.get_orders"><a class="viewcode-back" href="../../../action_kit.html#parsons.ActionKit.get_orders">[docs]</a>    <span class="k">def</span> <span class="nf">get_orders</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">limit</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Get multiple orders.</span>

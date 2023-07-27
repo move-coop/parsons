@@ -796,7 +796,7 @@ class ActionKit(object):
         return self._base_get(
             endpoint="orderrecurring",
             entity_id=orderrecurring_id,
-            exception_message="Orderrecurring not found"
+            exception_message="Orderrecurring not found",
         )
 
     def cancel_orderrecurring(self, recurring_id):
@@ -832,7 +832,8 @@ class ActionKit(object):
         """
 
         resp = self.conn.patch(
-            self._base_endpoint("orderrecurring", orderrecurring_id), data=json.dumps(kwargs)
+            self._base_endpoint("orderrecurring", orderrecurring_id),
+            data=json.dumps(kwargs),
         )
         logger.info(f"{resp.status_code}: {orderrecurring_id}")
 

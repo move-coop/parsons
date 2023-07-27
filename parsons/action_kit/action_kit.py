@@ -794,7 +794,9 @@ class ActionKit(object):
         """
 
         return self._base_get(
-            endpoint="orderrecurring", entity_id=orderrecurring_id, exception_message="Orderrecurring not found"
+            endpoint="orderrecurring",
+            entity_id=orderrecurring_id,
+            exception_message="Orderrecurring not found"
         )
 
     def cancel_orderrecurring(self, recurring_id):

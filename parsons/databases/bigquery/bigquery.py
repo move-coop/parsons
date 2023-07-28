@@ -65,7 +65,7 @@ def parse_table_name(table_name):
     return parsed
 
 
-class GoogleBigQuery(DatabaseConnector):
+class BigQuery(DatabaseConnector):
     """
     Class for querying BigQuery table and returning the data as Parsons tables.
 
@@ -309,8 +309,7 @@ class GoogleBigQuery(DatabaseConnector):
         job_config.max_bad_records = max_errors
 
         if not job_config.schema:
-            # TODO: is this required?
-            job_config.schema = self._generate_schema_from_gcs(gcs_blob_uri=gcs_blob_uri)
+            job_config.autodetect = True
         if not job_config.create_disposition:
             job_config.create_disposition = bigquery.CreateDisposition.CREATE_IF_NEEDED
         if table_exists:
@@ -635,7 +634,7 @@ class GoogleBigQuery(DatabaseConnector):
         noise = f"{random.randrange(0, 10000):04}"[:4]
         date_stamp = datetime.datetime.now().strftime("%Y%m%d_%H%M")
         # Generate a temp table like "table_tmp_20200210_1230_14212"
-        staging_tbl = f"{target_table}_stg_{date_stamp}_{noise}".format(, , )
+        staging_tbl = f"{target_table}_stg_{date_stamp}_{noise}"
 
         # Copy to a staging table
         logger.info(f"Building staging table: {staging_tbl}")

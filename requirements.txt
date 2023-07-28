@@ -21,6 +21,7 @@ joblib==1.2.0
 censusgeocode==0.4.3.post1
 airtable-python-wrapper==0.13.0
 google-cloud-storage==2.2.0
+google-cloud-storage-transfer==1.9.1
 google-cloud-bigquery==3.4.0
 docutils<0.18,>=0.14
 urllib3==1.26.5

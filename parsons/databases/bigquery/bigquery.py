@@ -715,6 +715,52 @@ class BigQuery(DatabaseConnector):
 
         return True
 
+    def get_tables(self, schema, table_name=None):
+        """
+        List the tables in a schema including metadata.
+
+        Args:
+            schema: str
+                Filter by a schema
+            table_name: str
+                Filter by a table name
+        `Returns:`
+            Parsons Table
+                See :ref:`parsons-table` for output options.
+        """
+
+        logger.info("Retrieving tables info.")
+        sql = f"select * from {schema}.INFORMATION_SCHEMA.TABLES"
+        if table_name:
+            sql += f" where table_name = '{table_name}'"
+        return self.query(sql)
+
+    def get_views(self, schema, view=None):
+        """
+        List views.
+
+        Args:
+            schema: str
+                Filter by a schema
+            view: str
+                Filter by a table name
+        `Returns:`
+            Parsons Table
+                See :ref:`parsons-table` for output options.
+        """
+
+        logger.info("Retrieving views info.")
+        sql = f"""
+              select 
+                table_schema as schema_name,
+                table_name as view_name,
+                view_definition
+              from {schema}.INFORMATION_SCHEMA.VIEWS
+              """
+        if view:
+            sql += f" where table_name = '{view}'"
+        return self.query(sql)
+
     def _wrap_queries_in_transaction(self, queries: List[str]):
         joined_queries = queries.join('; \n')
         wrapped_queries = f"""

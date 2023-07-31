@@ -1,9 +1,12 @@
-name: tests for linux & windows
+name: tests
 
 on:
   pull_request:
     branches:
     - main
+
+env:
+  TESTING: 1
 
 jobs:
   build:
@@ -26,7 +29,7 @@ jobs:
       run: python -m pip install -r requirements.txt
 
     - name: Run tests
-      run: TESTING=1 pytest -rf test/
+      run: pytest -rf test/
 
     - name: check linting
       run: |

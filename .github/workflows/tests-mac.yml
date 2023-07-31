@@ -1,10 +1,13 @@
-name: tests
+name: tests for mac
 # test mac on single python version as mac tests use 10x minutes/storage
 
 on:
   pull_request:
     branches:
     - main
+
+env:
+  TESTING: 1
 
 jobs:
   build:

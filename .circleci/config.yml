@@ -7,6 +7,13 @@ version: 2
 
 workflows:
   version: 2
+  build:
+    jobs:
+      - docs-build
+      - docs-build-deploy:
+          filters:
+            branches:
+              only: main
 
 jobs:
 

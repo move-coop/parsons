@@ -8,6 +8,8 @@ version: 2
 workflows:
   version: 2
 
+jobs:
+
   # Documentation CI
   docs-build:
     docker:

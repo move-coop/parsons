@@ -22,6 +22,13 @@ jobs:
       with:
         python-version: 3.8
 
+    - uses: actions/cache@v3
+      with:
+        path: ~/Library/Caches/pip
+        key: mac-pip-${{ hashFiles('**/requirements.txt') }}
+        restore-keys: |
+          mac-pip-
+
     - name: Install dependencies
       run: python -m pip install -r requirements.txt
 

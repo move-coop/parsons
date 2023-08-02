@@ -325,21 +325,15 @@ class ActionNetwork(object):
         logger.info(f"Person {entry_id} successfully updated")
         return response
 
-    def get_tags(self, limit=None, per_page=25, page=None):
+    def get_tags(self, limit=None):
         """
         `Args:`
             limit:
                 The number of entries to return. When None, returns all entries.
-            per_page
-                The number of entries per page to return. 25 maximum.
-            page
-                Which page of results to return
         `Returns:`
             A list of JSONs of tags in Action Network.
         """
-        if page:
-            self.get_page("tags", page, per_page)
-        return self._get_entry_list("tags", limit, per_page)
+        return self._get_entry_list("tags", limit)
 
     def get_tag(self, tag_id):
         """

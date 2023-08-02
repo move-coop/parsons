@@ -155,7 +155,10 @@ class BigQuery(DatabaseConnector):
             cur.close()
 
     def query(
-        self, sql: str, parameters: Optional[Union[list, dict]] = None
+        self,
+        sql: str,
+        parameters: Optional[Union[list, dict]] = None,
+        return_values: bool = True,
     ) -> Optional[Table]:
         """
         Run a BigQuery query and return the results as a Parsons table.
@@ -191,9 +194,13 @@ class BigQuery(DatabaseConnector):
         """
 
         with self.connection() as connection:
-            return self.query_with_connection(sql, connection, parameters=parameters)
+            return self.query_with_connection(
+                sql, connection, parameters=parameters, return_values=return_values
+            )
 
-    def query_with_connection(self, sql, connection, parameters=None, commit=True):
+    def query_with_connection(
+        self, sql, connection, parameters=None, commit=True, return_values: bool = True
+    ):
         """
         Execute a query against the BigQuery database, with an existing connection.
         Useful for batching queries together. Will return ``None`` if the query
@@ -215,17 +222,21 @@ class BigQuery(DatabaseConnector):
         """
 
         if not commit:
-            raise ValueError("""
+            raise ValueError(
+                """
                 BigQuery implementation uses an API client which always auto-commits. If you wish to wrap
                 multiple queries in a transaction, use Mulit-Statement transactions within a single query
                 as outlined here: https://cloud.google.com/bigquery/docs/transactions
-            """)
+            """
+            )
 
         # get our connection and cursor
         with self.cursor(connection) as cursor:
-
             # Run the query
             cursor.execute(sql, parameters)
+
+            if not return_values:
+                return None
 
             # We will use a temp file to cache the results so that they are not all living
             # in memory. We'll use pickle to serialize the results to file in order to maintain
@@ -345,7 +356,7 @@ class BigQuery(DatabaseConnector):
         if_exists="fail",
         aws_access_key_id=None,
         aws_secret_access_key=None,
-        **load_kwargs
+        **load_kwargs,
     ):
         """
         Copy a file from s3 to BigQuery.
@@ -461,10 +472,12 @@ class BigQuery(DatabaseConnector):
             aws_access_key_id=aws_access_key_id,
             aws_secret_access_key=aws_secret_access_key,
             gcs_sink_bucket=tmp_gcs_bucket,
-            aws_s3_key=key
+            aws_s3_key=key,
         )
         temp_blob_name = key
-        temp_blob_uri = gcs_client.format_uri(bucket=tmp_gcs_bucket, name=temp_blob_name)
+        temp_blob_uri = gcs_client.format_uri(
+            bucket=tmp_gcs_bucket, name=temp_blob_name
+        )
 
         # load CSV from Cloud Storage into BigQuery
         try:
@@ -472,7 +485,8 @@ class BigQuery(DatabaseConnector):
                 table_name=table_name,
                 if_exists=if_exists,
                 gcs_blob_uri=temp_blob_uri,
-                **load_kwargs)
+                **load_kwargs,
+            )
         finally:
             gcs_client.delete_blob(tmp_gcs_bucket, temp_blob_name)
 
@@ -528,7 +542,8 @@ class BigQuery(DatabaseConnector):
                 if_exists=if_exists,
                 gcs_blob_uri=temp_blob_uri,
                 job_config=job_config,
-                **load_kwargs)
+                **load_kwargs,
+            )
         finally:
             gcs_client.delete_blob(tmp_gcs_bucket, temp_blob_name)
 
@@ -555,7 +570,7 @@ class BigQuery(DatabaseConnector):
         """
         if if_exists not in ["fail", "replace", "ignore"]:
             raise ValueError("Invalid value for `if_exists` argument")
-        if if_exists == 'fail' and self.table_exists(destination_table):
+        if if_exists == "fail" and self.table_exists(destination_table):
             raise ValueError("Table already exists.")
 
         query = f"""
@@ -564,7 +579,9 @@ class BigQuery(DatabaseConnector):
             CLONE {source_table}
         """
         if drop_source_table:
-            query = self._wrap_queries_in_transaction(queries=[query, f'DROP TABLE {source_table}'])
+            query = self._wrap_queries_in_transaction(
+                queries=[query, f"DROP TABLE {source_table}"]
+            )
 
         return self.query(query)
 
@@ -666,16 +683,17 @@ class BigQuery(DatabaseConnector):
         ]
         where_clause = " and ".join(comparisons)
 
-        queries = [f"""
+        queries = [
+            f"""
                 DELETE FROM {target_table}
                 USING {staging_tbl}
                 WHERE {where_clause}
                 """,
-                   f"""
+            f"""
                 INSERT INTO {target_table}
                 SELECT * FROM {staging_tbl}
-                """
-                   ]
+                """,
+        ]
 
         if cleanup_temp_table:
             # Drop the staging table
@@ -762,7 +780,7 @@ class BigQuery(DatabaseConnector):
         return self.query(sql)
 
     def _wrap_queries_in_transaction(self, queries: List[str]):
-        joined_queries = queries.join('; \n')
+        joined_queries = queries.join("; \n")
         wrapped_queries = f"""
             BEGIN
                 BEGIN TRANSACTION;

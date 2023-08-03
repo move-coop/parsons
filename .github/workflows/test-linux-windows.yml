@@ -2,8 +2,9 @@ name: tests
 
 on:
   pull_request:
-    branches:
-    - main
+    branches: ["main"]
+  push:
+    branches: ["main"]
 
 env:
   TESTING: 1

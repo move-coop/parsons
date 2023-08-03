@@ -1,6 +1,7 @@
 import json
 import logging
 import re
+import warnings
 
 from parsons import Table
 from parsons.utilities import check_env
@@ -325,14 +326,22 @@ class ActionNetwork(object):
         logger.info(f"Person {entry_id} successfully updated")
         return response
 
-    def get_tags(self, limit=None):
+    def get_tags(self, limit=None, per_page=None):
         """
         `Args:`
             limit:
                 The number of entries to return. When None, returns all entries.
+            per_page:
+                This is a deprecated argument.
         `Returns:`
             A list of JSONs of tags in Action Network.
         """
+        if per_page:
+            warnings.warn(
+                "per_page is a deprecated argument on get_tags()",
+                DeprecationWarning,
+                stacklevel=2,
+            )
         return self._get_entry_list("tags", limit)
 
     def get_tag(self, tag_id):

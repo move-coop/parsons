@@ -80,9 +80,10 @@ class DatabaseConnector(ABC):
 
         If you go the second route, you can add a stub method like this:
 
-            ```python
-            def new_method(self, arg1, arg2):
-                raise NotImplementedError("Method not implemented for this database connector.")
+            .. code-block:: python
+
+                def new_method(self, arg1, arg2):
+                    raise NotImplementedError("Method not implemented for this database connector.")
             ```
 
         This communicates clearly to users that the method does not exist for certain connectors.

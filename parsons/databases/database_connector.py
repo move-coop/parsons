@@ -9,8 +9,63 @@ class DatabaseConnector(ABC):
     This class should be used in functions instead of the specific database connector classes
     when the functions don't rely on database-specific functionality.
 
-    It ensures that any class that inherits from it implements the `table_exists`, `copy`, and
-    `query` methods, which are common operations when working with databases.
+    It ensures that any class that inherits from it implements the methods that are uniform
+    operations when working with databases.
+
+    Should you use `DatabaseConnector` instead of `Redshift`/`BigQuery`/etc?
+
+    Overall this class is mostly useful for code in the Parsons library, not code using it.
+    There could be some exceptions. In general though, if you are writing a script to do a task
+    like moving data out of an API service and into a data warehouse, you probably do not need
+    to use DatabaseConnector. You can probably just use the Parsons class that directly corresponds
+    with the database that you use.
+
+    Here are more examples of situations where you may or may not need to use DatabaseConnector:
+
+        1. You do not use type annotations, or you don't know what "type annotations" are - No
+
+            If you do not use type annotations for your code, then you do not need to think about
+            `DatabaseConnector` when writing your code. This is the most common case. If none
+            of the cases below apply to you, then you probably don't need it.
+
+            In this simple example, we are not using type annotations in our code. We don't need
+            to think about exactly what class is being passed in. Python will figure it out.
+
+            ```python
+            def my_database_function(db):
+                    some_data = get_some_data()
+                    db.copy("some_table", some_data)
+
+            # These will all just work:
+            my_database_function(Redshift())
+            my_database_function(MySQL())
+            my_database_functon(BigQuery())
+            ```
+
+        2. You only use one database in your work - No
+
+            This is where most people will fall. Usually code is not intended to run on
+            multiple databases without modification. For example, if you are working for
+            an organization that uses Amazon Redshift as your data warehouse, you do not
+            need to use `DatabaseConnector` to write ETL scripts to load data into your
+            Redshift. It is rare that organizations switch databases. In the cases where
+            that does occur, usually more work is required to migrate your environment and
+            your vendor-specific SQL than would be saved by using `DatabaseConnector`.
+
+        3. You are writing a sample script or a tutorial - Yes
+
+            If you are using Parsons to write a sample script or tutorial, you should use
+            `DatabaseConnector`! If you use `DatabaseConnector` type annotations and the
+            `discover_database` function, then your sample code will run on any system.
+            This makes it much easier for new programmers to get your code working on
+            their system.
+
+        4. Utility code inside Parsons or other libraries - Yes
+
+            If you are writing a utility script inside Parsons or another library meant
+            for broad distribution, you should probably use `DatabaseConnector` type
+            annotations. This will ensure that your library code will be usable by the
+            widest possible set of users, not just users on one specific database.
 
     Note:
         The Python type system (as of 3.10.6) will not stop you from breaking the type contract

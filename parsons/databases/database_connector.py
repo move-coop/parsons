@@ -67,6 +67,32 @@ class DatabaseConnector(ABC):
             annotations. This will ensure that your library code will be usable by the
             widest possible set of users, not just users on one specific database.
 
+    Developer Notes:
+        This class is an Abstract Base Class (ABC). It's designed to ensure that all classes
+        inheriting from it implement certain methods, enforcing a consistent interface across
+        database connectors.
+
+        If you need to add a new method to the database connectors, there are three options:
+        1. Add the method to this ABC and implement it for all databases.
+        2. Add the method to this ABC and implement it for some databases while adding stubs for
+           others.
+        3. Implement the method on a specific database connector without touching the ABC.
+
+        If you go the second route, you can add a stub method like this:
+
+            ```python
+            def new_method(self, arg1, arg2):
+                raise NotImplementedError("Method not implemented for this database connector.")
+            ```
+
+        This communicates clearly to users that the method does not exist for certain connectors.
+
+        If you go the third route, remember that you're responsible for making sure your new
+        method matches the existing methods in other database connectors. For example, if you're
+        adding a method that already exists in another connector, like Redshift, you need to ensure
+        your new method behaves the same way and has the same parameters with the same types in the
+        same order. See the note below for more detail.
+
     Note:
         The Python type system (as of 3.10.6) will not stop you from breaking the type contract
         of method signatures when implementing a subclass. It is up to the author of a database
@@ -77,7 +103,7 @@ class DatabaseConnector(ABC):
         Any such inconsistencies can cause unexpected runtime errors that will not be caught by
         the type checker.
 
-        It is possible to safely add additional features, such as new methods or extra **optional**
+        It is safe to add additional features to subclasses, such as new methods or extra *optional*
         parameters to specified methods. In general adding new methods is safe, but adding optional
         parameters to methods specified in the interface should be considered bad practice, because
         it could result in unexpected behavior.

@@ -13,10 +13,42 @@ API_KEY = "abc123"
 class TestRedash(unittest.TestCase):
 
     mock_data = "foo,bar\n1,2\n3,4"
+    mock_data_source = {
+        "id": 1,
+        "name": "Data Source 1",
+        "type": "redshift",
+        "options": {
+            "dbname": "db_name",
+            "host": "host.example.com",
+            "password": "--------",
+            "port": 5439,
+            "user": "username",
+        },
+    }
     mock_result = Table([("foo", "bar"), ("1", "2"), ("3", "4")])
 
     def setUp(self):
         self.redash = Redash(BASE_URL, API_KEY)
+
+    @requests_mock.Mocker()
+    def test_get_data_source(self, m):
+        m.get(f"{BASE_URL}/api/data_sources/1", json=self.mock_data_source)
+        assert self.redash.get_data_source(1) == self.mock_data_source
+
+    @requests_mock.Mocker()
+    def test_update_data_source(self, m):
+        m.post(f"{BASE_URL}/api/data_sources/1", json=self.mock_data_source)
+        self.redash.update_data_source(
+            1,
+            "Data Source 1",
+            "redshift",
+            "db_name",
+            "host.example.com",
+            "password",
+            5439,
+            "username",
+        )
+        assert m.call_count == 1
 
     @requests_mock.Mocker()
     def test_cached_query(self, m):

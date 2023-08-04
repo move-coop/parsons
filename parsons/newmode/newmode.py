@@ -165,6 +165,27 @@ class Newmode:
             logging.warning("Empty target returned")
             return None
 
+    def get_targets(self, params={}):
+        """
+        Get all targets
+
+        Args:
+            params dict:
+                Extra paramaters sent to New/Mode library
+
+        Returns:
+            Target information
+        """
+
+        targets = self.client.getTargets(params=params)
+
+        if targets:
+            return self.convert_to_table(targets)
+
+        else:
+            logging.warning("No targets returned")
+            return None
+
     def get_campaigns(self, params={}):
         """
         Get existing campaigns.

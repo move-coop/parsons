@@ -59,7 +59,7 @@ class Postgres(PostgresCore, Alchemy, DatabaseConnector):
         tbl: Table,
         table_name: str,
         if_exists: str = "fail",
-        strict_length: bool = True,
+        strict_length: bool = False,
     ):
         """
         Copy a :ref:`parsons-table` to Postgres.
@@ -76,7 +76,7 @@ class Postgres(PostgresCore, Alchemy, DatabaseConnector):
                 If the database table needs to be created, strict_length determines whether
                 the created table's column sizes will be sized to exactly fit the current data,
                 or if their size will be rounded up to account for future values being larger
-                then the current dataset. Defaults to ``True``.
+                then the current dataset. Defaults to ``False``.
         """
 
         with self.connection() as connection:

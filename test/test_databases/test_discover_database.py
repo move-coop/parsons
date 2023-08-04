@@ -34,6 +34,30 @@ class TestDiscoverDatabase(unittest.TestCase):
     @patch.object(MySQL, "__init__", return_value=None)
     @patch.object(Redshift, "__init__", return_value=None)
     @patch("os.getenv")
+    def test_single_database_detected_with_other_default(self, mock_getenv, *_):
+        mock_getenv.side_effect = (
+            lambda var: "password" if var == "REDSHIFT_PASSWORD" else None
+        )
+        self.assertIsInstance(discover_database(default_connector=Postgres), Redshift)
+
+    @patch.object(GoogleBigQuery, "__init__", return_value=None)
+    @patch.object(Postgres, "__init__", return_value=None)
+    @patch.object(MySQL, "__init__", return_value=None)
+    @patch.object(Redshift, "__init__", return_value=None)
+    @patch("os.getenv")
+    def test_single_database_detected_with_other_default_list(self, mock_getenv, *_):
+        mock_getenv.side_effect = (
+            lambda var: "password" if var == "REDSHIFT_PASSWORD" else None
+        )
+        self.assertIsInstance(
+            discover_database(default_connector=[Postgres, MySQL]), Redshift
+        )
+
+    @patch.object(GoogleBigQuery, "__init__", return_value=None)
+    @patch.object(Postgres, "__init__", return_value=None)
+    @patch.object(MySQL, "__init__", return_value=None)
+    @patch.object(Redshift, "__init__", return_value=None)
+    @patch("os.getenv")
     def test_multiple_databases_no_default(self, mock_getenv, *_):
         mock_getenv.return_value = "password"
         with self.assertRaises(EnvironmentError):

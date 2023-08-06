@@ -53,11 +53,40 @@ class DatabaseConnector(ABC):
         """
         pass
 
-    @abstractmethod
-    def copy(self, tbl: Table, table_name: str, if_exists: str, **copy_kwargs):
+    @abstractmethod  # TODO: does postgres/mysql have max errors too?
+    def copy(self, tbl: Table, table_name: str, if_exists: str, max_errors: int = 0, **copy_kwargs):
         """Copy a :ref:`parsons-table` to the database.
 
         `Args`:
+            tbl (Table):
+                Table containing the data to save.
+            table_name (str):
+                The destination table name (ex. ``my_schema.my_table``).
+            if_exists (str):
+                If the table already exists, either ``fail``, ``append``, ``drop``
+                or ``truncate`` the table.
+            copy_kwargs (optional):
+                Generic grab bag of additional parameters, often specific to an individual database.
+        """
+        pass
+
+    @abstractmethod  # TODO: does postgres/mysql have this?
+    def copy_s3(
+        self,
+        table_name,
+        bucket,
+        key,
+        if_exists: str = "fail",
+        max_errors: int = 0,
+        data_type: str = "csv",
+        csv_delimiter: str = ",",
+        ignoreheader: int = 1,
+        nullas: str = None,
+        **copy_kwargs
+    ):
+        """Copy a :ref:`parsons-table` to the database.
+
+        `Args`: TODO: update these
             tbl (Table):
                 Table containing the data to save.
             table_name (str):

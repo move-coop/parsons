@@ -274,17 +274,22 @@ class BigQuery(DatabaseConnector):
 
     def copy_from_gcs(
         self,
-        table_name: str,
         gcs_blob_uri: str,
+        table_name: str,
         if_exists: str = "fail",
         max_errors: int = 0,
+        data_type: str = "csv",
+        csv_delimiter: str = ",",
+        ignoreheader: int = 1,
+        nullas: str = None,
+        allow_quoted_newlines: bool = True,
         job_config: Optional[LoadJobConfig] = None,
         **load_kwargs,
     ):
         """
         Copy a csv saved in Google Cloud Storage into Google BigQuery.
 
-        `Args:`
+        `Args:` TODO: note what it maps to in the job config
             gcs_blob_uri: str
                 The GoogleCloudStorage URI referencing the file to be copied.
             table_name: str
@@ -297,7 +302,9 @@ class BigQuery(DatabaseConnector):
                 the job fails.
             job_config: object
                 A LoadJobConfig object to provide to the underlying call to load_table_from_uri
-                on the BigQuery client. The function will create its own if not provided.
+                on the BigQuery client. The function will create its own if not provided. Note
+                if there are any conflicts between the job_config and other parameters, the
+                job_config values are preferred.
             **load_kwargs: kwargs
                 Arguments to pass to the underlying load_table_from_uri call on the BigQuery
                 client.
@@ -307,41 +314,53 @@ class BigQuery(DatabaseConnector):
                 f"Unexpected value for if_exists: {if_exists}, must be one of "
                 '"append", "drop", "truncate", or "fail"'
             )
+        if data_type not in ['csv', 'json']:
+            raise ValueError(f"Only supports csv or json files [data_type = {data_type}]")
 
         table_exists = self.table_exists(table_name)
 
+        # TODO: fix this nonsense (or at least wrap in fn)
         if not job_config:
             job_config = bigquery.LoadJobConfig()
-
-        # default job configs
-        job_config.skip_leading_rows = 1
-        job_config.source_format = bigquery.SourceFormat.CSV
-        job_config.write_disposition = bigquery.WriteDisposition.WRITE_EMPTY
-        job_config.max_bad_records = max_errors
-
         if not job_config.schema:
             job_config.autodetect = True
         if not job_config.create_disposition:
             job_config.create_disposition = bigquery.CreateDisposition.CREATE_IF_NEEDED
-        if table_exists:
-            if if_exists == "fail":
-                raise ValueError("Table already exists.")
-            elif if_exists == "drop":
-                self.delete_table(table_name)
-            elif if_exists == "append":
-                job_config.write_disposition = bigquery.WriteDisposition.WRITE_APPEND
-            elif if_exists == "truncate":
-                job_config.write_disposition = bigquery.WriteDisposition.WRITE_TRUNCATE
+        if not job_config.max_bad_records:
+            job_config.max_bad_records = max_errors
+        if not job_config.skip_leading_rows:
+            job_config.skip_leading_rows = ignoreheader
+        if not job_config.source_format:
+            job_config.source_format = bigquery.SourceFormat.CSV if data_type == 'csv' else bigquery.SourceFormat.JSON
+        if not job_config.field_delimiter:
+            if data_type == 'csv':
+                job_config.field_delimiter = csv_delimiter
+            if nullas:
+                job_config.null_marker = nullas
+        if not job_config.write_disposition:
+            if table_exists:
+                if if_exists == "fail":
+                    raise ValueError("Table already exists.")
+                elif if_exists == "drop":
+                    self.delete_table(table_name)
+                    job_config.write_disposition = bigquery.WriteDisposition.WRITE_EMPTY
+                elif if_exists == "append":
+                    job_config.write_disposition = bigquery.WriteDisposition.WRITE_APPEND
+                elif if_exists == "truncate":
+                    job_config.write_disposition = bigquery.WriteDisposition.WRITE_TRUNCATE
+        if not job_config.allow_quoted_newlines:
+            job_config.allow_quoted_newlines = allow_quoted_newlines
 
         # load CSV from Cloud Storage into BigQuery
         table_ref = get_table_ref(self.client, table_name)
 
         load_job = self.client.load_table_from_uri(
-            gcs_blob_uri,
-            table_ref,
+            source_uris=gcs_blob_uri,
+            destination=table_ref,
             job_config=job_config,
             **load_kwargs,
         )
+
         load_job.result()
 
         # TODO: return anything?
@@ -351,11 +370,17 @@ class BigQuery(DatabaseConnector):
         table_name,
         bucket,
         key,
-        gcs_client: Optional[GoogleCloudStorage] = None,
-        tmp_gcs_bucket: Optional[str] = None,
-        if_exists="fail",
+        if_exists: str = "fail",
+        max_errors: int = 0,
+        data_type: str = "csv",
+        csv_delimiter: str = ",",
+        ignoreheader: int = 1,
+        nullas: str = None,
         aws_access_key_id=None,
         aws_secret_access_key=None,
+        gcs_client: Optional[GoogleCloudStorage] = None,
+        tmp_gcs_bucket: Optional[str] = None,
+        job_config: Optional[LoadJobConfig] = None,
         **load_kwargs,
     ):
         """
@@ -482,9 +507,15 @@ class BigQuery(DatabaseConnector):
         # load CSV from Cloud Storage into BigQuery
         try:
             self.copy_from_gcs(
+                gcs_blob_uri=temp_blob_uri,
                 table_name=table_name,
                 if_exists=if_exists,
-                gcs_blob_uri=temp_blob_uri,
+                max_errors=max_errors,
+                data_type=data_type,
+                csv_delimiter=csv_delimiter,
+                ignoreheader=ignoreheader,
+                nullas=nullas,
+                job_config=job_config,
                 **load_kwargs,
             )
         finally:
@@ -495,6 +526,7 @@ class BigQuery(DatabaseConnector):
         tbl: Table,
         table_name: str,
         if_exists: str = "fail",
+        max_errors: int = 0,
         tmp_gcs_bucket: Optional[str] = None,
         gcs_client: Optional[GoogleCloudStorage] = None,
         job_config: Optional[LoadJobConfig] = None,
@@ -503,7 +535,7 @@ class BigQuery(DatabaseConnector):
         """
         Copy a :ref:`parsons-table` into Google BigQuery via Google Cloud Storage.
 
-        `Args:`
+        `Args:` TODO: check these docs
             table_obj: obj
                 The Parsons Table to copy into BigQuery.
             table_name: str
@@ -525,8 +557,8 @@ class BigQuery(DatabaseConnector):
         """
         tmp_gcs_bucket = check_env.check("GCS_TEMP_BUCKET", tmp_gcs_bucket)
 
-        if not job_config:
-            job_config = bigquery.LoadJobConfig()
+        # if not job_config:
+        job_config = bigquery.LoadJobConfig()
         if not job_config.schema:
             job_config.schema = self._generate_schema_from_parsons_table(tbl)
 
@@ -538,9 +570,10 @@ class BigQuery(DatabaseConnector):
         try:
             self.copy_from_gcs(
                 tbl=tbl,
+                gcs_blob_uri=temp_blob_uri,
                 table_name=table_name,
                 if_exists=if_exists,
-                gcs_blob_uri=temp_blob_uri,
+                max_errors=max_errors,
                 job_config=job_config,
                 **load_kwargs,
             )

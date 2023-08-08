@@ -65,6 +65,13 @@ def parse_table_name(table_name):
     return parsed
 
 
+def ends_with_semicolon(query: str) -> str:
+    query = query.strip()
+    if query[-1] == ';':
+        return query
+    return query + ';'
+
+
 class BigQuery(DatabaseConnector):
     """
     Class for querying BigQuery table and returning the data as Parsons tables.
@@ -271,6 +278,25 @@ class BigQuery(DatabaseConnector):
             final_table = Table(ptable)
 
             return final_table
+
+    def query_with_transaction(self, queries, parameters=None):
+        queries_with_semicolons = [ends_with_semicolon(q) for q in queries]
+        queries_on_newlines = '\n'.join(queries_with_semicolons)
+        queries_wrapped = f"""
+        BEGIN
+            BEGIN TRANSACTION;
+            
+            {queries_on_newlines}
+
+            COMMIT TRANSACTION;
+
+            EXCEPTION WHEN ERROR THEN
+            -- Roll back the transaction inside the exception handler.
+            SELECT @@error.message;
+            ROLLBACK TRANSACTION;
+        END;
+        """
+        self.query(sql=queries_wrapped, parameters=parameters, return_values=False)
 
     def copy_from_gcs(
         self,
@@ -487,7 +513,6 @@ class BigQuery(DatabaseConnector):
             Parsons Table or ``None``
                 See :ref:`parsons-table` for output options.
         """
-        # TODO: handle all the options
 
         # copy from S3 to GCS
         tmp_gcs_bucket = check_env.check("GCS_TEMP_BUCKET", tmp_gcs_bucket)
@@ -695,7 +720,6 @@ class BigQuery(DatabaseConnector):
                     "upsert(... from_s3=True) requires the first argument (table_obj)"
                     " to be None. from_s3 and table_obj are mutually exclusive."
                 )
-            # TODO: no template_table arg in bigquery implementation
             self.copy_s3(staging_tbl, template_table=target_table, **copy_args)
 
         else:

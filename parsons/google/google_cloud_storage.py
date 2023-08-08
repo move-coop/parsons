@@ -395,7 +395,6 @@ class GoogleCloudStorage(object):
                     "bucket_name": gcs_sink_bucket,
                 },
             }
-        print(transfer_job_config)
         transfer_job_request = storage_transfer.CreateTransferJobRequest(
             {
                 "transfer_job": transfer_job_config
@@ -403,7 +402,7 @@ class GoogleCloudStorage(object):
         )
 
         result = client.create_transfer_job(transfer_job_request)
-        print(f"Created TransferJob: {result.name}")
+        logger.info(f"Created TransferJob: {result.name}")
 
         success_statuses = [storage_transfer.TransferOperation.Status.SUCCESS]
         failure_statuses = [
@@ -425,7 +424,7 @@ class GoogleCloudStorage(object):
             operation = client.get_operation({"name": transfer_job.latest_operation_name})
 
             if operation.status in success_statuses:
-                print(f"TransferJob: {result.name} succeeded.")
+                logger.info(f"TransferJob: {result.name} succeeded.")
                 return
             if operation.status in failure_statuses:
                 error_breakdowns = operation.error_breakdowns

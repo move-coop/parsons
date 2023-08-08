@@ -40,15 +40,16 @@ class GoogleCloudStorage(object):
     def __init__(self, app_creds=None, project=None):
 
         setup_google_application_credentials(app_creds)
+        self.project = project
 
         # Throws an error if you pass project=None, so adding if/else statement.
-        if not project:
+        if not self.project:
             self.client = storage.Client()
             """
             Access all methods of `google.cloud` package
             """
         else:
-            self.client = storage.Client(project=project)
+            self.client = storage.Client(project=self.project)
 
     def list_buckets(self):
         """
@@ -332,23 +333,28 @@ class GoogleCloudStorage(object):
         )
         return url
 
-    def copy_s3_to_gcs(
+    def copy_bucket_to_gcs(
         self,
-        aws_source_bucket: str,
-        aws_access_key_id: str,
-        aws_secret_access_key: str,
         gcs_sink_bucket: str,
-        aws_s3_key: str = ''
+        source: str,
+        source_bucket: str,
+        source_path: str = '',
+        aws_access_key_id: str = None,
+        aws_secret_access_key: str = None,
     ):
         """Creates a one-time transfer job from Amazon S3 to Google Cloud
         Storage. Copies all blobs within the bucket unless a key or prefix 
         is passed.
+        source_path (str)
 
 
         # TODO: add param docs
-        aws_s3_key (str)
         Root path to S3 transfer objects. Must be an empty string or full path name that ends with a '/'. This field is treated as an object prefix. As such, it should generally not begin with a '/'.
         """
+
+        if source not in ['gcs', 'aws']:
+            raise ValueError(
+                f'Blob transfer only supports gcs and aws sources [source={source}]')
 
         client = storage_transfer.StorageTransferServiceClient()
 
@@ -357,30 +363,42 @@ class GoogleCloudStorage(object):
         # the same time creates a one-time transfer
         one_time_schedule = {"day": now.day, "month": now.month, "year": now.year}
 
+        transfer_job_config = {
+            "project_id": self.project,
+            "description": f"One time S3 to GCS Transfer - {uuid.uuid4()}",
+            "status": storage_transfer.TransferJob.Status.ENABLED,
+            "schedule": {
+                "schedule_start_date": one_time_schedule,
+                "schedule_end_date": one_time_schedule,
+            },
+        }
+        if source == 'aws':
+            transfer_job_config["transfer_spec"] = {
+                "aws_s3_data_source": {
+                    "bucket_name": source_bucket,
+                    "aws_access_key": {
+                        "access_key_id": aws_access_key_id,
+                        "secret_access_key": aws_secret_access_key,
+                    },
+                },
+                "gcs_data_sink": {
+                    "bucket_name": gcs_sink_bucket,
+                },
+            }
+        if source == 'gcs':
+            transfer_job_config["transfer_spec"] = {
+                "gcs_data_source": {
+                    "bucket_name": source_bucket,
+                    "path": source_path,
+                },
+                "gcs_data_sink": {
+                    "bucket_name": gcs_sink_bucket,
+                },
+            }
+        print(transfer_job_config)
         transfer_job_request = storage_transfer.CreateTransferJobRequest(
             {
-                "transfer_job": {
-                    "project_id": self.project,
-                    "description": f"One time S3 to GCS Transfer - {uuid.uuid4()}",
-                    "status": storage_transfer.TransferJob.Status.ENABLED,
-                    "schedule": {
-                        "schedule_start_date": one_time_schedule,
-                        "schedule_end_date": one_time_schedule,
-                    },
-                    "transfer_spec": {
-                        "aws_s3_data_source": {
-                            "bucket_name": aws_source_bucket,
-                            "path": aws_s3_key,
-                            "aws_access_key": {
-                                "access_key_id": aws_access_key_id,
-                                "secret_access_key": aws_secret_access_key,
-                            },
-                        },
-                        "gcs_data_sink": {
-                            "bucket_name": gcs_sink_bucket,
-                        },
-                    },
-                }
+                "transfer_job": transfer_job_config
             }
         )
 
@@ -428,5 +446,4 @@ class GoogleCloudStorage(object):
         bucket: str,
         name: str
     ):
-        # TODO: implement
-        return f"{bucket}/{name}"
+        return f"gs://{bucket}/{name}"

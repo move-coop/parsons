@@ -38,7 +38,6 @@ class GoogleCloudStorage(object):
     """
 
     def __init__(self, app_creds=None, project=None):
-
         setup_google_application_credentials(app_creds)
         self.project = project
 
@@ -338,23 +337,43 @@ class GoogleCloudStorage(object):
         gcs_sink_bucket: str,
         source: str,
         source_bucket: str,
-        source_path: str = '',
+        source_path: str = "",
         aws_access_key_id: str = None,
         aws_secret_access_key: str = None,
     ):
-        """Creates a one-time transfer job from Amazon S3 to Google Cloud
-        Storage. Copies all blobs within the bucket unless a key or prefix 
+        """
+        Creates a one-time transfer job from Amazon S3 to Google Cloud
+        Storage. Copies all blobs within the bucket unless a key or prefix
         is passed.
         source_path (str)
 
+        `Args`:
+            gcs_sink_bucket (str):
+                Destination for the data transfer (located in GCS)
 
-        # TODO: add param docs
-        Root path to S3 transfer objects. Must be an empty string or full path name that ends with a '/'. This field is treated as an object prefix. As such, it should generally not begin with a '/'.
+            source (str):
+                File storge vendor ... e.g., "S3", "azure", "gcs"
+
+            source_bucket (str):
+                Source bucket name
+
+            source_path (str):
+                Path in the source system pointing to the relevant keys / files to sync
+
+            aws_source_bucket (str):
+                Source of the data transfer (located in S3)
+
+            aws_access_key_id (str):
+                Access key to authenticate storage transfer
+
+            aws_secret_access_key (str):
+                Secret key to authenticate storage transfer
         """
 
-        if source not in ['gcs', 'aws']:
+        if source not in ["gcs", "aws"]:
             raise ValueError(
-                f'Blob transfer only supports gcs and aws sources [source={source}]')
+                f"Blob transfer only supports gcs and aws sources [source={source}]"
+            )
 
         client = storage_transfer.StorageTransferServiceClient()
 
@@ -372,7 +391,7 @@ class GoogleCloudStorage(object):
                 "schedule_end_date": one_time_schedule,
             },
         }
-        if source == 'aws':
+        if source == "aws":
             transfer_job_config["transfer_spec"] = {
                 "aws_s3_data_source": {
                     "bucket_name": source_bucket,
@@ -385,7 +404,7 @@ class GoogleCloudStorage(object):
                     "bucket_name": gcs_sink_bucket,
                 },
             }
-        if source == 'gcs':
+        if source == "gcs":
             transfer_job_config["transfer_spec"] = {
                 "gcs_data_source": {
                     "bucket_name": source_bucket,
@@ -396,9 +415,7 @@ class GoogleCloudStorage(object):
                 },
             }
         transfer_job_request = storage_transfer.CreateTransferJobRequest(
-            {
-                "transfer_job": transfer_job_config
-            }
+            {"transfer_job": transfer_job_config}
         )
 
         result = client.create_transfer_job(transfer_job_request)
@@ -416,33 +433,32 @@ class GoogleCloudStorage(object):
         max_wait_in_sec = 60 * 10  # Ten Minutes
         while polling and wait_time < max_wait_in_sec:
             transfer_job = storage_transfer.GetTransferJobRequest(
-                {
-                    "job_name": result.name,
-                    "project_id": self.project
-                }
+                {"job_name": result.name, "project_id": self.project}
             )
-            operation = client.get_operation({"name": transfer_job.latest_operation_name})
+            operation = client.get_operation(
+                {"name": transfer_job.latest_operation_name}
+            )
 
             if operation.status in success_statuses:
                 logger.info(f"TransferJob: {result.name} succeeded.")
                 return
             if operation.status in failure_statuses:
                 error_breakdowns = operation.error_breakdowns
-                raise Exception(f"""
+                raise Exception(
+                    f"""
                     S3 to GCS Transfer Job {result.name} failed with status: {operation.status}
                     Errors Breakdowns: {error_breakdowns}
-                """)
+                """
+                )
 
             wait_time += wait_between_attempts_in_sec
             time.sleep(wait_between_attempts_in_sec)
 
-        raise Exception(f"""
-            S3 to GCS Transfer Job {result.name} timedout. Final status: {operation.status}
-        """)
+        raise Exception(
+            f"""S3 to GCS Transfer Job {result.name} timedout. 
+            Final status: {operation.status}
+            """
+        )
 
-    def format_uri(
-        self,
-        bucket: str,
-        name: str
-    ):
+    def format_uri(self, bucket: str, name: str):
         return f"gs://{bucket}/{name}"

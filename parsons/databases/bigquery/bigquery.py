@@ -438,9 +438,13 @@ class BigQuery(DatabaseConnector):
             **load_kwargs,
         )
 
-        load_job.result()
-
-        # TODO: return anything?
+        # TODO - Not sure if we need this block or not
+        # It runs asynchronously so .running() may not
+        # be super applicable here
+        try:
+            load_job.result()
+        except Exception as e:
+            raise e
 
     def copy_s3(
         self,

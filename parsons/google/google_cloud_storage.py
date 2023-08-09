@@ -431,10 +431,14 @@ class GoogleCloudStorage(object):
         wait_time = 0
         wait_between_attempts_in_sec = 10
         max_wait_in_sec = 60 * 10  # Ten Minutes
+
         while polling and wait_time < max_wait_in_sec:
             transfer_job = storage_transfer.GetTransferJobRequest(
                 {"job_name": result.name, "project_id": self.project}
             )
+
+            # BUG - This is throwing
+            # Unknown field for GetTransferJobRequest: latest_operation_name
             operation = client.get_operation(
                 {"name": transfer_job.latest_operation_name}
             )

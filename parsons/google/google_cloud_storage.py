@@ -217,9 +217,7 @@ class GoogleCloudStorage(object):
 
         logger.info(f"{blob_name} put in {bucket_name} bucket.")
 
-    def download_blob(
-        self, bucket_name, blob_name, local_path=None, raw_download: bool = False
-    ):
+    def download_blob(self, bucket_name, blob_name, local_path=None):
         """
         Gets a blob from a bucket
 
@@ -356,7 +354,7 @@ class GoogleCloudStorage(object):
                 Destination for the data transfer (located in GCS)
 
             source (str):
-                File storge vendor ... e.g., "S3", "azure", "gcs"
+                File storge vendor [gcs or s3]
 
             source_bucket (str):
                 Source bucket name

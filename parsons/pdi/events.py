@@ -509,44 +509,75 @@ class Events:
 
     def get_event_activity_assignments(self, start_date, end_date, expand, limit=None):
         """
+        Get a list of event activity assignments.
+        Relevant API docs: https://api.bluevote.com/docs/index#/EventActivityAssignments
 
         `Args`:
             start_date: str
+                Earliest records to be returned in the API response
+                Per the API docs, use "YYYY-MM-DD" format
 
             end_date: str
+                Latest records to be returned in the API response.
+                Per the API docs, use "YYYY-MM-DD" format
 
             expand: bool
+                Parameter to determine if we return the list of shift assigments
+                expanded or not
 
             limit: int
+                Specify limit to return (max=2000)
 
         `Returns`:
+            Parsons Table with event activity assignment responses
         """
+
+        if limit > 2000:
+            raise ValueError("Maximum allowed limit is 2000")
 
         params = {"startDate": start_date, "endDate": end_date, "expand": expand}
         return self._request(self.eventactivityassignment_url, args=params, limit=limit)
 
     def get_event_activities(self, start_date, end_date, limit=None):
         """
+        Get a list of event activities.
+        Relevant API docs: https://api.bluevote.com/docs/index#!/EventActivities/EventActivities_GetAll
 
         `Args`:
             start_date: str
+                Earliest records to be returned in the API response
+                Per the API docs, use "YYYY-MM-DD" format
 
             end_date: str
+                Latest records to be returned in the API response.
+                Per the API docs, use "YYYY-MM-DD" format
 
             limit: int
+                Specify limit to return (max=2000)
 
         `Returns`:
         """
+
+        if limit > 2000:
+            raise ValueError("Maximum allowed limit is 2000")
 
         params = {"startDate": start_date, "endDate": end_date}
         return self._request(self.eventactivities_url, args=params, limit=limit)
 
     def get_calendars(self, limit=None):
         """
+        Gets a list of calendars.
+        Relevant API docs: https://api.bluevote.com/docs/index#!/Calendars/Calendars_GetAll
+
         `Args`:
             limit: int
+                Specify limit to return (max=2000)
 
         `Returns`:
+            Parsons Table object with id, name, description, and timeZone records
         """
+
+        if limit > 2000:
+            raise ValueError("Maximum allowed limit is 2000")
 
         return self._request(self.calendars_url, limit=limit)

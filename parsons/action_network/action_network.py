@@ -156,11 +156,15 @@ class ActionNetwork(object):
                 background queue for eventual processing.
                 https://actionnetwork.org/docs/v2/#background-processing
             identifiers:
-                list of strings to be used as globally unique identifiers.
-                e.g.: [
-                   "action_network:d3e27e15-e5b5-4707-be96-8bc359462133",
-                   "foreign_system:1"
-                ]
+                List of strings to be used as globally unique
+                identifiers. Can be useful for matching contacts back
+                to other platforms and systems. If the identifier
+                provided is not globally unique in ActionNetwork, it will
+                simply be ignored and not added to the object. Action Network
+                also creates its own identifier for each new resouce.
+                https://actionnetwork.org/docs/v2/#resources
+                e.g.: ["foreign_system:1", "other_system:12345abcd"]
+
             **kwargs:
                 Any additional fields to store about the person. Action Network allows
                 any custom field.

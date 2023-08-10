@@ -1,6 +1,7 @@
 import json
 import logging
 import re
+import warnings
 
 from parsons import Table
 from parsons.utilities import check_env
@@ -100,6 +101,7 @@ class ActionNetwork(object):
         mobile_number=None,
         mobile_status="subscribed",
         background_processing=False,
+        identifiers=None,
         **kwargs,
     ):
         """
@@ -153,6 +155,16 @@ class ActionNetwork(object):
                 an immediate success, with an empty JSON body, and send your request to the
                 background queue for eventual processing.
                 https://actionnetwork.org/docs/v2/#background-processing
+            identifiers:
+                List of strings to be used as globally unique
+                identifiers. Can be useful for matching contacts back
+                to other platforms and systems. If the identifier
+                provided is not globally unique in ActionNetwork, it will
+                simply be ignored and not added to the object. Action Network
+                also creates its own identifier for each new resouce.
+                https://actionnetwork.org/docs/v2/#resources
+                e.g.: ["foreign_system:1", "other_system:12345abcd"]
+
             **kwargs:
                 Any additional fields to store about the person. Action Network allows
                 any custom field.
@@ -217,7 +229,8 @@ class ActionNetwork(object):
             data["person"]["postal_addresses"] = postal_addresses
         if tags is not None:
             data["add_tags"] = tags
-
+        if identifiers:
+            data["person"]["identifiers"] = identifiers
         data["person"]["custom_fields"] = {**kwargs}
         url = f"{self.api_url}/people"
         if background_processing:
@@ -321,21 +334,23 @@ class ActionNetwork(object):
         logger.info(f"Person {entry_id} successfully updated")
         return response
 
-    def get_tags(self, limit=None, per_page=25, page=None):
+    def get_tags(self, limit=None, per_page=None):
         """
         `Args:`
             limit:
                 The number of entries to return. When None, returns all entries.
-            per_page
-                The number of entries per page to return. 25 maximum.
-            page
-                Which page of results to return
+            per_page:
+                This is a deprecated argument.
         `Returns:`
             A list of JSONs of tags in Action Network.
         """
-        if page:
-            self.get_page("tags", page, per_page)
-        return self._get_entry_list("tags", limit, per_page)
+        if per_page:
+            warnings.warn(
+                "per_page is a deprecated argument on get_tags()",
+                DeprecationWarning,
+                stacklevel=2,
+            )
+        return self._get_entry_list("tags", limit)
 
     def get_tag(self, tag_id):
         """

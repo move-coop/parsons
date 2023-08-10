@@ -508,12 +508,45 @@ class Events:
         return response
 
     def get_event_activity_assignments(self, start_date, end_date, expand, limit=None):
+        """
+
+        `Args`:
+            start_date: str
+
+            end_date: str
+
+            expand: bool
+
+            limit: int
+
+        `Returns`:
+        """
+
         params = {"startDate": start_date, "endDate": end_date, "expand": expand}
-        return self._request(self.eventactivityassignment_url, args=params)
+        return self._request(self.eventactivityassignment_url, args=params, limit=limit)
 
     def get_event_activities(self, start_date, end_date, limit=None):
+        """
+
+        `Args`:
+            start_date: str
+
+            end_date: str
+
+            limit: int
+
+        `Returns`:
+        """
+
         params = {"startDate": start_date, "endDate": end_date}
         return self._request(self.eventactivities_url, args=params, limit=limit)
 
     def get_calendars(self, limit=None):
+        """
+        `Args`:
+            limit: int
+
+        `Returns`:
+        """
+
         return self._request(self.calendars_url, limit=limit)

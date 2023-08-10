@@ -217,7 +217,9 @@ class GoogleCloudStorage(object):
 
         logger.info(f"{blob_name} put in {bucket_name} bucket.")
 
-    def download_blob(self, bucket_name, blob_name, local_path=None):
+    def download_blob(
+        self, bucket_name, blob_name, local_path=None, raw_download: bool = False
+    ):
         """
         Gets a blob from a bucket
 
@@ -230,6 +232,8 @@ class GoogleCloudStorage(object):
                 The local path where the file will be downloaded. If not specified, a temporary
                 file will be created and returned, and that file will be removed automatically
                 when the script is done running.
+            raw_download: bool
+                If true, download the object without any expansion.
         `Returns:`
             str
                 The path of the downloaded file

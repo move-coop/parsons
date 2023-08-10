@@ -11,7 +11,7 @@ from airtable_responses import (
 )
 
 
-os.environ["AIRTABLE_API_KEY"] = "SOME_KEY"
+os.environ["AIRTABLE_PERSONAL_ACCESS_TOKEN"] = "SOME_TOKEN"
 BASE_KEY = "BASEKEY"
 TABLE_NAME = "TABLENAME"
 

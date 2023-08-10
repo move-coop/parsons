@@ -95,6 +95,13 @@ Run the following commands from the root of the Parsons repository to lint your 
 > black parsons
 ```
 
+Pre-commit hooks are available to enforce black and isort formatting on
+commit. You can also set up your IDE to reformat using black and/or isort on
+save.
+
+To set up the pre-commit hooks, install pre-commit with `pip install
+pre-commit`, and then run `pre-commit install`.
+
 #### Coding Conventions
 
 The following is a list of best practices to consider when writing code for the Parsons project:

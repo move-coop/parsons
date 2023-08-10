@@ -510,7 +510,8 @@ class Events:
     def get_event_activity_assignments(self, start_date, end_date, expand, limit=None):
         """
         Get a list of event activity assignments.
-        Relevant API docs: https://api.bluevote.com/docs/index#/EventActivityAssignments
+        Relevant API docs:
+            https://api.bluevote.com/docs/index#/EventActivityAssignments
 
         `Args`:
             start_date: str
@@ -541,7 +542,8 @@ class Events:
     def get_event_activities(self, start_date, end_date, limit=None):
         """
         Get a list of event activities.
-        Relevant API docs: https://api.bluevote.com/docs/index#!/EventActivities/EventActivities_GetAll
+        Relevant API docs:
+            https://api.bluevote.com/docs/index#!/EventActivities/EventActivities_GetAll
 
         `Args`:
             start_date: str
@@ -567,7 +569,8 @@ class Events:
     def get_calendars(self, limit=None):
         """
         Gets a list of calendars.
-        Relevant API docs: https://api.bluevote.com/docs/index#!/Calendars/Calendars_GetAll
+        Relevant API docs:
+            https://api.bluevote.com/docs/index#!/Calendars/Calendars_GetAll
 
         `Args`:
             limit: int

@@ -1,7 +1,8 @@
-import os
-from parsons.aws.s3 import S3
-import time
 import logging
+import os
+import time
+
+from parsons.aws.s3 import S3
 
 logger = logging.getLogger(__name__)
 
@@ -12,6 +13,7 @@ class RedshiftCopyTable(object):
 
     aws_access_key_id = None
     aws_secret_access_key = None
+    aws_session_token = None
     iam_role = None
 
     def __init__(self, use_env_token=True):
@@ -40,6 +42,7 @@ class RedshiftCopyTable(object):
         specifycols=None,
         aws_access_key_id=None,
         aws_secret_access_key=None,
+        aws_session_token=None,
         compression=None,
         bucket_region=None,
     ):
@@ -53,7 +56,9 @@ class RedshiftCopyTable(object):
         sql = f"copy {table_name}{col_list} \nfrom '{source}' \n"
 
         # Generate credentials
-        sql += self.get_creds(aws_access_key_id, aws_secret_access_key)
+        sql += self.get_creds(
+            aws_access_key_id, aws_secret_access_key, aws_session_token
+        )
 
         # Other options
         if manifest:
@@ -111,7 +116,9 @@ class RedshiftCopyTable(object):
 
         return sql
 
-    def get_creds(self, aws_access_key_id, aws_secret_access_key):
+    def get_creds(
+        self, aws_access_key_id, aws_secret_access_key, aws_session_token=None
+    ):
 
         if aws_access_key_id and aws_secret_access_key:
             # When we have credentials, then we don't need to set them again
@@ -125,6 +132,7 @@ class RedshiftCopyTable(object):
 
             aws_access_key_id = self.aws_access_key_id
             aws_secret_access_key = self.aws_secret_access_key
+            aws_session_token = self.aws_session_token
 
         elif (
             "AWS_ACCESS_KEY_ID" in os.environ and "AWS_SECRET_ACCESS_KEY" in os.environ
@@ -132,6 +140,7 @@ class RedshiftCopyTable(object):
 
             aws_access_key_id = os.environ["AWS_ACCESS_KEY_ID"]
             aws_secret_access_key = os.environ["AWS_SECRET_ACCESS_KEY"]
+            aws_session_token = os.environ.get("AWS_SESSION_TOKEN")
 
         else:
 
@@ -139,16 +148,25 @@ class RedshiftCopyTable(object):
             creds = s3.aws.session.get_credentials()
             aws_access_key_id = creds.access_key
             aws_secret_access_key = creds.secret_key
+            aws_session_token = creds.token
 
-        return "credentials 'aws_access_key_id={};aws_secret_access_key={}'\n".format(
+        result = "credentials 'aws_access_key_id={};aws_secret_access_key={}".format(
             aws_access_key_id, aws_secret_access_key
         )
+        if aws_session_token is not None:
+            result += ";token={}".format(aws_session_token)
+
+        result += "'\n"
+
+        return result
 
     def temp_s3_copy(
         self,
         tbl,
         aws_access_key_id=None,
         aws_secret_access_key=None,
+        aws_session_token=None,
+        use_env_token=False,
         csv_encoding="utf-8",
     ):
 
@@ -163,10 +181,12 @@ class RedshiftCopyTable(object):
         # Coalesce S3 Key arguments
         aws_access_key_id = aws_access_key_id or self.aws_access_key_id
         aws_secret_access_key = aws_secret_access_key or self.aws_secret_access_key
+        aws_session_token = aws_session_token or self.aws_session_token
 
         self.s3 = S3(
             aws_access_key_id=aws_access_key_id,
             aws_secret_access_key=aws_secret_access_key,
+            aws_session_token=aws_session_token,
             use_env_token=self.use_env_token,
         )
 

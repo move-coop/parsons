@@ -110,7 +110,7 @@ class GoogleCloudStorage(object):
             ``None``
         """
 
-        # To Do: Allow user to set all of the bucket parameters
+        # TODO: Allow user to set all of the bucket parameters
 
         self.client.create_bucket(bucket_name)
         logger.info(f"Created {bucket_name} bucket.")
@@ -141,6 +141,7 @@ class GoogleCloudStorage(object):
             bucket_name: str
                 The name of the bucket
             max_results: int
+                TODO - What do we think about this?
                 TBD
             prefix_filter: str
                 A prefix to filter files
@@ -199,10 +200,10 @@ class GoogleCloudStorage(object):
         Puts a blob (aka file) in a bucket
 
         `Args:`
-            blob_name:
-                The name of blob to be stored in the bucket
             bucket_name:
                 The name of the bucket to store the blob
+            blob_name:
+                The name of blob to be stored in the bucket
             local_path: str
                 The local path of the file to upload
         `Returns:`
@@ -230,8 +231,6 @@ class GoogleCloudStorage(object):
                 The local path where the file will be downloaded. If not specified, a temporary
                 file will be created and returned, and that file will be removed automatically
                 when the script is done running.
-            raw_download: bool
-                If true, download the object without any expansion.
         `Returns:`
             str
                 The path of the downloaded file
@@ -282,6 +281,11 @@ class GoogleCloudStorage(object):
                 The name of the blob to upload the data into.
             data_type: str
                 The file format to use when writing the data. One of: `csv` or `json`
+            default_acl:
+                ACL desired for newly uploaded table
+
+        `Returns`:
+            String representation of file URI in GCS
         """
         bucket = storage.Bucket(self.client, name=bucket_name)
         blob = storage.Blob(blob_name, bucket)
@@ -352,22 +356,14 @@ class GoogleCloudStorage(object):
         `Args`:
             gcs_sink_bucket (str):
                 Destination for the data transfer (located in GCS)
-
             source (str):
                 File storge vendor [gcs or s3]
-
             source_bucket (str):
                 Source bucket name
-
             source_path (str):
                 Path in the source system pointing to the relevant keys / files to sync
-
-            aws_source_bucket (str):
-                Source of the data transfer (located in S3)
-
             aws_access_key_id (str):
                 Access key to authenticate storage transfer
-
             aws_secret_access_key (str):
                 Secret key to authenticate storage transfer
         """
@@ -429,6 +425,7 @@ class GoogleCloudStorage(object):
             storage_transfer.TransferOperation.Status.ABORTED,
         ]
 
+        # TODO: See if result.running is a useful swap out here
         polling = True
         wait_time = 0
         wait_between_attempts_in_sec = 10
@@ -467,4 +464,16 @@ class GoogleCloudStorage(object):
         )
 
     def format_uri(self, bucket: str, name: str):
+        """
+        Represent a GCS URI as a string
+
+        `Args`:
+            bucket: str
+                GCS bucket name
+            name: str
+                Filename in bucket
+
+        `Returns`:
+            String represetnation of URI
+        """
         return f"gs://{bucket}/{name}"

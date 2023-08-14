@@ -561,14 +561,17 @@ class BigQuery(DatabaseConnector):
         """
         Copy a :ref:`parsons-table` into Google BigQuery via Google Cloud Storage.
 
-        `Args:` TODO: check these docs
-            table_obj: obj
+        `Args:`
+            tbl: obj
                 The Parsons Table to copy into BigQuery.
             table_name: str
                 The table name to load the data into.
             if_exists: str
                 If the table already exists, either ``fail``, ``append``, ``drop``
                 or ``truncate`` the table.
+            max_errors: int
+                The maximum number of rows that can error and be skipped before
+                the job fails.
             tmp_gcs_bucket: str
                 The name of the Google Cloud Storage bucket to use to stage the data to load
                 into BigQuery. Required if `GCS_TEMP_BUCKET` is not specified.

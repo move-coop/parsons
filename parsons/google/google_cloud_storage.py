@@ -2,6 +2,7 @@ import google
 from google.cloud import storage
 from google.cloud import storage_transfer
 from parsons.google.utitities import setup_google_application_credentials
+from google.api_core.operation import Operation
 from parsons.utilities import files
 import datetime
 import logging
@@ -389,7 +390,10 @@ class GoogleCloudStorage(object):
                 "schedule_end_date": one_time_schedule,
             },
         }
+
+        # Setup transfer job configuration based on user imput
         if source == "aws":
+            blob_storage = "S3"
             transfer_job_config["transfer_spec"] = {
                 "aws_s3_data_source": {
                     "bucket_name": source_bucket,
@@ -402,7 +406,8 @@ class GoogleCloudStorage(object):
                     "bucket_name": gcs_sink_bucket,
                 },
             }
-        if source == "gcs":
+        elif source == "gcs":
+            blob_storage = "GCS"
             transfer_job_config["transfer_spec"] = {
                 "gcs_data_source": {
                     "bucket_name": source_bucket,
@@ -412,53 +417,70 @@ class GoogleCloudStorage(object):
                     "bucket_name": gcs_sink_bucket,
                 },
             }
+
         transfer_job_request = storage_transfer.CreateTransferJobRequest(
             {"transfer_job": transfer_job_config}
         )
 
-        result = client.create_transfer_job(transfer_job_request)
-        logger.info(f"Created TransferJob: {result.name}")
+        # Create the transfer job
+        create_result = client.create_transfer_job(transfer_job_request)
+        logger.info(f"Created TransferJob: {create_result.name}")
 
-        success_statuses = [storage_transfer.TransferOperation.Status.SUCCESS]
-        failure_statuses = [
-            storage_transfer.TransferOperation.Status.FAILED,
-            storage_transfer.TransferOperation.Status.ABORTED,
-        ]
-
-        # TODO: See if result.running is a useful swap out here
         polling = True
         wait_time = 0
         wait_between_attempts_in_sec = 10
         max_wait_in_sec = 60 * 10  # Ten Minutes
 
+        # NOTE: This value defaults to an empty string until GCP
+        # triggers the job internally ... we'll use this value to
+        # determine whether or not the transfer has kicked off
+        latest_operation_name = create_result.latest_operation_name
+
+        """
+        1. Do we have a name?
+            * If YES: check the status
+                ** If SUCCESS: Log + return
+                ** If FAILURE: Raise failure
+            * If NO: fetch the transfer operation
+        """
+
         while polling and wait_time < max_wait_in_sec:
-            transfer_job = storage_transfer.GetTransferJobRequest(
-                {"job_name": result.name, "project_id": self.project}
-            )
-
-            # BUG - This is throwing
-            # Unknown field for GetTransferJobRequest: latest_operation_name
-            operation = client.get_operation(
-                {"name": transfer_job.latest_operation_name}
-            )
-
-            if operation.status in success_statuses:
-                logger.info(f"TransferJob: {result.name} succeeded.")
-                return
-            if operation.status in failure_statuses:
-                error_breakdowns = operation.error_breakdowns
-                raise Exception(
-                    f"""
-                    S3 to GCS Transfer Job {result.name} failed with status: {operation.status}
-                    Errors Breakdowns: {error_breakdowns}
-                """
+            # Check to see if we have an operation name
+            if latest_operation_name:
+                # If we have a name, check the response
+                operation = client.get_operation(
+                    {"name": get_result.latest_operation_name}
                 )
 
+                if not operation.done:
+                    logger.info("Operation still running...")
+                else:
+                    logger.info(f"Response: {operation.response}")
+
+                    # Raise an exception if we receive one
+                    if operation.error:
+                        raise Exception(
+                            f"""{blob_storage} to GCS Transfer Job {create_result.name} failed with error: {operation.error}
+                            """
+                        )
+                    if operation.response:
+                        logger.info(f"TransferJob: {create_result.name} succeeded.")
+                        return
+
+            else:
+                logger.info("Waiting to kickoff operation...")
+                transfer_job = storage_transfer.GetTransferJobRequest(
+                    {"job_name": create_result.name, "project_id": self.project}
+                )
+                get_result = client.get_transfer_job(request=transfer_job)
+                latest_operation_name = get_result.latest_operation_name
+
             wait_time += wait_between_attempts_in_sec
+            logger.info(f"Sleeping for {wait_between_attempts_in_sec}s...")
             time.sleep(wait_between_attempts_in_sec)
 
         raise Exception(
-            f"""S3 to GCS Transfer Job {result.name} timedout. 
+            f"""{blob_storage} to GCS Transfer Job {create_result.name} timedout.
             Final status: {operation.status}
             """
         )

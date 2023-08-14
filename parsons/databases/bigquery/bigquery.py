@@ -382,40 +382,30 @@ class BigQuery(DatabaseConnector):
         `Args:`
             gcs_blob_uri: str
                 The GoogleCloudStorage URI referencing the file to be copied.
-
             table_name: str
                 The table name to load the data into.
-
             if_exists: str
                 If the table already exists, either ``fail``, ``append``, ``drop``
                 or ``truncate`` the table. This maps to `write_disposition` in the
                 `LoadJobConfig` class.
-
             max_errors: int
                 The maximum number of rows that can error and be skipped before
                 the job fails. This maps to `max_bad_records` in the `LoadJobConfig` class.
-
             data_type: str
                 Denotes whether target file is a JSON or CSV
-
             csv_delimiter: str
                 Character used to separate values in the target file
-
             ignoreheader: int
                 Treats the specified number_rows as a file header and doesn't load them
-
             nullas: str
                 Loads fields that match null_string as NULL, where null_string can be any string
-
             allow_quoted_newlines: bool
                 If True, detects quoted new line characters within a CSV field and does not interpret the quoted new line character as a row boundary
-
             job_config: object
                 A LoadJobConfig object to provide to the underlying call to load_table_from_uri
                 on the BigQuery client. The function will create its own if not provided. Note
                 if there are any conflicts between the job_config and other parameters, the
                 job_config values are preferred.
-
             **load_kwargs: kwargs
                 Arguments to pass to the underlying load_table_from_uri call on the BigQuery
                 client.
@@ -489,95 +479,36 @@ class BigQuery(DatabaseConnector):
                 The s3 bucket where the file or manifest is located.
             key: str
                 The key of the file or manifest in the s3 bucket.
-            gcs_client: object
-                The GoogleCloudStorage Connector to use for loading data into Google Cloud Storage.
-            tmp_gcs_bucket: str
-                The name of the Google Cloud Storage bucket to use to stage the data to load
-                into BigQuery. Required if `GCS_TEMP_BUCKET` is not specified.
-            manifest: str
-                If using a manifest
-            data_type: str
-                The data type of the file. Only ``csv`` supported currently.
-            csv_delimiter: str
-                The delimiter of the ``csv``. Only relevant if data_type is ``csv``.
-            compression: str
-                If specified (``gzip``), will attempt to decompress the file.
             if_exists: str
                 If the table already exists, either ``fail``, ``append``, ``drop``
                 or ``truncate`` the table.
             max_errors: int
                 The maximum number of rows that can error and be skipped before
                 the job fails.
-            distkey: str
-                The column name of the distkey
-            sortkey: str
-                The column name of the sortkey
-            padding: float
-                A percentage padding to add to varchar columns if creating a new table. This is
-                helpful to add a buffer for future copies in which the data might be wider.
-            varchar_max: list
-                A list of columns in which to set the width of the varchar column to 65,535
-                characters.
-            statupate: boolean
-                Governs automatic computation and refresh of optimizer statistics at the end
-                of a successful COPY command.
-            compupdate: boolean
-                Controls whether compression encodings are automatically applied during a COPY.
-            ignore_header: int
+            data_type: str
+                The data type of the file. Only ``csv`` supported currently.
+            csv_delimiter: str
+                The delimiter of the ``csv``. Only relevant if data_type is ``csv``.
+            ignoreheader: int
                 The number of header rows to skip. Ignored if data_type is ``json``.
-            acceptanydate: boolean
-                Allows any date format, including invalid formats such as 00/00/00 00:00:00, to be
-                loaded without generating an error.
-            emptyasnull: boolean
-                Indicates that Amazon Redshift should load empty char and varchar fields
-                as ``NULL``.
-            blanksasnull: boolean
-                Loads blank varchar fields, which consist of only white space characters,
-                as ``NULL``.
             nullas: str
                 Loads fields that match string as NULL
-            acceptinvchars: boolean
-                Enables loading of data into VARCHAR columns even if the data contains
-                invalid UTF-8 characters.
-            dateformat: str
-                Set the date format. Defaults to ``auto``.
-            timeformat: str
-                Set the time format. Defaults to ``auto``.
-            truncatecolumns: boolean
-                If the table already exists, truncates data in columns to the appropriate number
-                of characters so that it fits the column specification. Applies only to columns
-                with a VARCHAR or CHAR data type, and rows 4 MB or less in size.
-            columntypes: dict
-                Optional map of column name to redshift column type, overriding the usual type
-                inference. You only specify the columns you want to override, eg.
-                ``columntypes={'phone': 'varchar(12)', 'age': 'int'})``.
-            specifycols: boolean
-                Adds a column list to the Redshift `COPY` command, allowing for the source table
-                in an append to have the columnns out of order, and to have fewer columns with any
-                leftover target table columns filled in with the `DEFAULT` value.
-
-                This will fail if all of the source table's columns do not match a column in the
-                target table. This will also fail if the target table has an `IDENTITY`
-                column and that column name is among the source table's columns.
             aws_access_key_id:
                 An AWS access key granted to the bucket where the file is located. Not required
                 if keys are stored as environmental variables.
             aws_secret_access_key:
                 An AWS secret access key granted to the bucket where the file is located. Not
                 required if keys are stored as environmental variables.
-            bucket_region: str
-                The AWS region that the bucket is located in. This should be provided if the
-                Redshift cluster is located in a different region from the temp bucket.
-            strict_length: bool
-                If the database table needs to be created, strict_length determines whether
-                the created table's column sizes will be sized to exactly fit the current data,
-                or if their size will be rounded up to account for future values being larger
-                then the current dataset. defaults to ``True``; this argument is ignored if
-                ``padding`` is specified
-            template_table: str
-                Instead of specifying columns, columntypes, and/or inference, if there
-                is a pre-existing table that has the same columns/types, then use the template_table
-                table name as the schema for the new table.
+            gcs_client: object
+                The GoogleCloudStorage Connector to use for loading data into Google Cloud Storage.
+            tmp_gcs_bucket: str
+                The name of the Google Cloud Storage bucket to use to stage the data to load
+                into BigQuery. Required if `GCS_TEMP_BUCKET` is not specified.
+            job_config: object
+                A LoadJobConfig object to provide to the underlying call to load_table_from_uri
+                on the BigQuery client. The function will create its own if not provided. Note
+                if there are any conflicts between the job_config and other parameters, the
+                job_config values are preferred.
 
         `Returns`
             Parsons Table or ``None``

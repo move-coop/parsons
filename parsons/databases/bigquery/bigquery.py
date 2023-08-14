@@ -395,6 +395,21 @@ class BigQuery(DatabaseConnector):
                 The maximum number of rows that can error and be skipped before
                 the job fails. This maps to `max_bad_records` in the `LoadJobConfig` class.
 
+            data_type: str
+                Denotes whether target file is a JSON or CSV
+
+            csv_delimiter: str
+                Character used to separate values in the target file
+
+            ignoreheader: int
+                Treats the specified number_rows as a file header and doesn't load them
+
+            nullas: str
+                Loads fields that match null_string as NULL, where null_string can be any string
+
+            allow_quoted_newlines: bool
+                If True, detects quoted new line characters within a CSV field and does not interpret the quoted new line character as a row boundary
+
             job_config: object
                 A LoadJobConfig object to provide to the underlying call to load_table_from_uri
                 on the BigQuery client. The function will create its own if not provided. Note

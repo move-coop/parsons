@@ -22,5 +22,8 @@ class TestMobileCommons(unittest.TestCase):
     @requests_mock.Mocker()
     def test_get_profiles(self, m):
 
-        m.get(self.base_uri + 'broadcasts', status_code=get_profiles_response.status_code,
+        m.get(self.base_uri + 'profiles', status_code=get_profiles_response.status_code,
               text=get_profiles_response.text)
+        profiles = self.mc.get_profiles()
+        '''Two main things to check for - type and content of response content'''
+        self.assertEqual(profiles, )

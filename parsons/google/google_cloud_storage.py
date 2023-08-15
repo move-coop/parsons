@@ -2,12 +2,12 @@ import google
 from google.cloud import storage
 from google.cloud import storage_transfer
 from parsons.google.utitities import setup_google_application_credentials
-from google.rpc.code_pb2 import _CODE
 from parsons.utilities import files
 import datetime
 import logging
 import time
 import uuid
+from grpc import StatusCode
 
 logger = logging.getLogger(__name__)
 
@@ -450,19 +450,11 @@ class GoogleCloudStorage(object):
 
                 else:
                     # Raise an exception if we receive one
-
-                    # TODO - Add rpc.Code handling here ...
-                    # We want to be able to check against Code.OK
-                    # and log the relevant message
-                    if operation.error:
+                    if operation.error.code in StatusCode["OK"].value:
                         raise Exception(
                             f"""{blob_storage} to GCS Transfer Job {create_result.name} failed with error: {operation.error.message}
                             """
                         )
-
-                    # TODO - Do we want to add a case here where code == OK?
-                    # E.g., notify that a sync didn't actually run
-
                     if operation.response:
                         logger.info(f"TransferJob: {create_result.name} succeeded.")
                         return

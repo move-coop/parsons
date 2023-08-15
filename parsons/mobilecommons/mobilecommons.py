@@ -77,73 +77,74 @@ class MobileCommons:
         response = self.client.request(endpoint, 'GET', params=params)
 
         # If there's an error with initial response, raise error
-        if response.status_code != 200:
-            error = f'Response Code {str(response.status_code)}'
-            error_html = BeautifulSoup(response.text, features='html.parser')
-            error += '\n' + error_html.h4.next
-            error += '\n' + error_html.p.next
-            raise HTTPError(error)
+        check_response_status_code(response)
 
         # If good response, compile data into final_table
-        else:
-            # Parse xml to nested dictionary and load to parsons table
+        # Parse xml to nested dictionary and load to parsons table
+        response_dict = xmltodict.parse(response.text, attr_prefix='', cdata_key='',
+                                        dict_constructor=dict)
+        # if there's only one row, then it is returned as a dict, otherwise is a list
+        data = response_dict['response'][first_data_key][second_data_key]
+        if isinstance(data, dict):
+            data = [data]
+        response_table = Table(data)
+        # Unpack any specified elements
+        if elements_to_unpack:
+            for col in elements_to_unpack:
+                response_table.unpack_dict(col)
+        # Append to final table
+        final_table.concat(response_table)
+        final_table.materialize()
+        # Calculate how many more pages we need to get in order to reach user set record limit
+        req_pages = math.ceil(limit/1000)
+        # Calculate how many records we need from last page to match limit exactly
+        final_page_limit = limit % 1000
+        # MC GET responses sometimes include a page_count parameter to indicate how many pages
+        # are left, but when the response doesn't it does include a 'num' parameter that, when
+        # no records exist for a requested page, equals 0. The following attempts to deal handle
+        # both cases
+        try:
+            num = int(response_dict['response'][first_data_key]['num'])
+            page_indicator = 'num'
+        except KeyError:
+            avail_pages = int(response_dict['response'][first_data_key]['page_count'])
+            page_indicator = 'page_count'
+            # Determine which page to finish on
+            req_pages = min(avail_pages, req_pages)
+            # Following assignment is arbitrary, just cannot be 0
+            num = 1
+        # Go fetch other pages of data
+        page = 1
+        while page < req_pages and num > 0:
+            page += 1
+            page_params = {'page': str(page), **params}
+            logger.info(f'Fetching rows {(page - 1) * page_limit + 1} - {(page)*page_limit} '
+                        f'of {limit}')
+            response = self.client.request(endpoint, 'GET', params=page_params)
             response_dict = xmltodict.parse(response.text, attr_prefix='', cdata_key='',
                                             dict_constructor=dict)
-            # if there's only one row, then it is returned as a dict, otherwise is a list
-            data = response_dict['response'][first_data_key][second_data_key]
-            if isinstance(data, dict):
-                data = [data]
-            response_table = Table(data)
-            # Unpack any specified elements
-            if elements_to_unpack:
-                for col in elements_to_unpack:
-                    response_table.unpack_dict(col)
-            # Append to final table
-            final_table.concat(response_table)
-            final_table.materialize()
-            # Calculate how many more pages we need to get in order to reach user set record limit
-            req_pages = math.ceil(limit/1000)
-            # Calculate how many records we need from last page to match limit exactly
-            final_page_limit = limit % 1000
-            # MC GET responses sometimes include a page_count parameter to indicate how many pages
-            # are left, but when the response doesn't it does include a 'num' parameter that, when
-            # no records exist for a requested page, equals 0. The following attempts to deal handle
-            # both cases
-            try:
+            # Check to see if page was empty if num parameter is available
+            if page_indicator == 'num':
                 num = int(response_dict['response'][first_data_key]['num'])
-                page_indicator = 'num'
-            except KeyError:
-                avail_pages = int(response_dict['response'][first_data_key]['page_count'])
-                page_indicator = 'page_count'
-                # Determine which page to finish on
-                req_pages = min(avail_pages, req_pages)
-                # Following assignment is arbitrary, just cannot be 0
-                num = 1
-            # Go fetch other pages of data
-            page = 1
-            while page < req_pages and num > 0:
-                page += 1
-                page_params = {'page': str(page), **params}
-                logger.info(f'Fetching rows {(page - 1) * page_limit + 1} - {(page)*page_limit} '
-                            f'of {limit}')
-                response = self.client.request(endpoint, 'GET', params=page_params)
-                response_dict = xmltodict.parse(response.text, attr_prefix='', cdata_key='',
-                                                dict_constructor=dict)
-                # Check to see if page was empty if num parameter is available
-                if page_indicator == 'num':
-                    num = int(response_dict['response'][first_data_key]['num'])
-                if num > 0:
-                    # Extract data
-                    response_table = Table(response_dict['response'][first_data_key][second_data_key])
-                    # If this is the last page, grab only subset of data
-                    if page == req_pages:
-                        response_table = Table(response_table.table.rowslice(final_page_limit))
-                    # Append to final table
-                    final_table.concat(response_table)
-                    final_table.materialize()
+            if num > 0:
+                # Extract data
+                response_table = Table(response_dict['response'][first_data_key][second_data_key])
+                # If this is the last page, grab only subset of data
+                if page == req_pages:
+                    response_table = Table(response_table.table.rowslice(final_page_limit))
+                # Append to final table
+                final_table.concat(response_table)
+                final_table.materialize()
 
         return final_table
 
+def check_response_status_code(response):
+    if response.status_code != 200:
+        error = f'Response Code {str(response.status_code)}'
+        error_html = BeautifulSoup(response.text, features='html.parser')
+        error += '\n' + error_html.h4.next
+        error += '\n' + error_html.p.next
+        raise HTTPError(error)
 
     def mc_post_request(self, endpoint, params):
         """

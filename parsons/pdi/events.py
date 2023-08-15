@@ -558,6 +558,7 @@ class Events:
                 Specify limit to return (max=2000)
 
         `Returns`:
+            Parsons Table with event activity responses
         """
 
         if limit and limit > 2000:

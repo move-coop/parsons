@@ -11,7 +11,7 @@ class Events:
         self.calendars_url = self.base_url + "/calendars"
         self.eventactivities_url = self.base_url + "/eventActivities"
         self.activites_url = self.base_url + "/activities"
-        self.activityassignment_url = self.base_url + "/eventActivityAssignements"
+        self.activityassignment_url = self.base_url + "/eventActivityAssignments"
 
         super().__init__()
 
@@ -533,11 +533,11 @@ class Events:
             Parsons Table with event activity assignment responses
         """
 
-        if limit > 2000:
+        if limit and limit > 2000:
             raise ValueError("Maximum allowed limit is 2000")
 
         params = {"startDate": start_date, "endDate": end_date, "expand": expand}
-        return self._request(self.eventactivityassignment_url, args=params, limit=limit)
+        return self._request(self.activityassignment_url, args=params, limit=limit)
 
     def get_event_activities(self, start_date, end_date, limit=None):
         """
@@ -560,7 +560,7 @@ class Events:
         `Returns`:
         """
 
-        if limit > 2000:
+        if limit and limit > 2000:
             raise ValueError("Maximum allowed limit is 2000")
 
         params = {"startDate": start_date, "endDate": end_date}
@@ -580,7 +580,7 @@ class Events:
             Parsons Table object with id, name, description, and timeZone records
         """
 
-        if limit > 2000:
+        if limit and limit > 2000:
             raise ValueError("Maximum allowed limit is 2000")
 
         return self._request(self.calendars_url, limit=limit)

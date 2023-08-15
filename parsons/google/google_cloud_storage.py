@@ -2,7 +2,7 @@ import google
 from google.cloud import storage
 from google.cloud import storage_transfer
 from parsons.google.utitities import setup_google_application_credentials
-from google.rpc import Code
+from google.rpc.code_pb2 import _CODE
 from parsons.utilities import files
 import datetime
 import logging
@@ -437,14 +437,6 @@ class GoogleCloudStorage(object):
         # determine whether or not the transfer has kicked off
         latest_operation_name = create_result.latest_operation_name
 
-        """
-        1. Do we have a name?
-            * If YES: check the status
-                ** If SUCCESS: Log + return
-                ** If FAILURE: Raise failure
-            * If NO: fetch the transfer operation
-        """
-
         while polling and wait_time < max_wait_in_sec:
             # Check to see if we have an operation name
             if latest_operation_name:
@@ -455,17 +447,22 @@ class GoogleCloudStorage(object):
 
                 if not operation.done:
                     logger.info("Operation still running...")
-                else:
-                    logger.info(operation)
-                    # logger.info(f"Response: {operation.response}")
 
+                else:
                     # Raise an exception if we receive one
+
+                    # TODO - Add rpc.Code handling here ...
+                    # We want to be able to check against Code.OK
+                    # and log the relevant message
                     if operation.error:
-                        logger.error(operation.error.code)
                         raise Exception(
-                            f"""{blob_storage} to GCS Transfer Job {create_result.name} failed with error: {operation.error}
+                            f"""{blob_storage} to GCS Transfer Job {create_result.name} failed with error: {operation.error.message}
                             """
                         )
+
+                    # TODO - Do we want to add a case here where code == OK?
+                    # E.g., notify that a sync didn't actually run
+
                     if operation.response:
                         logger.info(f"TransferJob: {create_result.name} succeeded.")
                         return

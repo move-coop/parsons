@@ -9,7 +9,7 @@ import time
 import uuid
 from grpc import StatusCode
 
-logger = logging.getLogger(__name__)
+logger = logging.getLogger()
 
 
 class GoogleCloudStorage(object):
@@ -450,7 +450,8 @@ class GoogleCloudStorage(object):
 
                 else:
                     # Raise an exception if we receive one
-                    if operation.error.code in StatusCode["OK"].value:
+                    # TODO - Can we assume this can be safely cast to an int?
+                    if int(operation.error.code) not in StatusCode["OK"].value:
                         raise Exception(
                             f"""{blob_storage} to GCS Transfer Job {create_result.name} failed with error: {operation.error.message}
                             """

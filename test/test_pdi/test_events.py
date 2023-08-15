@@ -1,9 +1,6 @@
-from test.test_pdi.conftest import live_pdi as conf_live_pdi
 from test.utils import mark_live_test
 from parsons import Table
-from parsons.pdi import PDI
-import pytest
-import os
+
 
 #####
 

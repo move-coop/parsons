@@ -110,10 +110,15 @@ class TestActionKit(unittest.TestCase):
 
     def test_get_blackholed_email(self):
         # Test get blackholed_email
+        resp_mock = mock.MagicMock()
+        type(resp_mock.get()).status_code = mock.PropertyMock(return_value=201)
+        type(resp_mock.get()).json = lambda x: {"meta": {"next": ""}, "objects": []}
+        self.actionkit.conn = resp_mock
+
         self.actionkit.get_blackholed_email("test")
         self.actionkit.conn.get.assert_called_with(
             "https://domain.actionkit.com/rest/v1/blackholedemail/",
-            params={"email": "test"},
+            params={"email": "test", "_limit": 100},
         )
 
     def test_blackhole_email(self):

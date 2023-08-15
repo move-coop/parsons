@@ -244,11 +244,7 @@ class ActionKit(object):
             BlackholedEmail json object
         """
 
-        return self._base_get(
-            endpoint="blackholedemail",
-            params={"email": email},
-            exception_message="Blackholed email not found",
-        )
+        return self.paginated_get("blackholedemail", email=email)
 
     def blackhole_email(self, email):
         """

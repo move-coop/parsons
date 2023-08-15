@@ -108,6 +108,34 @@ class TestActionKit(unittest.TestCase):
             data=json.dumps({"is_approved": "test"}),
         )
 
+    def test_blackhole_email(self):
+        # Test blackhole email
+
+        # Mock resp and status code
+        resp_mock = mock.MagicMock()
+        type(resp_mock.post()).status_code = mock.PropertyMock(return_value=201)
+        self.actionkit.conn = resp_mock
+
+        self.actionkit.blackhole_email(email="test")
+        self.actionkit.conn.post.assert_called_with(
+            "https://domain.actionkit.com/rest/v1/blackholedemail/",
+            data=json.dumps({"email": "test"}),
+        )
+
+    def test_delete_user_data(self):
+        # Test delete user data
+
+        # Mock resp and status code
+        resp_mock = mock.MagicMock()
+        type(resp_mock.post()).status_code = mock.PropertyMock(return_value=201)
+        self.actionkit.conn = resp_mock
+
+        self.actionkit.delete_user_data(email="test")
+        self.actionkit.conn.post.assert_called_with(
+            "https://domain.actionkit.com/rest/v1/eraser/",
+            data=json.dumps({"email": "test"}),
+        )
+
     def test_delete_user(self):
         # Test delete user
 

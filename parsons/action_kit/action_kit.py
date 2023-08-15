@@ -233,6 +233,45 @@ class ActionKit(object):
         )
         logger.info(f"{resp.status_code}: {event_id}")
 
+    def blackhole_email(self, email):
+        """
+        Blackhole an email.
+
+        `Args:`
+            user_id: str
+                Email to blackhole
+        `Returns:`
+            BlackholedEmail json object
+        """
+
+        return self._base_post(
+            endpoint="blackholedemail",
+            exception_message="Could not blackhole email",
+            email=email,
+        )
+
+    def delete_user_data(self, email, **kwargs):
+        """
+        Delete user data.
+
+        `Args:`
+            email: str
+                Email of user to delete data
+            **kwargs:
+                Optional arguments and fields to pass to the client. A full list can be found
+                in the `ActionKit API Documentation <https://docs.actionkit.com/docs/manual/api/\
+                rest/users.html>`_.
+        `Returns:`
+            Eraser json object
+        """
+
+        return self._base_post(
+            endpoint="eraser",
+            exception_message="Could not delete user data",
+            email=email,
+            **kwargs,
+        )
+
     def delete_user(self, user_id):
         """
         Delete a user.

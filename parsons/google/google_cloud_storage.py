@@ -397,6 +397,7 @@ class GoogleCloudStorage(object):
             transfer_job_config["transfer_spec"] = {
                 "aws_s3_data_source": {
                     "bucket_name": source_bucket,
+                    "path": source_path,
                     "aws_access_key": {
                         "access_key_id": aws_access_key_id,
                         "secret_access_key": aws_secret_access_key,
@@ -476,7 +477,6 @@ class GoogleCloudStorage(object):
                 latest_operation_name = get_result.latest_operation_name
 
             wait_time += wait_between_attempts_in_sec
-            logger.info(f"Sleeping for {wait_between_attempts_in_sec}s...")
             time.sleep(wait_between_attempts_in_sec)
 
         raise Exception(

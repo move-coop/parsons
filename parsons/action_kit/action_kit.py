@@ -233,6 +233,23 @@ class ActionKit(object):
         )
         logger.info(f"{resp.status_code}: {event_id}")
 
+    def get_blackholed_email(self, email):
+        """
+        Get a blackholed email.
+
+        `Args:`
+            email: str
+                Blackholed email of the record to get.
+        `Returns`:
+            BlackholedEmail json object
+        """
+
+        return self._base_get(
+            endpoint="blackholedemail",
+            params={"email": email},
+            exception_message="Blackholed email not found",
+        )
+
     def blackhole_email(self, email):
         """
         Blackhole an email.

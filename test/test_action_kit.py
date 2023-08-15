@@ -108,6 +108,14 @@ class TestActionKit(unittest.TestCase):
             data=json.dumps({"is_approved": "test"}),
         )
 
+    def test_get_blackholed_email(self):
+        # Test get blackholed_email
+        self.actionkit.get_blackholed_email("test")
+        self.actionkit.conn.get.assert_called_with(
+            "https://domain.actionkit.com/rest/v1/blackholedemail/",
+            params={"email": "test"},
+        )
+
     def test_blackhole_email(self):
         # Test blackhole email
 

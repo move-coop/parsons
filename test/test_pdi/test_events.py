@@ -1,4 +1,4 @@
-from test.test_pdi.conftest import live_pdi
+from test.test_pdi.conftest import mock_pdi
 from parsons import Table
 from parsons.pdi import PDI
 import pytest
@@ -16,42 +16,42 @@ LOWER_LIMIT = 1
 UPPER_LIMIT = 2001
 
 
-def test_get_calendars(live_pdi):
-    response = live_pdi.get_calendars()
+def test_get_calendars(mock_pdi):
+    response = mock_pdi.get_calendars()
 
     assert type(response) == Table
 
 
-def test_get_calendars_with_limit(live_pdi):
-    response = live_pdi.get_calendars(limit=LOWER_LIMIT)
+def test_get_calendars_with_limit(mock_pdi):
+    response = mock_pdi.get_calendars(limit=LOWER_LIMIT)
 
     assert response.num_rows == 1
 
 
-def test_get_event_activities(live_pdi):
-    response = live_pdi.get_event_activities(start_date=START_DATE, end_date=END_DATE)
+def test_get_event_activities(mock_pdi):
+    response = mock_pdi.get_event_activities(start_date=START_DATE, end_date=END_DATE)
 
     assert type(response) == Table
 
 
-def test_get_event_activities_with_limit(live_pdi):
-    response = live_pdi.get_event_activities(
+def test_get_event_activities_with_limit(mock_pdi):
+    response = mock_pdi.get_event_activities(
         start_date=START_DATE, end_date=END_DATE, limit=LOWER_LIMIT
     )
 
     assert response.num_rows == 1
 
 
-def test_get_event_activity_assignments(live_pdi):
-    response = live_pdi.get_event_activity_assignments(
+def test_get_event_activity_assignments(mock_pdi):
+    response = mock_pdi.get_event_activity_assignments(
         start_date=START_DATE, end_date=END_DATE, expand=EXPAND
     )
 
     assert type(response) == Table
 
 
-def test_get_event_activity_assignments_with_limit(live_pdi):
-    response = live_pdi.get_event_activity_assignments(
+def test_get_event_activity_assignments_with_limit(mock_pdi):
+    response = mock_pdi.get_event_activity_assignments(
         start_date=START_DATE, end_date=END_DATE, expand=EXPAND
     )
 

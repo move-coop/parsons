@@ -2,7 +2,7 @@ import google
 from google.cloud import storage
 from google.cloud import storage_transfer
 from parsons.google.utitities import setup_google_application_credentials
-from google.api_core.operation import Operation
+from google.rpc import Code
 from parsons.utilities import files
 import datetime
 import logging
@@ -456,10 +456,12 @@ class GoogleCloudStorage(object):
                 if not operation.done:
                     logger.info("Operation still running...")
                 else:
-                    logger.info(f"Response: {operation.response}")
+                    logger.info(operation)
+                    # logger.info(f"Response: {operation.response}")
 
                     # Raise an exception if we receive one
                     if operation.error:
+                        logger.error(operation.error.code)
                         raise Exception(
                             f"""{blob_storage} to GCS Transfer Job {create_result.name} failed with error: {operation.error}
                             """

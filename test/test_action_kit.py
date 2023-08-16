@@ -109,7 +109,7 @@ class TestActionKit(unittest.TestCase):
         )
 
     def test_get_blackholed_email(self):
-        # Test get blackholed_email
+        # Test get blackholed email
         resp_mock = mock.MagicMock()
         type(resp_mock.get()).status_code = mock.PropertyMock(return_value=201)
         type(resp_mock.get()).json = lambda x: {"meta": {"next": ""}, "objects": []}

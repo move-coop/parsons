@@ -134,7 +134,7 @@ class GoogleCloudStorage(object):
         bucket.delete(force=delete_blobs)
         logger.info(f"{bucket_name} bucket deleted.")
 
-    def list_blobs(self, bucket_name, max_results=None, prefix=None):
+    def list_blobs(self, bucket_name, max_results=None, prefix=None, pattern=None):
         """
         List all of the blobs in a bucket
 
@@ -144,8 +144,11 @@ class GoogleCloudStorage(object):
             max_results: int
                 TODO - What do we think about this?
                 TBD
-            prefix_filter: str
+            prefix: str
                 A prefix to filter files
+            pattern: str
+                TODO - Thinking this can offset the recursive behavior here
+                Filters files based on a pattern
         `Returns:`
             A list of blob names
         """
@@ -155,6 +158,9 @@ class GoogleCloudStorage(object):
         )
         lst = [b.name for b in blobs]
         logger.info(f"Found {len(lst)} in {bucket_name} bucket.")
+
+        if pattern:
+            lst = [x for x in lst if pattern in x]
 
         return lst
 
@@ -471,6 +477,7 @@ class GoogleCloudStorage(object):
             wait_time += wait_between_attempts_in_sec
             time.sleep(wait_between_attempts_in_sec)
 
+        # TODO: operation.status is not a valid attribute
         raise Exception(
             f"""{blob_storage} to GCS Transfer Job {create_result.name} timedout.
             Final status: {operation.status}

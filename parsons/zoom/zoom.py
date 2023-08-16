@@ -24,14 +24,15 @@ class Zoom:
     """
 
     def __init__(self, api_key=None, api_secret=None):
-
         self.api_key = check_env.check("ZOOM_API_KEY", api_key)
         self.api_secret = check_env.check("ZOOM_API_SECRET", api_secret)
         self.client = APIConnector(ZOOM_URI)
 
     def refresh_header_token(self):
-        # Generate a token that is valid for 30 seconds and update header. Full documentation
-        # on JWT generation using Zoom API: https://marketplace.zoom.us/docs/guides/auth/jwt
+        """
+        Generate a token that is valid for 30 seconds and update header. Full documentation
+        on JWT generation using Zoom API: https://marketplace.zoom.us/docs/guides/auth/jwt
+        """
 
         payload = {
             "iss": self.api_key,
@@ -44,7 +45,15 @@ class Zoom:
         }
 
     def _get_request(self, endpoint, data_key, params=None, **kwargs):
-        # To Do: Consider increasing default page size.
+        """
+        TODO: Consider increasing default page size.
+
+        TODO
+        `Args`:
+
+        TODO
+        `Returns`:
+        """
 
         self.refresh_header_token()
         r = self.client.get_request(endpoint, params=params, **kwargs)

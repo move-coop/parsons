@@ -135,7 +135,9 @@ class BigQuery(DatabaseConnector):
         if not job_config:
             job_config = bigquery.LoadJobConfig()
 
-        if not job_config.schema:
+        if not job_config.schema and kwargs["schema"]:
+            job_config.schema = kwargs["schema"]
+        else:
             job_config.autodetect = True
 
         if not job_config.create_disposition:
@@ -377,6 +379,7 @@ class BigQuery(DatabaseConnector):
         nullas: str = None,
         allow_quoted_newlines: bool = True,
         quote: str = None,
+        schema: dict = None,
         job_config: Optional[LoadJobConfig] = None,
         **load_kwargs,
     ):
@@ -434,6 +437,7 @@ class BigQuery(DatabaseConnector):
         job_config = self.__process_job_config(
             job_config=job_config,
             table_exists=table_exists,
+            table_name=table_name,
             if_exists=if_exists,
             max_errors=max_errors,
             data_type=data_type,
@@ -442,6 +446,7 @@ class BigQuery(DatabaseConnector):
             nullas=nullas,
             allow_quoted_newlines=allow_quoted_newlines,
             quote=quote,
+            schema=schema,
         )
 
         # load CSV from Cloud Storage into BigQuery

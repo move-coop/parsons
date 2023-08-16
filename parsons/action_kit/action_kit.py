@@ -241,7 +241,8 @@ class ActionKit(object):
             email: str
                 Blackholed email of the record to get.
         `Returns`:
-            BlackholedEmail json object
+            Parsons.Table
+                The blackholed email data.
         """
 
         return self.paginated_get("blackholedemail", email=email)
@@ -254,7 +255,7 @@ class ActionKit(object):
             user_id: str
                 Email to blackhole
         `Returns:`
-            BlackholedEmail json object
+            API location of new resource
         """
 
         return self._base_post(
@@ -275,7 +276,7 @@ class ActionKit(object):
                 in the `ActionKit API Documentation <https://docs.actionkit.com/docs/manual/api/\
                 rest/users.html>`_.
         `Returns:`
-            Eraser json object
+            API location of anonymized user
         """
 
         return self._base_post(
@@ -909,7 +910,7 @@ class ActionKit(object):
                     ak.get_orders(import_id="my-import-123")
         `Returns:`
             Parsons.Table
-                The events data.
+                The orders data.
         """
         return self.paginated_get("order", limit=limit, **kwargs)
 
@@ -1086,7 +1087,7 @@ class ActionKit(object):
                     ak.get_transactions(order="order-1")
         `Returns:`
             Parsons.Table
-                The events data.
+                The transactions data.
         """
         return self.paginated_get("transaction", limit=limit, **kwargs)
 

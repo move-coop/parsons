@@ -178,6 +178,9 @@ class BigQuery(DatabaseConnector):
         if not job_config.allow_quoted_newlines:
             job_config.allow_quoted_newlines = kwargs["allow_quoted_newlines"]
 
+        if not job_config.quote_character and kwargs["quote"]:
+            job_config.quote_character = kwargs["quote"]
+
         return job_config
 
     @property
@@ -373,6 +376,7 @@ class BigQuery(DatabaseConnector):
         ignoreheader: int = 1,
         nullas: str = None,
         allow_quoted_newlines: bool = True,
+        quote: str = None,
         job_config: Optional[LoadJobConfig] = None,
         **load_kwargs,
     ):
@@ -400,7 +404,12 @@ class BigQuery(DatabaseConnector):
             nullas: str
                 Loads fields that match null_string as NULL, where null_string can be any string
             allow_quoted_newlines: bool
-                If True, detects quoted new line characters within a CSV field and does not interpret the quoted new line character as a row boundary
+                If True, detects quoted new line characters within a CSV field and does not interpret
+                the quoted new line character as a row boundary
+            quote: str
+                The value that is used to quote data sections in a CSV file.
+                BigQuery converts the string to ISO-8859-1 encoding, and then uses the first byte of
+                the encoded string to split the data in its raw, binary state.
             job_config: object
                 A LoadJobConfig object to provide to the underlying call to load_table_from_uri
                 on the BigQuery client. The function will create its own if not provided. Note
@@ -432,6 +441,7 @@ class BigQuery(DatabaseConnector):
             ignoreheader=ignoreheader,
             nullas=nullas,
             allow_quoted_newlines=allow_quoted_newlines,
+            quote=quote,
         )
 
         # load CSV from Cloud Storage into BigQuery
@@ -679,6 +689,8 @@ class BigQuery(DatabaseConnector):
                 "Target table does not exist. Copying into newly \
                          created target table."
             )
+
+            # TODO - Safe to remove these params?
             self.copy(table_obj, target_table, distkey=distkey, sortkey=sortkey)
             return None
 

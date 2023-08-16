@@ -901,9 +901,10 @@ class BigQuery(DatabaseConnector):
         schema: dict,
         if_exists: str = "drop",
         file_format: str = "csv",
+        delimiter: str = ",",
     ) -> str:
         """
-        Generates a LOAD statement to import data from a file into a BigQuery table
+        Generates a load statement to import data from a file into a BigQuery table
 
         `Args`:
             table_name: str
@@ -933,6 +934,7 @@ class BigQuery(DatabaseConnector):
         FROM FILES (
             format={file_format.upper()},
             uris={gcs_blob_uri},
+            field_delimiter={delimiter}
         )
         """
 

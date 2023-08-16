@@ -751,6 +751,25 @@ there is an error.</p>
 </dd></dl>
 
 <dl class="py method">
+<dt class="sig sig-object py" id="parsons.PDI.get_calendars">
+<span class="sig-name descname"><span class="pre">get_calendars</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">limit</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#parsons.PDI.get_calendars" title="Permalink to this definition"></a></dt>
+<dd><p>Gets a list of calendars.
+Relevant API docs:</p>
+<blockquote>
+<div><p><a class="reference external" href="https://api.bluevote.com/docs/index#!/Calendars/Calendars_GetAll">https://api.bluevote.com/docs/index#!/Calendars/Calendars_GetAll</a></p>
+</div></blockquote>
+<dl class="simple">
+<dt><cite>Args</cite>:</dt><dd><dl class="simple">
+<dt>limit: int</dt><dd><p>Specify limit to return (max=2000)</p>
+</dd>
+</dl>
+</dd>
+<dt><cite>Returns</cite>:</dt><dd><p>Parsons Table object with id, name, description, and timeZone records</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
 <dt class="sig sig-object py" id="parsons.PDI.get_contact">
 <span class="sig-name descname"><span class="pre">get_contact</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#parsons.PDI.get_contact" title="Permalink to this definition"></a></dt>
 <dd><p>Get a Contact by id.</p>
@@ -790,6 +809,59 @@ limit: int</p>
 <dt>parsons.Table</dt><dd><p>A Parsons table of all the data.</p>
 </dd>
 </dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="parsons.PDI.get_event_activities">
+<span class="sig-name descname"><span class="pre">get_event_activities</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">start_date</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">end_date</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">limit</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#parsons.PDI.get_event_activities" title="Permalink to this definition"></a></dt>
+<dd><p>Get a list of event activities.
+Relevant API docs:</p>
+<blockquote>
+<div><p><a class="reference external" href="https://api.bluevote.com/docs/index#!/EventActivities/EventActivities_GetAll">https://api.bluevote.com/docs/index#!/EventActivities/EventActivities_GetAll</a></p>
+</div></blockquote>
+<dl class="simple">
+<dt><cite>Args</cite>:</dt><dd><dl class="simple">
+<dt>start_date: str</dt><dd><p>Earliest records to be returned in the API response
+Per the API docs, use “YYYY-MM-DD” format</p>
+</dd>
+<dt>end_date: str</dt><dd><p>Latest records to be returned in the API response.
+Per the API docs, use “YYYY-MM-DD” format</p>
+</dd>
+<dt>limit: int</dt><dd><p>Specify limit to return (max=2000)</p>
+</dd>
+</dl>
+</dd>
+<dt><cite>Returns</cite>:</dt><dd><p>Parsons Table with event activity responses</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="parsons.PDI.get_event_activity_assignments">
+<span class="sig-name descname"><span class="pre">get_event_activity_assignments</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">start_date</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">end_date</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">expand</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">limit</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#parsons.PDI.get_event_activity_assignments" title="Permalink to this definition"></a></dt>
+<dd><p>Get a list of event activity assignments.
+Relevant API docs:</p>
+<blockquote>
+<div><p><a class="reference external" href="https://api.bluevote.com/docs/index#/EventActivityAssignments">https://api.bluevote.com/docs/index#/EventActivityAssignments</a></p>
+</div></blockquote>
+<dl class="simple">
+<dt><cite>Args</cite>:</dt><dd><dl class="simple">
+<dt>start_date: str</dt><dd><p>Earliest records to be returned in the API response
+Per the API docs, use “YYYY-MM-DD” format</p>
+</dd>
+<dt>end_date: str</dt><dd><p>Latest records to be returned in the API response.
+Per the API docs, use “YYYY-MM-DD” format</p>
+</dd>
+<dt>expand: bool</dt><dd><p>Parameter to determine if we return the list of shift assigments
+expanded or not</p>
+</dd>
+<dt>limit: int</dt><dd><p>Specify limit to return (max=2000)</p>
+</dd>
+</dl>
+</dd>
+<dt><cite>Returns</cite>:</dt><dd><p>Parsons Table with event activity assignment responses</p>
 </dd>
 </dl>
 </dd></dl>

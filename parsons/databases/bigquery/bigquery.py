@@ -695,8 +695,7 @@ class BigQuery(DatabaseConnector):
                          created target table."
             )
 
-            # TODO - Safe to remove these params?
-            self.copy(table_obj, target_table, distkey=distkey, sortkey=sortkey)
+            self.copy(table_obj, target_table)
             return None
 
         if isinstance(primary_key, str):
@@ -894,6 +893,50 @@ class BigQuery(DatabaseConnector):
         # Return a MySQL table object
 
         return BigQueryTable(self, table_name)
+
+    def create_load_statement_from_file(
+        self,
+        table_name: str,
+        gcs_blob_uri: str,
+        schema: dict,
+        if_exists: str = "drop",
+        file_format: str = "csv",
+    ) -> str:
+        """
+        Generates a LOAD statement to import data from a file into a BigQuery table
+
+        `Args`:
+            table_name: str
+            gcs_blob_uri: str
+            if_exists: str
+            schema: dict
+
+        `Returns`:
+            String representation of LOAD SQL statement
+        """
+
+        schema_string = ",".join([f"{k} {v}" for k, v in schema.item()])
+
+        if if_exists in ["drop", "truncate"]:
+            load_keyword = "OVERWRITE"
+        elif if_exists == "append":
+            load_keyword = "INTO"
+
+        ###
+
+        load_statement = f"""
+        LOAD DATA {load_keyword} {table_name}
+        (
+            {schema_string}
+        )
+
+        FROM FILES (
+            format={file_format.upper()},
+            uris={gcs_blob_uri},
+        )
+        """
+
+        return load_statement
 
 
 class BigQueryTable(BaseTable):

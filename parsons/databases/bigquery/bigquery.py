@@ -424,6 +424,7 @@ class BigQuery(DatabaseConnector):
 
         job_config = self.__process_job_config(
             job_config=job_config,
+            table_exists=table_exists,
             if_exists=if_exists,
             max_errors=max_errors,
             data_type=data_type,
@@ -443,13 +444,7 @@ class BigQuery(DatabaseConnector):
             **load_kwargs,
         )
 
-        # TODO - Not sure if we need this block or not
-        # It runs asynchronously so .running() may not
-        # be super applicable here
-        try:
-            load_job.result()
-        except Exception as e:
-            raise e
+        load_job.result()
 
     def copy_s3(
         self,

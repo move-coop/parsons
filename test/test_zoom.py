@@ -4,14 +4,16 @@ from test.utils import assert_matching_tables
 import requests_mock
 from parsons import Table, Zoom
 
-API_KEY = "fake_api_key"
-API_SECRET = "fake_api_secret"
+ACCOUNT_ID = "fakeAccountID"
+CLIENT_ID = "fakeClientID"
+CLIENT_SECRET = "fakeClientSecret"
+
 ZOOM_URI = "https://api.zoom.us/v2/"
 
 
 class TestZoom(unittest.TestCase):
     def setUp(self):
-        self.zoom = Zoom(API_KEY, API_SECRET)
+        self.zoom = Zoom(ACCOUNT_ID, CLIENT_ID, CLIENT_SECRET)
 
     @requests_mock.Mocker()
     def test_get_users(self, m):

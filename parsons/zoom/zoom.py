@@ -301,6 +301,7 @@ class Zoom:
 
         `Args`:
             meeting_id: str
+                Unique identifier for Zoom meeting
 
         `Returns`:
             Parsons Table of all polling responses

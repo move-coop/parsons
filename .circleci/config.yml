@@ -2,65 +2,22 @@
 #
 # Check https://circleci.com/docs/2.0/language-python/ for more details
 #
+
+version: 2
+
 workflows:
   version: 2
   build:
     jobs:
-      - test
       - docs-build
       - docs-build-deploy:
           filters:
             branches:
               only: main
 
-version: 2
 jobs:
-  test:
-    docker:
-      - image: cimg/python:3.10
 
-    working_directory: ~/repo
-
-    steps:
-      - checkout
-
-      # Download and cache dependencies
-      - restore_cache:
-          keys:
-            - v2-dependencies-python10-{{ checksum "requirements.txt" }}
-            # fallback to using the latest cache if no exact match is found
-            - v2-dependencies-python3.10-
-
-      - run:
-          name: install dependencies
-          command: |
-            python3 -m venv venv
-            . venv/bin/activate
-            pip install -r requirements.txt
-
-      - save_cache:
-          paths:
-            - ./venv
-          key: v2-dependencies-python3.10-{{ checksum "requirements.txt" }}
-
-      - run:
-          name: run tests
-          command: |
-            . venv/bin/activate
-            TESTING=1 pytest -rf test/
-
-      - run:
-          name: check linting
-          command: |
-            . venv/bin/activate
-            # E203 and W503 don't work well with black
-            flake8 parsons/ test/ useful_resources/ --extend-ignore=E203,W503
-            black --check parsons/ test/ useful_resources/
-
-      - store_artifacts:
-          path: test-reports
-          destination: test-reports
-
+  # Documentation CI
   docs-build:
     docker:
       - image: cimg/python:3.10

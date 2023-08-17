@@ -66,7 +66,8 @@ class Zoom:
 
     def __refresh_header_token(self):
         """
-        NOTE: This is deprecated as
+        NOTE: This function is deprecated as Zoom's API moves to an OAuth strategy on 9/1
+
         Generate a token that is valid for 30 seconds and update header. Full documentation
         on JWT generation using Zoom API: https://marketplace.zoom.us/docs/guides/auth/jwt
         """
@@ -275,7 +276,7 @@ class Zoom:
         logger.info(f"Retrieved {tbl.num_rows} webinar registrants.")
         return tbl
 
-    def get_meeting_poll(self, meeting_id: str, poll_id: str) -> Table:
+    def get_poll(self, meeting_id: str, poll_id: str) -> Table:
         """
         Get a specific poll for a given meeting ID
 
@@ -290,7 +291,12 @@ class Zoom:
         """
 
         endpoint = f"meetings/{meeting_id}/polls/{poll_id}"
-        tbl = self._get_request(endpoint=endpoint, data_key="id")
+        tbl = self._get_request(endpoint=endpoint, data_key="polls")
+
+        if type(tbl) == dict:
+            logger.debug(f"No poll data returned for poll ID {poll_id}")
+            return tbl
+
         logger.info(
             f"Retrieved {tbl.num_rows} rows of metadata [meeting={meeting_id} poll={poll_id}]"
         )
@@ -310,7 +316,12 @@ class Zoom:
         """
 
         endpoint = f"meetings/{meeting_id}/polls"
-        tbl = self._get_request(endpoint=endpoint, data_key="id")
+        tbl = self._get_request(endpoint=endpoint, data_key="polls")
+
+        if type(tbl) == dict:
+            logger.debug(f"No poll data returned for meeting ID {meeting_id}")
+            return tbl
+
         logger.info(f"Retrieved {tbl.num_rows} polls for meeting ID {meeting_id}")
 
         return tbl

@@ -32,14 +32,6 @@ class Zoom:
         self.client_id = check_env.check("ZOOM_CLIENT_ID", client_id)
         self.__client_secret = check_env.check("ZOOM_CLIENT_SECRET", client_secret)
 
-        self.access_token = self.__generate_access_token()
-        headers = {
-            "Authorization": f"Bearer {self.access_token}",
-            "Content-type": "application/json",
-        }
-
-        self.client = APIConnector(ZOOM_URI, headers=headers)
-
     def __generate_access_token(self) -> str:
         """
         Uses Zoom's OAuth callback URL to generate an access token to query the Zoom API
@@ -98,6 +90,14 @@ class Zoom:
         `Returns`:
             Parsons Table of API responses
         """
+
+        self.access_token = self.__generate_access_token()
+        headers = {
+            "Authorization": f"Bearer {self.access_token}",
+            "Content-type": "application/json",
+        }
+
+        self.client = APIConnector(ZOOM_URI, headers=headers)
 
         # self.refresh_header_token()
         r = self.client.get_request(endpoint, params=params, **kwargs)

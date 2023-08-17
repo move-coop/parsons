@@ -1,4 +1,5 @@
 from contextlib import contextmanager
+from typing import Optional
 import psycopg2
 import psycopg2.extras
 from parsons.etl.table import Table
@@ -61,7 +62,7 @@ class PostgresCore(PostgresCreateStatement):
         finally:
             cur.close()
 
-    def query(self, sql, parameters=None):
+    def query(self, sql: str, parameters: Optional[list] = None) -> Optional[Table]:
         """
         Execute a query against the database. Will return ``None`` if the query returns zero rows.
 
@@ -207,7 +208,7 @@ class PostgresCore(PostgresCreateStatement):
         else:
             return True
 
-    def table_exists(self, table_name, view=True):
+    def table_exists(self, table_name: str, view: bool = True) -> bool:
         """
         Check if a table or view exists in the database.
 
@@ -215,7 +216,7 @@ class PostgresCore(PostgresCreateStatement):
             table_name: str
                 The table name and schema (e.g. ``myschema.mytable``).
             view: boolean
-                Check to see if a view exists by the same name
+                Check to see if a view exists by the same name. Defaults to ``True``.
 
         `Returns:`
             boolean

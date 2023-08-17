@@ -59,7 +59,7 @@ def main():
 
     setup(
         name="parsons",
-        version="1.1.0",
+        version="1.2.0",
         author="The Movement Cooperative",
         author_email="info@movementcooperative.org",
         url="https://github.com/move-coop/parsons",

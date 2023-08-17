@@ -81,24 +81,27 @@ class Zoom:
             "content-type": "application/json",
         }
 
-    def _get_request(self, endpoint, data_key, params=None, **kwargs):
+    def _get_request(self, endpoint, data_key, params={}, **kwargs):
         """
         TODO: Consider increasing default page size.
 
-        TODO
         `Args`:
+            endpoint: str
+                API endpoint to send GET request
+            data_key: str
+                Unique value to use to parse through nested data
+                (akin to a primary key in response JSON)
+            params: dict
+                Additional request parameters, defaults to empty dictionary
 
-        TODO
         `Returns`:
+            Parsons Table of API responses
         """
 
         # self.refresh_header_token()
         r = self.client.get_request(endpoint, params=params, **kwargs)
         self.client.data_key = data_key
         data = self.client.data_parse(r)
-
-        if not params:
-            params = {}
 
         # Return a dict or table if only one item.
         if "page_number" not in r.keys():
@@ -270,4 +273,41 @@ class Zoom:
 
         tbl = self._get_request(f"webinars/{webinar_id}/registrants", "registrants")
         logger.info(f"Retrieved {tbl.num_rows} webinar registrants.")
+        return tbl
+
+    def get_meeting_poll(self, meeting_id: str, poll_id: str) -> Table:
+        """
+        Get a specific poll for a given meeting ID
+
+        `Args`:
+            meeting_id: str
+                Unique identifier for Zoom meeting
+            poll_id: str
+                Unique identifier for poll
+
+        `Returns`:
+            Parsons Table of all polling responses
+        """
+
+        endpoint = f"meetings/{meeting_id}/polls/{poll_id}"
+        tbl = self._get_request(endpoint=endpoint, data_key="id")
+        logger.info(
+            f"Retrieved {tbl.num_rows} rows of metadata [meeting={meeting_id} poll={poll_id}]"
+        )
+
+    def get_all_polls(self, meeting_id: str) -> Table:
+        """
+        Get all polls for a given meeting ID
+
+        `Args`:
+            meeting_id: str
+
+        `Returns`:
+            Parsons Table of all polling responses
+        """
+
+        endpoint = f"meetings/{meeting_id}/polls"
+        tbl = self._get_request(endpoint=endpoint, data_key="id")
+        logger.info(f"Retrieved {tbl.num_rows} polls for meeting ID {meeting_id}")
+
         return tbl

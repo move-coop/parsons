@@ -4,10 +4,14 @@ from parsons import Table
 import logging
 import jwt
 import datetime
+import requests
 
 logger = logging.getLogger(__name__)
 
 ZOOM_URI = "https://api.zoom.us/v2/"
+ZOOM_AUTH_CALLBACK = "https://zoom.us/oauth/token"
+
+##########
 
 
 class Zoom:
@@ -23,13 +27,46 @@ class Zoom:
             variable set.
     """
 
-    def __init__(self, api_key=None, api_secret=None):
-        self.api_key = check_env.check("ZOOM_API_KEY", api_key)
-        self.api_secret = check_env.check("ZOOM_API_SECRET", api_secret)
-        self.client = APIConnector(ZOOM_URI)
+    def __init__(self, account_id=None, client_id=None, client_secret=None):
+        self.account_id = check_env.check("ZOOM_ACCOUNT_ID", account_id)
+        self.client_id = check_env.check("ZOOM_CLIENT_ID", client_id)
+        self.__client_secret = check_env.check("ZOOM_CLIENT_SECRET", client_secret)
 
-    def refresh_header_token(self):
+        self.access_token = self.__generate_access_token()
+        headers = {
+            "Authorization": f"Bearer {self.access_token}",
+            "Content-type": "application/json",
+        }
+
+        self.client = APIConnector(ZOOM_URI, headers=headers)
+
+    def __generate_access_token(self) -> str:
         """
+        Uses Zoom's OAuth callback URL to generate an access token to query the Zoom API
+
+        `Returns`:
+            String representation of access token
+        """
+
+        resp = requests.post(
+            ZOOM_AUTH_CALLBACK,
+            data={
+                "grant_type": "account_credentials",
+                "account_id": self.account_id,
+            },
+            auth=(self.client_id, self.__client_secret),
+        )
+
+        if not resp.status_code == 200:
+            raise ValueError(
+                f"Unable to authenticate with Zoom OAuth [status code={resp.status_code}]"
+            )
+
+        return resp.json()["access_token"]
+
+    def __refresh_header_token(self):
+        """
+        NOTE: This is deprecated as
         Generate a token that is valid for 30 seconds and update header. Full documentation
         on JWT generation using Zoom API: https://marketplace.zoom.us/docs/guides/auth/jwt
         """
@@ -55,7 +92,7 @@ class Zoom:
         `Returns`:
         """
 
-        self.refresh_header_token()
+        # self.refresh_header_token()
         r = self.client.get_request(endpoint, params=params, **kwargs)
         self.client.data_key = data_key
         data = self.client.data_parse(r)

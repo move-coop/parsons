@@ -295,6 +295,8 @@ class Zoom:
             f"Retrieved {tbl.num_rows} rows of metadata [meeting={meeting_id} poll={poll_id}]"
         )
 
+        return tbl
+
     def get_all_polls(self, meeting_id: str) -> Table:
         """
         Get all polls for a given meeting ID

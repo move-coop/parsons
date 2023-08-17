@@ -9,6 +9,7 @@ CLIENT_ID = "fakeClientID"
 CLIENT_SECRET = "fakeClientSecret"
 
 ZOOM_URI = "https://api.zoom.us/v2/"
+ZOOM_AUTH_CALLBACK = "https://zoom.us/oauth/token"
 
 
 class TestZoom(unittest.TestCase):
@@ -65,6 +66,7 @@ class TestZoom(unittest.TestCase):
             ]
         )
 
+        m.post(ZOOM_AUTH_CALLBACK, json={"access_token": "fakeAccessToken"})
         m.get(ZOOM_URI + "users", json=user_json)
         assert_matching_tables(self.zoom.get_users(), tbl)
 
@@ -124,6 +126,7 @@ class TestZoom(unittest.TestCase):
             ]
         )
 
+        m.post(ZOOM_AUTH_CALLBACK, json={"access_token": "fakeAccessToken"})
         m.get(ZOOM_URI + "report/meetings/123/participants", json=participants)
         assert_matching_tables(self.zoom.get_past_meeting_participants(123), tbl)
 
@@ -175,6 +178,7 @@ class TestZoom(unittest.TestCase):
             ]
         )
 
+        m.post(ZOOM_AUTH_CALLBACK, json={"access_token": "fakeAccessToken"})
         m.get(ZOOM_URI + "meetings/123/registrants", json=registrants)
         assert_matching_tables(self.zoom.get_meeting_registrants(123), tbl)
 
@@ -246,6 +250,7 @@ class TestZoom(unittest.TestCase):
             ]
         )
 
+        m.post(ZOOM_AUTH_CALLBACK, json={"access_token": "fakeAccessToken"})
         m.get(ZOOM_URI + "users/123/webinars", json=webinars)
         assert_matching_tables(self.zoom.get_user_webinars(123), tbl)
 
@@ -301,6 +306,7 @@ class TestZoom(unittest.TestCase):
             ]
         )
 
+        m.post(ZOOM_AUTH_CALLBACK, json={"access_token": "fakeAccessToken"})
         m.get(ZOOM_URI + "report/webinars/123/participants", json=participants)
         assert_matching_tables(self.zoom.get_past_webinar_participants(123), tbl)
 
@@ -432,5 +438,6 @@ class TestZoom(unittest.TestCase):
             ]
         )
 
+        m.post(ZOOM_AUTH_CALLBACK, json={"access_token": "fakeAccessToken"})
         m.get(ZOOM_URI + "webinars/123/registrants", json=registrants)
         assert_matching_tables(self.zoom.get_webinar_registrants(123), tbl)

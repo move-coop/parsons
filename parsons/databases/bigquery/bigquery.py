@@ -136,8 +136,14 @@ class BigQuery(DatabaseConnector):
             job_config = bigquery.LoadJobConfig()
 
         if not job_config.schema and kwargs["schema"]:
+            logger.info("Using user-supplied schema definition...")
+            schema_in_format = {"fields": kwargs["schema"]}
+
             job_config.schema = kwargs["schema"]
+            job_config.autodetect = False
+
         else:
+            logger.info("Autodetecting schema definition...")
             job_config.autodetect = True
 
         if not job_config.create_disposition:
@@ -379,7 +385,7 @@ class BigQuery(DatabaseConnector):
         nullas: str = None,
         allow_quoted_newlines: bool = True,
         quote: str = None,
-        schema: dict = None,
+        schema: list = None,
         job_config: Optional[LoadJobConfig] = None,
         **load_kwargs,
     ):
@@ -413,6 +419,14 @@ class BigQuery(DatabaseConnector):
                 The value that is used to quote data sections in a CSV file.
                 BigQuery converts the string to ISO-8859-1 encoding, and then uses the first byte of
                 the encoded string to split the data in its raw, binary state.
+            schema: list
+                BigQuery expects a list of dictionaries in the following format
+                ```
+                schema = [
+                    {"name": "column_name", "type": STRING},
+                    {"name": "another_column_name", "type": INT}
+                ]
+                ```
             job_config: object
                 A LoadJobConfig object to provide to the underlying call to load_table_from_uri
                 on the BigQuery client. The function will create its own if not provided. Note
@@ -916,7 +930,7 @@ class BigQuery(DatabaseConnector):
             String representation of LOAD SQL statement
         """
 
-        schema_string = ",".join([f"{k} {v}" for k, v in schema.item()])
+        schema_string = ",".join([f"{k} {v}" for k, v in schema.items()])
 
         if if_exists in ["drop", "truncate"]:
             load_keyword = "OVERWRITE"
@@ -932,8 +946,8 @@ class BigQuery(DatabaseConnector):
         )
 
         FROM FILES (
-            format={file_format.upper()},
-            uris={gcs_blob_uri},
+            format='{file_format.upper()}',
+            uris=['{gcs_blob_uri}'],
             field_delimiter={delimiter}
         )
         """
@@ -942,7 +956,7 @@ class BigQuery(DatabaseConnector):
 
 
 class BigQueryTable(BaseTable):
-    # BigQuery table object.
+    """BigQuery table object."""
 
     def drop(self, cascade=False):
         """

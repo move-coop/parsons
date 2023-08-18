@@ -32,9 +32,7 @@ class Zoom:
         self.client_id = check_env.check("ZOOM_CLIENT_ID", client_id)
         self.__client_secret = check_env.check("ZOOM_CLIENT_SECRET", client_secret)
 
-        self.client = APIConnector(
-            uri=ZOOM_URI, auth=(self.client_id, self.__client_secret)
-        )
+        self.client = APIConnector(uri=ZOOM_URI)
 
         access_token = self.__generate_access_token()
 
@@ -51,7 +49,11 @@ class Zoom:
             String representation of access token
         """
 
-        resp = self.client.post_request(
+        temp_client = APIConnector(
+            uri=ZOOM_URI, auth=(self.client_id, self.__client_secret)
+        )
+
+        resp = temp_client.post_request(
             ZOOM_AUTH_CALLBACK,
             data={
                 "grant_type": "account_credentials",
@@ -95,8 +97,6 @@ class Zoom:
         `Returns`:
             Parsons Table of API responses
         """
-
-        print(self.client.headers)
 
         r = self.client.get_request(endpoint, params=params, **kwargs)
         self.client.data_key = data_key

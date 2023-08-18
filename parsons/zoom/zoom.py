@@ -4,7 +4,6 @@ from parsons import Table
 import logging
 import jwt
 import datetime
-import requests
 
 logger = logging.getLogger(__name__)
 

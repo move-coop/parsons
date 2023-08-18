@@ -59,12 +59,7 @@ class Zoom:
             },
         )
 
-        if not resp.status_code == 200:
-            raise ValueError(
-                f"Unable to authenticate with Zoom OAuth [status code={resp.status_code}]"
-            )
-
-        return resp.json()["access_token"]
+        return resp["access_token"]
 
     def __refresh_header_token(self):
         """
@@ -100,6 +95,8 @@ class Zoom:
         `Returns`:
             Parsons Table of API responses
         """
+
+        print(self.client.headers)
 
         r = self.client.get_request(endpoint, params=params, **kwargs)
         self.client.data_key = data_key

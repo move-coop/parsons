@@ -13,7 +13,9 @@ ZOOM_AUTH_CALLBACK = "https://zoom.us/oauth/token"
 
 
 class TestZoom(unittest.TestCase):
-    def setUp(self):
+    @requests_mock.Mocker()
+    def setUp(self, m):
+        m.post(ZOOM_AUTH_CALLBACK, json={"access_token": "fakeAccessToken"})
         self.zoom = Zoom(ACCOUNT_ID, CLIENT_ID, CLIENT_SECRET)
 
     @requests_mock.Mocker()

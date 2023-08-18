@@ -72,6 +72,43 @@ def ends_with_semicolon(query: str) -> str:
     return query + ";"
 
 
+def map_column_headers_to_schema_field(schema_definition: list) -> list:
+    """
+    Loops through a list of dictionaries and instantiates
+    google.cloud.bigquery.SchemaField objects. Useful docs
+    from Google's API can be found here:
+        https://cloud.google.com/python/docs/reference/bigquery/latest/google.cloud.bigquery.schema.SchemaField
+
+    `Args`:
+        schema_definition: list
+        This function expects a list of dictionaries in the following format:
+
+        ```
+        schema_definition = [
+            {
+                "name": column_name,
+                "field_type": [INTEGER, STRING, FLOAT, etc.]
+            },
+            {
+                "name": column_name,
+                "field_type": [INTEGER, STRING, FLOAT, etc.],
+                "mode": "REQUIRED"
+            },
+            {
+                "name": column_name,
+                "field_type": [INTEGER, STRING, FLOAT, etc.],
+                "default_value_expression": CURRENT_TIMESTAMP()
+            }
+        ]
+        ```
+
+    `Returns`:
+        List of instantiated `SchemaField` objects
+    """
+
+    return [bigquery.SchemaField(**x) for x in schema_definition]
+
+
 class BigQuery(DatabaseConnector):
     """
     Class for querying BigQuery table and returning the data as Parsons tables.

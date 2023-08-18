@@ -32,6 +32,17 @@ class Zoom:
         self.client_id = check_env.check("ZOOM_CLIENT_ID", client_id)
         self.__client_secret = check_env.check("ZOOM_CLIENT_SECRET", client_secret)
 
+        self.client = APIConnector(
+            uri=ZOOM_URI, auth=(self.client_id, self.__client_secret)
+        )
+
+        access_token = self.__generate_access_token()
+
+        self.client.headers = {
+            "Authorization": f"Bearer {access_token}",
+            "Content-type": "application/json",
+        }
+
     def __generate_access_token(self) -> str:
         """
         Uses Zoom's OAuth callback URL to generate an access token to query the Zoom API
@@ -40,13 +51,12 @@ class Zoom:
             String representation of access token
         """
 
-        resp = requests.post(
+        resp = self.client.post_request(
             ZOOM_AUTH_CALLBACK,
             data={
                 "grant_type": "account_credentials",
                 "account_id": self.account_id,
             },
-            auth=(self.client_id, self.__client_secret),
         )
 
         if not resp.status_code == 200:
@@ -91,15 +101,6 @@ class Zoom:
             Parsons Table of API responses
         """
 
-        self.access_token = self.__generate_access_token()
-        headers = {
-            "Authorization": f"Bearer {self.access_token}",
-            "Content-type": "application/json",
-        }
-
-        self.client = APIConnector(ZOOM_URI, headers=headers)
-
-        # self.refresh_header_token()
         r = self.client.get_request(endpoint, params=params, **kwargs)
         self.client.data_key = data_key
         data = self.client.data_parse(r)
@@ -276,7 +277,7 @@ class Zoom:
         logger.info(f"Retrieved {tbl.num_rows} webinar registrants.")
         return tbl
 
-    def get_poll(self, meeting_id: str, poll_id: str) -> Table:
+    def get_meeting_poll(self, meeting_id: str, poll_id: str) -> Table:
         """
         Get a specific poll for a given meeting ID
 
@@ -303,7 +304,7 @@ class Zoom:
 
         return tbl
 
-    def get_all_polls(self, meeting_id: str) -> Table:
+    def get_meeting_all_polls(self, meeting_id: str) -> Table:
         """
         Get all polls for a given meeting ID
 
@@ -323,5 +324,55 @@ class Zoom:
             return tbl
 
         logger.info(f"Retrieved {tbl.num_rows} polls for meeting ID {meeting_id}")
+
+        return tbl
+
+    def get_webinar_poll(self, webinar_id: str, poll_id: str) -> Table:
+        """
+        Get a specific poll for a given webinar ID
+
+        `Args`:
+            webinar_id: str
+                Unique identifier for Zoom webinar
+            poll_id: str
+                Unique identifier for poll
+
+        `Returns`:
+            Parsons Table of all polling responses
+        """
+
+        endpoint = f"webinars/{webinar_id}/polls/{poll_id}"
+        tbl = self._get_request(endpoint=endpoint, data_key="polls")
+
+        if type(tbl) == dict:
+            logger.debug(f"No poll data returned for poll ID {poll_id}")
+            return tbl
+
+        logger.info(
+            f"Retrieved {tbl.num_rows} rows of metadata [meeting={webinar_id} poll={poll_id}]"
+        )
+
+        return tbl
+
+    def get_webinar_all_polls(self, webinar_id: str) -> Table:
+        """
+        Get all polls for a given meeting ID
+
+        `Args`:
+            webinar_id: str
+                Unique identifier for Zoom webinar
+
+        `Returns`:
+            Parsons Table of all polling responses
+        """
+
+        endpoint = f"webinars/{webinar_id}/polls"
+        tbl = self._get_request(endpoint=endpoint, data_key="polls")
+
+        if type(tbl) == dict:
+            logger.debug(f"No poll data returned for webinar ID {webinar_id}")
+            return tbl
+
+        logger.info(f"Retrieved {tbl.num_rows} polls for meeting ID {webinar_id}")
 
         return tbl

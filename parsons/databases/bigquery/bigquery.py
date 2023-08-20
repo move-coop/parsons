@@ -1,12 +1,16 @@
 import pickle
-from typing import Optional, Union
+from typing import Optional, Union, List
 import uuid
+import logging
+import datetime
+import random
 
 from google.cloud import bigquery
 from google.cloud.bigquery import dbapi
 from google.cloud.bigquery.job import LoadJobConfig
 from google.cloud import exceptions
 import petl
+from contextlib import contextmanager
 
 from parsons.databases.table import BaseTable
 from parsons.databases.database_connector import DatabaseConnector
@@ -15,6 +19,8 @@ from parsons.google.utitities import setup_google_application_credentials
 from parsons.google.google_cloud_storage import GoogleCloudStorage
 from parsons.utilities import check_env
 from parsons.utilities.files import create_temp_file
+
+logger = logging.getLogger(__name__)
 
 BIGQUERY_TYPE_MAP = {
     "str": "STRING",
@@ -59,7 +65,51 @@ def parse_table_name(table_name):
     return parsed
 
 
-class GoogleBigQuery(DatabaseConnector):
+def ends_with_semicolon(query: str) -> str:
+    query = query.strip()
+    if query[-1] == ";":
+        return query
+    return query + ";"
+
+
+def map_column_headers_to_schema_field(schema_definition: list) -> list:
+    """
+    Loops through a list of dictionaries and instantiates
+    google.cloud.bigquery.SchemaField objects. Useful docs
+    from Google's API can be found here:
+        https://cloud.google.com/python/docs/reference/bigquery/latest/google.cloud.bigquery.schema.SchemaField
+
+    `Args`:
+        schema_definition: list
+        This function expects a list of dictionaries in the following format:
+
+        ```
+        schema_definition = [
+            {
+                "name": column_name,
+                "field_type": [INTEGER, STRING, FLOAT, etc.]
+            },
+            {
+                "name": column_name,
+                "field_type": [INTEGER, STRING, FLOAT, etc.],
+                "mode": "REQUIRED"
+            },
+            {
+                "name": column_name,
+                "field_type": [INTEGER, STRING, FLOAT, etc.],
+                "default_value_expression": CURRENT_TIMESTAMP()
+            }
+        ]
+        ```
+
+    `Returns`:
+        List of instantiated `SchemaField` objects
+    """
+
+    return [bigquery.SchemaField(**x) for x in schema_definition]
+
+
+class BigQuery(DatabaseConnector):
     """
     Class for querying BigQuery table and returning the data as Parsons tables.
 
@@ -103,101 +153,132 @@ class GoogleBigQuery(DatabaseConnector):
 
         self.dialect = "bigquery"
 
-    def copy(
-        self,
-        tbl: Table,
-        table_name: str,
-        if_exists: str = "fail",
-        tmp_gcs_bucket: Optional[str] = None,
-        gcs_client: Optional[GoogleCloudStorage] = None,
-        job_config: Optional[LoadJobConfig] = None,
-        **load_kwargs,
-    ):
+    def __process_job_config(
+        self, job_config: Optional[LoadJobConfig] = None, **kwargs
+    ) -> LoadJobConfig:
         """
-        Copy a :ref:`parsons-table` into Google BigQuery via Google Cloud Storage.
+        Internal function to neatly process a user-supplied job configuration object.
+        As a convention, if both the job_config and keyword arguments specify a value,
+        we defer to the job_config.
 
-        `Args:`
-            table_obj: obj
-                The Parsons Table to copy into BigQuery.
-            table_name: str
-                The table name to load the data into.
-            if_exists: str
-                If the table already exists, either ``fail``, ``append``, ``drop``
-                or ``truncate`` the table.
-            tmp_gcs_bucket: str
-                The name of the Google Cloud Storage bucket to use to stage the data to load
-                into BigQuery. Required if `GCS_TEMP_BUCKET` is not specified.
-            gcs_client: object
-                The GoogleCloudStorage Connector to use for loading data into Google Cloud Storage.
-            job_config: object
-                A LoadJobConfig object to provide to the underlying call to load_table_from_uri
-                on the BigQuery client. The function will create its own if not provided.
-            **load_kwargs: kwargs
-                Arguments to pass to the underlying load_table_from_uri call on the BigQuery
-                client.
+        `Args`:
+            job_config: `LoadJobConfig`
+                Optionally supplied GCS `LoadJobConfig` object
+
+        `Returns`:
+            A `LoadJobConfig` object
         """
-        tmp_gcs_bucket = check_env.check("GCS_TEMP_BUCKET", tmp_gcs_bucket)
-
-        if if_exists not in ["fail", "truncate", "append", "drop"]:
-            raise ValueError(
-                f"Unexpected value for if_exists: {if_exists}, must be one of "
-                '"append", "drop", "truncate", or "fail"'
-            )
-
-        table_exists = self.table_exists(table_name)
 
         if not job_config:
             job_config = bigquery.LoadJobConfig()
 
-        if not job_config.schema:
-            job_config.schema = self._generate_schema(tbl)
+        if not job_config.schema and kwargs["schema"]:
+            logger.info("Using user-supplied schema definition...")
+            schema_in_format = {
+                "fields": map_column_headers_to_schema_field(kwargs["schema"])
+            }
+
+            job_config.schema = schema_in_format
+            job_config.autodetect = False
+        else:
+            logger.info("Autodetecting schema definition...")
+            job_config.autodetect = True
 
         if not job_config.create_disposition:
             job_config.create_disposition = bigquery.CreateDisposition.CREATE_IF_NEEDED
-        job_config.skip_leading_rows = 1
-        job_config.source_format = bigquery.SourceFormat.CSV
-        job_config.write_disposition = bigquery.WriteDisposition.WRITE_EMPTY
 
-        if table_exists:
-            if if_exists == "fail":
-                raise ValueError("Table already exists.")
-            elif if_exists == "drop":
-                self.delete_table(table_name)
-            elif if_exists == "append":
-                job_config.write_disposition = bigquery.WriteDisposition.WRITE_APPEND
-            elif if_exists == "truncate":
-                job_config.write_disposition = bigquery.WriteDisposition.WRITE_TRUNCATE
+        if not job_config.max_bad_records:
+            job_config.max_bad_records = kwargs["max_errors"]
 
-        gcs_client = gcs_client or GoogleCloudStorage()
-        temp_blob_name = f"{uuid.uuid4()}.csv"
-        temp_blob_uri = gcs_client.upload_table(tbl, tmp_gcs_bucket, temp_blob_name)
+        if not job_config.skip_leading_rows:
+            job_config.skip_leading_rows = kwargs["ignoreheader"]
 
-        # load CSV from Cloud Storage into BigQuery
-        table_ref = get_table_ref(self.client, table_name)
-        try:
-            load_job = self.client.load_table_from_uri(
-                temp_blob_uri,
-                table_ref,
-                job_config=job_config,
-                **load_kwargs,
+        if not job_config.source_format:
+            job_config.source_format = (
+                bigquery.SourceFormat.CSV
+                if kwargs["data_type"] == "csv"
+                else bigquery.SourceFormat.JSON
             )
-            load_job.result()
+
+        if not job_config.field_delimiter:
+            if kwargs["data_type"] == "csv":
+                job_config.field_delimiter = kwargs["csv_delimiter"]
+            if kwargs["nullas"]:
+                job_config.null_marker = kwargs["nullas"]
+
+        if not job_config.write_disposition:
+            if kwargs["table_exists"]:
+                if kwargs["if_exists"] == "fail":
+                    raise ValueError("Table already exists.")
+                elif kwargs["if_exists"] == "drop":
+                    self.delete_table(kwargs["table_name"])
+                    job_config.write_disposition = bigquery.WriteDisposition.WRITE_EMPTY
+                elif kwargs["if_exists"] == "append":
+                    job_config.write_disposition = (
+                        bigquery.WriteDisposition.WRITE_APPEND
+                    )
+                elif kwargs["if_exists"] == "truncate":
+                    job_config.write_disposition = (
+                        bigquery.WriteDisposition.WRITE_TRUNCATE
+                    )
+        if not job_config.allow_quoted_newlines:
+            job_config.allow_quoted_newlines = kwargs["allow_quoted_newlines"]
+
+        if not job_config.quote_character and kwargs["quote"]:
+            job_config.quote_character = kwargs["quote"]
+
+        return job_config
+
+    @property
+    def client(self):
+        """
+        Get the Google BigQuery client to use for making queries.
+
+        `Returns:`
+            `google.cloud.bigquery.client.Client`
+        """
+        if not self._client:
+            # Create a BigQuery client to use to make the query
+            self._client = bigquery.Client(project=self.project, location=self.location)
+
+        return self._client
+
+    @contextmanager
+    def connection(self):  # TODO: Is this worth doing given the transaction thing?
+        """
+        Generate a BigQuery connection.
+        The connection is set up as a python "context manager", so it will be closed
+        automatically when the connection goes out of scope. Note that the BigQuery
+        API uses jobs to run database operations and, as such, simply has a no-op for
+        a "commit" function. If you would like to manage transactions, please use
+        multi-statement queries as [outlined here](https://cloud.google.com/bigquery/docs/transactions)
+
+        When using the connection, make sure to put it in a ``with`` block (necessary for
+        any context manager):
+        ``with bq.connection() as conn:``
+
+        `Returns:`
+            Google BigQuery ``connection`` object
+        """
+        conn = self._dbapi.connect(self.client)
+        try:
+            yield conn
         finally:
-            gcs_client.delete_blob(tmp_gcs_bucket, temp_blob_name)
+            conn.close()
 
-    def delete_table(self, table_name):
-        """
-        Delete a BigQuery table.
-
-        `Args:`
-            table_name: str
-                The name of the table to delete.
-        """
-        table_ref = get_table_ref(self.client, table_name)
-        self.client.delete_table(table_ref)
+    @contextmanager
+    def cursor(self, connection):
+        cur = connection.cursor()
+        try:
+            yield cur
+        finally:
+            cur.close()
 
     def query(
-        self, sql: str, parameters: Optional[Union[list, dict]] = None
+        self,
+        sql: str,
+        parameters: Optional[Union[list, dict]] = None,
+        return_values: bool = True,
     ) -> Optional[Table]:
         """
         Run a BigQuery query and return the results as a Parsons table.
@@ -231,45 +312,531 @@ class GoogleBigQuery(DatabaseConnector):
             Parsons Table
                 See :ref:`parsons-table` for output options.
         """
+
+        with self.connection() as connection:
+            return self.query_with_connection(
+                sql, connection, parameters=parameters, return_values=return_values
+            )
+
+    def query_with_connection(
+        self, sql, connection, parameters=None, commit=True, return_values: bool = True
+    ):
+        """
+        Execute a query against the BigQuery database, with an existing connection.
+        Useful for batching queries together. Will return ``None`` if the query
+        returns zero rows.
+
+        `Args:`
+            sql: str
+                A valid SQL statement
+            connection: obj
+                A connection object obtained from ``redshift.connection()``
+            parameters: list
+                A list of python variables to be converted into SQL values in your query
+            commit: boolean
+                Must be true. BigQuery
+
+        `Returns:`
+            Parsons Table
+                See :ref:`parsons-table` for output options.
+        """
+
+        if not commit:
+            raise ValueError(
+                """
+                BigQuery implementation uses an API client which always auto-commits. If you wish to wrap
+                multiple queries in a transaction, use Mulit-Statement transactions within a single query
+                as outlined here: https://cloud.google.com/bigquery/docs/transactions
+            """
+            )
+
         # get our connection and cursor
-        cursor = self._dbapi.connect(self.client).cursor()
+        with self.cursor(connection) as cursor:
+            # Run the query
+            cursor.execute(sql, parameters)
 
-        # Run the query
-        cursor.execute(sql, parameters)
+            if not return_values:
+                return None
 
-        # We will use a temp file to cache the results so that they are not all living
-        # in memory. We'll use pickle to serialize the results to file in order to maintain
-        # the proper data types (e.g. integer).
-        temp_filename = create_temp_file()
+            # We will use a temp file to cache the results so that they are not all living
+            # in memory. We'll use pickle to serialize the results to file in order to maintain
+            # the proper data types (e.g. integer).
+            temp_filename = create_temp_file()
 
-        wrote_header = False
-        with open(temp_filename, "wb") as temp_file:
-            # Track whether we got data, since if we don't get any results we need to return None
-            got_results = False
-            while True:
-                batch = cursor.fetchmany(QUERY_BATCH_SIZE)
-                if len(batch) == 0:
-                    break
+            wrote_header = False
+            with open(temp_filename, "wb") as temp_file:
+                # Track whether we got data, since if we don't get any results we need to return None
+                got_results = False
+                while True:
+                    batch = cursor.fetchmany(QUERY_BATCH_SIZE)
+                    if len(batch) == 0:
+                        break
 
-                got_results = True
+                    got_results = True
 
-                for row in batch:
-                    # Make sure we write out the header once and only once
-                    if not wrote_header:
-                        wrote_header = True
-                        header = list(row.keys())
-                        pickle.dump(header, temp_file)
+                    for row in batch:
+                        # Make sure we write out the header once and only once
+                        if not wrote_header:
+                            wrote_header = True
+                            header = list(row.keys())
+                            pickle.dump(header, temp_file)
 
-                    row_data = list(row.values())
-                    pickle.dump(row_data, temp_file)
+                        row_data = list(row.values())
+                        pickle.dump(row_data, temp_file)
 
-        if not got_results:
+            if not got_results:
+                return None
+
+            ptable = petl.frompickle(temp_filename)
+            final_table = Table(ptable)
+
+            return final_table
+
+    def query_with_transaction(self, queries, parameters=None):
+        queries_with_semicolons = [ends_with_semicolon(q) for q in queries]
+        queries_on_newlines = "\n".join(queries_with_semicolons)
+        queries_wrapped = f"""
+        BEGIN
+            BEGIN TRANSACTION;
+            
+            {queries_on_newlines}
+
+            COMMIT TRANSACTION;
+
+            EXCEPTION WHEN ERROR THEN
+            -- Roll back the transaction inside the exception handler.
+            SELECT @@error.message;
+            ROLLBACK TRANSACTION;
+        END;
+        """
+        self.query(sql=queries_wrapped, parameters=parameters, return_values=False)
+
+    def copy_from_gcs(
+        self,
+        gcs_blob_uri: str,
+        table_name: str,
+        if_exists: str = "fail",
+        max_errors: int = 0,
+        data_type: str = "csv",
+        csv_delimiter: str = ",",
+        ignoreheader: int = 1,
+        nullas: str = None,
+        allow_quoted_newlines: bool = True,
+        quote: str = None,
+        schema: list = None,
+        job_config: Optional[LoadJobConfig] = None,
+        **load_kwargs,
+    ):
+        """
+        Copy a csv saved in Google Cloud Storage into Google BigQuery.
+
+        `Args:`
+            gcs_blob_uri: str
+                The GoogleCloudStorage URI referencing the file to be copied.
+            table_name: str
+                The table name to load the data into.
+            if_exists: str
+                If the table already exists, either ``fail``, ``append``, ``drop``
+                or ``truncate`` the table. This maps to `write_disposition` in the
+                `LoadJobConfig` class.
+            max_errors: int
+                The maximum number of rows that can error and be skipped before
+                the job fails. This maps to `max_bad_records` in the `LoadJobConfig` class.
+            data_type: str
+                Denotes whether target file is a JSON or CSV
+            csv_delimiter: str
+                Character used to separate values in the target file
+            ignoreheader: int
+                Treats the specified number_rows as a file header and doesn't load them
+            nullas: str
+                Loads fields that match null_string as NULL, where null_string can be any string
+            allow_quoted_newlines: bool
+                If True, detects quoted new line characters within a CSV field and does not interpret
+                the quoted new line character as a row boundary
+            quote: str
+                The value that is used to quote data sections in a CSV file.
+                BigQuery converts the string to ISO-8859-1 encoding, and then uses the first byte of
+                the encoded string to split the data in its raw, binary state.
+            schema: list
+                BigQuery expects a list of dictionaries in the following format
+                ```
+                schema = [
+                    {"name": "column_name", "type": STRING},
+                    {"name": "another_column_name", "type": INT}
+                ]
+                ```
+            job_config: object
+                A LoadJobConfig object to provide to the underlying call to load_table_from_uri
+                on the BigQuery client. The function will create its own if not provided. Note
+                if there are any conflicts between the job_config and other parameters, the
+                job_config values are preferred.
+            **load_kwargs: kwargs
+                Other arguments to pass to the underlying load_table_from_uri call on the BigQuery
+                client.
+        """
+        if if_exists not in ["fail", "truncate", "append", "drop"]:
+            raise ValueError(
+                f"Unexpected value for if_exists: {if_exists}, must be one of "
+                '"append", "drop", "truncate", or "fail"'
+            )
+        if data_type not in ["csv", "json"]:
+            raise ValueError(
+                f"Only supports csv or json files [data_type = {data_type}]"
+            )
+
+        table_exists = self.table_exists(table_name)
+
+        job_config = self.__process_job_config(
+            job_config=job_config,
+            table_exists=table_exists,
+            table_name=table_name,
+            if_exists=if_exists,
+            max_errors=max_errors,
+            data_type=data_type,
+            csv_delimiter=csv_delimiter,
+            ignoreheader=ignoreheader,
+            nullas=nullas,
+            allow_quoted_newlines=allow_quoted_newlines,
+            quote=quote,
+            schema=schema,
+        )
+
+        # load CSV from Cloud Storage into BigQuery
+        table_ref = get_table_ref(self.client, table_name)
+
+        load_job = self.client.load_table_from_uri(
+            source_uris=gcs_blob_uri,
+            destination=table_ref,
+            job_config=job_config,
+            **load_kwargs,
+        )
+
+        load_job.result()
+
+    def copy_s3(
+        self,
+        table_name,
+        bucket,
+        key,
+        if_exists: str = "fail",
+        max_errors: int = 0,
+        data_type: str = "csv",
+        csv_delimiter: str = ",",
+        ignoreheader: int = 1,
+        nullas: str = None,
+        aws_access_key_id=None,
+        aws_secret_access_key=None,
+        gcs_client: Optional[GoogleCloudStorage] = None,
+        tmp_gcs_bucket: Optional[str] = None,
+        job_config: Optional[LoadJobConfig] = None,
+        **load_kwargs,
+    ):
+        """
+        Copy a file from s3 to BigQuery.
+
+        `Args:`
+            table_name: str
+                The table name and schema (``tmc.cool_table``) to point the file.
+            bucket: str
+                The s3 bucket where the file or manifest is located.
+            key: str
+                The key of the file or manifest in the s3 bucket.
+            if_exists: str
+                If the table already exists, either ``fail``, ``append``, ``drop``
+                or ``truncate`` the table.
+            max_errors: int
+                The maximum number of rows that can error and be skipped before
+                the job fails.
+            data_type: str
+                The data type of the file. Only ``csv`` supported currently.
+            csv_delimiter: str
+                The delimiter of the ``csv``. Only relevant if data_type is ``csv``.
+            ignoreheader: int
+                The number of header rows to skip. Ignored if data_type is ``json``.
+            nullas: str
+                Loads fields that match string as NULL
+            aws_access_key_id:
+                An AWS access key granted to the bucket where the file is located. Not required
+                if keys are stored as environmental variables.
+            aws_secret_access_key:
+                An AWS secret access key granted to the bucket where the file is located. Not
+                required if keys are stored as environmental variables.
+            gcs_client: object
+                The GoogleCloudStorage Connector to use for loading data into Google Cloud Storage.
+            tmp_gcs_bucket: str
+                The name of the Google Cloud Storage bucket to use to stage the data to load
+                into BigQuery. Required if `GCS_TEMP_BUCKET` is not specified.
+            job_config: object
+                A LoadJobConfig object to provide to the underlying call to load_table_from_uri
+                on the BigQuery client. The function will create its own if not provided. Note
+                if there are any conflicts between the job_config and other parameters, the
+                job_config values are preferred.
+
+        `Returns`
+            Parsons Table or ``None``
+                See :ref:`parsons-table` for output options.
+        """
+
+        # copy from S3 to GCS
+        tmp_gcs_bucket = check_env.check("GCS_TEMP_BUCKET", tmp_gcs_bucket)
+        gcs_client = gcs_client or GoogleCloudStorage()
+        temp_blob_uri = gcs_client.copy_s3_to_gcs(
+            aws_source_bucket=bucket,
+            aws_access_key_id=aws_access_key_id,
+            aws_secret_access_key=aws_secret_access_key,
+            gcs_sink_bucket=tmp_gcs_bucket,
+            aws_s3_key=key,
+        )
+        temp_blob_name = key
+        temp_blob_uri = gcs_client.format_uri(
+            bucket=tmp_gcs_bucket, name=temp_blob_name
+        )
+
+        # load CSV from Cloud Storage into BigQuery
+        try:
+            self.copy_from_gcs(
+                gcs_blob_uri=temp_blob_uri,
+                table_name=table_name,
+                if_exists=if_exists,
+                max_errors=max_errors,
+                data_type=data_type,
+                csv_delimiter=csv_delimiter,
+                ignoreheader=ignoreheader,
+                nullas=nullas,
+                job_config=job_config,
+                **load_kwargs,
+            )
+        finally:
+            gcs_client.delete_blob(tmp_gcs_bucket, temp_blob_name)
+
+    def copy(
+        self,
+        tbl: Table,
+        table_name: str,
+        if_exists: str = "fail",
+        max_errors: int = 0,
+        tmp_gcs_bucket: Optional[str] = None,
+        gcs_client: Optional[GoogleCloudStorage] = None,
+        job_config: Optional[LoadJobConfig] = None,
+        **load_kwargs,
+    ):
+        """
+        Copy a :ref:`parsons-table` into Google BigQuery via Google Cloud Storage.
+
+        `Args:`
+            tbl: obj
+                The Parsons Table to copy into BigQuery.
+            table_name: str
+                The table name to load the data into.
+            if_exists: str
+                If the table already exists, either ``fail``, ``append``, ``drop``
+                or ``truncate`` the table.
+            max_errors: int
+                The maximum number of rows that can error and be skipped before
+                the job fails.
+            tmp_gcs_bucket: str
+                The name of the Google Cloud Storage bucket to use to stage the data to load
+                into BigQuery. Required if `GCS_TEMP_BUCKET` is not specified.
+            gcs_client: object
+                The GoogleCloudStorage Connector to use for loading data into Google Cloud Storage.
+            job_config: object
+                A LoadJobConfig object to provide to the underlying call to load_table_from_uri
+                on the BigQuery client. The function will create its own if not provided.
+            **load_kwargs: kwargs
+                Arguments to pass to the underlying load_table_from_uri call on the BigQuery
+                client.
+        """
+        tmp_gcs_bucket = check_env.check("GCS_TEMP_BUCKET", tmp_gcs_bucket)
+
+        # if not job_config:
+        job_config = bigquery.LoadJobConfig()
+        if not job_config.schema:
+            job_config.schema = self._generate_schema_from_parsons_table(tbl)
+
+        gcs_client = gcs_client or GoogleCloudStorage()
+        temp_blob_name = f"{uuid.uuid4()}.csv"
+        temp_blob_uri = gcs_client.upload_table(tbl, tmp_gcs_bucket, temp_blob_name)
+
+        # load CSV from Cloud Storage into BigQuery
+        try:
+            self.copy_from_gcs(
+                tbl=tbl,
+                gcs_blob_uri=temp_blob_uri,
+                table_name=table_name,
+                if_exists=if_exists,
+                max_errors=max_errors,
+                job_config=job_config,
+                **load_kwargs,
+            )
+        finally:
+            gcs_client.delete_blob(tmp_gcs_bucket, temp_blob_name)
+
+    def duplicate_table(
+        self,
+        source_table,
+        destination_table,
+        if_exists="fail",
+        drop_source_table=False,
+    ):
+        """
+        Create a copy of an existing table (or subset of rows) in a new
+        table.
+
+        `Args:`
+            source_table: str
+                Name of existing schema and table (e.g. ``myschema.oldtable``)
+            destination_table: str
+                Name of destination schema and table (e.g. ``myschema.newtable``)
+            if_exists: str
+                If the table already exists, either ``fail``, ``replace``, or ``ignore`` the operation.
+            drop_source_table: boolean
+                Drop the source table
+        """
+        if if_exists not in ["fail", "replace", "ignore"]:
+            raise ValueError("Invalid value for `if_exists` argument")
+        if if_exists == "fail" and self.table_exists(destination_table):
+            raise ValueError("Table already exists.")
+
+        query = f"""
+            CREATE {'OR REPLACE ' if if_exists == 'replace' else ''}TABLE{' IF NOT EXISTS' if if_exists == 'ignore' else ''}
+            {destination_table}
+            CLONE {source_table}
+        """
+        if drop_source_table:
+            query = self._wrap_queries_in_transaction(
+                queries=[query, f"DROP TABLE {source_table}"]
+            )
+
+        return self.query(query)
+
+    def upsert(
+        self,
+        table_obj,
+        target_table,
+        primary_key,
+        distinct_check=True,
+        cleanup_temp_table=True,
+        from_s3=False,
+        **copy_args,
+    ):
+        """
+        Preform an upsert on an existing table. An upsert is a function in which rows
+        in a table are updated and inserted at the same time.
+
+        `Args:`
+            table_obj: obj
+                A Parsons table object
+            target_table: str
+                The schema and table name to upsert
+            primary_key: str or list
+                The primary key column(s) of the target table
+            distinct_check: boolean
+                Check if the primary key column is distinct. Raise error if not.
+            cleanup_temp_table: boolean
+                A temp table is dropped by default on cleanup. You can set to False for debugging.
+            from_s3: boolean
+                Instead of specifying a table_obj (set the first argument to None),
+                set this to True and include :func:`~parsons.databases.Redshift.copy_s3` arguments
+                to upsert a pre-existing s3 file into the target_table
+            \**copy_args: kwargs
+                See :func:`~parsons.databases.Redshift.copy` for options.
+        """  # noqa: W605
+        if not self.table_exists(target_table):
+            logger.info(
+                "Target table does not exist. Copying into newly \
+                         created target table."
+            )
+
+            self.copy(table_obj, target_table)
             return None
 
-        ptable = petl.frompickle(temp_filename)
-        final_table = Table(ptable)
+        if isinstance(primary_key, str):
+            primary_keys = [primary_key]
+        else:
+            primary_keys = primary_key
 
-        return final_table
+        if distinct_check:
+            primary_keys_statement = ", ".join(primary_keys)
+            diff = self.query(
+                f"""
+                select (
+                    select count(*)
+                    from {target_table}
+                ) - (
+                    SELECT COUNT(*) from (
+                        select distinct {primary_keys_statement}
+                        from {target_table}
+                    )
+                ) as total_count
+            """
+            ).first
+            if diff > 0:
+                raise ValueError("Primary key column contains duplicate values.")
+
+        noise = f"{random.randrange(0, 10000):04}"[:4]
+        date_stamp = datetime.datetime.now().strftime("%Y%m%d_%H%M")
+        # Generate a temp table like "table_tmp_20200210_1230_14212"
+        staging_tbl = f"{target_table}_stg_{date_stamp}_{noise}"
+
+        # Copy to a staging table
+        logger.info(f"Building staging table: {staging_tbl}")
+
+        if from_s3:
+            if table_obj is not None:
+                raise ValueError(
+                    "upsert(... from_s3=True) requires the first argument (table_obj)"
+                    " to be None. from_s3 and table_obj are mutually exclusive."
+                )
+            self.copy_s3(staging_tbl, template_table=target_table, **copy_args)
+
+        else:
+            self.copy(
+                table_obj,
+                staging_tbl,
+                template_table=target_table,
+                **copy_args,
+            )
+
+        staging_table_name = staging_tbl.split(".")[1]
+        target_table_name = target_table.split(".")[1]
+
+        # Delete rows
+        comparisons = [
+            f"{staging_table_name}.{primary_key} = {target_table_name}.{primary_key}"
+            for primary_key in primary_keys
+        ]
+        where_clause = " and ".join(comparisons)
+
+        queries = [
+            f"""
+                DELETE FROM {target_table}
+                USING {staging_tbl}
+                WHERE {where_clause}
+                """,
+            f"""
+                INSERT INTO {target_table}
+                SELECT * FROM {staging_tbl}
+                """,
+        ]
+
+        if cleanup_temp_table:
+            # Drop the staging table
+            queries.append(f"DROP TABLE IF EXISTS {staging_tbl}")
+
+        transaction_query = self._wrap_queries_in_transaction(queries=queries)
+
+        return self.query(transaction_query)
+
+    def delete_table(self, table_name):
+        """
+        Delete a BigQuery table.
+
+        `Args:`
+            table_name: str
+                The name of the table to delete.
+        """
+        table_ref = get_table_ref(self.client, table_name)
+        self.client.delete_table(table_ref)
 
     def table_exists(self, table_name: str) -> bool:
         """
@@ -290,21 +857,68 @@ class GoogleBigQuery(DatabaseConnector):
 
         return True
 
-    @property
-    def client(self):
+    def get_tables(self, schema, table_name=None):
         """
-        Get the Google BigQuery client to use for making queries.
+        List the tables in a schema including metadata.
 
+        Args:
+            schema: str
+                Filter by a schema
+            table_name: str
+                Filter by a table name
         `Returns:`
-            `google.cloud.bigquery.client.Client`
+            Parsons Table
+                See :ref:`parsons-table` for output options.
         """
-        if not self._client:
-            # Create a BigQuery client to use to make the query
-            self._client = bigquery.Client(project=self.project, location=self.location)
 
-        return self._client
+        logger.info("Retrieving tables info.")
+        sql = f"select * from {schema}.INFORMATION_SCHEMA.TABLES"
+        if table_name:
+            sql += f" where table_name = '{table_name}'"
+        return self.query(sql)
 
-    def _generate_schema(self, tbl):
+    def get_views(self, schema, view=None):
+        """
+        List views.
+
+        Args:
+            schema: str
+                Filter by a schema
+            view: str
+                Filter by a table name
+        `Returns:`
+            Parsons Table
+                See :ref:`parsons-table` for output options.
+        """
+
+        logger.info("Retrieving views info.")
+        sql = f"""
+              select 
+                table_schema as schema_name,
+                table_name as view_name,
+                view_definition
+              from {schema}.INFORMATION_SCHEMA.VIEWS
+              """
+        if view:
+            sql += f" where table_name = '{view}'"
+        return self.query(sql)
+
+    def _wrap_queries_in_transaction(self, queries: List[str]):
+        joined_queries = queries.join("; \n")
+        wrapped_queries = f"""
+            BEGIN
+                BEGIN TRANSACTION;
+                {joined_queries}
+
+            EXCEPTION WHEN ERROR THEN
+                -- Roll back the transaction inside the exception handler.
+                SELECT @@error.message;
+                ROLLBACK TRANSACTION;
+            END;
+        """
+        return wrapped_queries
+
+    def _generate_schema_from_parsons_table(self, tbl):
         stats = tbl.get_columns_type_stats()
         fields = []
         for stat in stats:
@@ -315,6 +929,14 @@ class GoogleBigQuery(DatabaseConnector):
             fields.append(field)
         return fields
 
+    def _generate_schema_from_gcs(self, gcs_blob_uri):
+        # TODO: need to implement this?
+        # if so, consider using GoogleCloudStorage class
+        # downloading blob as local file
+        # converting local file to Parsons table
+        # using the _generate_schema_from_parsons_table function
+        return None
+
     @staticmethod
     def _bigquery_type(tp):
         return BIGQUERY_TYPE_MAP[tp]
@@ -324,9 +946,55 @@ class GoogleBigQuery(DatabaseConnector):
 
         return BigQueryTable(self, table_name)
 
+    def create_load_statement_from_file(
+        self,
+        table_name: str,
+        gcs_blob_uri: str,
+        schema: dict,
+        if_exists: str = "drop",
+        file_format: str = "csv",
+        delimiter: str = ",",
+    ) -> str:
+        """
+        Generates a load statement to import data from a file into a BigQuery table
+
+        `Args`:
+            table_name: str
+            gcs_blob_uri: str
+            if_exists: str
+            schema: dict
+
+        `Returns`:
+            String representation of LOAD SQL statement
+        """
+
+        schema_string = ",".join([f"{k} {v}" for k, v in schema.items()])
+
+        if if_exists in ["drop", "truncate"]:
+            load_keyword = "OVERWRITE"
+        elif if_exists == "append":
+            load_keyword = "INTO"
+
+        ###
+
+        load_statement = f"""
+        LOAD DATA {load_keyword} {table_name}
+        (
+            {schema_string}
+        )
+
+        FROM FILES (
+            format='{file_format.upper()}',
+            uris=['{gcs_blob_uri}'],
+            field_delimiter={delimiter}
+        )
+        """
+
+        return load_statement
+
 
 class BigQueryTable(BaseTable):
-    # BigQuery table object.
+    """BigQuery table object."""
 
     def drop(self, cascade=False):
         """

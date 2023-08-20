@@ -135,15 +135,8 @@ class DatabaseConnector(ABC):
         """
         pass
 
-    @abstractmethod  # TODO: does postgres/mysql have max errors too?
-    def copy(
-        self,
-        tbl: Table,
-        table_name: str,
-        if_exists: str,
-        max_errors: int = 0,
-        **copy_kwargs
-    ):
+    @abstractmethod
+    def copy(self, tbl: Table, table_name: str, if_exists: str):
         """Copy a :ref:`parsons-table` to the database.
 
         `Args`:
@@ -154,9 +147,6 @@ class DatabaseConnector(ABC):
             if_exists (str):
                 If the table already exists, either ``fail``, ``append``, ``drop``
                 or ``truncate`` the table.
-            max_errors (int):
-                The maximum number of rows that can error and be skipped before
-                the job fails.
         """
         pass
 

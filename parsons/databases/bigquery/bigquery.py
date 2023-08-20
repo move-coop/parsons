@@ -153,82 +153,6 @@ class BigQuery(DatabaseConnector):
 
         self.dialect = "bigquery"
 
-    def __process_job_config(
-        self, job_config: Optional[LoadJobConfig] = None, **kwargs
-    ) -> LoadJobConfig:
-        """
-        Internal function to neatly process a user-supplied job configuration object.
-        As a convention, if both the job_config and keyword arguments specify a value,
-        we defer to the job_config.
-
-        `Args`:
-            job_config: `LoadJobConfig`
-                Optionally supplied GCS `LoadJobConfig` object
-
-        `Returns`:
-            A `LoadJobConfig` object
-        """
-
-        if not job_config:
-            job_config = bigquery.LoadJobConfig()
-
-        if not job_config.schema and kwargs["schema"]:
-            logger.info("Using user-supplied schema definition...")
-            schema_in_format = {
-                "fields": map_column_headers_to_schema_field(kwargs["schema"])
-            }
-
-            job_config.schema = schema_in_format
-            job_config.autodetect = False
-        else:
-            logger.info("Autodetecting schema definition...")
-            job_config.autodetect = True
-
-        if not job_config.create_disposition:
-            job_config.create_disposition = bigquery.CreateDisposition.CREATE_IF_NEEDED
-
-        if not job_config.max_bad_records:
-            job_config.max_bad_records = kwargs["max_errors"]
-
-        if not job_config.skip_leading_rows:
-            job_config.skip_leading_rows = kwargs["ignoreheader"]
-
-        if not job_config.source_format:
-            job_config.source_format = (
-                bigquery.SourceFormat.CSV
-                if kwargs["data_type"] == "csv"
-                else bigquery.SourceFormat.JSON
-            )
-
-        if not job_config.field_delimiter:
-            if kwargs["data_type"] == "csv":
-                job_config.field_delimiter = kwargs["csv_delimiter"]
-            if kwargs["nullas"]:
-                job_config.null_marker = kwargs["nullas"]
-
-        if not job_config.write_disposition:
-            if kwargs["table_exists"]:
-                if kwargs["if_exists"] == "fail":
-                    raise ValueError("Table already exists.")
-                elif kwargs["if_exists"] == "drop":
-                    self.delete_table(kwargs["table_name"])
-                    job_config.write_disposition = bigquery.WriteDisposition.WRITE_EMPTY
-                elif kwargs["if_exists"] == "append":
-                    job_config.write_disposition = (
-                        bigquery.WriteDisposition.WRITE_APPEND
-                    )
-                elif kwargs["if_exists"] == "truncate":
-                    job_config.write_disposition = (
-                        bigquery.WriteDisposition.WRITE_TRUNCATE
-                    )
-        if not job_config.allow_quoted_newlines:
-            job_config.allow_quoted_newlines = kwargs["allow_quoted_newlines"]
-
-        if not job_config.quote_character and kwargs["quote"]:
-            job_config.quote_character = kwargs["quote"]
-
-        return job_config
-
     @property
     def client(self):
         """
@@ -929,13 +853,81 @@ class BigQuery(DatabaseConnector):
             fields.append(field)
         return fields
 
-    def _generate_schema_from_gcs(self, gcs_blob_uri):
-        # TODO: need to implement this?
-        # if so, consider using GoogleCloudStorage class
-        # downloading blob as local file
-        # converting local file to Parsons table
-        # using the _generate_schema_from_parsons_table function
-        return None
+    def _process_job_config(
+        self, job_config: Optional[LoadJobConfig] = None, **kwargs
+    ) -> LoadJobConfig:
+        """
+        Internal function to neatly process a user-supplied job configuration object.
+        As a convention, if both the job_config and keyword arguments specify a value,
+        we defer to the job_config.
+
+        `Args`:
+            job_config: `LoadJobConfig`
+                Optionally supplied GCS `LoadJobConfig` object
+
+        `Returns`:
+            A `LoadJobConfig` object
+        """
+
+        if not job_config:
+            job_config = bigquery.LoadJobConfig()
+
+        if not job_config.schema and kwargs["schema"]:
+            logger.info("Using user-supplied schema definition...")
+            schema_in_format = {
+                "fields": map_column_headers_to_schema_field(kwargs["schema"])
+            }
+
+            job_config.schema = schema_in_format
+            job_config.autodetect = False
+        else:
+            logger.info("Autodetecting schema definition...")
+            job_config.autodetect = True
+
+        if not job_config.create_disposition:
+            job_config.create_disposition = bigquery.CreateDisposition.CREATE_IF_NEEDED
+
+        if not job_config.max_bad_records:
+            job_config.max_bad_records = kwargs["max_errors"]
+
+        if not job_config.skip_leading_rows:
+            job_config.skip_leading_rows = kwargs["ignoreheader"]
+
+        if not job_config.source_format:
+            job_config.source_format = (
+                bigquery.SourceFormat.CSV
+                if kwargs["data_type"] == "csv"
+                else bigquery.SourceFormat.JSON
+            )
+
+        if not job_config.field_delimiter:
+            if kwargs["data_type"] == "csv":
+                job_config.field_delimiter = kwargs["csv_delimiter"]
+            if kwargs["nullas"]:
+                job_config.null_marker = kwargs["nullas"]
+
+        if not job_config.write_disposition:
+            if kwargs["table_exists"]:
+                if kwargs["if_exists"] == "fail":
+                    raise ValueError("Table already exists.")
+                elif kwargs["if_exists"] == "drop":
+                    self.delete_table(kwargs["table_name"])
+                    job_config.write_disposition = bigquery.WriteDisposition.WRITE_EMPTY
+                elif kwargs["if_exists"] == "append":
+                    job_config.write_disposition = (
+                        bigquery.WriteDisposition.WRITE_APPEND
+                    )
+                elif kwargs["if_exists"] == "truncate":
+                    job_config.write_disposition = (
+                        bigquery.WriteDisposition.WRITE_TRUNCATE
+                    )
+        if not job_config.allow_quoted_newlines:
+            job_config.allow_quoted_newlines = kwargs["allow_quoted_newlines"]
+
+        if not job_config.quote_character and kwargs["quote"]:
+            job_config.quote_character = kwargs["quote"]
+
+        return job_config
 
     @staticmethod
     def _bigquery_type(tp):
@@ -945,52 +937,6 @@ class BigQuery(DatabaseConnector):
         # Return a MySQL table object
 
         return BigQueryTable(self, table_name)
-
-    def create_load_statement_from_file(
-        self,
-        table_name: str,
-        gcs_blob_uri: str,
-        schema: dict,
-        if_exists: str = "drop",
-        file_format: str = "csv",
-        delimiter: str = ",",
-    ) -> str:
-        """
-        Generates a load statement to import data from a file into a BigQuery table
-
-        `Args`:
-            table_name: str
-            gcs_blob_uri: str
-            if_exists: str
-            schema: dict
-
-        `Returns`:
-            String representation of LOAD SQL statement
-        """
-
-        schema_string = ",".join([f"{k} {v}" for k, v in schema.items()])
-
-        if if_exists in ["drop", "truncate"]:
-            load_keyword = "OVERWRITE"
-        elif if_exists == "append":
-            load_keyword = "INTO"
-
-        ###
-
-        load_statement = f"""
-        LOAD DATA {load_keyword} {table_name}
-        (
-            {schema_string}
-        )
-
-        FROM FILES (
-            format='{file_format.upper()}',
-            uris=['{gcs_blob_uri}'],
-            field_delimiter={delimiter}
-        )
-        """
-
-        return load_statement
 
 
 class BigQueryTable(BaseTable):

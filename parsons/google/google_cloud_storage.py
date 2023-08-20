@@ -420,12 +420,12 @@ class GoogleCloudStorage(object):
                 },
             }
 
-        transfer_job_request = storage_transfer.CreateTransferJobRequest(
+        create_transfer_job_request = storage_transfer.CreateTransferJobRequest(
             {"transfer_job": transfer_job_config}
         )
 
         # Create the transfer job
-        create_result = client.create_transfer_job(transfer_job_request)
+        create_result = client.create_transfer_job(create_transfer_job_request)
         logger.info(f"Created TransferJob: {create_result.name}")
 
         polling = True
@@ -439,19 +439,13 @@ class GoogleCloudStorage(object):
         latest_operation_name = create_result.latest_operation_name
 
         while polling and wait_time < max_wait_in_sec:
-            # Check to see if we have an operation name
             if latest_operation_name:
-                # If we have a name, check the response
-                operation = client.get_operation(
-                    {"name": get_result.latest_operation_name}
-                )
+                operation = client.get_operation({"name": latest_operation_name})
 
                 if not operation.done:
                     logger.info("Operation still running...")
 
                 else:
-                    # Raise an exception if we receive one
-                    # TODO - Can we assume this can be safely cast to an int?
                     if int(operation.error.code) not in StatusCode["OK"].value:
                         raise Exception(
                             f"""{blob_storage} to GCS Transfer Job {create_result.name} failed with error: {operation.error.message}
@@ -463,20 +457,17 @@ class GoogleCloudStorage(object):
 
             else:
                 logger.info("Waiting to kickoff operation...")
-                transfer_job = storage_transfer.GetTransferJobRequest(
+                get_transfer_job_request = storage_transfer.GetTransferJobRequest(
                     {"job_name": create_result.name, "project_id": self.project}
                 )
-                get_result = client.get_transfer_job(request=transfer_job)
+                get_result = client.get_transfer_job(request=get_transfer_job_request)
                 latest_operation_name = get_result.latest_operation_name
 
             wait_time += wait_between_attempts_in_sec
             time.sleep(wait_between_attempts_in_sec)
 
-        # TODO: operation.status is not a valid attribute
         raise Exception(
-            f"""{blob_storage} to GCS Transfer Job {create_result.name} timedout.
-            Final status: {operation.status}
-            """
+            f"{blob_storage} to GCS Transfer Job {create_result.name} timedout."
         )
 
     def format_uri(self, bucket: str, name: str):

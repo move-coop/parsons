@@ -62,25 +62,21 @@ class Postgres(PostgresCore, Alchemy, DatabaseConnector):
         strict_length: bool = False,
     ):
         """
-                Copy a :ref:`parsons-table` to Postgres.
+        Copy a :ref:`parsons-table` to Postgres.
 
-                `Args:`
-                    tbl: parsons.Table
-                        A Parsons table object
-                    table_name: str
-                        The destination schema and table (e.g. ``my_schema.my_table``)
-                    if_exists: str
-                        If the table already exists, either ``fail``, ``append``, ``drop``
-                        or ``truncate`` the table.
-                    strict_length: bool
-                        If the database table needs to be created, strict_length determines whether
-                        the created table's column sizes will be sized to exactly fit the current data,
-                        or if their size will be rounded up to account for future values being larger
-        <<<<<<< HEAD
-                        then the current dataset. Defaults to ``True``.
-        =======
-                        then the current dataset. Defaults to ``False``.
-        >>>>>>> major-release
+        `Args:`
+            tbl: parsons.Table
+                A Parsons table object
+            table_name: str
+                The destination schema and table (e.g. ``my_schema.my_table``)
+            if_exists: str
+                If the table already exists, either ``fail``, ``append``, ``drop``
+                or ``truncate`` the table.
+            strict_length: bool
+                If the database table needs to be created, strict_length determines whether
+                the created table's column sizes will be sized to exactly fit the current data,
+                or if their size will be rounded up to account for future values being larger
+                then the current dataset. Defaults to ``False``.
         """
 
         with self.connection() as connection:

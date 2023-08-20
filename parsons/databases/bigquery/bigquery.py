@@ -282,37 +282,7 @@ class BigQuery(DatabaseConnector):
             if not return_values:
                 return None
 
-            # We will use a temp file to cache the results so that they are not all living
-            # in memory. We'll use pickle to serialize the results to file in order to maintain
-            # the proper data types (e.g. integer).
-            temp_filename = create_temp_file()
-
-            wrote_header = False
-            with open(temp_filename, "wb") as temp_file:
-                # Track whether we got data, since if we don't get any results we need to return None
-                got_results = False
-                while True:
-                    batch = cursor.fetchmany(QUERY_BATCH_SIZE)
-                    if len(batch) == 0:
-                        break
-
-                    got_results = True
-
-                    for row in batch:
-                        # Make sure we write out the header once and only once
-                        if not wrote_header:
-                            wrote_header = True
-                            header = list(row.keys())
-                            pickle.dump(header, temp_file)
-
-                        row_data = list(row.values())
-                        pickle.dump(row_data, temp_file)
-
-            if not got_results:
-                return None
-
-            ptable = petl.frompickle(temp_filename)
-            final_table = Table(ptable)
+            final_table = self._fetch_query_results(cursor=cursor)
 
             return final_table
 
@@ -410,7 +380,7 @@ class BigQuery(DatabaseConnector):
 
         table_exists = self.table_exists(table_name)
 
-        job_config = self.__process_job_config(
+        job_config = self._process_job_config(
             job_config=job_config,
             table_exists=table_exists,
             table_name=table_name,
@@ -584,7 +554,6 @@ class BigQuery(DatabaseConnector):
         # load CSV from Cloud Storage into BigQuery
         try:
             self.copy_from_gcs(
-                tbl=tbl,
                 gcs_blob_uri=temp_blob_uri,
                 table_name=table_name,
                 if_exists=if_exists,
@@ -907,20 +876,18 @@ class BigQuery(DatabaseConnector):
                 job_config.null_marker = kwargs["nullas"]
 
         if not job_config.write_disposition:
-            if kwargs["table_exists"]:
-                if kwargs["if_exists"] == "fail":
-                    raise ValueError("Table already exists.")
-                elif kwargs["if_exists"] == "drop":
-                    self.delete_table(kwargs["table_name"])
-                    job_config.write_disposition = bigquery.WriteDisposition.WRITE_EMPTY
-                elif kwargs["if_exists"] == "append":
-                    job_config.write_disposition = (
-                        bigquery.WriteDisposition.WRITE_APPEND
-                    )
-                elif kwargs["if_exists"] == "truncate":
-                    job_config.write_disposition = (
-                        bigquery.WriteDisposition.WRITE_TRUNCATE
-                    )
+            if kwargs["if_exists"] == "append":
+                job_config.write_disposition = bigquery.WriteDisposition.WRITE_APPEND
+            elif kwargs["if_exists"] == "truncate":
+                job_config.write_disposition = bigquery.WriteDisposition.WRITE_TRUNCATE
+            elif kwargs["table_exists"] and kwargs["if_exists"] == "fail":
+                raise Exception("Table already exists.")
+            elif kwargs["if_exists"] == "drop" and kwargs["table_exists"]:
+                self.delete_table(kwargs["table_name"])
+                job_config.write_disposition = bigquery.WriteDisposition.WRITE_EMPTY
+            else:
+                job_config.write_disposition = bigquery.WriteDisposition.WRITE_EMPTY
+
         if not job_config.allow_quoted_newlines:
             job_config.allow_quoted_newlines = kwargs["allow_quoted_newlines"]
 
@@ -928,6 +895,39 @@ class BigQuery(DatabaseConnector):
             job_config.quote_character = kwargs["quote"]
 
         return job_config
+
+    def _fetch_query_results(self, cursor) -> Table:
+        # We will use a temp file to cache the results so that they are not all living
+        # in memory. We'll use pickle to serialize the results to file in order to maintain
+        # the proper data types (e.g. integer).
+        temp_filename = create_temp_file()
+
+        wrote_header = False
+        with open(temp_filename, "wb") as temp_file:
+            # Track whether we got data, since if we don't get any results we need to return None
+            got_results = False
+            while True:
+                batch = cursor.fetchmany(QUERY_BATCH_SIZE)
+                if len(batch) == 0:
+                    break
+
+                got_results = True
+
+                for row in batch:
+                    # Make sure we write out the header once and only once
+                    if not wrote_header:
+                        wrote_header = True
+                        header = list(row.keys())
+                        pickle.dump(header, temp_file)
+
+                    row_data = list(row.values())
+                    pickle.dump(row_data, temp_file)
+
+        if not got_results:
+            return None
+
+        ptable = petl.frompickle(temp_filename)
+        return Table(ptable)
 
     @staticmethod
     def _bigquery_type(tp):

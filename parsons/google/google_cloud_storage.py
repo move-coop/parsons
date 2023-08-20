@@ -134,7 +134,7 @@ class GoogleCloudStorage(object):
         bucket.delete(force=delete_blobs)
         logger.info(f"{bucket_name} bucket deleted.")
 
-    def list_blobs(self, bucket_name, max_results=None, prefix=None, pattern=None):
+    def list_blobs(self, bucket_name, max_results=None, prefix=None, match_glob=None):
         """
         List all of the blobs in a bucket
 
@@ -142,25 +142,20 @@ class GoogleCloudStorage(object):
             bucket_name: str
                 The name of the bucket
             max_results: int
-                TODO - What do we think about this?
-                TBD
+                Maximum number of blobs to return
             prefix: str
                 A prefix to filter files
-            pattern: str
-                TODO - Thinking this can offset the recursive behavior here
-                Filters files based on a pattern
+            match_glob: str
+                Filters files based on glob string
         `Returns:`
             A list of blob names
         """
 
         blobs = self.client.list_blobs(
-            bucket_name, max_results=max_results, prefix=prefix
+            bucket_name, max_results=max_results, prefix=prefix, match_glob=match_glob
         )
         lst = [b.name for b in blobs]
         logger.info(f"Found {len(lst)} in {bucket_name} bucket.")
-
-        if pattern:
-            lst = [x for x in lst if pattern in x]
 
         return lst
 

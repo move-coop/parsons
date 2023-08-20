@@ -168,7 +168,7 @@ class BigQuery(DatabaseConnector):
         return self._client
 
     @contextmanager
-    def connection(self):  # TODO: Is this worth doing given the transaction thing?
+    def connection(self):
         """
         Generate a BigQuery connection.
         The connection is set up as a python "context manager", so it will be closed
@@ -176,6 +176,7 @@ class BigQuery(DatabaseConnector):
         API uses jobs to run database operations and, as such, simply has a no-op for
         a "commit" function. If you would like to manage transactions, please use
         multi-statement queries as [outlined here](https://cloud.google.com/bigquery/docs/transactions)
+        or utilize the `query_with_transaction` method on this class.
 
         When using the connection, make sure to put it in a ``with`` block (necessary for
         any context manager):
@@ -270,7 +271,8 @@ class BigQuery(DatabaseConnector):
                 """
                 BigQuery implementation uses an API client which always auto-commits. If you wish to wrap
                 multiple queries in a transaction, use Mulit-Statement transactions within a single query
-                as outlined here: https://cloud.google.com/bigquery/docs/transactions
+                as outlined here: https://cloud.google.com/bigquery/docs/transactions or use the
+                `query_with_transaction` method on the BigQuery connector.
             """
             )
 

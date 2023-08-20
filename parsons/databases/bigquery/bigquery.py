@@ -158,8 +158,8 @@ class BigQuery(DatabaseConnector):
     ) -> LoadJobConfig:
         """
         Internal function to neatly process a user-supplied job configuration object.
-        As a convention, we defer to the keyword arguments supplied by the user to the
-        `.copy_from_gcs()` function if they are specified
+        As a convention, if both the job_config and keyword arguments specify a value,
+        we defer to the job_config.
 
         `Args`:
             job_config: `LoadJobConfig`
@@ -174,11 +174,12 @@ class BigQuery(DatabaseConnector):
 
         if not job_config.schema and kwargs["schema"]:
             logger.info("Using user-supplied schema definition...")
-            schema_in_format = {"fields": kwargs["schema"]}
+            schema_in_format = {
+                "fields": map_column_headers_to_schema_field(kwargs["schema"])
+            }
 
-            job_config.schema = kwargs["schema"]
+            job_config.schema = schema_in_format
             job_config.autodetect = False
-
         else:
             logger.info("Autodetecting schema definition...")
             job_config.autodetect = True
@@ -470,7 +471,7 @@ class BigQuery(DatabaseConnector):
                 if there are any conflicts between the job_config and other parameters, the
                 job_config values are preferred.
             **load_kwargs: kwargs
-                Arguments to pass to the underlying load_table_from_uri call on the BigQuery
+                Other arguments to pass to the underlying load_table_from_uri call on the BigQuery
                 client.
         """
         if if_exists not in ["fail", "truncate", "append", "drop"]:

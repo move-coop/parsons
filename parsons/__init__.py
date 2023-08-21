@@ -1,7 +1,7 @@
 # Provide shortcuts to importing Parsons submodules and set up logging
 import importlib
-import os
 import logging
+import os
 
 from parsons.etl.table import Table
 
@@ -29,6 +29,7 @@ __all__ = ["Table"]
 for module_path, connector_name in (
     ("parsons.actblue.actblue", "ActBlue"),
     ("parsons.action_kit.action_kit", "ActionKit"),
+    ("parsons.action_builder.action_builder", "ActionBuilder"),
     ("parsons.action_network.action_network", "ActionNetwork"),
     ("parsons.airtable.airtable", "Airtable"),
     ("parsons.alchemer.alchemer", "Alchemer"),
@@ -63,6 +64,7 @@ for module_path, connector_name in (
     ("parsons.hustle.hustle", "Hustle"),
     ("parsons.mailchimp.mailchimp", "Mailchimp"),
     ("parsons.mobilize_america.ma", "MobilizeAmerica"),
+    ("parsons.nation_builder.nation_builder", "NationBuilder"),
     ("parsons.newmode.newmode", "Newmode"),
     ("parsons.ngpvan.van", "VAN"),
     ("parsons.notifications.gmail", "Gmail"),

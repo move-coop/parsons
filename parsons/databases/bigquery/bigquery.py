@@ -106,6 +106,11 @@ def map_column_headers_to_schema_field(schema_definition: list) -> list:
         List of instantiated `SchemaField` objects
     """
 
+    # TODO - Better way to test for this
+    if type(schema_definition[0]) == bigquery.SchemaField:
+        logger.info("User supplied list of SchemaField objects")
+        return schema_definition
+
     return [bigquery.SchemaField(**x) for x in schema_definition]
 
 
@@ -845,11 +850,7 @@ class BigQuery(DatabaseConnector):
 
         if not job_config.schema and kwargs["schema"]:
             logger.info("Using user-supplied schema definition...")
-            schema_in_format = {
-                "fields": map_column_headers_to_schema_field(kwargs["schema"])
-            }
-
-            job_config.schema = schema_in_format
+            job_config.schema = map_column_headers_to_schema_field(kwargs["schema"])
             job_config.autodetect = False
         else:
             logger.info("Autodetecting schema definition...")

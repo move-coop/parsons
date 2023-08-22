@@ -419,9 +419,9 @@ class BigQuery(DatabaseConnector):
             load_job.result()
         except exceptions.BadRequest as e:
             if "one of the files is larger than the maximum allowed size." in str(e):
-                # logger.error(f"Caught @ {gcs_blob_uri}")
-                # logger.error(e)
-                # TODO: Invoke unzip function here
+                logger.info(
+                    f"{gcs_blob_uri.split('/')[-1]} exceeds max size ... running decompression function..."
+                )
                 self.copy_large_compressed_file_from_gcs(
                     gcs_blob_uri=gcs_blob_uri,
                     table_name=table_name,
@@ -540,16 +540,12 @@ class BigQuery(DatabaseConnector):
         blob_name = "/".join(uri_string[1:])
 
         logger.info(f"Downloading {blob_name}...")
+        logger.info(f"Start time: {datetime.datetime.now()}")
         filepath = gcs.download_blob(bucket_name=bucket_name, blob_name=blob_name)
+        logger.info(f"Finished at {datetime.datetime.now()}")
 
-        # TODO - I don't think we need this if downloading the file automatically
-        # decompresses it
-        if is_gzip_path(filepath):
-            open_function = gzip.open
-        else:
-            open_function = open
-
-        with open_function(filepath, "rb") as temp_file:
+        logger.info(f"Opening local file {filepath}...")
+        with gzip.open(filepath, "rb") as temp_file:
             # Load table from file
             table_ref = get_table_ref(self.client, table_name=table_name)
 
@@ -560,6 +556,7 @@ class BigQuery(DatabaseConnector):
                 **load_kwargs,
             )
 
+            logger.info(f"Writing {gcs_blob_uri.split('/')[-1]} to {table_name}")
             load_job.result()
 
     def copy_s3(

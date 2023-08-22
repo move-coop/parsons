@@ -108,6 +108,11 @@ class ActionNetwork(object):
         creating a new one, you must supply an email or mobile number which matches a record
         in the database.
 
+        Identifiers are intentionally not included as an option on
+        this method, because their use can cause buggy behavior if
+        they are not globally unique. ActionNetwork support strongly
+        encourages developers not to use custom identifiers.
+
         `Args:`
             email_address:
                 Either email_address or mobile_number are required. Can be any of the following

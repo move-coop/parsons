@@ -545,7 +545,7 @@ class BigQuery(DatabaseConnector):
         logger.info(f"Finished at {datetime.datetime.now()}")
 
         logger.info(f"Opening local file {filepath}...")
-        with gzip.open(filepath, "rb") as temp_file:
+        with gzip.decompress(filepath, "rb") as temp_file:
             # NOTE - Some of the logging here can be tossed once we
             # get a better feel for cycle times
             # Load table from file

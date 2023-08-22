@@ -4,6 +4,7 @@ import uuid
 import logging
 import datetime
 import random
+import gzip
 
 from google.cloud import bigquery
 from google.cloud.bigquery import dbapi
@@ -18,7 +19,7 @@ from parsons.etl import Table
 from parsons.google.utitities import setup_google_application_credentials
 from parsons.google.google_cloud_storage import GoogleCloudStorage
 from parsons.utilities import check_env
-from parsons.utilities.files import create_temp_file
+from parsons.utilities.files import create_temp_file, is_gzip_path
 
 logger = logging.getLogger(__name__)
 
@@ -412,7 +413,154 @@ class BigQuery(DatabaseConnector):
             **load_kwargs,
         )
 
-        load_job.result()
+        # load_job.result()
+
+        try:
+            load_job.result()
+        except exceptions.BadRequest as e:
+            if "one of the files is larger than the maximum allowed size." in str(e):
+                # logger.error(f"Caught @ {gcs_blob_uri}")
+                # logger.error(e)
+                # TODO: Invoke unzip function here
+                self.copy_large_compressed_file_from_gcs(
+                    gcs_blob_uri=gcs_blob_uri,
+                    table_name=table_name,
+                    if_exists=if_exists,
+                    max_errors=max_errors,
+                    data_type=data_type,
+                    csv_delimiter=csv_delimiter,
+                    ignoreheader=ignoreheader,
+                    nullas=nullas,
+                    allow_quoted_newlines=allow_quoted_newlines,
+                    quote=quote,
+                    schema=schema,
+                    job_config=job_config,
+                )
+            else:
+                raise e
+
+    def copy_large_compressed_file_from_gcs(
+        self,
+        gcs_blob_uri: str,
+        table_name: str,
+        if_exists: str = "fail",
+        max_errors: int = 0,
+        data_type: str = "csv",
+        csv_delimiter: str = ",",
+        ignoreheader: int = 1,
+        nullas: str = None,
+        allow_quoted_newlines: bool = True,
+        quote: str = None,
+        schema: list = None,
+        job_config: Optional[LoadJobConfig] = None,
+        **load_kwargs,
+    ):
+        """
+        Copy a compressed CSV file that exceeds the maximum size in Google Cloud Storage
+        into Google BigQuery.
+
+        `Args:`
+            gcs_blob_uri: str
+                The GoogleCloudStorage URI referencing the file to be copied.
+            table_name: str
+                The table name to load the data into.
+            if_exists: str
+                If the table already exists, either ``fail``, ``append``, ``drop``
+                or ``truncate`` the table. This maps to `write_disposition` in the
+                `LoadJobConfig` class.
+            max_errors: int
+                The maximum number of rows that can error and be skipped before
+                the job fails. This maps to `max_bad_records` in the `LoadJobConfig` class.
+            data_type: str
+                Denotes whether target file is a JSON or CSV
+            csv_delimiter: str
+                Character used to separate values in the target file
+            ignoreheader: int
+                Treats the specified number_rows as a file header and doesn't load them
+            nullas: str
+                Loads fields that match null_string as NULL, where null_string can be any string
+            allow_quoted_newlines: bool
+                If True, detects quoted new line characters within a CSV field and does not interpret
+                the quoted new line character as a row boundary
+            quote: str
+                The value that is used to quote data sections in a CSV file.
+                BigQuery converts the string to ISO-8859-1 encoding, and then uses the first byte of
+                the encoded string to split the data in its raw, binary state.
+            schema: list
+                BigQuery expects a list of dictionaries in the following format
+                ```
+                schema = [
+                    {"name": "column_name", "type": STRING},
+                    {"name": "another_column_name", "type": INT}
+                ]
+                ```
+            job_config: object
+                A LoadJobConfig object to provide to the underlying call to load_table_from_uri
+                on the BigQuery client. The function will create its own if not provided. Note
+                if there are any conflicts between the job_config and other parameters, the
+                job_config values are preferred.
+            **load_kwargs: kwargs
+                Other arguments to pass to the underlying load_table_from_uri call on the BigQuery
+                client.
+        """
+
+        if if_exists not in ["fail", "truncate", "append", "drop"]:
+            raise ValueError(
+                f"Unexpected value for if_exists: {if_exists}, must be one of "
+                '"append", "drop", "truncate", or "fail"'
+            )
+        if data_type not in ["csv", "json"]:
+            raise ValueError(
+                f"Only supports csv or json files [data_type = {data_type}]"
+            )
+
+        table_exists = self.table_exists(table_name)
+
+        job_config = self._process_job_config(
+            job_config=job_config,
+            table_exists=table_exists,
+            table_name=table_name,
+            if_exists=if_exists,
+            max_errors=max_errors,
+            data_type=data_type,
+            csv_delimiter=csv_delimiter,
+            ignoreheader=ignoreheader,
+            nullas=nullas,
+            allow_quoted_newlines=allow_quoted_newlines,
+            quote=quote,
+            schema=schema,
+        )
+
+        # TODO - See if this inheritance is happening in other places
+        gcs = GoogleCloudStorage(app_creds=self.app_creds, project=self.project)
+
+        # TODO - Clean this up
+        uri_string = gcs_blob_uri.replace("gs://", "").split("/")
+        bucket_name = uri_string[0]
+        blob_name = "/".join(uri_string[1:])
+
+        logger.info(f"Downloading {blob_name}...")
+        filepath = gcs.download_blob(bucket_name=bucket_name, blob_name=blob_name)
+
+        # TODO - I don't think we need this if downloading the file automatically
+        # decompresses it
+        if is_gzip_path(filepath):
+            open_function = gzip.open
+        else:
+            open_function = open
+
+        with open_function(filepath, "rb") as temp_file:
+            # Load table from file
+            table_ref = get_table_ref(self.client, table_name=table_name)
+
+            load_job = self.client.load_table_from_file(
+                file_obj=temp_file,
+                destination=table_ref,
+                job_config=job_config,
+                **load_kwargs,
+            )
+
+            load_job.result()
 
     def copy_s3(
         self,

@@ -546,9 +546,13 @@ class BigQuery(DatabaseConnector):
 
         logger.info(f"Opening local file {filepath}...")
         with gzip.open(filepath, "rb") as temp_file:
+            # NOTE - Some of the logging here can be tossed once we
+            # get a better feel for cycle times
             # Load table from file
+            logger.info(f"Setting up table reference...")
             table_ref = get_table_ref(self.client, table_name=table_name)
 
+            logger.info(f"Configuring load_table_from_file job...")
             load_job = self.client.load_table_from_file(
                 file_obj=temp_file,
                 destination=table_ref,

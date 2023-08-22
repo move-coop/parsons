@@ -146,7 +146,9 @@ class GoogleCloudStorage(object):
             prefix: str
                 A prefix to filter files
             match_glob: str
-                Filters files based on glob string
+                Filters files based on glob string. NOTE that the match_glob
+                parameter runs on the full blob URI, include a preceding wildcard
+                value to account for nested files (*/ for one level, **/ for n levels)
         `Returns:`
             A list of blob names
         """

@@ -530,7 +530,9 @@ class GoogleCloudStorage(object):
         with gzip.open(compressed_filepath, "rb") as f_in:
             with open(decompressed_filepath, "wb") as f_out:
                 shutil.copyfileobj(f_in, f_out)
-                logger(f"Uploading uncompressed file to GCS: {decompressed_blob_name}")
+                logger.info(
+                    f"Uploading uncompressed file to GCS: {decompressed_blob_name}"
+                )
                 self.put_blob(
                     bucket_name=bucket_name,
                     blob_name=decompressed_blob_name,

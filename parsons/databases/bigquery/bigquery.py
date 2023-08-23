@@ -5,6 +5,7 @@ import logging
 import datetime
 import random
 import gzip
+import os
 
 from google.cloud import bigquery
 from google.cloud.bigquery import dbapi
@@ -545,7 +546,7 @@ class BigQuery(DatabaseConnector):
         logger.info(f"Finished at {datetime.datetime.now()}")
 
         logger.info(f"Opening local file {filepath}...")
-        with gzip.decompress(filepath, "rb") as temp_file:
+        with open(filepath, "rb") as temp_file:
             # NOTE - Some of the logging here can be tossed once we
             # get a better feel for cycle times
             # Load table from file
@@ -553,12 +554,14 @@ class BigQuery(DatabaseConnector):
             table_ref = get_table_ref(self.client, table_name=table_name)
 
             logger.info(f"Configuring load_table_from_file job...")
+            logger.info(f"Start time: {datetime.datetime.now()}")
             load_job = self.client.load_table_from_file(
                 file_obj=temp_file,
                 destination=table_ref,
                 job_config=job_config,
                 **load_kwargs,
             )
+            logger.info(f"Finished at {datetime.datetime.now()}")
 
             logger.info(f"Writing {gcs_blob_uri.split('/')[-1]} to {table_name}")
             load_job.result()

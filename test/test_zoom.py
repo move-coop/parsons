@@ -443,3 +443,23 @@ class TestZoom(unittest.TestCase):
         m.post(ZOOM_AUTH_CALLBACK, json={"access_token": "fakeAccessToken"})
         m.get(ZOOM_URI + "webinars/123/registrants", json=registrants)
         assert_matching_tables(self.zoom.get_webinar_registrants(123), tbl)
+
+    @requests_mock.Mocker()
+    def test_get_meeting_poll(self, m):
+        m.post(ZOOM_AUTH_CALLBACK, json={"access_token": "fakeAccessToken"})
+        m.get(ZOOM_URI + "meetings/123/pools/456", json={})
+
+    @requests_mock.Mocker()
+    def test_get_meeting_all_polls(self, m):
+        m.post(ZOOM_AUTH_CALLBACK, json={"access_token": "fakeAccessToken"})
+        m.get(ZOOM_URI + "meetings/123", json={})
+
+    @requests_mock.Mocker()
+    def test_get_webinar_poll(self, m):
+        m.post(ZOOM_AUTH_CALLBACK, json={"access_token": "fakeAccessToken"})
+        m.get(ZOOM_URI + "/webinars/123/polls/456", json={})
+
+    @requests_mock.Mocker()
+    def test_get_webinar_all_polls(self, m):
+        m.post(ZOOM_AUTH_CALLBACK, json={"access_token": "fakeAccessToken"})
+        m.get(ZOOM_URI + "/webinars/123", json={})

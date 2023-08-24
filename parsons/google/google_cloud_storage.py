@@ -8,8 +8,10 @@ import logging
 import time
 import uuid
 from grpc import StatusCode
+import gzip
+import shutil
 
-logger = logging.getLogger()
+logger = logging.getLogger(__name__)
 
 
 class GoogleCloudStorage(object):
@@ -488,3 +490,55 @@ class GoogleCloudStorage(object):
             String represetnation of URI
         """
         return f"gs://{bucket}/{name}"
+
+    def split_uri(self, gcs_uri: str):
+        """
+        Split a GCS URI into a bucket and blob name
+
+        `Args`:
+            gcs_uri: str
+                GCS URI
+
+        `Returns`:
+            Tuple of strings with bucket_name and blob_name
+        """
+        # TODO: make this more robust with regex?
+        remove_protocol = gcs_uri.replace("gs://", "")
+        uri_parts = remove_protocol.split("/")
+        bucket_name = uri_parts[0]
+        blob_name = "/".join(uri_parts[1:])
+        return bucket_name, blob_name
+
+    def unzip_blob(
+        self,
+        bucket_name: str,
+        blob_name: str,
+        new_filename: str = None,
+        new_file_extension: str = None,
+    ):
+        compressed_filepath = self.download_blob(
+            bucket_name=bucket_name, blob_name=blob_name
+        )
+
+        decompressed_filepath = compressed_filepath.replace(".gz", "")
+        decompressed_blob_name = (
+            new_filename if new_filename else blob_name.replace(".gz", "")
+        )
+        if new_file_extension:
+            decompressed_filepath += f".{new_file_extension}"
+            decompressed_blob_name += f".{new_file_extension}"
+
+        logger.info("Decompressing file...")
+        with gzip.open(compressed_filepath, "rb") as f_in:
+            with open(decompressed_filepath, "wb") as f_out:
+                shutil.copyfileobj(f_in, f_out)
+                logger.info(
+                    f"Uploading uncompressed file to GCS: {decompressed_blob_name}"
+                )
+                self.put_blob(
+                    bucket_name=bucket_name,
+                    blob_name=decompressed_blob_name,
+                    local_path=decompressed_filepath,
+                )
+
+        return self.format_uri(bucket=bucket_name, name=decompressed_blob_name)

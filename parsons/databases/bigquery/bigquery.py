@@ -4,7 +4,6 @@ import uuid
 import logging
 import datetime
 import random
-import gzip
 
 from google.cloud import bigquery
 from google.cloud.bigquery import dbapi
@@ -413,8 +412,6 @@ class BigQuery(DatabaseConnector):
             **load_kwargs,
         )
 
-        # load_job.result()
-
         try:
             load_job.result()
         except exceptions.BadRequest as e:
@@ -533,35 +530,35 @@ class BigQuery(DatabaseConnector):
 
         # TODO - See if this inheritance is happening in other places
         gcs = GoogleCloudStorage(app_creds=self.app_creds, project=self.project)
+        old_bucket_name, old_blob_name = gcs.split_uri(gcs_uri=gcs_blob_uri)
 
-        # TODO - Clean this up
-        uri_string = gcs_blob_uri.replace("gs://", "").split("/")
-        bucket_name = uri_string[0]
-        blob_name = "/".join(uri_string[1:])
+        uncompressed_gcs_uri = None
+        try:
+            logger.info("Unzipping large file")
+            uncompressed_gcs_uri = gcs.unzip_blob(
+                bucket_name=old_bucket_name,
+                blob_name=old_blob_name,
+                new_file_extension="csv",
+            )
 
-        logger.info(f"Downloading {blob_name}...")
-        logger.info(f"Start time: {datetime.datetime.now()}")
-        filepath = gcs.download_blob(bucket_name=bucket_name, blob_name=blob_name)
-        logger.info(f"Finished at {datetime.datetime.now()}")
-
-        logger.info(f"Opening local file {filepath}...")
-        with gzip.decompress(filepath, "rb") as temp_file:
-            # NOTE - Some of the logging here can be tossed once we
-            # get a better feel for cycle times
-            # Load table from file
-            logger.info(f"Setting up table reference...")
-            table_ref = get_table_ref(self.client, table_name=table_name)
-
-            logger.info(f"Configuring load_table_from_file job...")
-            load_job = self.client.load_table_from_file(
-                file_obj=temp_file,
+            logger.info(
+                f"Loading uncompressed uri into BigQuery {uncompressed_gcs_uri}..."
+            )
+            table_ref = get_table_ref(self.client, table_name)
+            load_job = self.client.load_table_from_uri(
+                source_uris=uncompressed_gcs_uri,
                 destination=table_ref,
                 job_config=job_config,
                 **load_kwargs,
             )
-
-            logger.info(f"Writing {gcs_blob_uri.split('/')[-1]} to {table_name}")
             load_job.result()
+        finally:
+            if uncompressed_gcs_uri:
+                new_bucket_name, new_blob_name = gcs.split_uri(
+                    gcs_uri=uncompressed_gcs_uri
+                )
+                gcs.delete_blob(new_bucket_name, new_blob_name)
+                logger.info("Successfully dropped uncompressed blob")
 
     def copy_s3(
         self,

@@ -80,7 +80,7 @@ class Zoom:
             "content-type": "application/json",
         }
 
-    def _get_request(self, endpoint, data_key, params={}, **kwargs):
+    def _get_request(self, endpoint, data_key, params=None, **kwargs):
         """
         TODO: Consider increasing default page size.
 
@@ -91,7 +91,7 @@ class Zoom:
                 Unique value to use to parse through nested data
                 (akin to a primary key in response JSON)
             params: dict
-                Additional request parameters, defaults to empty dictionary
+                Additional request parameters, defaults to None
 
         `Returns`:
             Parsons Table of API responses
@@ -100,6 +100,9 @@ class Zoom:
         r = self.client.get_request(endpoint, params=params, **kwargs)
         self.client.data_key = data_key
         data = self.client.data_parse(r)
+
+        if not params:
+            params = {}
 
         # Return a dict or table if only one item.
         if "page_number" not in r.keys():
@@ -292,7 +295,7 @@ class Zoom:
 
         if type(tbl) == dict:
             logger.debug(f"No poll data returned for poll ID {poll_id}")
-            return tbl
+            return Table(tbl)
 
         logger.info(
             f"Retrieved {tbl.num_rows} rows of metadata [meeting={meeting_id} poll={poll_id}]"
@@ -317,7 +320,7 @@ class Zoom:
 
         if type(tbl) == dict:
             logger.debug(f"No poll data returned for meeting ID {meeting_id}")
-            return tbl
+            return Table(tbl)
 
         logger.info(f"Retrieved {tbl.num_rows} polls for meeting ID {meeting_id}")
 
@@ -342,7 +345,7 @@ class Zoom:
 
         if type(tbl) == dict:
             logger.debug(f"No poll data returned for poll ID {poll_id}")
-            return tbl
+            return Table(tbl)
 
         logger.info(
             f"Retrieved {tbl.num_rows} rows of metadata [meeting={webinar_id} poll={poll_id}]"
@@ -367,7 +370,7 @@ class Zoom:
 
         if type(tbl) == dict:
             logger.debug(f"No poll data returned for webinar ID {webinar_id}")
-            return tbl
+            return Table(tbl)
 
         logger.info(f"Retrieved {tbl.num_rows} polls for meeting ID {webinar_id}")
 

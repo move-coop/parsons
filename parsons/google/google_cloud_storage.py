@@ -347,6 +347,7 @@ class GoogleCloudStorage(object):
         gcs_sink_bucket: str,
         source: str,
         source_bucket: str,
+        destination_path: str = None,
         source_path: str = "",
         aws_access_key_id: str = None,
         aws_secret_access_key: str = None,
@@ -408,6 +409,7 @@ class GoogleCloudStorage(object):
                 },
                 "gcs_data_sink": {
                     "bucket_name": gcs_sink_bucket,
+                    "path": destination_path,
                 },
             }
         elif source == "gcs":

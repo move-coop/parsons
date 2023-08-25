@@ -292,7 +292,7 @@ class MobileCommons:
     def create_profile(self, phone, first_name=None, last_name=None, zip=None, addressline1=None,
                        addressline2=None, city=None, state=None, opt_in_path_id=None):
         """
-        A function for for creating a single MobileCommons profile
+        A function for creating a single MobileCommons profile
 
         `Args:`
             phone: str

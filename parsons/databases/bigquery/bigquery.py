@@ -433,6 +433,9 @@ class BigQuery(DatabaseConnector):
                     schema=schema,
                     job_config=job_config,
                 )
+            if "Schema has no field" in str(e):
+                logger.info(f"{gcs_blob_uri.split('/')[-1]} is empty, skipping file")
+                return "Empty file"
             else:
                 raise e
 
@@ -1008,14 +1011,14 @@ class BigQuery(DatabaseConnector):
         if not job_config.max_bad_records:
             job_config.max_bad_records = kwargs["max_errors"]
 
-        if not job_config.skip_leading_rows:
+        if not job_config.skip_leading_rows and kwargs["data_type"] == "csv":
             job_config.skip_leading_rows = kwargs["ignoreheader"]
 
         if not job_config.source_format:
             job_config.source_format = (
                 bigquery.SourceFormat.CSV
                 if kwargs["data_type"] == "csv"
-                else bigquery.SourceFormat.JSON
+                else bigquery.SourceFormat.NEWLINE_DELIMITED_JSON
             )
 
         if not job_config.field_delimiter:

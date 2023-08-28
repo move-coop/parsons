@@ -455,3 +455,278 @@ class S3(object):
                 object_acl.put(ACL="public-read")
 
         logger.info(f"Finished syncing {len(key_list)} keys")
+
+    def get_buckets_type(self, regex):
+        """
+        Grabs a type of bucket based on naming convention.
+
+        `Args:`
+            regex: str
+                This will most commonly be 'member' or 'vendor'
+
+        `Returns:`
+            list
+                list of buckets
+
+        """
+
+        all_buckets = self.s3.list_buckets()
+        buckets = [x for x in all_buckets if regex in x.split('-')]
+
+        return buckets
+
+    def s3_to_redshift(
+        bucket,
+        key,
+        rs_table,
+        if_exists="truncate",
+        delimiter="tab",
+        errors=10,
+        truncate_columns=True,
+    ):
+        """
+        Moves a tab-delimited file from s3 to Redshift.
+
+        `Args:`
+
+            bucket: str
+                S3 bucket
+
+            key: str
+                S3 key
+
+            rs_table: str
+                Redshift table. This MUST EXIST already.
+
+            if_exists: str
+                options are: "drop", "append", "truncate", "fail"
+
+            delimiter: str
+                options are "tab" and "pipe"
+
+            errors: int
+                the amount of errors you are willing to accept
+
+            truncatecolumns: bool
+                if you want to truncate long running text
+
+        Returns:
+            None
+        """
+
+        rs = Redshift()
+        s3 = S3()
+
+        if ".zip" in key:
+            raise Exception(".zip files won't work with copy. We need unzipped or GZIP.")
+
+        full_key = f"s3://{bucket}/{key}"
+        logger.info(f"Starting download of {full_key}...")
+        zip = "gzip" if ".gz" in key else ""
+
+        if delimiter == "tab":
+            delimiter_line = "delimiter '\t'"
+        elif delimiter == "pipe":
+            delimiter_line = "CSV delimiter '|'"
+        elif delimiter == "comma":
+            delimiter_line = "CSV"
+        else:
+            raise Exception("ERROR: Your options here are tab, pipe, or comma.")
+
+        truncate = "TRUNCATECOLUMNS" if truncate_columns == True else ""
+
+        if rs.table_exists(rs_table):
+            if if_exists == "fail":
+                raise Exception("Table already exists, and you said fail. Maybe try drop?")
+            elif if_exists in ["drop", "truncate"]:
+                copy_query = f"truncate {rs_table};"
+                copy_table = rs_table
+                copy_query_end = None
+            elif if_exists == "append":
+                copy_table = f"{rs_table}_temp"
+                copy_query = f"drop table if exists {copy_table}; create table {copy_table} (like {rs_table});"
+                copy_query_end = f"insert into {rs_table} (select * from {copy_table})"
+            else:
+                raise Exception(
+                    "You chose an option that is not 'fail','truncate','append', or 'drop'."
+                )
+
+            copy_query += f"""
+                -- Load the data
+                copy {copy_table} from '{full_key}'
+                credentials 'aws_access_key_id={ACCESS_KEY_ID};aws_secret_access_key={SECRET_ACCESS_KEY}'
+                emptyasnull
+                blanksasnull
+                ignoreheader 1
+                {delimiter_line}
+                acceptinvchars
+                {zip}
+                maxerror {errors}
+                COMPUPDATE true
+                {truncate}
+                ;
+            """
+            logger.info(f"copying from s3 into {copy_table}...")
+            rs.query(copy_query)
+
+            if copy_query_end:
+                logger.info(f"inserting {copy_table} into {rs_table}...")
+                rs.query(copy_query_end)
+                rs.query(f"drop table if exists {copy_table};")
+
+        else:
+            raise Exception("ERROR: You need to have a table already created to copy into.")
+
+        return None
+
+    def drop_and_save(
+        rs_table,
+        bucket,
+        key,
+        cascade=True,
+        manifest=True,
+        header=True,
+        delimiter="|",
+        compression="gzip",
+        add_quotes=True,
+        escape=True,
+        allow_overwrite=True,
+        parallel=True,
+        max_file_size="6.2 GB",
+        aws_region=None,
+    ):
+        """
+        Description:
+            This function is used to unload data to s3, and then drop Redshift table.
+
+        Args:
+            rs_table: str
+                Redshift table.
+
+            bucket: str
+                S3 bucket
+
+            key: str
+                S3 key prefix ahead of table name
+
+            cascade: bool
+                whether to drop cascade
+
+            ***unload params
+
+        Returns:
+            None
+        """
+
+        rs = Redshift()
+        s3 = S3()
+
+        query_end = "cascade" if cascade else ""
+
+        rs.unload(
+            sql=f"select * from {rs_table}",
+            bucket=bucket,
+            key_prefix=f"{key}/{rs_table.replace('.','_')}/",
+            manifest=manifest,
+            header=header,
+            delimiter=delimiter,
+            compression=compression,
+            add_quotes=add_quotes,
+            escape=escape,
+            allow_overwrite=allow_overwrite,
+            parallel=parallel,
+            max_file_size=max_file_size,
+            aws_region=aws_region,
+        )
+
+        rs.query(f"drop table if exists {rs_table} {query_end}")
+
+        return None
+
+    def process_s3_keys(
+        s3,
+        bucket,
+        incoming_prefix,
+        processing_prefix,
+        dest_prefix,
+        extension=None,
+        key_limit=None,
+        key_offset=0,
+    ):
+        """
+        Process the keys in an S3 bucket under a specific prefix.
+
+        `Args:`
+            s3: object
+                The S3 connector to use.
+            incoming_prefix: str
+                The prefix to use to search for keys to process.
+            processing_prefix:  str
+                The prefix to put files under as they are being processed.
+            dest_prefix: str
+                The S3 prefix where the files should be put after processing.
+            extension: str
+                `Optional:` The extension of files to look for
+            key_limit: int
+                `Optional:` The max number of keys to process; if not specified, will process
+                all keys
+            key_offset: int
+                `Optional:` The offset from the first key found to start processing from; if not
+                specified, defaults to the first key
+        `Return:`
+            A list of the final location of all processed keys.
+        """
+        logger.info("Moving any keys from previous runs back to incoming")
+        merged_regex = re.compile(f"^{processing_prefix}/\\d+/(.+)$")
+
+        previous_keys = s3.list_keys(bucket, processing_prefix)
+        logger.info("Found %d keys left over from previous runs", len(previous_keys))
+
+        for key in previous_keys:
+            match = merged_regex.match(key)
+            if match:
+                remainder = match.group(1)
+                destination = f"{incoming_prefix}/{remainder}"
+                logger.info("Moving %s back to %s", key, destination)
+                s3.transfer_bucket(bucket, key, bucket, destination, remove_original=True)
+            else:
+                logger.warning("Could not match processing key to expected regex: %s", key)
+
+        all_keys = s3.list_keys(bucket, incoming_prefix, suffix=extension)
+
+        if key_limit:
+            all_keys = all_keys[key_offset: key_offset + key_limit]
+
+        job_id = f"{random.randrange(0, 100000):06}"
+        random_processing_prefix = f"{processing_prefix}/{job_id}"
+
+        logger.info(
+            "Found %s keys in bucket %s under prefix %s with suffix %s",
+            len(all_keys),
+            bucket,
+            incoming_prefix,
+            extension,
+        )
+
+        moved_keys = []
+        for from_key in all_keys:
+            dest_key = from_key.replace(incoming_prefix, random_processing_prefix)
+            s3.transfer_bucket(bucket, from_key, bucket, dest_key)
+            s3.remove_file(bucket, from_key)
+            moved_keys.append(dest_key)
+
+        for key in moved_keys:
+            yield key
+
+        date = datetime.datetime.now()
+        date_string = date.strftime("%Y%m%d")
+        dated_dest_prefix = f"{dest_prefix}/{date_string}"
+
+        final_keys = []
+        for from_key in moved_keys:
+            dest_key = from_key.replace(random_processing_prefix, dated_dest_prefix)
+            s3.transfer_bucket(bucket, from_key, bucket, dest_key)
+            s3.remove_file(bucket, from_key)
+            final_keys.append(dest_key)
+
+        return final_keys

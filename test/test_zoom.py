@@ -446,13 +446,209 @@ class TestZoom(unittest.TestCase):
 
     @requests_mock.Mocker()
     def test_get_meeting_poll(self, m):
+        poll = {
+            "id": 1,
+            "status": "started",
+            "anonymous": "False",
+            "poll_type": 1,
+            "questions": [
+                {
+                    "answer_max_character": 1,
+                    "answer_min_character": 1,
+                    "answer_required": "False",
+                    "answers": "Larry David's Curb Your Enthusiasm",
+                    "case_sensitive": "True",
+                    "name": "Secret Truth",
+                    "prompts": [
+                        {
+                            "prompt_question": "What's the secret truth of the universe?",
+                            "prompt_right_answers": [
+                                "Pizza delivery",
+                                "Larry David's Curb Your Enthusiasm",
+                            ],
+                        }
+                    ],
+                    "rating_max_label": "",
+                    "rating_max_value": 1,
+                    "rating_min_label": "",
+                    "rating_min_value": 0,
+                    "right_answers": "",
+                    "show_as_dropdown": False,
+                    "type": "short_answer",
+                }
+            ],
+        }
+
+        tbl = Table(
+            [
+                {
+                    "answer_max_character": 1,
+                    "answer_min_character": 1,
+                    "answer_required": "False",
+                    "answers": "Larry David's Curb Your Enthusiasm",
+                    "case_sensitive": "True",
+                    "name": "Secret Truth",
+                    "prompts": [
+                        {
+                            "prompt_question": "What's the secret truth of the universe?",
+                            "prompt_right_answers": [
+                                "Pizza delivery",
+                                "Larry David's Curb Your Enthusiasm",
+                            ],
+                        }
+                    ],
+                    "rating_max_label": "",
+                    "rating_max_value": 1,
+                    "rating_min_label": "",
+                    "rating_min_value": 0,
+                    "right_answers": "",
+                    "show_as_dropdown": False,
+                    "type": "short_answer",
+                }
+            ]
+        )
+
         m.post(ZOOM_AUTH_CALLBACK, json={"access_token": "fakeAccessToken"})
-        m.get(ZOOM_URI + "meetings/123/pools/456", json={})
+        m.get(ZOOM_URI + "meetings/123/polls/1", json=poll)
+        assert_matching_tables(self.zoom.get_meeting_poll(123, 1), tbl)
 
     @requests_mock.Mocker()
     def test_get_meeting_all_polls(self, m):
+        polls = {
+            "polls": [
+                {
+                    "id": 1,
+                    "status": "started",
+                    "anonymous": "False",
+                    "poll_type": 1,
+                    "questions": [
+                        {
+                            "answer_max_character": 1,
+                            "answer_min_character": 1,
+                            "answer_required": "False",
+                            "answers": "Larry David's Curb Your Enthusiasm",
+                            "case_sensitive": "True",
+                            "name": "Secret Truth",
+                            "prompts": [
+                                {
+                                    "prompt_question": "What's the secret truth of the universe?",
+                                    "prompt_right_answers": [
+                                        "Pizza delivery",
+                                        "Larry David's Curb Your Enthusiasm",
+                                    ],
+                                }
+                            ],
+                            "rating_max_label": "",
+                            "rating_max_value": 1,
+                            "rating_min_label": "",
+                            "rating_min_value": 0,
+                            "right_answers": "",
+                            "show_as_dropdown": False,
+                            "type": "short_answer",
+                        }
+                    ],
+                },
+                {
+                    "id": 2,
+                    "status": "started",
+                    "anonymous": "False",
+                    "poll_type": 1,
+                    "questions": [
+                        {
+                            "answer_max_character": 1,
+                            "answer_min_character": 1,
+                            "answer_required": "False",
+                            "answers": "Mets",
+                            "case_sensitive": "True",
+                            "name": "Play ball",
+                            "prompts": [
+                                {
+                                    "prompt_question": "Best NY baseball team?",
+                                    "prompt_right_answers": ["Mets"],
+                                }
+                            ],
+                            "rating_max_label": "",
+                            "rating_max_value": 1,
+                            "rating_min_label": "",
+                            "rating_min_value": 0,
+                            "right_answers": "",
+                            "show_as_dropdown": True,
+                            "type": "short_answer",
+                        }
+                    ],
+                },
+            ]
+        }
+
+        tbl = Table(
+            [
+                {
+                    "id": 1,
+                    "status": "started",
+                    "anonymous": "False",
+                    "poll_type": 1,
+                    "questions": [
+                        {
+                            "answer_max_character": 1,
+                            "answer_min_character": 1,
+                            "answer_required": "False",
+                            "answers": "Larry David's Curb Your Enthusiasm",
+                            "case_sensitive": "True",
+                            "name": "Secret Truth",
+                            "prompts": [
+                                {
+                                    "prompt_question": "What's the secret truth of the universe?",
+                                    "prompt_right_answers": [
+                                        "Pizza delivery",
+                                        "Larry David's Curb Your Enthusiasm",
+                                    ],
+                                }
+                            ],
+                            "rating_max_label": "",
+                            "rating_max_value": 1,
+                            "rating_min_label": "",
+                            "rating_min_value": 0,
+                            "right_answers": "",
+                            "show_as_dropdown": False,
+                            "type": "short_answer",
+                        }
+                    ],
+                },
+                {
+                    "id": 2,
+                    "status": "started",
+                    "anonymous": "False",
+                    "poll_type": 1,
+                    "questions": [
+                        {
+                            "answer_max_character": 1,
+                            "answer_min_character": 1,
+                            "answer_required": "False",
+                            "answers": "Mets",
+                            "case_sensitive": "True",
+                            "name": "Play ball",
+                            "prompts": [
+                                {
+                                    "prompt_question": "Best NY baseball team?",
+                                    "prompt_right_answers": ["Mets"],
+                                }
+                            ],
+                            "rating_max_label": "",
+                            "rating_max_value": 1,
+                            "rating_min_label": "",
+                            "rating_min_value": 0,
+                            "right_answers": "",
+                            "show_as_dropdown": True,
+                            "type": "short_answer",
+                        }
+                    ],
+                },
+            ]
+        )
+
         m.post(ZOOM_AUTH_CALLBACK, json={"access_token": "fakeAccessToken"})
-        m.get(ZOOM_URI + "meetings/123", json={})
+        m.get(ZOOM_URI + "meetings/123/polls", json=polls)
+        assert_matching_tables(self.zoom.get_meeting_all_polls(123), tbl)
 
     @requests_mock.Mocker()
     def test_get_webinar_poll(self, m):

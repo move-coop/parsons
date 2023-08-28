@@ -291,7 +291,7 @@ class Zoom:
         """
 
         endpoint = f"meetings/{meeting_id}/polls/{poll_id}"
-        tbl = self._get_request(endpoint=endpoint, data_key="polls")
+        tbl = self._get_request(endpoint=endpoint, data_key="questions")
 
         if type(tbl) == dict:
             logger.debug(f"No poll data returned for poll ID {poll_id}")

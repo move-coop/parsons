@@ -38,6 +38,7 @@
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="actblue.html">ActBlue</a></li>
 <li class="toctree-l1"><a class="reference internal" href="action_kit.html">ActionKit</a></li>
+<li class="toctree-l1"><a class="reference internal" href="action_builder.html">Action Builder</a></li>
 <li class="toctree-l1"><a class="reference internal" href="action_network.html">Action Network</a></li>
 <li class="toctree-l1"><a class="reference internal" href="airtable.html">Airtable</a></li>
 <li class="toctree-l1"><a class="reference internal" href="alchemer.html">Alchemer</a></li>
@@ -63,6 +64,7 @@
 <li class="toctree-l1"><a class="reference internal" href="hustle.html">Hustle</a></li>
 <li class="toctree-l1"><a class="reference internal" href="mailchimp.html">Mailchimp</a></li>
 <li class="toctree-l1"><a class="reference internal" href="mobilize_america.html">Mobilize America</a></li>
+<li class="toctree-l1"><a class="reference internal" href="nation_builder.html">NationBuilder</a></li>
 <li class="toctree-l1"><a class="reference internal" href="newmode.html">New/Mode</a></li>
 <li class="toctree-l1"><a class="reference internal" href="ngpvan.html">NGPVAN</a></li>
 <li class="toctree-l1"><a class="reference internal" href="p2a.html">Phone2Action</a></li>
@@ -166,6 +168,8 @@
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="actblue.html#parsons.ActBlue">ActBlue (class in parsons)</a>
 </li>
+      <li><a href="action_builder.html#parsons.ActionBuilder">ActionBuilder (class in parsons)</a>
+</li>
       <li><a href="action_kit.html#parsons.ActionKit">ActionKit (class in parsons)</a>
 </li>
       <li><a href="action_network.html#parsons.ActionNetwork">ActionNetwork (class in parsons)</a>
@@ -184,12 +188,14 @@
 </li>
       <li><a href="pdi.html#parsons.PDI.add_phone">add_phone() (parsons.PDI method)</a>
 </li>
-      <li><a href="google.html#parsons.google.google_sheets.GoogleSheets.add_sheet">add_sheet() (parsons.google.google_sheets.GoogleSheets method)</a>
+      <li><a href="action_builder.html#parsons.ActionBuilder.add_section_field_values_to_record">add_section_field_values_to_record() (parsons.ActionBuilder method)</a>
 </li>
-      <li><a href="action_network.html#parsons.ActionNetwork.add_tag">add_tag() (parsons.ActionNetwork method)</a>
+      <li><a href="google.html#parsons.google.google_sheets.GoogleSheets.add_sheet">add_sheet() (parsons.google.google_sheets.GoogleSheets method)</a>
 </li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="action_network.html#parsons.ActionNetwork.add_tag">add_tag() (parsons.ActionNetwork method)</a>
+</li>
       <li><a href="facebook_ads.html#parsons.FacebookAds.add_users_to_custom_audience">add_users_to_custom_audience() (parsons.FacebookAds method)</a>
 </li>
       <li><a href="airtable.html#parsons.Airtable">Airtable (class in parsons)</a>
@@ -474,7 +480,11 @@
 </li>
       <li><a href="dbsync.html#parsons.DBSync">DBSync (class in parsons)</a>
 </li>
+      <li><a href="table.html#parsons.etl.etl.ETL.deduplicate">deduplicate() (parsons.etl.etl.ETL method)</a>
+</li>
       <li><a href="pdi.html#parsons.PDI.delete_acquisition_type">delete_acquisition_type() (parsons.PDI method)</a>
+</li>
+      <li><a href="action_kit.html#parsons.ActionKit.delete_actionfield">delete_actionfield() (parsons.ActionKit method)</a>
 </li>
       <li><a href="azure.html#parsons.AzureBlobStorage.delete_blob">delete_blob() (parsons.AzureBlobStorage method)</a>
 
@@ -512,12 +522,14 @@
 </li>
       <li><a href="ngpvan.html#parsons.ngpvan.van.Locations.delete_location">delete_location() (parsons.ngpvan.van.Locations method)</a>
 </li>
+      <li><a href="ngpvan.html#parsons.ngpvan.van.People.delete_person">delete_person() (parsons.ngpvan.van.People method)</a>
+</li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="ngpvan.html#parsons.ngpvan.van.SupporterGroups.delete_person_supporter_group">delete_person_supporter_group() (parsons.ngpvan.van.SupporterGroups method)</a>
 </li>
       <li><a href="salesforce.html#parsons.Salesforce.delete_record">delete_record() (parsons.Salesforce method)</a>
 </li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="sisense.html#parsons.Sisense.delete_shared_dashboard">delete_shared_dashboard() (parsons.Sisense method)</a>
 </li>
       <li><a href="ngpvan.html#parsons.ngpvan.van.Signups.delete_signup">delete_signup() (parsons.ngpvan.van.Signups method)</a>
@@ -746,6 +758,8 @@
 </li>
       <li><a href="redash.html#parsons.redash.Redash.get_cached_query_results">get_cached_query_results() (parsons.redash.Redash method)</a>
 </li>
+      <li><a href="pdi.html#parsons.PDI.get_calendars">get_calendars() (parsons.PDI method)</a>
+</li>
       <li><a href="action_kit.html#parsons.ActionKit.get_campaign">get_campaign() (parsons.ActionKit method)</a>
 
       <ul>
@@ -755,6 +769,8 @@
       <li><a href="mailchimp.html#parsons.mailchimp.Mailchimp.get_campaign_emails">get_campaign_emails() (parsons.mailchimp.Mailchimp method)</a>
 </li>
       <li><a href="action_kit.html#parsons.ActionKit.get_campaign_fields">get_campaign_fields() (parsons.ActionKit method)</a>
+</li>
+      <li><a href="action_builder.html#parsons.ActionBuilder.get_campaign_tags">get_campaign_tags() (parsons.ActionBuilder method)</a>
 </li>
       <li><a href="capitolcanary.html#parsons.CapitolCanary.get_campaigns">get_campaigns() (parsons.CapitolCanary method)</a>
 
@@ -858,6 +874,10 @@
         <li><a href="ngpvan.html#parsons.ngpvan.van.Events.get_event">(parsons.ngpvan.van.Events method)</a>
 </li>
       </ul></li>
+      <li><a href="pdi.html#parsons.PDI.get_event_activities">get_event_activities() (parsons.PDI method)</a>
+</li>
+      <li><a href="pdi.html#parsons.PDI.get_event_activity_assignments">get_event_activity_assignments() (parsons.PDI method)</a>
+</li>
       <li><a href="action_kit.html#parsons.ActionKit.get_event_create_form">get_event_create_form() (parsons.ActionKit method)</a>
 </li>
       <li><a href="action_kit.html#parsons.ActionKit.get_event_create_form_fields">get_event_create_form_fields() (parsons.ActionKit method)</a>
@@ -978,6 +998,8 @@
 </li>
       <li><a href="action_kit.html#parsons.ActionKit.get_order">get_order() (parsons.ActionKit method)</a>
 </li>
+      <li><a href="action_kit.html#parsons.ActionKit.get_orderrecurring">get_orderrecurring() (parsons.ActionKit method)</a>
+</li>
       <li><a href="action_kit.html#parsons.ActionKit.get_orders">get_orders() (parsons.ActionKit method)</a>
 
       <ul>
@@ -1020,6 +1042,8 @@
         <li><a href="copper.html#parsons.Copper.get_people">(parsons.Copper method)</a>
 </li>
         <li><a href="mobilize_america.html#parsons.MobilizeAmerica.get_people">(parsons.MobilizeAmerica method)</a>
+</li>
+        <li><a href="nation_builder.html#parsons.NationBuilder.get_people">(parsons.NationBuilder method)</a>
 </li>
       </ul></li>
       <li><a href="action_network.html#parsons.ActionNetwork.get_person">get_person() (parsons.ActionNetwork method)</a>
@@ -1134,6 +1158,8 @@
         <li><a href="hustle.html#parsons.Hustle.get_tag">(parsons.Hustle method)</a>
 </li>
       </ul></li>
+      <li><a href="action_builder.html#parsons.ActionBuilder.get_tag_by_name">get_tag_by_name() (parsons.ActionBuilder method)</a>
+</li>
       <li><a href="action_network.html#parsons.ActionNetwork.get_tags">get_tags() (parsons.ActionNetwork method)</a>
 
       <ul>
@@ -1148,8 +1174,12 @@
       </ul></li>
       <li><a href="ngpvan.html#parsons.ngpvan.van.Targets.get_target_export">get_target_export() (parsons.ngpvan.van.Targets method)</a>
 </li>
-      <li><a href="ngpvan.html#parsons.ngpvan.van.Targets.get_targets">get_targets() (parsons.ngpvan.van.Targets method)</a>
+      <li><a href="newmode.html#parsons.Newmode.get_targets">get_targets() (parsons.Newmode method)</a>
+
+      <ul>
+        <li><a href="ngpvan.html#parsons.ngpvan.van.Targets.get_targets">(parsons.ngpvan.van.Targets method)</a>
 </li>
+      </ul></li>
       <li><a href="freshdesk.html#parsons.Freshdesk.get_tickets">get_tickets() (parsons.Freshdesk method)</a>
 </li>
       <li><a href="newmode.html#parsons.Newmode.get_tool">get_tool() (parsons.Newmode method)</a>
@@ -1246,6 +1276,10 @@
 <h2 id="I">I</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="action_builder.html#parsons.ActionBuilder.insert_entity_record">insert_entity_record() (parsons.ActionBuilder method)</a>
+</li>
+      <li><a href="action_builder.html#parsons.ActionBuilder.insert_new_tag">insert_new_tag() (parsons.ActionBuilder method)</a>
+</li>
       <li><a href="airtable.html#parsons.Airtable.insert_record">insert_record() (parsons.Airtable method)</a>
 
       <ul>
@@ -1254,14 +1288,14 @@
       </ul></li>
       <li><a href="airtable.html#parsons.Airtable.insert_records">insert_records() (parsons.Airtable method)</a>
 </li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="databases.html#parsons.MySQL.is_sql_bool">is_sql_bool() (parsons.MySQL method)</a>
 
       <ul>
         <li><a href="databases.html#parsons.Postgres.is_sql_bool">(parsons.Postgres method)</a>
 </li>
       </ul></li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="aws.html#parsons.databases.redshift.redshift.RedshiftTableUtilities.is_table">is_table() (parsons.databases.redshift.redshift.RedshiftTableUtilities method)</a>
 </li>
       <li><a href="databases.html#parsons.MySQL.is_valid_sql_num">is_valid_sql_num() (parsons.MySQL method)</a>
@@ -1385,6 +1419,10 @@
 
 <h2 id="N">N</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="nation_builder.html#parsons.NationBuilder">NationBuilder (class in parsons)</a>
+</li>
+  </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="newmode.html#parsons.Newmode">Newmode (class in parsons)</a>
 </li>
@@ -1688,6 +1726,8 @@
 </li>
       <li><a href="redash.html#parsons.redash.Redash.update_data_source">update_data_source() (parsons.redash.Redash method)</a>
 </li>
+      <li><a href="action_builder.html#parsons.ActionBuilder.update_entity_record">update_entity_record() (parsons.ActionBuilder method)</a>
+</li>
       <li><a href="action_kit.html#parsons.ActionKit.update_event">update_event() (parsons.ActionKit method)</a>
 </li>
       <li><a href="action_kit.html#parsons.ActionKit.update_event_signup">update_event_signup() (parsons.ActionKit method)</a>
@@ -1704,11 +1744,15 @@
 </li>
       <li><a href="action_kit.html#parsons.ActionKit.update_order">update_order() (parsons.ActionKit method)</a>
 </li>
+      <li><a href="action_kit.html#parsons.ActionKit.update_orderrecurring">update_orderrecurring() (parsons.ActionKit method)</a>
+</li>
       <li><a href="action_kit.html#parsons.ActionKit.update_paymenttoken">update_paymenttoken() (parsons.ActionKit method)</a>
 </li>
       <li><a href="action_network.html#parsons.ActionNetwork.update_person">update_person() (parsons.ActionNetwork method)</a>
 
       <ul>
+        <li><a href="nation_builder.html#parsons.NationBuilder.update_person">(parsons.NationBuilder method)</a>
+</li>
         <li><a href="ngpvan.html#parsons.ngpvan.van.People.update_person">(parsons.ngpvan.van.People method)</a>
 </li>
       </ul></li>
@@ -1756,10 +1800,14 @@
 </li>
       <li><a href="aws.html#parsons.Redshift.upsert">upsert() (in module parsons.Redshift)</a>
 </li>
+      <li><a href="action_builder.html#parsons.ActionBuilder.upsert_connection">upsert_connection() (parsons.ActionBuilder method)</a>
+</li>
       <li><a href="action_network.html#parsons.ActionNetwork.upsert_person">upsert_person() (parsons.ActionNetwork method)</a>
 
       <ul>
         <li><a href="bluelink.html#parsons.bluelink.Bluelink.upsert_person">(parsons.bluelink.Bluelink method)</a>
+</li>
+        <li><a href="nation_builder.html#parsons.NationBuilder.upsert_person">(parsons.NationBuilder method)</a>
 </li>
         <li><a href="ngpvan.html#parsons.ngpvan.van.People.upsert_person">(parsons.ngpvan.van.People method)</a>
 </li>
@@ -1767,6 +1815,8 @@
       <li><a href="ngpvan.html#parsons.ngpvan.van.People.upsert_person_json">upsert_person_json() (parsons.ngpvan.van.People method)</a>
 </li>
       <li><a href="salesforce.html#parsons.Salesforce.upsert_record">upsert_record() (parsons.Salesforce method)</a>
+</li>
+      <li><a href="auth0.html#parsons.Auth0.upsert_user">upsert_user() (parsons.Auth0 method)</a>
 </li>
       <li><a href="table.html#parsons.etl.etl.ETL.use_petl">use_petl() (parsons.etl.etl.ETL method)</a>
 </li>

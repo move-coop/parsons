@@ -38,6 +38,7 @@
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../../actblue.html">ActBlue</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../action_kit.html">ActionKit</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../action_builder.html">Action Builder</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../action_network.html">Action Network</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../airtable.html">Airtable</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../alchemer.html">Alchemer</a></li>
@@ -63,6 +64,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../../../hustle.html">Hustle</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../mailchimp.html">Mailchimp</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../mobilize_america.html">Mobilize America</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../nation_builder.html">NationBuilder</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../newmode.html">New/Mode</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../ngpvan.html">NGPVAN</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../p2a.html">Phone2Action</a></li>
@@ -135,11 +137,13 @@
              
   <h1>Source code for parsons.action_network.action_network</h1><div class="highlight"><pre>
 <span></span><span class="kn">import</span> <span class="nn">json</span>
-<span class="kn">from</span> <span class="nn">parsons</span> <span class="kn">import</span> <span class="n">Table</span>
+<span class="kn">import</span> <span class="nn">logging</span>
 <span class="kn">import</span> <span class="nn">re</span>
+<span class="kn">import</span> <span class="nn">warnings</span>
+
+<span class="kn">from</span> <span class="nn">parsons</span> <span class="kn">import</span> <span class="n">Table</span>
 <span class="kn">from</span> <span class="nn">parsons.utilities</span> <span class="kn">import</span> <span class="n">check_env</span>
 <span class="kn">from</span> <span class="nn">parsons.utilities.api_connector</span> <span class="kn">import</span> <span class="n">APIConnector</span>
-<span class="kn">import</span> <span class="nn">logging</span>
 
 <span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
 
@@ -234,6 +238,8 @@
         <span class="n">postal_addresses</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
         <span class="n">mobile_number</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
         <span class="n">mobile_status</span><span class="o">=</span><span class="s2">&quot;subscribed&quot;</span><span class="p">,</span>
+        <span class="n">background_processing</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+        <span class="n">identifiers</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
         <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
     <span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
@@ -282,6 +288,21 @@
 <span class="sd">                            - &quot;unsubscribed&quot;</span>
 <span class="sd">            mobile_status:</span>
 <span class="sd">                &#39;subscribed&#39; or &#39;unsubscribed&#39;</span>
+<span class="sd">            background_request: bool</span>
+<span class="sd">                If set `true`, utilize ActionNetwork&#39;s &quot;background processing&quot;. This will return</span>
+<span class="sd">                an immediate success, with an empty JSON body, and send your request to the</span>
+<span class="sd">                background queue for eventual processing.</span>
+<span class="sd">                https://actionnetwork.org/docs/v2/#background-processing</span>
+<span class="sd">            identifiers:</span>
+<span class="sd">                List of strings to be used as globally unique</span>
+<span class="sd">                identifiers. Can be useful for matching contacts back</span>
+<span class="sd">                to other platforms and systems. If the identifier</span>
+<span class="sd">                provided is not globally unique in ActionNetwork, it will</span>
+<span class="sd">                simply be ignored and not added to the object. Action Network</span>
+<span class="sd">                also creates its own identifier for each new resouce.</span>
+<span class="sd">                https://actionnetwork.org/docs/v2/#resources</span>
+<span class="sd">                e.g.: [&quot;foreign_system:1&quot;, &quot;other_system:12345abcd&quot;]</span>
+
 <span class="sd">            **kwargs:</span>
 <span class="sd">                Any additional fields to store about the person. Action Network allows</span>
 <span class="sd">                any custom field.</span>
@@ -346,10 +367,14 @@
             <span class="n">data</span><span class="p">[</span><span class="s2">&quot;person&quot;</span><span class="p">][</span><span class="s2">&quot;postal_addresses&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">postal_addresses</span>
         <span class="k">if</span> <span class="n">tags</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">data</span><span class="p">[</span><span class="s2">&quot;add_tags&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">tags</span>
+        <span class="k">if</span> <span class="n">identifiers</span><span class="p">:</span>
+            <span class="n">data</span><span class="p">[</span><span class="s2">&quot;person&quot;</span><span class="p">][</span><span class="s2">&quot;identifiers&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">identifiers</span>
         <span class="n">data</span><span class="p">[</span><span class="s2">&quot;person&quot;</span><span class="p">][</span><span class="s2">&quot;custom_fields&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="o">**</span><span class="n">kwargs</span><span class="p">}</span>
-        <span class="n">response</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">api</span><span class="o">.</span><span class="n">post_request</span><span class="p">(</span>
-            <span class="n">url</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">api_url</span><span class="si">}</span><span class="s2">/people&quot;</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
-        <span class="p">)</span>
+        <span class="n">url</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">api_url</span><span class="si">}</span><span class="s2">/people&quot;</span>
+        <span class="k">if</span> <span class="n">background_processing</span><span class="p">:</span>
+            <span class="n">url</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">url</span><span class="si">}</span><span class="s2">?background_processing=true&quot;</span>
+        <span class="n">response</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">api</span><span class="o">.</span><span class="n">post_request</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">data</span><span class="p">))</span>
+
         <span class="n">identifiers</span> <span class="o">=</span> <span class="n">response</span><span class="p">[</span><span class="s2">&quot;identifiers&quot;</span><span class="p">]</span>
         <span class="n">person_id</span> <span class="o">=</span> <span class="p">[</span>
             <span class="n">entry_id</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;:&quot;</span><span class="p">)[</span><span class="mi">1</span><span class="p">]</span>
@@ -393,7 +418,7 @@
             <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
         <span class="p">)</span></div>
 
-<div class="viewcode-block" id="ActionNetwork.update_person"><a class="viewcode-back" href="../../../action_network.html#parsons.ActionNetwork.update_person">[docs]</a>    <span class="k">def</span> <span class="nf">update_person</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">entry_id</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<div class="viewcode-block" id="ActionNetwork.update_person"><a class="viewcode-back" href="../../../action_network.html#parsons.ActionNetwork.update_person">[docs]</a>    <span class="k">def</span> <span class="nf">update_person</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">entry_id</span><span class="p">,</span> <span class="n">background_processing</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Updates a person&#39;s data in Action Network, given their Action Network ID. Note that you</span>
 <span class="sd">        can&#39;t alter a person&#39;s tags with this method. Instead, use upsert_person.</span>
@@ -401,6 +426,11 @@
 <span class="sd">        `Args:`</span>
 <span class="sd">            entry_id:</span>
 <span class="sd">                The person&#39;s Action Network id</span>
+<span class="sd">            background_processing: bool</span>
+<span class="sd">                If set `true`, utilize ActionNetwork&#39;s &quot;background processing&quot;. This will return</span>
+<span class="sd">                an immediate success, with an empty JSON body, and send your request to the</span>
+<span class="sd">                background queue for eventual processing.</span>
+<span class="sd">                https://actionnetwork.org/docs/v2/#background-processing</span>
 <span class="sd">            **kwargs:</span>
 <span class="sd">                Fields to be updated. The possible fields are</span>
 <span class="sd">                    email_address:</span>
@@ -431,29 +461,34 @@
 <span class="sd">                        A dictionary of any other fields to store about the person.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">data</span> <span class="o">=</span> <span class="p">{</span><span class="o">**</span><span class="n">kwargs</span><span class="p">}</span>
+        <span class="n">url</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">api_url</span><span class="si">}</span><span class="s2">/people/</span><span class="si">{</span><span class="n">entry_id</span><span class="si">}</span><span class="s2">&quot;</span>
+        <span class="k">if</span> <span class="n">background_processing</span><span class="p">:</span>
+            <span class="n">url</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">url</span><span class="si">}</span><span class="s2">?background_processing=true&quot;</span>
         <span class="n">response</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">api</span><span class="o">.</span><span class="n">put_request</span><span class="p">(</span>
-            <span class="n">url</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">api_url</span><span class="si">}</span><span class="s2">/people/</span><span class="si">{</span><span class="n">entry_id</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
+            <span class="n">url</span><span class="o">=</span><span class="n">url</span><span class="p">,</span>
             <span class="n">data</span><span class="o">=</span><span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">data</span><span class="p">),</span>
             <span class="n">success_codes</span><span class="o">=</span><span class="p">[</span><span class="mi">204</span><span class="p">,</span> <span class="mi">201</span><span class="p">,</span> <span class="mi">200</span><span class="p">],</span>
         <span class="p">)</span>
         <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Person </span><span class="si">{</span><span class="n">entry_id</span><span class="si">}</span><span class="s2"> successfully updated&quot;</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">response</span></div>
 
-<div class="viewcode-block" id="ActionNetwork.get_tags"><a class="viewcode-back" href="../../../action_network.html#parsons.ActionNetwork.get_tags">[docs]</a>    <span class="k">def</span> <span class="nf">get_tags</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">limit</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">per_page</span><span class="o">=</span><span class="mi">25</span><span class="p">,</span> <span class="n">page</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<div class="viewcode-block" id="ActionNetwork.get_tags"><a class="viewcode-back" href="../../../action_network.html#parsons.ActionNetwork.get_tags">[docs]</a>    <span class="k">def</span> <span class="nf">get_tags</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">limit</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">per_page</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        `Args:`</span>
 <span class="sd">            limit:</span>
 <span class="sd">                The number of entries to return. When None, returns all entries.</span>
-<span class="sd">            per_page</span>
-<span class="sd">                The number of entries per page to return. 25 maximum.</span>
-<span class="sd">            page</span>
-<span class="sd">                Which page of results to return</span>
+<span class="sd">            per_page:</span>
+<span class="sd">                This is a deprecated argument.</span>
 <span class="sd">        `Returns:`</span>
 <span class="sd">            A list of JSONs of tags in Action Network.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">if</span> <span class="n">page</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">get_page</span><span class="p">(</span><span class="s2">&quot;tags&quot;</span><span class="p">,</span> <span class="n">page</span><span class="p">,</span> <span class="n">per_page</span><span class="p">)</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_entry_list</span><span class="p">(</span><span class="s2">&quot;tags&quot;</span><span class="p">,</span> <span class="n">limit</span><span class="p">,</span> <span class="n">per_page</span><span class="p">)</span></div>
+        <span class="k">if</span> <span class="n">per_page</span><span class="p">:</span>
+            <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span>
+                <span class="s2">&quot;per_page is a deprecated argument on get_tags()&quot;</span><span class="p">,</span>
+                <span class="ne">DeprecationWarning</span><span class="p">,</span>
+                <span class="n">stacklevel</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
+            <span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_entry_list</span><span class="p">(</span><span class="s2">&quot;tags&quot;</span><span class="p">,</span> <span class="n">limit</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="ActionNetwork.get_tag"><a class="viewcode-back" href="../../../action_network.html#parsons.ActionNetwork.get_tag">[docs]</a>    <span class="k">def</span> <span class="nf">get_tag</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tag_id</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>

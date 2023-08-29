@@ -38,6 +38,7 @@
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../../actblue.html">ActBlue</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../action_kit.html">ActionKit</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../action_builder.html">Action Builder</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../action_network.html">Action Network</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../airtable.html">Airtable</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../alchemer.html">Alchemer</a></li>
@@ -63,6 +64,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../../../hustle.html">Hustle</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../mailchimp.html">Mailchimp</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../mobilize_america.html">Mobilize America</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../nation_builder.html">NationBuilder</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../newmode.html">New/Mode</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../ngpvan.html">NGPVAN</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../p2a.html">Phone2Action</a></li>
@@ -582,6 +584,21 @@
 
         <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Getting person with </span><span class="si">{</span><span class="n">id_type</span><span class="w"> </span><span class="ow">or</span><span class="w"> </span><span class="s2">&quot;vanid&quot;</span><span class="si">}</span><span class="s1"> of </span><span class="si">{</span><span class="nb">id</span><span class="si">}</span><span class="s1"> at url </span><span class="si">{</span><span class="n">url</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">connection</span><span class="o">.</span><span class="n">get_request</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;$expand&quot;</span><span class="p">:</span> <span class="n">expand_fields</span><span class="p">})</span></div>
+
+<div class="viewcode-block" id="People.delete_person"><a class="viewcode-back" href="../../../ngpvan.html#parsons.ngpvan.van.People.delete_person">[docs]</a>    <span class="k">def</span> <span class="nf">delete_person</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">vanid</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Suppress the given VANID in databases where contact records can be suppressed.</span>
+
+<span class="sd">        `Args:`</span>
+<span class="sd">            vanid: str</span>
+<span class="sd">                The person&#39;s VAN ID.</span>
+<span class="sd">        `Returns:`</span>
+<span class="sd">            Success or error.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">url</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;people/</span><span class="si">{</span><span class="n">vanid</span><span class="si">}</span><span class="s2">&quot;</span>
+        <span class="n">r</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">connection</span><span class="o">.</span><span class="n">delete_request</span><span class="p">(</span><span class="n">url</span><span class="p">)</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Van ID </span><span class="si">{</span><span class="n">vanid</span><span class="si">}</span><span class="s2"> suppressed.&quot;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">r</span></div>
 
 <div class="viewcode-block" id="People.apply_canvass_result"><a class="viewcode-back" href="../../../ngpvan.html#parsons.ngpvan.van.People.apply_canvass_result">[docs]</a>    <span class="k">def</span> <span class="nf">apply_canvass_result</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>

@@ -1,9 +1,12 @@
 import re
 import boto3
 from botocore.client import ClientError
+from parsons.databases.redshift.redshift import Redshift
 from parsons.utilities import files
 import logging
 import os
+import random
+import datetime
 
 logger = logging.getLogger(__name__)
 
@@ -470,12 +473,13 @@ class S3(object):
 
         """
 
-        all_buckets = self.s3.list_buckets()
+        all_buckets = self.list_buckets()
         buckets = [x for x in all_buckets if regex in x.split('-')]
 
         return buckets
 
     def s3_to_redshift(
+        self,
         bucket,
         key,
         rs_table,
@@ -515,7 +519,6 @@ class S3(object):
         """
 
         rs = Redshift()
-        s3 = S3()
 
         if ".zip" in key:
             raise Exception(".zip files won't work with copy. We need unzipped or GZIP.")
@@ -533,7 +536,10 @@ class S3(object):
         else:
             raise Exception("ERROR: Your options here are tab, pipe, or comma.")
 
-        truncate = "TRUNCATECOLUMNS" if truncate_columns == True else ""
+        if truncate_columns:
+            truncate = "TRUNCATECOLUMNS"
+        else:
+            truncate = ""
 
         if rs.table_exists(rs_table):
             if if_exists == "fail":
@@ -550,11 +556,10 @@ class S3(object):
                 raise Exception(
                     "You chose an option that is not 'fail','truncate','append', or 'drop'."
                 )
-
             copy_query += f"""
                 -- Load the data
                 copy {copy_table} from '{full_key}'
-                credentials 'aws_access_key_id={ACCESS_KEY_ID};aws_secret_access_key={SECRET_ACCESS_KEY}'
+                credentials 'aws_access_key_id={self.aws_access_key_id};aws_secret_access_key={self.aws_secret_access_key}'
                 emptyasnull
                 blanksasnull
                 ignoreheader 1
@@ -580,6 +585,7 @@ class S3(object):
         return None
 
     def drop_and_save(
+        self,
         rs_table,
         bucket,
         key,
@@ -596,8 +602,7 @@ class S3(object):
         aws_region=None,
     ):
         """
-        Description:
-            This function is used to unload data to s3, and then drop Redshift table.
+        Unload data to s3, and then drop Redshift table
 
         Args:
             rs_table: str
@@ -619,7 +624,6 @@ class S3(object):
         """
 
         rs = Redshift()
-        s3 = S3()
 
         query_end = "cascade" if cascade else ""
 

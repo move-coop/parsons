@@ -136,7 +136,8 @@
            <div itemprop="articleBody">
              
   <h1>Source code for parsons.databases.redshift.redshift</h1><div class="highlight"><pre>
-<span></span><span class="kn">from</span> <span class="nn">parsons.etl.table</span> <span class="kn">import</span> <span class="n">Table</span>
+<span></span><span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">List</span><span class="p">,</span> <span class="n">Optional</span>
+<span class="kn">from</span> <span class="nn">parsons.etl.table</span> <span class="kn">import</span> <span class="n">Table</span>
 <span class="kn">from</span> <span class="nn">parsons.databases.redshift.rs_copy_table</span> <span class="kn">import</span> <span class="n">RedshiftCopyTable</span>
 <span class="kn">from</span> <span class="nn">parsons.databases.redshift.rs_create_table</span> <span class="kn">import</span> <span class="n">RedshiftCreateTable</span>
 <span class="kn">from</span> <span class="nn">parsons.databases.redshift.rs_table_utilities</span> <span class="kn">import</span> <span class="n">RedshiftTableUtilities</span>
@@ -144,6 +145,7 @@
 <span class="kn">from</span> <span class="nn">parsons.databases.table</span> <span class="kn">import</span> <span class="n">BaseTable</span>
 <span class="kn">from</span> <span class="nn">parsons.databases.alchemy</span> <span class="kn">import</span> <span class="n">Alchemy</span>
 <span class="kn">from</span> <span class="nn">parsons.utilities</span> <span class="kn">import</span> <span class="n">files</span><span class="p">,</span> <span class="n">sql_helpers</span>
+<span class="kn">from</span> <span class="nn">parsons.databases.database_connector</span> <span class="kn">import</span> <span class="n">DatabaseConnector</span>
 <span class="kn">import</span> <span class="nn">psycopg2</span>
 <span class="kn">import</span> <span class="nn">psycopg2.extras</span>
 <span class="kn">import</span> <span class="nn">os</span>
@@ -169,6 +171,7 @@
     <span class="n">RedshiftTableUtilities</span><span class="p">,</span>
     <span class="n">RedshiftSchema</span><span class="p">,</span>
     <span class="n">Alchemy</span><span class="p">,</span>
+    <span class="n">DatabaseConnector</span><span class="p">,</span>
 <span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    A Redshift class to connect to database.</span>
@@ -290,7 +293,7 @@
         <span class="k">finally</span><span class="p">:</span>
             <span class="n">cur</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
 
-    <span class="k">def</span> <span class="nf">query</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sql</span><span class="p">,</span> <span class="n">parameters</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">query</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sql</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">parameters</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">list</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Table</span><span class="p">]:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Execute a query against the Redshift database. Will return ``None``</span>
 <span class="sd">        if the query returns zero rows.</span>
@@ -599,36 +602,36 @@
 
     <span class="k">def</span> <span class="nf">copy</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
-        <span class="n">tbl</span><span class="p">,</span>
-        <span class="n">table_name</span><span class="p">,</span>
-        <span class="n">if_exists</span><span class="o">=</span><span class="s2">&quot;fail&quot;</span><span class="p">,</span>
-        <span class="n">max_errors</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
-        <span class="n">distkey</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-        <span class="n">sortkey</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-        <span class="n">padding</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-        <span class="n">statupdate</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-        <span class="n">compupdate</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-        <span class="n">acceptanydate</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
-        <span class="n">emptyasnull</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
-        <span class="n">blanksasnull</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
-        <span class="n">nullas</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-        <span class="n">acceptinvchars</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
-        <span class="n">dateformat</span><span class="o">=</span><span class="s2">&quot;auto&quot;</span><span class="p">,</span>
-        <span class="n">timeformat</span><span class="o">=</span><span class="s2">&quot;auto&quot;</span><span class="p">,</span>
-        <span class="n">varchar_max</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-        <span class="n">truncatecolumns</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
-        <span class="n">columntypes</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-        <span class="n">specifycols</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-        <span class="n">alter_table</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
-        <span class="n">alter_table_cascade</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
-        <span class="n">aws_access_key_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-        <span class="n">aws_secret_access_key</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-        <span class="n">iam_role</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-        <span class="n">cleanup_s3_file</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
-        <span class="n">template_table</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-        <span class="n">temp_bucket_region</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-        <span class="n">strict_length</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
-        <span class="n">csv_encoding</span><span class="o">=</span><span class="s2">&quot;utf-8&quot;</span><span class="p">,</span>
+        <span class="n">tbl</span><span class="p">:</span> <span class="n">Table</span><span class="p">,</span>
+        <span class="n">table_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+        <span class="n">if_exists</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;fail&quot;</span><span class="p">,</span>
+        <span class="n">max_errors</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span>
+        <span class="n">distkey</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">sortkey</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">padding</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">statupdate</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">bool</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">compupdate</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">bool</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">acceptanydate</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+        <span class="n">emptyasnull</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+        <span class="n">blanksasnull</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+        <span class="n">nullas</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">acceptinvchars</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+        <span class="n">dateformat</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;auto&quot;</span><span class="p">,</span>
+        <span class="n">timeformat</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;auto&quot;</span><span class="p">,</span>
+        <span class="n">varchar_max</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">truncatecolumns</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+        <span class="n">columntypes</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">dict</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">specifycols</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">bool</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">alter_table</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+        <span class="n">alter_table_cascade</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+        <span class="n">aws_access_key_id</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">aws_secret_access_key</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">iam_role</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>  <span class="c1"># Unused - Should we remove?</span>
+        <span class="n">cleanup_s3_file</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+        <span class="n">template_table</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">temp_bucket_region</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">strict_length</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+        <span class="n">csv_encoding</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;utf-8&quot;</span><span class="p">,</span>
     <span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Copy a :ref:`parsons-table` to Redshift.</span>
@@ -651,9 +654,6 @@
 <span class="sd">            padding: float</span>
 <span class="sd">                A percentage padding to add to varchar columns if creating a new table. This is</span>
 <span class="sd">                helpful to add a buffer for future copies in which the data might be wider.</span>
-<span class="sd">            varchar_max: list</span>
-<span class="sd">                A list of columns in which to set the width of the varchar column to 65,535</span>
-<span class="sd">                characters.</span>
 <span class="sd">            statupate: boolean</span>
 <span class="sd">                Governs automatic computation and refresh of optimizer statistics at the end</span>
 <span class="sd">                of a successful COPY command. If ``True`` explicitly sets ``statupate`` to on, if</span>
@@ -691,6 +691,9 @@
 <span class="sd">                Set the date format. Defaults to ``auto``.</span>
 <span class="sd">            timeformat: str</span>
 <span class="sd">                Set the time format. Defaults to ``auto``.</span>
+<span class="sd">            varchar_max: list</span>
+<span class="sd">                A list of columns in which to set the width of the varchar column to 65,535</span>
+<span class="sd">                characters.</span>
 <span class="sd">            truncatecolumns: boolean</span>
 <span class="sd">                If the table already exists, truncates data in columns to the appropriate number</span>
 <span class="sd">                of characters so that it fits the column specification. Applies only to columns</span>
@@ -738,7 +741,7 @@
 <span class="sd">                in a different region from the temp bucket.</span>
 <span class="sd">            strict_length: bool</span>
 <span class="sd">                Whether or not to tightly fit the length of the table columns to the length</span>
-<span class="sd">                of the data in ``tbl``; if ``padding`` is specified, this argument is ignored</span>
+<span class="sd">                of the data in ``tbl``; if ``padding`` is specified, this argument is ignored.</span>
 <span class="sd">            csv_ecoding: str</span>
 <span class="sd">                String encoding to use when writing the temporary CSV file that is uploaded to S3.</span>
 <span class="sd">                Defaults to &#39;utf-8&#39;.</span>

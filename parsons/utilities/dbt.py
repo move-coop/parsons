@@ -20,9 +20,9 @@ Example usage:
 from parsons.utilities.dbt import dbtRunner
 
 dbt_runner = dbtRunner(
-    commands: ['run', 'test']
-    dbt_project_directory: '/home/ubuntu/code/dbt_project/',
-    dbt_schema: 'dbt_dev'
+    commands=['run', 'test'],
+    dbt_project_directory='/home/ubuntu/code/dbt_project/',
+    dbt_schema='dbt_dev'
 )
 dbt_runner.run()
 ```

@@ -459,13 +459,13 @@ class S3(object):
 
         logger.info(f"Finished syncing {len(key_list)} keys")
 
-    def get_buckets_type(self, regex):
+    def get_buckets_with_subname(self, bucket_subname):
         """
         Grabs a type of bucket based on naming convention.
 
         `Args:`
-            regex: str
-                This will most commonly be 'member' or 'vendor'
+            subname: str
+                This will most commonly be a 'vendor'
 
         `Returns:`
             list
@@ -474,75 +474,12 @@ class S3(object):
         """
 
         all_buckets = self.list_buckets()
-        buckets = [x for x in all_buckets if regex in x.split('-')]
+        buckets = [x for x in all_buckets if bucket_subname in x.split('-')]
 
         return buckets
 
-    def drop_and_save(
-        self,
-        rs_table,
-        bucket,
-        key,
-        cascade=True,
-        manifest=True,
-        header=True,
-        delimiter="|",
-        compression="gzip",
-        add_quotes=True,
-        escape=True,
-        allow_overwrite=True,
-        parallel=True,
-        max_file_size="6.2 GB",
-        aws_region=None,
-    ):
-        """
-        Unload data to s3, and then drop Redshift table
-
-        Args:
-            rs_table: str
-                Redshift table.
-
-            bucket: str
-                S3 bucket
-
-            key: str
-                S3 key prefix ahead of table name
-
-            cascade: bool
-                whether to drop cascade
-
-            ***unload params
-
-        Returns:
-            None
-        """
-
-        rs = Redshift()
-
-        query_end = "cascade" if cascade else ""
-
-        rs.unload(
-            sql=f"select * from {rs_table}",
-            bucket=bucket,
-            key_prefix=f"{key}/{rs_table.replace('.','_')}/",
-            manifest=manifest,
-            header=header,
-            delimiter=delimiter,
-            compression=compression,
-            add_quotes=add_quotes,
-            escape=escape,
-            allow_overwrite=allow_overwrite,
-            parallel=parallel,
-            max_file_size=max_file_size,
-            aws_region=aws_region,
-        )
-
-        rs.query(f"drop table if exists {rs_table} {query_end}")
-
-        return None
-
     def process_s3_keys(
-        s3,
+        self,
         bucket,
         incoming_prefix,
         processing_prefix,
@@ -555,8 +492,6 @@ class S3(object):
         Process the keys in an S3 bucket under a specific prefix.
 
         `Args:`
-            s3: object
-                The S3 connector to use.
             incoming_prefix: str
                 The prefix to use to search for keys to process.
             processing_prefix:  str
@@ -577,7 +512,7 @@ class S3(object):
         logger.info("Moving any keys from previous runs back to incoming")
         merged_regex = re.compile(f"^{processing_prefix}/\\d+/(.+)$")
 
-        previous_keys = s3.list_keys(bucket, processing_prefix)
+        previous_keys = self.list_keys(bucket, processing_prefix)
         logger.info("Found %d keys left over from previous runs", len(previous_keys))
 
         for key in previous_keys:
@@ -586,11 +521,11 @@ class S3(object):
                 remainder = match.group(1)
                 destination = f"{incoming_prefix}/{remainder}"
                 logger.info("Moving %s back to %s", key, destination)
-                s3.transfer_bucket(bucket, key, bucket, destination, remove_original=True)
+                self.transfer_bucket(bucket, key, bucket, destination, remove_original=True)
             else:
                 logger.warning("Could not match processing key to expected regex: %s", key)
 
-        all_keys = s3.list_keys(bucket, incoming_prefix, suffix=extension)
+        all_keys = self.list_keys(bucket, incoming_prefix, suffix=extension)
 
         if key_limit:
             all_keys = all_keys[key_offset: key_offset + key_limit]
@@ -609,8 +544,8 @@ class S3(object):
         moved_keys = []
         for from_key in all_keys:
             dest_key = from_key.replace(incoming_prefix, random_processing_prefix)
-            s3.transfer_bucket(bucket, from_key, bucket, dest_key)
-            s3.remove_file(bucket, from_key)
+            self.transfer_bucket(bucket, from_key, bucket, dest_key)
+            self.remove_file(bucket, from_key)
             moved_keys.append(dest_key)
 
         for key in moved_keys:
@@ -623,8 +558,8 @@ class S3(object):
         final_keys = []
         for from_key in moved_keys:
             dest_key = from_key.replace(random_processing_prefix, dated_dest_prefix)
-            s3.transfer_bucket(bucket, from_key, bucket, dest_key)
-            s3.remove_file(bucket, from_key)
+            self.transfer_bucket(bucket, from_key, bucket, dest_key)
+            self.remove_file(bucket, from_key)
             final_keys.append(dest_key)
 
         return final_keys

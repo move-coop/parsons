@@ -349,7 +349,7 @@ class GoogleCloudStorage(object):
         gcs_sink_bucket: str,
         source: str,
         source_bucket: str,
-        destination_path: str = None,
+        destination_path: str = "",
         source_path: str = "",
         aws_access_key_id: str = None,
         aws_secret_access_key: str = None,
@@ -375,6 +375,9 @@ class GoogleCloudStorage(object):
                 Secret key to authenticate storage transfer
         """
 
+        # TODO: Personally I think we should accept "S3" here too
+        # When I think GCS I think "cloud storage" not "cloud services"
+        # AWS doesn't seem like an intuitive option
         if source not in ["gcs", "aws"]:
             raise ValueError(
                 f"Blob transfer only supports gcs and aws sources [source={source}]"
@@ -389,6 +392,8 @@ class GoogleCloudStorage(object):
 
         transfer_job_config = {
             "project_id": self.project,
+            # TODO - S3 shouldn't be hardcoded here
+            # TODO - Add in source / dest buckets for debugging?
             "description": f"One time S3 to GCS Transfer - {uuid.uuid4()}",
             "status": storage_transfer.TransferJob.Status.ENABLED,
             "schedule": {
@@ -472,6 +477,7 @@ class GoogleCloudStorage(object):
             wait_time += wait_between_attempts_in_sec
             time.sleep(wait_between_attempts_in_sec)
 
+        # TODO - Some jobs take longer than 10m, how do we want to handle that?
         raise Exception(
             f"{blob_storage} to GCS Transfer Job {create_result.name} timedout."
         )

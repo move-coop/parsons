@@ -52,3 +52,4 @@ pytest-datadir==1.3.0
 # TODO Remove when we have a TMC-specific Docker image
 selenium==3.141.0
 jinja2==3.0.2
+us==3.1.1

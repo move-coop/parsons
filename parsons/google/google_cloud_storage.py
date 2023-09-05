@@ -449,7 +449,7 @@ class GoogleCloudStorage(object):
         # determine whether or not the transfer has kicked off
         latest_operation_name = create_result.latest_operation_name
 
-        while polling and wait_time < max_wait_in_sec:
+        while polling:
             if latest_operation_name:
                 operation = client.get_operation({"name": latest_operation_name})
 
@@ -476,11 +476,6 @@ class GoogleCloudStorage(object):
 
             wait_time += wait_between_attempts_in_sec
             time.sleep(wait_between_attempts_in_sec)
-
-        # TODO - Some jobs take longer than 10m, how do we want to handle that?
-        raise Exception(
-            f"{blob_storage} to GCS Transfer Job {create_result.name} timedout."
-        )
 
     def format_uri(self, bucket: str, name: str):
         """

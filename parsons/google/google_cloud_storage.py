@@ -375,7 +375,7 @@ class GoogleCloudStorage(object):
                 Secret key to authenticate storage transfer
         """
 
-        # TODO: Personally I think we should accept "S3" here too
+        # TODO: Personally I [ Ian ] think we should accept "S3" here too
         # When I think GCS I think "cloud storage" not "cloud services"
         # AWS doesn't seem like an intuitive option
         if source not in ["gcs", "aws"]:
@@ -390,11 +390,14 @@ class GoogleCloudStorage(object):
         # the same time creates a one-time transfer
         one_time_schedule = {"day": now.day, "month": now.month, "year": now.year}
 
+        if source == "gcs":
+            description = f"One time GCS to GCS Transfer [{source_bucket} -> {gcs_sink_bucket}] - {uuid.uuid4()}"
+        elif source == "aws":
+            description = f"One time S3 to GCS Transfer [{source_bucket} -> {gcs_sink_bucket}] - {uuid.uuid4()}"
+
         transfer_job_config = {
             "project_id": self.project,
-            # TODO - S3 shouldn't be hardcoded here
-            # TODO - Add in source / dest buckets for debugging?
-            "description": f"One time S3 to GCS Transfer - {uuid.uuid4()}",
+            "description": description,
             "status": storage_transfer.TransferJob.Status.ENABLED,
             "schedule": {
                 "schedule_start_date": one_time_schedule,

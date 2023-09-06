@@ -1,7 +1,7 @@
 import re
 import boto3
 from botocore.client import ClientError
-from parsons.databases.redshift.redshift import Redshift
+# from parsons.databases.redshift.redshift import Redshift
 from parsons.utilities import files
 import logging
 import os
@@ -509,11 +509,15 @@ class S3(object):
         `Return:`
             A list of the final location of all processed keys.
         """
+        print('what')
         logger.info("Moving any keys from previous runs back to incoming")
         merged_regex = re.compile(f"^{processing_prefix}/\\d+/(.+)$")
 
+        print('hiya')
         previous_keys = self.list_keys(bucket, processing_prefix)
         logger.info("Found %d keys left over from previous runs", len(previous_keys))
+
+        print(previous_keys)
 
         for key in previous_keys:
             match = merged_regex.match(key)

@@ -652,10 +652,140 @@ class TestZoom(unittest.TestCase):
 
     @requests_mock.Mocker()
     def test_get_webinar_poll(self, m):
+        poll = {
+            "id": "QalIoKWLTJehBJ8e1xRrbQ",
+            "status": "notstart",
+            "anonymous": True,
+            "poll_type": 2,
+            "questions": [
+                {
+                    "answer_max_character": 200,
+                    "answer_min_character": 1,
+                    "answer_required": False,
+                    "answers": ["Extremely useful"],
+                    "case_sensitive": False,
+                    "name": "How useful was this meeting?",
+                    "prompts": [
+                        {
+                            "prompt_question": "How are you?",
+                            "prompt_right_answers": ["Good"],
+                        }
+                    ],
+                    "rating_max_label": "Extremely Likely",
+                    "rating_max_value": 4,
+                    "rating_min_label": "Not likely",
+                    "rating_min_value": 0,
+                    "right_answers": ["Good"],
+                    "show_as_dropdown": False,
+                    "type": "single",
+                }
+            ],
+            "title": "Learn something new",
+        }
+
+        tbl = Table(
+            [
+                {
+                    "answer_max_character": 200,
+                    "answer_min_character": 1,
+                    "answer_required": False,
+                    "answers": ["Extremely useful"],
+                    "case_sensitive": False,
+                    "name": "How useful was this meeting?",
+                    "prompts": [
+                        {
+                            "prompt_question": "How are you?",
+                            "prompt_right_answers": ["Good"],
+                        }
+                    ],
+                    "rating_max_label": "Extremely Likely",
+                    "rating_max_value": 4,
+                    "rating_min_label": "Not likely",
+                    "rating_min_value": 0,
+                    "right_answers": ["Good"],
+                    "show_as_dropdown": False,
+                    "type": "single",
+                }
+            ]
+        )
+
         m.post(ZOOM_AUTH_CALLBACK, json={"access_token": "fakeAccessToken"})
-        m.get(ZOOM_URI + "/webinars/123/polls/456", json={})
+        m.get(ZOOM_URI + "webinars/123/polls/456", json=poll)
+        assert_matching_tables(self.zoom.get_webinar_poll(123, 456), tbl)
 
     @requests_mock.Mocker()
     def test_get_webinar_all_polls(self, m):
+        polls = {
+            "polls": [
+                {
+                    "id": "QalIoKWLTJehBJ8e1xRrbQ",
+                    "status": "notstart",
+                    "anonymous": True,
+                    "poll_type": 2,
+                    "questions": [
+                        {
+                            "answer_max_character": 200,
+                            "answer_min_character": 1,
+                            "answer_required": False,
+                            "answers": ["Extremely useful"],
+                            "case_sensitive": False,
+                            "name": "How useful was this meeting?",
+                            "prompts": [
+                                {
+                                    "prompt_question": "How are you?",
+                                    "prompt_right_answers": ["Good"],
+                                }
+                            ],
+                            "rating_max_label": "Extremely Likely",
+                            "rating_max_value": 4,
+                            "rating_min_label": "Not likely",
+                            "rating_min_value": 0,
+                            "right_answers": ["Good"],
+                            "show_as_dropdown": False,
+                            "type": "single",
+                        }
+                    ],
+                    "title": "Learn something new",
+                }
+            ],
+            "total_records": 1,
+        }
+
+        tbl = Table(
+            [
+                {
+                    "id": "QalIoKWLTJehBJ8e1xRrbQ",
+                    "status": "notstart",
+                    "anonymous": True,
+                    "poll_type": 2,
+                    "questions": [
+                        {
+                            "answer_max_character": 200,
+                            "answer_min_character": 1,
+                            "answer_required": False,
+                            "answers": ["Extremely useful"],
+                            "case_sensitive": False,
+                            "name": "How useful was this meeting?",
+                            "prompts": [
+                                {
+                                    "prompt_question": "How are you?",
+                                    "prompt_right_answers": ["Good"],
+                                }
+                            ],
+                            "rating_max_label": "Extremely Likely",
+                            "rating_max_value": 4,
+                            "rating_min_label": "Not likely",
+                            "rating_min_value": 0,
+                            "right_answers": ["Good"],
+                            "show_as_dropdown": False,
+                            "type": "single",
+                        }
+                    ],
+                    "title": "Learn something new",
+                }
+            ]
+        )
+
         m.post(ZOOM_AUTH_CALLBACK, json={"access_token": "fakeAccessToken"})
-        m.get(ZOOM_URI + "/webinars/123", json={})
+        m.get(ZOOM_URI + "webinars/123/polls", json=polls)
+        assert_matching_tables(self.zoom.get_webinar_all_polls(123), tbl)

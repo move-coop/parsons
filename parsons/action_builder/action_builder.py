@@ -188,11 +188,12 @@ class ActionBuilder(object):
             Dict containing Action Builder entity data.
         """  # noqa: E501
 
+        name_keys = ("name", "action_builder:name", "given_name")
         error = "Must provide data with name or given_name when inserting new record"
         if not isinstance(data, dict):
             raise ValueError(error)
         name_check = [
-            key for key in data.get("person", {}) if key in ("name", "given_name")
+            key for key in data.get("person", {}) if key in name_keys
         ]
         if not name_check:
             raise ValueError(error)

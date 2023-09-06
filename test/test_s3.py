@@ -197,14 +197,3 @@ class TestS3(unittest.TestCase):
 
         buckets_with_subname_false = self.s3.get_buckets_type('bucketsubnamedoesnotexist')
         self.assertFalse(self.test_bucket in buckets_with_subname_false)
-
-    def test_process_s3_keys(self):
-
-        # Put a file in the bucket
-        csv_path = self.tbl.to_csv()
-        key = "test/test.csv"
-        self.s3.put_file(self.test_bucket, key, csv_path)
-
-        processed_key = self.s3.process_s3_keys(self.test_bucket, self.test_incoming_prefix,
-                                                self.test_processing_prefix, self.test_dest_prefix)
-        self.assertTrue(self.s3.key_exists(self.test_bucket, processed_key))

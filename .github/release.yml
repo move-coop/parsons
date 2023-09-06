@@ -1,0 +1,22 @@
+changelog:
+  categories:
+    - title: New Features
+      labels:
+        - connector-update
+        - new-connector
+        - parsons-core
+    - title: Automated Testing
+      labels:
+        - testing
+    - title: Bug Fixes
+      labels:
+        - bug-fix
+    - title: Documentation
+      labels:
+        - documentation
+    # - title: New Contributors
+    #   labels:
+    #     -🎉-first-PR
+    - title: Other Changes
+      labels:
+        - "*"

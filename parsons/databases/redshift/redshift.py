@@ -1,3 +1,4 @@
+from typing import List, Optional
 from parsons.etl.table import Table
 from parsons.databases.redshift.rs_copy_table import RedshiftCopyTable
 from parsons.databases.redshift.rs_create_table import RedshiftCreateTable
@@ -6,6 +7,7 @@ from parsons.databases.redshift.rs_schema import RedshiftSchema
 from parsons.databases.table import BaseTable
 from parsons.databases.alchemy import Alchemy
 from parsons.utilities import files, sql_helpers
+from parsons.databases.database_connector import DatabaseConnector
 import psycopg2
 import psycopg2.extras
 import os
@@ -31,6 +33,7 @@ class Redshift(
     RedshiftTableUtilities,
     RedshiftSchema,
     Alchemy,
+    DatabaseConnector,
 ):
     """
     A Redshift class to connect to database.
@@ -152,7 +155,7 @@ class Redshift(
         finally:
             cur.close()
 
-    def query(self, sql, parameters=None):
+    def query(self, sql: str, parameters: Optional[list] = None) -> Optional[Table]:
         """
         Execute a query against the Redshift database. Will return ``None``
         if the query returns zero rows.
@@ -461,36 +464,36 @@ class Redshift(
 
     def copy(
         self,
-        tbl,
-        table_name,
-        if_exists="fail",
-        max_errors=0,
-        distkey=None,
-        sortkey=None,
-        padding=None,
-        statupdate=None,
-        compupdate=None,
-        acceptanydate=True,
-        emptyasnull=True,
-        blanksasnull=True,
-        nullas=None,
-        acceptinvchars=True,
-        dateformat="auto",
-        timeformat="auto",
-        varchar_max=None,
-        truncatecolumns=False,
-        columntypes=None,
-        specifycols=None,
-        alter_table=False,
-        alter_table_cascade=False,
-        aws_access_key_id=None,
-        aws_secret_access_key=None,
-        iam_role=None,
-        cleanup_s3_file=True,
-        template_table=None,
-        temp_bucket_region=None,
-        strict_length=True,
-        csv_encoding="utf-8",
+        tbl: Table,
+        table_name: str,
+        if_exists: str = "fail",
+        max_errors: int = 0,
+        distkey: Optional[str] = None,
+        sortkey: Optional[str] = None,
+        padding: Optional[float] = None,
+        statupdate: Optional[bool] = None,
+        compupdate: Optional[bool] = None,
+        acceptanydate: bool = True,
+        emptyasnull: bool = True,
+        blanksasnull: bool = True,
+        nullas: Optional[str] = None,
+        acceptinvchars: bool = True,
+        dateformat: str = "auto",
+        timeformat: str = "auto",
+        varchar_max: Optional[List[str]] = None,
+        truncatecolumns: bool = False,
+        columntypes: Optional[dict] = None,
+        specifycols: Optional[bool] = None,
+        alter_table: bool = False,
+        alter_table_cascade: bool = False,
+        aws_access_key_id: Optional[str] = None,
+        aws_secret_access_key: Optional[str] = None,
+        iam_role: Optional[str] = None,  # Unused - Should we remove?
+        cleanup_s3_file: bool = True,
+        template_table: Optional[str] = None,
+        temp_bucket_region: Optional[str] = None,
+        strict_length: bool = True,
+        csv_encoding: str = "utf-8",
     ):
         """
         Copy a :ref:`parsons-table` to Redshift.
@@ -513,9 +516,6 @@ class Redshift(
             padding: float
                 A percentage padding to add to varchar columns if creating a new table. This is
                 helpful to add a buffer for future copies in which the data might be wider.
-            varchar_max: list
-                A list of columns in which to set the width of the varchar column to 65,535
-                characters.
             statupate: boolean
                 Governs automatic computation and refresh of optimizer statistics at the end
                 of a successful COPY command. If ``True`` explicitly sets ``statupate`` to on, if
@@ -553,6 +553,9 @@ class Redshift(
                 Set the date format. Defaults to ``auto``.
             timeformat: str
                 Set the time format. Defaults to ``auto``.
+            varchar_max: list
+                A list of columns in which to set the width of the varchar column to 65,535
+                characters.
             truncatecolumns: boolean
                 If the table already exists, truncates data in columns to the appropriate number
                 of characters so that it fits the column specification. Applies only to columns
@@ -600,7 +603,7 @@ class Redshift(
                 in a different region from the temp bucket.
             strict_length: bool
                 Whether or not to tightly fit the length of the table columns to the length
-                of the data in ``tbl``; if ``padding`` is specified, this argument is ignored
+                of the data in ``tbl``; if ``padding`` is specified, this argument is ignored.
             csv_ecoding: str
                 String encoding to use when writing the temporary CSV file that is uploaded to S3.
                 Defaults to 'utf-8'.

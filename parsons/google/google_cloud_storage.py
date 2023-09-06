@@ -201,7 +201,7 @@ class GoogleCloudStorage(object):
         logger.debug(f"Got {blob_name} object from {bucket_name} bucket.")
         return blob
 
-    def put_blob(self, bucket_name, blob_name, local_path):
+    def put_blob(self, bucket_name, blob_name, local_path, **kwargs):
         """
         Puts a blob (aka file) in a bucket
 
@@ -220,7 +220,7 @@ class GoogleCloudStorage(object):
         blob = storage.Blob(blob_name, bucket)
 
         with open(local_path, "rb") as f:
-            blob.upload_from_file(f)
+            blob.upload_from_file(f, **kwargs)
 
         logger.info(f"{blob_name} put in {bucket_name} bucket.")
 

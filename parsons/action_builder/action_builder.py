@@ -192,9 +192,7 @@ class ActionBuilder(object):
         error = "Must provide data with name or given_name when inserting new record"
         if not isinstance(data, dict):
             raise ValueError(error)
-        name_check = [
-            key for key in data.get("person", {}) if key in name_keys
-        ]
+        name_check = [key for key in data.get("person", {}) if key in name_keys]
         if not name_check:
             raise ValueError(error)
 

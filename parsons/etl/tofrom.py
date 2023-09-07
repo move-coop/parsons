@@ -620,7 +620,6 @@ class ToFrom(object):
         pg.copy(self, table_name, **copy_args)
 
     def to_petl(self):
-
         return self.table
 
     def to_civis(
@@ -894,6 +893,91 @@ class ToFrom(object):
             if files.compression_type_for_path(key_) == "zip":
                 file_ = zip_archive.unzip_archive(file_)
 
+            tbls.append(petl.fromcsv(file_, **csvargs))
+
+        return cls(petl.cat(*tbls))
+
+    @classmethod
+    def from_bigquery(cls, sql: str, app_creds: str = None, project: str = None):
+        """
+        Create a ``parsons table`` from a BigQuery statement.
+
+        To pull an entire BigQuery table, use a query like ``SELECT * FROM {{ table }}``.
+
+        `Args`:
+            sql: str
+                A valid SQL statement
+            app_creds: str
+                A credentials json string or a path to a json file. Not required
+                if ``GOOGLE_APPLICATION_CREDENTIALS`` env variable set.
+            project: str
+                The project which the client is acting on behalf of. If not passed
+                then will use the default inferred environment.
+            TODO - Should users be able to pass in kwargs here? For parameters?
+
+        `Returns`:
+            Parsons Table
+                See :ref:`parsons-table` for output options.
+        """
+
+        from parsons.databases.bigquery.bigquery import BigQuery
+
+        bq = BigQuery(app_creds=app_creds, project=project)
+
+        return bq.query(sql=sql)
+
+    @classmethod
+    def from_gcs_csv(
+        cls,
+        bucket: str,
+        key: str,
+        app_creds: str = None,
+        project: str = None,
+        from_manifest: bool = False,
+        **csvargs,
+    ):
+        """
+        Create a ``parsons table`` from a GoogleCloudStorage CSV file.
+
+        `Args`:
+            bucket: str
+                The GCS bucket.
+            key: str
+                The GCS key.
+            app_creds: str
+                A credentials json string or a path to a json file. Not required
+                if ``GOOGLE_APPLICATION_CREDENTIALS`` env variable set.
+            project: str
+                The project which the client is acting on behalf of. If not passed
+                then will use the default inferred environment.
+            \**csvargs: kwargs
+                ``csv_reader`` optional arguments
+
+        `Returns`:
+            Parsons Table
+                See :ref:`parsons-table` for output options.
+        """
+
+        from parsons.google.google_cloud_storage import GoogleCloudStorage
+
+        gcs = GoogleCloudStorage(app_creds=app_creds, project=project)
+
+        # Mimic behavior of S3 -> Table helper
+        if from_manifest:
+            with open(gcs.get_blob(bucket_name=bucket, blob_name=key)) as fd:
+                manifest = json.load(fd)
+            gcs_keys = [x["url"] for x in manifest["entries"]]
+        else:
+            gcs_keys = [f"gs://{bucket}/{key}"]
+
+        tbls = []
+        for key in gcs_keys:
+            _, _, bucket_, key_ = key.split("/", 3)
+            file_ = gcs.get_blob(bucket_name=bucket_, blob_name=key_)
+
+            # TODO - Confirm this can handle gzip
+            if files.compression_type_for_path(key_) == "zip":
+                file_ = zip_archive.unzip_archive(file_)
             tbls.append(petl.fromcsv(file_, **csvargs))
 
         return cls(petl.cat(*tbls))

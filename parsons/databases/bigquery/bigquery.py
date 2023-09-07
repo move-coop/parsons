@@ -433,7 +433,7 @@ class BigQuery(DatabaseConnector):
                     schema=schema,
                     job_config=job_config,
                 )
-            if "Schema has no field" in str(e):
+            elif "Schema has no field" in str(e):
                 logger.info(f"{gcs_blob_uri.split('/')[-1]} is empty, skipping file")
                 return "Empty file"
             else:

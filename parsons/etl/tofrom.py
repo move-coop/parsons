@@ -619,6 +619,34 @@ class ToFrom(object):
         pg = Postgres(username=username, password=password, host=host, db=db, port=port)
         pg.copy(self, table_name, **copy_args)
 
+    def to_bigquery(
+        self, table_name: str, app_creds: str = None, project: str = None, **kwargs
+    ):
+        """
+        Write a table to BigQuery
+
+        `Args`:
+            table_name: str
+                TODO - Does this need project.dataset.table name?
+            app_creds: str
+                A credentials json string or a path to a json file. Not required
+                if ``GOOGLE_APPLICATION_CREDENTIALS`` env variable set.
+            project: str
+                The project which the client is acting on behalf of. If not passed
+                then will use the default inferred environment.
+            \**kwargs: kwargs
+                Additional keyword arguments passed into the `.copy()` function (`if_exists`,
+                `max_errors`, etc.)
+
+        `Returns`:
+            ``None``
+        """
+
+        from parsons.databases.bigquery.bigquery import BigQuery
+
+        bq = BigQuery(app_creds=app_creds, project=project)
+        bq.copy(self, table_name=table_name, **kwargs)
+
     def to_petl(self):
         return self.table
 

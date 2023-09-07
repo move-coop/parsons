@@ -7,6 +7,7 @@ from parsons.utilities import files
 import pickle
 import logging
 import os
+from parsons.databases.database_connector import DatabaseConnector
 from parsons.databases.table import BaseTable
 from parsons.databases.mysql.create_table import MySQLCreateTable
 from parsons.databases.alchemy import Alchemy
@@ -19,7 +20,7 @@ QUERY_BATCH_SIZE = 100000
 logger = logging.getLogger(__name__)
 
 
-class MySQL(MySQLCreateTable, Alchemy):
+class MySQL(DatabaseConnector, MySQLCreateTable, Alchemy):
     """
     Connect to a MySQL database.
 
@@ -151,7 +152,6 @@ class MySQL(MySQLCreateTable, Alchemy):
                 See :ref:`parsons-table` for output options.
         """
         with self.cursor(connection) as cursor:
-
             # The python connector can only execute a single sql statement, so we will
             # break up each statement and execute them separately.
             for s in sql.strip().split(";"):
@@ -193,7 +193,12 @@ class MySQL(MySQLCreateTable, Alchemy):
                 return final_tbl
 
     def copy(
-        self, tbl, table_name, if_exists="fail", chunk_size=1000, strict_length=True
+        self,
+        tbl: Table,
+        table_name: str,
+        if_exists: str = "fail",
+        chunk_size: int = 1000,
+        strict_length: bool = True,
     ):
         """
         Copy a :ref:`parsons-table` to the database.
@@ -225,7 +230,6 @@ class MySQL(MySQLCreateTable, Alchemy):
             return None
 
         with self.connection() as connection:
-
             # Create table if not exists
             if self._create_table_precheck(connection, table_name, if_exists):
                 sql = self.create_statement(
@@ -282,7 +286,6 @@ class MySQL(MySQLCreateTable, Alchemy):
 
         # If the table exists, evaluate the if_exists argument for next steps.
         if self.table_exists(table_name):
-
             if if_exists == "fail":
                 raise ValueError("Table already exists.")
 
@@ -301,7 +304,7 @@ class MySQL(MySQLCreateTable, Alchemy):
         else:
             return True
 
-    def table_exists(self, table_name):
+    def table_exists(self, table_name: str) -> bool:
         """
         Check if a table or view exists in the database.
 

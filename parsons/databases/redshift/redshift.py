@@ -296,6 +296,7 @@ class Redshift(
         bucket_region=None,
         strict_length=True,
         template_table=None,
+        line_delimited=False,
     ):
         """
         Copy a file from s3 to Redshift.
@@ -414,6 +415,8 @@ class Redshift(
                     local_path = s3.get_file(bucket, key)
                     if data_type == "csv":
                         tbl = Table.from_csv(local_path, delimiter=csv_delimiter)
+                    elif data_type == "json":
+                        tbl = Table.from_json(local_path, line_delimited=line_delimited)
                     else:
                         raise TypeError("Invalid data type provided")
 
@@ -433,6 +436,7 @@ class Redshift(
                 logger.info(f"{table_name} created.")
 
             # Copy the table
+            logger.info(f"Data type is {data_type}")
             copy_sql = self.copy_statement(
                 table_name,
                 bucket,

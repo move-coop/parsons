@@ -235,7 +235,9 @@ class ActionKit(object):
 
     def get_blackholed_email(self, email):
         """
-        Get a blackholed email.
+        Get a blackholed email. A blackholed email is an email that has been prevented from
+        receiving bulk and transactional emails from ActionKit. `Documentation <https://\
+        docs.actionkit.com/docs/manual/guide/mailings_tools.html#blackhole>`_.
 
         `Args:`
             email: str
@@ -249,7 +251,9 @@ class ActionKit(object):
 
     def blackhole_email(self, email):
         """
-        Blackhole an email.
+        Prevent an email from receiving bulk and transactional emails from ActionKit.
+        `Documentation <https://docs.actionkit.com/docs/manual/guide/\
+        mailings_tools.html#blackhole>`_.
 
         `Args:`
             user_id: str

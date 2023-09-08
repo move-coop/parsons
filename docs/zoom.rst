@@ -7,21 +7,22 @@ Overview
 
 `Zoom <https://zoom.us>`_ is a video conferencing platform. This connector supports
 fetching users, fetching meetings, fetching metadata for past meetings, and fetching
-participants of past meetings via the `Zoom API <https://marketplace.zoom.us/docs/api-reference/zoom-api/>`_.
+participants of past meetings via the `Zoom API <https://developers.zoom.us/docs/api/>`_.
 
 .. note::
   Authentication
-    The ``Zoom`` class supports `JSON Web Token Authentication <https://marketplace.zoom.us/docs/guides/auth/jwt>`_.
-    You must `Create a JWT App <https://marketplace.zoom.us/docs/guides/build/jwt-app>`_ to obtain
-    an API Key and API Secret for authentication.
+    The ``Zoom`` class uses server-to-server `OAuth <https://developers.zoom.us/docs/internal-apps/s2s-oauth/>` 
+    to authenticate queries to the Zoom API. You must create a server-to-server application in 
+    `Zoom's app marketplace <https://marketplace.zoom.us/develop/create>` to obtain an 
+    ``account_id``, ``client_id``, and ``client_secret`` key.
 
 ***********
 Quick Start
 ***********
 
-To instantiate the ``Zoom`` class, you can either store your Zoom API
-key and secret as environmental variables (``ZOOM_API_KEY`` and ``ZOOM_API_SECRET``,
-respectively) or pass them in as arguments:
+To instantiate the ``Zoom`` class, you can either store your Zoom account ID, client ID, and client secret 
+as environmental variables (``ZOOM_ACCOUNT_ID``, ``ZOOM_CLIENT_ID``, ``ZOOM_CLIENT_SECRET``) 
+or pass them in as arguments.
 
 .. code-block:: python
 

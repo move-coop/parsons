@@ -371,6 +371,63 @@
         <span class="p">)</span>
         <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">resp</span><span class="o">.</span><span class="n">status_code</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">event_id</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span></div>
 
+<div class="viewcode-block" id="ActionKit.get_blackholed_email"><a class="viewcode-back" href="../../../action_kit.html#parsons.ActionKit.get_blackholed_email">[docs]</a>    <span class="k">def</span> <span class="nf">get_blackholed_email</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">email</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Get a blackholed email. A blackholed email is an email that has been prevented from</span>
+<span class="sd">        receiving bulk and transactional emails from ActionKit. `Documentation &lt;https://\</span>
+<span class="sd">        docs.actionkit.com/docs/manual/guide/mailings_tools.html#blackhole&gt;`_.</span>
+
+<span class="sd">        `Args:`</span>
+<span class="sd">            email: str</span>
+<span class="sd">                Blackholed email of the record to get.</span>
+<span class="sd">        `Returns`:</span>
+<span class="sd">            Parsons.Table</span>
+<span class="sd">                The blackholed email data.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">paginated_get</span><span class="p">(</span><span class="s2">&quot;blackholedemail&quot;</span><span class="p">,</span> <span class="n">email</span><span class="o">=</span><span class="n">email</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="ActionKit.blackhole_email"><a class="viewcode-back" href="../../../action_kit.html#parsons.ActionKit.blackhole_email">[docs]</a>    <span class="k">def</span> <span class="nf">blackhole_email</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">email</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Prevent an email from receiving bulk and transactional emails from ActionKit.</span>
+<span class="sd">        `Documentation &lt;https://docs.actionkit.com/docs/manual/guide/\</span>
+<span class="sd">        mailings_tools.html#blackhole&gt;`_.</span>
+
+<span class="sd">        `Args:`</span>
+<span class="sd">            user_id: str</span>
+<span class="sd">                Email to blackhole</span>
+<span class="sd">        `Returns:`</span>
+<span class="sd">            API location of new resource</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_base_post</span><span class="p">(</span>
+            <span class="n">endpoint</span><span class="o">=</span><span class="s2">&quot;blackholedemail&quot;</span><span class="p">,</span>
+            <span class="n">exception_message</span><span class="o">=</span><span class="s2">&quot;Could not blackhole email&quot;</span><span class="p">,</span>
+            <span class="n">email</span><span class="o">=</span><span class="n">email</span><span class="p">,</span>
+        <span class="p">)</span></div>
+
+<div class="viewcode-block" id="ActionKit.delete_user_data"><a class="viewcode-back" href="../../../action_kit.html#parsons.ActionKit.delete_user_data">[docs]</a>    <span class="k">def</span> <span class="nf">delete_user_data</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">email</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Delete user data.</span>
+
+<span class="sd">        `Args:`</span>
+<span class="sd">            email: str</span>
+<span class="sd">                Email of user to delete data</span>
+<span class="sd">            **kwargs:</span>
+<span class="sd">                Optional arguments and fields to pass to the client. A full list can be found</span>
+<span class="sd">                in the `ActionKit API Documentation &lt;https://docs.actionkit.com/docs/manual/api/\</span>
+<span class="sd">                rest/users.html&gt;`_.</span>
+<span class="sd">        `Returns:`</span>
+<span class="sd">            API location of anonymized user</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_base_post</span><span class="p">(</span>
+            <span class="n">endpoint</span><span class="o">=</span><span class="s2">&quot;eraser&quot;</span><span class="p">,</span>
+            <span class="n">exception_message</span><span class="o">=</span><span class="s2">&quot;Could not delete user data&quot;</span><span class="p">,</span>
+            <span class="n">email</span><span class="o">=</span><span class="n">email</span><span class="p">,</span>
+            <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
+        <span class="p">)</span></div>
+
 <div class="viewcode-block" id="ActionKit.delete_user"><a class="viewcode-back" href="../../../action_kit.html#parsons.ActionKit.delete_user">[docs]</a>    <span class="k">def</span> <span class="nf">delete_user</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">user_id</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Delete a user.</span>
@@ -995,7 +1052,7 @@
 <span class="sd">                    ak.get_orders(import_id=&quot;my-import-123&quot;)</span>
 <span class="sd">        `Returns:`</span>
 <span class="sd">            Parsons.Table</span>
-<span class="sd">                The events data.</span>
+<span class="sd">                The orders data.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">paginated_get</span><span class="p">(</span><span class="s2">&quot;order&quot;</span><span class="p">,</span> <span class="n">limit</span><span class="o">=</span><span class="n">limit</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
 
@@ -1172,7 +1229,7 @@
 <span class="sd">                    ak.get_transactions(order=&quot;order-1&quot;)</span>
 <span class="sd">        `Returns:`</span>
 <span class="sd">            Parsons.Table</span>
-<span class="sd">                The events data.</span>
+<span class="sd">                The transactions data.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">paginated_get</span><span class="p">(</span><span class="s2">&quot;transaction&quot;</span><span class="p">,</span> <span class="n">limit</span><span class="o">=</span><span class="n">limit</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
 

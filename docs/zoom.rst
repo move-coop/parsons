@@ -33,7 +33,11 @@ or pass them in as arguments.
   zoom = Zoom()
 
   # If providing authentication credentials via arguments
-  zoom = Zoom(api_key='my_api_key', api_secret='my_api_secret')
+  zoom = Zoom(
+    account_id="my_account_id",
+    client_id="my_client_id",
+    client_secret="my_client_secret"
+  )
 
   # Get a table of host's meetings via their email or user id
   meetings_tbl = zoom.get_meetings('my_name@mail.com')

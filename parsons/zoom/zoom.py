@@ -326,12 +326,35 @@ class Zoom:
 
         return tbl
 
+    def get_past_meeting_poll(self, meeting_id) -> Table:
+        """
+        List poll results of a past meeting.
+
+        `Args`:
+            meeting_id: str
+                The meeting's ID or universally unique ID (UUID).
+
+        `Returns`:
+            Parsons Table of poll results
+        """
+
+        endpoint = f"past_meetings/{meeting_id}/polls"
+        tbl = self._get_request(endpoint=endpoint, data_key="questions")
+
+        if type(tbl) == dict:
+            logger.debug(f"No poll data returned for meeting ID {meeting_id}")
+            return Table(tbl)
+
+        logger.info(f"Retrieved {tbl.num_rows} polls for meeting ID {meeting_id}")
+
+        return tbl
+
     def get_webinar_poll(self, webinar_id, poll_id) -> Table:
         """
         Get a specific poll for a given webinar ID
 
         `Args`:
-            webinar_id: int
+            webinar_id: str
                 Unique identifier for Zoom webinar
             poll_id: int
                 Unique identifier for poll
@@ -358,7 +381,7 @@ class Zoom:
         Get all polls for a given meeting ID
 
         `Args`:
-            webinar_id: int
+            webinar_id: str
                 Unique identifier for Zoom webinar
 
         `Returns`:
@@ -367,6 +390,29 @@ class Zoom:
 
         endpoint = f"webinars/{webinar_id}/polls"
         tbl = self._get_request(endpoint=endpoint, data_key="polls")
+
+        if type(tbl) == dict:
+            logger.debug(f"No poll data returned for webinar ID {webinar_id}")
+            return Table(tbl)
+
+        logger.info(f"Retrieved {tbl.num_rows} polls for meeting ID {webinar_id}")
+
+        return tbl
+
+    def get_past_webinar_poll(self, webinar_id) -> Table:
+        """
+        Retrieves the results for Webinar Polls of a specific Webinar
+
+        `Args`:
+            webinar_id: str
+                The webinar's ID or universally unique ID (UUID).
+
+        `Returns`:
+            Parsons Table of all polling responses
+        """
+
+        endpoint = f"past_webinars/{webinar_id}/polls"
+        tbl = self._get_request(endpoint=endpoint, data_key="questions")
 
         if type(tbl) == dict:
             logger.debug(f"No poll data returned for webinar ID {webinar_id}")

@@ -281,9 +281,9 @@ class Zoom:
         Get a specific poll for a given meeting ID
 
         `Args`:
-            meeting_id: str
+            meeting_id: int
                 Unique identifier for Zoom meeting
-            poll_id: str
+            poll_id: int
                 Unique identifier for poll
 
         `Returns`:
@@ -308,7 +308,7 @@ class Zoom:
         Get all polls for a given meeting ID
 
         `Args`:
-            meeting_id: str
+            meeting_id: int
                 Unique identifier for Zoom meeting
 
         `Returns`:
@@ -331,9 +331,9 @@ class Zoom:
         Get a specific poll for a given webinar ID
 
         `Args`:
-            webinar_id: str
+            webinar_id: int
                 Unique identifier for Zoom webinar
-            poll_id: str
+            poll_id: int
                 Unique identifier for poll
 
         `Returns`:
@@ -358,7 +358,7 @@ class Zoom:
         Get all polls for a given meeting ID
 
         `Args`:
-            webinar_id: str
+            webinar_id: int
                 Unique identifier for Zoom webinar
 
         `Returns`:

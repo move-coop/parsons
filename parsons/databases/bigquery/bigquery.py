@@ -323,6 +323,7 @@ class BigQuery(DatabaseConnector):
         ignoreheader: int = 1,
         nullas: str = None,
         allow_quoted_newlines: bool = True,
+        allow_jagged_rows: bool = True,
         quote: str = None,
         schema: list = None,
         job_config: Optional[LoadJobConfig] = None,
@@ -354,6 +355,8 @@ class BigQuery(DatabaseConnector):
             allow_quoted_newlines: bool
                 If True, detects quoted new line characters within a CSV field and does not interpret
                 the quoted new line character as a row boundary
+            allow_jagged_rows: bool
+                Allow missing trailing optional columns (CSV only).
             quote: str
                 The value that is used to quote data sections in a CSV file.
                 BigQuery converts the string to ISO-8859-1 encoding, and then uses the first byte of
@@ -398,6 +401,7 @@ class BigQuery(DatabaseConnector):
             ignoreheader=ignoreheader,
             nullas=nullas,
             allow_quoted_newlines=allow_quoted_newlines,
+            allow_jagged_rows=allow_jagged_rows,
             quote=quote,
             schema=schema,
         )
@@ -436,6 +440,16 @@ class BigQuery(DatabaseConnector):
             elif "Schema has no field" in str(e):
                 logger.info(f"{gcs_blob_uri.split('/')[-1]} is empty, skipping file")
                 return "Empty file"
+
+            elif "encountered too many errors, giving up" in str(e):
+                # TODO - Is this TOO verbose?
+                logger.error(f"Max errors exceeded for {gcs_blob_uri.split('/')[-1]}")
+
+                for error_ in load_job.errors:
+                    logger.error(error_)
+
+                raise e
+
             else:
                 raise e
 
@@ -450,6 +464,7 @@ class BigQuery(DatabaseConnector):
         ignoreheader: int = 1,
         nullas: str = None,
         allow_quoted_newlines: bool = True,
+        allow_jagged_rows: bool = True,
         quote: str = None,
         schema: list = None,
         job_config: Optional[LoadJobConfig] = None,
@@ -482,6 +497,8 @@ class BigQuery(DatabaseConnector):
             allow_quoted_newlines: bool
                 If True, detects quoted new line characters within a CSV field and does not interpret
                 the quoted new line character as a row boundary
+            allow_jagged_rows: bool
+                Allow missing trailing optional columns (CSV only).
             quote: str
                 The value that is used to quote data sections in a CSV file.
                 BigQuery converts the string to ISO-8859-1 encoding, and then uses the first byte of
@@ -527,6 +544,7 @@ class BigQuery(DatabaseConnector):
             ignoreheader=ignoreheader,
             nullas=nullas,
             allow_quoted_newlines=allow_quoted_newlines,
+            allow_jagged_rows=allow_jagged_rows,
             quote=quote,
             schema=schema,
         )
@@ -1042,6 +1060,11 @@ class BigQuery(DatabaseConnector):
 
         if not job_config.allow_quoted_newlines:
             job_config.allow_quoted_newlines = kwargs["allow_quoted_newlines"]
+
+        if kwargs["data_type"] == "csv" and kwargs["allow_jagged_rows"]:
+            job_config.allow_jagged_rows = kwargs["allow_jagged_rows"]
+        else:
+            job_config.allow_jagged_rows = True
 
         if not job_config.quote_character and kwargs["quote"]:
             job_config.quote_character = kwargs["quote"]

@@ -276,7 +276,7 @@ class Zoom:
         logger.info(f"Retrieved {tbl.num_rows} webinar registrants.")
         return tbl
 
-    def get_meeting_poll(self, meeting_id: str, poll_id: str) -> Table:
+    def get_meeting_poll(self, meeting_id, poll_id) -> Table:
         """
         Get a specific poll for a given meeting ID
 
@@ -303,7 +303,7 @@ class Zoom:
 
         return tbl
 
-    def get_meeting_all_polls(self, meeting_id: str) -> Table:
+    def get_meeting_all_polls(self, meeting_id) -> Table:
         """
         Get all polls for a given meeting ID
 
@@ -326,7 +326,7 @@ class Zoom:
 
         return tbl
 
-    def get_webinar_poll(self, webinar_id: str, poll_id: str) -> Table:
+    def get_webinar_poll(self, webinar_id, poll_id) -> Table:
         """
         Get a specific poll for a given webinar ID
 
@@ -353,7 +353,7 @@ class Zoom:
 
         return tbl
 
-    def get_webinar_all_polls(self, webinar_id: str) -> Table:
+    def get_webinar_all_polls(self, webinar_id) -> Table:
         """
         Get all polls for a given meeting ID
 

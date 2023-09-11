@@ -651,6 +651,74 @@ class TestZoom(unittest.TestCase):
         assert_matching_tables(self.zoom.get_meeting_all_polls(123), tbl)
 
     @requests_mock.Mocker()
+    def test_get_past_meeting_poll(self, m):
+        poll = {
+            "id": 1,
+            "status": "started",
+            "anonymous": "False",
+            "poll_type": 1,
+            "questions": [
+                {
+                    "answer_max_character": 1,
+                    "answer_min_character": 1,
+                    "answer_required": "False",
+                    "answers": "Larry David's Curb Your Enthusiasm",
+                    "case_sensitive": "True",
+                    "name": "Secret Truth",
+                    "prompts": [
+                        {
+                            "prompt_question": "What's the secret truth of the universe?",
+                            "prompt_right_answers": [
+                                "Pizza delivery",
+                                "Larry David's Curb Your Enthusiasm",
+                            ],
+                        }
+                    ],
+                    "rating_max_label": "",
+                    "rating_max_value": 1,
+                    "rating_min_label": "",
+                    "rating_min_value": 0,
+                    "right_answers": "",
+                    "show_as_dropdown": False,
+                    "type": "short_answer",
+                }
+            ],
+        }
+
+        tbl = Table(
+            [
+                {
+                    "answer_max_character": 1,
+                    "answer_min_character": 1,
+                    "answer_required": "False",
+                    "answers": "Larry David's Curb Your Enthusiasm",
+                    "case_sensitive": "True",
+                    "name": "Secret Truth",
+                    "prompts": [
+                        {
+                            "prompt_question": "What's the secret truth of the universe?",
+                            "prompt_right_answers": [
+                                "Pizza delivery",
+                                "Larry David's Curb Your Enthusiasm",
+                            ],
+                        }
+                    ],
+                    "rating_max_label": "",
+                    "rating_max_value": 1,
+                    "rating_min_label": "",
+                    "rating_min_value": 0,
+                    "right_answers": "",
+                    "show_as_dropdown": False,
+                    "type": "short_answer",
+                }
+            ]
+        )
+
+        m.post(ZOOM_AUTH_CALLBACK, json={"access_token": "fakeAccessToken"})
+        m.get(ZOOM_URI + "past_meetings/123/polls", json=poll)
+        assert_matching_tables(self.zoom.get_past_meeting_poll(123), tbl)
+
+    @requests_mock.Mocker()
     def test_get_webinar_poll(self, m):
         poll = {
             "id": "QalIoKWLTJehBJ8e1xRrbQ",
@@ -789,3 +857,66 @@ class TestZoom(unittest.TestCase):
         m.post(ZOOM_AUTH_CALLBACK, json={"access_token": "fakeAccessToken"})
         m.get(ZOOM_URI + "webinars/123/polls", json=polls)
         assert_matching_tables(self.zoom.get_webinar_all_polls(123), tbl)
+
+    @requests_mock.Mocker()
+    def test_get_past_webinar_poll(self, m):
+        poll = {
+            "id": "QalIoKWLTJehBJ8e1xRrbQ",
+            "status": "notstart",
+            "anonymous": True,
+            "poll_type": 2,
+            "questions": [
+                {
+                    "answer_max_character": 200,
+                    "answer_min_character": 1,
+                    "answer_required": False,
+                    "answers": ["Extremely useful"],
+                    "case_sensitive": False,
+                    "name": "How useful was this meeting?",
+                    "prompts": [
+                        {
+                            "prompt_question": "How are you?",
+                            "prompt_right_answers": ["Good"],
+                        }
+                    ],
+                    "rating_max_label": "Extremely Likely",
+                    "rating_max_value": 4,
+                    "rating_min_label": "Not likely",
+                    "rating_min_value": 0,
+                    "right_answers": ["Good"],
+                    "show_as_dropdown": False,
+                    "type": "single",
+                }
+            ],
+            "title": "Learn something new",
+        }
+
+        tbl = Table(
+            [
+                {
+                    "answer_max_character": 200,
+                    "answer_min_character": 1,
+                    "answer_required": False,
+                    "answers": ["Extremely useful"],
+                    "case_sensitive": False,
+                    "name": "How useful was this meeting?",
+                    "prompts": [
+                        {
+                            "prompt_question": "How are you?",
+                            "prompt_right_answers": ["Good"],
+                        }
+                    ],
+                    "rating_max_label": "Extremely Likely",
+                    "rating_max_value": 4,
+                    "rating_min_label": "Not likely",
+                    "rating_min_value": 0,
+                    "right_answers": ["Good"],
+                    "show_as_dropdown": False,
+                    "type": "single",
+                }
+            ]
+        )
+
+        m.post(ZOOM_AUTH_CALLBACK, json={"access_token": "fakeAccessToken"})
+        m.get(ZOOM_URI + "past_webinars/123/polls", json=poll)
+        assert_matching_tables(self.zoom.get_past_webinar_poll(123), tbl)

@@ -181,7 +181,7 @@ class Zoom:
         Get metadata regarding a past meeting.
 
         `Args:`
-            meeting_id: str
+            meeting_id: int
                 The meeting id
         `Returns:`
             Parsons Table
@@ -197,7 +197,7 @@ class Zoom:
         Get past meeting participants.
 
         `Args:`
-            meeting_id: str
+            meeting_id: int
                 The meeting id
         `Returns:`
             Parsons Table
@@ -215,7 +215,7 @@ class Zoom:
         Get meeting registrants.
 
         `Args:`
-            meeting_id: str
+            meeting_id: int
                 The meeting id
         `Returns:`
             Parsons Table
@@ -331,7 +331,7 @@ class Zoom:
         List poll results of a past meeting.
 
         `Args`:
-            meeting_id: str
+            meeting_id: int
                 The meeting's ID or universally unique ID (UUID).
 
         `Returns`:

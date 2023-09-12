@@ -47,6 +47,8 @@ for module_path, connector_name in (
     ("parsons.controlshift.controlshift", "Controlshift"),
     ("parsons.copper.copper", "Copper"),
     ("parsons.crowdtangle.crowdtangle", "CrowdTangle"),
+    ("parsons.databases.database_connector", "DatabaseConnector"),
+    ("parsons.databases.discover_database", "discover_database"),
     ("parsons.databases.db_sync", "DBSync"),
     ("parsons.databases.mysql.mysql", "MySQL"),
     ("parsons.databases.postgres.postgres", "Postgres"),

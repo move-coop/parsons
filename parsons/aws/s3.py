@@ -1,12 +1,11 @@
 import re
 import boto3
 from botocore.client import ClientError
+
 # from parsons.databases.redshift.redshift import Redshift
 from parsons.utilities import files
 import logging
 import os
-import random
-import datetime
 
 logger = logging.getLogger(__name__)
 
@@ -474,6 +473,6 @@ class S3(object):
         """
 
         all_buckets = self.list_buckets()
-        buckets = [x for x in all_buckets if bucket_subname in x.split('-')]
+        buckets = [x for x in all_buckets if bucket_subname in x.split("-")]
 
         return buckets

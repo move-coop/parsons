@@ -324,7 +324,7 @@ class ActionBuilder(object):
         if {tag_name, tag_id} == {None}:
             raise ValueError("Please supply a tag_name or tag_id!")
             
-        if {identifier, tagging_id}:
+        if {identifier, tagging_id} == {None}:
             raise ValueError(
                 "Please supply an entity or connection identifier, or a tagging id!")
             

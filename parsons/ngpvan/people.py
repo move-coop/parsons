@@ -614,7 +614,7 @@ class People(object):
                          "type": "ActivistCode"},
                         {"surveyQuestionId": 109149,
                          "surveyResponseId": 465468,
-                         "action": "SurveyResponse"}
+                         "type": "SurveyResponse"}
                         ]
             van.apply_response(5222, response)
         """  # noqa: E501,E261

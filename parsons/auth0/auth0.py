@@ -140,6 +140,17 @@ class Auth0(object):
         return ret
 
     def block_user(self, user_id, connection="Username-Password-Authentication"):
+        """
+        Blocks Auth0 users by email - setting the "blocked" attribute on Auth0's API.
+
+        `Args:`
+            user_id: str
+                Auth0 user id
+            connection: optional str
+                Name of auth0 connection (default to Username-Password-Authentication)
+        `Returns:`
+            Requests Response object
+        """
         payload = json.dumps({"connection": connection, "blocked": True})
         ret = requests.patch(
             f"{self.base_url}/api/v2/users/{user_id}",
@@ -151,6 +162,15 @@ class Auth0(object):
         return ret
 
     def retrieve_all_users(self, connection="Username-Password-Authentication"):
+        """
+        Retrieves all Auth0 users using the batch jobs endpoint.
+
+        `Args:`
+            connection: optional str
+                Name of auth0 connection (default to Username-Password-Authentication)
+        `Returns:`
+            Requests Response object
+        """
         connection_id = self.get_connection_id(connection)
         url = f"{self.base_url}/api/v2/jobs/users-exports"
 
@@ -202,6 +222,15 @@ class Auth0(object):
         return None
 
     def get_connection_id(self, connection_name):
+        """
+        Retrieves an Auth0 connection_id corresponding to a specific connection name
+
+        `Args:`
+            connection_name: str
+                Name of auth0 connection
+        `Returns:`
+            Connection ID string
+        """
         url = f"{self.base_url}/api/v2/connections"
 
         response = requests.get(url, headers=self.headers)

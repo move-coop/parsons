@@ -9,7 +9,7 @@ class RedshiftTableUtilities(object):
     def __init__(self):
         pass
 
-    def table_exists(self, table_name, view=True):
+    def table_exists(self, table_name: str, view: bool = True) -> bool:
         """
         Check if a table or view exists in the database.
 

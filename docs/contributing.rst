@@ -2,5 +2,5 @@
 Contributing to Parsons
 =======================
 
-.. include:: ../CONTRIBUTING.md
-   :parser: myst_parser.sphinx_
+
+The contributing guide has been moved to the Parsons website! You can find it `here <https://www.parsonsproject.org/pub/contributing-guide/>`_.

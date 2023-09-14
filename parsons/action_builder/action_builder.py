@@ -329,6 +329,7 @@ class ActionBuilder(object):
                 "Please supply an entity or connection identifier, or a tagging id!")
             
         campaign = self._campaign_check(campaign)
+        endpoint = "tags/{}/taggings"
             
         if tag_name and {tag_id, tagging_id} == {None}:
 
@@ -348,8 +349,7 @@ class ActionBuilder(object):
             
         if tag_id and not tagging_id:
 
-            endpoint = f"tags/{tag_id}/taggings"
-            taggings = self._get_all_records(self.campaign, endpoint)
+            taggings = self._get_all_records(self.campaign, endpoint.format(tag_id))
             taggings_filtered = taggings.select_rows(
                 lambda row: 
                     identifier in row['_links']['action_builder:connection']['href']
@@ -360,7 +360,8 @@ class ActionBuilder(object):
                           if 'action_builder' in x][0]
         
         logger.info(f"Removing tag {tag_id} from {identifier or tagging_id}")
-        return self.api.delete_request(f'campaigns/{campaign}/{endpoint}/{tagging_id}')
+        return self.api.delete_request(
+            f'campaigns/{campaign}/{endpoint.format(tag_id)}/{tagging_id}')
 
     def upsert_connection(self, identifiers, tag_data=None, campaign=None):
         """

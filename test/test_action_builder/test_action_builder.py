@@ -207,8 +207,8 @@ class TestActionBuilder(unittest.TestCase):
             f"action_builder:{self.fake_entity_id}"
         ]
 
-        self.fake_tag_id = 'fake_tag_id'
-        self.fake_tagging_id = 'fake_tagging_id'
+        self.fake_tag_id = "fake_tag_id"
+        self.fake_tagging_id = "fake_tagging_id"
         self.fake_remove_tag_resp = {
             "message": "Tag has been removed from Taggable Logbook"
         }
@@ -372,7 +372,7 @@ class TestActionBuilder(unittest.TestCase):
     def test_remove_tagging(self, m):
         m.delete(
             f"{self.api_url}/tags/{self.fake_tag_id}/taggings/{self.fake_tagging_id}",
-            json=self.fake_remove_tag_resp
+            json=self.fake_remove_tag_resp,
         )
         remove_tag_resp = self.bldr.remove_tagging(
             tag_id=self.fake_tag_id, tagging_id=self.fake_tagging_id

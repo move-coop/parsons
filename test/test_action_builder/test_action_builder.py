@@ -207,6 +207,12 @@ class TestActionBuilder(unittest.TestCase):
             f"action_builder:{self.fake_entity_id}"
         ]
 
+        self.fake_tag_id = 'fake_tag_id'
+        self.fake_tagging_id = 'fake_tagging_id'
+        self.fake_remove_tag_resp = {
+            "message": "Tag has been removed from Taggable Logbook"
+        }
+
         self.fake_connection = {"person_id": "fake-entity-id-2"}
 
     @requests_mock.Mocker()
@@ -361,6 +367,17 @@ class TestActionBuilder(unittest.TestCase):
             self.fake_entity_id, self.fake_section, self.fake_field_values
         )
         self.assertEqual(add_tags_response, self.fake_tagging)
+
+    @requests_mock.Mocker()
+    def test_remove_tagging(self, m):
+        m.delete(
+            f"{self.api_url}/tags/{self.fake_tag_id}/taggings/{self.fake_tagging_id}",
+            json=self.fake_remove_tag_resp
+        )
+        remove_tag_resp = self.bldr.remove_tagging(
+            tag_id=self.fake_tag_id, tagging_id=self.fake_tagging_id
+        )
+        self.assertEqual(remove_tag_resp, self.fake_tagging_id)
 
     def connect_callback(self, request, context):
         # Internal method for returning constructed connection data to test

@@ -377,7 +377,7 @@ class TestActionBuilder(unittest.TestCase):
         remove_tag_resp = self.bldr.remove_tagging(
             tag_id=self.fake_tag_id, tagging_id=self.fake_tagging_id
         )
-        self.assertEqual(remove_tag_resp, self.fake_tagging_id)
+        self.assertEqual(remove_tag_resp, self.fake_remove_tag_resp)
 
     def connect_callback(self, request, context):
         # Internal method for returning constructed connection data to test

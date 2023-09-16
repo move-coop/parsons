@@ -86,6 +86,34 @@ class TestGoogleBigQuery(FakeCredentialTest):
         # Check that query results were not fetched
         bq._fetch_query_results.assert_not_called()
 
+    @mock.patch("parsons.utilities.files.create_temp_file")
+    def test_query_with_transaction(self, create_temp_file_mock):
+        queries = ["select * from table", "select foo from bar"]
+        parameters = ["baz"]
+
+        # Pass the mock class into our GoogleBigQuery constructor
+        bq = self._build_mock_client_for_querying([{"one": 1, "two": 2}])
+        bq.query = mock.MagicMock()
+
+        # Run a query against our parsons GoogleBigQuery class
+        result = bq.query_with_transaction(queries=queries, parameters=parameters)
+        keyword_args = bq.query.call_args[1]
+
+        # Check our return value
+        self.assertEqual(result, None)
+
+        # Check that queries and transaction keywords are included in sql
+        self.assertTrue(
+            all(
+                [
+                    text in keyword_args["sql"]
+                    for text in queries + ["ROLLBACK", "BEGIN TRANSACTION", "COMMIT"]
+                ]
+            )
+        )
+        self.assertEqual(keyword_args["parameters"], parameters)
+        self.assertFalse(keyword_args["return_values"])
+
     def test_copy_gcs(self):
         # setup dependencies / inputs
         tmp_blob_uri = "gs://tmp/file"
@@ -218,6 +246,85 @@ class TestGoogleBigQuery(FakeCredentialTest):
                 if_exists="foobar",
             )
 
+    @mock.patch("google.cloud.storage.Client")
+    @mock.patch.object(
+        GoogleCloudStorage, "split_uri", return_value=("tmp", "file.gzip")
+    )
+    @mock.patch.object(
+        GoogleCloudStorage, "unzip_blob", return_value="gs://tmp/file.csv"
+    )
+    def test_copy_large_compressed_file_from_gcs(
+        self, unzip_mock: mock.MagicMock, split_mock: mock.MagicMock, *_
+    ):
+        # setup dependencies / inputs
+        tmp_blob_uri = "gs://tmp/file.gzip"
+
+        # set up object under test
+        bq = self._build_mock_client_for_copying(table_exists=False)
+
+        # call the method being tested
+        bq.copy_large_compressed_file_from_gcs(
+            gcs_blob_uri=tmp_blob_uri,
+            table_name="dataset.table",
+        )
+
+        # check that the method did the right things
+        split_mock.assert_has_calls(
+            [
+                mock.call(gcs_uri="gs://tmp/file.gzip"),
+                mock.call(gcs_uri="gs://tmp/file.csv"),
+            ]
+        )
+        unzip_mock.assert_called_once_with(
+            bucket_name="tmp",
+            blob_name="file.gzip",
+            new_file_extension="csv",
+        )
+        self.assertEqual(bq.client.load_table_from_uri.call_count, 1)
+        load_call_args = bq.client.load_table_from_uri.call_args
+        self.assertEqual(load_call_args[1]["source_uris"], "gs://tmp/file.csv")
+
+        job_config = load_call_args[1]["job_config"]
+        self.assertEqual(
+            job_config.write_disposition, bigquery.WriteDisposition.WRITE_EMPTY
+        )
+
+    def test_copy_s3(self):
+        # setup dependencies / inputs
+        table_name = "table_name"
+        bucket = "aws_bucket"
+        key = "file.gzip"
+        aws_access_key_id = "AAAAAA"
+        aws_secret_access_key = "BBBBB"
+        tmp_gcs_bucket = "tmp"
+
+        # set up object under test
+        bq = self._build_mock_client_for_copying(table_exists=False)
+        gcs_client = self._build_mock_cloud_storage_client()
+        bq.copy_from_gcs = mock.MagicMock()
+
+        # call the method being tested
+        bq.copy_s3(
+            table_name=table_name,
+            bucket=bucket,
+            key=key,
+            gcs_client=gcs_client,
+            aws_access_key_id=aws_access_key_id,
+            aws_secret_access_key=aws_secret_access_key,
+            tmp_gcs_bucket=tmp_gcs_bucket,
+        )
+
+        # check that the method did the right things
+        gcs_client.copy_s3_to_gcs.assert_called_once_with(
+            aws_source_bucket=bucket,
+            aws_access_key_id=aws_access_key_id,
+            aws_secret_access_key=aws_secret_access_key,
+            gcs_sink_bucket=tmp_gcs_bucket,
+            aws_s3_key=key,
+        )
+        bq.copy_from_gcs.assert_called_once()
+        gcs_client.delete_blob.assert_called_once()
+
     def test_copy(self):
         # setup dependencies / inputs
         tmp_blob_uri = "gs://tmp/file"
@@ -299,6 +406,12 @@ class TestGoogleBigQuery(FakeCredentialTest):
         self.assertEqual(bq.copy_from_gcs.call_count, 1)
         load_call_args = bq.copy_from_gcs.call_args
         self.assertEqual(load_call_args[1]["if_exists"], if_exists)
+
+    def test_duplicate_table(self):
+        pass
+
+    def test_upsert(self):
+        pass
 
     def _build_mock_client_for_querying(self, results):
         # Create a mock that will play the role of the cursor

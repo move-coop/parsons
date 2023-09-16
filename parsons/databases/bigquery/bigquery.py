@@ -770,7 +770,7 @@ class BigQuery(DatabaseConnector):
             CLONE {source_table}
         """
         if drop_source_table:
-            query = self._wrap_queries_in_transaction(
+            return self.query_with_transaction(
                 queries=[query, f"DROP TABLE {source_table}"]
             )
 

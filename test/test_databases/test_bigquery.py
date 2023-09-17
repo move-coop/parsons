@@ -446,8 +446,32 @@ class TestGoogleBigQuery(FakeCredentialTest):
 
         delete_mock.assert_called_once_with(table_name=source_table)
 
-    def test_upsert(self):
-        pass
+    @mock.patch.object(BigQuery, "table_exists", return_value=True)
+    @mock.patch.object(BigQuery, "query_with_transaction", return_value=None)
+    @mock.patch.object(BigQuery, "copy", return_value=None)
+    def test_upsert(self, copy_mock, query_mock, *_):
+        upsert_tbl = Table([["id", "name"], [1, "Jane"]])
+        target_table = "my_dataset.my_target_table"
+        primary_key = "id"
+        bq = self._build_mock_client_for_querying(results=[])
+
+        bq.upsert(
+            table_obj=upsert_tbl,
+            target_table=target_table,
+            primary_key=primary_key,
+            distinct_check=False,
+        )
+
+        # stages the table -> calls copy
+        copy_mock.assert_called_once()
+        self.assertEqual(copy_mock.call_args[1]["tbl"], upsert_tbl)
+        self.assertEqual(copy_mock.call_args[1]["template_table"], target_table)
+
+        # runs a delete insert within a transaction
+        query_mock.assert_called_once()
+        actual_queries = query_mock.call_args[1]["queries"]
+        self.assertIn("DELETE", actual_queries[0])
+        self.assertIn("INSERT", actual_queries[1])
 
     def _build_mock_client_for_querying(self, results):
         # Create a mock that will play the role of the cursor

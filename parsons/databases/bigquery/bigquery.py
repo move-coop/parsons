@@ -855,8 +855,8 @@ class BigQuery(DatabaseConnector):
 
         else:
             self.copy(
-                table_obj,
-                staging_tbl,
+                tbl=table_obj,
+                table_name=staging_tbl,
                 template_table=target_table,
                 **copy_args,
             )
@@ -887,9 +887,7 @@ class BigQuery(DatabaseConnector):
             # Drop the staging table
             queries.append(f"DROP TABLE IF EXISTS {staging_tbl}")
 
-        transaction_query = self._wrap_queries_in_transaction(queries=queries)
-
-        return self.query(transaction_query)
+        return self.query_with_transaction(queries=queries)
 
     def delete_table(self, table_name):
         """
@@ -966,21 +964,6 @@ class BigQuery(DatabaseConnector):
         if view:
             sql += f" where table_name = '{view}'"
         return self.query(sql)
-
-    def _wrap_queries_in_transaction(self, queries: List[str]):
-        joined_queries = queries.join("; \n")
-        wrapped_queries = f"""
-            BEGIN
-                BEGIN TRANSACTION;
-                {joined_queries}
-
-            EXCEPTION WHEN ERROR THEN
-                -- Roll back the transaction inside the exception handler.
-                SELECT @@error.message;
-                ROLLBACK TRANSACTION;
-            END;
-        """
-        return wrapped_queries
 
     def _generate_schema_from_parsons_table(self, tbl):
         stats = tbl.get_columns_type_stats()

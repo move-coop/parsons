@@ -774,7 +774,7 @@ class BigQuery(DatabaseConnector):
                 queries=[query, f"DROP TABLE {source_table}"]
             )
 
-        return self.query(query)
+        return self.query(sql=query, return_values=False)
 
     def upsert(
         self,

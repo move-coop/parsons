@@ -407,8 +407,26 @@ class TestGoogleBigQuery(FakeCredentialTest):
         load_call_args = bq.copy_from_gcs.call_args
         self.assertEqual(load_call_args[1]["if_exists"], if_exists)
 
-    def test_duplicate_table(self):
-        pass
+    @mock.patch.object(BigQuery, "table_exists", return_value=False)
+    @mock.patch.object(BigQuery, "query", return_value=None)
+    def test_duplicate_table(self, query_mock, table_exists_mock):
+        source_table = "vendor_table"
+        destination_table = "raw_table"
+        expected_query = f"""
+            CREATE TABLE
+            {destination_table}
+            CLONE {source_table}
+        """
+        bq = self._build_mock_client_for_querying(results=None)
+
+        bq.duplicate_table(
+            source_table=source_table,
+            destination_table=destination_table,
+        )
+
+        query_mock.assert_called_once()
+        actual_query = query_mock.call_args[1]["sql"]
+        self.assertEqual(actual_query, expected_query)
 
     def test_upsert(self):
         pass

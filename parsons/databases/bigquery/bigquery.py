@@ -769,12 +769,9 @@ class BigQuery(DatabaseConnector):
             {destination_table}
             CLONE {source_table}
         """
+        self.query(sql=query, return_values=False)
         if drop_source_table:
-            return self.query_with_transaction(
-                queries=[query, f"DROP TABLE {source_table}"]
-            )
-
-        return self.query(sql=query, return_values=False)
+            self.delete_table(table_name=source_table)
 
     def upsert(
         self,

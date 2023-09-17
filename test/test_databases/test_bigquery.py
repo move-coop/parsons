@@ -428,6 +428,24 @@ class TestGoogleBigQuery(FakeCredentialTest):
         actual_query = query_mock.call_args[1]["sql"]
         self.assertEqual(actual_query, expected_query)
 
+    @mock.patch.object(BigQuery, "table_exists", return_value=False)
+    @mock.patch.object(BigQuery, "delete_table", return_value=None)
+    @mock.patch.object(BigQuery, "query", return_value=None)
+    def test_duplicate_table_with_drop(
+        self, query_mock: mock.MagicMock, delete_mock: mock.MagicMock, table_exists_mock
+    ):
+        source_table = "vendor_table"
+        destination_table = "raw_table"
+        bq = self._build_mock_client_for_querying(results=None)
+
+        bq.duplicate_table(
+            source_table=source_table,
+            destination_table=destination_table,
+            drop_source_table=True,
+        )
+
+        delete_mock.assert_called_once_with(table_name=source_table)
+
     def test_upsert(self):
         pass
 
